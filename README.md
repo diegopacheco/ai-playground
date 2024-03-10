@@ -1,2 +1,2 @@
 # ai-playground
-AI POCS: Ml, NLP, LLM, Vision, All things AI POCS.
+AI POCS: ML, NLP, LLM, Vision, Stable Diffusion, Classification, Clustering, NM, All things AI POCS.
