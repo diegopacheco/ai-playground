@@ -1,0 +1,6 @@
+numpy
+opencv-python
+pose-estimation
+PoseEstimator
+posecamera
+aipose
