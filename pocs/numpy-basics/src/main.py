@@ -10,3 +10,7 @@ rng = np.random.default_rng()
 samples = rng.normal(size=2500)
 print(samples)
 
+i = np.arange(10)
+print(i)
+i.shape = (2, 5) 
+print(i)
