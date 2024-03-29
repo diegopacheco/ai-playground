@@ -3,7 +3,6 @@ AI POCS: ML, NLP, LLM, Vision, Stable Diffusion, Classification, Clustering, NM,
 
 ### Papers
 
-
 #### AWS Recommended
 
 ReAct: Synergizing Reasoning and Acting in Language Models
@@ -25,6 +24,9 @@ Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks
 https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
+
+BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
+https://arxiv.org/pdf/1810.04805.pdf
 
 Is GPT-4 a Good Data Analyst?
 https://arxiv.org/abs/2305.15038
