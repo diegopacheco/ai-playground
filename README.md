@@ -25,6 +25,12 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+FinanceBench: A New Benchmark for Financial Question Answering
+https://arxiv.org/pdf/2311.11944.pdf
+
+Routerbench: A Benchmark for Multi-LLM Routing System
+https://arxiv.org/pdf/2403.12031.pdf
+
 BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
 https://arxiv.org/pdf/1810.04805.pdf
 
