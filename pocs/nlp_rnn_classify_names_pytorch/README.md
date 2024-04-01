@@ -27,7 +27,6 @@ Slusarski
 90000 90% (4m 34s) 1.7810 Crespo / Portuguese ✗ (Spanish)
 95000 95% (4m 49s) 0.1359 Zielinski / Polish ✓
 100000 100% (5m 3s) 0.0256 Yamazaki / Japanese ✓
-
 ```
 
 ### Predict
