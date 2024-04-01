@@ -17,7 +17,7 @@ def categoryFromOutput(output):
     return all_categories[category_i], category_i
 
 def randomChoice(l):
-    return l[random.randint(0, len(l) - 1)]
+    return l[random.randint(0, len(l) - 1)] #len(l) - 1
 
 def randomTrainingPair():
     category = randomChoice(all_categories)
