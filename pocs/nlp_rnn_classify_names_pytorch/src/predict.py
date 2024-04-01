@@ -60,7 +60,12 @@ def evaluate(line_tensor):
     hidden = rnn.initHidden()
     
     for i in range(line_tensor.size()[0]):
-        output, hidden = rnn(line_tensor[i], hidden)
+        #x = len(line_tensor[i])
+        #print(f"line tensor size is {x}")
+        #if (x==1):
+         #   import torch.nn.functional as F
+          #  x = F.pad(input=line_tensor[0], pad=(0,0), mode='constant', value=0)
+        output, hidden = rnn(line_tensor[0], hidden)
     
     return output
 
