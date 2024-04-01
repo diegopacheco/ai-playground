@@ -15,9 +15,10 @@ class RNN(nn.Module):
         print(f"input {input.size()}")
         print(f"hidden {hidden.size()}")
 
+        #torch.bmm(input.expand(186, 128), hidden)
         combined = torch.cat((input, hidden), 1)
         print(f"Combined {combined.size()}")
-
+        
         hidden = self.i2h(combined)
         output = self.i2o(combined)
         output = self.softmax(output)
