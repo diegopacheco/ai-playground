@@ -3,6 +3,7 @@ from data import *
 import sys
 
 rnn = torch.load('char-rnn-classification.pt')
+print(rnn)
 
 # Just return an output given a line
 def evaluate(line_tensor):
