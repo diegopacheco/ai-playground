@@ -33,3 +33,10 @@ Slusarski
 ```
 python src/predict.py Hazaki
 ```
+
+### TODO
+
+1. make the code work outside of the notebook
+2. refactor the code to split between training and prediction
+3. Added tests
+4. bettter tocument the code
