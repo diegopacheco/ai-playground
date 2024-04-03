@@ -42,7 +42,6 @@ n_categories = len(all_categories)
 
 n_hidden = 128
 rnn = RNN(n_letters, n_hidden, n_categories)
-
 rnn_loaded = torch.load('char-rnn-classification.pt')
 
 def randomChoice(l):
