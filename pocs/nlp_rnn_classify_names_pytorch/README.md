@@ -31,7 +31,37 @@ Slusarski
 
 ### Predict
 ```
-python src/predict.py Hazaki
+/bin/python src/predict3.py
+
+> Dovesky
+(-2.77) Japanese
+(-2.78) French
+(-2.78) Irish
+
+> Jackson
+(-2.75) French
+(-2.79) Irish
+(-2.82) Japanese
+
+> Satoshi
+(-2.79) Irish
+(-2.81) French
+(-2.82) Korean
+
+> Silva
+(-2.78) French
+(-2.81) Irish
+(-2.82) Arabic
+
+> Salvatore
+(-2.72) French
+(-2.78) Irish
+(-2.84) Korean
+
+> Pacheco
+(-2.77) Irish
+(-2.81) Arabic
+(-2.81) French
 ```
 
 ### TODO
@@ -40,3 +70,4 @@ python src/predict.py Hazaki
 2. refactor the code to split between training and prediction
 3. Added tests
 4. bettter tocument the code
+
