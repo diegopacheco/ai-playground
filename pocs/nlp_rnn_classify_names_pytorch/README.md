@@ -1,3 +1,7 @@
+# RNN - Neural Network
+
+Predict the country where you name come from.
+
 ### Train
 ```
 ❯ ./train.sh
@@ -130,8 +134,8 @@ http://localhost:8080/silva
 
 ### TODO
 
-1. make the code work outside of the notebook
-2. refactor the code to split between training and prediction
-3. Added tests
-4. bettter tocument the code
-
+[X] 0. Make it work on the Jupyter notebook. <BR/>
+[X] 1. Make it work on monolithic python code. <BR/>
+[x] 2. Refactor the code to split between training and prediction <BR/>
+[ ] 3. Added tests <BR/>
+[ ] 4. bettter tocument the code <BR/>
