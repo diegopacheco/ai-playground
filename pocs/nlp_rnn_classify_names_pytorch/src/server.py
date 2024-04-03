@@ -5,4 +5,4 @@ from predict import *
 def index(input_line):
     return {'result': predict(input_line, 10)}
 
-run(host='localhost', port=5533)
+run(host='localhost', port=8080)

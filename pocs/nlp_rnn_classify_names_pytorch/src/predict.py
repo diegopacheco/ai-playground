@@ -88,6 +88,7 @@ def predict(input_line, n_predictions=3):
             category_index = topi[0][i].item()
             print('(%.2f) %s' % (value, all_categories[category_index]))
             predictions.append([value, all_categories[category_index]])
+    return predictions
 
 predict('Dovesky')
 predict('Jackson')
