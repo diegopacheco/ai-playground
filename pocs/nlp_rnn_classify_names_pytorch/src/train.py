@@ -1,3 +1,8 @@
+import torch
+
+#
+# Data preparation
+# 
 from io import open
 import glob
 import os
@@ -38,8 +43,10 @@ for filename in findFiles('data/names/*.txt'):
     category_lines[category] = lines
 
 n_categories = len(all_categories)
-print(n_categories)
-print(all_categories)
+
+#
+# Names into tensor
+# 
 
 import torch
 
@@ -61,41 +68,71 @@ def lineToTensor(line):
         tensor[li][0][letterToIndex(letter)] = 1
     return tensor
 
-import torch
-#from data import *
-from model import *
-import random
-import time
-import math
+print(letterToTensor('J'))
+
+print(lineToTensor('Jones').size())
+
+#
+# Neural Network
+#
+
+import torch.nn as nn
+
+class RNN(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super(RNN, self).__init__()
+
+        self.hidden_size = hidden_size
+
+        self.i2h = nn.Linear(input_size + hidden_size, hidden_size)
+        self.h2o = nn.Linear(hidden_size, output_size)
+        self.softmax = nn.LogSoftmax(dim=1)
+
+    def forward(self, input, hidden):
+        combined = torch.cat((input, hidden), 1)
+        hidden = self.i2h(combined)
+        output = self.h2o(hidden)
+        output = self.softmax(output)
+        return output, hidden
+
+    def initHidden(self):
+        return torch.zeros(1, self.hidden_size)
 
 n_hidden = 128
-n_epochs = 100000
-print_every = 5000
-plot_every = 1000
-learning_rate = 0.005 # If you set this too high, it might explode. If too low, it might not learn
+rnn = RNN(n_letters, n_hidden, n_categories)
 
+#
+# Training
+# 
 def categoryFromOutput(output):
-    top_n, top_i = output.data.topk(1) # Tensor out of Variable with .data
-    category_i = top_i[0][0]
+    top_n, top_i = output.topk(1)
+    category_i = top_i[0].item()
     return all_categories[category_i], category_i
 
-def randomChoice(l):
-    return l[random.randint(0, len(l) - 1)] #len(l) - 1
+import random
 
-def randomTrainingPair():
+def randomChoice(l):
+    return l[random.randint(0, len(l) - 1)]
+
+def randomTrainingExample():
     category = randomChoice(all_categories)
     line = randomChoice(category_lines[category])
-    category_tensor = Variable(torch.LongTensor([all_categories.index(category)]))
-    line_tensor = Variable(lineToTensor(line))
+    category_tensor = torch.tensor([all_categories.index(category)], dtype=torch.long)
+    line_tensor = lineToTensor(line)
     return category, line, category_tensor, line_tensor
 
-rnn = RNN(n_letters, n_hidden, n_categories)
-optimizer = torch.optim.SGD(rnn.parameters(), lr=learning_rate)
+for i in range(10):
+    category, line, category_tensor, line_tensor = randomTrainingExample()
+    print('category =', category, '/ line =', line)
+
 criterion = nn.NLLLoss()
+
+learning_rate = 0.005 # If you set this too high, it might explode. If too low, it might not learn
 
 def train(category_tensor, line_tensor):
     hidden = rnn.initHidden()
-    optimizer.zero_grad()
+
+    rnn.zero_grad()
 
     for i in range(line_tensor.size()[0]):
         output, hidden = rnn(line_tensor[i], hidden)
@@ -103,9 +140,18 @@ def train(category_tensor, line_tensor):
     loss = criterion(output, category_tensor)
     loss.backward()
 
-    optimizer.step()
+    # Add parameters' gradients to their values, multiplied by learning rate
+    for p in rnn.parameters():
+        p.data.add_(p.grad.data, alpha=-learning_rate)
 
-    return output, loss.item() #loss.data[0]
+    return output, loss.item()
+
+import time
+import math
+
+n_iters = 100000
+print_every = 5000
+plot_every = 1000
 
 # Keep track of losses for plotting
 current_loss = 0
@@ -120,20 +166,22 @@ def timeSince(since):
 
 start = time.time()
 
-for epoch in range(1, n_epochs + 1):
-    category, line, category_tensor, line_tensor = randomTrainingPair()
+for iter in range(1, n_iters + 1):
+    category, line, category_tensor, line_tensor = randomTrainingExample()
     output, loss = train(category_tensor, line_tensor)
     current_loss += loss
 
-    # Print epoch number, loss, name and guess
-    if epoch % print_every == 0:
+    # Print ``iter`` number, loss, name and guess
+    if iter % print_every == 0:
         guess, guess_i = categoryFromOutput(output)
         correct = '✓' if guess == category else '✗ (%s)' % category
-        print('%d %d%% (%s) %.4f %s / %s %s' % (epoch, epoch / n_epochs * 100, timeSince(start), loss, line, guess, correct))
+        print('%d %d%% (%s) %.4f %s / %s %s' % (iter, iter / n_iters * 100, timeSince(start), loss, line, guess, correct))
 
     # Add current loss avg to list of losses
-    if epoch % plot_every == 0:
+    if iter % plot_every == 0:
         all_losses.append(current_loss / plot_every)
         current_loss = 0
-
+#
+# Save the movel
+#
 torch.save(rnn, 'char-rnn-classification.pt')
