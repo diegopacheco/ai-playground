@@ -1,19 +1,19 @@
 import torch
-from model import *
 
-#
-# Data preparation
-# 
 from io import open
+import unicodedata
+import string
 import glob
 import os
+import random
+import time
+import math
+
+from model import *
 
 def findFiles(path): return glob.glob(path)
 
 print(findFiles('data/names/*.txt'))
-
-import unicodedata
-import string
 
 all_letters = string.ascii_letters + " .,;'"
 n_letters = len(all_letters)
@@ -25,8 +25,6 @@ def unicodeToAscii(s):
         if unicodedata.category(c) != 'Mn'
         and c in all_letters
     )
-
-print(unicodeToAscii('Ślusàrski'))
 
 # Build the category_lines dictionary, a list of names per language
 category_lines = {}
@@ -48,8 +46,6 @@ n_categories = len(all_categories)
 #
 # Names into tensor
 # 
-
-import torch
 
 # Find letter index from all_letters, e.g. "a" = 0
 def letterToIndex(letter):
@@ -86,7 +82,6 @@ def categoryFromOutput(output):
     category_i = top_i[0].item()
     return all_categories[category_i], category_i
 
-import random
 
 def randomChoice(l):
     return l[random.randint(0, len(l) - 1)]
@@ -122,9 +117,6 @@ def train(category_tensor, line_tensor):
         p.data.add_(p.grad.data, alpha=-learning_rate)
 
     return output, loss.item()
-
-import time
-import math
 
 n_iters = 100000
 print_every = 5000
