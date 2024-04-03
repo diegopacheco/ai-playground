@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import glob
 import os
+import unicodedata
+import string
 
 class RNN(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
@@ -25,9 +27,20 @@ class RNN(nn.Module):
 
 def findFiles(path): return glob.glob(path)
 
+all_letters = string.ascii_letters + " .,;'"
+n_letters = len(all_letters)
+
 # Build the category_lines dictionary, a list of names per language
 category_lines = {}
 all_categories = []
+
+# Turn a Unicode string to plain ASCII, thanks to https://stackoverflow.com/a/518232/2809427
+def unicodeToAscii(s):
+    return ''.join(
+        c for c in unicodedata.normalize('NFD', s)
+        if unicodedata.category(c) != 'Mn'
+        and c in all_letters
+    )
 
 # Read a file and split into lines
 def readLines(filename):
@@ -47,9 +60,6 @@ import string
 from io import open
 import glob
 import os
-
-all_letters = string.ascii_letters + " .,;'"
-n_letters = len(all_letters)
 
 n_hidden = 128
 rnn = RNN(n_letters, n_hidden, n_categories)
