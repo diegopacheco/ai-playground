@@ -1,6 +1,14 @@
 import torch
 import torch.nn as nn
 
+#
+# Neutal Network - RNN
+# 
+# A recurrent neural network (RNN) is a deep learning model that is trained
+# to process and convert a sequential data input into a specific sequential
+# data output. Sequential data is data—such as words, sentences, or time-series
+# data—where sequential components interrelate based on complex semantics and syntax rules.
+#
 class RNN(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super(RNN, self).__init__()
