@@ -1,9 +1,12 @@
 import torch
 import torch.nn as nn
-import glob
-import os
+
 import unicodedata
 import string
+from io import open
+import glob
+import os
+import random
 
 from model import *
 
@@ -37,18 +40,10 @@ for filename in findFiles('data/names/*.txt'):
 
 n_categories = len(all_categories)
 
-import unicodedata
-import string
-from io import open
-import glob
-import os
-
 n_hidden = 128
 rnn = RNN(n_letters, n_hidden, n_categories)
 
 rnn_loaded = torch.load('char-rnn-classification.pt')
-
-import random
 
 def randomChoice(l):
     return l[random.randint(0, len(l) - 1)]
