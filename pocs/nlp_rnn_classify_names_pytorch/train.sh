@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/bin/python src/traim.py
+/bin/python src/train.py
