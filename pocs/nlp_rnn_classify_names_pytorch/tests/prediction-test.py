@@ -10,8 +10,12 @@ class TestStringMethods(unittest.TestCase):
     def test_portuguese_prediction_present(self):
         result = predict.predict("Silva", 18)
         print(result)
-        if not 'Portuguese' in result:
-            self.fail("Should be a portuguese name")
+
+        found = False
+        for pairs in result:
+            if pairs[1] == "Portuguese":
+                found=True
+        self.assertTrue(found,"Portuguese prediction not found!")
 
 if __name__ == '__main__':
     unittest.main()
