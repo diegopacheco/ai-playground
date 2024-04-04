@@ -12,6 +12,7 @@ class TestStringMethods(unittest.TestCase):
         check_file(self,"data/names/Portuguese.txt")
         check_file(self,"data/names/Arabic.txt")
         check_file(self,"data/names/Czech.txt")
+        check_file(self,"data/names/Chinese.txt")
         check_file(self,"data/names/Dutch.txt")
         check_file(self,"data/names/French.txt")
         check_file(self,"data/names/German.txt")
@@ -22,7 +23,9 @@ class TestStringMethods(unittest.TestCase):
         check_file(self,"data/names/Korean.txt")
         check_file(self,"data/names/Scottish.txt")
         check_file(self,"data/names/Spanish.txt")
+        check_file(self,"data/names/Scottish.txt")
         check_file(self,"data/names/Vietnamese.txt")
+        check_file(self,"data/names/Russian.txt")
 
 if __name__ == '__main__':
     unittest.main()

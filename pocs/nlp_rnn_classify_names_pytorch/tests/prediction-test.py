@@ -8,7 +8,7 @@ from src import predict
 class TestStringMethods(unittest.TestCase):
 
     def test_portuguese_prediction_present(self):
-        result = predict.predict("Silva")
+        result = predict.predict("Silva", 18)
         print(result)
         if not 'Portuguese' in result:
             self.fail("Should be a portuguese name")
