@@ -137,5 +137,5 @@ http://localhost:8080/silva
 [X] 0. Make it work on the Jupyter notebook. <BR/>
 [X] 1. Make it work on monolithic python code. <BR/>
 [x] 2. Refactor the code to split between training and prediction <BR/>
-[ ] 3. Added tests <BR/>
-[ ] 4. bettter tocument the code <BR/>
+[x] 3. Added tests <BR/>
+[ ] 4. bettter document the code <BR/>
