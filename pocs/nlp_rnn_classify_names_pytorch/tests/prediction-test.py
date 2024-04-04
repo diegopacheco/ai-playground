@@ -2,13 +2,12 @@ import unittest
 import os, sys
 from os.path import dirname, join, abspath
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
-from src import model
 from src import predict
 
 class TestStringMethods(unittest.TestCase):
 
     def test_portuguese_prediction_present(self):
-        result = predict("Pacheco")
+        result = predict.predict("Pacheco")
         print(result)
 
 if __name__ == '__main__':
