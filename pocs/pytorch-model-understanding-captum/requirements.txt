@@ -1,0 +1,6 @@
+numpy
+torch
+torchvision
+captum
+matplotlib==3.3.4
+Flask-Compress
