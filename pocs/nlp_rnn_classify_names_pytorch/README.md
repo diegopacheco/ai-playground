@@ -1,6 +1,70 @@
 # RNN - Neural Network
 
-Predict the country where you name come from.
+Predict the country where you name come from. Using `PyTorch` and `Neural Network`.
+
+## How it works?
+
+1. A Char-level recurrent neutal network(RNN) to classify words with Natual Language Processing (NLP).
+2. A Char-level RNN reads words as series of chars as input and output to "Hidden State" at each step.
+3. Chaining each hiden state to the next step.
+4. The result is a final prediction.
+
+`data_preparation.py`
+
+5. Tousands of lastnames are trained across 18 languages(english, portuguese, italian, spanish, more...)
+6. Training data is on the `data/[language].txt` files. Each files has a bunch of last names that need to be converted from Unicode to ASCII.
+7. We will build a dictionary of a list of names(lines) per language(category).
+8. A category is a language. The variable `all_categories` is all languages.
+9. We have all names organized(in dictionaries) we need to turn them into `Tensors`
+10. In order to represent a single letter, we use "one-hot vector" of size = `< 1 * num_letters >`
+11. To make a word we will have a bunch of those into a 2D matrix = `< line_length * 1 * num_letters >`
+12. Here is a tensor sample - as you can see is just a 2D matrix:
+```python
+tensor([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1.,
+         0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+         0., 0., 0.]])
+```
+
+`model.py`
+
+13. Now we will create a Neural Network model(in a python class `model.py`).
+14. Creating a neural network means cloning parameters of a layers over several timesteps.
+15. The layers hold hidden state and gradients(measures the change in all weights with regard to the change in error.)
+16. Our RNN model is:
+    * 2 Linear Layers (operating on input and hidden state)
+    * SoftMax layer after the output (The softmax function, also known as softargmax or normalized exponential function, converts a vector of K real numbers into a probability distribution of K possible outcomes)
+
+`train.py`
+
+17. Define some helper functions, we need to understand the output of the neural network(likelyhood of each category(language)).
+18. Doing `Tensor.topk` to get the index of the greatest value.
+18. There is another help function to get a sample of name/language.
+19. Now we train the neural network
+    * We just need a bunch of examples to train the network.
+    * Make the network make guesses and tell if is right or wrong.
+    * Loss function used, because we are using softmax will be: `nn.LLLoss`
+20. For each training loop(alo know as epoch):
+   * Create input and target tensors
+   * Create zeroed initial hidden state (`torch.zeros(1, n_hidden)`)
+   * Read each letter in and keep the state of the hidden state for next letter
+   * Compare final output to target
+   * Back-propagation: Backpropagation is a gradient estimation method used to train neural network models. The gradient estimate is used by the optimization algorithm to compute the network parameter updates.
+   * Return output and loss
+21. While training losses show start high and accurency low and should end in reverse(low loss and high accurancy).
+22. Finally the model is saved.
+
+`predict.py`
+
+23. First of load we load the model. 
+24. `predict` function recives a lastname and the number of categorios you can get(max 18).
+25. The lastname is transformed to a tensor. 
+26. Finaly we run a `topk` on the tensor to get the results, grouping cateogies and scores.
+
+`server.py`
+
+27. expose the prediction function as a REST endpoint.
+28. call predict based on a rest parameter(lastname).
 
 ### Train
 ```
@@ -138,4 +202,4 @@ http://localhost:8080/silva
 [X] 1. Make it work on monolithic python code. <BR/>
 [x] 2. Refactor the code to split between training and prediction <BR/>
 [x] 3. Added tests <BR/>
-[ ] 4. bettter document the code <BR/>
+[x] 4. bettter document the code <BR/>
