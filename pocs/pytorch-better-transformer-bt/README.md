@@ -1,0 +1,683 @@
+### Result
+```
+./run.sh
+```
+```
+❯ ./run.sh
+torch version: 2.2.2+cu121
+torch cuda available: False
+Downloading: "https://download.pytorch.org/models/text/xlmr.large.encoder.pt" to /home/diego/.cache/torch/hub/checkpoints/xlmr.large.encoder.pt
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2.08G/2.08G [05:01<00:00, 7.41MB/s]
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5.07M/5.07M [00:00<00:00, 13.0MB/s]
+Downloading: "https://download.pytorch.org/models/text/xlmr.vocab.pt" to /home/diego/.cache/torch/hub/checkpoints/xlmr.vocab.pt
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4.85M/4.85M [00:00<00:00, 13.5MB/s]
+slow path:
+==========
+STAGE:2024-04-06 00:29:30 787667:787667 ActivityProfilerController.cpp:314] Completed Stage: Warm Up
+STAGE:2024-04-06 00:30:00 787667:787667 ActivityProfilerController.cpp:320] Completed Stage: Collection
+STAGE:2024-04-06 00:30:00 787667:787667 ActivityProfilerController.cpp:324] Completed Stage: Post Processing
+--------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                        Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg    # of Calls
+--------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                    aten::eq         0.00%      24.000us         0.00%      24.000us      24.000us             1
+                             aten::embedding         0.00%     350.000us         0.01%       1.778ms       1.778ms             1
+                               aten::reshape         0.00%       5.000us         0.00%       9.000us       9.000us             1
+                                  aten::view         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                          aten::index_select         0.00%       1.391ms         0.00%       1.417ms       1.417ms             1
+                                 aten::empty         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                                aten::select         0.00%      17.000us         0.00%      19.000us      19.000us             1
+                            aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::select         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                    aten::ne         0.00%      21.000us         0.00%      21.000us      21.000us             1
+                                    aten::to         0.00%       3.000us         0.00%      31.000us      31.000us             1
+                              aten::_to_copy         0.00%      13.000us         0.00%      28.000us      28.000us             1
+                         aten::empty_strided         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                                 aten::copy_         0.00%      10.000us         0.00%      10.000us      10.000us             1
+                                aten::cumsum         0.00%      13.000us         0.00%      13.000us      13.000us             1
+                                    aten::to         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                   aten::mul         0.00%       9.000us         0.00%       9.000us       9.000us             1
+                                   aten::add         0.00%       9.000us         0.00%       9.000us       9.000us             1
+                             aten::embedding         0.00%      19.000us         0.00%     878.000us     878.000us             1
+                               aten::reshape         0.00%       2.000us         0.00%       3.000us       3.000us             1
+                                  aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                          aten::index_select         0.00%     836.000us         0.00%     854.000us     854.000us             1
+                                 aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::select         0.00%       6.000us         0.00%       8.000us       8.000us             1
+                            aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::select         0.00%       7.000us         0.00%       9.000us       9.000us             1
+                            aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                  aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                   aten::add         0.00%     920.000us         0.00%     920.000us     920.000us             1
+                            aten::layer_norm         0.00%     278.000us         0.00%       1.008ms       1.008ms             1
+                     aten::native_layer_norm         0.00%     705.000us         0.00%     730.000us     730.000us             1
+                                 aten::empty         0.00%      18.000us         0.00%      18.000us      18.000us             1
+                                 aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                 aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                  aten::view         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                                  aten::view         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                               aten::dropout         0.00%      26.000us         0.01%       1.576ms       1.576ms             1
+                            aten::empty_like         0.00%       5.000us         0.00%      19.000us      19.000us             1
+                                 aten::empty         0.00%      14.000us         0.00%      14.000us      14.000us             1
+                            aten::bernoulli_         0.00%     863.000us         0.00%     870.000us     870.000us             1
+                                 aten::empty         0.00%       7.000us         0.00%       7.000us       7.000us             1
+                                  aten::div_         0.00%      69.000us         0.00%      89.000us      89.000us             1
+                                    aten::to         0.00%       3.000us         0.00%      20.000us      20.000us             1
+                              aten::_to_copy         0.00%       7.000us         0.00%      17.000us      17.000us             1
+                         aten::empty_strided         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                 aten::copy_         0.00%       7.000us         0.00%       7.000us       7.000us             1
+                                   aten::mul         0.00%     572.000us         0.00%     572.000us     572.000us             1
+                            aten::zeros_like         0.00%     276.000us         0.00%     283.000us     283.000us             1
+                            aten::empty_like         0.00%       3.000us         0.00%       6.000us       6.000us             1
+                         aten::empty_strided         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                 aten::zero_         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                          aten::masked_fill_         0.00%      11.000us         0.00%      11.000us      11.000us             1
+                             aten::transpose         0.00%      18.000us         0.00%      21.000us      21.000us             1
+                            aten::as_strided         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                aten::linear         0.00%      14.000us         0.07%      21.291ms      21.291ms             1
+                                     aten::t         0.00%       7.000us         0.00%      10.000us      10.000us             1
+                             aten::transpose         0.00%       2.000us         0.00%       3.000us       3.000us             1
+                            aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::matmul         0.00%      34.000us         0.07%      20.718ms      20.718ms             1
+                               aten::reshape         0.00%      14.000us         0.00%     531.000us     531.000us             1
+                                 aten::clone         0.00%       8.000us         0.00%     511.000us     511.000us             1
+                            aten::empty_like         0.00%       4.000us         0.00%      22.000us      22.000us             1
+                                 aten::empty         0.00%      18.000us         0.00%      18.000us      18.000us             1
+                                 aten::copy_         0.00%     481.000us         0.00%     481.000us     481.000us             1
+                          aten::_unsafe_view         0.00%       6.000us         0.00%       6.000us       6.000us             1
+                                    aten::mm         0.07%      20.134ms         0.07%      20.134ms      20.134ms             1
+                          aten::resolve_conj         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                          aten::resolve_conj         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                          aten::_unsafe_view         0.00%      19.000us         0.00%      19.000us      19.000us             1
+                                  aten::add_         0.00%     549.000us         0.00%     549.000us     549.000us             1
+                             aten::unflatten         0.00%      10.000us         0.00%      21.000us      21.000us             1
+                                  aten::view         0.00%      11.000us         0.00%      11.000us      11.000us             1
+                             aten::unsqueeze         0.00%      10.000us         0.00%      14.000us      14.000us             1
+                            aten::as_strided         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                             aten::transpose         0.00%       8.000us         0.00%       9.000us       9.000us             1
+                            aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                               aten::squeeze         0.00%       8.000us         0.00%       8.000us       8.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                            aten::contiguous         0.00%       3.000us         0.01%       2.090ms       2.090ms             1
+                                 aten::clone         0.00%      18.000us         0.01%       2.087ms       2.087ms             1
+                            aten::empty_like         0.00%       5.000us         0.00%      48.000us      48.000us             1
+                                 aten::empty         0.00%      43.000us         0.00%      43.000us      43.000us             1
+                                 aten::copy_         0.01%       2.021ms         0.01%       2.021ms       2.021ms             1
+                                aten::select         0.00%      19.000us         0.00%      22.000us      22.000us             1
+                            aten::as_strided         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                aten::select         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                aten::select         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       7.000us         0.00%       7.000us       7.000us             1
+                             aten::transpose         0.00%       6.000us         0.00%       7.000us       7.000us             1
+                            aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                  aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                             aten::transpose         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                             aten::transpose         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+--------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 28.698s
+
+fast path:
+==========
+STAGE:2024-04-06 00:30:03 787667:787667 ActivityProfilerController.cpp:314] Completed Stage: Warm Up
+/home/diego/.local/lib/python3.10/site-packages/torch/nn/modules/transformer.py:384: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. (Triggered internally at ../aten/src/ATen/NestedTensorImpl.cpp:177.)
+  output = torch._nested_tensor_from_mask(output, src_key_padding_mask.logical_not(), mask_check=False)
+STAGE:2024-04-06 00:30:15 787667:787667 ActivityProfilerController.cpp:320] Completed Stage: Collection
+STAGE:2024-04-06 00:30:15 787667:787667 ActivityProfilerController.cpp:324] Completed Stage: Post Processing
+-------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                       Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg    # of Calls
+-------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                   aten::eq         0.00%      35.000us         0.00%      35.000us      35.000us             1
+                            aten::embedding         0.00%      18.000us         0.00%     373.000us     373.000us             1
+                              aten::reshape         0.00%       3.000us         0.00%       7.000us       7.000us             1
+                                 aten::view         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                         aten::index_select         0.00%     331.000us         0.00%     346.000us     346.000us             1
+                                aten::empty         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                               aten::select         0.00%       9.000us         0.00%      11.000us      11.000us             1
+                           aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                               aten::select         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                 aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                   aten::ne         0.00%      16.000us         0.00%      16.000us      16.000us             1
+                                   aten::to         0.00%       6.000us         0.00%      33.000us      33.000us             1
+                             aten::_to_copy         0.00%      12.000us         0.00%      27.000us      27.000us             1
+                        aten::empty_strided         0.00%       6.000us         0.00%       6.000us       6.000us             1
+                                aten::copy_         0.00%       9.000us         0.00%       9.000us       9.000us             1
+                               aten::cumsum         0.00%      23.000us         0.00%      23.000us      23.000us             1
+                                   aten::to         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::mul         0.00%      14.000us         0.00%      14.000us      14.000us             1
+                                  aten::add         0.00%      14.000us         0.00%      14.000us      14.000us             1
+                            aten::embedding         0.00%      15.000us         0.00%     342.000us     342.000us             1
+                              aten::reshape         0.00%       3.000us         0.00%       5.000us       5.000us             1
+                                 aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                         aten::index_select         0.00%     305.000us         0.00%     320.000us     320.000us             1
+                                aten::empty         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                               aten::select         0.00%       6.000us         0.00%       8.000us       8.000us             1
+                           aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                               aten::select         0.00%       4.000us         0.00%       5.000us       5.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                 aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                  aten::add         0.00%     453.000us         0.00%     453.000us     453.000us             1
+                           aten::layer_norm         0.00%       7.000us         0.00%     277.000us     277.000us             1
+                    aten::native_layer_norm         0.00%     251.000us         0.00%     270.000us     270.000us             1
+                                aten::empty         0.00%       8.000us         0.00%       8.000us       8.000us             1
+                                aten::empty         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                                aten::empty         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                 aten::view         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                                 aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                              aten::dropout         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::zeros_like         0.00%       7.000us         0.00%      48.000us      48.000us             1
+                           aten::empty_like         0.00%       5.000us         0.00%      40.000us      40.000us             1
+                        aten::empty_strided         0.00%      35.000us         0.00%      35.000us      35.000us             1
+                                aten::zero_         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                         aten::masked_fill_         0.00%      13.000us         0.00%      13.000us      13.000us             1
+                          aten::logical_not         0.00%      15.000us         0.00%     229.000us     229.000us             1
+                                aten::empty         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                          aten::logical_not         0.00%     210.000us         0.00%     210.000us     210.000us             1
+             aten::_nested_tensor_from_mask         0.01%     722.000us         0.04%       5.373ms       5.373ms             1
+                                aten::zeros         0.00%      16.000us         0.00%      22.000us      22.000us             1
+                                aten::empty         0.00%       6.000us         0.00%       6.000us       6.000us             1
+                                aten::zero_         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::cat         0.00%      31.000us         0.00%      55.000us      55.000us             1
+                               aten::narrow         0.00%       8.000us         0.00%      18.000us      18.000us             1
+                                aten::slice         0.00%       6.000us         0.00%      10.000us      10.000us             1
+                           aten::as_strided         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                               aten::narrow         0.00%       3.000us         0.00%       6.000us       6.000us             1
+                                aten::slice         0.00%       2.000us         0.00%       3.000us       3.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                   aten::to         0.00%       5.000us         0.00%     191.000us     191.000us             1
+                             aten::_to_copy         0.00%       9.000us         0.00%     186.000us     186.000us             1
+                        aten::empty_strided         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                                aten::copy_         0.00%     172.000us         0.00%     172.000us     172.000us             1
+                               aten::argmin         0.00%     240.000us         0.00%     242.000us     242.000us             1
+                           aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                               aten::cumsum         0.00%      19.000us         0.00%      36.000us      36.000us             1
+                                   aten::to         0.00%       2.000us         0.00%      17.000us      17.000us             1
+                             aten::_to_copy         0.00%       6.000us         0.00%      15.000us      15.000us             1
+                        aten::empty_strided         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                aten::copy_         0.00%       6.000us         0.00%       6.000us       6.000us             1
+                               aten::select         0.00%       9.000us         0.00%      10.000us      10.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                   aten::to         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                              aten::reshape         0.00%       8.000us         0.00%      10.000us      10.000us             1
+                       aten::_reshape_alias         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                            aten::full_like         0.00%       7.000us         0.00%      17.000us      17.000us             1
+                           aten::empty_like         0.00%       5.000us         0.00%       7.000us       7.000us             1
+                        aten::empty_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::fill_         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                  aten::cat         0.00%      16.000us         0.00%      30.000us      30.000us             1
+                               aten::narrow         0.00%       4.000us         0.00%       9.000us       9.000us             1
+                                aten::slice         0.00%       3.000us         0.00%       5.000us       5.000us             1
+                           aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                               aten::narrow         0.00%       2.000us         0.00%       5.000us       5.000us             1
+                                aten::slice         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                   aten::to         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                  aten::_nested_from_padded         0.00%     541.000us         0.03%       4.035ms       4.035ms             1
+                               aten::unbind         0.00%       8.000us         0.00%      22.000us      22.000us             1
+                               aten::select         0.00%       6.000us         0.00%       7.000us       7.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                               aten::select         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                               aten::select         0.00%       2.000us         0.00%       3.000us       3.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                             aten::new_full         0.00%       7.000us         0.00%      26.000us      26.000us             1
+                            aten::new_empty         0.00%       3.000us         0.00%       8.000us       8.000us             1
+                                aten::empty         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                                aten::fill_         0.00%      11.000us         0.00%      11.000us      11.000us             1
+                      aten::constant_pad_nd         0.00%      20.000us         0.00%      69.000us      69.000us             1
+                                aten::empty         0.00%       4.000us         0.00%       4.000us       4.000us             1
+-------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 12.063s
+
+slow path:
+==========
+/home/diego/.local/lib/python3.10/site-packages/torch/autograd/profiler.py:228: UserWarning: CUDA is not available, disabling CUDA profiling
+  warn("CUDA is not available, disabling CUDA profiling")
+STAGE:2024-04-06 00:30:23 787667:787667 ActivityProfilerController.cpp:314] Completed Stage: Warm Up
+STAGE:2024-04-06 00:30:46 787667:787667 ActivityProfilerController.cpp:320] Completed Stage: Collection
+STAGE:2024-04-06 00:30:46 787667:787667 ActivityProfilerController.cpp:324] Completed Stage: Post Processing
+--------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                        Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg    # of Calls
+--------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                    aten::eq         0.00%      32.000us         0.00%      32.000us      32.000us             1
+                             aten::embedding         0.00%      28.000us         0.00%     263.000us     263.000us             1
+                               aten::reshape         0.00%       2.000us         0.00%       5.000us       5.000us             1
+                                  aten::view         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                          aten::index_select         0.00%     211.000us         0.00%     229.000us     229.000us             1
+                                 aten::empty         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::select         0.00%      11.000us         0.00%      13.000us      13.000us             1
+                            aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::select         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                    aten::ne         0.00%      11.000us         0.00%      11.000us      11.000us             1
+                                    aten::to         0.00%       3.000us         0.00%      20.000us      20.000us             1
+                              aten::_to_copy         0.00%       7.000us         0.00%      17.000us      17.000us             1
+                         aten::empty_strided         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                 aten::copy_         0.00%       7.000us         0.00%       7.000us       7.000us             1
+                                aten::cumsum         0.00%      11.000us         0.00%      11.000us      11.000us             1
+                                    aten::to         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                   aten::mul         0.00%       8.000us         0.00%       8.000us       8.000us             1
+                                   aten::add         0.00%       7.000us         0.00%       7.000us       7.000us             1
+                             aten::embedding         0.00%      12.000us         0.00%     250.000us     250.000us             1
+                               aten::reshape         0.00%       1.000us         0.00%       2.000us       2.000us             1
+                                  aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                          aten::index_select         0.00%     230.000us         0.00%     236.000us     236.000us             1
+                                 aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::select         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                aten::select         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                   aten::add         0.00%     343.000us         0.00%     343.000us     343.000us             1
+                            aten::layer_norm         0.00%       4.000us         0.00%     184.000us     184.000us             1
+                     aten::native_layer_norm         0.00%     175.000us         0.00%     180.000us     180.000us             1
+                                 aten::empty         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                 aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                 aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                  aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                  aten::view         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                               aten::dropout         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                            aten::zeros_like         0.00%       6.000us         0.00%      12.000us      12.000us             1
+                            aten::empty_like         0.00%       4.000us         0.00%       6.000us       6.000us             1
+                         aten::empty_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                 aten::zero_         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                          aten::masked_fill_         0.00%       9.000us         0.00%       9.000us       9.000us             1
+                             aten::transpose         0.00%      10.000us         0.00%      12.000us      12.000us             1
+                            aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::linear         0.00%      10.000us         0.06%      13.139ms      13.139ms             1
+                                     aten::t         0.00%       7.000us         0.00%       9.000us       9.000us             1
+                             aten::transpose         0.00%       1.000us         0.00%       2.000us       2.000us             1
+                            aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::matmul         0.00%      24.000us         0.06%      12.884ms      12.884ms             1
+                               aten::reshape         0.00%      12.000us         0.00%     230.000us     230.000us             1
+                                 aten::clone         0.00%       8.000us         0.00%     213.000us     213.000us             1
+                            aten::empty_like         0.00%       2.000us         0.00%       5.000us       5.000us             1
+                                 aten::empty         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                 aten::copy_         0.00%     200.000us         0.00%     200.000us     200.000us             1
+                          aten::_unsafe_view         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                                    aten::mm         0.05%      12.615ms         0.05%      12.615ms      12.615ms             1
+                          aten::resolve_conj         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                          aten::resolve_conj         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                          aten::_unsafe_view         0.00%      15.000us         0.00%      15.000us      15.000us             1
+                                  aten::add_         0.00%     236.000us         0.00%     236.000us     236.000us             1
+                             aten::unflatten         0.00%       9.000us         0.00%      21.000us      21.000us             1
+                                  aten::view         0.00%      12.000us         0.00%      12.000us      12.000us             1
+                             aten::unsqueeze         0.00%      13.000us         0.00%      17.000us      17.000us             1
+                            aten::as_strided         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                             aten::transpose         0.00%      10.000us         0.00%      12.000us      12.000us             1
+                            aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                               aten::squeeze         0.00%      10.000us         0.00%      11.000us      11.000us             1
+                            aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                            aten::contiguous         0.00%       3.000us         0.00%     791.000us     791.000us             1
+                                 aten::clone         0.00%      14.000us         0.00%     788.000us     788.000us             1
+                            aten::empty_like         0.00%       5.000us         0.00%      28.000us      28.000us             1
+                                 aten::empty         0.00%      23.000us         0.00%      23.000us      23.000us             1
+                                 aten::copy_         0.00%     746.000us         0.00%     746.000us     746.000us             1
+                                aten::select         0.00%      12.000us         0.00%      13.000us      13.000us             1
+                            aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::select         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                aten::select         0.00%      17.000us         0.00%      18.000us      18.000us             1
+                            aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                  aten::view         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                             aten::transpose         0.00%       4.000us         0.00%       5.000us       5.000us             1
+                            aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                  aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                             aten::transpose         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                             aten::transpose         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::expand         0.00%       7.000us         0.00%       7.000us       7.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                               aten::reshape         0.00%       7.000us         0.00%      33.000us      33.000us             1
+                                 aten::clone         0.00%       5.000us         0.00%      24.000us      24.000us             1
+                            aten::empty_like         0.00%       3.000us         0.00%       8.000us       8.000us             1
+                                 aten::empty         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                                 aten::copy_         0.00%      11.000us         0.00%      11.000us      11.000us             1
+                          aten::_unsafe_view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                  aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+--------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 23.023s
+
+fast path:
+==========
+STAGE:2024-04-06 00:30:50 787667:787667 ActivityProfilerController.cpp:314] Completed Stage: Warm Up
+STAGE:2024-04-06 00:31:00 787667:787667 ActivityProfilerController.cpp:320] Completed Stage: Collection
+STAGE:2024-04-06 00:31:00 787667:787667 ActivityProfilerController.cpp:324] Completed Stage: Post Processing
+-------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                       Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg    # of Calls
+-------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                   aten::eq         0.00%     411.000us         0.00%     411.000us     411.000us             1
+                            aten::embedding         0.00%      16.000us         0.01%     594.000us     594.000us             1
+                              aten::reshape         0.00%       2.000us         0.00%       5.000us       5.000us             1
+                                 aten::view         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                         aten::index_select         0.01%     555.000us         0.01%     572.000us     572.000us             1
+                                aten::empty         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                               aten::select         0.00%       9.000us         0.00%      11.000us      11.000us             1
+                           aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                               aten::select         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                 aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                   aten::ne         0.00%      15.000us         0.00%      15.000us      15.000us             1
+                                   aten::to         0.00%       4.000us         0.00%      91.000us      91.000us             1
+                             aten::_to_copy         0.00%      10.000us         0.00%      87.000us      87.000us             1
+                        aten::empty_strided         0.00%      69.000us         0.00%      69.000us      69.000us             1
+                                aten::copy_         0.00%       8.000us         0.00%       8.000us       8.000us             1
+                               aten::cumsum         0.00%      15.000us         0.00%      15.000us      15.000us             1
+                                   aten::to         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::mul         0.00%       9.000us         0.00%       9.000us       9.000us             1
+                                  aten::add         0.00%       8.000us         0.00%       8.000us       8.000us             1
+                            aten::embedding         0.00%      10.000us         0.00%     299.000us     299.000us             1
+                              aten::reshape         0.00%       1.000us         0.00%       2.000us       2.000us             1
+                                 aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                         aten::index_select         0.00%     276.000us         0.00%     286.000us     286.000us             1
+                                aten::empty         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                               aten::select         0.00%       4.000us         0.00%       5.000us       5.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                               aten::select         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                 aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                  aten::add         0.00%     444.000us         0.00%     444.000us     444.000us             1
+                           aten::layer_norm         0.00%       5.000us         0.00%     238.000us     238.000us             1
+                    aten::native_layer_norm         0.00%     225.000us         0.00%     233.000us     233.000us             1
+                                aten::empty         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                                aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                 aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                 aten::view         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                              aten::dropout         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::zeros_like         0.00%       6.000us         0.00%      33.000us      33.000us             1
+                           aten::empty_like         0.00%       3.000us         0.00%      26.000us      26.000us             1
+                        aten::empty_strided         0.00%      23.000us         0.00%      23.000us      23.000us             1
+                                aten::zero_         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                         aten::masked_fill_         0.00%      10.000us         0.00%      10.000us      10.000us             1
+                          aten::logical_not         0.00%       6.000us         0.00%      15.000us      15.000us             1
+                                aten::empty         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                          aten::logical_not         0.00%       7.000us         0.00%       7.000us       7.000us             1
+             aten::_nested_tensor_from_mask         0.00%      37.000us         0.03%       2.583ms       2.583ms             1
+                                aten::zeros         0.00%       4.000us         0.00%       6.000us       6.000us             1
+                                aten::empty         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::zero_         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::cat         0.00%      17.000us         0.00%      37.000us      37.000us             1
+                               aten::narrow         0.00%       7.000us         0.00%      15.000us      15.000us             1
+                                aten::slice         0.00%       6.000us         0.00%       8.000us       8.000us             1
+                           aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                               aten::narrow         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                aten::slice         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                   aten::to         0.00%       3.000us         0.00%      16.000us      16.000us             1
+                             aten::_to_copy         0.00%       7.000us         0.00%      13.000us      13.000us             1
+                        aten::empty_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::copy_         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                               aten::argmin         0.00%      13.000us         0.00%      14.000us      14.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                               aten::cumsum         0.00%       9.000us         0.00%      18.000us      18.000us             1
+                                   aten::to         0.00%       1.000us         0.00%       9.000us       9.000us             1
+                             aten::_to_copy         0.00%       4.000us         0.00%       8.000us       8.000us             1
+                        aten::empty_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::copy_         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                               aten::select         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                   aten::to         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                              aten::reshape         0.00%       8.000us         0.00%       9.000us       9.000us             1
+                       aten::_reshape_alias         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                            aten::full_like         0.00%       7.000us         0.00%      11.000us      11.000us             1
+                           aten::empty_like         0.00%       3.000us         0.00%       4.000us       4.000us             1
+                        aten::empty_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::fill_         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                  aten::cat         0.00%      11.000us         0.00%      18.000us      18.000us             1
+                               aten::narrow         0.00%       2.000us         0.00%       4.000us       4.000us             1
+                                aten::slice         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                               aten::narrow         0.00%       2.000us         0.00%       3.000us       3.000us             1
+                                aten::slice         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                   aten::to         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                  aten::_nested_from_padded         0.00%      53.000us         0.02%       2.408ms       2.408ms             1
+                               aten::unbind         0.00%       5.000us         0.00%      13.000us      13.000us             1
+                               aten::select         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                               aten::select         0.00%       2.000us         0.00%       3.000us       3.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                               aten::select         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                             aten::new_full         0.00%       4.000us         0.00%      21.000us      21.000us             1
+                            aten::new_empty         0.00%       2.000us         0.00%      13.000us      13.000us             1
+                                aten::empty         0.00%      11.000us         0.00%      11.000us      11.000us             1
+                                aten::fill_         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                      aten::constant_pad_nd         0.00%      10.000us         0.00%      47.000us      47.000us             1
+                                aten::empty         0.00%       2.000us         0.00%       2.000us       2.000us             1
+-------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 9.766s
+
+slow path:
+==========
+STAGE:2024-04-06 00:31:08 787667:787667 ActivityProfilerController.cpp:314] Completed Stage: Warm Up
+STAGE:2024-04-06 00:31:43 787667:787667 ActivityProfilerController.cpp:320] Completed Stage: Collection
+STAGE:2024-04-06 00:31:43 787667:787667 ActivityProfilerController.cpp:324] Completed Stage: Post Processing
+--------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                        Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg    # of Calls
+--------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                    aten::eq         0.00%      31.000us         0.00%      31.000us      31.000us             1
+                             aten::embedding         0.00%      26.000us         0.00%     277.000us     277.000us             1
+                               aten::reshape         0.00%       2.000us         0.00%       5.000us       5.000us             1
+                                  aten::view         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                          aten::index_select         0.00%     234.000us         0.00%     246.000us     246.000us             1
+                                 aten::empty         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::select         0.00%       7.000us         0.00%       9.000us       9.000us             1
+                            aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::select         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                    aten::ne         0.00%       9.000us         0.00%       9.000us       9.000us             1
+                                    aten::to         0.00%       3.000us         0.00%      20.000us      20.000us             1
+                              aten::_to_copy         0.00%       7.000us         0.00%      17.000us      17.000us             1
+                         aten::empty_strided         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                                 aten::copy_         0.00%       6.000us         0.00%       6.000us       6.000us             1
+                                aten::cumsum         0.00%       9.000us         0.00%       9.000us       9.000us             1
+                                    aten::to         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                   aten::mul         0.00%       7.000us         0.00%       7.000us       7.000us             1
+                                   aten::add         0.00%       7.000us         0.00%       7.000us       7.000us             1
+                             aten::embedding         0.00%      11.000us         0.00%     254.000us     254.000us             1
+                               aten::reshape         0.00%       0.000us         0.00%       1.000us       1.000us             1
+                                  aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                          aten::index_select         0.00%     238.000us         0.00%     242.000us     242.000us             1
+                                 aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::select         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                aten::select         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                   aten::add         0.00%     342.000us         0.00%     342.000us     342.000us             1
+                            aten::layer_norm         0.00%       3.000us         0.00%     197.000us     197.000us             1
+                     aten::native_layer_norm         0.00%     186.000us         0.00%     194.000us     194.000us             1
+                                 aten::empty         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                 aten::empty         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                                 aten::empty         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                  aten::view         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                               aten::dropout         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                            aten::zeros_like         0.00%       8.000us         0.00%      15.000us      15.000us             1
+                            aten::empty_like         0.00%       3.000us         0.00%       7.000us       7.000us             1
+                         aten::empty_strided         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                                 aten::zero_         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                          aten::masked_fill_         0.00%       8.000us         0.00%       8.000us       8.000us             1
+                             aten::transpose         0.00%       9.000us         0.00%      11.000us      11.000us             1
+                            aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::linear         0.00%      10.000us         0.04%      13.998ms      13.998ms             1
+                                     aten::t         0.00%       5.000us         0.00%       6.000us       6.000us             1
+                             aten::transpose         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                aten::matmul         0.00%      18.000us         0.04%      13.761ms      13.761ms             1
+                               aten::reshape         0.00%      10.000us         0.00%     214.000us     214.000us             1
+                                 aten::clone         0.00%       6.000us         0.00%     200.000us     200.000us             1
+                            aten::empty_like         0.00%       1.000us         0.00%       6.000us       6.000us             1
+                                 aten::empty         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                                 aten::copy_         0.00%     188.000us         0.00%     188.000us     188.000us             1
+                          aten::_unsafe_view         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                                    aten::mm         0.04%      13.503ms         0.04%      13.503ms      13.503ms             1
+                          aten::resolve_conj         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                          aten::resolve_conj         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                          aten::_unsafe_view         0.00%      26.000us         0.00%      26.000us      26.000us             1
+                                  aten::add_         0.00%     221.000us         0.00%     221.000us     221.000us             1
+                             aten::unflatten         0.00%       7.000us         0.00%      14.000us      14.000us             1
+                                  aten::view         0.00%       7.000us         0.00%       7.000us       7.000us             1
+                             aten::unsqueeze         0.00%       6.000us         0.00%       9.000us       9.000us             1
+                            aten::as_strided         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                             aten::transpose         0.00%       5.000us         0.00%       6.000us       6.000us             1
+                            aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                               aten::squeeze         0.00%       7.000us         0.00%       7.000us       7.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                            aten::contiguous         0.00%       3.000us         0.00%     756.000us     756.000us             1
+                                 aten::clone         0.00%      16.000us         0.00%     753.000us     753.000us             1
+                            aten::empty_like         0.00%       4.000us         0.00%      15.000us      15.000us             1
+                                 aten::empty         0.00%      11.000us         0.00%      11.000us      11.000us             1
+                                 aten::copy_         0.00%     722.000us         0.00%     722.000us     722.000us             1
+                                aten::select         0.00%      11.000us         0.00%      12.000us      12.000us             1
+                            aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::select         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                aten::select         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                             aten::transpose         0.00%       3.000us         0.00%       4.000us       4.000us             1
+                            aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                  aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                             aten::transpose         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                             aten::transpose         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                aten::expand         0.00%       6.000us         0.00%       6.000us       6.000us             1
+                            aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                               aten::reshape         0.00%       6.000us         0.00%      30.000us      30.000us             1
+                                 aten::clone         0.00%       4.000us         0.00%      22.000us      22.000us             1
+                            aten::empty_like         0.00%       2.000us         0.00%       8.000us       8.000us             1
+                                 aten::empty         0.00%       6.000us         0.00%       6.000us       6.000us             1
+                                 aten::copy_         0.00%      10.000us         0.00%      10.000us      10.000us             1
+                          aten::_unsafe_view         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                                  aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+--------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 34.702s
+
+fast path:
+==========
+STAGE:2024-04-06 00:31:47 787667:787667 ActivityProfilerController.cpp:314] Completed Stage: Warm Up
+STAGE:2024-04-06 00:32:02 787667:787667 ActivityProfilerController.cpp:320] Completed Stage: Collection
+STAGE:2024-04-06 00:32:02 787667:787667 ActivityProfilerController.cpp:324] Completed Stage: Post Processing
+-------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                       Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg    # of Calls
+-------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+                                   aten::eq         0.00%     135.000us         0.00%     135.000us     135.000us             1
+                            aten::embedding         0.00%      15.000us         0.00%     435.000us     435.000us             1
+                              aten::reshape         0.00%       3.000us         0.00%       6.000us       6.000us             1
+                                 aten::view         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                         aten::index_select         0.00%     396.000us         0.00%     413.000us     413.000us             1
+                                aten::empty         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                               aten::select         0.00%      10.000us         0.00%      13.000us      13.000us             1
+                           aten::as_strided         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                               aten::select         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                 aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                   aten::ne         0.00%      13.000us         0.00%      13.000us      13.000us             1
+                                   aten::to         0.00%       4.000us         0.00%     665.000us     665.000us             1
+                             aten::_to_copy         0.00%       9.000us         0.00%     661.000us     661.000us             1
+                        aten::empty_strided         0.00%     643.000us         0.00%     643.000us     643.000us             1
+                                aten::copy_         0.00%       9.000us         0.00%       9.000us       9.000us             1
+                               aten::cumsum         0.00%      13.000us         0.00%      13.000us      13.000us             1
+                                   aten::to         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::mul         0.00%       9.000us         0.00%       9.000us       9.000us             1
+                                  aten::add         0.00%       7.000us         0.00%       7.000us       7.000us             1
+                            aten::embedding         0.00%       9.000us         0.00%     290.000us     290.000us             1
+                              aten::reshape         0.00%       1.000us         0.00%       2.000us       2.000us             1
+                                 aten::view         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                         aten::index_select         0.00%     272.000us         0.00%     279.000us     279.000us             1
+                                aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                               aten::select         0.00%       4.000us         0.00%       5.000us       5.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                               aten::select         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                 aten::view         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::add         0.00%     455.000us         0.00%     455.000us     455.000us             1
+                           aten::layer_norm         0.00%       4.000us         0.00%     261.000us     261.000us             1
+                    aten::native_layer_norm         0.00%     248.000us         0.00%     257.000us     257.000us             1
+                                aten::empty         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                                aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                 aten::view         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                 aten::view         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                              aten::dropout         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::zeros_like         0.00%       2.000us         0.00%      11.000us      11.000us             1
+                           aten::empty_like         0.00%       5.000us         0.00%       5.000us       5.000us             1
+                        aten::empty_strided         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                                aten::zero_         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                         aten::masked_fill_         0.00%      10.000us         0.00%      10.000us      10.000us             1
+                          aten::logical_not         0.00%       8.000us         0.00%      15.000us      15.000us             1
+                                aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                          aten::logical_not         0.00%       6.000us         0.00%       6.000us       6.000us             1
+             aten::_nested_tensor_from_mask         0.00%      41.000us         0.02%       2.974ms       2.974ms             1
+                                aten::zeros         0.00%       4.000us         0.00%       5.000us       5.000us             1
+                                aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::zero_         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                  aten::cat         0.00%      19.000us         0.00%      34.000us      34.000us             1
+                               aten::narrow         0.00%       6.000us         0.00%      12.000us      12.000us             1
+                                aten::slice         0.00%       4.000us         0.00%       6.000us       6.000us             1
+                           aten::as_strided         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                               aten::narrow         0.00%       1.000us         0.00%       3.000us       3.000us             1
+                                aten::slice         0.00%       1.000us         0.00%       2.000us       2.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                   aten::to         0.00%       2.000us         0.00%      29.000us      29.000us             1
+                             aten::_to_copy         0.00%       5.000us         0.00%      27.000us      27.000us             1
+                        aten::empty_strided         0.00%      18.000us         0.00%      18.000us      18.000us             1
+                                aten::copy_         0.00%       4.000us         0.00%       4.000us       4.000us             1
+                               aten::argmin         0.00%      14.000us         0.00%      15.000us      15.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                               aten::cumsum         0.00%      17.000us         0.00%      24.000us      24.000us             1
+                                   aten::to         0.00%       2.000us         0.00%       7.000us       7.000us             1
+                             aten::_to_copy         0.00%       2.000us         0.00%       5.000us       5.000us             1
+                        aten::empty_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::copy_         0.00%       2.000us         0.00%       2.000us       2.000us             1
+                               aten::select         0.00%       4.000us         0.00%       5.000us       5.000us             1
+                           aten::as_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                   aten::to         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                              aten::reshape         0.00%       8.000us         0.00%       9.000us       9.000us             1
+                       aten::_reshape_alias         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                            aten::full_like         0.00%       4.000us         0.00%      10.000us      10.000us             1
+                           aten::empty_like         0.00%       2.000us         0.00%       3.000us       3.000us             1
+                        aten::empty_strided         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                                aten::fill_         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                  aten::cat         0.00%      10.000us         0.00%      15.000us      15.000us             1
+                               aten::narrow         0.00%       2.000us         0.00%       3.000us       3.000us             1
+                                aten::slice         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                               aten::narrow         0.00%       1.000us         0.00%       2.000us       2.000us             1
+                                aten::slice         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                                   aten::to         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                  aten::_nested_from_padded         0.00%      50.000us         0.02%       2.786ms       2.786ms             1
+                               aten::unbind         0.00%       4.000us         0.00%       9.000us       9.000us             1
+                               aten::select         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                               aten::select         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                               aten::select         0.00%       1.000us         0.00%       1.000us       1.000us             1
+                           aten::as_strided         0.00%       0.000us         0.00%       0.000us       0.000us             1
+                             aten::new_full         0.00%       5.000us         0.00%      13.000us      13.000us             1
+                            aten::new_empty         0.00%       2.000us         0.00%       5.000us       5.000us             1
+                                aten::empty         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                                aten::fill_         0.00%       3.000us         0.00%       3.000us       3.000us             1
+                      aten::constant_pad_nd         0.00%       8.000us         0.00%      42.000us      42.000us             1
+                                aten::empty         0.00%       1.000us         0.00%       1.000us       1.000us             1
+-------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------
+Self CPU time total: 14.474s
+```
