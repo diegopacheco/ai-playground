@@ -9,3 +9,4 @@ pip install -U scikit-learn
 pip install pyqt5
 pip install opencv_python
 pip install numpy
+pip install torchtext
