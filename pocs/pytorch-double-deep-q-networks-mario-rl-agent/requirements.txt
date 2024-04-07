@@ -1,0 +1,4 @@
+numpy
+gym-super-mario-bros==7.4.0
+tensordict==0.3.0
+torchrl==0.3.0
