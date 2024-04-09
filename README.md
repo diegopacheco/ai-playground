@@ -25,6 +25,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+ReFT: Representation Finetuning for Language Models
+https://arxiv.org/pdf/2404.03592.pdf
+
 OLOMO: Accelerating the Science of Language Models
 https://arxiv.org/pdf/2402.00838.pdf
 
