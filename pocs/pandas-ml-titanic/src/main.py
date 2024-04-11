@@ -11,9 +11,14 @@ import matplotlib.pyplot as plt
 # Describe features
 print(df.describe())
 
+# Filtering some features out first
+cols = set(df.columns) - {'Name','Cabin','Embarked','Sex'}
+df_filtered = df[list(cols)]
+
 # Correlation matrix
-plt.matshow(df.corr())
-continuous_features = df.describe(exclude='Name').columns
+plt.matshow(df_filtered.corr())
+
+continuous_features = df_filtered.describe().columns
 plt.xticks(range(len(continuous_features)), continuous_features, rotation="45")
 plt.yticks(range(len(continuous_features)), continuous_features, rotation="45")
 plt.colorbar()
