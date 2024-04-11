@@ -23,3 +23,9 @@ plt.xticks(range(len(continuous_features)), continuous_features, rotation="45")
 plt.yticks(range(len(continuous_features)), continuous_features, rotation="45")
 plt.colorbar()
 plt.show()
+
+# Histograms
+print(df["Age"].hist())
+
+# Sorting
+print(df.sort_values("Age", ascending=False).head())
