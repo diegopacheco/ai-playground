@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 print(df.describe())
 
 # Filtering some features out first
-cols = set(df.columns) - {'Name','Cabin','Embarked','Sex'}
+cols = set(df.columns) - {'Name','Cabin','Embarked','Sex','Ticket'}
 df_filtered = df[list(cols)]
 
 # Correlation matrix
