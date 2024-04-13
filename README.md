@@ -25,6 +25,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+From Words to Numbers: Your Large Language Model Is Secretly A Capable Regressor When Given In-Context Examples
+https://arxiv.org/pdf/2404.07544.pdf
+
 ReFT: Representation Finetuning for Language Models
 https://arxiv.org/pdf/2404.03592.pdf
 
