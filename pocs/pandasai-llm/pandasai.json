@@ -1,0 +1,6 @@
+{
+    "llm": "BambooLLM",
+    "llm_options": {
+      "api_key": ""
+    }
+  }
