@@ -25,6 +25,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Efficient Estimation of Word Representations in Vector Space (Word2Vec)
+https://arxiv.org/pdf/1301.3781.pdf
+
 Code Llama: Open Foundation Models for Code
 https://arxiv.org/pdf/2308.12950.pdf
 
