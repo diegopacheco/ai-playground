@@ -25,6 +25,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Code Llama: Open Foundation Models for Code
+https://arxiv.org/pdf/2308.12950.pdf
+
 From Words to Numbers: Your Large Language Model Is Secretly A Capable Regressor When Given In-Context Examples
 https://arxiv.org/pdf/2404.07544.pdf
 
