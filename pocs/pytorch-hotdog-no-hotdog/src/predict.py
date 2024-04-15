@@ -57,3 +57,6 @@ print("data/predict-test/hotdog.jpg          -> " + predict("data/predict-test/h
 print("data/predict-test/doudle-hotdog.jpg   -> " + predict("data/predict-test/doudle-hotdog.jpg"))
 print("data/predict-test/pet-dog.jpg         -> " + predict("data/predict-test/pet-dog.jpg"))
 print("data/predict-test/pet-dog2.jpg        -> " + predict("data/predict-test/pet-dog2.jpg"))
+print("data/predict-test/cat.jpg             -> " + predict("data/predict-test/cat.jpg"))
+print("data/predict-test/hotdog-yes.jpeg     -> " + predict("data/predict-test/hotdog-yes.jpeg"))
+

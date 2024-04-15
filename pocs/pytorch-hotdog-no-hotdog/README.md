@@ -17,7 +17,7 @@ Model saved!
 ```
 ### Predict
 ```
-./predict.sh
+time ./predict.sh
 ```
 ```
 data/train/hotdog/106.jpg             -> Hotdog
@@ -28,4 +28,7 @@ data/predict-test/hotdog.jpg          -> Hotdog
 data/predict-test/doudle-hotdog.jpg   -> Hotdog
 data/predict-test/pet-dog.jpg         -> Not hotdog
 data/predict-test/pet-dog2.jpg        -> Not hotdog
+data/predict-test/cat.jpg             -> Not hotdog
+data/predict-test/hotdog-yes.jpeg     -> Hotdog
+./predict.sh  9,32s user 1,05s system 224% cpu 4,618 total
 ```
