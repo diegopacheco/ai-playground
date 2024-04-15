@@ -51,3 +51,5 @@ print("data/train/nothotdog/101.jpg          -> " + predict("data/train/nothotdo
 print("data/predict-test/blue-car.jpg        -> " + predict("data/predict-test/blue-car.jpg"))
 print("data/predict-test/hotdog.jpg          -> " + predict("data/predict-test/hotdog.jpg"))
 print("data/predict-test/doudle-hotdog.jpg   -> " + predict("data/predict-test/doudle-hotdog.jpg"))
+print("data/predict-test/pet-dog.jpg         -> " + predict("data/predict-test/pet-dog.jpg"))
+print("data/predict-test/pet-dog2.jpg        -> " + predict("data/predict-test/pet-dog2.jpg"))
