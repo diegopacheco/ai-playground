@@ -44,6 +44,10 @@ def predict(image_path):
     else:
         return "Hotdog"
 
-print(predict("data/train/hotdog/106.jpg"))
-print(predict("data/train/hotdog/120.jpg"))
-print(predict("data/train/nothotdog/101.jpg"))
+print("data/train/hotdog/106.jpg             -> " + predict("data/train/hotdog/106.jpg"))
+print("data/train/hotdog/120.jpg             -> " + predict("data/train/hotdog/120.jpg"))
+print("data/train/nothotdog/101.jpg          -> " + predict("data/train/nothotdog/101.jpg"))
+
+print("data/predict-test/blue-car.jpg        -> " + predict("data/predict-test/blue-car.jpg"))
+print("data/predict-test/hotdog.jpg          -> " + predict("data/predict-test/hotdog.jpg"))
+print("data/predict-test/doudle-hotdog.jpg   -> " + predict("data/predict-test/doudle-hotdog.jpg"))
