@@ -1,6 +1,8 @@
 # PyTorch dataset 
 data/
 
+.idea/
+
 # Compiled class file
 *.class
 
