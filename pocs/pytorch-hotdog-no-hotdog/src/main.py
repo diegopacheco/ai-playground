@@ -46,7 +46,7 @@ print_every = 5
 # Only train the classifier parameters, feature parameters are frozen
 optimizer = torch.optim.Adam(model.classifier.parameters(), lr=0.003)
 
-epochs = 1
+epochs = 5
 steps = 0
 
 train_losses, test_losses = [], []
