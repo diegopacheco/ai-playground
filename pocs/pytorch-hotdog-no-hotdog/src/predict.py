@@ -33,16 +33,20 @@ def predict(image_path):
     # Add an extra batch dimension since pytorch treats all images as batches
     image_tensor = image_tensor.unsqueeze_(0)
 
+    # Set the model to evaluation mode
+    model.eval()
+
     # Predict the class of the image
-    output = model(image_tensor)
+    with torch.no_grad():
+        output = model(image_tensor)
 
     _, preds_tensor = torch.max(output, 1)
     preds = np.squeeze(preds_tensor.numpy())
 
     if preds == 0:
-        return "Not hotdog"
-    else:
         return "Hotdog"
+    else:
+        return "Not hotdog"
 
 print("data/train/hotdog/106.jpg             -> " + predict("data/train/hotdog/106.jpg"))
 print("data/train/hotdog/120.jpg             -> " + predict("data/train/hotdog/120.jpg"))
