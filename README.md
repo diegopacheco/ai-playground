@@ -25,6 +25,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Longformer: The Long-Document Transformer
+https://arxiv.org/pdf/2004.05150.pdf
+
 Efficient Estimation of Word Representations in Vector Space (Word2Vec)
 https://arxiv.org/pdf/1301.3781.pdf
 
