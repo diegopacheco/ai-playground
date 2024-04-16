@@ -45,6 +45,12 @@ sentence2 = "Magic The Gathering Cards"
 similarity = calculate_similarity(sentence1, sentence2)
 print(f"The similarity between '{sentence1}' and '{sentence2}' is {similarity[0][0]}")
 
+#
+# K-means clustering to group the sentence embeddings and then use 
+# Principal Component Analysis (PCA) to reduce the dimensionality
+# of the data for visualization
+#
+
 # Define the sentences
 sentences = ["Magic Cards", "Magic The Gathering Cards", "Blue car is not a card"]
 
