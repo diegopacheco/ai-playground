@@ -121,12 +121,13 @@ for i, topic in enumerate(topics, start=1):
 num_topics = model.get_num_topics()
 
 print(f"Number of topics: {num_topics}")
-for i, topic in enumerate(topics, start=1):
-    print(f"Topic {i}: {topic}")
+for i in range(num_topics):
+    # Get the documents most similar to the topic
+    doc_ids, doc_scores, doc_texts = model.search_documents_by_topic(topic_num=i, num_docs=5)
 
-    # Get the words most similar to the topic
-    words, word_scores = model.similar_words(topic,num_words=10)
-
-    # Print the words and their scores
-    for word, score in zip(words, word_scores):
-        print(f"    {word} (score: {score})")
+    # Print the topic number and the most similar documents
+    print(f"Topic {i + 1}:")
+    for doc_id, doc_score, doc_text in zip(doc_ids, doc_scores, doc_texts):
+        print(f"    Document ID: {doc_id}")
+        print(f"    Document Score: {doc_score}")
+        print(f"    Document Text: {doc_text}")
