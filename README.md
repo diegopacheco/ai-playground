@@ -25,6 +25,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+RewardBench: Evaluating Reward Models for Language Modeling
+https://arxiv.org/pdf/2403.13787v1.pdf
+
 Simple and Scalable Strategies to Continually Pre-train Large Language Models
 https://arxiv.org/abs/2403.08763
 
