@@ -25,6 +25,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Simple and Scalable Strategies to Continually Pre-train Large Language Models
+https://arxiv.org/abs/2403.08763
+
 Longformer: The Long-Document Transformer
 https://arxiv.org/pdf/2004.05150.pdf
 
