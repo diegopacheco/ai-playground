@@ -125,7 +125,7 @@ for i, topic in enumerate(topics, start=1):
     print(f"Topic {i}: {topic}")
 
     # Get the words most similar to the topic
-    words, word_scores = model.similar_words(topic)
+    words, word_scores = model.similar_words(topic,num_words=10)
 
     # Print the words and their scores
     for word, score in zip(words, word_scores):
