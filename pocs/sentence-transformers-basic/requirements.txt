@@ -1,2 +1,8 @@
 numpy
 sentence-transformers
+top2vec
+scipy==1.10.1
+top2vec[sentence_encoders]
+tensorflow
+tensorflow_hub
+tensorflow_text

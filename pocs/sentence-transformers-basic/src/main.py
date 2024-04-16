@@ -67,3 +67,21 @@ embeddings_2d = pca.fit_transform(embeddings)
 # Plot the clusters
 plt.scatter(embeddings_2d[:, 0], embeddings_2d[:, 1], c=kmeans.labels_)
 plt.show()
+
+from top2vec import Top2Vec
+
+# Define the documents
+documents = ["Magic Cards", "Magic The Gathering Cards", "Blue car is not a card"]
+
+# Train a Top2Vec model
+model = Top2Vec(documents, speed="learn", workers=4)
+
+# Get the number of detected topics
+num_topics = model.get_num_topics()
+
+# Get the topics
+topics = model.get_topics(num_topics)
+
+print(f"Number of topics: {num_topics}")
+for i, topic in enumerate(topics, start=1):
+    print(f"Topic {i}: {topic}")
