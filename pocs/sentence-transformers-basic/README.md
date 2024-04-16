@@ -104,6 +104,141 @@ The similarity between 'Magic Cards' and 'Magic The Gathering Cards' is 0.857381
 The similarity between 'Blue car is not a card' and 'Magic The Gathering Cards' is 0.3206788897514343
 ```
 <img src="knn-PCA-clustering.png"/>
+
 ```
 Topic 3: [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]
+Number of topics: 19
+Topic 1: [['collectors' 'collectible' 'cards' 'magicians' 'magic' 'wizards'
+  'collecting' 'card' 'tournaments' 'fun' 'traded' 'gathering' 'tricks'
+  'popular' 'play' 'played' 'cars' 'expensive' 'valuablered' 'millions'
+  'sold' 'sets' 'stores' 'available' 'released' 'performers' 'extinct'
+  'skilled' 'are' 'many' 'dinosaurs' 'all' 'world' 'years' 'used' 'made'
+  'not' 'is' 'online' 'car' 'by' 'to' 'perform' 'lived' 'faster' 'ago'
+  'the' 'than' 'means' 'blue']
+ ['magicians' 'cards' 'magic' 'wizards' 'tournaments' 'card' 'popular'
+  'collectors' 'tricks' 'collectible' 'fun' 'play' 'used' 'collecting'
+  'played' 'cars' 'skilled' 'gathering' 'performers' 'expensive'
+  'available' 'traded' 'years' 'world' 'are' 'online' 'stores' 'millions'
+  'extinct' 'many' 'valuablered' 'all' 'dinosaurs' 'perform' 'faster'
+  'is' 'sold' 'released' 'sets' 'not' 'ago' 'made' 'by' 'car' 'to'
+  'lived' 'than' 'the' 'means' 'of']
+ ['cards' 'magicians' 'magic' 'card' 'wizards' 'tricks' 'cars'
+  'tournaments' 'collectors' 'stores' 'play' 'fun' 'collecting' 'played'
+  'collectible' 'performers' 'dinosaurs' 'car' 'sets' 'world' 'popular'
+  'online' 'traded' 'gathering' 'expensive' 'used' 'available' 'skilled'
+  'all' 'perform' 'valuablered' 'blue' 'faster' 'are' 'many' 'years'
+  'ago' 'made' 'extinct' 'released' 'coast' 'millions' 'sold' 'the'
+  'lived' 'to' 'means' 'of' 'is' 'not']
+ ['cards' 'magicians' 'wizards' 'magic' 'collectors' 'collectible' 'card'
+  'sets' 'tournaments' 'collecting' 'released' 'gathering' 'tricks' 'fun'
+  'played' 'play' 'traded' 'available' 'extinct' 'are' 'performers'
+  'made' 'stores' 'cars' 'all' 'popular' 'is' 'sold' 'years' 'millions'
+  'many' 'not' 'dinosaurs' 'expensive' 'perform' 'used' 'by' 'skilled'
+  'the' 'ago' 'to' 'world' 'in' 'valuablered' 'over' 'means' 'online'
+  'of' 'car' 'coast']
+ ['magicians' 'magic' 'wizards' 'tricks' 'fun' 'cards' 'skilled'
+  'tournaments' 'performers' 'dinosaurs' 'perform' 'popular' 'play'
+  'collectors' 'played' 'world' 'card' 'faster' 'cars' 'stores'
+  'collectible' 'traded' 'millions' 'expensive' 'valuablered'
+  'collecting' 'online' 'years' 'used' 'gathering' 'extinct' 'made'
+  'released' 'ago' 'all' 'blue' 'available' 'sets' 'lived' 'many' 'are'
+  'not' 'by' 'coast' 'car' 'means' 'is' 'sold' 'to' 'the']
+ ['wizards' 'magicians' 'magic' 'tricks' 'tournaments' 'collectors'
+  'skilled' 'dinosaurs' 'cards' 'performers' 'fun' 'world' 'are' 'traded'
+  'played' 'extinct' 'play' 'popular' 'cars' 'collectible' 'expensive'
+  'millions' 'faster' 'perform' 'sets' 'card' 'stores' 'is' 'online'
+  'collecting' 'not' 'released' 'made' 'years' 'means' 'used'
+  'valuablered' 'the' 'all' 'gathering' 'by' 'car' 'many' 'ago' 'blue'
+  'lived' 'to' 'sold' 'of' 'available']
+ ['collecting' 'collectible' 'gathering' 'collectors' 'means' 'sets'
+  'tournaments' 'play' 'traded' 'released' 'played' 'cards' 'fun' 'used'
+  'cars' 'valuablered' 'performers' 'extinct' 'sold' 'popular'
+  'expensive' 'perform' 'wizards' 'stores' 'made' 'card' 'car' 'to'
+  'magic' 'magicians' 'available' 'tricks' 'coast' 'are' 'over' 'lived'
+  'skilled' 'millions' 'is' 'many' 'of' 'the' 'world' 'years' 'online'
+  'by' 'in' 'not' 'faster' 'dinosaurs']
+ ['dinosaurs' 'extinct' 'millions' 'years' 'lived' 'magicians' 'ago'
+  'many' 'world' 'wizards' 'all' 'popular' 'than' 'expensive' 'are' 'is'
+  'not' 'by' 'magic' 'collectors' 'valuablered' 'tournaments' 'used'
+  'sold' 'the' 'traded' 'released' 'collectible' 'made' 'skilled'
+  'tricks' 'available' 'of' 'cars' 'blue' 'online' 'in' 'stores' 'faster'
+  'performers' 'sets' 'played' 'over' 'collecting' 'to' 'fun' 'gathering'
+  'coast' 'means' 'car']
+ ['dinosaurs' 'extinct' 'magicians' 'world' 'wizards' 'millions'
+  'collectors' 'not' 'lived' 'released' 'collectible' 'all' 'tournaments'
+  'valuablered' 'expensive' 'are' 'ago' 'many' 'traded' 'online' 'magic'
+  'stores' 'sold' 'years' 'is' 'faster' 'tricks' 'available' 'cars'
+  'blue' 'popular' 'performers' 'collecting' 'skilled' 'sets' 'the'
+  'made' 'than' 'cards' 'used' 'played' 'by' 'coast' 'means' 'in' 'over'
+  'fun' 'of' 'play' 'car']
+ ['cars' 'faster' 'cards' 'car' 'blue' 'valuablered' 'magicians' 'card'
+  'magic' 'wizards' 'fun' 'expensive' 'collectors' 'than' 'are'
+  'collectible' 'tricks' 'dinosaurs' 'popular' 'is' 'collecting'
+  'millions' 'many' 'the' 'not' 'tournaments' 'all' 'world' 'play' 'to'
+  'over' 'extinct' 'skilled' 'of' 'coast' 'sets' 'years' 'made' 'played'
+  'traded' 'ago' 'stores' 'means' 'by' 'in' 'lived' 'performers'
+  'gathering' 'perform' 'available']
+ ['cards' 'magicians' 'online' 'magic' 'wizards' 'available' 'card'
+  'tournaments' 'collectors' 'collectible' 'tricks' 'popular' 'fun'
+  'play' 'stores' 'collecting' 'are' 'played' 'traded' 'cars' 'expensive'
+  'is' 'world' 'skilled' 'by' 'released' 'used' 'years' 'all' 'gathering'
+  'extinct' 'ago' 'performers' 'in' 'to' 'sold' 'not' 'many' 'perform'
+  'made' 'millions' 'dinosaurs' 'the' 'lived' 'than' 'faster' 'of' 'sets'
+  'car' 'over']
+ ['wizards' 'magicians' 'magic' 'cards' 'card' 'tricks' 'collectors'
+  'tournaments' 'coast' 'fun' 'collectible' 'made' 'collecting' 'skilled'
+  'played' 'are' 'expensive' 'play' 'cars' 'is' 'performers' 'by' 'sets'
+  'millions' 'gathering' 'to' 'the' 'dinosaurs' 'not' 'popular' 'traded'
+  'world' 'all' 'perform' 'of' 'released' 'years' 'stores' 'extinct'
+  'car' 'than' 'many' 'over' 'used' 'faster' 'in' 'ago' 'means'
+  'valuablered' 'online']
+ ['magicians' 'cards' 'magic' 'wizards' 'card' 'tournaments' 'collectors'
+  'tricks' 'collectible' 'collecting' 'play' 'fun' 'cars' 'played'
+  'gathering' 'popular' 'stores' 'performers' 'dinosaurs' 'world' 'sets'
+  'online' 'traded' 'perform' 'skilled' 'car' 'expensive' 'used' 'faster'
+  'valuablered' 'years' 'millions' 'all' 'extinct' 'many' 'blue'
+  'released' 'available' 'sold' 'made' 'coast' 'are' 'ago' 'means' 'to'
+  'by' 'lived' 'not' 'the' 'of']
+ ['cards' 'magicians' 'magic' 'card' 'stores' 'wizards' 'collectors'
+  'collectible' 'many' 'tricks' 'tournaments' 'collecting' 'sold'
+  'popular' 'millions' 'expensive' 'available' 'traded' 'fun' 'all'
+  'cars' 'years' 'gathering' 'extinct' 'played' 'are' 'play' 'released'
+  'used' 'online' 'is' 'skilled' 'sets' 'not' 'made' 'than' 'dinosaurs'
+  'ago' 'world' 'faster' 'over' 'in' 'performers' 'car' 'by' 'coast'
+  'the' 'of' 'to' 'valuablered']
+ ['magicians' 'magic' 'wizards' 'cards' 'world' 'tournaments' 'card'
+  'all' 'tricks' 'fun' 'played' 'play' 'collectors' 'popular'
+  'collectible' 'collecting' 'millions' 'gathering' 'cars' 'extinct'
+  'are' 'years' 'dinosaurs' 'performers' 'traded' 'skilled' 'perform'
+  'made' 'is' 'the' 'not' 'many' 'faster' 'of' 'expensive' 'over' 'to'
+  'released' 'lived' 'sets' 'online' 'used' 'by' 'ago' 'car' 'stores'
+  'in' 'than' 'available' 'means']
+ ['magicians' 'magic' 'cards' 'wizards' 'expensive' 'card' 'collectors'
+  'collectible' 'tournaments' 'fun' 'popular' 'tricks' 'collecting'
+  'millions' 'valuablered' 'play' 'skilled' 'cars' 'played' 'faster'
+  'gathering' 'extinct' 'performers' 'available' 'sold' 'dinosaurs'
+  'many' 'traded' 'stores' 'are' 'years' 'world' 'used' 'is' 'online'
+  'sets' 'all' 'not' 'car' 'made' 'released' 'than' 'coast' 'perform'
+  'blue' 'to' 'the' 'by' 'means' 'ago']
+ ['magicians' 'magic' 'fun' 'cards' 'wizards' 'card' 'tournaments' 'play'
+  'played' 'tricks' 'collectors' 'collectible' 'popular' 'collecting'
+  'skilled' 'gathering' 'cars' 'expensive' 'perform' 'are' 'used' 'all'
+  'performers' 'traded' 'sets' 'faster' 'made' 'millions' 'is'
+  'valuablered' 'many' 'years' 'car' 'world' 'to' 'the' 'dinosaurs'
+  'released' 'available' 'not' 'than' 'sold' 'online' 'extinct' 'by' 'of'
+  'stores' 'means' 'coast' 'lived']
+ ['blue' 'card' 'cards' 'car' 'cars' 'not' 'is' 'than' 'available'
+  'extinct' 'means' 'collectible' 'expensive' 'traded' 'valuablered'
+  'faster' 'are' 'world' 'by' 'released' 'sold' 'online' 'ago' 'stores'
+  'magic' 'the' 'played' 'dinosaurs' 'play' 'millions' 'collectors' 'to'
+  'of' 'wizards' 'used' 'made' 'tournaments' 'popular' 'magicians'
+  'years' 'fun' 'in' 'collecting' 'performers' 'tricks' 'coast' 'skilled'
+  'many' 'lived' 'all']
+ ['magicians' 'magic' 'wizards' 'performers' 'skilled' 'tricks'
+  'tournaments' 'fun' 'dinosaurs' 'popular' 'perform' 'cards'
+  'collectors' 'expensive' 'valuablered' 'world' 'played' 'millions'
+  'play' 'are' 'extinct' 'years' 'traded' 'faster' 'cars' 'used'
+  'collectible' 'not' 'is' 'card' 'online' 'available' 'many' 'stores'
+  'lived' 'all' 'by' 'means' 'made' 'ago' 'sets' 'collecting' 'released'
+  'than' 'to' 'the' 'blue' 'coast' 'sold' 'gathering']]
 ```
