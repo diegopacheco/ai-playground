@@ -18,3 +18,13 @@ sentense_to_embeddings(sentence = [
     "Sentences are passed as a list of string.",
     "The quick brown fox jumps over the lazy dog."
 ])
+
+print("Magic Cards")
+sentense_to_embeddings(sentence = [
+    "Magic Cards"
+])
+
+print("Magic The Gathering Cards")
+sentense_to_embeddings(sentence = [
+    "Magic The Gathering Cards"
+])
