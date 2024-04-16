@@ -120,15 +120,13 @@ for i, topic in enumerate(topics, start=1):
 # Get the number of detected topics
 num_topics = model.get_num_topics()
 
-# Loop over the topics
-for i in range(num_topics):
-    # Get the information about the topic
-    topic_info = model.get_topic_info()
+print(f"Number of topics: {num_topics}")
+for i, topic in enumerate(topics, start=1):
+    print(f"Topic {i}: {topic}")
 
-    # Print the topic number
-    print(f"Topic {i + 1}:")
+    # Get the words most similar to the topic
+    words, word_scores = model.similar_words(topic)
 
-    # Loop over the topic words and their corresponding scores
-    for word, score in zip(topic_info['words'], topic_info['scores']):
-        # Print the word and its score
+    # Print the words and their scores
+    for word, score in zip(words, word_scores):
         print(f"    {word} (score: {score})")
