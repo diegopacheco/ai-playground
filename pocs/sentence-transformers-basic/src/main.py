@@ -93,6 +93,10 @@ documents = ["Magic Cards",
              "Wizards are magicians",
              "Magicians perform magic tricks",
              "Magicians are skilled performers",]
+
+#
+# trick from here: https://stackoverflow.com/questions/65785949/valueerror-need-at-least-one-array-to-concatenate-in-top2vec-error
+#
 documents = documents * 100
 
 # Train a Top2Vec model
@@ -108,3 +112,23 @@ topics = model.get_topics(num_topics)
 print(f"Number of topics: {num_topics}")
 for i, topic in enumerate(topics, start=1):
     print(f"Topic {i}: {topic}")
+
+#
+# Topic to words
+# 
+
+# Get the number of detected topics
+num_topics = model.get_num_topics()
+
+# Loop over the topics
+for i in range(num_topics):
+    # Get the information about the topic
+    topic_info = model.get_topic_info()
+
+    # Print the topic number
+    print(f"Topic {i + 1}:")
+
+    # Loop over the topic words and their corresponding scores
+    for word, score in zip(topic_info['words'], topic_info['scores']):
+        # Print the word and its score
+        print(f"    {word} (score: {score})")
