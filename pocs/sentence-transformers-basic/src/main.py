@@ -71,7 +71,29 @@ plt.show()
 from top2vec import Top2Vec
 
 # Define the documents
-documents = ["Magic Cards", "Magic The Gathering Cards", "Blue car is not a card"]
+documents = ["Magic Cards", 
+             "Magic The Gathering Cards", 
+             "Blue car is not a card",
+             "Magic The Gathering Cards are fun to play", 
+             "Magic The Gathering Cards are collectible",
+             "Magic The Gathering Cards are expensive",
+             "Magic The Gathering Cards are popular",
+             "Magic The Gathering Cards are played all over the world",
+             "Magic The Gathering Cards are sold in many stores",
+             "Magic The Gathering Cards are available online",
+             "Magic The Gathering Cards are used in tournaments",
+             "Magic The Gathering Cards are made by Wizards of the Coast",
+             "Magic The Gathering Cards are released in sets",
+             "Magic The Gathering Cards are traded by collectors",
+             "Magic The Gathering Cards are valuable"
+             "Red Cars are faster than blue cars",
+             "Dinosaurs are extinct",
+             "Dinosaurs lived millions of years ago",
+             "Gathering means collecting",
+             "Wizards are magicians",
+             "Magicians perform magic tricks",
+             "Magicians are skilled performers",]
+documents = documents * 100
 
 # Train a Top2Vec model
 model = Top2Vec(documents, speed="learn", workers=4, min_count=1
