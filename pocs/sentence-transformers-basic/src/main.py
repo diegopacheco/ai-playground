@@ -74,7 +74,7 @@ from top2vec import Top2Vec
 documents = ["Magic Cards", "Magic The Gathering Cards", "Blue car is not a card"]
 
 # Train a Top2Vec model
-model = Top2Vec(documents, speed="learn", workers=4)
+model = Top2Vec(documents, speed="learn", workers=4, min_count=1)
 
 # Get the number of detected topics
 num_topics = model.get_num_topics()
