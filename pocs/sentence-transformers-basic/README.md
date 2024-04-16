@@ -103,3 +103,7 @@ Embedding: [-3.87020856e-02  7.49375075e-02 -3.31302471e-02  2.49027498e-02
 The similarity between 'Magic Cards' and 'Magic The Gathering Cards' is 0.857381284236908
 The similarity between 'Blue car is not a card' and 'Magic The Gathering Cards' is 0.3206788897514343
 ```
+<img src="knn-PCA-clustering.png"/>
+```
+Topic 3: [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]
+```
