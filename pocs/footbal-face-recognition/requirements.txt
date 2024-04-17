@@ -1,0 +1,4 @@
+numpy
+face_recognition
+imageio
+gradio
