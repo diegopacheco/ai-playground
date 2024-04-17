@@ -1,2 +1,2 @@
 ### Result
-<img src="" />
+<img src="astronaut.png" />
