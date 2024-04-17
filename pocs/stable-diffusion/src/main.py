@@ -7,7 +7,7 @@ device = "cpu"
 pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float32)
 pipe = pipe.to(device)
 
-prompt = "a photo of an black astronaut riding a pig on mars"
+prompt = "a photo of an astronaut riding a white horse on mars"
 image = pipe(prompt).images[0]  
     
 image.save("astronaut.png")
