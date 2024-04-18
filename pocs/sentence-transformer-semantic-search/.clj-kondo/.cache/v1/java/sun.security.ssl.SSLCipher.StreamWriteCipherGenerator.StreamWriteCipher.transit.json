@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","StreamWriteCipher",["~#set",[["^ ","~:flags",["^2",["~:method"]]]]],"encrypt",["^2",[["^ ","^3",["^2",["^4","~:public"]]]]],"dispose",["^2",[["^ ","^3",["^2",["^4"]]]]],"getExplicitNonceSize",["^2",[["^ ","^3",["^2",["^4"]]]]],"calculateFragmentSize",["^2",[["^ ","^3",["^2",["^4"]]]]],"calculatePacketSize",["^2",[["^ ","^3",["^2",["^4"]]]]]]]
