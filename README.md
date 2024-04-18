@@ -25,6 +25,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Can Large Language Models Infer Causation from Correlation?
+https://arxiv.org/abs/2306.05836
+
 RewardBench: Evaluating Reward Models for Language Modeling
 https://arxiv.org/pdf/2403.13787v1.pdf
 
