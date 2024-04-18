@@ -25,6 +25,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Automated Discovery of Functional Actual Causes in Complex Environments
+https://arxiv.org/pdf/2404.10883.pdf
+
 Can Large Language Models Infer Causation from Correlation?
 https://arxiv.org/abs/2306.05836
 
