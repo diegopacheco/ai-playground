@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","getPlatformLevel",["~#set",[["^ ","~:flags",["^2",["~:method","~:public","~:abstract"]]]]],"setPlatformLevel",["^2",[["^ ","^3",["^2",["^4","^5","^6"]]]]],"getLoggerConfiguration",["^2",[["^ ","^3",["^2",["^4","^5","~:static"]]],["^ ","^3",["^2",["^4","~:default","^5"]]]]]]]

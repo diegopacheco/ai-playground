@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","getSession",["~#set",[["^ ","~:flags",["^2",["~:method"]]]]],"getIds",["^2",[["^ ","^3",["^2",["^4"]]]]],"setSessionTimeout",["^2",[["^ ","^3",["^2",["^4"]]]]],"getSessionTimeout",["^2",[["^ ","^3",["^2",["^4"]]]]],"setSessionCacheSize",["^2",[["^ ","^3",["^2",["^4"]]]]],"getSessionCacheSize",["^2",[["^ ","^3",["^2",["^4"]]]]]]]
