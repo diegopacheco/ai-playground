@@ -15,6 +15,9 @@ https://sbert.net/
 nltk: Natural Language Toolkit, Tokenization, Stemming, Lemmatization, POS Tagging, Named Entity Recognition, etc.
 https://www.nltk.org/index.html
 
+Keras: High-Level Neural Networks API, Convolutional, Recurrent, Dense, Embedding, etc.
+https://keras.io/
+
 OpenCV: Open Source Computer Vision Library (Image, Video, Face Detection, Object Detection, Tracking, etc.)
 https://opencv.org/
 
