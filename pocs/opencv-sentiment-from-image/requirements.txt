@@ -1,0 +1,4 @@
+numpy
+cv
+keras
+kaggle
