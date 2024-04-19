@@ -9,7 +9,8 @@ https://github.com/MaartenGr/BERTopic
 Gensim: Topic Modeling for Humans, LDA, LSI, HDP, DTM, Word2Vec, FastText, Doc2Vec
 https://radimrehurek.com/gensim/index.html
 
-
+SentenseTransformers: Multilingual Sentence Embeddings using BERT / RoBERTa / XLM-RoBERTa & Co.
+https://sbert.net/
 
 ### Papers
 
