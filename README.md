@@ -12,6 +12,9 @@ https://radimrehurek.com/gensim/index.html
 SentenseTransformers: Multilingual Sentence Embeddings using BERT / RoBERTa / XLM-RoBERTa & Co.
 https://sbert.net/
 
+OpenCV: Open Source Computer Vision Library (Image, Video, Face Detection, Object Detection, Tracking, etc.)
+https://opencv.org/
+
 ### Papers
 
 #### AWS Recommended
