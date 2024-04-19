@@ -1,6 +1,16 @@
 # ai-playground
 AI POCS: ML, NLP, LLM, Vision, Stable Diffusion, Classification, Clustering, NM, All things AI POCS.
 
+### Awesome OSS Libraries
+
+BERTopic is a topic modeling technique that leverages 🤗 transformers and c-TF-IDF to create dense clusters
+https://github.com/MaartenGr/BERTopic
+
+Gensim: Topic Modeling for Humans, LDA, LSI, HDP, DTM, Word2Vec, FastText, Doc2Vec
+https://radimrehurek.com/gensim/index.html
+
+
+
 ### Papers
 
 #### AWS Recommended
