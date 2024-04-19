@@ -12,6 +12,9 @@ https://radimrehurek.com/gensim/index.html
 SentenseTransformers: Multilingual Sentence Embeddings using BERT / RoBERTa / XLM-RoBERTa & Co.
 https://sbert.net/
 
+nltk: Natural Language Toolkit, Tokenization, Stemming, Lemmatization, POS Tagging, Named Entity Recognition, etc.
+https://www.nltk.org/index.html
+
 OpenCV: Open Source Computer Vision Library (Image, Video, Face Detection, Object Detection, Tracking, etc.)
 https://opencv.org/
 
