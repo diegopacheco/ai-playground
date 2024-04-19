@@ -18,6 +18,9 @@ https://opencv.org/
 PyTorch: ML Framework, Tensors, Datasets, DataLoaders, Models, Optimizers, Loss Functions, etc.
 https://pytorch.org/
 
+Scikit-Learn: ML Library, Classification, Regression, Clustering, Dimensionality Reduction, Model Selection, Preprocessing, etc.
+https://scikit-learn.org/stable/
+
 ### Papers
 
 #### AWS Recommended
