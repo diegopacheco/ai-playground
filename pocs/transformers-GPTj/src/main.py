@@ -2,11 +2,10 @@ from transformers import GPTJForCausalLM, AutoTokenizer
 import torch
 
 device = "cpu"
-model = GPTJForCausalLM.from_pretrained("EleutherAI/gpt-j-6B", torch_dtype=torch.float16).to(device)
+model = GPTJForCausalLM.from_pretrained("EleutherAI/gpt-j-6B", torch_dtype=torch.float32).to(device)
 tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-j-6B")
 
 prompt = (
-    "Please give me the output in JSON format."
     "In a shocking finding, scientists discovered a herd of unicorns living in a remote, "
     "previously unexplored valley, in the Andes Mountains. Even more surprising to the "
     "researchers was the fact that the unicorns spoke perfect English."
