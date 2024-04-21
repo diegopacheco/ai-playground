@@ -101,3 +101,31 @@ https://arxiv.org/abs/2403.07815
 
 Automated Unit Test Improvement using Large Language Models
 https://arxiv.org/pdf/2402.09171.pdf
+
+## What AI can do?
+
+Traditional AI:
+
+1. Classification: Classify data into predefined categories.
+2. Regression: Predict continuous values.
+3. Clustering: Group similar data points.
+4. Decision-making: Make decisions based on rules and logic.
+5. Optimization: Find the best solution among options.
+6. Natural Language Processing (NLP): Understand and generate human language (chatbots, sentiment analysis).
+7. Computer Vision: Interpret and understand visual data (image recognition, object detection).
+8. Robotics: Control and interact with physical devices.
+9. Expert Systems: Mimic human expertise in specific domains.
+10. Predictive Maintenance: Predict equipment failures and schedule maintenance.
+
+Generative AI (GenAI):
+
+1. Text Generation: Create new text, such as articles, stories, or conversations.
+2. Image Generation: Create new images, such as photos, artwork, or designs.
+3. Music Generation: Compose music, melodies, or sound effects.
+4. Video Generation: Create new videos, such as animations or clips.
+5. Data Generation: Create synthetic data for training or testing.
+6. Style Transfer: Transfer styles between images, music, or text.
+7. Image-to-Image Translation: Translate images from one domain to another.
+8. Text-to-Image Synthesis: Generate images from text descriptions.
+9. Dialogue Generation: Engage in conversation, responding to user input.
+10. Creative Writing: Generate creative writing, such as poetry or short stories.
