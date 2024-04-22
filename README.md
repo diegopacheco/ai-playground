@@ -102,6 +102,26 @@ https://arxiv.org/abs/2403.07815
 Automated Unit Test Improvement using Large Language Models
 https://arxiv.org/pdf/2402.09171.pdf
 
+## Aditional Resources
+
+ONNX is an open format built to represent machine learning models. ONNX defines a common set of operators - the building blocks of machine learning and deep learning models - and a common file format to enable AI developers to use models with a variety of frameworks, tools, runtimes, and compiler
+https://onnx.ai/
+
+LangChain: A Decentralized AI Platform for Language Models
+https://www.langchain.com/
+
+LangChain4J: A Java SDK for LangChain
+https://github.com/langchain4j/langchain4j
+
+DL4J: Deeplearning4j is an open-source, distributed deep-learning library written for Java and Scala. Integrated with Hadoop and Spark, DL4J is designed to be used in business environments on distributed GPUs and CPUs
+https://deeplearning4j.konduit.ai/
+
+Deep Java Library (DJL): An open-source, high-level, engine-agnostic Java framework for deep learning built by AWS
+https://docs.djl.ai/index.html
+
+SpringAI: Spring AI is a Spring project that aims to provide a simple and consistent way to work with AI and ML libraries in the Spring ecosystem
+https://spring.io/projects/spring-ai
+
 ## What AI can do?
 
 Traditional AI:
@@ -129,3 +149,7 @@ Generative AI (GenAI):
 8. Text-to-Image Synthesis: Generate images from text descriptions.
 9. Dialogue Generation: Engage in conversation, responding to user input.
 10. Creative Writing: Generate creative writing, such as poetry or short stories.
+
+## AI Explained: Making Sense of AI (Essay)
+
+https://github.com/diegopacheco/ai-playground/blob/main/AI.Explained.DiegoPacheco.pdf
