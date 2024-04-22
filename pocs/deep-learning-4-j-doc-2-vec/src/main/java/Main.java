@@ -55,12 +55,27 @@ public class Main {
         List<String> documents = readDocuments(dir);
         List<double[]> documentVectors = new ArrayList<>();
         for (String document : documents) {
-            System.out.println("Adding document vector for: " + document.length());
-            double[] vector = loadedModel.getWordVector(document);
-            System.out.println("Vector: " + vector);
-            documentVectors.add(vector);
+            System.out.println("Adding document vector for: " + document);
+
+            List<String> words = tokenizerFactory.create(document).getTokens();
+
+            // Compute document vector as the average of word vectors
+            double[] documentVector = new double[loadedModel.getLayerSize()];
+            for (String word : words) {
+                double[] wordVector = loadedModel.getWordVector(word);
+                if (wordVector != null) {
+                    for (int i = 0; i < documentVector.length; i++) {
+                        documentVector[i] += wordVector[i];
+                    }
+                }
+            }
+            for (int i = 0; i < documentVector.length; i++) {
+                documentVector[i] /= words.size();
+            }
+
+            documentVectors.add(documentVector);
         }
-        System.out.println(documents);
+        System.out.println(documentVectors);
     }
 
     private static List<String> readDocuments(File dir){
