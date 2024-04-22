@@ -1,6 +1,10 @@
 # PyTorch dataset 
 data/
 
+# ONNX model files 
+*.onnx
+.onnx
+
 .idea/
 
 # Compiled class file
