@@ -51,6 +51,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Phi-3 Technical Report: A Highly Capable Language Model Locally on Your Phone
+https://arxiv.org/abs/2404.14219
+
 Automated Discovery of Functional Actual Causes in Complex Environments
 https://arxiv.org/pdf/2404.10883.pdf
 
