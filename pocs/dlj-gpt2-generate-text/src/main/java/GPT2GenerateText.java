@@ -20,8 +20,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class Main {
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+public class GPT2GenerateText {
+    private static final Logger logger = LoggerFactory.getLogger(GPT2GenerateText.class);
 
     public static void main(String[] args)
             throws ModelNotFoundException, MalformedModelException, IOException,
