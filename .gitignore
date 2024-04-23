@@ -4,6 +4,7 @@ data/
 # ONNX model files 
 *.onnx
 .onnx
+onnx_model/
 
 .idea/
 
