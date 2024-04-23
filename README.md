@@ -51,6 +51,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+The Landscape of Emerging AI Agent Architectures for Reasoning, Planning, and Tool Calling: A Survey
+https://arxiv.org/abs/2404.11584
+
 Phi-3 Technical Report: A Highly Capable Language Model Locally on Your Phone
 https://arxiv.org/abs/2404.14219
 
