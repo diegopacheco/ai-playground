@@ -51,6 +51,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Batch Prompting: Efficient Inference with Large Language Model APIs
+https://arxiv.org/pdf/2301.08721v1.pdf
+
 The Landscape of Emerging AI Agent Architectures for Reasoning, Planning, and Tool Calling: A Survey
 https://arxiv.org/abs/2404.11584
 
