@@ -51,6 +51,10 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+From LLM to NMT: Advancing Low-Resource Machine Translation with
+Claude
+https://arxiv.org/pdf/2404.13813.pdf
+
 Batch Prompting: Efficient Inference with Large Language Model APIs
 https://arxiv.org/pdf/2301.08721v1.pdf
 
