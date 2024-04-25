@@ -3,7 +3,7 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 device = "cpu"
 
-model = AutoModelForCausalLM.from_pretrained("bigcode/gpt_bigcode-santacoder", torch_dtype=torch.float32, attn_implementation="flash_attention_2")
+model = AutoModelForCausalLM.from_pretrained("bigcode/gpt_bigcode-santacoder", torch_dtype=torch.float32)
 tokenizer = AutoTokenizer.from_pretrained("bigcode/gpt_bigcode-santacoder")
 
 def generate(prompt):
