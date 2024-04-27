@@ -1,5 +1,4 @@
 import dev.langchain4j.model.huggingface.HuggingFaceLanguageModel;
-import dev.langchain4j.model.input.Prompt;
 
 import static dev.langchain4j.model.huggingface.HuggingFaceModelName.TII_UAE_FALCON_7B_INSTRUCT;
 import static java.time.Duration.ofSeconds;
@@ -20,6 +19,6 @@ public class Main{
 
     System.out.println(model.generate("What is the capital of Brazil?").content());
 
-    System.out.println(model.generate("How much is ((1 + 2) * 2) ?").content());
+    System.out.println(model.generate("Conan: What is best in life?").content());
   }
 }
