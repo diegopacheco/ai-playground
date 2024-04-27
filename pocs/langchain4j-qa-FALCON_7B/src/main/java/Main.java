@@ -19,6 +19,6 @@ public class Main{
 
     System.out.println(model.generate("What is the capital of Brazil?").content());
 
-    System.out.println(model.generate("Conan: What is best in life?").content());
+    System.out.println(model.generate("For what team Steph Curry plays?").content());
   }
 }
