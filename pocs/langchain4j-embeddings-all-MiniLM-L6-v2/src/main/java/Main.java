@@ -1,24 +1,25 @@
-import dev.langchain4j.model.huggingface.HuggingFaceLanguageModel;
+import dev.langchain4j.data.embedding.Embedding;
+import dev.langchain4j.model.huggingface.HuggingFaceEmbeddingModel;
+import java.util.List;
+import static dev.langchain4j.data.segment.TextSegment.textSegment;
+import static java.util.Arrays.asList;
 
-import static dev.langchain4j.model.huggingface.HuggingFaceModelName.TII_UAE_FALCON_7B_INSTRUCT;
-import static java.time.Duration.ofSeconds;
+public class Main {
+    public static void main(String args[]) {
+        HuggingFaceEmbeddingModel model = HuggingFaceEmbeddingModel.builder()
+                .accessToken(System.getenv("HF_TOKEN"))
+                .modelId("sentence-transformers/all-MiniLM-L6-v2")
+                .build();
 
-public class Main{
-  public static void main(String args[]){
-    HuggingFaceLanguageModel model = HuggingFaceLanguageModel.builder()
-            .accessToken(System.getenv("HF_TOKEN"))
-            .modelId(TII_UAE_FALCON_7B_INSTRUCT)
-            .timeout(ofSeconds(15))
-            .temperature(0.7)
-            .maxNewTokens(20)
-            .waitForModel(true)
-            .build();
+        Embedding embedding = model.embed("hello").content();
+        System.out.println("hello embeddings: " + embedding);
 
-    String answer = model.generate("What is the capital of the USA?").content();
-    System.out.println(answer);
+        List<Embedding> embeddings = model.embedAll(asList(
+                textSegment("hello"),
+                textSegment("hello world")
+        )).content();
 
-    System.out.println(model.generate("What is the capital of Brazil?").content());
-
-    System.out.println(model.generate("For what team Steph Curry plays?").content());
-  }
+        System.out.println("hello embedding: " + embeddings.get(0).vector().length);
+        System.out.println("hello world embedding: " + embeddings.get(1).vector().length);
+    }
 }
