@@ -14,4 +14,4 @@ keras
 opencv-python
 fastapi
 uvicorn
-
+xformers
