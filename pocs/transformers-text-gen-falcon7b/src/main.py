@@ -23,4 +23,3 @@ sequences = pipeline(
 )
 for seq in sequences:
     print(f"Result: {seq['generated_text']}")
-
