@@ -20,6 +20,6 @@ public class Main{
 
     System.out.println(model.generate("What is the capital of Brazil?").content());
 
-    System.out.println(model.generate("How much is 1 + 2 * 2 ").content());
+    System.out.println(model.generate("How much is ((1 + 2) * 2) ?").content());
   }
 }
