@@ -12,5 +12,5 @@ Answers:
 ```
 Answer 1: The capital of the USA is Washington D.C. 
 Answer 2: The capital of Brazil is Brasília. 
-Answer 3: 
+Answer 3: As of now, Steph Curry plays for the Golden State Warriors in the NBA.
 ```
