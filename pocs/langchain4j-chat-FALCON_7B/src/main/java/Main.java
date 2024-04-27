@@ -11,8 +11,8 @@ public class Main{
             .accessToken(System.getenv("HF_TOKEN"))
             .modelId(TII_UAE_FALCON_7B_INSTRUCT)
             .timeout(ofSeconds(30))
-            .temperature(0.7)
-            .maxNewTokens(20)
+            .temperature(0.9)
+            .maxNewTokens(30)
             .waitForModel(true)
             .build();
 
