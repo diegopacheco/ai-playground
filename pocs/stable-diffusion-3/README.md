@@ -1,5 +1,5 @@
 ### Result
-* TODO
+* Using Stable Diffusion 3.
+* Generating image from text.
 
-<img src='' />
-
+<img src='cat.jpeg' />
