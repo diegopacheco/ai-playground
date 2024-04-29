@@ -117,6 +117,12 @@ https://arxiv.org/pdf/2402.09171.pdf
 
 ## Aditional Resources
 
+Transformers.js: A JavaScript library for running large language models in the browser (on local using ONNX) run Hugging face models in the browser.
+https://github.com/xenova/transformers.js
+
+LocalAI: LocalAI is a platform that enables you to run large language models on your device (local copy of OpenAI's using Hugging Face's transformers)
+https://localai.io/
+
 Prompt library
 https://docs.anthropic.com/claude/prompt-library
 
