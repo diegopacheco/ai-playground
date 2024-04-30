@@ -117,6 +117,9 @@ https://arxiv.org/pdf/2402.09171.pdf
 
 ## Aditional Resources
 
+Chroma: the AI-native open-source embedding database
+https://www.trychroma.com/
+
 Transformers.js: A JavaScript library for running large language models in the browser (on local using ONNX) run Hugging face models in the browser.
 https://github.com/xenova/transformers.js
 
