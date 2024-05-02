@@ -147,6 +147,24 @@ https://docs.djl.ai/index.html
 SpringAI: Spring AI is a Spring project that aims to provide a simple and consistent way to work with AI and ML libraries in the Spring ecosystem
 https://spring.io/projects/spring-ai
 
+## Models
+
+FinGPT: Open-Source Financial Large Language Models
+https://github.com/AI4Finance-Foundation/FinGPT
+
+LLAMA 2: The Language Model for the Open Web
+https://huggingface.co/docs/transformers/en/model_doc/llama2
+
+T5: Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer
+https://huggingface.co/docs/transformers/en/model_doc/t5
+
+BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
+https://huggingface.co/docs/transformers/en/model_doc/bert
+
+GPT-2: Language Models are Unsupervised Multitask Learners
+https://huggingface.co/docs/transformers/en/model_doc/gpt2
+
+
 ## What AI can do?
 
 Traditional AI:
