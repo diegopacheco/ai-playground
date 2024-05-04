@@ -199,6 +199,9 @@ https://github.com/diegopacheco/ai-playground/blob/main/AI.Explained.DiegoPachec
 
 ## Videos
 
+Building Production-Ready RAG Applications
+https://www.youtube.com/watch?v=TRjq7t2Ms5I&ab_channel=AIEngineer
+
 All Learning Algorithms Explained in 14 Minutes
 https://www.youtube.com/watch?v=BT6Aw6Q75Yg&ab_channel=CinemaGuess
 
