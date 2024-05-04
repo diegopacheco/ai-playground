@@ -196,3 +196,14 @@ Generative AI (GenAI):
 ## AI Explained: Making Sense of AI (Essay)
 
 https://github.com/diegopacheco/ai-playground/blob/main/AI.Explained.DiegoPacheco.pdf
+
+## Videos
+
+All Learning Algorithms Explained in 14 Minutes
+https://www.youtube.com/watch?v=BT6Aw6Q75Yg&ab_channel=CinemaGuess
+
+3Blue1Brown: Neural Networks and Deep Learning animated math
+https://www.3blue1brown.com/topics/neural-networks
+
+Let's build GPT: from scratch, in code, spelled out.
+https://www.youtube.com/watch?v=kCc8FmEb1nY&ab_channel=AndrejKarpathy
