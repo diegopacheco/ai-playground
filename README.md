@@ -1,6 +1,45 @@
 # ai-playground
 AI POCS: ML, NLP, LLM, Vision, Stable Diffusion, Classification, Clustering, NM, All things AI POCS.
 
+## AI Explained: Making Sense of AI (Essay)
+
+My Essay on AI Explained: Making Sense of AI <BR/>
+https://github.com/diegopacheco/ai-playground/blob/main/AI.Explained.DiegoPacheco.pdf
+
+### My Applications
+
+Diego's Story Telling Multimodel LLM Gen AI (does not work on modile) <BR/>
+https://huggingface.co/spaces/diegopacheco/gen-ai-multimodel-fun
+
+## What AI can do?
+
+Traditional AI:
+
+1. Classification: Classify data into predefined categories.
+2. Regression: Predict continuous values.
+3. Clustering: Group similar data points.
+4. Decision-making: Make decisions based on rules and logic.
+5. Optimization: Find the best solution among options.
+6. Natural Language Processing (NLP): Understand and generate human language (chatbots, sentiment analysis).
+7. Computer Vision: Interpret and understand visual data (image recognition, object detection).
+8. Robotics: Control and interact with physical devices.
+9. Expert Systems: Mimic human expertise in specific domains.
+10. Predictive Maintenance: Predict equipment failures and schedule maintenance.
+
+Generative AI (GenAI):
+
+1. Text Generation: Create new text, such as articles, stories, or conversations.
+2. Image Generation: Create new images, such as photos, artwork, or designs.
+3. Music Generation: Compose music, melodies, or sound effects.
+4. Video Generation: Create new videos, such as animations or clips.
+5. Data Generation: Create synthetic data for training or testing.
+6. Style Transfer: Transfer styles between images, music, or text.
+7. Image-to-Image Translation: Translate images from one domain to another.
+8. Text-to-Image Synthesis: Generate images from text descriptions.
+9. Dialogue Generation: Engage in conversation, responding to user input.
+10. Creative Writing: Generate creative writing, such as poetry or short stories.
+
+
 ### Awesome OSS Libraries
 
 BERTopic is a topic modeling technique that leverages 🤗 transformers and c-TF-IDF to create dense clusters
@@ -169,39 +208,6 @@ https://huggingface.co/docs/transformers/en/model_doc/bert
 
 GPT-2: Language Models are Unsupervised Multitask Learners
 https://huggingface.co/docs/transformers/en/model_doc/gpt2
-
-
-## What AI can do?
-
-Traditional AI:
-
-1. Classification: Classify data into predefined categories.
-2. Regression: Predict continuous values.
-3. Clustering: Group similar data points.
-4. Decision-making: Make decisions based on rules and logic.
-5. Optimization: Find the best solution among options.
-6. Natural Language Processing (NLP): Understand and generate human language (chatbots, sentiment analysis).
-7. Computer Vision: Interpret and understand visual data (image recognition, object detection).
-8. Robotics: Control and interact with physical devices.
-9. Expert Systems: Mimic human expertise in specific domains.
-10. Predictive Maintenance: Predict equipment failures and schedule maintenance.
-
-Generative AI (GenAI):
-
-1. Text Generation: Create new text, such as articles, stories, or conversations.
-2. Image Generation: Create new images, such as photos, artwork, or designs.
-3. Music Generation: Compose music, melodies, or sound effects.
-4. Video Generation: Create new videos, such as animations or clips.
-5. Data Generation: Create synthetic data for training or testing.
-6. Style Transfer: Transfer styles between images, music, or text.
-7. Image-to-Image Translation: Translate images from one domain to another.
-8. Text-to-Image Synthesis: Generate images from text descriptions.
-9. Dialogue Generation: Engage in conversation, responding to user input.
-10. Creative Writing: Generate creative writing, such as poetry or short stories.
-
-## AI Explained: Making Sense of AI (Essay)
-
-https://github.com/diegopacheco/ai-playground/blob/main/AI.Explained.DiegoPacheco.pdf
 
 ## Videos
 
