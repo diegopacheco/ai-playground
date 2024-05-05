@@ -7,4 +7,6 @@ Gradio App:
 
 Result:
 
-<img src="result.png" />
+<video width="320" height="240" controls>
+  <source src="result.mp4">
+</video>
