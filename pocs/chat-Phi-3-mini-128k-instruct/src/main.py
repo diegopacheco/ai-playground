@@ -56,7 +56,7 @@ def chat(message, history, temperature, do_sample, max_tokens):
 
 ui = gr.ChatInterface(
     fn=chat,
-    examples=[["write a guessing game in python"]["Write a hello world program in rust"],["Write a calculator class in scala and some unit tests"]],
+    examples=[["write a guessing game in python"],["Write a hello world program in rust"],["Write a calculator class in scala and some unit tests"]],
     additional_inputs_accordion=gr.Accordion(
         label="⚙️ Parameters", open=False, render=False
     ),
