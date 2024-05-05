@@ -117,6 +117,9 @@ https://arxiv.org/pdf/2402.09171.pdf
 
 ## Aditional Resources
 
+Gradio: Build UIs for your machine learning models
+https://github.com/gradio-app/gradio
+
 Chroma: the AI-native open-source embedding database
 https://www.trychroma.com/
 
@@ -148,6 +151,9 @@ SpringAI: Spring AI is a Spring project that aims to provide a simple and consis
 https://spring.io/projects/spring-ai
 
 ## Models
+
+StarCoder2-Instruct: A Large Language Model for Code Generation
+https://github.com/bigcode-project/starcoder2-self-align
 
 FinGPT: Open-Source Financial Large Language Models
 https://github.com/AI4Finance-Foundation/FinGPT
