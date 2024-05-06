@@ -11,13 +11,19 @@ example_1 = "ninja turtles fithing against a mosquito, in the sea"
 example_2 = "warrior fithing zombies with a sword, in the forest"
 example_3 = "western cowboy fithing against a dragon, in the desert"
 
+def load_image(image_path):
+    image = Image.open(image_path)
+    image_tensor = to_tensor(image)
+    image_tensor = image_tensor / image_tensor.max()
+    return [image_tensor]
+
 def text_to_comics(text):
     if text == example_1:
-        return [Image.open("e1_comics_0.png")]
+        return load_image("e1_comics_0.png")        
     if text == example_2:
-        return [Image.open("e2_comics_0.png")]
+        return load_image("e2_comics_0.png")
     if text == example_3:
-        return [Image.open("e3_comics_0.png")]
+        return load_image("e3_comics_0.png")
 
     pipeline = DiffusionPipeline.from_pretrained("ogkalu/Comic-Diffusion")
     output = pipeline(text, prompt_len=70, num_images=1, return_tensors=True)
