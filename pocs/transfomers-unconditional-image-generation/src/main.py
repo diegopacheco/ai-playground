@@ -39,7 +39,7 @@ def text_to_comics(text):
 
 ui = gr.Interface(fn=text_to_comics, 
                   inputs="text", 
-                  outputs=["image" for _ in range(4)],
+                  outputs="image",
                   title="Type some text get comics!",
                   description="This model generates comics based on the text(max 70 chars) you provide.",
                   examples=[(example_1,example_2,example_3)],
