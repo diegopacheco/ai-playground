@@ -16,10 +16,6 @@ def text_to_comics(text):
 
     pipeline = DiffusionPipeline.from_pretrained("ogkalu/Comic-Diffusion")
     output = pipeline(text, prompt_len=70, num_images=1, return_tensors=True)
-    
-    output_dict = {key: value.tolist() for key, value in output.items()}
-    with open("output.json", "w") as f:
-        json.dump(output_dict, f)
 
     images = []
     for i in range(1):
