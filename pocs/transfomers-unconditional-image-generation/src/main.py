@@ -34,7 +34,7 @@ def text_to_comics(text):
     return images
 
 #text_to_comics(example_1)
-text_to_comics(example_2)
+#text_to_comics(example_2)
 #text_to_comics(example_3)
 
 ui = gr.Interface(fn=text_to_comics, 
