@@ -6,20 +6,20 @@ from torchvision.transforms.functional import to_pil_image
 import gradio as gr
 from torchvision.utils import save_image
 from PIL import Image
+import json
 
-example_1 = "ninja turtles fithing against mosquitos, in the swears"
+example_1 = "ninja turtles fithing against a mosquito, in the sea"
 
 def text_to_comics(text):
     if text == "turtles fithing epic mosquitos in the swear of the city":
-        return [Image.open("comics_1.png"),
-                Image.open("comics_2.png"),
-                Image.open("comics_3.png")]
+        return [Image.open("comics_1.png")]
 
     pipeline = DiffusionPipeline.from_pretrained("ogkalu/Comic-Diffusion")
     output = pipeline(text, prompt_len=70, num_images=1, return_tensors=True)
-
-    # dump output as json
-    output.save_to_json("output.json")
+    
+    output_dict = {key: value.tolist() for key, value in output.items()}
+    with open("output.json", "w") as f:
+        json.dump(output_dict, f)
 
     images = []
     for i in range(1):
