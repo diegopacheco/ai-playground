@@ -6,13 +6,18 @@ from torchvision.transforms.functional import to_pil_image
 import gradio as gr
 from torchvision.utils import save_image
 from PIL import Image
-import json
 
 example_1 = "ninja turtles fithing against a mosquito, in the sea"
+example_2 = "warrior fithing zombies with a sword, in the forest"
+example_3 = "western cowboy fithing against a dragon, in the desert"
 
 def text_to_comics(text):
-    if text == "turtles fithing epic mosquitos in the swear of the city":
-        return [Image.open("comics_1.png")]
+    if text == example_1:
+        return [Image.open("e1_comics_1.png")]
+    if text == example_2:
+        return [Image.open("e2_comics_1.png")]
+    if text == example_3:
+        return [Image.open("e3_comics_1.png")]
 
     pipeline = DiffusionPipeline.from_pretrained("ogkalu/Comic-Diffusion")
     output = pipeline(text, prompt_len=70, num_images=1, return_tensors=True)
@@ -28,13 +33,15 @@ def text_to_comics(text):
 
     return images
 
-e1 = text_to_comics(example_1)
+#text_to_comics(example_1)
+text_to_comics(example_2)
+#text_to_comics(example_3)
 
 ui = gr.Interface(fn=text_to_comics, 
                   inputs="text", 
                   outputs=["image" for _ in range(4)],
                   title="Type some text get comics!",
-                  description="This model generates 3 comics based on the text(max 70 chars) you provide.",
-                  examples=[(example_1)],
+                  description="This model generates comics based on the text(max 70 chars) you provide.",
+                  examples=[(example_1,example_2,example_3)],
                  )
 ui.launch()
