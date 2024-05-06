@@ -21,11 +21,11 @@ def load_image(image_path):
 
 def text_to_comics(text):
     if text == example_1:
-        return load_image("e1_comics_0.png")[0]        
+        return to_pil_image(load_image("e1_comics_0.png")[0])        
     if text == example_2:
-        return load_image("e2_comics_0.png")[0]
+        return to_pil_image(load_image("e2_comics_0.png")[0])
     if text == example_3:
-        return load_image("e3_comics_0.png")[0]
+        return to_pil_image(load_image("e3_comics_0.png")[0])
 
     pipeline = DiffusionPipeline.from_pretrained("ogkalu/Comic-Diffusion")
     output = pipeline(text, prompt_len=70, num_images=1, return_tensors=True)
@@ -36,13 +36,11 @@ def text_to_comics(text):
         image_tensor = to_tensor(image)
         image_tensor = image_tensor / image_tensor.max()
         save_image(image_tensor, f"comics_{i}.png")
-        print(f"Image saved as comics_{i}.png")
-        images.append(image_tensor)
-
-    return images
+        images.append(to_pil_image(image_tensor))
+    return images[0]
 
 #text_to_comics(example_1)
-#text_to_comics(example_2)
+text_to_comics(example_2)
 #text_to_comics(example_3)
 
 ui = gr.Interface(fn=text_to_comics, 
