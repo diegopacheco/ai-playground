@@ -4,6 +4,7 @@ import torch
 import matplotlib.pyplot as plt
 from torchvision.transforms.functional import to_pil_image
 import gradio as gr
+from torchvision.utils import save_image
 
 def text_to_comics(text):
     pipeline = DiffusionPipeline.from_pretrained("ogkalu/Comic-Diffusion")
@@ -11,11 +12,11 @@ def text_to_comics(text):
 
     image = output.images[0]
     image_tensor = to_tensor(image)
-    image_pil = to_pil_image(image_tensor)
-    image_pil.save("comics.png")
+    image_tensor = image_tensor / image_tensor.max()
+    save_image(image_tensor, "comics.png")
     print("Image saved as comics.png")
 
-    return image_pil
+    return image_tensor
 
 e1 = text_to_comics("turtles fithing epic mosquitos in the swear of the city")
 
