@@ -9,8 +9,10 @@ from PIL import Image
 
 def text_to_comics(text):
     if text == "turtles fithing epic mosquitos in the swear of the city":
-        image = Image.open("comics.png")
-        return [image, image, image, image]
+        return [Image.open("comics_1.png"),
+                Image.open("comics_2.png"),
+                Image.open("comics_3.png"),
+                Image.open("comics_4.png")]
 
     pipeline = DiffusionPipeline.from_pretrained("ogkalu/Comic-Diffusion")
     output = pipeline(text, prompt_len=100, num_images=4, return_tensors=True)
@@ -28,7 +30,7 @@ def text_to_comics(text):
 
 ui = gr.Interface(fn=text_to_comics, 
                   inputs="text", 
-                  outputs=[gr.outputs.Image()]*4,
+                  output=[gr.outputs.Image()]*4,
                   title="Type some text get comics!",
                   examples=[("turtles fithing epic mosquitos in the swear of the city")],
                  )
