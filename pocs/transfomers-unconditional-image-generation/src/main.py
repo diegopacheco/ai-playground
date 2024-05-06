@@ -11,11 +11,10 @@ def text_to_comics(text):
     if text == "turtles fithing epic mosquitos in the swear of the city":
         return [Image.open("comics_1.png"),
                 Image.open("comics_2.png"),
-                Image.open("comics_3.png"),
-                Image.open("comics_4.png")]
+                Image.open("comics_3.png")]
 
     pipeline = DiffusionPipeline.from_pretrained("ogkalu/Comic-Diffusion")
-    output = pipeline(text, prompt_len=100, num_images=4, return_tensors=True)
+    output = pipeline(text, prompt_len=100, num_images=3, return_tensors=True)
 
     images = []
     for i in range(4):
@@ -34,6 +33,7 @@ ui = gr.Interface(fn=text_to_comics,
                   inputs="text", 
                   outputs=["image" for _ in range(4)],
                   title="Type some text get comics!",
+                  description="This model generates 3 comics based on the text(max 70 chars) you provide.",
                   examples=[("turtles fithing epic mosquitos in the swear of the city")],
                  )
 ui.launch()
