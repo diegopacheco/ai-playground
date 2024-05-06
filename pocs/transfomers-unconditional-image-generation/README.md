@@ -7,3 +7,7 @@
 ### Generated example
 
 <img src="comics.png" />
+
+### Result
+
+<img src="result.png" />
