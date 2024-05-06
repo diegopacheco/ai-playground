@@ -22,10 +22,10 @@ def load_image(image_path):
 def text_to_comics(text):
     if text == example_1:
         return to_pil_image(load_image("e1_comics_0.png")[0])        
-    if text == example_2:
-        return to_pil_image(load_image("e2_comics_0.png")[0])
-    if text == example_3:
-        return to_pil_image(load_image("e3_comics_0.png")[0])
+    #if text == example_2:
+     #   return to_pil_image(load_image("e2_comics_0.png")[0])
+    #if text == example_3:
+     #   return to_pil_image(load_image("e3_comics_0.png")[0])
 
     pipeline = DiffusionPipeline.from_pretrained("ogkalu/Comic-Diffusion")
     output = pipeline(text, prompt_len=70, num_images=1, return_tensors=True)
@@ -46,8 +46,10 @@ text_to_comics(example_2)
 ui = gr.Interface(fn=text_to_comics, 
                   inputs="text", 
                   outputs=["image" for _ in range(1)],
-                  title="Type some text get comics!",
-                  description="This model generates comics based on the text(max 70 chars) you provide.",
+                  title="GenAI LLM comics: Type some text get comics!",
+                  description="This model generates comics based on the text(max 70 chars) you provide." + \
+                    "<BR/>It does not work on mobile(timeout issue) click on examples if dont want to wait. " + \
+                    "<BR/> It may take ~10-20min to generate the comics.",
                   examples=[(example_1),(example_2),(example_3)],
                  )
 ui.launch()
