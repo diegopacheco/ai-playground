@@ -13,9 +13,9 @@ import gradio as gr
 from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
 from transformers import pipeline, GPT2LMHeadModel, GPT2Tokenizer
 
-example_1 = "ninja turtles fithing against a mosquito, in the sea"
-example_2 = "warrior fithing zombies with a sword, in the forest"
-example_3 = "western cowboy fithing against a dragon, in the desert"
+example_1 = "ninja turtles fighting against a mosquito, in the sea"
+example_2 = "warrior fighting zombies with a sword, in the forest"
+example_3 = "western cowboy fighting against a dragon, in the desert"
 
 def load_image(image_path):
     images = []
