@@ -28,9 +28,11 @@ def text_to_comics(text):
 
     return images
 
+e1 = text_to_comics("turtles fithing against epic mosquitos, in the swear of the city")
+
 ui = gr.Interface(fn=text_to_comics, 
                   inputs="text", 
-                  outputs=[("image", {}) for _ in range(4)],
+                  outputs=["image" for _ in range(4)],
                   title="Type some text get comics!",
                   examples=[("turtles fithing epic mosquitos in the swear of the city")],
                  )
