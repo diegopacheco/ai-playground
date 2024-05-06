@@ -12,10 +12,12 @@ example_2 = "warrior fithing zombies with a sword, in the forest"
 example_3 = "western cowboy fithing against a dragon, in the desert"
 
 def load_image(image_path):
+    images = []
     image = Image.open(image_path)
     image_tensor = to_tensor(image)
     image_tensor = image_tensor / image_tensor.max()
-    return [image_tensor]
+    images.append(image_tensor)
+    return images
 
 def text_to_comics(text):
     if text == example_1:
@@ -45,7 +47,7 @@ def text_to_comics(text):
 
 ui = gr.Interface(fn=text_to_comics, 
                   inputs="text", 
-                  outputs="image",
+                  outputs=["image" for _ in range(1)],
                   title="Type some text get comics!",
                   description="This model generates comics based on the text(max 70 chars) you provide.",
                   examples=[(example_1),(example_2),(example_3)],
