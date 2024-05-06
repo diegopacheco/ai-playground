@@ -14,4 +14,6 @@ keras
 opencv-python
 fastapi
 uvicorn
+diffusers
+gradio
 
