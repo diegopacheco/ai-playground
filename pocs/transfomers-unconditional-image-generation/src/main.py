@@ -21,11 +21,11 @@ def load_image(image_path):
 
 def text_to_comics(text):
     if text == example_1:
-        return load_image("e1_comics_0.png")        
+        return load_image("e1_comics_0.png")[0]        
     if text == example_2:
-        return load_image("e2_comics_0.png")
+        return load_image("e2_comics_0.png")[0]
     if text == example_3:
-        return load_image("e3_comics_0.png")
+        return load_image("e3_comics_0.png")[0]
 
     pipeline = DiffusionPipeline.from_pretrained("ogkalu/Comic-Diffusion")
     output = pipeline(text, prompt_len=70, num_images=1, return_tensors=True)
