@@ -1,6 +1,6 @@
 ### Result
 * Reinforcement Learning
-* Model Car Racing V2
+* Model Boxing-V5
 * Using Gym
 
 <video width="320" height="240" controls>
