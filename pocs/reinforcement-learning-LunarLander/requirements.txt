@@ -18,4 +18,5 @@ gradio
 gym
 moviepy
 pygame
-'gym[box2d]'
+gym[box2d]
+gym[classic_control]
