@@ -1,10 +1,10 @@
 import gym
 from gym.wrappers.monitoring.video_recorder import VideoRecorder
 
-env = gym.make("CartPole-v1",render_mode="rgb_array")
-recorder = VideoRecorder(env, path='cartpole.mp4')
-
-observation = env.reset()
+#env = gym.make("CartPole-v1",render_mode="rgb_array")
+env = gym.make("LunarLander-v2", render_mode="human")
+observation, info = env.reset(seed=42)
+recorder = VideoRecorder(env, path='lunar.mp4')
 
 for i in range(1000):
     print(f"step {i}")
