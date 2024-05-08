@@ -1,0 +1,24 @@
+numpy
+transformers
+sentence-transformers
+seaborn
+torch
+torchvision
+matplotlib
+pandas
+scikit-learn
+nltk
+gensim
+tensorflow
+keras
+opencv-python
+fastapi
+uvicorn
+gradio
+gym
+moviepy
+pygame
+gym[box2d]
+gym[classic_control]
+gym[accept-rom-license, atari]
+atari_py
