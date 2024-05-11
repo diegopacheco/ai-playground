@@ -13,6 +13,9 @@
 took 10.6h to generate the answer
 
 ### Downloads
+
+TL;DR; 141,1 GB of data downloaded (model)
+
 ```
 /home/diego/.local/lib/python3.10/site-packages/transformers/utils/hub.py:124: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
   warnings.warn(
