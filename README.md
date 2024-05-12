@@ -220,7 +220,13 @@ https://medium.com/@glegoux/history-of-the-generative-ai-aa1aa7c63f3c
 Convolutional Neural Network (CNN): A Complete Guide
 https://learnopencv.com/understanding-convolutional-neural-networks-cnn
 
+Stable Diffusion 3: Research Paper
+https://stability.ai/news/stable-diffusion-3-research-paper
+
 ## Videos
+
+Generative AI in a Nutshell
+https://www.youtube.com/watch?v=2IK3DFHRFfw&ab_channel=HenrikKniberg
 
 Building Production-Ready RAG Applications
 https://www.youtube.com/watch?v=TRjq7t2Ms5I&ab_channel=AIEngineer
