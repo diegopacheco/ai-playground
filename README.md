@@ -42,6 +42,9 @@ Generative AI (GenAI):
 
 ### Awesome OSS Libraries
 
+Gynasium: A collection of AI Gym Environments for Reinforcement Learning
+https://gymnasium.farama.org/
+
 BERTopic is a topic modeling technique that leverages 🤗 transformers and c-TF-IDF to create dense clusters
 https://github.com/MaartenGr/BERTopic
 
@@ -208,6 +211,14 @@ https://huggingface.co/docs/transformers/en/model_doc/bert
 
 GPT-2: Language Models are Unsupervised Multitask Learners
 https://huggingface.co/docs/transformers/en/model_doc/gpt2
+
+## Posts
+
+History of the Generative AI
+https://medium.com/@glegoux/history-of-the-generative-ai-aa1aa7c63f3c
+
+Convolutional Neural Network (CNN): A Complete Guide
+https://learnopencv.com/understanding-convolutional-neural-networks-cnn
 
 ## Videos
 
