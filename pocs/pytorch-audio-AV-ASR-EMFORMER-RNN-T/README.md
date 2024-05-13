@@ -1,5 +1,0 @@
-### Result
-* TODO
-
-<img src='' />
-
