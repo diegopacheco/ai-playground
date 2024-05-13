@@ -15,7 +15,7 @@ class SkipGram(Chain):
         e = self.embed(contexts)
         shape = e.shape
         x = F.broadcast_to(x[:, None], (shape[0], shape[1]))
-        e = F.reshape(e, (shape[0], shape[1]))
+        e = F.reshape(e, (shape[0] * shape[1], self.out.W.shape[1]))
         x = F.reshape(x, (shape[0] * shape[1],))
         center_predictions = self.out(e)
         loss = F.softmax_cross_entropy(center_predictions, x)
