@@ -4,6 +4,8 @@ import torch
 import torchaudio
 import torchvision
 
+device = torch.device('cpu')
+
 def stream(q, format, option, src, segment_length, sample_rate):
     print("Building StreamReader...")
     streamer = torchaudio.io.StreamReader(src=src, format=format, option=option)
@@ -15,7 +17,7 @@ def stream(q, format, option, src, segment_length, sample_rate):
     print("Streaming...")
     print()
     for (chunk_v, chunk_a) in streamer.stream(timeout=-1, backoff=1.0):
-        q.put([chunk_v, chunk_a])
+        q.put([chunk_v.to(device), chunk_a.to(device)])
 
 
 class ContextCacher:
