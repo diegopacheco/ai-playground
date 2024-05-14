@@ -1,15 +1,126 @@
 # ai-playground
-AI POCS: ML, NLP, LLM, Vision, Stable Diffusion, Classification, Clustering, NM, All things AI POCS.
+AI POCS: ML, NLP, KAN, Reinforcement Learning, audio, translation, object-detection, GAN, LLM, Vision, Stable Diffusion, Classification, Clustering, NM, RNN, CNN, Pytorch, DJL, DeepLearning4J, ONNX, Keras, Tensorflow, OpenCV, nltk, transformers, transformers.js, sentense-transformers, gradio, chroma, langchain, langchain4j, spring-ai, sklearn, gensim, BERTopic, gymnasium, seaborn, matplotlib, pandas, numpy, scipy, scikit-learn, gradio, chroma, langchain4j, spring-ai, gensim, BERTopic, stable-difussion, anthropic, aws bedrock, cohere, flax, gluonnlp, LM Studio, LocalAI, streamlit, Pinecone. And more... All things AI POCS.
 
 ## AI Explained: Making Sense of AI (Essay)
 
 My Essay on AI Explained: Making Sense of AI <BR/>
 https://github.com/diegopacheco/ai-playground/blob/main/AI.Explained.DiegoPacheco.pdf
 
-### My Applications
+## Hugging Face Demos
 
-Diego's Story Telling Multimodel LLM Gen AI (does not work on modile) <BR/>
+1. Diego's Story Telling Multimodel LLM Gen AI
 https://huggingface.co/spaces/diegopacheco/gen-ai-multimodel-fun
+
+2. Diego's Comics Multimodel LLM Gen AI
+https://huggingface.co/spaces/diegopacheco/genai-llm-multi-model-comics
+
+3. Diego's LLM Image to Labeled Image
+https://huggingface.co/spaces/diegopacheco/diego-llm-img-to-lbl
+
+4. Diego's CrawlPT
+https://huggingface.co/spaces/diegopacheco/diego-CrawlPT?logs=container
+
+5. Diego's DialoGPT Chatbot
+https://huggingface.co/spaces/diegopacheco/diego-llm-chat-DialoGPT?logs=container
+
+## Top POCs
+
+01. Multi-Model Story Telling AI
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/transformers-multi-model-story-telling
+
+02. Transformers VQA
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/transformers-dqa-donut-base-finetuned-docvqa
+
+03. Llama2 - 7B Unit Test generation
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/transformers-CodeGPT-small-java
+
+04. Transformers - Big Code - Generate and Execute Code
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/transformers-bigcode
+
+05. Transformers Object Detection
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/transformers-object-detection
+
+06. Transformers Pipeline - GPT-like 
+https://github.com/diegopacheco/ai-playground/blob/main/pocs/sentence-transformers-simple-gpt-like/
+
+07. Sentense Transformers - Image Search by Text
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/sentence-transformers-image-search
+
+08. Reinforcement Learning Playing Atari Pacman
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-Pacman
+
+09. Transformers.js - Sentiment Analysis React Web App
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/react-transformers.js-sentiment-analysis/transformers-react
+
+10. Transformers T5 - Translation
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/transformers-T5
+
+12. Tabular Q&A - Transformers
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/transformers-table-question-anwsering-tapas
+
+13. Transformers DistilBERT - Text Sumarization
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/transformers-distilbart-sumarization
+
+14. Transformers DistilBERT - Q&A
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/transformers-distilbert-qna
+
+15. OpenCV - CNN - Sentiment on Image
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/opencv-sentiment-from-image
+
+16. OpenCV template matching from images
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/opencv-template-matching-images
+
+17. Llama3 - Chatbot and QA 1.5 70B (nvidia) (slow on CPU)
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/nvidia-llama3-ChatQA-1.5-70B
+
+18. NLTK - Sentiment Analysis
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/nltk-sentiment-analysis
+
+19. Transformers - Llama 3 - 8B Text Generation
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/llama-3-fun
+
+20. Langchain4J - OpenSearch / Redis - Document Embeddings and Similarity search (Vector Database)
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/langchain4j-opensearch
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/langchain4j-redis
+
+21. Langchain4J - LocalAI - Documment Enbeddings and Similarity search
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/langchain4j-local-ai-document-embeddings
+
+22. Langchain4J - Chatbot with FALCON_7B
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/langchain4j-chat-FALCON_7B
+
+23. Keras Speam Classification
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/keras-classificaiton-spam
+
+24. Customer2Vec - Customer Segmentation, clustering and product recomendation by similarity
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/customer-2-vec-dumb
+
+25. Phi-3-mini-128k Generate Code in Rust
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/chat-Phi-3-mini-128k-instruct
+
+26. AWS Bedrock LLAMA3 8B Model - Text Generation
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/aws-bedrock-llama38B-instruct
+
+27. ONNX - Portable format for ML models - export tool
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/ONNX-model-export
+
+28. DJL - GP2-Text Generation + BERT QA Inference
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/DJL-gpt2-qa-bert-and-gen-text
+
+29. DJL - Action Recognition in Image
+https://github.com/diegopacheco/ai-playground/blob/main/pocs/DJL-action-recognition/
+
+30. DJL - Hand Written Digit Recognition
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/DJL-Handwritten-Recognition-MLP
+
+31. Spring AI + Onnx - Embeddings
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/spring-ai-ONNX-transformers-all-MiniLM-L6-v2/project
+
+32. SkLearn Linear Regression - Ridge
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/sklearn-regression-ridge
+
+33. Stable Diffusion 3 - Image Generation
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/stable-diffusion-3
 
 ## What AI can do?
 
@@ -39,7 +150,6 @@ Generative AI (GenAI):
 9. Dialogue Generation: Engage in conversation, responding to user input.
 10. Creative Writing: Generate creative writing, such as poetry or short stories.
 
-
 ### Awesome OSS Libraries
 
 Gynasium: A collection of AI Gym Environments for Reinforcement Learning
@@ -68,6 +178,39 @@ https://pytorch.org/
 
 Scikit-Learn: ML Library, Classification, Regression, Clustering, Dimensionality Reduction, Model Selection, Preprocessing, etc.
 https://scikit-learn.org/stable/
+
+Gradio: Build UIs for your machine learning models
+https://github.com/gradio-app/gradio
+
+Chroma: the AI-native open-source embedding database
+https://www.trychroma.com/
+
+Transformers.js: A JavaScript library for running large language models in the browser (on local using ONNX) run Hugging face models in the browser.
+https://github.com/xenova/transformers.js
+
+LocalAI: LocalAI is a platform that enables you to run large language models on your device (local copy of OpenAI's using Hugging Face's transformers)
+https://localai.io/
+
+Prompt library
+https://docs.anthropic.com/claude/prompt-library
+
+ONNX is an open format built to represent machine learning models. ONNX defines a common set of operators - the building blocks of machine learning and deep learning models - and a common file format to enable AI developers to use models with a variety of frameworks, tools, runtimes, and compiler
+https://onnx.ai/
+
+LangChain: A Decentralized AI Platform for Language Models
+https://www.langchain.com/
+
+LangChain4J: A Java SDK for LangChain
+https://github.com/langchain4j/langchain4j
+
+DL4J: Deeplearning4j is an open-source, distributed deep-learning library written for Java and Scala. Integrated with Hadoop and Spark, DL4J is designed to be used in business environments on distributed GPUs and CPUs
+https://deeplearning4j.konduit.ai/
+
+Deep Java Library (DJL): An open-source, high-level, engine-agnostic Java framework for deep learning built by AWS
+https://docs.djl.ai/index.html
+
+SpringAI: Spring AI is a Spring project that aims to provide a simple and consistent way to work with AI and ML libraries in the Spring ecosystem
+https://spring.io/projects/spring-ai
 
 ### Papers
 
@@ -157,41 +300,6 @@ https://arxiv.org/abs/2403.07815
 Automated Unit Test Improvement using Large Language Models
 https://arxiv.org/pdf/2402.09171.pdf
 
-## Aditional Resources
-
-Gradio: Build UIs for your machine learning models
-https://github.com/gradio-app/gradio
-
-Chroma: the AI-native open-source embedding database
-https://www.trychroma.com/
-
-Transformers.js: A JavaScript library for running large language models in the browser (on local using ONNX) run Hugging face models in the browser.
-https://github.com/xenova/transformers.js
-
-LocalAI: LocalAI is a platform that enables you to run large language models on your device (local copy of OpenAI's using Hugging Face's transformers)
-https://localai.io/
-
-Prompt library
-https://docs.anthropic.com/claude/prompt-library
-
-ONNX is an open format built to represent machine learning models. ONNX defines a common set of operators - the building blocks of machine learning and deep learning models - and a common file format to enable AI developers to use models with a variety of frameworks, tools, runtimes, and compiler
-https://onnx.ai/
-
-LangChain: A Decentralized AI Platform for Language Models
-https://www.langchain.com/
-
-LangChain4J: A Java SDK for LangChain
-https://github.com/langchain4j/langchain4j
-
-DL4J: Deeplearning4j is an open-source, distributed deep-learning library written for Java and Scala. Integrated with Hadoop and Spark, DL4J is designed to be used in business environments on distributed GPUs and CPUs
-https://deeplearning4j.konduit.ai/
-
-Deep Java Library (DJL): An open-source, high-level, engine-agnostic Java framework for deep learning built by AWS
-https://docs.djl.ai/index.html
-
-SpringAI: Spring AI is a Spring project that aims to provide a simple and consistent way to work with AI and ML libraries in the Spring ecosystem
-https://spring.io/projects/spring-ai
-
 ## Models
 
 StarCoder2-Instruct: A Large Language Model for Code Generation
@@ -222,6 +330,9 @@ https://learnopencv.com/understanding-convolutional-neural-networks-cnn
 
 Stable Diffusion 3: Research Paper
 https://stability.ai/news/stable-diffusion-3-research-paper
+
+OWASP Top 10 for Large Language Model Applications
+https://owasp.org/www-project-top-10-for-large-language-model-applications/
 
 ## Videos
 
