@@ -1,12 +1,18 @@
 # ai-playground
 AI POCS: ML, NLP, KAN, Reinforcement Learning, audio, translation, object-detection, GAN, LLM, Vision, Stable Diffusion, Classification, Clustering, NM, RNN, CNN, Pytorch, DJL, DeepLearning4J, ONNX, Keras, Tensorflow, OpenCV, nltk, transformers, transformers.js, sentense-transformers, gradio, chroma, langchain, langchain4j, spring-ai, sklearn, gensim, BERTopic, gymnasium, seaborn, matplotlib, pandas, numpy, scipy, scikit-learn, gradio, chroma, langchain4j, spring-ai, gensim, BERTopic, stable-difussion, anthropic, aws bedrock, cohere, flax, gluonnlp, LM Studio, LocalAI, streamlit, Pinecone. And more... All things AI POCS.
 
-## AI Explained: Making Sense of AI (Essay)
+## Diego's AI Explained: Making Sense of AI (Essay)
 
 My Essay on AI Explained: Making Sense of AI <BR/>
 https://github.com/diegopacheco/ai-playground/blob/main/AI.Explained.DiegoPacheco.pdf
 
-## Hugging Face Demos
+## Diego's Notebooks
+
+[Traditional AI](https://github.com/diegopacheco/ai-playground/blob/main/concepts/traditionalai.ipynb)
+
+[Generative AI](https://github.com/diegopacheco/ai-playground/blob/main/concepts/genai.ipynb)
+
+## Diego's Hugging Face Demos
 
 1. Diego's Story Telling Multimodel LLM Gen AI
 https://huggingface.co/spaces/diegopacheco/gen-ai-multimodel-fun
@@ -23,7 +29,7 @@ https://huggingface.co/spaces/diegopacheco/diego-CrawlPT?logs=container
 5. Diego's DialoGPT Chatbot
 https://huggingface.co/spaces/diegopacheco/diego-llm-chat-DialoGPT?logs=container
 
-## Top POCs
+## Diego's Top POCs
 
 01. Multi-Model Story Telling AI
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/transformers-multi-model-story-telling
