@@ -1,0 +1,7 @@
+numpy
+pandas
+sklearn
+mtplotlib
+torch
+transformers
+tensorflow==2.10
