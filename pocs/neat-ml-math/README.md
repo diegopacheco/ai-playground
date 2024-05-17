@@ -23,3 +23,17 @@
 /bin/python src/softmax.py
 ```
 <img src="softmax.png" width="400" height="400">
+
+#### Loss Function
+
+* Loss Function
+* A loss function is a function that maps values of one or more variables onto a real number intuitively representing some "cost" associated with those values.
+* The loss function is used to optimize the model by updating the weights of the model.
+* Mean Squared Error (MSE) loss function, which is commonly used in regression tasks.
+* MSE function is defined as:
+    * f(x) = 1/n * sum((y - y_hat)^2)
+
+```
+/bin/python src/loss_function.py
+```
+<img src="loss_function.png" width="400" height="400">
