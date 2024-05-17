@@ -242,6 +242,15 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+xLSTM: Extended Long Short-Term Memory
+https://arxiv.org/pdf/2405.04517
+
+Measuring Massive Multitask Language Understanding (MMMLU)
+https://arxiv.org/pdf/2009.03300
+
+RAGAS: Automated Evaluation of Retrieval Augmented Generation
+https://arxiv.org/pdf/2309.15217
+
 From LLM to NMT: Advancing Low-Resource Machine Translation with
 Claude
 https://arxiv.org/pdf/2404.13813.pdf
