@@ -23,3 +23,12 @@ Result:
 ```
 pink
 ```
+
+Prompt:
+```
+How many pink flowes?
+```
+Result:
+```
+4
+```
