@@ -16,3 +16,4 @@ def predict(prompt, raw_image):
 
 print(predict("What is on the flower?", raw_image))
 print(predict("What the color of the flower?", raw_image))
+print(predict("How many pink flowes?", raw_image))
