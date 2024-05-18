@@ -317,6 +317,9 @@ https://arxiv.org/pdf/2402.09171.pdf
 
 ## Models
 
+PaliGemma – Google's Cutting-Edge Open Vision Language Model
+https://huggingface.co/blog/paligemma
+
 StarCoder2-Instruct: A Large Language Model for Code Generation
 https://github.com/bigcode-project/starcoder2-self-align
 
