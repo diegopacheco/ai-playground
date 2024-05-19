@@ -321,6 +321,9 @@ https://arxiv.org/pdf/2402.09171.pdf
 
 ## Models
 
+Progress Tracker: Open vs. Proprietary LLMs
+https://huggingface.co/spaces/andrewrreed/closed-vs-open-arena-elo
+
 PaliGemma – Google's Cutting-Edge Open Vision Language Model
 https://huggingface.co/blog/paligemma
 
