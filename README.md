@@ -242,6 +242,10 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Exploring the Limits of Transfer Learning with a Unified
+Text-to-Text Transformer (T5)
+https://arxiv.org/pdf/1910.10683
+
 Researchers say their new algorithm trained on a database of TV show Friends clips can detect sarcasm 75% of the time.
 https://www.popsci.com/technology/sarcasm-algorithm/
 https://aclanthology.org/P19-1455.pdf
