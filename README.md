@@ -242,6 +242,10 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Researchers say their new algorithm trained on a database of TV show Friends clips can detect sarcasm 75% of the time.
+https://www.popsci.com/technology/sarcasm-algorithm/
+https://aclanthology.org/P19-1455.pdf
+
 xLSTM: Extended Long Short-Term Memory
 https://arxiv.org/pdf/2405.04517
 
