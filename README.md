@@ -351,6 +351,9 @@ https://huggingface.co/docs/transformers/en/model_doc/gpt2
 
 ## Posts
 
+llama3 implementation one matrix multiplication at a time
+https://github.com/naklecha/llama3-from-scratch
+
 History of the Generative AI
 https://medium.com/@glegoux/history-of-the-generative-ai-aa1aa7c63f3c
 
