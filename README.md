@@ -242,6 +242,10 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Images that Sound: Composing Images and Sounds on a Single Canvas
+https://ificl.github.io/images-that-sound/
+https://arxiv.org/pdf/2405.12221
+
 Exploring the Limits of Transfer Learning with a Unified
 Text-to-Text Transformer (T5)
 https://arxiv.org/pdf/1910.10683
