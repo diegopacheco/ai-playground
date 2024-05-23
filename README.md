@@ -242,6 +242,15 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Does Fine-Tuning LLMs on New Knowledge Encourage Hallucinations?
+https://arxiv.org/abs/2405.05904
+
+Chameleon: Mixed-Modal Early-Fusion Foundation Models
+https://arxiv.org/pdf/2405.09818
+
+Gemini 1.5: Unlocking multimodal understanding across millions of tokens of context
+https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf
+
 Images that Sound: Composing Images and Sounds on a Single Canvas
 https://ificl.github.io/images-that-sound/
 https://arxiv.org/pdf/2405.12221
@@ -355,6 +364,9 @@ https://huggingface.co/docs/transformers/en/model_doc/gpt2
 
 ## Posts
 
+Solve puzzles. Improve your pytorch.
+https://github.com/srush/Tensor-Puzzles
+
 llama3 implementation one matrix multiplication at a time
 https://github.com/naklecha/llama3-from-scratch
 
@@ -386,3 +398,22 @@ https://www.3blue1brown.com/topics/neural-networks
 
 Let's build GPT: from scratch, in code, spelled out.
 https://www.youtube.com/watch?v=kCc8FmEb1nY&ab_channel=AndrejKarpathy
+
+## ML on Kubernetes
+
+KServe
+https://github.com/kserve/kserve
+
+Kubeflow
+https://www.kubeflow.org/
+
+MLOperator
+https://github.com/polyaxon/mloperator
+
+## Interesting Solutions
+
+The Best LLM on Every Prompt (LLM Routiung)
+https://unify.ai/
+
+Vectara (RaG as a Service)
+https://vectara.com/
