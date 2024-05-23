@@ -364,6 +364,9 @@ https://huggingface.co/docs/transformers/en/model_doc/gpt2
 
 ## Posts
 
+Neural Network Zoo
+https://www.asimovinstitute.org/neural-network-zoo/
+
 Solve puzzles. Improve your pytorch.
 https://github.com/srush/Tensor-Puzzles
 
