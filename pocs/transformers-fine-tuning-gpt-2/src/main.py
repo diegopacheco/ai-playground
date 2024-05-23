@@ -51,7 +51,7 @@ print(f"Training loss: {trainer.state.best_metric}")
 model.save_pretrained('./fine_tuned_model')
 
 # Extract the training loss values
-training_loss = [log['loss'] for log in trainer.state.log_history]
+training_loss = [log['loss'] for log in trainer.state.log_history if 'loss' in log]
 
 # Plot the training loss
 plt.plot(training_loss)
