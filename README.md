@@ -362,6 +362,14 @@ https://huggingface.co/docs/transformers/en/model_doc/bert
 GPT-2: Language Models are Unsupervised Multitask Learners
 https://huggingface.co/docs/transformers/en/model_doc/gpt2
 
+## Online tools
+
+Compute expert-level answers using Wolfram’s breakthrough algorithms, knowledgebase and AI technology
+https://www.wolframalpha.com/
+
+OpenLLM Leaderboard
+https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
+
 ## Posts
 
 Neural Network Zoo
@@ -414,6 +422,9 @@ MLOperator
 https://github.com/polyaxon/mloperator
 
 ## Interesting Solutions
+
+Control Plane for LLM (protection for PII Leak Detection and prompt injection)
+https://www.arthur.ai/model-type/llm
 
 The Best LLM on Every Prompt (LLM Routiung)
 https://unify.ai/
