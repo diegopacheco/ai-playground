@@ -372,6 +372,9 @@ https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
 
 ## Posts
 
+CyberSecEval 2 - A Comprehensive Evaluation Framework for Cybersecurity Risks and Capabilities of Large Language Models
+https://huggingface.co/blog/leaderboard-llamaguard
+
 Neural Network Zoo
 https://www.asimovinstitute.org/neural-network-zoo/
 
