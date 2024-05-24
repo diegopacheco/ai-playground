@@ -1,5 +1,5 @@
 # ai-playground
-AI POCS: ML, NLP, KAN, Reinforcement Learning, audio, translation, object-detection, GAN, LLM, Vision, Stable Diffusion, Classification, Clustering, XGBoost, NM, RNN, CNN, Pytorch, DJL, DeepLearning4J, ONNX, Keras, Tensorflow, OpenCV, nltk, transformers, transformers.js, sentense-transformers, gradio, chroma, langchain, langchain4j, spring-ai, sklearn, gensim, BERTopic, gymnasium, seaborn, matplotlib, pandas, numpy, scipy, scikit-learn, gradio, chroma, langchain4j, spring-ai, gensim, BERTopic, stable-difussion, anthropic, aws bedrock, cohere, flax, gluonnlp, LM Studio, LocalAI, streamlit, Pinecone. And more... All things AI POCS.
+AI POCS: ML, NLP, KAN, Reinforcement Learning, audio, translation, object-detection, GAN, LLM, Vision, Stable Diffusion, Classification, Clustering, XGBoost, NM, RNN, CNN, Pytorch, DJL, DeepLearning4J, ONNX, Keras, Tensorflow, OpenCV, nltk, transformers, transformers.js, sentense-transformers, gradio, chroma, langchain, langchain4j, spring-ai, sklearn, gensim, BERTopic, gymnasium, seaborn, matplotlib, pandas, numpy, scipy, scikit-learn, gradio, chroma, langchain4j, spring-ai, gensim, BERTopic, stable-difussion, anthropic, aws bedrock, cohere, flax, hmmlearn, gluonnlp, LM Studio, LocalAI, streamlit, Pinecone. And more... All things AI POCS.
 
 ## Diego's AI Explained: Making Sense of AI (Essay)
 
