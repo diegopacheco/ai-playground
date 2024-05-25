@@ -1,5 +1,5 @@
 # ai-playground
-AI POCS: ML, NLP, KAN, Reinforcement Learning, audio, translation, object-detection, GAN, LLM, Vision, Stable Diffusion, Classification, Clustering, XGBoost, NM, RNN, CNN, Pytorch, DJL, DeepLearning4J, ONNX, Keras, Tensorflow, OpenCV, nltk, transformers, transformers.js, sentense-transformers, gradio, chroma, langchain, langchain4j, spring-ai, sklearn, gensim, BERTopic, gymnasium, seaborn, matplotlib, pandas, numpy, scipy, scikit-learn, gradio, chroma, langchain4j, spring-ai, gensim, BERTopic, stable-difussion, anthropic, aws bedrock, cohere, flax, hmmlearn, gluonnlp, LM Studio, LocalAI, streamlit, Pinecone. And more... All things AI POCS.
+AI POCS: ML, NLP, KAN, Reinforcement Learning, audio, translation, object-detection, GAN, LLM, Vision, Stable Diffusion, Classification, Clustering, XGBoost, NM, RNN, CNN, Pytorch, DJL, DeepLearning4J, ONNX, Keras, Tensorflow, OpenCV, nltk, transformers, transformers.js, sentense-transformers, gradio, chroma, langchain, langchain4j, spring-ai, sklearn, gensim, BERTopic, gymnasium, seaborn, matplotlib, pandas, numpy, scipy, scikit-learn, gradio, chroma, langchain4j, spring-ai, gensim, BERTopic, stable-difussion, anthropic, aws bedrock, cohere, flax, superlinked, hmmlearn, gluonnlp, LM Studio, LocalAI, streamlit, Pinecone. And more... All things AI POCS.
 
 ## Diego's AI Explained: Making Sense of AI (Essay)
 
@@ -241,6 +241,19 @@ Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks
 https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
+
+Quantifying Emergence in Large Language Models
+https://arxiv.org/pdf/2405.12617v1
+
+RAGTruth: A Hallucination Corpus for Developing Trustworthy
+Retrieval-Augmented Language Models
+https://arxiv.org/pdf/2401.00396v2
+
+PECC: Problem Extraction and Coding Challenges
+https://arxiv.org/pdf/2404.18766v1
+
+Financial Statement Analysis with Large Language Models
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4835311
 
 Does Fine-Tuning LLMs on New Knowledge Encourage Hallucinations?
 https://arxiv.org/abs/2405.05904
