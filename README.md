@@ -385,6 +385,9 @@ https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
 
 ## Posts
 
+Diffusion Models
+https://andrewkchan.dev/posts/diffusion.html
+
 CyberSecEval 2 - A Comprehensive Evaluation Framework for Cybersecurity Risks and Capabilities of Large Language Models
 https://huggingface.co/blog/leaderboard-llamaguard
 
@@ -410,6 +413,9 @@ OWASP Top 10 for Large Language Model Applications
 https://owasp.org/www-project-top-10-for-large-language-model-applications/
 
 ## Videos
+
+But what is a convolution?
+https://www.youtube.com/watch?v=KuXjwB4LzSA&ab_channel=3Blue1Brown
 
 Generative AI in a Nutshell
 https://www.youtube.com/watch?v=2IK3DFHRFfw&ab_channel=HenrikKniberg
