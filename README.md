@@ -414,6 +414,9 @@ https://owasp.org/www-project-top-10-for-large-language-model-applications/
 
 ## Videos
 
+Watching Neural Networks Learn
+https://www.youtube.com/watch?v=TkwXa7Cvfr8&ab_channel=EmergentGarden
+
 But what is a convolution?
 https://www.youtube.com/watch?v=KuXjwB4LzSA&ab_channel=3Blue1Brown
 
