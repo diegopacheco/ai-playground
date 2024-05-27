@@ -41,30 +41,23 @@ else:
     print(cosine_sim)
 
 # Function that takes in a song title as input and outputs most similar songs
-def get_recommendations(title, cosine_sim=cosine_sim):
-    print(f"Dataset for recommendations:\n{df}")
+def get_recommendations(song_title, df=df, similarity_matrix=tfidf_matrix, top_n=10):
+    # Get the song_id corresponding to the song_title
+    song_id = df[df['title'] == song_title].index[0]
 
-    # Check if the song title exists in the DataFrame
-    if title not in df['title'].values:
-        return f"Song title '{title}' not found in the dataset."
+    # Get the most similar songs
+    most_similar = pd.Series(similarity_matrix[song_id].toarray().ravel()).sort_values(ascending=False)
     
-    # Get the index of the song that matches the title
-    idx = df[df['title'] == title].index[0]
-
-    # Get the pairwise similarity scores of all songs with that song
-    sim_scores = list(enumerate(cosine_sim[idx]))
-
-    # Sort the songs based on the similarity scores
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-
-    # Get the scores of the 10 most similar songs
-    sim_scores = sim_scores[1:11]
-
-    # Get the song indices
-    song_indices = [i[0] for i in sim_scores]
-
-    # Return the top 10 most similar songs
-    return df['title'].iloc[song_indices]
+    # Exclude the input song
+    most_similar = most_similar[most_similar.index != song_id]
+    
+    # Get the top N most similar songs
+    most_similar = most_similar.head(top_n)
+    
+    # Get the song titles corresponding to the song_ids
+    song_titles = df.loc[most_similar.index, 'title']
+    
+    return song_titles
 
 # Get recommendations for a specific song
 recommendations = get_recommendations('Sabbath bloody sabbath')
