@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Tuning Language Models by Proxy
+https://arxiv.org/pdf/2401.08565
+
 Transformers Can Do Arithmetic with the Right Embeddings
 https://arxiv.org/abs/2405.17399
 
