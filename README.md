@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Transformers Can Do Arithmetic with the Right Embeddings
+https://arxiv.org/abs/2405.17399
+
 Quantifying Emergence in Large Language Models
 https://arxiv.org/pdf/2405.12617v1
 
