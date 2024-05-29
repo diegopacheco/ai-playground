@@ -1,0 +1,18 @@
+### Result
+* Tinygrad is a tiny autograd engine and a neural network library implemented in less than 1000 lines of code.
+* Very simple to understand and use.
+* Fast and efficient.
+
+Results:
+```
+0 9.90359115600586
+1 5.52464485168457
+2 2.3201558589935303
+3 1.5402109622955322
+4 0.7203419208526611
+5 0.2929181456565857
+6 0.20007088780403137
+7 0.12546981871128082
+8 0.06755562871694565
+9 0.029965225607156754
+```
