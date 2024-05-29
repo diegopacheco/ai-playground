@@ -242,6 +242,12 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+MoRA: High-Rank Updating for Parameter-Efficient Fine-Tuning
+https://arxiv.org/abs/2405.12130v1
+
+Grokked Transformers are Implicit Reasoners: A Mechanistic Journey to the Edge of Generalization
+https://arxiv.org/abs/2405.15071
+
 Tuning Language Models by Proxy
 https://arxiv.org/pdf/2401.08565
 
@@ -390,6 +396,12 @@ OpenLLM Leaderboard
 https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
 
 ## Posts
+
+Reproducing GPT-2 (124M) in llm.c in 90 minutes for $20
+https://github.com/karpathy/llm.c/discussions/481
+
+Llama 3-V: Matching GPT4-V with a 100x smaller model and 500 dollars
+https://aksh-garg.medium.com/llama-3v-building-an-open-source-gpt-4v-competitor-in-under-500-7dd8f1f6c9ee
 
 Diffusion Models
 https://andrewkchan.dev/posts/diffusion.html
