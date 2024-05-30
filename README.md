@@ -408,6 +408,9 @@ https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
 
 ## Posts
 
+AI Integration and Modularization
+https://stratechery.com/2024/ai-integration-and-modularization/
+
 The Crossroads of Innovation and Privacy: Private Synthetic Data for Generative AI
 https://www.microsoft.com/en-us/research/blog/the-crossroads-of-innovation-and-privacy-private-synthetic-data-for-generative-ai/
 
