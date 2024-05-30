@@ -242,6 +242,14 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+“Seeing Sound”: Audio Classification using the
+Wigner-Wille Distribution and Convolutional Neural
+Networks
+https://arxiv.org/abs/2211.03202
+
+You Need to Pay Better Attention
+https://arxiv.org/abs/2403.01643
+
 MoRA: High-Rank Updating for Parameter-Efficient Fine-Tuning
 https://arxiv.org/abs/2405.12130v1
 
@@ -363,6 +371,9 @@ https://arxiv.org/pdf/2402.09171.pdf
 
 ## Models
 
+Embed v3 (All of wikipedia)
+https://cohere.com/blog/introducing-embed-v3
+
 Progress Tracker: Open vs. Proprietary LLMs
 https://huggingface.co/spaces/andrewrreed/closed-vs-open-arena-elo
 
@@ -396,6 +407,9 @@ OpenLLM Leaderboard
 https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
 
 ## Posts
+
+Benchmarking Text Generation Inference
+https://huggingface.co/blog/tgi-benchmarking
 
 Reproducing GPT-2 (124M) in llm.c in 90 minutes for $20
 https://github.com/karpathy/llm.c/discussions/481
