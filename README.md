@@ -371,6 +371,9 @@ https://arxiv.org/pdf/2402.09171.pdf
 
 ## Models
 
+Codestral (80+ programing languages)
+https://mistral.ai/news/codestral/
+
 Embed v3 (All of wikipedia)
 https://cohere.com/blog/introducing-embed-v3
 
