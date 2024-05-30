@@ -12,7 +12,7 @@ from mistral_common.tokens.tokenizers.mistral import MistralTokenizer
 from mistral_common.tokens.instruct.request import FIMRequest
 
 tokenizer = MistralTokenizer.v3()
-model = Transformer.from_folder("~/codestral-22B-240529")
+model = Transformer.from_folder(mistral_models_path)
 
 prompt = "Write a program that generate 100 prime numbers in rust"
 request = FIMRequest(prompt=prompt)
