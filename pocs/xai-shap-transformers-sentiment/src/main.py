@@ -1,36 +1,20 @@
-import datasets
-import pandas as pd
-import transformers
-import matplotlib.pyplot as plt
+from transformers import AutoModelForCausalLM, AutoTokenizer
 import shap
-import os
-os.environ['QT_QPA_PLATFORM'] = 'wayland'
+from IPython.display import display
 
-# load the emotion dataset
-dataset = datasets.load_dataset("emotion", split="train")
-data = pd.DataFrame({"text": dataset["text"], "emotion": dataset["label"]})
+tokenizer = AutoTokenizer.from_pretrained("gpt2", use_fast=True)
+model = AutoModelForCausalLM.from_pretrained("gpt2").cpu()
 
-tokenizer = transformers.AutoTokenizer.from_pretrained(
-    "nateraw/bert-base-uncased-emotion", use_fast=True
-)
-model = transformers.AutoModelForSequenceClassification.from_pretrained(
-    "nateraw/bert-base-uncased-emotion"
-).to("cpu")
+model.config.is_decoder = True
+model.config.task_specific_params["text-generation"] = {
+    "do_sample": True,
+    "max_length": 50,
+    "temperature": 0.7,
+    "top_k": 50,
+    "no_repeat_ngram_size": 2,
+}
 
-# build a pipeline object to do predictions
-pred = transformers.pipeline(
-    "text-classification",
-    model=model,
-    tokenizer=tokenizer,
-    device="cpu",
-    return_all_scores=True,
-)
-
-explainer = shap.Explainer(pred)
-shap_values = explainer(data["text"][:3].tolist())
-
-# Create a force plot for the first instance
-force_plot = shap.plots.force(explainer.expected_value[0], shap_values[0])
-
-shap.save_html('shap_plot.html', force_plot)
-print("SHAP plot saved to shap_plot.html")
+s = ["I enjoy walking with my cute cats"]
+explainer = shap.Explainer(model, tokenizer)
+shap_values = explainer(s)
+shap.plots.text(shap_values)
