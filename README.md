@@ -242,6 +242,12 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Position: Foundation Agents as the Paradigm Shift for Decision Making
+https://arxiv.org/abs/2405.17009v1
+
+Faithful Logical Reasoning via Symbolic Chain-of-Thought
+https://arxiv.org/pdf/2405.18357v1
+
 Distil-Whisper: Robust Knowledge Distillation via Large-Scale Pseudo Labelling
 https://arxiv.org/abs/2311.00430
 
