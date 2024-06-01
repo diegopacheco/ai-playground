@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Distil-Whisper: Robust Knowledge Distillation via Large-Scale Pseudo Labelling
+https://arxiv.org/abs/2311.00430
+
 “Seeing Sound”: Audio Classification using the
 Wigner-Wille Distribution and Convolutional Neural
 Networks
