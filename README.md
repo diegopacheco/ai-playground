@@ -412,6 +412,9 @@ https://huggingface.co/docs/transformers/en/model_doc/gpt2
 
 ## Online tools
 
+Neural Network Playground
+https://playground.tensorflow.org/
+
 Compute expert-level answers using Wolfram’s breakthrough algorithms, knowledgebase and AI technology
 https://www.wolframalpha.com/
 
