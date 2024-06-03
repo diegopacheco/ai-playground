@@ -242,6 +242,13 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Layer-Condensed KV Cache for Efficient Inference of
+Large Language Models
+https://arxiv.org/pdf/2405.10637
+
+GNN-RAG: Graph Neural Retrieval for Large Language Model Reasoning
+https://arxiv.org/pdf/2405.20139
+
 Position: Foundation Agents as the Paradigm Shift for Decision Making
 https://arxiv.org/abs/2405.17009v1
 
