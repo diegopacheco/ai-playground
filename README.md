@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Diffusion On Syntax Trees For Program Synthesis
+https://arxiv.org/pdf/2405.20519
+
 Layer-Condensed KV Cache for Efficient Inference of
 Large Language Models
 https://arxiv.org/pdf/2405.10637
