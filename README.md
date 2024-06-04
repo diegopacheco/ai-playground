@@ -477,6 +477,9 @@ https://owasp.org/www-project-top-10-for-large-language-model-applications/
 
 ## Videos
 
+Neural Network in Minecraft
+https://www.youtube.com/watch?v=DQ0lCm0J3PM&ab_channel=mattbatwings
+
 Watching Neural Networks Learn
 https://www.youtube.com/watch?v=TkwXa7Cvfr8&ab_channel=EmergentGarden
 
