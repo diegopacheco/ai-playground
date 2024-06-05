@@ -242,6 +242,15 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+LongRoPE: Extending LLM Context Window Beyond 2 Million Tokens
+https://arxiv.org/pdf/2402.13753
+
+Zamba: A Compact 7B SSM Hybrid Model
+https://arxiv.org/pdf/2405.16712
+
+SaySelf: Teaching LLMs to Express Confidence with Self-Reflective Rationales
+https://arxiv.org/abs/2405.20974
+
 Diffusion On Syntax Trees For Program Synthesis
 https://arxiv.org/pdf/2405.20519
 
