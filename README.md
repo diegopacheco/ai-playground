@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Learning Transferable Visual Models From Natural Language Supervision
+https://arxiv.org/pdf/2103.00020v1
+
 LongRoPE: Extending LLM Context Window Beyond 2 Million Tokens
 https://arxiv.org/pdf/2402.13753
 
