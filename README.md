@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+RA-ISF: Learning to Answer and Understand from Retrieval Augmentation via Iterative Self-Feedback
+https://arxiv.org/abs/2403.06840v2
+
 Learning Transferable Visual Models From Natural Language Supervision
 https://arxiv.org/pdf/2103.00020v1
 
@@ -443,6 +446,14 @@ https://www.wolframalpha.com/
 OpenLLM Leaderboard
 https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
 
+## OSS Tools
+
+litgpt: Pretrain, finetune, deploy 20+ LLMs on your own data.
+https://github.com/Lightning-AI/litgpt
+
+AI Agents
+https://www.crewai.com/
+
 ## Posts
 
 AI Integration and Modularization
@@ -534,3 +545,11 @@ https://unify.ai/
 
 Vectara (RaG as a Service)
 https://vectara.com/
+
+## Security
+
+OWASP Top 10 for Large Language Model Applications
+https://owasp.org/www-project-top-10-for-large-language-model-applications/
+
+New ways of breaking app-integrated LLMs
+https://github.com/greshake/llm-security
