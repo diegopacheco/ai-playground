@@ -548,8 +548,12 @@ https://vectara.com/
 
 ## Security
 
+Teams of LLM Agents can Exploit Zero-Day Vulnerabilities
+https://arxiv.org/abs/2406.01637
+
 OWASP Top 10 for Large Language Model Applications
 https://owasp.org/www-project-top-10-for-large-language-model-applications/
 
 New ways of breaking app-integrated LLMs
 https://github.com/greshake/llm-security
+
