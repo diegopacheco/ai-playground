@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Going Deeper with Convolutions
+https://arxiv.org/abs/1409.4842
+
 RA-ISF: Learning to Answer and Understand from Retrieval Augmentation via Iterative Self-Feedback
 https://arxiv.org/abs/2403.06840v2
 
