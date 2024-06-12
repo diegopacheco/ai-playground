@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Language Models are Unsupervised Multitask Learners (GPT-2 paper)
+https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf
+
 Going Deeper with Convolutions
 https://arxiv.org/abs/1409.4842
 
