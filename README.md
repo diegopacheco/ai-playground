@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Meta Large Language Model Compiler: Foundation Models of Compiler Optimization
+https://ai.meta.com/research/publications/meta-large-language-model-compiler-foundation-models-of-compiler-optimization/
+
 Gemma 2: Improving Open Language Models at a Practical Size
 https://storage.googleapis.com/deepmind-media/gemma/gemma-2-report.pdf
 
