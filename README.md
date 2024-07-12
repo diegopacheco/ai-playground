@@ -469,7 +469,13 @@ https://github.com/Lightning-AI/litgpt
 AI Agents
 https://www.crewai.com/
 
+Korvus is a search SDK that unifies the entire RAG pipeline in a single database query
+https://github.com/postgresml/korvus
+
 ## Posts
+
+FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision
+https://www.together.ai/blog/flashattention-3
 
 AI Integration and Modularization
 https://stratechery.com/2024/ai-integration-and-modularization/
