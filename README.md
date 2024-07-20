@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+SPREADSHEETLLM: Encoding Spreadsheets for Large Language Models
+https://arxiv.org/pdf/2407.09025
+
 Meta Large Language Model Compiler: Foundation Models of Compiler Optimization
 https://ai.meta.com/research/publications/meta-large-language-model-compiler-foundation-models-of-compiler-optimization/
 
