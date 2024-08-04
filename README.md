@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+D-Bot: Database Diagnosis System using Large Language Models
+https://arxiv.org/abs/2312.01454
+
 SPREADSHEETLLM: Encoding Spreadsheets for Large Language Models
 https://arxiv.org/pdf/2407.09025
 
