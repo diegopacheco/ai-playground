@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Long Context RAG Performance of LLMs
+https://www.databricks.com/blog/long-context-rag-performance-llms
+
 D-Bot: Database Diagnosis System using Large Language Models
 https://arxiv.org/abs/2312.01454
 
