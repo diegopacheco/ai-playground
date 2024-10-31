@@ -242,6 +242,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Mind Your Step (by Step): Chain-of-Thought can Reduce Performance on Tasks where Thinking Makes Humans Worse
+https://arxiv.org/abs/2410.21333
+
 Long Context RAG Performance of LLMs
 https://www.databricks.com/blog/long-context-rag-performance-llms
 
