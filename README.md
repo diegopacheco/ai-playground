@@ -222,6 +222,9 @@ https://spring.io/projects/spring-ai
 
 #### AWS Recommended
 
+Opencoder: The Open Cookbook For Top-tier Code Large Language Models
+https://arxiv.org/pdf/2411.04905
+
 ReAct: Synergizing Reasoning and Acting in Language Models
 https://arxiv.org/abs/2210.03629
 
