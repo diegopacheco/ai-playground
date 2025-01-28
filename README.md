@@ -245,6 +245,18 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+The Illustrated DeepSeek-R1
+https://newsletter.languagemodels.co/p/the-illustrated-deepseek-r1
+
+DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning
+https://arxiv.org/pdf/2501.12948
+
+Janus-PRO: : Unified Multimodal Understanding and Generation with Data and Model Scaling
+https://github.com/deepseek-ai/Janus/blob/main/janus_pro_tech_report.pdf
+
+DeepSeek-V3 Technical Report
+https://arxiv.org/pdf/2412.19437v1
+
 Mind Your Step (by Step): Chain-of-Thought can Reduce Performance on Tasks where Thinking Makes Humans Worse
 https://arxiv.org/abs/2410.21333
 
