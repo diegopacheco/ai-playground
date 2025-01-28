@@ -248,6 +248,9 @@ https://arxiv.org/abs/2005.11401
 The Illustrated DeepSeek-R1
 https://newsletter.languagemodels.co/p/the-illustrated-deepseek-r1
 
+Open-R1: a fully open reproduction of DeepSeek-R1
+https://huggingface.co/blog/open-r1
+
 DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning
 https://arxiv.org/pdf/2501.12948
 
