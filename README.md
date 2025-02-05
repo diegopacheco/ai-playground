@@ -245,6 +245,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+DeepRAG: Thinking to Retrieval Step by Step for Large Language Models
+https://arxiv.org/pdf/2502.01142
+
 The Illustrated DeepSeek-R1
 https://newsletter.languagemodels.co/p/the-illustrated-deepseek-r1
 
