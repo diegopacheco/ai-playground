@@ -245,6 +245,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Deep Reinforcement Learning: Pong from Pixels
+https://karpathy.github.io/2016/05/31/rl/
+
 DeepRAG: Thinking to Retrieval Step by Step for Large Language Models
 https://arxiv.org/pdf/2502.01142
 
