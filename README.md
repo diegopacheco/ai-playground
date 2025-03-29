@@ -245,6 +245,25 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+DeepSeek-V3 Technical Report
+https://arxiv.org/abs/2412.19437
+
+How DeepSeek Rewrote the Transformer (MLA)
+https://www.youtube.com/watch?v=0VLAoVGf_74
+
+DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning
+https://arxiv.org/abs/2501.12948
+
+Grok-2 Beta Release
+https://x.ai/news/grok-2
+
+Fine-tuning LLMs for Autonomous Spacecraft Control: A Case
+Study Using Kerbal Space Program
+https://arxiv.org/pdf/2408.08676
+
+Netflix Prize and SVD
+http://buzzard.ups.edu/courses/2014spring/420projects/math420-UPS-spring-2014-gower-netflix-SVD.pdf
+
 Deep Reinforcement Learning: Pong from Pixels
 https://karpathy.github.io/2016/05/31/rl/
 
