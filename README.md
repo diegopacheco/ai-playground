@@ -245,6 +245,27 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Cognitive Memory in Large Language Models
+https://arxiv.org/pdf/2504.02441v1
+
+Effectively Controlling Reasoning Models through Thinking Intervention
+https://arxiv.org/pdf/2503.24370v1
+
+What, How, Where, and How Well? A Survey on Test-Time Scaling in Large Language Models
+https://arxiv.org/pdf/2503.24235v1
+
+Harnessing the Reasoning Economy: A Survey of Efficient Reasoning for Large Language Models
+https://arxiv.org/pdf/2503.24377v1
+
+InfiniteICL: Breaking the Limit of Context Window Size via Long Short-term Memory Transformation
+https://arxiv.org/pdf/2504.01707v1
+
+From Code Generation to Software Testing: AI Copilot with Context-Based RAG
+https://arxiv.org/abs/2504.01866v1
+
+ToolACE-R: Tool Learning with Adaptive Self-Refinement
+https://arxiv.org/abs/2504.01400v1
+
 DeepSeek-V3 Technical Report
 https://arxiv.org/abs/2412.19437
 
