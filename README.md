@@ -245,6 +245,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Qwen2.5-VL-32B: Smarter and Lighter
+https://qwenlm.github.io/blog/qwen2.5-vl-32b/
+
 Cognitive Memory in Large Language Models
 https://arxiv.org/pdf/2504.02441v1
 
