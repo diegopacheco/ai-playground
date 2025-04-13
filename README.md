@@ -245,6 +245,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Transfer between Modalities with MetaQueries
+https://arxiv.org/pdf/2504.06256
+
 Qwen2.5-VL-32B: Smarter and Lighter
 https://qwenlm.github.io/blog/qwen2.5-vl-32b/
 
