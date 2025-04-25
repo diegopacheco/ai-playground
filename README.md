@@ -245,6 +245,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+70% Size, 100% Accuracy: Lossless LLM Compression for Efficient GPU Inference via Dynamic-Length Float
+https://arxiv.org/pdf/2504.11651
+
 Transfer between Modalities with MetaQueries
 https://arxiv.org/pdf/2504.06256
 
