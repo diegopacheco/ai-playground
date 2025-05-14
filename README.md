@@ -245,6 +245,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Do Users Write More Insecure Code with AI Assistants?
+https://arxiv.org/pdf/2211.03622
+
 Type-Constrained Code Generation with Language Models
 https://arxiv.org/pdf/2504.09246
 
