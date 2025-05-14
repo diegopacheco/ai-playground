@@ -245,6 +245,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Type-Constrained Code Generation with Language Models
+https://arxiv.org/pdf/2504.09246
+
 70% Size, 100% Accuracy: Lossless LLM Compression for Efficient GPU Inference via Dynamic-Length Float
 https://arxiv.org/pdf/2504.11651
 
