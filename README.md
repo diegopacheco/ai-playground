@@ -245,6 +245,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+How DeepSeek Rewrote the Transformer (How it works and how they optimized transformer architecture)
+https://www.youtube.com/watch?v=0VLAoVGf_74
+
 Do Users Write More Insecure Code with AI Assistants?
 https://arxiv.org/pdf/2211.03622
 
