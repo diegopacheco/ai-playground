@@ -245,6 +245,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+AbsenceBench: Language Models Can’t Tell What’s Missing
+https://arxiv.org/pdf/2506.11440
+
 How DeepSeek Rewrote the Transformer (How it works and how they optimized transformer architecture)
 https://www.youtube.com/watch?v=0VLAoVGf_74
 
