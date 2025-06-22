@@ -245,6 +245,9 @@ https://arxiv.org/abs/2005.11401
 
 #### Other industry-based papers
 
+Your Brain on ChatGPT: Accumulation of Cognitive Debt when Using an AI Assistant for Essay Writing Task
+https://arxiv.org/pdf/2506.08872
+
 AbsenceBench: Language Models Can’t Tell What’s Missing
 https://arxiv.org/pdf/2506.11440
 
