@@ -1,0 +1,22 @@
+{
+  "name": "mcp-simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "claude-mcp-install": "claude mcp add weather-server \"node\" \"/home/diego/git/diegopacheco/ai-playground/pocs/mcp-simple/mcp-server.js\"",
+    "claude-mcp-remove": "claude mcp remove weather-server",
+    "claude-mcp-list": "claude mcp list",
+    "build": "npx tsc && chmod +x dist/mcp-server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.15.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.13"
+  }
+}

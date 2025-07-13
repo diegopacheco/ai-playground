@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "my-tools": {
+      "command": "node",
+      "args": ["./mcp-server.js"],
+      "env": {}
+    }
+  }
+}
