@@ -1,0 +1,10 @@
+{
+  "mcp": {
+    "servers": {
+      "my-tools": {
+        "command": "node",
+        "args": ["/home/diego/git/diegopacheco/ai-playground/pocs/mcp-simple/mcp-server.js"]
+      }
+    }
+  }
+}
