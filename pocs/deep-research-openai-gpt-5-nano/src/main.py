@@ -14,6 +14,7 @@ except Exception:
 	OpenAI = None
 
 ROOT = Path(__file__).resolve().parents[1]
+# Default PDF location (will be overridden if auto-discovery finds another one)
 PDF_PATH = ROOT / "deep-research" / "anti-patterns-deep-research.pdf"
 JAVA_OUT_PATH = ROOT / "deep-research" / "AntiPatterns.java"
 RESULT_OUT_PATH = ROOT / "deep-research" / "AntiPatternsRefactored.java"
@@ -34,6 +35,18 @@ def read_pdf_all_text(pdf_path: Path) -> str:
 		except Exception as e:
 			texts.append(f"\n[Page {i+1} extraction error: {e}]\n")
 	return "\n\n".join(texts).strip()
+
+
+def locate_pdf(base: Path) -> Path:
+	default = base / "deep-research" / "anti-patterns-deep-research.pdf"
+	if default.exists():
+		return default
+	dr = base / "deep-research"
+	if dr.exists():
+		for p in dr.rglob("anti-patterns-deep-research.pdf"):
+			if p.is_file():
+				return p
+	return default
 
 
 def write_java_with_antipatterns(java_path: Path) -> str:
@@ -169,11 +182,12 @@ def extract_java_from_markdown(md: str) -> str:
 
 def main() -> int:
 	print("[1/5] Reading PDF...", flush=True)
+	pdf_path = locate_pdf(ROOT)
 	try:
-		pdf_text = read_pdf_all_text(PDF_PATH)
+		pdf_text = read_pdf_all_text(pdf_path)
 	except Exception as e:
 		print(f"ERROR: {e}")
-		print("Hint: Ensure the PDF exists at 'deep-research/anti-patterns-deep-research.pdf' and dependencies are installed.")
+		print("Hint: Ensure the PDF exists under the 'deep-research/' folder. The app searches recursively for 'anti-patterns-deep-research.pdf'.")
 		return 2
 
 	print(f"Read {len(pdf_text):,} characters from PDF.", flush=True)
