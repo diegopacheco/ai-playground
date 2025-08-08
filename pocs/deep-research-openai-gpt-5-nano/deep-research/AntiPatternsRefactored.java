@@ -1,47 +1,3 @@
-# Deep Research with gpt-5-nano
-
-## Setup
-
-- Ensure the PDF exists at `deep-research/anti-patterns-deep-research.pdf`.
-- Export your OpenAI API key as an environment variable.
-
-```bash
-export OPENAI_API_KEY="<your-api-key>"
-```
-
-## Install dependencies
-
-```bash
-./install-deps.sh
-```
-
-This creates a local virtual environment at `.venv` and installs dependencies there.
-
-## Run
-
-```bash
-./run.sh
-```
-
-The run script will auto-activate `.venv` if present.
-
-## Result
-
-```bash
-❯ ./run.sh
-[1/5] Reading PDF...
-Read 61,620 characters from PDF.
-[2/5] Generating Java anti-pattern sample...
-Wrote sample to /mnt/e35d88d4-42b9-49ea-bf29-c4c3b018d429/diego/git/diegopacheco/ai-playground/pocs/deep-research-openai-gpt-5-nano/deep-research/AntiPatterns.java (916 chars).
-[3/5] Calling OpenAI (gpt-5-nano) to refactor...
-[4/5] Writing refactoring result...
-Saved extracted Java to /mnt/e35d88d4-42b9-49ea-bf29-c4c3b018d429/diego/git/diegopacheco/ai-playground/pocs/deep-research-openai-gpt-5-nano/deep-research/AntiPatternsRefactored.refactored.only.java
-[5/5] Done. See /mnt/e35d88d4-42b9-49ea-bf29-c4c3b018d429/diego/git/diegopacheco/ai-playground/pocs/deep-research-openai-gpt-5-nano/deep-research/AntiPatternsRefactored.java
-```
-
-Result code:
-
-```java
 /*
 - Removed global mutable state: eliminated static fields X and data; class is now effectively instance-based.
 - Replaced System.out prints with java.util.logging.Logger for structured, configurable logging.
@@ -102,4 +58,3 @@ public class App {
         }
     }
 }
-```

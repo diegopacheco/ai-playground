@@ -1,3 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-/bin/python3 src/main.py
+if [ -d ".venv" ]; then
+	source .venv/bin/activate
+fi
+
+python src/main.py
