@@ -5,8 +5,11 @@ from typing import List
 
 try:
 	from pypdf import PdfReader
-except Exception as e:
-	PdfReader = None
+except Exception:
+	try:
+		from PyPDF2 import PdfReader
+	except Exception:
+		PdfReader = None
 
 try:
 	from openai import OpenAI
@@ -14,7 +17,6 @@ except Exception:
 	OpenAI = None
 
 ROOT = Path(__file__).resolve().parents[1]
-# Default PDF location (will be overridden if auto-discovery finds another one)
 PDF_PATH = ROOT / "deep-research" / "anti-patterns-deep-research.pdf"
 JAVA_OUT_PATH = ROOT / "deep-research" / "AntiPatterns.java"
 RESULT_OUT_PATH = ROOT / "deep-research" / "AntiPatternsRefactored.java"
@@ -128,7 +130,7 @@ def call_openai_refactor(pdf_text: str, java_code: str) -> str:
 
 	system_msg = (
 		"You are a senior Java engineer. Use the provided PDF content on anti-patterns to "
-		"identify and fix issues in the Java sample. Prefer clear, idiomatic Java 17+."
+		"identify and fix issues in the Java sample. Prefer clear, idiomatic Java 21+."
 	)
 
 	messages: List[dict] = [
@@ -150,7 +152,7 @@ def call_openai_refactor(pdf_text: str, java_code: str) -> str:
 			"content": (
 				"Here is the Java code with anti-patterns. Refactor it to remove the anti-patterns "
 				"based on the PDF guidance. Return ONLY a single Java file in a code block, "
-				"then a short bullet list of key changes.\n\n" 
+				"then using comments on the top of the class file: a short bullet list of key changes.\n\n" 
 				+ "```java\n" + java_code + "\n```"
 			),
 		}
@@ -159,7 +161,7 @@ def call_openai_refactor(pdf_text: str, java_code: str) -> str:
 	resp = client.chat.completions.create(
 		model="gpt-5-nano",
 		messages=messages,
-		temperature=0.2,
+		temperature=1,
 	)
 
 	content = resp.choices[0].message.content if resp.choices else ""
