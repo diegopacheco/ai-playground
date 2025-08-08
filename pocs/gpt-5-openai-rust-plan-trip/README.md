@@ -157,3 +157,4 @@ Optional quick photo stop
 * 1 Request
 * 124 input tokens
 * 6271k output tokens
+* COST: $0.06 USD
