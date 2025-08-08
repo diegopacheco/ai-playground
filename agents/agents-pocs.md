@@ -10,6 +10,8 @@ AI Agents are autonomous software programs that can perform tasks, make decision
 
 ### POCs: AI Engineering Agents
 
+This pocs I built software(usually the same software) and used an AI Engineering agent tool.
+
 Open AI Codex <br/>
 https://github.com/diegopacheco/codex-poc <br/>
 
@@ -36,11 +38,13 @@ https://github.com/diegopacheco/opencode-poc <br/>
 
 ### POCs: AI Agents
 
-Smith: Scala Security Agent
-https://github.com/diegopacheco/Smith
+This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
 
-Rust Trip Planner (gpt-5)
-https://github.com/diegopacheco/ai-playground/tree/main/pocs/gpt-5-openai-rust-plan-trip
+Smith: Scala Security Agent <br/>
+https://github.com/diegopacheco/Smith <br/>
 
-Python Deep Research Java AntiPatterns Refactoring Agent (gpt-5-nano)
-https://github.com/diegopacheco/ai-playground/tree/main/pocs/deep-research-openai-gpt-5-nano
+Rust Trip Planner (gpt-5) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/gpt-5-openai-rust-plan-trip <br/>
+
+Python Deep Research Java AntiPatterns Refactoring Agent (gpt-5-nano) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/deep-research-openai-gpt-5-nano <br/>
