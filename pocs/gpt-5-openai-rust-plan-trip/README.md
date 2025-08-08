@@ -154,6 +154,7 @@ Optional quick photo stop
 
 ### Metrics
 
+* Model: GPT-5
 * 1 Request
 * 124 input tokens
 * 6271k output tokens
