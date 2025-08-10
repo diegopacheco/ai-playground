@@ -36,6 +36,9 @@ https://github.com/diegopacheco/augmentcode-poc <br/>
 OpenCode (TS version) <br/>
 https://github.com/diegopacheco/opencode-poc <br/>
 
+Cursor Agent  <br/>
+https://github.com/diegopacheco/cursor-agent-gpt5-poc  <br/>
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
