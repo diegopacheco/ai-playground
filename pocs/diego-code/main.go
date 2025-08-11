@@ -44,7 +44,7 @@ type APIError struct {
 }
 
 type Agent struct {
-	apiKey      string
+	apiKey       string
 	conversation []Message
 }
 
@@ -69,7 +69,6 @@ func NewAgent() *Agent {
 }
 
 func (a *Agent) callOpenAI(prompt string) (string, error) {
-	// Add user message to conversation
 	a.conversation = append(a.conversation, Message{
 		Role:    "user",
 		Content: prompt,
@@ -124,8 +123,6 @@ func (a *Agent) callOpenAI(prompt string) (string, error) {
 	}
 
 	response := openAIResp.Choices[0].Message.Content
-
-	// Add assistant response to conversation
 	a.conversation = append(a.conversation, Message{
 		Role:    "assistant",
 		Content: response,
@@ -134,7 +131,6 @@ func (a *Agent) callOpenAI(prompt string) (string, error) {
 	return response, nil
 }
 
-// Web interface
 func (a *Agent) handleChat(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		prompt := r.FormValue("prompt")
@@ -154,7 +150,6 @@ func (a *Agent) handleChat(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Serve HTML page
 	tmpl := `<!DOCTYPE html>
 <html>
 <head>
@@ -298,38 +293,37 @@ func (a *Agent) handleChat(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(tmpl))
 }
 
-// CLI mode
 func (a *Agent) runCLI() {
 	fmt.Println("Diego Code - AI Coding Assistant")
 	fmt.Println("Type your coding questions or 'quit' to exit")
 	fmt.Println("=====================================")
 
 	scanner := bufio.NewScanner(os.Stdin)
-	
+
 	for {
 		fmt.Print("\n> ")
 		if !scanner.Scan() {
 			break
 		}
-		
+
 		input := strings.TrimSpace(scanner.Text())
 		if input == "quit" || input == "exit" {
 			fmt.Println("Goodbye!")
 			break
 		}
-		
+
 		if input == "" {
 			continue
 		}
 
 		fmt.Println("\nDiego Code is thinking...")
-		
+
 		response, err := a.callOpenAI(input)
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 			continue
 		}
-		
+
 		fmt.Printf("\nDiego Code:\n%s\n", response)
 		fmt.Println(strings.Repeat("-", 50))
 	}
@@ -337,15 +331,13 @@ func (a *Agent) runCLI() {
 
 func main() {
 	agent := NewAgent()
-
-	// Check for web mode flag
 	for _, arg := range os.Args[1:] {
 		if arg == "--web" || arg == "-w" {
 			fmt.Println("Starting Diego Code web interface...")
 			fmt.Println("Open http://localhost:8080 in your browser")
-			
+
 			http.HandleFunc("/", agent.handleChat)
-			
+
 			if err := http.ListenAndServe(":8080", nil); err != nil {
 				fmt.Printf("Server error: %v\n", err)
 				os.Exit(1)
@@ -353,7 +345,5 @@ func main() {
 			return
 		}
 	}
-
-	// Default to CLI mode
 	agent.runCLI()
 }
