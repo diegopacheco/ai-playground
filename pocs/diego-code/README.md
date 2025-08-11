@@ -12,6 +12,10 @@ go build ./...
 
 ### Result
 
+Web <br/>
+<img src="results/diego-code.png" width="600" /> <br/>
+
+CLI
 ```bash
 ❯ go run main.go
 Diego Code - AI Coding Assistant
