@@ -323,9 +323,11 @@ func (a *Agent) handleChat(w http.ResponseWriter, r *http.Request) {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #ffffff; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .header { text-align: center; margin-bottom: 30px; }
+        .header { text-align: center; margin-bottom: 30px; position: relative; }
         .header h1 { color: #10a37f; font-size: 2.5rem; margin-bottom: 10px; }
         .header p { color: #8e8ea0; font-size: 1.1rem; }
+        .clock { position: absolute; top: 0; right: 0; background: #2d2d30; padding: 8px 16px; border-radius: 20px; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.9rem; color: #10a37f; border: 1px solid #10a37f; }
+        .clock-label { font-size: 0.8rem; color: #8e8ea0; margin-right: 8px; }
         .chat-container { background: #1a1a1a; border-radius: 12px; padding: 0; min-height: 600px; display: flex; flex-direction: column; }
         .messages { flex: 1; padding: 20px; overflow-y: auto; max-height: 500px; }
         .message { margin-bottom: 20px; }
@@ -348,6 +350,11 @@ func (a *Agent) handleChat(w http.ResponseWriter, r *http.Request) {
 <body>
     <div class="container">
         <div class="header">
+            <div class="clock">
+                <span class="clock-label">🕐</span>
+                <span id="clock-time">--:--:--</span>
+                <span id="clock-date">---- -- --</span>
+            </div>
             <h1>Diego Code</h1>
             <p>Your AI Coding Assistant</p>
         </div>
@@ -446,6 +453,29 @@ func (a *Agent) handleChat(w http.ResponseWriter, r *http.Request) {
             }
         });
 
+        // Clock functionality
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit', 
+                second: '2-digit'
+            });
+            const dateString = now.toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short', 
+                day: '2-digit'
+            });
+            
+            document.getElementById('clock-time').textContent = timeString;
+            document.getElementById('clock-date').textContent = dateString;
+        }
+
+        // Update clock immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+
         // Focus input on load
         promptInput.focus();
     </script>
@@ -457,14 +487,16 @@ func (a *Agent) handleChat(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *Agent) runCLI() {
-	fmt.Println("Diego Code - AI Coding Assistant")
+	fmt.Printf("Diego Code - AI Coding Assistant | %s\n", time.Now().Format("Mon Jan 02, 2006 15:04:05"))
 	fmt.Println("Type your coding questions or 'quit' to exit")
 	fmt.Println("=====================================")
 
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		fmt.Print("\n> ")
+		// Display current time before each prompt
+		currentTime := time.Now().Format("15:04:05")
+		fmt.Printf("\n[%s] > ", currentTime)
 		if !scanner.Scan() {
 			break
 		}
