@@ -14,6 +14,9 @@ import (
 	"regexp"
 	"strings"
 	"time"
+
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 type OpenAIRequest struct {
@@ -51,9 +54,19 @@ type Agent struct {
 	apiKey       string
 	conversation []Message
 	workingDir   string
+	totalTokens  int
 }
 
 const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
+
+var (
+	app        *tview.Application
+	inputField *tview.InputField
+	chatList   *tview.List
+	statusView *tview.TextView
+	clockView  *tview.TextView
+	agent      *Agent
+)
 
 func NewAgent() *Agent {
 	apiKey := os.Getenv("OPENAI_API_KEY")
@@ -95,6 +108,7 @@ You can create and run files in Python, JavaScript, Go, Java, C++, etc.`,
 }
 
 func (a *Agent) callOpenAI(prompt string) (string, error) {
+	// Add user message to conversation
 	a.conversation = append(a.conversation, Message{
 		Role:    "user",
 		Content: prompt,
@@ -149,6 +163,9 @@ func (a *Agent) callOpenAI(prompt string) (string, error) {
 	}
 
 	response := openAIResp.Choices[0].Message.Content
+	a.totalTokens += openAIResp.Usage.TotalTokens
+
+	// Add assistant response to conversation
 	a.conversation = append(a.conversation, Message{
 		Role:    "assistant",
 		Content: response,
@@ -161,24 +178,26 @@ func (a *Agent) createFile(filename, content string) string {
 	if !filepath.IsAbs(filename) {
 		filename = filepath.Join(a.workingDir, filename)
 	}
+
 	dir := filepath.Dir(filename)
 	if err := os.MkdirAll(dir, 0755); err != nil {
-		return fmt.Sprintf("Error creating directory: %v", err)
+		return fmt.Sprintf("❌ Error creating directory: %v", err)
 	}
 
 	if err := os.WriteFile(filename, []byte(content), 0644); err != nil {
-		return fmt.Sprintf("Error creating file %s: %v", filename, err)
+		return fmt.Sprintf("❌ Error creating file %s: %v", filename, err)
 	}
 
-	return fmt.Sprintf("✓ Created file: %s", filename)
+	return fmt.Sprintf("✅ Created file: %s", filepath.Base(filename))
 }
 
 func (a *Agent) runCode(filename, args string) string {
 	if !filepath.IsAbs(filename) {
 		filename = filepath.Join(a.workingDir, filename)
 	}
+
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
-		return fmt.Sprintf("File %s does not exist", filename)
+		return fmt.Sprintf("❌ File %s does not exist", filename)
 	}
 
 	ext := filepath.Ext(filename)
@@ -209,7 +228,7 @@ func (a *Agent) runCode(filename, args string) string {
 		className := strings.TrimSuffix(filepath.Base(filename), ".java")
 		compileCmd := exec.CommandContext(ctx, "javac", filename)
 		if err := compileCmd.Run(); err != nil {
-			return fmt.Sprintf("Java compilation failed: %v", err)
+			return fmt.Sprintf("❌ Java compilation failed: %v", err)
 		}
 		if args != "" {
 			cmd = exec.CommandContext(ctx, "java", "-cp", filepath.Dir(filename), className, args)
@@ -220,7 +239,7 @@ func (a *Agent) runCode(filename, args string) string {
 		exeName := strings.TrimSuffix(filename, ext)
 		compileCmd := exec.CommandContext(ctx, "g++", filename, "-o", exeName)
 		if err := compileCmd.Run(); err != nil {
-			return fmt.Sprintf("C++ compilation failed: %v", err)
+			return fmt.Sprintf("❌ C++ compilation failed: %v", err)
 		}
 		if args != "" {
 			cmd = exec.CommandContext(ctx, exeName, args)
@@ -228,27 +247,31 @@ func (a *Agent) runCode(filename, args string) string {
 			cmd = exec.CommandContext(ctx, exeName)
 		}
 	default:
-		return fmt.Sprintf("Unsupported file type: %s", ext)
+		return fmt.Sprintf("⚠️ Unsupported file type: %s", ext)
 	}
 
 	cmd.Dir = a.workingDir
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		return fmt.Sprintf("Execution failed: %v\nOutput: %s", err, string(output))
+		return fmt.Sprintf("❌ Execution failed: %v\nOutput: %s", err, string(output))
 	}
 
-	return fmt.Sprintf("🚀 Executed %s:\n%s", filename, string(output))
+	return fmt.Sprintf("🚀 Executed %s:\n%s", filepath.Base(filename), string(output))
 }
 
 func (a *Agent) processResponse(response string) string {
 	var results []string
+	
+	// Process CREATE_FILE commands
 	createFileRegex := regexp.MustCompile(`(?s)<CREATE_FILE:([^>]+)>(.*?)</CREATE_FILE>`)
 	matches := createFileRegex.FindAllStringSubmatch(response, -1)
-
+	
 	for _, match := range matches {
 		if len(match) == 3 {
 			filename := strings.TrimSpace(match[1])
 			content := strings.TrimSpace(match[2])
+			
+			// Clean up markdown code blocks if present
 			content = strings.TrimPrefix(content, "```python")
 			content = strings.TrimPrefix(content, "```javascript")
 			content = strings.TrimPrefix(content, "```go")
@@ -257,17 +280,16 @@ func (a *Agent) processResponse(response string) string {
 			content = strings.TrimPrefix(content, "```")
 			content = strings.TrimSuffix(content, "```")
 			content = strings.TrimSpace(content)
-
-			fmt.Printf("\n🔧 Creating file: %s\n", filename)
+			
 			result := a.createFile(filename, content)
-			fmt.Printf("%s\n", result)
 			results = append(results, result)
 		}
 	}
 
+	// Process RUN_CODE commands
 	runCodeRegex := regexp.MustCompile(`(?s)<RUN_CODE:([^>]+)>(.*?)</RUN_CODE>`)
 	runMatches := runCodeRegex.FindAllStringSubmatch(response, -1)
-
+	
 	for _, match := range runMatches {
 		if len(match) >= 2 {
 			filename := strings.TrimSpace(match[1])
@@ -275,270 +297,230 @@ func (a *Agent) processResponse(response string) string {
 			if len(match) > 2 {
 				args = strings.TrimSpace(match[2])
 			}
-
-			fmt.Printf("\n🚀 Running: %s\n", filename)
+			
 			result := a.runCode(filename, args)
-			fmt.Printf("%s\n", result)
 			results = append(results, result)
 		}
 	}
-
+	
+	// Remove command tags from response but keep explanation
 	cleanResponse := createFileRegex.ReplaceAllString(response, "")
 	cleanResponse = runCodeRegex.ReplaceAllString(cleanResponse, "")
-
+	
+	// Add results to response
 	if len(results) > 0 {
 		cleanResponse += "\n\n" + strings.Join(results, "\n")
 	}
-
+	
 	return cleanResponse
 }
 
-func (a *Agent) handleChat(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "POST" {
-		prompt := r.FormValue("prompt")
-		if prompt == "" {
-			http.Error(w, "Empty prompt", http.StatusBadRequest)
-			return
-		}
+func addChatMessage(sender, message string) {
+	timestamp := time.Now().Format("15:04:05")
+	
+	// Color codes for different senders
+	var coloredSender string
+	if sender == "You" {
+		coloredSender = fmt.Sprintf("[blue]%s[white]", sender)
+	} else {
+		coloredSender = fmt.Sprintf("[green]%s[white]", sender)
+	}
+	
+	chatText := fmt.Sprintf("[gray]%s[white] %s: %s", timestamp, coloredSender, message)
+	
+	chatList.AddItem(chatText, "", 0, nil)
+	chatList.SetCurrentItem(-1) // Auto-scroll to bottom
+}
 
-		response, err := a.callOpenAI(prompt)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+func updateStatus(message string) {
+	status := fmt.Sprintf("Status: %s | Tokens: %d | Dir: %s", message, agent.totalTokens, agent.workingDir)
+	statusView.SetText(status)
+}
 
-		processedResponse := a.processResponse(response)
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]string{"response": processedResponse})
+func updateClock() {
+	for {
+		now := time.Now()
+		clockText := fmt.Sprintf("🕐 %s | %s", 
+			now.Format("15:04:05"), 
+			now.Format("Mon Jan 02, 2006"))
+		
+		app.QueueUpdateDraw(func() {
+			clockView.SetText(clockText)
+		})
+		
+		time.Sleep(1 * time.Second)
+	}
+}
+
+func handleSubmit() {
+	prompt := strings.TrimSpace(inputField.GetText())
+	if prompt == "" {
 		return
 	}
 
-	tmpl := `<!DOCTYPE html>
-<html>
-<head>
-    <title>Diego Code - AI Assistant</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #ffffff; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .header { text-align: center; margin-bottom: 30px; position: relative; }
-        .header h1 { color: #10a37f; font-size: 2.5rem; margin-bottom: 10px; }
-        .header p { color: #8e8ea0; font-size: 1.1rem; }
-        .clock { position: absolute; top: 0; right: 0; background: #2d2d30; padding: 8px 16px; border-radius: 20px; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.9rem; color: #10a37f; border: 1px solid #10a37f; }
-        .clock-label { font-size: 0.8rem; color: #8e8ea0; margin-right: 8px; }
-        .chat-container { background: #1a1a1a; border-radius: 12px; padding: 0; min-height: 600px; display: flex; flex-direction: column; }
-        .messages { flex: 1; padding: 20px; overflow-y: auto; max-height: 500px; }
-        .message { margin-bottom: 20px; }
-        .message.user { text-align: right; }
-        .message.assistant { text-align: left; }
-        .message-content { display: inline-block; max-width: 70%; padding: 15px 20px; border-radius: 18px; }
-        .message.user .message-content { background: #10a37f; color: white; }
-        .message.assistant .message-content { background: #2d2d30; color: #ffffff; }
-        .input-area { border-top: 1px solid #2d2d30; padding: 20px; display: flex; gap: 10px; }
-        .input-area input { flex: 1; padding: 15px 20px; border: 1px solid #2d2d30; border-radius: 25px; background: #0a0a0a; color: #ffffff; font-size: 16px; }
-        .input-area input:focus { outline: none; border-color: #10a37f; }
-        .input-area button { padding: 15px 30px; background: #10a37f; color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: 600; }
-        .input-area button:hover { background: #0d8f6f; }
-        .input-area button:disabled { background: #2d2d30; cursor: not-allowed; }
-        pre { background: #000; padding: 15px; border-radius: 8px; overflow-x: auto; margin: 10px 0; }
-        code { background: #2d2d30; padding: 2px 6px; border-radius: 4px; }
-        .loading { color: #8e8ea0; font-style: italic; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <div class="clock">
-                <span class="clock-label">🕐</span>
-                <span id="clock-time">--:--:--</span>
-                <span id="clock-date">---- -- --</span>
-            </div>
-            <h1>Diego Code</h1>
-            <p>Your AI Coding Assistant</p>
-        </div>
-        
-        <div class="chat-container">
-            <div class="messages" id="messages">
-                <div class="message assistant">
-                    <div class="message-content">
-                        Hello! I'm Diego Code, your AI coding assistant. I can help you with:
-                        <br><br>
-                        • Writing code in any programming language
-                        <br>• Debugging and fixing issues
-                        <br>• Explaining code concepts
-                        <br>• Code reviews and optimization
-                        <br>• Architecture and design patterns
-                        <br><br>
-                        What would you like to work on today?
-                    </div>
-                </div>
-            </div>
-            
-            <div class="input-area">
-                <input type="text" id="promptInput" placeholder="Ask me anything about coding..." autofocus>
-                <button onclick="sendMessage()" id="sendBtn">Send</button>
-            </div>
-        </div>
-    </div>
+	// Clear input and add user message
+	inputField.SetText("")
+	addChatMessage("You", prompt)
+	
+	// Show thinking status
+	updateStatus("Diego Code is thinking...")
+	addChatMessage("Diego Code", "🤔 Thinking...")
 
-    <script>
-        const messagesDiv = document.getElementById('messages');
-        const promptInput = document.getElementById('promptInput');
-        const sendBtn = document.getElementById('sendBtn');
-
-        function addMessage(content, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message ' + (isUser ? 'user' : 'assistant');
-            messageDiv.innerHTML = '<div class="message-content">' + content + '</div>';
-            messagesDiv.appendChild(messageDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-
-        function formatResponse(text) {
-            // Simple markdown-like formatting
-            return text
-                .replace(/` + "`" + `{3}([^` + "`" + `]+)` + "`" + `{3}/g, '<pre>$1</pre>')
-                .replace(/` + "`" + `([^` + "`" + `]+)` + "`" + `/g, '<code>$1</code>')
-                .replace(/\n/g, '<br>');
-        }
-
-        async function sendMessage() {
-            const prompt = promptInput.value.trim();
-            if (!prompt) return;
-
-            addMessage(prompt, true);
-            promptInput.value = '';
-            sendBtn.disabled = true;
-            sendBtn.textContent = 'Thinking...';
-
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'message assistant';
-            loadingDiv.innerHTML = '<div class="message-content loading">Diego Code is thinking...</div>';
-            messagesDiv.appendChild(loadingDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-            try {
-                const formData = new FormData();
-                formData.append('prompt', prompt);
-
-                const response = await fetch('/', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                messagesDiv.removeChild(loadingDiv);
-
-                if (response.ok) {
-                    const data = await response.json();
-                    addMessage(formatResponse(data.response));
-                } else {
-                    addMessage('Sorry, I encountered an error. Please try again.');
-                }
-            } catch (error) {
-                messagesDiv.removeChild(loadingDiv);
-                addMessage('Connection error. Please check your internet connection.');
-            }
-
-            sendBtn.disabled = false;
-            sendBtn.textContent = 'Send';
-            promptInput.focus();
-        }
-
-        promptInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
-        // Clock functionality
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { 
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit', 
-                second: '2-digit'
-            });
-            const dateString = now.toLocaleDateString('en-US', {
-                weekday: 'short',
-                month: 'short', 
-                day: '2-digit'
-            });
-            
-            document.getElementById('clock-time').textContent = timeString;
-            document.getElementById('clock-date').textContent = dateString;
-        }
-
-        // Update clock immediately and then every second
-        updateClock();
-        setInterval(updateClock, 1000);
-
-        // Focus input on load
-        promptInput.focus();
-    </script>
-</body>
-</html>`
-
-	w.Header().Set("Content-Type", "text/html")
-	w.Write([]byte(tmpl))
+	// Process request in goroutine
+	go func() {
+		response, err := agent.callOpenAI(prompt)
+		
+		app.QueueUpdateDraw(func() {
+			// Remove thinking message
+			chatList.RemoveItem(chatList.GetItemCount() - 1)
+			
+			if err != nil {
+				addChatMessage("Diego Code", fmt.Sprintf("❌ Error: %v", err))
+				updateStatus("Error occurred")
+			} else {
+				// Process and display response
+				processedResponse := agent.processResponse(response)
+				addChatMessage("Diego Code", processedResponse)
+				updateStatus("Ready")
+			}
+		})
+	}()
 }
 
-func (a *Agent) runCLI() {
-	fmt.Printf("Diego Code - AI Coding Assistant | %s\n", time.Now().Format("Mon Jan 02, 2006 15:04:05"))
+func main() {
+	agent = NewAgent()
+
+	// Check for CLI mode
+	for _, arg := range os.Args[1:] {
+		if arg == "--cli" || arg == "-c" {
+			runCLI()
+			return
+		}
+	}
+
+	// Initialize TUI components (following docker-cleanup pattern)
+	app = tview.NewApplication()
+
+	// Clock view (top)
+	clockView = tview.NewTextView().
+		SetTextAlign(tview.AlignCenter).
+		SetDynamicColors(true)
+	clockView.SetBorder(true).SetTitle("Diego Code - AI Assistant")
+
+	// Input field for prompts
+	inputField = tview.NewInputField().
+		SetLabel("Prompt: ").
+		SetFieldWidth(0).
+		SetPlaceholder("Type your coding question here...")
+	inputField.SetBorder(true).SetTitle("Your Question")
+
+	// Chat list (main area)
+	chatList = tview.NewList().
+		ShowSecondaryText(false)
+	chatList.SetBorder(true).SetTitle("Chat History")
+
+	// Status view (bottom)
+	statusView = tview.NewTextView().
+		SetTextAlign(tview.AlignCenter).
+		SetDynamicColors(true)
+	statusView.SetBorder(true).SetTitle("Status")
+
+	// Add welcome message
+	addChatMessage("Diego Code", `Welcome! I'm your AI coding assistant. I can help you with:
+• Writing code in any programming language
+• Creating and running programs automatically  
+• Debugging and fixing code issues
+• Explaining programming concepts
+
+Examples you can try:
+• "create a hello world in python and run it"
+• "write a fibonacci function in go"
+• "create a simple web server in javascript"
+
+Press Enter to send, Tab to switch focus, Ctrl+C to quit.`)
+
+	// Set up event handlers (following docker-cleanup pattern)
+	inputField.SetDoneFunc(func(key tcell.Key) {
+		if key == tcell.KeyEnter {
+			handleSubmit()
+		}
+	})
+
+	// Key bindings for navigation
+	inputField.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		if event.Key() == tcell.KeyTab {
+			app.SetFocus(chatList)
+			return nil
+		}
+		return event
+	})
+
+	chatList.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		if event.Key() == tcell.KeyTab {
+			app.SetFocus(inputField)
+			return nil
+		}
+		return event
+	})
+
+	// Create layout (vertical flex like docker-cleanup)
+	flex := tview.NewFlex().
+		SetDirection(tview.FlexRow).
+		AddItem(clockView, 3, 0, false).
+		AddItem(inputField, 3, 0, true).
+		AddItem(chatList, 0, 1, false).
+		AddItem(statusView, 3, 0, false)
+
+	app.SetRoot(flex, true).SetFocus(inputField)
+
+	// Initialize status and clock
+	updateStatus("Ready - Welcome to Diego Code!")
+	go updateClock()
+
+	// Run the application
+	if err := app.Run(); err != nil {
+		fmt.Printf("TUI failed to start: %v\n", err)
+		fmt.Println("Falling back to CLI mode...")
+		runCLI()
+	}
+}
+
+func runCLI() {
+	fmt.Printf("Diego Code - AI Coding Assistant (CLI Mode) | %s\n", time.Now().Format("Mon Jan 02, 2006 15:04:05"))
 	fmt.Println("Type your coding questions or 'quit' to exit")
 	fmt.Println("=====================================")
 
 	scanner := bufio.NewScanner(os.Stdin)
-
 	for {
-		// Display current time before each prompt
 		currentTime := time.Now().Format("15:04:05")
 		fmt.Printf("\n[%s] > ", currentTime)
+		
 		if !scanner.Scan() {
 			break
 		}
-
+		
 		input := strings.TrimSpace(scanner.Text())
 		if input == "quit" || input == "exit" {
 			fmt.Println("Goodbye!")
 			break
 		}
-
+		
 		if input == "" {
 			continue
 		}
 
 		fmt.Println("\nDiego Code is thinking...")
-		response, err := a.callOpenAI(input)
+		
+		response, err := agent.callOpenAI(input)
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 			continue
 		}
-
-		processedResponse := a.processResponse(response)
+		
+		// Process file creation and execution commands
+		processedResponse := agent.processResponse(response)
+		
 		fmt.Printf("\nDiego Code:\n%s\n", processedResponse)
 		fmt.Println(strings.Repeat("-", 50))
 	}
-}
-
-func main() {
-	agent := NewAgent()
-	for _, arg := range os.Args[1:] {
-		if arg == "--web" || arg == "-w" {
-			fmt.Println("Starting Diego Code web interface...")
-			fmt.Println("Open http://localhost:8080 in your browser")
-
-			http.HandleFunc("/", agent.handleChat)
-
-			if err := http.ListenAndServe(":8080", nil); err != nil {
-				fmt.Printf("Server error: %v\n", err)
-				os.Exit(1)
-			}
-			return
-		}
-	}
-	agent.runCLI()
 }
