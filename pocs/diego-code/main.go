@@ -3,11 +3,15 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
+	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -46,6 +50,7 @@ type APIError struct {
 type Agent struct {
 	apiKey       string
 	conversation []Message
+	workingDir   string
 }
 
 const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
@@ -57,12 +62,33 @@ func NewAgent() *Agent {
 		os.Exit(1)
 	}
 
+	workingDir, _ := os.Getwd()
+
 	return &Agent{
-		apiKey: apiKey,
+		apiKey:     apiKey,
+		workingDir: workingDir,
 		conversation: []Message{
 			{
-				Role:    "system",
-				Content: "You are a helpful coding assistant. Provide clear code examples and explanations.",
+				Role: "system",
+				Content: `You are Diego Code, an AI coding assistant that can create and execute code files. 
+
+When a user asks you to create code:
+1. First explain what you are doing
+2. Use this EXACT format to create files: <CREATE_FILE:filename.ext>actual code without markdown</CREATE_FILE>
+3. Use this EXACT format to run code: <RUN_CODE:filename.ext></RUN_CODE>
+
+IMPORTANT: 
+- Put the raw code directly inside the tags, NO markdown code blocks (no backticks)
+- Always follow CREATE_FILE with RUN_CODE to execute the program
+- Be precise with the format
+
+Example:
+I will create a Python hello world program for you.
+
+<CREATE_FILE:hello.py>print("Hello, World!")</CREATE_FILE>
+<RUN_CODE:hello.py></RUN_CODE>
+
+You can create and run files in Python, JavaScript, Go, Java, C++, etc.`,
 			},
 		},
 	}
@@ -131,6 +157,155 @@ func (a *Agent) callOpenAI(prompt string) (string, error) {
 	return response, nil
 }
 
+func (a *Agent) createFile(filename, content string) string {
+	if !filepath.IsAbs(filename) {
+		filename = filepath.Join(a.workingDir, filename)
+	}
+
+	// Create directory if needed
+	dir := filepath.Dir(filename)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return fmt.Sprintf("Error creating directory: %v", err)
+	}
+
+	if err := os.WriteFile(filename, []byte(content), 0644); err != nil {
+		return fmt.Sprintf("Error creating file %s: %v", filename, err)
+	}
+
+	return fmt.Sprintf("✓ Created file: %s", filename)
+}
+
+func (a *Agent) runCode(filename, args string) string {
+	if !filepath.IsAbs(filename) {
+		filename = filepath.Join(a.workingDir, filename)
+	}
+
+	// Check if file exists
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		return fmt.Sprintf("File %s does not exist", filename)
+	}
+
+	ext := filepath.Ext(filename)
+	var cmd *exec.Cmd
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	switch ext {
+	case ".py":
+		if args != "" {
+			cmd = exec.CommandContext(ctx, "python3", filename, args)
+		} else {
+			cmd = exec.CommandContext(ctx, "python3", filename)
+		}
+	case ".js":
+		if args != "" {
+			cmd = exec.CommandContext(ctx, "node", filename, args)
+		} else {
+			cmd = exec.CommandContext(ctx, "node", filename)
+		}
+	case ".go":
+		if args != "" {
+			cmd = exec.CommandContext(ctx, "go", "run", filename, args)
+		} else {
+			cmd = exec.CommandContext(ctx, "go", "run", filename)
+		}
+	case ".java":
+		// Compile and run Java
+		className := strings.TrimSuffix(filepath.Base(filename), ".java")
+		compileCmd := exec.CommandContext(ctx, "javac", filename)
+		if err := compileCmd.Run(); err != nil {
+			return fmt.Sprintf("Java compilation failed: %v", err)
+		}
+		if args != "" {
+			cmd = exec.CommandContext(ctx, "java", "-cp", filepath.Dir(filename), className, args)
+		} else {
+			cmd = exec.CommandContext(ctx, "java", "-cp", filepath.Dir(filename), className)
+		}
+	case ".cpp", ".cc":
+		// Compile and run C++
+		exeName := strings.TrimSuffix(filename, ext)
+		compileCmd := exec.CommandContext(ctx, "g++", filename, "-o", exeName)
+		if err := compileCmd.Run(); err != nil {
+			return fmt.Sprintf("C++ compilation failed: %v", err)
+		}
+		if args != "" {
+			cmd = exec.CommandContext(ctx, exeName, args)
+		} else {
+			cmd = exec.CommandContext(ctx, exeName)
+		}
+	default:
+		return fmt.Sprintf("Unsupported file type: %s", ext)
+	}
+
+	cmd.Dir = a.workingDir
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Sprintf("Execution failed: %v\nOutput: %s", err, string(output))
+	}
+
+	return fmt.Sprintf("🚀 Executed %s:\n%s", filename, string(output))
+}
+
+func (a *Agent) processResponse(response string) string {
+	var results []string
+
+	// Process CREATE_FILE commands with better pattern matching
+	createFileRegex := regexp.MustCompile(`(?s)<CREATE_FILE:([^>]+)>(.*?)</CREATE_FILE>`)
+	matches := createFileRegex.FindAllStringSubmatch(response, -1)
+
+	for _, match := range matches {
+		if len(match) == 3 {
+			filename := strings.TrimSpace(match[1])
+			content := strings.TrimSpace(match[2])
+
+			// Clean up markdown code blocks if present
+			content = strings.TrimPrefix(content, "```python")
+			content = strings.TrimPrefix(content, "```javascript")
+			content = strings.TrimPrefix(content, "```go")
+			content = strings.TrimPrefix(content, "```java")
+			content = strings.TrimPrefix(content, "```cpp")
+			content = strings.TrimPrefix(content, "```")
+			content = strings.TrimSuffix(content, "```")
+			content = strings.TrimSpace(content)
+
+			fmt.Printf("\n🔧 Creating file: %s\n", filename)
+			result := a.createFile(filename, content)
+			fmt.Printf("%s\n", result)
+			results = append(results, result)
+		}
+	}
+
+	// Process RUN_CODE commands
+	runCodeRegex := regexp.MustCompile(`(?s)<RUN_CODE:([^>]+)>(.*?)</RUN_CODE>`)
+	runMatches := runCodeRegex.FindAllStringSubmatch(response, -1)
+
+	for _, match := range runMatches {
+		if len(match) >= 2 {
+			filename := strings.TrimSpace(match[1])
+			args := ""
+			if len(match) > 2 {
+				args = strings.TrimSpace(match[2])
+			}
+
+			fmt.Printf("\n🚀 Running: %s\n", filename)
+			result := a.runCode(filename, args)
+			fmt.Printf("%s\n", result)
+			results = append(results, result)
+		}
+	}
+
+	// Remove the command tags from the response but keep the explanation
+	cleanResponse := createFileRegex.ReplaceAllString(response, "")
+	cleanResponse = runCodeRegex.ReplaceAllString(cleanResponse, "")
+
+	// Add results to the response
+	if len(results) > 0 {
+		cleanResponse += "\n\n" + strings.Join(results, "\n")
+	}
+
+	return cleanResponse
+}
+
 func (a *Agent) handleChat(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		prompt := r.FormValue("prompt")
@@ -145,8 +320,11 @@ func (a *Agent) handleChat(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		// Process file creation and execution commands
+		processedResponse := a.processResponse(response)
+
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]string{"response": response})
+		json.NewEncoder(w).Encode(map[string]string{"response": processedResponse})
 		return
 	}
 
@@ -324,7 +502,10 @@ func (a *Agent) runCLI() {
 			continue
 		}
 
-		fmt.Printf("\nDiego Code:\n%s\n", response)
+		// Process file creation and execution commands
+		processedResponse := a.processResponse(response)
+
+		fmt.Printf("\nDiego Code:\n%s\n", processedResponse)
 		fmt.Println(strings.Repeat("-", 50))
 	}
 }
