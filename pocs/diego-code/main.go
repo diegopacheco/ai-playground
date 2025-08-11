@@ -161,8 +161,6 @@ func (a *Agent) createFile(filename, content string) string {
 	if !filepath.IsAbs(filename) {
 		filename = filepath.Join(a.workingDir, filename)
 	}
-
-	// Create directory if needed
 	dir := filepath.Dir(filename)
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		return fmt.Sprintf("Error creating directory: %v", err)
@@ -179,8 +177,6 @@ func (a *Agent) runCode(filename, args string) string {
 	if !filepath.IsAbs(filename) {
 		filename = filepath.Join(a.workingDir, filename)
 	}
-
-	// Check if file exists
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		return fmt.Sprintf("File %s does not exist", filename)
 	}
@@ -210,7 +206,6 @@ func (a *Agent) runCode(filename, args string) string {
 			cmd = exec.CommandContext(ctx, "go", "run", filename)
 		}
 	case ".java":
-		// Compile and run Java
 		className := strings.TrimSuffix(filepath.Base(filename), ".java")
 		compileCmd := exec.CommandContext(ctx, "javac", filename)
 		if err := compileCmd.Run(); err != nil {
@@ -222,7 +217,6 @@ func (a *Agent) runCode(filename, args string) string {
 			cmd = exec.CommandContext(ctx, "java", "-cp", filepath.Dir(filename), className)
 		}
 	case ".cpp", ".cc":
-		// Compile and run C++
 		exeName := strings.TrimSuffix(filename, ext)
 		compileCmd := exec.CommandContext(ctx, "g++", filename, "-o", exeName)
 		if err := compileCmd.Run(); err != nil {
@@ -248,8 +242,6 @@ func (a *Agent) runCode(filename, args string) string {
 
 func (a *Agent) processResponse(response string) string {
 	var results []string
-
-	// Process CREATE_FILE commands with better pattern matching
 	createFileRegex := regexp.MustCompile(`(?s)<CREATE_FILE:([^>]+)>(.*?)</CREATE_FILE>`)
 	matches := createFileRegex.FindAllStringSubmatch(response, -1)
 
@@ -257,8 +249,6 @@ func (a *Agent) processResponse(response string) string {
 		if len(match) == 3 {
 			filename := strings.TrimSpace(match[1])
 			content := strings.TrimSpace(match[2])
-
-			// Clean up markdown code blocks if present
 			content = strings.TrimPrefix(content, "```python")
 			content = strings.TrimPrefix(content, "```javascript")
 			content = strings.TrimPrefix(content, "```go")
@@ -275,7 +265,6 @@ func (a *Agent) processResponse(response string) string {
 		}
 	}
 
-	// Process RUN_CODE commands
 	runCodeRegex := regexp.MustCompile(`(?s)<RUN_CODE:([^>]+)>(.*?)</RUN_CODE>`)
 	runMatches := runCodeRegex.FindAllStringSubmatch(response, -1)
 
@@ -294,11 +283,9 @@ func (a *Agent) processResponse(response string) string {
 		}
 	}
 
-	// Remove the command tags from the response but keep the explanation
 	cleanResponse := createFileRegex.ReplaceAllString(response, "")
 	cleanResponse = runCodeRegex.ReplaceAllString(cleanResponse, "")
 
-	// Add results to the response
 	if len(results) > 0 {
 		cleanResponse += "\n\n" + strings.Join(results, "\n")
 	}
@@ -320,9 +307,7 @@ func (a *Agent) handleChat(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// Process file creation and execution commands
 		processedResponse := a.processResponse(response)
-
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(map[string]string{"response": processedResponse})
 		return
@@ -495,16 +480,13 @@ func (a *Agent) runCLI() {
 		}
 
 		fmt.Println("\nDiego Code is thinking...")
-
 		response, err := a.callOpenAI(input)
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 			continue
 		}
 
-		// Process file creation and execution commands
 		processedResponse := a.processResponse(response)
-
 		fmt.Printf("\nDiego Code:\n%s\n", processedResponse)
 		fmt.Println(strings.Repeat("-", 50))
 	}
