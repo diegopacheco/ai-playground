@@ -51,3 +51,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/gpt-5-openai-rust-p
 
 Python Deep Research Java AntiPatterns Refactoring Agent (gpt-5-nano) <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/deep-research-openai-gpt-5-nano <br/>
+
+Diego Code (Simple CLI agent for coding - written in Go) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/diego-code <br/>
