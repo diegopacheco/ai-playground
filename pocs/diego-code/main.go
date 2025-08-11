@@ -83,23 +83,29 @@ func NewAgent() *Agent {
 		conversation: []Message{
 			{
 				Role: "system",
-				Content: `You are Diego Code, an AI coding assistant that can create and execute code files. 
+				Content: `You are Diego Code, an AI coding assistant that can create, read, and execute code files. 
 
 When a user asks you to create code:
 1. First explain what you are doing
 2. Use this EXACT format to create files: <CREATE_FILE:filename.ext>actual code without markdown</CREATE_FILE>
 3. Use this EXACT format to run code: <RUN_CODE:filename.ext></RUN_CODE>
 
+When a user asks to see/read/show a file:
+4. Use this EXACT format to read files: <READ_FILE:filename.ext></READ_FILE>
+
 IMPORTANT: 
 - Put the raw code directly inside the tags, NO markdown code blocks (no backticks)
 - Always follow CREATE_FILE with RUN_CODE to execute the program
+- Use READ_FILE when users ask to see file contents
 - Be precise with the format
 
-Example:
+Examples:
 I will create a Python hello world program for you.
-
 <CREATE_FILE:hello.py>print("Hello, World!")</CREATE_FILE>
 <RUN_CODE:hello.py></RUN_CODE>
+
+To show you the contents of main.go:
+<READ_FILE:main.go></READ_FILE>
 
 You can create and run files in Python, JavaScript, Go, Java, C++, etc.`,
 			},
@@ -108,7 +114,6 @@ You can create and run files in Python, JavaScript, Go, Java, C++, etc.`,
 }
 
 func (a *Agent) callOpenAI(prompt string) (string, error) {
-	// Add user message to conversation
 	a.conversation = append(a.conversation, Message{
 		Role:    "user",
 		Content: prompt,
@@ -165,7 +170,6 @@ func (a *Agent) callOpenAI(prompt string) (string, error) {
 	response := openAIResp.Choices[0].Message.Content
 	a.totalTokens += openAIResp.Usage.TotalTokens
 
-	// Add assistant response to conversation
 	a.conversation = append(a.conversation, Message{
 		Role:    "assistant",
 		Content: response,
@@ -259,19 +263,33 @@ func (a *Agent) runCode(filename, args string) string {
 	return fmt.Sprintf("🚀 Executed %s:\n%s", filepath.Base(filename), string(output))
 }
 
+func (a *Agent) readFile(filename string) string {
+	if !filepath.IsAbs(filename) {
+		filename = filepath.Join(a.workingDir, filename)
+	}
+
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		return fmt.Sprintf("❌ File %s does not exist", filename)
+	}
+
+	content, err := os.ReadFile(filename)
+	if err != nil {
+		return fmt.Sprintf("❌ Error reading file %s: %v", filename, err)
+	}
+
+	return fmt.Sprintf("📄 Contents of %s:\n```\n%s\n```", filepath.Base(filename), string(content))
+}
+
 func (a *Agent) processResponse(response string) string {
 	var results []string
-	
-	// Process CREATE_FILE commands
+
 	createFileRegex := regexp.MustCompile(`(?s)<CREATE_FILE:([^>]+)>(.*?)</CREATE_FILE>`)
 	matches := createFileRegex.FindAllStringSubmatch(response, -1)
-	
+
 	for _, match := range matches {
 		if len(match) == 3 {
 			filename := strings.TrimSpace(match[1])
 			content := strings.TrimSpace(match[2])
-			
-			// Clean up markdown code blocks if present
 			content = strings.TrimPrefix(content, "```python")
 			content = strings.TrimPrefix(content, "```javascript")
 			content = strings.TrimPrefix(content, "```go")
@@ -280,16 +298,14 @@ func (a *Agent) processResponse(response string) string {
 			content = strings.TrimPrefix(content, "```")
 			content = strings.TrimSuffix(content, "```")
 			content = strings.TrimSpace(content)
-			
+
 			result := a.createFile(filename, content)
 			results = append(results, result)
 		}
 	}
-
-	// Process RUN_CODE commands
 	runCodeRegex := regexp.MustCompile(`(?s)<RUN_CODE:([^>]+)>(.*?)</RUN_CODE>`)
 	runMatches := runCodeRegex.FindAllStringSubmatch(response, -1)
-	
+
 	for _, match := range runMatches {
 		if len(match) >= 2 {
 			filename := strings.TrimSpace(match[1])
@@ -297,39 +313,62 @@ func (a *Agent) processResponse(response string) string {
 			if len(match) > 2 {
 				args = strings.TrimSpace(match[2])
 			}
-			
+
 			result := a.runCode(filename, args)
 			results = append(results, result)
 		}
 	}
-	
-	// Remove command tags from response but keep explanation
 	cleanResponse := createFileRegex.ReplaceAllString(response, "")
 	cleanResponse = runCodeRegex.ReplaceAllString(cleanResponse, "")
-	
-	// Add results to response
 	if len(results) > 0 {
 		cleanResponse += "\n\n" + strings.Join(results, "\n")
 	}
-	
+
 	return cleanResponse
 }
 
 func addChatMessage(sender, message string) {
 	timestamp := time.Now().Format("15:04:05")
-	
-	// Color codes for different senders
 	var coloredSender string
 	if sender == "You" {
 		coloredSender = fmt.Sprintf("[blue]%s[white]", sender)
 	} else {
 		coloredSender = fmt.Sprintf("[green]%s[white]", sender)
 	}
-	
-	chatText := fmt.Sprintf("[gray]%s[white] %s: %s", timestamp, coloredSender, message)
-	
+
+	wrappedMessage := wrapText(message, 80) // 80 chars per line
+	chatText := fmt.Sprintf("[gray]%s[white] %s: %s", timestamp, coloredSender, wrappedMessage)
+
 	chatList.AddItem(chatText, "", 0, nil)
 	chatList.SetCurrentItem(-1) // Auto-scroll to bottom
+}
+
+func wrapText(text string, width int) string {
+	words := strings.Fields(text)
+	if len(words) == 0 {
+		return text
+	}
+
+	lines := []string{}
+	currentLine := ""
+
+	for _, word := range words {
+		if len(currentLine)+len(word)+1 > width && currentLine != "" {
+			lines = append(lines, currentLine)
+			currentLine = word
+		} else {
+			if currentLine == "" {
+				currentLine = word
+			} else {
+				currentLine += " " + word
+			}
+		}
+	}
+	if currentLine != "" {
+		lines = append(lines, currentLine)
+	}
+
+	return strings.Join(lines, "\n")
 }
 
 func updateStatus(message string) {
@@ -340,14 +379,14 @@ func updateStatus(message string) {
 func updateClock() {
 	for {
 		now := time.Now()
-		clockText := fmt.Sprintf("🕐 %s | %s", 
-			now.Format("15:04:05"), 
+		clockText := fmt.Sprintf("🕐 %s | %s",
+			now.Format("15:04:05"),
 			now.Format("Mon Jan 02, 2006"))
-		
+
 		app.QueueUpdateDraw(func() {
 			clockView.SetText(clockText)
 		})
-		
+
 		time.Sleep(1 * time.Second)
 	}
 }
@@ -358,27 +397,22 @@ func handleSubmit() {
 		return
 	}
 
-	// Clear input and add user message
 	inputField.SetText("")
 	addChatMessage("You", prompt)
-	
-	// Show thinking status
+
 	updateStatus("Diego Code is thinking...")
 	addChatMessage("Diego Code", "🤔 Thinking...")
 
-	// Process request in goroutine
 	go func() {
 		response, err := agent.callOpenAI(prompt)
-		
+
 		app.QueueUpdateDraw(func() {
-			// Remove thinking message
 			chatList.RemoveItem(chatList.GetItemCount() - 1)
-			
+
 			if err != nil {
 				addChatMessage("Diego Code", fmt.Sprintf("❌ Error: %v", err))
 				updateStatus("Error occurred")
 			} else {
-				// Process and display response
 				processedResponse := agent.processResponse(response)
 				addChatMessage("Diego Code", processedResponse)
 				updateStatus("Ready")
@@ -389,43 +423,36 @@ func handleSubmit() {
 
 func main() {
 	agent = NewAgent()
-
-	// Check for CLI mode
 	for _, arg := range os.Args[1:] {
 		if arg == "--cli" || arg == "-c" {
 			runCLI()
 			return
 		}
 	}
-
-	// Initialize TUI components (following docker-cleanup pattern)
 	app = tview.NewApplication()
-
-	// Clock view (top)
 	clockView = tview.NewTextView().
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 	clockView.SetBorder(true).SetTitle("Diego Code - AI Assistant")
 
-	// Input field for prompts
 	inputField = tview.NewInputField().
 		SetLabel("Prompt: ").
 		SetFieldWidth(0).
 		SetPlaceholder("Type your coding question here...")
 	inputField.SetBorder(true).SetTitle("Your Question")
 
-	// Chat list (main area)
 	chatList = tview.NewList().
-		ShowSecondaryText(false)
+		ShowSecondaryText(false).
+		SetHighlightFullLine(true).
+		SetSelectedTextColor(tcell.ColorYellow).
+		SetSelectedBackgroundColor(tcell.ColorDarkBlue)
 	chatList.SetBorder(true).SetTitle("Chat History")
 
-	// Status view (bottom)
 	statusView = tview.NewTextView().
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 	statusView.SetBorder(true).SetTitle("Status")
 
-	// Add welcome message
 	addChatMessage("Diego Code", `Welcome! I'm your AI coding assistant. I can help you with:
 • Writing code in any programming language
 • Creating and running programs automatically  
@@ -439,14 +466,12 @@ Examples you can try:
 
 Press Enter to send, Tab to switch focus, Ctrl+C to quit.`)
 
-	// Set up event handlers (following docker-cleanup pattern)
 	inputField.SetDoneFunc(func(key tcell.Key) {
 		if key == tcell.KeyEnter {
 			handleSubmit()
 		}
 	})
 
-	// Key bindings for navigation
 	inputField.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		if event.Key() == tcell.KeyTab {
 			app.SetFocus(chatList)
@@ -463,7 +488,6 @@ Press Enter to send, Tab to switch focus, Ctrl+C to quit.`)
 		return event
 	})
 
-	// Create layout (vertical flex like docker-cleanup)
 	flex := tview.NewFlex().
 		SetDirection(tview.FlexRow).
 		AddItem(clockView, 3, 0, false).
@@ -473,11 +497,9 @@ Press Enter to send, Tab to switch focus, Ctrl+C to quit.`)
 
 	app.SetRoot(flex, true).SetFocus(inputField)
 
-	// Initialize status and clock
 	updateStatus("Ready - Welcome to Diego Code!")
 	go updateClock()
 
-	// Run the application
 	if err := app.Run(); err != nil {
 		fmt.Printf("TUI failed to start: %v\n", err)
 		fmt.Println("Falling back to CLI mode...")
@@ -494,32 +516,31 @@ func runCLI() {
 	for {
 		currentTime := time.Now().Format("15:04:05")
 		fmt.Printf("\n[%s] > ", currentTime)
-		
+
 		if !scanner.Scan() {
 			break
 		}
-		
+
 		input := strings.TrimSpace(scanner.Text())
 		if input == "quit" || input == "exit" {
 			fmt.Println("Goodbye!")
 			break
 		}
-		
+
 		if input == "" {
 			continue
 		}
 
 		fmt.Println("\nDiego Code is thinking...")
-		
+
 		response, err := agent.callOpenAI(input)
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 			continue
 		}
-		
-		// Process file creation and execution commands
+
 		processedResponse := agent.processResponse(response)
-		
+
 		fmt.Printf("\nDiego Code:\n%s\n", processedResponse)
 		fmt.Println(strings.Repeat("-", 50))
 	}
