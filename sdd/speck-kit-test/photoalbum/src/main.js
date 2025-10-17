@@ -1,11 +1,13 @@
 import { initApp } from './db/database.js';
-import { createAlbum, getAllAlbums, getAlbumPhotos, addPhotoToAlbum, reorderAlbums, getAlbumsGroupedByDate } from './services/album-service.js';
+import { createAlbum, getAllAlbums, getAlbumPhotos, addPhotoToAlbum, reorderAlbums, getAlbumsGroupedByDate, deleteAlbum } from './services/album-service.js';
 import { batchAddPhotos } from './services/photo-service.js';
 import { createAlbumGrid } from './components/album-grid.js';
 import { showCreateAlbumModal } from './components/create-album-modal.js';
 import { createPhotoTileGrid } from './components/photo-tile-grid.js';
 import { createAddPhotosButton } from './components/add-photos-button.js';
 import { createGroupingToggle, getGroupingPreference } from './components/grouping-toggle.js';
+import { showLoading } from './components/loading-spinner.js';
+import { showConfirmModal } from './components/confirm-modal.js';
 
 let currentAlbum = null;
 let currentView = 'albums';
@@ -92,6 +94,10 @@ async function loadAlbumsView() {
   }
 
   try {
+    if (appContainer) {
+      showLoading(appContainer, 'Loading albums...');
+    }
+
     let albumsData;
 
     if (isGroupedView) {
@@ -100,7 +106,7 @@ async function loadAlbumsView() {
       albumsData = await getAllAlbums();
     }
 
-    const grid = createAlbumGrid(albumsData, handleAlbumClick, handleAlbumReorder, isGroupedView);
+    const grid = createAlbumGrid(albumsData, handleAlbumClick, handleAlbumReorder, isGroupedView, handleDeleteAlbum);
 
     if (appContainer) {
       appContainer.innerHTML = '';
@@ -108,7 +114,10 @@ async function loadAlbumsView() {
     }
   } catch (error) {
     console.error('Error loading albums:', error);
-    showError('Failed to load albums');
+    if (appContainer) {
+      appContainer.innerHTML = '';
+    }
+    showError('Failed to load albums. Please try again.');
   }
 }
 
@@ -125,6 +134,22 @@ async function handleAlbumReorder(newOrders) {
     console.error('Error reordering albums:', error);
     showError('Failed to reorder albums');
   }
+}
+
+async function handleDeleteAlbum(album) {
+  showConfirmModal(
+    `Are you sure you want to delete "${album.name}"? This will remove all photos from this album.`,
+    async () => {
+      try {
+        await deleteAlbum(album.id);
+        await loadAlbumsView();
+        showSuccess(`Album "${album.name}" deleted successfully`);
+      } catch (error) {
+        console.error('Error deleting album:', error);
+        showError('Failed to delete album. Please try again.');
+      }
+    }
+  );
 }
 
 async function handleAlbumClick(album) {
@@ -171,6 +196,10 @@ async function loadAlbumView(album) {
   }
 
   try {
+    if (appContainer) {
+      showLoading(appContainer, 'Loading photos...');
+    }
+
     const photos = await getAlbumPhotos(album.id);
 
     const albumView = document.createElement('div');
@@ -202,7 +231,10 @@ async function loadAlbumView(album) {
     }
   } catch (error) {
     console.error('Error loading album:', error);
-    showError('Failed to load album');
+    if (appContainer) {
+      appContainer.innerHTML = '';
+    }
+    showError('Failed to load album. Please try again.');
   }
 }
 
@@ -233,19 +265,27 @@ function handlePhotoClick(photo) {
 }
 
 function showError(message) {
-  const errorDiv = document.createElement('div');
-  errorDiv.className = 'error-toast';
-  errorDiv.textContent = message;
+  showToast(message, 'error');
+}
 
-  document.body.appendChild(errorDiv);
+function showSuccess(message) {
+  showToast(message, 'success');
+}
+
+function showToast(message, type = 'info') {
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.textContent = message;
+
+  document.body.appendChild(toast);
 
   setTimeout(() => {
-    errorDiv.classList.add('show');
+    toast.classList.add('show');
   }, 10);
 
   setTimeout(() => {
-    errorDiv.classList.remove('show');
-    setTimeout(() => errorDiv.remove(), 300);
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
 

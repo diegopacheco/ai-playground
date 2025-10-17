@@ -71,10 +71,31 @@
   align-items: center;
   font-size: 0.875rem;
   color: var(--text-secondary);
+  gap: 0.5rem;
 }
 
 .album-date {
   color: var(--text-secondary);
+  flex: 1;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: opacity 0.2s ease;
+  opacity: 0.6;
+}
+
+.btn-icon:hover {
+  opacity: 1;
+}
+
+.btn-delete:hover {
+  transform: scale(1.1);
 }
 
 .empty-state {

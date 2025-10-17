@@ -1,4 +1,4 @@
-export function createAlbumCard(album, onClick, dragHandlers = null) {
+export function createAlbumCard(album, onClick, dragHandlers = null, onDelete = null) {
   const card = document.createElement('div');
   card.className = 'album-card';
   card.setAttribute('data-testid', 'album-card');
@@ -35,6 +35,19 @@ export function createAlbumCard(album, onClick, dragHandlers = null) {
   date.textContent = formatDate(album.created_date);
 
   metadata.appendChild(date);
+
+  if (onDelete) {
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'btn-icon btn-delete';
+    deleteButton.setAttribute('data-testid', 'delete-album-btn');
+    deleteButton.setAttribute('aria-label', `Delete ${album.name}`);
+    deleteButton.textContent = '🗑️';
+    deleteButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      onDelete(album);
+    });
+    metadata.appendChild(deleteButton);
+  }
 
   info.appendChild(name);
   info.appendChild(metadata);

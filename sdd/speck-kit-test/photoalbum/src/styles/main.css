@@ -102,6 +102,20 @@ header h1 {
   outline-offset: 2px;
 }
 
+.btn-danger {
+  background-color: var(--error-color);
+  color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+.btn-danger:focus {
+  outline: 2px solid var(--error-color);
+  outline-offset: 2px;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -130,6 +144,13 @@ header h1 {
   font-weight: 600;
   margin-bottom: 1.5rem;
   color: var(--text-primary);
+}
+
+.confirm-message {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
 }
 
 .create-album-form {
@@ -227,6 +248,51 @@ header h1 {
 .toast.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+.toast-error {
+  background-color: var(--error-color);
+  color: white;
+}
+
+.toast-success {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.toast-info {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  min-height: 300px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  margin-top: 1rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
 }
 
 @media (max-width: 768px) {
