@@ -1,0 +1,62 @@
+.album-card[draggable="true"] {
+  cursor: move;
+  user-select: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.album-card.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+  cursor: grabbing;
+}
+
+.album-card.drag-over {
+  border-color: var(--primary-color);
+  background-color: rgba(37, 99, 235, 0.05);
+  transform: scale(1.02);
+}
+
+.drop-indicator {
+  position: absolute;
+  height: 4px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  z-index: 1000;
+  pointer-events: none;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.5);
+  animation: pulse 0.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scaleY(1.2);
+  }
+}
+
+.album-card:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 4px;
+}
+
+.album-card[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+@media (hover: none) {
+  .album-card[draggable="true"] {
+    cursor: default;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .album-card,
+  .drop-indicator {
+    transition: none;
+    animation: none;
+  }
+}
