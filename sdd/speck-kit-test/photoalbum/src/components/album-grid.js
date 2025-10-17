@@ -2,7 +2,7 @@ import { createAlbumCard } from './album-card.js';
 import { DragDropHandler } from '../utils/drag-drop-handler.js';
 import { createDateGroupHeader } from './date-group-header.js';
 
-export function createAlbumGrid(albums, onAlbumClick, onReorder = null, grouped = false) {
+export function createAlbumGrid(albums, onAlbumClick, onReorder = null, grouped = false, onDelete = null) {
   const grid = document.createElement('div');
   grid.className = 'album-grid';
   grid.setAttribute('data-testid', 'album-grid');
@@ -16,7 +16,7 @@ export function createAlbumGrid(albums, onAlbumClick, onReorder = null, grouped 
       dateGroupDiv.className = 'date-group';
       dateGroupDiv.setAttribute('data-testid', 'date-group');
 
-      renderAlbumCards(dateGroupDiv, group.albums, onAlbumClick, onReorder);
+      renderAlbumCards(dateGroupDiv, group.albums, onAlbumClick, onReorder, onDelete);
 
       grid.appendChild(dateGroupDiv);
     });
@@ -35,12 +35,12 @@ export function createAlbumGrid(albums, onAlbumClick, onReorder = null, grouped 
     return grid;
   }
 
-  renderAlbumCards(grid, albums, onAlbumClick, onReorder);
+  renderAlbumCards(grid, albums, onAlbumClick, onReorder, onDelete);
 
   return grid;
 }
 
-function renderAlbumCards(container, albums, onAlbumClick, onReorder) {
+function renderAlbumCards(container, albums, onAlbumClick, onReorder, onDelete) {
   let dragDropHandler = null;
 
   if (onReorder) {
@@ -74,12 +74,12 @@ function renderAlbumCards(container, albums, onAlbumClick, onReorder) {
     };
 
     albums.forEach(album => {
-      const card = createAlbumCard(album, onAlbumClick, dragHandlers);
+      const card = createAlbumCard(album, onAlbumClick, dragHandlers, onDelete);
       container.appendChild(card);
     });
   } else {
     albums.forEach(album => {
-      const card = createAlbumCard(album, onAlbumClick);
+      const card = createAlbumCard(album, onAlbumClick, null, onDelete);
       container.appendChild(card);
     });
   }
