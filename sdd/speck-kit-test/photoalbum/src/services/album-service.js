@@ -9,6 +9,7 @@ import {
   deleteAlbum as dbDeleteAlbum
 } from '../db/album-db.js';
 import { getPhotoById } from '../db/photo-db.js';
+import { computeDateGroups } from '../utils/date-grouping.js';
 
 export async function createAlbum(name) {
   if (!name || name.trim().length === 0) {
@@ -92,27 +93,5 @@ export async function deleteAlbum(id) {
 
 export async function getAlbumsGroupedByDate() {
   const albums = dbGetAllAlbums();
-
-  const grouped = {};
-
-  for (const album of albums) {
-    const group = album.date_group || 'Unknown Date';
-
-    if (!grouped[group]) {
-      grouped[group] = [];
-    }
-
-    grouped[group].push(album);
-  }
-
-  const sortedGroups = Object.keys(grouped).sort((a, b) => {
-    if (a === 'Unknown Date') return 1;
-    if (b === 'Unknown Date') return -1;
-    return b.localeCompare(a);
-  });
-
-  return sortedGroups.map(group => ({
-    dateGroup: group,
-    albums: grouped[group]
-  }));
+  return computeDateGroups(albums);
 }

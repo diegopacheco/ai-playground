@@ -89,6 +89,36 @@
   margin: 0;
 }
 
+.date-group {
+  grid-column: 1 / -1;
+  display: contents;
+}
+
+.date-group-header {
+  grid-column: 1 / -1;
+  margin: 2rem 0 1rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.date-group-header:first-child {
+  margin-top: 0;
+}
+
+.date-group-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.grouped-albums {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
 @media (max-width: 768px) {
   .album-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -103,10 +133,23 @@
   .album-name {
     font-size: 1rem;
   }
+
+  .grouped-albums {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .date-group-title {
+    font-size: 1.25rem;
+  }
 }
 
 @media (max-width: 480px) {
   .album-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grouped-albums {
     grid-template-columns: 1fr;
   }
 }

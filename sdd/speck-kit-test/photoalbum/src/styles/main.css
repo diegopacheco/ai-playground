@@ -45,6 +45,8 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 header h1 {
@@ -166,6 +168,21 @@ header h1 {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
+}
+
+.grouping-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggle-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.toggle-label {
+  font-size: 1rem;
 }
 
 .error-message {

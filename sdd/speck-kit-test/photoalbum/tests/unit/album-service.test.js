@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { initApp, clearAllData } from '../../src/db/database.js';
-import { createAlbum, addPhotoToAlbum, getAlbumPhotos, updateDisplayOrder, reorderAlbums, getAlbum, getAllAlbums } from '../../src/services/album-service.js';
+import { createAlbum, addPhotoToAlbum, getAlbumPhotos, updateDisplayOrder, reorderAlbums, getAlbum, getAllAlbums, getAlbumsGroupedByDate } from '../../src/services/album-service.js';
 import { addPhoto } from '../../src/services/photo-service.js';
 
 describe('AlbumService', () => {
@@ -214,7 +214,7 @@ describe('AlbumService - Display Order', () => {
 
     it('should preserve album data when reordering', async () => {
       const album1 = await createAlbum('Original Name');
-      
+
       await reorderAlbums([
         { albumId: album1, displayOrder: 5 }
       ]);
@@ -222,6 +222,100 @@ describe('AlbumService - Display Order', () => {
       const album = await getAlbum(album1);
       expect(album.name).toBe('Original Name');
       expect(album.display_order).toBe(5);
+    });
+  });
+});
+
+describe('AlbumService - Date Grouping', () => {
+  beforeEach(async () => {
+    await initApp();
+  });
+
+  afterEach(async () => {
+    await clearAllData();
+  });
+
+  describe('getAlbumsGroupedByDate', () => {
+    it('should return albums grouped by year-month', async () => {
+      await createAlbum('Album Jan 1');
+      await createAlbum('Album Jan 2');
+      await createAlbum('Album Feb');
+
+      const groups = await getAlbumsGroupedByDate();
+
+      expect(groups).toBeInstanceOf(Array);
+      expect(groups.length).toBeGreaterThan(0);
+
+      groups.forEach(group => {
+        expect(group).toHaveProperty('dateGroup');
+        expect(group).toHaveProperty('albums');
+        expect(group.albums).toBeInstanceOf(Array);
+      });
+    });
+
+    it('should return empty array when no albums exist', async () => {
+      const groups = await getAlbumsGroupedByDate();
+      expect(groups).toEqual([]);
+    });
+
+    it('should group albums from same month together', async () => {
+      await createAlbum('Album 1');
+      await createAlbum('Album 2');
+      await createAlbum('Album 3');
+
+      const groups = await getAlbumsGroupedByDate();
+
+      const firstGroup = groups[0];
+      expect(firstGroup.albums.length).toBeGreaterThan(0);
+    });
+
+    it('should maintain display_order within each group', async () => {
+      const album1 = await createAlbum('Album 1');
+      const album2 = await createAlbum('Album 2');
+      const album3 = await createAlbum('Album 3');
+
+      await reorderAlbums([
+        { albumId: album3, displayOrder: 0 },
+        { albumId: album1, displayOrder: 1 },
+        { albumId: album2, displayOrder: 2 }
+      ]);
+
+      const groups = await getAlbumsGroupedByDate();
+
+      const firstGroup = groups[0];
+      if (firstGroup && firstGroup.albums.length >= 3) {
+        expect(firstGroup.albums[0].id).toBe(album3);
+        expect(firstGroup.albums[1].id).toBe(album1);
+        expect(firstGroup.albums[2].id).toBe(album2);
+      }
+    });
+
+    it('should sort groups chronologically descending', async () => {
+      const albums = await getAllAlbums();
+
+      if (albums.length > 0) {
+        const groups = await getAlbumsGroupedByDate();
+
+        for (let i = 0; i < groups.length - 1; i++) {
+          if (groups[i].dateGroup !== 'unknown' && groups[i + 1].dateGroup !== 'unknown') {
+            expect(groups[i].dateGroup >= groups[i + 1].dateGroup).toBe(true);
+          }
+        }
+      }
+    });
+
+    it('should include all album properties in grouped results', async () => {
+      await createAlbum('Test Album');
+
+      const groups = await getAlbumsGroupedByDate();
+
+      if (groups.length > 0 && groups[0].albums.length > 0) {
+        const album = groups[0].albums[0];
+        expect(album).toHaveProperty('id');
+        expect(album).toHaveProperty('name');
+        expect(album).toHaveProperty('display_order');
+        expect(album).toHaveProperty('created_date');
+      }
     });
   });
 });

@@ -1,13 +1,15 @@
 import { initApp } from './db/database.js';
-import { createAlbum, getAllAlbums, getAlbumPhotos, addPhotoToAlbum, reorderAlbums } from './services/album-service.js';
+import { createAlbum, getAllAlbums, getAlbumPhotos, addPhotoToAlbum, reorderAlbums, getAlbumsGroupedByDate } from './services/album-service.js';
 import { batchAddPhotos } from './services/photo-service.js';
 import { createAlbumGrid } from './components/album-grid.js';
 import { showCreateAlbumModal } from './components/create-album-modal.js';
 import { createPhotoTileGrid } from './components/photo-tile-grid.js';
 import { createAddPhotosButton } from './components/add-photos-button.js';
+import { createGroupingToggle, getGroupingPreference } from './components/grouping-toggle.js';
 
 let currentAlbum = null;
 let currentView = 'albums';
+let isGroupedView = false;
 
 async function init() {
   try {
@@ -16,6 +18,8 @@ async function init() {
     await initApp();
 
     console.log('Database initialized');
+
+    isGroupedView = getGroupingPreference();
 
     await loadAlbumsView();
 
@@ -74,10 +78,29 @@ async function loadAlbumsView() {
     createButton.style.display = 'inline-block';
   }
 
-  try {
-    const albums = await getAllAlbums();
+  let existingToggle = document.getElementById('grouping-toggle-btn');
+  if (existingToggle) {
+    existingToggle.remove();
+  }
 
-    const grid = createAlbumGrid(albums, handleAlbumClick, handleAlbumReorder);
+  const groupingToggle = createGroupingToggle(isGroupedView, handleGroupingToggle);
+  groupingToggle.id = 'grouping-toggle-btn';
+
+  const headerElement = document.querySelector('header');
+  if (headerElement && createButton) {
+    headerElement.insertBefore(groupingToggle, createButton);
+  }
+
+  try {
+    let albumsData;
+
+    if (isGroupedView) {
+      albumsData = await getAlbumsGroupedByDate();
+    } else {
+      albumsData = await getAllAlbums();
+    }
+
+    const grid = createAlbumGrid(albumsData, handleAlbumClick, handleAlbumReorder, isGroupedView);
 
     if (appContainer) {
       appContainer.innerHTML = '';
@@ -87,6 +110,11 @@ async function loadAlbumsView() {
     console.error('Error loading albums:', error);
     showError('Failed to load albums');
   }
+}
+
+async function handleGroupingToggle(newGroupedState) {
+  isGroupedView = newGroupedState;
+  await loadAlbumsView();
 }
 
 async function handleAlbumReorder(newOrders) {
