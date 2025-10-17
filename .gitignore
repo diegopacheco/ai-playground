@@ -1,6 +1,9 @@
 # PyTorch dataset 
 data/
 
+# Mac
+.DS_Store
+
 # ONNX model files 
 *.onnx
 .onnx
