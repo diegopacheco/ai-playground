@@ -42,6 +42,9 @@ https://github.com/diegopacheco/cursor-agent-gpt5-poc  <br/>
 AWS Kiro  <br/>
 https://github.com/diegopacheco/aws-kiro-poc
 
+OpenAI AgentKit <br/>
+[open-ai-agent-kit.md](./open-ai-agent-kit.md)
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
