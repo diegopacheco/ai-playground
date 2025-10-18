@@ -1,3 +1,5 @@
+const ALBUM_PLACEHOLDER = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23f1f5f9" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle" font-size="64" fill="%2394a3b8"%3E📷%3C/text%3E%3C/svg%3E';
+
 export function createAlbumCard(album, onClick, dragHandlers = null, onDelete = null) {
   const card = document.createElement('div');
   card.className = 'album-card';
@@ -12,11 +14,28 @@ export function createAlbumCard(album, onClick, dragHandlers = null, onDelete = 
 
   if (album.thumbnail_ref) {
     const img = document.createElement('img');
-    img.src = album.thumbnail_ref;
     img.alt = album.name;
+    img.decoding = 'async';
+    img.loading = 'lazy';
+    img.className = 'album-thumbnail-img';
+
+    img.onload = () => {
+      img.classList.add('loaded');
+    };
+
+    img.onerror = () => {
+      img.src = ALBUM_PLACEHOLDER;
+      img.classList.add('error');
+    };
+
+    img.src = album.thumbnail_ref;
     thumbnail.appendChild(img);
   } else {
-    thumbnail.textContent = '📷';
+    const placeholder = document.createElement('img');
+    placeholder.src = ALBUM_PLACEHOLDER;
+    placeholder.alt = album.name;
+    placeholder.className = 'album-thumbnail-img loaded';
+    thumbnail.appendChild(placeholder);
   }
 
   const info = document.createElement('div');
