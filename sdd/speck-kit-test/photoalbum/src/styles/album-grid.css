@@ -43,10 +43,23 @@
   overflow: hidden;
 }
 
-.album-thumbnail img {
+.album-thumbnail img,
+.album-thumbnail-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.album-thumbnail img.loaded,
+.album-thumbnail-img.loaded {
+  opacity: 1;
+}
+
+.album-thumbnail img.error,
+.album-thumbnail-img.error {
+  opacity: 0.7;
 }
 
 .album-info {

@@ -54,9 +54,17 @@ export function exportDatabase() {
   return db.export();
 }
 
-export function importDatabase(dataArray) {
+export async function importDatabase(dataArray) {
   if (!SQL) {
-    throw new Error('SQL.js not initialized');
+    const isNode = typeof process !== 'undefined' && process.versions && process.versions.node;
+
+    if (isNode) {
+      SQL = await initSqlJs();
+    } else {
+      SQL = await initSqlJs({
+        locateFile: file => `https://sql.js.org/dist/${file}`
+      });
+    }
   }
 
   if (db) {
