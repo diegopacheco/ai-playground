@@ -40,8 +40,8 @@ export async function addPhoto(photoData) {
 export async function processAndAddPhoto(file) {
   const metadata = await extractPhotoMetadata(file);
 
-  const thumbnailBlob = await generateThumbnail(file);
-  const thumbnailBase64 = await blobToBase64(thumbnailBlob);
+  const thumbnailData = await generateThumbnail(file);
+  const thumbnailBase64 = await blobToBase64(thumbnailData.blob);
 
   return addPhoto({
     filePath: file.name,
@@ -96,12 +96,12 @@ export async function batchAddPhotos(files) {
     failed: []
   };
 
-  for (const file of files) {
+  for (const fileWrapper of files) {
     try {
-      const photoId = await processAndAddPhoto(file);
-      results.success.push({ file: file.name, photoId });
+      const photoId = await processAndAddPhoto(fileWrapper.file);
+      results.success.push({ file: fileWrapper.name, photoId });
     } catch (error) {
-      results.failed.push({ file: file.name, error: error.message });
+      results.failed.push({ file: fileWrapper.name, error: error.message });
     }
   }
 
