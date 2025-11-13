@@ -1,5 +1,50 @@
 # SDD (Spec-Driven Development) - Short Description
 
+## TL;DR;
+
+Executive Summary: SDD (Spec-Driven Development) — Why “More Text Is Not Better”
+
+Spec-Driven Development (SDD) proposes that detailed natural-language specifications (Markdown docs) guide AI agents throughout feature creation. It comes in three forms: Spec-First, Spec-Anchored, and Spec-as-Source. While conceptually attractive, real-world evidence shows that larger specs do NOT reliably improve performance and often make outcomes worse.
+
+Core Findings
+
+1. Over-prompting Degrades LLM Performance
+Studies (e.g., “Few-shot Dilemma”, “Many-Shot ICL”) show:
+•	After 2–3 examples, improvements plateau.
+•	Excessive instructions cause attention dilution, instruction drop, and semantic interference.
+•	More text → higher probability of LLM ignoring or hallucinating parts of the spec.
+
+2. Large Specs Break the Context Window
+Teams report agents:
+•	“Choking on sheer volume”
+•	Missing key instructions
+•	Confusing old vs new guidance
+•	Unable to maintain coherence across long specs
+This is a known transformer limitation.
+
+3. SDD Suffers from Historical MDD Failures
+Patterns resemble old Model-Driven Development:
+•	Massive review burden
+•	Specs become stale faster than code
+•	Extremely poor maintainability
+•	Rigid workflows that don’t scale with real development speed
+
+4. Short Prompts + Examples Often Outperform SDD
+For most tasks:
+•	Short, focused instructions
+•	2–3 examples
+•	Minimal overhead
+→ produce faster and more accurate results.
+
+5. Integration Wall, Not Spec Quality, Was the Real Bottleneck
+
+Research on MCP (2024–2025) shows:
+•	Agents did not fail due to lack of specification
+•	They failed due to missing tooling, poor integrations, and fragmented APIs
+→ SDD cannot fix architectural integration problems.
+
+## Long Anwser
+
 SDD is writing detailed specifications in natural language (typically markdown) before code creation, where
 specs serve as the authoritative reference guiding AI agents. It comes in three levels:
 
