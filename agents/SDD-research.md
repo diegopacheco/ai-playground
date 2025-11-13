@@ -79,9 +79,9 @@ Use Few-Shot/Short Prompts when:
 - Exploratory work
 - Context window budget is limited
 
-Hybrid approach works best: Brief specs (300-500 tokens) + 2-3 examples for optimal token efficiency and performance.
+Hybrid approach works best: Brief specs (300-500 tokens) + 2-3 examples for optimal token efficiency and performance. The Martin Fowler article's skepticism is warranted - SDD tools remain immature with unresolved workflow scalability issues.
 
-The Martin Fowler article's skepticism is warranted - SDD tools remain immature with unresolved workflow scalability issues.
+In agent-driven workflows (especially those using LLMs or AI agents), more textual specification (larger SDDs) does not automatically lead to better performance, and may in fact degrade the workflow if the extra text adds overhead, ambiguity, misalignment, or consumes precious context. What matters more is the clarity, relevance, modularity, and alignment of the specification with the code/agent, rather than its sheer size.
 
 ## References
 
