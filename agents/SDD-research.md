@@ -82,3 +82,95 @@ Use Few-Shot/Short Prompts when:
 Hybrid approach works best: Brief specs (300-500 tokens) + 2-3 examples for optimal token efficiency and performance.
 
 The Martin Fowler article's skepticism is warranted - SDD tools remain immature with unresolved workflow scalability issues.
+
+## References
+
+Core SDD Concepts
+
+Martin Fowler Article - SDD Definition & Critical Analysis:
+- https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html
+- Evidence: Three levels (Spec-First, Spec-Anchored, Spec-as-Source), workflow scalability issues, review
+burden, instruction adherence problems, historical MDD parallels
+
+Context Window & Token Usage
+
+"Choking on sheer volume" + RAG solutions:
+- https://ainativedev.io/news/spec-driven-development-10-things-you-need-to-know-about-specs
+- Title: "Spec-Driven Development: 10 things you need to know about specs"
+
+Context-aware AI agents & memory:
+- https://ajithp.com/2025/06/30/ai-native-memory-persistent-agents-second-me/
+- Title: "AI-Native Memory and the Rise of Context-Aware AI Agents"
+
+SDD as single source of truth:
+- https://beam.ai/agentic-insights/spec-driven-development-build-what-you-mean-not-what-you-guess
+- Title: "Spec Driven Development: Build what you mean, not what you guess"
+
+Few-Shot vs Many-Shot Research
+
+Many-shot learning research (diminishing returns, overcoming pre-training bias):
+- https://arxiv.org/pdf/2404.11018
+- Title: "Many-Shot In-Context Learning" (2024 arXiv paper)
+
+Over-prompting phenomenon:
+- https://arxiv.org/html/2509.13196v1
+- Title: "The Few-shot Dilemma: Over-prompting Large Language Models"
+
+Prompt engineering fundamentals:
+- https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/
+- Title: "Prompt Engineering" by Lilian Weng
+
+Few-shot guide:
+- https://www.promptingguide.ai/techniques/fewshot
+- Title: "Few-Shot Prompting | Prompt Engineering Guide"
+
+Long Context vs RAG Performance
+
+Long context instruction following:
+- https://scale.com/blog/long-context-instruction-following
+- Title: "A Guide to Improving Long Context Instruction Following"
+- Evidence: GPT-4O and Gemini-1.5-Pro outperforming RAG
+
+MCP Documentation Gaps
+
+"Missing Skill Layer" & Integration Wall:
+- https://skywork.ai/skypage/en/Composio-MCP:-The-Missing-Skill-Layer-That's-Finally-Making-AI-Agents-Useful/
+1972859063848595456
+- Title: "Composio MCP: The Missing Skill Layer That's Finally Making AI Agents Useful"
+
+MCP-Agent Documentation:
+- https://github.com/lastmile-ai/mcp-agent
+- https://docs.mcp-agent.com (mentioned in GitHub)
+- Title: "Build effective agents using Model Context Protocol"
+
+Microsoft MCP Course:
+- https://techcommunity.microsoft.com/blog/educatordeveloperblog/kickstart-your-ai-development-with-the-model
+-context-protocol-mcp-course/4414963
+- Title: "Kickstart Your AI Development with the Model Context Protocol (MCP) Course"
+
+Microsoft Learn MCP Guide:
+- https://learn.microsoft.com/en-us/azure/developer/ai/intro-agents-mcp
+- Title: "Build Agents using Model Context Protocol on Azure"
+
+AI Agents State & Trends
+
+2025 AI Agents Analysis:
+- https://carlrannaberg.medium.com/state-of-ai-agents-in-2025-5f11444a5c78
+- Title: "State of AI Agents in 2025: A Technical Analysis"
+
+Y Combinator & "Vibe Coding" stat:
+- Found in: https://thenewstack.io/spec-driven-development-the-key-to-scalable-ai-agents/
+- Title: "Spec-Driven Development: The Key to Scalable AI Agents"
+
+Additional Resources
+
+GitHub Spec Kit:
+- https://dev.to/danielsogl/spec-driven-development-sdd-a-initial-review-2llp
+- Title: "Spec Driven Development (SDD) - A initial review"
+
+Zero-shot vs Few-shot vs Fine-tuning:
+- https://labelbox.com/guides/zero-shot-learning-few-shot-learning-fine-tuning/
+- Title: "Zero-Shot Learning vs. Few-Shot Learning vs. Fine-Tuning"
+
+All evidence was gathered from these sources between late 2024 and early 2025, making them current for the
+SDD landscape.
