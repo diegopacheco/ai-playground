@@ -295,5 +295,5 @@ Ran 8 tests across 1 file. [116.00ms]
 
 1. I like it. It works.
 2. But it finished before interations, Could stop - looks like it would only stop when spend all the money in this case 10 USD, not smart.
-3. Could be improved with a better stopping criteria.
+3. Could be improved with a better stopping criteria. I SEE it can stop based on interations i.e -m 5 will stop after 5 interations. But I would like to figureout by himself when to stop.
 4. Way too many PRs - I want just one PR.
