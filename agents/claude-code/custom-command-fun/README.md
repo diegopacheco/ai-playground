@@ -2,6 +2,14 @@
 
 Claude Code custom commands are a powerful way to extend the functionality of your Claude Code environment. They allow you to define your own commands that can be executed within the Claude Code interface, enabling you to automate tasks, integrate with external services, and enhance your workflow.
 
+## Custom Command: /generate-tests
+
+The `/generate-tests` command helps you create comprehensive unit tests for your code files. When you provide a file path or code snippet, this command analyzes the code and generates unit tests that cover various scenarios, including edge cases, error conditions, and boundary conditions.
+
+## How to install in Claude Code?
+
+Drop the file `generate-tests.md` into the folder `~/.claude/commands/` in your Claude Code environment. Once installed, you can invoke the command by typing `/generate-tests` followed by the file path or code snippet you want to test.
+
 ## Custom Commands Ideas
 
 Code Quality & Analysis
