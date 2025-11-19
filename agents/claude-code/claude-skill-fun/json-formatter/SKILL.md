@@ -1,3 +1,9 @@
+---
+name: json-formatter
+description: Validate, format, and minify JSON files when users request JSON validation, formatting, or ask to validate their JSONs
+allowed-tools: [Read, Bash]
+---
+
 # JSON Formatter Skill
 
 Format, validate, and minify JSON files with precision and safety.
