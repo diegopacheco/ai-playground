@@ -61,6 +61,50 @@ python3 ~/.claude/skills/json-formatter/format.py <filepath>
 python3 ~/.claude/skills/json-formatter/format.py <filepath> --minify
 ```
 
+## Result of skill in action
+
+```
+⏺ JSON Validation Results
+
+✓ test.json - VALID
+
+The JSON is valid and well-formed.
+
+Current size: 90 bytes (minified)
+
+Structure:
+{
+"name": "test",
+"values": [1, 2, 3],
+"nested": {
+    "key": "value",
+    "array": [{"id": 1}, {"id": 2}]
+}
+}
+
+✗ invalid.json - INVALID
+
+Syntax errors found:
+
+1. Line 1: Trailing comma after 3 in array - [1,2,3,] (JSON does not allow trailing commas)
+2. Line 1: Incomplete key-value pair - ,"broken" is missing a colon and value
+3. Line 1: JSON object is not properly closed
+
+Current content:
+{"name":"test","values":[1,2,3,],"broken"}
+
+Errors:
+- Position ~36: Unexpected comma after array element
+- Position ~37: Expected : after property name
+- Position ~46: Unexpected end of JSON input
+
+---
+Would you like me to:
+1. Fix the invalid.json file?
+2. Format (pretty-print) the valid test.json file?
+3. Leave them as-is?
+```
+
 # Claude Skills Ideas
 
 File & Code Management
