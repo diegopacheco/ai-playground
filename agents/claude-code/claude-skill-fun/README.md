@@ -63,6 +63,8 @@ python3 ~/.claude/skills/json-formatter/format.py <filepath> --minify
 
 ## Result of skill in action
 
+<img src="claude-skill-in-action.png" width="600"/>
+
 ```
 ⏺ JSON Validation Results
 
