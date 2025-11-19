@@ -8,7 +8,7 @@ echo "Extracted file_path: $file_path" >> /tmp/eslint-hook.log
 
 if [[ -n "$file_path" && "$file_path" == *.js ]]; then
   echo "Running eslint on: $file_path" >> /tmp/eslint-hook.log
-  npx eslint "$file_path" >> /tmp/eslint-hook.log 2>&1
+  npx eslint "$file_path" 2>&1 | tee -a /tmp/eslint-hook.log >&2
 else
   echo "Skipped - file_path empty or not .js" >> /tmp/eslint-hook.log
 fi
