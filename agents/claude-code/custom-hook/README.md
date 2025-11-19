@@ -19,13 +19,25 @@ Global hooks apply to all Claude Code projects on your machine. To install a glo
         "hooks": [
           {
             "type": "command",
-            "command": "if [[ \"${file_path}\" == *.js ]]; then npx eslint \"${file_path}\"; fi"
+            "command": "/path/to/your/hook-script.sh"
           }
         ]
       }
     ]
   }
 }
+```
+
+Example hook script (`~/.claude/hooks/eslint-hook.sh`):
+
+```bash
+#!/bin/bash
+input=$(cat)
+file_path=$(echo "$input" | jq -r '.tool_input.file_path // empty')
+
+if [[ -n "$file_path" && "$file_path" == *.js ]]; then
+  npx eslint "$file_path"
+fi
 ```
 
 ### Hook Configuration Levels
@@ -42,11 +54,28 @@ Claude Code supports three configuration levels:
 - **UserPromptSubmit** - Validate user input
 - **SessionStart/SessionEnd** - Setup and cleanup operations
 
-### Variables Available in Hooks
+### Hook Input Format
 
-- `${file_path}` - Path to the file being edited
-- `${tool_name}` - Name of the tool being executed
-- Other context-specific variables depending on the event type
+Hooks receive JSON data via stdin with this structure:
+
+```json
+{
+  "session_id": "abc123",
+  "tool_name": "Edit",
+  "tool_input": {
+    "file_path": "/path/to/file.js"
+  },
+  "tool_response": {
+    "filePath": "/path/to/file.js",
+    "success": true
+  }
+}
+```
+
+Access values using `jq`:
+- `echo "$input" | jq -r '.tool_input.file_path'` - Path to the file being edited
+- `echo "$input" | jq -r '.tool_name'` - Name of the tool being executed
+- Other fields available depending on the event type
 
 ## Custom Hook ideas
 
