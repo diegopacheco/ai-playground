@@ -77,6 +77,22 @@ Access values using `jq`:
 - `echo "$input" | jq -r '.tool_name'` - Name of the tool being executed
 - Other fields available depending on the event type
 
+## Hook in Action
+
+```
+⏺ Update(/private/tmp/xxx/src/index.js)
+  ⎿  Updated /private/tmp/xxx/src/index.js with 1 addition
+       1    const apple=true;
+       2    console.log(1);
+       3    console.log(2);
+       4 +  console.log(3);
+  ⎿  PostToolUse:Edit hook returned blocking error: [/Users/diegopacheco/.claude/hooks/eslint-hook.sh]:
+     /private/tmp/xxx/src/index.js
+       1:7  error  'apple' is assigned a value but never used  no-unused-vars
+
+     ✖ 1 problem (1 error, 0 warnings)
+```
+
 ## Custom Hook ideas
 
 Code Quality & Validation
