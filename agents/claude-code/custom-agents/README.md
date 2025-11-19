@@ -10,6 +10,22 @@ The `sec-agent.md` custom agent is designed to assist with security-related task
 
 Drop the file `sec-agent.md` into the folder: `~/.claude/agents/` and them just type in the prompt box `Any credentials issues?` to activate the agent.
 
+## Agent in Action
+
+```
+> any credentials issues?
+
+⏺ I'll run a comprehensive security scan to check for any exposed credentials, API keys, secrets, or sensitive
+  data in your codebase.
+
+  sec-agent(Scan for credentials and secrets)
+  ⎿  Search(pattern: "(smtp|mail|email).*password", path: "/private/tmp/xxx", output_mode: "content")
+     Search(pattern: "ftp://|sftp://", path: "/private/tmp/xxx", output_mode: "content")
+     +53 more tool uses (ctrl+o to expand)
+
+✽ Cultivating… (esc to interrupt · 2m 5s · ↓ 855 tokens)
+```
+
 ## Ideas for Custom agents
 
 Development & Code Quality
