@@ -1,0 +1,59 @@
+# Custom Hooks
+
+Custom Hooks in claude code are a way to extend the functionality of the Claude AI by allowing users to define their own hooks that can be triggered at specific points during the execution of a task. This allows for greater flexibility and customization in how Claude interacts with users and processes information.
+
+## Custom Hook ideas
+
+Code Quality & Validation
+
+1. Pre-commit linter - Run linters before allowing git commits
+2. Code complexity checker - Warn when files exceed cyclomatic complexity thresholds
+3. Import validator - Block imports from deprecated or forbidden packages
+4. File size guard - Prevent committing files over a certain size
+5. Naming convention enforcer - Validate file/function naming matches team standards
+
+Security & Safety
+
+6. Secret scanner - Block commits containing API keys, passwords, or tokens
+7. Dependency vulnerability check - Scan for known CVEs in package.json/requirements.txt
+8. HTTPS enforcer - Ensure only HTTPS URLs are used in code
+9. SQL injection detector - Flag potentially unsafe database queries
+10. License compliance checker - Verify all dependencies meet license requirements
+
+Testing & CI/CD
+
+11. Auto test runner - Run relevant tests after file edits
+12. Coverage threshold guard - Block commits that drop test coverage below threshold
+13. Build validator - Ensure project builds successfully before commits
+14. Snapshot updater - Auto-update test snapshots when UI changes
+15. E2E test trigger - Run end-to-end tests on specific file changes
+
+Documentation
+
+16. README sync - Update README when public API changes
+17. JSDoc enforcer - Require documentation for public functions
+18. Changelog generator - Auto-append entries to CHANGELOG.md
+19. API documentation builder - Regenerate API docs after interface changes
+20. TODO tracker - Extract and log TODOs to a tracking file
+
+Integration & Notifications
+
+21. Slack notifier - Post updates to team Slack channel on major changes
+22. JIRA ticket linker - Ensure commits reference valid ticket numbers
+23. Git branch validator - Enforce branch naming conventions
+24. PR template populator - Auto-fill PR description templates
+25. Code review assigner - Auto-assign reviewers based on file paths
+
+Performance & Monitoring
+
+26. Bundle size tracker - Log and warn about bundle size increases
+27. Lighthouse runner - Run performance audits on web projects
+28. Memory leak detector - Profile tests for memory issues
+29. Dead code eliminator - Identify and flag unused exports
+
+Workflow Automation
+
+30. Environment validator - Check required environment variables exist before operations
+
+Each hook can be implemented as a shell script that runs at specific Claude Code events, providing real-time
+feedback and automation during development.
