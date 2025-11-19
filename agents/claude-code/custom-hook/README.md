@@ -2,6 +2,52 @@
 
 Custom Hooks in claude code are a way to extend the functionality of the Claude AI by allowing users to define their own hooks that can be triggered at specific points during the execution of a task. This allows for greater flexibility and customization in how Claude interacts with users and processes information.
 
+## Installing Global Hooks
+
+Global hooks apply to all Claude Code projects on your machine. To install a global hook:
+
+1. Open your global settings file at `~/.claude/settings.json`
+2. Add a `hooks` section with your hook configuration
+3. Hooks must be in JSON format with this structure:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"${file_path}\" == *.js ]]; then npx eslint \"${file_path}\"; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Hook Configuration Levels
+
+Claude Code supports three configuration levels:
+- **Global**: `~/.claude/settings.json` - Applies to all projects
+- **Project**: `.claude/settings.json` - Applies to specific project
+- **Local**: `.claude/settings.local.json` - Project-specific, not committed to version control
+
+### Hook Event Types
+
+- **PreToolUse** - Before a tool executes
+- **PostToolUse** - After a tool executes
+- **UserPromptSubmit** - Validate user input
+- **SessionStart/SessionEnd** - Setup and cleanup operations
+
+### Variables Available in Hooks
+
+- `${file_path}` - Path to the file being edited
+- `${tool_name}` - Name of the tool being executed
+- Other context-specific variables depending on the event type
+
 ## Custom Hook ideas
 
 Code Quality & Validation
