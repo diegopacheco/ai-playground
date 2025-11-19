@@ -1,4 +1,4 @@
-# Claude Code Extensions
+# Claude Code POCs
 
 * `custom-agents/` contains security-focused custom agents for automated security scanning secrets.
 
