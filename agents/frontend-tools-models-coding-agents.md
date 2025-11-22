@@ -31,4 +31,4 @@ happens and user might win or losse (3) win 10 more seconds just 1 time. The que
 * Gemini was bad, unless I allow the YOLO mode I could not use the tool, had lots of bugs.
 * Gemini UI was ugly.
 * Copilot UI and code was great.
-* 
+* Claude Code will come soon.
