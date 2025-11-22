@@ -21,7 +21,7 @@ Model: sonnet-4.5
 
 ## Result
 
-<img src="result-app-copilot-cli" width="600" />
+<img src="result-app-copilot-cli.png" width="600" />
 
 
 # 💻 Who Wants to be a Vibe Coder?
