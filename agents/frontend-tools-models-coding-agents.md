@@ -19,10 +19,12 @@ Haskell, Rust, Zig, Nim, Clojure, Emojicode and TypeScript. Create a run.sh to r
 
 ## Contenders
 
+Click on the link to see the full code implementation and run it yourself:
+
 * [OpenAI Codex and GPT-5.1-MAX](https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-gpt-fun)
 * [Google Gemini CLI and 2.5 PRO](https://github.com/diegopacheco/ai-playground/tree/main/pocs/gemini-2.5-pro-cli-fun/vibe-coder-game)
 * [Github/MS Copilot and Claude-Sonnet-4.5](https://github.com/diegopacheco/ai-playground/tree/main/pocs/copilot-cli-sonnet-4-5-fun/vibe-coder-game)
-* [Anthropic Claude Code / Sonner 4.5]()
+* [Anthropic Claude Code / Sonner 4.5](https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-code-sonnet-4.5-fun/vibe-coder-game)
 
 ## Analysis / Results 
 
@@ -38,4 +40,19 @@ Haskell, Rust, Zig, Nim, Clojure, Emojicode and TypeScript. Create a run.sh to r
 * Gemini was bad, unless I allow the YOLO mode I could not use the tool, had lots of bugs.
 * Gemini UI was ugly.
 * Copilot UI and code was great.
-* Claude Code will come soon.
+* Claude Code was fast but miss the 10s button and skip button.
+* Claude Code ui was vanilla.
+
+## UI Results
+
+Codex
+<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/codex-gpt-fun/result-app-codex.png" width="600"/>
+
+Copilot CLI
+<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/copilot-cli-sonnet-4-5-fun/vibe-coder-game/result-app-copilot-cli.png" width="600"/>
+
+Gemini CLI
+<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/gemini-2.5-pro-cli-fun/vibe-coder-game/result-app-gemini-cli.png" width="600"/>
+
+Claude Code
+<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/claude-code-sonnet-4.5-fun/vibe-coder-game/result-app-cc.png" width="600"/>
