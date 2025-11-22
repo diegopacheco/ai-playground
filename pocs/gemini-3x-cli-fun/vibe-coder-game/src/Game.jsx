@@ -18,9 +18,9 @@ const Game = () => {
     const savedSkipCount = localStorage.getItem('skipCount');
     return savedSkipCount !== null ? parseInt(savedSkipCount, 10) : 2;
   });
-  const [usedVibeCode, setUsedVibeCode] = useState(() => {
-    const savedUsedVibeCode = localStorage.getItem('usedVibeCode');
-    return savedUsedVibeCode === 'true';
+  const [hasWonVibeCodeBonus, setHasWonVibeCodeBonus] = useState(() => {
+    const savedHasWonVibeCodeBonus = localStorage.getItem('hasWonVibeCodeBonus');
+    return savedHasWonVibeCodeBonus === 'true';
   });
   const [gameOver, setGameOver] = useState(false);
 
@@ -28,8 +28,8 @@ const Game = () => {
     localStorage.setItem('currentQuestionIndex', currentQuestionIndex);
     localStorage.setItem('score', score);
     localStorage.setItem('skipCount', skipCount);
-    localStorage.setItem('usedVibeCode', usedVibeCode);
-  }, [currentQuestionIndex, score, skipCount, usedVibeCode]);
+    localStorage.setItem('hasWonVibeCodeBonus', hasWonVibeCodeBonus);
+  }, [currentQuestionIndex, score, skipCount, hasWonVibeCodeBonus]);
 
   const handleAnswer = (isCorrect) => {
     if (isCorrect) {
@@ -57,11 +57,11 @@ const Game = () => {
   };
 
   const handleVibeCode = () => {
-    if (!usedVibeCode) {
-      setUsedVibeCode(true);
+    if (!hasWonVibeCodeBonus) {
       const win = Math.random() > 0.7;
       if (win) {
         setTimeLeft(timeLeft + 10);
+        setHasWonVibeCodeBonus(true);
       }
     }
   };
@@ -72,7 +72,7 @@ const Game = () => {
     setScore(0);
     setTimeLeft(21);
     setSkipCount(2);
-    setUsedVibeCode(false);
+    setHasWonVibeCodeBonus(false);
     setGameOver(false);
   };
 
@@ -114,8 +114,8 @@ const Game = () => {
         <button onClick={handleSkip} disabled={skipCount === 0}>
           Skip ({skipCount} left)
         </button>
-        <button onClick={handleVibeCode} disabled={usedVibeCode}>
-          Vibe Code ({usedVibeCode ? 'Used' : 'Available'})
+        <button onClick={handleVibeCode} disabled={hasWonVibeCodeBonus}>
+          Vibe Code ({hasWonVibeCodeBonus ? 'Used' : 'Available'})
         </button>
       </div>
       <div>
