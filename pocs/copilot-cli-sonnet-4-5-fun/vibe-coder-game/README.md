@@ -10,7 +10,7 @@ A satirical programming trivia game inspired by "Who Wants to be a Millionaire" 
 - **Local Storage**: Your progress is automatically saved in the browser
 - **Three Lifelines**:
   - **Skip (2x)**: Skip a question and get a new one (but you still need 10 answers!)
-  - **Vibe Code (1x)**: Random chance to win 10 extra seconds or get nothing
+  - **Vibe Code (1x)**: 1/3 chance to win +10 seconds, 2/3 chance to get nothing
 
 ## 📚 Question Topics
 
@@ -57,7 +57,7 @@ npm run build
 4. Watch the timer! You have 21 seconds per question
 5. Use your lifelines strategically:
    - **Skip**: Get a new question (2 uses max)
-   - **Vibe Code**: Risk it for +10 seconds or nothing (1 use)
+   - **Vibe Code**: 33% chance for +10 seconds (1 use only)
 6. Get all 10 questions right to achieve perfection!
 
 ## 🎨 Tech Stack
