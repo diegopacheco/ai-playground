@@ -1,0 +1,188 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.game-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.game-header {
+  margin-bottom: 40px;
+}
+
+.game-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  background: linear-gradient(45deg, #646cff, #61dafb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stats {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.timer {
+  font-weight: bold;
+  color: #646cff;
+}
+
+.timer.warning {
+  color: #ff4444;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.question-section {
+  max-width: 800px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.question-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.answer-btn {
+  padding: 20px;
+  font-size: 1rem;
+  background: #1a1a1a;
+  border: 2px solid #646cff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: white;
+}
+
+.answer-btn:hover:not(:disabled) {
+  background: #646cff;
+  transform: scale(1.05);
+}
+
+.answer-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.answer-btn.correct {
+  background: #4caf50;
+  border-color: #4caf50;
+}
+
+.answer-btn.wrong {
+  background: #f44336;
+  border-color: #f44336;
+}
+
+.powerups {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.powerup-btn {
+  padding: 15px 30px;
+  font-size: 1rem;
+  background: #61dafb;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #1a1a1a;
+  font-weight: bold;
+}
+
+.powerup-btn:hover:not(:disabled) {
+  background: #4fc3f7;
+  transform: scale(1.05);
+}
+
+.powerup-btn:disabled {
+  background: #333;
+  cursor: not-allowed;
+  opacity: 0.5;
+  color: #666;
+}
+
+.victory-screen, .game-over-screen {
+  text-align: center;
+  padding: 40px;
+}
+
+.victory-screen h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #4caf50;
+}
+
+.victory-screen h2, .game-over-screen h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.game-over-screen h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #f44336;
+}
+
+.reset-btn {
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  background: #646cff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: white;
+  margin-top: 20px;
+}
+
+.reset-btn:hover {
+  background: #535bf2;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .answers {
+    grid-template-columns: 1fr;
+  }
+
+  .game-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .powerups {
+    flex-direction: column;
+  }
+}
