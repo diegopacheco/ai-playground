@@ -11,7 +11,7 @@ function App() {
       score: 0,
       skipsLeft: 2,
       vibeCodeUsed: false,
-      timeBonus: 0,
+      timeBonusUsed: false,
       usedQuestions: [],
       gameStatus: 'playing'
     }
@@ -42,7 +42,7 @@ function App() {
         const newQ = getNewQuestion()
         if (newQ) {
           setCurrentQ(newQ)
-          setTimeLeft(21 + gameState.timeBonus)
+          setTimeLeft(21)
         }
       }
     }
@@ -84,8 +84,7 @@ function App() {
           setGameState({
             ...gameState,
             score: newScore,
-            usedQuestions: newUsedQuestions,
-            timeBonus: 0
+            usedQuestions: newUsedQuestions
           })
           setCurrentQ(null)
           setSelectedAnswer(null)
@@ -115,20 +114,28 @@ function App() {
     if (!gameState.vibeCodeUsed) {
       const roll = Math.random()
       if (roll < 0.3) {
-        setGameState({
-          ...gameState,
-          vibeCodeUsed: true,
-          timeBonus: 10
-        })
-        setTimeLeft(timeLeft + 10)
-        alert('VIBE CODE SUCCESS! +10 seconds!')
-      } else {
+        alert('VIBE CODE SUCCESS! You won!')
         setGameState({
           ...gameState,
           vibeCodeUsed: true
         })
+      } else {
         alert('VIBE CODE FAILED! No bonus this time.')
+        setGameState({
+          ...gameState,
+          vibeCodeUsed: true
+        })
       }
+    }
+  }
+
+  const handleTimeBonus = () => {
+    if (!gameState.timeBonusUsed) {
+      setTimeLeft(timeLeft + 10)
+      setGameState({
+        ...gameState,
+        timeBonusUsed: true
+      })
     }
   }
 
@@ -145,7 +152,7 @@ function App() {
       score: 0,
       skipsLeft: 2,
       vibeCodeUsed: false,
-      timeBonus: 0,
+      timeBonusUsed: false,
       usedQuestions: [],
       gameStatus: 'playing'
     })
@@ -228,6 +235,13 @@ function App() {
           className="powerup-btn"
         >
           Vibe Code {gameState.vibeCodeUsed ? '(Used)' : ''}
+        </button>
+        <button
+          onClick={handleTimeBonus}
+          disabled={gameState.timeBonusUsed || showResult}
+          className="powerup-btn time-bonus"
+        >
+          +10s {gameState.timeBonusUsed ? '(Used)' : ''}
         </button>
       </div>
     </div>

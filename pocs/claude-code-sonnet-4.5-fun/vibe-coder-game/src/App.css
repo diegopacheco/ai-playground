@@ -134,6 +134,14 @@
   color: #666;
 }
 
+.powerup-btn.time-bonus {
+  background: #ff9800;
+}
+
+.powerup-btn.time-bonus:hover:not(:disabled) {
+  background: #fb8c00;
+}
+
 .victory-screen, .game-over-screen {
   text-align: center;
   padding: 40px;
