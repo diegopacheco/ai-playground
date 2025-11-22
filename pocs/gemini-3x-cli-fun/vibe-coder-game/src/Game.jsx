@@ -18,9 +18,9 @@ const Game = () => {
     const savedSkipCount = localStorage.getItem('skipCount');
     return savedSkipCount !== null ? parseInt(savedSkipCount, 10) : 2;
   });
-  const [hasWonVibeCodeBonus, setHasWonVibeCodeBonus] = useState(() => {
-    const savedHasWonVibeCodeBonus = localStorage.getItem('hasWonVibeCodeBonus');
-    return savedHasWonVibeCodeBonus === 'true';
+  const [hasUsedTenSecondBonus, setHasUsedTenSecondBonus] = useState(() => {
+    const savedHasUsedTenSecondBonus = localStorage.getItem('hasUsedTenSecondBonus');
+    return savedHasUsedTenSecondBonus === 'true';
   });
   const [gameOver, setGameOver] = useState(false);
 
@@ -28,8 +28,8 @@ const Game = () => {
     localStorage.setItem('currentQuestionIndex', currentQuestionIndex);
     localStorage.setItem('score', score);
     localStorage.setItem('skipCount', skipCount);
-    localStorage.setItem('hasWonVibeCodeBonus', hasWonVibeCodeBonus);
-  }, [currentQuestionIndex, score, skipCount, hasWonVibeCodeBonus]);
+    localStorage.setItem('hasUsedTenSecondBonus', hasUsedTenSecondBonus);
+  }, [currentQuestionIndex, score, skipCount, hasUsedTenSecondBonus]);
 
   const handleAnswer = (isCorrect) => {
     if (isCorrect) {
@@ -57,12 +57,18 @@ const Game = () => {
   };
 
   const handleVibeCode = () => {
-    if (!hasWonVibeCodeBonus) {
-      const win = Math.random() > 0.7;
-      if (win) {
-        setTimeLeft(timeLeft + 10);
-        setHasWonVibeCodeBonus(true);
-      }
+    const win = Math.random() > 0.5; // 50% chance to win
+    if (win) {
+      handleAnswer(true); // Automatically correct the current question
+    } else {
+      goToNextQuestion(); // Lose the current question (advance without points)
+    }
+  };
+
+  const handleTenSecondBonus = () => {
+    if (!hasUsedTenSecondBonus) {
+      setTimeLeft(timeLeft + 10);
+      setHasUsedTenSecondBonus(true);
     }
   };
 
@@ -72,7 +78,7 @@ const Game = () => {
     setScore(0);
     setTimeLeft(21);
     setSkipCount(2);
-    setHasWonVibeCodeBonus(false);
+    setHasUsedTenSecondBonus(false);
     setGameOver(false);
   };
 
@@ -114,8 +120,11 @@ const Game = () => {
         <button onClick={handleSkip} disabled={skipCount === 0}>
           Skip ({skipCount} left)
         </button>
-        <button onClick={handleVibeCode} disabled={hasWonVibeCodeBonus}>
-          Vibe Code ({hasWonVibeCodeBonus ? 'Used' : 'Available'})
+        <button onClick={handleVibeCode}>
+          Vibe Code (Roulette)
+        </button>
+        <button onClick={handleTenSecondBonus} disabled={hasUsedTenSecondBonus}>
+          Get 10s ({hasUsedTenSecondBonus ? 'Used' : 'One Time'})
         </button>
       </div>
       <div>
