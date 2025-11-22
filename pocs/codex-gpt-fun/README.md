@@ -10,7 +10,7 @@ happens and user might win or losse (3) win 10 more seconds just 1 time. The que
 
 ```
 Tool: codex-cli
-Model: gpt-5.1
+Model: gpt-5.1-codex-max
 ```
 
 ## Run 
