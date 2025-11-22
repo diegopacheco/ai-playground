@@ -16,6 +16,7 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(TIME_PER_QUESTION);
   const [skipsLeft, setSkipsLeft] = useState(MAX_SKIPS);
   const [vibeUsed, setVibeUsed] = useState(false);
+  const [timeBoostUsed, setTimeBoostUsed] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -28,6 +29,7 @@ function App() {
       setAnsweredCount(data.answeredCount || 0);
       setSkipsLeft(data.skipsLeft ?? MAX_SKIPS);
       setVibeUsed(data.vibeUsed || false);
+      setTimeBoostUsed(data.timeBoostUsed || false);
       setQuestionsPool(data.questionsPool || []);
       setCurrentQuestionIndex(data.currentQuestionIndex || 0);
       if (data.gameState && data.gameState !== 'start') {
@@ -49,6 +51,7 @@ function App() {
       answeredCount: 0,
       skipsLeft: MAX_SKIPS,
       vibeUsed: false,
+      timeBoostUsed: false,
       questionsPool: newPool,
       currentQuestionIndex: 0,
       gameState: 'playing'
@@ -58,6 +61,7 @@ function App() {
     setAnsweredCount(0);
     setSkipsLeft(MAX_SKIPS);
     setVibeUsed(false);
+    setTimeBoostUsed(false);
     setQuestionsPool(newPool);
     setCurrentQuestionIndex(0);
     setTimeLeft(TIME_PER_QUESTION);
@@ -82,6 +86,7 @@ function App() {
         answeredCount: newAnsweredCount,
         skipsLeft,
         vibeUsed,
+        timeBoostUsed,
         questionsPool,
         currentQuestionIndex: 0,
         gameState: 'finished'
@@ -101,11 +106,12 @@ function App() {
       answeredCount: newAnsweredCount,
       skipsLeft,
       vibeUsed,
+      timeBoostUsed,
       questionsPool,
       currentQuestionIndex: nextIndex,
       gameState: 'playing'
     });
-  }, [answeredCount, currentQuestionIndex, isCorrect, questionsPool, saveProgress, score, skipsLeft, vibeUsed]);
+  }, [answeredCount, currentQuestionIndex, isCorrect, questionsPool, saveProgress, score, skipsLeft, vibeUsed, timeBoostUsed]);
 
   const fireConfetti = () => {
     const duration = 3000;
@@ -204,7 +210,26 @@ function App() {
       answeredCount,
       skipsLeft: skipsLeft - 1,
       vibeUsed,
+      timeBoostUsed,
       questionsPool: newPool,
+      currentQuestionIndex,
+      gameState: 'playing'
+    });
+  };
+
+  const handleTimeBoost = () => {
+    if (timeBoostUsed || showResult) return;
+
+    setTimeLeft((prev) => prev + 10);
+    setTimeBoostUsed(true);
+    
+    saveProgress({
+      score,
+      answeredCount,
+      skipsLeft,
+      vibeUsed,
+      timeBoostUsed: true,
+      questionsPool,
       currentQuestionIndex,
       gameState: 'playing'
     });
@@ -235,6 +260,7 @@ function App() {
       answeredCount,
       skipsLeft,
       vibeUsed: true,
+      timeBoostUsed,
       questionsPool,
       currentQuestionIndex,
       gameState: 'playing'
@@ -257,6 +283,7 @@ function App() {
               <li>Answer 10 questions correctly</li>
               <li>21 seconds per question</li>
               <li>Skip up to 2 questions (but you still need 10 answers!)</li>
+              <li>Use "+10s" once to add 10 seconds</li>
               <li>Use "Vibe Code" once for a chance at +10 seconds</li>
             </ul>
           </div>
@@ -340,6 +367,13 @@ function App() {
             disabled={skipsLeft <= 0 || showResult}
           >
             ⏭️ SKIP ({skipsLeft} left)
+          </button>
+          <button
+            className="lifeline-btn time-btn"
+            onClick={handleTimeBoost}
+            disabled={timeBoostUsed || showResult}
+          >
+            ⏰ +10s {timeBoostUsed ? '(USED)' : ''}
           </button>
           <button
             className="lifeline-btn vibe-btn"

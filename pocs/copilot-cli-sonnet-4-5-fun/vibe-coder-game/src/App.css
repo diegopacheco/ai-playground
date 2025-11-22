@@ -298,6 +298,15 @@
   cursor: not-allowed;
 }
 
+.time-btn:not(:disabled) {
+  background: linear-gradient(45deg, #4facfe, #00f2fe);
+  border-color: #4facfe;
+}
+
+.time-btn:hover:not(:disabled) {
+  background: linear-gradient(45deg, #00f2fe, #4facfe);
+}
+
 .vibe-btn:not(:disabled) {
   background: linear-gradient(45deg, #f093fb, #f5576c);
   border-color: #f093fb;
