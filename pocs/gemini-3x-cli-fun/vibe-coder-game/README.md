@@ -21,7 +21,7 @@ Model: gemoni-2.5-pro
 
 ## Result
 
-<img src="result-app-gemini.png" width="600" />
+<img src="result-app-gemini-cli.png" width="600" />
 
 # React + Vite
 
