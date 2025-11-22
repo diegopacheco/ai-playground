@@ -1,10 +1,12 @@
 import React from 'react';
+import Game from './Game';
+import './App.css'; // Import the CSS file
 
 function App() {
   return (
-    <div>
+    <div className="App">
       <h1>Who want's to be a Vibe Coder?</h1>
-      {/* Game component will go here */}
+      <Game />
     </div>
   );
 }
