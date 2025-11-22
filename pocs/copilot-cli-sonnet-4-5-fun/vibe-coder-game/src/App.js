@@ -213,19 +213,20 @@ function App() {
   const handleVibeCoding = () => {
     if (vibeUsed || showResult) return;
 
-    const vibeOptions = [
-      { type: 'win', message: '🎉 VIBE CHECK PASSED! +10 seconds!', bonus: 10 },
-      { type: 'lose', message: '💀 VIBE CHECK FAILED! No bonus.', bonus: 0 },
-      { type: 'lose', message: '😱 COMPILER ERROR! No bonus.', bonus: 0 }
-    ];
-
-    const result = vibeOptions[Math.floor(Math.random() * vibeOptions.length)];
+    const random = Math.random();
+    const win = random < 0.333;
     
-    if (result.type === 'win') {
-      setTimeLeft((prev) => prev + result.bonus);
-      alert(result.message);
+    if (win) {
+      setTimeLeft((prev) => prev + 10);
+      alert('🎉 VIBE CHECK PASSED! +10 seconds!');
     } else {
-      alert(result.message);
+      const failMessages = [
+        '💀 VIBE CHECK FAILED! No bonus.',
+        '😱 COMPILER ERROR! No bonus.',
+        '🐛 RUNTIME EXCEPTION! No bonus.',
+        '⚠️ TYPE MISMATCH! No bonus.'
+      ];
+      alert(failMessages[Math.floor(Math.random() * failMessages.length)]);
     }
 
     setVibeUsed(true);
