@@ -28,7 +28,7 @@ Model: claude-sonnet-4.5
 
 ## Result
 
-<img src="result-app-codex.png" width="600" />
+<img src="result-app-cc.png" width="600" />
 
 
 # React + Vite
