@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Who want's to be a Vibe Coder?</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700&display=swap');
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 20% 20%,#ffde95 0,#ffe6c7 22%,#ffe0cc 40%,#1a1233 85%);color:#0f0e1d;font-family:'Space Grotesk',sans-serif;min-height:100vh}
+#root{min-height:100vh}
+.frame{max-width:960px;margin:0 auto;padding:32px 24px 48px;min-height:100vh;display:flex;flex-direction:column;gap:20px}
+.header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.title{font-family:'Syne',sans-serif;font-size:42px;line-height:1.05;color:#0a0616;letter-spacing:-1px;text-shadow:0 8px 24px rgba(0,0,0,0.15)}
+.pill{background:rgba(255,255,255,0.6);padding:8px 14px;border-radius:14px;font-size:13px;font-weight:600;color:#31295c;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.5)}
+.shell{background:rgba(255,255,255,0.78);border-radius:18px;padding:22px 20px 26px;box-shadow:0 16px 50px rgba(0,0,0,0.18);display:flex;flex-direction:column;gap:18px;border:1px solid rgba(255,255,255,0.6)}
+.question-card{background:#0f0a29;color:#fdfaf7;border-radius:16px;padding:20px;box-shadow:0 16px 40px rgba(0,0,0,0.25)}
+.question-card h2{margin:0 0 10px;font-size:22px}
+.category{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#d2c9ff}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+button{font-family:'Space Grotesk',sans-serif;border:none;border-radius:12px;padding:12px 14px;font-weight:700;font-size:15px;cursor:pointer;transition:transform 0.12s ease,box-shadow 0.2s ease,background 0.2s ease}
+.option-btn{background:linear-gradient(120deg,#f7f0ff,#efe9ff);color:#150d2d;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
+.option-btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(0,0,0,0.14)}
+.stats{display:flex;gap:12px;flex-wrap:wrap}
+.stat{flex:1;min-width:140px;padding:14px 12px;border-radius:14px;background:rgba(15,10,41,0.9);color:#f5f3ff;display:flex;justify-content:space-between;align-items:center;font-weight:600}
+.lifelines{display:flex;gap:10px;flex-wrap:wrap}
+.lifeline-btn{flex:1;min-width:160px;background:linear-gradient(135deg,#ff9f6e,#ff62c0);color:#0c0616;box-shadow:0 10px 26px rgba(255,116,138,0.4)}
+.lifeline-btn.secondary{background:linear-gradient(135deg,#7fffd4,#4de3ff);box-shadow:0 10px 26px rgba(90,220,255,0.35)}
+.lifeline-btn.ghost{background:linear-gradient(135deg,#fffacd,#ffd166);box-shadow:0 10px 26px rgba(255,209,102,0.35)}
+.lifeline-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;box-shadow:none}
+.timer-shell{width:100%;background:rgba(255,255,255,0.6);border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,0.05)}
+.timer-bar{height:12px;background:linear-gradient(90deg,#4de3ff,#ff62c0);transition:width 0.2s ease}
+.footer{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.message{font-weight:700;color:#0a0616;font-size:15px}
+.badge{background:#0f0a29;color:#f8f6ff;padding:6px 10px;border-radius:10px;font-size:12px;font-weight:700}
+.celebrate{animation:popIn 0.5s ease}
+.stack{display:flex;flex-direction:column;gap:10px}
+.final{background:#0f0a29;color:#f6f3ff;padding:20px;border-radius:16px;text-align:center;box-shadow:0 16px 36px rgba(0,0,0,0.2)}
+.final h2{margin:0 0 10px;font-size:26px}
+.history{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.history-item{padding:12px;border-radius:12px;background:rgba(255,255,255,0.8);color:#0f0d1c;font-weight:600}
+.history-item.correct{border:2px solid #5de8b5}
+.history-item.wrong{border:2px solid #ff8c94}
+@keyframes popIn{0%{transform:scale(0.8);opacity:0}100%{transform:scale(1);opacity:1}}
+.confetti-container{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.confetti-piece{position:absolute;width:10px;height:18px;animation:confettiFall 1.2s linear forwards;opacity:0.9;border-radius:4px}
+@keyframes confettiFall{0%{transform:translateY(-10vh) rotate(0deg)}100%{transform:translateY(110vh) rotate(360deg)}}
+@media(max-width:720px){.options{grid-template-columns:1fr}.header{flex-direction:column}.title{font-size:34px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+const {useEffect,useMemo,useState,useCallback} = React
+const baseTime = 21
+const requiredQuestions = 10
+const questionBank = [
+  {id:'q1',category:'Distributed Systems',prompt:'What does the CAP theorem assert?',options:['A database can be perfectly Consistent, Available, and Partition tolerant at once','Only two of Consistency, Availability, and Partition tolerance can be fully satisfied simultaneously','Consistency and Availability always beat Partition tolerance','Availability automatically implies Consistency in replicas'],answer:'Only two of Consistency, Availability, and Partition tolerance can be fully satisfied simultaneously'},
+  {id:'q2',category:'Data Structures',prompt:'What is the time complexity of inserting into a binary heap?',options:['O(log n)','O(1)','O(n)','O(n log n)'],answer:'O(log n)'},
+  {id:'q3',category:'OOP',prompt:'The Liskov Substitution Principle means',options:['Base classes depend on their children for behavior','Subtypes can replace base types without altering correctness','Inheritance should always be avoided','Objects must expose all fields for substitution'],answer:'Subtypes can replace base types without altering correctness'},
+  {id:'q4',category:'Functional Programming',prompt:'What does currying do?',options:['It optimizes loops for tail calls','It transforms a function of multiple parameters into a chain of single-argument functions','It memoizes recursive calls automatically','It converts mutable state into immutable state'],answer:'It transforms a function of multiple parameters into a chain of single-argument functions'},
+  {id:'q5',category:'Design Patterns',prompt:'Which pattern wraps a request as an object and supports undo?',options:['Observer','Strategy','Command','Builder'],answer:'Command'},
+  {id:'q6',category:'AWS',prompt:'Which AWS service provides managed Kubernetes control planes?',options:['Amazon ECS','Amazon EKS','AWS Batch','AWS Fargate only'],answer:'Amazon EKS'},
+  {id:'q7',category:'DevOps',prompt:'Blue-green deployments primarily reduce',options:['Latency inside the VPC','Time to compile assets','Risk when switching traffic between releases','Memory footprint of containers'],answer:'Risk when switching traffic between releases'},
+  {id:'q8',category:'Data Engineering',prompt:'Which file format is columnar and preserves schema?',options:['CSV','JSON Lines','Parquet','TXT'],answer:'Parquet'},
+  {id:'q9',category:'Algorithms',prompt:'Dijkstra’s algorithm fails to give correct paths when',options:['Edges are unweighted','There are negative edge weights','The graph is acyclic','Nodes are labeled with strings'],answer:'There are negative edge weights'},
+  {id:'q10',category:'Frontend',prompt:'Which browser API schedules work to align with repaints?',options:['setTimeout','setImmediate','requestAnimationFrame','queueMicrotask'],answer:'requestAnimationFrame'},
+  {id:'q11',category:'Rust',prompt:'A core ownership rule in Rust is',options:['Multiple mutable references are always allowed','Only one mutable reference to data is allowed at a time','References live forever by default','Ownership is copied implicitly for every move'],answer:'Only one mutable reference to data is allowed at a time'},
+  {id:'q12',category:'Haskell',prompt:'Haskell’s laziness means',options:['Expressions are evaluated immediately','Expressions are evaluated only when their values are needed','All functions run in parallel','Side effects cannot exist'],answer:'Expressions are evaluated only when their values are needed'},
+  {id:'q13',category:'Clojure',prompt:'Persistent data structures in Clojure',options:['Copy all data on every change','Use structural sharing to stay immutable','Are mutable inside transactions','Exist only for lists'],answer:'Use structural sharing to stay immutable'},
+  {id:'q14',category:'Zig',prompt:'Zig is known for',options:['Mandatory garbage collection','Error handling through exceptions only','Compile-time execution with explicit memory control','Being a JVM-first language'],answer:'Compile-time execution with explicit memory control'},
+  {id:'q15',category:'Nim',prompt:'Nim typically compiles down to',options:['Java bytecode','C or C++','WebAssembly only','Erlang BEAM bytecode'],answer:'C or C++'},
+  {id:'q16',category:'Emojicode',prompt:'Emojicode is a language that',options:['Uses only ASCII letters','Forbids Unicode entirely','Uses emoji syntax for its keywords and structures','Is a superset of Java'],answer:'Uses emoji syntax for its keywords and structures'},
+  {id:'q17',category:'TypeScript',prompt:'Which utility type produces a fully readonly version of a type?',options:['Partial','Pick','Readonly','Extract'],answer:'Readonly'},
+  {id:'q18',category:'Cloud on AWS',prompt:'Which AWS storage offers read-after-write consistency for new objects?',options:['Amazon S3','Amazon SQS','Amazon EBS','Amazon Glacier'],answer:'Amazon S3'}
+]
+const questionMap = questionBank.reduce((acc,q)=>{acc[q.id]=q;return acc}, {})
+function shuffle(list){const arr=[...list];for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
+function createDeck(){return shuffle(questionBank.map(q=>q.id))}
+function computeRemaining(deadline){return Math.max(0,Math.ceil((deadline-Date.now())/1000))}
+function initialState(){const deck=createDeck();const current=deck[0];return{currentId:current,remainingIds:deck.slice(1),answered:0,score:0,skipsLeft:2,rouletteUsed:false,bonusTimeUsed:false,status:'playing',message:'',history:[],deadline:Date.now()+baseTime*1000,timeLeft:baseTime,currentTimeLimit:baseTime}}
+function loadState(){try{const raw=localStorage.getItem('vibeCoderState');if(raw){const parsed=JSON.parse(raw);if(parsed&&parsed.currentId&&parsed.deadline){const t=computeRemaining(parsed.deadline);return{...initialState(),...parsed,timeLeft:t}}}}catch(e){}return initialState()}
+function pullNext(remaining){let pool=remaining;if(!pool||pool.length===0){pool=createDeck()}const [nextId,...rest]=pool;return{nextId,nextRemaining:rest}}
+function advanceState(prev,correct,note){if(prev.status!=='playing')return prev;const answered=prev.answered+1;const score=correct?prev.score+1:prev.score;const history=[...prev.history,{id:prev.currentId,correct,note}];if(answered>=requiredQuestions){return{...prev,answered,score,history,status:'finished',message:note|| (correct?'Vibe secured':'Out of rhythm'),timeLeft:0}}const {nextId,nextRemaining}=pullNext(prev.remainingIds);const deadline=Date.now()+baseTime*1000;return{...prev,answered,score,history,currentId:nextId,remainingIds:nextRemaining,deadline,timeLeft:baseTime,currentTimeLimit:baseTime,message:note|| (correct?'Vibe locked in':'Missed the beat')}}
+function skipState(prev){if(prev.skipsLeft<=0||prev.status!=='playing')return prev;const {nextId,nextRemaining}=pullNext(prev.remainingIds);const deadline=Date.now()+baseTime*1000;return{...prev,currentId:nextId,remainingIds:nextRemaining,skipsLeft:prev.skipsLeft-1,deadline,timeLeft:baseTime,currentTimeLimit:baseTime,message:'Skip engaged'}}
+function App(){const [game,setGame]=useState(loadState);const currentQuestion=useMemo(()=>questionMap[game.currentId], [game.currentId]);const [celebrateKey,setCelebrateKey]=useState(0)
+useEffect(()=>{localStorage.setItem('vibeCoderState',JSON.stringify(game))},[game])
+useEffect(()=>{if(game.status!=='playing')return;const timer=setInterval(()=>{setGame(prev=>{if(prev.status!=='playing')return prev;const nextTime=computeRemaining(prev.deadline);if(nextTime===prev.timeLeft)return prev;if(nextTime<=0)return advanceState(prev,false,'Out of time');return{...prev,timeLeft:nextTime}})},250);return()=>clearInterval(timer)},[game.status,game.deadline,game.currentId])
+const triggerConfetti=useCallback(()=>{const colors=['#ff62c0','#7fffd4','#ffd166','#6c6bff','#f7f0ff'];const container=document.createElement('div');container.className='confetti-container';document.body.appendChild(container);Array.from({length:90}).forEach((_,i)=>{const piece=document.createElement('div');piece.className='confetti-piece';piece.style.backgroundColor=colors[i%colors.length];piece.style.left=Math.random()*100+'vw';piece.style.animationDelay=Math.random()*0.2+'s';piece.style.transform='rotate('+Math.random()*360+'deg)';container.appendChild(piece)});setTimeout(()=>container.remove(),1200)},[])
+const handleAnswer=choice=>{if(game.status!=='playing')return;const correct=choice===currentQuestion.answer;if(correct){triggerConfetti();setCelebrateKey(Date.now())}setGame(prev=>advanceState(prev,correct,correct?'Vibe approved':'Not quite'))}
+const handleSkip=()=>{setGame(prev=>skipState(prev))}
+const handleRoulette=()=>{setGame(prev=>{if(prev.rouletteUsed||prev.status!=='playing')return prev;const win=Math.random()>0.5;if(win){triggerConfetti();setCelebrateKey(Date.now())}return advanceState({...prev,rouletteUsed:true},win,win?'Roulette jackpot':'Roulette bust')})}
+const handleBonusTime=()=>{setGame(prev=>{if(prev.bonusTimeUsed||prev.status!=='playing')return prev;const extra=10;const newDeadline=prev.deadline+extra*1000;return{...prev,bonusTimeUsed:true,deadline:newDeadline,timeLeft:prev.timeLeft+extra,currentTimeLimit:prev.currentTimeLimit+extra,message:'Bonus time added'}})}
+const resetGame=()=>{const fresh=initialState();setCelebrateKey(0);setGame(fresh)}
+const timePercent=Math.max(4,Math.min(100,Math.round((game.timeLeft/(game.currentTimeLimit||baseTime))*100)))
+return(
+<div className="frame">
+  <div className="header">
+    <div>
+      <div className="title">Who want's to be a Vibe Coder?</div>
+      <div className="pill">10 questions. 21 seconds. Zero chill.</div>
+    </div>
+    <div className="pill">Saved on your browser. No backend. Pure vibe.</div>
+  </div>
+  {game.status==='finished' ? (
+    <div className="shell final celebrate" key={celebrateKey}>
+      <h2>Vibe Run Complete</h2>
+      <div className="stack">
+        <div className="badge">Score {game.score} / {requiredQuestions}</div>
+        <div className="badge">Skips left {game.skipsLeft}</div>
+      </div>
+      <button className="lifeline-btn secondary" onClick={resetGame}>Restart the vibe</button>
+      <div className="history">
+        {game.history.map(entry=>{const q=questionMap[entry.id];return(
+          <div key={entry.id+entry.note} className={`history-item ${entry.correct?'correct':'wrong'}`}>
+            <div>{q.category}</div>
+            <div>{q.prompt}</div>
+            <div>{entry.correct?'Correct':'Missed'}</div>
+          </div>
+        )})}
+      </div>
+    </div>
+  ):(
+    <div className="shell">
+      <div className="stats">
+        <div className="stat"><span>Question</span><span>{game.answered+1} / {requiredQuestions}</span></div>
+        <div className="stat"><span>Score</span><span>{game.score}</span></div>
+        <div className="stat"><span>Skips</span><span>{game.skipsLeft}</span></div>
+        <div className="stat"><span>Time</span><span>{game.timeLeft}s</span></div>
+      </div>
+      <div className="timer-shell">
+        <div className="timer-bar" style={{width:timePercent+'%'}}></div>
+      </div>
+      <div className="question-card celebrate" key={game.currentId}>
+        <div className="category">{currentQuestion.category}</div>
+        <h2>{currentQuestion.prompt}</h2>
+        <div className="options">
+          {currentQuestion.options.map(opt=>(
+            <button key={opt} className="option-btn" onClick={()=>handleAnswer(opt)} disabled={game.status!=='playing'}>{opt}</button>
+          ))}
+        </div>
+      </div>
+      <div className="lifelines">
+        <button className="lifeline-btn" onClick={handleSkip} disabled={game.skipsLeft<=0||game.status!=='playing'}>Skip x{game.skipsLeft}</button>
+        <button className="lifeline-btn secondary" onClick={handleRoulette} disabled={game.rouletteUsed||game.status!=='playing'}>{game.rouletteUsed?'Roulette used':'Vibe Code Roulette'}</button>
+        <button className="lifeline-btn ghost" onClick={handleBonusTime} disabled={game.bonusTimeUsed||game.status!=='playing'}>{game.bonusTimeUsed?'+10s used':'+10s once'}</button>
+      </div>
+      <div className="footer">
+        <div className="message">{game.message || 'Stay in the groove.'}</div>
+        <div className="badge">{game.status==='playing'?'Live':'Ended'}</div>
+      </div>
+    </div>
+  )}
+</div>
+)}
+const root=ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App/>)
+</script>
+</body>
+</html>
