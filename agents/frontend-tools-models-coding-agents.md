@@ -16,3 +16,19 @@ happens and user might win or losse (3) win 10 more seconds just 1 time. The que
 * [Google Gemini CLI and 2.5 PRO](https://github.com/diegopacheco/ai-playground/tree/main/pocs/gemini-2.5-pro-cli-fun/vibe-coder-game)
 * [Github/MS Copilot and Claude-Sonnet-4.5](https://github.com/diegopacheco/ai-playground/tree/main/pocs/copilot-cli-sonnet-4-5-fun/vibe-coder-game)
 * [Anthropic Claude Code / Sonner 4.5]()
+
+## Analysis / Results 
+
+* Codex was the first to finish.
+* Copilot was second.
+* Gemini Last.
+* Claude I could not run (out of tokens - will run another day).
+* Codex UI was the cool, however it game me a single HTML and I asked for React :-) 
+* Codex Got it one shot(but without React).
+* Copilot took a while and miss 1 functionality the 10s button.
+* Gemini took a while and miss the 10s button and skip button.
+* Copilot and codex was decent cli tools
+* Gemini was bad, unless I allow the YOLO mode I could not use the tool, had lots of bugs.
+* Gemini UI was ugly.
+* Copilot UI and code was great.
+* 
