@@ -45,14 +45,14 @@ Click on the link to see the full code implementation and run it yourself:
 
 ## UI Results
 
-Codex
-<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/codex-gpt-fun/result-app-codex.png" width="600"/>
+Codex CLI<br/>
+<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/codex-gpt-fun/result-app-codex.png" width="600"/><br/>
 
-Copilot CLI
-<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/copilot-cli-sonnet-4-5-fun/vibe-coder-game/result-app-copilot-cli.png" width="600"/>
+Copilot CLI <br/>
+<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/copilot-cli-sonnet-4-5-fun/vibe-coder-game/result-app-copilot-cli.png" width="600"/><br/>
 
-Gemini CLI
-<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/gemini-2.5-pro-cli-fun/vibe-coder-game/result-app-gemini-cli.png" width="600"/>
+Gemini CLI <br/>
+<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/gemini-2.5-pro-cli-fun/vibe-coder-game/result-app-gemini-cli.png" width="600"/><br/>
 
-Claude Code
-<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/claude-code-sonnet-4.5-fun/vibe-coder-game/result-app-cc.png" width="600"/>
+Claude Code CLI<br/>
+<img src="https://github.com/diegopacheco/ai-playground/blob/main/pocs/claude-code-sonnet-4.5-fun/vibe-coder-game/result-app-cc.png" width="600"/><br/>
