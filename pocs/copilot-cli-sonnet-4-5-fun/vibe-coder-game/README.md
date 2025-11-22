@@ -1,0 +1,106 @@
+# 💻 Who Wants to be a Vibe Coder?
+
+A satirical programming trivia game inspired by "Who Wants to be a Millionaire" - built with React!
+
+## 🎮 Game Features
+
+- **10 Questions**: Answer all 10 questions about programming topics
+- **21 Second Timer**: Each question has a 21-second countdown
+- **Confetti Celebrations**: Correct answers trigger awesome confetti animations
+- **Local Storage**: Your progress is automatically saved in the browser
+- **Three Lifelines**:
+  - **Skip (2x)**: Skip a question and get a new one (but you still need 10 answers!)
+  - **Vibe Code (1x)**: Random chance to win 10 extra seconds or get nothing
+
+## 📚 Question Topics
+
+Questions cover:
+- Distributed Systems (CAP theorem, eventual consistency)
+- Design Patterns (Singleton, Builder, etc.)
+- Object-Oriented Programming
+- Functional Programming (monads, pure functions, higher-order functions)
+- Data Structures (stacks, queues, hash tables, graphs)
+- Algorithms (binary search, quicksort, time complexity)
+- Cloud Computing (AWS S3, Lambda, CloudFormation)
+- DevOps (CI/CD, Docker, Kubernetes, Infrastructure as Code)
+- Data Engineering (ETL, data lakes, data warehouses, Apache Spark)
+- Frontend Engineering (React, Virtual DOM, Shadow DOM, tree shaking)
+- Weird Languages (Haskell, Rust, Zig, Nim, Clojure, Emojicode, TypeScript)
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm
+
+### Installation & Running
+
+```bash
+cd vibe-coder-game
+npm install
+npm start
+```
+
+The game will open at `http://localhost:3000`
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+## 🎯 How to Play
+
+1. Click **"START VIBING 🚀"** to begin
+2. Read each question carefully
+3. Click one of the four answer options
+4. Watch the timer! You have 21 seconds per question
+5. Use your lifelines strategically:
+   - **Skip**: Get a new question (2 uses max)
+   - **Vibe Code**: Risk it for +10 seconds or nothing (1 use)
+6. Get all 10 questions right to achieve perfection!
+
+## 🎨 Tech Stack
+
+- **React 19** - UI framework
+- **canvas-confetti** - Celebration animations
+- **Local Storage API** - Game state persistence
+- **CSS3** - Animations and styling (gradients, transforms, keyframes)
+
+## 🏆 Scoring
+
+- Perfect (10/10): "🔥 PERFECT! You're a true Vibe Coder!"
+- Great (7-9): "💪 Great job! You've got the vibes!"
+- Good (5-6): "👍 Not bad! Keep vibing!"
+- Needs Work (<5): "📚 Time to hit the docs! Keep learning!"
+
+## 🎭 Game States
+
+- **Start Screen**: Introduction and rules
+- **Playing**: Active gameplay with timer and questions
+- **Finished**: Final score and play again option
+
+## 💾 Data Persistence
+
+Game progress is automatically saved to browser localStorage including:
+- Current score
+- Questions answered
+- Remaining skips and vibe code uses
+- Current question pool
+- Game state
+
+## 🎪 Special Features
+
+- **Responsive Design**: Works on desktop and mobile
+- **Smooth Animations**: CSS keyframes for all interactions
+- **Timer Warning**: Timer turns red and pulses at 5 seconds
+- **Answer Feedback**: Instant visual feedback on correct/incorrect answers
+- **Confetti Burst**: Dual-sided confetti cannon on correct answers
+
+## 📝 No Backend Required
+
+Everything runs in the browser - no server, no database, no Redux. Pure React with hooks and local storage!
+
+---
+
+Built with vibes and zero comments in the code 😎
