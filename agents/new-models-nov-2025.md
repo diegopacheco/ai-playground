@@ -6,19 +6,33 @@ Made some simple benchmark using latest version of VSCode Copilot with:
 * Gemini 3 Pro
 * Grok Fast 1 Code
 
+## Prompt 
+
+```
+create a rock, paper, scizor game using react and html, use browser local store for storage.
+```
+
 ## Results
 
 Claude Opus 4.5 <br/>
 <img src="models-nov-2025/Rock Paper Scissors - opus 4.5 - result.png" width="600"/>
 
+Full POC Code: [https://github.com/diegopacheco/ai-playground/tree/main/pocs/copilot-opus-4.5-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/copilot-opus-4.5-poc)
+
 GPT 5.1 Codex <br/>
 <img src="models-nov-2025/Rock Paper Scissors - Grok-Fast-1 - result.png" width="600"/>
+
+Full POC Code: [https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-5.1-code-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-5.1-code-poc)
 
 Gemini 3 Pro <br/>
 <img src="models-nov-2025/Rock Paper Scissors - Gemini 3 PRO - result.png" width="600"/>
 
+Full POC Code: [https://github.com/diegopacheco/ai-playground/tree/main/pocs/gemini-3-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/gemini-3-poc)
+
 Grok Fast 1 Code <br/>
 <img src="models-nov-2025/Rock Paper Scissors - Grok-Fast-1 - result.png" width="600"/>
+
+Full Code: [https://github.com/diegopacheco/ai-playground/tree/main/pocs/grok-code-fast-1-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/grok-code-fast-1-poc)
 
 ## analysis
 
