@@ -1,0 +1,65 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.score {
+  display: flex;
+  gap: 20px;
+}
+
+.score p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.choices {
+  display: flex;
+  gap: 10px;
+}
+
+.choices button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.choices button:hover {
+  background-color: #535bf2;
+}
+
+.result {
+  margin-top: 20px;
+}
+
+.result p {
+  margin: 5px 0;
+  font-size: 18px;
+}
+
+.reset {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.reset:hover {
+  background-color: #ff5252;
+}
