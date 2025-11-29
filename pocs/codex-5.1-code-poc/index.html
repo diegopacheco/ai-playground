@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock · Paper · Scizor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at top, #232946, #0f172a);
+        font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #f8fafc;
+      }
+
+      .card {
+        width: min(90vw, 720px);
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(12px);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2rem, 4vw, 2.6rem);
+        text-align: center;
+      }
+
+      p.subtitle {
+        margin: 0 0 24px;
+        text-align: center;
+        color: rgba(248, 250, 252, 0.75);
+      }
+
+      .choices {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 32px;
+      }
+
+      button.choice {
+        flex: 1 1 150px;
+        border: none;
+        border-radius: 18px;
+        padding: 16px 18px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #0f172a;
+        background: linear-gradient(135deg, #facc15, #f97316);
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      button.choice:focus-visible {
+        outline: 3px solid #facc15;
+        outline-offset: 3px;
+      }
+
+      button.choice:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(249, 115, 22, 0.35);
+      }
+
+      .scoreboard {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .score {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 16px;
+        text-align: center;
+      }
+
+      .score span {
+        display: block;
+        font-size: 2rem;
+        font-weight: 600;
+      }
+
+      .status {
+        text-align: center;
+        margin-bottom: 24px;
+        font-size: 1.1rem;
+      }
+
+      .history {
+        background: rgba(15, 23, 42, 0.6);
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 20px;
+      }
+
+      .history h2 {
+        margin: 0 0 12px;
+        font-size: 1.2rem;
+      }
+
+      .history-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        max-height: 240px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+      }
+
+      .history-list li {
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 0.95rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .history-list li:last-child {
+        border-bottom: none;
+      }
+
+      .history-list small {
+        color: rgba(248, 250, 252, 0.6);
+      }
+
+      .actions {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .actions button {
+        border: none;
+        border-radius: 999px;
+        padding: 10px 18px;
+        background: rgba(248, 250, 252, 0.15);
+        color: #f8fafc;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      .actions button:hover {
+        background: rgba(248, 250, 252, 0.3);
+        color: #0f172a;
+      }
+
+      @media (max-width: 640px) {
+        .card {
+          padding: 24px;
+        }
+
+        button.choice {
+          flex: 1 1 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const CHOICES = [
+        { label: "Rock", value: "rock", emoji: "🪨" },
+        { label: "Paper", value: "paper", emoji: "📄" },
+        { label: "Scizor", value: "scizor", emoji: "✂️" },
+      ];
+
+      const STORAGE_KEY = "rps-react-state";
+      const defaultState = {
+        wins: 0,
+        losses: 0,
+        ties: 0,
+        rounds: [],
+        lastResult: "Make your move!",
+      };
+
+      const getResult = (player, computer) => {
+        if (player === computer) return "tie";
+        if (
+          (player === "rock" && computer === "scizor") ||
+          (player === "paper" && computer === "rock") ||
+          (player === "scizor" && computer === "paper")
+        ) {
+          return "win";
+        }
+        return "loss";
+      };
+
+      function App() {
+        const [state, setState] = React.useState(() => {
+          try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            return stored ? JSON.parse(stored) : defaultState;
+          } catch (error) {
+            console.warn("Failed to parse stored state", error);
+            return defaultState;
+          }
+        });
+
+        React.useEffect(() => {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }, [state]);
+
+        const handlePlay = (playerChoice) => {
+          const computerChoice = CHOICES[Math.floor(Math.random() * CHOICES.length)].value;
+          const outcome = getResult(playerChoice, computerChoice);
+          const resultText =
+            outcome === "win"
+              ? "You win!"
+              : outcome === "loss"
+              ? "You lose!"
+              : "It's a tie!";
+
+          setState((prev) => ({
+            wins: prev.wins + (outcome === "win" ? 1 : 0),
+            losses: prev.losses + (outcome === "loss" ? 1 : 0),
+            ties: prev.ties + (outcome === "tie" ? 1 : 0),
+            rounds: [
+              {
+                id: Date.now(),
+                player: playerChoice,
+                computer: computerChoice,
+                outcome,
+                timestamp: new Date().toLocaleTimeString(),
+              },
+              ...prev.rounds,
+            ].slice(0, 15),
+            lastResult: `${resultText} (${playerChoice} vs ${computerChoice})`,
+          }));
+        };
+
+        const resetGame = () => {
+          if (!confirm("Reset your progress?")) return;
+          setState(defaultState);
+          localStorage.removeItem(STORAGE_KEY);
+        };
+
+        return (
+          <main className="card">
+            <h1>Rock · Paper · Scizor</h1>
+            <p className="subtitle">A quick React duel with persistent scores.</p>
+
+            <section className="choices">
+              {CHOICES.map((choice) => (
+                <button
+                  key={choice.value}
+                  className="choice"
+                  onClick={() => handlePlay(choice.value)}
+                >
+                  <span>{choice.emoji}</span>
+                  {choice.label}
+                </button>
+              ))}
+            </section>
+
+            <section className="scoreboard" aria-live="polite">
+              <article className="score">
+                <strong>Wins</strong>
+                <span>{state.wins}</span>
+              </article>
+              <article className="score">
+                <strong>Losses</strong>
+                <span>{state.losses}</span>
+              </article>
+              <article className="score">
+                <strong>Ties</strong>
+                <span>{state.ties}</span>
+              </article>
+            </section>
+
+            <p className="status">{state.lastResult}</p>
+
+            <section className="history">
+              <h2>Recent rounds</h2>
+              {state.rounds.length === 0 ? (
+                <p>No games yet. Pick a weapon!</p>
+              ) : (
+                <ul className="history-list">
+                  {state.rounds.map((round) => (
+                    <li key={round.id}>
+                      <span>
+                        {round.player} vs {round.computer}
+                      </span>
+                      <small>
+                        {round.outcome.toUpperCase()} · {round.timestamp}
+                      </small>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+
+            <div className="actions">
+              <button type="button" onClick={resetGame}>
+                Reset progress
+              </button>
+            </div>
+          </main>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
