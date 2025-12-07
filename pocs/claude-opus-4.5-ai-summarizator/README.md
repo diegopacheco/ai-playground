@@ -2,7 +2,7 @@
 
 Arxiv Summarizer is a Rust application that fetches research papers from arXiv, extracts their content, and generates concise summaries using OpenAI's language models. The summaries are saved in markdown format for easy reading and sharing. The application try to fetch the latest 100 papers in the Artificial Intelligence (cs.AI) category.
 
-<img src="logo.png" width="400" />
+<img src="logo-ras.png" width="400" />
 
 ## How it works?
 

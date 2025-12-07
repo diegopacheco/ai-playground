@@ -2,6 +2,7 @@
 name = "arxiv-summarizer"
 version = "0.1.0"
 edition = "2024"
+authors = ["Diego Pacheco"]
 
 [dependencies]
 reqwest = { version = "0.12", features = ["blocking", "json"] }
