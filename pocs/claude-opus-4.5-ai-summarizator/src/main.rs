@@ -47,14 +47,35 @@ struct ResponseMessage {
     content: String,
 }
 
+fn print_banner() {
+    println!(r#"
+  _____            _____
+ |  __ \     /\   / ____|
+ | |__) |   /  \ | (___
+ |  _  /   / /\ \ \___ \
+ | | \ \  / ____ \____) |
+ |_|  \_\/_/    \_\_____/
+
+        by Diego Pacheco
+"#);
+}
+
+fn get_ras_dir() -> PathBuf {
+    let home = std::env::var("HOME").expect("HOME environment variable not set");
+    PathBuf::from(home).join("ras")
+}
+
 fn main() {
-    let papers_dir = Path::new("papers");
-    let summary_dir = Path::new("summary");
+    print_banner();
 
-    fs::create_dir_all(papers_dir).expect("Failed to create papers directory");
-    fs::create_dir_all(summary_dir).expect("Failed to create summary directory");
+    let ras_dir = get_ras_dir();
+    let papers_dir = ras_dir.join("papers");
+    let summary_dir = ras_dir.join("summary");
 
-    let existing_summaries = get_existing_summaries(summary_dir);
+    fs::create_dir_all(&papers_dir).expect("Failed to create papers directory");
+    fs::create_dir_all(&summary_dir).expect("Failed to create summary directory");
+
+    let existing_summaries = get_existing_summaries(&summary_dir);
     println!("Found {} existing summaries", existing_summaries.len());
 
     let client = Client::builder()
@@ -75,8 +96,8 @@ fn main() {
     println!("{} papers need processing", papers_to_process.len());
 
     let openai_key = Arc::new(std::env::var("OPEN_AI_API_KEY").expect("OPEN_AI_API_KEY environment variable not set"));
-    let papers_dir = Arc::new(papers_dir.to_path_buf());
-    let summary_dir = Arc::new(summary_dir.to_path_buf());
+    let papers_dir = Arc::new(papers_dir);
+    let summary_dir = Arc::new(summary_dir);
 
     let chunks: Vec<Vec<Paper>> = papers_to_process
         .chunks(10)
