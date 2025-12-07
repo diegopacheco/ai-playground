@@ -1,0 +1,230 @@
+.pokemon-card {
+  width: 180px;
+  height: 250px;
+  perspective: 1000px;
+  cursor: pointer;
+  animation: cardAppear 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.pokemon-card.new-card {
+  animation: cardReveal 0.8s ease-out forwards;
+}
+
+.pokemon-card.not-collected {
+  opacity: 0.3;
+  filter: grayscale(100%);
+  cursor: default;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-front {
+  background: linear-gradient(145deg, #2a2a4a 0%, #1a1a2e 100%);
+  border: 3px solid #ffd700;
+  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3),
+              inset 0 0 60px rgba(255, 215, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.card-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.1) 45%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 55%,
+    transparent 60%
+  );
+  animation: shine 3s infinite;
+  pointer-events: none;
+}
+
+.card-back {
+  background: linear-gradient(145deg, #cc0000 0%, #990000 100%);
+  border: 3px solid #ffd700;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-back-pattern {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(0, 0, 0, 0.1) 10px,
+    rgba(0, 0, 0, 0.1) 20px
+  );
+}
+
+.pokeball-logo {
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at 50% 50%,
+    #fff 0%, #fff 20%,
+    #333 20%, #333 25%,
+    #cc0000 25%, #cc0000 50%,
+    #333 50%, #333 55%,
+    #fff 55%, #fff 100%
+  );
+  border-radius: 50%;
+  border: 4px solid #333;
+  z-index: 1;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.card-number {
+  font-size: 12px;
+  color: #ffd700;
+  font-weight: bold;
+  align-self: flex-start;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.card-image-container {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 0;
+  position: relative;
+}
+
+.image-placeholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.card-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.card-image.loaded {
+  opacity: 1;
+}
+
+.pokemon-card:hover .card-image {
+  transform: scale(1.1);
+}
+
+.card-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  text-transform: capitalize;
+  margin-top: auto;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.new-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  animation: pulse 1s infinite;
+  box-shadow: 0 2px 8px rgba(238, 90, 90, 0.5);
+}
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) rotateY(180deg) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0) rotateY(90deg) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateY(0deg) scale(1);
+  }
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
