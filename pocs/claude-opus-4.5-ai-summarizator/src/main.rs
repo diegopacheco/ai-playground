@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::fs;
 use std::io::Write;
+use std::os::unix::io::{AsRawFd};
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use std::thread;
@@ -135,7 +136,7 @@ fn process_paper(paper: &Paper, papers_dir: &PathBuf, summary_dir: &PathBuf, ope
     }
 
     println!("  Extracting text from PDF: {}", paper.title);
-    let pdf_text = match extract_text(&pdf_path) {
+    let pdf_text = match extract_text_silent(&pdf_path) {
         Ok(text) => text,
         Err(e) => {
             println!("  Failed to extract PDF text: {}", e);
@@ -291,6 +292,23 @@ fn fetch_arxiv_papers(client: &Client) -> Vec<Paper> {
     }
 
     all_papers
+}
+
+fn extract_text_silent(path: &Path) -> Result<String, pdf_extract::OutputError> {
+    unsafe {
+        let dev_null = fs::File::open("/dev/null").unwrap();
+        let dev_null_fd = dev_null.as_raw_fd();
+        let stdout_fd = libc::dup(1);
+        let stderr_fd = libc::dup(2);
+        libc::dup2(dev_null_fd, 1);
+        libc::dup2(dev_null_fd, 2);
+        let result = extract_text(path);
+        libc::dup2(stdout_fd, 1);
+        libc::dup2(stderr_fd, 2);
+        libc::close(stdout_fd);
+        libc::close(stderr_fd);
+        result
+    }
 }
 
 fn download_pdf(client: &Client, url: &str, path: &Path) -> Result<(), String> {

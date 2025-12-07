@@ -5,19 +5,44 @@
 
 ---
 
-### Overview
-The paper titled "LLMs Know More Than Words: A Genre Study with Syntax, Metaphor & Phonetics" investigates how large language models (LLMs) go beyond mere word associations to engage with and understand complex linguistic features such as syntax, metaphor, and phonetics across different genres of text. It explores the capacities of LLMs in processing and generating language that aligns with various stylistic and formal conventions found in distinct literary and communicative genres.
+## Overview
 
-### Key Contributions
-1. **Multifaceted Analysis**: The paper contributes to the understanding of LLMs by showcasing their ability to recognize and generate nuanced elements of language that encompass syntax, metaphorical language, and phonetic considerations, thereby moving beyond surface-level word manipulation.
-2. **Genre Classification**: It presents an analysis of how LLMs adapt their output based on different genres, contributing to discussions on genre-aware AI-generated text.
-3. **Theoretical Implications**: This research broadens the theoretical framework regarding the interaction between linguistic structure and meaning in generative models, proposing that LLMs possess a deeper understanding of language dynamics.
+The paper titled "LLMs Know More Than Words: A Genre Study with Syntax, Metaphor & Phonetics" explores the extent to which large language models (LLMs) can capture deeper linguistic features from raw text. The authors introduce a multilingual genre classification dataset derived from Project Gutenberg, encompassing works in six languages (English, French, German, Italian, Spanish, and Portuguese). The dataset is designed for evaluating models' abilities to understand and leverage syntactic structures, metaphor usage, and phonetic metrics to improve genre classification between different forms of literary writing—specifically, poetry, novels, and dramas.
 
-### Methodology
-The authors employ a genre study methodology, analyzing a diverse corpus of text categorized into multiple genres. The study utilizes both qualitative and quantitative measures to evaluate the performance of LLMs in recognizing and generating syntactical structures, metaphorical language, and phonetics. The paper likely includes case studies or examples illustrating how these elements manifest in LLM outputs compared to human-generated texts.
+## Key Results
 
-### Results
-The findings demonstrate that LLMs exhibit significant capabilities in distinguishing between various genres by employing genre-specific linguistic features. The models successfully generate text that adheres to syntactic rules, incorporates metaphorical language effectively, and even considers phonetic aspects, showing that they can mimic the subtleties inherent in different writing styles. Specific performance metrics may also be provided to quantify the models' abilities in these areas.
+The experiments yielded significant results across various models and genre pairs:
 
-### Implications
-The implications of this study are broad, suggesting that LLMs can be effectively used in tasks that require genre adaptation, such as automated writing tools, content generation, and educational applications tailored to specific literary styles. Additionally, it raises important questions about the interpretative capabilities of AI in understanding complex linguistic features, which could influence future research in AI linguistics, cognitive science, and the development of more sophisticated natural language processing applications. The research may also push for improved training methodologies that emphasize genre-specific input for better performance in diverse communication contexts.
+1. **Model Performance**: 
+   - The baseline model BERT achieved F1 scores of 0.97 in English for the Poetry vs. Novel task, while for the more challenging Novel vs. Drama task, its F1 score was lower at 0.90.
+   - The models tended to perform best in English and Portuguese, with average F1 scores for Poetry vs. Novel exceeding 0.80 across nearly all languages. In contrast, French exhibited lower variability in performance, particularly with BERT and DistilBERT.
+  
+2. **Feature Contributions**:
+   - Incorporating metrical patterns (metre pattern) consistently improved performance, often yielding increases of 2-7% in F1 scores, particularly in the Poetry vs. Novel and Poetry vs. Drama tasks.
+   - On the other hand, syntactic tree depth and metaphor counts only produced minor improvements, highlighting that phonetic characteristics provided stronger performance enhancements.
+
+3. **Across Languages**:
+   - The highest performance was consistently observed in English and Portuguese, while French displayed the greatest variability in performance and significant challenges differentiating genres. 
+
+## Methodology
+
+The study's methodology involves constructing a multilingual dataset containing approximately 45,000 sentences. The dataset is drawn from publicly available texts in Project Gutenberg, with sentences tailored for three binary genre classification tasks: Poetry vs. Novel, Drama vs. Poetry, and Drama vs. Novel. 
+
+- **Evaluation Process**: The LLMs were evaluated based on F1 scores computed for each classification task. Three explicit linguistic features were incorporated into the models to analyze their effects on classification accuracy. The training involved using baseline models such as BERT, DistilBERT, RoBERTa, and Metaphor-RoBERTa, with and without the linguistic features.
+
+## Critical Insights
+
+Some critical insights and observations from the study include:
+
+1. **Feature Effects**: 
+   - The metrically based features demonstrated the capability to enhance classification tasks significantly, reaffirming their role in capturing the distinctiveness of poetic language.
+   - Syntax tree information and metaphor counts did not yield substantial gains overall, suggesting that while these features can be useful, they may not be as effective in directly influencing genre classification.
+
+2. **Model Limitations**:
+   - The reliance on the Project Gutenberg corpus may bias the findings due to its focus on canonical literature, potentially underrepresenting modern and marginalized voices.
+   - While the study indicates that LLMs can leverage linguistic signals for enhanced comprehension, the authors acknowledge possible limitations in fully capturing complex linguistic nuances with the current feature extraction methods.
+
+3. **Variability Across Languages**: 
+   - The performance results highlighted that not all languages exhibited the same levels of proficiency with genre distinctions. For instance, models struggled with tasks in French due to overlapping linguistic features between genres, revealing a performance gap based on linguistic diversity and characteristics inherent to each language.
+
+This investigation sets a foundation for future exploration into how diverse linguistic dimensions can shape LLM performance, particularly in genre classification tasks across languages and contexts.
