@@ -1,3 +1,4 @@
+use pdf_extract::extract_text;
 use regex::Regex;
 use reqwest::blocking::Client;
 use scraper::{Html, Selector};
@@ -133,8 +134,17 @@ fn process_paper(paper: &Paper, papers_dir: &PathBuf, summary_dir: &PathBuf, ope
         println!("  PDF already exists: {}", pdf_filename);
     }
 
+    println!("  Extracting text from PDF: {}", paper.title);
+    let pdf_text = match extract_text(&pdf_path) {
+        Ok(text) => text,
+        Err(e) => {
+            println!("  Failed to extract PDF text: {}", e);
+            return;
+        }
+    };
+
     println!("  Generating summary: {}", paper.title);
-    match generate_summary(&client, openai_key, paper) {
+    match generate_summary(&client, openai_key, paper, &pdf_text) {
         Ok(summary) => {
             let summary_filename = format!("{}-summary.md", sanitize_filename(&paper.title));
             let summary_path = summary_dir.join(&summary_filename);
@@ -291,22 +301,30 @@ fn download_pdf(client: &Client, url: &str, path: &Path) -> Result<(), String> {
     Ok(())
 }
 
-fn generate_summary(client: &Client, api_key: &str, paper: &Paper) -> Result<String, String> {
+fn generate_summary(client: &Client, api_key: &str, paper: &Paper, pdf_text: &str) -> Result<String, String> {
+    let truncated_text = if pdf_text.len() > 50000 {
+        &pdf_text[..50000]
+    } else {
+        pdf_text
+    };
+
     let prompt = format!(
-        "Please provide a comprehensive summary of the following academic paper from arXiv:\n\n\
-        Title: {}\n\
-        arXiv ID: {}\n\
-        PDF URL: {}\n\n\
-        Please structure your summary with the following sections:\n\
-        1. **Overview**: Brief description of what the paper is about\n\
-        2. **Key Contributions**: Main contributions and innovations\n\
-        3. **Methodology**: Approach and methods used\n\
-        4. **Results**: Key findings and results\n\
-        5. **Implications**: Potential impact and applications\n\n\
-        Note: Since I cannot access the full PDF content, please provide a summary based on the title \
-        and your knowledge of similar research in this area. If you have knowledge about this specific paper, \
-        please use it.",
-        paper.title, paper.id, paper.pdf_url
+        r#"Please provide a comprehensive, evidence-based summary of the following academic paper based on the provided text.
+        Title: {}
+        arXiv ID: {}
+        PDF URL: {}
+
+        Paper Content:
+        {}
+
+        Please analyze the text provided and structure your summary using the following specific sections:
+        1. **Overview**: A concise description of the paper's core mission, what it introduces (e.g., specific benchmarks, datasets, or models), and its primary goal.
+        2. **Key Results**: detailed quantitative findings. Do not be vague. Extract specific metrics, leaderboard rankings, scores (e.g., "Model X scored 56.1%"), and domain-specific performance comparisons.
+        3. **Methodology**: Explain the specific approach used. Detail the dataset composition (e.g., number of test cases, expert sources) and the evaluation/grading process (e.g., "hurdle criteria," "grounding checks," or specific algorithms).
+        4. **Critical Insights**: Discuss the nuances, limitations, or specific behaviors observed in the study. Look for failure modes (e.g., hallucinations), performance gaps between domains, or qualitative observations made by the authors.
+
+        **Constraint:** Do not hallucinate. Base the summary *strictly* on the provided text context."#,
+        paper.title, paper.id, paper.pdf_url, truncated_text
     );
 
     let request = OpenAIRequest {
