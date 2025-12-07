@@ -5,7 +5,9 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::fs;
 use std::io::Write;
-use std::path::Path;
+use std::path::{Path, PathBuf};
+use std::sync::Arc;
+use std::thread;
 use std::time::Duration;
 
 #[derive(Debug, Clone)]
@@ -70,44 +72,79 @@ fn main() {
 
     println!("{} papers need processing", papers_to_process.len());
 
-    let openai_key = std::env::var("OPEN_AI_API_KEY").expect("OPEN_AI_API_KEY environment variable not set");
+    let openai_key = Arc::new(std::env::var("OPEN_AI_API_KEY").expect("OPEN_AI_API_KEY environment variable not set"));
+    let papers_dir = Arc::new(papers_dir.to_path_buf());
+    let summary_dir = Arc::new(summary_dir.to_path_buf());
 
-    for (i, paper) in papers_to_process.iter().enumerate() {
-        println!("\n[{}/{}] Processing: {}", i + 1, papers_to_process.len(), paper.title);
+    let chunks: Vec<Vec<Paper>> = papers_to_process
+        .chunks(10)
+        .map(|c| c.to_vec())
+        .collect();
 
-        let pdf_filename = format!("{}.pdf", sanitize_filename(&paper.title));
-        let pdf_path = papers_dir.join(&pdf_filename);
+    let total_papers = papers_to_process.len();
+    let mut processed = 0;
 
-        if !pdf_path.exists() {
-            println!("  Downloading PDF...");
-            match download_pdf(&client, &paper.pdf_url, &pdf_path) {
-                Ok(_) => println!("  PDF saved: {}", pdf_filename),
-                Err(e) => {
-                    println!("  Failed to download PDF: {}", e);
-                    continue;
-                }
-            }
-        } else {
-            println!("  PDF already exists");
+    for chunk in chunks {
+        let mut handles = vec![];
+
+        for paper in chunk {
+            let openai_key = Arc::clone(&openai_key);
+            let papers_dir = Arc::clone(&papers_dir);
+            let summary_dir = Arc::clone(&summary_dir);
+
+            let handle = thread::spawn(move || {
+                process_paper(&paper, &papers_dir, &summary_dir, &openai_key)
+            });
+            handles.push(handle);
         }
 
-        println!("  Generating summary...");
-        match generate_summary(&client, &openai_key, paper) {
-            Ok(summary) => {
-                let summary_filename = format!("{}-summary.md", sanitize_filename(&paper.title));
-                let summary_path = summary_dir.join(&summary_filename);
-                fs::write(&summary_path, summary).expect("Failed to write summary");
-                println!("  Summary saved: {}", summary_filename);
-            }
-            Err(e) => {
-                println!("  Failed to generate summary: {}", e);
-            }
+        for handle in handles {
+            let _ = handle.join();
+            processed += 1;
+            println!("Progress: {}/{}", processed, total_papers);
         }
-
-        std::thread::sleep(Duration::from_millis(500));
     }
 
     println!("\nDone!");
+}
+
+fn process_paper(paper: &Paper, papers_dir: &PathBuf, summary_dir: &PathBuf, openai_key: &str) {
+    println!("Processing: {}", paper.title);
+
+    let client = Client::builder()
+        .timeout(Duration::from_secs(120))
+        .user_agent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36")
+        .build()
+        .expect("Failed to create HTTP client");
+
+    let pdf_filename = format!("{}.pdf", sanitize_filename(&paper.title));
+    let pdf_path = papers_dir.join(&pdf_filename);
+
+    if !pdf_path.exists() {
+        println!("  Downloading PDF: {}", paper.title);
+        match download_pdf(&client, &paper.pdf_url, &pdf_path) {
+            Ok(_) => println!("  PDF saved: {}", pdf_filename),
+            Err(e) => {
+                println!("  Failed to download PDF: {}", e);
+                return;
+            }
+        }
+    } else {
+        println!("  PDF already exists: {}", pdf_filename);
+    }
+
+    println!("  Generating summary: {}", paper.title);
+    match generate_summary(&client, openai_key, paper) {
+        Ok(summary) => {
+            let summary_filename = format!("{}-summary.md", sanitize_filename(&paper.title));
+            let summary_path = summary_dir.join(&summary_filename);
+            fs::write(&summary_path, summary).expect("Failed to write summary");
+            println!("  Summary saved: {}", summary_filename);
+        }
+        Err(e) => {
+            println!("  Failed to generate summary: {}", e);
+        }
+    }
 }
 
 fn get_existing_summaries(summary_dir: &Path) -> HashSet<String> {
