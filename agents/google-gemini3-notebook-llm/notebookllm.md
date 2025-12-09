@@ -1,5 +1,7 @@
 # Notebook LLM
 
+[https://notebooklm.google/](https://notebooklm.google/)
+
 <img src="notebook-llm-in-action.png" width="600"/>
 
 What is it? It's a research and thinking partner, grounded in the information you trust, built with the latest Gemini models. Notebook llm can:
