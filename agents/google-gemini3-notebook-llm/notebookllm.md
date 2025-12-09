@@ -23,3 +23,8 @@ Resul is this: [video](https://www.youtube.com/watch?v=dvURMFXC-d0) generated ba
 ## Slides Generation
 
 Result is this [slidedeck](From_Text_to_Action.pdf)
+
+## Infographic Generation
+
+Result is this: <br/>
+<img src="infographic.png" width="600"/>
