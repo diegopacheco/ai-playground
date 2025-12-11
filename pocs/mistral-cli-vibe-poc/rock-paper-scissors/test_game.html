@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock Paper Scissors Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .test-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .images {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Rock Paper Scissors Test</h1>
+        <p>Testing image loading...</p>
+        
+        <div class="images">
+            <img src="/rock.svg" alt="Rock">
+            <img src="/paper.svg" alt="Paper">
+            <img src="/scissors.svg" alt="Scissors">
+        </div>
+        
+        <p id="status">Loading images...</p>
+    </div>
+    
+    <script>
+        // Test image loading
+        const images = ['rock.svg', 'paper.svg', 'scissors.svg'];
+        let loadedCount = 0;
+        
+        images.forEach(imgName => {
+            const img = new Image();
+            img.src = `/${imgName}`;
+            img.onload = () => {
+                loadedCount++;
+                if (loadedCount === images.length) {
+                    document.getElementById('status').textContent = 'All images loaded successfully! ✅';
+                    document.getElementById('status').style.color = '#4CAF50';
+                }
+            };
+            img.onerror = () => {
+                document.getElementById('status').textContent = `Error loading ${imgName}`;
+                document.getElementById('status').style.color = '#F44336';
+            };
+        });
+    </script>
+</body>
+</html>
