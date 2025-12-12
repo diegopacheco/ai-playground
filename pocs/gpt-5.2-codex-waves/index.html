@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ocean Wave Simulation</title>
+<style>
+html, body { margin:0; padding:0; height:100%; background:#050b12; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:#e6eef2; }
+#scene { position:fixed; inset:0; width:100%; height:100%; display:block; }
+#ui { position:fixed; left:24px; top:24px; width:min(360px, calc(100vw - 48px)); padding:18px 18px 14px; border-radius:16px; background:linear-gradient(180deg, rgba(8,16,24,0.65), rgba(8,16,24,0.35)); box-shadow:0 8px 28px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.06); backdrop-filter: blur(8px); }
+#title { font-size:18px; letter-spacing:0.4px; margin:0 0 10px 0; font-weight:600; color:#f2f7fa; }
+.row { display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:center; margin:10px 0; }
+.label { font-size:13px; color:#c7d7de; }
+.value { font-variant-numeric: tabular-nums; font-size:12px; color:#a9c0ca; }
+input[type="range"] { width:100%; appearance:none; height:8px; border-radius:999px; background:linear-gradient(90deg, rgba(120,190,210,0.9), rgba(35,90,120,0.9)); outline:none; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08); }
+input[type="range"]::-webkit-slider-thumb { appearance:none; width:18px; height:18px; border-radius:50%; background: radial-gradient(circle at 30% 30%, #ffffff, #cfe3ea 55%, #7aa7b8 100%); border:0; box-shadow:0 2px 6px rgba(0,0,0,0.5); }
+input[type="range"]::-moz-range-thumb { width:18px; height:18px; border-radius:50%; background: radial-gradient(circle at 30% 30%, #ffffff, #cfe3ea 55%, #7aa7b8 100%); border:0; box-shadow:0 2px 6px rgba(0,0,0,0.5); }
+#footer { margin-top:10px; font-size:11px; color:#90a8b3; line-height:1.4; }
+@media (max-width: 560px) { #ui { left:12px; top:12px; padding:14px; } }
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="ui" role="group" aria-label="Ocean controls">
+<h1 id="title">Ocean Wave Simulation</h1>
+<div class="row">
+<div class="label">Wind speed</div>
+<div class="value" id="windVal">50</div>
+</div>
+<input id="wind" type="range" min="0" max="100" value="50" aria-label="Wind speed">
+<div class="row">
+<div class="label">Wave height</div>
+<div class="value" id="heightVal">60</div>
+</div>
+<input id="height" type="range" min="0" max="100" value="60" aria-label="Wave height">
+<div class="row">
+<div class="label">Lighting</div>
+<div class="value" id="lightVal">55</div>
+</div>
+<input id="light" type="range" min="0" max="100" value="55" aria-label="Lighting">
+<div id="footer">Adjust the sliders to shape the sea mood.</div>
+</div>
+<script>
+const canvas = document.getElementById("scene")
+const ctx = canvas.getContext("2d", { alpha: false })
+let offscreen = document.createElement("canvas")
+let offctx = offscreen.getContext("2d", { alpha: false })
+let w = 0
+let h = 0
+let scale = 2
+let img = null
+const TAU = Math.PI * 2
+
+const windEl = document.getElementById("wind")
+const heightEl = document.getElementById("height")
+const lightEl = document.getElementById("light")
+const windValEl = document.getElementById("windVal")
+const heightValEl = document.getElementById("heightVal")
+const lightValEl = document.getElementById("lightVal")
+
+const params = {
+  wind: windEl.valueAsNumber / 100,
+  height: heightEl.valueAsNumber / 100,
+  light: lightEl.valueAsNumber / 100
+}
+
+function clamp(v, a, b) { return v < a ? a : v > b ? b : v }
+function smoothstep(a, b, x) { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t) }
+function mix(a, b, t) { return a + (b - a) * t }
+function mix3(c1, c2, t) { return [mix(c1[0], c2[0], t), mix(c1[1], c2[1], t), mix(c1[2], c2[2], t)] }
+function norm3(v) { const l = Math.hypot(v[0], v[1], v[2]) || 1; return [v[0] / l, v[1] / l, v[2] / l] }
+function dot3(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] }
+function reflect3(i, n) { const d = dot3(i, n) * 2; return [i[0] - d * n[0], i[1] - d * n[1], i[2] - d * n[2]] }
+
+const waveSet = [
+  { lambda: 42, amp: 1.2, speed: 0.7, offset: -0.15 },
+  { lambda: 18, amp: 0.9, speed: 1.2, offset: 0.08 },
+  { lambda: 9.5, amp: 0.55, speed: 1.9, offset: 0.22 },
+  { lambda: 6, amp: 0.32, speed: 2.8, offset: -0.3 },
+  { lambda: 3.5, amp: 0.18, speed: 3.7, offset: 0.5 }
+]
+
+function heightAt(u, v, t, wind, heightScale) {
+  const speedFactor = mix(0.35, 2.5, wind)
+  const ampFactor = mix(0.25, 1.9, heightScale)
+  const spread = mix(0.12, 0.6, wind)
+  const chop = mix(0.35, 1.15, wind)
+  const fade = 1 / (1 + v * 0.03)
+  let z = 0
+  for (let i = 0; i < waveSet.length; i++) {
+    const ws = waveSet[i]
+    const ang = ws.offset * spread
+    const dx = Math.cos(ang)
+    const dy = Math.sin(ang)
+    const k = TAU / ws.lambda
+    const phase = k * (u * dx + v * dy) + t * ws.speed * speedFactor
+    const s = Math.sin(phase)
+    const s2 = Math.sin(phase * 1.9 + i)
+    z += ws.amp * ampFactor * fade * (s + chop * s * s * s * 0.22 + s2 * 0.12)
+  }
+  return z
+}
+
+function resize() {
+  w = canvas.width = window.innerWidth
+  h = canvas.height = window.innerHeight
+  const targetScale = w < 700 ? 2.5 : 2
+  scale = Math.max(2, targetScale)
+  offscreen.width = Math.floor(w / scale)
+  offscreen.height = Math.floor(h / scale)
+  img = offctx.createImageData(offscreen.width, offscreen.height)
+}
+
+window.addEventListener("resize", resize)
+resize()
+
+function updateParam(el, key, valEl) {
+  const v = el.valueAsNumber
+  valEl.textContent = String(v)
+  params[key] = v / 100
+}
+
+windEl.addEventListener("input", () => updateParam(windEl, "wind", windValEl))
+heightEl.addEventListener("input", () => updateParam(heightEl, "height", heightValEl))
+lightEl.addEventListener("input", () => updateParam(lightEl, "light", lightValEl))
+
+function renderFrame(now) {
+  const t = now * 0.001
+  const wind = params.wind
+  const heightScale = params.height
+  const light = params.light
+
+  const ow = offscreen.width
+  const oh = offscreen.height
+  const data = img.data
+  const horizon = oh * 0.34
+  const distMax = mix(360, 760, wind)
+  const spanNear = mix(70, 140, wind)
+  const spanFar = mix(360, 520, wind)
+
+  const sunElev = mix(0.18, 0.85, light)
+  const sunAz = mix(-0.2, 0.32, light)
+  const sunDir = norm3([Math.cos(sunAz) * 0.7, sunElev, -0.85])
+  const viewDir = norm3([0, 1.0, 1.35])
+
+  const skyTop = mix3([6, 18, 34], [10, 26, 46], light)
+  const skyHorizon = mix3([40, 86, 112], [68, 116, 128], light)
+  const skyWarm = mix3([78, 96, 98], [140, 124, 98], light)
+
+  let pIndex = 0
+  for (let y = 0; y < oh; y++) {
+    const yy = y + 0.5
+    if (yy < horizon) {
+      const sy = yy / horizon
+      const g = smoothstep(0, 1, sy)
+      let sc = mix3(skyTop, skyHorizon, g)
+      const warmMix = smoothstep(0.6, 1.0, sy) * (0.15 + 0.35 * light)
+      sc = mix3(sc, skyWarm, warmMix)
+      for (let x = 0; x < ow; x++) {
+        data[pIndex++] = sc[0]
+        data[pIndex++] = sc[1]
+        data[pIndex++] = sc[2]
+        data[pIndex++] = 255
+      }
+      continue
+    }
+
+    const p = (yy - horizon) / (oh - horizon)
+    const d = p * p * distMax
+    const span = mix(spanFar, spanNear, p)
+    const fade = Math.pow(1 - p, 0.9)
+    const fog = smoothstep(0.0, 0.55, fade)
+
+    for (let x = 0; x < ow; x++) {
+      const xx = x + 0.5
+      const u = (xx / ow - 0.5) * span
+      const v = d
+
+      const h0 = heightAt(u, v, t, wind, heightScale)
+      const eps = 0.8
+      const hx = heightAt(u + eps, v, t, wind, heightScale)
+      const hy = heightAt(u, v + eps, t, wind, heightScale)
+      const dhdu = (hx - h0) / eps
+      const dhdv = (hy - h0) / eps
+
+      const normal = norm3([-dhdu, 1, -dhdv])
+      const diffuse = clamp(dot3(normal, sunDir), 0, 1)
+      const r = reflect3([-sunDir[0], -sunDir[1], -sunDir[2]], normal)
+      const spec = Math.pow(clamp(dot3(r, viewDir), 0, 1), mix(40, 130, light)) * mix(0.15, 0.9, light)
+      const fresnel = Math.pow(1 - clamp(dot3(normal, viewDir), 0, 1), 3)
+
+      const deep = [2, 28, 52]
+      const near = [0, 74, 88]
+      const base = mix3(near, deep, fade)
+      const lightTerm = mix(0.32, 1.0, diffuse)
+      let col = [base[0] * lightTerm, base[1] * lightTerm, base[2] * lightTerm]
+
+      const slope = Math.hypot(dhdu, dhdv)
+      const foamSignal = h0 * 0.55 + slope * 1.25
+      const foam = smoothstep(0.6, 1.2, foamSignal) * mix(0.35, 0.9, wind)
+      const foamCol = [230, 236, 240]
+      col = mix3(col, foamCol, foam)
+
+      const sunGlint = [255, 244, 226]
+      col[0] += sunGlint[0] * spec + skyHorizon[0] * fresnel * 0.12
+      col[1] += sunGlint[1] * spec + skyHorizon[1] * fresnel * 0.12
+      col[2] += sunGlint[2] * spec + skyHorizon[2] * fresnel * 0.12
+
+      const fogCol = skyHorizon
+      col = mix3(fogCol, col, fog)
+
+      data[pIndex++] = clamp(col[0], 0, 255)
+      data[pIndex++] = clamp(col[1], 0, 255)
+      data[pIndex++] = clamp(col[2], 0, 255)
+      data[pIndex++] = 255
+    }
+  }
+
+  offctx.putImageData(img, 0, 0)
+  ctx.imageSmoothingEnabled = true
+  ctx.drawImage(offscreen, 0, 0, w, h)
+  requestAnimationFrame(renderFrame)
+}
+
+requestAnimationFrame(renderFrame)
+</script>
+</body>
+</html>
