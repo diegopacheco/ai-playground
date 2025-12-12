@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocean Wave Simulation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #1a1a2e 0%, #16213e 100%);
+        }
+        canvas {
+            display: block;
+        }
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            color: #e0e0e0;
+            min-width: 220px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .controls h2 {
+            margin-bottom: 20px;
+            font-weight: 300;
+            font-size: 1.3em;
+            color: #87ceeb;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .control-group {
+            margin-bottom: 18px;
+        }
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.85em;
+            color: #a0c4e8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(135, 206, 235, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #87ceeb, #4a90a4);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+        .control-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+        .value-display {
+            text-align: right;
+            font-size: 0.8em;
+            color: #6bb5d8;
+            margin-top: 5px;
+        }
+        .title {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.5em;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="ocean"></canvas>
+    <div class="title">Ocean Wave Simulation</div>
+    <div class="controls">
+        <h2>Wave Controls</h2>
+        <div class="control-group">
+            <label>Wind Speed</label>
+            <input type="range" id="windSpeed" min="0" max="100" value="30">
+            <div class="value-display"><span id="windValue">30</span>%</div>
+        </div>
+        <div class="control-group">
+            <label>Wave Height</label>
+            <input type="range" id="waveHeight" min="10" max="100" value="50">
+            <div class="value-display"><span id="heightValue">50</span>%</div>
+        </div>
+        <div class="control-group">
+            <label>Sun Position</label>
+            <input type="range" id="sunPosition" min="0" max="100" value="70">
+            <div class="value-display"><span id="sunValue">70</span>%</div>
+        </div>
+        <div class="control-group">
+            <label>Light Intensity</label>
+            <input type="range" id="lightIntensity" min="20" max="100" value="60">
+            <div class="value-display"><span id="lightValue">60</span>%</div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('ocean');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let time = 0;
+
+        let windSpeed = 0.3;
+        let waveHeight = 50;
+        let sunPosition = 0.7;
+        let lightIntensity = 0.6;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        document.getElementById('windSpeed').addEventListener('input', (e) => {
+            windSpeed = e.target.value / 100;
+            document.getElementById('windValue').textContent = e.target.value;
+        });
+
+        document.getElementById('waveHeight').addEventListener('input', (e) => {
+            waveHeight = parseInt(e.target.value);
+            document.getElementById('heightValue').textContent = e.target.value;
+        });
+
+        document.getElementById('sunPosition').addEventListener('input', (e) => {
+            sunPosition = e.target.value / 100;
+            document.getElementById('sunValue').textContent = e.target.value;
+        });
+
+        document.getElementById('lightIntensity').addEventListener('input', (e) => {
+            lightIntensity = e.target.value / 100;
+            document.getElementById('lightValue').textContent = e.target.value;
+        });
+
+        function lerp(a, b, t) {
+            return a + (b - a) * t;
+        }
+
+        function getWaveY(x, z, t) {
+            const speed = windSpeed * 2 + 0.5;
+            const freq1 = 0.02;
+            const freq2 = 0.035;
+            const freq3 = 0.05;
+
+            let y = 0;
+            y += Math.sin(x * freq1 + t * speed) * waveHeight * 0.5;
+            y += Math.sin(x * freq2 - t * speed * 0.8 + z * 0.01) * waveHeight * 0.3;
+            y += Math.sin(x * freq3 + t * speed * 1.2 + z * 0.02) * waveHeight * 0.2;
+            y += Math.sin((x + z) * 0.01 + t * speed * 0.5) * waveHeight * 0.4;
+
+            return y;
+        }
+
+        function getSkyColor(y) {
+            const skyTop = { r: 15, g: 25, b: 50 };
+            const skyBottom = { r: 70, g: 130, b: 180 };
+            const sunsetTop = { r: 40, g: 20, b: 60 };
+            const sunsetBottom = { r: 255, g: 150, b: 100 };
+
+            const t = y / (height * 0.45);
+            const sunFactor = sunPosition;
+
+            const r = lerp(lerp(skyBottom.r, skyTop.r, t), lerp(sunsetBottom.r, sunsetTop.r, t), 1 - sunFactor);
+            const g = lerp(lerp(skyBottom.g, skyTop.g, t), lerp(sunsetBottom.g, sunsetTop.g, t), 1 - sunFactor);
+            const b = lerp(lerp(skyBottom.b, skyTop.b, t), lerp(sunsetBottom.b, sunsetTop.b, t), 1 - sunFactor);
+
+            return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
+        }
+
+        function drawSky() {
+            for (let y = 0; y < height * 0.45; y += 2) {
+                ctx.fillStyle = getSkyColor(y);
+                ctx.fillRect(0, y, width, 2);
+            }
+
+            const sunX = width * sunPosition;
+            const sunY = height * 0.15 + (1 - sunPosition) * height * 0.2;
+            const sunRadius = 40 + lightIntensity * 20;
+
+            const sunGradient = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, sunRadius * 3);
+            sunGradient.addColorStop(0, `rgba(255, 250, 220, ${lightIntensity})`);
+            sunGradient.addColorStop(0.2, `rgba(255, 220, 150, ${lightIntensity * 0.6})`);
+            sunGradient.addColorStop(0.5, `rgba(255, 180, 100, ${lightIntensity * 0.2})`);
+            sunGradient.addColorStop(1, 'rgba(255, 150, 50, 0)');
+
+            ctx.fillStyle = sunGradient;
+            ctx.fillRect(0, 0, width, height * 0.5);
+
+            ctx.beginPath();
+            ctx.arc(sunX, sunY, sunRadius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 250, 230, ${lightIntensity})`;
+            ctx.fill();
+        }
+
+        function getWaveColor(depth, waveY, x) {
+            const sunX = width * sunPosition;
+            const distToSun = Math.abs(x - sunX) / width;
+            const reflectionStrength = Math.max(0, 1 - distToSun * 2) * lightIntensity;
+
+            const deepColor = { r: 10, g: 30, b: 60 };
+            const midColor = { r: 20, g: 80, b: 120 };
+            const shallowColor = { r: 40, g: 150, b: 180 };
+            const foamColor = { r: 200, g: 220, b: 230 };
+            const reflectColor = { r: 255, g: 220, b: 180 };
+
+            const depthFactor = Math.min(1, depth / 30);
+
+            let r = lerp(shallowColor.r, lerp(midColor.r, deepColor.r, depthFactor), depthFactor);
+            let g = lerp(shallowColor.g, lerp(midColor.g, deepColor.g, depthFactor), depthFactor);
+            let b = lerp(shallowColor.b, lerp(midColor.b, deepColor.b, depthFactor), depthFactor);
+
+            const foam = Math.max(0, -waveY / waveHeight - 0.3) * 2;
+            r = lerp(r, foamColor.r, foam * 0.3);
+            g = lerp(g, foamColor.g, foam * 0.3);
+            b = lerp(b, foamColor.b, foam * 0.3);
+
+            r = lerp(r, reflectColor.r, reflectionStrength * 0.5);
+            g = lerp(g, reflectColor.g, reflectionStrength * 0.4);
+            b = lerp(b, reflectColor.b, reflectionStrength * 0.3);
+
+            const lightBoost = lightIntensity * 0.3;
+            r = Math.min(255, r * (1 + lightBoost));
+            g = Math.min(255, g * (1 + lightBoost));
+            b = Math.min(255, b * (1 + lightBoost));
+
+            return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
+        }
+
+        function drawOcean() {
+            const horizonY = height * 0.45;
+            const rows = 80;
+
+            for (let row = 0; row < rows; row++) {
+                const z = row;
+                const perspectiveFactor = Math.pow(row / rows, 1.5);
+                const rowY = horizonY + perspectiveFactor * (height - horizonY);
+                const nextRowY = horizonY + Math.pow((row + 1) / rows, 1.5) * (height - horizonY);
+                const rowHeight = nextRowY - rowY;
+
+                ctx.beginPath();
+                ctx.moveTo(0, rowY + rowHeight);
+
+                const segments = Math.floor(width / 8);
+                for (let i = 0; i <= segments; i++) {
+                    const x = (i / segments) * width;
+                    const waveY = getWaveY(x, z * 20, time) * perspectiveFactor;
+                    const y = rowY + waveY * 0.3;
+
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+
+                ctx.lineTo(width, rowY + rowHeight + 10);
+                ctx.lineTo(0, rowY + rowHeight + 10);
+                ctx.closePath();
+
+                const midX = width / 2;
+                const midWaveY = getWaveY(midX, z * 20, time);
+                ctx.fillStyle = getWaveColor(row, midWaveY, midX);
+                ctx.fill();
+            }
+
+            drawSunReflection();
+        }
+
+        function drawSunReflection() {
+            const horizonY = height * 0.45;
+            const sunX = width * sunPosition;
+
+            const reflectionGradient = ctx.createLinearGradient(sunX, horizonY, sunX, height);
+            reflectionGradient.addColorStop(0, `rgba(255, 220, 150, ${lightIntensity * 0.4})`);
+            reflectionGradient.addColorStop(0.3, `rgba(255, 180, 100, ${lightIntensity * 0.2})`);
+            reflectionGradient.addColorStop(1, 'rgba(255, 150, 50, 0)');
+
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter';
+
+            for (let y = horizonY; y < height; y += 3) {
+                const progress = (y - horizonY) / (height - horizonY);
+                const waveOffset = getWaveY(sunX, progress * 1000, time) * 0.5;
+                const spreadWidth = 30 + progress * 150;
+                const alpha = (1 - progress) * lightIntensity * 0.3;
+
+                ctx.fillStyle = `rgba(255, 220, 180, ${alpha})`;
+                ctx.fillRect(sunX - spreadWidth / 2 + waveOffset, y, spreadWidth, 2);
+            }
+
+            ctx.restore();
+        }
+
+        function animate() {
+            time += 0.016;
+
+            ctx.clearRect(0, 0, width, height);
+
+            drawSky();
+            drawOcean();
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
