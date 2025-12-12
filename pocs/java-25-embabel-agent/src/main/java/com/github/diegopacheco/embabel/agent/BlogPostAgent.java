@@ -10,7 +10,6 @@ import com.embabel.agent.domain.io.UserInput;
 @Agent(description = "Creates blog posts based on user input topics")
 public class BlogPostAgent {
 
-    @AchievesGoal(description = "Write a blog post", export = @Export(startingInputTypes = {UserInput.class}))
     @Action
     public BlogPost writeBlogPost(UserInput input, OperationContext context) {
         String prompt = input.getContent();
@@ -23,7 +22,7 @@ public class BlogPostAgent {
             .createObject(prompt, BlogPost.class);
     }
 
-    @AchievesGoal(description = "Review and finalize the blog post")
+    @AchievesGoal(description = "Review and finalize the blog post", export = @Export(startingInputTypes = {UserInput.class}))
     @Action
     public ReviewedBlogPost reviewBlogPost(BlogPost post, OperationContext context) {
         String prompt = String.format(
