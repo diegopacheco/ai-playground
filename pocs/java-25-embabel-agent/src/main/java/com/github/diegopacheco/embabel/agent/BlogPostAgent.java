@@ -2,24 +2,22 @@ package com.github.diegopacheco.embabel.agent;
 
 import com.embabel.agent.api.annotation.Action;
 import com.embabel.agent.api.annotation.AchievesGoal;
+import com.embabel.agent.api.annotation.Export;
 import com.embabel.agent.api.annotation.Agent;
 import com.embabel.agent.api.common.OperationContext;
+import com.embabel.agent.domain.io.UserInput;
 
 @Agent(description = "Creates blog posts based on user input topics")
 public class BlogPostAgent {
 
+    @AchievesGoal(description = "Write a blog post", export = @Export(startingInputTypes = {UserInput.class}))
     @Action
-    public BlogPost writeBlogPost(BlogInput input, OperationContext context) {
-        String prompt = String.format(
-            "Write a blog post about: %s. " +
-            "Keywords to include: %s. " +
-            "Tone should be: %s. " +
-            "The blog post should have a catchy title, engaging content (at least 500 words), " +
-            "and a brief summary at the end.",
-            input.topic(),
-            input.keywords().isEmpty() ? "relevant to the topic" : input.keywords(),
-            input.tone()
-        );
+    public BlogPost writeBlogPost(UserInput input, OperationContext context) {
+        String prompt = input.getContent();
+        if (!prompt.endsWith(".")) {
+            prompt = prompt + ".";
+        }
+        prompt = prompt + " The blog post should have a catchy title, engaging content (at least 500 words), and a brief summary at the end.";
         return context.ai()
             .withDefaultLlm()
             .createObject(prompt, BlogPost.class);
