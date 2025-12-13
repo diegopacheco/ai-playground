@@ -1,15 +1,8 @@
 {
   "repo_url": "https://github.com/diegopacheco/smith",
-  "total_files": 14,
-  "total_loc": 1095,
+  "total_files": 11,
+  "total_loc": 490,
   "files": [
-    {
-      "path": "README.md",
-      "name": "README.md",
-      "extension": ".md",
-      "loc": 483,
-      "directory": ""
-    },
     {
       "path": "src/main/scala/Main.scala",
       "name": "Main.scala",
@@ -23,20 +16,6 @@
       "extension": ".scala",
       "loc": 108,
       "directory": "src/main/scala/com/github/diegopacheco/smith/service"
-    },
-    {
-      "path": "pom.xml",
-      "name": "pom.xml",
-      "extension": ".xml",
-      "loc": 61,
-      "directory": ""
-    },
-    {
-      "path": "src/test/resources/pom.xml",
-      "name": "pom.xml",
-      "extension": ".xml",
-      "loc": 61,
-      "directory": "src/test/resources"
     },
     {
       "path": "src/main/scala/com/github/diegopacheco/smith/service/ArtifactService.scala",

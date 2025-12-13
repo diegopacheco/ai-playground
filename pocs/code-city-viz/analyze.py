@@ -27,9 +27,7 @@ def analyze_codebase(root_dir):
     code_extensions = {
         '.py', '.js', '.ts', '.tsx', '.jsx', '.java', '.go', '.rs', '.c', '.cpp', '.h', '.hpp',
         '.cs', '.rb', '.php', '.swift', '.kt', '.scala', '.clj', '.ex', '.exs', '.erl',
-        '.hs', '.ml', '.fs', '.r', '.m', '.mm', '.sh', '.bash', '.zsh', '.ps1',
-        '.html', '.css', '.scss', '.sass', '.less', '.vue', '.svelte', '.sql', '.graphql',
-        '.yaml', '.yml', '.json', '.xml', '.toml', '.ini', '.cfg', '.conf', '.md', '.rst'
+        '.hs', '.ml', '.fs', '.r', '.m', '.mm', '.sh', '.bash', '.zsh', '.zig'
     }
 
     for dirpath, dirnames, filenames in os.walk(root_dir):
