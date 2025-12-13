@@ -6,53 +6,63 @@
     <title>Code City Visualization</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { overflow: hidden; font-family: Arial, sans-serif; }
+        body { overflow: hidden; font-family: 'Segoe UI', Arial, sans-serif; }
         #info {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: rgba(0,0,0,0.8);
+            background: linear-gradient(135deg, rgba(20,20,40,0.95), rgba(40,40,80,0.9));
             color: white;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 20px;
+            border-radius: 12px;
             max-width: 400px;
             z-index: 100;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
         }
-        #info h2 { margin-bottom: 10px; }
-        #info p { margin: 5px 0; font-size: 14px; }
+        #info h2 { margin-bottom: 10px; color: #61dafb; }
+        #info p { margin: 5px 0; font-size: 14px; opacity: 0.9; }
         #tooltip {
             position: absolute;
-            background: rgba(0,0,0,0.9);
+            background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(30,30,60,0.95));
             color: white;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 12px;
+            padding: 24px 32px;
+            border-radius: 12px;
+            font-size: 22px;
+            line-height: 1.6;
             pointer-events: none;
             display: none;
             z-index: 200;
+            border: 2px solid rgba(97,218,251,0.5);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+            min-width: 350px;
         }
+        #tooltip strong { color: #61dafb; font-size: 26px; }
         #legend {
             position: absolute;
             bottom: 10px;
             left: 10px;
-            background: rgba(0,0,0,0.8);
+            background: linear-gradient(135deg, rgba(20,20,40,0.95), rgba(40,40,80,0.9));
             color: white;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 15px;
+            border-radius: 12px;
             z-index: 100;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        #legend div { display: flex; align-items: center; margin: 3px 0; font-size: 12px; }
-        #legend span { width: 20px; height: 20px; display: inline-block; margin-right: 8px; border-radius: 3px; }
+        #legend h4 { margin-bottom: 8px; color: #61dafb; }
+        #legend div { display: flex; align-items: center; margin: 4px 0; font-size: 12px; }
+        #legend span { width: 16px; height: 16px; display: inline-block; margin-right: 8px; border-radius: 3px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
         #controls {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: rgba(0,0,0,0.8);
+            background: linear-gradient(135deg, rgba(20,20,40,0.95), rgba(40,40,80,0.9));
             color: white;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px 16px;
+            border-radius: 12px;
             z-index: 100;
             font-size: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
     </style>
 </head>
@@ -80,69 +90,238 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
         const extensionColors = {
-            '.py': 0x3776ab,
-            '.js': 0xf7df1e,
+            '.py': 0x4584b6,
+            '.js': 0xf0db4f,
             '.ts': 0x3178c6,
             '.tsx': 0x61dafb,
             '.jsx': 0x61dafb,
-            '.java': 0xed8b00,
+            '.java': 0xf89820,
             '.go': 0x00add8,
-            '.rs': 0xdea584,
-            '.c': 0x555555,
+            '.rs': 0xef4a00,
+            '.c': 0x03599c,
             '.cpp': 0x00599c,
-            '.h': 0x666666,
+            '.h': 0x5c8dbc,
             '.cs': 0x68217a,
             '.rb': 0xcc342d,
-            '.php': 0x777bb4,
-            '.swift': 0xfa7343,
+            '.php': 0x8993be,
+            '.swift': 0xf05138,
             '.kt': 0x7f52ff,
             '.scala': 0xdc322f,
-            '.html': 0xe34f26,
+            '.html': 0xe44d26,
             '.css': 0x264de4,
-            '.scss': 0xcf649a,
-            '.vue': 0x42b883,
+            '.scss': 0xc6538c,
+            '.vue': 0x41b883,
             '.svelte': 0xff3e00,
-            '.json': 0x292929,
+            '.json': 0x5a5a5a,
             '.yaml': 0xcb171e,
             '.yml': 0xcb171e,
-            '.md': 0x083fa1,
+            '.md': 0x519aba,
             '.sql': 0x336791,
             '.sh': 0x4eaa25,
-            '.xml': 0xff6600
+            '.xml': 0xf16529
         };
 
-        const defaultColor = 0x888888;
+        const defaultColor = 0x7a8899;
 
         let scene, camera, renderer, controls;
         let buildings = [];
+        let labels = [];
         let raycaster, mouse;
+
+        function createGradientTexture(baseColor) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+            const color = new THREE.Color(baseColor);
+            const gradient = ctx.createLinearGradient(0, 0, 0, 256);
+            gradient.addColorStop(0, color.clone().multiplyScalar(1.3).getStyle());
+            gradient.addColorStop(0.5, color.getStyle());
+            gradient.addColorStop(1, color.clone().multiplyScalar(0.7).getStyle());
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 64, 256);
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        function createWindowTexture(baseColor) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 128;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+            const color = new THREE.Color(baseColor);
+            ctx.fillStyle = color.getStyle();
+            ctx.fillRect(0, 0, 128, 512);
+            const windowColors = ['#fffde7', '#fff9c4', '#e3f2fd', '#bbdefb'];
+            const windowWidth = 16;
+            const windowHeight = 24;
+            const spacingX = 28;
+            const spacingY = 40;
+            const offsetX = 10;
+            const offsetY = 20;
+            for (let y = offsetY; y < 480; y += spacingY) {
+                for (let x = offsetX; x < 110; x += spacingX) {
+                    const isLit = Math.random() > 0.3;
+                    if (isLit) {
+                        const windowColor = windowColors[Math.floor(Math.random() * windowColors.length)];
+                        ctx.fillStyle = windowColor;
+                        ctx.fillRect(x, y, windowWidth, windowHeight);
+                        ctx.fillStyle = 'rgba(255,255,200,0.3)';
+                        ctx.fillRect(x + 2, y + 2, windowWidth - 4, windowHeight - 4);
+                    } else {
+                        ctx.fillStyle = 'rgba(0,0,0,0.4)';
+                        ctx.fillRect(x, y, windowWidth, windowHeight);
+                    }
+                }
+            }
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        function createTextSprite(text, position) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 512;
+            canvas.height = 64;
+            ctx.fillStyle = 'rgba(0,0,0,0)';
+            ctx.fillRect(0, 0, 512, 64);
+            ctx.font = 'bold 28px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = 'rgba(0,0,0,0.6)';
+            ctx.fillText(text, 258, 34);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(text, 256, 32);
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.needsUpdate = true;
+            const material = new THREE.SpriteMaterial({
+                map: texture,
+                transparent: true,
+                depthTest: false
+            });
+            const sprite = new THREE.Sprite(material);
+            sprite.position.copy(position);
+            sprite.scale.set(8, 1, 1);
+            return sprite;
+        }
+
+        function createBuilding(file, x, z, height, baseColor) {
+            const group = new THREE.Group();
+            const buildingWidth = 2.2;
+            const buildingDepth = 2.2;
+            const windowTexture = createWindowTexture(baseColor);
+            windowTexture.repeat.set(1, Math.ceil(height / 8));
+            const materials = [
+                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.2, roughness: 0.8 }),
+                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.2, roughness: 0.8 }),
+                new THREE.MeshStandardMaterial({ color: new THREE.Color(baseColor).multiplyScalar(1.2), metalness: 0.3, roughness: 0.6 }),
+                new THREE.MeshStandardMaterial({ color: new THREE.Color(baseColor).multiplyScalar(0.6), metalness: 0.2, roughness: 0.9 }),
+                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.2, roughness: 0.8 }),
+                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.2, roughness: 0.8 })
+            ];
+            const geometry = new THREE.BoxGeometry(buildingWidth, height, buildingDepth);
+            const building = new THREE.Mesh(geometry, materials);
+            building.position.set(x, height / 2, z);
+            building.castShadow = true;
+            building.receiveShadow = true;
+            building.userData = file;
+            group.add(building);
+            const roofHeight = 0.6;
+            const roofGeometry = new THREE.ConeGeometry(buildingWidth * 0.8, roofHeight, 4);
+            const roofMaterial = new THREE.MeshStandardMaterial({
+                color: new THREE.Color(baseColor).multiplyScalar(0.8),
+                metalness: 0.4,
+                roughness: 0.6
+            });
+            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+            roof.position.set(x, height + roofHeight / 2, z);
+            roof.rotation.y = Math.PI / 4;
+            roof.castShadow = true;
+            roof.userData = file;
+            group.add(roof);
+            if (height > 10) {
+                const antennaHeight = height * 0.15;
+                const antennaGeometry = new THREE.CylinderGeometry(0.05, 0.05, antennaHeight, 8);
+                const antennaMaterial = new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0.8 });
+                const antenna = new THREE.Mesh(antennaGeometry, antennaMaterial);
+                antenna.position.set(x, height + roofHeight + antennaHeight / 2, z);
+                antenna.userData = file;
+                group.add(antenna);
+                const lightGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+                const lightMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+                const light = new THREE.Mesh(lightGeometry, lightMaterial);
+                light.position.set(x, height + roofHeight + antennaHeight + 0.1, z);
+                group.add(light);
+            }
+            const baseHeight = 0.3;
+            const baseGeometry = new THREE.BoxGeometry(buildingWidth + 0.4, baseHeight, buildingDepth + 0.4);
+            const baseMaterial = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.1, roughness: 0.9 });
+            const base = new THREE.Mesh(baseGeometry, baseMaterial);
+            base.position.set(x, baseHeight / 2, z);
+            base.receiveShadow = true;
+            base.userData = file;
+            group.add(base);
+            const displayName = file.name.length > 12 ? file.name.substring(0, 10) + '..' : file.name;
+            const label = createTextSprite(displayName, new THREE.Vector3(x, height + 2.5, z));
+            group.add(label);
+            labels.push(label);
+            return { group, building, roof, base };
+        }
 
         async function init() {
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x1a1a2e);
+            const bgColor = new THREE.Color(0x0a0a1a);
+            scene.background = bgColor;
+            scene.fog = new THREE.FogExp2(bgColor, 0.008);
 
             camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
-            camera.position.set(50, 50, 50);
+            camera.position.set(50, 40, 50);
 
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.2;
             document.body.appendChild(renderer.domElement);
 
             controls = new OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
+            controls.maxPolarAngle = Math.PI / 2.1;
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            const ambientLight = new THREE.AmbientLight(0x404060, 0.5);
             scene.add(ambientLight);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(50, 100, 50);
-            directionalLight.castShadow = true;
-            scene.add(directionalLight);
+            const moonLight = new THREE.DirectionalLight(0xaabbff, 0.8);
+            moonLight.position.set(50, 100, 30);
+            moonLight.castShadow = true;
+            moonLight.shadow.mapSize.width = 2048;
+            moonLight.shadow.mapSize.height = 2048;
+            moonLight.shadow.camera.near = 10;
+            moonLight.shadow.camera.far = 300;
+            moonLight.shadow.camera.left = -100;
+            moonLight.shadow.camera.right = 100;
+            moonLight.shadow.camera.top = 100;
+            moonLight.shadow.camera.bottom = -100;
+            scene.add(moonLight);
+
+            const warmLight = new THREE.PointLight(0xffaa55, 0.6, 150);
+            warmLight.position.set(-30, 30, -30);
+            scene.add(warmLight);
+
+            const coolLight = new THREE.PointLight(0x5588ff, 0.4, 150);
+            coolLight.position.set(30, 20, 30);
+            scene.add(coolLight);
 
             raycaster = new THREE.Raycaster();
             mouse = new THREE.Vector2();
+
+            createStars();
 
             try {
                 const response = await fetch('data.json');
@@ -160,23 +339,46 @@
             animate();
         }
 
+        function createStars() {
+            const starsGeometry = new THREE.BufferGeometry();
+            const starsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.5, transparent: true, opacity: 0.8 });
+            const starsVertices = [];
+            for (let i = 0; i < 2000; i++) {
+                const x = (Math.random() - 0.5) * 500;
+                const y = Math.random() * 200 + 50;
+                const z = (Math.random() - 0.5) * 500;
+                starsVertices.push(x, y, z);
+            }
+            starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices, 3));
+            const stars = new THREE.Points(starsGeometry, starsMaterial);
+            scene.add(stars);
+        }
+
         function createCity(data) {
             const files = data.files;
             if (!files.length) return;
 
             const maxLoc = Math.max(...files.map(f => f.loc));
             const gridSize = Math.ceil(Math.sqrt(files.length));
-            const spacing = 2.5;
-            const buildingSize = 2;
-            const maxHeight = 40;
+            const spacing = 4;
+            const maxHeight = 50;
 
-            const groundSize = gridSize * spacing + 20;
-            const groundGeometry = new THREE.PlaneGeometry(groundSize, groundSize);
-            const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x2d3436, side: THREE.DoubleSide });
+            const groundSize = gridSize * spacing + 30;
+            const groundGeometry = new THREE.PlaneGeometry(groundSize, groundSize, 32, 32);
+            const groundMaterial = new THREE.MeshStandardMaterial({
+                color: 0x1a1a2e,
+                metalness: 0.1,
+                roughness: 0.9
+            });
             const ground = new THREE.Mesh(groundGeometry, groundMaterial);
             ground.rotation.x = -Math.PI / 2;
+            ground.position.y = 0;
             ground.receiveShadow = true;
             scene.add(ground);
+
+            const gridHelper = new THREE.GridHelper(groundSize, gridSize * 2, 0x2a2a4a, 0x1a1a3a);
+            gridHelper.position.y = 0.01;
+            scene.add(gridHelper);
 
             const offsetX = (gridSize * spacing) / 2;
             const offsetZ = (gridSize * spacing) / 2;
@@ -184,45 +386,28 @@
             files.forEach((file, index) => {
                 const row = Math.floor(index / gridSize);
                 const col = index % gridSize;
-
-                const height = Math.max(1, (file.loc / maxLoc) * maxHeight);
-                const color = extensionColors[file.extension] || defaultColor;
-
-                const geometry = new THREE.BoxGeometry(buildingSize, height, buildingSize);
-                const material = new THREE.MeshStandardMaterial({
-                    color: color,
-                    metalness: 0.3,
-                    roughness: 0.7
-                });
-
-                const building = new THREE.Mesh(geometry, material);
-                building.position.set(
-                    col * spacing - offsetX,
-                    height / 2,
-                    row * spacing - offsetZ
-                );
-                building.castShadow = true;
-                building.receiveShadow = true;
-                building.userData = file;
-
-                scene.add(building);
-                buildings.push(building);
+                const height = Math.max(2, (file.loc / maxLoc) * maxHeight);
+                const baseColor = extensionColors[file.extension] || defaultColor;
+                const x = col * spacing - offsetX;
+                const z = row * spacing - offsetZ;
+                const { group, building, roof, base } = createBuilding(file, x, z, height, baseColor);
+                scene.add(group);
+                buildings.push(building, roof, base);
             });
 
-            camera.position.set(gridSize * 2, gridSize * 1.5, gridSize * 2);
-            controls.target.set(0, 0, 0);
+            camera.position.set(gridSize * 2.5, gridSize * 2, gridSize * 2.5);
+            controls.target.set(0, maxHeight / 4, 0);
         }
 
         function updateInfo(data) {
             document.getElementById('repo-name').textContent = data.repo_url;
-            document.getElementById('stats').textContent = `${data.total_files} files | ${data.total_loc.toLocaleString()} total LOC`;
+            document.getElementById('stats').textContent = `${data.total_files} files | ${data.total_loc.toLocaleString()} total lines of code`;
         }
 
         function createLegend(data) {
             const extensions = [...new Set(data.files.map(f => f.extension))];
             const legend = document.getElementById('legend');
-            legend.innerHTML = '<strong>File Types</strong><br>';
-
+            legend.innerHTML = '<h4>File Types</h4>';
             extensions.slice(0, 10).forEach(ext => {
                 const color = extensionColors[ext] || defaultColor;
                 const div = document.createElement('div');
@@ -240,18 +425,17 @@
         function onMouseMove(event) {
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObjects(buildings);
-
             const tooltip = document.getElementById('tooltip');
-
             if (intersects.length > 0) {
                 const file = intersects[0].object.userData;
-                tooltip.innerHTML = `<strong>${file.name}</strong><br>Path: ${file.path}<br>LOC: ${file.loc.toLocaleString()}<br>Type: ${file.extension}`;
-                tooltip.style.display = 'block';
-                tooltip.style.left = event.clientX + 15 + 'px';
-                tooltip.style.top = event.clientY + 15 + 'px';
+                if (file && file.name) {
+                    tooltip.innerHTML = `<strong>${file.name}</strong><br>Path: ${file.path}<br>Lines: ${file.loc.toLocaleString()}<br>Type: ${file.extension}`;
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = event.clientX + 15 + 'px';
+                    tooltip.style.top = event.clientY + 15 + 'px';
+                }
             } else {
                 tooltip.style.display = 'none';
             }
@@ -259,6 +443,9 @@
 
         function animate() {
             requestAnimationFrame(animate);
+            labels.forEach(label => {
+                label.quaternion.copy(camera.quaternion);
+            });
             controls.update();
             renderer.render(scene, camera);
         }
