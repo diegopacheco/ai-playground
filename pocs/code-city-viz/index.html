@@ -154,16 +154,16 @@
             });
             const sprite = new THREE.Sprite(material);
             sprite.position.copy(position);
-            sprite.scale.set(8, 1, 1);
+            sprite.scale.set(4, 0.5, 1);
             return sprite;
         }
 
         function createBuilding(file, x, z, height, baseColor) {
             const group = new THREE.Group();
-            const buildingWidth = 2.2;
-            const buildingDepth = 2.2;
+            const buildingWidth = 1.2;
+            const buildingDepth = 1.2;
             const windowTexture = createWindowTexture(baseColor);
-            windowTexture.repeat.set(1, Math.ceil(height / 8));
+            windowTexture.repeat.set(1, Math.ceil(height / 4));
             const materials = [
                 new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.1, roughness: 0.7 }),
                 new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.1, roughness: 0.7 }),
@@ -179,41 +179,50 @@
             building.receiveShadow = true;
             building.userData = file;
             group.add(building);
-            const roofHeight = 0.8;
-            const roofGeometry = new THREE.ConeGeometry(buildingWidth * 0.85, roofHeight, 4);
-            const roofMaterial = new THREE.MeshStandardMaterial({
-                color: baseColor.clone().multiplyScalar(0.6),
-                metalness: 0.3,
-                roughness: 0.5
-            });
-            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
-            roof.position.set(x, height + roofHeight / 2, z);
-            roof.rotation.y = Math.PI / 4;
-            roof.castShadow = true;
-            roof.userData = file;
-            group.add(roof);
-            if (height > 15) {
-                const antennaHeight = height * 0.12;
-                const antennaGeometry = new THREE.CylinderGeometry(0.05, 0.05, antennaHeight, 8);
-                const antennaMaterial = new THREE.MeshStandardMaterial({ color: 0x666666, metalness: 0.8 });
-                const antenna = new THREE.Mesh(antennaGeometry, antennaMaterial);
-                antenna.position.set(x, height + roofHeight + antennaHeight / 2, z);
-                antenna.userData = file;
-                group.add(antenna);
-            }
-            const baseHeight = 0.4;
-            const baseGeometry = new THREE.BoxGeometry(buildingWidth + 0.5, baseHeight, buildingDepth + 0.5);
+            const roofColor = baseColor.clone().multiplyScalar(0.85);
+            const roofMat = new THREE.MeshStandardMaterial({ color: roofColor, metalness: 0.4, roughness: 0.3 });
+            const tier1H = 0.15;
+            const tier1 = new THREE.Mesh(new THREE.BoxGeometry(buildingWidth + 0.1, tier1H, buildingDepth + 0.1), roofMat);
+            tier1.position.set(x, height + tier1H / 2, z);
+            tier1.castShadow = true;
+            tier1.userData = file;
+            group.add(tier1);
+            const tier2H = 0.12;
+            const tier2 = new THREE.Mesh(new THREE.BoxGeometry(buildingWidth * 0.7, tier2H, buildingDepth * 0.7), roofMat);
+            tier2.position.set(x, height + tier1H + tier2H / 2, z);
+            tier2.castShadow = true;
+            tier2.userData = file;
+            group.add(tier2);
+            const domeRadius = buildingWidth * 0.35;
+            const dome = new THREE.Mesh(
+                new THREE.SphereGeometry(domeRadius, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2),
+                new THREE.MeshStandardMaterial({ color: roofColor.clone().multiplyScalar(1.2), metalness: 0.5, roughness: 0.2 })
+            );
+            dome.position.set(x, height + tier1H + tier2H, z);
+            dome.castShadow = true;
+            dome.userData = file;
+            group.add(dome);
+            const spireHeight = height * 0.08 + 0.3;
+            const spire = new THREE.Mesh(
+                new THREE.ConeGeometry(0.06, spireHeight, 8),
+                new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.8, roughness: 0.2 })
+            );
+            spire.position.set(x, height + tier1H + tier2H + domeRadius + spireHeight / 2 - 0.05, z);
+            spire.castShadow = true;
+            group.add(spire);
+            const baseHeight = 0.15;
+            const baseGeometry = new THREE.BoxGeometry(buildingWidth + 0.2, baseHeight, buildingDepth + 0.2);
             const baseMaterial = new THREE.MeshStandardMaterial({ color: 0x555555, metalness: 0.1, roughness: 0.9 });
             const base = new THREE.Mesh(baseGeometry, baseMaterial);
             base.position.set(x, baseHeight / 2, z);
             base.receiveShadow = true;
             base.userData = file;
             group.add(base);
-            const displayName = file.name.length > 12 ? file.name.substring(0, 10) + '..' : file.name;
-            const label = createTextSprite(displayName, new THREE.Vector3(x, height + 2.5, z));
+            const displayName = file.name.length > 10 ? file.name.substring(0, 8) + '..' : file.name;
+            const label = createTextSprite(displayName, new THREE.Vector3(x, height + 1.5, z));
             group.add(label);
             labels.push(label);
-            return { group, building, roof, base };
+            return { group, building, meshes: [building, tier1, tier2, dome, base] };
         }
 
         async function init() {
@@ -240,23 +249,23 @@
             scene.add(ambientLight);
 
             const sunLight = new THREE.DirectionalLight(0xfffacd, 1.2);
-            sunLight.position.set(80, 120, 60);
+            sunLight.position.set(30, 50, 25);
             sunLight.castShadow = true;
             sunLight.shadow.mapSize.width = 2048;
             sunLight.shadow.mapSize.height = 2048;
-            sunLight.shadow.camera.near = 10;
-            sunLight.shadow.camera.far = 400;
-            sunLight.shadow.camera.left = -120;
-            sunLight.shadow.camera.right = 120;
-            sunLight.shadow.camera.top = 120;
-            sunLight.shadow.camera.bottom = -120;
+            sunLight.shadow.camera.near = 5;
+            sunLight.shadow.camera.far = 150;
+            sunLight.shadow.camera.left = -50;
+            sunLight.shadow.camera.right = 50;
+            sunLight.shadow.camera.top = 50;
+            sunLight.shadow.camera.bottom = -50;
             scene.add(sunLight);
 
             const hemisphereLight = new THREE.HemisphereLight(0x87ceeb, 0x98d982, 0.4);
             scene.add(hemisphereLight);
 
             const fillLight = new THREE.DirectionalLight(0xfff5e6, 0.3);
-            fillLight.position.set(-50, 50, -50);
+            fillLight.position.set(-20, 25, -20);
             scene.add(fillLight);
 
             raycaster = new THREE.Raycaster();
@@ -288,20 +297,20 @@
                 opacity: 0.9,
                 roughness: 1
             });
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 10; i++) {
                 const cloudGroup = new THREE.Group();
-                const numPuffs = 4 + Math.floor(Math.random() * 4);
+                const numPuffs = 3 + Math.floor(Math.random() * 3);
                 for (let j = 0; j < numPuffs; j++) {
                     const puff = new THREE.Mesh(cloudGeometry, cloudMaterial);
-                    const scale = 2 + Math.random() * 3;
+                    const scale = 1 + Math.random() * 1.5;
                     puff.scale.set(scale * 1.5, scale, scale * 1.2);
-                    puff.position.set(j * 3 - numPuffs, Math.random() * 1.5, Math.random() * 2);
+                    puff.position.set(j * 2 - numPuffs, Math.random() * 0.8, Math.random() * 1);
                     cloudGroup.add(puff);
                 }
                 cloudGroup.position.set(
-                    (Math.random() - 0.5) * 200,
-                    60 + Math.random() * 30,
-                    (Math.random() - 0.5) * 200
+                    (Math.random() - 0.5) * 80,
+                    30 + Math.random() * 15,
+                    (Math.random() - 0.5) * 80
                 );
                 scene.add(cloudGroup);
             }
@@ -313,10 +322,10 @@
 
             const maxCommits = Math.max(...files.map(f => f.commits || 1));
             const gridSize = Math.ceil(Math.sqrt(files.length));
-            const spacing = 4;
-            const maxHeight = 50;
+            const spacing = 2;
+            const maxHeight = 20;
 
-            const groundSize = gridSize * spacing + 40;
+            const groundSize = gridSize * spacing + 10;
             const groundGeometry = new THREE.PlaneGeometry(groundSize, groundSize);
             const groundMaterial = new THREE.MeshStandardMaterial({
                 color: 0x98d982,
@@ -335,7 +344,7 @@
 
             for (let i = 0; i <= gridSize; i++) {
                 const roadH = new THREE.Mesh(
-                    new THREE.PlaneGeometry(groundSize, 0.8),
+                    new THREE.PlaneGeometry(groundSize, 0.3),
                     roadMaterial
                 );
                 roadH.rotation.x = -Math.PI / 2;
@@ -343,7 +352,7 @@
                 scene.add(roadH);
 
                 const roadV = new THREE.Mesh(
-                    new THREE.PlaneGeometry(0.8, groundSize),
+                    new THREE.PlaneGeometry(0.3, groundSize),
                     roadMaterial
                 );
                 roadV.rotation.x = -Math.PI / 2;
@@ -355,17 +364,18 @@
                 const row = Math.floor(index / gridSize);
                 const col = index % gridSize;
                 const commits = file.commits || 1;
-                const height = Math.max(2, (commits / maxCommits) * maxHeight);
+                const height = Math.max(1, (commits / maxCommits) * maxHeight);
                 const baseColor = generateVibrantColor(index, files.length);
                 const x = col * spacing - offsetX;
                 const z = row * spacing - offsetZ;
-                const { group, building, roof, base } = createBuilding(file, x, z, height, baseColor);
+                const { group, meshes } = createBuilding(file, x, z, height, baseColor);
                 scene.add(group);
-                buildings.push(building, roof, base);
+                buildings.push(...meshes);
             });
 
-            camera.position.set(gridSize * 2.5, gridSize * 2, gridSize * 2.5);
-            controls.target.set(0, maxHeight / 4, 0);
+            const citySize = gridSize * spacing;
+            camera.position.set(citySize * 0.8, citySize * 0.6, citySize * 0.8);
+            controls.target.set(0, maxHeight / 6, 0);
         }
 
         function updateInfo(data) {
