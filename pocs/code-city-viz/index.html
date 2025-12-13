@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code City Visualization</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { overflow: hidden; font-family: Arial, sans-serif; }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            max-width: 400px;
+            z-index: 100;
+        }
+        #info h2 { margin-bottom: 10px; }
+        #info p { margin: 5px 0; font-size: 14px; }
+        #tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            pointer-events: none;
+            display: none;
+            z-index: 200;
+        }
+        #legend {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            z-index: 100;
+        }
+        #legend div { display: flex; align-items: center; margin: 3px 0; font-size: 12px; }
+        #legend span { width: 20px; height: 20px; display: inline-block; margin-right: 8px; border-radius: 3px; }
+        #controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            z-index: 100;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <h2>Code City</h2>
+        <p id="repo-name">Loading...</p>
+        <p id="stats"></p>
+    </div>
+    <div id="tooltip"></div>
+    <div id="legend"></div>
+    <div id="controls">
+        Mouse: Rotate | Scroll: Zoom | Right-click: Pan
+    </div>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const extensionColors = {
+            '.py': 0x3776ab,
+            '.js': 0xf7df1e,
+            '.ts': 0x3178c6,
+            '.tsx': 0x61dafb,
+            '.jsx': 0x61dafb,
+            '.java': 0xed8b00,
+            '.go': 0x00add8,
+            '.rs': 0xdea584,
+            '.c': 0x555555,
+            '.cpp': 0x00599c,
+            '.h': 0x666666,
+            '.cs': 0x68217a,
+            '.rb': 0xcc342d,
+            '.php': 0x777bb4,
+            '.swift': 0xfa7343,
+            '.kt': 0x7f52ff,
+            '.scala': 0xdc322f,
+            '.html': 0xe34f26,
+            '.css': 0x264de4,
+            '.scss': 0xcf649a,
+            '.vue': 0x42b883,
+            '.svelte': 0xff3e00,
+            '.json': 0x292929,
+            '.yaml': 0xcb171e,
+            '.yml': 0xcb171e,
+            '.md': 0x083fa1,
+            '.sql': 0x336791,
+            '.sh': 0x4eaa25,
+            '.xml': 0xff6600
+        };
+
+        const defaultColor = 0x888888;
+
+        let scene, camera, renderer, controls;
+        let buildings = [];
+        let raycaster, mouse;
+
+        async function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1a1a2e);
+
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+            camera.position.set(50, 50, 50);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            document.body.appendChild(renderer.domElement);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(50, 100, 50);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+
+            raycaster = new THREE.Raycaster();
+            mouse = new THREE.Vector2();
+
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                createCity(data);
+                updateInfo(data);
+                createLegend(data);
+            } catch (error) {
+                document.getElementById('repo-name').textContent = 'Error loading data.json - Run analyze.py first';
+            }
+
+            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('mousemove', onMouseMove);
+
+            animate();
+        }
+
+        function createCity(data) {
+            const files = data.files;
+            if (!files.length) return;
+
+            const maxLoc = Math.max(...files.map(f => f.loc));
+            const gridSize = Math.ceil(Math.sqrt(files.length));
+            const spacing = 2.5;
+            const buildingSize = 2;
+            const maxHeight = 40;
+
+            const groundSize = gridSize * spacing + 20;
+            const groundGeometry = new THREE.PlaneGeometry(groundSize, groundSize);
+            const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x2d3436, side: THREE.DoubleSide });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.receiveShadow = true;
+            scene.add(ground);
+
+            const offsetX = (gridSize * spacing) / 2;
+            const offsetZ = (gridSize * spacing) / 2;
+
+            files.forEach((file, index) => {
+                const row = Math.floor(index / gridSize);
+                const col = index % gridSize;
+
+                const height = Math.max(1, (file.loc / maxLoc) * maxHeight);
+                const color = extensionColors[file.extension] || defaultColor;
+
+                const geometry = new THREE.BoxGeometry(buildingSize, height, buildingSize);
+                const material = new THREE.MeshStandardMaterial({
+                    color: color,
+                    metalness: 0.3,
+                    roughness: 0.7
+                });
+
+                const building = new THREE.Mesh(geometry, material);
+                building.position.set(
+                    col * spacing - offsetX,
+                    height / 2,
+                    row * spacing - offsetZ
+                );
+                building.castShadow = true;
+                building.receiveShadow = true;
+                building.userData = file;
+
+                scene.add(building);
+                buildings.push(building);
+            });
+
+            camera.position.set(gridSize * 2, gridSize * 1.5, gridSize * 2);
+            controls.target.set(0, 0, 0);
+        }
+
+        function updateInfo(data) {
+            document.getElementById('repo-name').textContent = data.repo_url;
+            document.getElementById('stats').textContent = `${data.total_files} files | ${data.total_loc.toLocaleString()} total LOC`;
+        }
+
+        function createLegend(data) {
+            const extensions = [...new Set(data.files.map(f => f.extension))];
+            const legend = document.getElementById('legend');
+            legend.innerHTML = '<strong>File Types</strong><br>';
+
+            extensions.slice(0, 10).forEach(ext => {
+                const color = extensionColors[ext] || defaultColor;
+                const div = document.createElement('div');
+                div.innerHTML = `<span style="background: #${color.toString(16).padStart(6, '0')}"></span>${ext}`;
+                legend.appendChild(div);
+            });
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onMouseMove(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(buildings);
+
+            const tooltip = document.getElementById('tooltip');
+
+            if (intersects.length > 0) {
+                const file = intersects[0].object.userData;
+                tooltip.innerHTML = `<strong>${file.name}</strong><br>Path: ${file.path}<br>LOC: ${file.loc.toLocaleString()}<br>Type: ${file.extension}`;
+                tooltip.style.display = 'block';
+                tooltip.style.left = event.clientX + 15 + 'px';
+                tooltip.style.top = event.clientY + 15 + 'px';
+            } else {
+                tooltip.style.display = 'none';
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        init();
+    </script>
+</body>
+</html>
