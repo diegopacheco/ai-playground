@@ -1,96 +1,2080 @@
 {
-  "repo_url": "https://github.com/diegopacheco/smith",
-  "total_files": 11,
-  "total_loc": 490,
-  "total_commits": 11,
+  "repo_url": "https://github.com/google/gson",
+  "total_files": 259,
+  "total_loc": 54067,
+  "total_commits": 3802,
   "files": [
     {
-      "path": "run.sh",
-      "name": "run.sh",
-      "extension": ".sh",
-      "loc": 3,
-      "commits": 1,
-      "directory": ""
+      "path": "gson/src/main/java/com/google/gson/Gson.java",
+      "name": "Gson.java",
+      "extension": ".java",
+      "loc": 1543,
+      "commits": 240,
+      "directory": "gson/src/main/java/com/google/gson"
     },
     {
-      "path": "release.sh",
-      "name": "release.sh",
-      "extension": ".sh",
-      "loc": 3,
-      "commits": 1,
-      "directory": ""
+      "path": "gson/src/main/java/com/google/gson/GsonBuilder.java",
+      "name": "GsonBuilder.java",
+      "extension": ".java",
+      "loc": 957,
+      "commits": 142,
+      "directory": "gson/src/main/java/com/google/gson"
     },
     {
-      "path": "src/test/scala/com/github/diegopacheco/smith/service/test/PomServiceTest.scala",
-      "name": "PomServiceTest.scala",
-      "extension": ".scala",
-      "loc": 23,
-      "commits": 1,
-      "directory": "src/test/scala/com/github/diegopacheco/smith/service/test"
+      "path": "gson/src/main/java/com/google/gson/stream/JsonReader.java",
+      "name": "JsonReader.java",
+      "extension": ".java",
+      "loc": 1881,
+      "commits": 101,
+      "directory": "gson/src/main/java/com/google/gson/stream"
     },
     {
-      "path": "src/test/scala/com/github/diegopacheco/smith/service/test/TrivyServiceTest.scala",
-      "name": "TrivyServiceTest.scala",
-      "extension": ".scala",
-      "loc": 19,
-      "commits": 1,
-      "directory": "src/test/scala/com/github/diegopacheco/smith/service/test"
+      "path": "gson/src/main/java/com/google/gson/internal/bind/TypeAdapters.java",
+      "name": "TypeAdapters.java",
+      "extension": ".java",
+      "loc": 936,
+      "commits": 86,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
     },
     {
-      "path": "src/test/scala/com/github/diegopacheco/smith/service/test/ArtifactServiceTest.scala",
-      "name": "ArtifactServiceTest.scala",
-      "extension": ".scala",
-      "loc": 24,
-      "commits": 1,
-      "directory": "src/test/scala/com/github/diegopacheco/smith/service/test"
+      "path": "gson/src/test/java/com/google/gson/functional/MapTest.java",
+      "name": "MapTest.java",
+      "extension": ".java",
+      "loc": 775,
+      "commits": 68,
+      "directory": "gson/src/test/java/com/google/gson/functional"
     },
     {
-      "path": "src/test/scala/com/github/diegopacheco/smith/client/test/OpenAIDriverTest.scala",
-      "name": "OpenAIDriverTest.scala",
-      "extension": ".scala",
-      "loc": 24,
-      "commits": 1,
-      "directory": "src/test/scala/com/github/diegopacheco/smith/client/test"
+      "path": "gson/src/test/java/com/google/gson/functional/DefaultTypeAdaptersTest.java",
+      "name": "DefaultTypeAdaptersTest.java",
+      "extension": ".java",
+      "loc": 853,
+      "commits": 67,
+      "directory": "gson/src/test/java/com/google/gson/functional"
     },
     {
-      "path": "src/main/scala/Main.scala",
-      "name": "Main.scala",
-      "extension": ".scala",
-      "loc": 167,
-      "commits": 1,
-      "directory": "src/main/scala"
+      "path": "gson/src/test/java/com/google/gson/functional/ObjectTest.java",
+      "name": "ObjectTest.java",
+      "extension": ".java",
+      "loc": 776,
+      "commits": 61,
+      "directory": "gson/src/test/java/com/google/gson/functional"
     },
     {
-      "path": "src/main/scala/com/github/diegopacheco/smith/driver/OpenAIDriver.scala",
-      "name": "OpenAIDriver.scala",
-      "extension": ".scala",
+      "path": "gson/src/test/java/com/google/gson/stream/JsonReaderTest.java",
+      "name": "JsonReaderTest.java",
+      "extension": ".java",
+      "loc": 2191,
+      "commits": 60,
+      "directory": "gson/src/test/java/com/google/gson/stream"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/ReflectiveTypeAdapterFactory.java",
+      "name": "ReflectiveTypeAdapterFactory.java",
+      "extension": ".java",
+      "loc": 670,
+      "commits": 60,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonObject.java",
+      "name": "JsonObject.java",
+      "extension": ".java",
+      "loc": 259,
+      "commits": 57,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonPrimitive.java",
+      "name": "JsonPrimitive.java",
+      "extension": ".java",
+      "loc": 328,
+      "commits": 54,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/PrimitiveTest.java",
+      "name": "PrimitiveTest.java",
+      "extension": ".java",
+      "loc": 972,
+      "commits": 50,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/stream/JsonWriter.java",
+      "name": "JsonWriter.java",
+      "extension": ".java",
+      "loc": 836,
+      "commits": 50,
+      "directory": "gson/src/main/java/com/google/gson/stream"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonArray.java",
+      "name": "JsonArray.java",
+      "extension": ".java",
+      "loc": 436,
+      "commits": 46,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonParser.java",
+      "name": "JsonParser.java",
+      "extension": ".java",
+      "loc": 178,
+      "commits": 42,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/FieldAttributes.java",
+      "name": "FieldAttributes.java",
+      "extension": ".java",
+      "loc": 149,
+      "commits": 39,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/CollectionTest.java",
+      "name": "CollectionTest.java",
+      "extension": ".java",
+      "loc": 504,
+      "commits": 38,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/ConstructorConstructor.java",
+      "name": "ConstructorConstructor.java",
+      "extension": ".java",
+      "loc": 465,
+      "commits": 38,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/CustomTypeAdaptersTest.java",
+      "name": "CustomTypeAdaptersTest.java",
+      "extension": ".java",
+      "loc": 519,
+      "commits": 36,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/TypeAdapter.java",
+      "name": "TypeAdapter.java",
+      "extension": ".java",
+      "loc": 322,
+      "commits": 35,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonElement.java",
+      "name": "JsonElement.java",
+      "extension": ".java",
+      "loc": 434,
+      "commits": 34,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JsonObjectTest.java",
+      "name": "JsonObjectTest.java",
+      "extension": ".java",
+      "loc": 358,
+      "commits": 32,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/NamingPolicyTest.java",
+      "name": "NamingPolicyTest.java",
+      "extension": ".java",
+      "loc": 362,
+      "commits": 32,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/reflect/TypeToken.java",
+      "name": "TypeToken.java",
+      "extension": ".java",
+      "loc": 452,
+      "commits": 31,
+      "directory": "gson/src/main/java/com/google/gson/reflect"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/MapTypeAdapterFactory.java",
+      "name": "MapTypeAdapterFactory.java",
+      "extension": ".java",
+      "loc": 281,
+      "commits": 31,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/NullObjectAndFieldTest.java",
+      "name": "NullObjectAndFieldTest.java",
+      "extension": ".java",
+      "loc": 257,
+      "commits": 29,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonNull.java",
+      "name": "JsonNull.java",
+      "extension": ".java",
+      "loc": 65,
+      "commits": 28,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "extras/src/main/java/com/google/gson/typeadapters/RuntimeTypeAdapterFactory.java",
+      "name": "RuntimeTypeAdapterFactory.java",
+      "extension": ".java",
+      "loc": 331,
+      "commits": 28,
+      "directory": "extras/src/main/java/com/google/gson/typeadapters"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/EnumTest.java",
+      "name": "EnumTest.java",
+      "extension": ".java",
+      "loc": 322,
+      "commits": 27,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/ArrayTest.java",
+      "name": "ArrayTest.java",
+      "extension": ".java",
+      "loc": 297,
+      "commits": 27,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/ArrayTypeAdapter.java",
+      "name": "ArrayTypeAdapter.java",
+      "extension": ".java",
+      "loc": 112,
+      "commits": 27,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JsonArrayTest.java",
+      "name": "JsonArrayTest.java",
+      "extension": ".java",
+      "loc": 357,
+      "commits": 26,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/ParameterizedTypesTest.java",
+      "name": "ParameterizedTypesTest.java",
+      "extension": ".java",
+      "loc": 551,
+      "commits": 26,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JsonPrimitiveTest.java",
+      "name": "JsonPrimitiveTest.java",
+      "extension": ".java",
+      "loc": 367,
+      "commits": 25,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JsonParserTest.java",
+      "name": "JsonParserTest.java",
+      "extension": ".java",
+      "loc": 198,
+      "commits": 25,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/stream/JsonWriterTest.java",
+      "name": "JsonWriterTest.java",
+      "extension": ".java",
+      "loc": 991,
+      "commits": 25,
+      "directory": "gson/src/test/java/com/google/gson/stream"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/reflect/TypeTokenTest.java",
+      "name": "TypeTokenTest.java",
+      "extension": ".java",
+      "loc": 471,
+      "commits": 25,
+      "directory": "gson/src/test/java/com/google/gson/reflect"
+    },
+    {
+      "path": "proto/src/main/java/com/google/gson/protobuf/ProtoTypeAdapter.java",
+      "name": "ProtoTypeAdapter.java",
+      "extension": ".java",
+      "loc": 451,
+      "commits": 25,
+      "directory": "proto/src/main/java/com/google/gson/protobuf"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/GsonTest.java",
+      "name": "GsonTest.java",
+      "extension": ".java",
+      "loc": 677,
+      "commits": 24,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java",
+      "name": "JsonAdapterAnnotationOnClassesTest.java",
+      "extension": ".java",
+      "loc": 806,
+      "commits": 24,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/JsonAdapterAnnotationTypeAdapterFactory.java",
+      "name": "JsonAdapterAnnotationTypeAdapterFactory.java",
+      "extension": ".java",
+      "loc": 204,
+      "commits": 24,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/GsonBuilderTest.java",
+      "name": "GsonBuilderTest.java",
+      "extension": ".java",
+      "loc": 432,
+      "commits": 23,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/metrics/PerformanceTest.java",
+      "name": "PerformanceTest.java",
+      "extension": ".java",
+      "loc": 368,
+      "commits": 23,
+      "directory": "gson/src/test/java/com/google/gson/metrics"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java",
+      "name": "LinkedTreeMapTest.java",
+      "extension": ".java",
+      "loc": 222,
+      "commits": 23,
+      "directory": "gson/src/test/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/LinkedTreeMap.java",
+      "name": "LinkedTreeMap.java",
+      "extension": ".java",
+      "loc": 687,
+      "commits": 23,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/Streams.java",
+      "name": "Streams.java",
+      "extension": ".java",
+      "loc": 169,
+      "commits": 22,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/ObjectTypeAdapter.java",
+      "name": "ObjectTypeAdapter.java",
+      "extension": ".java",
+      "loc": 186,
+      "commits": 22,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/JsonTreeReader.java",
+      "name": "JsonTreeReader.java",
+      "extension": ".java",
+      "loc": 391,
+      "commits": 22,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java",
+      "name": "VersionExclusionStrategyTest.java",
+      "extension": ".java",
+      "loc": 121,
+      "commits": 20,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java",
+      "name": "JsonAdapterAnnotationOnFieldsTest.java",
+      "extension": ".java",
+      "loc": 743,
+      "commits": 20,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/FieldNamingPolicy.java",
+      "name": "FieldNamingPolicy.java",
+      "extension": ".java",
+      "loc": 213,
+      "commits": 20,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonStreamParser.java",
+      "name": "JsonStreamParser.java",
+      "extension": ".java",
+      "loc": 125,
+      "commits": 20,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/InstanceCreatorTest.java",
+      "name": "InstanceCreatorTest.java",
+      "extension": ".java",
+      "loc": 111,
+      "commits": 19,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/ConcurrencyTest.java",
+      "name": "ConcurrencyTest.java",
+      "extension": ".java",
+      "loc": 153,
+      "commits": 19,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/Excluder.java",
+      "name": "Excluder.java",
+      "extension": ".java",
+      "loc": 257,
+      "commits": 19,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/CollectionTypeAdapterFactory.java",
+      "name": "CollectionTypeAdapterFactory.java",
+      "extension": ".java",
+      "loc": 105,
+      "commits": 19,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/common/TestTypes.java",
+      "name": "TestTypes.java",
+      "extension": ".java",
+      "loc": 434,
+      "commits": 18,
+      "directory": "gson/src/test/java/com/google/gson/common"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/StreamingTypeAdaptersTest.java",
+      "name": "StreamingTypeAdaptersTest.java",
+      "extension": ".java",
+      "loc": 287,
+      "commits": 18,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/ExclusionStrategy.java",
+      "name": "ExclusionStrategy.java",
+      "extension": ".java",
+      "loc": 111,
+      "commits": 18,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "metrics/src/main/java/com/google/gson/metrics/ParseBenchmark.java",
+      "name": "ParseBenchmark.java",
+      "extension": ".java",
+      "loc": 467,
+      "commits": 17,
+      "directory": "metrics/src/main/java/com/google/gson/metrics"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/bind/JsonElementReaderTest.java",
+      "name": "JsonElementReaderTest.java",
+      "extension": ".java",
+      "loc": 292,
+      "commits": 17,
+      "directory": "gson/src/test/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "extras/src/main/java/com/google/gson/graph/GraphAdapterBuilder.java",
+      "name": "GraphAdapterBuilder.java",
+      "extension": ".java",
+      "loc": 360,
+      "commits": 17,
+      "directory": "extras/src/main/java/com/google/gson/graph"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/InnerClassExclusionStrategyTest.java",
+      "name": "InnerClassExclusionStrategyTest.java",
+      "extension": ".java",
+      "loc": 83,
+      "commits": 16,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/GsonTypesTest.java",
+      "name": "GsonTypesTest.java",
+      "extension": ".java",
+      "loc": 158,
+      "commits": 16,
+      "directory": "gson/src/test/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/ReflectionAccessTest.java",
+      "name": "ReflectionAccessTest.java",
+      "extension": ".java",
+      "loc": 173,
+      "commits": 16,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/CustomDeserializerTest.java",
+      "name": "CustomDeserializerTest.java",
+      "extension": ".java",
+      "loc": 218,
+      "commits": 16,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/PrettyPrintingTest.java",
+      "name": "PrettyPrintingTest.java",
+      "extension": ".java",
+      "loc": 170,
+      "commits": 16,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/TreeTypeAdapter.java",
+      "name": "TreeTypeAdapter.java",
+      "extension": ".java",
+      "loc": 209,
+      "commits": 16,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/annotations/JsonAdapter.java",
+      "name": "JsonAdapter.java",
+      "extension": ".java",
+      "loc": 135,
+      "commits": 16,
+      "directory": "gson/src/main/java/com/google/gson/annotations"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/FieldAttributesTest.java",
+      "name": "FieldAttributesTest.java",
+      "extension": ".java",
+      "loc": 81,
+      "commits": 15,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/MixedStreamTest.java",
+      "name": "MixedStreamTest.java",
+      "extension": ".java",
+      "loc": 256,
+      "commits": 15,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/JsonTreeTest.java",
+      "name": "JsonTreeTest.java",
+      "extension": ".java",
+      "loc": 112,
+      "commits": 15,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/ReadersWritersTest.java",
+      "name": "ReadersWritersTest.java",
+      "extension": ".java",
+      "loc": 203,
+      "commits": 15,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/ExposeFieldsTest.java",
+      "name": "ExposeFieldsTest.java",
+      "extension": ".java",
+      "loc": 191,
+      "commits": 15,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/InheritanceTest.java",
+      "name": "InheritanceTest.java",
+      "extension": ".java",
+      "loc": 299,
+      "commits": 15,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/TypeAdapterRuntimeTypeWrapper.java",
+      "name": "TypeAdapterRuntimeTypeWrapper.java",
+      "extension": ".java",
+      "loc": 103,
+      "commits": 15,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/ObjectTypeAdapterTest.java",
+      "name": "ObjectTypeAdapterTest.java",
+      "extension": ".java",
+      "loc": 117,
+      "commits": 14,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/bind/JsonTreeWriterTest.java",
+      "name": "JsonTreeWriterTest.java",
+      "extension": ".java",
+      "loc": 284,
+      "commits": 14,
+      "directory": "gson/src/test/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/bind/util/ISO8601UtilsTest.java",
+      "name": "ISO8601UtilsTest.java",
+      "extension": ".java",
+      "loc": 126,
+      "commits": 14,
+      "directory": "gson/src/test/java/com/google/gson/internal/bind/util"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/TypeVariableTest.java",
+      "name": "TypeVariableTest.java",
+      "extension": ".java",
+      "loc": 144,
+      "commits": 14,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/ReflectionAccessFilterTest.java",
+      "name": "ReflectionAccessFilterTest.java",
+      "extension": ".java",
+      "loc": 529,
+      "commits": 14,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/ExclusionStrategyFunctionalTest.java",
+      "name": "ExclusionStrategyFunctionalTest.java",
+      "extension": ".java",
+      "loc": 220,
+      "commits": 14,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/JsonParserTest.java",
+      "name": "JsonParserTest.java",
+      "extension": ".java",
+      "loc": 142,
+      "commits": 14,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java",
+      "name": "TypeAdapterPrecedenceTest.java",
+      "extension": ".java",
+      "loc": 173,
+      "commits": 14,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/Java17RecordTest.java",
+      "name": "Java17RecordTest.java",
+      "extension": ".java",
+      "loc": 481,
+      "commits": 14,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonDeserializationContext.java",
+      "name": "JsonDeserializationContext.java",
+      "extension": ".java",
       "loc": 44,
-      "commits": 1,
-      "directory": "src/main/scala/com/github/diegopacheco/smith/driver"
+      "commits": 14,
+      "directory": "gson/src/main/java/com/google/gson"
     },
     {
-      "path": "src/main/scala/com/github/diegopacheco/smith/service/ArtifactService.scala",
-      "name": "ArtifactService.scala",
-      "extension": ".scala",
+      "path": "gson/src/main/java/com/google/gson/internal/reflect/ReflectionHelper.java",
+      "name": "ReflectionHelper.java",
+      "extension": ".java",
+      "loc": 325,
+      "commits": 14,
+      "directory": "gson/src/main/java/com/google/gson/internal/reflect"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/ExposeAnnotationExclusionStrategyTest.java",
+      "name": "ExposeAnnotationExclusionStrategyTest.java",
+      "extension": ".java",
+      "loc": 104,
+      "commits": 13,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/bind/RecursiveTypesResolveTest.java",
+      "name": "RecursiveTypesResolveTest.java",
+      "extension": ".java",
+      "loc": 104,
+      "commits": 13,
+      "directory": "gson/src/test/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/RuntimeTypeAdapterFactoryFunctionalTest.java",
+      "name": "RuntimeTypeAdapterFactoryFunctionalTest.java",
+      "extension": ".java",
+      "loc": 229,
+      "commits": 13,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/VersioningTest.java",
+      "name": "VersioningTest.java",
+      "extension": ".java",
+      "loc": 210,
+      "commits": 13,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/MapAsArrayTypeAdapterTest.java",
+      "name": "MapAsArrayTypeAdapterTest.java",
+      "extension": ".java",
+      "loc": 152,
+      "commits": 13,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/DelegateTypeAdapterTest.java",
+      "name": "DelegateTypeAdapterTest.java",
+      "extension": ".java",
+      "loc": 96,
+      "commits": 13,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/LazilyParsedNumber.java",
+      "name": "LazilyParsedNumber.java",
+      "extension": ".java",
+      "loc": 111,
+      "commits": 13,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/UnsafeAllocator.java",
+      "name": "UnsafeAllocator.java",
+      "extension": ".java",
+      "loc": 129,
+      "commits": 13,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "extras/src/test/java/com/google/gson/typeadapters/PostConstructAdapterFactoryTest.java",
+      "name": "PostConstructAdapterFactoryTest.java",
+      "extension": ".java",
+      "loc": 119,
+      "commits": 13,
+      "directory": "extras/src/test/java/com/google/gson/typeadapters"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/GsonTypeAdapterTest.java",
+      "name": "GsonTypeAdapterTest.java",
+      "extension": ".java",
+      "loc": 168,
+      "commits": 12,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/stream/JsonReaderPathTest.java",
+      "name": "JsonReaderPathTest.java",
+      "extension": ".java",
+      "loc": 426,
+      "commits": 12,
+      "directory": "gson/src/test/java/com/google/gson/stream"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/bind/JsonTreeReaderTest.java",
+      "name": "JsonTreeReaderTest.java",
+      "extension": ".java",
+      "loc": 202,
+      "commits": 12,
+      "directory": "gson/src/test/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/bind/DefaultDateTypeAdapterTest.java",
+      "name": "DefaultDateTypeAdapterTest.java",
+      "extension": ".java",
+      "loc": 250,
+      "commits": 12,
+      "directory": "gson/src/test/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/TreeTypeAdaptersTest.java",
+      "name": "TreeTypeAdaptersTest.java",
+      "extension": ".java",
+      "loc": 186,
+      "commits": 12,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/EscapingTest.java",
+      "name": "EscapingTest.java",
+      "extension": ".java",
+      "loc": 100,
+      "commits": 12,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/TypeHierarchyAdapterTest.java",
+      "name": "TypeHierarchyAdapterTest.java",
+      "extension": ".java",
+      "loc": 233,
+      "commits": 12,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/StringTest.java",
+      "name": "StringTest.java",
+      "extension": ".java",
+      "loc": 177,
+      "commits": 12,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/FieldNamingStrategy.java",
+      "name": "FieldNamingStrategy.java",
+      "extension": ".java",
+      "loc": 55,
+      "commits": 12,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/DefaultDateTypeAdapter.java",
+      "name": "DefaultDateTypeAdapter.java",
+      "extension": ".java",
+      "loc": 198,
+      "commits": 12,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/JsonTreeWriter.java",
+      "name": "JsonTreeWriter.java",
+      "extension": ".java",
+      "loc": 254,
+      "commits": 12,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/util/ISO8601Utils.java",
+      "name": "ISO8601Utils.java",
+      "extension": ".java",
+      "loc": 386,
+      "commits": 12,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind/util"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/DefaultMapJsonSerializerTest.java",
+      "name": "DefaultMapJsonSerializerTest.java",
+      "extension": ".java",
+      "loc": 69,
+      "commits": 11,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/JsonAdapterSerializerDeserializerTest.java",
+      "name": "JsonAdapterSerializerDeserializerTest.java",
+      "extension": ".java",
+      "loc": 266,
+      "commits": 11,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/CircularReferenceTest.java",
+      "name": "CircularReferenceTest.java",
+      "extension": ".java",
+      "loc": 143,
+      "commits": 11,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonDeserializer.java",
+      "name": "JsonDeserializer.java",
+      "extension": ".java",
+      "loc": 95,
+      "commits": 11,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonSerializationContext.java",
+      "name": "JsonSerializationContext.java",
+      "extension": ".java",
+      "loc": 49,
+      "commits": 11,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "extras/src/test/java/com/google/gson/typeadapters/UtcDateTypeAdapterTest.java",
+      "name": "UtcDateTypeAdapterTest.java",
+      "extension": ".java",
+      "loc": 98,
+      "commits": 11,
+      "directory": "extras/src/test/java/com/google/gson/typeadapters"
+    },
+    {
+      "path": "extras/src/main/java/com/google/gson/typeadapters/UtcDateTypeAdapter.java",
+      "name": "UtcDateTypeAdapter.java",
+      "extension": ".java",
+      "loc": 281,
+      "commits": 11,
+      "directory": "extras/src/main/java/com/google/gson/typeadapters"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/PrimitiveTypeAdapter.java",
+      "name": "PrimitiveTypeAdapter.java",
+      "extension": ".java",
+      "loc": 63,
+      "commits": 10,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JsonNullTest.java",
+      "name": "JsonNullTest.java",
+      "extension": ".java",
+      "loc": 51,
+      "commits": 10,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/GsonVersionDiagnosticsTest.java",
+      "name": "GsonVersionDiagnosticsTest.java",
+      "extension": ".java",
+      "loc": 98,
+      "commits": 10,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/module-info.java",
+      "name": "module-info.java",
+      "extension": ".java",
+      "loc": 36,
+      "commits": 10,
+      "directory": "gson/src/main/java"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/annotations/SerializedName.java",
+      "name": "SerializedName.java",
+      "extension": ".java",
+      "loc": 101,
+      "commits": 10,
+      "directory": "gson/src/main/java/com/google/gson/annotations"
+    },
+    {
+      "path": "extras/src/test/java/com/google/gson/graph/GraphAdapterBuilderTest.java",
+      "name": "GraphAdapterBuilderTest.java",
+      "extension": ".java",
+      "loc": 265,
+      "commits": 10,
+      "directory": "extras/src/test/java/com/google/gson/graph"
+    },
+    {
+      "path": "metrics/src/main/java/com/google/gson/metrics/CollectionsDeserializationBenchmark.java",
+      "name": "CollectionsDeserializationBenchmark.java",
+      "extension": ".java",
+      "loc": 143,
+      "commits": 9,
+      "directory": "metrics/src/main/java/com/google/gson/metrics"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JsonArrayAsListTest.java",
+      "name": "JsonArrayAsListTest.java",
+      "extension": ".java",
+      "loc": 314,
+      "commits": 9,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JsonStreamParserTest.java",
+      "name": "JsonStreamParserTest.java",
+      "extension": ".java",
+      "loc": 105,
+      "commits": 9,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/TypeAdapterTest.java",
+      "name": "TypeAdapterTest.java",
+      "extension": ".java",
+      "loc": 128,
+      "commits": 9,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/ToNumberPolicyTest.java",
+      "name": "ToNumberPolicyTest.java",
+      "extension": ".java",
+      "loc": 179,
+      "commits": 9,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/ConstructorConstructorTest.java",
+      "name": "ConstructorConstructorTest.java",
+      "extension": ".java",
+      "loc": 271,
+      "commits": 9,
+      "directory": "gson/src/test/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/JavaVersionTest.java",
+      "name": "JavaVersionTest.java",
+      "extension": ".java",
+      "loc": 85,
+      "commits": 9,
+      "directory": "gson/src/test/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/MoreSpecificTypeSerializationTest.java",
+      "name": "MoreSpecificTypeSerializationTest.java",
+      "extension": ".java",
+      "loc": 192,
+      "commits": 9,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/UncategorizedTest.java",
+      "name": "UncategorizedTest.java",
+      "extension": ".java",
+      "loc": 149,
+      "commits": 9,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/PrintFormattingTest.java",
+      "name": "PrintFormattingTest.java",
+      "extension": ".java",
+      "loc": 87,
+      "commits": 9,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonSerializer.java",
+      "name": "JsonSerializer.java",
+      "extension": ".java",
+      "loc": 91,
+      "commits": 9,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/annotations/Until.java",
+      "name": "Until.java",
+      "extension": ".java",
+      "loc": 70,
+      "commits": 9,
+      "directory": "gson/src/main/java/com/google/gson/annotations"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/annotations/Expose.java",
+      "name": "Expose.java",
+      "extension": ".java",
+      "loc": 84,
+      "commits": 9,
+      "directory": "gson/src/main/java/com/google/gson/annotations"
+    },
+    {
+      "path": "proto/src/test/java/com/google/gson/protobuf/functional/ProtosWithComplexAndRepeatedFieldsTest.java",
+      "name": "ProtosWithComplexAndRepeatedFieldsTest.java",
+      "extension": ".java",
+      "loc": 107,
+      "commits": 9,
+      "directory": "proto/src/test/java/com/google/gson/protobuf/functional"
+    },
+    {
+      "path": "proto/src/test/java/com/google/gson/protobuf/functional/ProtosWithPrimitiveTypesTest.java",
+      "name": "ProtosWithPrimitiveTypesTest.java",
+      "extension": ".java",
+      "loc": 78,
+      "commits": 9,
+      "directory": "proto/src/test/java/com/google/gson/protobuf/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/GenericArrayTypeTest.java",
+      "name": "GenericArrayTypeTest.java",
+      "extension": ".java",
+      "loc": 60,
+      "commits": 8,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/ParameterizedTypeFixtures.java",
+      "name": "ParameterizedTypeFixtures.java",
+      "extension": ".java",
+      "loc": 162,
+      "commits": 8,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/FieldNamingPolicyTest.java",
+      "name": "FieldNamingPolicyTest.java",
+      "extension": ".java",
+      "loc": 151,
+      "commits": 8,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/OverrideCoreTypeAdaptersTest.java",
+      "name": "OverrideCoreTypeAdaptersTest.java",
+      "extension": ".java",
+      "loc": 86,
+      "commits": 8,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/ParameterizedTypeTest.java",
+      "name": "ParameterizedTypeTest.java",
+      "extension": ".java",
+      "loc": 59,
+      "commits": 8,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/UnsafeAllocatorInstantiationTest.java",
+      "name": "UnsafeAllocatorInstantiationTest.java",
+      "extension": ".java",
+      "loc": 64,
+      "commits": 8,
+      "directory": "gson/src/test/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/CustomSerializerTest.java",
+      "name": "CustomSerializerTest.java",
+      "extension": ".java",
+      "loc": 104,
+      "commits": 8,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/FieldExclusionTest.java",
+      "name": "FieldExclusionTest.java",
+      "extension": ".java",
+      "loc": 98,
+      "commits": 8,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/FieldNamingTest.java",
+      "name": "FieldNamingTest.java",
+      "extension": ".java",
+      "loc": 114,
+      "commits": 8,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/stream/MalformedJsonException.java",
+      "name": "MalformedJsonException.java",
+      "extension": ".java",
+      "loc": 40,
+      "commits": 8,
+      "directory": "gson/src/main/java/com/google/gson/stream"
+    },
+    {
+      "path": "proto/src/test/java/com/google/gson/protobuf/functional/ProtosWithAnnotationsTest.java",
+      "name": "ProtosWithAnnotationsTest.java",
+      "extension": ".java",
+      "loc": 243,
+      "commits": 8,
+      "directory": "proto/src/test/java/com/google/gson/protobuf/functional"
+    },
+    {
+      "path": "extras/src/test/java/com/google/gson/interceptors/InterceptorTest.java",
+      "name": "InterceptorTest.java",
+      "extension": ".java",
+      "loc": 200,
+      "commits": 8,
+      "directory": "extras/src/test/java/com/google/gson/interceptors"
+    },
+    {
+      "path": "extras/src/test/java/com/google/gson/typeadapters/RuntimeTypeAdapterFactoryTest.java",
+      "name": "RuntimeTypeAdapterFactoryTest.java",
+      "extension": ".java",
+      "loc": 244,
+      "commits": 8,
+      "directory": "extras/src/test/java/com/google/gson/typeadapters"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/sql/SqlTypesGsonTest.java",
+      "name": "SqlTypesGsonTest.java",
+      "extension": ".java",
+      "loc": 148,
+      "commits": 7,
+      "directory": "gson/src/test/java/com/google/gson/internal/sql"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/common/MoreAsserts.java",
+      "name": "MoreAsserts.java",
+      "extension": ".java",
+      "loc": 109,
+      "commits": 7,
+      "directory": "gson/src/test/java/com/google/gson/common"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/InternationalizationTest.java",
+      "name": "InternationalizationTest.java",
+      "extension": ".java",
+      "loc": 83,
+      "commits": 7,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/ToNumberPolicyFunctionalTest.java",
+      "name": "ToNumberPolicyFunctionalTest.java",
+      "extension": ".java",
+      "loc": 148,
+      "commits": 7,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/SecurityTest.java",
+      "name": "SecurityTest.java",
+      "extension": ".java",
+      "loc": 102,
+      "commits": 7,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/RawSerializationTest.java",
+      "name": "RawSerializationTest.java",
+      "extension": ".java",
+      "loc": 108,
+      "commits": 7,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/EnumWithObfuscatedTest.java",
+      "name": "EnumWithObfuscatedTest.java",
+      "extension": ".java",
+      "loc": 60,
+      "commits": 7,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/ToNumberPolicy.java",
+      "name": "ToNumberPolicy.java",
+      "extension": ".java",
+      "loc": 113,
+      "commits": 7,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/TypeAdapterFactory.java",
+      "name": "TypeAdapterFactory.java",
+      "extension": ".java",
+      "loc": 170,
+      "commits": 7,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/stream/JsonScope.java",
+      "name": "JsonScope.java",
+      "extension": ".java",
+      "loc": 51,
+      "commits": 7,
+      "directory": "gson/src/main/java/com/google/gson/stream"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/JavaVersion.java",
+      "name": "JavaVersion.java",
+      "extension": ".java",
+      "loc": 97,
+      "commits": 7,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/Primitives.java",
+      "name": "Primitives.java",
+      "extension": ".java",
+      "loc": 100,
+      "commits": 7,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/annotations/Since.java",
+      "name": "Since.java",
+      "extension": ".java",
+      "loc": 65,
+      "commits": 7,
+      "directory": "gson/src/main/java/com/google/gson/annotations"
+    },
+    {
+      "path": "metrics/src/main/java/com/google/gson/metrics/BagOfPrimitivesDeserializationBenchmark.java",
+      "name": "BagOfPrimitivesDeserializationBenchmark.java",
+      "extension": ".java",
+      "loc": 122,
+      "commits": 6,
+      "directory": "metrics/src/main/java/com/google/gson/metrics"
+    },
+    {
+      "path": "metrics/src/main/java/com/google/gson/metrics/BagOfPrimitives.java",
+      "name": "BagOfPrimitives.java",
+      "extension": ".java",
+      "loc": 96,
+      "commits": 6,
+      "directory": "metrics/src/main/java/com/google/gson/metrics"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/LongSerializationPolicyTest.java",
+      "name": "LongSerializationPolicyTest.java",
+      "extension": ".java",
+      "loc": 86,
+      "commits": 6,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JsonObjectAsMapTest.java",
+      "name": "JsonObjectAsMapTest.java",
+      "extension": ".java",
+      "loc": 278,
+      "commits": 6,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/DefaultInetAddressTypeAdapterTest.java",
+      "name": "DefaultInetAddressTypeAdapterTest.java",
+      "extension": ".java",
+      "loc": 48,
+      "commits": 6,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/LazilyParsedNumberTest.java",
+      "name": "LazilyParsedNumberTest.java",
+      "extension": ".java",
+      "loc": 54,
+      "commits": 6,
+      "directory": "gson/src/test/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/bind/Java17ReflectiveTypeAdapterFactoryTest.java",
+      "name": "Java17ReflectiveTypeAdapterFactoryTest.java",
+      "extension": ".java",
+      "loc": 98,
+      "commits": 6,
+      "directory": "gson/src/test/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/TypeAdapterRuntimeTypeWrapperTest.java",
+      "name": "TypeAdapterRuntimeTypeWrapperTest.java",
+      "extension": ".java",
+      "loc": 205,
+      "commits": 6,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/FormattingStyleTest.java",
+      "name": "FormattingStyleTest.java",
+      "extension": ".java",
+      "loc": 205,
+      "commits": 6,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/LeniencyTest.java",
+      "name": "LeniencyTest.java",
+      "extension": ".java",
+      "loc": 49,
+      "commits": 6,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/ReusedTypeVariablesFullyResolveTest.java",
+      "name": "ReusedTypeVariablesFullyResolveTest.java",
+      "extension": ".java",
+      "loc": 73,
+      "commits": 6,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/LongSerializationPolicy.java",
+      "name": "LongSerializationPolicy.java",
+      "extension": ".java",
+      "loc": 67,
+      "commits": 6,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/FormattingStyle.java",
+      "name": "FormattingStyle.java",
+      "extension": ".java",
+      "loc": 156,
+      "commits": 6,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/InstanceCreator.java",
+      "name": "InstanceCreator.java",
+      "extension": ".java",
+      "loc": 93,
+      "commits": 6,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/NonNullElementWrapperList.java",
+      "name": "NonNullElementWrapperList.java",
+      "extension": ".java",
+      "loc": 132,
+      "commits": 6,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/ReflectionAccessFilterHelper.java",
+      "name": "ReflectionAccessFilterHelper.java",
+      "extension": ".java",
+      "loc": 121,
+      "commits": 6,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "extras/src/main/java/com/google/gson/interceptors/InterceptorFactory.java",
+      "name": "InterceptorFactory.java",
+      "extension": ".java",
+      "loc": 66,
+      "commits": 6,
+      "directory": "extras/src/main/java/com/google/gson/interceptors"
+    },
+    {
+      "path": "extras/src/main/java/com/google/gson/extras/examples/rawcollections/RawCollectionsExample.java",
+      "name": "RawCollectionsExample.java",
+      "extension": ".java",
+      "loc": 56,
+      "commits": 6,
+      "directory": "extras/src/main/java/com/google/gson/extras/examples/rawcollections"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JavaSerializationTest.java",
+      "name": "JavaSerializationTest.java",
+      "extension": ".java",
+      "loc": 78,
+      "commits": 5,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JsonParserParameterizedTest.java",
+      "name": "JsonParserParameterizedTest.java",
+      "extension": ".java",
+      "loc": 55,
+      "commits": 5,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/CommentsTest.java",
+      "name": "CommentsTest.java",
+      "extension": ".java",
+      "loc": 48,
+      "commits": 5,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/integration/OSGiManifestIT.java",
+      "name": "OSGiManifestIT.java",
+      "extension": ".java",
+      "loc": 241,
+      "commits": 5,
+      "directory": "gson/src/test/java/com/google/gson/integration"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/StreamsTest.java",
+      "name": "StreamsTest.java",
+      "extension": ".java",
+      "loc": 114,
+      "commits": 5,
+      "directory": "gson/src/test/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/reflect/Java17ReflectionHelperTest.java",
+      "name": "Java17ReflectionHelperTest.java",
+      "extension": ".java",
+      "loc": 94,
+      "commits": 5,
+      "directory": "gson/src/test/java/com/google/gson/internal/reflect"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/InterfaceTest.java",
+      "name": "InterfaceTest.java",
+      "extension": ".java",
+      "loc": 75,
+      "commits": 5,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/JavaUtilTest.java",
+      "name": "JavaUtilTest.java",
+      "extension": ".java",
+      "loc": 62,
+      "commits": 5,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/SerializedNameTest.java",
+      "name": "SerializedNameTest.java",
+      "extension": ".java",
+      "loc": 65,
+      "commits": 5,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/ToNumberStrategy.java",
+      "name": "ToNumberStrategy.java",
+      "extension": ".java",
+      "loc": 70,
+      "commits": 5,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/ReflectionAccessFilter.java",
+      "name": "ReflectionAccessFilter.java",
+      "extension": ".java",
+      "loc": 228,
+      "commits": 5,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonIOException.java",
+      "name": "JsonIOException.java",
+      "extension": ".java",
+      "loc": 45,
+      "commits": 5,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonSyntaxException.java",
+      "name": "JsonSyntaxException.java",
+      "extension": ".java",
+      "loc": 45,
+      "commits": 5,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/JsonParseException.java",
+      "name": "JsonParseException.java",
+      "extension": ".java",
+      "loc": 64,
+      "commits": 5,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/sql/SqlTimeTypeAdapter.java",
+      "name": "SqlTimeTypeAdapter.java",
+      "extension": ".java",
+      "loc": 90,
+      "commits": 5,
+      "directory": "gson/src/main/java/com/google/gson/internal/sql"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/sql/SqlDateTypeAdapter.java",
+      "name": "SqlDateTypeAdapter.java",
+      "extension": ".java",
+      "loc": 89,
+      "commits": 5,
+      "directory": "gson/src/main/java/com/google/gson/internal/sql"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/sql/SqlTimestampTypeAdapter.java",
+      "name": "SqlTimestampTypeAdapter.java",
+      "extension": ".java",
+      "loc": 61,
+      "commits": 5,
+      "directory": "gson/src/main/java/com/google/gson/internal/sql"
+    },
+    {
+      "path": "extras/src/main/java/com/google/gson/typeadapters/PostConstructAdapterFactory.java",
+      "name": "PostConstructAdapterFactory.java",
+      "extension": ".java",
+      "loc": 80,
+      "commits": 5,
+      "directory": "extras/src/main/java/com/google/gson/typeadapters"
+    },
+    {
+      "path": "metrics/src/main/java/com/google/gson/metrics/SerializationBenchmark.java",
+      "name": "SerializationBenchmark.java",
+      "extension": ".java",
+      "loc": 51,
+      "commits": 4,
+      "directory": "metrics/src/main/java/com/google/gson/metrics"
+    },
+    {
+      "path": "metrics/src/main/java/com/google/gson/metrics/NonUploadingCaliperRunner.java",
+      "name": "NonUploadingCaliperRunner.java",
+      "extension": ".java",
+      "loc": 40,
+      "commits": 4,
+      "directory": "metrics/src/main/java/com/google/gson/metrics"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/ObjectTypeAdapterParameterizedTest.java",
+      "name": "ObjectTypeAdapterParameterizedTest.java",
+      "extension": ".java",
+      "loc": 55,
+      "commits": 4,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/sql/SqlTypesSupportTest.java",
+      "name": "SqlTypesSupportTest.java",
+      "extension": ".java",
+      "loc": 35,
+      "commits": 4,
+      "directory": "gson/src/test/java/com/google/gson/internal/sql"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/JavaUtilConcurrentAtomicTest.java",
+      "name": "JavaUtilConcurrentAtomicTest.java",
+      "extension": ".java",
+      "loc": 116,
+      "commits": 4,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/Strictness.java",
+      "name": "Strictness.java",
+      "extension": ".java",
+      "loc": 29,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/package-info.java",
+      "name": "package-info.java",
+      "extension": ".java",
+      "loc": 28,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/stream/JsonToken.java",
+      "name": "JsonToken.java",
+      "extension": ".java",
+      "loc": 76,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson/stream"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/stream/package-info.java",
+      "name": "package-info.java",
+      "extension": ".java",
+      "loc": 19,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson/stream"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/reflect/package-info.java",
+      "name": "package-info.java",
+      "extension": ".java",
+      "loc": 23,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson/reflect"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/PreJava9DateFormatProvider.java",
+      "name": "PreJava9DateFormatProvider.java",
+      "extension": ".java",
+      "loc": 64,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/GsonTypes.java",
+      "name": "GsonTypes.java",
+      "extension": ".java",
+      "loc": 696,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/package-info.java",
+      "name": "package-info.java",
+      "extension": ".java",
+      "loc": 24,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/EnumTypeAdapter.java",
+      "name": "EnumTypeAdapter.java",
+      "extension": ".java",
+      "loc": 116,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/NumberTypeAdapter.java",
+      "name": "NumberTypeAdapter.java",
+      "extension": ".java",
+      "loc": 82,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/sql/SqlTypesSupport.java",
+      "name": "SqlTypesSupport.java",
+      "extension": ".java",
+      "loc": 85,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson/internal/sql"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/annotations/package-info.java",
+      "name": "package-info.java",
+      "extension": ".java",
+      "loc": 23,
+      "commits": 4,
+      "directory": "gson/src/main/java/com/google/gson/annotations"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/LinkedTreeMapSuiteTest.java",
+      "name": "LinkedTreeMapSuiteTest.java",
+      "extension": ".java",
+      "loc": 84,
+      "commits": 3,
+      "directory": "gson/src/test/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/PrimitiveCharacterTest.java",
+      "name": "PrimitiveCharacterTest.java",
+      "extension": ".java",
+      "loc": 58,
+      "commits": 3,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/functional/NumberLimitsTest.java",
+      "name": "NumberLimitsTest.java",
+      "extension": ".java",
+      "loc": 228,
+      "commits": 3,
+      "directory": "gson/src/test/java/com/google/gson/functional"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/ObjectConstructor.java",
+      "name": "ObjectConstructor.java",
+      "extension": ".java",
+      "loc": 31,
+      "commits": 3,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/TroubleshootingGuide.java",
+      "name": "TroubleshootingGuide.java",
+      "extension": ".java",
+      "loc": 10,
+      "commits": 3,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/JsonReaderInternalAccess.java",
+      "name": "JsonReaderInternalAccess.java",
+      "extension": ".java",
+      "loc": 31,
+      "commits": 3,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/JsonElementTypeAdapter.java",
+      "name": "JsonElementTypeAdapter.java",
+      "extension": ".java",
+      "loc": 171,
+      "commits": 3,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/bind/SerializationDelegatingTypeAdapter.java",
+      "name": "SerializationDelegatingTypeAdapter.java",
+      "extension": ".java",
+      "loc": 28,
+      "commits": 3,
+      "directory": "gson/src/main/java/com/google/gson/internal/bind"
+    },
+    {
+      "path": "gson/src/main/java-templates/com/google/gson/internal/GsonBuildConfig.java",
+      "name": "GsonBuildConfig.java",
+      "extension": ".java",
+      "loc": 32,
+      "commits": 3,
+      "directory": "gson/src/main/java-templates/com/google/gson/internal"
+    },
+    {
+      "path": "test-shrinker/src/test/java/com/google/gson/it/ShrinkingIT.java",
+      "name": "ShrinkingIT.java",
+      "extension": ".java",
+      "loc": 327,
+      "commits": 3,
+      "directory": "test-shrinker/src/test/java/com/google/gson/it"
+    },
+    {
+      "path": "extras/src/main/java/com/google/gson/interceptors/Intercept.java",
+      "name": "Intercept.java",
+      "extension": ".java",
+      "loc": 64,
+      "commits": 3,
+      "directory": "extras/src/main/java/com/google/gson/interceptors"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JsonObjectAsMapSuiteTest.java",
+      "name": "JsonObjectAsMapSuiteTest.java",
+      "extension": ".java",
+      "loc": 88,
+      "commits": 2,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/JsonArrayAsListSuiteTest.java",
+      "name": "JsonArrayAsListSuiteTest.java",
+      "extension": ".java",
+      "loc": 70,
+      "commits": 2,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/internal/GsonBuildConfigTest.java",
+      "name": "GsonBuildConfigTest.java",
+      "extension": ".java",
+      "loc": 33,
+      "commits": 2,
+      "directory": "gson/src/test/java/com/google/gson/internal"
+    },
+    {
+      "path": "gson/src/main/java/com/google/gson/internal/NumberLimits.java",
+      "name": "NumberLimits.java",
+      "extension": ".java",
+      "loc": 36,
+      "commits": 2,
+      "directory": "gson/src/main/java/com/google/gson/internal"
+    },
+    {
+      "path": "test-jpms/src/test/java/com/google/gson/jpms_test/ExportedPackagesTest.java",
+      "name": "ExportedPackagesTest.java",
+      "extension": ".java",
+      "loc": 101,
+      "commits": 2,
+      "directory": "test-jpms/src/test/java/com/google/gson/jpms_test"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/Main.java",
+      "name": "Main.java",
+      "extension": ".java",
+      "loc": 316,
+      "commits": 2,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "extras/src/main/java/com/google/gson/interceptors/JsonPostDeserializer.java",
+      "name": "JsonPostDeserializer.java",
+      "extension": ".java",
+      "loc": 31,
+      "commits": 2,
+      "directory": "extras/src/main/java/com/google/gson/interceptors"
+    },
+    {
+      "path": "gson/src/test/java/com/google/gson/SubsetTest.java",
+      "name": "SubsetTest.java",
+      "extension": ".java",
+      "loc": 30,
+      "commits": 1,
+      "directory": "gson/src/test/java/com/google/gson"
+    },
+    {
+      "path": "proto/src/test/java/com/google/gson/protobuf/functional/ProtosWithAnnotationsAndJsonNamesTest.java",
+      "name": "ProtosWithAnnotationsAndJsonNamesTest.java",
+      "extension": ".java",
+      "loc": 202,
+      "commits": 1,
+      "directory": "proto/src/test/java/com/google/gson/protobuf/functional"
+    },
+    {
+      "path": "test-graal-native-image/src/test/java/com/google/gson/native_test/Java17RecordReflectionTest.java",
+      "name": "Java17RecordReflectionTest.java",
+      "extension": ".java",
+      "loc": 182,
+      "commits": 1,
+      "directory": "test-graal-native-image/src/test/java/com/google/gson/native_test"
+    },
+    {
+      "path": "test-graal-native-image/src/test/java/com/google/gson/native_test/ReflectionTest.java",
+      "name": "ReflectionTest.java",
+      "extension": ".java",
+      "loc": 273,
+      "commits": 1,
+      "directory": "test-graal-native-image/src/test/java/com/google/gson/native_test"
+    },
+    {
+      "path": "test-jpms/src/test/java/module-info.java",
+      "name": "module-info.java",
+      "extension": ".java",
+      "loc": 30,
+      "commits": 1,
+      "directory": "test-jpms/src/test/java"
+    },
+    {
+      "path": "test-jpms/src/test/java/com/google/gson/jpms_test/ReflectionInaccessibleTest.java",
+      "name": "ReflectionInaccessibleTest.java",
+      "extension": ".java",
+      "loc": 66,
+      "commits": 1,
+      "directory": "test-jpms/src/test/java/com/google/gson/jpms_test"
+    },
+    {
+      "path": "test-jpms/src/test/java/com/google/gson/jpms_test/ModuleTest.java",
+      "name": "ModuleTest.java",
+      "extension": ".java",
+      "loc": 114,
+      "commits": 1,
+      "directory": "test-jpms/src/test/java/com/google/gson/jpms_test"
+    },
+    {
+      "path": "test-jpms/src/test/java/com/google/gson/jpms_test/opened/ReflectionTest.java",
+      "name": "ReflectionTest.java",
+      "extension": ".java",
       "loc": 50,
       "commits": 1,
-      "directory": "src/main/scala/com/github/diegopacheco/smith/service"
+      "directory": "test-jpms/src/test/java/com/google/gson/jpms_test/opened"
     },
     {
-      "path": "src/main/scala/com/github/diegopacheco/smith/service/PomService.scala",
-      "name": "PomService.scala",
-      "extension": ".scala",
-      "loc": 25,
+      "path": "test-jpms/src/main/java/module-info.java",
+      "name": "module-info.java",
+      "extension": ".java",
+      "loc": 27,
       "commits": 1,
-      "directory": "src/main/scala/com/github/diegopacheco/smith/service"
+      "directory": "test-jpms/src/main/java"
     },
     {
-      "path": "src/main/scala/com/github/diegopacheco/smith/service/TrivyService.scala",
-      "name": "TrivyService.scala",
-      "extension": ".scala",
-      "loc": 108,
+      "path": "test-shrinker/src/main/java/com/example/ClassWithUnreferencedNoArgsConstructor.java",
+      "name": "ClassWithUnreferencedNoArgsConstructor.java",
+      "extension": ".java",
+      "loc": 17,
       "commits": 1,
-      "directory": "src/main/scala/com/github/diegopacheco/smith/service"
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/ClassWithAdapter.java",
+      "name": "ClassWithAdapter.java",
+      "extension": ".java",
+      "loc": 44,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/ClassWithUnreferencedHasArgsConstructor.java",
+      "name": "ClassWithUnreferencedHasArgsConstructor.java",
+      "extension": ".java",
+      "loc": 18,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/ClassWithNamedFields.java",
+      "name": "ClassWithNamedFields.java",
+      "extension": ".java",
+      "loc": 10,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/ClassWithVersionAnnotations.java",
+      "name": "ClassWithVersionAnnotations.java",
+      "extension": ".java",
+      "loc": 19,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/TestExecutor.java",
+      "name": "TestExecutor.java",
+      "extension": ".java",
+      "loc": 36,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/ClassWithNoArgsConstructor.java",
+      "name": "ClassWithNoArgsConstructor.java",
+      "extension": ".java",
+      "loc": 13,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/ClassWithSerializedName.java",
+      "name": "ClassWithSerializedName.java",
+      "extension": ".java",
+      "loc": 15,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/InterfaceWithImplementation.java",
+      "name": "InterfaceWithImplementation.java",
+      "extension": ".java",
+      "loc": 21,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/NoSerializedNameMain.java",
+      "name": "NoSerializedNameMain.java",
+      "extension": ".java",
+      "loc": 59,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/ClassWithHasArgsConstructor.java",
+      "name": "ClassWithHasArgsConstructor.java",
+      "extension": ".java",
+      "loc": 14,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/UnusedClass.java",
+      "name": "UnusedClass.java",
+      "extension": ".java",
+      "loc": 16,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/ClassWithExposeAnnotation.java",
+      "name": "ClassWithExposeAnnotation.java",
+      "extension": ".java",
+      "loc": 10,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/EnumClassWithSerializedName.java",
+      "name": "EnumClassWithSerializedName.java",
+      "extension": ".java",
+      "loc": 10,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/GenericClasses.java",
+      "name": "GenericClasses.java",
+      "extension": ".java",
+      "loc": 68,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/ClassWithJsonAdapterAnnotation.java",
+      "name": "ClassWithJsonAdapterAnnotation.java",
+      "extension": ".java",
+      "loc": 137,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
+    },
+    {
+      "path": "test-shrinker/src/main/java/com/example/EnumClass.java",
+      "name": "EnumClass.java",
+      "extension": ".java",
+      "loc": 6,
+      "commits": 1,
+      "directory": "test-shrinker/src/main/java/com/example"
     }
   ]
 }
