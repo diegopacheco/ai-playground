@@ -58,13 +58,31 @@
             right: 10px;
             background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,248,255,0.9));
             color: #333;
-            padding: 12px 16px;
+            padding: 16px 20px;
             border-radius: 12px;
             z-index: 100;
-            font-size: 12px;
+            font-size: 13px;
             border: 1px solid rgba(0,0,0,0.1);
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            min-width: 200px;
         }
+        #controls h4 { margin-bottom: 12px; color: #2c5282; }
+        #controls label { display: block; margin: 10px 0 5px; font-weight: 500; }
+        #controls input[type="range"] { width: 100%; cursor: pointer; }
+        #controls .toggle-group { display: flex; gap: 10px; margin-top: 5px; }
+        #controls .toggle-btn {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            background: #f0f0f0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        #controls .toggle-btn.active { background: #2c5282; color: white; border-color: #2c5282; }
+        #controls .toggle-btn:hover { opacity: 0.8; }
+        .slider-value { float: right; font-weight: bold; color: #2c5282; }
     </style>
 </head>
 <body>
@@ -76,7 +94,15 @@
     <div id="tooltip"></div>
     <div id="legend"></div>
     <div id="controls">
-        Mouse: Rotate | Scroll: Zoom | Right-click: Pan
+        <h4>Controls</h4>
+        <label>Building Scale <span class="slider-value" id="scaleValue">1.0x</span></label>
+        <input type="range" id="scaleSlider" min="0.5" max="2" step="0.1" value="1">
+        <label>Time of Day</label>
+        <div class="toggle-group">
+            <button class="toggle-btn active" id="dayBtn">Day</button>
+            <button class="toggle-btn" id="nightBtn">Night</button>
+        </div>
+        <p style="margin-top:15px;font-size:11px;opacity:0.7">Mouse: Rotate | Scroll: Zoom</p>
     </div>
     <script type="importmap">
     {
@@ -94,6 +120,12 @@
         let buildings = [];
         let labels = [];
         let raycaster, mouse;
+        let buildingGroups = [];
+        let cars = [];
+        let clouds = [];
+        let isNightMode = false;
+        let sunLight, ambientLight, hemisphereLight;
+        let currentScale = 1.0;
 
         function generateVibrantColor(index, total) {
             const hue = (index / total) * 360;
@@ -245,10 +277,10 @@
             controls.dampingFactor = 0.05;
             controls.maxPolarAngle = Math.PI / 2.1;
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
             scene.add(ambientLight);
 
-            const sunLight = new THREE.DirectionalLight(0xfffacd, 1.2);
+            sunLight = new THREE.DirectionalLight(0xfffacd, 1.2);
             sunLight.position.set(30, 50, 25);
             sunLight.castShadow = true;
             sunLight.shadow.mapSize.width = 2048;
@@ -261,7 +293,7 @@
             sunLight.shadow.camera.bottom = -50;
             scene.add(sunLight);
 
-            const hemisphereLight = new THREE.HemisphereLight(0x87ceeb, 0x98d982, 0.4);
+            hemisphereLight = new THREE.HemisphereLight(0x87ceeb, 0x98d982, 0.4);
             scene.add(hemisphereLight);
 
             const fillLight = new THREE.DirectionalLight(0xfff5e6, 0.3);
@@ -286,7 +318,60 @@
             window.addEventListener('resize', onWindowResize);
             window.addEventListener('mousemove', onMouseMove);
 
+            document.getElementById('scaleSlider').addEventListener('input', (e) => {
+                currentScale = parseFloat(e.target.value);
+                document.getElementById('scaleValue').textContent = currentScale.toFixed(1) + 'x';
+                buildingGroups.forEach(group => {
+                    group.scale.y = currentScale;
+                    group.position.y = 0;
+                });
+            });
+
+            document.getElementById('dayBtn').addEventListener('click', () => {
+                if (isNightMode) {
+                    isNightMode = false;
+                    setDayMode();
+                    document.getElementById('dayBtn').classList.add('active');
+                    document.getElementById('nightBtn').classList.remove('active');
+                }
+            });
+
+            document.getElementById('nightBtn').addEventListener('click', () => {
+                if (!isNightMode) {
+                    isNightMode = true;
+                    setNightMode();
+                    document.getElementById('nightBtn').classList.add('active');
+                    document.getElementById('dayBtn').classList.remove('active');
+                }
+            });
+
             animate();
+        }
+
+        function setDayMode() {
+            scene.background = new THREE.Color(0x87ceeb);
+            ambientLight.intensity = 0.6;
+            sunLight.intensity = 1.2;
+            sunLight.color.setHex(0xfffacd);
+            hemisphereLight.intensity = 0.4;
+            clouds.forEach(cloud => {
+                cloud.children.forEach(puff => {
+                    puff.material.opacity = 0.85;
+                });
+            });
+        }
+
+        function setNightMode() {
+            scene.background = new THREE.Color(0x0a0a1a);
+            ambientLight.intensity = 0.15;
+            sunLight.intensity = 0.3;
+            sunLight.color.setHex(0x4444aa);
+            hemisphereLight.intensity = 0.1;
+            clouds.forEach(cloud => {
+                cloud.children.forEach(puff => {
+                    puff.material.opacity = 0.3;
+                });
+            });
         }
 
         function createClouds() {
@@ -297,22 +382,24 @@
                 opacity: 0.85,
                 roughness: 1
             });
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 20; i++) {
                 const cloudGroup = new THREE.Group();
-                const numPuffs = 2 + Math.floor(Math.random() * 2);
+                cloudGroup.userData = { speed: 0.002 + Math.random() * 0.003 };
+                const numPuffs = 2 + Math.floor(Math.random() * 3);
                 for (let j = 0; j < numPuffs; j++) {
-                    const puff = new THREE.Mesh(cloudGeometry, cloudMaterial);
-                    const scale = 0.4 + Math.random() * 0.5;
-                    puff.scale.set(scale * 1.5, scale, scale * 1.2);
-                    puff.position.set(j * 0.8 - numPuffs * 0.4, Math.random() * 0.3, Math.random() * 0.4);
+                    const puff = new THREE.Mesh(cloudGeometry, cloudMaterial.clone());
+                    const scale = 0.3 + Math.random() * 0.4;
+                    puff.scale.set(scale * 1.5, scale * 0.6, scale * 1.2);
+                    puff.position.set(j * 0.6 - numPuffs * 0.3, Math.random() * 0.2, Math.random() * 0.3);
                     cloudGroup.add(puff);
                 }
                 cloudGroup.position.set(
-                    (Math.random() - 0.5) * 25,
-                    12 + Math.random() * 6,
-                    (Math.random() - 0.5) * 25
+                    (Math.random() - 0.5) * 20,
+                    4 + Math.random() * 5,
+                    (Math.random() - 0.5) * 20
                 );
                 scene.add(cloudGroup);
+                clouds.push(cloudGroup);
             }
         }
 
@@ -446,6 +533,61 @@
             return group;
         }
 
+        function createCar(startX, startZ, direction, roadAxis) {
+            const group = new THREE.Group();
+            const carColors = [0xe53935, 0x1e88e5, 0x43a047, 0xfdd835, 0x8e24aa, 0xff6f00, 0x00acc1];
+            const carColor = carColors[Math.floor(Math.random() * carColors.length)];
+            const bodyGeo = new THREE.BoxGeometry(0.25, 0.08, 0.12);
+            const bodyMat = new THREE.MeshStandardMaterial({ color: carColor, metalness: 0.6, roughness: 0.4 });
+            const body = new THREE.Mesh(bodyGeo, bodyMat);
+            body.position.y = 0.06;
+            group.add(body);
+            const topGeo = new THREE.BoxGeometry(0.12, 0.06, 0.1);
+            const top = new THREE.Mesh(topGeo, bodyMat);
+            top.position.set(-0.02, 0.11, 0);
+            group.add(top);
+            const windowMat = new THREE.MeshStandardMaterial({ color: 0x87ceeb, metalness: 0.3, roughness: 0.2 });
+            const windshield = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.04, 0.08), windowMat);
+            windshield.position.set(0.05, 0.1, 0);
+            group.add(windshield);
+            const wheelGeo = new THREE.CylinderGeometry(0.025, 0.025, 0.03, 8);
+            const wheelMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
+            const wheelPositions = [[0.07, 0.025, 0.06], [0.07, 0.025, -0.06], [-0.07, 0.025, 0.06], [-0.07, 0.025, -0.06]];
+            wheelPositions.forEach(pos => {
+                const wheel = new THREE.Mesh(wheelGeo, wheelMat);
+                wheel.rotation.x = Math.PI / 2;
+                wheel.position.set(...pos);
+                group.add(wheel);
+            });
+            const headlightMat = new THREE.MeshBasicMaterial({ color: 0xffffaa });
+            const hl1 = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.02), headlightMat);
+            hl1.position.set(0.13, 0.05, 0.04);
+            group.add(hl1);
+            const hl2 = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.02), headlightMat);
+            hl2.position.set(0.13, 0.05, -0.04);
+            group.add(hl2);
+            const taillightMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const tl1 = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.02), taillightMat);
+            tl1.position.set(-0.13, 0.05, 0.04);
+            group.add(tl1);
+            const tl2 = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.02), taillightMat);
+            tl2.position.set(-0.13, 0.05, -0.04);
+            group.add(tl2);
+            group.position.set(startX, 0, startZ);
+            if (roadAxis === 'z') {
+                group.rotation.y = direction > 0 ? 0 : Math.PI;
+            } else {
+                group.rotation.y = direction > 0 ? Math.PI / 2 : -Math.PI / 2;
+            }
+            group.userData = {
+                direction: direction,
+                axis: roadAxis,
+                speed: 0.015 + Math.random() * 0.01,
+                startPos: roadAxis === 'x' ? startX : startZ
+            };
+            return group;
+        }
+
         function createCity(data) {
             const files = data.files;
             if (!files.length) return;
@@ -541,7 +683,28 @@
                 const { group, meshes } = createBuilding(file, x, z, height, baseColor);
                 scene.add(group);
                 buildings.push(...meshes);
+                buildingGroups.push(group);
             });
+
+            const roadBounds = groundSize / 2 - 2;
+            for (let i = 0; i < 6; i++) {
+                const roadZ = (i - 2.5) * spacing;
+                const car1 = createCar(-roadBounds, roadZ + 0.1, 1, 'x');
+                scene.add(car1);
+                cars.push(car1);
+                const car2 = createCar(roadBounds, roadZ - 0.1, -1, 'x');
+                scene.add(car2);
+                cars.push(car2);
+            }
+            for (let i = 0; i < 6; i++) {
+                const roadX = (i - 2.5) * spacing;
+                const car1 = createCar(roadX + 0.1, -roadBounds, 1, 'z');
+                scene.add(car1);
+                cars.push(car1);
+                const car2 = createCar(roadX - 0.1, roadBounds, -1, 'z');
+                scene.add(car2);
+                cars.push(car2);
+            }
 
             const treePositions = [];
             for (let i = 0; i < 12; i++) {
@@ -625,6 +788,23 @@
             requestAnimationFrame(animate);
             labels.forEach(label => {
                 label.quaternion.copy(camera.quaternion);
+            });
+            clouds.forEach(cloud => {
+                cloud.position.x += cloud.userData.speed;
+                if (cloud.position.x > 15) cloud.position.x = -15;
+            });
+            cars.forEach(car => {
+                const data = car.userData;
+                const bounds = 8;
+                if (data.axis === 'x') {
+                    car.position.x += data.speed * data.direction;
+                    if (car.position.x > bounds) car.position.x = -bounds;
+                    if (car.position.x < -bounds) car.position.x = bounds;
+                } else {
+                    car.position.z += data.speed * data.direction;
+                    if (car.position.z > bounds) car.position.z = -bounds;
+                    if (car.position.z < -bounds) car.position.z = bounds;
+                }
             });
             people.forEach(person => {
                 if (!person.userData.arrived) {
