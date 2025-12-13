@@ -11,21 +11,21 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            background: linear-gradient(135deg, rgba(20,20,40,0.95), rgba(40,40,80,0.9));
-            color: white;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,248,255,0.9));
+            color: #333;
             padding: 20px;
             border-radius: 12px;
             max-width: 400px;
             z-index: 100;
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
-        #info h2 { margin-bottom: 10px; color: #61dafb; }
+        #info h2 { margin-bottom: 10px; color: #2c5282; }
         #info p { margin: 5px 0; font-size: 14px; opacity: 0.9; }
         #tooltip {
             position: absolute;
-            background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(30,30,60,0.95));
-            color: white;
+            background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(240,248,255,0.98));
+            color: #333;
             padding: 24px 32px;
             border-radius: 12px;
             font-size: 22px;
@@ -33,36 +33,37 @@
             pointer-events: none;
             display: none;
             z-index: 200;
-            border: 2px solid rgba(97,218,251,0.5);
-            box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+            border: 2px solid rgba(44,82,130,0.3);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.2);
             min-width: 350px;
         }
-        #tooltip strong { color: #61dafb; font-size: 26px; }
+        #tooltip strong { color: #2c5282; font-size: 26px; }
         #legend {
             position: absolute;
             bottom: 10px;
             left: 10px;
-            background: linear-gradient(135deg, rgba(20,20,40,0.95), rgba(40,40,80,0.9));
-            color: white;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,248,255,0.9));
+            color: #333;
             padding: 15px;
             border-radius: 12px;
             z-index: 100;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
-        #legend h4 { margin-bottom: 8px; color: #61dafb; }
-        #legend div { display: flex; align-items: center; margin: 4px 0; font-size: 12px; }
-        #legend span { width: 16px; height: 16px; display: inline-block; margin-right: 8px; border-radius: 3px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        #legend h4 { margin-bottom: 8px; color: #2c5282; }
+        #legend p { font-size: 13px; margin: 4px 0; }
         #controls {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: linear-gradient(135deg, rgba(20,20,40,0.95), rgba(40,40,80,0.9));
-            color: white;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,248,255,0.9));
+            color: #333;
             padding: 12px 16px;
             border-radius: 12px;
             z-index: 100;
             font-size: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
     </style>
 </head>
@@ -89,60 +90,16 @@
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-        const extensionColors = {
-            '.py': 0x4584b6,
-            '.js': 0xf0db4f,
-            '.ts': 0x3178c6,
-            '.tsx': 0x61dafb,
-            '.jsx': 0x61dafb,
-            '.java': 0xf89820,
-            '.go': 0x00add8,
-            '.rs': 0xef4a00,
-            '.c': 0x03599c,
-            '.cpp': 0x00599c,
-            '.h': 0x5c8dbc,
-            '.cs': 0x68217a,
-            '.rb': 0xcc342d,
-            '.php': 0x8993be,
-            '.swift': 0xf05138,
-            '.kt': 0x7f52ff,
-            '.scala': 0xdc322f,
-            '.html': 0xe44d26,
-            '.css': 0x264de4,
-            '.scss': 0xc6538c,
-            '.vue': 0x41b883,
-            '.svelte': 0xff3e00,
-            '.json': 0x5a5a5a,
-            '.yaml': 0xcb171e,
-            '.yml': 0xcb171e,
-            '.md': 0x519aba,
-            '.sql': 0x336791,
-            '.sh': 0x4eaa25,
-            '.xml': 0xf16529
-        };
-
-        const defaultColor = 0x7a8899;
-
         let scene, camera, renderer, controls;
         let buildings = [];
         let labels = [];
         let raycaster, mouse;
 
-        function createGradientTexture(baseColor) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 64;
-            canvas.height = 256;
-            const ctx = canvas.getContext('2d');
-            const color = new THREE.Color(baseColor);
-            const gradient = ctx.createLinearGradient(0, 0, 0, 256);
-            gradient.addColorStop(0, color.clone().multiplyScalar(1.3).getStyle());
-            gradient.addColorStop(0.5, color.getStyle());
-            gradient.addColorStop(1, color.clone().multiplyScalar(0.7).getStyle());
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, 64, 256);
-            const texture = new THREE.CanvasTexture(canvas);
-            texture.needsUpdate = true;
-            return texture;
+        function generateVibrantColor(index, total) {
+            const hue = (index / total) * 360;
+            const saturation = 70 + Math.random() * 20;
+            const lightness = 45 + Math.random() * 15;
+            return new THREE.Color(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
         }
 
         function createWindowTexture(baseColor) {
@@ -153,7 +110,6 @@
             const color = new THREE.Color(baseColor);
             ctx.fillStyle = color.getStyle();
             ctx.fillRect(0, 0, 128, 512);
-            const windowColors = ['#fffde7', '#fff9c4', '#e3f2fd', '#bbdefb'];
             const windowWidth = 16;
             const windowHeight = 24;
             const spacingX = 28;
@@ -162,17 +118,10 @@
             const offsetY = 20;
             for (let y = offsetY; y < 480; y += spacingY) {
                 for (let x = offsetX; x < 110; x += spacingX) {
-                    const isLit = Math.random() > 0.3;
-                    if (isLit) {
-                        const windowColor = windowColors[Math.floor(Math.random() * windowColors.length)];
-                        ctx.fillStyle = windowColor;
-                        ctx.fillRect(x, y, windowWidth, windowHeight);
-                        ctx.fillStyle = 'rgba(255,255,200,0.3)';
-                        ctx.fillRect(x + 2, y + 2, windowWidth - 4, windowHeight - 4);
-                    } else {
-                        ctx.fillStyle = 'rgba(0,0,0,0.4)';
-                        ctx.fillRect(x, y, windowWidth, windowHeight);
-                    }
+                    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+                    ctx.fillRect(x, y, windowWidth, windowHeight);
+                    ctx.fillStyle = 'rgba(135,206,235,0.4)';
+                    ctx.fillRect(x + 2, y + 2, windowWidth - 4, windowHeight - 4);
                 }
             }
             const texture = new THREE.CanvasTexture(canvas);
@@ -192,9 +141,9 @@
             ctx.font = 'bold 28px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillStyle = 'rgba(0,0,0,0.6)';
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
             ctx.fillText(text, 258, 34);
-            ctx.fillStyle = '#ffffff';
+            ctx.fillStyle = '#1a365d';
             ctx.fillText(text, 256, 32);
             const texture = new THREE.CanvasTexture(canvas);
             texture.needsUpdate = true;
@@ -216,12 +165,12 @@
             const windowTexture = createWindowTexture(baseColor);
             windowTexture.repeat.set(1, Math.ceil(height / 8));
             const materials = [
-                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.2, roughness: 0.8 }),
-                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.2, roughness: 0.8 }),
-                new THREE.MeshStandardMaterial({ color: new THREE.Color(baseColor).multiplyScalar(1.2), metalness: 0.3, roughness: 0.6 }),
-                new THREE.MeshStandardMaterial({ color: new THREE.Color(baseColor).multiplyScalar(0.6), metalness: 0.2, roughness: 0.9 }),
-                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.2, roughness: 0.8 }),
-                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.2, roughness: 0.8 })
+                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.1, roughness: 0.7 }),
+                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.1, roughness: 0.7 }),
+                new THREE.MeshStandardMaterial({ color: baseColor.clone().multiplyScalar(1.1), metalness: 0.2, roughness: 0.5 }),
+                new THREE.MeshStandardMaterial({ color: baseColor.clone().multiplyScalar(0.7), metalness: 0.1, roughness: 0.8 }),
+                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.1, roughness: 0.7 }),
+                new THREE.MeshStandardMaterial({ map: windowTexture, metalness: 0.1, roughness: 0.7 })
             ];
             const geometry = new THREE.BoxGeometry(buildingWidth, height, buildingDepth);
             const building = new THREE.Mesh(geometry, materials);
@@ -230,12 +179,12 @@
             building.receiveShadow = true;
             building.userData = file;
             group.add(building);
-            const roofHeight = 0.6;
-            const roofGeometry = new THREE.ConeGeometry(buildingWidth * 0.8, roofHeight, 4);
+            const roofHeight = 0.8;
+            const roofGeometry = new THREE.ConeGeometry(buildingWidth * 0.85, roofHeight, 4);
             const roofMaterial = new THREE.MeshStandardMaterial({
-                color: new THREE.Color(baseColor).multiplyScalar(0.8),
-                metalness: 0.4,
-                roughness: 0.6
+                color: baseColor.clone().multiplyScalar(0.6),
+                metalness: 0.3,
+                roughness: 0.5
             });
             const roof = new THREE.Mesh(roofGeometry, roofMaterial);
             roof.position.set(x, height + roofHeight / 2, z);
@@ -243,23 +192,18 @@
             roof.castShadow = true;
             roof.userData = file;
             group.add(roof);
-            if (height > 10) {
-                const antennaHeight = height * 0.15;
+            if (height > 15) {
+                const antennaHeight = height * 0.12;
                 const antennaGeometry = new THREE.CylinderGeometry(0.05, 0.05, antennaHeight, 8);
-                const antennaMaterial = new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0.8 });
+                const antennaMaterial = new THREE.MeshStandardMaterial({ color: 0x666666, metalness: 0.8 });
                 const antenna = new THREE.Mesh(antennaGeometry, antennaMaterial);
                 antenna.position.set(x, height + roofHeight + antennaHeight / 2, z);
                 antenna.userData = file;
                 group.add(antenna);
-                const lightGeometry = new THREE.SphereGeometry(0.1, 8, 8);
-                const lightMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-                const light = new THREE.Mesh(lightGeometry, lightMaterial);
-                light.position.set(x, height + roofHeight + antennaHeight + 0.1, z);
-                group.add(light);
             }
-            const baseHeight = 0.3;
-            const baseGeometry = new THREE.BoxGeometry(buildingWidth + 0.4, baseHeight, buildingDepth + 0.4);
-            const baseMaterial = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.1, roughness: 0.9 });
+            const baseHeight = 0.4;
+            const baseGeometry = new THREE.BoxGeometry(buildingWidth + 0.5, baseHeight, buildingDepth + 0.5);
+            const baseMaterial = new THREE.MeshStandardMaterial({ color: 0x555555, metalness: 0.1, roughness: 0.9 });
             const base = new THREE.Mesh(baseGeometry, baseMaterial);
             base.position.set(x, baseHeight / 2, z);
             base.receiveShadow = true;
@@ -274,9 +218,7 @@
 
         async function init() {
             scene = new THREE.Scene();
-            const bgColor = new THREE.Color(0x0a0a1a);
-            scene.background = bgColor;
-            scene.fog = new THREE.FogExp2(bgColor, 0.008);
+            scene.background = new THREE.Color(0x87ceeb);
 
             camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
             camera.position.set(50, 40, 50);
@@ -286,7 +228,7 @@
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer.toneMappingExposure = 1.2;
+            renderer.toneMappingExposure = 1.0;
             document.body.appendChild(renderer.domElement);
 
             controls = new OrbitControls(camera, renderer.domElement);
@@ -294,41 +236,40 @@
             controls.dampingFactor = 0.05;
             controls.maxPolarAngle = Math.PI / 2.1;
 
-            const ambientLight = new THREE.AmbientLight(0x404060, 0.5);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
             scene.add(ambientLight);
 
-            const moonLight = new THREE.DirectionalLight(0xaabbff, 0.8);
-            moonLight.position.set(50, 100, 30);
-            moonLight.castShadow = true;
-            moonLight.shadow.mapSize.width = 2048;
-            moonLight.shadow.mapSize.height = 2048;
-            moonLight.shadow.camera.near = 10;
-            moonLight.shadow.camera.far = 300;
-            moonLight.shadow.camera.left = -100;
-            moonLight.shadow.camera.right = 100;
-            moonLight.shadow.camera.top = 100;
-            moonLight.shadow.camera.bottom = -100;
-            scene.add(moonLight);
+            const sunLight = new THREE.DirectionalLight(0xfffacd, 1.2);
+            sunLight.position.set(80, 120, 60);
+            sunLight.castShadow = true;
+            sunLight.shadow.mapSize.width = 2048;
+            sunLight.shadow.mapSize.height = 2048;
+            sunLight.shadow.camera.near = 10;
+            sunLight.shadow.camera.far = 400;
+            sunLight.shadow.camera.left = -120;
+            sunLight.shadow.camera.right = 120;
+            sunLight.shadow.camera.top = 120;
+            sunLight.shadow.camera.bottom = -120;
+            scene.add(sunLight);
 
-            const warmLight = new THREE.PointLight(0xffaa55, 0.6, 150);
-            warmLight.position.set(-30, 30, -30);
-            scene.add(warmLight);
+            const hemisphereLight = new THREE.HemisphereLight(0x87ceeb, 0x98d982, 0.4);
+            scene.add(hemisphereLight);
 
-            const coolLight = new THREE.PointLight(0x5588ff, 0.4, 150);
-            coolLight.position.set(30, 20, 30);
-            scene.add(coolLight);
+            const fillLight = new THREE.DirectionalLight(0xfff5e6, 0.3);
+            fillLight.position.set(-50, 50, -50);
+            scene.add(fillLight);
 
             raycaster = new THREE.Raycaster();
             mouse = new THREE.Vector2();
 
-            createStars();
+            createClouds();
 
             try {
                 const response = await fetch('data.json');
                 const data = await response.json();
                 createCity(data);
                 updateInfo(data);
-                createLegend(data);
+                updateLegend(data);
             } catch (error) {
                 document.getElementById('repo-name').textContent = 'Error loading data.json - Run analyze.py first';
             }
@@ -339,36 +280,48 @@
             animate();
         }
 
-        function createStars() {
-            const starsGeometry = new THREE.BufferGeometry();
-            const starsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.5, transparent: true, opacity: 0.8 });
-            const starsVertices = [];
-            for (let i = 0; i < 2000; i++) {
-                const x = (Math.random() - 0.5) * 500;
-                const y = Math.random() * 200 + 50;
-                const z = (Math.random() - 0.5) * 500;
-                starsVertices.push(x, y, z);
+        function createClouds() {
+            const cloudGeometry = new THREE.SphereGeometry(1, 8, 8);
+            const cloudMaterial = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.9,
+                roughness: 1
+            });
+            for (let i = 0; i < 15; i++) {
+                const cloudGroup = new THREE.Group();
+                const numPuffs = 4 + Math.floor(Math.random() * 4);
+                for (let j = 0; j < numPuffs; j++) {
+                    const puff = new THREE.Mesh(cloudGeometry, cloudMaterial);
+                    const scale = 2 + Math.random() * 3;
+                    puff.scale.set(scale * 1.5, scale, scale * 1.2);
+                    puff.position.set(j * 3 - numPuffs, Math.random() * 1.5, Math.random() * 2);
+                    cloudGroup.add(puff);
+                }
+                cloudGroup.position.set(
+                    (Math.random() - 0.5) * 200,
+                    60 + Math.random() * 30,
+                    (Math.random() - 0.5) * 200
+                );
+                scene.add(cloudGroup);
             }
-            starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices, 3));
-            const stars = new THREE.Points(starsGeometry, starsMaterial);
-            scene.add(stars);
         }
 
         function createCity(data) {
             const files = data.files;
             if (!files.length) return;
 
-            const maxLoc = Math.max(...files.map(f => f.loc));
+            const maxCommits = Math.max(...files.map(f => f.commits || 1));
             const gridSize = Math.ceil(Math.sqrt(files.length));
             const spacing = 4;
             const maxHeight = 50;
 
-            const groundSize = gridSize * spacing + 30;
-            const groundGeometry = new THREE.PlaneGeometry(groundSize, groundSize, 32, 32);
+            const groundSize = gridSize * spacing + 40;
+            const groundGeometry = new THREE.PlaneGeometry(groundSize, groundSize);
             const groundMaterial = new THREE.MeshStandardMaterial({
-                color: 0x1a1a2e,
-                metalness: 0.1,
-                roughness: 0.9
+                color: 0x98d982,
+                metalness: 0.0,
+                roughness: 1.0
             });
             const ground = new THREE.Mesh(groundGeometry, groundMaterial);
             ground.rotation.x = -Math.PI / 2;
@@ -376,18 +329,34 @@
             ground.receiveShadow = true;
             scene.add(ground);
 
-            const gridHelper = new THREE.GridHelper(groundSize, gridSize * 2, 0x2a2a4a, 0x1a1a3a);
-            gridHelper.position.y = 0.01;
-            scene.add(gridHelper);
-
+            const roadMaterial = new THREE.MeshStandardMaterial({ color: 0x444444, roughness: 0.9 });
             const offsetX = (gridSize * spacing) / 2;
             const offsetZ = (gridSize * spacing) / 2;
+
+            for (let i = 0; i <= gridSize; i++) {
+                const roadH = new THREE.Mesh(
+                    new THREE.PlaneGeometry(groundSize, 0.8),
+                    roadMaterial
+                );
+                roadH.rotation.x = -Math.PI / 2;
+                roadH.position.set(0, 0.01, i * spacing - offsetZ);
+                scene.add(roadH);
+
+                const roadV = new THREE.Mesh(
+                    new THREE.PlaneGeometry(0.8, groundSize),
+                    roadMaterial
+                );
+                roadV.rotation.x = -Math.PI / 2;
+                roadV.position.set(i * spacing - offsetX, 0.01, 0);
+                scene.add(roadV);
+            }
 
             files.forEach((file, index) => {
                 const row = Math.floor(index / gridSize);
                 const col = index % gridSize;
-                const height = Math.max(2, (file.loc / maxLoc) * maxHeight);
-                const baseColor = extensionColors[file.extension] || defaultColor;
+                const commits = file.commits || 1;
+                const height = Math.max(2, (commits / maxCommits) * maxHeight);
+                const baseColor = generateVibrantColor(index, files.length);
                 const x = col * spacing - offsetX;
                 const z = row * spacing - offsetZ;
                 const { group, building, roof, base } = createBuilding(file, x, z, height, baseColor);
@@ -401,19 +370,15 @@
 
         function updateInfo(data) {
             document.getElementById('repo-name').textContent = data.repo_url;
-            document.getElementById('stats').textContent = `${data.total_files} files | ${data.total_loc.toLocaleString()} total lines of code`;
+            document.getElementById('stats').textContent = `${data.total_files} files | ${data.total_loc.toLocaleString()} LOC | ${data.total_commits || 0} changes`;
         }
 
-        function createLegend(data) {
-            const extensions = [...new Set(data.files.map(f => f.extension))];
+        function updateLegend(data) {
             const legend = document.getElementById('legend');
-            legend.innerHTML = '<h4>File Types</h4>';
-            extensions.slice(0, 10).forEach(ext => {
-                const color = extensionColors[ext] || defaultColor;
-                const div = document.createElement('div');
-                div.innerHTML = `<span style="background: #${color.toString(16).padStart(6, '0')}"></span>${ext}`;
-                legend.appendChild(div);
-            });
+            const maxCommits = Math.max(...data.files.map(f => f.commits || 1));
+            legend.innerHTML = `<h4>Building Height = Git Commits</h4>
+                <p>Tallest: ${maxCommits} commits</p>
+                <p>Each building = unique color</p>`;
         }
 
         function onWindowResize() {
@@ -431,7 +396,7 @@
             if (intersects.length > 0) {
                 const file = intersects[0].object.userData;
                 if (file && file.name) {
-                    tooltip.innerHTML = `<strong>${file.name}</strong><br>Path: ${file.path}<br>Lines: ${file.loc.toLocaleString()}<br>Type: ${file.extension}`;
+                    tooltip.innerHTML = `<strong>${file.name}</strong><br>Path: ${file.path}<br>Lines: ${file.loc.toLocaleString()}<br>Commits: ${file.commits || 1}<br>Type: ${file.extension}`;
                     tooltip.style.display = 'block';
                     tooltip.style.left = event.clientX + 15 + 'px';
                     tooltip.style.top = event.clientY + 15 + 'px';
