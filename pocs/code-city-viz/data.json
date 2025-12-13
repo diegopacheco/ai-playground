@@ -2,75 +2,14 @@
   "repo_url": "https://github.com/diegopacheco/smith",
   "total_files": 11,
   "total_loc": 490,
+  "total_commits": 11,
   "files": [
-    {
-      "path": "src/main/scala/Main.scala",
-      "name": "Main.scala",
-      "extension": ".scala",
-      "loc": 167,
-      "directory": "src/main/scala"
-    },
-    {
-      "path": "src/main/scala/com/github/diegopacheco/smith/service/TrivyService.scala",
-      "name": "TrivyService.scala",
-      "extension": ".scala",
-      "loc": 108,
-      "directory": "src/main/scala/com/github/diegopacheco/smith/service"
-    },
-    {
-      "path": "src/main/scala/com/github/diegopacheco/smith/service/ArtifactService.scala",
-      "name": "ArtifactService.scala",
-      "extension": ".scala",
-      "loc": 50,
-      "directory": "src/main/scala/com/github/diegopacheco/smith/service"
-    },
-    {
-      "path": "src/main/scala/com/github/diegopacheco/smith/driver/OpenAIDriver.scala",
-      "name": "OpenAIDriver.scala",
-      "extension": ".scala",
-      "loc": 44,
-      "directory": "src/main/scala/com/github/diegopacheco/smith/driver"
-    },
-    {
-      "path": "src/main/scala/com/github/diegopacheco/smith/service/PomService.scala",
-      "name": "PomService.scala",
-      "extension": ".scala",
-      "loc": 25,
-      "directory": "src/main/scala/com/github/diegopacheco/smith/service"
-    },
-    {
-      "path": "src/test/scala/com/github/diegopacheco/smith/service/test/ArtifactServiceTest.scala",
-      "name": "ArtifactServiceTest.scala",
-      "extension": ".scala",
-      "loc": 24,
-      "directory": "src/test/scala/com/github/diegopacheco/smith/service/test"
-    },
-    {
-      "path": "src/test/scala/com/github/diegopacheco/smith/client/test/OpenAIDriverTest.scala",
-      "name": "OpenAIDriverTest.scala",
-      "extension": ".scala",
-      "loc": 24,
-      "directory": "src/test/scala/com/github/diegopacheco/smith/client/test"
-    },
-    {
-      "path": "src/test/scala/com/github/diegopacheco/smith/service/test/PomServiceTest.scala",
-      "name": "PomServiceTest.scala",
-      "extension": ".scala",
-      "loc": 23,
-      "directory": "src/test/scala/com/github/diegopacheco/smith/service/test"
-    },
-    {
-      "path": "src/test/scala/com/github/diegopacheco/smith/service/test/TrivyServiceTest.scala",
-      "name": "TrivyServiceTest.scala",
-      "extension": ".scala",
-      "loc": 19,
-      "directory": "src/test/scala/com/github/diegopacheco/smith/service/test"
-    },
     {
       "path": "run.sh",
       "name": "run.sh",
       "extension": ".sh",
       "loc": 3,
+      "commits": 1,
       "directory": ""
     },
     {
@@ -78,7 +17,80 @@
       "name": "release.sh",
       "extension": ".sh",
       "loc": 3,
+      "commits": 1,
       "directory": ""
+    },
+    {
+      "path": "src/test/scala/com/github/diegopacheco/smith/service/test/PomServiceTest.scala",
+      "name": "PomServiceTest.scala",
+      "extension": ".scala",
+      "loc": 23,
+      "commits": 1,
+      "directory": "src/test/scala/com/github/diegopacheco/smith/service/test"
+    },
+    {
+      "path": "src/test/scala/com/github/diegopacheco/smith/service/test/TrivyServiceTest.scala",
+      "name": "TrivyServiceTest.scala",
+      "extension": ".scala",
+      "loc": 19,
+      "commits": 1,
+      "directory": "src/test/scala/com/github/diegopacheco/smith/service/test"
+    },
+    {
+      "path": "src/test/scala/com/github/diegopacheco/smith/service/test/ArtifactServiceTest.scala",
+      "name": "ArtifactServiceTest.scala",
+      "extension": ".scala",
+      "loc": 24,
+      "commits": 1,
+      "directory": "src/test/scala/com/github/diegopacheco/smith/service/test"
+    },
+    {
+      "path": "src/test/scala/com/github/diegopacheco/smith/client/test/OpenAIDriverTest.scala",
+      "name": "OpenAIDriverTest.scala",
+      "extension": ".scala",
+      "loc": 24,
+      "commits": 1,
+      "directory": "src/test/scala/com/github/diegopacheco/smith/client/test"
+    },
+    {
+      "path": "src/main/scala/Main.scala",
+      "name": "Main.scala",
+      "extension": ".scala",
+      "loc": 167,
+      "commits": 1,
+      "directory": "src/main/scala"
+    },
+    {
+      "path": "src/main/scala/com/github/diegopacheco/smith/driver/OpenAIDriver.scala",
+      "name": "OpenAIDriver.scala",
+      "extension": ".scala",
+      "loc": 44,
+      "commits": 1,
+      "directory": "src/main/scala/com/github/diegopacheco/smith/driver"
+    },
+    {
+      "path": "src/main/scala/com/github/diegopacheco/smith/service/ArtifactService.scala",
+      "name": "ArtifactService.scala",
+      "extension": ".scala",
+      "loc": 50,
+      "commits": 1,
+      "directory": "src/main/scala/com/github/diegopacheco/smith/service"
+    },
+    {
+      "path": "src/main/scala/com/github/diegopacheco/smith/service/PomService.scala",
+      "name": "PomService.scala",
+      "extension": ".scala",
+      "loc": 25,
+      "commits": 1,
+      "directory": "src/main/scala/com/github/diegopacheco/smith/service"
+    },
+    {
+      "path": "src/main/scala/com/github/diegopacheco/smith/service/TrivyService.scala",
+      "name": "TrivyService.scala",
+      "extension": ".scala",
+      "loc": 108,
+      "commits": 1,
+      "directory": "src/main/scala/com/github/diegopacheco/smith/service"
     }
   ]
 }
