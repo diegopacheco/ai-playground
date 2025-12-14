@@ -102,6 +102,16 @@
             <button class="toggle-btn active" id="dayBtn">Day</button>
             <button class="toggle-btn" id="nightBtn">Night</button>
         </div>
+        <label>Show Bugs</label>
+        <div class="toggle-group">
+            <button class="toggle-btn active" id="bugsOnBtn">On</button>
+            <button class="toggle-btn" id="bugsOffBtn">Off</button>
+        </div>
+        <label>Show Tests</label>
+        <div class="toggle-group">
+            <button class="toggle-btn active" id="testsOnBtn">On</button>
+            <button class="toggle-btn" id="testsOffBtn">Off</button>
+        </div>
         <p style="margin-top:15px;font-size:11px;opacity:0.7">Mouse: Rotate | Scroll: Zoom</p>
     </div>
     <script type="importmap">
@@ -123,6 +133,10 @@
         let buildingGroups = [];
         let cars = [];
         let clouds = [];
+        let bugs = [];
+        let bugsVisible = true;
+        let testBuildings = [];
+        let testsVisible = true;
         let isNightMode = false;
         let sunLight, ambientLight, hemisphereLight;
         let currentScale = 1.0;
@@ -342,6 +356,42 @@
                     setNightMode();
                     document.getElementById('nightBtn').classList.add('active');
                     document.getElementById('dayBtn').classList.remove('active');
+                }
+            });
+
+            document.getElementById('bugsOnBtn').addEventListener('click', () => {
+                if (!bugsVisible) {
+                    bugsVisible = true;
+                    bugs.forEach(bug => bug.visible = true);
+                    document.getElementById('bugsOnBtn').classList.add('active');
+                    document.getElementById('bugsOffBtn').classList.remove('active');
+                }
+            });
+
+            document.getElementById('bugsOffBtn').addEventListener('click', () => {
+                if (bugsVisible) {
+                    bugsVisible = false;
+                    bugs.forEach(bug => bug.visible = false);
+                    document.getElementById('bugsOffBtn').classList.add('active');
+                    document.getElementById('bugsOnBtn').classList.remove('active');
+                }
+            });
+
+            document.getElementById('testsOnBtn').addEventListener('click', () => {
+                if (!testsVisible) {
+                    testsVisible = true;
+                    testBuildings.forEach(b => b.visible = true);
+                    document.getElementById('testsOnBtn').classList.add('active');
+                    document.getElementById('testsOffBtn').classList.remove('active');
+                }
+            });
+
+            document.getElementById('testsOffBtn').addEventListener('click', () => {
+                if (testsVisible) {
+                    testsVisible = false;
+                    testBuildings.forEach(b => b.visible = false);
+                    document.getElementById('testsOffBtn').classList.add('active');
+                    document.getElementById('testsOnBtn').classList.remove('active');
                 }
             });
 
@@ -588,107 +638,178 @@
             return group;
         }
 
+        function createBug(x, y, z) {
+            const group = new THREE.Group();
+            const bodyMat = new THREE.MeshStandardMaterial({ color: 0x228b22, metalness: 0.3, roughness: 0.7 });
+            const bodyGeo = new THREE.SphereGeometry(0.06, 8, 6);
+            const body = new THREE.Mesh(bodyGeo, bodyMat);
+            body.scale.set(1.2, 0.7, 1);
+            group.add(body);
+            const headGeo = new THREE.SphereGeometry(0.035, 8, 6);
+            const head = new THREE.Mesh(headGeo, bodyMat);
+            head.position.set(0.07, 0.01, 0);
+            group.add(head);
+            const eyeMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const eyeGeo = new THREE.SphereGeometry(0.012, 6, 6);
+            const eye1 = new THREE.Mesh(eyeGeo, eyeMat);
+            eye1.position.set(0.09, 0.02, 0.02);
+            group.add(eye1);
+            const eye2 = new THREE.Mesh(eyeGeo, eyeMat);
+            eye2.position.set(0.09, 0.02, -0.02);
+            group.add(eye2);
+            const legMat = new THREE.MeshStandardMaterial({ color: 0x1a5f1a });
+            const legGeo = new THREE.CylinderGeometry(0.008, 0.008, 0.08, 4);
+            const legPositions = [
+                [0.03, -0.02, 0.06, 0.4], [0.03, -0.02, -0.06, -0.4],
+                [0, -0.02, 0.07, 0.5], [0, -0.02, -0.07, -0.5],
+                [-0.03, -0.02, 0.06, 0.4], [-0.03, -0.02, -0.06, -0.4]
+            ];
+            legPositions.forEach(([lx, ly, lz, rot]) => {
+                const leg = new THREE.Mesh(legGeo, legMat);
+                leg.position.set(lx, ly, lz);
+                leg.rotation.x = rot;
+                group.add(leg);
+            });
+            const antennaMat = new THREE.MeshStandardMaterial({ color: 0x1a5f1a });
+            const antennaGeo = new THREE.CylinderGeometry(0.004, 0.004, 0.05, 4);
+            const ant1 = new THREE.Mesh(antennaGeo, antennaMat);
+            ant1.position.set(0.1, 0.04, 0.015);
+            ant1.rotation.z = -0.5;
+            ant1.rotation.x = 0.3;
+            group.add(ant1);
+            const ant2 = new THREE.Mesh(antennaGeo, antennaMat);
+            ant2.position.set(0.1, 0.04, -0.015);
+            ant2.rotation.z = -0.5;
+            ant2.rotation.x = -0.3;
+            group.add(ant2);
+            group.position.set(x, y, z);
+            group.userData = {
+                baseY: y,
+                angle: Math.random() * Math.PI * 2,
+                orbitRadius: 0.15 + Math.random() * 0.1,
+                orbitSpeed: 0.02 + Math.random() * 0.02,
+                baseX: x,
+                baseZ: z
+            };
+            return group;
+        }
+
+        function isTestFile(filePath) {
+            const path = filePath.toLowerCase();
+            const testPatterns = [
+                /test/, /spec/, /_test\./, /\.test\./, /tests\//, /spec\//,
+                /__tests__/, /testing/, /\.spec\./, /_spec\./
+            ];
+            return testPatterns.some(pattern => pattern.test(path));
+        }
+
         function createCity(data) {
             const files = data.files;
             if (!files.length) return;
 
+            const codeFiles = files.filter(f => !isTestFile(f.path));
+            const testFiles = files.filter(f => isTestFile(f.path));
             const maxCommits = Math.max(...files.map(f => f.commits || 1));
-            const gridSize = Math.ceil(Math.sqrt(files.length));
+            const maxBugs = Math.max(...files.map(f => f.bugs || 0), 1);
             const spacing = 1.5;
             const maxHeight = 8;
 
-            const groundSize = gridSize * spacing + 10;
+            const codeGridSize = Math.ceil(Math.sqrt(codeFiles.length)) || 1;
+            const testGridSize = Math.ceil(Math.sqrt(testFiles.length)) || 1;
+            const codeQuarterSize = codeGridSize * spacing + 4;
+            const testQuarterSize = testGridSize * spacing + 4;
+            const gap = 3;
+            const groundWidth = codeQuarterSize + testQuarterSize + gap;
+            const groundHeight = Math.max(codeQuarterSize, testQuarterSize);
 
-            const waterSize = groundSize + 8;
-            const waterGeo = new THREE.PlaneGeometry(waterSize, waterSize);
+            const waterGeo = new THREE.PlaneGeometry(groundWidth + 10, groundHeight + 10);
             const waterMat = new THREE.MeshStandardMaterial({
-                color: 0x2a6099,
-                metalness: 0.4,
-                roughness: 0.2,
-                transparent: true,
-                opacity: 0.9
+                color: 0x2a6099, metalness: 0.4, roughness: 0.2, transparent: true, opacity: 0.9
             });
             const water = new THREE.Mesh(waterGeo, waterMat);
             water.rotation.x = -Math.PI / 2;
             water.position.y = -0.15;
-            water.receiveShadow = true;
             scene.add(water);
 
             const cobbleTexture = createCobblestoneTexture();
-            cobbleTexture.repeat.set(groundSize / 4, groundSize / 4);
-            const groundGeometry = new THREE.PlaneGeometry(groundSize, groundSize);
-            const groundMaterial = new THREE.MeshStandardMaterial({
-                map: cobbleTexture,
-                metalness: 0.1,
-                roughness: 0.9
-            });
-            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            cobbleTexture.repeat.set(groundWidth / 4, groundHeight / 4);
+            const ground = new THREE.Mesh(
+                new THREE.PlaneGeometry(groundWidth, groundHeight),
+                new THREE.MeshStandardMaterial({ map: cobbleTexture, metalness: 0.1, roughness: 0.9 })
+            );
             ground.rotation.x = -Math.PI / 2;
-            ground.position.y = 0;
             ground.receiveShadow = true;
             scene.add(ground);
 
-            const edgeWidth = 0.3;
-            const edgeMat = new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.8 });
-            const edges = [
-                { pos: [0, 0.1, -groundSize/2], size: [groundSize, 0.2, edgeWidth] },
-                { pos: [0, 0.1, groundSize/2], size: [groundSize, 0.2, edgeWidth] },
-                { pos: [-groundSize/2, 0.1, 0], size: [edgeWidth, 0.2, groundSize] },
-                { pos: [groundSize/2, 0.1, 0], size: [edgeWidth, 0.2, groundSize] }
-            ];
-            edges.forEach(e => {
-                const edge = new THREE.Mesh(new THREE.BoxGeometry(...e.size), edgeMat);
-                edge.position.set(...e.pos);
-                edge.castShadow = true;
-                scene.add(edge);
-            });
+            const codeOffsetX = -groundWidth / 2 + codeQuarterSize / 2;
+            const testOffsetX = groundWidth / 2 - testQuarterSize / 2;
+
+            const signMat = new THREE.MeshStandardMaterial({ color: 0x2c5282 });
+            const codeSign = new THREE.Mesh(new THREE.BoxGeometry(2, 0.3, 0.1), signMat);
+            codeSign.position.set(codeOffsetX, 0.5, -groundHeight / 2 + 0.5);
+            scene.add(codeSign);
+            const testSign = new THREE.Mesh(new THREE.BoxGeometry(2, 0.3, 0.1), new THREE.MeshStandardMaterial({ color: 0x9333ea }));
+            testSign.position.set(testOffsetX, 0.5, -groundHeight / 2 + 0.5);
+            scene.add(testSign);
 
             const roadMaterial = new THREE.MeshStandardMaterial({ color: 0x3a3a3a, roughness: 0.95 });
-            const sidewalkMat = new THREE.MeshStandardMaterial({ color: 0x999999, roughness: 0.85 });
-            const offsetX = (gridSize * spacing) / 2;
-            const offsetZ = (gridSize * spacing) / 2;
+            const mainRoad = new THREE.Mesh(new THREE.PlaneGeometry(1, groundHeight), roadMaterial);
+            mainRoad.rotation.x = -Math.PI / 2;
+            mainRoad.position.set(0, 0.01, 0);
+            scene.add(mainRoad);
 
-            for (let i = 0; i <= gridSize; i++) {
-                const roadH = new THREE.Mesh(new THREE.PlaneGeometry(groundSize - 2, 0.5), roadMaterial);
-                roadH.rotation.x = -Math.PI / 2;
-                roadH.position.set(0, 0.01, i * spacing - offsetZ);
-                scene.add(roadH);
-                const sideH1 = new THREE.Mesh(new THREE.BoxGeometry(groundSize - 2, 0.05, 0.1), sidewalkMat);
-                sideH1.position.set(0, 0.025, i * spacing - offsetZ - 0.3);
-                scene.add(sideH1);
-                const sideH2 = new THREE.Mesh(new THREE.BoxGeometry(groundSize - 2, 0.05, 0.1), sidewalkMat);
-                sideH2.position.set(0, 0.025, i * spacing - offsetZ + 0.3);
-                scene.add(sideH2);
-
-                const roadV = new THREE.Mesh(new THREE.PlaneGeometry(0.5, groundSize - 2), roadMaterial);
-                roadV.rotation.x = -Math.PI / 2;
-                roadV.position.set(i * spacing - offsetX, 0.01, 0);
-                scene.add(roadV);
-                const sideV1 = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.05, groundSize - 2), sidewalkMat);
-                sideV1.position.set(i * spacing - offsetX - 0.3, 0.025, 0);
-                scene.add(sideV1);
-                const sideV2 = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.05, groundSize - 2), sidewalkMat);
-                sideV2.position.set(i * spacing - offsetX + 0.3, 0.025, 0);
-                scene.add(sideV2);
-            }
-
-            files.forEach((file, index) => {
-                const row = Math.floor(index / gridSize);
-                const col = index % gridSize;
+            codeFiles.forEach((file, index) => {
+                const row = Math.floor(index / codeGridSize);
+                const col = index % codeGridSize;
                 const commits = file.commits || 1;
                 const height = Math.max(1, (commits / maxCommits) * maxHeight);
-                const baseColor = generateVibrantColor(index, files.length);
-                const x = col * spacing - offsetX;
-                const z = row * spacing - offsetZ;
+                const baseColor = generateVibrantColor(index, codeFiles.length);
+                const x = codeOffsetX + (col - codeGridSize / 2) * spacing;
+                const z = (row - codeGridSize / 2) * spacing;
                 const { group, meshes } = createBuilding(file, x, z, height, baseColor);
                 scene.add(group);
                 buildings.push(...meshes);
                 buildingGroups.push(group);
+                const bugCount = file.bugs || 0;
+                if (bugCount > 0) {
+                    const numBugs = Math.min(5, Math.ceil((bugCount / maxBugs) * 5));
+                    for (let b = 0; b < numBugs; b++) {
+                        const bugY = height * 0.3 + Math.random() * height * 0.5;
+                        const bug = createBug(x, bugY, z);
+                        scene.add(bug);
+                        bugs.push(bug);
+                    }
+                }
             });
 
-            const roadBounds = groundSize / 2 - 2;
-            for (let i = 0; i < 6; i++) {
-                const roadZ = (i - 2.5) * spacing;
+            testFiles.forEach((file, index) => {
+                const row = Math.floor(index / testGridSize);
+                const col = index % testGridSize;
+                const commits = file.commits || 1;
+                const height = Math.max(1, (commits / maxCommits) * maxHeight);
+                const baseColor = new THREE.Color().setHSL(0.75 + (index / testFiles.length) * 0.15, 0.7, 0.5);
+                const x = testOffsetX + (col - testGridSize / 2) * spacing;
+                const z = (row - testGridSize / 2) * spacing;
+                const { group, meshes } = createBuilding(file, x, z, height, baseColor);
+                scene.add(group);
+                buildings.push(...meshes);
+                buildingGroups.push(group);
+                testBuildings.push(group);
+                const bugCount = file.bugs || 0;
+                if (bugCount > 0) {
+                    const numBugs = Math.min(3, Math.ceil((bugCount / maxBugs) * 3));
+                    for (let b = 0; b < numBugs; b++) {
+                        const bugY = height * 0.3 + Math.random() * height * 0.5;
+                        const bug = createBug(x, bugY, z);
+                        scene.add(bug);
+                        bugs.push(bug);
+                    }
+                }
+            });
+
+            const roadBounds = groundWidth / 2 - 2;
+            for (let i = 0; i < 4; i++) {
+                const roadZ = (i - 1.5) * spacing * 2;
                 const car1 = createCar(-roadBounds, roadZ + 0.1, 1, 'x');
                 scene.add(car1);
                 cars.push(car1);
@@ -696,44 +817,23 @@
                 scene.add(car2);
                 cars.push(car2);
             }
-            for (let i = 0; i < 6; i++) {
-                const roadX = (i - 2.5) * spacing;
-                const car1 = createCar(roadX + 0.1, -roadBounds, 1, 'z');
-                scene.add(car1);
-                cars.push(car1);
-                const car2 = createCar(roadX - 0.1, roadBounds, -1, 'z');
-                scene.add(car2);
-                cars.push(car2);
-            }
-
-            const treePositions = [];
-            for (let i = 0; i < 12; i++) {
-                const angle = (i / 12) * Math.PI * 2;
-                const radius = groundSize / 2 - 1.5;
-                treePositions.push([Math.cos(angle) * radius, Math.sin(angle) * radius]);
-            }
-            treePositions.forEach(([tx, tz]) => {
-                scene.add(createTree(tx, tz));
-            });
 
             for (let i = 0; i < 8; i++) {
-                const angle = (i / 8) * Math.PI * 2 + Math.PI / 8;
-                const radius = groundSize / 2 - 0.8;
-                scene.add(createLampPost(Math.cos(angle) * radius, Math.sin(angle) * radius));
+                const angle = (i / 8) * Math.PI * 2;
+                const radiusX = groundWidth / 2 - 1;
+                const radiusZ = groundHeight / 2 - 1;
+                scene.add(createTree(Math.cos(angle) * radiusX, Math.sin(angle) * radiusZ));
             }
 
-            if (gridSize > 2) {
-                scene.add(createFountain(0, 0));
-            }
+            scene.add(createFountain(0, 0));
 
-            const maxCommitsVal = Math.max(...files.map(f => f.commits || 1));
-            files.forEach((file, index) => {
-                const row = Math.floor(index / gridSize);
-                const col = index % gridSize;
-                const x = col * spacing - offsetX;
-                const z = row * spacing - offsetZ;
+            codeFiles.forEach((file, index) => {
+                const row = Math.floor(index / codeGridSize);
+                const col = index % codeGridSize;
+                const x = codeOffsetX + (col - codeGridSize / 2) * spacing;
+                const z = (row - codeGridSize / 2) * spacing;
                 const commits = file.commits || 1;
-                const numPeople = Math.min(5, Math.ceil((commits / maxCommitsVal) * 5));
+                const numPeople = Math.min(3, Math.ceil((commits / maxCommits) * 3));
                 for (let p = 0; p < numPeople; p++) {
                     const person = createPerson(x, z, 1);
                     scene.add(person);
@@ -741,8 +841,7 @@
                 }
             });
 
-            const citySize = gridSize * spacing;
-            camera.position.set(citySize * 1.2, citySize * 0.9, citySize * 1.2);
+            camera.position.set(groundWidth * 0.7, groundHeight * 0.6, groundHeight * 0.7);
             controls.target.set(0, 1, 0);
         }
 
@@ -754,9 +853,15 @@
         function updateLegend(data) {
             const legend = document.getElementById('legend');
             const maxCommits = Math.max(...data.files.map(f => f.commits || 1));
-            legend.innerHTML = `<h4>Building Height = Git Commits</h4>
-                <p>Tallest: ${maxCommits} commits</p>
-                <p>Each building = unique color</p>`;
+            const codeFiles = data.files.filter(f => !isTestFile(f.path));
+            const testFiles = data.files.filter(f => isTestFile(f.path));
+            const totalBugs = data.files.reduce((sum, f) => sum + (f.bugs || 0), 0);
+            legend.innerHTML = `<h4>Code City Legend</h4>
+                <p><b>Height</b> = Git Commits (max ${maxCommits})</p>
+                <p><b>Left Quarter</b>: ${codeFiles.length} code files</p>
+                <p><b>Right Quarter</b>: ${testFiles.length} test files</p>
+                <p><b>Bugs</b>: ${totalBugs} bug-related commits</p>
+                <p style="color:#228b22">Green creatures = Bugs</p>`;
         }
 
         function onWindowResize() {
@@ -774,7 +879,9 @@
             if (intersects.length > 0) {
                 const file = intersects[0].object.userData;
                 if (file && file.name) {
-                    tooltip.innerHTML = `<strong>${file.name}</strong><br>Path: ${file.path}<br>Lines: ${file.loc.toLocaleString()}<br>Commits: ${file.commits || 1}<br>Type: ${file.extension}`;
+                    const fileType = isTestFile(file.path) ? 'Test' : 'Code';
+                    const bugCount = file.bugs || 0;
+                    tooltip.innerHTML = `<strong>${file.name}</strong><br>Path: ${file.path}<br>Lines: ${file.loc.toLocaleString()}<br>Commits: ${file.commits || 1}<br>Bugs: ${bugCount}<br>Type: ${file.extension}<br>Category: ${fileType}`;
                     tooltip.style.display = 'block';
                     tooltip.style.left = event.clientX + 15 + 'px';
                     tooltip.style.top = event.clientY + 15 + 'px';
@@ -795,7 +902,7 @@
             });
             cars.forEach(car => {
                 const data = car.userData;
-                const bounds = 8;
+                const bounds = 15;
                 if (data.axis === 'x') {
                     car.position.x += data.speed * data.direction;
                     if (car.position.x > bounds) car.position.x = -bounds;
@@ -804,6 +911,15 @@
                     car.position.z += data.speed * data.direction;
                     if (car.position.z > bounds) car.position.z = -bounds;
                     if (car.position.z < -bounds) car.position.z = bounds;
+                }
+            });
+            bugs.forEach(bug => {
+                if (bug.visible) {
+                    bug.userData.angle += bug.userData.orbitSpeed;
+                    bug.position.x = bug.userData.baseX + Math.cos(bug.userData.angle) * bug.userData.orbitRadius;
+                    bug.position.z = bug.userData.baseZ + Math.sin(bug.userData.angle) * bug.userData.orbitRadius;
+                    bug.position.y = bug.userData.baseY + Math.sin(bug.userData.angle * 2) * 0.1;
+                    bug.rotation.y = bug.userData.angle + Math.PI / 2;
                 }
             });
             people.forEach(person => {
