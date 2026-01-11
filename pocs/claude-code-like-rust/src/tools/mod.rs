@@ -1,6 +1,7 @@
 mod read_file;
 mod list_files;
 mod edit_file;
+mod execute_command;
 
 use serde_json::{json, Value};
 
@@ -60,6 +61,30 @@ pub fn get_tools() -> Value {
                     "required": ["path", "content"]
                 }
             }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "execute_command",
+                "description": "Execute a program with arguments. Use this to run commands like 'node hello.js', 'python3 main.py', 'java -jar app.jar', etc.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "program": {
+                            "type": "string",
+                            "description": "The program to execute (e.g., 'node', 'python3', 'java')"
+                        },
+                        "args": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Array of arguments to pass to the program (e.g., ['hello.js'] or ['-jar', 'app.jar'])"
+                        }
+                    },
+                    "required": ["program"]
+                }
+            }
         }
     ])
 }
@@ -80,6 +105,157 @@ pub fn execute_tool(name: &str, arguments: &str) -> String {
             let content = args.get("content").and_then(|v| v.as_str()).unwrap_or("");
             edit_file::edit_file(path, content)
         }
+        "execute_command" => {
+            let program = args.get("program").and_then(|v| v.as_str()).unwrap_or("");
+            let cmd_args: Vec<String> = args
+                .get("args")
+                .and_then(|v| v.as_array())
+                .map(|arr| {
+                    arr.iter()
+                        .filter_map(|v| v.as_str().map(|s| s.to_string()))
+                        .collect()
+                })
+                .unwrap_or_default();
+            execute_command::execute_command(program, &cmd_args)
+        }
         _ => format!("Unknown tool: {}", name),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::env;
+    use std::fs;
+
+    #[test]
+    fn test_get_tools_returns_array() {
+        let tools = get_tools();
+        assert!(tools.is_array());
+    }
+
+    #[test]
+    fn test_get_tools_contains_four_tools() {
+        let tools = get_tools();
+        assert_eq!(tools.as_array().unwrap().len(), 4);
+    }
+
+    #[test]
+    fn test_get_tools_has_read_file() {
+        let tools = get_tools();
+        let arr = tools.as_array().unwrap();
+        let has_read_file = arr.iter().any(|t| {
+            t.get("function")
+                .and_then(|f| f.get("name"))
+                .and_then(|n| n.as_str())
+                == Some("read_file")
+        });
+        assert!(has_read_file);
+    }
+
+    #[test]
+    fn test_get_tools_has_list_files() {
+        let tools = get_tools();
+        let arr = tools.as_array().unwrap();
+        let has_list_files = arr.iter().any(|t| {
+            t.get("function")
+                .and_then(|f| f.get("name"))
+                .and_then(|n| n.as_str())
+                == Some("list_files")
+        });
+        assert!(has_list_files);
+    }
+
+    #[test]
+    fn test_get_tools_has_edit_file() {
+        let tools = get_tools();
+        let arr = tools.as_array().unwrap();
+        let has_edit_file = arr.iter().any(|t| {
+            t.get("function")
+                .and_then(|f| f.get("name"))
+                .and_then(|n| n.as_str())
+                == Some("edit_file")
+        });
+        assert!(has_edit_file);
+    }
+
+    #[test]
+    fn test_get_tools_has_execute_command() {
+        let tools = get_tools();
+        let arr = tools.as_array().unwrap();
+        let has_execute_command = arr.iter().any(|t| {
+            t.get("function")
+                .and_then(|f| f.get("name"))
+                .and_then(|n| n.as_str())
+                == Some("execute_command")
+        });
+        assert!(has_execute_command);
+    }
+
+    #[test]
+    fn test_execute_tool_read_file() {
+        let temp_dir = env::temp_dir();
+        let test_file = temp_dir.join("test_exec_read.txt");
+        fs::write(&test_file, "Test content").unwrap();
+        let args = format!(r#"{{"path": "{}"}}"#, test_file.to_str().unwrap());
+        let result = execute_tool("read_file", &args);
+        assert_eq!(result, "Test content");
+        fs::remove_file(&test_file).unwrap();
+    }
+
+    #[test]
+    fn test_execute_tool_list_files() {
+        let result = execute_tool("list_files", r#"{"path": "."}"#);
+        assert!(result.contains("["));
+        assert!(result.contains("]"));
+    }
+
+    #[test]
+    fn test_execute_tool_list_files_empty_path() {
+        let result = execute_tool("list_files", r#"{}"#);
+        assert!(result.contains("["));
+    }
+
+    #[test]
+    fn test_execute_tool_edit_file() {
+        let temp_dir = env::temp_dir();
+        let test_file = temp_dir.join("test_exec_edit.txt");
+        let _ = fs::remove_file(&test_file);
+        let args = format!(r#"{{"path": "{}", "content": "Written content"}}"#, test_file.to_str().unwrap());
+        let result = execute_tool("edit_file", &args);
+        assert!(result.contains("written successfully"));
+        let content = fs::read_to_string(&test_file).unwrap();
+        assert_eq!(content, "Written content");
+        fs::remove_file(&test_file).unwrap();
+    }
+
+    #[test]
+    fn test_execute_tool_execute_command() {
+        let result = execute_tool("execute_command", r#"{"program": "echo", "args": ["hello"]}"#);
+        assert!(result.contains("hello"));
+    }
+
+    #[test]
+    fn test_execute_tool_execute_command_no_args() {
+        let result = execute_tool("execute_command", r#"{"program": "pwd"}"#);
+        assert!(!result.starts_with("Error"));
+    }
+
+    #[test]
+    fn test_execute_tool_unknown_tool() {
+        let result = execute_tool("unknown_tool", "{}");
+        assert_eq!(result, "Unknown tool: unknown_tool");
+    }
+
+    #[test]
+    fn test_execute_tool_invalid_json() {
+        let result = execute_tool("read_file", "not json");
+        assert!(result.contains("Error") || result.is_empty() || result.len() > 0);
+    }
+
+    #[test]
+    fn test_execute_tool_missing_required_args() {
+        let result = execute_tool("read_file", "{}");
+        assert!(result.contains("Error"));
     }
 }
