@@ -9,6 +9,22 @@ use std::io::{self, Write};
 use crate::llm::types::Message;
 use crate::agent::agent_loop;
 
+const BANNER: &str = r#"
+          _____
+       .-'     `-.
+      /   .---.   \
+     |   / .-. \   |
+     |  | | R | |  |
+     |   \ `-' /   |
+      \   `---'   /
+       `-._____.-'
+
+   ╔═╗╦  ╔═╗╦ ╦╔╦╗╦╔═╗  ╔═╗╔═╗╔╦╗╔═╗
+   ║  ║  ╠═╣║ ║ ║║║║ ║  ║  ║ ║ ║║╠═╣
+   ╚═╝╩═╝╩ ╩╚═╝═╩╝╩╚═╝  ╚═╝╚═╝═╩╝╩ ╩
+   Engineering Coding Agent
+"#;
+
 #[tokio::main]
 async fn main() {
     let api_key = env::var("OPENAI_API_KEY").expect("OPENAI_API_KEY not set");
@@ -20,9 +36,9 @@ async fn main() {
         tool_call_id: None,
     }];
 
-    println!("---------------------------------------------------");
-    println!("Claude Code (Rust) - Type 'quit' or 'exit' to exit");
-    println!("---------------------------------------------------");
+    println!("{}", BANNER);
+    println!("Type 'quit' or 'exit' to exit");
+    println!("─────────────────────────────────────");
 
     loop {
         print!("> ");
