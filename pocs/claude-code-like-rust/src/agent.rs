@@ -4,7 +4,7 @@ use crate::llm::api::call_openai;
 use crate::llm::types::{Message, ResponseMessage, ToolCall};
 use crate::tools::execute_tool;
 
-pub const TRUNCATE_LENGTH: usize = 200;
+pub const TRUNCATE_LENGTH: usize = 2000;
 
 pub fn truncate_result(result: &str) -> String {
     if result.len() > TRUNCATE_LENGTH {
@@ -82,7 +82,7 @@ mod tests {
 
     #[test]
     fn test_truncate_length_constant() {
-        assert_eq!(TRUNCATE_LENGTH, 200);
+        assert_eq!(TRUNCATE_LENGTH, 2000);
     }
 
     #[test]
@@ -93,16 +93,16 @@ mod tests {
 
     #[test]
     fn test_truncate_result_exact_length() {
-        let text = "a".repeat(200);
+        let text = "a".repeat(2000);
         let result = truncate_result(&text);
         assert_eq!(result, text);
     }
 
     #[test]
     fn test_truncate_result_long_string() {
-        let text = "a".repeat(300);
+        let text = "a".repeat(3000);
         let result = truncate_result(&text);
-        assert_eq!(result.len(), 203);
+        assert_eq!(result.len(), 2003);
         assert!(result.ends_with("..."));
     }
 

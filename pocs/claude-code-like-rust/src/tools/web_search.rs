@@ -1,12 +1,19 @@
 use scraper::{Html, Selector, ElementRef};
 
+const USER_AGENT: &str = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+
 pub async fn web_search(url: &str) -> String {
     if url.is_empty() {
         return "Error: URL cannot be empty".to_string();
     }
 
     let client = reqwest::Client::new();
-    let response = match client.get(url).send().await {
+    let response = match client
+        .get(url)
+        .header("User-Agent", USER_AGENT)
+        .send()
+        .await
+    {
         Ok(resp) => resp,
         Err(e) => return format!("Error fetching URL: {}", e),
     };
@@ -21,17 +28,53 @@ pub async fn web_search(url: &str) -> String {
 
 fn is_excluded_tag(element: &ElementRef) -> bool {
     let tag_name = element.value().name();
-    tag_name == "script" || tag_name == "style"
+    matches!(
+        tag_name,
+        "script" | "style" | "nav" | "header" | "footer" | "aside"
+        | "iframe" | "noscript" | "svg" | "form" | "button" | "input"
+        | "select" | "textarea" | "label"
+    )
 }
 
-fn extract_text_recursive(element: ElementRef, text_content: &mut String) {
+fn has_excluded_class_or_id(element: &ElementRef) -> bool {
+    let excluded_patterns = [
+        "nav", "menu", "sidebar", "footer", "header", "cookie", "banner",
+        "advertisement", "ad-", "social", "share", "comment", "related"
+    ];
+
+    if let Some(class) = element.value().attr("class") {
+        let class_lower = class.to_lowercase();
+        for pattern in &excluded_patterns {
+            if class_lower.contains(pattern) {
+                return true;
+            }
+        }
+    }
+
+    if let Some(id) = element.value().attr("id") {
+        let id_lower = id.to_lowercase();
+        for pattern in &excluded_patterns {
+            if id_lower.contains(pattern) {
+                return true;
+            }
+        }
+    }
+
+    false
+}
+
+fn extract_text_recursive(element: ElementRef, text_content: &mut String, skip_nav: bool) {
     if is_excluded_tag(&element) {
+        return;
+    }
+
+    if skip_nav && has_excluded_class_or_id(&element) {
         return;
     }
 
     for child in element.children() {
         if let Some(child_element) = ElementRef::wrap(child) {
-            extract_text_recursive(child_element, text_content);
+            extract_text_recursive(child_element, text_content, skip_nav);
         } else if let Some(text) = child.value().as_text() {
             let trimmed = text.trim();
             if !trimmed.is_empty() {
@@ -46,16 +89,33 @@ fn extract_text_recursive(element: ElementRef, text_content: &mut String) {
 
 pub fn extract_text_from_html(html: &str) -> String {
     let document = Html::parse_document(html);
-    let body_selector = Selector::parse("body").unwrap();
 
+    let content_selectors = [
+        "main", "article", "[role=\"main\"]", ".content", "#content",
+        ".post", ".article", ".entry-content", ".post-content"
+    ];
+
+    for selector_str in &content_selectors {
+        if let Ok(selector) = Selector::parse(selector_str) {
+            if let Some(content) = document.select(&selector).next() {
+                let mut text_content = String::new();
+                extract_text_recursive(content, &mut text_content, true);
+                if text_content.len() > 100 {
+                    return text_content;
+                }
+            }
+        }
+    }
+
+    let body_selector = Selector::parse("body").unwrap();
     let mut text_content = String::new();
 
     if let Some(body) = document.select(&body_selector).next() {
-        extract_text_recursive(body, &mut text_content);
+        extract_text_recursive(body, &mut text_content, true);
     } else {
         for child in document.root_element().children() {
             if let Some(element) = ElementRef::wrap(child) {
-                extract_text_recursive(element, &mut text_content);
+                extract_text_recursive(element, &mut text_content, true);
             } else if let Some(text) = child.value().as_text() {
                 let trimmed = text.trim();
                 if !trimmed.is_empty() {
@@ -164,13 +224,51 @@ mod tests {
         </html>
         "#;
         let result = extract_text_from_html(html);
-        assert!(result.contains("Navigation"));
+        assert!(!result.contains("Navigation"));
         assert!(result.contains("Main Article"));
         assert!(result.contains("main content"));
-        assert!(result.contains("Footer text"));
+        assert!(!result.contains("Footer text"));
         assert!(!result.contains("console.log"));
         assert!(!result.contains("document.ready"));
         assert!(!result.contains("margin"));
+    }
+
+    #[test]
+    fn test_extract_text_skips_nav_header_footer() {
+        let html = r#"
+        <html><body>
+            <nav>Skip this nav</nav>
+            <header>Skip this header</header>
+            <div>Keep this content</div>
+            <footer>Skip this footer</footer>
+            <aside>Skip this aside</aside>
+        </body></html>
+        "#;
+        let result = extract_text_from_html(html);
+        assert!(!result.contains("Skip this nav"));
+        assert!(!result.contains("Skip this header"));
+        assert!(!result.contains("Skip this footer"));
+        assert!(!result.contains("Skip this aside"));
+        assert!(result.contains("Keep this content"));
+    }
+
+    #[test]
+    fn test_extract_text_prioritizes_main_content() {
+        let html = r#"
+        <html><body>
+            <div class="sidebar">Sidebar stuff</div>
+            <main>
+                <article>
+                    <h1>Article Title</h1>
+                    <p>Article content here with enough text to pass the threshold for main content detection.</p>
+                </article>
+            </main>
+            <div class="related">Related posts</div>
+        </body></html>
+        "#;
+        let result = extract_text_from_html(html);
+        assert!(result.contains("Article Title"));
+        assert!(result.contains("Article content"));
     }
 
     #[tokio::test]
