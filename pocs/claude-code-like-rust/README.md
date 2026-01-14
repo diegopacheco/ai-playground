@@ -129,10 +129,10 @@ The Python script ran successfully and printed "Hello, World!" to the console.
 
 | Category | Count | Description |
 |----------|-------|-------------|
-| Unit Tests | 92 | Tests for all modules |
+| Unit Tests | 94 | Tests for all modules |
 | Integration Tests | 5 | Application startup, exit, API key validation |
 | E2E Tests (ignored) | 3 | Require real OPENAI_API_KEY |
-| **Total** | **100** | |
+| **Total** | **102** | |
 
 ### Unit Tests by Module
 
@@ -143,7 +143,7 @@ The Python script ran successfully and printed "Hello, World!" to the console.
 | `tools/edit_file.rs` | 6 | File creation, overwrite, parent dirs |
 | `tools/execute_command.rs` | 11 | Program execution, args, error handling |
 | `tools/mod.rs` | 19 | Tool registry, dispatcher, all tool routing |
-| `tools/web_search.rs` | 11 | HTML parsing, text extraction, URL handling |
+| `tools/web_search.rs` | 13 | HTML parsing, text extraction, content filtering |
 | `llm/types.rs` | 16 | Serialization, deserialization of all types |
 | `llm/api.rs` | 10 | Request body construction, constants |
 | `agent.rs` | 17 | Message handling, truncation, tool processing |
@@ -173,9 +173,9 @@ cargo test
 ```
 
 ```
-running 92 tests
+running 94 tests
 ...
-test result: ok. 92 passed; 0 failed; 0 ignored
+test result: ok. 94 passed; 0 failed; 0 ignored
 
 running 8 tests
 ...
