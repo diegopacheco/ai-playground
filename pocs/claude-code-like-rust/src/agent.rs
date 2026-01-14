@@ -32,10 +32,10 @@ pub fn create_tool_result_message(tool_call_id: &str, result: &str) -> Message {
     }
 }
 
-pub fn process_tool_call(tool_call: &ToolCall) -> (String, String, String) {
+pub async fn process_tool_call(tool_call: &ToolCall) -> (String, String, String) {
     let name = tool_call.function.name.clone();
     let args = tool_call.function.arguments.clone();
-    let result = execute_tool(&name, &args);
+    let result = execute_tool(&name, &args).await;
     (name, args, result)
 }
 
@@ -59,7 +59,7 @@ pub async fn agent_loop(
             }
 
             for tool_call in tool_calls {
-                let (name, _, result) = process_tool_call(tool_call);
+                let (name, _, result) = process_tool_call(tool_call).await;
                 println!("[Tool: {}]", name);
                 println!("Result: {}", truncate_result(&result));
 
@@ -172,8 +172,8 @@ mod tests {
         assert_eq!(msg.content.unwrap().as_str().unwrap(), "");
     }
 
-    #[test]
-    fn test_process_tool_call_read_file() {
+    #[tokio::test]
+    async fn test_process_tool_call_read_file() {
         use std::env;
         use std::fs;
         let temp_dir = env::temp_dir();
@@ -187,14 +187,14 @@ mod tests {
                 arguments: format!(r#"{{"path": "{}"}}"#, test_file.to_str().unwrap()),
             },
         };
-        let (name, _, result) = process_tool_call(&tool_call);
+        let (name, _, result) = process_tool_call(&tool_call).await;
         assert_eq!(name, "read_file");
         assert_eq!(result, "Test content");
         fs::remove_file(&test_file).unwrap();
     }
 
-    #[test]
-    fn test_process_tool_call_list_files() {
+    #[tokio::test]
+    async fn test_process_tool_call_list_files() {
         let tool_call = ToolCall {
             id: "call_list".to_string(),
             call_type: "function".to_string(),
@@ -203,13 +203,13 @@ mod tests {
                 arguments: r#"{"path": "."}"#.to_string(),
             },
         };
-        let (name, _, result) = process_tool_call(&tool_call);
+        let (name, _, result) = process_tool_call(&tool_call).await;
         assert_eq!(name, "list_files");
         assert!(result.contains("["));
     }
 
-    #[test]
-    fn test_process_tool_call_execute_command() {
+    #[tokio::test]
+    async fn test_process_tool_call_execute_command() {
         let tool_call = ToolCall {
             id: "call_exec".to_string(),
             call_type: "function".to_string(),
@@ -218,13 +218,13 @@ mod tests {
                 arguments: r#"{"program": "echo", "args": ["hello"]}"#.to_string(),
             },
         };
-        let (name, _, result) = process_tool_call(&tool_call);
+        let (name, _, result) = process_tool_call(&tool_call).await;
         assert_eq!(name, "execute_command");
         assert!(result.contains("hello"));
     }
 
-    #[test]
-    fn test_process_tool_call_unknown_tool() {
+    #[tokio::test]
+    async fn test_process_tool_call_unknown_tool() {
         let tool_call = ToolCall {
             id: "call_unknown".to_string(),
             call_type: "function".to_string(),
@@ -233,7 +233,7 @@ mod tests {
                 arguments: "{}".to_string(),
             },
         };
-        let (name, _, result) = process_tool_call(&tool_call);
+        let (name, _, result) = process_tool_call(&tool_call).await;
         assert_eq!(name, "unknown_tool");
         assert!(result.contains("Unknown tool"));
     }

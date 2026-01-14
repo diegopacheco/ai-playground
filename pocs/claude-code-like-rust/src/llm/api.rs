@@ -78,7 +78,7 @@ mod tests {
         let messages = vec![];
         let body = build_request_body(&messages);
         assert!(body["tools"].is_array());
-        assert_eq!(body["tools"].as_array().unwrap().len(), 4);
+        assert_eq!(body["tools"].as_array().unwrap().len(), 5);
     }
 
     #[test]

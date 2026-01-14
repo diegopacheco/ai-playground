@@ -29,7 +29,8 @@ src/
     ├── read_file.rs        # File reading tool
     ├── list_files.rs       # Directory listing tool
     ├── edit_file.rs        # File writing tool
-    └── execute_command.rs  # Program execution tool
+    ├── execute_command.rs  # Program execution tool
+    └── web_search.rs       # Web page text extraction tool
 
 tests/
 └── integration_test.rs     # End-to-end integration tests
@@ -74,6 +75,13 @@ Executes a program with arguments. Use this to run commands like `node hello.js`
 |-----------|------|----------|-------------|
 | `program` | string | yes | The program to execute (e.g., `node`, `python3`, `java`) |
 | `args` | array[string] | no | Array of arguments to pass to the program |
+
+### web_search
+Fetches a webpage and extracts its text content, stripping all JavaScript, CSS, and HTML tags.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `url` | string | yes | The URL of the webpage to fetch and extract text from |
 
 ## Build
 
@@ -121,10 +129,10 @@ The Python script ran successfully and printed "Hello, World!" to the console.
 
 | Category | Count | Description |
 |----------|-------|-------------|
-| Unit Tests | 79 | Tests for all modules |
+| Unit Tests | 92 | Tests for all modules |
 | Integration Tests | 5 | Application startup, exit, API key validation |
 | E2E Tests (ignored) | 3 | Require real OPENAI_API_KEY |
-| **Total** | **87** | |
+| **Total** | **100** | |
 
 ### Unit Tests by Module
 
@@ -134,8 +142,9 @@ The Python script ran successfully and printed "Hello, World!" to the console.
 | `tools/list_files.rs` | 6 | Directory listing, JSON output, empty dirs |
 | `tools/edit_file.rs` | 6 | File creation, overwrite, parent dirs |
 | `tools/execute_command.rs` | 11 | Program execution, args, error handling |
-| `tools/mod.rs` | 17 | Tool registry, dispatcher, all tool routing |
-| `llm/types.rs` | 17 | Serialization, deserialization of all types |
+| `tools/mod.rs` | 19 | Tool registry, dispatcher, all tool routing |
+| `tools/web_search.rs` | 11 | HTML parsing, text extraction, URL handling |
+| `llm/types.rs` | 16 | Serialization, deserialization of all types |
 | `llm/api.rs` | 10 | Request body construction, constants |
 | `agent.rs` | 17 | Message handling, truncation, tool processing |
 
@@ -164,9 +173,9 @@ cargo test
 ```
 
 ```
-running 79 tests
+running 92 tests
 ...
-test result: ok. 79 passed; 0 failed; 0 ignored
+test result: ok. 92 passed; 0 failed; 0 ignored
 
 running 8 tests
 ...

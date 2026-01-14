@@ -2,6 +2,7 @@ mod read_file;
 mod list_files;
 mod edit_file;
 mod execute_command;
+pub mod web_search;
 
 use serde_json::{json, Value};
 
@@ -85,11 +86,28 @@ pub fn get_tools() -> Value {
                     "required": ["program"]
                 }
             }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "web_search",
+                "description": "Fetch a webpage and extract its text content, stripping all JavaScript, CSS, and HTML tags",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "description": "The URL of the webpage to fetch and extract text from"
+                        }
+                    },
+                    "required": ["url"]
+                }
+            }
         }
     ])
 }
 
-pub fn execute_tool(name: &str, arguments: &str) -> String {
+pub async fn execute_tool(name: &str, arguments: &str) -> String {
     let args: Value = serde_json::from_str(arguments).unwrap_or(json!({}));
     match name {
         "read_file" => {
@@ -118,6 +136,10 @@ pub fn execute_tool(name: &str, arguments: &str) -> String {
                 .unwrap_or_default();
             execute_command::execute_command(program, &cmd_args)
         }
+        "web_search" => {
+            let url = args.get("url").and_then(|v| v.as_str()).unwrap_or("");
+            web_search::web_search(url).await
+        }
         _ => format!("Unknown tool: {}", name),
     }
 }
@@ -135,9 +157,9 @@ mod tests {
     }
 
     #[test]
-    fn test_get_tools_contains_four_tools() {
+    fn test_get_tools_contains_five_tools() {
         let tools = get_tools();
-        assert_eq!(tools.as_array().unwrap().len(), 4);
+        assert_eq!(tools.as_array().unwrap().len(), 5);
     }
 
     #[test]
@@ -193,69 +215,88 @@ mod tests {
     }
 
     #[test]
-    fn test_execute_tool_read_file() {
+    fn test_get_tools_has_web_search() {
+        let tools = get_tools();
+        let arr = tools.as_array().unwrap();
+        let has_web_search = arr.iter().any(|t| {
+            t.get("function")
+                .and_then(|f| f.get("name"))
+                .and_then(|n| n.as_str())
+                == Some("web_search")
+        });
+        assert!(has_web_search);
+    }
+
+    #[tokio::test]
+    async fn test_execute_tool_read_file() {
         let temp_dir = env::temp_dir();
         let test_file = temp_dir.join("test_exec_read.txt");
         fs::write(&test_file, "Test content").unwrap();
         let args = format!(r#"{{"path": "{}"}}"#, test_file.to_str().unwrap());
-        let result = execute_tool("read_file", &args);
+        let result = execute_tool("read_file", &args).await;
         assert_eq!(result, "Test content");
         fs::remove_file(&test_file).unwrap();
     }
 
-    #[test]
-    fn test_execute_tool_list_files() {
-        let result = execute_tool("list_files", r#"{"path": "."}"#);
+    #[tokio::test]
+    async fn test_execute_tool_list_files() {
+        let result = execute_tool("list_files", r#"{"path": "."}"#).await;
         assert!(result.contains("["));
         assert!(result.contains("]"));
     }
 
-    #[test]
-    fn test_execute_tool_list_files_empty_path() {
-        let result = execute_tool("list_files", r#"{}"#);
+    #[tokio::test]
+    async fn test_execute_tool_list_files_empty_path() {
+        let result = execute_tool("list_files", r#"{}"#).await;
         assert!(result.contains("["));
     }
 
-    #[test]
-    fn test_execute_tool_edit_file() {
+    #[tokio::test]
+    async fn test_execute_tool_edit_file() {
         let temp_dir = env::temp_dir();
         let test_file = temp_dir.join("test_exec_edit.txt");
         let _ = fs::remove_file(&test_file);
         let args = format!(r#"{{"path": "{}", "content": "Written content"}}"#, test_file.to_str().unwrap());
-        let result = execute_tool("edit_file", &args);
+        let result = execute_tool("edit_file", &args).await;
         assert!(result.contains("written successfully"));
         let content = fs::read_to_string(&test_file).unwrap();
         assert_eq!(content, "Written content");
         fs::remove_file(&test_file).unwrap();
     }
 
-    #[test]
-    fn test_execute_tool_execute_command() {
-        let result = execute_tool("execute_command", r#"{"program": "echo", "args": ["hello"]}"#);
+    #[tokio::test]
+    async fn test_execute_tool_execute_command() {
+        let result = execute_tool("execute_command", r#"{"program": "echo", "args": ["hello"]}"#).await;
         assert!(result.contains("hello"));
     }
 
-    #[test]
-    fn test_execute_tool_execute_command_no_args() {
-        let result = execute_tool("execute_command", r#"{"program": "pwd"}"#);
+    #[tokio::test]
+    async fn test_execute_tool_execute_command_no_args() {
+        let result = execute_tool("execute_command", r#"{"program": "pwd"}"#).await;
         assert!(!result.starts_with("Error"));
     }
 
-    #[test]
-    fn test_execute_tool_unknown_tool() {
-        let result = execute_tool("unknown_tool", "{}");
+    #[tokio::test]
+    async fn test_execute_tool_unknown_tool() {
+        let result = execute_tool("unknown_tool", "{}").await;
         assert_eq!(result, "Unknown tool: unknown_tool");
     }
 
-    #[test]
-    fn test_execute_tool_invalid_json() {
-        let result = execute_tool("read_file", "not json");
+    #[tokio::test]
+    async fn test_execute_tool_invalid_json() {
+        let result = execute_tool("read_file", "not json").await;
         assert!(result.contains("Error") || result.is_empty() || result.len() > 0);
     }
 
-    #[test]
-    fn test_execute_tool_missing_required_args() {
-        let result = execute_tool("read_file", "{}");
+    #[tokio::test]
+    async fn test_execute_tool_missing_required_args() {
+        let result = execute_tool("read_file", "{}").await;
+        assert!(result.contains("Error"));
+    }
+
+    #[tokio::test]
+    async fn test_execute_tool_web_search_empty_url() {
+        let result = execute_tool("web_search", r#"{"url": ""}"#).await;
         assert!(result.contains("Error"));
     }
 }
