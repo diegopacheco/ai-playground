@@ -1,0 +1,7 @@
+target/
+node_modules/
+dist/
+workspaces/
+.backend.pid
+.frontend.pid
+*.lock

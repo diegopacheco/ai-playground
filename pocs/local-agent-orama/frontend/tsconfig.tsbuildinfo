@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/api/client.ts","./src/components/agentcard.tsx","./src/components/agenttabs.tsx","./src/components/codeviewer.tsx","./src/components/filebrowser.tsx","./src/components/promptinput.tsx","./src/routes/index.tsx"],"version":"5.6.3"}
