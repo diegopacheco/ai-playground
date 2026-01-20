@@ -25,7 +25,7 @@ const AGENTS: [AgentConfig; 4] = [
     AgentConfig { key: "claude-code", name: "Claude Code", model: "claude-sonnet-4-20250514" },
     AgentConfig { key: "codex", name: "Codex", model: "o4-mini" },
     AgentConfig { key: "gemini", name: "Gemini", model: "gemini-2.5-pro" },
-    AgentConfig { key: "copilot-cli", name: "Copilot CLI", model: "gpt-4o" },
+    AgentConfig { key: "copilot", name: "Copilot", model: "gpt-4o" },
 ];
 
 pub async fn run_agents(
