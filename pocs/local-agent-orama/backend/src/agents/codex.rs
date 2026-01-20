@@ -20,7 +20,7 @@ pub async fn run(state: SharedAgentState, prompt: &str) {
     let result = timeout(
         Duration::from_secs(TIMEOUT_SECS),
         Command::new("codex")
-            .args(["--full-auto", "-q", prompt])
+            .args(["--full-auto", prompt])
             .current_dir(&worktree)
             .output()
     ).await;
