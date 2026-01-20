@@ -17,8 +17,8 @@ pub async fn run(state: SharedAgentState, prompt: &str) {
     };
     let result = timeout(
         Duration::from_secs(TIMEOUT_SECS),
-        Command::new("copilot-cli")
-            .args(["--yolo", prompt])
+        Command::new("copilot")
+            .args(["--allow-all", "-p", prompt])
             .current_dir(&worktree)
             .output()
     ).await;
