@@ -98,7 +98,7 @@ function IndexPage() {
     <div className="min-h-screen flex flex-col">
       <header className="py-6 px-8">
         <div className="flex items-center gap-6 max-w-5xl mx-auto">
-          <img src="/logo.png" alt="Local Agent Orama" className="w-16 h-16 rounded-lg" />
+          <img src="/logo.png" alt="Local Agent Orama" className="w-28 h-28 object-contain" />
           <div>
             <h1 className="text-3xl font-bold">Local Agent Orama</h1>
             <p className="text-slate-400 text-sm">Run multiple AI coding assistants in parallel</p>
