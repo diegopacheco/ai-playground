@@ -10,7 +10,7 @@ const DEFAULT_AGENTS: Agent[] = [
   { name: 'Claude Code', model: 'claude-sonnet-4-20250514', status: 'pending', worktree: '' },
   { name: 'Codex', model: 'o4-mini', status: 'pending', worktree: '' },
   { name: 'Gemini', model: 'gemini-2.5-pro', status: 'pending', worktree: '' },
-  { name: 'Copilot CLI', model: 'gpt-4o', status: 'pending', worktree: '' },
+  { name: 'Copilot', model: 'gpt-4o', status: 'pending', worktree: '' },
 ]
 
 function IndexPage() {
