@@ -1,19 +1,16 @@
 #!/bin/bash
-mkdir -p workspaces
+BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
+mkdir -p "$BASE_DIR/workspaces"
 echo "Building backend..."
-cd backend && cargo build --release
-cd ..
+(cd "$BASE_DIR/backend" && cargo build --release)
 echo "Installing frontend dependencies..."
-cd frontend && bun install
-cd ..
+(cd "$BASE_DIR/frontend" && bun install)
 echo "Starting backend..."
-cd backend && ./target/release/local-agent-orama-backend &
-echo $! > ../.backend.pid
-cd ..
+(cd "$BASE_DIR/backend" && ./target/release/local-agent-orama-backend) &
+echo $! > "$BASE_DIR/.backend.pid"
 echo "Starting frontend..."
-cd frontend && bun run dev &
-echo $! > ../.frontend.pid
-cd ..
+(cd "$BASE_DIR/frontend" && bun run dev) &
+echo $! > "$BASE_DIR/.frontend.pid"
 echo "Frontend: http://localhost:5173"
 echo "Backend: http://localhost:8080"
 wait
