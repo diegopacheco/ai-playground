@@ -18,7 +18,7 @@ pub async fn run(state: SharedAgentState, prompt: &str) {
     let result = timeout(
         Duration::from_secs(TIMEOUT_SECS),
         Command::new("gemini")
-            .args(["--yolo", "-p", prompt])
+            .args(["-y", prompt])
             .current_dir(&worktree)
             .output()
     ).await;
