@@ -6,13 +6,75 @@ interface CodeViewerProps {
   filePath: string | null
 }
 
-const KEYWORDS: Record<string, string[]> = {
-  rust: ['fn', 'let', 'mut', 'const', 'struct', 'enum', 'impl', 'trait', 'pub', 'use', 'mod', 'crate', 'self', 'super', 'where', 'async', 'await', 'move', 'ref', 'static', 'type', 'unsafe', 'extern', 'dyn', 'if', 'else', 'match', 'loop', 'while', 'for', 'in', 'break', 'continue', 'return', 'true', 'false', 'Some', 'None', 'Ok', 'Err', 'Self'],
-  javascript: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'do', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'throw', 'new', 'delete', 'typeof', 'instanceof', 'void', 'this', 'class', 'extends', 'import', 'export', 'default', 'from', 'as', 'async', 'await', 'yield', 'true', 'false', 'null', 'undefined'],
-  typescript: ['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'do', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'throw', 'new', 'delete', 'typeof', 'instanceof', 'void', 'this', 'class', 'extends', 'import', 'export', 'default', 'from', 'as', 'async', 'await', 'yield', 'true', 'false', 'null', 'undefined', 'interface', 'type', 'enum', 'implements', 'private', 'public', 'protected', 'readonly', 'abstract', 'namespace'],
-  python: ['def', 'class', 'return', 'if', 'elif', 'else', 'for', 'while', 'break', 'continue', 'pass', 'try', 'except', 'finally', 'raise', 'import', 'from', 'as', 'with', 'lambda', 'yield', 'global', 'nonlocal', 'assert', 'True', 'False', 'None', 'and', 'or', 'not', 'in', 'is', 'async', 'await', 'self'],
-  go: ['func', 'var', 'const', 'type', 'struct', 'interface', 'map', 'chan', 'package', 'import', 'return', 'if', 'else', 'for', 'range', 'switch', 'case', 'default', 'break', 'continue', 'go', 'select', 'defer', 'make', 'new', 'true', 'false', 'nil', 'iota'],
-  java: ['public', 'private', 'protected', 'class', 'interface', 'extends', 'implements', 'static', 'final', 'void', 'return', 'if', 'else', 'for', 'while', 'do', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'throw', 'throws', 'new', 'this', 'super', 'import', 'package', 'true', 'false', 'null', 'abstract', 'synchronized', 'volatile', 'transient', 'native', 'enum', 'instanceof'],
+interface Token {
+  text: string
+  type: 'keyword' | 'string' | 'comment' | 'number' | 'function' | 'type' | 'plain'
+}
+
+const KEYWORDS: Record<string, Set<string>> = {
+  rust: new Set(['fn', 'let', 'mut', 'const', 'struct', 'enum', 'impl', 'trait', 'pub', 'use', 'mod', 'crate', 'self', 'super', 'where', 'async', 'await', 'move', 'ref', 'static', 'type', 'unsafe', 'extern', 'dyn', 'if', 'else', 'match', 'loop', 'while', 'for', 'in', 'break', 'continue', 'return', 'true', 'false', 'Some', 'None', 'Ok', 'Err', 'Self']),
+  javascript: new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'do', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'throw', 'new', 'delete', 'typeof', 'instanceof', 'void', 'this', 'class', 'extends', 'import', 'export', 'default', 'from', 'as', 'async', 'await', 'yield', 'true', 'false', 'null', 'undefined']),
+  typescript: new Set(['const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'do', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'throw', 'new', 'delete', 'typeof', 'instanceof', 'void', 'this', 'class', 'extends', 'import', 'export', 'default', 'from', 'as', 'async', 'await', 'yield', 'true', 'false', 'null', 'undefined', 'interface', 'type', 'enum', 'implements', 'private', 'public', 'protected', 'readonly', 'abstract', 'namespace']),
+  python: new Set(['def', 'class', 'return', 'if', 'elif', 'else', 'for', 'while', 'break', 'continue', 'pass', 'try', 'except', 'finally', 'raise', 'import', 'from', 'as', 'with', 'lambda', 'yield', 'global', 'nonlocal', 'assert', 'True', 'False', 'None', 'and', 'or', 'not', 'in', 'is', 'async', 'await', 'self']),
+  go: new Set(['func', 'var', 'const', 'type', 'struct', 'interface', 'map', 'chan', 'package', 'import', 'return', 'if', 'else', 'for', 'range', 'switch', 'case', 'default', 'break', 'continue', 'go', 'select', 'defer', 'make', 'new', 'true', 'false', 'nil', 'iota']),
+  java: new Set(['public', 'private', 'protected', 'class', 'interface', 'extends', 'implements', 'static', 'final', 'void', 'return', 'if', 'else', 'for', 'while', 'do', 'switch', 'case', 'break', 'continue', 'try', 'catch', 'finally', 'throw', 'throws', 'new', 'this', 'super', 'import', 'package', 'true', 'false', 'null', 'abstract', 'synchronized', 'volatile', 'transient', 'native', 'enum', 'instanceof']),
+}
+
+function tokenizeLine(line: string, language: string): Token[] {
+  const tokens: Token[] = []
+  const keywords = KEYWORDS[language] || KEYWORDS['javascript'] || new Set()
+  let i = 0
+  while (i < line.length) {
+    if (line[i] === '/' && line[i + 1] === '/') {
+      tokens.push({ text: line.slice(i), type: 'comment' })
+      break
+    }
+    if (line[i] === '#' && (language === 'python' || language === 'bash')) {
+      tokens.push({ text: line.slice(i), type: 'comment' })
+      break
+    }
+    if (line[i] === '"' || line[i] === "'" || line[i] === '`') {
+      const quote = line[i]
+      let j = i + 1
+      while (j < line.length && (line[j] !== quote || line[j - 1] === '\\')) {
+        j++
+      }
+      tokens.push({ text: line.slice(i, j + 1), type: 'string' })
+      i = j + 1
+      continue
+    }
+    if (/[0-9]/.test(line[i])) {
+      let j = i
+      while (j < line.length && /[0-9.]/.test(line[j])) {
+        j++
+      }
+      tokens.push({ text: line.slice(i, j), type: 'number' })
+      i = j
+      continue
+    }
+    if (/[a-zA-Z_]/.test(line[i])) {
+      let j = i
+      while (j < line.length && /[a-zA-Z0-9_]/.test(line[j])) {
+        j++
+      }
+      const word = line.slice(i, j)
+      const nextChar = line[j]
+      if (keywords.has(word)) {
+        tokens.push({ text: word, type: 'keyword' })
+      } else if (nextChar === '(') {
+        tokens.push({ text: word, type: 'function' })
+      } else if (/^[A-Z]/.test(word)) {
+        tokens.push({ text: word, type: 'type' })
+      } else {
+        tokens.push({ text: word, type: 'plain' })
+      }
+      i = j
+      continue
+    }
+    tokens.push({ text: line[i], type: 'plain' })
+    i++
+  }
+  return tokens
 }
 
 function escapeHtml(text: string): string {
@@ -22,19 +84,29 @@ function escapeHtml(text: string): string {
     .replace(/>/g, '&gt;')
 }
 
+function renderToken(token: Token): string {
+  const escaped = escapeHtml(token.text)
+  switch (token.type) {
+    case 'keyword':
+      return `<span style="color:#c084fc">${escaped}</span>`
+    case 'string':
+      return `<span style="color:#4ade80">${escaped}</span>`
+    case 'comment':
+      return `<span style="color:#64748b">${escaped}</span>`
+    case 'number':
+      return `<span style="color:#fb923c">${escaped}</span>`
+    case 'function':
+      return `<span style="color:#60a5fa">${escaped}</span>`
+    case 'type':
+      return `<span style="color:#facc15">${escaped}</span>`
+    default:
+      return escaped
+  }
+}
+
 function highlightLine(line: string, language: string): string {
-  let escaped = escapeHtml(line)
-  escaped = escaped.replace(/(\/\/.*$|#.*$)/gm, '<span class="text-slate-500">$1</span>')
-  escaped = escaped.replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)/g, '<span class="text-green-400">$1</span>')
-  escaped = escaped.replace(/\b(\d+\.?\d*)\b/g, '<span class="text-orange-400">$1</span>')
-  const keywords = KEYWORDS[language] || KEYWORDS['javascript'] || []
-  keywords.forEach(kw => {
-    const regex = new RegExp(`\\b(${kw})\\b`, 'g')
-    escaped = escaped.replace(regex, '<span class="text-purple-400">$1</span>')
-  })
-  escaped = escaped.replace(/\b([A-Z][a-zA-Z0-9_]*)\b/g, '<span class="text-yellow-400">$1</span>')
-  escaped = escaped.replace(/\b([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g, '<span class="text-blue-400">$1</span>(')
-  return escaped
+  const tokens = tokenizeLine(line, language)
+  return tokens.map(renderToken).join('')
 }
 
 function CodeViewer({ content, language, filePath }: CodeViewerProps) {
