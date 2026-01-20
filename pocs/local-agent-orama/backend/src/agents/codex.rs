@@ -1,5 +1,6 @@
 use crate::agents::SharedAgentState;
 use crate::models::AgentStatus;
+use std::process::Stdio;
 use std::time::Duration;
 use tokio::process::Command;
 use tokio::time::timeout;
@@ -17,11 +18,16 @@ pub async fn run(state: SharedAgentState, prompt: &str) {
         s.worktree.clone()
     };
     let log_path = worktree.join("logs.txt");
+    let prompt_path = worktree.join("prompt.md");
+    let _ = fs::write(&prompt_path, format!("# Prompt\n\n{}", prompt)).await;
     let result = timeout(
         Duration::from_secs(TIMEOUT_SECS),
         Command::new("codex")
             .args(["exec", "--full-auto", prompt])
             .current_dir(&worktree)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
             .output()
     ).await;
     let mut s = state.lock().await;

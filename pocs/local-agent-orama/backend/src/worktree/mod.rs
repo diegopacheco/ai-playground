@@ -5,6 +5,8 @@ use tokio::fs;
 pub async fn create_workspace(project_name: &str) -> Result<PathBuf, String> {
     let base_path = std::env::current_dir()
         .map_err(|e| e.to_string())?
+        .parent()
+        .ok_or("Cannot get parent directory")?
         .join("workspaces")
         .join(project_name);
     fs::create_dir_all(&base_path).await.map_err(|e| e.to_string())?;

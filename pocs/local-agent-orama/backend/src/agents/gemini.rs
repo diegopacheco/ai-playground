@@ -17,6 +17,8 @@ pub async fn run(state: SharedAgentState, prompt: &str) {
         s.worktree.clone()
     };
     let log_path = worktree.join("logs.txt");
+    let prompt_path = worktree.join("prompt.md");
+    let _ = fs::write(&prompt_path, format!("# Prompt\n\n{}", prompt)).await;
     let result = timeout(
         Duration::from_secs(TIMEOUT_SECS),
         Command::new("gemini")
