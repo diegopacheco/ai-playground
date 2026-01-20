@@ -5,8 +5,12 @@ mod routes;
 mod worktree;
 
 use actix_cors::Cors;
-use actix_web::{web, App, HttpServer};
+use actix_web::{web, App, HttpServer, HttpResponse, Responder};
 use routes::{create_session_store, run_agents, get_status, get_files, get_file_content};
+
+async fn health() -> impl Responder {
+    HttpResponse::Ok().body("Local Agent Orama Backend - OK")
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -20,6 +24,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(cors)
             .app_data(web::Data::new(store.clone()))
+            .route("/", web::get().to(health))
             .route("/api/run", web::post().to(run_agents))
             .route("/api/status/{session_id}", web::get().to(get_status))
             .route("/api/files/{session_id}/{agent_name}", web::get().to(get_files))
