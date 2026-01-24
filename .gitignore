@@ -4,6 +4,9 @@ data/
 # Mac
 .DS_Store
 
+# Llama models
+*.gguf
+
 # ONNX model files 
 *.onnx
 .onnx
