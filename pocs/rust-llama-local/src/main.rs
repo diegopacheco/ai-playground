@@ -2,7 +2,7 @@ use llama_cpp_2::context::params::LlamaContextParams;
 use llama_cpp_2::llama_backend::LlamaBackend;
 use llama_cpp_2::llama_batch::LlamaBatch;
 use llama_cpp_2::model::params::LlamaModelParams;
-use llama_cpp_2::model::{LlamaModel, Special};
+use llama_cpp_2::model::{AddBos, LlamaModel, Special};
 use llama_cpp_2::token::data_array::LlamaTokenDataArray;
 use std::io::{self, Write};
 use std::num::NonZeroU32;
@@ -19,9 +19,6 @@ fn main() {
 
     let ctx_params = LlamaContextParams::default()
         .with_n_ctx(NonZeroU32::new(2048));
-    let mut ctx = model
-        .new_context(&backend, ctx_params)
-        .expect("Failed to create context");
 
     println!("Llama 3 Chat - Type 'quit' to exit");
     println!("-----------------------------------");
@@ -44,9 +41,13 @@ fn main() {
             continue;
         }
 
+        let mut ctx = model
+            .new_context(&backend, ctx_params.clone())
+            .expect("Failed to create context");
+
         let prompt = format!("<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n", input);
         let tokens = model
-            .str_to_token(&prompt, llama_cpp_2::model::AddBos::Always)
+            .str_to_token(&prompt, AddBos::Never)
             .expect("Failed to tokenize");
 
         let mut batch = LlamaBatch::new(2048, 1);
