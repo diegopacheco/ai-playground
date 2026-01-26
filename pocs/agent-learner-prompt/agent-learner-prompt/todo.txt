@@ -20,3 +20,13 @@ Done
 [x] Create stop.sh script
 [x] Update README.md with all scripts
 [x] Update design-doc.md with scripts section
+[x] Run 5 learning cycles per task (not just retries)
+[x] Display learnings acquired each cycle
+[x] Display anti-patterns identified each cycle
+[x] Show cycle-by-cycle report with learnings and anti-patterns
+[x] Print session summary with all learnings and anti-patterns
+[x] Implement REPL mode for continuous interactive learning
+[x] REPL commands: :quit, :memory, :anti, :prompts, :help, :clear
+[x] Each cycle creates separate directory (cycle-1, cycle-2, etc)
+[x] Improve prompt after each failed cycle
+[x] Archive prompt versions with timestamps
