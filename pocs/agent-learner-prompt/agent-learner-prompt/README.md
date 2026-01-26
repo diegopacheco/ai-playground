@@ -13,7 +13,7 @@ A self-learning CLI agent that iteratively improves its prompts based on executi
 ## Build
 
 ```bash
-cargo build --release
+./build-all.sh
 ```
 
 ## Usage
@@ -27,11 +27,24 @@ cargo build --release
 ./run.sh --help
 ```
 
+## Stop
+
+```bash
+./stop.sh
+```
+
 ## Test
 
 ```bash
 ./test.sh
 ```
+
+## Scripts
+
+- `build-all.sh` - Build the project
+- `run.sh` - Execute agent with task
+- `stop.sh` - Stop running agents
+- `test.sh` - Run tests
 
 ## Files
 
@@ -39,3 +52,5 @@ cargo build --release
 - `anti-pattern.txt` - Patterns to avoid from failures
 - `prompt.md` - Current and past prompt versions
 - `solutions/` - Generated code output directory
+- `design-doc.md` - Architecture and design decisions
+- `todo.txt` - Project task tracking
