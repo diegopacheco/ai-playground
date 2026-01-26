@@ -60,3 +60,18 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/deep-research-opena
 
 Diego Code (Simple CLI agent for coding - written in Go) <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/diego-code <br/>
+
+Claudio Coda Rust (Claudio Code like coding agent written in rust) <br/>
+https://github.com/diegopacheco/claudio-coda-rust <br/>
+
+Local Agent Orama (Adversarial agents doing parallel benchmark) <br/>
+https://github.com/diegopacheco/local-agent-orama <br/>
+
+LLR3 (Rust embeded llama3 model) agent <br/>
+https://github.com/diegopacheco/local-agent-rust-llama3 <br/>
+
+Multi-Agent Verse (Multi-Agents coding solutions) <br/>
+https://github.com/diegopacheco/multi-agent-verse
+
+prompt-2-k8s-agent (write a promp and agent deploy and run in k8s cluster) <br/>
+https://github.com/diegopacheco/prompt-2-k8s-agent <br/>
