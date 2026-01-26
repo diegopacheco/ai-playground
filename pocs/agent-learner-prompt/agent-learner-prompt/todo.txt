@@ -1,0 +1,15 @@
+Agent Learner Prompt - Self Learning Agent TODO
+
+[x] Create Rust CLI project structure
+[x] Implement main.rs with CLI argument parsing
+[x] Create memory.txt for storing learnings
+[x] Create anti-pattern.txt for bad practices to avoid
+[x] Create prompt.md with version tracking (Current/Past prompts)
+[x] Implement agent executor with retry loop
+[x] Implement prompt versioning system
+[x] Implement learning extraction from agent output
+[x] Implement anti-pattern detection
+[x] Run generated code in solutions/ directory
+[x] Create design-doc.md
+[x] Create run.sh script
+[x] Create test.sh script

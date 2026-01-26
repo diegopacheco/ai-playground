@@ -1,0 +1,8 @@
+- Avoid hardcoded file paths
+- Do not use unwrap() without proper error context
+- Never skip input validation
+- Avoid infinite loops without exit conditions
+- Do not ignore error return values
+- Avoid blocking operations in async code
+- Do not use panic! for recoverable errors
+- Avoid global mutable state
