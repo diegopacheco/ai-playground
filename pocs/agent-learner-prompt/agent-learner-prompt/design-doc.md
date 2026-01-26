@@ -14,7 +14,9 @@ agent-learner-prompt/
 ├── anti-pattern.txt     # Bad practices to avoid
 ├── prompt.md            # Prompt version history
 ├── solutions/           # Generated code output
+├── build-all.sh         # Build the project
 ├── run.sh               # Execute the agent
+├── stop.sh              # Stop running agents
 └── test.sh              # Validate functionality
 ```
 
@@ -106,11 +108,18 @@ while attempt < MAX_RETRIES:
 ## CLI Interface
 
 ```bash
-./agent-learner "Create a REST API that returns hello world"
-./agent-learner --list-prompts
-./agent-learner --show-memory
-./agent-learner --show-anti-patterns
+./run.sh "Create a REST API that returns hello world"
+./run.sh --list-prompts
+./run.sh --show-memory
+./run.sh --show-anti-patterns
 ```
+
+## Scripts
+
+- build-all.sh: Compiles the Rust binary in release mode
+- run.sh: Builds if needed and executes agent with provided task
+- stop.sh: Kills any running agent-learner or claude processes
+- test.sh: Runs cargo build, cargo test, and CLI validation
 
 ## Dependencies
 
@@ -127,3 +136,5 @@ while attempt < MAX_RETRIES:
 3. Claude CLI integration: Reuses existing infrastructure
 4. Retry with learning: Each failure improves subsequent attempts
 5. Prompt versioning: Full history for analysis and rollback
+6. No web frontend: Pure CLI tool for simplicity
+7. Solutions directory: Isolates generated code from agent code

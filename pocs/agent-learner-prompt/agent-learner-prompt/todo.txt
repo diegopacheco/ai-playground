@@ -1,5 +1,8 @@
-Agent Learner Prompt - Self Learning Agent TODO
+Agent Learner Prompt - Self Learning Agent
 
+Backlog
+
+Done
 [x] Create Rust CLI project structure
 [x] Implement main.rs with CLI argument parsing
 [x] Create memory.txt for storing learnings
@@ -13,3 +16,7 @@ Agent Learner Prompt - Self Learning Agent TODO
 [x] Create design-doc.md
 [x] Create run.sh script
 [x] Create test.sh script
+[x] Create build-all.sh script
+[x] Create stop.sh script
+[x] Update README.md with all scripts
+[x] Update design-doc.md with scripts section
