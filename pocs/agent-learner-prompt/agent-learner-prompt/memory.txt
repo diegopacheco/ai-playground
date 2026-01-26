@@ -1,0 +1,8 @@
+- Always include error handling in generated code
+- Use async/await for I/O operations in Rust
+- Create run.sh for executing the generated application
+- Create stop.sh for cleanup when needed
+- Validate user input before processing
+- Use meaningful variable names
+- Keep functions small and focused
+- Test generated code before marking as complete
