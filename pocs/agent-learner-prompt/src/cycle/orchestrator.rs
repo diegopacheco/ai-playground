@@ -1,14 +1,13 @@
 use std::fs;
 use std::path::{Path, PathBuf};
-use chrono::Local;
 use uuid::Uuid;
 
 use crate::agents;
 use crate::memory::{add_learning, add_mistake};
 use crate::prompt::{ensure_prompts_exists, read_current_prompt, build_enhanced_prompt, archive_prompt, update_current_prompt};
-use crate::review::{ReviewFindings, build_review_prompt, parse_review_output, findings_to_mistakes};
+use crate::review::{build_review_prompt, parse_review_output, findings_to_summary};
 use crate::runner::run_solution_with_timeout;
-use crate::learning::{extract_specific_learnings, extract_mistakes_from_failure};
+use crate::learning::{build_learnings_prompt, build_mistakes_prompt, build_improve_prompt_prompt, parse_learnings, parse_mistakes};
 
 const SOLUTIONS_DIR: &str = "solutions";
 const CODE_DIR: &str = "code";
@@ -43,66 +42,34 @@ pub fn create_project_dir(base_dir: &Path, project_name: &str) -> PathBuf {
     project_dir
 }
 
-fn improve_prompt(project_dir: &Path, current_prompt: &str, error: &str, findings: &ReviewFindings, cycle: u32) -> String {
-    let mut improved = current_prompt.to_string();
-    let timestamp = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
-    improved.push_str(&format!("\n\n## Improvements from cycle {} at {}:", cycle, timestamp));
-    let mut added = false;
-    if !findings.architecture_issues.is_empty() {
-        improved.push_str("\n- Pay attention to architecture and code organization");
-        added = true;
-    }
-    if !findings.design_issues.is_empty() {
-        improved.push_str("\n- Follow proper design patterns");
-        added = true;
-    }
-    if !findings.code_quality_issues.is_empty() {
-        improved.push_str("\n- Improve code quality and readability");
-        added = true;
-    }
-    if !findings.security_issues.is_empty() {
-        improved.push_str("\n- Address security concerns (input validation, no hardcoded secrets)");
-        added = true;
-    }
-    if !findings.test_issues.is_empty() {
-        improved.push_str("\n- Add comprehensive tests with good coverage");
-        added = true;
-    }
-    if error.contains("timeout") {
-        improved.push_str("\n- Avoid blocking operations");
-        added = true;
-    }
-    if error.contains("error") || error.contains("failed") {
-        improved.push_str("\n- Add proper error handling");
-        added = true;
-    }
-    if !added {
-        improved.push_str("\n- Continue with current approach");
-    }
-    archive_prompt(project_dir, current_prompt);
-    update_current_prompt(project_dir, &improved);
-    improved
-}
-
 fn copy_to_code_folder(project_dir: &Path, last_successful_cycle: u32) {
     let cycle_dir = project_dir.join(format!("cycle-{}", last_successful_cycle));
     let code_dir = project_dir.join(CODE_DIR);
     let _ = fs::create_dir_all(&code_dir);
-    if let Ok(entries) = fs::read_dir(&cycle_dir) {
+    copy_dir_recursive(&cycle_dir, &code_dir);
+    println!("Final code copied to: {}", code_dir.display());
+}
+
+fn copy_dir_recursive(src: &Path, dst: &Path) {
+    let skip_files = ["prompt.txt", "output.txt", "review.txt", "learnings.txt", "mistakes.txt", "improved_prompt.txt"];
+    if let Ok(entries) = fs::read_dir(src) {
         for entry in entries.flatten() {
             let path = entry.path();
-            if path.is_file() {
-                if let Some(name) = path.file_name() {
-                    let name_str = name.to_string_lossy();
-                    if !name_str.starts_with("prompt") && !name_str.starts_with("output") && !name_str.starts_with("review") {
-                        let dest = code_dir.join(name);
-                        let _ = fs::copy(&path, &dest);
-                    }
+            if let Some(name) = path.file_name() {
+                let name_str = name.to_string_lossy();
+                if skip_files.iter().any(|&s| name_str == s) {
+                    continue;
+                }
+                let dest = dst.join(name);
+                if path.is_dir() {
+                    let _ = fs::create_dir_all(&dest);
+                    copy_dir_recursive(&path, &dest);
+                } else if path.is_file() {
+                    let _ = fs::copy(&path, &dest);
                 }
             }
         }
     }
-    println!("Final code copied to: {}", code_dir.display());
 }
 
 pub fn print_cycle_report(report: &CycleReport) {
@@ -208,55 +175,68 @@ pub async fn run_learning_cycles(base_dir: &Path, task: &str, agent: &str, model
             last_successful_cycle = cycle;
             println!("\nPhase 2: Running solution...");
             let (solution_ok, solution_output) = run_solution_with_timeout(&cycle_dir).await;
+            let solution_result = if solution_ok { 
+                format!("Success: {}", solution_output.chars().take(500).collect::<String>())
+            } else { 
+                format!("Failed: {}", solution_output.chars().take(500).collect::<String>())
+            };
             println!("\nPhase 3: Reviewing code...");
             let review_prompt = build_review_prompt(&cycle_dir, task);
             let review_result = agents::run_agent(agent, &review_prompt, model, &cycle_dir).await;
             let review_log = cycle_dir.join("review.txt");
             let _ = fs::write(&review_log, &review_result.output);
             let findings = parse_review_output(&review_result.output);
+            let review_summary = findings_to_summary(&findings);
             println!("\nReview findings:");
             println!("  Architecture: {}", if findings.architecture_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.architecture_issues.len()) });
             println!("  Design: {}", if findings.design_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.design_issues.len()) });
             println!("  Code Quality: {}", if findings.code_quality_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.code_quality_issues.len()) });
             println!("  Security: {}", if findings.security_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.security_issues.len()) });
             println!("  Tests: {}", if findings.test_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.test_issues.len()) });
-            let task_learnings = extract_specific_learnings(&result.output, task);
-            for learning in &task_learnings {
+            println!("\nPhase 4: Extracting learnings (LLM)...");
+            let learnings_prompt = build_learnings_prompt(task, &result.output, &solution_result, &review_summary);
+            let learnings_result = agents::run_agent(agent, &learnings_prompt, model, &cycle_dir).await;
+            let learnings_log = cycle_dir.join("learnings.txt");
+            let _ = fs::write(&learnings_log, &learnings_result.output);
+            let llm_learnings = parse_learnings(&learnings_result.output);
+            for learning in &llm_learnings {
                 let saved = add_learning(&project_dir, learning);
                 if !saved.is_empty() {
                     report.learnings.push(saved);
                 }
             }
-            let review_mistakes = findings_to_mistakes(&findings);
-            for pattern in &review_mistakes {
-                let saved = add_mistake(&project_dir, pattern);
+            println!("\nPhase 5: Extracting mistakes (LLM)...");
+            let mistakes_prompt = build_mistakes_prompt(task, &result.output, &solution_result, &review_summary);
+            let mistakes_result = agents::run_agent(agent, &mistakes_prompt, model, &cycle_dir).await;
+            let mistakes_log = cycle_dir.join("mistakes.txt");
+            let _ = fs::write(&mistakes_log, &mistakes_result.output);
+            let llm_mistakes = parse_mistakes(&mistakes_result.output);
+            for mistake in &llm_mistakes {
+                let saved = add_mistake(&project_dir, mistake);
                 if !saved.is_empty() {
                     report.mistakes.push(saved);
                 }
             }
-            if !solution_ok && !solution_output.contains("likely") {
-                let patterns = extract_mistakes_from_failure(&solution_output, &result.output);
-                for pattern in &patterns {
-                    let saved = add_mistake(&project_dir, pattern);
-                    if !saved.is_empty() {
-                        report.mistakes.push(saved);
-                    }
-                }
+            println!("\nPhase 6: Improving prompt (LLM)...");
+            let all_learnings = llm_learnings.join("\n");
+            let all_mistakes = llm_mistakes.join("\n");
+            let improve_prompt = build_improve_prompt_prompt(&current_prompt, &all_learnings, &all_mistakes, &review_summary);
+            let improve_result = agents::run_agent(agent, &improve_prompt, model, &cycle_dir).await;
+            let improve_log = cycle_dir.join("improved_prompt.txt");
+            let _ = fs::write(&improve_log, &improve_result.output);
+            if !improve_result.output.trim().is_empty() {
+                archive_prompt(&project_dir, &current_prompt);
+                update_current_prompt(&project_dir, &improve_result.output.trim());
+                current_prompt = improve_result.output.trim().to_string();
+                report.prompt_improved = true;
             }
-            current_prompt = improve_prompt(&project_dir, &current_prompt, "", &findings, cycle);
-            report.prompt_improved = true;
         } else {
             println!("\nCycle {} failed: {}", cycle, result.error);
-            let patterns = extract_mistakes_from_failure(&result.error, &result.output);
-            for pattern in &patterns {
-                let saved = add_mistake(&project_dir, pattern);
-                if !saved.is_empty() {
-                    report.mistakes.push(saved);
-                }
+            let error_learning = format!("Cycle failed: {}", result.error.chars().take(200).collect::<String>());
+            let saved = add_mistake(&project_dir, &error_learning);
+            if !saved.is_empty() {
+                report.mistakes.push(saved);
             }
-            let empty_findings = ReviewFindings::default();
-            current_prompt = improve_prompt(&project_dir, &current_prompt, &result.error, &empty_findings, cycle);
-            report.prompt_improved = true;
         }
         print_cycle_report(&report);
         reports.push(report);
