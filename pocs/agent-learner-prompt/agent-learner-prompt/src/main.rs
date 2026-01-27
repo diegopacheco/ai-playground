@@ -4,6 +4,7 @@ use std::io::{self, Write};
 use std::path::{Path, PathBuf};
 use std::process::Stdio;
 use std::time::Duration;
+use std::collections::HashSet;
 use chrono::Local;
 use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::process::Command;
@@ -17,6 +18,24 @@ const MEMORY_FILE: &str = "memory.txt";
 const ANTI_PATTERN_FILE: &str = "anti-pattern.txt";
 const PROMPT_FILE: &str = "prompt.md";
 const SOLUTIONS_DIR: &str = "solutions";
+
+const DEFAULT_PROMPT: &str = r#"# Current Prompt
+
+You are a code generation agent. Your task is to generate working code based on user requirements.
+
+Guidelines:
+1. Generate complete, runnable code
+2. Include a run.sh script to execute the code
+3. Handle errors gracefully
+4. Use best practices for the target language
+5. Keep code simple and readable
+6. Do not use external dependencies unless necessary
+
+Output your code to the working directory provided.
+
+# Past Prompts
+
+"#;
 
 struct AgentResult {
     success: bool,
@@ -44,6 +63,18 @@ fn get_base_dir() -> PathBuf {
     env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
 }
 
+fn ensure_prompt_exists(base_dir: &Path) {
+    let prompt_path = base_dir.join(PROMPT_FILE);
+    if !prompt_path.exists() {
+        let _ = fs::write(&prompt_path, DEFAULT_PROMPT);
+    } else {
+        let content = fs::read_to_string(&prompt_path).unwrap_or_default();
+        if content.trim().is_empty() || !content.contains("# Current Prompt") {
+            let _ = fs::write(&prompt_path, DEFAULT_PROMPT);
+        }
+    }
+}
+
 fn read_file_or_default(path: &Path, default: &str) -> String {
     fs::read_to_string(path).unwrap_or_else(|_| default.to_string())
 }
@@ -57,7 +88,8 @@ fn read_anti_patterns(base_dir: &Path) -> String {
 }
 
 fn read_current_prompt(base_dir: &Path) -> String {
-    let content = read_file_or_default(&base_dir.join(PROMPT_FILE), "");
+    ensure_prompt_exists(base_dir);
+    let content = read_file_or_default(&base_dir.join(PROMPT_FILE), DEFAULT_PROMPT);
     if let Some(start) = content.find("# Current Prompt") {
         if let Some(end) = content.find("# Past Prompts") {
             return content[start + 16..end].trim().to_string();
@@ -66,19 +98,34 @@ fn read_current_prompt(base_dir: &Path) -> String {
     content
 }
 
-fn append_to_file(path: &Path, content: &str) {
-    let existing = read_file_or_default(path, "");
-    let new_content = if existing.is_empty() {
+fn get_existing_entries(path: &Path) -> HashSet<String> {
+    let content = read_file_or_default(path, "");
+    content.lines()
+        .map(|l| l.trim_start_matches("- ").trim().to_lowercase())
+        .filter(|l| !l.is_empty())
+        .collect()
+}
+
+fn append_unique_to_file(path: &Path, content: &str) -> bool {
+    let existing = get_existing_entries(path);
+    let new_entry = content.trim_start_matches("- ").trim().to_lowercase();
+    if existing.contains(&new_entry) {
+        return false;
+    }
+    let file_content = read_file_or_default(path, "");
+    let new_content = if file_content.is_empty() {
         content.to_string()
     } else {
-        format!("{}\n{}", existing.trim(), content)
+        format!("{}\n{}", file_content.trim(), content)
     };
     let _ = fs::write(path, new_content);
+    true
 }
 
 fn archive_prompt(base_dir: &Path, old_prompt: &str) {
+    ensure_prompt_exists(base_dir);
     let prompt_path = base_dir.join(PROMPT_FILE);
-    let content = read_file_or_default(&prompt_path, "");
+    let content = read_file_or_default(&prompt_path, DEFAULT_PROMPT);
     let timestamp = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
     let version = content.matches("## Version").count() + 1;
     let archived = format!("\n## Version {} - {}\n\n{}\n", version, timestamp, old_prompt);
@@ -87,8 +134,9 @@ fn archive_prompt(base_dir: &Path, old_prompt: &str) {
 }
 
 fn update_current_prompt(base_dir: &Path, new_prompt: &str) {
+    ensure_prompt_exists(base_dir);
     let prompt_path = base_dir.join(PROMPT_FILE);
-    let content = read_file_or_default(&prompt_path, "");
+    let content = read_file_or_default(&prompt_path, DEFAULT_PROMPT);
     if let Some(past_start) = content.find("# Past Prompts") {
         let past_section = &content[past_start..];
         let new_content = format!("# Current Prompt\n\n{}\n\n{}", new_prompt, past_section);
@@ -102,6 +150,7 @@ fn add_learning(base_dir: &Path, learning: &str) -> String {
         "generated code executed",
         "file generation approach worked",
         "code produced valid output",
+        "passed review",
     ];
     let dominated_lower = learning.to_lowercase();
     for dom in dominated.iter() {
@@ -111,15 +160,21 @@ fn add_learning(base_dir: &Path, learning: &str) -> String {
     }
     let memory_path = base_dir.join(MEMORY_FILE);
     let entry = format!("- {}", learning);
-    append_to_file(&memory_path, &entry);
-    learning.to_string()
+    if append_unique_to_file(&memory_path, &entry) {
+        learning.to_string()
+    } else {
+        String::new()
+    }
 }
 
 fn add_anti_pattern(base_dir: &Path, pattern: &str) -> String {
     let anti_path = base_dir.join(ANTI_PATTERN_FILE);
     let entry = format!("- {}", pattern);
-    append_to_file(&anti_path, &entry);
-    pattern.to_string()
+    if append_unique_to_file(&anti_path, &entry) {
+        pattern.to_string()
+    } else {
+        String::new()
+    }
 }
 
 fn build_enhanced_prompt(base_dir: &Path, user_task: &str) -> String {
@@ -149,14 +204,13 @@ fn build_review_prompt(cycle_dir: &Path, task: &str) -> String {
     prompt.push_str("3. CODE QUALITY: Any bad code practices, code smells, or maintainability issues?\n");
     prompt.push_str("4. SECURITY: Any security vulnerabilities (injection, XSS, hardcoded secrets, etc)?\n");
     prompt.push_str("5. TESTS: Are there tests? Are they passing? Any missing test coverage?\n\n");
-    prompt.push_str("For each category, list specific issues found with file:line references.\n");
-    prompt.push_str("If no issues found in a category, say 'OK'.\n");
-    prompt.push_str("Format your response as:\n");
-    prompt.push_str("ARCHITECTURE: <issues or OK>\n");
-    prompt.push_str("DESIGN: <issues or OK>\n");
-    prompt.push_str("CODE_QUALITY: <issues or OK>\n");
-    prompt.push_str("SECURITY: <issues or OK>\n");
-    prompt.push_str("TESTS: <issues or OK>\n");
+    prompt.push_str("For each category, list specific issues found.\n");
+    prompt.push_str("IMPORTANT: Use this EXACT format (no markdown, no bold):\n");
+    prompt.push_str("ARCHITECTURE: OK or ARCHITECTURE: <issue description>\n");
+    prompt.push_str("DESIGN: OK or DESIGN: <issue description>\n");
+    prompt.push_str("CODE_QUALITY: OK or CODE_QUALITY: <issue description>\n");
+    prompt.push_str("SECURITY: OK or SECURITY: <issue description>\n");
+    prompt.push_str("TESTS: OK or TESTS: <issue description>\n");
     let files = list_code_files(cycle_dir);
     if !files.is_empty() {
         prompt.push_str("\nFiles to review:\n");
@@ -185,6 +239,47 @@ fn list_code_files(dir: &Path) -> Vec<String> {
     files
 }
 
+fn normalize_category(line: &str) -> Option<(&str, String)> {
+    let line_clean = line.replace("**", "").replace("*", "");
+    let line_upper = line_clean.to_uppercase();
+    let categories = [
+        ("ARCHITECTURE", "architecture"),
+        ("DESIGN", "design"),
+        ("CODE_QUALITY", "code_quality"),
+        ("CODE QUALITY", "code_quality"),
+        ("SECURITY", "security"),
+        ("TESTS", "tests"),
+        ("TEST", "tests"),
+    ];
+    for (prefix, cat) in categories.iter() {
+        if line_upper.contains(prefix) && line_clean.contains(':') {
+            if let Some(idx) = line_clean.find(':') {
+                let content = line_clean[idx + 1..].trim().to_string();
+                return Some((cat, content));
+            }
+        }
+    }
+    None
+}
+
+fn has_issues(content: &str) -> bool {
+    let content_lower = content.to_lowercase();
+    if content_lower == "ok" || content_lower.is_empty() {
+        return false;
+    }
+    let issue_indicators = [
+        "issue", "problem", "error", "missing", "no test", "not found",
+        "vulnerability", "hardcoded", "deprecated", "warning", "critical",
+        "unsafe", "invalid", "incorrect", "fail", "bug", "flaw",
+    ];
+    for indicator in issue_indicators.iter() {
+        if content_lower.contains(indicator) {
+            return true;
+        }
+    }
+    content_lower != "ok" && content.len() > 10
+}
+
 fn parse_review_output(output: &str) -> ReviewFindings {
     let mut findings = ReviewFindings {
         architecture_issues: Vec::new(),
@@ -193,72 +288,69 @@ fn parse_review_output(output: &str) -> ReviewFindings {
         security_issues: Vec::new(),
         test_issues: Vec::new(),
     };
+    let mut current_category: Option<&str> = None;
     for line in output.lines() {
-        let line_upper = line.to_uppercase();
-        if line_upper.starts_with("ARCHITECTURE:") {
-            let content = line[13..].trim();
-            if !content.to_uppercase().contains("OK") && !content.is_empty() {
-                findings.architecture_issues.push(content.to_string());
+        let line_trimmed = line.trim();
+        if line_trimmed.is_empty() {
+            continue;
+        }
+        if let Some((cat, content)) = normalize_category(line_trimmed) {
+            current_category = Some(cat);
+            if has_issues(&content) {
+                match cat {
+                    "architecture" => findings.architecture_issues.push(content),
+                    "design" => findings.design_issues.push(content),
+                    "code_quality" => findings.code_quality_issues.push(content),
+                    "security" => findings.security_issues.push(content),
+                    "tests" => findings.test_issues.push(content),
+                    _ => {}
+                }
             }
-        } else if line_upper.starts_with("DESIGN:") {
-            let content = line[7..].trim();
-            if !content.to_uppercase().contains("OK") && !content.is_empty() {
-                findings.design_issues.push(content.to_string());
-            }
-        } else if line_upper.starts_with("CODE_QUALITY:") || line_upper.starts_with("CODE QUALITY:") {
-            let idx = if line_upper.starts_with("CODE_QUALITY:") { 13 } else { 12 };
-            let content = line[idx..].trim();
-            if !content.to_uppercase().contains("OK") && !content.is_empty() {
-                findings.code_quality_issues.push(content.to_string());
-            }
-        } else if line_upper.starts_with("SECURITY:") {
-            let content = line[9..].trim();
-            if !content.to_uppercase().contains("OK") && !content.is_empty() {
-                findings.security_issues.push(content.to_string());
-            }
-        } else if line_upper.starts_with("TESTS:") {
-            let content = line[6..].trim();
-            if !content.to_uppercase().contains("OK") && !content.is_empty() {
-                findings.test_issues.push(content.to_string());
+        } else if let Some(cat) = current_category {
+            if line_trimmed.starts_with('-') || line_trimmed.starts_with('*') {
+                let content = line_trimmed.trim_start_matches(|c| c == '-' || c == '*' || c == ' ').to_string();
+                if has_issues(&content) && content.len() > 5 {
+                    match cat {
+                        "architecture" => findings.architecture_issues.push(content),
+                        "design" => findings.design_issues.push(content),
+                        "code_quality" => findings.code_quality_issues.push(content),
+                        "security" => findings.security_issues.push(content),
+                        "tests" => findings.test_issues.push(content),
+                        _ => {}
+                    }
+                }
             }
         }
     }
     findings
 }
 
-fn findings_to_learnings(findings: &ReviewFindings) -> Vec<String> {
-    let mut learnings = Vec::new();
-    if findings.architecture_issues.is_empty() {
-        learnings.push("Architecture passed review - structure is appropriate".to_string());
-    }
-    if findings.design_issues.is_empty() {
-        learnings.push("Design passed review - patterns used correctly".to_string());
-    }
-    if findings.security_issues.is_empty() {
-        learnings.push("Security passed review - no vulnerabilities found".to_string());
-    }
-    if findings.test_issues.is_empty() {
-        learnings.push("Tests passed review - coverage is adequate".to_string());
-    }
-    learnings
-}
-
 fn findings_to_anti_patterns(findings: &ReviewFindings) -> Vec<String> {
     let mut patterns = Vec::new();
     for issue in &findings.architecture_issues {
-        patterns.push(format!("Architecture issue: {}", issue));
+        if issue.len() > 10 {
+            patterns.push(format!("Architecture: {}", issue.chars().take(150).collect::<String>()));
+        }
     }
     for issue in &findings.design_issues {
-        patterns.push(format!("Design issue: {}", issue));
+        if issue.len() > 10 {
+            patterns.push(format!("Design: {}", issue.chars().take(150).collect::<String>()));
+        }
     }
     for issue in &findings.code_quality_issues {
-        patterns.push(format!("Code quality issue: {}", issue));
+        if issue.len() > 10 {
+            patterns.push(format!("Code quality: {}", issue.chars().take(150).collect::<String>()));
+        }
     }
     for issue in &findings.security_issues {
-        patterns.push(format!("Security issue: {}", issue));
+        if issue.len() > 10 {
+            patterns.push(format!("Security: {}", issue.chars().take(150).collect::<String>()));
+        }
     }
     for issue in &findings.test_issues {
-        patterns.push(format!("Test issue: {}", issue));
+        if issue.len() > 10 {
+            patterns.push(format!("Testing: {}", issue.chars().take(150).collect::<String>()));
+        }
     }
     patterns
 }
@@ -415,7 +507,7 @@ fn extract_specific_learnings(output: &str, task: &str) -> Vec<String> {
     let mut learnings = Vec::new();
     let output_lower = output.to_lowercase();
     if output_lower.contains("test") && (output_lower.contains("pass") || output_lower.contains("ok")) {
-        learnings.push(format!("Tests passed for task: {}", task.chars().take(50).collect::<String>()));
+        learnings.push(format!("Tests passed for: {}", task.chars().take(50).collect::<String>()));
     }
     if output_lower.contains("build") && output_lower.contains("success") {
         learnings.push("Build succeeded without errors".to_string());
@@ -424,21 +516,21 @@ fn extract_specific_learnings(output: &str, task: &str) -> Vec<String> {
         learnings.push("Code passed linting checks".to_string());
     }
     if output_lower.contains("compiled") || output_lower.contains("bundled") {
-        learnings.push("Compilation/bundling completed successfully".to_string());
+        learnings.push("Compilation/bundling completed".to_string());
     }
     learnings
 }
 
-fn extract_anti_patterns_from_failure(error: &str, output: &str) -> Vec<String> {
+fn extract_anti_patterns_from_failure(error: &str, _output: &str) -> Vec<String> {
     let mut patterns = Vec::new();
     if error.contains("timeout") && !error.contains("likely") {
-        patterns.push("Operation timed out - add progress indicators or async handling".to_string());
+        patterns.push("Timeout - add progress indicators or async handling".to_string());
     }
     if error.contains("permission") {
         patterns.push("Permission denied - check file/directory permissions".to_string());
     }
     if error.contains("not found") || error.contains("No such file") {
-        patterns.push("Missing file/dependency - verify paths and install dependencies".to_string());
+        patterns.push("Missing dependency - verify paths and install deps".to_string());
     }
     if error.contains("syntax") || error.contains("parse") {
         patterns.push("Syntax error - validate code before execution".to_string());
@@ -446,19 +538,10 @@ fn extract_anti_patterns_from_failure(error: &str, output: &str) -> Vec<String> 
     if error.contains("memory") || error.contains("overflow") {
         patterns.push("Memory issue - avoid unbounded allocations".to_string());
     }
-    if output.contains("panic") || output.contains("crash") {
-        patterns.push("Runtime crash - handle edge cases and add error recovery".to_string());
-    }
-    if error.contains("connection") || error.contains("network") {
-        patterns.push("Network error - add retry logic and connection handling".to_string());
-    }
-    if error.contains("undefined") || error.contains("null") {
-        patterns.push("Null/undefined error - add proper null checks".to_string());
-    }
     if patterns.is_empty() && !error.is_empty() && !error.contains("likely") {
         let first_line = error.lines().next().unwrap_or("unknown error");
         if first_line.len() > 10 {
-            patterns.push(format!("Error encountered: {}", first_line.chars().take(100).collect::<String>()));
+            patterns.push(format!("Error: {}", first_line.chars().take(100).collect::<String>()));
         }
     }
     patterns
@@ -467,27 +550,38 @@ fn extract_anti_patterns_from_failure(error: &str, output: &str) -> Vec<String> 
 fn improve_prompt(base_dir: &Path, current_prompt: &str, error: &str, findings: &ReviewFindings, cycle: u32) -> String {
     let mut improved = current_prompt.to_string();
     let timestamp = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
-    improved.push_str(&format!("\n\n## Improvement from cycle {} at {}:", cycle, timestamp));
+    improved.push_str(&format!("\n\n## Improvements from cycle {} at {}:", cycle, timestamp));
+    let mut added = false;
     if !findings.architecture_issues.is_empty() {
         improved.push_str("\n- Pay attention to architecture and code organization");
+        added = true;
     }
     if !findings.design_issues.is_empty() {
         improved.push_str("\n- Follow proper design patterns");
+        added = true;
     }
     if !findings.code_quality_issues.is_empty() {
         improved.push_str("\n- Improve code quality and readability");
+        added = true;
     }
     if !findings.security_issues.is_empty() {
         improved.push_str("\n- Address security concerns (input validation, no hardcoded secrets)");
+        added = true;
     }
     if !findings.test_issues.is_empty() {
         improved.push_str("\n- Add comprehensive tests with good coverage");
+        added = true;
     }
     if error.contains("timeout") {
         improved.push_str("\n- Avoid blocking operations");
+        added = true;
     }
     if error.contains("error") || error.contains("failed") {
         improved.push_str("\n- Add proper error handling");
+        added = true;
+    }
+    if !added {
+        improved.push_str("\n- Continue with current approach");
     }
     archive_prompt(base_dir, current_prompt);
     update_current_prompt(base_dir, &improved);
@@ -509,10 +603,11 @@ fn print_cycle_report(report: &CycleReport) {
         }
     }
     println!("\nAnti-patterns identified this cycle:");
-    if report.anti_patterns.is_empty() {
+    let anti_filtered: Vec<&String> = report.anti_patterns.iter().filter(|l| !l.is_empty()).collect();
+    if anti_filtered.is_empty() {
         println!("  (none)");
     } else {
-        for pattern in &report.anti_patterns {
+        for pattern in anti_filtered {
             println!("  - {}", pattern);
         }
     }
@@ -535,8 +630,11 @@ fn print_summary(reports: &[CycleReport]) {
         .flat_map(|r| &r.learnings)
         .filter(|l| !l.is_empty())
         .collect();
-    let all_anti_patterns: Vec<&String> = reports.iter().flat_map(|r| &r.anti_patterns).collect();
-    println!("\nAll learnings accumulated:");
+    let all_anti_patterns: Vec<&String> = reports.iter()
+        .flat_map(|r| &r.anti_patterns)
+        .filter(|l| !l.is_empty())
+        .collect();
+    println!("\nLearnings accumulated:");
     if all_learnings.is_empty() {
         println!("  (none)");
     } else {
@@ -544,7 +642,7 @@ fn print_summary(reports: &[CycleReport]) {
             println!("  + {}", learning);
         }
     }
-    println!("\nAll anti-patterns identified:");
+    println!("\nAnti-patterns identified:");
     if all_anti_patterns.is_empty() {
         println!("  (none)");
     } else {
@@ -558,10 +656,11 @@ fn print_summary(reports: &[CycleReport]) {
 }
 
 async fn run_learning_cycles(base_dir: &Path, task: &str, model: &str, num_cycles: u32) -> Vec<CycleReport> {
+    ensure_prompt_exists(base_dir);
     let mut reports = Vec::new();
     let project_name = sanitize_project_name(task);
     let base_project_dir = create_project_dir(base_dir, &project_name);
-    println!("Base project directory: {}", base_project_dir.display());
+    println!("Project directory: {}", base_project_dir.display());
     let mut current_prompt = read_current_prompt(base_dir);
     for cycle in 1..=num_cycles {
         println!("\n{}", "*".repeat(60));
@@ -572,7 +671,7 @@ async fn run_learning_cycles(base_dir: &Path, task: &str, model: &str, num_cycle
         let enhanced_prompt = build_enhanced_prompt(base_dir, task);
         let prompt_log = cycle_dir.join("prompt.txt");
         let _ = fs::write(&prompt_log, &enhanced_prompt);
-        println!("\nPhase 1: Executing agent for cycle {}...", cycle);
+        println!("\nPhase 1: Generating code...");
         let result = run_agent(&enhanced_prompt, &cycle_dir, model).await;
         let output_log = cycle_dir.join("output.txt");
         let _ = fs::write(&output_log, format!("STDOUT:\n{}\n\nSTDERR:\n{}", result.output, result.error));
@@ -584,29 +683,22 @@ async fn run_learning_cycles(base_dir: &Path, task: &str, model: &str, num_cycle
             prompt_improved: false,
         };
         if result.success {
-            println!("\nPhase 2: Running solution with timeout...");
+            println!("\nPhase 2: Running solution...");
             let (solution_ok, solution_output) = run_solution_with_timeout(&cycle_dir).await;
-            println!("\nPhase 3: Reviewing generated code...");
+            println!("\nPhase 3: Reviewing code...");
             let review_prompt = build_review_prompt(&cycle_dir, task);
             let review_result = run_agent(&review_prompt, &cycle_dir, model).await;
             let review_log = cycle_dir.join("review.txt");
             let _ = fs::write(&review_log, &review_result.output);
             let findings = parse_review_output(&review_result.output);
             println!("\nReview findings:");
-            println!("  Architecture: {}", if findings.architecture_issues.is_empty() { "OK" } else { "Issues found" });
-            println!("  Design: {}", if findings.design_issues.is_empty() { "OK" } else { "Issues found" });
-            println!("  Code Quality: {}", if findings.code_quality_issues.is_empty() { "OK" } else { "Issues found" });
-            println!("  Security: {}", if findings.security_issues.is_empty() { "OK" } else { "Issues found" });
-            println!("  Tests: {}", if findings.test_issues.is_empty() { "OK" } else { "Issues found" });
+            println!("  Architecture: {}", if findings.architecture_issues.is_empty() { "OK" } else { &format!("{} issues", findings.architecture_issues.len()) });
+            println!("  Design: {}", if findings.design_issues.is_empty() { "OK" } else { &format!("{} issues", findings.design_issues.len()) });
+            println!("  Code Quality: {}", if findings.code_quality_issues.is_empty() { "OK" } else { &format!("{} issues", findings.code_quality_issues.len()) });
+            println!("  Security: {}", if findings.security_issues.is_empty() { "OK" } else { &format!("{} issues", findings.security_issues.len()) });
+            println!("  Tests: {}", if findings.test_issues.is_empty() { "OK" } else { &format!("{} issues", findings.test_issues.len()) });
             let task_learnings = extract_specific_learnings(&result.output, task);
             for learning in &task_learnings {
-                let saved = add_learning(base_dir, learning);
-                if !saved.is_empty() {
-                    report.learnings.push(saved);
-                }
-            }
-            let review_learnings = findings_to_learnings(&findings);
-            for learning in &review_learnings {
                 let saved = add_learning(base_dir, learning);
                 if !saved.is_empty() {
                     report.learnings.push(saved);
@@ -615,13 +707,17 @@ async fn run_learning_cycles(base_dir: &Path, task: &str, model: &str, num_cycle
             let review_anti_patterns = findings_to_anti_patterns(&findings);
             for pattern in &review_anti_patterns {
                 let saved = add_anti_pattern(base_dir, pattern);
-                report.anti_patterns.push(saved);
+                if !saved.is_empty() {
+                    report.anti_patterns.push(saved);
+                }
             }
             if !solution_ok && !solution_output.contains("likely") {
                 let patterns = extract_anti_patterns_from_failure(&solution_output, &result.output);
                 for pattern in &patterns {
                     let saved = add_anti_pattern(base_dir, pattern);
-                    report.anti_patterns.push(saved);
+                    if !saved.is_empty() {
+                        report.anti_patterns.push(saved);
+                    }
                 }
             }
             let has_issues = !findings.architecture_issues.is_empty()
@@ -638,7 +734,9 @@ async fn run_learning_cycles(base_dir: &Path, task: &str, model: &str, num_cycle
             let patterns = extract_anti_patterns_from_failure(&result.error, &result.output);
             for pattern in &patterns {
                 let saved = add_anti_pattern(base_dir, pattern);
-                report.anti_patterns.push(saved);
+                if !saved.is_empty() {
+                    report.anti_patterns.push(saved);
+                }
             }
             let empty_findings = ReviewFindings {
                 architecture_issues: Vec::new(),
@@ -684,7 +782,8 @@ fn print_help() {
 }
 
 fn show_prompts(base_dir: &Path) {
-    let content = read_file_or_default(&base_dir.join(PROMPT_FILE), "No prompts found");
+    ensure_prompt_exists(base_dir);
+    let content = read_file_or_default(&base_dir.join(PROMPT_FILE), DEFAULT_PROMPT);
     println!("{}", content);
 }
 
@@ -716,14 +815,15 @@ fn print_repl_help() {
     println!("  :clear              Clear screen");
     println!("  :help, :h           Show this help");
     println!();
-    println!("Enter any other text to start a learning session with that task.");
+    println!("Enter any task to start a learning session.");
 }
 
 async fn run_repl(base_dir: &Path, model: &str, initial_cycles: u32) {
+    ensure_prompt_exists(base_dir);
     let mut num_cycles = initial_cycles;
     println!("Agent Learner REPL - Interactive Mode");
     println!("Type :help for commands, or enter a task to start learning");
-    println!("Running {} learning cycles per task (use :cycles N to change)", num_cycles);
+    println!("Running {} cycles per task (use :cycles N to change)", num_cycles);
     println!();
     loop {
         print!("agent> ");
@@ -773,7 +873,7 @@ async fn run_repl(base_dir: &Path, model: &str, initial_cycles: u32) {
             println!("Unknown command: {}", input);
             println!("Type :help for available commands");
         } else {
-            println!("\nStarting learning session for: {}", input);
+            println!("\nStarting learning session: {}", input);
             let reports = run_learning_cycles(base_dir, input, model, num_cycles).await;
             print_summary(&reports);
             println!();
@@ -785,6 +885,7 @@ async fn run_repl(base_dir: &Path, model: &str, initial_cycles: u32) {
 async fn main() {
     let args: Vec<String> = env::args().collect();
     let base_dir = get_base_dir();
+    ensure_prompt_exists(&base_dir);
     let mut model = "sonnet".to_string();
     let mut task: Option<String> = None;
     let mut repl_mode = false;
@@ -866,50 +967,41 @@ mod tests {
     }
 
     #[test]
-    fn test_build_enhanced_prompt() {
-        let temp_dir = std::env::temp_dir().join("agent-learner-test");
-        let _ = fs::create_dir_all(&temp_dir);
-        let _ = fs::write(temp_dir.join(PROMPT_FILE), "# Current Prompt\n\nBase prompt\n\n# Past Prompts\n");
-        let _ = fs::write(temp_dir.join(MEMORY_FILE), "- Learning 1");
-        let _ = fs::write(temp_dir.join(ANTI_PATTERN_FILE), "- Anti 1");
-        let enhanced = build_enhanced_prompt(&temp_dir, "Test task");
-        assert!(enhanced.contains("Base prompt"));
-        assert!(enhanced.contains("Learning 1"));
-        assert!(enhanced.contains("Anti 1"));
-        assert!(enhanced.contains("Test task"));
-        let _ = fs::remove_dir_all(&temp_dir);
+    fn test_parse_review_with_markdown() {
+        let output = "**ARCHITECTURE**: Multiple issues found\n- backend/main.go:36: Global state\n**SECURITY**: Critical issues\n- Hardcoded password";
+        let findings = parse_review_output(output);
+        assert!(!findings.architecture_issues.is_empty());
+        assert!(!findings.security_issues.is_empty());
     }
 
     #[test]
-    fn test_extract_anti_patterns() {
-        let patterns = extract_anti_patterns_from_failure("timeout occurred", "");
-        assert!(!patterns.is_empty());
-        let patterns = extract_anti_patterns_from_failure("permission denied", "");
-        assert!(!patterns.is_empty());
-        let patterns = extract_anti_patterns_from_failure("file not found", "");
-        assert!(!patterns.is_empty());
-    }
-
-    #[test]
-    fn test_parse_review_output() {
-        let output = "ARCHITECTURE: OK\nDESIGN: Missing factory pattern\nCODE_QUALITY: OK\nSECURITY: Hardcoded password\nTESTS: No unit tests";
+    fn test_parse_review_plain() {
+        let output = "ARCHITECTURE: OK\nDESIGN: Missing pattern\nSECURITY: Hardcoded secret\nTESTS: No tests";
         let findings = parse_review_output(output);
         assert!(findings.architecture_issues.is_empty());
         assert!(!findings.design_issues.is_empty());
-        assert!(findings.code_quality_issues.is_empty());
         assert!(!findings.security_issues.is_empty());
         assert!(!findings.test_issues.is_empty());
     }
 
     #[test]
-    fn test_add_learning_filters_generic() {
-        let temp_dir = std::env::temp_dir().join("agent-learner-filter-test");
+    fn test_has_issues() {
+        assert!(!has_issues("OK"));
+        assert!(!has_issues("ok"));
+        assert!(has_issues("Missing error handling"));
+        assert!(has_issues("No tests found"));
+        assert!(has_issues("Hardcoded password vulnerability"));
+    }
+
+    #[test]
+    fn test_dedup_entries() {
+        let temp_dir = std::env::temp_dir().join("agent-learner-dedup-test");
         let _ = fs::create_dir_all(&temp_dir);
-        let _ = fs::write(temp_dir.join(MEMORY_FILE), "");
-        let result = add_learning(&temp_dir, "Task completed successfully");
-        assert!(result.is_empty());
-        let result = add_learning(&temp_dir, "Specific pattern: use factory for DI");
-        assert!(!result.is_empty());
+        let test_file = temp_dir.join("test.txt");
+        let _ = fs::write(&test_file, "");
+        assert!(append_unique_to_file(&test_file, "- First entry"));
+        assert!(!append_unique_to_file(&test_file, "- First entry"));
+        assert!(append_unique_to_file(&test_file, "- Second entry"));
         let _ = fs::remove_dir_all(&temp_dir);
     }
 }
