@@ -30,3 +30,13 @@ Done
 [x] Each cycle creates separate directory (cycle-1, cycle-2, etc)
 [x] Improve prompt after each failed cycle
 [x] Archive prompt versions with timestamps
+[x] Change default cycles from 5 to 3 (faster iteration)
+[x] Allow --cycles N argument to set number of cycles
+[x] Allow :cycles N in REPL to change cycles dynamically
+[x] Add code review phase checking: architecture, design, code quality, security, tests
+[x] Filter out generic/vanilla learnings (Task completed successfully, etc)
+[x] Extract specific learnings (tests passed, build succeeded, lint passed)
+[x] Run solution with 10s timeout to avoid blocking on web servers
+[x] Treat timeout as success for web servers (likely running)
+[x] Parse review output for architecture/design/security/test issues
+[x] Convert review findings to specific learnings and anti-patterns

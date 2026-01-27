@@ -2,7 +2,7 @@
 
 ## Overview
 
-A self-learning CLI agent that iteratively improves its prompts based on execution results. The agent learns from successes and failures, storing knowledge in persistent files. Runs 5 learning cycles per task and supports interactive REPL mode.
+A self-learning CLI agent that iteratively improves its prompts based on execution results. The agent learns from successes and failures, storing knowledge in persistent files. Runs 3 learning cycles per task (configurable) with code review and supports interactive REPL mode.
 
 ## Architecture
 
@@ -16,10 +16,11 @@ agent-learner-prompt/
 ├── solutions/           # Generated code output
 │   └── {project}/
 │       ├── cycle-1/     # First cycle output
+│       │   ├── prompt.txt
+│       │   ├── output.txt
+│       │   └── review.txt
 │       ├── cycle-2/     # Second cycle output
-│       ├── cycle-3/     # Third cycle output
-│       ├── cycle-4/     # Fourth cycle output
-│       └── cycle-5/     # Fifth cycle output
+│       └── cycle-3/     # Third cycle output
 ├── build-all.sh         # Build the project
 ├── run.sh               # Execute the agent
 ├── stop.sh              # Stop running agents
@@ -31,169 +32,137 @@ agent-learner-prompt/
 ### 1. Prompt Manager
 - Reads current prompt from prompt.md
 - Archives prompts to Past Prompts section before updates
-- Generates improved prompts based on learnings
+- Generates improved prompts based on learnings and review findings
 - Timestamps each prompt version
 
 ### 2. Memory System
 - memory.txt: Stores successful patterns and learnings
 - anti-pattern.txt: Stores failures and patterns to avoid
-- Both files are injected into the system prompt
-- Updated after each learning cycle
+- Filters out generic/vanilla learnings
+- Only saves specific, actionable insights
 
 ### 3. Agent Executor
 - Spawns claude CLI as subprocess
 - Captures stdout/stderr
-- Implements 5 learning cycles per task
-- Timeout of 300 seconds per cycle
+- Implements configurable learning cycles (default: 3)
+- Timeout of 300 seconds per agent call
 
-### 4. Learning Extractor
-- Analyzes agent output for success/failure patterns
-- Extracts actionable learnings per cycle
-- Updates memory.txt or anti-pattern.txt accordingly
-- Reports learnings and anti-patterns after each cycle
+### 4. Code Review Phase
+Each successful cycle includes a review phase that checks:
+- **Architecture**: Is the structure appropriate?
+- **Design**: Are patterns used correctly?
+- **Code Quality**: Any bad practices or code smells?
+- **Security**: Any vulnerabilities (injection, XSS, hardcoded secrets)?
+- **Tests**: Are there tests? Good coverage?
 
 ### 5. Solution Runner
-- Executes generated code in solutions/{project}/cycle-N/
-- Validates output by running run.sh if present
-- Reports success/failure back to learning system
+- Executes generated code with 10 second timeout
+- Timeout treated as success (likely a web server running)
+- Captures output for analysis
 
-### 6. REPL Mode
+### 6. Learning Extractor
+- Filters out generic learnings like "Task completed successfully"
+- Extracts specific learnings: tests passed, build succeeded, lint passed
+- Converts review findings to actionable insights
+- Updates memory.txt or anti-pattern.txt accordingly
+
+### 7. REPL Mode
 - Interactive loop for continuous learning
-- Commands: :quit, :memory, :anti, :prompts, :help, :clear
-- Each task runs through 5 learning cycles
+- Commands: :quit, :cycles, :memory, :anti, :prompts, :help, :clear
+- Configurable cycles per session
 - Session summaries after each task
 
 ## Workflow
 
 1. User provides task description via CLI or REPL
 2. Agent reads current prompt from prompt.md
-3. For each of 5 learning cycles:
-   a. Inject memory.txt and anti-pattern.txt into prompt
-   b. Execute claude CLI with enhanced prompt
-   c. On success: extract learnings, update memory.txt
-   d. On failure: extract anti-patterns, improve prompt
-   e. Print cycle report with learnings and anti-patterns
+3. For each learning cycle (default 3):
+   a. **Phase 1**: Execute agent with enhanced prompt
+   b. **Phase 2**: Run solution with 10s timeout
+   c. **Phase 3**: Review code for architecture/design/security/tests
+   d. Extract learnings and anti-patterns from review
+   e. Print cycle report
 4. Print session summary with all accumulated knowledge
 5. In REPL mode: wait for next task
 
-## Learning Cycle Flow
+## Learning Cycle Phases
 
 ```
-for cycle in 1..=5:
-    enhanced_prompt = base_prompt + memory + anti_patterns + task
-    result = run_agent(enhanced_prompt)
+for cycle in 1..=num_cycles:
+    Phase 1: Generate Code
+        enhanced_prompt = base_prompt + memory + anti_patterns + task
+        result = run_agent(enhanced_prompt)
 
-    if result.success:
-        learnings = extract_learnings(result)
-        save_to_memory(learnings)
-        run_solution()
-    else:
-        anti_patterns = extract_anti_patterns(result.error)
-        save_anti_patterns(anti_patterns)
-        prompt = improve_prompt(prompt, error)
+    Phase 2: Run Solution (with 10s timeout)
+        run_solution_with_timeout()
+        if timeout: treat as success (web server)
 
-    print_cycle_report(cycle, learnings, anti_patterns)
+    Phase 3: Code Review
+        review_prompt = check architecture, design, security, tests
+        findings = run_agent(review_prompt)
+        parse findings into categories
+
+    Extract learnings (filter generic ones)
+    Extract anti-patterns from issues found
+    Improve prompt if issues detected
+
+    print_cycle_report()
 
 print_session_summary()
 ```
 
-## Cycle Report Format
+## Review Output Format
 
+The review phase asks the LLM to output:
 ```
-============================================================
-CYCLE N REPORT
-============================================================
-Status: SUCCESS/FAILED
-
-Learnings acquired this cycle:
-  + Learning 1
-  + Learning 2
-
-Anti-patterns identified this cycle:
-  - Anti-pattern 1
-  - Anti-pattern 2
-
-Prompt was improved and archived for next cycle
-============================================================
+ARCHITECTURE: <issues or OK>
+DESIGN: <issues or OK>
+CODE_QUALITY: <issues or OK>
+SECURITY: <issues or OK>
+TESTS: <issues or OK>
 ```
 
-## Session Summary Format
+## Filtered Learnings
 
-```
-############################################################
-LEARNING SESSION SUMMARY
-############################################################
-Total cycles: 5
-Successes: 3
-Failures: 2
+These generic learnings are filtered out:
+- "Task completed successfully"
+- "Generated code executed"
+- "File generation approach worked"
+- "Code produced valid output"
 
-All learnings accumulated:
-  + Learning 1
-  + Learning 2
-  + Learning 3
-
-All anti-patterns identified:
-  - Anti-pattern 1
-  - Anti-pattern 2
-
-Prompt versions created: 2
-############################################################
-```
-
-## File Formats
-
-### prompt.md
-```markdown
-# Current Prompt
-
-<current system prompt here>
-
-## Improvement from cycle 1 at 2024-01-01 12:00:00:
-- Added improvement
-
-# Past Prompts
-
-## Version 1 - 2024-01-01 11:00:00
-<archived prompt>
-```
-
-### memory.txt
-```
-- Always include error handling in generated code
-- Use async/await for I/O operations
-- File generation approach worked correctly
-- Generated code executed without errors
-```
-
-### anti-pattern.txt
-```
-- Avoid hardcoded paths
-- Do not use unwrap() without error context
-- Avoid long-running operations without progress indicators
-```
+Only specific learnings are saved:
+- "Tests passed for task: create web server"
+- "Build succeeded without errors"
+- "Code passed linting checks"
+- "Architecture passed review - structure is appropriate"
+- "Security passed review - no vulnerabilities found"
 
 ## CLI Interface
 
 ```bash
 ./run.sh "Create a REST API"
-./run.sh --model opus "Build a CLI tool"
+./run.sh --cycles 5 "Build a CLI tool"
+./run.sh --model opus --cycles 2 "Quick task"
 ./run.sh --repl
-./run.sh --list-prompts
-./run.sh --show-memory
-./run.sh --show-anti-patterns
 ```
 
 ## REPL Commands
 
 ```
 agent> :help           # Show help
+agent> :cycles 5       # Set cycles to 5
+agent> :cycles         # Show current cycles
 agent> :memory         # Show learnings
 agent> :anti           # Show anti-patterns
 agent> :prompts        # Show prompt history
 agent> :clear          # Clear screen
 agent> :quit           # Exit REPL
-agent> Create a web server   # Start learning session
 ```
+
+## Timeouts
+
+- Agent execution: 300 seconds (5 minutes)
+- Solution run: 10 seconds (web servers timeout = OK)
 
 ## Scripts
 
@@ -212,13 +181,13 @@ agent> Create a web server   # Start learning session
 
 ## Design Decisions
 
-1. Single binary CLI: Matches prompt-2-k8s and multi-agent-verse patterns
-2. File-based persistence: Simple, no database required
-3. Claude CLI integration: Reuses existing infrastructure
-4. 5 learning cycles: Each task runs 5 times to accumulate knowledge
-5. Prompt versioning: Full history for analysis and rollback
-6. REPL mode: Continuous interactive learning without restarting
-7. Cycle-by-cycle reporting: Clear visibility into what was learned
-8. Separate cycle directories: Each cycle output is isolated
-9. Session summaries: Aggregated view of all learnings
-10. No web frontend: Pure CLI tool for simplicity
+1. **3 cycles default**: Faster iteration than 5, still enough to learn
+2. **Configurable cycles**: --cycles N or :cycles N in REPL
+3. **Code review phase**: Each cycle reviews architecture, design, security, tests
+4. **Filter generic learnings**: Only save specific, actionable insights
+5. **10s solution timeout**: Prevents blocking on web servers
+6. **Timeout = success for servers**: Web apps that start are considered working
+7. **File-based persistence**: Simple, no database required
+8. **Claude CLI integration**: Reuses existing infrastructure
+9. **REPL mode**: Continuous interactive learning
+10. **Cycle-by-cycle reporting**: Clear visibility into what was learned
