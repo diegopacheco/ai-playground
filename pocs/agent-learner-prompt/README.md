@@ -1,16 +1,17 @@
 # Agent Learner Prompt
 
-A self-learning CLI agent that iteratively improves its prompts based on execution results. Runs 3 learning cycles per task with code review.
+A self-learning CLI agent that iteratively improves its prompts based on execution results. Runs 3 learning cycles per task with code review. Supports multiple agents: claude, codex, copilot, gemini.
 
 ## Features
 
-- Learns from successes (memory.txt)
-- Avoids known failures (anti-pattern.txt)
-- Maintains prompt version history (prompt.md)
-- Configurable learning cycles (default: 3)
+- Multi-agent support (claude, codex, copilot, gemini)
+- Easy agent/model switching via flags
+- Per-project learning files (memory.txt, mistakes.txt, prompts.md)
+- Maintains prompt version history (updated every cycle)
 - Code review: architecture, design, security, tests
 - Filters generic learnings, keeps specific ones
 - 10s timeout for solution runs (web servers OK)
+- Final code copied to code/ folder
 - Interactive REPL mode
 
 ## Build
@@ -24,8 +25,11 @@ A self-learning CLI agent that iteratively improves its prompts based on executi
 Single task mode:
 ```bash
 ./run.sh "Create a hello world web server in Python"
+./run.sh --agent claude --model opus "Build a REST API"
+./run.sh --agent codex --model gpt-5.2 "Create CLI tool"
+./run.sh --agent copilot "Use copilot agent"
+./run.sh --agent gemini "Use gemini agent"
 ./run.sh --cycles 5 "Build a REST API"
-./run.sh --model opus --cycles 2 "Quick task"
 ```
 
 Interactive REPL mode:
@@ -34,22 +38,25 @@ Interactive REPL mode:
 ./run.sh              # Also enters REPL if no task provided
 ```
 
-View learnings:
-```bash
-./run.sh --show-memory
-./run.sh --show-anti-patterns
-./run.sh --list-prompts
-./run.sh --help
-```
+## Supported Agents
+
+| Agent | Default Model | CLI Command |
+|-------|---------------|-------------|
+| claude | sonnet | `claude -p <prompt> --model <model>` |
+| codex | gpt-5.2 | `codex exec --full-auto --model <model>` |
+| copilot | claude-sonnet-4 | `copilot --allow-all --model <model> -p` |
+| gemini | gemini-2.5-pro | `gemini -y <prompt>` |
 
 ## REPL Commands
 
 ```
 agent> :help           # Show help
+agent> :agent claude   # Switch to claude agent
+agent> :agent codex    # Switch to codex agent
+agent> :model opus     # Switch model
 agent> :cycles 5       # Set cycles to 5
-agent> :cycles         # Show current cycles
 agent> :memory         # Show learnings
-agent> :anti           # Show anti-patterns
+agent> :mistakes       # Show mistakes to avoid
 agent> :prompts        # Show prompt history
 agent> :clear          # Clear screen
 agent> :quit           # Exit REPL
@@ -71,6 +78,20 @@ Phase 3: Review code for:
   - Missing tests
 ```
 
+## Project Structure
+
+Each task creates a project folder:
+```
+solutions/{project}/
+├── memory.txt       # Learnings accumulated
+├── mistakes.txt     # Mistakes to avoid
+├── prompts.md       # Prompt versions (updated every cycle)
+├── cycle-1/         # First cycle output
+├── cycle-2/         # Second cycle output
+├── cycle-3/         # Third cycle output
+└── code/            # Final production code
+```
+
 ## Cycle Report
 
 ```
@@ -88,11 +109,9 @@ Review findings:
 
 Learnings acquired this cycle:
   + Architecture passed review - structure is appropriate
-  + Design passed review - patterns used correctly
 
-Anti-patterns identified this cycle:
+Mistakes identified this cycle:
   - Security issue: Hardcoded API key in config.js
-  - Test issue: No unit tests for API endpoints
 
 Prompt was improved and archived for next cycle
 ============================================================
@@ -119,9 +138,6 @@ Prompt was improved and archived for next cycle
 
 ## Files
 
-- `memory.txt` - Accumulated learnings (specific, not generic)
-- `anti-pattern.txt` - Patterns to avoid from failures
-- `prompt.md` - Current and past prompt versions
-- `solutions/` - Generated code output directory
+- `solutions/` - Generated projects with per-project learning files
 - `design-doc.md` - Architecture and design decisions
 - `todo.txt` - Project task tracking

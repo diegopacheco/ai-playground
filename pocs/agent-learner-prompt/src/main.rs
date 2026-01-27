@@ -1,3 +1,5 @@
+mod agents;
+
 use std::env;
 use std::fs;
 use std::io::{self, Write};
@@ -6,18 +8,18 @@ use std::process::Stdio;
 use std::time::Duration;
 use std::collections::HashSet;
 use chrono::Local;
-use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::process::Command;
 use tokio::time::timeout;
 use uuid::Uuid;
 
 const DEFAULT_CYCLES: u32 = 3;
-const AGENT_TIMEOUT_SECS: u64 = 300;
+const DEFAULT_AGENT: &str = "claude";
 const SOLUTION_RUN_TIMEOUT_SECS: u64 = 10;
 const MEMORY_FILE: &str = "memory.txt";
-const ANTI_PATTERN_FILE: &str = "anti-pattern.txt";
-const PROMPT_FILE: &str = "prompt.md";
+const MISTAKES_FILE: &str = "mistakes.txt";
+const PROMPTS_FILE: &str = "prompts.md";
 const SOLUTIONS_DIR: &str = "solutions";
+const CODE_DIR: &str = "code";
 
 const DEFAULT_PROMPT: &str = r#"# Current Prompt
 
@@ -37,17 +39,11 @@ Output your code to the working directory provided.
 
 "#;
 
-struct AgentResult {
-    success: bool,
-    output: String,
-    error: String,
-}
-
 struct CycleReport {
     cycle: u32,
     success: bool,
     learnings: Vec<String>,
-    anti_patterns: Vec<String>,
+    mistakes: Vec<String>,
     prompt_improved: bool,
 }
 
@@ -63,8 +59,8 @@ fn get_base_dir() -> PathBuf {
     env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
 }
 
-fn ensure_prompt_exists(base_dir: &Path) {
-    let prompt_path = base_dir.join(PROMPT_FILE);
+fn ensure_prompts_exists(project_dir: &Path) {
+    let prompt_path = project_dir.join(PROMPTS_FILE);
     if !prompt_path.exists() {
         let _ = fs::write(&prompt_path, DEFAULT_PROMPT);
     } else {
@@ -79,17 +75,17 @@ fn read_file_or_default(path: &Path, default: &str) -> String {
     fs::read_to_string(path).unwrap_or_else(|_| default.to_string())
 }
 
-fn read_memory(base_dir: &Path) -> String {
-    read_file_or_default(&base_dir.join(MEMORY_FILE), "")
+fn read_memory(project_dir: &Path) -> String {
+    read_file_or_default(&project_dir.join(MEMORY_FILE), "")
 }
 
-fn read_anti_patterns(base_dir: &Path) -> String {
-    read_file_or_default(&base_dir.join(ANTI_PATTERN_FILE), "")
+fn read_mistakes(project_dir: &Path) -> String {
+    read_file_or_default(&project_dir.join(MISTAKES_FILE), "")
 }
 
-fn read_current_prompt(base_dir: &Path) -> String {
-    ensure_prompt_exists(base_dir);
-    let content = read_file_or_default(&base_dir.join(PROMPT_FILE), DEFAULT_PROMPT);
+fn read_current_prompt(project_dir: &Path) -> String {
+    ensure_prompts_exists(project_dir);
+    let content = read_file_or_default(&project_dir.join(PROMPTS_FILE), DEFAULT_PROMPT);
     if let Some(start) = content.find("# Current Prompt") {
         if let Some(end) = content.find("# Past Prompts") {
             return content[start + 16..end].trim().to_string();
@@ -122,9 +118,9 @@ fn append_unique_to_file(path: &Path, content: &str) -> bool {
     true
 }
 
-fn archive_prompt(base_dir: &Path, old_prompt: &str) {
-    ensure_prompt_exists(base_dir);
-    let prompt_path = base_dir.join(PROMPT_FILE);
+fn archive_prompt(project_dir: &Path, old_prompt: &str) {
+    ensure_prompts_exists(project_dir);
+    let prompt_path = project_dir.join(PROMPTS_FILE);
     let content = read_file_or_default(&prompt_path, DEFAULT_PROMPT);
     let timestamp = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
     let version = content.matches("## Version").count() + 1;
@@ -133,9 +129,9 @@ fn archive_prompt(base_dir: &Path, old_prompt: &str) {
     let _ = fs::write(&prompt_path, new_content);
 }
 
-fn update_current_prompt(base_dir: &Path, new_prompt: &str) {
-    ensure_prompt_exists(base_dir);
-    let prompt_path = base_dir.join(PROMPT_FILE);
+fn update_current_prompt(project_dir: &Path, new_prompt: &str) {
+    ensure_prompts_exists(project_dir);
+    let prompt_path = project_dir.join(PROMPTS_FILE);
     let content = read_file_or_default(&prompt_path, DEFAULT_PROMPT);
     if let Some(past_start) = content.find("# Past Prompts") {
         let past_section = &content[past_start..];
@@ -144,7 +140,7 @@ fn update_current_prompt(base_dir: &Path, new_prompt: &str) {
     }
 }
 
-fn add_learning(base_dir: &Path, learning: &str) -> String {
+fn add_learning(project_dir: &Path, learning: &str) -> String {
     let dominated = [
         "task completed successfully",
         "generated code executed",
@@ -158,7 +154,7 @@ fn add_learning(base_dir: &Path, learning: &str) -> String {
             return String::new();
         }
     }
-    let memory_path = base_dir.join(MEMORY_FILE);
+    let memory_path = project_dir.join(MEMORY_FILE);
     let entry = format!("- {}", learning);
     if append_unique_to_file(&memory_path, &entry) {
         learning.to_string()
@@ -167,28 +163,28 @@ fn add_learning(base_dir: &Path, learning: &str) -> String {
     }
 }
 
-fn add_anti_pattern(base_dir: &Path, pattern: &str) -> String {
-    let anti_path = base_dir.join(ANTI_PATTERN_FILE);
+fn add_mistake(project_dir: &Path, pattern: &str) -> String {
+    let mistakes_path = project_dir.join(MISTAKES_FILE);
     let entry = format!("- {}", pattern);
-    if append_unique_to_file(&anti_path, &entry) {
+    if append_unique_to_file(&mistakes_path, &entry) {
         pattern.to_string()
     } else {
         String::new()
     }
 }
 
-fn build_enhanced_prompt(base_dir: &Path, user_task: &str) -> String {
-    let current_prompt = read_current_prompt(base_dir);
-    let memory = read_memory(base_dir);
-    let anti_patterns = read_anti_patterns(base_dir);
+fn build_enhanced_prompt(project_dir: &Path, user_task: &str) -> String {
+    let current_prompt = read_current_prompt(project_dir);
+    let memory = read_memory(project_dir);
+    let mistakes = read_mistakes(project_dir);
     let mut enhanced = current_prompt.clone();
     if !memory.is_empty() {
         enhanced.push_str("\n\n## Learnings from past executions:\n");
         enhanced.push_str(&memory);
     }
-    if !anti_patterns.is_empty() {
-        enhanced.push_str("\n\n## Anti-patterns to avoid:\n");
-        enhanced.push_str(&anti_patterns);
+    if !mistakes.is_empty() {
+        enhanced.push_str("\n\n## Mistakes to avoid:\n");
+        enhanced.push_str(&mistakes);
     }
     enhanced.push_str("\n\n## User Task:\n");
     enhanced.push_str(user_task);
@@ -325,7 +321,7 @@ fn parse_review_output(output: &str) -> ReviewFindings {
     findings
 }
 
-fn findings_to_anti_patterns(findings: &ReviewFindings) -> Vec<String> {
+fn findings_to_mistakes(findings: &ReviewFindings) -> Vec<String> {
     let mut patterns = Vec::new();
     for issue in &findings.architecture_issues {
         if issue.len() > 10 {
@@ -374,78 +370,6 @@ fn sanitize_project_name(task: &str) -> String {
         format!("project-{}", &Uuid::new_v4().to_string()[..8])
     } else {
         name
-    }
-}
-
-async fn run_agent(prompt: &str, work_dir: &Path, model: &str) -> AgentResult {
-    let mut child = match Command::new("claude")
-        .arg("-p")
-        .arg(prompt)
-        .arg("--model")
-        .arg(model)
-        .arg("--dangerously-skip-permissions")
-        .current_dir(work_dir)
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-    {
-        Ok(c) => c,
-        Err(e) => {
-            return AgentResult {
-                success: false,
-                output: String::new(),
-                error: format!("Failed to spawn agent: {}", e),
-            };
-        }
-    };
-    let stdout = child.stdout.take().unwrap();
-    let stderr = child.stderr.take().unwrap();
-    let stdout_reader = BufReader::new(stdout);
-    let stderr_reader = BufReader::new(stderr);
-    let stdout_handle = tokio::spawn(async move {
-        let mut lines = stdout_reader.lines();
-        let mut output = String::new();
-        while let Ok(Some(line)) = lines.next_line().await {
-            println!("{}", line);
-            output.push_str(&line);
-            output.push('\n');
-        }
-        output
-    });
-    let stderr_handle = tokio::spawn(async move {
-        let mut lines = stderr_reader.lines();
-        let mut output = String::new();
-        while let Ok(Some(line)) = lines.next_line().await {
-            eprintln!("ERR: {}", line);
-            output.push_str(&line);
-            output.push('\n');
-        }
-        output
-    });
-    let timeout_duration = Duration::from_secs(AGENT_TIMEOUT_SECS);
-    match timeout(timeout_duration, child.wait()).await {
-        Ok(Ok(status)) => {
-            let stdout_output = stdout_handle.await.unwrap_or_default();
-            let stderr_output = stderr_handle.await.unwrap_or_default();
-            AgentResult {
-                success: status.success(),
-                output: stdout_output,
-                error: stderr_output,
-            }
-        }
-        Ok(Err(e)) => AgentResult {
-            success: false,
-            output: String::new(),
-            error: format!("Process error: {}", e),
-        },
-        Err(_) => {
-            let _ = child.kill().await;
-            AgentResult {
-                success: false,
-                output: String::new(),
-                error: "Agent timed out".to_string(),
-            }
-        }
     }
 }
 
@@ -521,7 +445,7 @@ fn extract_specific_learnings(output: &str, task: &str) -> Vec<String> {
     learnings
 }
 
-fn extract_anti_patterns_from_failure(error: &str, _output: &str) -> Vec<String> {
+fn extract_mistakes_from_failure(error: &str, _output: &str) -> Vec<String> {
     let mut patterns = Vec::new();
     if error.contains("timeout") && !error.contains("likely") {
         patterns.push("Timeout - add progress indicators or async handling".to_string());
@@ -547,7 +471,7 @@ fn extract_anti_patterns_from_failure(error: &str, _output: &str) -> Vec<String>
     patterns
 }
 
-fn improve_prompt(base_dir: &Path, current_prompt: &str, error: &str, findings: &ReviewFindings, cycle: u32) -> String {
+fn improve_prompt(project_dir: &Path, current_prompt: &str, error: &str, findings: &ReviewFindings, cycle: u32) -> String {
     let mut improved = current_prompt.to_string();
     let timestamp = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
     improved.push_str(&format!("\n\n## Improvements from cycle {} at {}:", cycle, timestamp));
@@ -583,9 +507,30 @@ fn improve_prompt(base_dir: &Path, current_prompt: &str, error: &str, findings: 
     if !added {
         improved.push_str("\n- Continue with current approach");
     }
-    archive_prompt(base_dir, current_prompt);
-    update_current_prompt(base_dir, &improved);
+    archive_prompt(project_dir, current_prompt);
+    update_current_prompt(project_dir, &improved);
     improved
+}
+
+fn copy_to_code_folder(project_dir: &Path, last_successful_cycle: u32) {
+    let cycle_dir = project_dir.join(format!("cycle-{}", last_successful_cycle));
+    let code_dir = project_dir.join(CODE_DIR);
+    let _ = fs::create_dir_all(&code_dir);
+    if let Ok(entries) = fs::read_dir(&cycle_dir) {
+        for entry in entries.flatten() {
+            let path = entry.path();
+            if path.is_file() {
+                if let Some(name) = path.file_name() {
+                    let name_str = name.to_string_lossy();
+                    if !name_str.starts_with("prompt") && !name_str.starts_with("output") && !name_str.starts_with("review") {
+                        let dest = code_dir.join(name);
+                        let _ = fs::copy(&path, &dest);
+                    }
+                }
+            }
+        }
+    }
+    println!("Final code copied to: {}", code_dir.display());
 }
 
 fn print_cycle_report(report: &CycleReport) {
@@ -602,12 +547,12 @@ fn print_cycle_report(report: &CycleReport) {
             println!("  + {}", learning);
         }
     }
-    println!("\nAnti-patterns identified this cycle:");
-    let anti_filtered: Vec<&String> = report.anti_patterns.iter().filter(|l| !l.is_empty()).collect();
-    if anti_filtered.is_empty() {
+    println!("\nMistakes identified this cycle:");
+    let mistakes_filtered: Vec<&String> = report.mistakes.iter().filter(|l| !l.is_empty()).collect();
+    if mistakes_filtered.is_empty() {
         println!("  (none)");
     } else {
-        for pattern in anti_filtered {
+        for pattern in mistakes_filtered {
             println!("  - {}", pattern);
         }
     }
@@ -630,8 +575,8 @@ fn print_summary(reports: &[CycleReport]) {
         .flat_map(|r| &r.learnings)
         .filter(|l| !l.is_empty())
         .collect();
-    let all_anti_patterns: Vec<&String> = reports.iter()
-        .flat_map(|r| &r.anti_patterns)
+    let all_mistakes: Vec<&String> = reports.iter()
+        .flat_map(|r| &r.mistakes)
         .filter(|l| !l.is_empty())
         .collect();
     println!("\nLearnings accumulated:");
@@ -642,11 +587,11 @@ fn print_summary(reports: &[CycleReport]) {
             println!("  + {}", learning);
         }
     }
-    println!("\nAnti-patterns identified:");
-    if all_anti_patterns.is_empty() {
+    println!("\nMistakes identified:");
+    if all_mistakes.is_empty() {
         println!("  (none)");
     } else {
-        for pattern in &all_anti_patterns {
+        for pattern in &all_mistakes {
             println!("  - {}", pattern);
         }
     }
@@ -655,87 +600,82 @@ fn print_summary(reports: &[CycleReport]) {
     println!("{}", "#".repeat(60));
 }
 
-async fn run_learning_cycles(base_dir: &Path, task: &str, model: &str, num_cycles: u32) -> Vec<CycleReport> {
-    ensure_prompt_exists(base_dir);
+async fn run_learning_cycles(base_dir: &Path, task: &str, agent: &str, model: &str, num_cycles: u32) -> Vec<CycleReport> {
     let mut reports = Vec::new();
     let project_name = sanitize_project_name(task);
-    let base_project_dir = create_project_dir(base_dir, &project_name);
-    println!("Project directory: {}", base_project_dir.display());
-    let mut current_prompt = read_current_prompt(base_dir);
+    let project_dir = create_project_dir(base_dir, &project_name);
+    println!("Project directory: {}", project_dir.display());
+    ensure_prompts_exists(&project_dir);
+    let mut current_prompt = read_current_prompt(&project_dir);
+    let mut last_successful_cycle = 0u32;
     for cycle in 1..=num_cycles {
         println!("\n{}", "*".repeat(60));
-        println!("LEARNING CYCLE {}/{}", cycle, num_cycles);
+        println!("LEARNING CYCLE {}/{} [Agent: {} | Model: {}]", cycle, num_cycles, agent, model);
         println!("{}", "*".repeat(60));
-        let cycle_dir = base_project_dir.join(format!("cycle-{}", cycle));
+        let cycle_dir = project_dir.join(format!("cycle-{}", cycle));
         let _ = fs::create_dir_all(&cycle_dir);
-        let enhanced_prompt = build_enhanced_prompt(base_dir, task);
+        let enhanced_prompt = build_enhanced_prompt(&project_dir, task);
         let prompt_log = cycle_dir.join("prompt.txt");
         let _ = fs::write(&prompt_log, &enhanced_prompt);
         println!("\nPhase 1: Generating code...");
-        let result = run_agent(&enhanced_prompt, &cycle_dir, model).await;
+        let result = agents::run_agent(agent, &enhanced_prompt, model, &cycle_dir).await;
         let output_log = cycle_dir.join("output.txt");
         let _ = fs::write(&output_log, format!("STDOUT:\n{}\n\nSTDERR:\n{}", result.output, result.error));
         let mut report = CycleReport {
             cycle,
             success: result.success,
             learnings: Vec::new(),
-            anti_patterns: Vec::new(),
+            mistakes: Vec::new(),
             prompt_improved: false,
         };
         if result.success {
+            last_successful_cycle = cycle;
             println!("\nPhase 2: Running solution...");
             let (solution_ok, solution_output) = run_solution_with_timeout(&cycle_dir).await;
             println!("\nPhase 3: Reviewing code...");
             let review_prompt = build_review_prompt(&cycle_dir, task);
-            let review_result = run_agent(&review_prompt, &cycle_dir, model).await;
+            let review_result = agents::run_agent(agent, &review_prompt, model, &cycle_dir).await;
             let review_log = cycle_dir.join("review.txt");
             let _ = fs::write(&review_log, &review_result.output);
             let findings = parse_review_output(&review_result.output);
             println!("\nReview findings:");
-            println!("  Architecture: {}", if findings.architecture_issues.is_empty() { "OK" } else { &format!("{} issues", findings.architecture_issues.len()) });
-            println!("  Design: {}", if findings.design_issues.is_empty() { "OK" } else { &format!("{} issues", findings.design_issues.len()) });
-            println!("  Code Quality: {}", if findings.code_quality_issues.is_empty() { "OK" } else { &format!("{} issues", findings.code_quality_issues.len()) });
-            println!("  Security: {}", if findings.security_issues.is_empty() { "OK" } else { &format!("{} issues", findings.security_issues.len()) });
-            println!("  Tests: {}", if findings.test_issues.is_empty() { "OK" } else { &format!("{} issues", findings.test_issues.len()) });
+            println!("  Architecture: {}", if findings.architecture_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.architecture_issues.len()) });
+            println!("  Design: {}", if findings.design_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.design_issues.len()) });
+            println!("  Code Quality: {}", if findings.code_quality_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.code_quality_issues.len()) });
+            println!("  Security: {}", if findings.security_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.security_issues.len()) });
+            println!("  Tests: {}", if findings.test_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.test_issues.len()) });
             let task_learnings = extract_specific_learnings(&result.output, task);
             for learning in &task_learnings {
-                let saved = add_learning(base_dir, learning);
+                let saved = add_learning(&project_dir, learning);
                 if !saved.is_empty() {
                     report.learnings.push(saved);
                 }
             }
-            let review_anti_patterns = findings_to_anti_patterns(&findings);
-            for pattern in &review_anti_patterns {
-                let saved = add_anti_pattern(base_dir, pattern);
+            let review_mistakes = findings_to_mistakes(&findings);
+            for pattern in &review_mistakes {
+                let saved = add_mistake(&project_dir, pattern);
                 if !saved.is_empty() {
-                    report.anti_patterns.push(saved);
+                    report.mistakes.push(saved);
                 }
             }
             if !solution_ok && !solution_output.contains("likely") {
-                let patterns = extract_anti_patterns_from_failure(&solution_output, &result.output);
+                let patterns = extract_mistakes_from_failure(&solution_output, &result.output);
                 for pattern in &patterns {
-                    let saved = add_anti_pattern(base_dir, pattern);
+                    let saved = add_mistake(&project_dir, pattern);
                     if !saved.is_empty() {
-                        report.anti_patterns.push(saved);
+                        report.mistakes.push(saved);
                     }
                 }
             }
-            let has_issues = !findings.architecture_issues.is_empty()
-                || !findings.design_issues.is_empty()
-                || !findings.code_quality_issues.is_empty()
-                || !findings.security_issues.is_empty()
-                || !findings.test_issues.is_empty();
-            if has_issues {
-                current_prompt = improve_prompt(base_dir, &current_prompt, "", &findings, cycle);
-                report.prompt_improved = true;
-            }
+            current_prompt = improve_prompt(&project_dir, &current_prompt, "", &findings, cycle);
+            report.prompt_improved = true;
         } else {
             println!("\nCycle {} failed: {}", cycle, result.error);
-            let patterns = extract_anti_patterns_from_failure(&result.error, &result.output);
+            let patterns = extract_mistakes_from_failure(&result.error, &result.output);
             for pattern in &patterns {
-                let saved = add_anti_pattern(base_dir, pattern);
+                let saved = add_mistake(&project_dir, pattern);
                 if !saved.is_empty() {
-                    report.anti_patterns.push(saved);
+                    report.mistakes.push(saved);
                 }
             }
             let empty_findings = ReviewFindings {
@@ -745,11 +685,14 @@ async fn run_learning_cycles(base_dir: &Path, task: &str, model: &str, num_cycle
                 security_issues: Vec::new(),
                 test_issues: Vec::new(),
             };
-            current_prompt = improve_prompt(base_dir, &current_prompt, &result.error, &empty_findings, cycle);
+            current_prompt = improve_prompt(&project_dir, &current_prompt, &result.error, &empty_findings, cycle);
             report.prompt_improved = true;
         }
         print_cycle_report(&report);
         reports.push(report);
+    }
+    if last_successful_cycle > 0 {
+        copy_to_code_folder(&project_dir, last_successful_cycle);
     }
     reports
 }
@@ -760,35 +703,41 @@ fn print_help() {
     println!("Usage: agent-learner [OPTIONS] [TASK]");
     println!();
     println!("Arguments:");
-    println!("  [TASK]              The task description for code generation");
-    println!("                      If not provided, enters REPL mode");
+    println!("  [TASK]                  The task description for code generation");
+    println!("                          If not provided, enters REPL mode");
     println!();
     println!("Options:");
-    println!("  --model <MODEL>     Claude model to use (default: sonnet)");
-    println!("  --cycles <N>        Number of learning cycles (default: 3)");
-    println!("  --repl              Enter interactive REPL mode");
-    println!("  --list-prompts      Show all prompt versions");
-    println!("  --show-memory       Show accumulated learnings");
-    println!("  --show-anti-patterns Show anti-patterns to avoid");
-    println!("  --help              Show this help message");
+    println!("  --agent <AGENT>, -a     CLI agent to use (claude, codex, copilot, gemini)");
+    println!("  --model <MODEL>, -m     Model to use for the agent");
+    println!("  --cycles <N>, -c        Number of learning cycles (default: 3)");
+    println!("  --repl                  Enter interactive REPL mode");
+    println!("  --help                  Show this help message");
+    println!();
+    println!("Supported Agents:");
+    println!("  claude   - Claude CLI (default)");
+    println!("  codex    - OpenAI Codex CLI");
+    println!("  copilot  - GitHub Copilot CLI");
+    println!("  gemini   - Google Gemini CLI");
     println!();
     println!("REPL Commands:");
-    println!("  :quit, :q           Exit the REPL");
-    println!("  :cycles <N>         Set number of cycles (e.g. :cycles 5)");
-    println!("  :memory, :m         Show current learnings");
-    println!("  :anti, :a           Show current anti-patterns");
-    println!("  :prompts, :p        Show prompt history");
-    println!("  :help, :h           Show REPL help");
+    println!("  :quit, :q               Exit the REPL");
+    println!("  :agent <NAME>           Switch agent (claude, codex, copilot, gemini)");
+    println!("  :model <NAME>           Switch model");
+    println!("  :cycles <N>             Set number of cycles (e.g. :cycles 5)");
+    println!("  :memory, :m             Show current learnings");
+    println!("  :mistakes               Show current mistakes");
+    println!("  :prompts, :p            Show prompt history");
+    println!("  :help, :h               Show REPL help");
 }
 
-fn show_prompts(base_dir: &Path) {
-    ensure_prompt_exists(base_dir);
-    let content = read_file_or_default(&base_dir.join(PROMPT_FILE), DEFAULT_PROMPT);
+fn show_prompts(project_dir: &Path) {
+    ensure_prompts_exists(project_dir);
+    let content = read_file_or_default(&project_dir.join(PROMPTS_FILE), DEFAULT_PROMPT);
     println!("{}", content);
 }
 
-fn show_memory(base_dir: &Path) {
-    let content = read_memory(base_dir);
+fn show_memory(project_dir: &Path) {
+    let content = read_memory(project_dir);
     if content.is_empty() {
         println!("No learnings recorded yet");
     } else {
@@ -796,34 +745,41 @@ fn show_memory(base_dir: &Path) {
     }
 }
 
-fn show_anti_patterns(base_dir: &Path) {
-    let content = read_anti_patterns(base_dir);
+fn show_mistakes(project_dir: &Path) {
+    let content = read_mistakes(project_dir);
     if content.is_empty() {
-        println!("No anti-patterns recorded yet");
+        println!("No mistakes recorded yet");
     } else {
-        println!("Anti-patterns to avoid:\n{}", content);
+        println!("Mistakes to avoid:\n{}", content);
     }
 }
 
 fn print_repl_help() {
     println!("REPL Commands:");
-    println!("  :quit, :q           Exit the REPL");
-    println!("  :cycles <N>         Set number of cycles (e.g. :cycles 5)");
-    println!("  :memory, :m         Show current learnings");
-    println!("  :anti, :a           Show current anti-patterns");
-    println!("  :prompts, :p        Show prompt history");
-    println!("  :clear              Clear screen");
-    println!("  :help, :h           Show this help");
+    println!("  :quit, :q               Exit the REPL");
+    println!("  :agent <NAME>           Switch agent (claude, codex, copilot, gemini)");
+    println!("  :agent                  Show current agent");
+    println!("  :model <NAME>           Switch model");
+    println!("  :model                  Show current model");
+    println!("  :cycles <N>             Set number of cycles (e.g. :cycles 5)");
+    println!("  :cycles                 Show current cycles");
+    println!("  :memory, :m             Show current learnings");
+    println!("  :mistakes               Show current mistakes");
+    println!("  :prompts, :p            Show prompt history");
+    println!("  :clear                  Clear screen");
+    println!("  :help, :h               Show this help");
     println!();
     println!("Enter any task to start a learning session.");
 }
 
-async fn run_repl(base_dir: &Path, model: &str, initial_cycles: u32) {
-    ensure_prompt_exists(base_dir);
+async fn run_repl(base_dir: &Path, initial_agent: &str, initial_model: &str, initial_cycles: u32) {
+    let mut agent = initial_agent.to_string();
+    let mut model = initial_model.to_string();
     let mut num_cycles = initial_cycles;
+    let mut last_project_dir: Option<PathBuf> = None;
     println!("Agent Learner REPL - Interactive Mode");
     println!("Type :help for commands, or enter a task to start learning");
-    println!("Running {} cycles per task (use :cycles N to change)", num_cycles);
+    println!("Agent: {} | Model: {} | Cycles: {}", agent, model, num_cycles);
     println!();
     loop {
         print!("agent> ");
@@ -842,16 +798,52 @@ async fn run_repl(base_dir: &Path, model: &str, initial_cycles: u32) {
             println!("Goodbye!");
             break;
         } else if input == ":memory" || input == ":m" {
-            show_memory(base_dir);
-        } else if input == ":anti" || input == ":a" {
-            show_anti_patterns(base_dir);
+            if let Some(ref dir) = last_project_dir {
+                show_memory(dir);
+            } else {
+                println!("No project yet. Run a task first.");
+            }
+        } else if input == ":mistakes" {
+            if let Some(ref dir) = last_project_dir {
+                show_mistakes(dir);
+            } else {
+                println!("No project yet. Run a task first.");
+            }
         } else if input == ":prompts" || input == ":p" {
-            show_prompts(base_dir);
+            if let Some(ref dir) = last_project_dir {
+                show_prompts(dir);
+            } else {
+                println!("No project yet. Run a task first.");
+            }
         } else if input == ":help" || input == ":h" {
             print_repl_help();
         } else if input == ":clear" {
             print!("\x1B[2J\x1B[1;1H");
             let _ = io::stdout().flush();
+        } else if input.starts_with(":agent") {
+            let parts: Vec<&str> = input.split_whitespace().collect();
+            if parts.len() >= 2 {
+                let new_agent = parts[1];
+                if agents::is_valid_agent(new_agent) {
+                    agent = new_agent.to_string();
+                    model = agents::get_default_model(&agent).to_string();
+                    println!("Agent set to: {} (model: {})", agent, model);
+                } else {
+                    println!("Invalid agent: {}. Use: claude, codex, copilot, gemini", new_agent);
+                }
+            } else {
+                println!("Current agent: {}", agent);
+                println!("Usage: :agent <name>");
+            }
+        } else if input.starts_with(":model") {
+            let parts: Vec<&str> = input.split_whitespace().collect();
+            if parts.len() >= 2 {
+                model = parts[1].to_string();
+                println!("Model set to: {}", model);
+            } else {
+                println!("Current model: {}", model);
+                println!("Usage: :model <name>");
+            }
         } else if input.starts_with(":cycles") {
             let parts: Vec<&str> = input.split_whitespace().collect();
             if parts.len() >= 2 {
@@ -874,7 +866,9 @@ async fn run_repl(base_dir: &Path, model: &str, initial_cycles: u32) {
             println!("Type :help for available commands");
         } else {
             println!("\nStarting learning session: {}", input);
-            let reports = run_learning_cycles(base_dir, input, model, num_cycles).await;
+            let project_name = sanitize_project_name(input);
+            last_project_dir = Some(base_dir.join(SOLUTIONS_DIR).join(&project_name));
+            let reports = run_learning_cycles(base_dir, input, &agent, &model, num_cycles).await;
             print_summary(&reports);
             println!();
         }
@@ -885,8 +879,8 @@ async fn run_repl(base_dir: &Path, model: &str, initial_cycles: u32) {
 async fn main() {
     let args: Vec<String> = env::args().collect();
     let base_dir = get_base_dir();
-    ensure_prompt_exists(&base_dir);
-    let mut model = "sonnet".to_string();
+    let mut agent = DEFAULT_AGENT.to_string();
+    let mut model: Option<String> = None;
     let mut task: Option<String> = None;
     let mut repl_mode = false;
     let mut num_cycles = DEFAULT_CYCLES;
@@ -897,28 +891,28 @@ async fn main() {
                 print_help();
                 return;
             }
-            "--list-prompts" => {
-                show_prompts(&base_dir);
-                return;
-            }
-            "--show-memory" => {
-                show_memory(&base_dir);
-                return;
-            }
-            "--show-anti-patterns" => {
-                show_anti_patterns(&base_dir);
-                return;
-            }
             "--repl" => {
                 repl_mode = true;
             }
-            "--model" => {
+            "--agent" | "-a" => {
                 if i + 1 < args.len() {
-                    model = args[i + 1].clone();
+                    let new_agent = &args[i + 1];
+                    if agents::is_valid_agent(new_agent) {
+                        agent = new_agent.clone();
+                    } else {
+                        eprintln!("Invalid agent: {}. Use: claude, codex, copilot, gemini", new_agent);
+                        return;
+                    }
                     i += 1;
                 }
             }
-            "--cycles" => {
+            "--model" | "-m" => {
+                if i + 1 < args.len() {
+                    model = Some(args[i + 1].clone());
+                    i += 1;
+                }
+            }
+            "--cycles" | "-c" => {
                 if i + 1 < args.len() {
                     if let Ok(n) = args[i + 1].parse::<u32>() {
                         if n > 0 && n <= 10 {
@@ -937,21 +931,25 @@ async fn main() {
         }
         i += 1;
     }
+    let model = model.unwrap_or_else(|| agents::get_default_model(&agent).to_string());
     if repl_mode || task.is_none() {
         if args.len() < 2 {
             print_help();
             println!();
         }
-        run_repl(&base_dir, &model, num_cycles).await;
+        run_repl(&base_dir, &agent, &model, num_cycles).await;
         return;
     }
     let task = task.unwrap();
+    println!("{}", "=".repeat(60));
     println!("Agent Learner Starting...");
     println!("Task: {}", task);
-    println!("Model: {}", model);
+    println!("Agent: {} (use --agent to change)", agent);
+    println!("Model: {} (use --model to change)", model);
     println!("Learning cycles: {}", num_cycles);
+    println!("{}", "=".repeat(60));
     println!();
-    let reports = run_learning_cycles(&base_dir, &task, &model, num_cycles).await;
+    let reports = run_learning_cycles(&base_dir, &task, &agent, &model, num_cycles).await;
     print_summary(&reports);
 }
 
