@@ -110,15 +110,23 @@ Each successful cycle includes a review phase that checks:
 - Captures output for analysis
 
 ### 7. Learning Extractor
-- Filters out generic learnings like "Task completed successfully"
-- Extracts specific learnings: tests passed, build succeeded, lint passed
-- Converts review findings to actionable insights
-- Updates memory.txt or mistakes.txt in project folder
+- **Phase 4**: Asks the LLM to extract learnings from the cycle
+- **Phase 5**: Asks the LLM to identify mistakes to avoid
+- Prompt templates ask LLM to analyze code and execution results
+- Saves responses to memory.txt and mistakes.txt
+- Filters duplicates before saving
 
-### 8. Final Code Generator
+### 8. Prompt Improver
+- **Phase 6**: Asks the LLM to suggest an improved prompt
+- Provides current prompt, learnings, and mistakes as context
+- LLM generates better prompt for next cycle
+- Archives old prompt and updates prompts.md
+
+### 9. Final Code Generator
 - After all cycles complete, copies best result to code/ folder
+- **Recursively copies all files and subdirectories**
 - code/ contains the final production-ready output
-- Clean folder without cycle artifacts (prompt.txt, output.txt, review.txt)
+- Clean folder without cycle artifacts (prompt.txt, output.txt, review.txt, learnings.txt, mistakes.txt, improved_prompt.txt)
 
 ### 10. REPL Mode
 - Interactive loop for continuous learning
@@ -136,12 +144,14 @@ Each successful cycle includes a review phase that checks:
    b. **Phase 1**: Execute selected agent with enhanced prompt (from prompts.md + memory.txt + mistakes.txt)
    c. **Phase 2**: Run solution with 10s timeout
    d. **Phase 3**: Review code for architecture/design/security/tests
-   e. Extract learnings and mistakes from review
-   f. **Update prompts.md** with improvements based on findings
-   g. Update memory.txt with learnings
-   h. Update mistakes.txt with anti-patterns
-   i. Print cycle report
-5. Copy final successful cycle to code/ folder
+   e. **Phase 4**: Ask LLM to extract learnings from this cycle
+   f. **Phase 5**: Ask LLM to identify mistakes to avoid
+   g. **Phase 6**: Ask LLM to suggest improved prompt
+   h. Update memory.txt with LLM learnings
+   i. Update mistakes.txt with LLM mistakes
+   j. Archive current prompt and update prompts.md with LLM suggestion
+   k. Print cycle report
+5. Copy final successful cycle to code/ folder (recursive)
 6. Print session summary with all accumulated knowledge
 7. In REPL mode: wait for next task
 
@@ -168,13 +178,24 @@ for cycle in 1..=num_cycles:
         findings = run_agent(agent, review_prompt, model)
         parse findings into categories
 
-    Update prompts.md with improvements (ALWAYS after each cycle)
-    Update memory.txt with learnings
-    Update mistakes.txt with anti-patterns
+    Phase 4: Extract Learnings (LLM)
+        learnings_prompt = "What worked well? What learnings from this cycle?"
+        learnings = run_agent(agent, learnings_prompt, model)
+        save to memory.txt
+
+    Phase 5: Extract Mistakes (LLM)
+        mistakes_prompt = "What mistakes should be avoided? What went wrong?"
+        mistakes = run_agent(agent, mistakes_prompt, model)
+        save to mistakes.txt
+
+    Phase 6: Improve Prompt (LLM)
+        improve_prompt = "Given learnings and mistakes, suggest improved prompt"
+        new_prompt = run_agent(agent, improve_prompt, model)
+        archive old prompt and update prompts.md
 
     print_cycle_report()
 
-copy last successful cycle to code/
+copy last successful cycle to code/ (recursive)
 print_session_summary()
 ```
 
@@ -190,10 +211,13 @@ solutions/{project}/
 │   ├── prompt.txt   # Prompt used this cycle
 │   ├── output.txt   # Agent output
 │   ├── review.txt   # Code review results
-│   └── (generated code files)
+│   ├── learnings.txt    # LLM-extracted learnings
+│   ├── mistakes.txt     # LLM-extracted mistakes
+│   ├── improved_prompt.txt  # LLM-suggested improved prompt
+│   └── (generated code files and subdirectories)
 ├── cycle-2/         # Second attempt (improved)
 ├── cycle-3/         # Third attempt (improved)
-└── code/            # Final production code (clean copy)
+└── code/            # Final production code (recursive copy, clean)
 ```
 
 ## Prompt Update Flow
@@ -217,6 +241,68 @@ DESIGN: <issues or OK>
 CODE_QUALITY: <issues or OK>
 SECURITY: <issues or OK>
 TESTS: <issues or OK>
+```
+
+## LLM Learning Prompts
+
+### Phase 4: Extract Learnings
+```
+Analyze the code generation cycle that just completed. The task was: {task}
+
+Review the generated code and execution results:
+- Code output: {output}
+- Solution run result: {solution_result}
+- Review findings: {review_summary}
+
+What specific, actionable learnings can be extracted from this cycle?
+Focus on patterns that worked well and should be repeated.
+Do NOT include generic statements like "task completed successfully".
+
+Output format (one learning per line, be specific):
+LEARNING: <specific actionable insight>
+LEARNING: <specific actionable insight>
+```
+
+### Phase 5: Extract Mistakes
+```
+Analyze the code generation cycle for mistakes to avoid. The task was: {task}
+
+Review the generated code and execution results:
+- Code output: {output}
+- Solution run result: {solution_result}
+- Review findings: {review_summary}
+
+What specific mistakes were made that should be avoided in future cycles?
+Focus on concrete anti-patterns, not generic advice.
+
+Output format (one mistake per line, be specific):
+MISTAKE: <specific mistake to avoid>
+MISTAKE: <specific mistake to avoid>
+```
+
+### Phase 6: Improve Prompt
+```
+You are a prompt engineer. Your task is to improve the code generation prompt.
+
+Current prompt:
+{current_prompt}
+
+Learnings from this cycle:
+{learnings}
+
+Mistakes identified:
+{mistakes}
+
+Review findings:
+{review_summary}
+
+Generate an improved version of the prompt that:
+1. Incorporates the learnings as guidelines
+2. Explicitly warns against the identified mistakes
+3. Addresses the review findings
+4. Remains clear and actionable
+
+Output ONLY the improved prompt text, no explanations.
 ```
 
 ## Filtered Learnings

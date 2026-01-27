@@ -134,6 +134,30 @@ pub fn parse_review_output(output: &str) -> ReviewFindings {
     findings
 }
 
+pub fn findings_to_summary(findings: &ReviewFindings) -> String {
+    let mut parts = Vec::new();
+    if !findings.architecture_issues.is_empty() {
+        parts.push(format!("Architecture: {}", findings.architecture_issues.join("; ")));
+    }
+    if !findings.design_issues.is_empty() {
+        parts.push(format!("Design: {}", findings.design_issues.join("; ")));
+    }
+    if !findings.code_quality_issues.is_empty() {
+        parts.push(format!("Code Quality: {}", findings.code_quality_issues.join("; ")));
+    }
+    if !findings.security_issues.is_empty() {
+        parts.push(format!("Security: {}", findings.security_issues.join("; ")));
+    }
+    if !findings.test_issues.is_empty() {
+        parts.push(format!("Tests: {}", findings.test_issues.join("; ")));
+    }
+    if parts.is_empty() {
+        "All checks passed - no issues found".to_string()
+    } else {
+        parts.join("\n")
+    }
+}
+
 pub fn findings_to_mistakes(findings: &ReviewFindings) -> Vec<String> {
     let mut patterns = Vec::new();
     for issue in &findings.architecture_issues {
