@@ -91,23 +91,35 @@ Each successful cycle includes a review phase that checks:
 ## Workflow
 
 1. User provides task description via CLI or REPL
-2. Agent reads current prompt from prompt.md
-3. For each learning cycle (default 3):
-   a. **Phase 1**: Execute agent with enhanced prompt
-   b. **Phase 2**: Run solution with 10s timeout
-   c. **Phase 3**: Review code for architecture/design/security/tests
-   d. Extract learnings and anti-patterns from review
-   e. Print cycle report
-4. Print session summary with all accumulated knowledge
-5. In REPL mode: wait for next task
+2. Agent creates project folder in solutions/{project}/
+3. Initialize prompts.md with default prompt (if not exists)
+4. For each learning cycle (default 3):
+   a. Display current model being used
+   b. **Phase 1**: Execute agent with enhanced prompt (from prompts.md + memory.txt + mistakes.txt)
+   c. **Phase 2**: Run solution with 10s timeout
+   d. **Phase 3**: Review code for architecture/design/security/tests
+   e. Extract learnings and mistakes from review
+   f. **Update prompts.md** with improvements based on findings
+   g. Update memory.txt with learnings
+   h. Update mistakes.txt with anti-patterns
+   i. Print cycle report
+5. Copy final successful cycle to code/ folder
+6. Print session summary with all accumulated knowledge
+7. In REPL mode: wait for next task
 
 ## Learning Cycle Phases
 
 ```
+project_dir = solutions/{project}/
+init prompts.md, memory.txt, mistakes.txt in project_dir
+
 for cycle in 1..=num_cycles:
+    print "Using model: {model}"
+    
     Phase 1: Generate Code
-        enhanced_prompt = base_prompt + memory + anti_patterns + task
-        result = run_agent(enhanced_prompt)
+        enhanced_prompt = prompts.md + memory.txt + mistakes.txt + task
+        result = run_agent(enhanced_prompt, model)
+        save to cycle-{n}/
 
     Phase 2: Run Solution (with 10s timeout)
         run_solution_with_timeout()
@@ -115,17 +127,48 @@ for cycle in 1..=num_cycles:
 
     Phase 3: Code Review
         review_prompt = check architecture, design, security, tests
-        findings = run_agent(review_prompt)
+        findings = run_agent(review_prompt, model)
         parse findings into categories
 
-    Extract learnings (filter generic ones)
-    Extract anti-patterns from issues found
-    Improve prompt if issues detected
+    Update prompts.md with improvements (ALWAYS after each cycle)
+    Update memory.txt with learnings
+    Update mistakes.txt with anti-patterns
 
     print_cycle_report()
 
+copy last successful cycle to code/
 print_session_summary()
 ```
+
+## Project Folder Structure
+
+Each project in solutions/ has:
+```
+solutions/{project}/
+├── memory.txt       # Learnings accumulated across cycles
+├── mistakes.txt     # Mistakes to avoid (fed to each cycle)
+├── prompts.md       # Prompt versions (updated EVERY cycle)
+├── cycle-1/         # First attempt
+│   ├── prompt.txt   # Prompt used this cycle
+│   ├── output.txt   # Agent output
+│   ├── review.txt   # Code review results
+│   └── (generated code files)
+├── cycle-2/         # Second attempt (improved)
+├── cycle-3/         # Third attempt (improved)
+└── code/            # Final production code (clean copy)
+```
+
+## Prompt Update Flow
+
+prompts.md is updated after EVERY cycle:
+1. Read current prompt from prompts.md
+2. Build enhanced prompt (current + memory + mistakes + task)
+3. Execute cycle
+4. Review code
+5. Archive current prompt to "Past Prompts" section
+6. Generate improved prompt based on findings
+7. Write new prompt to "Current Prompt" section
+8. Next cycle uses improved prompt
 
 ## Review Output Format
 
@@ -146,12 +189,22 @@ These generic learnings are filtered out:
 - "File generation approach worked"
 - "Code produced valid output"
 
-Only specific learnings are saved:
+Only specific learnings are saved to memory.txt:
 - "Tests passed for task: create web server"
 - "Build succeeded without errors"
 - "Code passed linting checks"
 - "Architecture passed review - structure is appropriate"
 - "Security passed review - no vulnerabilities found"
+
+## Files Renamed
+
+| Old Name | New Name | Location |
+|----------|----------|----------|
+| anti-pattern.txt | mistakes.txt | solutions/{project}/ |
+| prompt.md | prompts.md | solutions/{project}/ |
+| memory.txt | memory.txt | solutions/{project}/ |
+
+Note: These files no longer exist in project root. Each project has its own isolated learning context.
 
 ## CLI Interface
 
@@ -159,17 +212,36 @@ Only specific learnings are saved:
 ./run.sh "Create a REST API"
 ./run.sh --cycles 5 "Build a CLI tool"
 ./run.sh --model opus --cycles 2 "Quick task"
+./run.sh --model haiku "Simple task"
 ./run.sh --repl
+```
+
+## Model Display
+
+At startup and each cycle:
+```
+============================================================
+Agent Learner Starting...
+Task: Create a REST API
+Model: claude-sonnet (use --model to change)
+Learning cycles: 3
+============================================================
+
+************************************************************
+LEARNING CYCLE 1/3 [Model: claude-sonnet]
+************************************************************
 ```
 
 ## REPL Commands
 
 ```
 agent> :help           # Show help
+agent> :model opus     # Switch to opus model
+agent> :model          # Show current model
 agent> :cycles 5       # Set cycles to 5
 agent> :cycles         # Show current cycles
-agent> :memory         # Show learnings
-agent> :anti           # Show anti-patterns
+agent> :memory         # Show learnings (from current project)
+agent> :mistakes       # Show mistakes to avoid
 agent> :prompts        # Show prompt history
 agent> :clear          # Clear screen
 agent> :quit           # Exit REPL
@@ -199,11 +271,14 @@ agent> :quit           # Exit REPL
 
 1. **3 cycles default**: Faster iteration than 5, still enough to learn
 2. **Configurable cycles**: --cycles N or :cycles N in REPL
-3. **Code review phase**: Each cycle reviews architecture, design, security, tests
-4. **Filter generic learnings**: Only save specific, actionable insights
-5. **10s solution timeout**: Prevents blocking on web servers
-6. **Timeout = success for servers**: Web apps that start are considered working
-7. **File-based persistence**: Simple, no database required
-8. **Claude CLI integration**: Reuses existing infrastructure
-9. **REPL mode**: Continuous interactive learning
-10. **Cycle-by-cycle reporting**: Clear visibility into what was learned
+3. **Configurable model**: --model or :model in REPL with prominent display
+4. **Code review phase**: Each cycle reviews architecture, design, security, tests
+5. **Filter generic learnings**: Only save specific, actionable insights
+6. **10s solution timeout**: Prevents blocking on web servers
+7. **Timeout = success for servers**: Web apps that start are considered working
+8. **Per-project learning files**: memory.txt, mistakes.txt, prompts.md in solutions/{project}/
+9. **prompts.md updated every cycle**: Continuous improvement, not just on failure
+10. **code/ folder**: Final clean output separate from cycle artifacts
+11. **Model display**: Show model at startup and each cycle header
+12. **Claude CLI integration**: Reuses existing infrastructure
+13. **REPL mode**: Continuous interactive learning with model switching
