@@ -1,16 +1,17 @@
 # Agent Learner Prompt
 
-A self-learning CLI agent that iteratively improves its prompts based on execution results. Runs 5 learning cycles per task with detailed reporting.
+A self-learning CLI agent that iteratively improves its prompts based on execution results. Runs 3 learning cycles per task with code review.
 
 ## Features
 
 - Learns from successes (memory.txt)
 - Avoids known failures (anti-pattern.txt)
 - Maintains prompt version history (prompt.md)
-- Runs 5 learning cycles per task
-- Shows learnings and anti-patterns per cycle
-- Interactive REPL mode for continuous learning
-- Runs generated code in solutions/
+- Configurable learning cycles (default: 3)
+- Code review: architecture, design, security, tests
+- Filters generic learnings, keeps specific ones
+- 10s timeout for solution runs (web servers OK)
+- Interactive REPL mode
 
 ## Build
 
@@ -23,7 +24,8 @@ A self-learning CLI agent that iteratively improves its prompts based on executi
 Single task mode:
 ```bash
 ./run.sh "Create a hello world web server in Python"
-./run.sh --model opus "Build a REST API"
+./run.sh --cycles 5 "Build a REST API"
+./run.sh --model opus --cycles 2 "Quick task"
 ```
 
 Interactive REPL mode:
@@ -44,12 +46,56 @@ View learnings:
 
 ```
 agent> :help           # Show help
+agent> :cycles 5       # Set cycles to 5
+agent> :cycles         # Show current cycles
 agent> :memory         # Show learnings
 agent> :anti           # Show anti-patterns
 agent> :prompts        # Show prompt history
 agent> :clear          # Clear screen
 agent> :quit           # Exit REPL
-agent> Create a web server   # Start 5-cycle learning session
+agent> Create a web server   # Start learning session
+```
+
+## Learning Cycle Phases
+
+Each cycle has 3 phases:
+
+```
+Phase 1: Execute agent to generate code
+Phase 2: Run solution with 10s timeout
+Phase 3: Review code for:
+  - Architecture issues
+  - Design issues
+  - Code quality issues
+  - Security vulnerabilities
+  - Missing tests
+```
+
+## Cycle Report
+
+```
+============================================================
+CYCLE 1 REPORT
+============================================================
+Status: SUCCESS
+
+Review findings:
+  Architecture: OK
+  Design: OK
+  Code Quality: OK
+  Security: Issues found
+  Tests: Issues found
+
+Learnings acquired this cycle:
+  + Architecture passed review - structure is appropriate
+  + Design passed review - patterns used correctly
+
+Anti-patterns identified this cycle:
+  - Security issue: Hardcoded API key in config.js
+  - Test issue: No unit tests for API endpoints
+
+Prompt was improved and archived for next cycle
+============================================================
 ```
 
 ## Stop
@@ -64,54 +110,6 @@ agent> Create a web server   # Start 5-cycle learning session
 ./test.sh
 ```
 
-## Learning Cycle Output
-
-Each task runs through 5 learning cycles with reports:
-
-```
-************************************************************
-LEARNING CYCLE 1/5
-************************************************************
-
-Executing agent for cycle 1...
-
-============================================================
-CYCLE 1 REPORT
-============================================================
-Status: SUCCESS
-
-Learnings acquired this cycle:
-  + Task completed successfully with current approach
-  + Generated code executed without errors
-
-Anti-patterns identified this cycle:
-  (none)
-============================================================
-```
-
-## Session Summary
-
-After all cycles complete:
-
-```
-############################################################
-LEARNING SESSION SUMMARY
-############################################################
-Total cycles: 5
-Successes: 4
-Failures: 1
-
-All learnings accumulated:
-  + Task completed successfully
-  + File generation approach worked
-
-All anti-patterns identified:
-  - Avoid long-running operations
-
-Prompt versions created: 1
-############################################################
-```
-
 ## Scripts
 
 - `build-all.sh` - Build the project
@@ -121,7 +119,7 @@ Prompt versions created: 1
 
 ## Files
 
-- `memory.txt` - Accumulated learnings from successful runs
+- `memory.txt` - Accumulated learnings (specific, not generic)
 - `anti-pattern.txt` - Patterns to avoid from failures
 - `prompt.md` - Current and past prompt versions
 - `solutions/` - Generated code output directory
