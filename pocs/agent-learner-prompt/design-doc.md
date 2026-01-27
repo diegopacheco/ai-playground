@@ -4,6 +4,20 @@
 
 A self-learning CLI agent that iteratively improves its prompts based on execution results. The agent learns from successes and failures, storing knowledge in persistent files per project. Runs 3 learning cycles per task (configurable) with code review and supports interactive REPL mode.
 
+## Rust Guidelines
+
+* Have modules which are folder
+* Each module has mod.rs
+* mod.rs should only expose public functions/types - should not have functions or logic itself here.
+* Make sure there is at least 1 file per module besides mod.rs
+* Use `anyhow` for error handling in main logic
+* Prefer returning `Result<T, anyhow::Error>` from functions
+* Use pattern matching for error handling where appropriate
+* Keep functions small and focused - single responsibility
+* Use `clap` for CLI argument parsing
+* Use `tokio` for async operations
+* Write unit tests for core logic
+
 ## Architecture
 
 ```
