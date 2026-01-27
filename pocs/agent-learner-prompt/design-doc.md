@@ -9,8 +9,14 @@ A self-learning CLI agent that iteratively improves its prompts based on executi
 ```
 agent-learner-prompt/
 ├── src/
-│   └── main.rs          # CLI entry point and orchestration
-├── solutions/           # Generated code output
+│   ├── main.rs              # CLI entry point and orchestration
+│   └── agents/              # Agent wrappers
+│       ├── mod.rs           # Agent dispatcher
+│       ├── claude.rs        # Claude CLI wrapper
+│       ├── codex.rs         # Codex CLI wrapper
+│       ├── copilot.rs       # Copilot CLI wrapper
+│       └── gemini.rs        # Gemini CLI wrapper
+├── solutions/               # Generated code output
 │   └── {project}/
 │       ├── memory.txt       # Project-specific learnings
 │       ├── mistakes.txt     # Project-specific mistakes to avoid
@@ -22,10 +28,10 @@ agent-learner-prompt/
 │       ├── cycle-2/         # Second cycle output
 │       ├── cycle-3/         # Third cycle output
 │       └── code/            # Final code (copy of last successful cycle)
-├── build-all.sh         # Build the project
-├── run.sh               # Execute the agent
-├── stop.sh              # Stop running agents
-└── test.sh              # Validate functionality
+├── build-all.sh             # Build the project
+├── run.sh                   # Execute the agent
+├── stop.sh                  # Stop running agents
+└── test.sh                  # Validate functionality
 ```
 
 ## Core Components
@@ -46,17 +52,35 @@ agent-learner-prompt/
 - Each cycle reads and updates these files
 
 ### 3. Agent Executor
-- Spawns claude CLI as subprocess
-- Displays current model being used at startup and each cycle
+- Spawns selected CLI agent as subprocess
+- Displays current agent and model at startup and each cycle
 - Captures stdout/stderr
 - Implements configurable learning cycles (default: 3)
 - Timeout of 300 seconds per agent call
 
-### 4. Model Selector
-- Displays current model prominently
-- Switch via --model flag or :model command in REPL
-- Supported models: sonnet, opus, haiku
-- Shows model in cycle headers
+### 4. Agent Wrappers
+
+Separate wrapper modules for each supported CLI agent:
+
+| Agent | CLI Command | Model Flag | Default Model |
+|-------|-------------|------------|---------------|
+| **claude** | `claude -p <prompt> --model <model> --dangerously-skip-permissions` | `--model` | sonnet |
+| **codex** | `codex exec --full-auto --model <model> <prompt>` | `--model` | gpt-5.2 |
+| **copilot** | `copilot --allow-all --model <model> -p <prompt>` | `--model` | claude-sonnet-4 |
+| **gemini** | `gemini -y <prompt>` | (none) | gemini-2.5-pro |
+
+Each wrapper:
+- Spawns the CLI as subprocess
+- Captures stdout/stderr
+- Writes logs to cycle directory
+- Returns success/failure status
+
+### 5. Model Selector
+- Switch agent via `--agent` flag or `:agent` command in REPL
+- Switch model via `--model` flag or `:model` command in REPL
+- Displays current agent and model prominently
+- Available agents: claude, codex, copilot, gemini
+- Shows agent/model in cycle headers
 
 ### 5. Code Review Phase
 Each successful cycle includes a review phase that checks:
@@ -82,10 +106,10 @@ Each successful cycle includes a review phase that checks:
 - code/ contains the final production-ready output
 - Clean folder without cycle artifacts (prompt.txt, output.txt, review.txt)
 
-### 9. REPL Mode
+### 10. REPL Mode
 - Interactive loop for continuous learning
-- Commands: :quit, :cycles, :model, :memory, :mistakes, :prompts, :help, :clear
-- Configurable cycles and model per session
+- Commands: :quit, :cycles, :agent, :model, :memory, :mistakes, :prompts, :help, :clear
+- Configurable cycles, agent, and model per session
 - Session summaries after each task
 
 ## Workflow
@@ -94,8 +118,8 @@ Each successful cycle includes a review phase that checks:
 2. Agent creates project folder in solutions/{project}/
 3. Initialize prompts.md with default prompt (if not exists)
 4. For each learning cycle (default 3):
-   a. Display current model being used
-   b. **Phase 1**: Execute agent with enhanced prompt (from prompts.md + memory.txt + mistakes.txt)
+   a. Display current agent and model being used
+   b. **Phase 1**: Execute selected agent with enhanced prompt (from prompts.md + memory.txt + mistakes.txt)
    c. **Phase 2**: Run solution with 10s timeout
    d. **Phase 3**: Review code for architecture/design/security/tests
    e. Extract learnings and mistakes from review
@@ -114,11 +138,11 @@ project_dir = solutions/{project}/
 init prompts.md, memory.txt, mistakes.txt in project_dir
 
 for cycle in 1..=num_cycles:
-    print "Using model: {model}"
+    print "Using agent: {agent} | model: {model}"
     
     Phase 1: Generate Code
         enhanced_prompt = prompts.md + memory.txt + mistakes.txt + task
-        result = run_agent(enhanced_prompt, model)
+        result = run_agent(agent, enhanced_prompt, model)
         save to cycle-{n}/
 
     Phase 2: Run Solution (with 10s timeout)
@@ -127,7 +151,7 @@ for cycle in 1..=num_cycles:
 
     Phase 3: Code Review
         review_prompt = check architecture, design, security, tests
-        findings = run_agent(review_prompt, model)
+        findings = run_agent(agent, review_prompt, model)
         parse findings into categories
 
     Update prompts.md with improvements (ALWAYS after each cycle)
@@ -211,9 +235,47 @@ Note: These files no longer exist in project root. Each project has its own isol
 ```bash
 ./run.sh "Create a REST API"
 ./run.sh --cycles 5 "Build a CLI tool"
-./run.sh --model opus --cycles 2 "Quick task"
-./run.sh --model haiku "Simple task"
+./run.sh --agent claude --model opus "Quick task"
+./run.sh --agent codex --model gpt-5.2 "Build API"
+./run.sh --agent copilot "Use copilot agent"
+./run.sh --agent gemini "Use gemini agent"
 ./run.sh --repl
+```
+
+## Agent and Model Flags
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--agent <name>` | `-a` | Select CLI agent (claude, codex, copilot, gemini) |
+| `--model <name>` | `-m` | Select model for the agent |
+| `--cycles <n>` | `-c` | Number of learning cycles (1-10) |
+| `--repl` | | Enter interactive REPL mode |
+
+## Supported Agents and Models
+
+### Claude (default)
+```bash
+./run.sh --agent claude --model sonnet "task"
+./run.sh --agent claude --model opus "task"
+./run.sh --agent claude --model haiku "task"
+```
+
+### Codex (OpenAI)
+```bash
+./run.sh --agent codex --model gpt-5.2 "task"
+./run.sh --agent codex --model gpt-5.1 "task"
+./run.sh --agent codex --model gpt-4.1 "task"
+```
+
+### Copilot (GitHub)
+```bash
+./run.sh --agent copilot --model claude-sonnet-4 "task"
+./run.sh --agent copilot --model gpt-5.1 "task"
+```
+
+### Gemini (Google)
+```bash
+./run.sh --agent gemini "task"
 ```
 
 ## Model Display
@@ -223,12 +285,13 @@ At startup and each cycle:
 ============================================================
 Agent Learner Starting...
 Task: Create a REST API
-Model: claude-sonnet (use --model to change)
+Agent: claude (use --agent to change)
+Model: sonnet (use --model to change)
 Learning cycles: 3
 ============================================================
 
 ************************************************************
-LEARNING CYCLE 1/3 [Model: claude-sonnet]
+LEARNING CYCLE 1/3 [Agent: claude | Model: sonnet]
 ************************************************************
 ```
 
@@ -236,6 +299,11 @@ LEARNING CYCLE 1/3 [Model: claude-sonnet]
 
 ```
 agent> :help           # Show help
+agent> :agent claude   # Switch to claude agent
+agent> :agent codex    # Switch to codex agent
+agent> :agent copilot  # Switch to copilot agent
+agent> :agent gemini   # Switch to gemini agent
+agent> :agent          # Show current agent
 agent> :model opus     # Switch to opus model
 agent> :model          # Show current model
 agent> :cycles 5       # Set cycles to 5
@@ -256,7 +324,7 @@ agent> :quit           # Exit REPL
 
 - build-all.sh: Compiles the Rust binary in release mode
 - run.sh: Builds if needed and executes agent with provided task
-- stop.sh: Kills any running agent-learner or claude processes
+- stop.sh: Kills any running agent-learner or agent CLI processes
 - test.sh: Runs cargo build, cargo test, and CLI validation
 
 ## Dependencies
@@ -271,14 +339,15 @@ agent> :quit           # Exit REPL
 
 1. **3 cycles default**: Faster iteration than 5, still enough to learn
 2. **Configurable cycles**: --cycles N or :cycles N in REPL
-3. **Configurable model**: --model or :model in REPL with prominent display
-4. **Code review phase**: Each cycle reviews architecture, design, security, tests
-5. **Filter generic learnings**: Only save specific, actionable insights
-6. **10s solution timeout**: Prevents blocking on web servers
-7. **Timeout = success for servers**: Web apps that start are considered working
-8. **Per-project learning files**: memory.txt, mistakes.txt, prompts.md in solutions/{project}/
-9. **prompts.md updated every cycle**: Continuous improvement, not just on failure
-10. **code/ folder**: Final clean output separate from cycle artifacts
-11. **Model display**: Show model at startup and each cycle header
-12. **Claude CLI integration**: Reuses existing infrastructure
-13. **REPL mode**: Continuous interactive learning with model switching
+3. **Multi-agent support**: Wrappers for claude, codex, copilot, gemini
+4. **Easy agent switching**: --agent flag and :agent REPL command
+5. **Easy model switching**: --model flag and :model REPL command
+6. **Code review phase**: Each cycle reviews architecture, design, security, tests
+7. **Filter generic learnings**: Only save specific, actionable insights
+8. **10s solution timeout**: Prevents blocking on web servers
+9. **Timeout = success for servers**: Web apps that start are considered working
+10. **Per-project learning files**: memory.txt, mistakes.txt, prompts.md in solutions/{project}/
+11. **prompts.md updated every cycle**: Continuous improvement, not just on failure
+12. **code/ folder**: Final clean output separate from cycle artifacts
+13. **Agent/model display**: Show agent and model at startup and each cycle header
+14. **REPL mode**: Continuous interactive learning with agent/model switching
