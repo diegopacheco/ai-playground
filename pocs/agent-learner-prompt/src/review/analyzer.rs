@@ -158,36 +158,6 @@ pub fn findings_to_summary(findings: &ReviewFindings) -> String {
     }
 }
 
-pub fn findings_to_mistakes(findings: &ReviewFindings) -> Vec<String> {
-    let mut patterns = Vec::new();
-    for issue in &findings.architecture_issues {
-        if issue.len() > 10 {
-            patterns.push(format!("Architecture: {}", issue.chars().take(150).collect::<String>()));
-        }
-    }
-    for issue in &findings.design_issues {
-        if issue.len() > 10 {
-            patterns.push(format!("Design: {}", issue.chars().take(150).collect::<String>()));
-        }
-    }
-    for issue in &findings.code_quality_issues {
-        if issue.len() > 10 {
-            patterns.push(format!("Code quality: {}", issue.chars().take(150).collect::<String>()));
-        }
-    }
-    for issue in &findings.security_issues {
-        if issue.len() > 10 {
-            patterns.push(format!("Security: {}", issue.chars().take(150).collect::<String>()));
-        }
-    }
-    for issue in &findings.test_issues {
-        if issue.len() > 10 {
-            patterns.push(format!("Testing: {}", issue.chars().take(150).collect::<String>()));
-        }
-    }
-    patterns
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

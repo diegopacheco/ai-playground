@@ -23,13 +23,38 @@ A self-learning CLI agent that iteratively improves its prompts based on executi
 ```
 agent-learner-prompt/
 ├── src/
-│   ├── main.rs              # CLI entry point and orchestration
-│   └── agents/              # Agent wrappers
-│       ├── mod.rs           # Agent dispatcher
-│       ├── claude.rs        # Claude CLI wrapper
-│       ├── codex.rs         # Codex CLI wrapper
-│       ├── copilot.rs       # Copilot CLI wrapper
-│       └── gemini.rs        # Gemini CLI wrapper
+│   ├── main.rs              # CLI entry point only
+│   ├── agents/              # Agent wrappers
+│   │   ├── mod.rs           # Exports only
+│   │   ├── dispatcher.rs    # Agent dispatcher and run_agent()
+│   │   ├── claude.rs        # Claude CLI wrapper
+│   │   ├── codex.rs         # Codex CLI wrapper
+│   │   ├── copilot.rs       # Copilot CLI wrapper
+│   │   └── gemini.rs        # Gemini CLI wrapper
+│   ├── cli/                 # CLI argument parsing
+│   │   ├── mod.rs
+│   │   └── parser.rs        # parse_args(), print_help()
+│   ├── cycle/               # Learning cycle orchestration
+│   │   ├── mod.rs
+│   │   └── orchestrator.rs  # run_learning_cycles(), reports
+│   ├── learning/            # LLM-based learning extraction
+│   │   ├── mod.rs
+│   │   └── extractor.rs     # build prompts, parse learnings/mistakes
+│   ├── memory/              # Memory system
+│   │   ├── mod.rs
+│   │   └── store.rs         # memory.txt, mistakes.txt handling
+│   ├── prompt/              # Prompt management
+│   │   ├── mod.rs
+│   │   └── manager.rs       # read/archive/update prompts.md
+│   ├── repl/                # REPL mode
+│   │   ├── mod.rs
+│   │   └── shell.rs         # run_repl(), commands
+│   ├── review/              # Code review
+│   │   ├── mod.rs
+│   │   └── analyzer.rs      # parse_review_output(), findings
+│   └── runner/              # Solution runner
+│       ├── mod.rs
+│       └── executor.rs      # run_solution_with_timeout()
 ├── solutions/               # Generated code output
 │   └── {project}/
 │       ├── memory.txt       # Project-specific learnings
@@ -38,10 +63,13 @@ agent-learner-prompt/
 │       ├── cycle-1/         # First cycle output
 │       │   ├── prompt.txt
 │       │   ├── output.txt
-│       │   └── review.txt
+│       │   ├── review.txt
+│       │   ├── learnings.txt
+│       │   ├── mistakes.txt
+│       │   └── improved_prompt.txt
 │       ├── cycle-2/         # Second cycle output
 │       ├── cycle-3/         # Third cycle output
-│       └── code/            # Final code (copy of last successful cycle)
+│       └── code/            # Final code (recursive copy, clean)
 ├── build-all.sh             # Build the project
 ├── run.sh                   # Execute the agent
 ├── stop.sh                  # Stop running agents
