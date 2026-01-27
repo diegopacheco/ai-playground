@@ -2,7 +2,7 @@
 
 ## Overview
 
-A self-learning CLI agent that iteratively improves its prompts based on execution results. The agent learns from successes and failures, storing knowledge in persistent files. Runs 3 learning cycles per task (configurable) with code review and supports interactive REPL mode.
+A self-learning CLI agent that iteratively improves its prompts based on execution results. The agent learns from successes and failures, storing knowledge in persistent files per project. Runs 3 learning cycles per task (configurable) with code review and supports interactive REPL mode.
 
 ## Architecture
 
@@ -10,17 +10,18 @@ A self-learning CLI agent that iteratively improves its prompts based on executi
 agent-learner-prompt/
 ├── src/
 │   └── main.rs          # CLI entry point and orchestration
-├── memory.txt           # Accumulated learnings
-├── anti-pattern.txt     # Bad practices to avoid
-├── prompt.md            # Prompt version history
 ├── solutions/           # Generated code output
 │   └── {project}/
-│       ├── cycle-1/     # First cycle output
+│       ├── memory.txt       # Project-specific learnings
+│       ├── mistakes.txt     # Project-specific mistakes to avoid
+│       ├── prompts.md       # Prompt version history (updated each cycle)
+│       ├── cycle-1/         # First cycle output
 │       │   ├── prompt.txt
 │       │   ├── output.txt
 │       │   └── review.txt
-│       ├── cycle-2/     # Second cycle output
-│       └── cycle-3/     # Third cycle output
+│       ├── cycle-2/         # Second cycle output
+│       ├── cycle-3/         # Third cycle output
+│       └── code/            # Final code (copy of last successful cycle)
 ├── build-all.sh         # Build the project
 ├── run.sh               # Execute the agent
 ├── stop.sh              # Stop running agents
@@ -30,24 +31,34 @@ agent-learner-prompt/
 ## Core Components
 
 ### 1. Prompt Manager
-- Reads current prompt from prompt.md
+- Reads current prompt from prompts.md (per project)
 - Archives prompts to Past Prompts section before updates
+- Updates prompts.md after EVERY cycle with improvements
 - Generates improved prompts based on learnings and review findings
 - Timestamps each prompt version
 
 ### 2. Memory System
-- memory.txt: Stores successful patterns and learnings
-- anti-pattern.txt: Stores failures and patterns to avoid
+- memory.txt: Stores successful patterns and learnings (per project)
+- mistakes.txt: Stores failures and patterns to avoid (per project)
+- All learning files live in solutions/{project}/ folder
 - Filters out generic/vanilla learnings
 - Only saves specific, actionable insights
+- Each cycle reads and updates these files
 
 ### 3. Agent Executor
 - Spawns claude CLI as subprocess
+- Displays current model being used at startup and each cycle
 - Captures stdout/stderr
 - Implements configurable learning cycles (default: 3)
 - Timeout of 300 seconds per agent call
 
-### 4. Code Review Phase
+### 4. Model Selector
+- Displays current model prominently
+- Switch via --model flag or :model command in REPL
+- Supported models: sonnet, opus, haiku
+- Shows model in cycle headers
+
+### 5. Code Review Phase
 Each successful cycle includes a review phase that checks:
 - **Architecture**: Is the structure appropriate?
 - **Design**: Are patterns used correctly?
@@ -55,21 +66,26 @@ Each successful cycle includes a review phase that checks:
 - **Security**: Any vulnerabilities (injection, XSS, hardcoded secrets)?
 - **Tests**: Are there tests? Good coverage?
 
-### 5. Solution Runner
+### 6. Solution Runner
 - Executes generated code with 10 second timeout
 - Timeout treated as success (likely a web server running)
 - Captures output for analysis
 
-### 6. Learning Extractor
+### 7. Learning Extractor
 - Filters out generic learnings like "Task completed successfully"
 - Extracts specific learnings: tests passed, build succeeded, lint passed
 - Converts review findings to actionable insights
-- Updates memory.txt or anti-pattern.txt accordingly
+- Updates memory.txt or mistakes.txt in project folder
 
-### 7. REPL Mode
+### 8. Final Code Generator
+- After all cycles complete, copies best result to code/ folder
+- code/ contains the final production-ready output
+- Clean folder without cycle artifacts (prompt.txt, output.txt, review.txt)
+
+### 9. REPL Mode
 - Interactive loop for continuous learning
-- Commands: :quit, :cycles, :memory, :anti, :prompts, :help, :clear
-- Configurable cycles per session
+- Commands: :quit, :cycles, :model, :memory, :mistakes, :prompts, :help, :clear
+- Configurable cycles and model per session
 - Session summaries after each task
 
 ## Workflow
