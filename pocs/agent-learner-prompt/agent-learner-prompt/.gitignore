@@ -1,5 +1,0 @@
-target/
-solutions/
-*.log
-Cargo.lock
-.DS_STORE
