@@ -478,3 +478,15 @@ agent> :quit           # Exit REPL
 12. **code/ folder**: Final clean output separate from cycle artifacts
 13. **Agent/model display**: Show agent and model at startup and each cycle header
 14. **REPL mode**: Continuous interactive learning with agent/model switching
+
+## What happens under the hood?
+
+Each learning cycle makes 5 LLM API calls:
+
+1. Generate code - calls agent
+2. Review code - calls agent
+3. Extract learnings - calls agent
+4. Extract mistakes - calls agent
+5. Improve prompt - calls agent
+
+With 3 cycles = 15 total API calls. Each call can take 10-60+ seconds.

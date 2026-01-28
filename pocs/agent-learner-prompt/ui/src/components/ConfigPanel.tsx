@@ -15,6 +15,13 @@ const styles = {
 
 const AGENTS = ['claude', 'codex', 'copilot', 'gemini']
 
+const MODELS: Record<string, string[]> = {
+  claude: ['sonnet', 'opus', 'haiku'],
+  codex: ['gpt-5.2', 'gpt-4o', 'o3'],
+  copilot: ['claude-sonnet-4', 'gpt-4o', 'o3'],
+  gemini: ['gemini-2.5-pro', 'gemini-2.5-flash'],
+}
+
 export function ConfigPanel() {
   const { data: config, isLoading } = useConfig()
   const mutation = useUpdateConfig()
@@ -28,22 +35,32 @@ export function ConfigPanel() {
       setCycles(config.cycles)
     }
   }, [config])
+  const handleAgentChange = (newAgent: string) => {
+    setAgent(newAgent)
+    const models = MODELS[newAgent] || []
+    if (models.length > 0 && !models.includes(model)) {
+      setModel(models[0])
+    }
+  }
   const handleSave = () => {
     mutation.mutate({ agent, model, cycles })
   }
+  const availableModels = MODELS[agent] || []
   if (isLoading) return <div>Loading...</div>
   return (
     <div style={styles.panel}>
       <h2 style={styles.title}>Configuration</h2>
       <div style={styles.field}>
         <label style={styles.label}>Agent</label>
-        <select style={styles.select} value={agent} onChange={(e) => setAgent(e.target.value)}>
+        <select style={styles.select} value={agent} onChange={(e) => handleAgentChange(e.target.value)}>
           {AGENTS.map((a) => <option key={a} value={a}>{a}</option>)}
         </select>
       </div>
       <div style={styles.field}>
         <label style={styles.label}>Model</label>
-        <input style={styles.input} value={model} onChange={(e) => setModel(e.target.value)} placeholder="Model name" />
+        <select style={styles.select} value={model} onChange={(e) => setModel(e.target.value)}>
+          {availableModels.map((m) => <option key={m} value={m}>{m}</option>)}
+        </select>
       </div>
       <div style={styles.field}>
         <label style={styles.label}>Cycles (1-10)</label>
