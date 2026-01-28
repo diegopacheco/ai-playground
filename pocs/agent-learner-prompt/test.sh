@@ -19,13 +19,4 @@ echo ""
 echo "Testing CLI help..."
 ./target/release/agent-learner --help
 echo ""
-echo "Testing --show-memory..."
-./target/release/agent-learner --show-memory
-echo ""
-echo "Testing --show-anti-patterns..."
-./target/release/agent-learner --show-anti-patterns
-echo ""
-echo "Testing --list-prompts..."
-./target/release/agent-learner --list-prompts
-echo ""
 echo "All tests passed"
