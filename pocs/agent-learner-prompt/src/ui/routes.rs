@@ -3,7 +3,7 @@ use std::fs;
 use std::sync::Arc;
 use uuid::Uuid;
 use crate::agents::{get_default_model, is_valid_agent};
-use crate::cycle::{get_solutions_dir, run_learning_cycles};
+use crate::cycle::{get_solutions_dir, run_learning_cycles_with_callback, ProgressCallback};
 use super::models::*;
 use super::state::AppState;
 
@@ -55,11 +55,20 @@ pub async fn get_project(
                 if let Some(num_str) = name.strip_prefix("cycle-") {
                     if let Ok(num) = num_str.parse::<u32>() {
                         let cycle_path = entry.path();
+                        let learnings_path = cycle_path.join("learnings.txt");
+                        let mistakes_path = cycle_path.join("mistakes.txt");
+                        let improved_prompt_path = cycle_path.join("improved_prompt.txt");
                         cycles.push(CycleInfo {
                             cycle_number: num,
                             has_prompt: cycle_path.join("prompt.txt").exists(),
                             has_output: cycle_path.join("output.txt").exists(),
                             has_review: cycle_path.join("review.txt").exists(),
+                            has_learnings: learnings_path.exists(),
+                            has_mistakes: mistakes_path.exists(),
+                            has_improved_prompt: improved_prompt_path.exists(),
+                            learnings_content: fs::read_to_string(&learnings_path).unwrap_or_default(),
+                            mistakes_content: fs::read_to_string(&mistakes_path).unwrap_or_default(),
+                            improved_prompt_content: fs::read_to_string(&improved_prompt_path).unwrap_or_default(),
                         });
                     }
                 }
@@ -118,7 +127,22 @@ pub async fn submit_task(
             phase: "starting".to_string(),
             message: "Task started".to_string(),
         });
-        let reports = run_learning_cycles(&base_dir, &task_clone, &agent, &model, cycles).await;
+        let tid_cb = tid.clone();
+        let state_cb = state_clone.clone();
+        let progress_cb: ProgressCallback = std::sync::Arc::new(move |cycle, phase, msg| {
+            state_cb.update_task_sync(&tid_cb, |t| {
+                t.current_cycle = cycle;
+                t.phase = phase.to_string();
+            });
+            state_cb.send_event(ProgressEvent {
+                task_id: tid_cb.clone(),
+                event_type: "progress".to_string(),
+                cycle,
+                phase: phase.to_string(),
+                message: msg.to_string(),
+            });
+        });
+        let reports = run_learning_cycles_with_callback(&base_dir, &task_clone, &agent, &model, cycles, Some(progress_cb)).await;
         let success = reports.iter().any(|r| r.success);
         state_clone.update_task(&tid, |t| {
             t.status = if success { "completed" } else { "failed" }.to_string();

@@ -57,6 +57,20 @@ pub fn archive_prompt(project_dir: &Path, old_prompt: &str) {
     let _ = fs::write(&prompt_path, new_content);
 }
 
+pub fn save_initial_prompt(project_dir: &Path, user_task: &str) {
+    ensure_prompts_exists(project_dir);
+    let prompt_path = project_dir.join(PROMPTS_FILE);
+    let content = read_file_or_default(&prompt_path, DEFAULT_PROMPT);
+    if content.contains("## Version") {
+        return;
+    }
+    let timestamp = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
+    let initial_prompt = format!("User Task: {}", user_task);
+    let archived = format!("\n## Version 1 - {}\n\n{}\n", timestamp, initial_prompt);
+    let new_content = content.replace("# Past Prompts", &format!("# Past Prompts{}", archived));
+    let _ = fs::write(&prompt_path, new_content);
+}
+
 pub fn update_current_prompt(project_dir: &Path, new_prompt: &str) {
     ensure_prompts_exists(project_dir);
     let prompt_path = project_dir.join(PROMPTS_FILE);

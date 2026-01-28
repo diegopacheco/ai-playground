@@ -1,16 +1,19 @@
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::sync::Arc;
 use uuid::Uuid;
 
 use crate::agents;
 use crate::memory::{add_learning, add_mistake};
-use crate::prompt::{ensure_prompts_exists, read_current_prompt, build_enhanced_prompt, archive_prompt, update_current_prompt};
+use crate::prompt::{ensure_prompts_exists, read_current_prompt, build_enhanced_prompt, archive_prompt, update_current_prompt, save_initial_prompt};
 use crate::review::{build_review_prompt, parse_review_output, findings_to_summary};
 use crate::runner::run_solution_with_timeout;
 use crate::learning::{build_learnings_prompt, build_mistakes_prompt, build_improve_prompt_prompt, parse_learnings, parse_mistakes};
 
 const SOLUTIONS_DIR: &str = "solutions";
 const CODE_DIR: &str = "code";
+
+pub type ProgressCallback = Arc<dyn Fn(u32, &str, &str) + Send + Sync>;
 
 pub struct CycleReport {
     pub cycle: u32,
@@ -144,23 +147,42 @@ pub fn get_solutions_dir() -> &'static str {
 }
 
 pub async fn run_learning_cycles(base_dir: &Path, task: &str, agent: &str, model: &str, num_cycles: u32) -> Vec<CycleReport> {
+    run_learning_cycles_with_callback(base_dir, task, agent, model, num_cycles, None).await
+}
+
+pub async fn run_learning_cycles_with_callback(
+    base_dir: &Path,
+    task: &str,
+    agent: &str,
+    model: &str,
+    num_cycles: u32,
+    progress_cb: Option<ProgressCallback>
+) -> Vec<CycleReport> {
+    let notify = |cycle: u32, phase: &str, msg: &str| {
+        if let Some(ref cb) = progress_cb {
+            cb(cycle, phase, msg);
+        }
+    };
     let mut reports = Vec::new();
     let project_name = sanitize_project_name(task);
     let project_dir = create_project_dir(base_dir, &project_name);
     println!("Project directory: {}", project_dir.display());
     ensure_prompts_exists(&project_dir);
+    save_initial_prompt(&project_dir, task);
     let mut current_prompt = read_current_prompt(&project_dir);
     let mut last_successful_cycle = 0u32;
     for cycle in 1..=num_cycles {
         println!("\n{}", "*".repeat(60));
         println!("LEARNING CYCLE {}/{} [Agent: {} | Model: {}]", cycle, num_cycles, agent, model);
         println!("{}", "*".repeat(60));
+        notify(cycle, "starting", &format!("Starting cycle {}", cycle));
         let cycle_dir = project_dir.join(format!("cycle-{}", cycle));
         let _ = fs::create_dir_all(&cycle_dir);
         let enhanced_prompt = build_enhanced_prompt(&project_dir, task);
         let prompt_log = cycle_dir.join("prompt.txt");
         let _ = fs::write(&prompt_log, &enhanced_prompt);
         println!("\nPhase 1: Generating code...");
+        notify(cycle, "phase1", "Generating code");
         let result = agents::run_agent(agent, &enhanced_prompt, model, &cycle_dir).await;
         let output_log = cycle_dir.join("output.txt");
         let _ = fs::write(&output_log, format!("STDOUT:\n{}\n\nSTDERR:\n{}", result.output, result.error));
@@ -174,13 +196,15 @@ pub async fn run_learning_cycles(base_dir: &Path, task: &str, agent: &str, model
         if result.success {
             last_successful_cycle = cycle;
             println!("\nPhase 2: Running solution...");
+            notify(cycle, "phase2", "Running solution");
             let (solution_ok, solution_output) = run_solution_with_timeout(&cycle_dir).await;
-            let solution_result = if solution_ok { 
+            let solution_result = if solution_ok {
                 format!("Success: {}", solution_output.chars().take(500).collect::<String>())
-            } else { 
+            } else {
                 format!("Failed: {}", solution_output.chars().take(500).collect::<String>())
             };
             println!("\nPhase 3: Reviewing code...");
+            notify(cycle, "phase3", "Reviewing code");
             let review_prompt = build_review_prompt(&cycle_dir, task);
             let review_result = agents::run_agent(agent, &review_prompt, model, &cycle_dir).await;
             let review_log = cycle_dir.join("review.txt");
@@ -194,6 +218,7 @@ pub async fn run_learning_cycles(base_dir: &Path, task: &str, agent: &str, model
             println!("  Security: {}", if findings.security_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.security_issues.len()) });
             println!("  Tests: {}", if findings.test_issues.is_empty() { "OK".to_string() } else { format!("{} issues", findings.test_issues.len()) });
             println!("\nPhase 4: Extracting learnings (LLM)...");
+            notify(cycle, "phase4", "Extracting learnings");
             let learnings_prompt = build_learnings_prompt(task, &result.output, &solution_result, &review_summary);
             let learnings_result = agents::run_agent(agent, &learnings_prompt, model, &cycle_dir).await;
             let learnings_log = cycle_dir.join("learnings.txt");
@@ -206,6 +231,7 @@ pub async fn run_learning_cycles(base_dir: &Path, task: &str, agent: &str, model
                 }
             }
             println!("\nPhase 5: Extracting mistakes (LLM)...");
+            notify(cycle, "phase5", "Extracting mistakes");
             let mistakes_prompt = build_mistakes_prompt(task, &result.output, &solution_result, &review_summary);
             let mistakes_result = agents::run_agent(agent, &mistakes_prompt, model, &cycle_dir).await;
             let mistakes_log = cycle_dir.join("mistakes.txt");
@@ -218,6 +244,7 @@ pub async fn run_learning_cycles(base_dir: &Path, task: &str, agent: &str, model
                 }
             }
             println!("\nPhase 6: Improving prompt (LLM)...");
+            notify(cycle, "phase6", "Improving prompt");
             let all_learnings = llm_learnings.join("\n");
             let all_mistakes = llm_mistakes.join("\n");
             let improve_prompt = build_improve_prompt_prompt(&current_prompt, &all_learnings, &all_mistakes, &review_summary);
@@ -232,6 +259,7 @@ pub async fn run_learning_cycles(base_dir: &Path, task: &str, agent: &str, model
             }
         } else {
             println!("\nCycle {} failed: {}", cycle, result.error);
+            notify(cycle, "failed", &format!("Cycle {} failed", cycle));
             let error_learning = format!("Cycle failed: {}", result.error.chars().take(200).collect::<String>());
             let saved = add_mistake(&project_dir, &error_learning);
             if !saved.is_empty() {
