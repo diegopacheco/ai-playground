@@ -7,11 +7,13 @@ mod prompt;
 mod repl;
 mod review;
 mod runner;
+mod ui;
 
 use agents::{is_valid_agent, get_default_model};
 use cli::{get_base_dir, print_help, parse_args};
 use cycle::{run_learning_cycles, print_summary};
 use repl::run_repl;
+use ui::start_server;
 
 #[tokio::main]
 async fn main() {
@@ -26,6 +28,12 @@ async fn main() {
     }
     let base_dir = get_base_dir();
     let model = args.model.unwrap_or_else(|| get_default_model(&args.agent).to_string());
+    if args.ui_mode {
+        if let Err(e) = start_server(&base_dir, &args.agent, &model, args.num_cycles, args.ui_port).await {
+            eprintln!("Failed to start server: {}", e);
+        }
+        return;
+    }
     if args.repl_mode || args.task.is_none() {
         if args.task.is_none() && !args.repl_mode {
             print_help();
