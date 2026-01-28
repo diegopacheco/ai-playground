@@ -10,6 +10,39 @@ use super::gemini;
 
 const AGENT_TIMEOUT_SECS: u64 = 300;
 
+pub const COPILOT_MODELS: &[&str] = &[
+    "claude-sonnet-4.5",
+    "claude-haiku-4.5",
+    "claude-opus-4.5",
+    "claude-sonnet-4",
+    "gemini-3-pro",
+    "gpt-5.2-codex",
+    "gpt-5.2",
+    "gpt-5.1-codex-max",
+    "gpt-5.1-codex",
+    "gpt-5.1",
+    "gpt-5",
+    "gpt-5.1-codex-mini",
+    "gpt-5-mini",
+    "gpt-4.1",
+];
+
+pub const CLAUDE_MODELS: &[&str] = &["opus", "sonnet", "haiku"];
+pub const CODEX_MODELS: &[&str] = &[
+    "gpt-5.2-codex",
+    "gpt-5.2",
+    "gpt-5.1-codex-max",
+    "gpt-5.1-codex-mini",
+];
+pub const GEMINI_MODELS: &[&str] = &[
+    "auto-gemini-3",
+    "gemini-3-pro",
+    "gemini-3-flash",
+    "auto-gemini-2.5",
+    "gemini-2.5-pro",
+    "gemini-2.5-flash",
+];
+
 pub struct AgentResult {
     pub success: bool,
     pub output: String,
@@ -46,15 +79,25 @@ pub async fn run_agent(
 pub fn get_default_model(agent: &str) -> &'static str {
     match agent {
         "claude" => "sonnet",
-        "codex" => "gpt-5.2",
-        "copilot" => "claude-sonnet-4",
-        "gemini" => "gemini-2.5-pro",
+        "codex" => "gpt-5.2-codex",
+        "copilot" => "claude-sonnet-4.5",
+        "gemini" => "auto-gemini-3",
         _ => "sonnet",
     }
 }
 
 pub fn is_valid_agent(agent: &str) -> bool {
     matches!(agent, "claude" | "codex" | "copilot" | "gemini")
+}
+
+pub fn get_models_for_agent(agent: &str) -> &'static [&'static str] {
+    match agent {
+        "claude" => CLAUDE_MODELS,
+        "codex" => CODEX_MODELS,
+        "copilot" => COPILOT_MODELS,
+        "gemini" => GEMINI_MODELS,
+        _ => &[],
+    }
 }
 
 pub async fn run_command_with_timeout(
@@ -119,8 +162,17 @@ mod tests {
     #[test]
     fn test_get_default_model() {
         assert_eq!(get_default_model("claude"), "sonnet");
-        assert_eq!(get_default_model("codex"), "gpt-5.2");
-        assert_eq!(get_default_model("copilot"), "claude-sonnet-4");
-        assert_eq!(get_default_model("gemini"), "gemini-2.5-pro");
+        assert_eq!(get_default_model("codex"), "gpt-5.2-codex");
+        assert_eq!(get_default_model("copilot"), "claude-sonnet-4.5");
+        assert_eq!(get_default_model("gemini"), "auto-gemini-3");
+    }
+
+    #[test]
+    fn test_get_models_for_agent() {
+        assert_eq!(get_models_for_agent("copilot").len(), 14);
+        assert!(get_models_for_agent("copilot").contains(&"claude-sonnet-4.5"));
+        assert_eq!(get_models_for_agent("claude").len(), 3);
+        assert_eq!(get_models_for_agent("codex").len(), 4);
+        assert_eq!(get_models_for_agent("gemini").len(), 6);
     }
 }

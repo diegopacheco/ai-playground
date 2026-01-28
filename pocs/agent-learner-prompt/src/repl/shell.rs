@@ -13,6 +13,7 @@ pub fn print_repl_help() {
     println!("  :agent                  Show current agent");
     println!("  :model <NAME>           Switch model");
     println!("  :model                  Show current model");
+    println!("  :models                 List available models for current agent");
     println!("  :cycles <N>             Set number of cycles (e.g. :cycles 5)");
     println!("  :cycles                 Show current cycles");
     println!("  :memory, :m             Show current learnings");
@@ -87,6 +88,13 @@ pub async fn run_repl(base_dir: &Path, initial_agent: &str, initial_model: &str,
                 println!("Current agent: {}", agent);
                 println!("Usage: :agent <name>");
             }
+        } else if input == ":models" {
+            let models = agents::get_models_for_agent(&agent);
+            println!("Available models for {}:", agent);
+            for (i, m) in models.iter().enumerate() {
+                let marker = if *m == model { " (current)" } else { "" };
+                println!("  {}. {}{}", i + 1, m, marker);
+            }
         } else if input.starts_with(":model") {
             let parts: Vec<&str> = input.split_whitespace().collect();
             if parts.len() >= 2 {
@@ -95,6 +103,7 @@ pub async fn run_repl(base_dir: &Path, initial_agent: &str, initial_model: &str,
             } else {
                 println!("Current model: {}", model);
                 println!("Usage: :model <name>");
+                println!("Type :models to see available models");
             }
         } else if input.starts_with(":cycles") {
             let parts: Vec<&str> = input.split_whitespace().collect();

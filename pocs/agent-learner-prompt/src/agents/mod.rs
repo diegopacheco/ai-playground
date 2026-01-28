@@ -8,3 +8,4 @@ pub use dispatcher::run_agent;
 pub use dispatcher::run_command_with_timeout;
 pub use dispatcher::get_default_model;
 pub use dispatcher::is_valid_agent;
+pub use dispatcher::get_models_for_agent;

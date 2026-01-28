@@ -16,10 +16,25 @@ const styles = {
 const AGENTS = ['claude', 'codex', 'copilot', 'gemini']
 
 const MODELS: Record<string, string[]> = {
-  claude: ['sonnet', 'opus', 'haiku'],
-  codex: ['gpt-5.2', 'gpt-4o', 'o3'],
-  copilot: ['claude-sonnet-4', 'gpt-4o', 'o3'],
-  gemini: ['gemini-2.5-pro', 'gemini-2.5-flash'],
+  claude: ['opus', 'sonnet', 'haiku'],
+  codex: ['gpt-5.2-codex', 'gpt-5.2', 'gpt-5.1-codex-max', 'gpt-5.1-codex-mini'],
+  copilot: [
+    'claude-sonnet-4.5',
+    'claude-haiku-4.5',
+    'claude-opus-4.5',
+    'claude-sonnet-4',
+    'gemini-3-pro',
+    'gpt-5.2-codex',
+    'gpt-5.2',
+    'gpt-5.1-codex-max',
+    'gpt-5.1-codex',
+    'gpt-5.1',
+    'gpt-5',
+    'gpt-5.1-codex-mini',
+    'gpt-5-mini',
+    'gpt-4.1',
+  ],
+  gemini: ['auto-gemini-3', 'gemini-3-pro', 'gemini-3-flash', 'auto-gemini-2.5', 'gemini-2.5-pro', 'gemini-2.5-flash'],
 }
 
 export function ConfigPanel() {
