@@ -54,6 +54,14 @@ impl AppState {
         }
     }
 
+    pub fn update_task_sync(&self, task_id: &str, update: impl FnOnce(&mut TaskStatus)) {
+        if let Ok(mut tasks) = self.tasks.try_write() {
+            if let Some(task) = tasks.get_mut(task_id) {
+                update(task);
+            }
+        }
+    }
+
     pub fn send_event(&self, event: ProgressEvent) {
         let _ = self.event_sender.send(event);
     }

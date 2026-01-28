@@ -30,12 +30,16 @@ export function ProjectDetail({ projectName, onBack }: Props) {
       </div>
       <div style={styles.content}>
         <div style={styles.section}>
-          <h3 style={styles.sectionTitle}>Memory (Learnings)</h3>
+          <h3 style={styles.sectionTitle}>memory.txt (learnings)</h3>
           <pre style={styles.pre}>{project.memory || <span style={styles.empty}>No learnings yet</span>}</pre>
         </div>
         <div style={styles.section}>
-          <h3 style={styles.sectionTitle}>Mistakes</h3>
+          <h3 style={styles.sectionTitle}>mistakes.txt</h3>
           <pre style={styles.pre}>{project.mistakes || <span style={styles.empty}>No mistakes recorded</span>}</pre>
+        </div>
+        <div style={styles.section}>
+          <h3 style={styles.sectionTitle}>prompts.md</h3>
+          <pre style={styles.pre}>{project.prompts || <span style={styles.empty}>No prompts</span>}</pre>
         </div>
         <div style={styles.section}>
           <h3 style={styles.sectionTitle}>Cycles ({project.cycles.length})</h3>
@@ -44,10 +48,6 @@ export function ProjectDetail({ projectName, onBack }: Props) {
           ) : (
             project.cycles.map((c) => <CycleReport key={c.cycle_number} cycle={c} />)
           )}
-        </div>
-        <div style={styles.section}>
-          <h3 style={styles.sectionTitle}>Prompts</h3>
-          <pre style={styles.pre}>{project.prompts || <span style={styles.empty}>No prompts</span>}</pre>
         </div>
       </div>
     </div>

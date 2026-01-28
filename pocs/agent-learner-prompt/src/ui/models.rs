@@ -48,6 +48,12 @@ pub struct CycleInfo {
     pub has_prompt: bool,
     pub has_output: bool,
     pub has_review: bool,
+    pub has_learnings: bool,
+    pub has_mistakes: bool,
+    pub has_improved_prompt: bool,
+    pub learnings_content: String,
+    pub mistakes_content: String,
+    pub improved_prompt_content: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

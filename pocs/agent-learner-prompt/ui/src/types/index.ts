@@ -40,6 +40,12 @@ export interface CycleInfo {
   has_prompt: boolean
   has_output: boolean
   has_review: boolean
+  has_learnings: boolean
+  has_mistakes: boolean
+  has_improved_prompt: boolean
+  learnings_content: string
+  mistakes_content: string
+  improved_prompt_content: string
 }
 
 export interface ConfigRequest {
