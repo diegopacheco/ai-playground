@@ -65,17 +65,15 @@ agent> Create a web server   # Start learning session
 
 ## Learning Cycle Phases
 
-Each cycle has 3 phases:
+Each cycle has 6 phases:
 
 ```
 Phase 1: Execute agent to generate code
 Phase 2: Run solution with 10s timeout
-Phase 3: Review code for:
-  - Architecture issues
-  - Design issues
-  - Code quality issues
-  - Security vulnerabilities
-  - Missing tests
+Phase 3: Review code for architecture, design, security, tests
+Phase 4: Extract learnings from cycle (LLM)
+Phase 5: Extract mistakes to avoid (LLM)
+Phase 6: Improve prompt for next cycle (LLM)
 ```
 
 ## Project Structure

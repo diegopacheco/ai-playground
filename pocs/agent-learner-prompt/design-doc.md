@@ -10,11 +10,10 @@ A self-learning CLI agent that iteratively improves its prompts based on executi
 * Each module has mod.rs
 * mod.rs should only expose public functions/types - should not have functions or logic itself here.
 * Make sure there is at least 1 file per module besides mod.rs
-* Use `anyhow` for error handling in main logic
-* Prefer returning `Result<T, anyhow::Error>` from functions
+* Use String-based error handling with Result<T, String>
 * Use pattern matching for error handling where appropriate
 * Keep functions small and focused - single responsibility
-* Use `clap` for CLI argument parsing
+* Use manual CLI argument parsing (no external crate)
 * Use `tokio` for async operations
 * Write unit tests for core logic
 
