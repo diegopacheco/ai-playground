@@ -2,6 +2,58 @@
 
 A self-learning CLI agent that iteratively improves its prompts based on execution results. Runs 3 learning cycles per task with code review. Supports multiple agents: claude, codex, copilot, gemini.
 
+1. Type your prompt and see progress... <br/>
+<img src="1.prompt-progress.png" width="600"/> <br/>
+
+2. See the learnings and improvet prompts ... <br/>
+<img src="2.findings.png" width="600"/> <br/>
+
+3. Config (change agent, model, cycles) ... <br/>
+<img src="3.config.png" width="600"/> <br/>
+
+There is a REPL as well:
+```
+❯ ./run.sh
+Agent Learner - Self Learning Code Generation Agent
+
+Usage: agent-learner [OPTIONS] [TASK]
+
+Arguments:
+  [TASK]                  The task description for code generation
+                          If not provided, enters REPL mode
+
+Options:
+  --agent <AGENT>, -a     CLI agent to use (claude, codex, copilot, gemini)
+  --model <MODEL>, -m     Model to use for the agent
+  --cycles <N>, -c        Number of learning cycles (default: 3)
+  --repl                  Enter interactive REPL mode
+  --ui                    Start web UI mode
+  --port <PORT>           Web UI port (default: 3000)
+  --help                  Show this help message
+
+Supported Agents:
+  claude   - Claude CLI (default)
+  codex    - OpenAI Codex CLI
+  copilot  - GitHub Copilot CLI
+  gemini   - Google Gemini CLI
+
+REPL Commands:
+  :quit, :q               Exit the REPL
+  :agent <NAME>           Switch agent (claude, codex, copilot, gemini)
+  :model <NAME>           Switch model
+  :cycles <N>             Set number of cycles (e.g. :cycles 5)
+  :memory, :m             Show current learnings
+  :mistakes               Show current mistakes
+  :prompts, :p            Show prompt history
+  :help, :h               Show REPL help
+
+Agent Learner REPL - Interactive Mode
+Type :help for commands, or enter a task to start learning
+Agent: claude | Model: sonnet | Cycles: 3
+
+agent>
+```
+
 ## Features
 
 - Multi-agent support (claude, codex, copilot, gemini)
