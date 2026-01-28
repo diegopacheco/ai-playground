@@ -3,6 +3,7 @@ use std::path::PathBuf;
 
 pub const DEFAULT_CYCLES: u32 = 3;
 pub const DEFAULT_AGENT: &str = "claude";
+pub const DEFAULT_UI_PORT: u16 = 3000;
 
 pub fn get_base_dir() -> PathBuf {
     env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
@@ -22,6 +23,8 @@ pub fn print_help() {
     println!("  --model <MODEL>, -m     Model to use for the agent");
     println!("  --cycles <N>, -c        Number of learning cycles (default: 3)");
     println!("  --repl                  Enter interactive REPL mode");
+    println!("  --ui                    Start web UI mode");
+    println!("  --port <PORT>           Web UI port (default: 3000)");
     println!("  --help                  Show this help message");
     println!();
     println!("Supported Agents:");
@@ -48,6 +51,8 @@ pub struct Args {
     pub repl_mode: bool,
     pub num_cycles: u32,
     pub show_help: bool,
+    pub ui_mode: bool,
+    pub ui_port: u16,
 }
 
 pub fn parse_args() -> Args {
@@ -58,6 +63,8 @@ pub fn parse_args() -> Args {
     let mut repl_mode = false;
     let mut num_cycles = DEFAULT_CYCLES;
     let mut show_help = false;
+    let mut ui_mode = false;
+    let mut ui_port = DEFAULT_UI_PORT;
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
@@ -66,6 +73,17 @@ pub fn parse_args() -> Args {
             }
             "--repl" => {
                 repl_mode = true;
+            }
+            "--ui" => {
+                ui_mode = true;
+            }
+            "--port" => {
+                if i + 1 < args.len() {
+                    if let Ok(p) = args[i + 1].parse::<u16>() {
+                        ui_port = p;
+                    }
+                    i += 1;
+                }
             }
             "--agent" | "-a" => {
                 if i + 1 < args.len() {
@@ -105,5 +123,7 @@ pub fn parse_args() -> Args {
         repl_mode,
         num_cycles,
         show_help,
+        ui_mode,
+        ui_port,
     }
 }
