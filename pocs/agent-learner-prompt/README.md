@@ -2,7 +2,7 @@
 
 What I'm trying to do in this POC?
 
-0. I want build more complex systems, to see where the AI will break and what are the limits, clerly architecture and security are not `AI Fortes`. However can we take the best out of LLMs? 
+0. I want build more complex systems, to see where the AI will break and what are the limits, clerly architecture and security are not `AI Fortes`. However can we take the best out of LLMs? Perhaps this is a form of [AI Shift-Left](https://diegopachecotech.substack.com/p/ai-shift-left), ultimately might help us figure our what are the [Workflow winners?](https://diegopachecotech.substack.com/p/agents-and-workflows) or similar idea could e applied to [Code Review on Local Claude](https://diegopachecotech.substack.com/p/the-death-of-code-review-again)
 1. I want experience with advanced agents. This is not an agent that learn, perhaps it's a agent that build the software with learnings and try to extract and store such learnings into better prompts.
 2. I did not like the idea of Ralph loops, IMHO is a bit Dumb, so I want a more intelectual loop so consider this a "Lisa Loop".
 3. Raplh just run the sample prompt over and over, I'm tryimng to (be lisa) and think about, I give prompts to ask the LLM to think about learnings, mistakes and improve the prompt in every loop not just run the same thing therefore is a lisa not a ralph.
