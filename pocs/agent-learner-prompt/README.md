@@ -1,3 +1,33 @@
+# Rationale
+
+What I'm trying to do in this POC?
+
+0. I want build more complex systems, to see where the AI will break and what are the limits, clerly architecture and security are not `AI Fortes`. However can we take the best out of LLMs? 
+1. I want experience with advanced agents. This is not an agent that learn, perhaps it's a agent that build the software with learnings and try to extract and store such learnings into better prompts.
+2. I did not like the idea of Ralph loops, IMHO is a bit Dumb, so I want a more intelectual loop so consider this a "Lisa Loop".
+3. Raplh just run the sample prompt over and over, I'm tryimng to (be lisa) and think about, I give prompts to ask the LLM to think about learnings, mistakes and improve the prompt in every loop not just run the same thing therefore is a lisa not a ralph.
+4. The problem here is this sucks LLM calls and tokens like crazy because: 
+```
+Each learning cycle makes 5 LLM API calls:
+
+1. Generate code - calls agent
+2. Review code - calls agent
+3. Extract learnings - calls agent
+4. Extract mistakes - calls agent
+5. Improve prompt - calls agent
+
+With 3 cycles = 15 total API calls. Each call can take 10-60+ seconds.
+```
+5. This is multi-agent and multi-model via CLI transformed into API calls.
+6. There is a REPL and a UI mode. 
+7. I'm not happy with the results but it works...
+8. If you want learn more read the [design-doc.md](design-doc.md)
+9. Learnigs by side effect might be:
+* What are common mistakes LLM makes we can can transform in prompt instructions or even into tests?
+* What are common learnings we can add to the prompt to improve results? Might give us clues to better prompt engineering.
+* How different agents and models perform in this iterative learning process?
+* How effective is code review by LLM in identifying issues and improving code quality?
+
 # Agent Learner Prompt
 
 A self-learning CLI agent that iteratively improves its prompts based on execution results. Runs 3 learning cycles per task with code review. Supports multiple agents: claude, codex, copilot, gemini.
