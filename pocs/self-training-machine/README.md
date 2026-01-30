@@ -2,6 +2,21 @@
 
 AI-powered training and quiz generation system using Claude Opus 4.5.
 
+1 - Chose a pre-baked training or enter your own topic. <br/>
+<img src="stm.1.prompt.png" width="600"/> <br/>
+
+2 - AI generates training content and quiz. <br/>
+<img src="stm.2.training-reading.png" width="600"/> <br/>
+
+3 - Read and ask questions to LLMs.  <br/>
+<img src="stm.2.asking-questions.png" width="600"/> <br/>
+
+4 - Take the Quiz.  <br/>
+<img src="stm.3.quiz.png" width="600"/> <br/>
+
+5 - Get a certificate <br/>
+<img src="stm.4.certificate.png" width="600"/> <br/>
+
 ## Stack
 
 **Backend**
