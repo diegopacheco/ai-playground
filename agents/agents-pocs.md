@@ -75,3 +75,9 @@ https://github.com/diegopacheco/multi-agent-verse
 
 prompt-2-k8s-agent (write a promp and agent deploy and run in k8s cluster) <br/>
 https://github.com/diegopacheco/prompt-2-k8s-agent <br/>
+
+agent-learner-prompt: An agent that learns to improve its prompts over time also calling "Lisa Loop" <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-learner-prompt
+
+prompt-score: Agents that score prompts based on effectiveness and clarity <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/prompt-score  <br/>
