@@ -1,0 +1,15 @@
+[package]
+name = "self-training-machine-backend"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+
+[dependencies]
+axum = "0.8"
+tokio = { version = "1.43", features = ["full", "process"] }
+tokio-stream = "0.1"
+futures = "0.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tower-http = { version = "0.6", features = ["cors"] }
+uuid = { version = "1.0", features = ["v4"] }
