@@ -2,6 +2,20 @@
 
 A real-time debate platform where AI agents debate topics while a judge agent determines the winner.
 
+1 - Debate Theme. Select Agents and Judge <br/>
+<img src="1.theme-angents-models.png" width="600"/>
+
+2 - Live Debate with SSE <br/>
+<img src="2.debate.png" width="600"/>
+
+3 - Judge Calls the Winner <br/>
+<img src="2.debate-winner.png" width="600"/>
+
+3 - History of Trials <br/>
+<img src="4.history.png" width="600"/>
+
+
+
 ## Architecture
 
 ```
