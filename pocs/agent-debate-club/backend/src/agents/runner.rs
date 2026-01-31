@@ -17,10 +17,6 @@ impl AgentRunner {
     }
 
     pub async fn run(&self, prompt: &str) -> Result<String, String> {
-        if self.agent_type == "mock" {
-            return self.mock_response(prompt);
-        }
-
         let (cmd, args) = self.build_command(prompt);
 
         let mut child = Command::new(&cmd)
@@ -54,17 +50,6 @@ impl AgentRunner {
                 Err(format!("Agent {} timed out after 120s", self.agent_type))
             }
         }
-    }
-
-    fn mock_response(&self, prompt: &str) -> Result<String, String> {
-        let responses = [
-            "[ATTACK] This position fails to account for fundamental technical limitations that make it impractical in real-world scenarios.",
-            "[DEFENSE] The evidence strongly supports this approach, as demonstrated by widespread industry adoption and measurable improvements in productivity.",
-            "[ATTACK] While the previous argument sounds compelling, it overlooks critical security and maintenance concerns that outweigh any short-term benefits.",
-            "[DEFENSE] Historical data and current trends clearly validate this methodology as the superior choice for modern development workflows.",
-        ];
-        let idx = prompt.len() % responses.len();
-        Ok(responses[idx].to_string())
     }
 
     fn build_command(&self, prompt: &str) -> (String, Vec<String>) {
