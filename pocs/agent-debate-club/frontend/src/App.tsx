@@ -49,9 +49,9 @@ function App() {
       <div className="absolute top-4 right-4">
         <button
           onClick={() => setScreen('history')}
-          className="text-gray-400 hover:text-white transition"
+          className="px-4 py-2 bg-gray-700 text-white rounded-lg font-medium hover:bg-gray-600 transition border border-gray-600"
         >
-          History
+          View History
         </button>
       </div>
       <ThemeSetup onDebateStarted={handleDebateStarted} />
