@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
-import type { Message } from '../types';
+import type { Message, AgentInfo } from '../types';
 
 interface ChatWidgetProps {
   messages: Message[];
   thinkingAgent: string | null;
+  agentAInfo: AgentInfo;
+  agentBInfo: AgentInfo;
 }
 
-export function ChatWidget({ messages, thinkingAgent }: ChatWidgetProps) {
+export function ChatWidget({ messages, thinkingAgent, agentAInfo, agentBInfo }: ChatWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,6 +16,11 @@ export function ChatWidget({ messages, thinkingAgent }: ChatWidgetProps) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   }, [messages, thinkingAgent]);
+
+  const getAgentDisplay = (agent: string) => {
+    const info = agent === 'A' ? agentAInfo : agentBInfo;
+    return { name: info.name, model: info.model, color: info.color };
+  };
 
   return (
     <div
@@ -26,30 +33,36 @@ export function ChatWidget({ messages, thinkingAgent }: ChatWidgetProps) {
         </div>
       )}
 
-      {messages.map((msg) => (
-        <div
-          key={msg.id}
-          className={`p-4 rounded-lg ${
-            msg.agent === 'A'
-              ? 'bg-blue-100 ml-0 mr-8'
-              : 'bg-green-100 ml-8 mr-0'
-          }`}
-        >
-          <div className="flex items-center gap-2 mb-2">
-            <span className="font-bold text-gray-700">Agent {msg.agent}</span>
-            <span
-              className={`text-xs px-2 py-1 rounded ${
-                msg.stance === 'ATTACK'
-                  ? 'bg-red-200 text-red-700'
-                  : 'bg-blue-200 text-blue-700'
-              }`}
-            >
-              {msg.stance}
-            </span>
+      {messages.map((msg) => {
+        const agentDisplay = getAgentDisplay(msg.agent);
+        return (
+          <div
+            key={msg.id}
+            className={`p-4 rounded-lg ${
+              msg.agent === 'A'
+                ? 'bg-blue-100 ml-0 mr-8'
+                : 'bg-green-100 ml-8 mr-0'
+            }`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span className="font-bold" style={{ color: agentDisplay.color }}>
+                {agentDisplay.name}
+              </span>
+              <span className="text-xs text-gray-500">({agentDisplay.model})</span>
+              <span
+                className={`text-xs px-2 py-1 rounded ${
+                  msg.stance === 'ATTACK'
+                    ? 'bg-red-200 text-red-700'
+                    : 'bg-blue-200 text-blue-700'
+                }`}
+              >
+                {msg.stance}
+              </span>
+            </div>
+            <p className="text-gray-800">{msg.content}</p>
           </div>
-          <p className="text-gray-800">{msg.content}</p>
-        </div>
-      ))}
+        );
+      })}
 
       {thinkingAgent && (
         <div
@@ -60,9 +73,10 @@ export function ChatWidget({ messages, thinkingAgent }: ChatWidgetProps) {
           }`}
         >
           <div className="flex items-center gap-2">
-            <span className="font-bold text-gray-500">
-              Agent {thinkingAgent}
+            <span className="font-bold" style={{ color: getAgentDisplay(thinkingAgent).color }}>
+              {getAgentDisplay(thinkingAgent).name}
             </span>
+            <span className="text-xs text-gray-500">({getAgentDisplay(thinkingAgent).model})</span>
             <span className="text-gray-400 animate-pulse">thinking...</span>
           </div>
         </div>

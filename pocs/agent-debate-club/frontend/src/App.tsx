@@ -9,14 +9,17 @@ interface DebateInfo {
   id: string;
   topic: string;
   duration: number;
+  agentA: string;
+  agentB: string;
+  judge: string;
 }
 
 function App() {
   const [screen, setScreen] = useState<Screen>('setup');
   const [currentDebate, setCurrentDebate] = useState<DebateInfo | null>(null);
 
-  const handleDebateStarted = (id: string, duration: number, topic: string) => {
-    setCurrentDebate({ id, topic, duration });
+  const handleDebateStarted = (id: string, duration: number, topic: string, agentA: string, agentB: string, judge: string) => {
+    setCurrentDebate({ id, topic, duration, agentA, agentB, judge });
     setScreen('debate');
   };
 
@@ -30,6 +33,9 @@ function App() {
         debateId={currentDebate.id}
         topic={currentDebate.topic}
         duration={currentDebate.duration}
+        agentA={currentDebate.agentA}
+        agentB={currentDebate.agentB}
+        judge={currentDebate.judge}
         onBack={() => {
           setCurrentDebate(null);
           setScreen('setup');

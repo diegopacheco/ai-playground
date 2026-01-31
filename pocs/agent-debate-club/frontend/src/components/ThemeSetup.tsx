@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useAgents } from '../hooks/useDebates';
 import { createDebate } from '../api/debates';
+import { AGENT_INFO } from '../types';
 
 interface ThemeSetupProps {
-  onDebateStarted: (debateId: string, duration: number, topic: string) => void;
+  onDebateStarted: (debateId: string, duration: number, topic: string, agentA: string, agentB: string, judge: string) => void;
 }
 
 export function ThemeSetup({ onDebateStarted }: ThemeSetupProps) {
@@ -28,7 +29,7 @@ export function ThemeSetup({ onDebateStarted }: ThemeSetupProps) {
         agent_judge: judge,
         duration_seconds: duration,
       });
-      onDebateStarted(response.id, duration, topic.trim());
+      onDebateStarted(response.id, duration, topic.trim(), agentA, agentB, judge);
     } catch {
       setIsLoading(false);
     }
@@ -63,10 +64,13 @@ export function ThemeSetup({ onDebateStarted }: ThemeSetupProps) {
               >
                 {agents.map((agent) => (
                   <option key={agent.id} value={agent.id}>
-                    {agent.name}
+                    {agent.name} ({AGENT_INFO[agent.id]?.model || 'unknown'})
                   </option>
                 ))}
               </select>
+              <div className="mt-1 text-sm text-gray-400">
+                Model: <span style={{ color: AGENT_INFO[agentA]?.color }}>{AGENT_INFO[agentA]?.model}</span>
+              </div>
             </div>
             <div>
               <label className="block text-gray-300 mb-2">Agent B</label>
@@ -77,10 +81,13 @@ export function ThemeSetup({ onDebateStarted }: ThemeSetupProps) {
               >
                 {agents.map((agent) => (
                   <option key={agent.id} value={agent.id}>
-                    {agent.name}
+                    {agent.name} ({AGENT_INFO[agent.id]?.model || 'unknown'})
                   </option>
                 ))}
               </select>
+              <div className="mt-1 text-sm text-gray-400">
+                Model: <span style={{ color: AGENT_INFO[agentB]?.color }}>{AGENT_INFO[agentB]?.model}</span>
+              </div>
             </div>
           </div>
 
@@ -93,10 +100,13 @@ export function ThemeSetup({ onDebateStarted }: ThemeSetupProps) {
             >
               {agents.map((agent) => (
                 <option key={agent.id} value={agent.id}>
-                  {agent.name}
+                  {agent.name} ({AGENT_INFO[agent.id]?.model || 'unknown'})
                 </option>
               ))}
             </select>
+            <div className="mt-1 text-sm text-gray-400">
+              Model: <span style={{ color: AGENT_INFO[judge]?.color }}>{AGENT_INFO[judge]?.model}</span>
+            </div>
           </div>
 
           <div>

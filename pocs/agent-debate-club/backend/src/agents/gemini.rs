@@ -1,5 +1,9 @@
-use super::runner::AgentRunner;
-
-pub fn create_gemini_runner() -> AgentRunner {
-    AgentRunner::new("gemini")
+pub fn build_command(prompt: &str) -> (String, Vec<String>) {
+    (
+        "gemini".to_string(),
+        vec![
+            "-y".to_string(),
+            prompt.to_string(),
+        ],
+    )
 }

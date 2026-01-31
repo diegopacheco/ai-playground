@@ -7,13 +7,7 @@ pub mod codex;
 use runner::AgentRunner;
 
 pub fn get_runner(agent_type: &str) -> AgentRunner {
-    match agent_type {
-        "claude" => claude::create_claude_runner(),
-        "gemini" => gemini::create_gemini_runner(),
-        "copilot" => copilot::create_copilot_runner(),
-        "codex" => codex::create_codex_runner(),
-        _ => claude::create_claude_runner(),
-    }
+    AgentRunner::new(agent_type)
 }
 
 pub fn get_available_agents() -> Vec<(String, String)> {
