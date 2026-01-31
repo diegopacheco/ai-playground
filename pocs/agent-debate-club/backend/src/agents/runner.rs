@@ -12,7 +12,7 @@ pub struct AgentRunner {
 impl AgentRunner {
     pub fn new(agent_type: &str) -> Self {
         Self {
-            agent_type: agent_type.to_string(),
+            agent_type: agent_type.to_lowercase(),
         }
     }
 

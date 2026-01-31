@@ -5,7 +5,7 @@ pub fn build_command(prompt: &str) -> (String, Vec<String>) {
             "-p".to_string(),
             prompt.to_string(),
             "--model".to_string(),
-            "opus-4-5".to_string(),
+            "opus".to_string(),
             "--dangerously-skip-permissions".to_string(),
         ],
     )
