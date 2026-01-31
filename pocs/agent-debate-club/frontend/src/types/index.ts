@@ -1,6 +1,19 @@
 export interface AgentInfo {
   id: string;
   name: string;
+  model: string;
+  color: string;
+}
+
+export const AGENT_INFO: Record<string, AgentInfo> = {
+  claude: { id: 'claude', name: 'Claude', model: 'opus-4-5', color: '#D97706' },
+  gemini: { id: 'gemini', name: 'Gemini', model: 'gemini-3', color: '#4285F4' },
+  copilot: { id: 'copilot', name: 'Copilot', model: 'claude-sonnet-4', color: '#6366F1' },
+  codex: { id: 'codex', name: 'Codex', model: 'gpt-5.2', color: '#10B981' },
+};
+
+export function getAgentInfo(agentId: string): AgentInfo {
+  return AGENT_INFO[agentId.toLowerCase()] || { id: agentId, name: agentId, model: 'unknown', color: '#6B7280' };
 }
 
 export interface Message {

@@ -1,6 +1,7 @@
 BACKLOG
 
-* add the model on the agent A, B and the judge do like this both UI and CODE: https://github.com/diegopacheco/ai-playground/tree/main/pocs/connect-four-agent-vs-agent
-* make sure all agents are working: follow the agent backend code here: https://github.com/diegopacheco/ai-playground/tree/main/pocs/connect-four-agent-vs-agent nothing mocked - no mocks.
 
 DONE
+
+* add the model on the agent A, B and the judge do like this both UI and CODE: https://github.com/diegopacheco/ai-playground/tree/main/pocs/connect-four-agent-vs-agent
+* make sure all agents are working: follow the agent backend code here: https://github.com/diegopacheco/ai-playground/tree/main/pocs/connect-four-agent-vs-agent nothing mocked - no mocks.

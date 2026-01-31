@@ -3,6 +3,7 @@ use std::time::Duration;
 use tokio::io::AsyncReadExt;
 use tokio::process::Command;
 use tokio::time::timeout;
+use super::{claude, gemini, copilot, codex};
 
 pub struct AgentRunner {
     pub agent_type: String,
@@ -20,8 +21,7 @@ impl AgentRunner {
             return self.mock_response(prompt);
         }
 
-        let cmd = self.get_command();
-        let args = self.get_args(prompt);
+        let (cmd, args) = self.build_command(prompt);
 
         let mut child = Command::new(&cmd)
             .args(&args)
@@ -67,23 +67,22 @@ impl AgentRunner {
         Ok(responses[idx].to_string())
     }
 
-    fn get_command(&self) -> String {
+    fn build_command(&self, prompt: &str) -> (String, Vec<String>) {
         match self.agent_type.as_str() {
-            "claude" => "claude".to_string(),
-            "gemini" => "gemini".to_string(),
-            "copilot" => "gh".to_string(),
-            "codex" => "codex".to_string(),
-            _ => "claude".to_string(),
+            "claude" => claude::build_command(prompt),
+            "gemini" => gemini::build_command(prompt),
+            "copilot" => copilot::build_command(prompt),
+            "codex" => codex::build_command(prompt),
+            _ => ("echo".to_string(), vec!["Unknown agent".to_string()]),
         }
     }
+}
 
-    fn get_args(&self, prompt: &str) -> Vec<String> {
-        match self.agent_type.as_str() {
-            "claude" => vec!["-p".to_string(), prompt.to_string()],
-            "gemini" => vec!["-p".to_string(), prompt.to_string()],
-            "copilot" => vec!["copilot".to_string(), "explain".to_string(), prompt.to_string()],
-            "codex" => vec!["-p".to_string(), prompt.to_string()],
-            _ => vec!["-p".to_string(), prompt.to_string()],
-        }
-    }
+pub fn list_available_agents() -> Vec<String> {
+    vec![
+        "claude".to_string(),
+        "gemini".to_string(),
+        "copilot".to_string(),
+        "codex".to_string(),
+    ]
 }

@@ -1,5 +1,12 @@
-use super::runner::AgentRunner;
-
-pub fn create_codex_runner() -> AgentRunner {
-    AgentRunner::new("codex")
+pub fn build_command(prompt: &str) -> (String, Vec<String>) {
+    (
+        "codex".to_string(),
+        vec![
+            "exec".to_string(),
+            "--full-auto".to_string(),
+            "--model".to_string(),
+            "gpt-5.2".to_string(),
+            prompt.to_string(),
+        ],
+    )
 }
