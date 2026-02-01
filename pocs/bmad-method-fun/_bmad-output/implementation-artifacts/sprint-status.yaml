@@ -46,7 +46,7 @@ development_status:
   1-3-forced-drop-and-placement-resolution: review
   1-4-scoring-and-level-progression: review
   1-5-timers-and-in-session-feedback: review
-  1-6-end-of-session-state: backlog
+  1-6-end-of-session-state: ready-for-dev
   epic-1-retrospective: optional
   epic-2: backlog
   2-1-access-admin-configuration-interface: backlog

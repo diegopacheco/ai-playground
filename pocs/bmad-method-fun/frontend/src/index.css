@@ -40,6 +40,11 @@ button {
   font-size: 14px;
 }
 
+.end-state {
+  font-size: 14px;
+  color: #ffcf5a;
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(10, 22px);
