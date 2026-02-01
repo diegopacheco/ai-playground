@@ -45,6 +45,9 @@ https://github.com/diegopacheco/aws-kiro-poc
 OpenAI AgentKit <br/>
 [open-ai-agent-kit.md](./open-ai-agent-kit.md)
 
+BMAD Method (6x) (Codex 5.2) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/bmad-method-fun
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
@@ -81,3 +84,12 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-learner-promp
 
 prompt-score: Agents that score prompts based on effectiveness and clarity <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/prompt-score  <br/>
+
+Self Training Machine: A Agent that generate entire courses with questions and certificate <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/self-training-machine <br/>
+
+Connect 4: Agent vs Agent: 2 Agents play Connect 4 game <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/connect-four-agent-vs-agent <br/>
+
+Agent Debate Club: Agent A vs Agent B and Judge Agent C <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-debate-club <br/>
