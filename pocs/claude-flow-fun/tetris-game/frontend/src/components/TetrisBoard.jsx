@@ -1,23 +1,74 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useTetris } from '../hooks/useTetris'
 
 const TetrisBoard = () => {
-  const [config, setConfig] = useState({
-    boardWidth: 10,
-    boardHeight: 20,
-    growInterval: 30000,
-    theme: 'dark'
-  })
+  const [config, setConfig] = useState(null)
+  const [configKey, setConfigKey] = useState(0)
 
-  useEffect(() => {
+  const loadConfig = useCallback(() => {
     fetch('/api/config')
       .then(res => res.json())
       .then(data => {
-        if (data) setConfig(prev => ({ ...prev, ...data }))
+        if (data) {
+          const newConfig = {
+            boardWidth: data.board_width || 10,
+            boardHeight: data.board_height || 20,
+            growInterval: data.grow_interval || 30000,
+            theme: data.theme || 'dark',
+            dropSpeed: data.drop_speed || 1000,
+            freezeChance: data.freeze_chance || 2
+          }
+          setConfig(newConfig)
+          setConfigKey(prev => prev + 1)
+        }
       })
-      .catch(() => {})
+      .catch(() => {
+        setConfig({
+          boardWidth: 10,
+          boardHeight: 20,
+          growInterval: 30000,
+          theme: 'dark',
+          dropSpeed: 1000,
+          freezeChance: 2
+        })
+      })
   }, [])
 
+  useEffect(() => {
+    loadConfig()
+  }, [loadConfig])
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        loadConfig()
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    window.addEventListener('focus', loadConfig)
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      window.removeEventListener('focus', loadConfig)
+    }
+  }, [loadConfig])
+
+  if (!config) {
+    return (
+      <div className="tetris-container theme-dark">
+        <div className="loading">Loading...</div>
+      </div>
+    )
+  }
+
+  return (
+    <TetrisGame
+      key={configKey}
+      config={config}
+    />
+  )
+}
+
+const TetrisGame = ({ config }) => {
   const {
     board,
     score,
@@ -76,7 +127,6 @@ const TetrisBoard = () => {
           break
       }
     }
-
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [moveLeft, moveRight, moveDown, rotatePiece, hardDrop, togglePause, resetGame, gameOver])
@@ -94,7 +144,6 @@ const TetrisBoard = () => {
       <div className="game-header">
         <h1>TETRIS</h1>
       </div>
-
       <div className="game-layout">
         <div className="stats-panel">
           <div className="stat-box">
@@ -118,7 +167,6 @@ const TetrisBoard = () => {
             <span className="stat-value">{boardWidth}x{boardHeight}</span>
           </div>
         </div>
-
         <div className="board-container">
           {isFrozen && (
             <div className="freeze-overlay">
@@ -126,7 +174,6 @@ const TetrisBoard = () => {
               <span className="freeze-timer">{freezeTimeLeft}s</span>
             </div>
           )}
-
           {(gameOver || isPaused) && (
             <div className="game-overlay">
               {gameOver ? (
@@ -142,7 +189,6 @@ const TetrisBoard = () => {
               )}
             </div>
           )}
-
           <div
             className="tetris-board"
             style={{
@@ -161,7 +207,6 @@ const TetrisBoard = () => {
             )}
           </div>
         </div>
-
         <div className="controls-panel">
           <h3>CONTROLS</h3>
           <div className="control-item">
@@ -184,7 +229,6 @@ const TetrisBoard = () => {
             <span className="control-key">P</span>
             <span>Pause</span>
           </div>
-
           <div className="game-buttons">
             <button onClick={togglePause} className="game-btn">
               {isPaused ? 'RESUME' : 'PAUSE'}
