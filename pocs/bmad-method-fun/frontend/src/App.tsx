@@ -9,15 +9,21 @@ type Piece = {
 
 type Background = 'nebula' | 'sunset' | 'matrix'
 
+type Difficulty = 'easy' | 'normal' | 'hard'
+
 const rows = 20
 const cols = 10
 const spawnRow = 0
 const spawnCol = 4
-const forcedDropMs = 40000
-const boardExpandMs = 30000
 const pointsPerGoodMove = 10
 const pointsPerLevel = 100
 const maxPlacements = 10
+
+const difficultyMultiplier: Record<Difficulty, number> = {
+  easy: 1.2,
+  normal: 1,
+  hard: 0.8
+}
 
 export default function App() {
   const [status, setStatus] = useState<GameStatus>('idle')
@@ -29,6 +35,9 @@ export default function App() {
   const [placements, setPlacements] = useState(0)
   const [adminOpen, setAdminOpen] = useState(false)
   const [background, setBackground] = useState<Background>('nebula')
+  const [forcedDropIntervalSec, setForcedDropIntervalSec] = useState(40)
+  const [boardExpandIntervalSec, setBoardExpandIntervalSec] = useState(30)
+  const [difficulty, setDifficulty] = useState<Difficulty>('normal')
 
   const startGame = () => {
     setStatus('running')
@@ -36,8 +45,8 @@ export default function App() {
     setScore(0)
     setLevel(1)
     setPlacements(0)
-    setForcedDropSeconds(Math.ceil(forcedDropMs / 1000))
-    setBoardExpandSeconds(Math.ceil(boardExpandMs / 1000))
+    setForcedDropSeconds(Math.ceil(forcedDropIntervalSec * difficultyMultiplier[difficulty]))
+    setBoardExpandSeconds(boardExpandIntervalSec)
   }
 
   const isStartScreen = status === 'idle'
@@ -46,6 +55,7 @@ export default function App() {
 
   useEffect(() => {
     if (!isRunning || !piece) return
+    const intervalMs = Math.ceil(forcedDropIntervalSec * difficultyMultiplier[difficulty] * 1000)
     const id = setInterval(() => {
       setPiece((current) => {
         if (!current) return current
@@ -68,18 +78,18 @@ export default function App() {
         }
         return { ...current, row: nextRow }
       })
-      setForcedDropSeconds(Math.ceil(forcedDropMs / 1000))
-    }, forcedDropMs)
+      setForcedDropSeconds(Math.ceil(forcedDropIntervalSec * difficultyMultiplier[difficulty]))
+    }, intervalMs)
     return () => clearInterval(id)
-  }, [isRunning, piece])
+  }, [isRunning, piece, forcedDropIntervalSec, difficulty])
 
   useEffect(() => {
     if (!isRunning) return
     const id = setInterval(() => {
-      setBoardExpandSeconds(Math.ceil(boardExpandMs / 1000))
-    }, boardExpandMs)
+      setBoardExpandSeconds(boardExpandIntervalSec)
+    }, boardExpandIntervalSec * 1000)
     return () => clearInterval(id)
-  }, [isRunning])
+  }, [isRunning, boardExpandIntervalSec])
 
   useEffect(() => {
     if (!isRunning) return
@@ -127,9 +137,48 @@ export default function App() {
               <option value="matrix">Matrix</option>
             </select>
           </label>
+          <label className="admin-field">
+            Difficulty
+            <select
+              value={difficulty}
+              onChange={(event) => {
+                const value = event.target.value as Difficulty
+                setDifficulty(value)
+                setForcedDropSeconds(Math.ceil(forcedDropIntervalSec * difficultyMultiplier[value]))
+              }}
+            >
+              <option value="easy">Easy</option>
+              <option value="normal">Normal</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+          <label className="admin-field">
+            Forced drop seconds
+            <input
+              type="number"
+              min={1}
+              value={forcedDropIntervalSec}
+              onChange={(event) => {
+                const value = Math.max(1, Number(event.target.value))
+                setForcedDropIntervalSec(value)
+                setForcedDropSeconds(Math.ceil(value * difficultyMultiplier[difficulty]))
+              }}
+            />
+          </label>
+          <label className="admin-field">
+            Board expand seconds
+            <input
+              type="number"
+              min={1}
+              value={boardExpandIntervalSec}
+              onChange={(event) => {
+                const value = Math.max(1, Number(event.target.value))
+                setBoardExpandIntervalSec(value)
+                setBoardExpandSeconds(value)
+              }}
+            />
+          </label>
           <div className="admin-list">
-            <div>Timers</div>
-            <div>Difficulty</div>
             <div>Number of levels</div>
           </div>
         </div>

@@ -51,8 +51,8 @@ development_status:
   epic-2: backlog
   2-1-access-admin-configuration-interface: review
   2-2-update-level-backgrounds: review
-  2-3-update-timers: backlog
-  2-4-update-difficulty-settings: backlog
+  2-3-update-timers: review
+  2-4-update-difficulty-settings: review
   2-5-update-number-of-levels: backlog
   2-6-apply-live-configuration-during-active-sessions: backlog
   epic-2-retrospective: optional
