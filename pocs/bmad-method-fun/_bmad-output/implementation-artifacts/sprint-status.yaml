@@ -41,7 +41,7 @@ story_location: /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/bmad-met
 
 development_status:
   epic-1: in-progress
-  1-1-start-game-session-and-status: ready-for-dev
+  1-1-start-game-session-and-status: review
   1-2-render-board-and-introduce-falling-piece: backlog
   1-3-forced-drop-and-placement-resolution: backlog
   1-4-scoring-and-level-progression: backlog
