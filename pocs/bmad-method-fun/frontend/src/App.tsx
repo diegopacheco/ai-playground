@@ -7,6 +7,8 @@ type Piece = {
   col: number
 }
 
+type Background = 'nebula' | 'sunset' | 'matrix'
+
 const rows = 20
 const cols = 10
 const spawnRow = 0
@@ -26,6 +28,7 @@ export default function App() {
   const [boardExpandSeconds, setBoardExpandSeconds] = useState(0)
   const [placements, setPlacements] = useState(0)
   const [adminOpen, setAdminOpen] = useState(false)
+  const [background, setBackground] = useState<Background>('nebula')
 
   const startGame = () => {
     setStatus('running')
@@ -113,8 +116,18 @@ export default function App() {
       {adminOpen ? (
         <div className="admin" role="region" aria-label="Admin configuration">
           <h2>Admin Settings</h2>
+          <label className="admin-field">
+            Background
+            <select
+              value={background}
+              onChange={(event) => setBackground(event.target.value as Background)}
+            >
+              <option value="nebula">Nebula</option>
+              <option value="sunset">Sunset</option>
+              <option value="matrix">Matrix</option>
+            </select>
+          </label>
           <div className="admin-list">
-            <div>Level backgrounds</div>
             <div>Timers</div>
             <div>Difficulty</div>
             <div>Number of levels</div>
@@ -140,7 +153,7 @@ export default function App() {
         </div>
       ) : null}
       {isRunning ? (
-        <div className="board" data-testid="board">
+        <div className={`board ${background}`} data-testid="board">
           {cells.map((cell) => (
             <div
               key={cell.key}

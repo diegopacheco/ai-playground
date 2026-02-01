@@ -54,6 +54,20 @@ button {
   width: 240px;
 }
 
+.admin-field {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.admin-field select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #2b2f3a;
+  background: #0e0f12;
+  color: #f4f4f2;
+}
+
 .admin-list {
   display: grid;
   gap: 4px;
@@ -72,8 +86,19 @@ button {
   grid-template-rows: repeat(20, 22px);
   gap: 2px;
   padding: 8px;
-  background: #1a1c22;
   border-radius: 8px;
+}
+
+.board.nebula {
+  background: #1a1c22;
+}
+
+.board.sunset {
+  background: linear-gradient(160deg, #2b1b2d, #4f2d3a, #8a3b3b);
+}
+
+.board.matrix {
+  background: linear-gradient(160deg, #0a1c10, #0f2a19, #1b3b25);
 }
 
 .cell {
