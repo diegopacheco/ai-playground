@@ -29,3 +29,4 @@ Admin UI <br/>
 17. It generate a lot of artifacts, but I'm not convinced the end software is better. This was alot of time producing artifacts intead of playing with the code/product.
 19. I don think this is "agile" imho is the offosit of it. Why we need all this artifacts on the AI Agent ERA?
 20. I did ask for tricky requirement where thr user must be able to play the game but time to time the game will free, however the BMAD thing spend 3-4 hours to finis hthe project and the game was not playable at all.
+21. The code was bad both for frontend and backend, single file in rust and most of code single file in TS.
