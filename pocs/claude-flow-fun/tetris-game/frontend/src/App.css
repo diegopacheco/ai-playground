@@ -1,0 +1,490 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #1a1a2e;
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-nav {
+  display: flex;
+  gap: 20px;
+  padding: 15px 30px;
+  background: #16213e;
+  border-bottom: 2px solid #0f3460;
+}
+
+.nav-link {
+  color: #e94560;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.nav-link:hover {
+  background: #0f3460;
+  color: #fff;
+}
+
+.tetris-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.theme-dark {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.theme-light {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+}
+
+.theme-light .game-header h1,
+.theme-light .stats-panel,
+.theme-light .controls-panel {
+  color: #333;
+}
+
+.theme-retro {
+  background: #0a0a0a;
+}
+
+.theme-retro .cell.filled {
+  background: #00ff00 !important;
+  box-shadow: 0 0 10px #00ff00;
+}
+
+.theme-retro .cell.empty {
+  background: #001100;
+  border-color: #003300;
+}
+
+.theme-neon {
+  background: linear-gradient(135deg, #1a0033 0%, #330066 100%);
+}
+
+.theme-neon .cell.filled {
+  box-shadow: 0 0 15px currentColor;
+}
+
+.theme-ocean {
+  background: linear-gradient(135deg, #0077b6 0%, #023e8a 100%);
+}
+
+.game-header {
+  margin-bottom: 20px;
+}
+
+.game-header h1 {
+  font-size: 48px;
+  font-weight: 800;
+  color: #e94560;
+  text-shadow: 3px 3px 0 #0f3460;
+  letter-spacing: 8px;
+}
+
+.game-layout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.stats-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 150px;
+}
+
+.stat-box {
+  background: rgba(15, 52, 96, 0.8);
+  border: 2px solid #e94560;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 5px;
+}
+
+.board-container {
+  position: relative;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 3px solid #e94560;
+  border-radius: 8px;
+}
+
+.tetris-board {
+  display: grid;
+  gap: 1px;
+  background: #111;
+  padding: 2px;
+}
+
+.cell {
+  width: 28px;
+  height: 28px;
+  border-radius: 3px;
+  transition: background-color 0.1s;
+}
+
+.cell.empty {
+  background: #1a1a2e;
+  border: 1px solid #2a2a4e;
+}
+
+.cell.filled {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.3),
+              inset -2px -2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.freeze-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 200, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+  animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from { background: rgba(0, 200, 255, 0.1); }
+  to { background: rgba(0, 200, 255, 0.3); }
+}
+
+.freeze-overlay span {
+  color: #00ffff;
+  font-size: 24px;
+  font-weight: 700;
+  text-shadow: 0 0 20px #00ffff;
+}
+
+.freeze-timer {
+  font-size: 48px !important;
+  margin-top: 10px;
+}
+
+.game-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.overlay-title {
+  font-size: 36px;
+  font-weight: 800;
+  color: #e94560;
+  margin-bottom: 15px;
+}
+
+.overlay-subtitle {
+  font-size: 16px;
+  color: #888;
+}
+
+.controls-panel {
+  min-width: 180px;
+  color: #fff;
+}
+
+.controls-panel h3 {
+  color: #e94560;
+  margin-bottom: 20px;
+  font-size: 18px;
+  letter-spacing: 3px;
+}
+
+.control-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 8px;
+  background: rgba(15, 52, 96, 0.5);
+  border-radius: 4px;
+}
+
+.control-key {
+  font-size: 11px;
+  background: #e94560;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.game-buttons {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.game-btn {
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #e94560;
+  color: #fff;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.game-btn:hover {
+  background: #ff6b6b;
+  transform: translateY(-2px);
+}
+
+.admin-container {
+  flex: 1;
+  padding: 30px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  min-height: calc(100vh - 60px);
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #0f3460;
+}
+
+.admin-header h1 {
+  color: #e94560;
+  font-size: 32px;
+}
+
+.back-btn {
+  padding: 10px 20px;
+  background: #0f3460;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.back-btn:hover {
+  background: #1a4a7a;
+}
+
+.admin-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.config-section {
+  background: rgba(15, 52, 96, 0.5);
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 25px;
+  border: 1px solid #0f3460;
+}
+
+.config-section h2 {
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #0f3460;
+}
+
+.theme-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.theme-btn {
+  padding: 12px 24px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.theme-btn.active {
+  border-color: #e94560;
+  box-shadow: 0 0 15px rgba(233, 69, 96, 0.5);
+}
+
+.theme-btn.theme-dark {
+  background: #1a1a2e;
+  color: #fff;
+}
+
+.theme-btn.theme-light {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.theme-btn.theme-retro {
+  background: #0a0a0a;
+  color: #00ff00;
+}
+
+.theme-btn.theme-neon {
+  background: #330066;
+  color: #ff00ff;
+}
+
+.theme-btn.theme-ocean {
+  background: #0077b6;
+  color: #fff;
+}
+
+.slider-group {
+  margin-bottom: 25px;
+}
+
+.slider-group label {
+  display: block;
+  color: #fff;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.slider-group input[type="range"] {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: #0f3460;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #e94560;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+}
+
+.save-section {
+  text-align: center;
+  padding: 20px;
+}
+
+.save-btn {
+  padding: 15px 50px;
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  transition: all 0.3s;
+}
+
+.save-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.message {
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.message.success {
+  color: #00ff88;
+}
+
+.message.error {
+  color: #ff4444;
+}
+
+@media (max-width: 900px) {
+  .game-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stats-panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .controls-panel {
+    text-align: center;
+  }
+
+  .control-item {
+    justify-content: center;
+    gap: 15px;
+  }
+}
