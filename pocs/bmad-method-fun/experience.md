@@ -1,5 +1,15 @@
 # Experience with BMAD
 
+## Result 
+
+Resulting Game <br/>
+<img src="retris-game.png" width="300"/>  <br/>
+
+Admin UI <br/>
+<img src="retris-admin.png" width="300"/>  <br/>
+
+## Notes
+
 1. Install from here: https://github.com/bmad-code-org/BMAD-METHOD vis `npx bmad-method install`
 2. codex got the  custom commands claude code v2.1.29 did not had the bmad commands there.
 3. commands and bmad and the readme differ
