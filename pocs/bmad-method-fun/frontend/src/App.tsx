@@ -72,8 +72,20 @@ export default function App() {
     }
   }, [background, difficulty, forcedDropIntervalSec, boardExpandIntervalSec, maxLevels, placements])
 
+  const sendConfigUpdate = useCallback(async (config: LiveConfig) => {
+    try {
+      await fetch('/api/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(config)
+      })
+    } catch {
+      return
+    }
+  }, [])
+
   const applyConfig = useCallback(
-    (config: LiveConfig) => {
+    (config: LiveConfig, sendUpdate: boolean) => {
       const current = settingsRef.current
       const nextBackground = config.background ?? current.background
       const nextDifficulty = config.difficulty ?? current.difficulty
@@ -98,8 +110,17 @@ export default function App() {
       if (isRunning && current.placements >= nextMaxLevels * 10) {
         setStatus('ended')
       }
+      if (sendUpdate) {
+        void sendConfigUpdate({
+          background: nextBackground,
+          difficulty: nextDifficulty,
+          forcedDropIntervalSec: nextForcedDropIntervalSec,
+          boardExpandIntervalSec: nextBoardExpandIntervalSec,
+          maxLevels: nextMaxLevels
+        })
+      }
     },
-    [isRunning]
+    [isRunning, sendConfigUpdate]
   )
 
   const startGame = () => {
@@ -168,7 +189,7 @@ export default function App() {
     source.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data) as LiveConfig
-        applyConfig(data)
+        applyConfig(data, false)
       } catch {
         return
       }
@@ -208,7 +229,9 @@ export default function App() {
             Background
             <select
               value={background}
-              onChange={(event) => applyConfig({ background: event.target.value as Background })}
+              onChange={(event) =>
+                applyConfig({ background: event.target.value as Background }, true)
+              }
             >
               <option value="nebula">Nebula</option>
               <option value="sunset">Sunset</option>
@@ -221,7 +244,7 @@ export default function App() {
               value={difficulty}
               onChange={(event) => {
                 const value = event.target.value as Difficulty
-                applyConfig({ difficulty: value })
+                applyConfig({ difficulty: value }, true)
               }}
             >
               <option value="easy">Easy</option>
@@ -237,7 +260,7 @@ export default function App() {
               value={forcedDropIntervalSec}
               onChange={(event) => {
                 const value = Math.max(1, Number(event.target.value))
-                applyConfig({ forcedDropIntervalSec: value })
+                applyConfig({ forcedDropIntervalSec: value }, true)
               }}
             />
           </label>
@@ -249,7 +272,7 @@ export default function App() {
               value={boardExpandIntervalSec}
               onChange={(event) => {
                 const value = Math.max(1, Number(event.target.value))
-                applyConfig({ boardExpandIntervalSec: value })
+                applyConfig({ boardExpandIntervalSec: value }, true)
               }}
             />
           </label>
@@ -261,7 +284,7 @@ export default function App() {
               value={maxLevels}
               onChange={(event) => {
                 const value = Math.max(1, Number(event.target.value))
-                applyConfig({ maxLevels: value })
+                applyConfig({ maxLevels: value }, true)
               }}
             />
           </label>
