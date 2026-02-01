@@ -1,6 +1,6 @@
 # Story 1.1: Start Game Session and Status
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -14,11 +14,11 @@ so that I know when gameplay begins and whether it is running, paused, or ended.
 
 ## Tasks / Subtasks
 
-- [ ] Implement session start action and state initialization (AC: 1)
-  - [ ] Set default session state to running on start
-- [ ] Implement session status display (AC: 1)
-  - [ ] Render status indicator for running, paused, ended
-- [ ] Add start screen transition into gameplay state (AC: 1)
+- [x] Implement session start action and state initialization (AC: 1)
+  - [x] Set default session state to running on start
+- [x] Implement session status display (AC: 1)
+  - [x] Render status indicator for running, paused, ended
+- [x] Add start screen transition into gameplay state (AC: 1)
 
 ## Dev Notes
 
@@ -48,8 +48,24 @@ None
 
 ### Completion Notes List
 
+- Implemented session start action and status display
+- Added tests for start screen and running status
+- Tests: bun run test:run
+- Lint: bun run lint
+
 - Ultimate context engine analysis completed - comprehensive developer guide created
 
 ### File List
+
+- frontend/src/App.tsx
+- frontend/src/main.tsx
+- frontend/src/index.css
+- frontend/src/App.test.tsx
+- frontend/src/setupTests.ts
+- frontend/vite.config.ts
+- frontend/package.json
+- frontend/bun.lock
+- backend/Cargo.toml
+- _bmad-output/implementation-artifacts/sprint-status.yaml
 
 - _bmad-output/implementation-artifacts/1-1-start-game-session-and-status.md
