@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 
 type GameStatus = 'idle' | 'running' | 'paused' | 'ended'
 
@@ -10,6 +10,13 @@ type Piece = {
 type Background = 'nebula' | 'sunset' | 'matrix'
 
 type Difficulty = 'easy' | 'normal' | 'hard'
+type LiveConfig = Partial<{
+  background: Background
+  difficulty: Difficulty
+  forcedDropIntervalSec: number
+  boardExpandIntervalSec: number
+  maxLevels: number
+}>
 
 const rows = 20
 const cols = 10
@@ -40,6 +47,56 @@ export default function App() {
   const [maxLevels, setMaxLevels] = useState(10)
 
   const maxPlacements = maxLevels * 10
+
+  const settingsRef = useRef({
+    background,
+    difficulty,
+    forcedDropIntervalSec,
+    boardExpandIntervalSec,
+    maxLevels,
+    placements
+  })
+
+  useEffect(() => {
+    settingsRef.current = {
+      background,
+      difficulty,
+      forcedDropIntervalSec,
+      boardExpandIntervalSec,
+      maxLevels,
+      placements
+    }
+  }, [background, difficulty, forcedDropIntervalSec, boardExpandIntervalSec, maxLevels, placements])
+
+  const applyConfig = useCallback(
+    (config: LiveConfig) => {
+      const current = settingsRef.current
+      const nextBackground = config.background ?? current.background
+      const nextDifficulty = config.difficulty ?? current.difficulty
+      const nextForcedDropIntervalSec = Number.isFinite(config.forcedDropIntervalSec)
+        ? Math.max(1, config.forcedDropIntervalSec as number)
+        : current.forcedDropIntervalSec
+      const nextBoardExpandIntervalSec = Number.isFinite(config.boardExpandIntervalSec)
+        ? Math.max(1, config.boardExpandIntervalSec as number)
+        : current.boardExpandIntervalSec
+      const nextMaxLevels = Number.isFinite(config.maxLevels)
+        ? Math.max(1, config.maxLevels as number)
+        : current.maxLevels
+
+      setBackground(nextBackground)
+      setDifficulty(nextDifficulty)
+      setForcedDropIntervalSec(nextForcedDropIntervalSec)
+      setBoardExpandIntervalSec(nextBoardExpandIntervalSec)
+      setMaxLevels(nextMaxLevels)
+      setForcedDropSeconds(Math.ceil(nextForcedDropIntervalSec * difficultyMultiplier[nextDifficulty]))
+      setBoardExpandSeconds(nextBoardExpandIntervalSec)
+      setLevel((currentLevel) => (currentLevel > nextMaxLevels ? nextMaxLevels : currentLevel))
+      if (isRunning && current.placements >= nextMaxLevels * 10) {
+        setStatus('ended')
+      }
+    },
+    [isRunning]
+  )
 
   const startGame = () => {
     setStatus('running')
@@ -105,6 +162,22 @@ export default function App() {
     return () => clearInterval(id)
   }, [isRunning])
 
+  useEffect(() => {
+    if (!isRunning) return
+    const source = new EventSource('/api/config/stream')
+    source.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data) as LiveConfig
+        applyConfig(data)
+      } catch {
+        return
+      }
+    }
+    return () => {
+      source.close()
+    }
+  }, [applyConfig, isRunning])
+
   const cells = Array.from({ length: rows * cols }, (_, index) => {
     const row = Math.floor(index / cols)
     const col = index % cols
@@ -135,7 +208,7 @@ export default function App() {
             Background
             <select
               value={background}
-              onChange={(event) => setBackground(event.target.value as Background)}
+              onChange={(event) => applyConfig({ background: event.target.value as Background })}
             >
               <option value="nebula">Nebula</option>
               <option value="sunset">Sunset</option>
@@ -148,8 +221,7 @@ export default function App() {
               value={difficulty}
               onChange={(event) => {
                 const value = event.target.value as Difficulty
-                setDifficulty(value)
-                setForcedDropSeconds(Math.ceil(forcedDropIntervalSec * difficultyMultiplier[value]))
+                applyConfig({ difficulty: value })
               }}
             >
               <option value="easy">Easy</option>
@@ -165,8 +237,7 @@ export default function App() {
               value={forcedDropIntervalSec}
               onChange={(event) => {
                 const value = Math.max(1, Number(event.target.value))
-                setForcedDropIntervalSec(value)
-                setForcedDropSeconds(Math.ceil(value * difficultyMultiplier[difficulty]))
+                applyConfig({ forcedDropIntervalSec: value })
               }}
             />
           </label>
@@ -178,8 +249,7 @@ export default function App() {
               value={boardExpandIntervalSec}
               onChange={(event) => {
                 const value = Math.max(1, Number(event.target.value))
-                setBoardExpandIntervalSec(value)
-                setBoardExpandSeconds(value)
+                applyConfig({ boardExpandIntervalSec: value })
               }}
             />
           </label>
@@ -191,11 +261,7 @@ export default function App() {
               value={maxLevels}
               onChange={(event) => {
                 const value = Math.max(1, Number(event.target.value))
-                setMaxLevels(value)
-                setLevel((currentLevel) => (currentLevel > value ? value : currentLevel))
-                if (isRunning && placements >= value * 10) {
-                  setStatus('ended')
-                }
+                applyConfig({ maxLevels: value })
               }}
             />
           </label>
