@@ -54,6 +54,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-flow-fun
 14 - Continnous Claude (claude code) <br/>
 https://github.com/diegopacheco/ai-playground/blob/main/agents/continuous-claude.md
 
+15 - OpenAI Atlas <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/agents/atlas-open-ai 
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
