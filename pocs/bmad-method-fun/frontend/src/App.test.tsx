@@ -70,4 +70,12 @@ describe('App', () => {
     expect(screen.getByText(/game over/i)).toBeInTheDocument()
     vi.useRealTimers()
   })
+
+  it('opens admin configuration interface', () => {
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
+    expect(screen.getByRole('region', { name: /admin configuration/i })).toBeInTheDocument()
+    expect(screen.getByText(/level backgrounds/i)).toBeInTheDocument()
+    expect(screen.getByText(/timers/i)).toBeInTheDocument()
+  })
 })
