@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import { vi } from 'vitest'
 import App from './App'
 
@@ -27,13 +27,10 @@ describe('App', () => {
     vi.useFakeTimers()
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
-    const initialPiece = screen.getByTestId('piece')
-    const initialKey = initialPiece.getAttribute('data-testid')
-    vi.advanceTimersByTime(40000)
-    const movedPiece = screen.getByTestId('piece')
-    expect(movedPiece).toBeInTheDocument()
-    vi.runOnlyPendingTimers()
+    act(() => {
+      vi.advanceTimersByTime(40000)
+    })
+    expect(screen.getByTestId('piece')).toBeInTheDocument()
     vi.useRealTimers()
-    expect(initialKey).toBe('piece')
   })
 })

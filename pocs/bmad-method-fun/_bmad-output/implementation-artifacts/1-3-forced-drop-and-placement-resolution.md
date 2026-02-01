@@ -1,6 +1,6 @@
 # Story 1.3: Forced Drop and Placement Resolution
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -14,10 +14,10 @@ so that the game progresses even without my control.
 
 ## Tasks / Subtasks
 
-- [ ] Implement forced drop interval (AC: 1)
-  - [ ] Move active piece down on each forced drop tick
-- [ ] Resolve placement outcome when piece reaches bottom (AC: 1)
-  - [ ] Fix piece at bottom and stop further drops for that piece
+- [x] Implement forced drop interval (AC: 1)
+  - [x] Move active piece down on each forced drop tick
+- [x] Resolve placement outcome when piece reaches bottom (AC: 1)
+  - [x] Fix piece at bottom and stop further drops for that piece
 
 ## Dev Notes
 
@@ -48,7 +48,17 @@ None
 ### Completion Notes List
 
 - Ultimate context engine analysis completed - comprehensive developer guide created
+- Implemented forced drop interval and placement resolution
+- Added forced drop test with timers
+- Tests: bun run test:run
+- Lint: bun run lint
 
 ### File List
 
+- frontend/src/App.tsx
+- frontend/src/index.css
+- frontend/src/App.test.tsx
+- frontend/package.json
+- frontend/bun.lock
+- _bmad-output/implementation-artifacts/sprint-status.yaml
 - _bmad-output/implementation-artifacts/1-3-forced-drop-and-placement-resolution.md
