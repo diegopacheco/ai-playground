@@ -1,9 +1,12 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useTetris } from '../hooks/useTetris'
 
 const TetrisBoard = () => {
+  const location = useLocation()
   const [config, setConfig] = useState(null)
   const [configKey, setConfigKey] = useState(0)
+  const lastConfigRef = useRef(null)
 
   const loadConfig = useCallback(() => {
     fetch('/api/config')
@@ -18,25 +21,31 @@ const TetrisBoard = () => {
             dropSpeed: data.drop_speed || 1000,
             freezeChance: data.freeze_chance || 2
           }
-          setConfig(newConfig)
-          setConfigKey(prev => prev + 1)
+          const configStr = JSON.stringify(newConfig)
+          if (lastConfigRef.current !== configStr) {
+            lastConfigRef.current = configStr
+            setConfig(newConfig)
+            setConfigKey(prev => prev + 1)
+          }
         }
       })
       .catch(() => {
-        setConfig({
-          boardWidth: 10,
-          boardHeight: 20,
-          growInterval: 30000,
-          theme: 'dark',
-          dropSpeed: 1000,
-          freezeChance: 2
-        })
+        if (!config) {
+          setConfig({
+            boardWidth: 10,
+            boardHeight: 20,
+            growInterval: 30000,
+            theme: 'dark',
+            dropSpeed: 1000,
+            freezeChance: 2
+          })
+        }
       })
-  }, [])
+  }, [config])
 
   useEffect(() => {
     loadConfig()
-  }, [loadConfig])
+  }, [location.pathname])
 
   useEffect(() => {
     const handleVisibilityChange = () => {
