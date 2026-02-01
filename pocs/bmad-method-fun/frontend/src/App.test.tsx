@@ -28,14 +28,17 @@ class MockEventSource {
 
 describe('App', () => {
   const originalEventSource = globalThis.EventSource
+  const originalFetch = globalThis.fetch
 
   beforeEach(() => {
     MockEventSource.instances = []
     globalThis.EventSource = MockEventSource as unknown as typeof EventSource
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true })
   })
 
   afterAll(() => {
     globalThis.EventSource = originalEventSource
+    globalThis.fetch = originalFetch
   })
   it('starts in start screen with idle status', () => {
     render(<App />)
