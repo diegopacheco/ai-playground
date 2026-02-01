@@ -47,4 +47,13 @@ describe('App', () => {
     expect(screen.getByText(/level:\s*2/i)).toBeInTheDocument()
     vi.useRealTimers()
   })
+
+  it('shows forced drop and board expansion timers', () => {
+    vi.useFakeTimers()
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    expect(screen.getByText(/forced drop in:/i)).toBeInTheDocument()
+    expect(screen.getByText(/board expands in:/i)).toBeInTheDocument()
+    vi.useRealTimers()
+  })
 })
