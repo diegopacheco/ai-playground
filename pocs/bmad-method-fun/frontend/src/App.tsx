@@ -12,6 +12,7 @@ const cols = 10
 const spawnRow = 0
 const spawnCol = 4
 const forcedDropMs = 40000
+const boardExpandMs = 30000
 const pointsPerGoodMove = 10
 const pointsPerLevel = 100
 
@@ -20,12 +21,16 @@ export default function App() {
   const [piece, setPiece] = useState<Piece | null>(null)
   const [score, setScore] = useState(0)
   const [level, setLevel] = useState(1)
+  const [forcedDropSeconds, setForcedDropSeconds] = useState(0)
+  const [boardExpandSeconds, setBoardExpandSeconds] = useState(0)
 
   const startGame = () => {
     setStatus('running')
     setPiece({ row: spawnRow, col: spawnCol })
     setScore(0)
     setLevel(1)
+    setForcedDropSeconds(Math.ceil(forcedDropMs / 1000))
+    setBoardExpandSeconds(Math.ceil(boardExpandMs / 1000))
   }
 
   const isStartScreen = status === 'idle'
@@ -47,9 +52,27 @@ export default function App() {
         }
         return { ...current, row: nextRow }
       })
+      setForcedDropSeconds(Math.ceil(forcedDropMs / 1000))
     }, forcedDropMs)
     return () => clearInterval(id)
   }, [isRunning, piece])
+
+  useEffect(() => {
+    if (!isRunning) return
+    const id = setInterval(() => {
+      setBoardExpandSeconds(Math.ceil(boardExpandMs / 1000))
+    }, boardExpandMs)
+    return () => clearInterval(id)
+  }, [isRunning])
+
+  useEffect(() => {
+    if (!isRunning) return
+    const id = setInterval(() => {
+      setForcedDropSeconds((current) => (current > 0 ? current - 1 : current))
+      setBoardExpandSeconds((current) => (current > 0 ? current - 1 : current))
+    }, 1000)
+    return () => clearInterval(id)
+  }, [isRunning])
 
   const cells = Array.from({ length: rows * cols }, (_, index) => {
     const row = Math.floor(index / cols)
@@ -73,6 +96,12 @@ export default function App() {
         <div className="hud">
           <div>Score: {score}</div>
           <div>Level: {level}</div>
+          <div>
+            Forced drop in: {forcedDropSeconds}s
+          </div>
+          <div>
+            Board expands in: {boardExpandSeconds}s
+          </div>
         </div>
       ) : null}
       {isRunning ? (
