@@ -66,6 +66,8 @@ https://github.com/diegopacheco/ai-playground/tree/main/agents/claude-for-chrome
 18 - Advanced Claude Code <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/agents/claude-code
 
+19 - Agents in Github.com (Repository Agents) <br/>
+https://github.com/diegopacheco/rust-playground/tasks/05c0f6d0-cfc3-44e7-9def-6cb73abf0305?author=diegopacheco
 
 ### POCs: AI Agents
 
