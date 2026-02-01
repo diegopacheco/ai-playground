@@ -15,4 +15,4 @@
 13. y
 14. single thread - does not run all in parallel.
 15. boring
-16. 
+16. slow - 3+ hours to build something simple.
