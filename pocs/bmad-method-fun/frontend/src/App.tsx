@@ -25,6 +25,7 @@ export default function App() {
   const [forcedDropSeconds, setForcedDropSeconds] = useState(0)
   const [boardExpandSeconds, setBoardExpandSeconds] = useState(0)
   const [placements, setPlacements] = useState(0)
+  const [adminOpen, setAdminOpen] = useState(false)
 
   const startGame = () => {
     setStatus('running')
@@ -96,14 +97,30 @@ export default function App() {
   return (
     <div className="app">
       <h1>Retris</h1>
-      {isStartScreen ? (
-        <button type="button" onClick={startGame} aria-label="Start game">
-          Start
+      <div className="controls">
+        {isStartScreen ? (
+          <button type="button" onClick={startGame} aria-label="Start game">
+            Start
+          </button>
+        ) : null}
+        <button type="button" onClick={() => setAdminOpen((v) => !v)} aria-label="Admin settings">
+          Admin
         </button>
-      ) : null}
+      </div>
       <div className="status" aria-live="polite">
         Status: {status}
       </div>
+      {adminOpen ? (
+        <div className="admin" role="region" aria-label="Admin configuration">
+          <h2>Admin Settings</h2>
+          <div className="admin-list">
+            <div>Level backgrounds</div>
+            <div>Timers</div>
+            <div>Difficulty</div>
+            <div>Number of levels</div>
+          </div>
+        </div>
+      ) : null}
       {isRunning ? (
         <div className="hud">
           <div>Score: {score}</div>
@@ -114,6 +131,7 @@ export default function App() {
           <div>
             Board expands in: {boardExpandSeconds}s
           </div>
+          <div>Placements: {placements}/{maxPlacements}</div>
         </div>
       ) : null}
       {isEnded ? (

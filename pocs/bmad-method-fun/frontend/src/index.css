@@ -19,6 +19,11 @@ body {
   justify-items: center;
 }
 
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
 button {
   background: #f4f4f2;
   color: #0e0f12;
@@ -38,6 +43,22 @@ button {
   display: grid;
   gap: 4px;
   font-size: 14px;
+}
+
+.admin {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #2b2f3a;
+  border-radius: 8px;
+  width: 240px;
+}
+
+.admin-list {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  opacity: 0.9;
 }
 
 .end-state {

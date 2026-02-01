@@ -1,22 +1,22 @@
-# Story 1.6: End-of-Session State
+# Story 2.1: Access Admin Configuration Interface
 
 Status: review
 
 ## Story
 
-As a player,
-I want to see the end-of-session state when a game finishes,
-so that I know the session has ended and can review the outcome.
+As an admin,
+I want to access a configuration interface,
+so that I can manage gameplay settings.
 
 ## Acceptance Criteria
 
-1. Given a session is running, when the game ends, then the session status changes to ended, and an end-of-session state is displayed to the player.
+1. Given I am an admin, when I open the admin configuration interface, then I can view the available gameplay settings, and the interface is ready to accept changes.
 
 ## Tasks / Subtasks
 
-- [x] Implement end-of-session condition (AC: 1)
-  - [x] End session after a configurable max placements
-- [x] Display end-of-session state (AC: 1)
+- [x] Implement admin configuration interface entry (AC: 1)
+  - [x] Provide a way to open the interface
+- [x] Display available gameplay settings (AC: 1)
 
 ## Dev Notes
 
@@ -30,7 +30,7 @@ so that I know the session has ended and can review the outcome.
 
 ### References
 
-- [Source: _bmad-output/planning-artifacts/epics.md#Story 1.6]
+- [Source: _bmad-output/planning-artifacts/epics.md#Story 2.1]
 - [Source: _bmad-output/planning-artifacts/prd.md#Functional Requirements]
 - [Source: _bmad-output/planning-artifacts/prd.md#Non-Functional Requirements]
 
@@ -47,8 +47,8 @@ None
 ### Completion Notes List
 
 - Ultimate context engine analysis completed - comprehensive developer guide created
-- Implemented end-of-session state and placements limit
-- Added end state test coverage
+- Implemented admin configuration panel entry
+- Added admin settings visibility test
 - Tests: bun run test:run
 - Lint: bun run lint
 
@@ -60,4 +60,4 @@ None
 - frontend/package.json
 - frontend/bun.lock
 - _bmad-output/implementation-artifacts/sprint-status.yaml
-- _bmad-output/implementation-artifacts/1-6-end-of-session-state.md
+- _bmad-output/implementation-artifacts/2-1-access-admin-configuration-interface.md
