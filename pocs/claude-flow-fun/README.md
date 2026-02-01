@@ -41,5 +41,5 @@ build a react tetris game, with the backend in rust 2024 with tokio. have a run.
 ```
 9. in 15min I had a workable game. 
 10. Admin configs are not being applyed on the fly. 
-11. I asked to fix the admin bug and add unit tests for frontend and backend.
-12. 
+11. I asked to fix the admin bug and add unit tests for frontend and backend. but it was not fixed. I had to ask 3x and them the bug was fixed.
+12. There was some resposability and separation of concerns on the code for frontend and backend - not great but ok.
