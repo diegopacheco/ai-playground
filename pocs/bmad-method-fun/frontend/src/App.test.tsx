@@ -76,14 +76,33 @@ describe('App', () => {
     fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
     expect(screen.getByRole('region', { name: /admin configuration/i })).toBeInTheDocument()
     expect(screen.getByText(/background/i)).toBeInTheDocument()
-    expect(screen.getByText(/timers/i)).toBeInTheDocument()
+    expect(screen.getByText(/difficulty/i)).toBeInTheDocument()
   })
 
   it('applies selected background to board', () => {
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
     fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
-    fireEvent.change(screen.getByRole('combobox'), { target: { value: 'sunset' } })
+    fireEvent.change(screen.getByRole('combobox', { name: /background/i }), { target: { value: 'sunset' } })
     expect(screen.getByTestId('board')).toHaveClass('sunset')
+  })
+
+  it('updates timer settings from admin interface', () => {
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
+    const inputs = screen.getAllByRole('spinbutton')
+    fireEvent.change(inputs[0], { target: { value: '5' } })
+    fireEvent.change(inputs[1], { target: { value: '7' } })
+    expect(screen.getByText(/forced drop in:\s*5s/i)).toBeInTheDocument()
+    expect(screen.getByText(/board expands in:\s*7s/i)).toBeInTheDocument()
+  })
+
+  it('updates difficulty and affects forced drop display', () => {
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
+    fireEvent.change(screen.getByRole('combobox', { name: /difficulty/i }), { target: { value: 'hard' } })
+    expect(screen.getByText(/forced drop in:\s*32s/i)).toBeInTheDocument()
   })
 })
