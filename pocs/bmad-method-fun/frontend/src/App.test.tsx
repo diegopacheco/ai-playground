@@ -114,4 +114,32 @@ describe('App', () => {
     fireEvent.change(inputs[2], { target: { value: '3' } })
     expect(screen.getByText(/placements:\s*0\/30/i)).toBeInTheDocument()
   })
+
+  it('ends immediately when max levels lowered below placements', () => {
+    vi.useFakeTimers()
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    act(() => {
+      vi.advanceTimersByTime(forcedDropMs * (rows - 1) * 20)
+    })
+    fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
+    const inputs = screen.getAllByRole('spinbutton')
+    fireEvent.change(inputs[2], { target: { value: '1' } })
+    expect(screen.getByText(/status:\s*ended/i)).toBeInTheDocument()
+    vi.useRealTimers()
+  })
+
+  it('caps level at the configured max levels', () => {
+    vi.useFakeTimers()
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
+    const inputs = screen.getAllByRole('spinbutton')
+    fireEvent.change(inputs[2], { target: { value: '1' } })
+    act(() => {
+      vi.advanceTimersByTime(forcedDropMs * (rows - 1) * 5)
+    })
+    expect(screen.getByText(/level:\s*1/i)).toBeInTheDocument()
+    vi.useRealTimers()
+  })
 })

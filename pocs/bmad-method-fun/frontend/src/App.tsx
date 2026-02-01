@@ -65,7 +65,10 @@ export default function App() {
         if (nextRow >= rows - 1) {
           setScore((prev) => {
             const nextScore = prev + pointsPerGoodMove
-            setLevel(Math.floor(nextScore / pointsPerLevel) + 1)
+            setLevel(() => {
+              const nextLevel = Math.floor(nextScore / pointsPerLevel) + 1
+              return nextLevel > maxLevels ? maxLevels : nextLevel
+            })
             return nextScore
           })
           setPlacements((prev) => {
@@ -83,7 +86,7 @@ export default function App() {
       setForcedDropSeconds(Math.ceil(forcedDropIntervalSec * difficultyMultiplier[difficulty]))
     }, intervalMs)
     return () => clearInterval(id)
-  }, [isRunning, piece, forcedDropIntervalSec, difficulty, maxPlacements])
+  }, [isRunning, piece, forcedDropIntervalSec, difficulty, maxPlacements, maxLevels])
 
   useEffect(() => {
     if (!isRunning) return
@@ -189,6 +192,10 @@ export default function App() {
               onChange={(event) => {
                 const value = Math.max(1, Number(event.target.value))
                 setMaxLevels(value)
+                setLevel((currentLevel) => (currentLevel > value ? value : currentLevel))
+                if (isRunning && placements >= value * 10) {
+                  setStatus('ended')
+                }
               }}
             />
           </label>
