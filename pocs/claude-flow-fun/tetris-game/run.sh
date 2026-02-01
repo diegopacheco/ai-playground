@@ -12,6 +12,8 @@ cleanup() {
     exit 0
 }
 trap cleanup SIGINT SIGTERM
+lsof -ti:8080 | xargs kill -9 2>/dev/null || true
+lsof -ti:3000 | xargs kill -9 2>/dev/null || true
 cd "$BACKEND_DIR"
 cargo build --release
 ./target/release/tetris-backend &
@@ -30,4 +32,5 @@ if [ ! -d "node_modules" ]; then
 fi
 npm run dev &
 FRONTEND_PID=$!
+echo "Frontend starting on port 3000"
 wait $FRONTEND_PID

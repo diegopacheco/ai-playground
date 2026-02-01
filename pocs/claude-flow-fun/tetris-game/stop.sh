@@ -1,5 +1,6 @@
 #!/bin/bash
-pkill -f "tetris-backend" 2>/dev/null || true
-pkill -f "vite.*tetris-frontend" 2>/dev/null || true
-pkill -f "node.*vite" 2>/dev/null || true
-echo "Stopped Tetris game processes"
+lsof -ti:8080 | xargs kill -9 2>/dev/null || true
+lsof -ti:3000 | xargs kill -9 2>/dev/null || true
+pkill -f tetris-backend 2>/dev/null || true
+pkill -f "vite" 2>/dev/null || true
+echo "Stopped all tetris processes"
