@@ -58,7 +58,7 @@ development_status:
   epic-2-retrospective: optional
   epic-3: in-progress
   3-1-receive-live-configuration-updates: review
-  3-2-receive-live-timer-updates: backlog
-  3-3-receive-live-score-updates: backlog
-  3-4-recover-from-update-interruptions: backlog
+  3-2-receive-live-timer-updates: review
+  3-3-receive-live-score-updates: review
+  3-4-recover-from-update-interruptions: review
   epic-3-retrospective: optional

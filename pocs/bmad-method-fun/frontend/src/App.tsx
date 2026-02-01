@@ -17,6 +17,13 @@ type LiveConfig = Partial<{
   boardExpandIntervalSec: number
   maxLevels: number
 }>
+type LiveTimers = Partial<{
+  forcedDropSeconds: number
+  boardExpandSeconds: number
+}>
+type LiveScore = {
+  score: number
+}
 
 const rows = 20
 const cols = 10
@@ -123,6 +130,24 @@ export default function App() {
     [isRunning, sendConfigUpdate]
   )
 
+  const applyTimers = useCallback((timers: LiveTimers) => {
+    if (Number.isFinite(timers.forcedDropSeconds)) {
+      setForcedDropSeconds(Math.max(0, timers.forcedDropSeconds as number))
+    }
+    if (Number.isFinite(timers.boardExpandSeconds)) {
+      setBoardExpandSeconds(Math.max(0, timers.boardExpandSeconds as number))
+    }
+  }, [])
+
+  const applyScore = useCallback((update: LiveScore) => {
+    const nextScore = Math.max(0, update.score)
+    setScore(nextScore)
+    setLevel(() => {
+      const nextLevel = Math.floor(nextScore / pointsPerLevel) + 1
+      return nextLevel > maxLevels ? maxLevels : nextLevel
+    })
+  }, [maxLevels])
+
   const startGame = () => {
     setStatus('running')
     setPiece({ row: spawnRow, col: spawnCol })
@@ -198,6 +223,103 @@ export default function App() {
       source.close()
     }
   }, [applyConfig, isRunning])
+
+  useEffect(() => {
+    if (!isRunning) return
+    let source: EventSource | null = null
+    let retryId: number | null = null
+
+    const connect = () => {
+      source = new EventSource('/api/timers/stream')
+      source.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data) as LiveTimers
+          applyTimers(data)
+        } catch {
+          return
+        }
+      }
+      source.onerror = () => {
+        if (source) {
+          source.close()
+        }
+        if (retryId) {
+          window.clearTimeout(retryId)
+        }
+        retryId = window.setTimeout(connect, 1000)
+      }
+    }
+
+    connect()
+
+    return () => {
+      if (source) {
+        source.close()
+      }
+      if (retryId) {
+        window.clearTimeout(retryId)
+      }
+    }
+  }, [applyTimers, isRunning])
+
+  useEffect(() => {
+    if (!isRunning) return
+    let source: EventSource | null = null
+    let retryId: number | null = null
+
+    const connect = () => {
+      source = new EventSource('/api/score/stream')
+      source.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data) as LiveScore
+          applyScore(data)
+        } catch {
+          return
+        }
+      }
+      source.onerror = () => {
+        if (source) {
+          source.close()
+        }
+        if (retryId) {
+          window.clearTimeout(retryId)
+        }
+        retryId = window.setTimeout(connect, 1000)
+      }
+    }
+
+    connect()
+
+    return () => {
+      if (source) {
+        source.close()
+      }
+      if (retryId) {
+        window.clearTimeout(retryId)
+      }
+    }
+  }, [applyScore, isRunning])
+
+  useEffect(() => {
+    if (!isRunning) return
+    void fetch('/api/timers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        forcedDropSeconds,
+        boardExpandSeconds
+      })
+    })
+  }, [isRunning, forcedDropSeconds, boardExpandSeconds])
+
+  useEffect(() => {
+    if (!isRunning) return
+    void fetch('/api/score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ score })
+    })
+  }, [isRunning, score])
 
   const cells = Array.from({ length: rows * cols }, (_, index) => {
     const row = Math.floor(index / cols)
