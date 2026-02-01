@@ -15,6 +15,7 @@ const forcedDropMs = 40000
 const boardExpandMs = 30000
 const pointsPerGoodMove = 10
 const pointsPerLevel = 100
+const maxPlacements = 10
 
 export default function App() {
   const [status, setStatus] = useState<GameStatus>('idle')
@@ -23,18 +24,21 @@ export default function App() {
   const [level, setLevel] = useState(1)
   const [forcedDropSeconds, setForcedDropSeconds] = useState(0)
   const [boardExpandSeconds, setBoardExpandSeconds] = useState(0)
+  const [placements, setPlacements] = useState(0)
 
   const startGame = () => {
     setStatus('running')
     setPiece({ row: spawnRow, col: spawnCol })
     setScore(0)
     setLevel(1)
+    setPlacements(0)
     setForcedDropSeconds(Math.ceil(forcedDropMs / 1000))
     setBoardExpandSeconds(Math.ceil(boardExpandMs / 1000))
   }
 
   const isStartScreen = status === 'idle'
   const isRunning = status === 'running'
+  const isEnded = status === 'ended'
 
   useEffect(() => {
     if (!isRunning || !piece) return
@@ -47,6 +51,14 @@ export default function App() {
             const nextScore = prev + pointsPerGoodMove
             setLevel(Math.floor(nextScore / pointsPerLevel) + 1)
             return nextScore
+          })
+          setPlacements((prev) => {
+            const nextPlacements = prev + 1
+            if (nextPlacements >= maxPlacements) {
+              setStatus('ended')
+              return nextPlacements
+            }
+            return nextPlacements
           })
           return { row: spawnRow, col: spawnCol }
         }
@@ -102,6 +114,11 @@ export default function App() {
           <div>
             Board expands in: {boardExpandSeconds}s
           </div>
+        </div>
+      ) : null}
+      {isEnded ? (
+        <div className="end-state" role="status">
+          Game over. Final score: {score}
         </div>
       ) : null}
       {isRunning ? (

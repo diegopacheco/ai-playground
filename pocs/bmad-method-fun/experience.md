@@ -12,4 +12,7 @@
 10. Product people might love this (PRD part at least) for engineering might be a bit boring.
 11. Them it split stories, worked on acceptance criteria.
 12. I type a lot of "y" and "continue" to move forward.
-13. 
+13. y
+14. single thread - does not run all in parallel.
+15. boring
+16. 
