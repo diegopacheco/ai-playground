@@ -19,11 +19,14 @@ const AdminPanel = () => {
       .then(res => res.json())
       .then(data => {
         if (data) {
-          setConfig(prev => ({
-            ...prev,
-            ...data,
-            growInterval: data.growInterval ? data.growInterval / 1000 : 30
-          }))
+          setConfig({
+            theme: data.theme || 'dark',
+            boardWidth: data.board_width || 10,
+            boardHeight: data.board_height || 20,
+            growInterval: data.grow_interval ? data.grow_interval / 1000 : 30,
+            dropSpeed: data.drop_speed || 1000,
+            freezeChance: data.freeze_chance || 2
+          })
         }
       })
       .catch(() => {})
@@ -36,19 +39,21 @@ const AdminPanel = () => {
   const handleSave = async () => {
     setSaving(true)
     setMessage('')
-
     const payload = {
-      ...config,
-      growInterval: config.growInterval * 1000
+      theme: config.theme,
+      board_width: config.boardWidth,
+      board_height: config.boardHeight,
+      grow_interval: config.growInterval * 1000,
+      drop_speed: config.dropSpeed,
+      freeze_chance: config.freezeChance,
+      level_time_multiplier: 0.85
     }
-
     try {
       const res = await fetch('/api/config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
-
       if (res.ok) {
         setMessage('Configuration saved successfully!')
       } else {
@@ -57,7 +62,6 @@ const AdminPanel = () => {
     } catch (err) {
       setMessage('Error connecting to server')
     }
-
     setSaving(false)
     setTimeout(() => setMessage(''), 3000)
   }
@@ -78,7 +82,6 @@ const AdminPanel = () => {
           Back to Game
         </button>
       </div>
-
       <div className="admin-content">
         <section className="config-section">
           <h2>Theme Settings</h2>
@@ -94,10 +97,8 @@ const AdminPanel = () => {
             ))}
           </div>
         </section>
-
         <section className="config-section">
           <h2>Board Settings</h2>
-
           <div className="slider-group">
             <label>
               Initial Board Width: {config.boardWidth}
@@ -110,7 +111,6 @@ const AdminPanel = () => {
               onChange={(e) => handleChange('boardWidth', parseInt(e.target.value))}
             />
           </div>
-
           <div className="slider-group">
             <label>
               Initial Board Height: {config.boardHeight}
@@ -124,10 +124,8 @@ const AdminPanel = () => {
             />
           </div>
         </section>
-
         <section className="config-section">
           <h2>Time Settings</h2>
-
           <div className="slider-group">
             <label>
               Board Grow Interval: {config.growInterval} seconds
@@ -141,7 +139,6 @@ const AdminPanel = () => {
               onChange={(e) => handleChange('growInterval', parseInt(e.target.value))}
             />
           </div>
-
           <div className="slider-group">
             <label>
               Drop Speed: {config.dropSpeed}ms
@@ -155,7 +152,6 @@ const AdminPanel = () => {
               onChange={(e) => handleChange('dropSpeed', parseInt(e.target.value))}
             />
           </div>
-
           <div className="slider-group">
             <label>
               Freeze Bonus Chance: {config.freezeChance}%
@@ -169,7 +165,6 @@ const AdminPanel = () => {
             />
           </div>
         </section>
-
         <div className="save-section">
           <button
             onClick={handleSave}
