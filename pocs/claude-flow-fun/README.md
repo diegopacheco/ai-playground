@@ -1,5 +1,14 @@
 # Claude Flow Experience
 
+## Result
+
+1 - Claude Flow Status line in Claude Code <br/>
+<img src="claude-flow-status-line.png" width="400"/> <br/>
+
+
+2- The game - 15min later <br/>
+<img src="claude-flow-tetris.png" width="400"/> <br/>
+
 Prompt:
 ```
 build a react tetris game, with the backend in rust 2024 with tokio. have a run.sh to run the app. there must be levels, and admin interface where admin can choose backlground themes, time config and more. the game must have time and count moves scores, once player make 100 points move next, each good move is 10 points. every 30s the board gets bigger and randon time to time player free for 10s.
@@ -30,4 +39,6 @@ build a react tetris game, with the backend in rust 2024 with tokio. have a run.
   - Admin interface for themes, time config, board settings
   - Time and move scoring
 ```
-9. 
+9. in 15min I had a workable game. 
+10. Admin configs are not being applyed on the fly. 
+11 .
