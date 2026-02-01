@@ -57,6 +57,15 @@ https://github.com/diegopacheco/ai-playground/blob/main/agents/continuous-claude
 15 - OpenAI Atlas <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/agents/atlas-open-ai 
 
+16 - Claude, Copilot, Codex, Gemini Frontend Benchmark <br/>
+https://github.com/diegopacheco/ai-playground/blob/main/agents/frontend-tools-models-coding-agents.md
+
+17 - Claude for Chrome <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/agents/claude-for-chrome
+
+18 - Advanced Claude Code <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/agents/claude-code
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
