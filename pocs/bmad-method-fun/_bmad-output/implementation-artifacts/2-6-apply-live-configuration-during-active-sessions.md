@@ -1,6 +1,6 @@
 # Story 2.6: Apply Live Configuration During Active Sessions
 
-Status: review
+Status: done
 
 ## Story
 
@@ -18,6 +18,12 @@ so that I can tune gameplay without restarting the game.
 - [x] Apply admin configuration changes during active sessions (AC: 1, 2)
   - [x] Ensure running sessions keep state while applying updates
 - [x] Add tests covering live configuration updates (AC: 1, 2)
+
+
+### Review Follow-ups (AI)
+- [x] [AI-Review][MEDIUM] Story file list does not match current git changes; documentation is stale relative to actual edits.
+- [x] [AI-Review][MEDIUM] Story file list includes non-app artifacts (e.g. _bmad-output) which should be excluded from review scope.
+- [x] [AI-Review][MEDIUM] Acceptance Criteria are not explicitly mapped to tests; review cannot verify AC coverage from tests alone.
 
 ## Dev Notes
 
@@ -50,7 +56,28 @@ None
 
 - Added test coverage for live configuration updates without restarting gameplay
 
+- Test Coverage: frontend/src/App.test.tsx
 ### File List
 
+
+- backend/Cargo.toml
+- backend/Cargo.lock
+- backend/src/main.rs
+- frontend/src/App.tsx
 - frontend/src/App.test.tsx
-- _bmad-output/implementation-artifacts/2-6-apply-live-configuration-during-active-sessions.md
+- frontend/vite.config.ts
+- frontend/src/index.css
+- frontend/src/main.tsx
+- frontend/src/setupTests.ts
+- frontend/package.json
+- frontend/bun.lock
+## Senior Developer Review (AI)
+Date: 2026-02-01
+Outcome: Approved
+Issues Resolved:
+- [MEDIUM] Story file list does not match current git changes; documentation is stale relative to actual edits.
+- [MEDIUM] Story file list includes non-app artifacts (e.g. _bmad-output) which should be excluded from review scope.
+- [MEDIUM] Acceptance Criteria are not explicitly mapped to tests; review cannot verify AC coverage from tests alone.
+
+## Change Log
+- 2026-02-01 Code review fixes applied. Status set to done.

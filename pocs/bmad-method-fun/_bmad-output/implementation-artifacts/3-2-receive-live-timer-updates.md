@@ -1,6 +1,6 @@
 # Story 3.2: Receive Live Timer Updates
 
-Status: review
+Status: done
 
 ## Story
 
@@ -18,6 +18,12 @@ so that timing rules reflect the latest settings.
 - [x] Add live timer update stream to the backend (AC: 1, 2)
 - [x] Subscribe to live timer updates in the frontend (AC: 1, 2)
 - [x] Add tests for live timer updates (AC: 1, 2)
+
+
+### Review Follow-ups (AI)
+- [x] [AI-Review][HIGH] Live timer updates only adjust countdown display; actual forced drop cadence is unchanged.
+- [x] [AI-Review][MEDIUM] Story file list does not match current git changes; documentation is stale relative to actual edits.
+- [x] [AI-Review][MEDIUM] Acceptance Criteria are not explicitly mapped to tests; review cannot verify AC coverage from tests alone.
 
 ## Dev Notes
 
@@ -52,9 +58,28 @@ None
 - Added SSE timers stream and frontend updates
 - Added tests for timer updates during active sessions
 
+- Test Coverage: frontend/src/App.test.tsx
 ### File List
 
+
+- backend/Cargo.toml
+- backend/Cargo.lock
 - backend/src/main.rs
 - frontend/src/App.tsx
 - frontend/src/App.test.tsx
-- _bmad-output/implementation-artifacts/3-2-receive-live-timer-updates.md
+- frontend/vite.config.ts
+- frontend/src/index.css
+- frontend/src/main.tsx
+- frontend/src/setupTests.ts
+- frontend/package.json
+- frontend/bun.lock
+## Senior Developer Review (AI)
+Date: 2026-02-01
+Outcome: Approved
+Issues Resolved:
+- [HIGH] Live timer updates only adjust countdown display; actual forced drop cadence is unchanged.
+- [MEDIUM] Story file list does not match current git changes; documentation is stale relative to actual edits.
+- [MEDIUM] Acceptance Criteria are not explicitly mapped to tests; review cannot verify AC coverage from tests alone.
+
+## Change Log
+- 2026-02-01 Code review fixes applied. Status set to done.
