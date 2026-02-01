@@ -37,6 +37,7 @@ async fn main() {
         .allow_headers([header::CONTENT_TYPE, header::AUTHORIZATION]);
 
     let app = Router::new()
+        .route("/health", get(health_check))
         .route("/api/config", get(get_config))
         .route("/api/config", post(update_config))
         .route("/api/scores", get(get_scores))
@@ -48,6 +49,10 @@ async fn main() {
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8080").await.unwrap();
     println!("Server running on http://0.0.0.0:8080");
     axum::serve(listener, app).await.unwrap();
+}
+
+async fn health_check() -> impl IntoResponse {
+    Json(serde_json::json!({"status": "ok"}))
 }
 
 async fn get_config(State(state): State<Arc<AppState>>) -> impl IntoResponse {

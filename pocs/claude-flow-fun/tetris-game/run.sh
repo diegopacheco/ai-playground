@@ -16,14 +16,14 @@ cd "$BACKEND_DIR"
 cargo build --release
 ./target/release/tetris-backend &
 BACKEND_PID=$!
-while ! curl -s http://localhost:3001/health >/dev/null 2>&1; do
+while ! curl -s http://localhost:8080/health >/dev/null 2>&1; do
     if ! kill -0 "$BACKEND_PID" 2>/dev/null; then
         echo "Backend failed to start"
         exit 1
     fi
     sleep 1
 done
-echo "Backend started on port 3001"
+echo "Backend started on port 8080"
 cd "$FRONTEND_DIR"
 if [ ! -d "node_modules" ]; then
     npm install
