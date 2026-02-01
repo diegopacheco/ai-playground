@@ -6,11 +6,19 @@ describe('App', () => {
     render(<App />)
     expect(screen.getByRole('button', { name: /start game/i })).toBeInTheDocument()
     expect(screen.getByText(/status:\s*idle/i)).toBeInTheDocument()
+    expect(screen.queryByTestId('board')).not.toBeInTheDocument()
   })
 
   it('starts a new game and sets status to running', () => {
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
     expect(screen.getByText(/status:\s*running/i)).toBeInTheDocument()
+  })
+
+  it('renders board and initial piece when running', () => {
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    expect(screen.getByTestId('board')).toBeInTheDocument()
+    expect(screen.getByTestId('piece')).toBeInTheDocument()
   })
 })

@@ -16,6 +16,7 @@ body {
   display: grid;
   gap: 16px;
   text-align: center;
+  justify-items: center;
 }
 
 button {
@@ -31,4 +32,25 @@ button {
 .status {
   font-size: 14px;
   opacity: 0.9;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 22px);
+  grid-template-rows: repeat(20, 22px);
+  gap: 2px;
+  padding: 8px;
+  background: #1a1c22;
+  border-radius: 8px;
+}
+
+.cell {
+  width: 22px;
+  height: 22px;
+  background: #2b2f3a;
+  border-radius: 4px;
+}
+
+.piece {
+  background: #ffcf5a;
 }
