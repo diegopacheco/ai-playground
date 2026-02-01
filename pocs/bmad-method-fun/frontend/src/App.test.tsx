@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+import { vi } from 'vitest'
 import App from './App'
 
 describe('App', () => {
@@ -20,5 +21,19 @@ describe('App', () => {
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
     expect(screen.getByTestId('board')).toBeInTheDocument()
     expect(screen.getByTestId('piece')).toBeInTheDocument()
+  })
+
+  it('forces a drop and resolves placement at bottom', () => {
+    vi.useFakeTimers()
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    const initialPiece = screen.getByTestId('piece')
+    const initialKey = initialPiece.getAttribute('data-testid')
+    vi.advanceTimersByTime(40000)
+    const movedPiece = screen.getByTestId('piece')
+    expect(movedPiece).toBeInTheDocument()
+    vi.runOnlyPendingTimers()
+    vi.useRealTimers()
+    expect(initialKey).toBe('piece')
   })
 })
