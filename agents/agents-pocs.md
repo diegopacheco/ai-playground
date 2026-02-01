@@ -48,6 +48,9 @@ OpenAI AgentKit <br/>
 BMAD Method (6x) (Codex 5.2) <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/bmad-method-fun
 
+Claude Flow V3 (claude code) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-flow-fun
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
