@@ -6,7 +6,37 @@ const rows = 20
 const forcedDropMs = 40000
 const maxPlacementsPerLevel = 10
 
+class MockEventSource {
+  static instances: MockEventSource[] = []
+  onmessage: ((event: { data: string }) => void) | null = null
+  onerror: (() => void) | null = null
+  url: string
+
+  constructor(url: string) {
+    this.url = url
+    MockEventSource.instances.push(this)
+  }
+
+  close() {}
+
+  emit(data: string) {
+    if (this.onmessage) {
+      this.onmessage({ data })
+    }
+  }
+}
+
 describe('App', () => {
+  const originalEventSource = globalThis.EventSource
+
+  beforeEach(() => {
+    MockEventSource.instances = []
+    globalThis.EventSource = MockEventSource as unknown as typeof EventSource
+  })
+
+  afterAll(() => {
+    globalThis.EventSource = originalEventSource
+  })
   it('starts in start screen with idle status', () => {
     render(<App />)
     expect(screen.getByRole('button', { name: /start game/i })).toBeInTheDocument()
@@ -113,11 +143,18 @@ describe('App', () => {
       vi.advanceTimersByTime(forcedDropMs * (rows - 1))
     })
     expect(screen.getByText(/score:\s*10/i)).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
-    fireEvent.change(screen.getByRole('combobox', { name: /background/i }), { target: { value: 'matrix' } })
-    fireEvent.change(screen.getByRole('combobox', { name: /difficulty/i }), { target: { value: 'hard' } })
-    fireEvent.change(screen.getByLabelText(/forced drop seconds/i), { target: { value: '5' } })
-    fireEvent.change(screen.getByLabelText(/board expand seconds/i), { target: { value: '8' } })
+    const source = MockEventSource.instances[0]
+    act(() => {
+      source.emit(
+        JSON.stringify({
+          background: 'matrix',
+          difficulty: 'hard',
+          forcedDropIntervalSec: 5,
+          boardExpandIntervalSec: 8,
+          maxLevels: 5
+        })
+      )
+    })
     expect(screen.getByText(/status:\s*running/i)).toBeInTheDocument()
     expect(screen.getByText(/score:\s*10/i)).toBeInTheDocument()
     expect(screen.getByText(/forced drop in:\s*4s/i)).toBeInTheDocument()

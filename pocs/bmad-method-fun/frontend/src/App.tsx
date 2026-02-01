@@ -48,6 +48,10 @@ export default function App() {
 
   const maxPlacements = maxLevels * 10
 
+  const isStartScreen = status === 'idle'
+  const isRunning = status === 'running'
+  const isEnded = status === 'ended'
+
   const settingsRef = useRef({
     background,
     difficulty,
@@ -107,10 +111,6 @@ export default function App() {
     setForcedDropSeconds(Math.ceil(forcedDropIntervalSec * difficultyMultiplier[difficulty]))
     setBoardExpandSeconds(boardExpandIntervalSec)
   }
-
-  const isStartScreen = status === 'idle'
-  const isRunning = status === 'running'
-  const isEnded = status === 'ended'
 
   useEffect(() => {
     if (!isRunning || !piece) return
