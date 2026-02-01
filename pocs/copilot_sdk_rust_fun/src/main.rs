@@ -1,7 +1,7 @@
-use copilot_sdk::{Client, SessionConfig, Tool, ToolHandler, ToolResult};
+use copilot_sdk::{Client, SessionConfig, SessionEventData, Tool, ToolHandler, ToolResult};
 use reqwest::Url;
 use std::io::{self, Write};
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 
 fn other_error(msg: impl Into<String>) -> std::io::Error {
     std::io::Error::new(std::io::ErrorKind::Other, msg.into())
@@ -117,15 +117,17 @@ async fn fetch_weather(city: &str) -> Result<String, Box<dyn std::error::Error +
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let client = Client::builder().build()?;
     client.start().await?;
+    let status = client.get_status().await?;
+    println!("Copilot CLI: {}", status.version);
 
     let tool = Tool::new("city_weather")
         .description("Get current weather")
         .schema(serde_json::json!({
             "type": "object",
             "properties": {
-                "city": { "type": "string", "description": "City name" }
+                "location": { "type": "string", "description": "City name" }
             },
-            "required": ["city"]
+            "required": ["location"]
         }));
 
     let config = SessionConfig {
@@ -134,13 +136,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     };
     let session = client.create_session(config).await?;
 
+    let last_input = Arc::new(Mutex::new(String::new()));
+    let handler_input = last_input.clone();
     let handler: ToolHandler = Arc::new(move |_name, args| {
-        let city = args
-            .get("city")
+        let mut city = args
+            .get("location")
             .and_then(|v| v.as_str())
             .unwrap_or("")
             .trim()
             .to_string();
+        if city.is_empty() {
+            city = handler_input.lock().ok().map(|v| v.clone()).unwrap_or_default();
+        }
         if city.is_empty() {
             return ToolResult::error("City is required");
         }
@@ -179,9 +186,35 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
             break;
         }
 
-        let args = serde_json::json!({ "city": city });
-        let result = session.invoke_tool("city_weather", &args).await?;
-        println!("{}", result.text_result_for_llm);
+        if let Ok(mut v) = last_input.lock() {
+            *v = city.clone();
+        }
+
+        let prompt = format!(
+            "What is the current weather in {}? Use the city_weather tool.",
+            city
+        );
+        let mut events = session.subscribe();
+        session.send(prompt).await?;
+        while let Ok(event) = events.recv().await {
+            match &event.data {
+                SessionEventData::AssistantMessageDelta(delta) => {
+                    print!("{}", delta.delta_content);
+                    io::stdout().flush()?;
+                }
+                SessionEventData::AssistantMessage(msg) => {
+                    println!("{}", msg.content);
+                }
+                SessionEventData::SessionIdle(_) => {
+                    break;
+                }
+                SessionEventData::SessionError(err) => {
+                    eprintln!("{}", err.message);
+                    break;
+                }
+                _ => {}
+            }
+        }
     }
 
     client.stop().await?;
