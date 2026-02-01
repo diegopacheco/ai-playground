@@ -17,7 +17,6 @@ const spawnRow = 0
 const spawnCol = 4
 const pointsPerGoodMove = 10
 const pointsPerLevel = 100
-const maxPlacements = 10
 
 const difficultyMultiplier: Record<Difficulty, number> = {
   easy: 1.2,
@@ -38,6 +37,9 @@ export default function App() {
   const [forcedDropIntervalSec, setForcedDropIntervalSec] = useState(40)
   const [boardExpandIntervalSec, setBoardExpandIntervalSec] = useState(30)
   const [difficulty, setDifficulty] = useState<Difficulty>('normal')
+  const [maxLevels, setMaxLevels] = useState(10)
+
+  const maxPlacements = maxLevels * 10
 
   const startGame = () => {
     setStatus('running')
@@ -81,7 +83,7 @@ export default function App() {
       setForcedDropSeconds(Math.ceil(forcedDropIntervalSec * difficultyMultiplier[difficulty]))
     }, intervalMs)
     return () => clearInterval(id)
-  }, [isRunning, piece, forcedDropIntervalSec, difficulty])
+  }, [isRunning, piece, forcedDropIntervalSec, difficulty, maxPlacements])
 
   useEffect(() => {
     if (!isRunning) return
@@ -178,9 +180,18 @@ export default function App() {
               }}
             />
           </label>
-          <div className="admin-list">
-            <div>Number of levels</div>
-          </div>
+          <label className="admin-field">
+            Number of levels
+            <input
+              type="number"
+              min={1}
+              value={maxLevels}
+              onChange={(event) => {
+                const value = Math.max(1, Number(event.target.value))
+                setMaxLevels(value)
+              }}
+            />
+          </label>
         </div>
       ) : null}
       {isRunning ? (
