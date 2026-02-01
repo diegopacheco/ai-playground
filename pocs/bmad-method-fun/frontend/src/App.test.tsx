@@ -4,7 +4,7 @@ import App from './App'
 
 const rows = 20
 const forcedDropMs = 40000
-const maxPlacements = 10
+const maxPlacementsPerLevel = 10
 
 describe('App', () => {
   it('starts in start screen with idle status', () => {
@@ -45,8 +45,8 @@ describe('App', () => {
     act(() => {
       vi.advanceTimersByTime(forcedDropMs * (rows - 1) * 10)
     })
-    expect(screen.getByText(/game over/i)).toBeInTheDocument()
-    expect(screen.getByText(/final score:\s*100/i)).toBeInTheDocument()
+    expect(screen.getByText(/level:\s*2/i)).toBeInTheDocument()
+    expect(screen.getByText(/score:\s*100/i)).toBeInTheDocument()
     vi.useRealTimers()
   })
 
@@ -64,7 +64,7 @@ describe('App', () => {
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
     act(() => {
-      vi.advanceTimersByTime(forcedDropMs * (rows - 1) * maxPlacements)
+      vi.advanceTimersByTime(forcedDropMs * (rows - 1) * maxPlacementsPerLevel * 10)
     })
     expect(screen.getByText(/status:\s*ended/i)).toBeInTheDocument()
     expect(screen.getByText(/game over/i)).toBeInTheDocument()
@@ -104,5 +104,14 @@ describe('App', () => {
     fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
     fireEvent.change(screen.getByRole('combobox', { name: /difficulty/i }), { target: { value: 'hard' } })
     expect(screen.getByText(/forced drop in:\s*32s/i)).toBeInTheDocument()
+  })
+
+  it('updates max levels from admin interface', () => {
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
+    const inputs = screen.getAllByRole('spinbutton')
+    fireEvent.change(inputs[2], { target: { value: '3' } })
+    expect(screen.getByText(/placements:\s*0\/30/i)).toBeInTheDocument()
   })
 })
