@@ -2,6 +2,9 @@ import { render, screen, fireEvent, act } from '@testing-library/react'
 import { vi } from 'vitest'
 import App from './App'
 
+const rows = 20
+const forcedDropMs = 40000
+
 describe('App', () => {
   it('starts in start screen with idle status', () => {
     render(<App />)
@@ -23,14 +26,25 @@ describe('App', () => {
     expect(screen.getByTestId('piece')).toBeInTheDocument()
   })
 
-  it('forces a drop and resolves placement at bottom', () => {
+  it('increments score on forced drop placement', () => {
     vi.useFakeTimers()
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
     act(() => {
-      vi.advanceTimersByTime(40000)
+      vi.advanceTimersByTime(forcedDropMs * (rows - 1))
     })
-    expect(screen.getByTestId('piece')).toBeInTheDocument()
+    expect(screen.getByText(/score:\s*10/i)).toBeInTheDocument()
+    vi.useRealTimers()
+  })
+
+  it('increments level when score reaches 100', () => {
+    vi.useFakeTimers()
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    act(() => {
+      vi.advanceTimersByTime(forcedDropMs * (rows - 1) * 10)
+    })
+    expect(screen.getByText(/level:\s*2/i)).toBeInTheDocument()
     vi.useRealTimers()
   })
 })

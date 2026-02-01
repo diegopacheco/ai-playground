@@ -34,6 +34,12 @@ button {
   opacity: 0.9;
 }
 
+.hud {
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(10, 22px);
