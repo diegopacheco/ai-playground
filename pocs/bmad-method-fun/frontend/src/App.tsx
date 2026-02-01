@@ -18,8 +18,8 @@ type LiveConfig = Partial<{
   maxLevels: number
 }>
 type LiveTimers = Partial<{
-  forcedDropSeconds: number
-  boardExpandSeconds: number
+  forcedDropIntervalSec: number
+  boardExpandIntervalSec: number
 }>
 type LiveScore = {
   score: number
@@ -131,22 +131,31 @@ export default function App() {
   )
 
   const applyTimers = useCallback((timers: LiveTimers) => {
-    if (Number.isFinite(timers.forcedDropSeconds)) {
-      setForcedDropSeconds(Math.max(0, timers.forcedDropSeconds as number))
+    if (Number.isFinite(timers.forcedDropIntervalSec)) {
+      const nextInterval = Math.max(1, timers.forcedDropIntervalSec as number)
+      setForcedDropIntervalSec(nextInterval)
+      setForcedDropSeconds(Math.ceil(nextInterval * difficultyMultiplier[difficulty]))
     }
-    if (Number.isFinite(timers.boardExpandSeconds)) {
-      setBoardExpandSeconds(Math.max(0, timers.boardExpandSeconds as number))
+    if (Number.isFinite(timers.boardExpandIntervalSec)) {
+      const nextInterval = Math.max(1, timers.boardExpandIntervalSec as number)
+      setBoardExpandIntervalSec(nextInterval)
+      setBoardExpandSeconds(nextInterval)
     }
-  }, [])
+  }, [difficulty])
 
   const applyScore = useCallback((update: LiveScore) => {
     const nextScore = Math.max(0, update.score)
+    const nextPlacements = Math.floor(nextScore / pointsPerGoodMove)
     setScore(nextScore)
+    setPlacements(nextPlacements)
     setLevel(() => {
       const nextLevel = Math.floor(nextScore / pointsPerLevel) + 1
       return nextLevel > maxLevels ? maxLevels : nextLevel
     })
-  }, [maxLevels])
+    if (isRunning && nextPlacements >= maxPlacements) {
+      setStatus('ended')
+    }
+  }, [isRunning, maxLevels, maxPlacements])
 
   const startGame = () => {
     setStatus('running')
@@ -210,17 +219,39 @@ export default function App() {
 
   useEffect(() => {
     if (!isRunning) return
-    const source = new EventSource('/api/config/stream')
-    source.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data) as LiveConfig
-        applyConfig(data, false)
-      } catch {
-        return
+    let source: EventSource | null = null
+    let retryId: number | null = null
+
+    const connect = () => {
+      source = new EventSource('/api/config/stream')
+      source.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data) as LiveConfig
+          applyConfig(data, false)
+        } catch {
+          return
+        }
+      }
+      source.onerror = () => {
+        if (source) {
+          source.close()
+        }
+        if (retryId) {
+          window.clearTimeout(retryId)
+        }
+        retryId = window.setTimeout(connect, 1000)
       }
     }
+
+    connect()
+
     return () => {
-      source.close()
+      if (source) {
+        source.close()
+      }
+      if (retryId) {
+        window.clearTimeout(retryId)
+      }
     }
   }, [applyConfig, isRunning])
 
@@ -306,11 +337,11 @@ export default function App() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        forcedDropSeconds,
-        boardExpandSeconds
+        forcedDropIntervalSec,
+        boardExpandIntervalSec
       })
     })
-  }, [isRunning, forcedDropSeconds, boardExpandSeconds])
+  }, [isRunning, forcedDropIntervalSec, boardExpandIntervalSec])
 
   useEffect(() => {
     if (!isRunning) return

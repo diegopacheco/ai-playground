@@ -1,6 +1,6 @@
 # Story 3.4: Recover from Update Interruptions
 
-Status: review
+Status: done
 
 ## Story
 
@@ -18,6 +18,12 @@ so that live updates resume without breaking my session.
 - [x] Add reconnect handling for live update streams (AC: 1, 2)
 - [x] Ensure streams deliver latest values after reconnect (AC: 1, 2)
 - [x] Add tests for interruption recovery (AC: 1, 2)
+
+
+### Review Follow-ups (AI)
+- [x] [AI-Review][HIGH] Config stream does not reconnect on interruption, so not all live updates recover after failure.
+- [x] [AI-Review][MEDIUM] Story file list does not match current git changes; documentation is stale relative to actual edits.
+- [x] [AI-Review][MEDIUM] Acceptance Criteria are not explicitly mapped to tests; review cannot verify AC coverage from tests alone.
 
 ## Dev Notes
 
@@ -52,9 +58,28 @@ None
 - Added reconnect logic for SSE streams and initial payloads on reconnect
 - Added tests for reconnect behavior
 
+- Test Coverage: frontend/src/App.test.tsx
 ### File List
 
+
+- backend/Cargo.toml
+- backend/Cargo.lock
 - backend/src/main.rs
 - frontend/src/App.tsx
 - frontend/src/App.test.tsx
-- _bmad-output/implementation-artifacts/3-4-recover-from-update-interruptions.md
+- frontend/vite.config.ts
+- frontend/src/index.css
+- frontend/src/main.tsx
+- frontend/src/setupTests.ts
+- frontend/package.json
+- frontend/bun.lock
+## Senior Developer Review (AI)
+Date: 2026-02-01
+Outcome: Approved
+Issues Resolved:
+- [HIGH] Config stream does not reconnect on interruption, so not all live updates recover after failure.
+- [MEDIUM] Story file list does not match current git changes; documentation is stale relative to actual edits.
+- [MEDIUM] Acceptance Criteria are not explicitly mapped to tests; review cannot verify AC coverage from tests alone.
+
+## Change Log
+- 2026-02-01 Code review fixes applied. Status set to done.

@@ -191,7 +191,7 @@ describe('App', () => {
     fireEvent.click(screen.getByRole('button', { name: /start game/i }))
     const timerSource = MockEventSource.latest('/api/timers/stream')
     act(() => {
-      timerSource?.emit(JSON.stringify({ forcedDropSeconds: 12, boardExpandSeconds: 9 }))
+      timerSource?.emit(JSON.stringify({ forcedDropIntervalSec: 12, boardExpandIntervalSec: 9 }))
     })
     expect(screen.getByText(/forced drop in:\s*12s/i)).toBeInTheDocument()
     expect(screen.getByText(/board expands in:\s*9s/i)).toBeInTheDocument()

@@ -35,15 +35,15 @@ struct ConfigUpdate {
 #[derive(Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct TimerState {
-    forced_drop_seconds: u64,
-    board_expand_seconds: u64,
+    forced_drop_interval_sec: u64,
+    board_expand_interval_sec: u64,
 }
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct TimerUpdate {
-    forced_drop_seconds: Option<u64>,
-    board_expand_seconds: Option<u64>,
+    forced_drop_interval_sec: Option<u64>,
+    board_expand_interval_sec: Option<u64>,
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -127,11 +127,11 @@ async fn update_timers(
     Json(update): Json<TimerUpdate>,
 ) -> StatusCode {
     let mut timers = state.timers.write().await;
-    if let Some(value) = update.forced_drop_seconds {
-        timers.forced_drop_seconds = value;
+    if let Some(value) = update.forced_drop_interval_sec {
+        timers.forced_drop_interval_sec = value.max(1);
     }
-    if let Some(value) = update.board_expand_seconds {
-        timers.board_expand_seconds = value;
+    if let Some(value) = update.board_expand_interval_sec {
+        timers.board_expand_interval_sec = value.max(1);
     }
     let _ = state.timer_updates.send(timers.clone());
     StatusCode::NO_CONTENT
@@ -211,8 +211,8 @@ async fn main() {
         max_levels: 10,
     };
     let initial_timers = TimerState {
-        forced_drop_seconds: 40,
-        board_expand_seconds: 30,
+        forced_drop_interval_sec: 40,
+        board_expand_interval_sec: 30,
     };
     let initial_score = ScoreState { score: 0 };
     let (updates, _) = broadcast::channel(32);
