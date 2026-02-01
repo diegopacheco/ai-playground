@@ -66,6 +66,7 @@ https://github.com/diegopacheco/ai-playground/tree/main/agents/claude-for-chrome
 18 - Advanced Claude Code <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/agents/claude-code
 
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
@@ -114,3 +115,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-debate-club <
 
 15 - Weather Agent: Using Github Copilot SDK for Rust and Tool Call <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/copilot_sdk_rust_fun
+
+16 - CrewAI POC <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/crewai-poc/agent_poc_crewai
+
+17 - Java 25 Embabel Agent Blog Writter <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-embabel-agent
