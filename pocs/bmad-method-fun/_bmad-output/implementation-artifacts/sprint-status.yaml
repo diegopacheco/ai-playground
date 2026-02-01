@@ -50,7 +50,7 @@ development_status:
   epic-1-retrospective: optional
   epic-2: backlog
   2-1-access-admin-configuration-interface: review
-  2-2-update-level-backgrounds: ready-for-dev
+  2-2-update-level-backgrounds: review
   2-3-update-timers: backlog
   2-4-update-difficulty-settings: backlog
   2-5-update-number-of-levels: backlog

@@ -75,7 +75,15 @@ describe('App', () => {
     render(<App />)
     fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
     expect(screen.getByRole('region', { name: /admin configuration/i })).toBeInTheDocument()
-    expect(screen.getByText(/level backgrounds/i)).toBeInTheDocument()
+    expect(screen.getByText(/background/i)).toBeInTheDocument()
     expect(screen.getByText(/timers/i)).toBeInTheDocument()
+  })
+
+  it('applies selected background to board', () => {
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    fireEvent.click(screen.getByRole('button', { name: /admin settings/i }))
+    fireEvent.change(screen.getByRole('combobox'), { target: { value: 'sunset' } })
+    expect(screen.getByTestId('board')).toHaveClass('sunset')
   })
 })

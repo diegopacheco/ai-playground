@@ -1,6 +1,6 @@
 # Story 2.2: Update Level Backgrounds
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -14,9 +14,9 @@ so that I can adjust the visual experience of the game.
 
 ## Tasks / Subtasks
 
-- [ ] Implement background selection control (AC: 1)
-  - [ ] Provide background options
-- [ ] Apply selected background to game view (AC: 1)
+- [x] Implement background selection control (AC: 1)
+  - [x] Provide background options
+- [x] Apply selected background to game view (AC: 1)
 
 ## Dev Notes
 
@@ -47,7 +47,17 @@ None
 ### Completion Notes List
 
 - Ultimate context engine analysis completed - comprehensive developer guide created
+- Implemented background selector and applied board theme
+- Added background selection test
+- Tests: bun run test:run
+- Lint: bun run lint
 
 ### File List
 
+- frontend/src/App.tsx
+- frontend/src/index.css
+- frontend/src/App.test.tsx
+- frontend/package.json
+- frontend/bun.lock
+- _bmad-output/implementation-artifacts/sprint-status.yaml
 - _bmad-output/implementation-artifacts/2-2-update-level-backgrounds.md
