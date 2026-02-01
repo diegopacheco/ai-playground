@@ -8,6 +8,7 @@ const maxPlacementsPerLevel = 10
 
 class MockEventSource {
   static instances: MockEventSource[] = []
+  static byUrl: Record<string, MockEventSource[]> = {}
   onmessage: ((event: { data: string }) => void) | null = null
   onerror: (() => void) | null = null
   url: string
@@ -15,6 +16,10 @@ class MockEventSource {
   constructor(url: string) {
     this.url = url
     MockEventSource.instances.push(this)
+    if (!MockEventSource.byUrl[url]) {
+      MockEventSource.byUrl[url] = []
+    }
+    MockEventSource.byUrl[url].push(this)
   }
 
   close() {}
@@ -24,6 +29,18 @@ class MockEventSource {
       this.onmessage({ data })
     }
   }
+
+  triggerError() {
+    if (this.onerror) {
+      this.onerror()
+    }
+  }
+
+  static latest(url: string) {
+    const list = MockEventSource.byUrl[url]
+    if (!list || list.length === 0) return null
+    return list[list.length - 1]
+  }
 }
 
 describe('App', () => {
@@ -32,6 +49,7 @@ describe('App', () => {
 
   beforeEach(() => {
     MockEventSource.instances = []
+    MockEventSource.byUrl = {}
     globalThis.EventSource = MockEventSource as unknown as typeof EventSource
     globalThis.fetch = vi.fn().mockResolvedValue({ ok: true })
   })
@@ -146,9 +164,9 @@ describe('App', () => {
       vi.advanceTimersByTime(forcedDropMs * (rows - 1))
     })
     expect(screen.getByText(/score:\s*10/i)).toBeInTheDocument()
-    const source = MockEventSource.instances[0]
+    const source = MockEventSource.latest('/api/config/stream')
     act(() => {
-      source.emit(
+      source?.emit(
         JSON.stringify({
           background: 'matrix',
           difficulty: 'hard',
@@ -164,6 +182,50 @@ describe('App', () => {
     expect(screen.getByText(/board expands in:\s*8s/i)).toBeInTheDocument()
     expect(screen.getByTestId('board')).toHaveClass('matrix')
     expect(screen.getByText(/placements:\s*1\//i)).toBeInTheDocument()
+    vi.useRealTimers()
+  })
+
+  it('receives live timer updates during a session', () => {
+    vi.useFakeTimers()
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    const timerSource = MockEventSource.latest('/api/timers/stream')
+    act(() => {
+      timerSource?.emit(JSON.stringify({ forcedDropSeconds: 12, boardExpandSeconds: 9 }))
+    })
+    expect(screen.getByText(/forced drop in:\s*12s/i)).toBeInTheDocument()
+    expect(screen.getByText(/board expands in:\s*9s/i)).toBeInTheDocument()
+    vi.useRealTimers()
+  })
+
+  it('receives live score updates during a session', () => {
+    vi.useFakeTimers()
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    const scoreSource = MockEventSource.latest('/api/score/stream')
+    act(() => {
+      scoreSource?.emit(JSON.stringify({ score: 120 }))
+    })
+    expect(screen.getByText(/score:\s*120/i)).toBeInTheDocument()
+    expect(screen.getByText(/level:\s*2/i)).toBeInTheDocument()
+    vi.useRealTimers()
+  })
+
+  it('reconnects after live update interruptions', () => {
+    vi.useFakeTimers()
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: /start game/i }))
+    const first = MockEventSource.latest('/api/score/stream')
+    act(() => {
+      first?.triggerError()
+      vi.advanceTimersByTime(1000)
+    })
+    const second = MockEventSource.latest('/api/score/stream')
+    expect(second).not.toBe(first)
+    act(() => {
+      second?.emit(JSON.stringify({ score: 30 }))
+    })
+    expect(screen.getByText(/score:\s*30/i)).toBeInTheDocument()
     vi.useRealTimers()
   })
 
