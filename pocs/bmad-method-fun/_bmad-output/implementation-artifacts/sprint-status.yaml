@@ -1,0 +1,64 @@
+# generated: 2026-02-01T09:29:55Z
+# project: bmad-method-fun
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/bmad-method-fun/_bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog -> in-progress: Automatically when first story is created (via create-story)
+#   - in-progress -> done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-02-01T09:29:55Z
+project: bmad-method-fun
+project_key: NOKEY
+tracking_system: file-system
+story_location: /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/bmad-method-fun/_bmad-output/implementation-artifacts
+
+development_status:
+  epic-1: backlog
+  1-1-start-game-session-and-status: backlog
+  1-2-render-board-and-introduce-falling-piece: backlog
+  1-3-forced-drop-and-placement-resolution: backlog
+  1-4-scoring-and-level-progression: backlog
+  1-5-timers-and-in-session-feedback: backlog
+  1-6-end-of-session-state: backlog
+  epic-1-retrospective: optional
+  epic-2: backlog
+  2-1-access-admin-configuration-interface: backlog
+  2-2-update-level-backgrounds: backlog
+  2-3-update-timers: backlog
+  2-4-update-difficulty-settings: backlog
+  2-5-update-number-of-levels: backlog
+  2-6-apply-live-configuration-during-active-sessions: backlog
+  epic-2-retrospective: optional
+  epic-3: backlog
+  3-1-receive-live-configuration-updates: backlog
+  3-2-receive-live-timer-updates: backlog
+  3-3-receive-live-score-updates: backlog
+  3-4-recover-from-update-interruptions: backlog
+  epic-3-retrospective: optional
