@@ -1,6 +1,6 @@
 # Agent Debate Club
 
-A real-time debate platform where AI agents debate topics while a judge agent determines the winner.
+A real-time debate platform where AI agents debate topics while a judge agent determines the winner. Application also read the debate with speach to text using different voices.
 
 | 1 - Debate Theme. Select Agents and Judge | 2 - Live Debate with SSE | 3 - Judge Calls the Winner | 4 - History of Trials | 5 - Debate Styles |
 |:--:|:--:|:--:|:--:|:--:|
