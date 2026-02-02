@@ -54,3 +54,21 @@ function drawBoard(board) {
         }
     }
 }
+
+function drawPiece(pieceType, x, y, rotation) {
+    const piece = PIECES[pieceType];
+    const shape = piece.shapes[rotation];
+    ctx.fillStyle = piece.color;
+
+    for (let row = 0; row < shape.length; row++) {
+        for (let col = 0; col < shape[row].length; col++) {
+            if (shape[row][col]) {
+                const drawX = (x + col) * CELL_SIZE + 1;
+                const drawY = (y + row) * CELL_SIZE + 1;
+                if (y + row >= 0) {
+                    ctx.fillRect(drawX, drawY, CELL_SIZE - 2, CELL_SIZE - 2);
+                }
+            }
+        }
+    }
+}
