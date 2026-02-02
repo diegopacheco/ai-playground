@@ -9,11 +9,11 @@
 | Phase | Name | Goal | Requirements | Status |
 |-------|------|------|--------------|--------|
 | 1 | Core Engine | Playable Tetris with all mechanics | 15 | ✓ Complete |
-| 2 | Scoring & Polish | Complete game feel with scoring, preview, hold | 9 | ○ Pending |
-| 3 | Themes & Admin | Admin panel with real-time control | 12 | ○ Pending |
+| 2 | Scoring & Polish | Complete game feel with scoring, preview, hold | 9 | ✓ Complete |
+| 3 | Themes & Admin | Admin panel with real-time control | 12 | ○ Planned |
 | 4 | Unique Mechanics | Freeze cycle and board growth | 5 | ○ Pending |
 
-**Total:** 4 phases | 37 requirements | 25% complete
+**Total:** 4 phases | 37 requirements | 50% complete
 
 ---
 
@@ -92,6 +92,14 @@
 - ADMN-07: All changes sync real-time
 - TECH-03: BroadcastChannel for sync
 
+**Plans:** 4 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Theme system foundation (themes.js, board refactor)
+- [ ] 03-02-PLAN.md — Theme-aware rendering (render.js refactor)
+- [ ] 03-03-PLAN.md — Sync infrastructure (BroadcastChannel, theme cycling)
+- [ ] 03-04-PLAN.md — Admin panel (admin.html, controls, live stats)
+
 **Success Criteria:**
 1. Admin panel opens in new tab
 2. Changing theme in admin instantly updates game colors
@@ -150,4 +158,4 @@ All phases are sequential — each builds on the previous.
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-02 after Phase 1 complete*
+*Last updated: 2026-02-02 after Phase 3 planned*
