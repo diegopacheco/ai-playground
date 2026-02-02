@@ -8,12 +8,12 @@
 
 | Phase | Name | Goal | Requirements | Status |
 |-------|------|------|--------------|--------|
-| 1 | Core Engine | Playable Tetris with all mechanics | 16 | ○ Pending |
+| 1 | Core Engine | Playable Tetris with all mechanics | 15 | ✓ Complete |
 | 2 | Scoring & Polish | Complete game feel with scoring, preview, hold | 9 | ○ Pending |
-| 3 | Themes & Admin | Admin panel with real-time control | 11 | ○ Pending |
+| 3 | Themes & Admin | Admin panel with real-time control | 12 | ○ Pending |
 | 4 | Unique Mechanics | Freeze cycle and board growth | 5 | ○ Pending |
 
-**Total:** 4 phases | 37 requirements | 0% complete
+**Total:** 4 phases | 37 requirements | 25% complete
 
 ---
 
@@ -150,4 +150,4 @@ All phases are sequential — each builds on the previous.
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-02*
+*Last updated: 2026-02-02 after Phase 1 complete*
