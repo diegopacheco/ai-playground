@@ -1,17 +1,12 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-cd frontend
-npm install &
-INSTALL_PID=$!
-
-cd ../backend
+cd backend
 deno run --allow-net server.ts &
 BACKEND_PID=$!
 
-wait $INSTALL_PID
 cd ../frontend
-npm run dev &
+deno run -A npm:vite &
 FRONTEND_PID=$!
 
 echo "Backend running on http://localhost:8000"
