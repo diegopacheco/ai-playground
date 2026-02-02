@@ -8,6 +8,8 @@
 </head>
 <body>
     <canvas id="game"></canvas>
+    <br>
+    <button id="admin-btn" style="margin-top: 10px; padding: 8px 16px; cursor: pointer; background: #2a2a4a; color: #fff; border: none; border-radius: 4px;">Open Admin Panel</button>
     <script src="js/pieces.js"></script>
     <script src="js/board.js"></script>
     <script src="js/themes.js"></script>
@@ -15,5 +17,10 @@
     <script src="js/render.js"></script>
     <script src="js/input.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        document.getElementById('admin-btn').addEventListener('click', function() {
+            window.open('admin.html', 'tetris-admin', 'width=400,height=600,resizable=yes');
+        });
+    </script>
 </body>
 </html>
