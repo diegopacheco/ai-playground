@@ -34,7 +34,6 @@ function isValidPosition(board, pieceType, x, y, rotation) {
 
 function lockPiece(board, piece) {
     const shape = PIECES[piece.type].shapes[piece.rotation];
-    const color = PIECES[piece.type].color;
 
     for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < shape[row].length; col++) {
@@ -42,7 +41,7 @@ function lockPiece(board, piece) {
                 const boardY = piece.y + row;
                 const boardX = piece.x + col;
                 if (boardY >= 0 && boardY < ROWS && boardX >= 0 && boardX < COLS) {
-                    board[boardY][boardX] = color;
+                    board[boardY][boardX] = piece.type;
                 }
             }
         }
