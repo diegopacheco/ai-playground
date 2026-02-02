@@ -34,6 +34,8 @@ board gets bigger. each goog move is 10 points, 100 points you goto next level.
     → Architecture research
     → Pitfalls research
 ```
+* replicate man SDLC but with subagents and less boring as BAMD-METHOD.
+* Sucks a lot of tokens (used 2 of subscription tokens)
 * 
 
 ## Result
