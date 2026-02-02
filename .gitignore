@@ -4,6 +4,9 @@ data/
 # Mac
 .DS_Store
 
+# node
+node_modules/
+
 # Llama models
 *.gguf
 

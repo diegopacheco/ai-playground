@@ -1,0 +1,11 @@
+{
+  "name": "claude-code-mcp-playwright-fun",
+  "version": "1.0.0",
+  "tasks": {
+    "start": "deno run src/main.ts",
+    "test": "deno test --allow-read"
+  },
+  "compilerOptions": {
+    "strict": true
+  }
+}
