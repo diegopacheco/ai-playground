@@ -1,9 +1,10 @@
 {
-  "name": "claude-code-mcp-playwright-fun",
+  "name": "product-manager",
   "version": "1.0.0",
   "tasks": {
-    "start": "deno run src/main.ts",
-    "test": "deno test --allow-read"
+    "backend": "cd backend && deno run --allow-net server.ts",
+    "frontend": "cd frontend && deno run -A npm:vite",
+    "test": "npx playwright test"
   },
   "compilerOptions": {
     "strict": true
