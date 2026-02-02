@@ -26,6 +26,14 @@ board gets bigger. each goog move is 10 points, 100 points you goto next level.
 * Easy to follow
 * Ask you questions, has combo for some questions.
 * You can choose if work is parallel or sequential.
+* GSD does Research:
+```
+⏺ ◆ Spawning 4 researchers in parallel...
+    → Stack research
+    → Features research
+    → Architecture research
+    → Pitfalls research
+```
 * 
 
 ## Result
