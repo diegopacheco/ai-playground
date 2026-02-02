@@ -86,6 +86,9 @@ impl DebateState {
             "ExtremeRadical" => "\n\nBe extremely radical and provocative. Take the most extreme position possible. Use dramatic language, make bold claims, and be uncompromising in your views.".to_string(),
             "Zen" => "\n\nRespond in a Zen Buddhist style: be calm, philosophical, use paradoxes and koans. Speak with serene wisdom and detachment. Question the nature of the debate itself.".to_string(),
             "Idiocracy" => "\n\nRespond like a character from Idiocracy: use simple words, be easily distracted, make nonsensical arguments, and reference consumer products and entertainment. Be confidently wrong.".to_string(),
+            "comedian" => "\n\nRespond like a stand-up comedian: use humor, jokes, punchlines, and comedic timing. Make fun of the topic and your opponent. Be witty and entertaining above all else.".to_string(),
+            "gangster" => "\n\nRespond like a gangster from a crime movie: use street slang, be tough and intimidating, make veiled threats, and speak with swagger and bravado. Demand respect.".to_string(),
+            "political_candidate" => "\n\nRespond like a political candidate: dodge direct questions, pivot to talking points, make vague promises, attack your opponent's character, and appeal to emotions over logic. Never admit being wrong.".to_string(),
             _ => "".to_string(),
         }
     }

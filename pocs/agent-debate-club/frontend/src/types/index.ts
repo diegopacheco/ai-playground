@@ -42,9 +42,9 @@ export interface DebateWithMessages extends Debate {
   messages: Message[];
 }
 
-export type DebateStyle = 'neutral' | 'ArthurSchopenhauer' | 'ExtremeRadical' | 'Zen' | 'Idiocracy';
+export type DebateStyle = 'neutral' | 'ArthurSchopenhauer' | 'ExtremeRadical' | 'Zen' | 'Idiocracy' | 'comedian' | 'gangster' | 'political_candidate';
 
-export const DEBATE_STYLES: DebateStyle[] = ['neutral', 'ArthurSchopenhauer', 'ExtremeRadical', 'Zen', 'Idiocracy'];
+export const DEBATE_STYLES: DebateStyle[] = ['neutral', 'ArthurSchopenhauer', 'ExtremeRadical', 'Zen', 'Idiocracy', 'comedian', 'gangster', 'political_candidate'];
 
 export interface CreateDebateRequest {
   topic: string;
