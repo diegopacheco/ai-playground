@@ -44,8 +44,7 @@ function drawBoard(board) {
     for (let row = 0; row < ROWS; row++) {
         for (let col = 0; col < COLS; col++) {
             if (board[row][col]) {
-                const pieceType = board[row][col];
-                ctx.fillStyle = PIECES[pieceType].color;
+                ctx.fillStyle = currentTheme.colors[board[row][col]];
                 ctx.fillRect(
                     col * CELL_SIZE + 1,
                     row * CELL_SIZE + 1,
