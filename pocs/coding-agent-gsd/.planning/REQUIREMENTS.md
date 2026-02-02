@@ -107,15 +107,15 @@
 | CORE-09 | Phase 1 | Complete |
 | CORE-10 | Phase 1 | Complete |
 | CORE-11 | Phase 1 | Complete |
-| EHNC-01 | Phase 2 | Pending |
-| EHNC-02 | Phase 2 | Pending |
-| EHNC-03 | Phase 2 | Pending |
-| EHNC-04 | Phase 2 | Pending |
-| SCOR-01 | Phase 2 | Pending |
-| SCOR-02 | Phase 2 | Pending |
-| SCOR-03 | Phase 2 | Pending |
-| SCOR-04 | Phase 2 | Pending |
-| SCOR-05 | Phase 2 | Pending |
+| EHNC-01 | Phase 2 | Complete |
+| EHNC-02 | Phase 2 | Complete |
+| EHNC-03 | Phase 2 | Complete |
+| EHNC-04 | Phase 2 | Complete |
+| SCOR-01 | Phase 2 | Complete |
+| SCOR-02 | Phase 2 | Complete |
+| SCOR-03 | Phase 2 | Complete |
+| SCOR-04 | Phase 2 | Complete |
+| SCOR-05 | Phase 2 | Complete |
 | THEM-01 | Phase 3 | Pending |
 | THEM-02 | Phase 3 | Pending |
 | THEM-03 | Phase 3 | Pending |
@@ -145,4 +145,4 @@
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-02 after Phase 1 complete*
+*Last updated: 2026-02-02 after Phase 2 complete*

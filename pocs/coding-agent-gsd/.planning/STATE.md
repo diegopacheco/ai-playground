@@ -2,26 +2,26 @@
 
 ## Current Position
 
-**Phase:** Phase 1 complete, ready to start Phase 2
-**Status:** Core engine implemented and verified
-**Next Action:** `/gsd:plan-phase 2`
+**Phase:** Phase 2 complete, ready to start Phase 3
+**Status:** Scoring and polish features implemented
+**Next Action:** `/gsd:plan-phase 3`
 
 ## Project Reference
 
 See: .planning/PROJECT.md (updated 2026-02-02)
 
 **Core value:** Real-time admin control loop — admin tweaks, player experiences instantly
-**Current focus:** Phase 2 - Scoring & Polish
+**Current focus:** Phase 3 - Themes & Admin
 
 ## Progress
 
 ```
 Phase 1: Core Engine        ██████████ 100%
-Phase 2: Scoring & Polish   ░░░░░░░░░░ 0%
+Phase 2: Scoring & Polish   ██████████ 100%
 Phase 3: Themes & Admin     ░░░░░░░░░░ 0%
 Phase 4: Unique Mechanics   ░░░░░░░░░░ 0%
 ─────────────────────────────────────────
-Overall:                    ██░░░░░░░░ 25%
+Overall:                    █████░░░░░ 50%
 ```
 
 ## Recent Activity
@@ -35,6 +35,9 @@ Overall:                    ██░░░░░░░░ 25%
 | 2026-02-02 | Phase 1 planned | 3 plans across 3 waves |
 | 2026-02-02 | Phase 1 executed | Canvas, pieces, game loop complete |
 | 2026-02-02 | Phase 1 verified | 15/15 requirements verified |
+| 2026-02-02 | Phase 2 planned | 3 plans across 3 waves |
+| 2026-02-02 | Phase 2 executed | Sidebar, score, ghost, hold, pause |
+| 2026-02-02 | Phase 2 verified | 9/9 requirements verified |
 
 ## Key Decisions
 
@@ -47,6 +50,8 @@ Overall:                    ██░░░░░░░░ 25%
 | 7-bag randomizer | Standard Tetris fairness | 1 |
 | 500ms lock delay | Allows last-second moves | 1 |
 | SRS wall kicks | Standard rotation system | 1 |
+| 120px sidebar | Room for NEXT, HOLD, SCORE, LEVEL | 2 |
+| C/Shift for hold | Common Tetris convention | 2 |
 
 ## Open Questions
 
@@ -55,7 +60,7 @@ None currently.
 ## Session Continuity
 
 **Last worked:** 2026-02-02
-**Context:** Phase 1 complete. Game is playable with all core mechanics. Ready for scoring and polish.
+**Context:** Phase 2 complete. Game has sidebar with score/level/next/hold displays, ghost piece, and pause functionality. Ready for themes and admin panel.
 
 ---
-*State updated: 2026-02-02 after Phase 1 complete*
+*State updated: 2026-02-02 after Phase 2 complete*
