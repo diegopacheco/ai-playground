@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useAgents } from '../hooks/useDebates';
 import { createDebate } from '../api/debates';
-import { AGENT_INFO } from '../types';
+import { AGENT_INFO, DEBATE_STYLES } from '../types';
+import type { DebateStyle } from '../types';
 
 interface ThemeSetupProps {
   onDebateStarted: (debateId: string, duration: number, topic: string, agentA: string, agentB: string, judge: string) => void;
@@ -15,6 +16,8 @@ export function ThemeSetup({ onDebateStarted }: ThemeSetupProps) {
   const [judge, setJudge] = useState('claude');
   const [duration, setDuration] = useState(60);
   const [isLoading, setIsLoading] = useState(false);
+  const [styleA, setStyleA] = useState<DebateStyle>('neutral');
+  const [styleB, setStyleB] = useState<DebateStyle>('neutral');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +31,8 @@ export function ThemeSetup({ onDebateStarted }: ThemeSetupProps) {
         agent_b: agentB,
         agent_judge: judge,
         duration_seconds: duration,
+        style_a: styleA,
+        style_b: styleB,
       });
       onDebateStarted(response.id, duration, topic.trim(), agentA, agentB, judge);
     } catch {
@@ -71,6 +76,16 @@ export function ThemeSetup({ onDebateStarted }: ThemeSetupProps) {
               <div className="mt-1 text-sm text-gray-400">
                 Model: <span style={{ color: AGENT_INFO[agentA]?.color }}>{AGENT_INFO[agentA]?.model}</span>
               </div>
+              <label className="block text-gray-300 mt-2 mb-1">Style A</label>
+              <select
+                value={styleA}
+                onChange={(e) => setStyleA(e.target.value as DebateStyle)}
+                className="w-full px-4 py-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {DEBATE_STYLES.map((style) => (
+                  <option key={style} value={style}>{style}</option>
+                ))}
+              </select>
             </div>
             <div>
               <label className="block text-gray-300 mb-2">Agent B</label>
@@ -88,6 +103,16 @@ export function ThemeSetup({ onDebateStarted }: ThemeSetupProps) {
               <div className="mt-1 text-sm text-gray-400">
                 Model: <span style={{ color: AGENT_INFO[agentB]?.color }}>{AGENT_INFO[agentB]?.model}</span>
               </div>
+              <label className="block text-gray-300 mt-2 mb-1">Style B</label>
+              <select
+                value={styleB}
+                onChange={(e) => setStyleB(e.target.value as DebateStyle)}
+                className="w-full px-4 py-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {DEBATE_STYLES.map((style) => (
+                  <option key={style} value={style}>{style}</option>
+                ))}
+              </select>
             </div>
           </div>
 

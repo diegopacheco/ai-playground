@@ -9,6 +9,8 @@ pub struct DebateState {
     pub duration_seconds: i64,
     pub messages: Vec<MessageRecord>,
     pub current_agent: CurrentAgent,
+    pub style_a: String,
+    pub style_b: String,
 }
 
 #[derive(Clone, Copy, PartialEq)]
@@ -34,6 +36,8 @@ impl DebateState {
         agent_b: String,
         agent_judge: String,
         duration_seconds: i64,
+        style_a: String,
+        style_b: String,
     ) -> Self {
         Self {
             debate_id,
@@ -44,6 +48,8 @@ impl DebateState {
             duration_seconds,
             messages: Vec::new(),
             current_agent: CurrentAgent::A,
+            style_a,
+            style_b,
         }
     }
 
@@ -61,9 +67,27 @@ impl DebateState {
         }
     }
 
+    pub fn current_style(&self) -> &str {
+        match self.current_agent {
+            CurrentAgent::A => &self.style_a,
+            CurrentAgent::B => &self.style_b,
+        }
+    }
+
     pub fn add_message(&mut self, msg: MessageRecord) {
         self.messages.push(msg);
         self.current_agent = self.current_agent.switch();
+    }
+
+    fn get_style_prompt(&self) -> String {
+        let style = self.current_style();
+        match style {
+            "ArthurSchopenhauer" => "\n\nAdopt the style of Arthur Schopenhauer: use rhetorical tricks, sophistry, and clever stratagems to win the argument regardless of truth. Be cynical, pessimistic, and use sharp wit.".to_string(),
+            "ExtremeRadical" => "\n\nBe extremely radical and provocative. Take the most extreme position possible. Use dramatic language, make bold claims, and be uncompromising in your views.".to_string(),
+            "Zen" => "\n\nRespond in a Zen Buddhist style: be calm, philosophical, use paradoxes and koans. Speak with serene wisdom and detachment. Question the nature of the debate itself.".to_string(),
+            "Idiocracy" => "\n\nRespond like a character from Idiocracy: use simple words, be easily distracted, make nonsensical arguments, and reference consumer products and entertainment. Be confidently wrong.".to_string(),
+            _ => "".to_string(),
+        }
     }
 
     pub fn build_debater_prompt(&self) -> String {
@@ -77,6 +101,8 @@ impl DebateState {
                 .join("\n")
         };
 
+        let style_instruction = self.get_style_prompt();
+
         format!(
             r#"You are Agent {} in a debate about: "{}"
 
@@ -87,10 +113,11 @@ Respond with your argument. Start with [ATTACK] or [DEFENSE]:
 - ATTACK: Challenge the opposing view
 - DEFENSE: Defend your position
 
-Keep response to 2-3 sentences. Be persuasive."#,
+Keep response to 2-3 sentences. Be persuasive.{}"#,
             self.current_agent_label(),
             self.topic,
-            history
+            history,
+            style_instruction
         )
     }
 

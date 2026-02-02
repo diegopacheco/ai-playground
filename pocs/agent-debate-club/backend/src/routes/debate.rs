@@ -53,6 +53,8 @@ pub async fn create_debate(
             req.agent_b,
             req.agent_judge,
             req.duration_seconds,
+            req.style_a,
+            req.style_b,
         );
 
         let engine = DebateEngine::new(pool, broadcaster);
