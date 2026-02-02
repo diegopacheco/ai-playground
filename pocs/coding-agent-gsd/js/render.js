@@ -59,7 +59,7 @@ function drawBoard(board) {
 function drawPiece(pieceType, x, y, rotation) {
     const piece = PIECES[pieceType];
     const shape = piece.shapes[rotation];
-    ctx.fillStyle = piece.color;
+    ctx.fillStyle = currentTheme.colors[pieceType];
 
     for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < shape[row].length; col++) {
@@ -98,10 +98,10 @@ function drawGameOver() {
 
 function drawSidebar() {
     const sidebarX = COLS * CELL_SIZE;
-    ctx.fillStyle = '#16162a';
+    ctx.fillStyle = currentTheme.colors.sidebar;
     ctx.fillRect(sidebarX, 0, SIDEBAR_WIDTH, ROWS * CELL_SIZE);
 
-    ctx.strokeStyle = '#2a2a4a';
+    ctx.strokeStyle = currentTheme.colors.grid;
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(sidebarX, 0);
@@ -138,7 +138,7 @@ function drawGhost(pieceType, x, ghostY, rotation) {
     const shape = piece.shapes[rotation];
 
     ctx.globalAlpha = 0.3;
-    ctx.fillStyle = piece.color;
+    ctx.fillStyle = currentTheme.colors[pieceType];
 
     for (let row = 0; row < shape.length; row++) {
         for (let col = 0; col < shape[row].length; col++) {
@@ -169,7 +169,7 @@ function drawNextPreview(pieceType) {
     const boxY = 45;
     const boxSize = SIDEBAR_WIDTH - 20;
 
-    ctx.strokeStyle = '#2a2a4a';
+    ctx.strokeStyle = currentTheme.colors.grid;
     ctx.lineWidth = 2;
     ctx.strokeRect(boxX, boxY, boxSize, boxSize);
 
@@ -183,7 +183,7 @@ function drawNextPreview(pieceType) {
         const offsetX = boxX + (boxSize - pieceWidth) / 2;
         const offsetY = boxY + (boxSize - pieceHeight) / 2;
 
-        ctx.fillStyle = piece.color;
+        ctx.fillStyle = currentTheme.colors[pieceType];
         for (let row = 0; row < shape.length; row++) {
             for (let col = 0; col < shape[row].length; col++) {
                 if (shape[row][col]) {
@@ -213,9 +213,11 @@ function drawHoldPreview(pieceType, canHold) {
     const boxY = 185;
     const boxSize = SIDEBAR_WIDTH - 20;
 
-    ctx.strokeStyle = canHold ? '#2a2a4a' : '#1a1a2a';
+    ctx.strokeStyle = currentTheme.colors.grid;
+    ctx.globalAlpha = canHold ? 1.0 : 0.3;
     ctx.lineWidth = 2;
     ctx.strokeRect(boxX, boxY, boxSize, boxSize);
+    ctx.globalAlpha = 1.0;
 
     if (pieceType) {
         const piece = PIECES[pieceType];
@@ -228,7 +230,7 @@ function drawHoldPreview(pieceType, canHold) {
         const offsetY = boxY + (boxSize - pieceHeight) / 2;
 
         ctx.globalAlpha = canHold ? 1.0 : 0.4;
-        ctx.fillStyle = piece.color;
+        ctx.fillStyle = currentTheme.colors[pieceType];
         for (let row = 0; row < shape.length; row++) {
             for (let col = 0; col < shape[row].length; col++) {
                 if (shape[row][col]) {
