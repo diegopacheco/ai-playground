@@ -1,5 +1,8 @@
 let board;
 let currentPiece = null;
+let nextPiece = null;
+let heldPiece = null;
+let canHold = true;
 let bag = [];
 let lastTime = 0;
 let dropCounter = 0;
@@ -8,9 +11,68 @@ let lockCounter = 0;
 let lockDelay = 500;
 let isLocking = false;
 let gameOver = false;
+let isPaused = false;
 let score = 0;
+let level = 1;
 let clearingLines = [];
 let clearingTimer = 0;
+
+function calculateLevel() {
+    return Math.floor(score / 100) + 1;
+}
+
+function checkLevelUp() {
+    const newLevel = calculateLevel();
+    if (newLevel > level) {
+        level = newLevel;
+        onLevelUp();
+    }
+}
+
+function onLevelUp() {
+    console.log('Level up to ' + level);
+}
+
+function getGhostY(piece) {
+    let ghostY = piece.y;
+    while (isValidPosition(board, piece.type, piece.x, ghostY + 1, piece.rotation)) {
+        ghostY++;
+    }
+    return ghostY;
+}
+
+function holdPiece() {
+    if (!canHold || !currentPiece) return;
+
+    const currentType = currentPiece.type;
+
+    if (heldPiece === null) {
+        heldPiece = currentType;
+        spawnPiece();
+    } else {
+        const tempType = heldPiece;
+        heldPiece = currentType;
+
+        const piece = PIECES[tempType];
+        const shape = piece.shapes[0];
+        const startX = Math.floor((COLS - shape[0].length) / 2);
+
+        currentPiece = {
+            type: tempType,
+            x: startX,
+            y: 0,
+            rotation: 0
+        };
+    }
+
+    canHold = false;
+    isLocking = false;
+    lockCounter = 0;
+}
+
+function togglePause() {
+    isPaused = !isPaused;
+}
 
 function shuffleBag() {
     bag = [...PIECE_TYPES];
@@ -28,7 +90,15 @@ function getNextPiece() {
 }
 
 function spawnPiece() {
-    const type = getNextPiece();
+    canHold = true;
+
+    if (nextPiece === null) {
+        nextPiece = getNextPiece();
+    }
+
+    const type = nextPiece;
+    nextPiece = getNextPiece();
+
     const piece = PIECES[type];
     const shape = piece.shapes[0];
     const startX = Math.floor((COLS - shape[0].length) / 2);
@@ -111,11 +181,20 @@ function lockPieceToBoard() {
 }
 
 function processInput() {
+    const input = getInput();
+
+    if (input.pause) {
+        togglePause();
+        return;
+    }
+
+    if (isPaused) return;
     if (gameOver || clearingLines.length > 0) return;
     if (!currentPiece) return;
 
-    const input = getInput();
-
+    if (input.hold) {
+        holdPiece();
+    }
     if (input.left) {
         movePiece(-1, 0);
     }
@@ -137,6 +216,7 @@ function processInput() {
 
 function update(deltaTime) {
     if (gameOver) return;
+    if (isPaused) return;
 
     if (clearingLines.length > 0) {
         clearingTimer -= deltaTime;
@@ -144,6 +224,7 @@ function update(deltaTime) {
             const result = clearLines(board, clearingLines);
             board = result.board;
             score += result.linesCleared * 10;
+            checkLevelUp();
             clearingLines = [];
             spawnPiece();
         }
@@ -183,7 +264,20 @@ function render() {
     }
 
     if (currentPiece) {
+        const ghostY = getGhostY(currentPiece);
+        if (ghostY !== currentPiece.y) {
+            drawGhost(currentPiece.type, currentPiece.x, ghostY, currentPiece.rotation);
+        }
         drawPiece(currentPiece.type, currentPiece.x, currentPiece.y, currentPiece.rotation);
+    }
+
+    drawSidebar();
+    drawScore(score, level);
+    drawNextPreview(nextPiece);
+    drawHoldPreview(heldPiece, canHold);
+
+    if (isPaused) {
+        drawPaused();
     }
 
     if (gameOver) {
@@ -194,8 +288,13 @@ function render() {
 function resetGame() {
     board = createBoard();
     bag = [];
+    nextPiece = null;
+    heldPiece = null;
+    canHold = true;
     score = 0;
+    level = 1;
     gameOver = false;
+    isPaused = false;
     clearingLines = [];
     clearingTimer = 0;
     dropCounter = 0;

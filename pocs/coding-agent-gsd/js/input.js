@@ -27,7 +27,9 @@ function getInput() {
         right: false,
         down: false,
         rotate: false,
-        hardDrop: false
+        hardDrop: false,
+        hold: false,
+        pause: false
     };
 
     if (keys['ArrowLeft']) {
@@ -78,6 +80,23 @@ function getInput() {
         const timer = keyTimers['Space'];
         if (timer && timer.lastRepeat === 0) {
             input.hardDrop = true;
+            timer.lastRepeat = now;
+        }
+    }
+
+    if (keys['KeyC'] || keys['ShiftLeft'] || keys['ShiftRight']) {
+        const keyCode = keys['KeyC'] ? 'KeyC' : (keys['ShiftLeft'] ? 'ShiftLeft' : 'ShiftRight');
+        const timer = keyTimers[keyCode];
+        if (timer && timer.lastRepeat === 0) {
+            input.hold = true;
+            timer.lastRepeat = now;
+        }
+    }
+
+    if (keys['KeyP']) {
+        const timer = keyTimers['KeyP'];
+        if (timer && timer.lastRepeat === 0) {
+            input.pause = true;
             timer.lastRepeat = now;
         }
     }
