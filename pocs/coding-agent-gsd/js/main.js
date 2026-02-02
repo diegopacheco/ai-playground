@@ -18,6 +18,7 @@ let clearingLines = [];
 let clearingTimer = 0;
 let pointsPerRow = 10;
 let boardGrowthInterval = 30000;
+let themeIndex = 0;
 
 function calculateLevel() {
     return Math.floor(score / 100) + 1;
@@ -32,7 +33,10 @@ function checkLevelUp() {
 }
 
 function onLevelUp() {
-    console.log('Level up to ' + level);
+    themeIndex = (themeIndex + 1) % THEME_ORDER.length;
+    var newTheme = THEME_ORDER[themeIndex];
+    applyTheme(newTheme);
+    sendMessage('THEME_CHANGE', { themeName: newTheme });
 }
 
 function getGhostY(piece) {
