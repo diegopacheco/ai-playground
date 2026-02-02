@@ -13,6 +13,11 @@ Prompt
 using playright can you test all feature of @features.md and produce a report?
 ```
 
+Result: [test-report.md](test-report.md) and [test-report-screenshot.png](.playwright-mcp/test-report-screenshot.png)
+
+<img src=".playwright-mcp/test-report-screenshot.png" wi
+dth="400"/>
+
 ## Generating Tests
 
 ```
