@@ -19,10 +19,10 @@ function setupCanvas() {
 }
 
 function drawGrid() {
-    ctx.fillStyle = '#0f0f1a';
+    ctx.fillStyle = currentTheme.colors.background;
     ctx.fillRect(0, 0, COLS * CELL_SIZE, ROWS * CELL_SIZE);
 
-    ctx.strokeStyle = '#2a2a4a';
+    ctx.strokeStyle = currentTheme.colors.grid;
     ctx.lineWidth = 1;
 
     for (let col = 0; col <= COLS; col++) {
