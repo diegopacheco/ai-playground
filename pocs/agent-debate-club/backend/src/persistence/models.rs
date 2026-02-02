@@ -31,6 +31,14 @@ pub struct CreateDebateRequest {
     pub agent_b: String,
     pub agent_judge: String,
     pub duration_seconds: i64,
+    #[serde(default = "default_style")]
+    pub style_a: String,
+    #[serde(default = "default_style")]
+    pub style_b: String,
+}
+
+fn default_style() -> String {
+    "neutral".to_string()
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

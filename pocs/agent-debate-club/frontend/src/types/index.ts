@@ -42,12 +42,18 @@ export interface DebateWithMessages extends Debate {
   messages: Message[];
 }
 
+export type DebateStyle = 'neutral' | 'ArthurSchopenhauer' | 'ExtremeRadical' | 'Zen' | 'Idiocracy';
+
+export const DEBATE_STYLES: DebateStyle[] = ['neutral', 'ArthurSchopenhauer', 'ExtremeRadical', 'Zen', 'Idiocracy'];
+
 export interface CreateDebateRequest {
   topic: string;
   agent_a: string;
   agent_b: string;
   agent_judge: string;
   duration_seconds: number;
+  style_a: DebateStyle;
+  style_b: DebateStyle;
 }
 
 export interface CreateDebateResponse {
