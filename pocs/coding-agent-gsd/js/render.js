@@ -72,3 +72,25 @@ function drawPiece(pieceType, x, y, rotation) {
         }
     }
 }
+
+function drawClearingLines(lines) {
+    ctx.fillStyle = '#ffffff';
+    for (const row of lines) {
+        ctx.fillRect(0, row * CELL_SIZE, COLS * CELL_SIZE, CELL_SIZE);
+    }
+}
+
+function drawGameOver() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    ctx.fillRect(0, 0, COLS * CELL_SIZE, ROWS * CELL_SIZE);
+
+    ctx.fillStyle = '#ff0000';
+    ctx.font = 'bold 36px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('GAME OVER', (COLS * CELL_SIZE) / 2, (ROWS * CELL_SIZE) / 2 - 20);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '18px Arial';
+    ctx.fillText('Press R to restart', (COLS * CELL_SIZE) / 2, (ROWS * CELL_SIZE) / 2 + 20);
+}
