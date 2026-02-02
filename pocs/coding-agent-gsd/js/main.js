@@ -16,6 +16,8 @@ let score = 0;
 let level = 1;
 let clearingLines = [];
 let clearingTimer = 0;
+let pointsPerRow = 10;
+let boardGrowthInterval = 30000;
 
 function calculateLevel() {
     return Math.floor(score / 100) + 1;
@@ -223,7 +225,7 @@ function update(deltaTime) {
         if (clearingTimer <= 0) {
             const result = clearLines(board, clearingLines);
             board = result.board;
-            score += result.linesCleared * 10;
+            score += result.linesCleared * pointsPerRow;
             checkLevelUp();
             clearingLines = [];
             spawnPiece();
@@ -308,6 +310,41 @@ document.addEventListener('DOMContentLoaded', function() {
     setupInput();
     board = createBoard();
     spawnPiece();
+
+    channel.onmessage = function(event) {
+        var data = event.data;
+        var type = data.type;
+        var payload = data.payload;
+
+        if (type === 'THEME_CHANGE') {
+            applyTheme(payload.themeName);
+        }
+        else if (type === 'SPEED_CHANGE') {
+            dropInterval = payload.dropInterval;
+        }
+        else if (type === 'POINTS_CHANGE') {
+            pointsPerRow = payload.pointsPerRow;
+        }
+        else if (type === 'GROWTH_INTERVAL_CHANGE') {
+            boardGrowthInterval = payload.interval;
+        }
+        else if (type === 'STATS_REQUEST') {
+            var currentThemeName = 'classic';
+            for (var key in THEMES) {
+                if (THEMES[key] === currentTheme) {
+                    currentThemeName = key;
+                    break;
+                }
+            }
+            sendMessage('STATS_RESPONSE', {
+                score: score,
+                level: level,
+                theme: currentThemeName,
+                paused: isPaused,
+                gameOver: gameOver
+            });
+        }
+    };
 
     document.addEventListener('keydown', function(e) {
         if (gameOver && e.code === 'KeyR') {
