@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Twist - Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #16162a;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #00ffff;
+        }
+        .section {
+            background: #1a1a3a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #ffff00;
+        }
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            background: #2a2a4a;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #00ffff;
+            border-radius: 50%;
+        }
+        .slider-value {
+            min-width: 80px;
+            text-align: right;
+            font-family: monospace;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .stat-item {
+            background: #0f0f1a;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ffff;
+        }
+        .stat-value.theme {
+            font-size: 16px;
+            text-transform: capitalize;
+        }
+        .stat-value.status {
+            font-size: 14px;
+        }
+        .stat-value.status.playing { color: #00ff00; }
+        .stat-value.status.paused { color: #ffff00; }
+        .stat-value.status.gameover { color: #ff0000; }
+    </style>
+</head>
+<body>
+    <h1>Admin Panel</h1>
+
+    <div class="section">
+        <h2>Theme</h2>
+        <div class="radio-group">
+            <label>
+                <input type="radio" name="theme" value="classic" checked>
+                Classic
+            </label>
+            <label>
+                <input type="radio" name="theme" value="neon">
+                Neon
+            </label>
+            <label>
+                <input type="radio" name="theme" value="retro">
+                Retro
+            </label>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Fall Speed</h2>
+        <div class="slider-container">
+            <div class="slider-row">
+                <input type="range" id="speed-slider" min="100" max="2000" value="1000" step="50">
+                <span id="speed-value" class="slider-value">1000ms</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Points Per Row</h2>
+        <div class="slider-container">
+            <div class="slider-row">
+                <input type="range" id="points-slider" min="1" max="50" value="10">
+                <span id="points-value" class="slider-value">10 pts</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Board Growth Interval</h2>
+        <div class="slider-container">
+            <div class="slider-row">
+                <input type="range" id="growth-slider" min="10000" max="120000" value="30000" step="5000">
+                <span id="growth-value" class="slider-value">30s</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Live Stats</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-label">SCORE</div>
+                <div id="stat-score" class="stat-value">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">LEVEL</div>
+                <div id="stat-level" class="stat-value">1</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">THEME</div>
+                <div id="stat-theme" class="stat-value theme">classic</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">STATUS</div>
+                <div id="stat-status" class="stat-value status playing">Playing</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
