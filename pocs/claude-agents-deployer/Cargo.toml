@@ -2,9 +2,10 @@
 name = "claude-agents-deployer"
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.93"
 
 [dependencies]
-dialoguer = "0.11"
-console = "0.15"
-dirs = "5.0"
+dialoguer = "0.12"
+console = "0.16.2"
+dirs = "6.0.0"
 walkdir = "2.5"
