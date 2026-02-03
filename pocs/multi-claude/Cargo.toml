@@ -1,0 +1,19 @@
+[package]
+name = "multi-claude"
+version = "0.1.0"
+authors = ["Diego.Pacheco"]
+edition = "2024"
+rust-version = "1.85"
+
+[dependencies]
+ratatui = "0.29"
+crossterm = "0.28"
+tokio = { version = "1.43", features = ["full"] }
+portable-pty = "0.8"
+uuid = { version = "1.11", features = ["v4"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+dirs = "6.0"
+anyhow = "1.0"
+vt100 = "0.15"
