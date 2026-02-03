@@ -121,6 +121,12 @@ Plans:
 - UNIQ-04: Growth is smooth, pieces stay in place
 - UNIQ-05: Board has maximum size limit
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Freeze cycle mechanics (state machine, overlay, countdown)
+- [ ] 04-02-PLAN.md — Board growth mechanics (dynamic height, canvas resize, max limit)
+
 **Success Criteria:**
 1. Game alternates between play and freeze states
 2. Freeze state shows countdown timer and grayed pieces
@@ -158,4 +164,4 @@ All phases are sequential — each builds on the previous.
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-02 after Phase 3 complete*
+*Last updated: 2026-02-02 after Phase 4 planning*
