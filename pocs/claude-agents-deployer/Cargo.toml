@@ -1,0 +1,10 @@
+[package]
+name = "claude-agents-deployer"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+dialoguer = "0.11"
+console = "0.15"
+dirs = "5.0"
+walkdir = "2.5"
