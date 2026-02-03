@@ -72,6 +72,9 @@ https://github.com/diegopacheco/rust-playground/tasks/05c0f6d0-cfc3-44e7-9def-6c
 20 - Get Shit Done (GSD) with Claude Code v2.1.29 Opus 4.5 <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/coding-agent-gsd
 
+21 - Codex App (Mac) - Tetris Game <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-app-agent-fun
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
