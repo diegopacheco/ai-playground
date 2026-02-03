@@ -44,7 +44,7 @@ MAS (Multi-Agent Station) is a Rust TUI application that manages multiple AI age
 ### UI Areas
 
 1. **Header (Top)**: Application title "MAS" centered with a live clock (HH:MM:SS)
-2. **Left Panel**: Session list with [+] button to spawn new sessions, displays agent type and PID
+2. **Left Panel**: Session list with search bar and [+] button to spawn new sessions, displays session name and PID
 3. **Center Panel**: PTY terminal output of the currently selected agent session
 4. **Footer**: Total number of active sessions
 
@@ -53,14 +53,13 @@ MAS (Multi-Agent Station) is a Rust TUI application that manages multiple AI age
 | Shortcut | Action |
 |----------|--------|
 | Ctrl+W | Quit application (kill all sessions) |
-| Cmd+T | Open new session dialog |
-| Cmd+E | Focus current session (enter input mode) |
-| Cmd+1..9 | Switch to session 1-9 |
+| Ctrl+T | Open new session dialog |
+| Ctrl+E | Toggle fullscreen for the focused panel |
 | Tab | Cycle focus between panels (left ↔ center) |
 | Arrow Up/Down | Navigate session list (when left panel focused) |
 | Enter | Select session from list |
 | q | Kill selected session (when left panel focused) |
-| c | Create new session (when left panel focused) |
+| r | Rename selected session (when left panel focused) |
 | Esc | Exit input mode / close dialogs |
 | Mouse Click | Focus clicked panel |
 
