@@ -11,9 +11,9 @@
 | 1 | Core Engine | Playable Tetris with all mechanics | 15 | ✓ Complete |
 | 2 | Scoring & Polish | Complete game feel with scoring, preview, hold | 9 | ✓ Complete |
 | 3 | Themes & Admin | Admin panel with real-time control | 12 | ✓ Complete |
-| 4 | Unique Mechanics | Freeze cycle and board growth | 5 | ○ Pending |
+| 4 | Unique Mechanics | Freeze cycle and board growth | 5 | ✓ Complete |
 
-**Total:** 4 phases | 37 requirements | 77% complete
+**Total:** 4 phases | 37 requirements | 100% complete
 
 ---
 
@@ -121,11 +121,11 @@ Plans:
 - UNIQ-04: Growth is smooth, pieces stay in place
 - UNIQ-05: Board has maximum size limit
 
-**Plans:** 2 plans
+**Plans:** 2 plans (all complete)
 
 Plans:
-- [ ] 04-01-PLAN.md — Freeze cycle mechanics (state machine, overlay, countdown)
-- [ ] 04-02-PLAN.md — Board growth mechanics (dynamic height, canvas resize, max limit)
+- [x] 04-01-PLAN.md — Freeze cycle mechanics (state machine, overlay, countdown)
+- [x] 04-02-PLAN.md — Board growth mechanics (dynamic height, canvas resize, max limit)
 
 **Success Criteria:**
 1. Game alternates between play and freeze states
@@ -164,4 +164,4 @@ All phases are sequential — each builds on the previous.
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-02 after Phase 4 planning*
+*Last updated: 2026-02-03 after Phase 4 complete — Milestone v1.0 achieved*
