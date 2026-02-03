@@ -6,6 +6,7 @@ pub enum InputResult {
     Quit,
     NewSession,
     FocusTerminal,
+    ToggleFocus,
     SwitchSession(usize),
     CreateSession,
     NavigateUp,
@@ -112,10 +113,10 @@ fn handle_dialog_input(key: KeyEvent, dialog: &mut NewSessionDialog) -> InputRes
 fn handle_terminal_input(key: KeyEvent) -> InputResult {
     match key.code {
         KeyCode::Esc => InputResult::Cancel,
+        KeyCode::Tab => InputResult::ToggleFocus,
         KeyCode::Char(c) => InputResult::TerminalInput(c.to_string().into_bytes()),
         KeyCode::Enter => InputResult::TerminalInput(vec![b'\r']),
         KeyCode::Backspace => InputResult::TerminalInput(vec![127]),
-        KeyCode::Tab => InputResult::TerminalInput(vec![b'\t']),
         KeyCode::Up => InputResult::TerminalInput(vec![27, 91, 65]),
         KeyCode::Down => InputResult::TerminalInput(vec![27, 91, 66]),
         KeyCode::Right => InputResult::TerminalInput(vec![27, 91, 67]),
@@ -129,6 +130,7 @@ fn handle_list_input(key: KeyEvent) -> InputResult {
         KeyCode::Up => InputResult::NavigateUp,
         KeyCode::Down => InputResult::NavigateDown,
         KeyCode::Enter => InputResult::Select,
+        KeyCode::Tab => InputResult::ToggleFocus,
         KeyCode::Esc => InputResult::Cancel,
         _ => InputResult::None,
     }
