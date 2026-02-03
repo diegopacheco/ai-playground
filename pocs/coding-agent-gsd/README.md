@@ -36,6 +36,27 @@ board gets bigger. each goog move is 10 points, 100 points you goto next level.
 ```
 * replicate man SDLC but with subagents and less boring as BAMD-METHOD.
 * Sucks a lot of tokens (used 4 of subscription tokens)
+* After a long time
+```
+⏺ Milestone v1.0 Verification
+
+  Milestone: v1.0 MVP (Tetris Twist)
+
+  Phases included:
+  - Phase 1: Core Engine (3/3 plans complete)
+  - Phase 2: Scoring & Polish (3/3 plans complete)
+  - Phase 3: Themes & Admin (4/4 plans complete)
+  - Phase 4: Unique Mechanics (2/2 plans complete)
+
+  Total: 4 phases, 12 plans, all complete
+
+  Stats:
+  - Phases: 1-4
+  - Plans: 12 total
+  - Files: 10 source files
+  - Lines of code: 1,544 (JS/HTML/CSS)
+  - Git range: feat(01-01) → feat(04-02)
+```
 * 
 
 ## Result
