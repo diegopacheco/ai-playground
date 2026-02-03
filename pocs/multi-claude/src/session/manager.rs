@@ -3,6 +3,7 @@ use anyhow::Result;
 use crate::agent::AgentType;
 use super::Session;
 
+#[allow(dead_code)]
 pub struct SessionManager {
     sessions: Vec<Session>,
     active_index: Option<usize>,
@@ -10,6 +11,7 @@ pub struct SessionManager {
     cols: u16,
 }
 
+#[allow(dead_code)]
 impl SessionManager {
     pub fn new(rows: u16, cols: u16) -> Self {
         Self {

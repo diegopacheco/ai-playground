@@ -16,7 +16,7 @@ use crate::input::{handle_input, InputResult};
 use crate::session::{SessionManager, load_layout, save_layout};
 use crate::ui::{
     render_header, render_session_list, render_terminal, render_footer,
-    NewSessionDialog, DialogState,
+    NewSessionDialog,
 };
 
 pub enum Focus {

@@ -1,16 +1,15 @@
 use std::path::PathBuf;
 use std::io::{Read, Write};
-use chrono::{DateTime, Utc};
 use uuid::Uuid;
 use crate::agent::{AgentType, AgentSpawner, SpawnedAgent};
 use anyhow::Result;
 
+#[allow(dead_code)]
 pub struct Session {
     pub id: Uuid,
     pub agent_type: AgentType,
     pub pid: u32,
     pub working_dir: PathBuf,
-    pub created_at: DateTime<Utc>,
     pub buffer: Vec<u8>,
     pub parser: vt100::Parser,
     reader: Box<dyn Read + Send>,
@@ -30,7 +29,6 @@ impl Session {
             agent_type,
             pid,
             working_dir,
-            created_at: Utc::now(),
             buffer: Vec::with_capacity(1024 * 64),
             parser: vt100::Parser::new(rows, cols, 1000),
             reader,
@@ -68,6 +66,7 @@ impl Session {
         Ok(())
     }
 
+    #[allow(dead_code)]
     pub fn resize(&mut self, rows: u16, cols: u16) -> Result<()> {
         self.master.resize(portable_pty::PtySize {
             rows,
@@ -79,6 +78,7 @@ impl Session {
         Ok(())
     }
 
+    #[allow(dead_code)]
     pub fn screen_contents(&self) -> String {
         self.parser.screen().contents()
     }
