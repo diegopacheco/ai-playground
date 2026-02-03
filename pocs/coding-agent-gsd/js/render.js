@@ -260,3 +260,19 @@ function drawPaused() {
     ctx.font = '18px Arial';
     ctx.fillText('Press P to resume', (COLS * CELL_SIZE) / 2, (ROWS * CELL_SIZE) / 2 + 20);
 }
+
+function drawFreezeOverlay(remainingMs) {
+    ctx.fillStyle = 'rgba(50, 150, 255, 0.5)';
+    ctx.fillRect(0, 0, COLS * CELL_SIZE, ROWS * CELL_SIZE);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 48px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('FROZEN', (COLS * CELL_SIZE) / 2, (ROWS * CELL_SIZE) / 2 - 30);
+
+    var remainingSeconds = Math.ceil(remainingMs / 1000);
+    ctx.fillStyle = '#00ffff';
+    ctx.font = 'bold 36px Arial';
+    ctx.fillText(remainingSeconds + 's', (COLS * CELL_SIZE) / 2, (ROWS * CELL_SIZE) / 2 + 30);
+}
