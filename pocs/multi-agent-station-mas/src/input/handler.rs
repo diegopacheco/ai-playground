@@ -25,13 +25,19 @@ pub fn handle_input(
 ) -> InputResult {
     let ctrl = key.modifiers.contains(KeyModifiers::CONTROL);
     let super_key = key.modifiers.contains(KeyModifiers::SUPER);
-    let cmd = ctrl || super_key;
+    let cmd = super_key;
 
     if cmd {
         match key.code {
             KeyCode::Char('q') => return InputResult::Quit,
             KeyCode::Char('t') => return InputResult::NewSession,
             KeyCode::Char('e') => return InputResult::FocusTerminal,
+            _ => {}
+        }
+    }
+
+    if ctrl {
+        match key.code {
             KeyCode::Char('1') => return InputResult::SwitchSession(0),
             KeyCode::Char('2') => return InputResult::SwitchSession(1),
             KeyCode::Char('3') => return InputResult::SwitchSession(2),
