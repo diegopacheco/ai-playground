@@ -11,11 +11,11 @@ pub fn render_footer(frame: &mut Frame, area: Rect, session_count: usize, error:
         Span::raw(" Sessions: "),
         Span::styled(format!("{}", session_count), Style::default().fg(Color::Cyan)),
         Span::raw(" | "),
-        Span::styled("Ctrl+T", Style::default().fg(Color::Yellow)),
+        Span::styled("Ctrl+t", Style::default().fg(Color::Yellow)),
         Span::raw(": New | "),
-        Span::styled("Ctrl+E", Style::default().fg(Color::Yellow)),
+        Span::styled("Ctrl+e", Style::default().fg(Color::Yellow)),
         Span::raw(": Full | "),
-        Span::styled("Ctrl+W", Style::default().fg(Color::Yellow)),
+        Span::styled("Ctrl+w", Style::default().fg(Color::Yellow)),
         Span::raw(": Quit"),
     ];
 
