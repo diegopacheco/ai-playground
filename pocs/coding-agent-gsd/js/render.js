@@ -18,9 +18,9 @@ function setupCanvas() {
     ctx.scale(dpr, dpr);
 }
 
-function drawGrid() {
+function drawGrid(board) {
     ctx.fillStyle = currentTheme.colors.background;
-    ctx.fillRect(0, 0, COLS * CELL_SIZE, ROWS * CELL_SIZE);
+    ctx.fillRect(0, 0, COLS * CELL_SIZE, board.length * CELL_SIZE);
 
     ctx.strokeStyle = currentTheme.colors.grid;
     ctx.lineWidth = 1;
@@ -28,11 +28,11 @@ function drawGrid() {
     for (let col = 0; col <= COLS; col++) {
         ctx.beginPath();
         ctx.moveTo(col * CELL_SIZE, 0);
-        ctx.lineTo(col * CELL_SIZE, ROWS * CELL_SIZE);
+        ctx.lineTo(col * CELL_SIZE, board.length * CELL_SIZE);
         ctx.stroke();
     }
 
-    for (let row = 0; row <= ROWS; row++) {
+    for (let row = 0; row <= board.length; row++) {
         ctx.beginPath();
         ctx.moveTo(0, row * CELL_SIZE);
         ctx.lineTo(COLS * CELL_SIZE, row * CELL_SIZE);
@@ -41,7 +41,7 @@ function drawGrid() {
 }
 
 function drawBoard(board) {
-    for (let row = 0; row < ROWS; row++) {
+    for (let row = 0; row < board.length; row++) {
         for (let col = 0; col < COLS; col++) {
             if (board[row][col]) {
                 ctx.fillStyle = currentTheme.colors[board[row][col]];
@@ -81,31 +81,31 @@ function drawClearingLines(lines) {
     }
 }
 
-function drawGameOver() {
+function drawGameOver(board) {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-    ctx.fillRect(0, 0, COLS * CELL_SIZE, ROWS * CELL_SIZE);
+    ctx.fillRect(0, 0, COLS * CELL_SIZE, board.length * CELL_SIZE);
 
     ctx.fillStyle = '#ff0000';
     ctx.font = 'bold 36px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('GAME OVER', (COLS * CELL_SIZE) / 2, (ROWS * CELL_SIZE) / 2 - 20);
+    ctx.fillText('GAME OVER', (COLS * CELL_SIZE) / 2, (board.length * CELL_SIZE) / 2 - 20);
 
     ctx.fillStyle = '#ffffff';
     ctx.font = '18px Arial';
-    ctx.fillText('Press R to restart', (COLS * CELL_SIZE) / 2, (ROWS * CELL_SIZE) / 2 + 20);
+    ctx.fillText('Press R to restart', (COLS * CELL_SIZE) / 2, (board.length * CELL_SIZE) / 2 + 20);
 }
 
-function drawSidebar() {
+function drawSidebar(board) {
     const sidebarX = COLS * CELL_SIZE;
     ctx.fillStyle = currentTheme.colors.sidebar;
-    ctx.fillRect(sidebarX, 0, SIDEBAR_WIDTH, ROWS * CELL_SIZE);
+    ctx.fillRect(sidebarX, 0, SIDEBAR_WIDTH, board.length * CELL_SIZE);
 
     ctx.strokeStyle = currentTheme.colors.grid;
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(sidebarX, 0);
-    ctx.lineTo(sidebarX, ROWS * CELL_SIZE);
+    ctx.lineTo(sidebarX, board.length * CELL_SIZE);
     ctx.stroke();
 }
 
@@ -247,32 +247,45 @@ function drawHoldPreview(pieceType, canHold) {
     }
 }
 
-function drawPaused() {
+function drawPaused(board) {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-    ctx.fillRect(0, 0, COLS * CELL_SIZE, ROWS * CELL_SIZE);
+    ctx.fillRect(0, 0, COLS * CELL_SIZE, board.length * CELL_SIZE);
 
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 36px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('PAUSED', (COLS * CELL_SIZE) / 2, (ROWS * CELL_SIZE) / 2 - 20);
+    ctx.fillText('PAUSED', (COLS * CELL_SIZE) / 2, (board.length * CELL_SIZE) / 2 - 20);
 
     ctx.font = '18px Arial';
-    ctx.fillText('Press P to resume', (COLS * CELL_SIZE) / 2, (ROWS * CELL_SIZE) / 2 + 20);
+    ctx.fillText('Press P to resume', (COLS * CELL_SIZE) / 2, (board.length * CELL_SIZE) / 2 + 20);
 }
 
-function drawFreezeOverlay(remainingMs) {
+function drawFreezeOverlay(remainingMs, board) {
     ctx.fillStyle = 'rgba(50, 150, 255, 0.5)';
-    ctx.fillRect(0, 0, COLS * CELL_SIZE, ROWS * CELL_SIZE);
+    ctx.fillRect(0, 0, COLS * CELL_SIZE, board.length * CELL_SIZE);
 
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 48px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('FROZEN', (COLS * CELL_SIZE) / 2, (ROWS * CELL_SIZE) / 2 - 30);
+    ctx.fillText('FROZEN', (COLS * CELL_SIZE) / 2, (board.length * CELL_SIZE) / 2 - 30);
 
     var remainingSeconds = Math.ceil(remainingMs / 1000);
     ctx.fillStyle = '#00ffff';
     ctx.font = 'bold 36px Arial';
-    ctx.fillText(remainingSeconds + 's', (COLS * CELL_SIZE) / 2, (ROWS * CELL_SIZE) / 2 + 30);
+    ctx.fillText(remainingSeconds + 's', (COLS * CELL_SIZE) / 2, (board.length * CELL_SIZE) / 2 + 30);
+}
+
+function resizeCanvas(board) {
+    var dpr = window.devicePixelRatio || 1;
+    var width = COLS * CELL_SIZE + SIDEBAR_WIDTH;
+    var height = board.length * CELL_SIZE;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+
+    ctx.scale(dpr, dpr);
 }
