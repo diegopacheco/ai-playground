@@ -30,6 +30,7 @@ let gameState = GameState.PLAYING;
 let cycleTimer = 0;
 const PLAY_DURATION = 10000;
 const FREEZE_DURATION = 10000;
+let growthTimer = 0;
 
 function calculateLevel() {
     return Math.floor(score / 100) + 1;
@@ -250,6 +251,14 @@ function update(deltaTime) {
         gameState = GameState.PLAYING;
         cycleTimer = 0;
     }
+
+    growthTimer += deltaTime;
+    if (growthTimer >= boardGrowthInterval && board.length < MAX_ROWS) {
+        board = growBoard(board, COLS);
+        resizeCanvas(board);
+        growthTimer = 0;
+    }
+
     if (gameState === GameState.FROZEN) return;
 
     if (clearingLines.length > 0) {
@@ -290,7 +299,7 @@ function update(deltaTime) {
 }
 
 function render() {
-    drawGrid();
+    drawGrid(board);
     drawBoard(board);
 
     if (clearingLines.length > 0) {
@@ -305,26 +314,27 @@ function render() {
         drawPiece(currentPiece.type, currentPiece.x, currentPiece.y, currentPiece.rotation);
     }
 
-    drawSidebar();
+    drawSidebar(board);
     drawScore(score, level);
     drawNextPreview(nextPiece);
     drawHoldPreview(heldPiece, canHold);
 
     if (gameState === GameState.FROZEN) {
-        drawFreezeOverlay(FREEZE_DURATION - cycleTimer);
+        drawFreezeOverlay(FREEZE_DURATION - cycleTimer, board);
     }
 
     if (gameState === GameState.PAUSED) {
-        drawPaused();
+        drawPaused(board);
     }
 
     if (gameState === GameState.GAME_OVER) {
-        drawGameOver();
+        drawGameOver(board);
     }
 }
 
 function resetGame() {
     board = createBoard();
+    resizeCanvas(board);
     bag = [];
     nextPiece = null;
     heldPiece = null;
@@ -334,6 +344,7 @@ function resetGame() {
     gameOver = false;
     gameState = GameState.PLAYING;
     cycleTimer = 0;
+    growthTimer = 0;
     clearingLines = [];
     clearingTimer = 0;
     dropCounter = 0;
@@ -364,6 +375,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         else if (type === 'GROWTH_INTERVAL_CHANGE') {
             boardGrowthInterval = payload.interval;
+            growthTimer = Math.min(growthTimer, boardGrowthInterval);
         }
         else if (type === 'STATS_REQUEST') {
             var currentThemeName = 'classic';
