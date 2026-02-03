@@ -59,6 +59,8 @@ Multi-Claude is a Rust TUI application that manages multiple AI agent sessions (
 | Tab | Cycle focus between panels (left ↔ center) |
 | Arrow Up/Down | Navigate session list (when left panel focused) |
 | Enter | Select session from list |
+| q | Kill selected session (when left panel focused) |
+| c | Create new session (when left panel focused) |
 | Esc | Exit input mode / close dialogs |
 | Mouse Click | Focus clicked panel |
 

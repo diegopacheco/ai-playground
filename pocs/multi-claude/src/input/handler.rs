@@ -9,6 +9,7 @@ pub enum InputResult {
     ToggleFocus,
     SwitchSession(usize),
     CreateSession,
+    KillSession,
     NavigateUp,
     NavigateDown,
     Select,
@@ -137,6 +138,8 @@ fn handle_list_input(key: KeyEvent) -> InputResult {
         KeyCode::Down => InputResult::NavigateDown,
         KeyCode::Enter => InputResult::Select,
         KeyCode::Tab => InputResult::ToggleFocus,
+        KeyCode::Char('q') => InputResult::KillSession,
+        KeyCode::Char('c') => InputResult::NewSession,
         KeyCode::Esc => InputResult::Cancel,
         _ => InputResult::None,
     }
