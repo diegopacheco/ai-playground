@@ -126,3 +126,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/crewai-poc/agent_po
 
 17 - Java 25 Embabel Agent Blog Writter <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-embabel-agent
+
+18 - MAS (Multi-Agent Station): All agents one terminal <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/multi-agent-station-mas
