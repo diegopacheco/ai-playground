@@ -70,7 +70,8 @@ impl AgentSpawner {
         let mut command = CommandBuilder::new(&cmd);
         command.args(&args);
         command.cwd(&working_dir);
-        command.env("TERM", "dumb");
+        command.env("TERM", "xterm-256color");
+        command.env("COLORTERM", "truecolor");
 
         let child = pty_pair.slave.spawn_command(command)?;
         let pid = child.process_id().unwrap_or(0);

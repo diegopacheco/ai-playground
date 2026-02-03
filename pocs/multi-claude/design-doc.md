@@ -1,8 +1,8 @@
-# Multi-Claude TUI Design Document
+# MAS (Multi-Agent Station) Design Document
 
 ## Overview
 
-Multi-Claude is a Rust TUI application that manages multiple AI agent sessions (Claude, Copilot, Gemini, Codex) in a single terminal interface. Users can spawn, switch between, and manage multiple agent terminals simultaneously.
+MAS (Multi-Agent Station) is a Rust TUI application that manages multiple AI agent sessions (Claude, Copilot, Gemini, Codex) in a single terminal interface. Users can spawn, switch between, and manage multiple agent terminals simultaneously.
 
 ## Technology Stack
 
@@ -18,7 +18,7 @@ Multi-Claude is a Rust TUI application that manages multiple AI agent sessions (
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                          Multi-Claude    14:32:05                           │  <- Header
+│                              MAS    14:32:05                                │  <- Header
 ├───────────────┬─────────────────────────────────────────────────────────────┤
 │  [+] New      │                                                             │
 │               │                                                             │
@@ -43,7 +43,7 @@ Multi-Claude is a Rust TUI application that manages multiple AI agent sessions (
 
 ### UI Areas
 
-1. **Header (Top)**: Application title "Multi-Claude" centered with a live clock (HH:MM:SS)
+1. **Header (Top)**: Application title "MAS" centered with a live clock (HH:MM:SS)
 2. **Left Panel**: Session list with [+] button to spawn new sessions, displays agent type and PID
 3. **Center Panel**: PTY terminal output of the currently selected agent session
 4. **Footer**: Total number of active sessions
@@ -150,7 +150,7 @@ enum AgentType {
 
 ### Session Persistence
 
-Sessions saved to `~/multi-claude/sessions/layout.json`:
+Sessions saved to `~/mas/sessions/layout.json`:
 
 ```json
 {
@@ -175,7 +175,7 @@ Sessions saved to `~/multi-claude/sessions/layout.json`:
 ### Startup Flow
 
 ```
-1. Check if ~/multi-claude/sessions/layout.json exists
+1. Check if ~/mas/sessions/layout.json exists
 2. If exists:
    - Show dialog: "Continue previous session? [Y/n]"
    - If Y: restore sessions from layout

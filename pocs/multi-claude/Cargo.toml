@@ -1,5 +1,5 @@
 [package]
-name = "multi-claude"
+name = "mas"
 version = "0.1.0"
 authors = ["Diego.Pacheco"]
 edition = "2024"

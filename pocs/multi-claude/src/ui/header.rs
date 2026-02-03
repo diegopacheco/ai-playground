@@ -10,7 +10,7 @@ use chrono::Local;
 pub fn render_header(frame: &mut Frame, area: Rect) {
     let now = Local::now();
     let time_str = now.format("%H:%M:%S").to_string();
-    let title = "Multi-Claude";
+    let title = "MAS";
     let padding = area.width.saturating_sub(title.len() as u16 + time_str.len() as u16 + 4) / 2;
     let left_pad = " ".repeat(padding as usize);
     let right_pad = " ".repeat((area.width.saturating_sub(padding + title.len() as u16 + time_str.len() as u16 + 4)) as usize);
