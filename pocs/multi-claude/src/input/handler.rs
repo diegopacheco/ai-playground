@@ -106,6 +106,12 @@ fn handle_dialog_input(key: KeyEvent, dialog: &mut NewSessionDialog) -> InputRes
             }
             InputResult::None
         }
+        KeyCode::Char(' ') => {
+            if dialog.state == DialogState::SelectingDirectory {
+                return InputResult::CreateSession;
+            }
+            InputResult::None
+        }
         _ => InputResult::None
     }
 }

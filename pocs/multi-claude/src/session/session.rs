@@ -1,5 +1,6 @@
 use std::path::PathBuf;
-use std::io::{Read, Write};
+use std::io::Write;
+use std::sync::mpsc::Receiver;
 use uuid::Uuid;
 use crate::agent::{AgentType, AgentSpawner, SpawnedAgent};
 use anyhow::Result;
@@ -12,7 +13,7 @@ pub struct Session {
     pub working_dir: PathBuf,
     pub buffer: Vec<u8>,
     pub parser: vt100::Parser,
-    reader: Box<dyn Read + Send>,
+    output_rx: Receiver<Vec<u8>>,
     writer: Box<dyn Write + Send>,
     master: Box<dyn portable_pty::MasterPty + Send>,
     child: Box<dyn portable_pty::Child + Send + Sync>,
@@ -22,7 +23,7 @@ pub struct Session {
 impl Session {
     pub fn new(agent_type: AgentType, working_dir: PathBuf, rows: u16, cols: u16) -> Result<Self> {
         let spawned = AgentSpawner::spawn(agent_type, working_dir.clone(), rows, cols)?;
-        let SpawnedAgent { pid, master, reader, writer, child } = spawned;
+        let SpawnedAgent { pid, master, output_rx, writer, child } = spawned;
 
         Ok(Self {
             id: Uuid::new_v4(),
@@ -31,7 +32,7 @@ impl Session {
             working_dir,
             buffer: Vec::with_capacity(1024 * 64),
             parser: vt100::Parser::new(rows, cols, 1000),
-            reader,
+            output_rx,
             writer,
             master,
             child,
@@ -40,20 +41,14 @@ impl Session {
     }
 
     pub fn read_output(&mut self) -> Option<Vec<u8>> {
-        let mut buf = [0u8; 4096];
-        match self.reader.read(&mut buf) {
-            Ok(0) => {
-                self.exited = true;
-                None
-            }
-            Ok(n) => {
-                let data = buf[..n].to_vec();
+        match self.output_rx.try_recv() {
+            Ok(data) => {
                 self.buffer.extend_from_slice(&data);
                 self.parser.process(&data);
                 Some(data)
             }
-            Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => None,
-            Err(_) => {
+            Err(std::sync::mpsc::TryRecvError::Empty) => None,
+            Err(std::sync::mpsc::TryRecvError::Disconnected) => {
                 self.exited = true;
                 None
             }

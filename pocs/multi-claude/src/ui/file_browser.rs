@@ -110,7 +110,7 @@ impl FileBrowser {
         let list = List::new(items);
         frame.render_widget(list, chunks[2]);
 
-        let help = Paragraph::new("↑/↓: Navigate | Enter: Open | Backspace: Up | Tab: Select | Esc: Back")
+        let help = Paragraph::new("↑/↓: Navigate | Enter: Open folder | Space: Select this folder | Backspace: Up | Esc: Back")
             .style(Style::default().fg(Color::DarkGray));
         frame.render_widget(help, chunks[3]);
     }
