@@ -11,7 +11,6 @@ let lockCounter = 0;
 let lockDelay = 500;
 let isLocking = false;
 let gameOver = false;
-let isPaused = false;
 let score = 0;
 let level = 1;
 let clearingLines = [];
@@ -19,6 +18,18 @@ let clearingTimer = 0;
 let pointsPerRow = 10;
 let boardGrowthInterval = 30000;
 let themeIndex = 0;
+
+const GameState = Object.freeze({
+    PLAYING: 'PLAYING',
+    FROZEN: 'FROZEN',
+    PAUSED: 'PAUSED',
+    GAME_OVER: 'GAME_OVER'
+});
+
+let gameState = GameState.PLAYING;
+let cycleTimer = 0;
+const PLAY_DURATION = 10000;
+const FREEZE_DURATION = 10000;
 
 function calculateLevel() {
     return Math.floor(score / 100) + 1;
@@ -77,7 +88,12 @@ function holdPiece() {
 }
 
 function togglePause() {
-    isPaused = !isPaused;
+    if (gameState === GameState.GAME_OVER) return;
+    if (gameState === GameState.PAUSED) {
+        gameState = GameState.PLAYING;
+    } else if (gameState === GameState.PLAYING || gameState === GameState.FROZEN) {
+        gameState = GameState.PAUSED;
+    }
 }
 
 function shuffleBag() {
@@ -118,6 +134,7 @@ function spawnPiece() {
 
     if (!isValidPosition(board, currentPiece.type, currentPiece.x, currentPiece.y, currentPiece.rotation)) {
         gameOver = true;
+        gameState = GameState.GAME_OVER;
         currentPiece = null;
     }
 
@@ -194,7 +211,8 @@ function processInput() {
         return;
     }
 
-    if (isPaused) return;
+    if (gameState === GameState.FROZEN) return;
+    if (gameState === GameState.PAUSED) return;
     if (gameOver || clearingLines.length > 0) return;
     if (!currentPiece) return;
 
@@ -221,8 +239,18 @@ function processInput() {
 }
 
 function update(deltaTime) {
-    if (gameOver) return;
-    if (isPaused) return;
+    if (gameState === GameState.GAME_OVER) return;
+    if (gameState === GameState.PAUSED) return;
+
+    cycleTimer += deltaTime;
+    if (gameState === GameState.PLAYING && cycleTimer >= PLAY_DURATION) {
+        gameState = GameState.FROZEN;
+        cycleTimer = 0;
+    } else if (gameState === GameState.FROZEN && cycleTimer >= FREEZE_DURATION) {
+        gameState = GameState.PLAYING;
+        cycleTimer = 0;
+    }
+    if (gameState === GameState.FROZEN) return;
 
     if (clearingLines.length > 0) {
         clearingTimer -= deltaTime;
@@ -282,11 +310,11 @@ function render() {
     drawNextPreview(nextPiece);
     drawHoldPreview(heldPiece, canHold);
 
-    if (isPaused) {
+    if (gameState === GameState.PAUSED) {
         drawPaused();
     }
 
-    if (gameOver) {
+    if (gameState === GameState.GAME_OVER) {
         drawGameOver();
     }
 }
@@ -300,7 +328,8 @@ function resetGame() {
     score = 0;
     level = 1;
     gameOver = false;
-    isPaused = false;
+    gameState = GameState.PLAYING;
+    cycleTimer = 0;
     clearingLines = [];
     clearingTimer = 0;
     dropCounter = 0;
@@ -344,8 +373,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 score: score,
                 level: level,
                 theme: currentThemeName,
-                paused: isPaused,
-                gameOver: gameOver
+                paused: gameState === GameState.PAUSED,
+                gameOver: gameState === GameState.GAME_OVER
             });
         }
     };
