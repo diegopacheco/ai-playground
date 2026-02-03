@@ -18,7 +18,7 @@ claude-agents-deployer/
 │   ├── unit-testers-agent.md
 │   ├── integration-tester-agent.md
 │   ├── feature-documenter-agent.md
-│   ├── design-docer-syncer-agent.md
+│   ├── design-doc-syncer-agent.md
 │   ├── ui-testing-playwright-agent.md
 │   ├── k6-stress-test-agent.md
 │   ├── changes-sumarizer-agent.md
