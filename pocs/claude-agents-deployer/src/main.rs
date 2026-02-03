@@ -140,11 +140,21 @@ fn main() {
     let commands_target = get_claude_commands_dir(global);
     let selected_agents: Vec<&Agent> = selected_indices.iter().map(|&i| &agents[i]).collect();
     let selected_names: Vec<&str> = selected_agents.iter().map(|a| a.name.as_str()).collect();
-    let command_indices = MultiSelect::with_theme(&theme)
-        .with_prompt("Turn these agents into commands? (space to toggle, enter to confirm)")
-        .items(&selected_names)
+    let generate_commands = Confirm::with_theme(&theme)
+        .with_prompt("Generate commands for agents?")
+        .default(true)
         .interact()
         .unwrap();
+    let command_indices: Vec<usize> = if generate_commands {
+        MultiSelect::with_theme(&theme)
+            .with_prompt("Select agents to turn into commands (space to toggle, enter to confirm)")
+            .items(&selected_names)
+            .defaults(&vec![true; selected_names.len()])
+            .interact()
+            .unwrap()
+    } else {
+        Vec::new()
+    };
     println!("\nInstalling agents...\n");
     let mut installed_count = 0;
     let mut command_count = 0;
