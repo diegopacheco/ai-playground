@@ -10,25 +10,25 @@ The real-time admin control loop — admin changes themes, speed, and scoring wh
 
 ## Requirements
 
-### Validated
+### Validated (v1.0 - Shipped 2026-02-03)
 
-(None yet — ship to validate)
+- [x] Classic Tetris gameplay (falling pieces, rotation, movement)
+- [x] 10-second play / 10-second freeze cycle
+- [x] Board grows (wider and taller) every 30 seconds
+- [x] Clearing a row awards points (default 10)
+- [x] 100 points advances to next level
+- [x] Level up triggers visual theme change
+- [x] Pre-built themes with colors and piece shapes (3 themes: Classic, Neon, Retro)
+- [x] Admin UI in separate browser tab
+- [x] Admin can switch themes (applied real-time)
+- [x] Admin can change fall speed (applied real-time)
+- [x] Admin can change points per row (applied real-time)
+- [x] Admin can change board growth rate (applied real-time)
+- [x] Player and Admin sync via same browser (tabs)
 
 ### Active
 
-- [ ] Classic Tetris gameplay (falling pieces, rotation, movement)
-- [ ] 10-second play / 10-second freeze cycle
-- [ ] Board grows (wider and taller) every 30 seconds
-- [ ] Clearing a row awards points (default 10)
-- [ ] 100 points advances to next level
-- [ ] Level up triggers visual theme change
-- [ ] Pre-built themes with colors and piece shapes
-- [ ] Admin UI in separate browser tab
-- [ ] Admin can switch themes (applied real-time)
-- [ ] Admin can change fall speed (applied real-time)
-- [ ] Admin can change points per row (applied real-time)
-- [ ] Admin can change board growth rate (applied real-time)
-- [ ] Player and Admin sync via same browser (tabs)
+(None - v1.0 complete, ready for v2 milestone)
 
 ### Out of Scope
 
@@ -40,9 +40,11 @@ The real-time admin control loop — admin changes themes, speed, and scoring wh
 
 ## Context
 
+**v1.0 Shipped:** 2026-02-03
+
 This is a twist on classic Tetris designed to showcase real-time configuration. The freeze mechanic creates tension (you can see pieces but can't act), and the growing board adds long-game strategy. The admin panel makes it feel like a live broadcast where someone controls the experience.
 
-The same-browser constraint simplifies architecture — can use BroadcastChannel API or localStorage events for real-time sync between tabs.
+The same-browser constraint simplifies architecture — uses BroadcastChannel API for real-time sync between tabs.
 
 ## Constraints
 
@@ -54,9 +56,13 @@ The same-browser constraint simplifies architecture — can use BroadcastChannel
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| BroadcastChannel for sync | Native browser API, no server needed, real-time | — Pending |
-| Pre-built themes only | Simpler than theme editor, faster to ship | — Pending |
-| No sound | Not requested, reduces scope | — Pending |
+| BroadcastChannel for sync | Native browser API, no server needed, real-time | Validated - instant sync works well |
+| Pre-built themes only | Simpler than theme editor, faster to ship | Validated - 3 themes sufficient |
+| No sound | Not requested, reduces scope | Validated - not needed |
+| Vanilla JS + Canvas | No dependencies constraint | Validated - clean, fast |
+| GameState enum | More scalable state management than booleans | Validated - cleaner code |
+| Board grows at bottom | Preserves existing piece positions | Validated - seamless growth |
+| MAX_ROWS = 30 | 50% growth limit from initial 20 | Validated - good balance |
 
 ---
-*Last updated: 2026-02-01 after initialization*
+*Last updated: 2026-02-03 after v1.0 milestone shipped*
