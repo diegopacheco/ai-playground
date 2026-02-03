@@ -6,8 +6,8 @@ use ratatui::{
     widgets::{Block, Borders, Paragraph},
 };
 
-pub fn render_footer(frame: &mut Frame, area: Rect, session_count: usize) {
-    let line = Line::from(vec![
+pub fn render_footer(frame: &mut Frame, area: Rect, session_count: usize, error: Option<&str>) {
+    let mut spans = vec![
         Span::raw(" Sessions: "),
         Span::styled(format!("{}", session_count), Style::default().fg(Color::Cyan)),
         Span::raw(" | "),
@@ -19,7 +19,14 @@ pub fn render_footer(frame: &mut Frame, area: Rect, session_count: usize) {
         Span::raw(": Switch | "),
         Span::styled("Cmd+Q", Style::default().fg(Color::Yellow)),
         Span::raw(": Quit"),
-    ]);
+    ];
+
+    if let Some(message) = error {
+        spans.push(Span::raw(" | "));
+        spans.push(Span::styled(message.to_string(), Style::default().fg(Color::Red)));
+    }
+
+    let line = Line::from(spans);
 
     let block = Block::default()
         .borders(Borders::TOP)

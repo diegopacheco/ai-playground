@@ -31,6 +31,7 @@ pub struct App {
     list_selection: usize,
     running: bool,
     left_panel_width: u16,
+    last_error: Option<String>,
 }
 
 impl App {
@@ -42,6 +43,7 @@ impl App {
             list_selection: 0,
             running: true,
             left_panel_width: 20,
+            last_error: None,
         }
     }
 
@@ -91,7 +93,7 @@ impl App {
                     matches!(self.focus, Focus::Terminal),
                 );
 
-                render_footer(frame, chunks[2], self.session_manager.count());
+                render_footer(frame, chunks[2], self.session_manager.count(), self.last_error.as_deref());
 
                 self.dialog.render(frame, size);
             })?;
@@ -170,9 +172,15 @@ impl App {
                 let agent_type = self.dialog.selected_agent_type();
                 let working_dir = self.dialog.selected_directory();
                 self.dialog.close();
-                if let Ok(idx) = self.session_manager.create_session(agent_type, working_dir) {
-                    self.list_selection = idx + 1;
-                    self.session_manager.set_active(idx);
+                match self.session_manager.create_session(agent_type, working_dir) {
+                    Ok(idx) => {
+                        self.list_selection = idx + 1;
+                        self.session_manager.set_active(idx);
+                        self.last_error = None;
+                    }
+                    Err(err) => {
+                        self.last_error = Some(format!("Failed to start {}: {}", agent_type, err));
+                    }
                 }
                 self.focus = Focus::Terminal;
             }
