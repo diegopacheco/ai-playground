@@ -310,6 +310,10 @@ function render() {
     drawNextPreview(nextPiece);
     drawHoldPreview(heldPiece, canHold);
 
+    if (gameState === GameState.FROZEN) {
+        drawFreezeOverlay(FREEZE_DURATION - cycleTimer);
+    }
+
     if (gameState === GameState.PAUSED) {
         drawPaused();
     }
