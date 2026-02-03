@@ -3,7 +3,7 @@ use ratatui::{
     layout::Rect,
     style::{Color, Modifier, Style},
     text::{Line, Span},
-    widgets::{Block, Borders, List, ListItem, ListState},
+    widgets::{Block, Borders, List, ListItem},
 };
 use crate::session::Session;
 
@@ -22,7 +22,6 @@ pub fn render_session_list(
     ];
 
     for (i, session) in sessions.iter().enumerate() {
-        let status = if session.exited { "exited" } else { "running" };
         let prefix = if Some(i) == active_index { "▶ " } else { "  " };
         let style = if Some(i) == active_index {
             Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)

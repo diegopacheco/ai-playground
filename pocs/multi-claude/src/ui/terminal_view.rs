@@ -2,8 +2,8 @@ use ratatui::{
     Frame,
     layout::Rect,
     style::{Color, Style},
-    text::{Line, Span},
-    widgets::{Block, Borders, Paragraph, Wrap},
+    text::Line,
+    widgets::{Block, Borders, Paragraph},
 };
 use crate::session::Session;
 
