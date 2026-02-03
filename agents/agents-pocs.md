@@ -132,3 +132,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-embabel-age
 
 18 - MAS (Multi-Agent Station): All agents one terminal <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/multi-agent-station-mas
+
+19 - Claude Code Agent Deployer <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-agents-deployer
