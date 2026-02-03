@@ -22,7 +22,7 @@ pub struct SessionData {
 
 fn layout_path() -> PathBuf {
     let home = dirs::home_dir().unwrap_or_else(|| PathBuf::from("."));
-    home.join("multi-claude").join("sessions").join("layout.json")
+    home.join("mas").join("sessions").join("layout.json")
 }
 
 pub fn save_layout(
