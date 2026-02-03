@@ -12,19 +12,31 @@ pub fn render_session_list(
     area: Rect,
     sessions: &[Session],
     active_index: Option<usize>,
+    list_selection: usize,
     list_focused: bool,
 ) {
+    let new_btn_style = if list_focused && list_selection == 0 {
+        Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)
+    } else {
+        Style::default().fg(Color::Green)
+    };
+    let new_prefix = if list_focused && list_selection == 0 { "▶ " } else { "  " };
+    
     let mut items: Vec<ListItem> = vec![
         ListItem::new(Line::from(vec![
-            Span::styled("[+] ", Style::default().fg(Color::Green)),
-            Span::raw("New Session"),
+            Span::raw(new_prefix),
+            Span::styled("[+] New Session", new_btn_style),
         ])),
     ];
 
     for (i, session) in sessions.iter().enumerate() {
-        let prefix = if Some(i) == active_index { "▶ " } else { "  " };
-        let style = if Some(i) == active_index {
+        let is_selected = list_focused && list_selection == i + 1;
+        let is_active = Some(i) == active_index;
+        let prefix = if is_selected || is_active { "▶ " } else { "  " };
+        let style = if is_active {
             Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)
+        } else if is_selected {
+            Style::default().fg(Color::Yellow)
         } else if session.exited {
             Style::default().fg(Color::DarkGray)
         } else {

@@ -2,6 +2,8 @@ use std::path::PathBuf;
 use anyhow::Result;
 use portable_pty::{CommandBuilder, PtySize, native_pty_system};
 use serde::{Deserialize, Serialize};
+use std::sync::mpsc::{self, Receiver, Sender};
+use std::thread;
 use super::{claude, copilot, gemini, codex};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -72,13 +74,31 @@ impl AgentSpawner {
         let child = pty_pair.slave.spawn_command(command)?;
         let pid = child.process_id().unwrap_or(0);
 
-        let reader = pty_pair.master.try_clone_reader()?;
+        let mut reader = pty_pair.master.try_clone_reader()?;
         let writer = pty_pair.master.take_writer()?;
+
+        let (tx, rx): (Sender<Vec<u8>>, Receiver<Vec<u8>>) = mpsc::channel();
+        
+        thread::spawn(move || {
+            use std::io::Read;
+            let mut buf = [0u8; 4096];
+            loop {
+                match reader.read(&mut buf) {
+                    Ok(0) => break,
+                    Ok(n) => {
+                        if tx.send(buf[..n].to_vec()).is_err() {
+                            break;
+                        }
+                    }
+                    Err(_) => break,
+                }
+            }
+        });
 
         Ok(SpawnedAgent {
             pid,
             master: pty_pair.master,
-            reader: Box::new(reader),
+            output_rx: rx,
             writer: Box::new(writer),
             child,
         })
@@ -88,7 +108,7 @@ impl AgentSpawner {
 pub struct SpawnedAgent {
     pub pid: u32,
     pub master: Box<dyn portable_pty::MasterPty + Send>,
-    pub reader: Box<dyn std::io::Read + Send>,
+    pub output_rx: Receiver<Vec<u8>>,
     pub writer: Box<dyn std::io::Write + Send>,
     pub child: Box<dyn portable_pty::Child + Send + Sync>,
 }

@@ -80,6 +80,7 @@ impl App {
                     main_chunks[0],
                     self.session_manager.sessions(),
                     self.session_manager.active_index(),
+                    self.list_selection,
                     matches!(self.focus, Focus::SessionList),
                 );
 
@@ -118,10 +119,10 @@ impl App {
 
     fn handle_mouse(&mut self, mouse: event::MouseEvent) {
         if let MouseEventKind::Down(_) = mouse.kind {
-            if mouse.column < self.left_panel_width {
-                self.focus = Focus::SessionList;
-            } else {
-                if self.session_manager.active_session().is_some() {
+            if mouse.row >= 2 && mouse.row < mouse.row.saturating_add(100) {
+                if mouse.column < self.left_panel_width {
+                    self.focus = Focus::SessionList;
+                } else if self.session_manager.active_session().is_some() {
                     self.focus = Focus::Terminal;
                 }
             }
@@ -169,26 +170,41 @@ impl App {
                 let agent_type = self.dialog.selected_agent_type();
                 let working_dir = self.dialog.selected_directory();
                 self.dialog.close();
-                if let Err(e) = self.session_manager.create_session(agent_type, working_dir) {
-                    eprintln!("Failed to create session: {}", e);
+                if let Ok(idx) = self.session_manager.create_session(agent_type, working_dir) {
+                    self.list_selection = idx + 1;
+                    self.session_manager.set_active(idx);
                 }
                 self.focus = Focus::Terminal;
             }
             InputResult::NavigateUp => {
                 if !self.dialog.is_open() {
-                    self.session_manager.prev_session();
+                    if self.list_selection > 0 {
+                        self.list_selection -= 1;
+                        if self.list_selection > 0 {
+                            self.session_manager.set_active(self.list_selection - 1);
+                        }
+                    }
                 }
             }
             InputResult::NavigateDown => {
                 if !self.dialog.is_open() {
-                    self.session_manager.next_session();
+                    let max = self.session_manager.count();
+                    if self.list_selection < max {
+                        self.list_selection += 1;
+                        if self.list_selection > 0 {
+                            self.session_manager.set_active(self.list_selection - 1);
+                        }
+                    }
                 }
             }
             InputResult::Select => {
-                if !self.dialog.is_open() && self.list_selection == 0 {
-                    self.dialog.open();
-                } else if !self.dialog.is_open() {
-                    self.focus = Focus::Terminal;
+                if !self.dialog.is_open() {
+                    if self.list_selection == 0 {
+                        self.dialog.open();
+                    } else {
+                        self.session_manager.set_active(self.list_selection - 1);
+                        self.focus = Focus::Terminal;
+                    }
                 }
             }
             InputResult::Cancel => {
