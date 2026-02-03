@@ -1,6 +1,7 @@
 const COLS = 10;
 const ROWS = 20;
 const CELL_SIZE = 30;
+const MAX_ROWS = 30;
 
 function createBoard() {
     const board = [];
@@ -20,7 +21,7 @@ function isValidPosition(board, pieceType, x, y, rotation) {
             if (shape[row][col]) {
                 const newX = x + col;
                 const newY = y + row;
-                if (newX < 0 || newX >= COLS || newY >= ROWS) {
+                if (newX < 0 || newX >= COLS || newY >= board.length) {
                     return false;
                 }
                 if (newY >= 0 && board[newY][newX]) {
@@ -40,7 +41,7 @@ function lockPiece(board, piece) {
             if (shape[row][col]) {
                 const boardY = piece.y + row;
                 const boardX = piece.x + col;
-                if (boardY >= 0 && boardY < ROWS && boardX >= 0 && boardX < COLS) {
+                if (boardY >= 0 && boardY < board.length && boardX >= 0 && boardX < COLS) {
                     board[boardY][boardX] = piece.type;
                 }
             }
@@ -82,4 +83,13 @@ function clearLines(board, lines) {
     }
 
     return { board: board, linesCleared: sortedLines.length };
+}
+
+function growBoard(board, cols) {
+    var newRow = [];
+    for (var i = 0; i < cols; i++) {
+        newRow.push(null);
+    }
+    board.push(newRow);
+    return board;
 }
