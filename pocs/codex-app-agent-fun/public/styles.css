@@ -1,0 +1,176 @@
+:root {
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  background: var(--panel);
+  border: 1px solid var(--cellBorder);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+.main {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 240px;
+  gap: 24px;
+  align-items: start;
+}
+
+.board-wrapper {
+  position: relative;
+  background: var(--panel);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--cellBorder);
+  overflow: hidden;
+}
+
+.board {
+  display: grid;
+  gap: 0;
+  background: var(--grid);
+  transform-origin: top left;
+  transition: transform 0.3s ease;
+}
+
+.cell {
+  border: 1px solid var(--cellBorder);
+  box-sizing: border-box;
+}
+
+.freeze {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+
+.panel {
+  background: var(--panel);
+  border-radius: 12px;
+  border: 1px solid var(--cellBorder);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.next {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.next-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 20px);
+  gap: 2px;
+}
+
+.next-cell {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--cellBorder);
+}
+
+.controls {
+  font-size: 14px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin {
+  background: var(--panel);
+  border-radius: 12px;
+  border: 1px solid var(--cellBorder);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+}
+
+input, select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--cellBorder);
+  background: var(--grid);
+  color: var(--text);
+}
+
+.toggle {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 900px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+}
