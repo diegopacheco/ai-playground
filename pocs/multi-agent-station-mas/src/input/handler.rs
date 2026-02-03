@@ -23,21 +23,20 @@ pub fn handle_input(
     dialog: &mut NewSessionDialog,
     terminal_focused: bool,
 ) -> InputResult {
-    let ctrl = key.modifiers.contains(KeyModifiers::CONTROL);
-    let super_key = key.modifiers.contains(KeyModifiers::SUPER);
-    let cmd = super_key;
+    let ctrl_only = key.modifiers == KeyModifiers::CONTROL;
+    let cmd_only = key.modifiers == KeyModifiers::SUPER;
 
-    if cmd {
+    if cmd_only {
         match key.code {
-            KeyCode::Char('q') => return InputResult::Quit,
             KeyCode::Char('t') => return InputResult::NewSession,
             KeyCode::Char('e') => return InputResult::FocusTerminal,
             _ => {}
         }
     }
 
-    if ctrl {
+    if ctrl_only {
         match key.code {
+            KeyCode::Char('w') => return InputResult::Quit,
             KeyCode::Char('1') => return InputResult::SwitchSession(0),
             KeyCode::Char('2') => return InputResult::SwitchSession(1),
             KeyCode::Char('3') => return InputResult::SwitchSession(2),

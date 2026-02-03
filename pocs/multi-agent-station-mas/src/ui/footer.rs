@@ -13,9 +13,9 @@ pub fn render_footer(frame: &mut Frame, area: Rect, session_count: usize, error:
         Span::raw(" | "),
         Span::styled("Cmd+T", Style::default().fg(Color::Yellow)),
         Span::raw(": New | "),
-        Span::styled("Cmd+1-9", Style::default().fg(Color::Yellow)),
+        Span::styled("Ctrl+1-9", Style::default().fg(Color::Yellow)),
         Span::raw(": Switch | "),
-        Span::styled("Cmd+Q", Style::default().fg(Color::Yellow)),
+        Span::styled("Ctrl+W", Style::default().fg(Color::Yellow)),
         Span::raw(": Quit"),
     ];
 

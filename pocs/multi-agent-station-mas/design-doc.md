@@ -52,7 +52,7 @@ MAS (Multi-Agent Station) is a Rust TUI application that manages multiple AI age
 
 | Shortcut | Action |
 |----------|--------|
-| Cmd+Q | Quit application (kill all sessions) |
+| Ctrl+W | Quit application (kill all sessions) |
 | Cmd+T | Open new session dialog |
 | Cmd+E | Focus current session (enter input mode) |
 | Cmd+1..9 | Switch to session 1-9 |
