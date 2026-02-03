@@ -5,9 +5,8 @@ pub enum InputResult {
     None,
     Quit,
     NewSession,
-    FocusTerminal,
+    ToggleFullScreen,
     ToggleFocus,
-    SwitchSession(usize),
     CreateSession,
     KillSession,
     NavigateUp,
@@ -16,6 +15,7 @@ pub enum InputResult {
     Cancel,
     Back,
     TerminalInput(Vec<u8>),
+    StartRename,
 }
 
 pub fn handle_input(
@@ -28,8 +28,6 @@ pub fn handle_input(
 
     if cmd_only {
         match key.code {
-            KeyCode::Char('t') => return InputResult::NewSession,
-            KeyCode::Char('e') => return InputResult::FocusTerminal,
             _ => {}
         }
     }
@@ -37,15 +35,8 @@ pub fn handle_input(
     if ctrl_only {
         match key.code {
             KeyCode::Char('w') => return InputResult::Quit,
-            KeyCode::Char('1') => return InputResult::SwitchSession(0),
-            KeyCode::Char('2') => return InputResult::SwitchSession(1),
-            KeyCode::Char('3') => return InputResult::SwitchSession(2),
-            KeyCode::Char('4') => return InputResult::SwitchSession(3),
-            KeyCode::Char('5') => return InputResult::SwitchSession(4),
-            KeyCode::Char('6') => return InputResult::SwitchSession(5),
-            KeyCode::Char('7') => return InputResult::SwitchSession(6),
-            KeyCode::Char('8') => return InputResult::SwitchSession(7),
-            KeyCode::Char('9') => return InputResult::SwitchSession(8),
+            KeyCode::Char('t') => return InputResult::NewSession,
+            KeyCode::Char('e') => return InputResult::ToggleFullScreen,
             _ => {}
         }
     }
@@ -144,7 +135,7 @@ fn handle_list_input(key: KeyEvent) -> InputResult {
         KeyCode::Enter => InputResult::Select,
         KeyCode::Tab => InputResult::ToggleFocus,
         KeyCode::Char('q') => InputResult::KillSession,
-        KeyCode::Char('c') => InputResult::NewSession,
+        KeyCode::Char('r') => InputResult::StartRename,
         KeyCode::Esc => InputResult::Cancel,
         _ => InputResult::None,
     }

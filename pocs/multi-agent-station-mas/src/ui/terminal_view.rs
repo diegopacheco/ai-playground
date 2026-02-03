@@ -20,7 +20,7 @@ pub fn render_terminal(
     };
 
     let title = session
-        .map(|s| format!(" {} [PID: {}] - {} ", s.agent_type, s.pid, s.working_dir.display()))
+        .map(|s| format!(" {} [PID: {}] - {} ", s.name, s.pid, s.working_dir.display()))
         .unwrap_or_else(|| " No Session ".to_string());
 
     let block = Block::default()

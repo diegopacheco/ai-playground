@@ -9,6 +9,7 @@ use anyhow::Result;
 pub struct Session {
     pub id: Uuid,
     pub agent_type: AgentType,
+    pub name: String,
     pub pid: u32,
     pub working_dir: PathBuf,
     pub buffer: Vec<u8>,
@@ -28,6 +29,7 @@ impl Session {
         Ok(Self {
             id: Uuid::new_v4(),
             agent_type,
+            name: agent_type.as_str().to_string(),
             pid,
             working_dir,
             buffer: Vec::with_capacity(1024 * 64),
