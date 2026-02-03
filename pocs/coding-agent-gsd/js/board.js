@@ -52,7 +52,7 @@ function lockPiece(board, piece) {
 
 function checkLines(board) {
     const fullLines = [];
-    for (let row = 0; row < ROWS; row++) {
+    for (let row = 0; row < board.length; row++) {
         let isFull = true;
         for (let col = 0; col < COLS; col++) {
             if (!board[row][col]) {
