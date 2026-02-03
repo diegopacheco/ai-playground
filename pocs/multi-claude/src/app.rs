@@ -2,7 +2,7 @@ use std::io;
 use std::time::Duration;
 use anyhow::Result;
 use crossterm::{
-    event::{self, Event, KeyEventKind},
+    event::{self, Event, KeyEventKind, EnableMouseCapture, DisableMouseCapture, MouseEventKind},
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
@@ -30,6 +30,7 @@ pub struct App {
     focus: Focus,
     list_selection: usize,
     running: bool,
+    left_panel_width: u16,
 }
 
 impl App {
@@ -40,13 +41,14 @@ impl App {
             focus: Focus::SessionList,
             list_selection: 0,
             running: true,
+            left_panel_width: 20,
         }
     }
 
     pub fn run(&mut self) -> Result<()> {
         enable_raw_mode()?;
         let mut stdout = io::stdout();
-        execute!(stdout, EnterAlternateScreen)?;
+        execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
         let backend = CrosstermBackend::new(stdout);
         let mut terminal = Terminal::new(backend)?;
 
@@ -70,7 +72,7 @@ impl App {
 
                 let main_chunks = Layout::default()
                     .direction(Direction::Horizontal)
-                    .constraints([Constraint::Length(20), Constraint::Min(0)])
+                    .constraints([Constraint::Length(self.left_panel_width), Constraint::Min(0)])
                     .split(chunks[1]);
 
                 render_session_list(
@@ -94,10 +96,14 @@ impl App {
             })?;
 
             if event::poll(Duration::from_millis(50))? {
-                if let Event::Key(key) = event::read()? {
-                    if key.kind == KeyEventKind::Press {
+                match event::read()? {
+                    Event::Key(key) if key.kind == KeyEventKind::Press => {
                         self.handle_key(key)?;
                     }
+                    Event::Mouse(mouse) => {
+                        self.handle_mouse(mouse);
+                    }
+                    _ => {}
                 }
             }
         }
@@ -106,8 +112,20 @@ impl App {
         self.session_manager.kill_all();
 
         disable_raw_mode()?;
-        execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
+        execute!(terminal.backend_mut(), DisableMouseCapture, LeaveAlternateScreen)?;
         Ok(())
+    }
+
+    fn handle_mouse(&mut self, mouse: event::MouseEvent) {
+        if let MouseEventKind::Down(_) = mouse.kind {
+            if mouse.column < self.left_panel_width {
+                self.focus = Focus::SessionList;
+            } else {
+                if self.session_manager.active_session().is_some() {
+                    self.focus = Focus::Terminal;
+                }
+            }
+        }
     }
 
     fn handle_key(&mut self, key: event::KeyEvent) -> Result<()> {
@@ -134,6 +152,18 @@ impl App {
                     self.session_manager.set_active(idx);
                     self.focus = Focus::Terminal;
                 }
+            }
+            InputResult::ToggleFocus => {
+                self.focus = match self.focus {
+                    Focus::SessionList => {
+                        if self.session_manager.active_session().is_some() {
+                            Focus::Terminal
+                        } else {
+                            Focus::SessionList
+                        }
+                    }
+                    Focus::Terminal => Focus::SessionList,
+                };
             }
             InputResult::CreateSession => {
                 let agent_type = self.dialog.selected_agent_type();
