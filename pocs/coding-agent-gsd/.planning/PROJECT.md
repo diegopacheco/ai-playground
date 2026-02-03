@@ -28,7 +28,14 @@ The real-time admin control loop — admin changes themes, speed, and scoring wh
 
 ### Active
 
-(None - v1.0 complete, ready for v2 milestone)
+**Current Milestone: v2.0 Enhanced Experience**
+
+- [ ] T-spin detection with bonus points
+- [ ] Combo multipliers for chain clears
+- [ ] Session statistics (total pieces, lines, time)
+- [ ] Additional themes (5+ total)
+- [ ] Sound effects and music
+- [ ] Keyboard remapping
 
 ### Out of Scope
 
@@ -65,4 +72,4 @@ The same-browser constraint simplifies architecture — uses BroadcastChannel AP
 | MAX_ROWS = 30 | 50% growth limit from initial 20 | Validated - good balance |
 
 ---
-*Last updated: 2026-02-03 after v1.0 milestone shipped*
+*Last updated: 2026-02-03 after v2.0 milestone started*
