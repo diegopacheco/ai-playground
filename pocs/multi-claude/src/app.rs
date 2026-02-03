@@ -176,6 +176,18 @@ impl App {
                 }
                 self.focus = Focus::Terminal;
             }
+            InputResult::KillSession => {
+                if self.list_selection > 0 {
+                    let session_idx = self.list_selection - 1;
+                    self.session_manager.kill_session(session_idx);
+                    if self.list_selection > self.session_manager.count() {
+                        self.list_selection = self.session_manager.count();
+                    }
+                    if self.list_selection > 0 {
+                        self.session_manager.set_active(self.list_selection - 1);
+                    }
+                }
+            }
             InputResult::NavigateUp => {
                 if !self.dialog.is_open() {
                     if self.list_selection > 0 {
