@@ -43,6 +43,7 @@ impl Session {
     pub fn read_output(&mut self) -> Option<Vec<u8>> {
         match self.output_rx.try_recv() {
             Ok(data) => {
+                self.handle_cpr_requests(&data);
                 self.buffer.extend_from_slice(&data);
                 self.parser.process(&data);
                 Some(data)
@@ -51,6 +52,19 @@ impl Session {
             Err(std::sync::mpsc::TryRecvError::Disconnected) => {
                 self.exited = true;
                 None
+            }
+        }
+    }
+
+    fn handle_cpr_requests(&mut self, data: &[u8]) {
+        let mut i = 0;
+        while i + 3 < data.len() {
+            if data[i] == 0x1b && data[i + 1] == b'[' && data[i + 2] == b'6' && data[i + 3] == b'n' {
+                let _ = self.writer.write_all(b"\x1b[1;1R");
+                let _ = self.writer.flush();
+                i += 4;
+            } else {
+                i += 1;
             }
         }
     }
