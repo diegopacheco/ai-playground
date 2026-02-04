@@ -188,6 +188,12 @@ Plans:
 - STAT-03: Display real-time stats in sidebar
 - STAT-04: Session summary screen shows all stats on game over
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Stats tracking module and basic sidebar display
+- [ ] 06-02-PLAN.md — Advanced stats calculation and game over summary screen
+
 **Success Criteria:**
 1. Player sees live stats sidebar with score, lines, level, time, pieces
 2. Sidebar displays real-time PPS and APM calculations
@@ -317,4 +323,4 @@ Phase 10 (Keyboard Remapping) ← independent (refactors input)
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-03 after Phase 5 planned*
+*Last updated: 2026-02-04 after Phase 6 planned*
