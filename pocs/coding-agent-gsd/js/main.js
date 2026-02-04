@@ -319,6 +319,7 @@ function render() {
     }
 
     drawSidebar(board);
+    drawSessionStats();
     drawScore(score, level);
     drawNextPreview(nextPiece);
     drawHoldPreview(heldPiece, canHold);
