@@ -57,7 +57,34 @@ board gets bigger. each goog move is 10 points, 100 points you goto next level.
   - Lines of code: 1,544 (JS/HTML/CSS)
   - Git range: feat(01-01) → feat(04-02)
 ```
-* 
+* At the end it asked for human verification.
+```
+⏺ ---
+  Checkpoint: Human Verification
+
+  Plan: 05-01 Add Minimalist and High Contrast themes
+  Progress: 2/3 tasks complete
+
+  What was built
+
+  Two new themes added to existing theme system:
+  - Minimalist — clean light gray palette with soft pastels
+  - High Contrast — black background with bright saturated colors (WCAG AAA)
+
+  How to verify
+
+  1. Open index.html in browser (player view)
+  2. Open admin.html in new tab (admin view)
+  3. Verify theme selector shows 5 options: Classic, Neon, Retro, Minimalist, High Contrast
+  4. Select Minimalist — verify light gray palette
+  5. Select High Contrast — verify black background with bright colors
+  6. Start game, drop pieces in each new theme
+  7. Test theme switching during gameplay — no visual glitches
+  8. Verify all 7 piece types are distinct in both new themes
+
+  ---
+  Awaiting: Type "approved" if all 5 themes work correctly, or describe any visual issues
+```
 
 ## Result
 
