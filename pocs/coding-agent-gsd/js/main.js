@@ -40,6 +40,7 @@ function checkLevelUp() {
     const newLevel = calculateLevel();
     if (newLevel > level) {
         level = newLevel;
+        stats.level = level;
         onLevelUp();
     }
 }
@@ -192,6 +193,7 @@ function hardDrop() {
 function lockPieceToBoard() {
     if (!currentPiece) return;
 
+    updatePiecePlaced();
     board = lockPiece(board, currentPiece);
     const lines = checkLines(board);
 
@@ -267,6 +269,8 @@ function update(deltaTime) {
             const result = clearLines(board, clearingLines);
             board = result.board;
             score += result.linesCleared * pointsPerRow;
+            stats.score = score;
+            stats.lines += result.linesCleared;
             checkLevelUp();
             clearingLines = [];
             spawnPiece();
@@ -351,6 +355,7 @@ function resetGame() {
     lockCounter = 0;
     isLocking = false;
     spawnPiece();
+    startSession();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -358,6 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupInput();
     board = createBoard();
     spawnPiece();
+    startSession();
 
     channel.onmessage = function(event) {
         var data = event.data;
