@@ -1,5 +1,8 @@
 # GSD
 
+GSD in Claude Code
+<img src="GSD-in-Action-cc.png" width="600" />
+
 ## Install
 
 ```bash
