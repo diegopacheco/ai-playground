@@ -1,7 +1,7 @@
 # Roadmap: Tetris Twist
 
 **Created:** 2026-02-02
-**Depth:** Quick (4 phases)
+**Depth:** Quick
 **Core Value:** Real-time admin control loop
 
 ## Overview
@@ -12,8 +12,19 @@
 | 2 | Scoring & Polish | Complete game feel with scoring, preview, hold | 9 | ✓ Complete |
 | 3 | Themes & Admin | Admin panel with real-time control | 12 | ✓ Complete |
 | 4 | Unique Mechanics | Freeze cycle and board growth | 5 | ✓ Complete |
+| 5 | Additional Themes | Visual variety with new themes | 3 | Pending |
+| 6 | Session Statistics | Performance tracking and display | 4 | Pending |
+| 7 | Combo System | Reward consecutive line clears | 5 | Pending |
+| 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | Pending |
+| 9 | Audio Feedback | Sound effects for game events | 5 | Pending |
+| 10 | Keyboard Remapping | Customizable controls | 5 | Pending |
 
-**Total:** 4 phases | 37 requirements | 100% complete
+**Milestone v1.0:** 4 phases | 37 requirements | 100% complete
+**Milestone v2.0:** 6 phases | 27 requirements | 0% complete
+
+---
+
+## Milestone: v1.0 (SHIPPED)
 
 ---
 
@@ -137,31 +148,168 @@ Plans:
 
 ---
 
+## Milestone: v2.0 (IN PROGRESS)
+
+---
+
+## Phase 5: Additional Themes
+
+**Goal:** Players experience visual variety with new accessible themes.
+
+**Dependencies:** None (extends existing theme system)
+
+**Requirements:**
+- THEM-05: Add Minimalist theme (clean, simple colors)
+- THEM-06: Add High Contrast theme (accessibility-focused)
+- THEM-07: Admin theme selector shows all 5+ themes
+
+**Success Criteria:**
+1. Player can select Minimalist theme and see clean color palette
+2. Player can select High Contrast theme with strong color differentiation
+3. Admin panel theme dropdown lists 5 themes
+4. Theme changes during gameplay apply instantly without visual glitches
+
+---
+
+## Phase 6: Session Statistics
+
+**Goal:** Players see detailed performance metrics during and after gameplay.
+
+**Dependencies:** None (pure tracking, no game mechanic changes)
+
+**Requirements:**
+- STAT-01: Track basic stats (score, lines, level, time, pieces placed)
+- STAT-02: Track advanced stats (PPS, APM, efficiency, tetris rate)
+- STAT-03: Display real-time stats in sidebar
+- STAT-04: Session summary screen shows all stats on game over
+
+**Success Criteria:**
+1. Player sees live stats sidebar with score, lines, level, time, pieces
+2. Sidebar displays real-time PPS and APM calculations
+3. Game over screen shows complete session summary with all metrics
+4. Stats update correctly during freeze cycles (time continues, actions pause)
+
+---
+
+## Phase 7: Combo System
+
+**Goal:** Players receive bonus points for consecutive line clears.
+
+**Dependencies:** Phase 6 (stats tracking for combo display)
+
+**Requirements:**
+- COMB-01: Combo counter tracks consecutive line clears
+- COMB-02: Combo resets when piece locks without clearing lines
+- COMB-03: Combo awards bonus points (50 × combo × level)
+- COMB-04: Visual combo counter displays during active combo
+- COMB-05: Back-to-Back bonus (1.5x) for consecutive Tetris/T-spin clears
+
+**Success Criteria:**
+1. Player clears line, combo counter shows "1x Combo"
+2. Player clears another line immediately, combo increments to "2x Combo"
+3. Player locks piece without clearing, combo resets to zero
+4. Combo bonus points add to score after each clear
+5. Consecutive Tetris clears show "Back-to-Back" indicator and award 1.5x points
+
+---
+
+## Phase 8: T-Spin Detection
+
+**Goal:** Players receive recognition and bonus points for advanced T-spin moves.
+
+**Dependencies:** Phase 7 (combo system for B2B and scoring integration)
+
+**Requirements:**
+- TSPN-01: Game detects T-spin when T-piece locks after rotation with 3+ corners occupied
+- TSPN-02: Mini T-spin detected when only 1 front corner occupied
+- TSPN-03: Full T-spin detected when 2 front corners occupied
+- TSPN-04: T-spin awards bonus points (200 mini, 400 full, +400 per line)
+- TSPN-05: Visual indicator displays T-spin type on detection
+
+**Success Criteria:**
+1. Player rotates T-piece into tight space, locks it, and sees "T-Spin Mini" indicator
+2. Player performs full T-spin, sees "T-Spin" indicator with bonus points
+3. T-spin with line clear awards base T-spin points plus line clear bonus
+4. Back-to-Back T-spin clears show B2B indicator and multiply points by 1.5x
+5. T-spin detection only triggers after rotation, not simple drops
+
+---
+
+## Phase 9: Audio Feedback
+
+**Goal:** Players receive auditory feedback for game events.
+
+**Dependencies:** None (independent feature)
+
+**Requirements:**
+- AUDIO-01: Sound effect plays on piece land
+- AUDIO-02: Sound effect plays on line clear
+- AUDIO-03: Sound effect plays on Tetris (4-line clear)
+- AUDIO-04: Sound effect plays on game over
+- AUDIO-05: Mute toggle in admin panel persists to localStorage
+
+**Success Criteria:**
+1. Player hears distinct sound when piece locks on surface
+2. Line clear plays satisfying clear sound
+3. Tetris clear plays special higher-pitched sound
+4. Game over plays final sound effect
+5. Admin can toggle mute and setting persists across browser sessions
+
+---
+
+## Phase 10: Keyboard Remapping
+
+**Goal:** Players customize all controls to their preferences.
+
+**Dependencies:** None (refactors existing input system)
+
+**Requirements:**
+- KEYS-01: All game controls are remappable
+- KEYS-02: Visual settings UI for key binding
+- KEYS-03: Key bindings persist to localStorage
+- KEYS-04: Conflict detection prevents duplicate bindings
+- KEYS-05: Default bindings restore option
+
+**Success Criteria:**
+1. Player opens settings UI and sees current key bindings
+2. Player clicks a control, presses new key, binding updates immediately
+3. Player attempts to bind same key to two controls, receives conflict warning
+4. Player closes game, reopens, and custom bindings are still active
+5. Player clicks "Restore Defaults" and all controls return to arrow keys and spacebar
+
+---
+
 ## Phase Dependencies
 
 ```
-Phase 1 (Core Engine)
+Milestone v1.0 (Complete)
     ↓
-Phase 2 (Scoring & Polish)
+Phase 5 (Additional Themes) ← independent
+Phase 6 (Session Statistics) ← independent
     ↓
-Phase 3 (Themes & Admin)
+Phase 7 (Combo System)
     ↓
-Phase 4 (Unique Mechanics)
+Phase 8 (T-Spin Detection)
+
+Phase 9 (Audio Feedback) ← independent
+Phase 10 (Keyboard Remapping) ← independent (refactors input)
 ```
 
-All phases are sequential — each builds on the previous.
+**Sequential path:** Phase 5 → 6 → 7 → 8
+**Parallel paths:** Phase 9 (Audio), Phase 10 (Keyboard) can be developed independently
 
 ---
 
-## Milestone: v1.0
+## Milestone: v2.0 Definition of Done
 
-**Definition of Done:**
-- All 37 v1 requirements complete
-- Game playable end-to-end
-- Admin panel functional
-- All 3 themes working
-- Freeze and growth mechanics active
+- All 27 v2 requirements complete
+- 2 new themes working (Minimalist, High Contrast)
+- Session statistics display and summary functional
+- Combo system awards points correctly
+- T-spin detection with visual feedback
+- Sound effects for all major events
+- Full keyboard remapping with conflict detection
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-03 after Phase 4 complete — Milestone v1.0 achieved*
+*Last updated: 2026-02-03 after v2.0 roadmap created*
