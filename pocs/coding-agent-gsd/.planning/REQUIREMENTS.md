@@ -3,83 +3,125 @@
 **Defined:** 2026-02-02
 **Core Value:** Real-time admin control loop — admin tweaks, player experiences instantly
 
-## v1 Requirements
+## v1 Requirements (SHIPPED)
 
 ### Core Mechanics
 
-- [ ] **CORE-01**: Game displays 10-column, 20-row grid on canvas
-- [ ] **CORE-02**: 7 standard tetrominoes spawn (I, O, T, S, Z, J, L)
-- [ ] **CORE-03**: Pieces fall automatically at configurable speed
-- [ ] **CORE-04**: Player can move piece left/right with arrow keys
-- [ ] **CORE-05**: Player can soft drop (accelerate fall) with down arrow
-- [ ] **CORE-06**: Player can hard drop (instant fall) with spacebar
-- [ ] **CORE-07**: Player can rotate piece clockwise with up arrow
-- [ ] **CORE-08**: Rotation uses wall kicks when near edges
-- [ ] **CORE-09**: Pieces lock when they land on surface/other pieces
-- [ ] **CORE-10**: Completed rows clear and award points
-- [ ] **CORE-11**: Game ends when pieces stack to top
+- [x] **CORE-01**: Game displays 10-column, 20-row grid on canvas
+- [x] **CORE-02**: 7 standard tetrominoes spawn (I, O, T, S, Z, J, L)
+- [x] **CORE-03**: Pieces fall automatically at configurable speed
+- [x] **CORE-04**: Player can move piece left/right with arrow keys
+- [x] **CORE-05**: Player can soft drop (accelerate fall) with down arrow
+- [x] **CORE-06**: Player can hard drop (instant fall) with spacebar
+- [x] **CORE-07**: Player can rotate piece clockwise with up arrow
+- [x] **CORE-08**: Rotation uses wall kicks when near edges
+- [x] **CORE-09**: Pieces lock when they land on surface/other pieces
+- [x] **CORE-10**: Completed rows clear and award points
+- [x] **CORE-11**: Game ends when pieces stack to top
 
 ### Enhanced Mechanics
 
-- [ ] **EHNC-01**: Ghost piece shows landing position
-- [ ] **EHNC-02**: Hold piece allows swapping current piece (once per drop)
-- [ ] **EHNC-03**: Next piece preview displays upcoming piece
-- [ ] **EHNC-04**: Player can pause/resume game with P key
+- [x] **EHNC-01**: Ghost piece shows landing position
+- [x] **EHNC-02**: Hold piece allows swapping current piece (once per drop)
+- [x] **EHNC-03**: Next piece preview displays upcoming piece
+- [x] **EHNC-04**: Player can pause/resume game with P key
 
 ### Unique Mechanics
 
-- [ ] **UNIQ-01**: Game alternates 10s play / 10s freeze cycles
-- [ ] **UNIQ-02**: Freeze state has clear visual indicator and countdown
-- [ ] **UNIQ-03**: Board grows (wider and taller) every 30s
-- [ ] **UNIQ-04**: Board growth is visually smooth, pieces stay in place
-- [ ] **UNIQ-05**: Board has maximum size limit
+- [x] **UNIQ-01**: Game alternates 10s play / 10s freeze cycles
+- [x] **UNIQ-02**: Freeze state has clear visual indicator and countdown
+- [x] **UNIQ-03**: Board grows (wider and taller) every 30s
+- [x] **UNIQ-04**: Board growth is visually smooth, pieces stay in place
+- [x] **UNIQ-05**: Board has maximum size limit
 
 ### Scoring & Progression
 
-- [ ] **SCOR-01**: Score display updates in real-time
-- [ ] **SCOR-02**: Clearing a row awards configurable points (default 10)
-- [ ] **SCOR-03**: Level display shows current level
-- [ ] **SCOR-04**: 100 points advances to next level
-- [ ] **SCOR-05**: Level up triggers visual theme change
+- [x] **SCOR-01**: Score display updates in real-time
+- [x] **SCOR-02**: Clearing a row awards configurable points (default 10)
+- [x] **SCOR-03**: Level display shows current level
+- [x] **SCOR-04**: 100 points advances to next level
+- [x] **SCOR-05**: Level up triggers visual theme change
 
 ### Theming
 
-- [ ] **THEM-01**: 3 pre-built themes available (Classic, Neon, Retro)
-- [ ] **THEM-02**: Themes define piece colors and shapes
-- [ ] **THEM-03**: Theme changes apply instantly without restart
-- [ ] **THEM-04**: Level up cycles through themes
+- [x] **THEM-01**: 3 pre-built themes available (Classic, Neon, Retro)
+- [x] **THEM-02**: Themes define piece colors and shapes
+- [x] **THEM-03**: Theme changes apply instantly without restart
+- [x] **THEM-04**: Level up cycles through themes
 
 ### Admin Panel
 
-- [ ] **ADMN-01**: Admin panel runs in separate browser tab
-- [ ] **ADMN-02**: Admin can select active theme from dropdown
-- [ ] **ADMN-03**: Admin can adjust fall speed via slider
-- [ ] **ADMN-04**: Admin can adjust points per row via input
-- [ ] **ADMN-05**: Admin can adjust board growth interval via slider
-- [ ] **ADMN-06**: Admin sees live game stats (score, level)
-- [ ] **ADMN-07**: All admin changes sync to game in real-time
+- [x] **ADMN-01**: Admin panel runs in separate browser tab
+- [x] **ADMN-02**: Admin can select active theme from dropdown
+- [x] **ADMN-03**: Admin can adjust fall speed via slider
+- [x] **ADMN-04**: Admin can adjust points per row via input
+- [x] **ADMN-05**: Admin can adjust board growth interval via slider
+- [x] **ADMN-06**: Admin sees live game stats (score, level)
+- [x] **ADMN-07**: All admin changes sync to game in real-time
 
 ### Technical
 
-- [ ] **TECH-01**: Game uses HTML5 Canvas for rendering
-- [ ] **TECH-02**: Game runs at 60fps using requestAnimationFrame
-- [ ] **TECH-03**: Admin/game sync via BroadcastChannel API
-- [ ] **TECH-04**: No external dependencies (vanilla JS)
-- [ ] **TECH-05**: Canvas renders crisp on high-DPI displays
+- [x] **TECH-01**: Game uses HTML5 Canvas for rendering
+- [x] **TECH-02**: Game runs at 60fps using requestAnimationFrame
+- [x] **TECH-03**: Admin/game sync via BroadcastChannel API
+- [x] **TECH-04**: No external dependencies (vanilla JS)
+- [x] **TECH-05**: Canvas renders crisp on high-DPI displays
 
 ## v2 Requirements
 
-### Enhanced Features
+### T-Spin Detection
 
-- **V2-01**: T-spin detection with bonus points
-- **V2-02**: Combo multipliers for chain clears
-- **V2-03**: Session statistics (total pieces, lines, time)
-- **V2-04**: Additional themes (5+ total)
+- [ ] **TSPN-01**: Game detects T-spin when T-piece locks after rotation with 3+ corners occupied
+- [ ] **TSPN-02**: Mini T-spin detected when only 1 front corner occupied
+- [ ] **TSPN-03**: Full T-spin detected when 2 front corners occupied
+- [ ] **TSPN-04**: T-spin awards bonus points (200 mini, 400 full, +400 per line)
+- [ ] **TSPN-05**: Visual indicator displays T-spin type on detection
+
+### Combo System
+
+- [ ] **COMB-01**: Combo counter tracks consecutive line clears
+- [ ] **COMB-02**: Combo resets when piece locks without clearing lines
+- [ ] **COMB-03**: Combo awards bonus points (50 × combo × level)
+- [ ] **COMB-04**: Visual combo counter displays during active combo
+- [ ] **COMB-05**: Back-to-Back bonus (1.5x) for consecutive Tetris/T-spin clears
+
+### Session Statistics
+
+- [ ] **STAT-01**: Track basic stats (score, lines, level, time, pieces placed)
+- [ ] **STAT-02**: Track advanced stats (PPS, APM, efficiency, tetris rate)
+- [ ] **STAT-03**: Display real-time stats in sidebar
+- [ ] **STAT-04**: Session summary screen shows all stats on game over
+
+### Additional Themes
+
+- [ ] **THEM-05**: Add Minimalist theme (clean, simple colors)
+- [ ] **THEM-06**: Add High Contrast theme (accessibility-focused)
+- [ ] **THEM-07**: Admin theme selector shows all 5+ themes
+
+### Audio
+
+- [ ] **AUDIO-01**: Sound effect plays on piece land
+- [ ] **AUDIO-02**: Sound effect plays on line clear
+- [ ] **AUDIO-03**: Sound effect plays on Tetris (4-line clear)
+- [ ] **AUDIO-04**: Sound effect plays on game over
+- [ ] **AUDIO-05**: Mute toggle in admin panel persists to localStorage
+
+### Keyboard Remapping
+
+- [ ] **KEYS-01**: All game controls are remappable
+- [ ] **KEYS-02**: Visual settings UI for key binding
+- [ ] **KEYS-03**: Key bindings persist to localStorage
+- [ ] **KEYS-04**: Conflict detection prevents duplicate bindings
+- [ ] **KEYS-05**: Default bindings restore option
+
+## v3 Requirements (Deferred)
 
 ### Polish
 
-- **V2-05**: Sound effects and music
-- **V2-06**: Keyboard remapping
+- **V3-01**: Combo pitch scaling (Tetris Effect style)
+- **V3-02**: Music/background audio
+- **V3-03**: Personal best tracking across sessions
+- **V3-04**: Import/export key bindings
 
 ## Out of Scope
 
@@ -90,59 +132,87 @@
 | Leaderboards | Not requested |
 | User accounts | Not requested |
 | Mobile touch controls | Desktop browser target |
-| Custom theme editor | Pre-built themes only for v1 |
+| Custom theme editor | Pre-built themes only |
 
 ## Traceability
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CORE-01 | Phase 1 | Complete |
-| CORE-02 | Phase 1 | Complete |
-| CORE-03 | Phase 1 | Complete |
-| CORE-04 | Phase 1 | Complete |
-| CORE-05 | Phase 1 | Complete |
-| CORE-06 | Phase 1 | Complete |
-| CORE-07 | Phase 1 | Complete |
-| CORE-08 | Phase 1 | Complete |
-| CORE-09 | Phase 1 | Complete |
-| CORE-10 | Phase 1 | Complete |
-| CORE-11 | Phase 1 | Complete |
-| EHNC-01 | Phase 2 | Complete |
-| EHNC-02 | Phase 2 | Complete |
-| EHNC-03 | Phase 2 | Complete |
-| EHNC-04 | Phase 2 | Complete |
-| SCOR-01 | Phase 2 | Complete |
-| SCOR-02 | Phase 2 | Complete |
-| SCOR-03 | Phase 2 | Complete |
-| SCOR-04 | Phase 2 | Complete |
-| SCOR-05 | Phase 2 | Complete |
-| THEM-01 | Phase 3 | Complete |
-| THEM-02 | Phase 3 | Complete |
-| THEM-03 | Phase 3 | Complete |
-| THEM-04 | Phase 3 | Complete |
-| ADMN-01 | Phase 3 | Complete |
-| ADMN-02 | Phase 3 | Complete |
-| ADMN-03 | Phase 3 | Complete |
-| ADMN-04 | Phase 3 | Complete |
-| ADMN-05 | Phase 3 | Complete |
-| ADMN-06 | Phase 3 | Complete |
-| ADMN-07 | Phase 3 | Complete |
-| TECH-01 | Phase 1 | Complete |
-| TECH-02 | Phase 1 | Complete |
-| TECH-03 | Phase 3 | Complete |
-| TECH-04 | Phase 1 | Complete |
-| TECH-05 | Phase 1 | Complete |
-| UNIQ-01 | Phase 4 | Complete |
-| UNIQ-02 | Phase 4 | Complete |
-| UNIQ-03 | Phase 4 | Complete |
-| UNIQ-04 | Phase 4 | Complete |
-| UNIQ-05 | Phase 4 | Complete |
+| CORE-01 | Phase 1 | ✓ Complete |
+| CORE-02 | Phase 1 | ✓ Complete |
+| CORE-03 | Phase 1 | ✓ Complete |
+| CORE-04 | Phase 1 | ✓ Complete |
+| CORE-05 | Phase 1 | ✓ Complete |
+| CORE-06 | Phase 1 | ✓ Complete |
+| CORE-07 | Phase 1 | ✓ Complete |
+| CORE-08 | Phase 1 | ✓ Complete |
+| CORE-09 | Phase 1 | ✓ Complete |
+| CORE-10 | Phase 1 | ✓ Complete |
+| CORE-11 | Phase 1 | ✓ Complete |
+| EHNC-01 | Phase 2 | ✓ Complete |
+| EHNC-02 | Phase 2 | ✓ Complete |
+| EHNC-03 | Phase 2 | ✓ Complete |
+| EHNC-04 | Phase 2 | ✓ Complete |
+| SCOR-01 | Phase 2 | ✓ Complete |
+| SCOR-02 | Phase 2 | ✓ Complete |
+| SCOR-03 | Phase 2 | ✓ Complete |
+| SCOR-04 | Phase 2 | ✓ Complete |
+| SCOR-05 | Phase 2 | ✓ Complete |
+| THEM-01 | Phase 3 | ✓ Complete |
+| THEM-02 | Phase 3 | ✓ Complete |
+| THEM-03 | Phase 3 | ✓ Complete |
+| THEM-04 | Phase 3 | ✓ Complete |
+| ADMN-01 | Phase 3 | ✓ Complete |
+| ADMN-02 | Phase 3 | ✓ Complete |
+| ADMN-03 | Phase 3 | ✓ Complete |
+| ADMN-04 | Phase 3 | ✓ Complete |
+| ADMN-05 | Phase 3 | ✓ Complete |
+| ADMN-06 | Phase 3 | ✓ Complete |
+| ADMN-07 | Phase 3 | ✓ Complete |
+| TECH-01 | Phase 1 | ✓ Complete |
+| TECH-02 | Phase 1 | ✓ Complete |
+| TECH-03 | Phase 3 | ✓ Complete |
+| TECH-04 | Phase 1 | ✓ Complete |
+| TECH-05 | Phase 1 | ✓ Complete |
+| UNIQ-01 | Phase 4 | ✓ Complete |
+| UNIQ-02 | Phase 4 | ✓ Complete |
+| UNIQ-03 | Phase 4 | ✓ Complete |
+| UNIQ-04 | Phase 4 | ✓ Complete |
+| UNIQ-05 | Phase 4 | ✓ Complete |
+| THEM-05 | Phase 5 | Pending |
+| THEM-06 | Phase 5 | Pending |
+| THEM-07 | Phase 5 | Pending |
+| STAT-01 | Phase 6 | Pending |
+| STAT-02 | Phase 6 | Pending |
+| STAT-03 | Phase 6 | Pending |
+| STAT-04 | Phase 6 | Pending |
+| COMB-01 | Phase 7 | Pending |
+| COMB-02 | Phase 7 | Pending |
+| COMB-03 | Phase 7 | Pending |
+| COMB-04 | Phase 7 | Pending |
+| COMB-05 | Phase 7 | Pending |
+| TSPN-01 | Phase 8 | Pending |
+| TSPN-02 | Phase 8 | Pending |
+| TSPN-03 | Phase 8 | Pending |
+| TSPN-04 | Phase 8 | Pending |
+| TSPN-05 | Phase 8 | Pending |
+| AUDIO-01 | Phase 9 | Pending |
+| AUDIO-02 | Phase 9 | Pending |
+| AUDIO-03 | Phase 9 | Pending |
+| AUDIO-04 | Phase 9 | Pending |
+| AUDIO-05 | Phase 9 | Pending |
+| KEYS-01 | Phase 10 | Pending |
+| KEYS-02 | Phase 10 | Pending |
+| KEYS-03 | Phase 10 | Pending |
+| KEYS-04 | Phase 10 | Pending |
+| KEYS-05 | Phase 10 | Pending |
 
 **Coverage:**
-- v1 requirements: 37 total
-- Mapped to phases: 37
+- v1 requirements: 37 total (all complete)
+- v2 requirements: 25 total
+- Mapped to phases: 25
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-03 after Phase 4 complete — All 37 v1 requirements complete*
+*Last updated: 2026-02-03 after v2.0 requirements scoped*
