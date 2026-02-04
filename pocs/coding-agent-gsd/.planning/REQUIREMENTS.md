@@ -94,9 +94,9 @@
 
 ### Additional Themes
 
-- [ ] **THEM-05**: Add Minimalist theme (clean, simple colors)
-- [ ] **THEM-06**: Add High Contrast theme (accessibility-focused)
-- [ ] **THEM-07**: Admin theme selector shows all 5+ themes
+- [x] **THEM-05**: Add Minimalist theme (clean, simple colors)
+- [x] **THEM-06**: Add High Contrast theme (accessibility-focused)
+- [x] **THEM-07**: Admin theme selector shows all 5+ themes
 
 ### Audio
 
@@ -179,9 +179,9 @@
 | UNIQ-03 | Phase 4 | ✓ Complete |
 | UNIQ-04 | Phase 4 | ✓ Complete |
 | UNIQ-05 | Phase 4 | ✓ Complete |
-| THEM-05 | Phase 5 | Pending |
-| THEM-06 | Phase 5 | Pending |
-| THEM-07 | Phase 5 | Pending |
+| THEM-05 | Phase 5 | ✓ Complete |
+| THEM-06 | Phase 5 | ✓ Complete |
+| THEM-07 | Phase 5 | ✓ Complete |
 | STAT-01 | Phase 6 | Pending |
 | STAT-02 | Phase 6 | Pending |
 | STAT-03 | Phase 6 | Pending |

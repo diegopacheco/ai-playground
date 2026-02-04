@@ -12,7 +12,7 @@
 | 2 | Scoring & Polish | Complete game feel with scoring, preview, hold | 9 | ✓ Complete |
 | 3 | Themes & Admin | Admin panel with real-time control | 12 | ✓ Complete |
 | 4 | Unique Mechanics | Freeze cycle and board growth | 5 | ✓ Complete |
-| 5 | Additional Themes | Visual variety with new themes | 3 | Pending |
+| 5 | Additional Themes | Visual variety with new themes | 3 | ✓ Complete |
 | 6 | Session Statistics | Performance tracking and display | 4 | Pending |
 | 7 | Combo System | Reward consecutive line clears | 5 | Pending |
 | 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | Pending |
@@ -20,7 +20,7 @@
 | 10 | Keyboard Remapping | Customizable controls | 5 | Pending |
 
 **Milestone v1.0:** 4 phases | 37 requirements | 100% complete
-**Milestone v2.0:** 6 phases | 27 requirements | 0% complete
+**Milestone v2.0:** 6 phases | 27 requirements | 17% complete (1/6 phases)
 
 ---
 
@@ -163,10 +163,10 @@ Plans:
 - THEM-06: Add High Contrast theme (accessibility-focused)
 - THEM-07: Admin theme selector shows all 5+ themes
 
-**Plans:** 1 plan
+**Plans:** 1 plan (complete)
 
 Plans:
-- [ ] 05-01-PLAN.md — Add Minimalist and High Contrast themes
+- [x] 05-01-PLAN.md — Add Minimalist and High Contrast themes
 
 **Success Criteria:**
 1. Player can select Minimalist theme and see clean color palette
