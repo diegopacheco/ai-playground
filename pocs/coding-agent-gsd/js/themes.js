@@ -43,10 +43,40 @@ const THEMES = {
       J: '#4682b4',
       L: '#d2691e'
     }
+  },
+  minimalist: {
+    name: 'Minimalist',
+    colors: {
+      background: '#f5f5f5',
+      grid: '#d0d0d0',
+      sidebar: '#e8e8e8',
+      I: '#87ceeb',
+      O: '#f0e68c',
+      T: '#dda0dd',
+      S: '#90ee90',
+      Z: '#ffb6c1',
+      J: '#add8e6',
+      L: '#ffa07a'
+    }
+  },
+  highcontrast: {
+    name: 'High Contrast',
+    colors: {
+      background: '#000000',
+      grid: '#ffffff',
+      sidebar: '#1a1a1a',
+      I: '#00ffff',
+      O: '#ffff00',
+      T: '#ff00ff',
+      S: '#00ff00',
+      Z: '#ff0000',
+      J: '#0080ff',
+      L: '#ff8000'
+    }
   }
 };
 
-const THEME_ORDER = ['classic', 'neon', 'retro'];
+const THEME_ORDER = ['classic', 'neon', 'retro', 'minimalist', 'highcontrast'];
 
 let currentTheme = THEMES.classic;
 
