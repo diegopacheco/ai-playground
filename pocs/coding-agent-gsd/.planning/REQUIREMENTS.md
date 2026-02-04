@@ -209,10 +209,10 @@
 
 **Coverage:**
 - v1 requirements: 37 total (all complete)
-- v2 requirements: 25 total
-- Mapped to phases: 25
+- v2 requirements: 27 total
+- Mapped to phases: 27
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-03 after v2.0 requirements scoped*
+*Last updated: 2026-02-03 after v2.0 roadmap created*
