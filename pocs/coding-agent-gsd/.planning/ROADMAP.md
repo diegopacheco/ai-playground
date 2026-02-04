@@ -163,6 +163,11 @@ Plans:
 - THEM-06: Add High Contrast theme (accessibility-focused)
 - THEM-07: Admin theme selector shows all 5+ themes
 
+**Plans:** 1 plan
+
+Plans:
+- [ ] 05-01-PLAN.md — Add Minimalist and High Contrast themes
+
 **Success Criteria:**
 1. Player can select Minimalist theme and see clean color palette
 2. Player can select High Contrast theme with strong color differentiation
@@ -312,4 +317,4 @@ Phase 10 (Keyboard Remapping) ← independent (refactors input)
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-03 after v2.0 roadmap created*
+*Last updated: 2026-02-03 after Phase 5 planned*
