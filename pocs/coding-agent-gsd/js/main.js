@@ -220,24 +220,36 @@ function processInput() {
     if (!currentPiece) return;
 
     if (input.hold) {
+        var couldHold = canHold && currentPiece;
         holdPiece();
+        if (couldHold) {
+            trackAction();
+        }
     }
     if (input.left) {
-        movePiece(-1, 0);
+        if (movePiece(-1, 0)) {
+            trackAction();
+        }
     }
     if (input.right) {
-        movePiece(1, 0);
+        if (movePiece(1, 0)) {
+            trackAction();
+        }
     }
     if (input.down) {
         if (movePiece(0, 1)) {
             dropCounter = 0;
+            trackAction();
         }
     }
     if (input.rotate) {
-        rotatePiece();
+        if (rotatePiece()) {
+            trackAction();
+        }
     }
     if (input.hardDrop) {
         hardDrop();
+        trackAction();
     }
 }
 
