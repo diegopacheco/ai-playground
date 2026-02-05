@@ -118,19 +118,19 @@ function drawScore(score, level) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
 
-    ctx.fillText('SCORE', centerX, 360);
+    ctx.fillText('SCORE', centerX, 395);
 
     ctx.font = 'bold 24px Arial';
     ctx.fillStyle = '#00ffff';
-    ctx.fillText(score.toString(), centerX, 385);
+    ctx.fillText(score.toString(), centerX, 420);
 
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 16px Arial';
-    ctx.fillText('LEVEL', centerX, 440);
+    ctx.fillText('LEVEL', centerX, 475);
 
     ctx.font = 'bold 24px Arial';
     ctx.fillStyle = '#ffff00';
-    ctx.fillText(level.toString(), centerX, 465);
+    ctx.fillText(level.toString(), centerX, 500);
 }
 
 function drawSessionStats() {
@@ -143,6 +143,8 @@ function drawSessionStats() {
     ctx.fillText('LINES: ' + stats.lines, sidebarX + 10, startY);
     ctx.fillText('TIME: ' + formatTime(getSessionTime()), sidebarX + 10, startY + 15);
     ctx.fillText('PIECES: ' + stats.piecesPlaced, sidebarX + 10, startY + 30);
+    ctx.fillText('PPS: ' + formatDecimal(calculatePPS(), 2), sidebarX + 10, startY + 45);
+    ctx.fillText('APM: ' + Math.floor(calculateAPM()), sidebarX + 10, startY + 60);
 }
 
 function drawGhost(pieceType, x, ghostY, rotation) {
