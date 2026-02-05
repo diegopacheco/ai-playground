@@ -13,14 +13,14 @@
 | 3 | Themes & Admin | Admin panel with real-time control | 12 | ✓ Complete |
 | 4 | Unique Mechanics | Freeze cycle and board growth | 5 | ✓ Complete |
 | 5 | Additional Themes | Visual variety with new themes | 3 | ✓ Complete |
-| 6 | Session Statistics | Performance tracking and display | 4 | Pending |
+| 6 | Session Statistics | Performance tracking and display | 4 | ✓ Complete |
 | 7 | Combo System | Reward consecutive line clears | 5 | Pending |
 | 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | Pending |
 | 9 | Audio Feedback | Sound effects for game events | 5 | Pending |
 | 10 | Keyboard Remapping | Customizable controls | 5 | Pending |
 
 **Milestone v1.0:** 4 phases | 37 requirements | 100% complete
-**Milestone v2.0:** 6 phases | 27 requirements | 17% complete (1/6 phases)
+**Milestone v2.0:** 6 phases | 27 requirements | 33% complete (2/6 phases)
 
 ---
 
@@ -188,11 +188,11 @@ Plans:
 - STAT-03: Display real-time stats in sidebar
 - STAT-04: Session summary screen shows all stats on game over
 
-**Plans:** 2 plans
+**Plans:** 2 plans (all complete)
 
 Plans:
-- [ ] 06-01-PLAN.md — Stats tracking module and basic sidebar display
-- [ ] 06-02-PLAN.md — Advanced stats calculation and game over summary screen
+- [x] 06-01-PLAN.md — Stats tracking module and basic sidebar display
+- [x] 06-02-PLAN.md — Advanced stats calculation and game over summary screen
 
 **Success Criteria:**
 1. Player sees live stats sidebar with score, lines, level, time, pieces
@@ -323,4 +323,4 @@ Phase 10 (Keyboard Remapping) ← independent (refactors input)
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-04 after Phase 6 planned*
+*Last updated: 2026-02-04 after Phase 6 complete*
