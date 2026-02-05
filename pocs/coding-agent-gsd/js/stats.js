@@ -4,7 +4,8 @@ var stats = {
     level: 1,
     time: 0,
     piecesPlaced: 0,
-    sessionStartTime: 0
+    sessionStartTime: 0,
+    actionsCount: 0
 };
 
 function startSession() {
@@ -14,6 +15,7 @@ function startSession() {
     stats.time = 0;
     stats.piecesPlaced = 0;
     stats.sessionStartTime = performance.now();
+    stats.actionsCount = 0;
 }
 
 function updatePiecePlaced() {
@@ -33,12 +35,52 @@ function formatTime(ms) {
     return minStr + ':' + secStr;
 }
 
+function trackAction() {
+    stats.actionsCount++;
+}
+
+function calculatePPS() {
+    var timeMs = getSessionTime();
+    if (timeMs === 0) return 0;
+    return stats.piecesPlaced / (timeMs / 1000);
+}
+
+function calculateAPM() {
+    var timeMs = getSessionTime();
+    if (timeMs === 0) return 0;
+    return stats.actionsCount / (timeMs / 60000);
+}
+
+function calculateEfficiency() {
+    if (stats.actionsCount === 0) return 0;
+    return (stats.piecesPlaced * 60) / stats.actionsCount * 100;
+}
+
+function getTetrisRate() {
+    return 0;
+}
+
+function formatDecimal(num, decimals) {
+    return num.toFixed(decimals);
+}
+
+function formatPercent(num) {
+    return num.toFixed(1) + '%';
+}
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         stats: stats,
         startSession: startSession,
         updatePiecePlaced: updatePiecePlaced,
         getSessionTime: getSessionTime,
-        formatTime: formatTime
+        formatTime: formatTime,
+        trackAction: trackAction,
+        calculatePPS: calculatePPS,
+        calculateAPM: calculateAPM,
+        calculateEfficiency: calculateEfficiency,
+        getTetrisRate: getTetrisRate,
+        formatDecimal: formatDecimal,
+        formatPercent: formatPercent
     };
 }
