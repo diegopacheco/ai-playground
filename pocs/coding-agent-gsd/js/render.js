@@ -96,6 +96,76 @@ function drawGameOver(board) {
     ctx.fillText('Press R to restart', (COLS * CELL_SIZE) / 2, (board.length * CELL_SIZE) / 2 + 20);
 }
 
+function drawSessionSummary(board, score, level) {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+    ctx.fillRect(0, 0, COLS * CELL_SIZE, board.length * CELL_SIZE);
+    var canvasCenterX = (COLS * CELL_SIZE) / 2;
+    var canvasCenterY = (board.length * CELL_SIZE) / 2;
+    var boxWidth = 280;
+    var boxHeight = 320;
+    var boxX = canvasCenterX - boxWidth / 2;
+    var boxY = canvasCenterY - boxHeight / 2;
+    ctx.fillStyle = 'rgba(20, 20, 20, 0.95)';
+    ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
+    ctx.strokeStyle = '#00ffff';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(boxX, boxY, boxWidth, boxHeight);
+    ctx.fillStyle = '#00ffff';
+    ctx.font = 'bold 24px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillText('SESSION COMPLETE', canvasCenterX, boxY + 20);
+    var statsStartY = boxY + 70;
+    var rowHeight = 30;
+    ctx.font = 'bold 14px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('Final Score:', boxX + 20, statsStartY);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#00ffff';
+    ctx.fillText(score.toString(), boxX + boxWidth - 20, statsStartY);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('Lines Cleared:', boxX + 20, statsStartY + rowHeight);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#00ffff';
+    ctx.fillText(stats.lines.toString(), boxX + boxWidth - 20, statsStartY + rowHeight);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('Level Reached:', boxX + 20, statsStartY + rowHeight * 2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#00ffff';
+    ctx.fillText(level.toString(), boxX + boxWidth - 20, statsStartY + rowHeight * 2);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('Session Time:', boxX + 20, statsStartY + rowHeight * 3);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#00ffff';
+    ctx.fillText(formatTime(getSessionTime()), boxX + boxWidth - 20, statsStartY + rowHeight * 3);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('Pieces Placed:', boxX + 20, statsStartY + rowHeight * 4);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#00ffff';
+    ctx.fillText(stats.piecesPlaced.toString(), boxX + boxWidth - 20, statsStartY + rowHeight * 4);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('PPS:', boxX + 20, statsStartY + rowHeight * 5);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#00ffff';
+    ctx.fillText(formatDecimal(calculatePPS(), 2), boxX + boxWidth - 20, statsStartY + rowHeight * 5);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('APM:', boxX + 20, statsStartY + rowHeight * 6);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#00ffff';
+    ctx.fillText(Math.floor(calculateAPM()).toString(), boxX + boxWidth - 20, statsStartY + rowHeight * 6);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('Press R to play again', canvasCenterX, boxY + boxHeight - 30);
+}
+
 function drawSidebar(board) {
     const sidebarX = COLS * CELL_SIZE;
     ctx.fillStyle = currentTheme.colors.sidebar;

@@ -345,7 +345,7 @@ function render() {
     }
 
     if (gameState === GameState.GAME_OVER) {
-        drawGameOver(board);
+        drawSessionSummary(board, score, level);
     }
 }
 
