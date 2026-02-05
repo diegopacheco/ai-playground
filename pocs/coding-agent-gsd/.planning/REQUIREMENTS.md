@@ -87,10 +87,10 @@
 
 ### Session Statistics
 
-- [ ] **STAT-01**: Track basic stats (score, lines, level, time, pieces placed)
-- [ ] **STAT-02**: Track advanced stats (PPS, APM, efficiency, tetris rate)
-- [ ] **STAT-03**: Display real-time stats in sidebar
-- [ ] **STAT-04**: Session summary screen shows all stats on game over
+- [x] **STAT-01**: Track basic stats (score, lines, level, time, pieces placed)
+- [x] **STAT-02**: Track advanced stats (PPS, APM, efficiency, tetris rate)
+- [x] **STAT-03**: Display real-time stats in sidebar
+- [x] **STAT-04**: Session summary screen shows all stats on game over
 
 ### Additional Themes
 
@@ -182,10 +182,10 @@
 | THEM-05 | Phase 5 | ✓ Complete |
 | THEM-06 | Phase 5 | ✓ Complete |
 | THEM-07 | Phase 5 | ✓ Complete |
-| STAT-01 | Phase 6 | Pending |
-| STAT-02 | Phase 6 | Pending |
-| STAT-03 | Phase 6 | Pending |
-| STAT-04 | Phase 6 | Pending |
+| STAT-01 | Phase 6 | ✓ Complete |
+| STAT-02 | Phase 6 | ✓ Complete |
+| STAT-03 | Phase 6 | ✓ Complete |
+| STAT-04 | Phase 6 | ✓ Complete |
 | COMB-01 | Phase 7 | Pending |
 | COMB-02 | Phase 7 | Pending |
 | COMB-03 | Phase 7 | Pending |
@@ -215,4 +215,4 @@
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-03 after v2.0 roadmap created*
+*Last updated: 2026-02-04 after Phase 6 complete*
