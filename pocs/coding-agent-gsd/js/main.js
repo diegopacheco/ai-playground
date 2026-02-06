@@ -23,6 +23,10 @@ let b2bActive = false;
 let pendingScoreCalc = null;
 let lastAction = null;
 let lastKickOffset = null;
+let tSpinDisplay = null;
+let tSpinDisplayTimer = 0;
+
+const TSPIN_DISPLAY_DURATION = 1500;
 
 const GameState = Object.freeze({
     PLAYING: 'PLAYING',
@@ -345,6 +349,13 @@ function update(deltaTime) {
     if (gameState === GameState.GAME_OVER) return;
     if (gameState === GameState.PAUSED) return;
 
+    if (tSpinDisplayTimer > 0) {
+        tSpinDisplayTimer -= deltaTime;
+        if (tSpinDisplayTimer <= 0) {
+            tSpinDisplay = null;
+        }
+    }
+
     cycleTimer += deltaTime;
     if (gameState === GameState.PLAYING && cycleTimer >= PLAY_DURATION) {
         gameState = GameState.FROZEN;
@@ -375,6 +386,8 @@ function update(deltaTime) {
                     baseScore = Math.floor(baseScore * 1.5);
                     incrementB2bCount();
                 }
+                tSpinDisplay = { type: pendingScoreCalc.tSpinType, lines: result.linesCleared };
+                tSpinDisplayTimer = TSPIN_DISPLAY_DURATION;
             } else {
                 baseScore = result.linesCleared * pointsPerRow;
                 if (pendingScoreCalc && pendingScoreCalc.hasB2bBonus && result.linesCleared === 4) {
@@ -439,7 +452,7 @@ function render() {
 
     drawSidebar(board);
     drawSessionStats();
-    drawComboIndicator(combo, b2bActive);
+    drawComboIndicator(combo, b2bActive, tSpinDisplay);
     drawScore(score, level);
     drawNextPreview(nextPiece);
     drawHoldPreview(heldPiece, canHold);
@@ -480,6 +493,8 @@ function resetGame() {
     pendingScoreCalc = null;
     lastAction = null;
     lastKickOffset = null;
+    tSpinDisplay = null;
+    tSpinDisplayTimer = 0;
     spawnPiece();
     startSession();
 }
