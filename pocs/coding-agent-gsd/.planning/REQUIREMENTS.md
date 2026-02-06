@@ -240,14 +240,34 @@
 | KEYS-03 | Phase 10 | ✓ Complete |
 | KEYS-04 | Phase 10 | ✓ Complete |
 | KEYS-05 | Phase 10 | ✓ Complete |
+| PITCH-01 | Phase 11 | Pending |
+| PITCH-02 | Phase 11 | Pending |
+| PITCH-03 | Phase 11 | Pending |
+| PITCH-04 | Phase 11 | Pending |
+| PITCH-05 | Phase 11 | Pending |
+| BEST-01 | Phase 12 | Pending |
+| BEST-02 | Phase 12 | Pending |
+| BEST-03 | Phase 12 | Pending |
+| BEST-04 | Phase 12 | Pending |
+| BEST-05 | Phase 12 | Pending |
+| EXPORT-01 | Phase 13 | Pending |
+| EXPORT-02 | Phase 13 | Pending |
+| EXPORT-03 | Phase 13 | Pending |
+| EXPORT-04 | Phase 13 | Pending |
+| EXPORT-05 | Phase 13 | Pending |
+| MUSIC-01 | Phase 14 | Pending |
+| MUSIC-02 | Phase 14 | Pending |
+| MUSIC-03 | Phase 14 | Pending |
+| MUSIC-04 | Phase 14 | Pending |
+| MUSIC-05 | Phase 14 | Pending |
 
 **Coverage:**
 - v1 requirements: 37 total (all complete)
 - v2 requirements: 27 total (all complete)
 - v3 requirements: 20 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 20
+- Mapped to phases: 20
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-06 after v3.0 requirements defined*
+*Last updated: 2026-02-06 with v3.0 phase mappings*
