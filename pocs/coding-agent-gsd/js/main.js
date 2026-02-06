@@ -146,6 +146,7 @@ function spawnPiece() {
     if (!isValidPosition(board, currentPiece.type, currentPiece.x, currentPiece.y, currentPiece.rotation)) {
         gameOver = true;
         gameState = GameState.GAME_OVER;
+        playGameOverSound();
         currentPiece = null;
     }
 
@@ -262,6 +263,7 @@ function lockPieceToBoard() {
 
     updatePiecePlaced();
     board = lockPiece(board, currentPiece);
+    playLandSound();
     const lines = checkLines(board);
 
     if (lines.length > 0) {
@@ -395,6 +397,11 @@ function update(deltaTime) {
                     incrementB2bCount();
                 }
             }
+            if (result.linesCleared === 4) {
+                playTetrisSound();
+            } else if (result.linesCleared > 0) {
+                playLineClearSound();
+            }
             let comboBonus = 0;
             if (pendingScoreCalc && pendingScoreCalc.comboValue > 1) {
                 comboBonus = 50 * (pendingScoreCalc.comboValue - 1) * level;
@@ -500,6 +507,7 @@ function resetGame() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    initAudio();
     setupCanvas();
     setupInput();
     board = createBoard();
@@ -523,6 +531,9 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (type === 'GROWTH_INTERVAL_CHANGE') {
             boardGrowthInterval = payload.interval;
             growthTimer = Math.min(growthTimer, boardGrowthInterval);
+        }
+        else if (type === 'MUTE_CHANGE') {
+            setMuted(payload.muted);
         }
         else if (type === 'STATS_REQUEST') {
             var currentThemeName = 'classic';
