@@ -398,9 +398,9 @@ function update(deltaTime) {
                 }
             }
             if (result.linesCleared === 4) {
-                playTetrisSound();
+                playTetrisSound(combo);
             } else if (result.linesCleared > 0) {
-                playLineClearSound();
+                playLineClearSound(result.linesCleared, combo);
             }
             let comboBonus = 0;
             if (pendingScoreCalc && pendingScoreCalc.comboValue > 1) {
