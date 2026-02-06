@@ -101,7 +101,8 @@ board gets bigger. each goog move is 10 points, 100 points you goto next level.
   Phase 9: Audio Feedback        Pending
   Phase 10: Keyboard Remapping   Pending
 ```
-* 
+* In 19 min GSD sucked all my subscription tokens.
+* seriouly GSD use a ton ton ton ton lot of tokens.
 
 ## Result
 
