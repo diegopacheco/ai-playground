@@ -100,11 +100,11 @@
 
 ### Audio
 
-- [ ] **AUDIO-01**: Sound effect plays on piece land
-- [ ] **AUDIO-02**: Sound effect plays on line clear
-- [ ] **AUDIO-03**: Sound effect plays on Tetris (4-line clear)
-- [ ] **AUDIO-04**: Sound effect plays on game over
-- [ ] **AUDIO-05**: Mute toggle in admin panel persists to localStorage
+- [x] **AUDIO-01**: Sound effect plays on piece land
+- [x] **AUDIO-02**: Sound effect plays on line clear
+- [x] **AUDIO-03**: Sound effect plays on Tetris (4-line clear)
+- [x] **AUDIO-04**: Sound effect plays on game over
+- [x] **AUDIO-05**: Mute toggle in admin panel persists to localStorage
 
 ### Keyboard Remapping
 
@@ -196,11 +196,11 @@
 | TSPN-03 | Phase 8 | ✓ Complete |
 | TSPN-04 | Phase 8 | ✓ Complete |
 | TSPN-05 | Phase 8 | ✓ Complete |
-| AUDIO-01 | Phase 9 | Pending |
-| AUDIO-02 | Phase 9 | Pending |
-| AUDIO-03 | Phase 9 | Pending |
-| AUDIO-04 | Phase 9 | Pending |
-| AUDIO-05 | Phase 9 | Pending |
+| AUDIO-01 | Phase 9 | ✓ Complete |
+| AUDIO-02 | Phase 9 | ✓ Complete |
+| AUDIO-03 | Phase 9 | ✓ Complete |
+| AUDIO-04 | Phase 9 | ✓ Complete |
+| AUDIO-05 | Phase 9 | ✓ Complete |
 | KEYS-01 | Phase 10 | Pending |
 | KEYS-02 | Phase 10 | Pending |
 | KEYS-03 | Phase 10 | Pending |
@@ -215,4 +215,4 @@
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-05 after Phase 8 complete*
+*Last updated: 2026-02-05 after Phase 9 complete*
