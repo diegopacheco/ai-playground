@@ -201,10 +201,20 @@ function lockPieceToBoard() {
     const lines = checkLines(board);
 
     if (lines.length > 0) {
+        combo++;
+        const isDifficultClear = lines.length === 4;
+        const hasB2bBonus = b2bActive && isDifficultClear;
+        pendingScoreCalc = {
+            linesCleared: lines.length,
+            comboValue: combo,
+            hasB2bBonus: hasB2bBonus
+        };
+        b2bActive = isDifficultClear;
         clearingLines = lines;
         clearingTimer = 100;
         currentPiece = null;
     } else {
+        combo = 0;
         spawnPiece();
     }
 }
