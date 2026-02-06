@@ -18,9 +18,14 @@
 | 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | ✓ Complete |
 | 9 | Audio Feedback | Sound effects for game events | 5 | ✓ Complete |
 | 10 | Keyboard Remapping | Customizable controls | 5 | ✓ Complete |
+| 11 | Combo Pitch Scaling | Escalating pitch feedback for combos | 5 | Pending |
+| 12 | Personal Best Tracking | Cross-session record tracking | 5 | Pending |
+| 13 | Key Binding Export/Import | Share and backup key configurations | 5 | Pending |
+| 14 | Background Music | Procedural atmospheric music | 5 | Pending |
 
 **Milestone v1.0:** 4 phases | 37 requirements | 100% complete
 **Milestone v2.0:** 6 phases | 27 requirements | 100% complete
+**Milestone v3.0:** 4 phases | 20 requirements | 0% complete
 
 ---
 
@@ -148,7 +153,7 @@ Plans:
 
 ---
 
-## Milestone: v2.0 (IN PROGRESS)
+## Milestone: v2.0 (SHIPPED)
 
 ---
 
@@ -314,6 +319,98 @@ Plans:
 
 ---
 
+## Milestone: v3.0 (IN PROGRESS)
+
+---
+
+## Phase 11: Combo Pitch Scaling
+
+**Goal:** Players hear escalating pitch feedback that rewards combo chains.
+
+**Dependencies:** Phase 9 (audio module), Phase 7 (combo system)
+
+**Requirements:**
+- PITCH-01: Line clear sound pitch increases proportionally with combo counter
+- PITCH-02: Pitch scaling uses smooth parameter ramping to prevent clicks
+- PITCH-03: Pitch capped at 10x combo to prevent painful frequencies
+- PITCH-04: Different pitch patterns for single/double/triple/Tetris clears
+- PITCH-05: Pitch resets to base when combo breaks
+
+**Success Criteria:**
+1. Player clears line with combo counter at 3x, hears noticeably higher-pitched sound
+2. Pitch increases smoothly without audio clicks or pops
+3. Pitch stops increasing after 10x combo even if combo continues
+4. Tetris clear sounds different from single line clear at same combo level
+5. Combo breaks, next line clear plays at base pitch again
+
+---
+
+## Phase 12: Personal Best Tracking
+
+**Goal:** Players track and beat personal records across sessions.
+
+**Dependencies:** Phase 6 (session statistics)
+
+**Requirements:**
+- BEST-01: Track high score, lines, level across sessions in localStorage
+- BEST-02: Display personal best comparison at game over screen
+- BEST-03: Show "New Record" visual notification when beating personal best
+- BEST-04: Track timestamp of when personal best was achieved
+- BEST-05: Clear/reset personal bests option in admin panel
+
+**Success Criteria:**
+1. Player beats high score, sees "New Record" celebration on game over screen
+2. Game over screen shows previous best score and current score side-by-side
+3. Personal bests persist after closing and reopening browser
+4. Admin panel shows "Clear Records" button that resets all personal bests
+5. Personal best timestamp shows when record was achieved
+
+---
+
+## Phase 13: Key Binding Export/Import
+
+**Goal:** Players share and backup custom key configurations.
+
+**Dependencies:** Phase 10 (keyboard remapping)
+
+**Requirements:**
+- EXPORT-01: Export current key bindings to tetris_keybindings.json file
+- EXPORT-02: Import key bindings from JSON file with validation
+- EXPORT-03: Show error messages for invalid import files
+- EXPORT-04: Export includes metadata (date, game version)
+- EXPORT-05: Export/Import buttons in admin panel Controls section
+
+**Success Criteria:**
+1. Player clicks Export button in admin, downloads tetris_keybindings.json file
+2. Player imports valid JSON file, custom bindings apply immediately
+3. Player imports corrupted file, sees clear error message
+4. Exported file contains date and version metadata
+5. Export/Import buttons visible in Controls section of admin panel
+
+---
+
+## Phase 14: Background Music
+
+**Goal:** Players experience atmospheric procedural music during gameplay.
+
+**Dependencies:** Phase 9 (audio module)
+
+**Requirements:**
+- MUSIC-01: Procedural background music via continuous OscillatorNode
+- MUSIC-02: Seamless looping without restart gaps
+- MUSIC-03: Separate mute toggle from sound effects
+- MUSIC-04: Music pauses when game pauses, stops on game over
+- MUSIC-05: Music gain lower than effects to not overpower gameplay
+
+**Success Criteria:**
+1. Player starts game, hears continuous background music playing
+2. Music loops seamlessly without noticeable gaps or restarts
+3. Player mutes music via toggle, sound effects still play
+4. Player pauses game, music pauses; resumes game, music continues
+5. Music volume lower than sound effects, does not interfere with gameplay
+
+---
+
 ## Phase Dependencies
 
 ```
@@ -327,11 +424,22 @@ Phase 7 (Combo System)
 Phase 8 (T-Spin Detection)
 
 Phase 9 (Audio Feedback) ← independent
-Phase 10 (Keyboard Remapping) ← independent (refactors input)
+    ↓
+Phase 11 (Combo Pitch Scaling)
+Phase 14 (Background Music)
+
+Phase 10 (Keyboard Remapping) ← independent
+    ↓
+Phase 13 (Key Binding Export/Import)
+
+Phase 6 (Session Statistics)
+    ↓
+Phase 12 (Personal Best Tracking) ← independent
 ```
 
-**Sequential path:** Phase 5 → 6 → 7 → 8
-**Parallel paths:** Phase 9 (Audio), Phase 10 (Keyboard) can be developed independently
+**v1.0 Sequential:** Phase 1 → 2 → 3 → 4
+**v2.0 Parallel branches:** Phase 5, Phase 6→7→8, Phase 9, Phase 10
+**v3.0 Parallel branches:** Phase 11 (after 9), Phase 12 (after 6), Phase 13 (after 10), Phase 14 (after 9)
 
 ---
 
@@ -346,5 +454,16 @@ Phase 10 (Keyboard Remapping) ← independent (refactors input)
 - Full keyboard remapping with conflict detection
 
 ---
+
+## Milestone: v3.0 Definition of Done
+
+- All 20 v3 requirements complete
+- Combo pitch scaling enhances audio feedback
+- Personal bests tracked across browser sessions
+- Key bindings exportable and importable via JSON
+- Procedural background music playing during gameplay
+- Zero new external dependencies
+
+---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-06 after Phase 10 complete*
+*Last updated: 2026-02-06 with v3.0 milestone phases 11-14*
