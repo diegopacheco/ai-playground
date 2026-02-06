@@ -79,11 +79,11 @@
 
 ### Combo System
 
-- [ ] **COMB-01**: Combo counter tracks consecutive line clears
-- [ ] **COMB-02**: Combo resets when piece locks without clearing lines
-- [ ] **COMB-03**: Combo awards bonus points (50 × combo × level)
-- [ ] **COMB-04**: Visual combo counter displays during active combo
-- [ ] **COMB-05**: Back-to-Back bonus (1.5x) for consecutive Tetris/T-spin clears
+- [x] **COMB-01**: Combo counter tracks consecutive line clears
+- [x] **COMB-02**: Combo resets when piece locks without clearing lines
+- [x] **COMB-03**: Combo awards bonus points (50 × combo × level)
+- [x] **COMB-04**: Visual combo counter displays during active combo
+- [x] **COMB-05**: Back-to-Back bonus (1.5x) for consecutive Tetris/T-spin clears
 
 ### Session Statistics
 
@@ -186,11 +186,11 @@
 | STAT-02 | Phase 6 | ✓ Complete |
 | STAT-03 | Phase 6 | ✓ Complete |
 | STAT-04 | Phase 6 | ✓ Complete |
-| COMB-01 | Phase 7 | Pending |
-| COMB-02 | Phase 7 | Pending |
-| COMB-03 | Phase 7 | Pending |
-| COMB-04 | Phase 7 | Pending |
-| COMB-05 | Phase 7 | Pending |
+| COMB-01 | Phase 7 | ✓ Complete |
+| COMB-02 | Phase 7 | ✓ Complete |
+| COMB-03 | Phase 7 | ✓ Complete |
+| COMB-04 | Phase 7 | ✓ Complete |
+| COMB-05 | Phase 7 | ✓ Complete |
 | TSPN-01 | Phase 8 | Pending |
 | TSPN-02 | Phase 8 | Pending |
 | TSPN-03 | Phase 8 | Pending |
@@ -215,4 +215,4 @@
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-04 after Phase 6 complete*
+*Last updated: 2026-02-05 after Phase 7 complete*
