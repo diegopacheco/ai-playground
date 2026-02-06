@@ -336,6 +336,11 @@ Plans:
 - PITCH-04: Different pitch patterns for single/double/triple/Tetris clears
 - PITCH-05: Pitch resets to base when combo breaks
 
+**Plans:** 1 plan
+
+Plans:
+- [ ] 11-01-PLAN.md — Pitch scaling in audio.js and wiring in main.js
+
 **Success Criteria:**
 1. Player clears line with combo counter at 3x, hears noticeably higher-pitched sound
 2. Pitch increases smoothly without audio clicks or pops
