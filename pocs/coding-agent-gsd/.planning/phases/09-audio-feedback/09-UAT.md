@@ -8,10 +8,10 @@ updated: 2026-02-05T18:00:00Z
 
 ## Current Test
 
-number: 2
-name: Line Clear Sound (1-3 lines)
+number: 6
+name: Mute Stops Game Sounds
 expected: |
-  Clear 1, 2, or 3 lines at once - should hear 440Hz beep (different from land sound).
+  Check "Mute Sound Effects" in admin, return to game, play - no sounds should play.
 awaiting: user response
 
 ## Tests
@@ -26,15 +26,15 @@ result: pass
 
 ### 3. Tetris Sound (4-line clear)
 expected: Clear 4 lines at once (Tetris) - should hear distinct 880Hz higher-pitched beep (celebratory).
-result: [pending]
+result: pass
 
 ### 4. Game Over Sound
 expected: Stack pieces to the top (game over) - should hear 110Hz low sound (final).
-result: [pending]
+result: pass
 
 ### 5. Admin Mute Toggle Visible
 expected: Open admin.html - "Audio" section with "Mute Sound Effects" checkbox is visible.
-result: [pending]
+result: pass
 
 ### 6. Mute Stops Game Sounds
 expected: Check "Mute Sound Effects" in admin, return to game, play - no sounds should play.
@@ -51,9 +51,9 @@ result: [pending]
 ## Summary
 
 total: 8
-passed: 1
+passed: 4
 issues: 0
-pending: 7
+pending: 4
 skipped: 0
 
 ## Gaps
