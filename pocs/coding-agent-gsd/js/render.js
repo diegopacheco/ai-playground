@@ -217,6 +217,27 @@ function drawSessionStats() {
     ctx.fillText('APM: ' + Math.floor(calculateAPM()), sidebarX + 10, startY + 60);
 }
 
+function drawComboIndicator(combo, b2bActive) {
+    if (combo <= 0 && !b2bActive) return;
+    var sidebarX = COLS * CELL_SIZE;
+    var comboY = 375;
+    var centerX = sidebarX + SIDEBAR_WIDTH / 2;
+    if (combo > 0) {
+        ctx.fillStyle = '#ff00ff';
+        ctx.font = 'bold 16px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.fillText(combo + 'x COMBO', centerX, comboY);
+    }
+    if (b2bActive) {
+        ctx.fillStyle = '#ffff00';
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.fillText('BACK-TO-BACK', centerX, comboY + 18);
+    }
+}
+
 function drawGhost(pieceType, x, ghostY, rotation) {
     const piece = PIECES[pieceType];
     const shape = piece.shapes[rotation];
