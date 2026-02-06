@@ -16,7 +16,7 @@
 | 6 | Session Statistics | Performance tracking and display | 4 | ✓ Complete |
 | 7 | Combo System | Reward consecutive line clears | 5 | ✓ Complete |
 | 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | ✓ Complete |
-| 9 | Audio Feedback | Sound effects for game events | 5 | Pending |
+| 9 | Audio Feedback | Sound effects for game events | 5 | Planned |
 | 10 | Keyboard Remapping | Customizable controls | 5 | Pending |
 
 **Milestone v1.0:** 4 phases | 37 requirements | 100% complete
@@ -271,6 +271,12 @@ Plans:
 - AUDIO-04: Sound effect plays on game over
 - AUDIO-05: Mute toggle in admin panel persists to localStorage
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Audio module with OscillatorNode sound effects
+- [ ] 09-02-PLAN.md — Wire audio triggers and admin mute toggle
+
 **Success Criteria:**
 1. Player hears distinct sound when piece locks on surface
 2. Line clear plays satisfying clear sound
@@ -335,4 +341,4 @@ Phase 10 (Keyboard Remapping) ← independent (refactors input)
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-05 after Phase 8 complete*
+*Last updated: 2026-02-05 after Phase 9 planned*
