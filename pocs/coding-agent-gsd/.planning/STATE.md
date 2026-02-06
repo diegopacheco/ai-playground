@@ -3,19 +3,21 @@
 ## Current Position
 
 **Milestone:** v2.0 Enhanced Experience
-**Phase:** 7 - Combo System (Complete)
-**Plan:** 2/2 complete
-**Status:** Complete - ready for Phase 8
-**Last activity:** 2026-02-05 - Phase 7 verified and complete
+**Phase:** 8 - T-Spin Detection (In Progress)
+**Plan:** 1/1 complete
+**Status:** Phase 8 complete - ready for Phase 9
+**Last activity:** 2026-02-05 - Completed 08-01-PLAN.md
 
-**Progress:** 3/6 phases complete (50%)
+**Progress:** 4/6 phases complete (67%)
 
 ```
-[████████████████████░░░░░░░░░░░░░░░░░░░░] 50%
+[██████████████████████████░░░░░░░░░░░░░░] 67%
 Phase 5: Complete
 Phase 6: Complete
 Phase 7: Complete
-Phase 8: Ready to plan
+Phase 8: Complete
+Phase 9: Ready to plan
+Phase 10: Ready to plan
 ```
 
 ## Project Reference
@@ -38,9 +40,9 @@ See: .planning/MILESTONES.md for details
 
 **v2.0 (current):**
 - Requirements: 27 total
-- Phases: 6 total (3 complete)
+- Phases: 6 total (4 complete)
 - Plans created: 7
-- Plans complete: 2 (Phase 5) + 2 (Phase 6) + 2 (Phase 7)
+- Plans complete: 2 (Phase 5) + 2 (Phase 6) + 2 (Phase 7) + 1 (Phase 8)
 - Avg requirements per phase: 4.5
 
 **v1.0 (shipped):**
@@ -54,12 +56,12 @@ See: .planning/MILESTONES.md for details
 
 | Date | Action | Details |
 |------|--------|---------|
+| 2026-02-05 | Phase 8 complete | T-spin detection with 3-corner rule and Guideline scoring |
+| 2026-02-05 | Plan 08-01 complete | Action tracking, detection algorithm, scoring integration |
 | 2026-02-05 | Phase 7 complete | Combo and B2B scoring with visual display verified |
 | 2026-02-05 | Plan 07-02 complete | Visual combo indicator and stats tracking |
 | 2026-02-06 | Plan 07-01 complete | Combo and B2B scoring mechanics implemented |
 | 2026-02-04 | Plan 06-02 complete | Advanced stats (PPS, APM) + session summary screen |
-| 2026-02-04 | Plan 06-01 complete | Session stats tracking with LINES, TIME, PIECES display |
-| 2026-02-03 | Phase 5 complete | Minimalist + High Contrast themes added |
 
 ## Key Decisions (v2.0)
 
@@ -75,6 +77,10 @@ See: .planning/MILESTONES.md for details
 | pendingScoreCalc pattern | Defers scoring until animation completes | Implemented |
 | Combo display in sidebar at Y=375 | Below session stats, above score | Implemented |
 | Max Combo and B2B Count in summary | Visible performance metrics on game over | Implemented |
+| Action tracking (lastAction/lastKickOffset) | Distinguishes rotation from hard drop for T-spin detection | Implemented |
+| 3-corner rule with front/back distinction | Tetris Guideline standard T-spin detection | Implemented |
+| Wall kick distance 3 upgrades mini to full | Rewards difficult wall kick execution | Implemented |
+| Zero-line T-spins preserve combo/B2B | Guideline all-spin behavior | Implemented |
 
 ## Open Questions
 
@@ -82,8 +88,8 @@ None currently.
 
 ## TODOs
 
-- Plan and execute Phase 8 (T-Spin Detection)
-- Continue to Phase 9-10
+- Plan and execute Phase 9 (Hold Mechanic)
+- Plan and execute Phase 10 (Visual Feedback)
 
 ## Blockers
 
@@ -92,11 +98,11 @@ None.
 ## Session Continuity
 
 **Last session:** 2026-02-05
-**Stopped at:** Phase 7 complete
+**Stopped at:** Completed 08-01-PLAN.md
 **Resume file:** None
-**Context:** Phase 7 Combo System complete with all 5 requirements (COMB-01 through COMB-05) verified. Combo counter tracks consecutive line clears, displays "Nx COMBO" in sidebar, awards 50*(combo-1)*level bonus. Back-to-Back activates on Tetris (4-line), awards 1.5x multiplier, persists through non-clearing placements. Session summary shows Max Combo and B2B Bonuses.
+**Context:** Phase 8 T-Spin Detection complete with all 3 requirements (TSPIN-01 through TSPIN-03) implemented. Action tracking (lastAction/lastKickOffset) distinguishes rotation from hard drop. Detection uses 3-corner rule with front/back distinction per rotation state. Mini vs full classification based on front corner count, with wall kick distance 3 upgrade. Scoring uses Guideline values (mini 100/200/400, full 400/800/1200/1600 times level) with B2B 1.5x multiplier. Zero-line T-spins preserve combo/B2B chain. Stats track tSpinCount.
 
-**Next action:** Plan Phase 8 (T-Spin Detection) with /gsd:plan-phase 8
+**Next action:** Plan Phase 9 (Hold Mechanic) with /gsd:plan-phase 9
 
 ---
-*State updated: 2026-02-05 after Phase 7 complete*
+*State updated: 2026-02-05 after Phase 8 complete*
