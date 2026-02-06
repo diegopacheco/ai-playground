@@ -103,6 +103,15 @@ board gets bigger. each goog move is 10 points, 100 points you goto next level.
 ```
 * In 19 min GSD sucked all my subscription tokens.
 * seriouly GSD use a ton ton ton ton lot of tokens.
+* the whole code is CSS and JS
+* No React
+* No Backend
+* After all this time and the game did not even work.
 
 ## Result
 
+Result Game
+<img src="game-result.png" width="600" />
+
+Admin Panel
+<img src="admin-panel.png" width="600" />
