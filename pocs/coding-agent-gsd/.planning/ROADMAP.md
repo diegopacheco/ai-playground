@@ -18,14 +18,14 @@
 | 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | ✓ Complete |
 | 9 | Audio Feedback | Sound effects for game events | 5 | ✓ Complete |
 | 10 | Keyboard Remapping | Customizable controls | 5 | ✓ Complete |
-| 11 | Combo Pitch Scaling | Escalating pitch feedback for combos | 5 | Pending |
+| 11 | Combo Pitch Scaling | Escalating pitch feedback for combos | 5 | ✓ Complete |
 | 12 | Personal Best Tracking | Cross-session record tracking | 5 | Pending |
 | 13 | Key Binding Export/Import | Share and backup key configurations | 5 | Pending |
 | 14 | Background Music | Procedural atmospheric music | 5 | Pending |
 
 **Milestone v1.0:** 4 phases | 37 requirements | 100% complete
 **Milestone v2.0:** 6 phases | 27 requirements | 100% complete
-**Milestone v3.0:** 4 phases | 20 requirements | 0% complete
+**Milestone v3.0:** 4 phases | 20 requirements | 25% complete
 
 ---
 
@@ -336,10 +336,10 @@ Plans:
 - PITCH-04: Different pitch patterns for single/double/triple/Tetris clears
 - PITCH-05: Pitch resets to base when combo breaks
 
-**Plans:** 1 plan
+**Plans:** 1 plan (complete)
 
 Plans:
-- [ ] 11-01-PLAN.md — Pitch scaling in audio.js and wiring in main.js
+- [x] 11-01-PLAN.md — Pitch scaling in audio.js and wiring in main.js
 
 **Success Criteria:**
 1. Player clears line with combo counter at 3x, hears noticeably higher-pitched sound

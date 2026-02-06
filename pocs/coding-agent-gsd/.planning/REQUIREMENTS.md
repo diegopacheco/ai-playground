@@ -118,11 +118,11 @@
 
 ### Combo Pitch Scaling
 
-- [ ] **PITCH-01**: Line clear sound pitch increases proportionally with combo counter
-- [ ] **PITCH-02**: Pitch scaling uses smooth parameter ramping to prevent clicks
-- [ ] **PITCH-03**: Pitch capped at 10x combo to prevent painful frequencies
-- [ ] **PITCH-04**: Different pitch patterns for single/double/triple/Tetris clears
-- [ ] **PITCH-05**: Pitch resets to base when combo breaks
+- [x] **PITCH-01**: Line clear sound pitch increases proportionally with combo counter
+- [x] **PITCH-02**: Pitch scaling uses smooth parameter ramping to prevent clicks
+- [x] **PITCH-03**: Pitch capped at 10x combo to prevent painful frequencies
+- [x] **PITCH-04**: Different pitch patterns for single/double/triple/Tetris clears
+- [x] **PITCH-05**: Pitch resets to base when combo breaks
 
 ### Personal Best Tracking
 
@@ -240,11 +240,11 @@
 | KEYS-03 | Phase 10 | ✓ Complete |
 | KEYS-04 | Phase 10 | ✓ Complete |
 | KEYS-05 | Phase 10 | ✓ Complete |
-| PITCH-01 | Phase 11 | Pending |
-| PITCH-02 | Phase 11 | Pending |
-| PITCH-03 | Phase 11 | Pending |
-| PITCH-04 | Phase 11 | Pending |
-| PITCH-05 | Phase 11 | Pending |
+| PITCH-01 | Phase 11 | ✓ Complete |
+| PITCH-02 | Phase 11 | ✓ Complete |
+| PITCH-03 | Phase 11 | ✓ Complete |
+| PITCH-04 | Phase 11 | ✓ Complete |
+| PITCH-05 | Phase 11 | ✓ Complete |
 | BEST-01 | Phase 12 | Pending |
 | BEST-02 | Phase 12 | Pending |
 | BEST-03 | Phase 12 | Pending |
@@ -264,10 +264,10 @@
 **Coverage:**
 - v1 requirements: 37 total (all complete)
 - v2 requirements: 27 total (all complete)
-- v3 requirements: 20 total
+- v3 requirements: 20 total (5 complete)
 - Mapped to phases: 20
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-06 with v3.0 phase mappings*
+*Last updated: 2026-02-06 after Phase 11 completion*
