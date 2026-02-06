@@ -102,7 +102,7 @@ function drawSessionSummary(board, score, level) {
     var canvasCenterX = (COLS * CELL_SIZE) / 2;
     var canvasCenterY = (board.length * CELL_SIZE) / 2;
     var boxWidth = 280;
-    var boxHeight = 320;
+    var boxHeight = 380;
     var boxX = canvasCenterX - boxWidth / 2;
     var boxY = canvasCenterY - boxHeight / 2;
     ctx.fillStyle = 'rgba(20, 20, 20, 0.95)';
@@ -160,6 +160,18 @@ function drawSessionSummary(board, score, level) {
     ctx.textAlign = 'right';
     ctx.fillStyle = '#00ffff';
     ctx.fillText(Math.floor(calculateAPM()).toString(), boxX + boxWidth - 20, statsStartY + rowHeight * 6);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('Max Combo:', boxX + 20, statsStartY + rowHeight * 7);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#ff00ff';
+    ctx.fillText(stats.maxCombo.toString(), boxX + boxWidth - 20, statsStartY + rowHeight * 7);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('B2B Bonuses:', boxX + 20, statsStartY + rowHeight * 8);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#ffff00';
+    ctx.fillText(stats.b2bCount.toString(), boxX + boxWidth - 20, statsStartY + rowHeight * 8);
     ctx.fillStyle = '#ffffff';
     ctx.font = '16px Arial';
     ctx.textAlign = 'center';

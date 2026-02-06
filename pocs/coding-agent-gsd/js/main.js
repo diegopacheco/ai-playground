@@ -202,6 +202,7 @@ function lockPieceToBoard() {
 
     if (lines.length > 0) {
         combo++;
+        updateComboStats(combo);
         const isDifficultClear = lines.length === 4;
         const hasB2bBonus = b2bActive && isDifficultClear;
         pendingScoreCalc = {
@@ -296,6 +297,7 @@ function update(deltaTime) {
             let baseScore = result.linesCleared * pointsPerRow;
             if (pendingScoreCalc && pendingScoreCalc.hasB2bBonus && result.linesCleared === 4) {
                 baseScore = Math.floor(baseScore * 1.5);
+                incrementB2bCount();
             }
             let comboBonus = 0;
             if (pendingScoreCalc && pendingScoreCalc.comboValue > 1) {
@@ -354,6 +356,7 @@ function render() {
 
     drawSidebar(board);
     drawSessionStats();
+    drawComboIndicator(combo, b2bActive);
     drawScore(score, level);
     drawNextPreview(nextPiece);
     drawHoldPreview(heldPiece, canHold);
