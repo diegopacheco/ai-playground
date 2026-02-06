@@ -26,20 +26,21 @@ The real-time admin control loop — admin changes themes, speed, and scoring wh
 - [x] Admin can change board growth rate (applied real-time)
 - [x] Player and Admin sync via same browser (tabs)
 
+### Validated (v2.0 - Shipped 2026-02-06)
+
+- [x] T-spin detection with bonus points — v2.0
+- [x] Combo multipliers for chain clears — v2.0
+- [x] Session statistics (total pieces, lines, time) — v2.0
+- [x] Additional themes (5+ total) — v2.0
+- [x] Sound effects (piece land, line clear, tetris, game over) — v2.0
+- [x] Keyboard remapping with conflict detection — v2.0
+
 ### Active
 
-**Current Milestone: v2.0 Enhanced Experience**
-
-- [ ] T-spin detection with bonus points
-- [ ] Combo multipliers for chain clears
-- [ ] Session statistics (total pieces, lines, time)
-- [ ] Additional themes (5+ total)
-- [ ] Sound effects and music
-- [ ] Keyboard remapping
+**Current Milestone: None (planning next)**
 
 ### Out of Scope
 
-- Sound/music — not requested
 - Multiplayer/networking — same browser only
 - Mobile app — web browser target
 - User accounts/persistence — session-only gameplay
@@ -48,10 +49,13 @@ The real-time admin control loop — admin changes themes, speed, and scoring wh
 ## Context
 
 **v1.0 Shipped:** 2026-02-03
+**v2.0 Shipped:** 2026-02-06
 
 This is a twist on classic Tetris designed to showcase real-time configuration. The freeze mechanic creates tension (you can see pieces but can't act), and the growing board adds long-game strategy. The admin panel makes it feel like a live broadcast where someone controls the experience.
 
 The same-browser constraint simplifies architecture — uses BroadcastChannel API for real-time sync between tabs.
+
+**Current State:** 2,483 LOC across 10 source files. Features advanced scoring (T-spin, combo, B2B), 5 themes, session statistics, audio feedback, and fully remappable controls.
 
 ## Constraints
 
@@ -72,4 +76,4 @@ The same-browser constraint simplifies architecture — uses BroadcastChannel AP
 | MAX_ROWS = 30 | 50% growth limit from initial 20 | Validated - good balance |
 
 ---
-*Last updated: 2026-02-03 after v2.0 milestone started*
+*Last updated: 2026-02-06 after v2.0 milestone shipped*
