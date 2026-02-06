@@ -108,11 +108,11 @@
 
 ### Keyboard Remapping
 
-- [ ] **KEYS-01**: All game controls are remappable
-- [ ] **KEYS-02**: Visual settings UI for key binding
-- [ ] **KEYS-03**: Key bindings persist to localStorage
-- [ ] **KEYS-04**: Conflict detection prevents duplicate bindings
-- [ ] **KEYS-05**: Default bindings restore option
+- [x] **KEYS-01**: All game controls are remappable
+- [x] **KEYS-02**: Visual settings UI for key binding
+- [x] **KEYS-03**: Key bindings persist to localStorage
+- [x] **KEYS-04**: Conflict detection prevents duplicate bindings
+- [x] **KEYS-05**: Default bindings restore option
 
 ## v3 Requirements (Deferred)
 
@@ -201,11 +201,11 @@
 | AUDIO-03 | Phase 9 | ✓ Complete |
 | AUDIO-04 | Phase 9 | ✓ Complete |
 | AUDIO-05 | Phase 9 | ✓ Complete |
-| KEYS-01 | Phase 10 | Pending |
-| KEYS-02 | Phase 10 | Pending |
-| KEYS-03 | Phase 10 | Pending |
-| KEYS-04 | Phase 10 | Pending |
-| KEYS-05 | Phase 10 | Pending |
+| KEYS-01 | Phase 10 | ✓ Complete |
+| KEYS-02 | Phase 10 | ✓ Complete |
+| KEYS-03 | Phase 10 | ✓ Complete |
+| KEYS-04 | Phase 10 | ✓ Complete |
+| KEYS-05 | Phase 10 | ✓ Complete |
 
 **Coverage:**
 - v1 requirements: 37 total (all complete)
@@ -215,4 +215,4 @@
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-05 after Phase 9 complete*
+*Last updated: 2026-02-06 after Phase 10 complete*
