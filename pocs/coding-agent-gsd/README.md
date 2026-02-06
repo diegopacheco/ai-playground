@@ -38,7 +38,7 @@ board gets bigger. each goog move is 10 points, 100 points you goto next level.
     → Pitfalls research
 ```
 * replicate man SDLC but with subagents and less boring as BAMD-METHOD.
-* Sucks a lot of tokens (used 5 of subscription tokens).
+* Sucks a lot of tokens (used 8 of subscription tokens).
 * After a long time
 ```
 ⏺ Milestone v1.0 Verification
@@ -88,6 +88,20 @@ board gets bigger. each goog move is 10 points, 100 points you goto next level.
   ---
   Awaiting: Type "approved" if all 5 themes work correctly, or describe any visual issues
 ```
+* after a tons and tons of tokens
+```
+  Milestone Progress
+
+  v2.0: 50% complete (3/6 phases)
+  [████████████████████░░░░░░░░░░░░░░░░░░░░]
+  Phase 5: Additional Themes     ✓
+  Phase 6: Session Statistics    ✓
+  Phase 7: Combo System          ✓
+  Phase 8: T-Spin Detection      → Ready to plan
+  Phase 9: Audio Feedback        Pending
+  Phase 10: Keyboard Remapping   Pending
+```
+* 
 
 ## Result
 
