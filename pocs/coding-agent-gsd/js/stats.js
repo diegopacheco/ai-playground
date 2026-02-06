@@ -5,7 +5,9 @@ var stats = {
     time: 0,
     piecesPlaced: 0,
     sessionStartTime: 0,
-    actionsCount: 0
+    actionsCount: 0,
+    maxCombo: 0,
+    b2bCount: 0
 };
 
 function startSession() {
@@ -16,6 +18,8 @@ function startSession() {
     stats.piecesPlaced = 0;
     stats.sessionStartTime = performance.now();
     stats.actionsCount = 0;
+    stats.maxCombo = 0;
+    stats.b2bCount = 0;
 }
 
 function updatePiecePlaced() {
@@ -68,6 +72,16 @@ function formatPercent(num) {
     return num.toFixed(1) + '%';
 }
 
+function updateComboStats(currentCombo) {
+    if (currentCombo > stats.maxCombo) {
+        stats.maxCombo = currentCombo;
+    }
+}
+
+function incrementB2bCount() {
+    stats.b2bCount++;
+}
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         stats: stats,
@@ -81,6 +95,8 @@ if (typeof module !== 'undefined' && module.exports) {
         calculateEfficiency: calculateEfficiency,
         getTetrisRate: getTetrisRate,
         formatDecimal: formatDecimal,
-        formatPercent: formatPercent
+        formatPercent: formatPercent,
+        updateComboStats: updateComboStats,
+        incrementB2bCount: incrementB2bCount
     };
 }
