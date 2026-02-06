@@ -15,7 +15,7 @@
 | 5 | Additional Themes | Visual variety with new themes | 3 | ✓ Complete |
 | 6 | Session Statistics | Performance tracking and display | 4 | ✓ Complete |
 | 7 | Combo System | Reward consecutive line clears | 5 | ✓ Complete |
-| 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | Pending |
+| 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | Planned |
 | 9 | Audio Feedback | Sound effects for game events | 5 | Pending |
 | 10 | Keyboard Remapping | Customizable controls | 5 | Pending |
 
@@ -243,6 +243,12 @@ Plans:
 - TSPN-04: T-spin awards bonus points (200 mini, 400 full, +400 per line)
 - TSPN-05: Visual indicator displays T-spin type on detection
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — T-spin detection logic and scoring integration
+- [ ] 08-02-PLAN.md — Visual T-spin indicator and session summary
+
 **Success Criteria:**
 1. Player rotates T-piece into tight space, locks it, and sees "T-Spin Mini" indicator
 2. Player performs full T-spin, sees "T-Spin" indicator with bonus points
@@ -329,4 +335,4 @@ Phase 10 (Keyboard Remapping) ← independent (refactors input)
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-05 after Phase 7 complete*
+*Last updated: 2026-02-05 after Phase 8 planned*
