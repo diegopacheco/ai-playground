@@ -74,7 +74,7 @@
 - [ ] **TSPN-01**: Game detects T-spin when T-piece locks after rotation with 3+ corners occupied
 - [ ] **TSPN-02**: Mini T-spin detected when only 1 front corner occupied
 - [ ] **TSPN-03**: Full T-spin detected when 2 front corners occupied
-- [ ] **TSPN-04**: T-spin awards bonus points (200 mini, 400 full, +400 per line)
+- [ ] **TSPN-04**: T-spin awards bonus points (Guideline: mini 100/200/400, full 400/800/1200/1600 × level)
 - [ ] **TSPN-05**: Visual indicator displays T-spin type on detection
 
 ### Combo System
