@@ -51,9 +51,9 @@ result: [pending]
 ## Summary
 
 total: 8
-passed: 4
+passed: 5
 issues: 0
-pending: 4
+pending: 3
 skipped: 0
 
 ## Gaps
