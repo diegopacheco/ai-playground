@@ -3,6 +3,60 @@ const keyTimers = {};
 const DAS_DELAY = 170;
 const DAS_REPEAT = 50;
 
+const DEFAULT_KEYMAP = {
+    left: ['ArrowLeft'],
+    right: ['ArrowRight'],
+    down: ['ArrowDown'],
+    rotate: ['ArrowUp'],
+    hardDrop: ['Space'],
+    hold: ['KeyC', 'ShiftLeft', 'ShiftRight'],
+    pause: ['KeyP']
+};
+
+var keymap = {};
+
+var inputChannel = new BroadcastChannel('tetris-sync');
+
+function loadKeymap() {
+    try {
+        var stored = localStorage.getItem('tetris_keybindings');
+        if (stored) {
+            keymap = JSON.parse(stored);
+        } else {
+            restoreDefaults();
+        }
+    } catch (e) {
+        restoreDefaults();
+    }
+}
+
+function saveKeymap() {
+    localStorage.setItem('tetris_keybindings', JSON.stringify(keymap));
+    inputChannel.postMessage({ type: 'KEYMAP_CHANGE', keymap: keymap });
+}
+
+function restoreDefaults() {
+    keymap = {};
+    for (var action in DEFAULT_KEYMAP) {
+        keymap[action] = DEFAULT_KEYMAP[action].slice();
+    }
+}
+
+function getKeymap() {
+    return keymap;
+}
+
+function setKeyBinding(action, keyCode) {
+    keymap[action] = [keyCode];
+    saveKeymap();
+}
+
+inputChannel.addEventListener('message', function(event) {
+    if (event.data && event.data.type === 'KEYMAP_CHANGE' && event.data.keymap) {
+        keymap = event.data.keymap;
+    }
+});
+
 function setupInput() {
     document.addEventListener('keydown', function(e) {
         if (!keys[e.code]) {
