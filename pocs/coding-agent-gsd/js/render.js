@@ -102,7 +102,7 @@ function drawSessionSummary(board, score, level) {
     var canvasCenterX = (COLS * CELL_SIZE) / 2;
     var canvasCenterY = (board.length * CELL_SIZE) / 2;
     var boxWidth = 280;
-    var boxHeight = 380;
+    var boxHeight = 410;
     var boxX = canvasCenterX - boxWidth / 2;
     var boxY = canvasCenterY - boxHeight / 2;
     ctx.fillStyle = 'rgba(20, 20, 20, 0.95)';
@@ -172,6 +172,12 @@ function drawSessionSummary(board, score, level) {
     ctx.textAlign = 'right';
     ctx.fillStyle = '#ffff00';
     ctx.fillText(stats.b2bCount.toString(), boxX + boxWidth - 20, statsStartY + rowHeight * 8);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('T-Spins:', boxX + 20, statsStartY + rowHeight * 9);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#ff00ff';
+    ctx.fillText(stats.tSpinCount.toString(), boxX + boxWidth - 20, statsStartY + rowHeight * 9);
     ctx.fillStyle = '#ffffff';
     ctx.font = '16px Arial';
     ctx.textAlign = 'center';
