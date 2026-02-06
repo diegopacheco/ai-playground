@@ -58,7 +58,11 @@ function playSound(frequency, duration) {
     oscillator.connect(gain);
     gain.connect(ctx.destination);
 
-    oscillator.frequency.value = frequency;
+    const nyquistLimit = ctx.sampleRate / 2 * 0.9;
+    const cappedFrequency = Math.min(frequency, nyquistLimit);
+
+    oscillator.frequency.setValueAtTime(cappedFrequency, ctx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(cappedFrequency, ctx.currentTime + 0.03);
     oscillator.type = 'sine';
 
     gain.gain.value = 0.1;
@@ -72,12 +76,22 @@ function playLandSound() {
     playSound(220, 100);
 }
 
-function playLineClearSound() {
-    playSound(440, 100);
+function playLineClearSound(linesCleared, combo) {
+    const baseFrequencies = {
+        1: 330,
+        2: 440,
+        3: 550,
+        4: 660
+    };
+    const baseFrequency = baseFrequencies[linesCleared] || 440;
+    const scaledFrequency = baseFrequency * (1 + 0.1 * Math.min(combo || 0, 10));
+    playSound(scaledFrequency, 100);
 }
 
-function playTetrisSound() {
-    playSound(880, 200);
+function playTetrisSound(combo) {
+    const baseFrequency = 660;
+    const scaledFrequency = baseFrequency * (1 + 0.1 * Math.min(combo || 0, 10));
+    playSound(scaledFrequency, 200);
 }
 
 function playGameOverSound() {
