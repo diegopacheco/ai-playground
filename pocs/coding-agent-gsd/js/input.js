@@ -57,13 +57,22 @@ inputChannel.addEventListener('message', function(event) {
     }
 });
 
+function isGameKey(keyCode) {
+    for (var action in keymap) {
+        if (keymap[action] && keymap[action].indexOf(keyCode) !== -1) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function setupInput() {
     document.addEventListener('keydown', function(e) {
         if (!keys[e.code]) {
             keys[e.code] = true;
             keyTimers[e.code] = { pressed: Date.now(), lastRepeat: 0 };
         }
-        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) {
+        if (isGameKey(e.code)) {
             e.preventDefault();
         }
     });
