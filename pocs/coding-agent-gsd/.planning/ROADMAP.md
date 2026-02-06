@@ -14,13 +14,13 @@
 | 4 | Unique Mechanics | Freeze cycle and board growth | 5 | ✓ Complete |
 | 5 | Additional Themes | Visual variety with new themes | 3 | ✓ Complete |
 | 6 | Session Statistics | Performance tracking and display | 4 | ✓ Complete |
-| 7 | Combo System | Reward consecutive line clears | 5 | Pending |
+| 7 | Combo System | Reward consecutive line clears | 5 | ✓ Complete |
 | 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | Pending |
 | 9 | Audio Feedback | Sound effects for game events | 5 | Pending |
 | 10 | Keyboard Remapping | Customizable controls | 5 | Pending |
 
 **Milestone v1.0:** 4 phases | 37 requirements | 100% complete
-**Milestone v2.0:** 6 phases | 27 requirements | 33% complete (2/6 phases)
+**Milestone v2.0:** 6 phases | 27 requirements | 50% complete (3/6 phases)
 
 ---
 
@@ -215,11 +215,11 @@ Plans:
 - COMB-04: Visual combo counter displays during active combo
 - COMB-05: Back-to-Back bonus (1.5x) for consecutive Tetris/T-spin clears
 
-**Plans:** 2 plans
+**Plans:** 2 plans (all complete)
 
 Plans:
-- [ ] 07-01-PLAN.md — Core combo and B2B scoring logic in main.js
-- [ ] 07-02-PLAN.md — Visual combo display and statistics tracking
+- [x] 07-01-PLAN.md — Core combo and B2B scoring logic in main.js
+- [x] 07-02-PLAN.md — Visual combo display and statistics tracking
 
 **Success Criteria:**
 1. Player clears line, combo counter shows "1x Combo"
@@ -329,4 +329,4 @@ Phase 10 (Keyboard Remapping) ← independent (refactors input)
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-05 after Phase 7 planning*
+*Last updated: 2026-02-05 after Phase 7 complete*

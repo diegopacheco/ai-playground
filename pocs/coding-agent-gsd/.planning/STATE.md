@@ -3,10 +3,10 @@
 ## Current Position
 
 **Milestone:** v2.0 Enhanced Experience
-**Phase:** 7 - Combo System (In Progress)
-**Plan:** 1/? complete
-**Status:** In progress
-**Last activity:** 2026-02-06 - Completed 07-01-PLAN.md
+**Phase:** 7 - Combo System (Complete)
+**Plan:** 2/2 complete
+**Status:** Complete - ready for Phase 8
+**Last activity:** 2026-02-05 - Phase 7 verified and complete
 
 **Progress:** 3/6 phases complete (50%)
 
@@ -14,7 +14,8 @@
 [████████████████████░░░░░░░░░░░░░░░░░░░░] 50%
 Phase 5: Complete
 Phase 6: Complete
-Phase 7: In Progress (1 plan complete)
+Phase 7: Complete
+Phase 8: Ready to plan
 ```
 
 ## Project Reference
@@ -22,14 +23,14 @@ Phase 7: In Progress (1 plan complete)
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Real-time admin control loop - admin tweaks, player experiences instantly
-**Current focus:** v2.0 features - Phase 7 combo system in progress
+**Current focus:** v2.0 features - Phase 7 combo system complete, Phase 8 next
 
 ## Milestone History
 
 | Version | Status | Shipped | Phases | Plans |
 |---------|--------|---------|--------|-------|
 | v1.0 | SHIPPED | 2026-02-03 | 4 | 12 |
-| v2.0 | IN PROGRESS | - | 6 | 5 |
+| v2.0 | IN PROGRESS | - | 6 | 7 |
 
 See: .planning/MILESTONES.md for details
 
@@ -37,9 +38,9 @@ See: .planning/MILESTONES.md for details
 
 **v2.0 (current):**
 - Requirements: 27 total
-- Phases: 6 total (2.5 complete)
-- Plans created: 5
-- Plans complete: 2 (Phase 5) + 2 (Phase 6) + 1 (Phase 7)
+- Phases: 6 total (3 complete)
+- Plans created: 7
+- Plans complete: 2 (Phase 5) + 2 (Phase 6) + 2 (Phase 7)
 - Avg requirements per phase: 4.5
 
 **v1.0 (shipped):**
@@ -53,11 +54,12 @@ See: .planning/MILESTONES.md for details
 
 | Date | Action | Details |
 |------|--------|---------|
+| 2026-02-05 | Phase 7 complete | Combo and B2B scoring with visual display verified |
+| 2026-02-05 | Plan 07-02 complete | Visual combo indicator and stats tracking |
 | 2026-02-06 | Plan 07-01 complete | Combo and B2B scoring mechanics implemented |
 | 2026-02-04 | Plan 06-02 complete | Advanced stats (PPS, APM) + session summary screen |
 | 2026-02-04 | Plan 06-01 complete | Session stats tracking with LINES, TIME, PIECES display |
 | 2026-02-03 | Phase 5 complete | Minimalist + High Contrast themes added |
-| 2026-02-03 | v2.0 roadmap created | 6 phases defined for 27 requirements |
 
 ## Key Decisions (v2.0)
 
@@ -71,6 +73,8 @@ See: .planning/MILESTONES.md for details
 | Combo bonus 50 * (combo-1) * level | Tetris Guideline standard, bonus starts from 2nd consecutive | Implemented |
 | B2B persists through non-clears | Tetris Guideline: B2B only breaks on non-Tetris clear | Implemented |
 | pendingScoreCalc pattern | Defers scoring until animation completes | Implemented |
+| Combo display in sidebar at Y=375 | Below session stats, above score | Implemented |
+| Max Combo and B2B Count in summary | Visible performance metrics on game over | Implemented |
 
 ## Open Questions
 
@@ -78,8 +82,8 @@ None currently.
 
 ## TODOs
 
-- Plan and execute remaining Phase 7 plans (if any)
-- Continue to Phase 8
+- Plan and execute Phase 8 (T-Spin Detection)
+- Continue to Phase 9-10
 
 ## Blockers
 
@@ -87,12 +91,12 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-02-06
-**Stopped at:** Completed 07-01-PLAN.md
+**Last session:** 2026-02-05
+**Stopped at:** Phase 7 complete
 **Resume file:** None
-**Context:** Phase 7 Combo System plan 01 complete. Combo counter tracks consecutive line clears with bonus 50*(combo-1)*level. Back-to-Back activates on Tetris, awards 1.5x multiplier when consecutive Tetrises occur.
+**Context:** Phase 7 Combo System complete with all 5 requirements (COMB-01 through COMB-05) verified. Combo counter tracks consecutive line clears, displays "Nx COMBO" in sidebar, awards 50*(combo-1)*level bonus. Back-to-Back activates on Tetris (4-line), awards 1.5x multiplier, persists through non-clearing placements. Session summary shows Max Combo and B2B Bonuses.
 
-**Next action:** Execute remaining Phase 7 plans or move to Phase 8
+**Next action:** Plan Phase 8 (T-Spin Detection) with /gsd:plan-phase 8
 
 ---
-*State updated: 2026-02-06 after 07-01-PLAN.md complete*
+*State updated: 2026-02-05 after Phase 7 complete*
