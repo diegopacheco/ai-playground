@@ -118,6 +118,54 @@
         .checkbox-label span {
             font-size: 14px;
         }
+        .key-bindings {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .binding-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .action-label {
+            flex: 1;
+        }
+        .key-button {
+            min-width: 120px;
+            padding: 8px 12px;
+            background: #2a2a4a;
+            color: #fff;
+            border: 1px solid #00ffff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: monospace;
+        }
+        .key-button:hover {
+            background: #3a3a5a;
+        }
+        .key-button.capturing {
+            background: #00ffff;
+            color: #000;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .restore-btn {
+            margin-top: 15px;
+            padding: 10px;
+            background: #ff4444;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .restore-btn:hover {
+            background: #ff6666;
+        }
     </style>
 </head>
 <body>
@@ -199,6 +247,41 @@
                 <div id="stat-status" class="stat-value status playing">Playing</div>
             </div>
         </div>
+    </div>
+
+    <div class="section">
+        <h2>Controls</h2>
+        <div class="key-bindings">
+            <div class="binding-row">
+                <span class="action-label">Move Left</span>
+                <button id="bind-left" class="key-button"></button>
+            </div>
+            <div class="binding-row">
+                <span class="action-label">Move Right</span>
+                <button id="bind-right" class="key-button"></button>
+            </div>
+            <div class="binding-row">
+                <span class="action-label">Soft Drop</span>
+                <button id="bind-down" class="key-button"></button>
+            </div>
+            <div class="binding-row">
+                <span class="action-label">Rotate</span>
+                <button id="bind-rotate" class="key-button"></button>
+            </div>
+            <div class="binding-row">
+                <span class="action-label">Hard Drop</span>
+                <button id="bind-hardDrop" class="key-button"></button>
+            </div>
+            <div class="binding-row">
+                <span class="action-label">Hold Piece</span>
+                <button id="bind-hold" class="key-button"></button>
+            </div>
+            <div class="binding-row">
+                <span class="action-label">Pause</span>
+                <button id="bind-pause" class="key-button"></button>
+            </div>
+        </div>
+        <button id="restore-defaults" class="restore-btn">Restore Defaults</button>
     </div>
 
     <div class="section">
