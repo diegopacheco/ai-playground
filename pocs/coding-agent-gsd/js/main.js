@@ -21,6 +21,8 @@ let themeIndex = 0;
 let combo = 0;
 let b2bActive = false;
 let pendingScoreCalc = null;
+let lastAction = null;
+let lastKickOffset = null;
 
 const GameState = Object.freeze({
     PLAYING: 'PLAYING',
@@ -159,6 +161,8 @@ function movePiece(dx, dy) {
         if (isLocking && (dx !== 0 || dy < 0)) {
             lockCounter = 0;
         }
+        lastAction = 'movement';
+        lastKickOffset = null;
         return true;
     }
     return false;
@@ -181,6 +185,8 @@ function rotatePiece() {
             if (isLocking) {
                 lockCounter = 0;
             }
+            lastAction = 'rotation';
+            lastKickOffset = kick;
             return true;
         }
     }
@@ -190,6 +196,8 @@ function rotatePiece() {
 function hardDrop() {
     if (!currentPiece) return;
     while (movePiece(0, 1)) {}
+    lastAction = 'drop';
+    lastKickOffset = null;
     lockPieceToBoard();
 }
 
@@ -395,6 +403,8 @@ function resetGame() {
     combo = 0;
     b2bActive = false;
     pendingScoreCalc = null;
+    lastAction = null;
+    lastKickOffset = null;
     spawnPiece();
     startSession();
 }
