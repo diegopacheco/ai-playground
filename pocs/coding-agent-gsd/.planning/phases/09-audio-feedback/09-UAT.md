@@ -1,18 +1,14 @@
 ---
-status: testing
+status: complete
 phase: 09-audio-feedback
 source: [09-01-SUMMARY.md, 09-02-SUMMARY.md]
 started: 2026-02-05T18:00:00Z
-updated: 2026-02-05T18:00:00Z
+completed: 2026-02-05T18:30:00Z
 ---
 
 ## Current Test
 
-number: 6
-name: Mute Stops Game Sounds
-expected: |
-  Check "Mute Sound Effects" in admin, return to game, play - no sounds should play.
-awaiting: user response
+[testing complete]
 
 ## Tests
 
@@ -38,22 +34,22 @@ result: pass
 
 ### 6. Mute Stops Game Sounds
 expected: Check "Mute Sound Effects" in admin, return to game, play - no sounds should play.
-result: [pending]
+result: pass
 
 ### 7. Mute State Persists
 expected: With mute checked, refresh admin page - checkbox should still be checked (persisted to localStorage).
-result: [pending]
+result: pass
 
 ### 8. Cross-Tab Unmute Sync
 expected: Uncheck mute in admin while game is open - game immediately plays sounds again on next event.
-result: [pending]
+result: pass
 
 ## Summary
 
 total: 8
-passed: 5
+passed: 8
 issues: 0
-pending: 3
+pending: 0
 skipped: 0
 
 ## Gaps
