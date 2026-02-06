@@ -251,6 +251,11 @@ function detectTSpin(piece, board, lastAction, lastKickOffset) {
 function lockPieceToBoard() {
     if (!currentPiece) return;
 
+    const tSpinType = detectTSpin(currentPiece, board, lastAction, lastKickOffset);
+    if (tSpinType !== null) {
+        updateTSpinStats(tSpinType);
+    }
+
     updatePiecePlaced();
     board = lockPiece(board, currentPiece);
     const lines = checkLines(board);
@@ -258,21 +263,35 @@ function lockPieceToBoard() {
     if (lines.length > 0) {
         combo++;
         updateComboStats(combo);
-        const isDifficultClear = lines.length === 4;
+        const isDifficultClear = lines.length === 4 || tSpinType !== null;
         const hasB2bBonus = b2bActive && isDifficultClear;
         pendingScoreCalc = {
             linesCleared: lines.length,
             comboValue: combo,
-            hasB2bBonus: hasB2bBonus
+            hasB2bBonus: hasB2bBonus,
+            tSpinType: tSpinType
         };
         b2bActive = isDifficultClear;
         clearingLines = lines;
         clearingTimer = 100;
         currentPiece = null;
     } else {
-        combo = 0;
+        if (tSpinType === null) {
+            combo = 0;
+        }
         spawnPiece();
     }
+
+    lastAction = null;
+    lastKickOffset = null;
+}
+
+function calculateTSpinScore(tSpinType, linesCleared, level) {
+    const baseScores = {
+        mini: [100, 200, 400],
+        full: [400, 800, 1200, 1600]
+    };
+    return (baseScores[tSpinType][linesCleared] || 0) * level;
 }
 
 function processInput() {
@@ -349,10 +368,19 @@ function update(deltaTime) {
         if (clearingTimer <= 0) {
             const result = clearLines(board, clearingLines);
             board = result.board;
-            let baseScore = result.linesCleared * pointsPerRow;
-            if (pendingScoreCalc && pendingScoreCalc.hasB2bBonus && result.linesCleared === 4) {
-                baseScore = Math.floor(baseScore * 1.5);
-                incrementB2bCount();
+            let baseScore;
+            if (pendingScoreCalc && pendingScoreCalc.tSpinType) {
+                baseScore = calculateTSpinScore(pendingScoreCalc.tSpinType, result.linesCleared, level);
+                if (pendingScoreCalc.hasB2bBonus) {
+                    baseScore = Math.floor(baseScore * 1.5);
+                    incrementB2bCount();
+                }
+            } else {
+                baseScore = result.linesCleared * pointsPerRow;
+                if (pendingScoreCalc && pendingScoreCalc.hasB2bBonus && result.linesCleared === 4) {
+                    baseScore = Math.floor(baseScore * 1.5);
+                    incrementB2bCount();
+                }
             }
             let comboBonus = 0;
             if (pendingScoreCalc && pendingScoreCalc.comboValue > 1) {

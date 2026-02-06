@@ -7,7 +7,8 @@ var stats = {
     sessionStartTime: 0,
     actionsCount: 0,
     maxCombo: 0,
-    b2bCount: 0
+    b2bCount: 0,
+    tSpinCount: 0
 };
 
 function startSession() {
@@ -20,6 +21,7 @@ function startSession() {
     stats.actionsCount = 0;
     stats.maxCombo = 0;
     stats.b2bCount = 0;
+    stats.tSpinCount = 0;
 }
 
 function updatePiecePlaced() {
@@ -82,6 +84,12 @@ function incrementB2bCount() {
     stats.b2bCount++;
 }
 
+function updateTSpinStats(tSpinType) {
+    if (tSpinType !== null) {
+        stats.tSpinCount++;
+    }
+}
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         stats: stats,
@@ -97,6 +105,7 @@ if (typeof module !== 'undefined' && module.exports) {
         formatDecimal: formatDecimal,
         formatPercent: formatPercent,
         updateComboStats: updateComboStats,
-        incrementB2bCount: incrementB2bCount
+        incrementB2bCount: incrementB2bCount,
+        updateTSpinStats: updateTSpinStats
     };
 }
