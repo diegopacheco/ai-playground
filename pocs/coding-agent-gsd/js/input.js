@@ -72,6 +72,23 @@ function setupInput() {
         keys[e.code] = false;
         delete keyTimers[e.code];
     });
+
+    loadKeymap();
+}
+
+function getActiveKeyForAction(action) {
+    var boundKeys = keymap[action];
+    if (!boundKeys) return null;
+    for (var i = 0; i < boundKeys.length; i++) {
+        if (keys[boundKeys[i]]) {
+            return boundKeys[i];
+        }
+    }
+    return null;
+}
+
+function isActionPressed(action) {
+    return getActiveKeyForAction(action) !== null;
 }
 
 function getInput() {
@@ -86,69 +103,78 @@ function getInput() {
         pause: false
     };
 
-    if (keys['ArrowLeft']) {
-        const timer = keyTimers['ArrowLeft'];
-        const elapsed = now - timer.pressed;
-        if (elapsed < DAS_DELAY) {
-            if (timer.lastRepeat === 0) {
-                input.left = true;
-                timer.lastRepeat = now;
-            }
-        } else {
-            if (now - timer.lastRepeat >= DAS_REPEAT) {
-                input.left = true;
-                timer.lastRepeat = now;
-            }
-        }
-    }
-
-    if (keys['ArrowRight']) {
-        const timer = keyTimers['ArrowRight'];
-        const elapsed = now - timer.pressed;
-        if (elapsed < DAS_DELAY) {
-            if (timer.lastRepeat === 0) {
-                input.right = true;
-                timer.lastRepeat = now;
-            }
-        } else {
-            if (now - timer.lastRepeat >= DAS_REPEAT) {
-                input.right = true;
-                timer.lastRepeat = now;
+    var leftKey = getActiveKeyForAction('left');
+    if (leftKey) {
+        const timer = keyTimers[leftKey];
+        if (timer) {
+            const elapsed = now - timer.pressed;
+            if (elapsed < DAS_DELAY) {
+                if (timer.lastRepeat === 0) {
+                    input.left = true;
+                    timer.lastRepeat = now;
+                }
+            } else {
+                if (now - timer.lastRepeat >= DAS_REPEAT) {
+                    input.left = true;
+                    timer.lastRepeat = now;
+                }
             }
         }
     }
 
-    if (keys['ArrowDown']) {
+    var rightKey = getActiveKeyForAction('right');
+    if (rightKey) {
+        const timer = keyTimers[rightKey];
+        if (timer) {
+            const elapsed = now - timer.pressed;
+            if (elapsed < DAS_DELAY) {
+                if (timer.lastRepeat === 0) {
+                    input.right = true;
+                    timer.lastRepeat = now;
+                }
+            } else {
+                if (now - timer.lastRepeat >= DAS_REPEAT) {
+                    input.right = true;
+                    timer.lastRepeat = now;
+                }
+            }
+        }
+    }
+
+    if (isActionPressed('down')) {
         input.down = true;
     }
 
-    if (keys['ArrowUp']) {
-        const timer = keyTimers['ArrowUp'];
+    var rotateKey = getActiveKeyForAction('rotate');
+    if (rotateKey) {
+        const timer = keyTimers[rotateKey];
         if (timer && timer.lastRepeat === 0) {
             input.rotate = true;
             timer.lastRepeat = now;
         }
     }
 
-    if (keys['Space']) {
-        const timer = keyTimers['Space'];
+    var hardDropKey = getActiveKeyForAction('hardDrop');
+    if (hardDropKey) {
+        const timer = keyTimers[hardDropKey];
         if (timer && timer.lastRepeat === 0) {
             input.hardDrop = true;
             timer.lastRepeat = now;
         }
     }
 
-    if (keys['KeyC'] || keys['ShiftLeft'] || keys['ShiftRight']) {
-        const keyCode = keys['KeyC'] ? 'KeyC' : (keys['ShiftLeft'] ? 'ShiftLeft' : 'ShiftRight');
-        const timer = keyTimers[keyCode];
+    var holdKey = getActiveKeyForAction('hold');
+    if (holdKey) {
+        const timer = keyTimers[holdKey];
         if (timer && timer.lastRepeat === 0) {
             input.hold = true;
             timer.lastRepeat = now;
         }
     }
 
-    if (keys['KeyP']) {
-        const timer = keyTimers['KeyP'];
+    var pauseKey = getActiveKeyForAction('pause');
+    if (pauseKey) {
+        const timer = keyTimers[pauseKey];
         if (timer && timer.lastRepeat === 0) {
             input.pause = true;
             timer.lastRepeat = now;
