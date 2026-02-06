@@ -18,6 +18,9 @@ let clearingTimer = 0;
 let pointsPerRow = 10;
 let boardGrowthInterval = 30000;
 let themeIndex = 0;
+let combo = 0;
+let b2bActive = false;
+let pendingScoreCalc = null;
 
 const GameState = Object.freeze({
     PLAYING: 'PLAYING',
