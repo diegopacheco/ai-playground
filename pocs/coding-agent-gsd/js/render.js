@@ -229,7 +229,22 @@ function drawSessionStats() {
     ctx.fillText('APM: ' + Math.floor(calculateAPM()), sidebarX + 10, startY + 60);
 }
 
-function drawComboIndicator(combo, b2bActive) {
+function drawComboIndicator(combo, b2bActive, tSpinDisplay) {
+    if (tSpinDisplay !== null) {
+        var sidebarX = COLS * CELL_SIZE;
+        var centerX = sidebarX + SIDEBAR_WIDTH / 2;
+        var tSpinY = 260;
+        ctx.fillStyle = '#ff00ff';
+        ctx.font = 'bold 14px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        var tSpinText = tSpinDisplay.type === 'mini' ? 'T-SPIN MINI' : 'T-SPIN';
+        if (tSpinDisplay.lines > 0) {
+            var lineNames = ['', 'SINGLE', 'DOUBLE', 'TRIPLE'];
+            tSpinText = tSpinText + ' ' + lineNames[tSpinDisplay.lines];
+        }
+        ctx.fillText(tSpinText, centerX, tSpinY);
+    }
     if (combo <= 0 && !b2bActive) return;
     var sidebarX = COLS * CELL_SIZE;
     var comboY = 375;
