@@ -293,7 +293,16 @@ function update(deltaTime) {
         if (clearingTimer <= 0) {
             const result = clearLines(board, clearingLines);
             board = result.board;
-            score += result.linesCleared * pointsPerRow;
+            let baseScore = result.linesCleared * pointsPerRow;
+            if (pendingScoreCalc && pendingScoreCalc.hasB2bBonus && result.linesCleared === 4) {
+                baseScore = Math.floor(baseScore * 1.5);
+            }
+            let comboBonus = 0;
+            if (pendingScoreCalc && pendingScoreCalc.comboValue > 1) {
+                comboBonus = 50 * (pendingScoreCalc.comboValue - 1) * level;
+            }
+            score += baseScore + comboBonus;
+            pendingScoreCalc = null;
             stats.score = score;
             stats.lines += result.linesCleared;
             checkLevelUp();
@@ -380,6 +389,9 @@ function resetGame() {
     dropCounter = 0;
     lockCounter = 0;
     isLocking = false;
+    combo = 0;
+    b2bActive = false;
+    pendingScoreCalc = null;
     spawnPiece();
     startSession();
 }
