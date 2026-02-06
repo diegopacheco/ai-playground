@@ -201,6 +201,53 @@ function hardDrop() {
     lockPieceToBoard();
 }
 
+function getTSpinCorners(piece) {
+    const cx = piece.x + 1;
+    const cy = piece.y + 1;
+    const corners = [
+        [cx - 1, cy - 1],
+        [cx + 1, cy - 1],
+        [cx - 1, cy + 1],
+        [cx + 1, cy + 1]
+    ];
+    const frontCornersMap = [
+        [0, 1],
+        [1, 3],
+        [2, 3],
+        [0, 2]
+    ];
+    return {
+        corners: corners,
+        frontIndices: frontCornersMap[piece.rotation]
+    };
+}
+
+function detectTSpin(piece, board, lastAction, lastKickOffset) {
+    if (piece.type !== 'T') return null;
+    if (lastAction !== 'rotation') return null;
+    const { corners, frontIndices } = getTSpinCorners(piece);
+    let occupiedCount = 0;
+    let frontOccupiedCount = 0;
+    corners.forEach(function(corner, idx) {
+        const x = corner[0];
+        const y = corner[1];
+        const isOccupied = (x < 0 || x >= COLS || y >= board.length || (y >= 0 && board[y][x]));
+        if (isOccupied) {
+            occupiedCount++;
+            if (frontIndices.includes(idx)) {
+                frontOccupiedCount++;
+            }
+        }
+    });
+    if (occupiedCount < 3) return null;
+    const isMini = frontOccupiedCount < 2;
+    const isWallKickUpgrade = lastKickOffset && (Math.abs(lastKickOffset[0]) + Math.abs(lastKickOffset[1]) === 3);
+    if (isMini && !isWallKickUpgrade) {
+        return 'mini';
+    }
+    return 'full';
+}
+
 function lockPieceToBoard() {
     if (!currentPiece) return;
 
