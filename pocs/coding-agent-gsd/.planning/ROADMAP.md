@@ -17,10 +17,10 @@
 | 7 | Combo System | Reward consecutive line clears | 5 | ✓ Complete |
 | 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | ✓ Complete |
 | 9 | Audio Feedback | Sound effects for game events | 5 | ✓ Complete |
-| 10 | Keyboard Remapping | Customizable controls | 5 | Pending |
+| 10 | Keyboard Remapping | Customizable controls | 5 | ✓ Complete |
 
 **Milestone v1.0:** 4 phases | 37 requirements | 100% complete
-**Milestone v2.0:** 6 phases | 27 requirements | 83% complete (5/6 phases)
+**Milestone v2.0:** 6 phases | 27 requirements | 100% complete
 
 ---
 
@@ -299,6 +299,12 @@ Plans:
 - KEYS-04: Conflict detection prevents duplicate bindings
 - KEYS-05: Default bindings restore option
 
+**Plans:** 2 plans (all complete)
+
+Plans:
+- [x] 10-01-PLAN.md — Keymap system with localStorage persistence
+- [x] 10-02-PLAN.md — Key binding UI in admin panel
+
 **Success Criteria:**
 1. Player opens settings UI and sees current key bindings
 2. Player clicks a control, presses new key, binding updates immediately
@@ -341,4 +347,4 @@ Phase 10 (Keyboard Remapping) ← independent (refactors input)
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-05 after Phase 9 complete*
+*Last updated: 2026-02-06 after Phase 10 complete*
