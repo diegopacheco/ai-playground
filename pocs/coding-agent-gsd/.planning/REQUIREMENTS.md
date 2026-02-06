@@ -114,14 +114,48 @@
 - [x] **KEYS-04**: Conflict detection prevents duplicate bindings
 - [x] **KEYS-05**: Default bindings restore option
 
-## v3 Requirements (Deferred)
+## v3 Requirements
 
-### Polish
+### Combo Pitch Scaling
 
-- **V3-01**: Combo pitch scaling (Tetris Effect style)
-- **V3-02**: Music/background audio
-- **V3-03**: Personal best tracking across sessions
-- **V3-04**: Import/export key bindings
+- [ ] **PITCH-01**: Line clear sound pitch increases proportionally with combo counter
+- [ ] **PITCH-02**: Pitch scaling uses smooth parameter ramping to prevent clicks
+- [ ] **PITCH-03**: Pitch capped at 10x combo to prevent painful frequencies
+- [ ] **PITCH-04**: Different pitch patterns for single/double/triple/Tetris clears
+- [ ] **PITCH-05**: Pitch resets to base when combo breaks
+
+### Personal Best Tracking
+
+- [ ] **BEST-01**: Track high score, lines, level across sessions in localStorage
+- [ ] **BEST-02**: Display personal best comparison at game over screen
+- [ ] **BEST-03**: Show "New Record" visual notification when beating personal best
+- [ ] **BEST-04**: Track timestamp of when personal best was achieved
+- [ ] **BEST-05**: Clear/reset personal bests option in admin panel
+
+### Key Binding Export/Import
+
+- [ ] **EXPORT-01**: Export current key bindings to tetris_keybindings.json file
+- [ ] **EXPORT-02**: Import key bindings from JSON file with validation
+- [ ] **EXPORT-03**: Show error messages for invalid import files
+- [ ] **EXPORT-04**: Export includes metadata (date, game version)
+- [ ] **EXPORT-05**: Export/Import buttons in admin panel Controls section
+
+### Background Music
+
+- [ ] **MUSIC-01**: Procedural background music via continuous OscillatorNode
+- [ ] **MUSIC-02**: Seamless looping without restart gaps
+- [ ] **MUSIC-03**: Separate mute toggle from sound effects
+- [ ] **MUSIC-04**: Music pauses when game pauses, stops on game over
+- [ ] **MUSIC-05**: Music gain lower than effects to not overpower gameplay
+
+## v4 Requirements (Deferred)
+
+### Future Polish
+
+- **V4-01**: Adaptive music changing based on game state/level
+- **V4-02**: Multiple personal best categories (best score, best lines, best PPS)
+- **V4-03**: Preset key binding slots (save/load multiple profiles)
+- **V4-04**: Music tempo synced to piece fall speed
 
 ## Out of Scope
 
@@ -209,10 +243,11 @@
 
 **Coverage:**
 - v1 requirements: 37 total (all complete)
-- v2 requirements: 27 total
-- Mapped to phases: 27
-- Unmapped: 0 ✓
+- v2 requirements: 27 total (all complete)
+- v3 requirements: 20 total
+- Mapped to phases: 0 (pending roadmap)
+- Unmapped: 20
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-06 after Phase 10 complete*
+*Last updated: 2026-02-06 after v3.0 requirements defined*
