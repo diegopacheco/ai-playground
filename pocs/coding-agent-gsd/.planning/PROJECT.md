@@ -37,7 +37,12 @@ The real-time admin control loop — admin changes themes, speed, and scoring wh
 
 ### Active
 
-**Current Milestone: None (planning next)**
+**Current Milestone: v3.0 Polish & Persistence**
+
+- [ ] Combo pitch scaling (Tetris Effect style audio feedback)
+- [ ] Background music during gameplay
+- [ ] Personal best tracking across sessions
+- [ ] Import/export key bindings
 
 ### Out of Scope
 
@@ -76,4 +81,4 @@ The same-browser constraint simplifies architecture — uses BroadcastChannel AP
 | MAX_ROWS = 30 | 50% growth limit from initial 20 | Validated - good balance |
 
 ---
-*Last updated: 2026-02-06 after v2.0 milestone shipped*
+*Last updated: 2026-02-06 after v3.0 milestone started*
