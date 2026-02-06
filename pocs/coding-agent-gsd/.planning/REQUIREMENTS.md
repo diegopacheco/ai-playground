@@ -71,11 +71,11 @@
 
 ### T-Spin Detection
 
-- [ ] **TSPN-01**: Game detects T-spin when T-piece locks after rotation with 3+ corners occupied
-- [ ] **TSPN-02**: Mini T-spin detected when only 1 front corner occupied
-- [ ] **TSPN-03**: Full T-spin detected when 2 front corners occupied
-- [ ] **TSPN-04**: T-spin awards bonus points (Guideline: mini 100/200/400, full 400/800/1200/1600 × level)
-- [ ] **TSPN-05**: Visual indicator displays T-spin type on detection
+- [x] **TSPN-01**: Game detects T-spin when T-piece locks after rotation with 3+ corners occupied
+- [x] **TSPN-02**: Mini T-spin detected when only 1 front corner occupied
+- [x] **TSPN-03**: Full T-spin detected when 2 front corners occupied
+- [x] **TSPN-04**: T-spin awards bonus points (Guideline: mini 100/200/400, full 400/800/1200/1600 × level)
+- [x] **TSPN-05**: Visual indicator displays T-spin type on detection
 
 ### Combo System
 
@@ -191,11 +191,11 @@
 | COMB-03 | Phase 7 | ✓ Complete |
 | COMB-04 | Phase 7 | ✓ Complete |
 | COMB-05 | Phase 7 | ✓ Complete |
-| TSPN-01 | Phase 8 | Pending |
-| TSPN-02 | Phase 8 | Pending |
-| TSPN-03 | Phase 8 | Pending |
-| TSPN-04 | Phase 8 | Pending |
-| TSPN-05 | Phase 8 | Pending |
+| TSPN-01 | Phase 8 | ✓ Complete |
+| TSPN-02 | Phase 8 | ✓ Complete |
+| TSPN-03 | Phase 8 | ✓ Complete |
+| TSPN-04 | Phase 8 | ✓ Complete |
+| TSPN-05 | Phase 8 | ✓ Complete |
 | AUDIO-01 | Phase 9 | Pending |
 | AUDIO-02 | Phase 9 | Pending |
 | AUDIO-03 | Phase 9 | Pending |
@@ -215,4 +215,4 @@
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-05 after Phase 7 complete*
+*Last updated: 2026-02-05 after Phase 8 complete*
