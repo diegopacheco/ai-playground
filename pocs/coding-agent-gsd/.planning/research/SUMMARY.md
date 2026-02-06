@@ -1,183 +1,276 @@
-# Research Summary: Tetris Twist v2.0
+# Research Summary: Tetris Twist v3.0
 
-**Project:** Tetris Twist v2.0 Enhancements
-**Domain:** Browser-based game enhancement
-**Researched:** 2026-02-03
+**Project:** Tetris Twist v3.0 Polish & Persistence
+**Domain:** Browser-based game audio polish and persistence
+**Researched:** 2026-02-06
 **Confidence:** HIGH
 
 ## Executive Summary
 
-Tetris Twist v2.0 builds on a validated vanilla JavaScript foundation to add competitive scoring mechanics and player polish. Research confirms that T-spin detection, combo multipliers, session statistics, themes, sound effects, and keyboard remapping are all implementable using native browser APIs with zero external dependencies, maintaining the project's minimal-dependency constraint.
+Tetris Twist v3.0 adds audio polish and persistence features to an existing vanilla JS Tetris game with validated Web Audio API and localStorage patterns. The research confirms all four features require zero new dependencies and integrate cleanly with existing architecture. Combo pitch scaling extends existing OscillatorNode sound effects by passing combo count to frequency calculations. Background music uses procedural tone generation with continuous oscillators instead of audio files to maintain zero dependencies. Personal best tracking extends existing localStorage patterns from audio mute and key bindings to session stats. Key binding export/import uses standard File API with Blob download and FileReader upload patterns.
 
-The recommended approach is to prioritize scoring mechanics first since they deliver the most competitive value, then layer on feedback systems and configuration. All v2.0 features use proven patterns from the Tetris Guideline standard and modern web games. The Web Audio API handles sound effects, localStorage manages key bindings and stats persistence, and the 3-corner T algorithm provides guideline-compliant T-spin detection.
+Critical finding: v3.0 must avoid 19 identified pitfalls, with highest severity around Web Audio parameter ramping, AudioBufferSourceNode lifecycle, localStorage error handling, and integration with existing mute state. The existing architecture is sound and all features are additive with no breaking changes needed. Implementation order matters: audio features first to validate parameter ramping patterns before persistence features leverage established localStorage patterns. Background music should come last due to higher complexity in state management and mute integration.
 
-The primary risk is feature integration with the existing freeze cycle mechanic. All new scoring logic must respect the GameState enum to avoid processing during FROZEN state. Secondary risks include audio autoplay blocking by browsers and keyboard remapping conflicts, both mitigated through user gesture initialization and conflict validation.
+Risk mitigation centers on three areas: Web Audio API requires parameter ramping to prevent clicks, single AudioContext architecture to prevent memory leaks, and Safari compatibility requiring playbackRate fallback since detune is unsupported. localStorage requires comprehensive try-catch wrapping, schema versioning for data migration, and quota detection for incognito mode. Integration requires careful testing of mute state affecting both effects and music, personal best syncing with session stats, and key binding export using current in-memory state not stale localStorage values.
 
 ## Key Findings
 
 ### Recommended Stack
 
-All v2.0 features can be implemented using native browser APIs that integrate cleanly with the existing vanilla JavaScript architecture. No external dependencies are required.
+**Zero new dependencies required.** All features achievable with existing validated stack:
 
-**Core technologies:**
-- Web Audio API: Sound effects playback - low latency, unlimited concurrent sounds, designed for game audio
-- localStorage: Key bindings and stats persistence - simple object serialization with JSON, 5-10MB storage
-- KeyboardEvent.code: Physical key detection for remapping - layout-agnostic, already used in v1.0
-- 3-Corner T Algorithm: T-spin validation - Tetris DS standard, guideline-compliant
+- **Web Audio API (OscillatorNode):** Combo pitch scaling via frequency.value modification, background music via continuous oscillator with low gain instead of audio files
+- **localStorage:** Personal best persistence extends existing patterns from audio mute and keymap storage
+- **File API (Blob, FileReader):** Key binding export uses URL.createObjectURL for download, FileReader.readAsText for upload
+- **JSON:** Native serialization for stats and keybindings, no schema validation library needed
 
-**Browser compatibility:** All APIs baseline since 2021 with 92%+ support. No polyfills needed for modern browsers.
+**What's NOT needed:**
+- Audio libraries (Tone.js, Howler.js): 50-100KB overhead for capabilities already present
+- Storage libraries (localForage, Dexie.js): Unnecessary IndexedDB complexity for <1KB data
+- File libraries (FileSaver.js): 3KB dependency to replace 5 lines of native Blob code
+- JSON validation libraries (ajv, joi): 5-line validation sufficient for simple schema
 
 ### Expected Features
 
-**Must have (table stakes):**
-- T-spin detection (full + mini) - expected in any modern Tetris with SRS rotation
-- T-spin scoring with proper multipliers - core reward mechanic for skilled play
-- Combo counter display and scoring - standard expectation in competitive Tetris
-- Back-to-Back bonus tracking - standard mechanic for difficult clears
-- Basic session stats (score, lines, level, time) - always expected by players
-- Essential sound effects (land, clear, Tetris, game over) - minimum audio feedback
-- Basic keyboard remapping - players expect control customization
-- 2-3 new themes - adds variety, low implementation cost
+**Table stakes (must-have):**
+- Combo pitch scaling with linear frequency increase, capped at 10x to prevent painful high frequencies
+- Background music looping seamlessly without gaps, with independent volume control from effects
+- Personal best tracking for score, lines, level, date across sessions
+- Key binding export to JSON file with validation on import
 
-**Should have (competitive differentiators):**
-- Advanced stats (PPS, APM, efficiency) - appeals to competitive players
-- Max combo tracking - achievement-oriented feedback
-- Session summary screen - detailed post-game analysis
-- Combo sound pitch scaling - enhanced audio feedback like Tetris Effect
-- Visual remapping interface - professional polish over text configs
+**Differentiators (should defer to post-v3.0):**
+- Adaptive music changing based on game state: requires multiple audio tracks and complex state management
+- Multiple personal best categories: feature creep, score metric sufficient for MVP
+- Preset binding slots: nice-to-have, single export/import sufficient
+- Tetris Effect-style music where player actions trigger musical elements: requires complex audio synthesis beyond procedural oscillators
 
-**Defer (v2.1+):**
-- Personal best comparisons across sessions - requires historical tracking
-- Preset control schemes - nice-to-have but not essential
-- Mid-game theme hot-swapping - QoL feature, not core value
-- Advanced remapping (import/export) - power user feature
+**Anti-features (never implement):**
+- Infinite pitch scaling: becomes ear-piercing at high combos
+- Music with lyrics: distracting for puzzle games
+- Global leaderboards: requires backend, out of scope
+- Social sharing: adds complexity, not core to puzzle game loop
 
 ### Architecture Approach
 
-The v1.0 modular architecture extends cleanly with 5 new modules integrated through the existing game loop and state machine. The single global state pattern in main.js continues to work well with new state additions (tSpinResult, comboCount, lastMove, sessionStats). Pure functions in new modules maintain the existing architectural style.
+**Integration strategy:** Extend existing modules, create zero new modules
 
-**Major components:**
-1. T-spin Detection (tspin.js) - Detects T-spins using 3-corner algorithm, called after rotation, returns { isTSpin, type }
-2. Combo System (combo.js) - Tracks consecutive clears, increments/resets combo counter, calculates bonus points
-3. Session Statistics (stats.js) - Tracks cumulative metrics, event-driven updates, no external dependencies
-4. Audio Manager (audio.js) - Web Audio API wrapper, synthesized sounds, user gesture initialization
-5. Key Remapping (keybindings.js) - Configurable bindings with localStorage persistence, conflict detection
-6. Theme Expansion (themes.js) - Add 2-3 new theme objects to existing THEMES structure
+**Module integration:**
+- **audio.js:** Add combo parameter to playLineClearSound(combo), add startBackgroundMusic/stopBackgroundMusic/pauseBackgroundMusic/resumeBackgroundMusic functions, maintain single AudioContext with separate GainNodes for effects and music
+- **stats.js:** Add loadPersonalBest/savePersonalBest/checkNewBest functions using localStorage key tetris_personal_best, integrate with existing session stats tracking
+- **input.js:** Add exportKeymap/importKeymap/validateKeymapStructure functions, serialize existing keymap structure to JSON
+- **admin.js + admin.html:** Add export/import buttons to Controls section, add separate music mute toggle in Audio section
 
-**Integration complexity:** Most modules are LOW to MEDIUM complexity. Key remapping is HIGH complexity due to input system refactoring.
+**Critical architectural decisions:**
+1. **Separate music mute toggle:** Use two localStorage keys (audio_muted, music_muted) for independent control
+2. **Personal best scope:** Track score, lines, level, date with schema version for migration
+3. **Combo pitch formula:** Linear with cap: 440Hz + (Math.min(combo, 10) * 40Hz)
+4. **Export filename:** Branded "tetris_keybindings.json" without timestamp for simplicity
+
+**Data flow patterns:**
+- Combo pitch: main.js combo tracking → audio.js playLineClearSound(combo) → OscillatorNode frequency scaling
+- Background music: main.js GameState transitions → audio.js music control functions → continuous OscillatorNode with loop management
+- Personal best: main.js game over → stats.js checkNewBest → localStorage save if new record → render.js display comparison
+- Key binding export/import: admin.html buttons → admin.js handlers → input.js serialization → Blob download or FileReader upload
 
 ### Critical Pitfalls
 
-1. **Audio Autoplay Blocked** - Modern browsers block AudioContext creation without user gesture. Initialize AudioContext on first user interaction (click/keypress), not on module import. Resume AudioContext on visibility change.
+**Top 7 highest-severity pitfalls identified:**
 
-2. **T-spin Detection Edge Cases** - T-spins must only register after rotation, not translation. Track last move type. Use 3-corner T algorithm with pointing-corner validation. Full T-spin requires 2 front corners occupied. Test near walls and after wall kicks.
+1. **Parameter ramping for pitch changes:** Directly setting frequency.value causes clicking artifacts. Use exponentialRampToValueAtTime with 0.01-0.05s ramp duration to prevent discontinuities. This is critical to implement from start to avoid audio rewrites.
 
-3. **Combo Counter Reset Timing** - Reset combo only when piece locks WITHOUT clearing lines. Increment only on successful line clear. Don't reset mid-chain or allow infinite combos.
+2. **AudioBufferSourceNode one-time use:** Cannot restart source nodes after stop(). Create new node for each playback. Store AudioBuffer, not source node. This breaks music restart if violated.
 
-4. **Key Rebinding Conflicts** - Validate on rebind, warn if key already in use. Blacklist browser-reserved keys (F1-F12, Ctrl+combos). Use event.code (physical) not event.key (character). Save to localStorage immediately.
+3. **Mute state integration:** New background music must respect existing localStorage audio_muted state. Connect music GainNode to same mute logic. High likelihood of missing this during initial integration.
 
-5. **Integration with Freeze Cycle** - Check GameState enum before processing scoring. Only process T-spins, combos, and stats during PLAYING state. Test all features during state transitions to avoid corruption.
+4. **localStorage quota exceeded:** Wrap all setItem calls in try-catch for QuotaExceededError. Implement graceful fallback. Show user error message. Critical for incognito mode where quota is 0.
+
+5. **JSON.parse corruption handling:** Wrap all JSON.parse calls in try-catch. Validate schema after parsing. Return default values on failure. Remove corrupted entries. Game crashes on startup if violated.
+
+6. **Import file validation:** Validate MIME type, file size, JSON structure, and schema before applying. Sanitize all dynamic content. Reject oversized files. Security and stability critical.
+
+7. **Safari detune property missing:** Safari doesn't support AudioBufferSourceNode.detune. Feature detection required with playbackRate fallback. High likelihood since development likely happens in Chrome.
+
+**Other critical concerns:**
+- Frequency range violations: Cap at Nyquist limit (sampleRate/2 * 0.9) to prevent aliasing
+- MP3 loop gaps: Use OGG Vorbis for seamless looping or set custom loopStart/loopEnd
+- Multiple AudioContext memory leaks: Use single context with separate GainNodes, not multiple contexts
+- Blob URL memory leaks: Always URL.revokeObjectURL after export with 100ms timeout
+- Schema versioning: Include version field in localStorage data for migration on updates
 
 ## Implications for Roadmap
 
-Based on research, suggested phase structure:
+**Suggested phase structure: 4 phases matching 4 features**
 
-### Phase 1: Foundation Polish
-**Rationale:** Lowest complexity, no dependencies, establishes visual variety early
-**Delivers:** 2-3 additional themes, theme switcher UI tested
-**Addresses:** Additional themes (table stakes), visual polish
-**Avoids:** Theme hot-swap artifacts (pitfall #7) by testing state transitions
+### Phase 1: Combo Pitch Scaling
+**Rationale:** Simplest feature, extends existing audio.js, leverages validated combo tracking, zero dependencies, validates parameter ramping pattern for later audio work
 
-### Phase 2: Session Statistics
-**Rationale:** Foundational for other features, pure tracking logic with no game mechanics changes
-**Delivers:** Stats tracking module, real-time metrics, session summary screen
-**Addresses:** Basic session stats (table stakes), advanced stats (differentiator)
-**Implements:** stats.js module with event-driven updates
-**Avoids:** Performance overhead by using lightweight primitives
+**Delivers:** Real-time audio feedback that scales with player performance, immediate juice for existing combo system
 
-### Phase 3: Combo System
-**Rationale:** Simple scoring mechanic, needed before T-spin scoring integration
-**Delivers:** Combo counter, combo scoring, visual combo display
-**Addresses:** Combo multipliers (table stakes)
-**Uses:** Pure JavaScript counter logic, no external dependencies
-**Avoids:** Combo reset timing pitfall by resetting on no-clear lock
+**Features from FEATURES.md:**
+- Linear frequency scaling with cap at 10x combo
+- Applied to line clear sound effects
+- Resets when combo breaks
 
-### Phase 4: T-Spin Detection
-**Rationale:** Complex but high-value, depends on combo system for complete scoring
-**Delivers:** T-spin detection (mini + full), T-spin scoring, Back-to-Back tracking, visual indicators
-**Addresses:** T-spin detection and scoring (table stakes), B2B bonus (table stakes)
-**Uses:** 3-corner T algorithm integrated with existing SRS rotation
-**Avoids:** Detection edge cases by tracking last move type, testing wall kicks
+**Pitfalls to avoid:**
+- Pitfall 1: Use frequency.value not playbackRate to prevent duration coupling
+- Pitfall 2: Implement exponentialRampToValueAtTime from start to prevent clicks
+- Pitfall 18: Feature detection for Safari detune support with playbackRate fallback
+- Pitfall 3: Cap frequency at Nyquist limit for high combos
 
-### Phase 5: Audio Manager
-**Rationale:** Independent feature, can be developed in parallel with scoring
-**Delivers:** Sound effects for all game events, mute toggle, volume control
-**Addresses:** Sound effects (table stakes), combo pitch scaling (differentiator)
-**Uses:** Web Audio API with synthesized sounds, no audio file dependencies
-**Avoids:** Autoplay blocking by initializing on user gesture, sound overlap by limiting concurrent sounds
+**Complexity:** LOW
 
-### Phase 6: Keyboard Remapping
-**Rationale:** Most complex, should come last, refactors input system
-**Delivers:** Configurable key bindings, settings UI, conflict detection, localStorage persistence
-**Addresses:** Keyboard remapping (table stakes), visual remapping interface (differentiator)
-**Uses:** KeyboardEvent.code, localStorage for persistence
-**Avoids:** Key conflicts through validation and browser-reserved key blacklist
+### Phase 2: Personal Best Tracking
+**Rationale:** Independent of audio changes, extends existing stats.js patterns, validates localStorage error handling for later export feature, additive only with no gameplay changes
+
+**Delivers:** Player engagement through progress tracking, retention mechanic (70% factor from research), clear milestone achievement feedback
+
+**Features from FEATURES.md:**
+- Persist high score, max lines, level, date across sessions
+- Display comparison at game over
+- "New record" notification when beaten
+
+**Pitfalls to avoid:**
+- Pitfall 8: Wrap localStorage.setItem in try-catch for QuotaExceededError
+- Pitfall 9: Wrap JSON.parse in try-catch with schema validation
+- Pitfall 11: Include schema version field for future migration
+- Pitfall 16: Integrate checkNewBest with existing session stats, update both
+- Pitfall 19: Detect localStorage availability for incognito mode with fallback
+
+**Complexity:** LOW
+
+### Phase 3: Key Binding Export/Import
+**Rationale:** Extends existing input system, UI-only feature with no gameplay dependencies, validates File API patterns, completes v2.0 remapping story
+
+**Delivers:** Portability of custom controls across installations, backup for settings, completes control customization feature set
+
+**Features from FEATURES.md:**
+- Export current key bindings to JSON file
+- Import key bindings from JSON file with validation
+- Error messages for invalid imports
+- Works across browser sessions
+
+**Pitfalls to avoid:**
+- Pitfall 12: Call URL.revokeObjectURL after export to prevent memory leaks
+- Pitfall 13: Sanitize filename with whitelist [a-zA-Z0-9-_.] before download
+- Pitfall 14: Validate MIME type, file size, JSON structure, schema on import
+- Pitfall 17: Export from current in-memory keymap, not stale localStorage
+
+**Complexity:** LOW
+
+### Phase 4: Background Music
+**Rationale:** Most complex, requires new audio state management, depends on Phase 1 validating parameter ramping, test last to avoid breaking sound effects, procedural generation maintains zero dependencies
+
+**Delivers:** Atmospheric enhancement, flow state support, audio polish that differentiates from basic Tetris clones
+
+**Features from FEATURES.md:**
+- Seamless looping procedural music using continuous OscillatorNode
+- Independent volume control from sound effects
+- Starts/stops with game session, pauses when game pauses
+- Separate mute toggle from effects
+
+**Pitfalls to avoid:**
+- Pitfall 4: Create new source nodes for each playback, don't reuse stopped nodes
+- Pitfall 5: Use procedural generation (OGG if static files added later) for seamless looping
+- Pitfall 6: Share single AudioContext with effects, use separate GainNode for music
+- Pitfall 7: Use audioContext.currentTime for all timing, not Date.now()
+- Pitfall 15: Integrate music GainNode with existing mute state from localStorage
+
+**Complexity:** MEDIUM
 
 ### Phase Ordering Rationale
 
-- Themes first because they have zero dependencies and establish polish early
-- Stats before scoring mechanics because T-spin and combo systems will update stats
-- Combo before T-spin because combo counter is simpler and T-spin scoring includes combo bonuses
-- Audio in parallel with scoring because it's independent
-- Keyboard remapping last because it refactors core input.js, highest risk of breaking existing functionality
-- All phases must test integration with freeze cycle to avoid state corruption
+**Why this order:**
+1. **Audio features first (Phases 1 & 4):** Validates Web Audio patterns (parameter ramping, single context architecture) before persistence features
+2. **Combo pitch before music:** Simpler audio feature validates ramping technique needed for more complex music state management
+3. **Personal best before export:** Validates localStorage error handling patterns that export depends on
+4. **Background music last:** Highest complexity, most integration points, benefits from validated patterns in earlier phases
+
+**Dependencies:**
+- Phase 1 validates parameter ramping needed for Phase 4 music
+- Phase 2 validates localStorage error handling needed for Phase 3 export
+- Phase 4 depends on Phase 1 audio patterns and Phase 2 localStorage patterns
+- Phases 1-3 are independent and could parallelize if desired
 
 ### Research Flags
 
-Phases likely needing deeper research during planning:
-- **Phase 4 (T-spin detection):** Complex corner detection logic, wall kick edge cases need specific testing scenarios
-- **Phase 5 (Audio):** Sound synthesis parameters may need experimentation for good UX
+**Phases needing deeper research during planning:**
+- **None.** All four features have well-documented patterns and clear implementation paths. Research confidence is HIGH across all areas.
 
-Phases with standard patterns (skip research-phase):
-- **Phase 1 (Themes):** Well-documented CSS/color patterns, existing theme system proven
-- **Phase 2 (Stats):** Straightforward event tracking, no novel patterns
-- **Phase 3 (Combo):** Simple counter logic with standard formula
-- **Phase 6 (Key remapping):** Standard game input pattern, localStorage well-understood
+**Phases with standard patterns (skip research):**
+- **All four phases.** Stack research confirms no new dependencies needed. Features research identifies table stakes. Architecture research shows clean integration. Pitfalls research provides comprehensive risk mitigation.
+
+**Validation needed during implementation:**
+- Phase 1: Safari compatibility testing for detune fallback
+- Phase 2: Data migration testing with v2.0 localStorage format
+- Phase 3: Round-trip testing (export then import)
+- Phase 4: Loop seamlessness testing and mute integration testing
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | All APIs baseline since 2021, Web Audio API widely documented for games |
-| Features | HIGH | Tetris Guideline standards well-documented, community consensus on table stakes |
-| Architecture | HIGH | v1.0 architecture validated, new modules follow existing patterns |
-| Pitfalls | HIGH | Common pitfalls well-documented in game dev community, specific to web Tetris |
+| Stack | HIGH | Zero new dependencies, all APIs validated in v2.0 or standard browser features with universal support |
+| Features | MEDIUM | Table stakes clear, but background music audio file sourcing deferred by using procedural generation instead |
+| Architecture | HIGH | Clean integration with existing modules, no new modules needed, patterns match v1.0/v2.0 precedent |
+| Pitfalls | HIGH | 19 pitfalls identified with authoritative sources (MDN, GitHub issues, 2025-2026 articles), severity assessed |
+| Overall | HIGH | All features achievable with clear implementation paths, main risks identified with prevention strategies |
 
-**Overall confidence:** HIGH
+**Confidence factors:**
+- Web Audio API patterns verified with MDN documentation and real-world GitHub issues
+- localStorage patterns established in existing codebase (keymap, audio mute)
+- File API is standard browser functionality with universal support
+- Pitfall research corroborated with multiple authoritative sources
+- Integration points well-defined in existing architecture
 
-### Gaps to Address
+**Gaps identified:**
+- Background music composition: Procedural generation chosen to maintain zero dependencies, but no specific melody designed yet. This is implementation detail, not research gap.
+- Combo pitch tuning: Formula provided (440Hz + Math.min(combo, 10) * 40Hz) but exact step size may need playtesting adjustment. Not a blocker.
+- Personal best display UI: render.js extension needed but pattern straightforward from existing session stats display.
 
-- Sound effect frequencies and durations: Research provides patterns but specific values need experimentation during Phase 5. Test with actual gameplay to avoid annoying high-frequency sounds.
-- T-spin detection wall kick edge cases: 3-corner algorithm is well-defined but testing scenarios for all SRS wall kick positions need to be developed during Phase 4.
-- Performance of concurrent audio playback: Web Audio API handles multiple sounds but actual limit on this hardware needs runtime testing during Phase 5.
+**Areas for validation during implementation:**
+- Safari compatibility for pitch scaling (detune property unsupported, needs playbackRate fallback)
+- Loop seamlessness for background music (use procedural generation to avoid MP3 gap issues)
+- localStorage quota handling in incognito mode (feature detection and graceful fallback)
+- Multi-tab scenarios for personal best updates (low priority for single-player game)
 
 ## Sources
 
-### Primary (HIGH confidence)
-- STACK.md - Native API research with MDN references, browser compatibility data
-- FEATURES.md - Tetris Guideline standards from TetrisWiki, Hard Drop Wiki
-- ARCHITECTURE.md - Game architecture patterns from established sources
-- PITFALLS.md - Common browser game pitfalls, Tetris-specific issues
+**Stack Research:**
+- [MDN Web Audio API Documentation](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+- [MDN OscillatorNode.frequency](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode/frequency)
+- [MDN AudioBufferSourceNode.loop](https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode/loop)
+- [MDN File API](https://developer.mozilla.org/en-US/docs/Web/API/File_API)
+- [localStorage Complete Guide - Meticulous](https://www.meticulous.ai/blog/localstorage-complete-guide)
+- [localStorage Best Practices 2026](https://copyprogramming.com/howto/javascript-how-ot-keep-local-storage-on-refresh)
+- [json-porter GitHub](https://github.com/markgab/json-porter)
 
-### Secondary (MEDIUM confidence)
-- Web Audio API game usage patterns from Fieldrunners case study
-- PPS benchmarks from competitive Tetris community (Liquipedia)
-- Sound design principles from Tetris Effect analysis
+**Features Research:**
+- [Game Audio Analysis - Tetris Effect](https://www.gamedeveloper.com/audio/game-audio-analysis---tetris-effect)
+- [Tetris Effect - Enhancing gameplay with synesthesia](https://www.nicholassinger.com/blog/tetriseffect)
+- [Pitch shifting in Web Audio API](https://zpl.fi/pitch-shifting-in-web-audio-api/)
+- [A Game Developer's Guide to Gaming Background Music](https://www.dl-sounds.com/a-game-developers-guide-to-gaming-background-music/)
+- [Design With Music In Mind: A Guide to Adaptive Audio for Game Designers](https://www.gamedeveloper.com/audio/design-with-music-in-mind-a-guide-to-adaptive-audio-for-game-designers)
+- [Audio for Web games - MDN](https://developer.mozilla.org/en-US/docs/Games/Techniques/Audio_for_Web_Games)
+- [Fitting the pieces: Decoding trends and behaviors of modern puzzle gamers](https://business.mistplay.com/resources/puzzle-game-trends)
+- [Using local storage for high scores and game progress](https://gamedevjs.com/articles/using-local-storage-for-high-scores-and-game-progress/)
 
-### Tertiary (requires validation)
-- Exact sound frequencies for synthesized effects (needs experimentation)
-- Optimal combo display duration (needs UX testing)
+**Architecture Research:**
+- Tetris Twist v2.0 existing codebase patterns
+
+**Pitfalls Research:**
+- [Web Audio: the ugly click and the human ear](http://alemangui.github.io/ramp-to-value)
+- [Web Audio API performance and debugging notes](https://padenot.github.io/web-audio-perf/)
+- [Web Audio FAQ - Chrome for Developers](https://developer.chrome.com/blog/web-audio-faq)
+- [Sounds fun - JakeArchibald.com](https://jakearchibald.com/2016/sounds-fun/)
+- [Using the Web Audio API - MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API)
+- [Storage quotas and eviction criteria - MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage_API/Storage_quotas_and_eviction_criteria)
+- [Understanding and Resolving LocalStorage Quota Exceeded Errors](https://medium.com/@zahidbashirkhan/understanding-and-resolving-localstorage-quota-exceeded-errors-5ce72b1d577a)
+- [Stop Using JSON.parse(localStorage.getItem(…)) Without This Check](https://medium.com/devmap/stop-using-json-parse-localstorage-getitem-without-this-check-94cd034e092e)
+- [JavaScript concurrency and locking the HTML5 localStorage](https://balpha.de/2012/03/javascript-concurrency-and-locking-the-html5-localstorage/)
+- [Programmatically downloading files in the browser](https://blog.logrocket.com/programmatically-downloading-files-browser/)
+- [How to upload and process a JSON file with vanilla JS](https://gomakethings.com/how-to-upload-and-process-a-json-file-with-vanilla-js/)
+- [Pitch shifting in Web Audio API](https://zpl.fi/pitch-shifting-in-web-audio-api/)
 
 ---
-*Research completed: 2026-02-03*
+*Research completed: 2026-02-06*
 *Ready for roadmap: yes*
