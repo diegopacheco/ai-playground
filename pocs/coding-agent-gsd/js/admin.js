@@ -1,5 +1,19 @@
 var channel = new BroadcastChannel('tetris-sync');
 
+var muteToggle = document.getElementById('mute-toggle');
+var storedMute = localStorage.getItem('audio_muted');
+if (storedMute !== null) {
+    muteToggle.checked = storedMute === 'true';
+}
+muteToggle.addEventListener('change', function() {
+    var muted = muteToggle.checked;
+    localStorage.setItem('audio_muted', String(muted));
+    channel.postMessage({
+        type: 'MUTE_CHANGE',
+        payload: { muted: muted }
+    });
+});
+
 var themeRadios = document.querySelectorAll('input[name="theme"]');
 themeRadios.forEach(function(radio) {
     radio.addEventListener('change', function() {
@@ -70,6 +84,9 @@ channel.onmessage = function(event) {
     else if (data.type === 'THEME_CHANGE') {
         var themeRadio = document.querySelector('input[name="theme"][value="' + data.payload.themeName + '"]');
         if (themeRadio) themeRadio.checked = true;
+    }
+    else if (data.type === 'MUTE_CHANGE') {
+        muteToggle.checked = data.payload.muted;
     }
 };
 

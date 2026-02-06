@@ -104,6 +104,20 @@
         .stat-value.status.playing { color: #00ff00; }
         .stat-value.status.paused { color: #ffff00; }
         .stat-value.status.gameover { color: #ff0000; }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .checkbox-label input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .checkbox-label span {
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -185,6 +199,14 @@
                 <div id="stat-status" class="stat-value status playing">Playing</div>
             </div>
         </div>
+    </div>
+
+    <div class="section">
+        <h2>Audio</h2>
+        <label class="checkbox-label">
+            <input type="checkbox" id="mute-toggle">
+            <span>Mute Sound Effects</span>
+        </label>
     </div>
 
     <script src="js/admin.js"></script>
