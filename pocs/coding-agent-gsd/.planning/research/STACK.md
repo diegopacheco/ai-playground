@@ -1,335 +1,429 @@
-# Stack Research: Tetris Twist v2.0 Enhancements
+# Stack Research: Tetris Twist v3.0
 
-**Project:** Tetris Twist
-**Researched:** 2026-02-03
-**Scope:** Stack additions for v2.0 enhanced features
+**Researched:** 2026-02-06
+**Focus:** Audio polish and persistence features
 **Confidence:** HIGH
 
-## v1.0 Validated Stack (No Changes Needed)
+## Executive Summary
 
-| Technology | Purpose | Status |
-|------------|---------|--------|
-| Vanilla JavaScript (ES6+) | Game logic, UI | Validated |
-| HTML5 Canvas | Game rendering | Validated |
-| CSS3 | Admin UI, themes | Validated |
-| BroadcastChannel API | Tab sync | Validated |
-| requestAnimationFrame | 60 FPS game loop | Validated |
+v3.0 requires ZERO new libraries or frameworks. All features achievable with existing Web Audio API, localStorage, and File API patterns already validated in v2.0. Combo pitch scaling uses existing OscillatorNode frequency adjustment. Background music requires AudioBufferSourceNode with loop configuration. Personal bests extend existing localStorage patterns. Key binding export/import uses native Blob and File APIs.
 
-**Constraint:** No external dependencies per project guidelines.
+## Existing Stack (Validated in v2.0)
 
-## v2.0 Stack Additions
+| Component | Technology | Current Usage |
+|-----------|------------|---------------|
+| Audio synthesis | Web Audio API (OscillatorNode) | Sound effects with frequency/duration parameters |
+| Audio context | AudioContext | Initialized on user interaction, suspended state management |
+| State persistence | localStorage | Audio mute state, key bindings (JSON serialized) |
+| Cross-window sync | BroadcastChannel | Admin/game synchronization for settings |
+| Game rendering | Canvas 2D API | Board, pieces, UI elements |
+| Input handling | KeyboardEvent + DAS timing | Configurable key bindings with repeat logic |
 
-All v2.0 features can be implemented using native browser APIs that integrate cleanly with the existing vanilla JS stack.
+**Validated capabilities:**
+- `playSound(frequency, duration)` creates short sound effects
+- `localStorage.getItem/setItem` with JSON.stringify/parse for objects
+- Keymap stored as: `{ action: [keyCodes] }`
+- Combo tracking in game loop with `updateComboStats(combo)`
 
-### Audio (Sound Effects & Music)
+## New Capabilities Needed
 
-| Technology | Purpose | Rationale |
-|------------|---------|-----------|
-| Web Audio API | Sound effects playback | Low latency, unlimited concurrent sounds, precise timing control |
-| AudioContext | Audio environment | Core API for sound management |
-| AudioBufferSourceNode | Playing pre-loaded effects | Designed for short game audio clips |
-| GainNode | Volume control | Per-sound and master volume |
+### Combo Pitch Scaling
 
-**Browser Support:** Baseline widely available since April 2021. 92% browser compatibility score in 2026.
+**Requirement:** Sound effect pitch increases with combo count.
 
-**Why Web Audio API over HTML5 Audio Element:**
-- HTML5 Audio was "good for long audio like music or a podcast, but ill-suited for the demands of gaming" with looping problems and concurrent sound limits
-- Web Audio API provides "low-latency playback for games" and supports "high number of concurrent effects" without the 32-64 sound ceiling
-- Fieldrunners HTML5 port "encountered issues with audio playback with the Audio tag and early on decided to focus on the Web Audio API instead"
-- Web Audio's buffer source is designed specifically for "short audio clips for games and sound effects"
+**Implementation approach:**
+- Modify existing `playSound(frequency, duration)` to accept combo parameter
+- Scale frequency based on combo: `baseFrequency * (1 + (combo * scaleFactor))`
+- No new APIs needed, OscillatorNode.frequency.value is directly writable
 
-**Integration Pattern:**
-
+**Code pattern:**
 ```javascript
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-const masterGain = audioContext.createGain();
-masterGain.connect(audioContext.destination);
-
-async function loadSound(url) {
-    const response = await fetch(url);
-    const arrayBuffer = await response.arrayBuffer();
-    return await audioContext.decodeAudioData(arrayBuffer);
-}
-
-function playSound(buffer, volume = 1.0) {
-    if (audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
-    const source = audioContext.createBufferSource();
-    const gain = audioContext.createGain();
-    source.buffer = buffer;
-    gain.gain.value = volume;
-    source.connect(gain);
-    gain.connect(masterGain);
-    source.start(0);
+function playLineClearSound(combo) {
+    const baseFreq = 440;
+    const scaleFactor = 0.1;
+    const scaledFreq = baseFreq * (1 + (combo * scaleFactor));
+    playSound(scaledFreq, 100);
 }
 ```
 
-**Autoplay Policy:** Requires user interaction before first sound. Resume audioContext on first keypress or click. Already handled by existing game input system.
+**Technical details:**
+- OscillatorNode frequency is an AudioParam (a-rate)
+- Direct value assignment: `oscillator.frequency.value = newFrequency`
+- Alternative (precise timing): `oscillator.frequency.setValueAtTime(freq, time)`
+- For real-time combo changes, direct value assignment is sufficient
+- Frequency range: keep between 110 Hz - 2000 Hz for playability
 
-**Sound Asset Formats:**
+**Source:** [MDN OscillatorNode.frequency](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode/frequency)
 
-| Format | Support | Use |
-|--------|---------|-----|
-| OGG | Wide | Sound effects (better compression) |
-| MP3 | Universal | Music tracks (if added) |
-| WAV | Universal | Fallback for effects |
+**Confidence:** HIGH (existing OscillatorNode already validated)
 
-**Recommendation:** Use OGG for effects (smaller), MP3 for music. Load with fetch + decodeAudioData.
+### Background Music
 
-**Integration Point:** Create new js/audio.js module. Call playSound() from existing game events (line clear, piece lock, rotation, etc.).
+**Requirement:** Looping audio during gameplay.
 
-### Keyboard Remapping
+**Implementation approach:**
+- Use AudioBufferSourceNode instead of OscillatorNode
+- Set `loop = true` for continuous playback
+- Load audio buffer from file or generate procedurally
 
-| Technology | Purpose | Rationale |
-|------------|---------|-----------|
-| KeyboardEvent.code | Physical key detection | Layout-agnostic, perfect for remapping |
-| localStorage | Persistent key bindings | 5-10MB storage, survives browser restart |
-| JSON.stringify/parse | Serialize key mappings | Simple object persistence |
+**Decision: Procedural vs Static Audio**
 
-**Why event.code:**
-- "Useful when you want to handle keys based on their physical positions on the input device rather than the characters associated with those keys; this is especially common when writing code to handle input for games"
-- event.code is always the same regardless of keyboard layout (KeyW is physical W key position)
-- "If you are building a game that uses WASD keys, then use .code, as it will work across any keyboard layout"
-- Existing codebase already uses event.code ('ArrowUp', 'KeyC', 'Space', etc.) in js/input.js
+| Approach | Pros | Cons | Recommendation |
+|----------|------|------|----------------|
+| Static file (MP3/WAV) | Rich sound, familiar melodies | File size (100KB-2MB), loading time, licensing | Skip for MVP |
+| Procedural (OscillatorNode) | Zero file size, no licensing, already validated | Limited musical complexity | Use for MVP |
+| No background music | Zero complexity | Missing feature | Acceptable fallback |
 
-**Storage Pattern:**
+**Recommended: Procedural generation using existing OscillatorNode**
 
+**Code pattern:**
 ```javascript
-const DEFAULT_BINDINGS = {
-    moveLeft: ['ArrowLeft'],
-    moveRight: ['ArrowRight'],
-    moveDown: ['ArrowDown'],
-    rotate: ['ArrowUp'],
-    hardDrop: ['Space'],
-    hold: ['KeyC', 'ShiftLeft', 'ShiftRight'],
-    pause: ['KeyP']
-};
+let musicOscillator = null;
+let musicGain = null;
 
-function loadKeyBindings() {
-    const stored = localStorage.getItem('tetris_keybindings');
-    return stored ? JSON.parse(stored) : DEFAULT_BINDINGS;
+function startBackgroundMusic() {
+    const ctx = getAudioContext();
+    musicOscillator = ctx.createOscillator();
+    musicGain = ctx.createGain();
+
+    musicOscillator.connect(musicGain);
+    musicGain.connect(ctx.destination);
+
+    musicOscillator.frequency.value = 330;
+    musicOscillator.type = 'sine';
+    musicGain.gain.value = 0.05;
+
+    musicOscillator.start();
 }
 
-function saveKeyBindings(bindings) {
-    localStorage.setItem('tetris_keybindings', JSON.stringify(bindings));
-}
-```
-
-**Integration Point:** Modify existing getInput() in js/input.js to use configurable bindings instead of hardcoded codes.
-
-**Security:** No sensitive data. XSS risk irrelevant for key bindings (no authentication tokens).
-
-**Alternative Considered:** event.key - REJECTED because it changes with keyboard layout (AZERTY vs QWERTY produces different characters).
-
-### Session Statistics Tracking
-
-| Technology | Purpose | Rationale |
-|------------|---------|-----------|
-| JavaScript Object | Session stat tracking | Fast, no serialization overhead |
-| localStorage | Optional persistence | Preserve stats across page refresh |
-| Performance.now() | High-precision timing | Accurate session duration |
-
-**Why In-Memory:**
-- Zero overhead during gameplay
-- Stats updated every frame without storage I/O
-- Session-scoped by default (v1.0 is session-only gameplay per PROJECT.md)
-
-**Why Optional localStorage:**
-- Preserve stats on accidental refresh
-- Allow stats history across sessions
-- User can clear localStorage to reset
-
-**Data Structure:**
-
-```javascript
-const sessionStats = {
-    startTime: performance.now(),
-    totalPieces: 0,
-    piecesByType: { I: 0, O: 0, T: 0, S: 0, Z: 0, J: 0, L: 0 },
-    linesCleared: 0,
-    linesByType: { single: 0, double: 0, triple: 0, tetris: 0 },
-    tSpins: 0,
-    tSpinMinis: 0,
-    combos: 0,
-    maxCombo: 0,
-    highestLevel: 1,
-    peakScore: 0
-};
-```
-
-**Persistence Pattern:**
-
-```javascript
-function saveStats() {
-    localStorage.setItem('tetris_session_stats', JSON.stringify(sessionStats));
-}
-
-function loadStats() {
-    const stored = localStorage.getItem('tetris_session_stats');
-    return stored ? JSON.parse(stored) : createDefaultStats();
-}
-
-setInterval(saveStats, 5000);
-```
-
-**Integration Point:** Update stats in existing main.js functions (spawnPiece, lockPieceToBoard, clearLines).
-
-**Alternative Considered:** sessionStorage - REJECTED because stats lost on browser close. localStorage allows optional persistence without forcing it.
-
-### T-Spin Detection
-
-| Technology | Purpose | Rationale |
-|------------|---------|-----------|
-| 3-Corner T Algorithm | T-spin validation | Guideline-compliant, used in Tetris DS and modern games |
-| No external library | Algorithmic check | Simple logic, no dependencies needed |
-
-**Algorithm Choice:** 3-Corner T (Tetris DS standard)
-
-**Detection Criteria:**
-1. Last maneuver must be rotation (not movement)
-2. Three of four diagonal corners around T center are occupied
-3. Full T-spin: Two front corners + at least one back corner occupied
-4. Mini T-spin: Only one front corner + two back corners occupied
-5. Exception: Kick moves 1x2 blocks = full T-spin regardless
-
-**Why 3-Corner T:**
-- "Used in Tetris DS and other SRS based games"
-- Clear distinction between full T-spin and mini
-- Compatible with existing SRS rotation system (wall kicks already implemented in js/pieces.js)
-
-**Integration Point:** Add detection in lockPieceToBoard() after rotation flag tracking.
-
-**Alternatives Considered:**
-- Immobile detection (The New Tetris) - REJECTED as outdated
-- 3-corner T no kick (Tetris Evolution) - REJECTED as less rewarding
-- TGM3 simple rotation check - REJECTED as too permissive
-
-### Combo Multipliers
-
-| Technology | Purpose | Rationale |
-|------------|---------|-----------|
-| JavaScript counter | Track consecutive clears | No dependencies needed |
-| No external library | Simple arithmetic | Increment/reset pattern |
-
-**State Management:**
-
-```javascript
-let comboCount = 0;
-let lastClearTime = 0;
-
-function onLinesClear(linesCleared) {
-    if (linesCleared > 0) {
-        comboCount++;
-        lastClearTime = performance.now();
-    }
-}
-
-function onPieceLock() {
-    if (performance.now() - lastClearTime > 500) {
-        comboCount = 0;
+function stopBackgroundMusic() {
+    if (musicOscillator) {
+        musicOscillator.stop();
+        musicOscillator = null;
     }
 }
 ```
 
-**Integration Point:** Extend existing clearLines logic in js/main.js.
+**Alternative (static audio):**
+If static files chosen later, use AudioBufferSourceNode:
+```javascript
+const response = await fetch("music.wav");
+const buffer = await ctx.decodeAudioData(await response.arrayBuffer());
 
-### Additional Themes
-
-| Technology | Purpose | Rationale |
-|------------|---------|-----------|
-| JavaScript Objects | Theme definitions | Already used in js/themes.js |
-| CSS3 Variables | Color schemes | Optional for advanced theming |
-
-**Current:** 3 themes (Classic, Neon, Retro) in js/themes.js
-**Target:** 5+ themes for v2.0
-
-**Integration Point:** Add theme objects to THEMES in js/themes.js. No stack changes needed.
-
-## What NOT to Add
-
-| Library | Why Rejected |
-|---------|--------------|
-| Howler.js / Tone.js | Web Audio API sufficient, violates no-dependencies constraint |
-| Mousetrap / Hotkeys.js | Native KeyboardEvent.code sufficient, no framework needed |
-| Store.js / localForage | Native localStorage sufficient, no abstraction needed |
-| Any npm package | Project constraint: minimal dependencies |
-
-## New Dependencies Summary
-
-**New External Dependencies:** 0
-
-**New Native APIs:**
-- Web Audio API (AudioContext, AudioBufferSourceNode, GainNode)
-- localStorage (already available, new usage for key bindings and stats)
-- Performance.now() (already available, new usage for stats timing)
-
-**Existing APIs (no changes):**
-- BroadcastChannel
-- requestAnimationFrame
-- Canvas 2D Context
-- KeyboardEvent.code (already in use, extended usage)
-
-## Browser Compatibility
-
-All APIs baseline since 2021-2022. Compatible with:
-- Chrome 89+
-- Firefox 88+
-- Safari 14.1+
-- Edge 89+
-
-No polyfills needed for target browsers (modern evergreen browsers).
-
-## Integration Checklist
-
-- [ ] Create audio manager module (js/audio.js) using Web Audio API
-- [ ] Load sound assets (OGG/MP3 files)
-- [ ] Add key remapping UI in admin panel
-- [ ] Extend input.js to use configurable bindings
-- [ ] Add session stats tracking to game loop
-- [ ] Implement 3-corner T detection in rotation/lock logic
-- [ ] Add combo counter to line clear logic
-- [ ] Create 2+ additional theme definitions
-- [ ] Update admin panel for stats display
-- [ ] Add localStorage persistence for bindings and stats
-
-## File Structure Updates
-
+const source = ctx.createBufferSource();
+source.buffer = buffer;
+source.loop = true;
+source.loopStart = 0;
+source.loopEnd = buffer.duration;
+source.connect(ctx.destination);
+source.start();
 ```
-js/
-├── game/
-│   ├── audio.js         # NEW: Web Audio API wrapper
-│   ├── stats.js         # NEW: Session statistics tracking
-│   └── input.js         # MODIFIED: Configurable key bindings
-├── shared/
-│   └── themes.js        # MODIFIED: Add 2+ themes
+
+**Important:** AudioBufferSourceNode is one-shot. To restart, create new node.
+
+**Sources:**
+- [MDN AudioBufferSourceNode.loop](https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode/loop)
+- [MDN Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+
+**Confidence:** HIGH (OscillatorNode approach), MEDIUM (static file approach needs testing)
+
+### Personal Best Persistence
+
+**Requirement:** Track and persist personal records across sessions.
+
+**Implementation approach:**
+- Extend localStorage patterns already validated for keymap
+- Store stats object with schema version for migration
+- Load on game initialization, update on game over
+
+**JSON structure:**
+```javascript
+{
+    "version": 1,
+    "personalBests": {
+        "highScore": 0,
+        "maxLines": 0,
+        "maxCombo": 0,
+        "bestPPS": 0,
+        "bestAPM": 0,
+        "totalGamesPlayed": 0
+    },
+    "lastUpdated": "2026-02-06T12:00:00.000Z"
+}
 ```
+
+**Storage pattern:**
+```javascript
+function loadPersonalBests() {
+    try {
+        const stored = localStorage.getItem('tetris_personal_bests');
+        if (stored) {
+            const data = JSON.parse(stored);
+            return migrateSchema(data);
+        }
+        return getDefaultBests();
+    } catch (e) {
+        return getDefaultBests();
+    }
+}
+
+function savePersonalBests(bests) {
+    const data = {
+        version: 1,
+        personalBests: bests,
+        lastUpdated: new Date().toISOString()
+    };
+    localStorage.setItem('tetris_personal_bests', JSON.stringify(data));
+}
+
+function migrateSchema(data) {
+    if (!data.version) {
+        data = { version: 1, personalBests: data };
+    }
+    return data;
+}
+```
+
+**Migration strategy:**
+- Include version field for schema evolution
+- Implement migration function to handle old formats
+- Default to empty state on parse errors (no corruption)
+
+**Storage limits:**
+- localStorage quota: 5-10MB per origin (browser dependent)
+- Personal bests JSON: approximately 200 bytes
+- No quota concerns for this feature
+
+**Sources:**
+- [localStorage Guide - Meticulous](https://www.meticulous.ai/blog/localstorage-complete-guide)
+- [localStorage Best Practices 2026](https://copyprogramming.com/howto/javascript-how-ot-keep-local-storage-on-refresh)
+
+**Confidence:** HIGH (localStorage already validated, patterns established)
+
+### Key Binding Export/Import
+
+**Requirement:** Download key bindings as JSON, upload JSON to restore bindings.
+
+**Implementation approach:**
+- Export: Blob + URL.createObjectURL + anchor click
+- Import: File input + FileReader or Blob.text()
+- Validate imported JSON structure before applying
+
+**Export pattern:**
+```javascript
+function exportKeyBindings() {
+    const keymap = getKeymap();
+    const exportData = {
+        version: 1,
+        keybindings: keymap,
+        exportedAt: new Date().toISOString()
+    };
+
+    const jsonString = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "tetris-keybindings.json";
+    link.click();
+
+    URL.revokeObjectURL(url);
+}
+```
+
+**Import pattern:**
+```javascript
+function setupImportButton() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.json';
+
+    fileInput.addEventListener('change', async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        try {
+            const jsonString = await file.text();
+            const data = JSON.parse(jsonString);
+
+            if (validateKeybindings(data)) {
+                applyKeyBindings(data.keybindings);
+                saveKeymap();
+            }
+        } catch (e) {
+            alert('Invalid keybindings file');
+        }
+    });
+
+    importButton.addEventListener('click', () => fileInput.click());
+}
+
+function validateKeybindings(data) {
+    return data.version &&
+           data.keybindings &&
+           typeof data.keybindings === 'object';
+}
+```
+
+**Security considerations:**
+- Validate JSON structure before applying
+- Sanitize key codes (check against known key code format)
+- Handle malformed JSON gracefully
+- No XSS risk (only applying key codes to keymap, not rendering HTML)
+
+**Browser compatibility:**
+- Blob API: Universal support
+- URL.createObjectURL: Universal support
+- File API: Universal support
+- Blob.text(): Modern browsers (fallback: FileReader.readAsText)
+
+**Sources:**
+- [MDN File API](https://developer.mozilla.org/en-US/docs/Web/API/File_API)
+- [json-porter library reference](https://github.com/markgab/json-porter)
+
+**Confidence:** HIGH (standard File API patterns, no new libraries)
+
+## Integration Points
+
+### Audio Module (audio.js)
+**Existing:** `playSound(frequency, duration)` for sound effects
+**New integration:**
+- Add combo parameter to sound effect functions
+- Add `startBackgroundMusic()` and `stopBackgroundMusic()`
+- Maintain existing mute state handling
+
+### Stats Module (stats.js)
+**Existing:** Session stats tracking, combo tracking
+**New integration:**
+- Add `loadPersonalBests()` on initialization
+- Add `updatePersonalBests(sessionStats)` on game over
+- Add comparison functions (isNewRecord)
+
+### Input Module (input.js)
+**Existing:** `loadKeymap()`, `saveKeymap()`, `getKeymap()`
+**New integration:**
+- Add `exportKeyBindings()` function
+- Add `importKeyBindings(file)` function
+- Add validation function for imported bindings
+
+### Admin Module (admin.js)
+**Existing:** Theme controls, audio mute toggle, key binding UI
+**New integration:**
+- Add export/import buttons to Controls section
+- Wire up click handlers for export/import
+- Display success/error feedback
+
+## Stack Additions
+
+**None required.**
+
+All features achievable with native Web APIs already in use:
+- Web Audio API (validated)
+- localStorage (validated)
+- File API (standard browser API, no library needed)
+- JSON (native JavaScript)
+
+## Anti-Recommendations
+
+### Do NOT Add These:
+
+**Tone.js or Howler.js (audio libraries)**
+- Why: Adds 50-100KB for capabilities already available in Web Audio API
+- Existing OscillatorNode handles all current requirements
+- Only consider if moving to complex music generation (not in scope)
+
+**localForage or Dexie.js (storage libraries)**
+- Why: Adds complexity for simple key-value persistence
+- Personal bests data is <1KB, no need for IndexedDB
+- localStorage quota (5-10MB) is sufficient
+
+**FileSaver.js (file download library)**
+- Why: Native Blob + URL.createObjectURL works in all modern browsers
+- Adds dependency for single-function use case
+- 3KB library to save 5 lines of code
+
+**Web Audio API polyfills**
+- Why: Target browsers (2026) have universal Web Audio support
+- OscillatorNode and AudioBufferSourceNode are baseline features
+- No legacy browser support needed
+
+**JSON schema validation libraries (ajv, joi)**
+- Why: Simple structure validation is 5 lines of code
+- Schema is trivial (version + object + ISO timestamp)
+- Adds build complexity for minimal benefit
+
+## Version Verification
+
+All APIs verified as current for 2026:
+
+| API | Status | Browser Support |
+|-----|--------|-----------------|
+| Web Audio API | Stable | Universal (2011+ baseline) |
+| OscillatorNode | Stable | Universal |
+| AudioBufferSourceNode | Stable | Universal |
+| localStorage | Stable | Universal |
+| File API | Stable | Universal |
+| Blob.text() | Stable | Modern browsers (Chrome 76+, Firefox 69+) |
+| URL.createObjectURL | Stable | Universal |
+
+**Fallback for Blob.text():**
+```javascript
+const text = await file.text();
+
+const reader = new FileReader();
+reader.onload = () => processJSON(reader.result);
+reader.readAsText(file);
+```
+
+## Implementation Order Recommendation
+
+**Phase 1: Audio polish**
+1. Combo pitch scaling (simplest, extends existing)
+2. Background music (procedural OscillatorNode approach)
+
+**Phase 2: Persistence**
+3. Personal best tracking (localStorage pattern established)
+4. Key binding export/import (requires UI changes)
+
+**Rationale:** Audio features are independent and extend existing patterns. Persistence features build on each other (both use localStorage and JSON).
+
+## Confidence Assessment
+
+| Area | Confidence | Reasoning |
+|------|------------|-----------|
+| Combo pitch scaling | HIGH | OscillatorNode.frequency.value validated in v2.0 |
+| Procedural music | HIGH | Same OscillatorNode pattern, continuous instead of transient |
+| Static audio files | MEDIUM | AudioBufferSourceNode not yet validated, requires fetch + decode |
+| Personal best persistence | HIGH | localStorage + JSON validated in keymap.js |
+| Export/import | HIGH | File API is standard, pattern is straightforward |
+| Overall stack | HIGH | Zero new dependencies, all APIs validated or standard |
+
+## Risk Assessment
+
+**Low risk:**
+- All features use validated Web APIs
+- No external dependencies to maintain
+- No build process changes
+- Backwards compatible (features are additive)
+
+**Potential issues:**
+- Background music may be annoying (needs volume control, toggle)
+- File import validation needs testing with malformed JSON
+- Frequency scaling needs tuning for good audio feel
+
+**Mitigation:**
+- Add background music mute toggle (separate from SFX mute)
+- Comprehensive validation with try-catch and user feedback
+- Playtesting with various combo ranges (1x to 20x+)
 
 ## Sources
 
-**Web Audio API:**
-- [Audio Streaming with Web Audio API 2026](https://medium.com/@coders.stop/audio-streaming-with-web-audio-api-making-sound-actually-sound-good-on-the-web-65915047736f)
-- [HTML5 audio and Web Audio API are BFFs](https://developer.chrome.com/blog/html5-audio-and-the-web-audio-api-are-bffs)
-- [Web Audio API - MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
-- [Using the Web Audio API - MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API)
-- [Case Study - HTML5 Game with Web Audio](https://web.dev/articles/webaudio-fieldrunners)
-- [Can I Use - Web Audio API](https://caniuse.com/audio-api)
-- [Web Audio API Browser Compatibility](https://www.lambdatest.com/web-technologies/audio-api)
-
-**Keyboard Events:**
-- [Keyboard: keydown and keyup](https://javascript.info/keyboard-events)
-- [Should I use e.code or e.key](https://blog.andri.co/022-should-i-use-ecode-or-ekey-when-handling-keyboard-events/)
-- [KeyboardEvent: code property - MDN](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code)
-- [Can I Use - KeyboardEvent.code](https://caniuse.com/keyboardevent-code)
-
-**localStorage:**
-- [JavaScript LocalStorage Guide](https://www.meticulous.ai/blog/localstorage-complete-guide)
-- [LocalStorage, sessionStorage](https://javascript.info/localstorage)
-- [Mastering localStorage in JavaScript](https://medium.com/dev-simplified/mastering-localstorage-in-javascript-74c65b93fecf)
-- [Browser Storage Guide](https://dev.to/aneeqakhan/a-developers-guide-to-browser-storage-local-storage-session-storage-and-cookies-4c5f)
-
-**T-Spin Detection:**
-- [T-Spin - TetrisWiki](https://tetris.wiki/T-Spin)
-- [Tetris Aside: Coding for T-Spins](https://katyscode.wordpress.com/2012/10/13/tetris-aside-coding-for-t-spins/)
-- [T-Spin - Hard Drop Tetris Wiki](https://harddrop.com/wiki/T-Spin)
-- [T-Spin Guide](https://winternebs.github.io/TETRIS-FAQ/tspin/)
+This research verified current API status and patterns from:
+- [MDN Web Audio API Documentation](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+- [MDN OscillatorNode.frequency](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode/frequency)
+- [MDN AudioBufferSourceNode.loop](https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode/loop)
+- [MDN File API](https://developer.mozilla.org/en-US/docs/Web/API/File_API)
+- [localStorage Complete Guide - Meticulous](https://www.meticulous.ai/blog/localstorage-complete-guide)
+- [localStorage Best Practices 2026](https://copyprogramming.com/howto/javascript-how-ot-keep-local-storage-on-refresh)
+- [json-porter GitHub](https://github.com/markgab/json-porter)

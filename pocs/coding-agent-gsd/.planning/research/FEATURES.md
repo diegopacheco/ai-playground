@@ -1,537 +1,362 @@
-# Features Research: Tetris Twist v2.0
-
-**Domain:** Enhanced Tetris scoring mechanics and polish features
-**Researched:** 2026-02-03
-**Overall confidence:** MEDIUM to HIGH
-
-This research covers T-spin detection, combo systems, session statistics, themes, sound effects, and keyboard remapping for Tetris Twist v2.0.
-
-## T-Spin Detection
-
-### Detection Rules (3-Corner T Rule)
-
-T-spin detection uses the "3-corner T rule" employed by SRS guideline games:
-
-**Basic Detection:**
-- Last maneuver of T tetromino must be a rotation
-- 3 of 4 squares diagonally adjacent to T's center must be occupied
-- If no rotation occurred last, no T-spin regardless of position
-
-**Mini vs Full T-Spin:**
-- **Full T-Spin:** 2+ front corners occupied (front = adjacent to pointing mino)
-- **Mini T-Spin:** Only 1 front corner occupied, 2 back corners filled
-- **Exception:** Last rotation with 1x2 block kick (SRS offset) = always full T-spin
-
-### Point Values (Guideline Standard)
-
-| Action | Base Points | Formula |
-|--------|------------|---------|
-| T-Spin (no clear) | 400 | 400 × (level + 1) |
-| T-Spin Mini Single | 200 | 200 × (level + 1) |
-| T-Spin Single | 800 | 800 × (level + 1) |
-| T-Spin Mini Double | 400 | 400 × (level + 1) |
-| T-Spin Double | 1200 | 1200 × (level + 1) |
-| T-Spin Triple | 1600 | 1600 × (level + 1) |
-
-All T-spins that clear lines qualify for Back-to-Back bonus (1.5x multiplier).
-T-spins with no clears don't break B2B chain but don't trigger B2B either.
-
-**Confidence:** HIGH - Based on official Tetris Guideline standards
-
-## Combo System
-
-### Combo Mechanics
-
-**Combo Counter Behavior:**
-- Starts at -1 at game start
-- Increments by 1 each time a piece clears at least one line
-- Resets to -1 immediately when a piece clears no lines
-- Continues across multiple consecutive line clears
-
-**Guideline Scoring Formula:**
-```
-Combo points = 50 × combo_count × level
-```
-
-**Example Combo Sequence:**
-1. Place piece, clear 1 line → combo = 0 → 50 × 0 × level = 0 points
-2. Place piece, clear 2 lines → combo = 1 → 50 × 1 × level = 50 × level
-3. Place piece, clear 1 line → combo = 2 → 50 × 2 × level = 100 × level
-4. Place piece, no clear → combo = -1 → chain broken
-
-### Combo Display
-
-**Visual Feedback:**
-- Display "COMBO x[number]" when combo >= 1
-- Flash or animate on combo increase
-- Show combo bonus points separately from line clear points
-- Reset animation when broken
-
-**Confidence:** HIGH - Standard guideline implementation
-
-## Back-to-Back Bonus
-
-### B2B Trigger Conditions
-
-**"Difficult" clears that trigger/maintain B2B:**
-- Tetris (4-line clear)
-- Any T-Spin that clears lines (including Mini)
-- All-Clear (Perfect Clear) in some implementations
-
-**"Easy" clears that break B2B:**
-- Single (1-line clear with non-T piece)
-- Double (2-line clear with non-T piece)
-- Triple (3-line clear with non-T piece)
-
-**B2B Multiplier:** 1.5x applied to base score
-
-**Example:**
-- Tetris: 800 × (level + 1)
-- B2B Tetris: 1200 × (level + 1) [+50%]
-- T-Spin Double: 1200 × (level + 1)
-- B2B T-Spin Double: 1800 × (level + 1) [+50%]
-
-**Confidence:** HIGH - Verified standard
-
-## Session Statistics
-
-### Core Metrics (Table Stakes)
-
-| Metric | Definition | Display Format |
-|--------|-----------|----------------|
-| Score | Total accumulated points | Numeric (e.g., 125,430) |
-| Lines | Total lines cleared | Numeric |
-| Level | Current level | Numeric |
-| Time | Session duration | MM:SS or HH:MM:SS |
-| Pieces | Total pieces placed | Numeric |
-
-### Advanced Metrics (Differentiators)
-
-| Metric | Definition | Formula | Display |
-|--------|-----------|---------|---------|
-| PPS | Pieces Per Second | pieces / time_seconds | 2.45 PPS |
-| APM | Actions Per Minute | total_inputs / time_minutes | 180 APM |
-| Tetris Rate | % of lines from Tetrises | (tetris_lines / total_lines) × 100 | 75% |
-| Efficiency | Lines per piece | total_lines / total_pieces | 1.85 |
-| Max Combo | Longest combo chain | Track highest combo | Max: 12 |
-| T-Spins | Total T-spins executed | Count all T-spins | 15 T-Spins |
-
-### Real-Time vs Session End
-
-**During Gameplay (HUD):**
-- Score (always visible)
-- Lines (always visible)
-- Level (always visible)
-- Time (always visible)
-- Current combo (when active)
-- Current B2B status (when active)
-
-**Session Summary (End Screen):**
-- All core metrics
-- All advanced metrics
-- Personal bests comparison
-- Grade/rank if applicable
-
-### Performance Benchmarks
-
-**PPS Context:**
-- Beginner: 0.5-1.5 PPS
-- Intermediate: 1.5-3.0 PPS
-- Advanced: 3.0-5.0 PPS
-- Expert: 5.0-7.0 PPS
-- World-class: 10+ PPS
-
-**Confidence:** MEDIUM - PPS benchmarks from competitive play, exact thresholds vary by source
-
-## Additional Themes
-
-### Theme Structure Components
-
-**Visual Elements:**
-- Background (static or animated)
-- Tetromino colors (7 colors for IJLOSTZ)
-- Grid color and style
-- Ghost piece rendering
-- UI panel styling
-- Particle effects for line clears
-- Border and frame design
-
-### Existing Themes (v1.0)
-1. Classic - Traditional look
-2. Neon - Bright cyberpunk aesthetic
-3. Retro - Nostalgic palette
-
-### Recommended New Themes (v2.0)
-
-**Theme 4: Minimalist/Modern**
-- Clean white/gray background
-- Subtle tetromino colors with borders
-- Thin grid lines
-- Emphasis on clarity and readability
-- Target audience: Professional/work-friendly
-
-**Theme 5: High Contrast**
-- Strong black background
-- Vibrant, saturated colors
-- Bold outlines
-- Maximum visibility
-- Accessibility-focused
-
-**Theme 6: Nature/Organic**
-- Earth tones palette
-- Wood or stone textures
-- Green/brown/cream colors
-- Calming aesthetic
-- Casual player appeal
-
-### Color Palette Standards
-
-**Traditional Tetromino Colors:**
-- I: Cyan (#00FFFF)
-- O: Yellow (#FFFF00)
-- T: Purple (#800080)
-- S: Green (#00FF00)
-- Z: Red (#FF0000)
-- J: Blue (#0000FF)
-- L: Orange (#FF7F00)
-
-**Theme Differentiation:**
-- Maintain color distinctiveness (avoid confusion)
-- Ensure ghost piece visibility against background
-- Test contrast ratios for accessibility
-- Keep UI elements readable in all themes
-
-**Complexity:** LOW - Mostly CSS/color value changes
-
-**Confidence:** HIGH - Standard practice
-
-## Sound Effects
-
-### Essential Sound Events (Table Stakes)
-
-| Event | Purpose | Characteristics |
-|-------|---------|-----------------|
-| Piece land | Feedback for placement | Short percussive stinger |
-| Line clear | Reward for clearing | Pitched stinger, varies by count |
-| Tetris | Special reward | Longer, more dramatic |
-| T-Spin | Special achievement | Unique recognizable sound |
-| Level up | Milestone celebration | Ascending tone or fanfare |
-| Game over | Session end | Descending tone or impact |
-| Piece rotate | Movement feedback | Subtle click/tick |
-| Piece move | Optional movement feedback | Very subtle, can be omitted |
-
-### Advanced Sound Events (Differentiators)
-
-| Event | Purpose | Implementation |
-|-------|---------|----------------|
-| Combo increment | Reward combo building | Ascending pitch per combo level |
-| B2B trigger | Difficult clear reward | Layered effect on existing clear sound |
-| Hold piece | Swap feedback | Soft whoosh or swap sound |
-| Ghost piece toggle | UI feedback | Quick UI confirmation |
-| Theme change | UI feedback | Transition sound |
-
-### Sound Design Principles
-
-**Tetris Effect Approach:**
-- Different pitches for directional movement
-- Percussive stingers sync with placement
-- Line clear sounds vary by line count
-- Music integration (optional advanced feature)
-
-**Frequency Considerations:**
-- High-frequency events (rotate, move) must be non-intrusive
-- Reward sounds (clear, Tetris) should feel satisfying
-- Volume balance critical for playability
-- All sounds must be toggleable (mute option)
-
-**Anti-Pattern to Avoid:**
-- Don't make every input sound annoying at high PPS
-- Avoid repetitive sounds that become grating
-- Don't make sounds mandatory (always allow mute)
-
-**Complexity:** MEDIUM - Requires sound asset creation/sourcing and event integration
-
-**Confidence:** MEDIUM - Based on Tetris Effect analysis and general practice
-
-## Keyboard Remapping
-
-### Standard Default Controls
-
-**Movement:**
-- Left Arrow: Move left
-- Right Arrow: Move right
-- Down Arrow: Soft drop
-- Space: Hard drop
-
-**Rotation:**
-- Up Arrow: Rotate clockwise
-- Z/Ctrl: Rotate counter-clockwise
-
-**Actions:**
-- Shift/C: Hold piece
-- Escape/P: Pause
-
-### Common Alternative Schemes
-
-**WASD-style:**
-- A/D: Move left/right
-- S: Soft drop
-- W: Hard drop
-- Q/E: Rotate
-
-**Gaming Optimal:**
-- SDFG: Move/drop controls
-- W/E: Rotate
-- Spacebar: Hard drop
-- Shift: Hold
-
-### Remapping Requirements (Table Stakes)
-
-**Core Features:**
-- All gameplay keys remappable
-- In-game settings menu for remapping
-- Click-to-rebind interface
-- Conflict detection (prevent duplicate bindings)
-- Reset to defaults option
-- Visual display of current bindings
-
-**Technical Implementation:**
-- Store keybindings in localStorage
-- Support keyCode and key event properties
-- Handle modifier keys (Shift, Ctrl, Alt)
-- Prevent system key conflicts (F5, Ctrl+W, etc.)
-- Test mode to verify new bindings work
-
-### UX Best Practices
-
-**Remapping Flow:**
-1. Click on action to rebind
-2. Press new key
-3. Show confirmation or conflict warning
-4. Save immediately to localStorage
-5. Allow cancel/undo
-
-**Display:**
-- Show key name, not keyCode
-- Use visual key representations
-- Group by category (movement, rotation, actions)
-- Indicate conflicts clearly
-- Show defaults alongside custom bindings
-
-### Modern Expectations (2026)
-
-**Essential:**
-- Full keyboard remapping has become standard
-- Settings should persist across sessions
-- No need for external configuration files
-- In-game interface expected over config files
-
-**Nice-to-Have:**
-- Preset profiles (Default, WASD, Gaming, etc.)
-- Import/export keybindings
-- Multiple control schemes switchable mid-session
-- Controller support (out of scope for keyboard focus)
-
-**Complexity:** MEDIUM - Requires settings UI, conflict detection, localStorage
-
-**Confidence:** HIGH - Standard feature in modern games
+# Features Research: Tetris Twist v3.0
+
+**Researched:** 2026-02-06
+**Focus:** Audio polish and persistence features
+**Confidence:** MEDIUM
 
 ## Feature Categories
 
-### Table Stakes (Must-Have for v2.0)
+### Combo Pitch Scaling
 
-| Feature | Rationale | Complexity |
-|---------|-----------|-----------|
-| T-Spin Detection (mini + full) | Expected in any modern Tetris with SRS | MEDIUM |
-| T-Spin Scoring | Core reward mechanic for skilled play | LOW |
-| Combo Counter Display | Visual feedback for consecutive clears | LOW |
-| Combo Scoring | Standard expectation in Tetris games | LOW |
-| Back-to-Back Bonus | Standard competitive mechanic | LOW |
-| Basic Session Stats | Score, lines, level, time always expected | LOW |
-| 2-3 New Themes | Adds variety, low cost to implement | LOW |
-| Essential Sound Effects | Land, clear, Tetris, game over minimum | MEDIUM |
-| Basic Keyboard Remapping | Players expect control customization | MEDIUM |
+**Table Stakes:**
+- Pitch increases proportionally with combo counter (1x = base pitch, 2x = higher, 3x = even higher)
+- Uses existing combo counter (already tracked in game state)
+- Applied to line clear sound effects
+- Scales using semitone ratio (multiply by 2^(1/12) per step) for musical correctness
+- Pitch range limited to prevent unpleasant frequencies (typically 1-2 octaves max)
+- Resets when combo breaks
 
-### Differentiators (Competitive Advantages)
+**Differentiators:**
+- Different pitch patterns per line clear type (single vs double vs triple vs Tetris)
+- Pitch feedback on piece placement that varies by combo level
+- Smooth pitch transitions rather than discrete jumps
+- Visual feedback synchronized with pitch changes
+- Tetris Effect-style dynamic sound where each move adds pitched vocal chops to create player-driven music
+- Different timbres (oscillator types) at different combo levels
 
-| Feature | Value Proposition | Complexity |
-|---------|------------------|-----------|
-| Advanced Stats (PPS, APM, Efficiency) | Appeals to competitive players | LOW |
-| Max Combo Tracking | Achievement-oriented feedback | LOW |
-| T-Spin Counter | Skill-tracking for advanced players | LOW |
-| Personal Best Comparison | Session-to-session progression | MEDIUM |
-| Combo Sound Pitch Scaling | Enhanced audio feedback (Tetris Effect style) | MEDIUM |
-| Theme Hot-Swapping | QoL feature, mid-game theme change | LOW |
-| Visual Remapping Interface | Professional polish over text configs | MEDIUM |
-| Session Summary Screen | Detailed post-game analysis | LOW |
+**Anti-Features:**
+- Infinite pitch scaling (becomes ear-piercing)
+- Pitch scaling without combo visual feedback (confuses players about why sound changed)
+- Pitch scaling on game over sound (jarring, not rewarding)
+- Complex pitch patterns that distract from gameplay
 
-### Anti-Features (Deliberately Avoid)
+**Integration:**
+- Hooks into existing playLineClearSound() and playTetrisSound() functions
+- Uses existing combo counter from game state
+- Respects existing mute toggle and localStorage persistence
+- Works with Web Audio API OscillatorNode already in use
 
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| Auto-play or AI assistance | Defeats core gameplay loop | Provide practice modes or tutorials |
-| Pay-to-win mechanics | Browser game should be free | Keep all features accessible |
-| Complex achievement system | Scope creep for v2.0 | Simple stat tracking sufficient |
-| Social features (leaderboards) | Requires backend infrastructure | Local personal bests only |
-| Microtransactions for themes | Inappropriate for project scope | All themes unlocked |
-| Mandatory sound | Accessibility issue | Always allow full mute |
-| Locked keyboard layouts | Frustrates players | Full remapping support |
-| Animation-heavy line clears | Can slow down fast play | Keep effects snappy |
+**Complexity:** LOW
+- Simple playbackRate or frequency multiplication
+- Existing audio infrastructure supports it
+- Combo counter already tracked
 
-## Feature Dependencies
+### Background Music
 
-### Dependency Chain
+**Table Stakes:**
+- Seamless looping without noticeable restart seams
+- Independent volume control from sound effects
+- Starts/stops with game session
+- Pauses when game pauses
+- Respects global mute toggle
+- Single background track is sufficient
+- Music should be medium-paced, gentle, not too percussive
+- Does not overpower sound effects
 
-```
-Core Game Loop (v1.0)
-    ├─> T-Spin Detection (NEW)
-    │   └─> T-Spin Scoring (NEW)
-    │       └─> Back-to-Back Tracking (NEW)
-    │           └─> B2B Visual Indicator (NEW)
-    │
-    ├─> Combo System (NEW)
-    │   ├─> Combo Counter (NEW)
-    │   ├─> Combo Scoring (NEW)
-    │   └─> Combo Display (NEW)
-    │
-    ├─> Session Statistics (NEW)
-    │   ├─> Basic Stats (Score, Lines, Level, Time) [v1.0]
-    │   ├─> Advanced Stats (PPS, APM, Efficiency) (NEW)
-    │   └─> Session Summary Screen (NEW)
-    │
-    ├─> Themes (EXTEND)
-    │   ├─> 3 Existing Themes [v1.0]
-    │   └─> 3 New Themes (NEW)
-    │
-    ├─> Sound Effects (NEW)
-    │   ├─> Basic Sounds (land, clear, game over) (NEW)
-    │   ├─> Advanced Sounds (combo, B2B, T-spin) (NEW)
-    │   └─> Mute Toggle (NEW)
-    │
-    └─> Keyboard Remapping (NEW)
-        ├─> Settings UI (NEW)
-        ├─> Key Binding Storage (NEW)
-        └─> Conflict Detection (NEW)
-```
+**Differentiators:**
+- Adaptive music that changes based on game state (level, speed, intensity)
+- Music tempo synced to piece fall speed
+- Layered tracks that add/remove instruments based on combo or level
+- Multiple tracks with theme-based selection
+- Dynamic transitions between musical sections
+- Tetris Effect-style music where player actions trigger musical elements
+- Cross-fade between tracks on theme change
 
-### Implementation Order Recommendation
+**Anti-Features:**
+- Music with lyrics (distracting for puzzle games)
+- Overly complex, attention-demanding compositions
+- Music louder than sound effects
+- Auto-play before user interaction (browsers block this anyway)
+- High-percussive or aggressive music (increases stress instead of flow state)
+- Music that disconnects from gameplay (causes player distraction)
 
-**Phase 1: Scoring Mechanics (Core Value)**
-1. T-Spin detection logic
-2. T-Spin scoring integration
-3. Combo counter logic
-4. Combo scoring
-5. Back-to-Back tracking
-6. Visual indicators for T-Spin/Combo/B2B
+**Integration:**
+- Web Audio API AudioBufferSourceNode for looping
+- Separate gain node from sound effects for independent volume
+- Hooks into game state (pause, resume, game over)
+- Respects existing mute toggle
+- Loads on game start after user interaction (browser autoplay policy)
 
-**Phase 2: Feedback & Polish**
-1. Basic sound effects (land, clear, game over)
-2. Advanced sound effects (T-spin, combo, B2B)
-3. Sound toggle controls
-4. New themes (3 additional)
-5. Theme switcher UI
+**Complexity:** MEDIUM
+- Requires audio file loading and buffering
+- Loop point management for seamless playback
+- State synchronization (pause, resume, game over)
+- Separate volume mixing
 
-**Phase 3: Configuration & Stats**
-1. Keyboard remapping UI
-2. Key binding storage
-3. Conflict detection
-4. Advanced session stats (PPS, APM, etc.)
-5. Session summary screen
-6. Personal best tracking
+### Personal Best Tracking
+
+**Table Stakes:**
+- Track high score across sessions (localStorage)
+- Track max combo across sessions
+- Display during gameplay if current session beats personal best
+- Display at game over with comparison to current session
+- Metrics tracked: score, lines, max combo, time survived
+- Persists across browser sessions
+- Clear/reset option available
+
+**Differentiators:**
+- Track multiple categories (best score, best lines, best PPS, best APM, best efficiency)
+- Date/timestamp of when personal best was achieved
+- Performance trends (improvement over time)
+- "New record" visual/audio celebration when beaten
+- Separate bests for different difficulty levels or themes
+- Export personal bests with key bindings
+- Cloud sync across devices
+
+**Anti-Features:**
+- Global leaderboards (out of scope, requires backend)
+- Social sharing (adds complexity, not core to puzzle game loop)
+- Achievements/badges system (feature creep)
+- Analytics tracking to external services (privacy concerns)
+- Persistent login/account requirement (contradicts session-only design)
+
+**Integration:**
+- Uses existing stats tracking (score, lines, PPS, APM, efficiency, max combo)
+- Stored in localStorage alongside mute preference and key bindings
+- Display hooks into existing session stats UI
+- Loads on game initialization
+- Updates on game over if records beaten
+
+**Complexity:** LOW
+- Simple localStorage read/write
+- Comparison logic on game over
+- Stats already tracked, just need persistence
+- UI already displays stats
+
+### Key Binding Export/Import
+
+**Table Stakes:**
+- Export current key bindings to JSON file
+- Import key bindings from JSON file
+- File validation (reject malformed JSON, missing required actions)
+- Error messages for invalid imports
+- Overwrites existing bindings on successful import
+- Works across browser sessions (import saved bindings on different machine)
+- Standard JSON format with action-to-keycode mapping
+
+**Differentiators:**
+- Export includes metadata (date exported, game version, player notes)
+- Import validates for conflicts before applying
+- Preview bindings before applying import
+- Merge mode (import only specific actions, keep others)
+- Multiple preset slots (save/load 3-5 different binding sets)
+- Share bindings via URL/clipboard (encode as base64)
+- Backup/restore with personal bests bundled together
+
+**Anti-Features:**
+- Cloud sync (requires backend)
+- Binding profiles synced across devices automatically (complexity)
+- Import from other Tetris games (format incompatibility)
+- Automatic conflict resolution without user confirmation (loses user control)
+- Binary format (reduces portability and debuggability)
+
+**Integration:**
+- Uses existing keymap structure in input.js
+- Hooks into existing localStorage save/load mechanism
+- Triggers existing conflict detection on import
+- Export button in admin panel Controls section
+- Import via file input or drag-and-drop
+- Broadcasts keymap change via existing BroadcastChannel
+
+**Complexity:** LOW
+- Serialize/deserialize existing keymap object
+- File download via Blob and URL.createObjectURL
+- File upload via FileReader API
+- Validation reuses existing conflict detection
+- Format already JSON in localStorage
+
+## Feature Interactions
+
+**Combo Pitch + Background Music:**
+- Sound effects layer on top of music
+- Both respect mute toggle together
+- Pitch scaling creates polyrhythmic interplay with steady background music
+- Music gain adjusted lower to ensure pitch-scaled effects are audible
+
+**Personal Best + Stats:**
+- Personal best compares against existing session stats
+- Same metrics tracked, just persisted
+- UI shows both current session and all-time best side-by-side
+
+**Key Bindings + Personal Best:**
+- Export could bundle both (user preference portability)
+- Import validates keys work on current keyboard layout
+- Personal bests remain valid across different control schemes
+
+**Audio Polish + Real-time Admin:**
+- Mute toggle already syncs across tabs
+- Background music playback state could sync
+- Admin panel could control music volume separately
+
+## User Expectations
+
+Based on research, modern puzzle game players in 2026 expect:
+
+**Audio Feedback:**
+- Dynamic, player-driven music creation where actions influence sound
+- Pitch and musical elements responding to gameplay performance
+- Synesthetic experience tying audio to visual feedback
+- Music that enhances flow state without distracting
+- Separate control over music vs effects
+
+**Progress Tracking:**
+- Personal best is a core engagement mechanic (70% retention factor)
+- Progress tracking with clear metrics (time, performance stats)
+- Daily engagement incentives (though streaks not in v3.0 scope)
+- AI-driven personalization emerging trend (out of scope)
+
+**Control Customization:**
+- Full keyboard remapping is expected in modern games
+- Import/export for portability across installations
+- JSON format standard for game settings
+- Clear conflict detection and validation
+
+**Quality Expectations:**
+- Seamless audio loops without pops or clicks
+- Music that doesn't overpower gameplay
+- Performance metrics that help players improve
+- Settings that persist across sessions
 
 ## MVP Recommendation
 
-### Must-Have for v2.0 Launch
+For v3.0 MVP, prioritize in this order:
 
-**Scoring Mechanics (Core):**
-- T-Spin detection (full + mini)
-- T-Spin scoring with proper multipliers
-- Combo system with scoring
-- Back-to-Back bonus tracking
-- Visual indicators (on-screen text for "T-SPIN!" "COMBO x3" "B2B")
+1. **Combo pitch scaling** - Builds on existing audio, immediate feedback impact, LOW complexity
+2. **Personal best tracking** - Core engagement mechanic, LOW complexity, high retention value
+3. **Key binding export/import** - Completes the remapping feature from v2.0, LOW complexity
+4. **Background music** - MEDIUM complexity, defer if time-constrained
 
-**Feedback:**
-- 5-6 essential sound effects minimum
-- Mute toggle
-- 2 new themes minimum (1 differentiator acceptable)
+Rationale:
+- All three LOW complexity features deliver high value quickly
+- Background music requires audio file sourcing and more integration work
+- Combo pitch scaling enhances existing combo system (v2.0 feature)
+- Personal best tracking addresses 70% retention factor (puzzle game player expectation)
+- Key binding export completes control customization story
 
-**Configuration:**
-- Basic keyboard remapping
-- Settings persistence
+Defer to post-v3.0:
+- Adaptive music (theme/level-based) - Requires multiple audio files and complex state management
+- Multiple personal best categories - Feature creep, core metric (score) sufficient for v3.0
+- Preset binding slots - Nice to have, single export/import sufficient
+- Music tempo sync - Complex implementation, not table stakes
 
-**Statistics:**
-- Time tracking (if not in v1.0)
-- Session summary with basic stats
+## Implementation Dependencies
 
-### Can Defer to v2.1+
+**Combo Pitch Scaling requires:**
+- Existing: combo counter, audio system, OscillatorNode
+- New: pitch calculation function, combo-to-pitch mapping
 
-**Advanced Polish:**
-- Pitch-scaled combo sounds
-- Additional theme variations
-- Animated line clear effects
+**Background Music requires:**
+- Existing: Web Audio API context, mute toggle, game state
+- New: audio file, AudioBufferSourceNode, loop management, separate gain node
 
-**Advanced Stats:**
-- PPS, APM calculations
-- Personal best comparisons
-- Historical session tracking
+**Personal Best Tracking requires:**
+- Existing: stats tracking, localStorage, session stats UI
+- New: persistence logic, comparison on game over, best stats structure
 
-**QoL Features:**
-- Mid-game theme switching
-- Preset control schemes
-- Advanced remapping (import/export)
+**Key Binding Export/Import requires:**
+- Existing: keymap structure, localStorage, conflict detection
+- New: JSON serialization, file download/upload, validation logic
 
-## Implementation Complexity Summary
+## Edge Cases to Handle
 
-| Feature Category | Complexity | Estimated Effort | Risk |
-|-----------------|-----------|------------------|------|
-| T-Spin Detection | MEDIUM | 4-6 hours | MEDIUM - Corner detection logic tricky |
-| T-Spin Scoring | LOW | 1-2 hours | LOW - Formula-based |
-| Combo System | LOW | 2-3 hours | LOW - Counter logic simple |
-| B2B Tracking | LOW | 1-2 hours | LOW - State machine |
-| Session Stats Basic | LOW | 2-3 hours | LOW - Already have most |
-| Session Stats Advanced | LOW | 3-4 hours | LOW - Calculation overhead minimal |
-| New Themes | LOW | 1-2 hours each | LOW - CSS changes |
-| Sound Effects | MEDIUM | 4-8 hours | MEDIUM - Asset creation + integration |
-| Keyboard Remapping | MEDIUM | 6-8 hours | MEDIUM - UI + conflict detection |
+**Combo Pitch Scaling:**
+- Combo counter resets mid-game (pitch should reset smoothly)
+- Very high combos (cap pitch at reasonable frequency)
+- Mute toggled during pitch-scaled sound (stop oscillator immediately)
+- Multiple line clears happening rapidly (queue sounds vs overlap)
 
-**Total Estimated Effort:** 25-40 hours for full v2.0 scope
+**Background Music:**
+- User interaction required before playback (browser autoplay policy)
+- Music file fails to load (graceful degradation, no crash)
+- Pause during music playback (resume from same position vs restart)
+- Game over during music (fade out vs hard stop)
+- Theme change mid-game (cross-fade vs immediate switch vs restart track)
+
+**Personal Best Tracking:**
+- First time playing (no previous best exists)
+- Tied with previous best (still show "matched personal best")
+- localStorage quota exceeded (handle gracefully, warn user)
+- Corrupted localStorage data (validate and reset if invalid)
+- Multiple tabs with different personal bests (last write wins, could show warning)
+
+**Key Binding Export/Import:**
+- Malformed JSON file (show error message, don't crash)
+- JSON with missing actions (reject import, list missing keys)
+- JSON with extra unknown actions (ignore extras, import known ones)
+- Key codes that don't exist on current keyboard (validation and warning)
+- Import file from future game version (forward compatibility check)
+- File too large (size validation before parsing)
+
+## Technical Constraints
+
+**Web Audio API:**
+- Requires user interaction before creating AudioContext (handle suspended state)
+- OscillatorNode can't be restarted once stopped (create new node each time)
+- AudioBufferSourceNode can only play once (create new for each playback)
+- Exponential ramp requires value > 0 (use 0.01 instead of 0)
+
+**localStorage:**
+- 5-10 MB limit per domain (unlikely to hit with simple key-value data)
+- String-only storage (JSON.stringify/parse required)
+- Synchronous API (could block UI on large operations)
+- Domain-specific (won't sync across different domains)
+
+**File API:**
+- Browser security prevents auto-download without user interaction
+- FileReader API is asynchronous (handle loading state)
+- MIME type validation not guaranteed (validate content, not just extension)
+
+**BroadcastChannel:**
+- Same-origin only (already project constraint)
+- No persistence (messages not queued if no listeners)
+- Not supported in Safari < 15.4 (check compatibility or degrade gracefully)
+
+## Confidence Assessment
+
+| Feature | Confidence | Rationale |
+|---------|-----------|-----------|
+| Combo Pitch Scaling | HIGH | Web Audio API documentation clear, pattern well-established in games, existing audio infrastructure ready |
+| Background Music | MEDIUM | Implementation clear, but seamless looping and state management has edge cases, audio file sourcing required |
+| Personal Best Tracking | HIGH | localStorage well-documented, pattern standard in web games, existing stats system ready |
+| Key Binding Export/Import | HIGH | File API well-documented, JSON format standard, existing keymap structure supports it |
+
+Overall confidence: MEDIUM
+- All features have clear implementation paths
+- Edge cases identified and addressable
+- Dependencies on existing systems minimal
+- Main uncertainty: background music file sourcing and seamless loop quality
 
 ## Sources
 
-**T-Spin Detection & Scoring:**
-- [T-Spin - TetrisWiki](https://tetris.wiki/T-Spin)
-- [T-Spin Guide - Hard Drop Tetris Wiki](https://harddrop.com/wiki/T-Spin_Guide)
-- [Scoring - TetrisWiki](https://tetris.wiki/Scoring)
-- [T-Spin Guide | TETRIS-FAQ](https://winternebs.github.io/TETRIS-FAQ/tspin/)
+**Tetris Effect Audio Design:**
+- [Game Audio Analysis - Tetris Effect](https://www.gamedeveloper.com/audio/game-audio-analysis---tetris-effect)
+- [Tetris Effect - Enhancing gameplay with synesthesia](https://www.nicholassinger.com/blog/tetriseffect)
 
-**Combo System:**
-- [Combo - TetrisWiki](https://tetris.wiki/Combo)
-- [Combo - Hard Drop Tetris Wiki](https://harddrop.com/wiki/Combo)
-- [Scoring - TetrisWiki](https://tetris.wiki/Scoring)
+**Web Audio Implementation:**
+- [Pitch shifting in Web Audio API](https://zpl.fi/pitch-shifting-in-web-audio-api/)
+- [Controlling Frequency and Pitch](https://teropa.info/blog/2016/08/10/frequency-and-pitch.html)
+- [The Power of Pitch Shifting](https://www.gamedeveloper.com/audio/the-power-of-pitch-shifting)
 
-**Session Statistics:**
-- [Statistics Portal - Liquipedia Tetris Wiki](https://liquipedia.net/tetris/Portal:Statistics)
-- [TETR.IO - TetrisWiki](https://tetris.wiki/TETR.IO)
-- [What Is PPS in Tetris? - Playbite](https://www.playbite.com/q/what-is-pps-tetris)
-- [GitHub - ejona86/taus: Tetris - Actually Useful Statistics](https://github.com/ejona86/taus)
+**Background Music Best Practices:**
+- [A Game Developer's Guide to Gaming Background Music](https://www.dl-sounds.com/a-game-developers-guide-to-gaming-background-music/)
+- [Design With Music In Mind: A Guide to Adaptive Audio for Game Designers](https://www.gamedeveloper.com/audio/design-with-music-in-mind-a-guide-to-adaptive-audio-for-game-designers)
+- [Audio for Web games - MDN](https://developer.mozilla.org/en-US/docs/Games/Techniques/Audio_for_Web_Games)
 
-**Themes:**
-- [Tetris Game Color Scheme - SchemeColor.com](https://www.schemecolor.com/tetris-game-color-scheme.php)
-- [Tetris Basic Color Scheme - ColorsWall](https://colorswall.com/palette/90259)
-- [Tetris Color Codes - Brand Palettes](https://brandpalettes.com/tetris-color-codes/)
+**Seamless Looping:**
+- [Looping Music in Unity](https://andrewmushel.com/articles/looping-music-in-unity/)
 
-**Sound Effects:**
-- [Game audio analysis - Tetris Effect](https://www.gamedeveloper.com/audio/game-audio-analysis---tetris-effect)
-- [Tetris: Adding polish with music, sound effects - Katy's Code](https://katyscode.wordpress.com/2013/03/15/tetris-adding-polish-with-music-sound-effects-backgrounds-game-options-an-intro-sequence-and-other-tweaks/)
+**Personal Best & Player Engagement:**
+- [Fitting the pieces: Decoding trends and behaviors of modern puzzle gamers](https://business.mistplay.com/resources/puzzle-game-trends)
+- [22 metrics all game developers should know by heart](https://www.gameanalytics.com/blog/metrics-all-game-developers-should-know)
 
-**Keyboard Remapping:**
-- [TETR.IO Controls - 9meters](https://9meters.com/entertainment/games/tetr-io-controls-essential-keyboard-shortcuts)
-- [Game interface - Hard Drop Tetris Wiki](https://harddrop.com/wiki/Game_interface)
+**localStorage for Game Data:**
+- [Using local storage for high scores and game progress](https://gamedevjs.com/articles/using-local-storage-for-high-scores-and-game-progress/)
+- [How to Save High Scores in Local Storage](https://michael-karen.medium.com/how-to-save-high-scores-in-local-storage-7860baca9d68)
+- [HTML5 Games Development: Using Local Storage to Store Game Data](https://hub.packtpub.com/html5-games-development-using-local-storage-store-game-data/)
 
-**Back-to-Back Bonus:**
-- [Back-to-Back - Hard Drop Tetris Wiki](https://harddrop.com/wiki/Back-to-Back)
-- [Scoring in Tetris Mobile Help Center](https://playstudios.helpshift.com/hc/en/16-tetris-mobile/faq/2437-scoring-in-tetris/)
+**Key Binding Import/Export:**
+- [Export key bindings as JSON file? - Wildfire Games Community Forums](https://wildfiregames.com/forum/topic/40221-export-key-bindings-as-json-file-useful-to-create-and-print-out-nice-keyboard-templates/)
+- [keybindings.json - GitHub Gist](https://gist.github.com/rwu823/bb0e3f983ca405281579757f4ee8813b)
 
-**Implementation Pitfalls:**
-- [Common Beginner Mistakes - Galactoid's Tetris Guides](https://galactoidtetris.wordpress.com/2020/09/30/common-beginner-mistakes/)
-- [Types of Mechanical Mistakes in Tetris - Medium](https://medium.com/@lucas_bomfim/types-of-mechanical-mistakes-in-tetris-42c59264ed82)
+**Validation & Error Handling:**
+- [Data Validation and Error Handling Best Practices](https://echobind.com/post/data-validation-error-handling-best-practices)
