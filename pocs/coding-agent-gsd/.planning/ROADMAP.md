@@ -211,9 +211,15 @@ Plans:
 **Requirements:**
 - COMB-01: Combo counter tracks consecutive line clears
 - COMB-02: Combo resets when piece locks without clearing lines
-- COMB-03: Combo awards bonus points (50 × combo × level)
+- COMB-03: Combo awards bonus points (50 x combo x level)
 - COMB-04: Visual combo counter displays during active combo
 - COMB-05: Back-to-Back bonus (1.5x) for consecutive Tetris/T-spin clears
+
+**Plans:** 2 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — Core combo and B2B scoring logic in main.js
+- [ ] 07-02-PLAN.md — Visual combo display and statistics tracking
 
 **Success Criteria:**
 1. Player clears line, combo counter shows "1x Combo"
@@ -323,4 +329,4 @@ Phase 10 (Keyboard Remapping) ← independent (refactors input)
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-04 after Phase 6 complete*
+*Last updated: 2026-02-05 after Phase 7 planning*
