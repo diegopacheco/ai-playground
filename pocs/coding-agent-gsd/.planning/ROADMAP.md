@@ -15,12 +15,12 @@
 | 5 | Additional Themes | Visual variety with new themes | 3 | ✓ Complete |
 | 6 | Session Statistics | Performance tracking and display | 4 | ✓ Complete |
 | 7 | Combo System | Reward consecutive line clears | 5 | ✓ Complete |
-| 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | Planned |
+| 8 | T-Spin Detection | Advanced scoring for skilled play | 5 | ✓ Complete |
 | 9 | Audio Feedback | Sound effects for game events | 5 | Pending |
 | 10 | Keyboard Remapping | Customizable controls | 5 | Pending |
 
 **Milestone v1.0:** 4 phases | 37 requirements | 100% complete
-**Milestone v2.0:** 6 phases | 27 requirements | 50% complete (3/6 phases)
+**Milestone v2.0:** 6 phases | 27 requirements | 67% complete (4/6 phases)
 
 ---
 
@@ -243,11 +243,11 @@ Plans:
 - TSPN-04: T-spin awards bonus points (Guideline: mini 100/200/400, full 400/800/1200/1600 × level)
 - TSPN-05: Visual indicator displays T-spin type on detection
 
-**Plans:** 2 plans
+**Plans:** 2 plans (all complete)
 
 Plans:
-- [ ] 08-01-PLAN.md — T-spin detection logic and scoring integration
-- [ ] 08-02-PLAN.md — Visual T-spin indicator and session summary
+- [x] 08-01-PLAN.md — T-spin detection logic and scoring integration
+- [x] 08-02-PLAN.md — Visual T-spin indicator and session summary
 
 **Success Criteria:**
 1. Player rotates T-piece into tight space, locks it, and sees "T-Spin Mini" indicator
@@ -335,4 +335,4 @@ Phase 10 (Keyboard Remapping) ← independent (refactors input)
 
 ---
 *Roadmap created: 2026-02-02*
-*Last updated: 2026-02-05 after Phase 8 planned*
+*Last updated: 2026-02-05 after Phase 8 complete*
