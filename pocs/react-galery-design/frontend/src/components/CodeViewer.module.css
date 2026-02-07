@@ -1,0 +1,44 @@
+.viewer {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border-radius: 8px;
+  overflow: auto;
+  max-height: 500px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.code {
+  padding: 20px;
+  white-space: pre;
+  display: block;
+}
+
+.tag {
+  color: #569cd6;
+}
+
+.attr {
+  color: #9cdcfe;
+}
+
+.string {
+  color: #ce9178;
+}
+
+.comment {
+  color: #6a9955;
+}
+
+.property {
+  color: #9cdcfe;
+}
+
+.value {
+  color: #ce9178;
+}
+
+.selector {
+  color: #d7ba7d;
+}
