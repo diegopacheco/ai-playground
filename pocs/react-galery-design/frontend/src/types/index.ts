@@ -13,7 +13,15 @@ export type UxStyle =
   | "material"
   | "flat";
 
-export type WizardStep = 1 | 2 | 3;
+export type WizardStep = 1 | 2 | 3 | 4;
+
+export type SavedSolution = {
+  id: string;
+  prompt: string;
+  style: UxStyle;
+  html: string;
+  createdAt: number;
+};
 
 export type WizardState = {
   currentStep: WizardStep;
