@@ -1,0 +1,122 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 150ms ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #4f46e5;
+}
+
+.resultCount {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: border-color 150ms ease;
+}
+
+.card:hover {
+  border-color: #4f46e5;
+}
+
+.cardInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardPrompt {
+  font-size: 0.95rem;
+  color: #1f2937;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardMeta {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.styleBadge {
+  padding: 2px 8px;
+  background: #e0e7ff;
+  color: #4f46e5;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+  margin-left: 16px;
+}
+
+.loadBtn {
+  padding: 8px 16px;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.loadBtn:hover {
+  background: #4338ca;
+}
+
+.deleteBtn {
+  padding: 8px 12px;
+  background: none;
+  color: #ef4444;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.deleteBtn:hover {
+  background: #fef2f2;
+}
+
+.empty {
+  text-align: center;
+  padding: 48px 0;
+  color: #9ca3af;
+  font-size: 1rem;
+}

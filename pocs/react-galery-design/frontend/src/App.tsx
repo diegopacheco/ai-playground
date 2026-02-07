@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useStore } from "@tanstack/react-store";
+import { wizardStore } from "./store/wizard";
+import { TabBar } from "./components/TabBar";
+import { PromptStep } from "./components/PromptStep";
+import { MakingStep } from "./components/MakingStep";
+import { PreviewStep } from "./components/PreviewStep";
+import { SearchStep } from "./components/SearchStep";
+import styles from "./App.module.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const currentStep = useStore(wizardStore, (s) => s.currentStep);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className={styles.app}>
+      <div className={styles.header}>
+        <div className={styles.title}>Prompt Maker</div>
+        <div className={styles.subtitle}>Describe your app, choose a style, and generate it</div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className={styles.container}>
+        <TabBar />
+        {currentStep === 1 && <PromptStep />}
+        {currentStep === 2 && <MakingStep />}
+        {currentStep === 3 && <PreviewStep />}
+        {currentStep === 4 && <SearchStep />}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
-
-export default App
