@@ -1,0 +1,38 @@
+.tabBar {
+  display: flex;
+  border-bottom: 2px solid #e5e7eb;
+  margin-bottom: 32px;
+}
+
+.tab {
+  flex: 1;
+  padding: 16px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #9ca3af;
+  cursor: default;
+  transition: all 150ms ease;
+  font-family: inherit;
+}
+
+.tab.active {
+  color: #4f46e5;
+  border-bottom-color: #4f46e5;
+  font-weight: 700;
+}
+
+.tab.completed {
+  color: #374151;
+  cursor: pointer;
+}
+
+.tab.completed:hover {
+  color: #4f46e5;
+}
+
+.tab.disabled {
+  color: #d1d5db;
+}

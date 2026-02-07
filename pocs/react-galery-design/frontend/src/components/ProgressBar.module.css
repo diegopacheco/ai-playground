@@ -1,0 +1,35 @@
+.wrapper {
+  width: 100%;
+  max-width: 600px;
+  margin: 80px auto;
+  text-align: center;
+}
+
+.track {
+  width: 100%;
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: #4f46e5;
+  border-radius: 6px;
+  transition: width 200ms ease;
+}
+
+.status {
+  margin-top: 24px;
+  font-size: 1.1rem;
+  color: #6b7280;
+  min-height: 28px;
+}
+
+.percentage {
+  margin-top: 12px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4f46e5;
+}
