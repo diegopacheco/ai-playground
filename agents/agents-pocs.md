@@ -141,3 +141,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/react-galery-design
 
 21 - Drawing to Site: Agent that conver your drawing to a website <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/drawing-to-site-agent
+
+22 - Agent Drawing Action: Draw and the agen tell what it is <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-drawing-action
