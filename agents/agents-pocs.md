@@ -135,3 +135,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/multi-agent-station
 
 19 - Claude Code Agent Deployer <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-agents-deployer
+
+20 - Prompt Maker: From Prompt to Web/UX Design Prototype <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/react-galery-design
