@@ -70,7 +70,7 @@ pub async fn create_guess(
         .unwrap_or_else(|_| std::path::PathBuf::from(&image_path));
 
     let prompt = format!(
-        "You are an image analyst. I have a drawing saved at: {}\nLook at this drawing carefully. What is it? Answer with 1 or 2 words ONLY. Nothing else.",
+        "Look at the image at: {}\nWhat object is drawn in this image? Your ENTIRE response must be exactly 1 or 2 words. No explanation, no sentences, no punctuation. Just the name of the object. For example: Cat or Red Car",
         abs_image_path.display()
     );
 
@@ -101,13 +101,38 @@ pub async fn create_guess(
 }
 
 fn extract_guess(response: &str) -> String {
-    let cleaned = response.trim();
-    let words: Vec<&str> = cleaned
+    let last_line = response
+        .trim()
+        .lines()
+        .rev()
+        .find(|line| {
+            let l = line.trim();
+            !l.is_empty()
+                && !l.starts_with('#')
+                && !l.starts_with('*')
+                && !l.starts_with('`')
+                && !l.starts_with('-')
+                && !l.starts_with('>')
+                && !l.contains("tool")
+                && !l.contains("Read")
+                && !l.contains("file")
+                && !l.contains("image")
+                && !l.contains("drawing")
+                && !l.contains("saved at")
+                && l.split_whitespace().count() <= 5
+        })
+        .unwrap_or_else(|| {
+            response.trim().lines().last().unwrap_or("Unknown")
+        });
+
+    let words: Vec<&str> = last_line
+        .trim()
+        .trim_matches(|c: char| c == '.' || c == '!' || c == '"' || c == '\'' || c == '*' || c == '`')
         .split_whitespace()
-        .filter(|w| !w.starts_with('#') && !w.starts_with('*') && !w.starts_with('`'))
         .collect();
+
     if words.is_empty() {
-        return cleaned.chars().take(50).collect();
+        return "Unknown".to_string();
     }
     words.into_iter().take(2).collect::<Vec<&str>>().join(" ")
 }
