@@ -56,10 +56,10 @@ impl AgentRunner {
         match self.engine.as_str() {
             "claude/opus" => claude::build_command(prompt, "opus"),
             "claude/sonnet" => claude::build_command(prompt, "sonnet"),
-            "codex/gpt-5-3-codex" => codex::build_command(prompt),
+            "codex/gpt-5-2-codex" => codex::build_command(prompt),
             "gemini/gemini-3-0" => gemini::build_command(prompt),
-            "copilot/sonnet" => copilot::build_command(prompt, "claude-sonnet-4"),
-            "copilot/opus" => copilot::build_command(prompt, "claude-opus-4"),
+            "copilot/sonnet" => copilot::build_command(prompt, "claude-sonnet-4.5"),
+            "copilot/opus" => copilot::build_command(prompt, "claude-opus-4.6"),
             _ => ("echo".to_string(), vec!["Unknown engine".to_string()]),
         }
     }
