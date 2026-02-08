@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <section id="page-login" class="page active">
+    <div class="card login-card">
+      <h1>Login</h1>
+      <form id="login-form">
+        <label for="username">User</label>
+        <input type="text" id="username" placeholder="Enter username" required>
+        <label for="password">Pass</label>
+        <input type="password" id="password" placeholder="Enter password" required>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="page-products" class="page">
+    <div class="card wide-card">
+      <h1>Products</h1>
+      <ul id="product-list" class="product-list"></ul>
+    </div>
+  </section>
+
+  <section id="page-detail" class="page">
+    <div class="card detail-card">
+      <div class="detail-image" id="detail-image"></div>
+      <div class="detail-info">
+        <h2 id="detail-name"></h2>
+        <p class="price" id="detail-price"></p>
+        <div class="quantity-control">
+          <button class="btn btn-small" id="qty-minus">−</button>
+          <span id="qty-value">1</span>
+          <button class="btn btn-small" id="qty-plus">+</button>
+        </div>
+        <button class="btn btn-primary" id="btn-add-cart">Add to Cart</button>
+      </div>
+      <button class="btn btn-link back-link" id="btn-back-products">← Back to Products</button>
+    </div>
+  </section>
+
+  <section id="page-checkout" class="page">
+    <div class="card wide-card">
+      <h1>Checkout</h1>
+      <div id="cart-summary" class="cart-summary"></div>
+      <div class="checkout-total">
+        <strong>Total: <span id="checkout-total">$0.00</span></strong>
+      </div>
+      <form id="checkout-form">
+        <label for="card-name">Name on Card</label>
+        <input type="text" id="card-name" placeholder="John Doe" required>
+        <label for="card-number">Card Number</label>
+        <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+        <div class="row">
+          <div class="field">
+            <label for="card-exp">Expiry</label>
+            <input type="text" id="card-exp" placeholder="MM/YY" required>
+          </div>
+          <div class="field">
+            <label for="card-cvv">CVV</label>
+            <input type="text" id="card-cvv" placeholder="123" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Place Order</button>
+      </form>
+      <button class="btn btn-link back-link" id="btn-back-shop">← Continue Shopping</button>
+    </div>
+  </section>
+
+  <section id="page-thankyou" class="page">
+    <div class="card thankyou-card">
+      <div class="tada">🎉</div>
+      <h1>Thank You!</h1>
+      <p>Your order has been placed successfully.</p>
+      <p id="order-id"></p>
+      <button class="btn btn-primary" id="btn-new-order">Shop Again</button>
+    </div>
+  </section>
+
+  <div id="cart-badge" class="cart-badge hidden" title="Go to checkout">
+    🛒 <span id="cart-count">0</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

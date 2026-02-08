@@ -26,7 +26,7 @@ impl AgentRunner {
             .spawn()
             .map_err(|e| format!("Failed to spawn {}: {}", self.engine, e))?;
 
-        let result = timeout(Duration::from_secs(120), async {
+        let result = timeout(Duration::from_secs(480), async {
             let mut stdout = child.stdout.take().unwrap();
             let mut output = String::new();
             stdout.read_to_string(&mut output).await.map_err(|e| e.to_string())?;
@@ -47,7 +47,7 @@ impl AgentRunner {
             Ok(Err(e)) => Err(e),
             Err(_) => {
                 let _ = child.kill().await;
-                Err(format!("Engine {} timed out after 120s", self.engine))
+                Err(format!("Engine {} timed out after 480s", self.engine))
             }
         }
     }

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Match Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="arena">
+    <header class="broadcast-bar">
+      <div class="broadcast-live">
+        <span class="live-dot"></span>
+        <span>LIVE</span>
+      </div>
+      <span class="broadcast-league">PREMIER LEAGUE — MATCHDAY 24</span>
+    </header>
+
+    <section class="scoreboard">
+      <div class="score-team score-team--blue">
+        <div class="team-crest team-crest--blue">
+          <svg viewBox="0 0 40 40"><polygon points="20,4 36,36 4,36" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="20" cy="24" r="6" fill="currentColor" opacity="0.4"/></svg>
+        </div>
+        <span class="team-name">AZURE FC</span>
+      </div>
+      <div class="score-center">
+        <div class="timer" id="timer">0:54</div>
+        <div class="score-digits">
+          <span class="digit digit--blue" id="scoreBlue">0</span>
+          <span class="score-separator">—</span>
+          <span class="digit digit--red" id="scoreRed">2</span>
+        </div>
+        <div class="score-status">2ND HALF</div>
+      </div>
+      <div class="score-team score-team--red">
+        <div class="team-crest team-crest--red">
+          <svg viewBox="0 0 40 40"><rect x="6" y="6" width="28" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><line x1="12" y1="12" x2="28" y2="28" stroke="currentColor" stroke-width="2" opacity="0.5"/><line x1="28" y1="12" x2="12" y2="28" stroke="currentColor" stroke-width="2" opacity="0.5"/></svg>
+        </div>
+        <span class="team-name">CRIMSON UTD</span>
+      </div>
+    </section>
+
+    <section class="pitch" id="pitch">
+      <div class="pitch-border">
+        <div class="pitch-lines">
+          <div class="center-line"></div>
+          <div class="center-circle"></div>
+          <div class="center-dot"></div>
+          <div class="penalty-box penalty-box--left"></div>
+          <div class="penalty-box penalty-box--right"></div>
+          <div class="goal-box goal-box--left"></div>
+          <div class="goal-box goal-box--right"></div>
+        </div>
+
+        <div class="ball" id="ball">
+          <div class="ball-inner">⚽</div>
+          <div class="ball-shadow"></div>
+        </div>
+
+        <div class="player player--blue" id="playerBlue1" style="--x: 12%; --y: 65%;" data-name="Silva #8">
+          <div class="player-marker"></div>
+          <span class="player-label">8</span>
+        </div>
+        <div class="player player--blue" id="playerBlue2" style="--x: 25%; --y: 35%;" data-name="Torres #10">
+          <div class="player-marker"></div>
+          <span class="player-label">10</span>
+        </div>
+        <div class="player player--blue" id="playerBlue3" style="--x: 35%; --y: 55%;" data-name="Kante #7">
+          <div class="player-marker"></div>
+          <span class="player-label">7</span>
+        </div>
+
+        <div class="player player--red" id="playerRed1" style="--x: 62%; --y: 28%;" data-name="Rashid #9">
+          <div class="player-marker"></div>
+          <span class="player-label">9</span>
+        </div>
+        <div class="player player--red" id="playerRed2" style="--x: 70%; --y: 55%;" data-name="Vidal #11">
+          <div class="player-marker"></div>
+          <span class="player-label">11</span>
+        </div>
+        <div class="player player--red" id="playerRed3" style="--x: 55%; --y: 70%;" data-name="Muller #6">
+          <div class="player-marker"></div>
+          <span class="player-label">6</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="events-panel" id="eventsPanel">
+      <h3 class="events-title">MATCH EVENTS</h3>
+      <ul class="events-list" id="eventsList">
+        <li class="event event--goal">
+          <span class="event-time">12'</span>
+          <span class="event-icon">⚽</span>
+          <span class="event-detail"><strong>Rashid</strong> — Goal! (Crimson Utd)</span>
+        </li>
+        <li class="event event--goal">
+          <span class="event-time">38'</span>
+          <span class="event-icon">⚽</span>
+          <span class="event-detail"><strong>Vidal</strong> — Goal! (Crimson Utd)</span>
+        </li>
+        <li class="event event--card">
+          <span class="event-time">41'</span>
+          <span class="event-icon">🟨</span>
+          <span class="event-detail"><strong>Silva</strong> — Yellow Card (Azure FC)</span>
+        </li>
+      </ul>
+    </section>
+
+    <footer class="stats-bar">
+      <div class="stat">
+        <span class="stat-val stat-val--blue" style="--pct: 42%;">42%</span>
+        <span class="stat-label">POSSESSION</span>
+        <span class="stat-val stat-val--red" style="--pct: 58%;">58%</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val stat-val--blue">3</span>
+        <span class="stat-label">SHOTS</span>
+        <span class="stat-val stat-val--red">7</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val stat-val--blue">1</span>
+        <span class="stat-label">CORNERS</span>
+        <span class="stat-val stat-val--red">4</span>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page {
+  display: none;
+  width: 100%;
+  padding: 1.5rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.page.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.wide-card {
+  max-width: 600px;
+}
+
+.detail-card {
+  max-width: 420px;
+  text-align: center;
+}
+
+.thankyou-card {
+  text-align: center;
+  max-width: 420px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #f8fafc;
+}
+
+h2 {
+  font-size: 1.3rem;
+  color: #f8fafc;
+  margin-bottom: 0.5rem;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 0.3rem;
+  margin-top: 1rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #6366f1;
+}
+
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1.5rem;
+  background: #6366f1;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #4f46e5;
+}
+
+.btn-small {
+  width: 36px;
+  height: 36px;
+  background: #334155;
+  color: #e2e8f0;
+  font-size: 1.1rem;
+  border-radius: 6px;
+}
+
+.btn-small:hover {
+  background: #475569;
+}
+
+.btn-link {
+  display: block;
+  text-align: center;
+  background: none;
+  color: #6366f1;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+.product-list {
+  list-style: none;
+}
+
+.product-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid #334155;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: 6px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.product-list li:hover {
+  background: #273348;
+}
+
+.product-list li:last-child {
+  border-bottom: none;
+}
+
+.product-name {
+  font-weight: 500;
+}
+
+.product-price {
+  color: #a5b4fc;
+  font-weight: 600;
+}
+
+.detail-image {
+  width: 100%;
+  height: 180px;
+  background: #334155;
+  border-radius: 10px;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #a5b4fc;
+  margin-bottom: 1rem;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.quantity-control span {
+  font-size: 1.2rem;
+  font-weight: 600;
+  min-width: 28px;
+  text-align: center;
+}
+
+.cart-summary {
+  margin-bottom: 1rem;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #334155;
+  font-size: 0.95rem;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.checkout-total {
+  text-align: right;
+  font-size: 1.15rem;
+  color: #a5b4fc;
+  margin-bottom: 0.5rem;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+}
+
+.field {
+  flex: 1;
+}
+
+.cart-badge {
+  position: fixed;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: #6366f1;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s;
+}
+
+.cart-badge:hover {
+  transform: scale(1.08);
+}
+
+.cart-badge.hidden {
+  display: none;
+}
+
+.tada {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.back-link {
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.3rem;
+  }
+  h1 {
+    font-size: 1.3rem;
+  }
+  .detail-image {
+    height: 140px;
+  }
+}
