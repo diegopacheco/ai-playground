@@ -30,3 +30,9 @@ Open http://localhost:5173
 | ![house-drawing](house-drawing.png) | Drawing screen - colorful house scene with sun, tree, and grass using multiple colors |
 | ![house](house.png) | Guess result - the Codex GPT-5.2 engine correctly guessed "House" from the drawing |
 | ![history](history.png) | History screen - shows all past guesses with drawing thumbnails, LLM predictions, engines, and timestamps |
+
+### Experiment
+
+I have Playwright MCP on my claude code and asked him to use this website and using the MCP to draw a city, and he was able to do it.
+
+<img src="city-drawing.png" width="600" />
