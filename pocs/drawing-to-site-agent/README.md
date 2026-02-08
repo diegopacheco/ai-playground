@@ -2,6 +2,22 @@
 
 Draw a UI sketch on a canvas (or drag an image) and an AI agent turns it into a working website.
 
+## Screenshots
+
+| Screen | Image |
+|--------|-------|
+| Drawing Canvas - sketch your UI | ![Drawing Canvas](1.drawing.png) |
+| Progress Bar - animated build progress with elapsed timer | ![Progress Bar](2.progress.png) |
+| Drag & Drop - drop an image to build directly | ![Drag and Drop](drag-drop.png) |
+| Pong Drawing - hand-drawn pong game sketch | ![Pong Drawing](drop-2.png) |
+| Pong Result - generated pong game from sketch | ![Pong Result](result-pong.png) |
+| Ecommerce Result - Login page | ![Login](result-1-ecomerce.png) |
+| Ecommerce Result - Product listing | ![Products](result-2-ecomerce.png) |
+| Ecommerce Result - Product detail with cart | ![Product Detail](result-3-ecomerce.png) |
+| Ecommerce Result - Checkout page | ![Checkout](result-4-ecomerce.png) |
+| Ecommerce Result - Order confirmation | ![Order Confirmation](result-5-ecomerce.png) |
+| Build History - list of all past builds | ![Build History](4.history.png) |
+
 ## Stack
 
 | Layer | Tech |
