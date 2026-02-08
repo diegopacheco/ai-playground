@@ -50,7 +50,7 @@ Turning UI sketches into working websites is manual and slow. This app lets anyo
 - Dropdown to select agent engine:
   - `claude/opus`
   - `claude/sonnet`
-  - `codex/gpt-5-3-codex`
+  - `codex/gpt-5-2-codex`
   - `gemini/gemini-3-0`
   - `copilot/sonnet`
   - `copilot/opus`
@@ -66,11 +66,15 @@ Turning UI sketches into working websites is manual and slow. This app lets anyo
   - Undo/Redo
   - Clear canvas
 - "Build" button to send drawing to the agent
+- Drag & drop image support: user can drag an image file onto the canvas and it immediately proceeds to build using that image (skips drawing)
 
 ### Screen 3 - Canvas Capture & Send
 - On "Build" click, the frontend:
   - Captures the canvas as a PNG via `canvas.toDataURL("image/png")`
   - Sends the base64 image + selected engine + project name to backend via POST
+- On image drag & drop:
+  - Reads the dropped file via `FileReader.readAsDataURL()`
+  - Sends the base64 image directly to backend (bypasses canvas capture)
 - This is automatic, not a separate visible screen
 
 ### Screen 4 - Progress Bar
@@ -138,10 +142,10 @@ Each engine maps to a CLI tool installed on the system. The backend spawns a sub
 |---------------------|-------------|--------------------------------------------------------|
 | claude/opus         | `claude`    | `-p <prompt> --model opus --dangerously-skip-permissions` |
 | claude/sonnet       | `claude`    | `-p <prompt> --model sonnet --dangerously-skip-permissions` |
-| codex/gpt-5-3-codex | `codex`     | `exec --full-auto --model gpt-5.3-codex <prompt>`     |
+| codex/gpt-5-2-codex | `codex`     | `exec --full-auto --model gpt-5.2-codex <prompt>`     |
 | gemini/gemini-3-0   | `gemini`    | `-y -p <prompt>`                                       |
-| copilot/sonnet      | `copilot`   | `--allow-all --model claude-sonnet-4 -p <prompt>`     |
-| copilot/opus        | `copilot`   | `--allow-all --model claude-opus-4 -p <prompt>`       |
+| copilot/sonnet      | `copilot`   | `--allow-all --model claude-sonnet-4.5 -p <prompt>`     |
+| copilot/opus        | `copilot`   | `--allow-all --model claude-opus-4.6 -p <prompt>`       |
 
 ## Backend Rust Code Structure
 
@@ -209,7 +213,7 @@ pub fn get_available_engines() -> Vec<(String, String)> {
     vec![
         ("claude/opus".to_string(), "Claude Opus".to_string()),
         ("claude/sonnet".to_string(), "Claude Sonnet".to_string()),
-        ("codex/gpt-5-3-codex".to_string(), "Codex GPT-5.3".to_string()),
+        ("codex/gpt-5-2-codex".to_string(), "Codex GPT-5.2".to_string()),
         ("gemini/gemini-3-0".to_string(), "Gemini 3.0".to_string()),
         ("copilot/sonnet".to_string(), "Copilot Sonnet".to_string()),
         ("copilot/opus".to_string(), "Copilot Opus".to_string()),
@@ -270,10 +274,10 @@ impl AgentRunner {
         match self.engine.as_str() {
             "claude/opus" => claude::build_command(prompt, "opus"),
             "claude/sonnet" => claude::build_command(prompt, "sonnet"),
-            "codex/gpt-5-3-codex" => codex::build_command(prompt),
+            "codex/gpt-5-2-codex" => codex::build_command(prompt),
             "gemini/gemini-3-0" => gemini::build_command(prompt),
-            "copilot/sonnet" => copilot::build_command(prompt, "claude-sonnet-4"),
-            "copilot/opus" => copilot::build_command(prompt, "claude-opus-4"),
+            "copilot/sonnet" => copilot::build_command(prompt, "claude-sonnet-4.5"),
+            "copilot/opus" => copilot::build_command(prompt, "claude-opus-4.6"),
             _ => ("echo".to_string(), vec!["Unknown engine".to_string()]),
         }
     }
@@ -307,7 +311,7 @@ pub fn build_command(prompt: &str) -> (String, Vec<String>) {
             "exec".to_string(),
             "--full-auto".to_string(),
             "--model".to_string(),
-            "gpt-5.3-codex".to_string(),
+            "gpt-5.2-codex".to_string(),
             prompt.to_string(),
         ],
     )

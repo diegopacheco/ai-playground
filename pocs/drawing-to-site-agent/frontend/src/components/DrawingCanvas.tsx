@@ -174,8 +174,28 @@ export default function DrawingCanvas({ onCapture }: Props) {
     onCapture(dataUrl)
   }
 
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    const file = e.dataTransfer.files[0]
+    if (!file || !file.type.startsWith('image/')) return
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      const dataUrl = ev.target?.result as string
+      onCapture(dataUrl)
+    }
+    reader.readAsDataURL(file)
+  }, [onCapture])
+
+  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+  }, [])
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 49px)' }}>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 49px)' }}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+    >
       <div style={toolbarStyle}>
         <button style={tool === 'pen' ? activeBtnStyle : btnStyle} onClick={() => setTool('pen')}>Pen</button>
         <button style={tool === 'rectangle' ? activeBtnStyle : btnStyle} onClick={() => setTool('rectangle')}>Rect</button>
