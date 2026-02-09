@@ -145,6 +145,10 @@ fn install_workflow_for_codex(skills_dir: &Path, prompts_dir: &Path, exe_dir: &P
     let ad_target = prompts_dir.join("ad");
     fs::create_dir_all(&ad_target)?;
     fs::copy(&prompt_source, ad_target.join("wf.md"))?;
+    fs::copy(&prompt_source, prompts_dir.join("ad-wf.md"))?;
+    if !cfg!(windows) {
+        fs::copy(&prompt_source, prompts_dir.join("ad:wf.md"))?;
+    }
     Ok(())
 }
 
@@ -361,6 +365,10 @@ fn main() {
                     println!("  Installed workflow skill to {:?}", skills_target.join("workflow-skill"));
                     println!("  Installed workflow prompt to {:?}", prompts_target.join("workflow.md"));
                     println!("  Installed /ad:wf prompt to {:?}", prompts_target.join("ad").join("wf.md"));
+                    println!("  Installed /ad-wf prompt to {:?}", prompts_target.join("ad-wf.md"));
+                    if !cfg!(windows) {
+                        println!("  Installed /ad:wf prompt alias to {:?}", prompts_target.join("ad:wf.md"));
+                    }
                 }
             }
         }
