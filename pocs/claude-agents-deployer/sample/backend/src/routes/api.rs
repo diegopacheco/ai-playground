@@ -4,18 +4,28 @@ use axum::{
 };
 use sqlx::PgPool;
 
-use crate::handlers::{comments, posts, users};
+use crate::handlers::{comments, posts, settings, users};
 
 pub fn router(pool: PgPool) -> Router {
     Router::new()
-        .route("/api/users", post(users::create_user).get(users::list_users))
+        .route(
+            "/api/users",
+            post(users::create_user).get(users::list_users),
+        )
         .route("/api/users/{id}", get(users::get_user))
-        .route("/api/posts", post(posts::create_post).get(posts::list_posts))
+        .route(
+            "/api/posts",
+            post(posts::create_post).get(posts::list_posts),
+        )
         .route(
             "/api/posts/{id}",
             get(posts::get_post)
                 .put(posts::update_post)
                 .delete(posts::delete_post),
+        )
+        .route(
+            "/api/settings",
+            get(settings::get_settings).put(settings::update_settings),
         )
         .route(
             "/api/posts/{post_id}/comments",

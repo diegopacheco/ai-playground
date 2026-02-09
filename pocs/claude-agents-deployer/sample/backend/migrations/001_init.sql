@@ -21,3 +21,14 @@ CREATE TABLE IF NOT EXISTS comments (
     post_id UUID NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS settings (
+    id INT PRIMARY KEY,
+    comments_enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    background_theme TEXT NOT NULL DEFAULT 'classic' CHECK (background_theme IN ('classic', 'forest', 'sunset')),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+INSERT INTO settings (id, comments_enabled, background_theme, updated_at)
+VALUES (1, TRUE, 'classic', NOW())
+ON CONFLICT (id) DO NOTHING;

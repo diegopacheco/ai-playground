@@ -12,10 +12,9 @@ async fn main() {
         .with_env_filter(EnvFilter::try_from_default_env().unwrap_or_else(|_| "info".into()))
         .init();
 
-    let database_url =
-        std::env::var("DATABASE_URL").unwrap_or_else(|_| {
-            "postgres://postgres:postgres@localhost:5432/blog_platform".to_string()
-        });
+    let database_url = std::env::var("DATABASE_URL").unwrap_or_else(|_| {
+        "postgres://postgres:postgres@localhost:5432/blog_platform".to_string()
+    });
 
     let pool = PgPoolOptions::new()
         .max_connections(10)
@@ -62,6 +61,27 @@ async fn main() {
     .await
     .expect("Failed to create comments table");
 
+    sqlx::query(
+        "CREATE TABLE IF NOT EXISTS settings (
+            id INT PRIMARY KEY,
+            comments_enabled BOOLEAN NOT NULL DEFAULT TRUE,
+            background_theme TEXT NOT NULL DEFAULT 'classic' CHECK (background_theme IN ('classic', 'forest', 'sunset')),
+            updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+        )",
+    )
+    .execute(&pool)
+    .await
+    .expect("Failed to create settings table");
+
+    sqlx::query(
+        "INSERT INTO settings (id, comments_enabled, background_theme, updated_at)
+         VALUES (1, TRUE, 'classic', NOW())
+         ON CONFLICT (id) DO NOTHING",
+    )
+    .execute(&pool)
+    .await
+    .expect("Failed to seed settings table");
+
     let cors = CorsLayer::new()
         .allow_origin(Any)
         .allow_methods(Any)
@@ -75,7 +95,5 @@ async fn main() {
 
     tracing::info!("Server running on http://0.0.0.0:8080");
 
-    axum::serve(listener, app)
-        .await
-        .expect("Server failed");
+    axum::serve(listener, app).await.expect("Server failed");
 }

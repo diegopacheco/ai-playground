@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+:root {
+  --app-bg: #f3f4f6;
+}
+
+[data-theme="classic"] {
+  --app-bg: linear-gradient(180deg, #f9fafb 0%, #e5e7eb 100%);
+}
+
+[data-theme="forest"] {
+  --app-bg: linear-gradient(180deg, #ecfdf3 0%, #d1fae5 100%);
+}
+
+[data-theme="sunset"] {
+  --app-bg: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+}
+
+body {
+  margin: 0;
+}
+
+.app-surface {
+  background: var(--app-bg);
+}

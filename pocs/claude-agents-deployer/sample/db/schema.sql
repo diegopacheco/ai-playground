@@ -22,6 +22,17 @@ CREATE TABLE IF NOT EXISTS comments (
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS settings (
+    id INT PRIMARY KEY,
+    comments_enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    background_theme TEXT NOT NULL DEFAULT 'classic' CHECK (background_theme IN ('classic', 'forest', 'sunset')),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+INSERT INTO settings (id, comments_enabled, background_theme, updated_at)
+VALUES (1, TRUE, 'classic', NOW())
+ON CONFLICT (id) DO NOTHING;
+
 CREATE INDEX idx_posts_created_at ON posts(created_at DESC);
 CREATE INDEX idx_comments_post_id ON comments(post_id);
 CREATE INDEX idx_comments_created_at ON comments(created_at DESC);

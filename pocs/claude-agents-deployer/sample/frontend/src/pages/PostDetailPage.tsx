@@ -5,12 +5,14 @@ import {
   useComments,
   useCreateComment,
   useDeletePost,
+  useSettings,
 } from "../hooks/useApi";
 
 export default function PostDetailPage({ postId }: { postId: string }) {
   const navigate = useNavigate();
   const { data: post, isLoading, error } = usePost(postId);
   const { data: comments } = useComments(postId);
+  const { data: settings } = useSettings();
   const createComment = useCreateComment(postId);
   const deletePost = useDeletePost();
 
@@ -35,6 +37,7 @@ export default function PostDetailPage({ postId }: { postId: string }) {
 
   function handleSubmitComment(e: React.FormEvent) {
     e.preventDefault();
+    if (settings && !settings.commentsEnabled) return;
     if (!commentAuthor.trim() || !commentContent.trim()) return;
     createComment.mutate(
       { author: commentAuthor, content: commentContent },
@@ -125,30 +128,36 @@ export default function PostDetailPage({ postId }: { postId: string }) {
           <p className="text-gray-500 mb-8">No comments yet.</p>
         )}
 
-        <form onSubmit={handleSubmitComment} className="space-y-4">
-          <h3 className="text-lg font-medium text-gray-800">Add a comment</h3>
-          <input
-            type="text"
-            placeholder="Your name"
-            value={commentAuthor}
-            onChange={(e) => setCommentAuthor(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-          />
-          <textarea
-            placeholder="Your comment"
-            value={commentContent}
-            onChange={(e) => setCommentContent(e.target.value)}
-            rows={4}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-          />
-          <button
-            type="submit"
-            disabled={createComment.isPending}
-            className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium disabled:opacity-50"
-          >
-            {createComment.isPending ? "Posting..." : "Post Comment"}
-          </button>
-        </form>
+        {settings && !settings.commentsEnabled ? (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-yellow-800">
+            Comments are currently disabled by admin.
+          </div>
+        ) : (
+          <form onSubmit={handleSubmitComment} className="space-y-4">
+            <h3 className="text-lg font-medium text-gray-800">Add a comment</h3>
+            <input
+              type="text"
+              placeholder="Your name"
+              value={commentAuthor}
+              onChange={(e) => setCommentAuthor(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            />
+            <textarea
+              placeholder="Your comment"
+              value={commentContent}
+              onChange={(e) => setCommentContent(e.target.value)}
+              rows={4}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            />
+            <button
+              type="submit"
+              disabled={createComment.isPending}
+              className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium disabled:opacity-50"
+            >
+              {createComment.isPending ? "Posting..." : "Post Comment"}
+            </button>
+          </form>
+        )}
       </section>
     </div>
   );
