@@ -142,6 +142,9 @@ fn install_workflow_for_codex(skills_dir: &Path, prompts_dir: &Path, exe_dir: &P
     fs::copy(&skill_source, skill_target.join("SKILL.md"))?;
     fs::create_dir_all(prompts_dir)?;
     fs::copy(&prompt_source, prompts_dir.join("workflow.md"))?;
+    let ad_target = prompts_dir.join("ad");
+    fs::create_dir_all(&ad_target)?;
+    fs::copy(&prompt_source, ad_target.join("wf.md"))?;
     Ok(())
 }
 
@@ -345,7 +348,7 @@ fn main() {
                     let skills_target = get_codex_skills_dir(codex_global);
                     match install_workflow_for_codex(&skills_target, &prompts_target, &exe_dir) {
                         Ok(_) => {
-                            println!("  Installed workflow skill and workflow prompt");
+                            println!("  Installed workflow skill and workflow prompts");
                             workflow_installed = true;
                         }
                         Err(e) => println!("  Failed to install workflow: {}", e),
@@ -357,6 +360,7 @@ fn main() {
                     let skills_target = get_codex_skills_dir(codex_global);
                     println!("  Installed workflow skill to {:?}", skills_target.join("workflow-skill"));
                     println!("  Installed workflow prompt to {:?}", prompts_target.join("workflow.md"));
+                    println!("  Installed /ad:wf prompt to {:?}", prompts_target.join("ad").join("wf.md"));
                 }
             }
         }
