@@ -335,39 +335,59 @@ fn main() {
                 }
             }
             Platform::Codex => {
-                let prompts_target = get_codex_prompts_dir(codex_global);
+                let requested_prompts_target = get_codex_prompts_dir(codex_global);
+                let requested_skills_target = get_codex_skills_dir(codex_global);
+                let runtime_prompts_target = get_codex_prompts_dir(true);
+                let runtime_skills_target = get_codex_skills_dir(true);
+                let mut prompt_targets = vec![requested_prompts_target.clone()];
+                if !prompt_targets.contains(&runtime_prompts_target) {
+                    prompt_targets.push(runtime_prompts_target.clone());
+                }
+                let mut skill_targets = vec![requested_skills_target.clone()];
+                if !skill_targets.contains(&runtime_skills_target) {
+                    skill_targets.push(runtime_skills_target.clone());
+                }
                 println!("\nInstalling for Codex...\n");
-                let mut installed_count = 0;
-                for agent in &selected_agents {
-                    match install_agent(agent, &prompts_target) {
-                        Ok(_) => {
-                            println!("  Installed prompt: {}", agent.filename);
-                            installed_count += 1;
+                let mut requested_installed_count = 0;
+                for prompts_target in &prompt_targets {
+                    let mut installed_count = 0;
+                    for agent in &selected_agents {
+                        match install_agent(agent, prompts_target) {
+                            Ok(_) => {
+                                println!("  Installed prompt: {} -> {:?}", agent.filename, prompts_target);
+                                installed_count += 1;
+                            }
+                            Err(e) => println!("  Failed to install {}: {}", agent.name, e),
                         }
-                        Err(e) => println!("  Failed to install {}: {}", agent.name, e),
+                    }
+                    if prompts_target == &requested_prompts_target {
+                        requested_installed_count = installed_count;
                     }
                 }
                 let mut workflow_installed = false;
                 if install_workflow_skill {
-                    let skills_target = get_codex_skills_dir(codex_global);
-                    match install_workflow_for_codex(&skills_target, &prompts_target, &exe_dir) {
-                        Ok(_) => {
-                            println!("  Installed workflow skill and workflow prompts");
-                            workflow_installed = true;
+                    for (skills_target, prompts_target) in skill_targets.iter().zip(prompt_targets.iter()) {
+                        match install_workflow_for_codex(skills_target, prompts_target, &exe_dir) {
+                            Ok(_) => {
+                                println!("  Installed workflow skill and workflow prompts in {:?}", prompts_target);
+                                workflow_installed = true;
+                            }
+                            Err(e) => println!("  Failed to install workflow: {}", e),
                         }
-                        Err(e) => println!("  Failed to install workflow: {}", e),
                     }
                 }
                 println!("\nDone for Codex!");
-                println!("  Installed {} prompts to {:?}", installed_count, prompts_target);
+                println!("  Installed {} prompts to {:?}", requested_installed_count, requested_prompts_target);
                 if workflow_installed {
-                    let skills_target = get_codex_skills_dir(codex_global);
-                    println!("  Installed workflow skill to {:?}", skills_target.join("workflow-skill"));
-                    println!("  Installed workflow prompt to {:?}", prompts_target.join("workflow.md"));
-                    println!("  Installed /ad:wf prompt to {:?}", prompts_target.join("ad").join("wf.md"));
-                    println!("  Installed /ad-wf prompt to {:?}", prompts_target.join("ad-wf.md"));
+                    println!("  Installed workflow skill to {:?}", requested_skills_target.join("workflow-skill"));
+                    println!("  Installed workflow prompt to {:?}", requested_prompts_target.join("workflow.md"));
+                    println!("  Installed /ad:wf prompt to {:?}", requested_prompts_target.join("ad").join("wf.md"));
+                    println!("  Installed /ad-wf prompt to {:?}", requested_prompts_target.join("ad-wf.md"));
                     if !cfg!(windows) {
-                        println!("  Installed /ad:wf prompt alias to {:?}", prompts_target.join("ad:wf.md"));
+                        println!("  Installed /ad:wf prompt alias to {:?}", requested_prompts_target.join("ad:wf.md"));
+                    }
+                    if !codex_global {
+                        println!("  Codex CLI loads slash prompts from {:?}", runtime_prompts_target);
                     }
                 }
             }
