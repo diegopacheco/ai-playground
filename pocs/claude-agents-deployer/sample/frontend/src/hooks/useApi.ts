@@ -11,6 +11,32 @@ import type {
 } from "../types";
 
 const API_BASE = "/api";
+const LOCAL_SETTINGS_KEY = "blog_platform_admin_settings";
+
+function defaultSettings(): AppSettings {
+  return {
+    id: 1,
+    commentsEnabled: true,
+    backgroundTheme: "classic",
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function readLocalSettings(): AppSettings {
+  if (typeof window === "undefined") return defaultSettings();
+  const raw = window.localStorage.getItem(LOCAL_SETTINGS_KEY);
+  if (!raw) return defaultSettings();
+  try {
+    return JSON.parse(raw) as AppSettings;
+  } catch {
+    return defaultSettings();
+  }
+}
+
+function writeLocalSettings(settings: AppSettings): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(LOCAL_SETTINGS_KEY, JSON.stringify(settings));
+}
 
 async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${url}`, {
@@ -114,18 +140,49 @@ export function useUsers() {
 export function useSettings() {
   return useQuery<AppSettings>({
     queryKey: ["settings"],
-    queryFn: () => fetchJson<AppSettings>("/settings"),
+    queryFn: async () => {
+      try {
+        const settings = await fetchJson<AppSettings>("/settings");
+        writeLocalSettings(settings);
+        return settings;
+      } catch (e) {
+        if (e instanceof Error && e.message.includes("API error: 404")) {
+          return readLocalSettings();
+        }
+        throw e;
+      }
+    },
   });
 }
 
 export function useUpdateSettings() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (payload: UpdateSettingsPayload) =>
-      fetchJson<AppSettings>("/settings", {
-        method: "PUT",
-        body: JSON.stringify(payload),
-      }),
+    mutationFn: async (payload: UpdateSettingsPayload) => {
+      try {
+        const settings = await fetchJson<AppSettings>("/settings", {
+          method: "PUT",
+          body: JSON.stringify(payload),
+        });
+        writeLocalSettings(settings);
+        return settings;
+      } catch (e) {
+        if (e instanceof Error && e.message.includes("API error: 404")) {
+          const current = readLocalSettings();
+          const next: AppSettings = {
+            ...current,
+            commentsEnabled:
+              payload.commentsEnabled ?? current.commentsEnabled,
+            backgroundTheme:
+              payload.backgroundTheme ?? current.backgroundTheme,
+            updatedAt: new Date().toISOString(),
+          };
+          writeLocalSettings(next);
+          return next;
+        }
+        throw e;
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["settings"] });
       queryClient.invalidateQueries({ queryKey: ["comments"] });
