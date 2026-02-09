@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 const API = 'http://localhost:8080/persons';
+const ADMIN_API = 'http://localhost:8080/admin/views';
 
 function App() {
+  const [page, setPage] = useState('crud');
   const [persons, setPersons] = useState([]);
   const [form, setForm] = useState({ name: '', email: '', age: '' });
   const [editingId, setEditingId] = useState(null);
+  const [views, setViews] = useState([]);
 
   const fetchPersons = () => {
     fetch(API)
@@ -14,7 +17,20 @@ function App() {
       .catch(() => {});
   };
 
+  const fetchViews = () => {
+    fetch(ADMIN_API)
+      .then(r => r.json())
+      .then(setViews)
+      .catch(() => {});
+  };
+
   useEffect(() => { fetchPersons(); }, []);
+
+  useEffect(() => {
+    if (page === 'admin') {
+      fetchViews();
+    }
+  }, [page]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,66 +61,120 @@ function App() {
     setEditingId(null);
   };
 
+  const navStyle = (active) => ({
+    padding: '10px 20px',
+    border: 'none',
+    borderBottom: active ? '3px solid #333' : '3px solid transparent',
+    background: 'none',
+    fontSize: 16,
+    fontWeight: active ? 'bold' : 'normal',
+    cursor: 'pointer',
+  });
+
   return (
     <div style={{ maxWidth: 700, margin: '40px auto', fontFamily: 'Arial, sans-serif' }}>
-      <h1>Person CRUD</h1>
-      <form onSubmit={handleSubmit} style={{ marginBottom: 20, display: 'flex', gap: 10 }}>
-        <input
-          placeholder="Name"
-          value={form.name}
-          onChange={e => setForm({ ...form, name: e.target.value })}
-          required
-          style={{ padding: 8, flex: 1 }}
-        />
-        <input
-          placeholder="Email"
-          value={form.email}
-          onChange={e => setForm({ ...form, email: e.target.value })}
-          required
-          style={{ padding: 8, flex: 1 }}
-        />
-        <input
-          placeholder="Age"
-          type="number"
-          value={form.age}
-          onChange={e => setForm({ ...form, age: e.target.value })}
-          required
-          style={{ padding: 8, width: 70 }}
-        />
-        <button type="submit" style={{ padding: '8px 16px' }}>
-          {editingId ? 'Update' : 'Add'}
+      <div style={{ display: 'flex', gap: 10, marginBottom: 20, borderBottom: '1px solid #ccc' }}>
+        <button style={navStyle(page === 'crud')} onClick={() => setPage('crud')}>
+          Person CRUD
         </button>
-        {editingId && (
-          <button type="button" onClick={resetForm} style={{ padding: '8px 16px' }}>
-            Cancel
-          </button>
-        )}
-      </form>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr style={{ borderBottom: '2px solid #333' }}>
-            <th style={{ textAlign: 'left', padding: 8 }}>ID</th>
-            <th style={{ textAlign: 'left', padding: 8 }}>Name</th>
-            <th style={{ textAlign: 'left', padding: 8 }}>Email</th>
-            <th style={{ textAlign: 'left', padding: 8 }}>Age</th>
-            <th style={{ textAlign: 'left', padding: 8 }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {persons.map(p => (
-            <tr key={p.id} style={{ borderBottom: '1px solid #ccc' }}>
-              <td style={{ padding: 8 }}>{p.id}</td>
-              <td style={{ padding: 8 }}>{p.name}</td>
-              <td style={{ padding: 8 }}>{p.email}</td>
-              <td style={{ padding: 8 }}>{p.age}</td>
-              <td style={{ padding: 8 }}>
-                <button onClick={() => handleEdit(p)} style={{ marginRight: 5 }}>Edit</button>
-                <button onClick={() => handleDelete(p.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        <button style={navStyle(page === 'admin')} onClick={() => setPage('admin')}>
+          Admin Panel
+        </button>
+      </div>
+
+      {page === 'crud' && (
+        <>
+          <h1>Person CRUD</h1>
+          <form onSubmit={handleSubmit} style={{ marginBottom: 20, display: 'flex', gap: 10 }}>
+            <input
+              placeholder="Name"
+              value={form.name}
+              onChange={e => setForm({ ...form, name: e.target.value })}
+              required
+              style={{ padding: 8, flex: 1 }}
+            />
+            <input
+              placeholder="Email"
+              value={form.email}
+              onChange={e => setForm({ ...form, email: e.target.value })}
+              required
+              style={{ padding: 8, flex: 1 }}
+            />
+            <input
+              placeholder="Age"
+              type="number"
+              value={form.age}
+              onChange={e => setForm({ ...form, age: e.target.value })}
+              required
+              style={{ padding: 8, width: 70 }}
+            />
+            <button type="submit" style={{ padding: '8px 16px' }}>
+              {editingId ? 'Update' : 'Add'}
+            </button>
+            {editingId && (
+              <button type="button" onClick={resetForm} style={{ padding: '8px 16px' }}>
+                Cancel
+              </button>
+            )}
+          </form>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ borderBottom: '2px solid #333' }}>
+                <th style={{ textAlign: 'left', padding: 8 }}>ID</th>
+                <th style={{ textAlign: 'left', padding: 8 }}>Name</th>
+                <th style={{ textAlign: 'left', padding: 8 }}>Email</th>
+                <th style={{ textAlign: 'left', padding: 8 }}>Age</th>
+                <th style={{ textAlign: 'left', padding: 8 }}>Views</th>
+                <th style={{ textAlign: 'left', padding: 8 }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {persons.map(p => (
+                <tr key={p.id} style={{ borderBottom: '1px solid #ccc' }}>
+                  <td style={{ padding: 8 }}>{p.id}</td>
+                  <td style={{ padding: 8 }}>{p.name}</td>
+                  <td style={{ padding: 8 }}>{p.email}</td>
+                  <td style={{ padding: 8 }}>{p.age}</td>
+                  <td style={{ padding: 8 }}>{p.view_count}</td>
+                  <td style={{ padding: 8 }}>
+                    <button onClick={() => handleEdit(p)} style={{ marginRight: 5 }}>Edit</button>
+                    <button onClick={() => handleDelete(p.id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
+
+      {page === 'admin' && (
+        <>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+            <h1 style={{ margin: 0 }}>Admin Panel - View Counts</h1>
+            <button onClick={fetchViews} style={{ padding: '8px 16px' }}>Refresh</button>
+          </div>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ borderBottom: '2px solid #333' }}>
+                <th style={{ textAlign: 'left', padding: 8 }}>ID</th>
+                <th style={{ textAlign: 'left', padding: 8 }}>Name</th>
+                <th style={{ textAlign: 'left', padding: 8 }}>Email</th>
+                <th style={{ textAlign: 'left', padding: 8 }}>Views</th>
+              </tr>
+            </thead>
+            <tbody>
+              {views.map(v => (
+                <tr key={v.id} style={{ borderBottom: '1px solid #ccc' }}>
+                  <td style={{ padding: 8 }}>{v.id}</td>
+                  <td style={{ padding: 8 }}>{v.name}</td>
+                  <td style={{ padding: 8 }}>{v.email}</td>
+                  <td style={{ padding: 8 }}>{v.view_count}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
     </div>
   );
 }
