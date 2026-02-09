@@ -24,6 +24,10 @@ claude-agents-deployer/
 │   ├── changes-sumarizer-agent.md
 │   ├── code-reviewer-agent.md
 │   └── security-reviewer-agent.md
+├── skills/
+│   ├── workflow-skill/
+│   │   └── SKILL.md
+│   └── workflow.md
 ├── src/
 │   └── main.rs
 ├── Cargo.toml
@@ -56,6 +60,12 @@ claude-agents-deployer/
 - Creates shell scripts/aliases for agents selected as commands
 - Adds to `~/.claude/commands/` or `./.claude/commands/`
 
+### 5. Workflow Installer
+- Asks user if they want to install the workflow skill and command (default: yes)
+- Copies `skills/workflow-skill/SKILL.md` to `{target}/skills/workflow-skill/SKILL.md`
+- Copies `skills/workflow.md` as command `{target}/commands/ad/wf.md`
+- Enables `/ad:wf` command that orchestrates all agents in a phased pipeline
+
 ## Technical Details
 
 ### Rust Version
@@ -73,10 +83,17 @@ walkdir = "2.5"
 
 ### Installation Paths
 
-| Type   | Agents Path          | Commands Path          |
-|--------|----------------------|------------------------|
-| Global | ~/.claude/agents/    | ~/.claude/commands/    |
-| Local  | ./.claude/agents/    | ./.claude/commands/    |
+| Type   | Agents Path          | Commands Path          | Skills Path                       |
+|--------|----------------------|------------------------|-----------------------------------|
+| Global | ~/.claude/agents/    | ~/.claude/commands/    | ~/.claude/skills/workflow-skill/  |
+| Local  | ./.claude/agents/    | ./.claude/commands/    | ./.claude/skills/workflow-skill/  |
+
+### Skill & Command Paths (relative in source)
+
+| Source File                      | Installed As                                |
+|----------------------------------|---------------------------------------------|
+| skills/workflow-skill/SKILL.md   | {target}/skills/workflow-skill/SKILL.md      |
+| skills/workflow.md               | {target}/commands/ad/wf.md                   |
 
 ### Wizard Flow
 
@@ -106,8 +123,11 @@ walkdir = "2.5"
 │    [x] Unit Testers Agent                               │
 │    ...                                                  │
 │                                                         │
-│  ✓ Installed 3 agents                                   │
-│  ✓ Created 2 commands                                   │
+│  ? Install workflow skill/command (/ad:wf)? [Y/n]       │
+│                                                         │
+│  Installed 3 agents                                     │
+│  Created 2 commands                                     │
+│  Installed workflow skill and /ad:wf command             │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -140,3 +160,4 @@ cargo build --release
 3. Agents install to correct paths (global/local)
 4. Commands are created when requested
 5. Solution is fully dynamic (no hardcoded agent list)
+6. Workflow skill and `/ad:wf` command install when requested (default: yes)
