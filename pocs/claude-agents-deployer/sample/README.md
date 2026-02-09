@@ -347,3 +347,131 @@ Agents not invoked (irrelevant to this project): java-backend-developer-agent, g
 design-doc-syncer-agent, design-docer-syncer-agent, and the book-related skills.
 
 ```
+
+## Workflow in Action
+
+```
+
+ ▐▛███▜▌   Claude Code v2.1.37
+▝▜█████▛▘  Opus 4.6 · Claude Pro
+  ▘▘ ▝▝    ~/git/diegopacheco/ai-playground/pocs/claude-agents-deployer/sample
+
+❯ /ad:wf
+
+⏺ Let me read the skill file first.
+
+⏺ Read 1 file (ctrl+o to expand)
+
+⏺ The user didn't provide a description of what to build. Let me ask.
+
+⏺ User answered Claude's questions:
+  ⎿  · What do you want to build? Describe the feature or application. → Blog Platform
+
+⏺ The user wants to build a Blog Platform. Now let me ask which backend language to use.
+
+⏺ User answered Claude's questions:
+  ⎿  · Which backend language should we use? → Rust
+
+⏺ The user chose Rust. Now let me read all agent definition files from the agents/ directory.
+
+⏺ Searched for 1 pattern (ctrl+o to expand)
+
+⏺ Now let me read the Phase 1 agent definitions - Rust backend, React developer, and Relational DBA.
+
+⏺ Read 3 files (ctrl+o to expand)
+
+⏺ Now let me create the task tracking and start Phase 1. Let me set up tasks first.
+
+⏺ Phase 1: Build (parallel)
+
+  Launching 3 agents in parallel - Rust Backend, React Frontend, and Database.
+
+⏺ 2 Task agents launched (ctrl+o to expand)
+   ├─ Rust backend blog platform
+   │  ⎿  Running in the background (shift+↑ to manage)
+   └─ React frontend blog platform
+      ⎿  Running in the background (shift+↑ to manage)
+
+⏺ Phase 1 agents are running in parallel. Let me read the Phase 2 agent definitions while waiting, so we're ready to launch them as
+   soon as Phase 1 completes.
+
+⏺ Read 4 files (ctrl+o to expand)
+
+⏺ Good, I've read all Phase 2 agent definitions. Now let me also pre-read the Phase 3 and Phase 4 agent definitions while waiting.
+
+⏺ Read 5 files (ctrl+o to expand)
+
+⏺ All agent definitions are loaded. All 3 Phase 1 agents are still running in parallel:
+
+  - Rust Backend - Building Axum + SQLx blog API
+  - React Frontend - Building React 19 + TanStack + Tailwind blog UI
+  - Database - Setting up PostgreSQL 17 schema + podman scripts
+
+  Waiting for all 3 to complete before starting Phase 2 (Testing)...
+
+✻ Cooked for 1m 33s · 2 agents running in the background
+
+⏺ Agent "Database schema blog platform" completed
+
+⏺ The DB agent completed but couldn't write files. Let me create them directly while the other agents continue.
+
+⏺ Bash(mkdir -p /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/claude-agents-deployer/sample/db)
+  ⎿  (No content)
+
+⏺ Write(db/schema.sql)
+  ⎿  Wrote 31 lines to db/schema.sql
+       1 CREATE TABLE users (
+       2     id SERIAL PRIMARY KEY,
+       3     name VARCHAR(255) NOT NULL,
+       4     email VARCHAR(255) UNIQUE NOT NULL,
+       5     created_at TIMESTAMP DEFAULT NOW()
+       6 );
+       7
+       8 CREATE TABLE posts (
+       9     id SERIAL PRIMARY KEY,
+      10     title VARCHAR(255) NOT NULL,
+     … +21 lines (ctrl+o to expand)
+
+⏺ Write(db/start-db.sh)
+  ⎿  Wrote 15 lines to db/start-db.sh
+       1 #!/bin/bash
+       2 podman run -d \
+       3   --name blogdb-postgres \
+       4   -e POSTGRES_DB=blogdb \
+       5   -e POSTGRES_USER=bloguser \
+       6   -e POSTGRES_PASSWORD=blogpass \
+       7   -p 5432:5432 \
+       8   docker.io/library/postgres:17
+       9
+      10 echo "Waiting for PostgreSQL to be ready..."
+     … +5 lines (ctrl+o to expand)
+
+⏺ Write(db/stop-db.sh)
+  ⎿  Wrote 4 lines to db/stop-db.sh
+      1 #!/bin/bash
+      2 podman stop blogdb-postgres
+      3 podman rm blogdb-postgres
+
+⏺ Write(db/create-schema.sh)
+  ⎿  Wrote 3 lines to db/create-schema.sh
+      1 #!/bin/bash
+      2 podman exec -i blogdb-postgres psql -U bloguser -d blogdb < "$(dirname "$0")/schema.sql"
+
+⏺ Write(db/run-sql-client.sh)
+  ⎿  Wrote 3 lines to db/run-sql-client.sh
+      1 #!/bin/bash
+      2 podman exec -it blogdb-postgres psql -U bloguser -d blogdb
+
+⏺ Bash(chmod +x /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/claude-agents-deployer/sample/db/*.sh)
+  ⎿  (No content)
+
+⏺ Database files created and made executable. Still waiting for Rust Backend and React Frontend agents to finish...
+
+  5 tasks (0 done, 1 in progress, 4 open) · ctrl+t to hide tasks
+  ◼ Phase 1: Build - Rust Backend, React Frontend, Database
+  ◻ Phase 2: Test - Unit, Integration, UI, Stress › blocked by #1
+  ◻ Phase 3: Review - Code and Security › blocked by #1, #2
+  ◻ Phase 4: Document - Design Doc, Feature Doc, Changes › blocked by #1, #2, #3
+  ◻ Final Summary › blocked by #1, #2, #3, #4
+
+```
