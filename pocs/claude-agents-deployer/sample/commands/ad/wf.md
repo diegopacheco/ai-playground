@@ -1,0 +1,1 @@
+Read the skill file at skills/workflow-skill/SKILL.md and follow every instruction in it exactly. The user wants to build: $ARGUMENTS
