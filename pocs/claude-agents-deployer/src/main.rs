@@ -226,17 +226,34 @@ fn main() {
         println!("No agents selected. Exiting.");
         return;
     }
-    let install_options = vec!["Global (~/.claude/)", "Local (./.claude/)"];
-    let install_choice = Select::with_theme(&theme)
-        .with_prompt("Installation type")
-        .items(&install_options)
-        .default(0)
-        .interact()
-        .unwrap();
-    let global = install_choice == 0;
     let selected_agents: Vec<&Agent> = selected_indices.iter().map(|&i| &agents[i]).collect();
     let selected_names: Vec<&str> = selected_agents.iter().map(|a| a.name.as_str()).collect();
     let has_claude = selected_platforms.contains(&Platform::Claude);
+    let has_codex = selected_platforms.contains(&Platform::Codex);
+    let claude_global = if has_claude {
+        let install_options = vec!["Global (~/.claude/)", "Local (./.claude/)"];
+        let install_choice = Select::with_theme(&theme)
+            .with_prompt("Claude installation type")
+            .items(&install_options)
+            .default(0)
+            .interact()
+            .unwrap();
+        install_choice == 0
+    } else {
+        false
+    };
+    let codex_global = if has_codex {
+        let install_options = vec!["Local (./.codex/)", "Global (~/.codex/)"];
+        let install_choice = Select::with_theme(&theme)
+            .with_prompt("Codex installation type")
+            .items(&install_options)
+            .default(0)
+            .interact()
+            .unwrap();
+        install_choice == 1
+    } else {
+        false
+    };
     let generate_commands = if has_claude {
         Confirm::with_theme(&theme)
             .with_prompt("Generate Claude commands for agents?")
@@ -265,8 +282,8 @@ fn main() {
     for platform in selected_platforms {
         match platform {
             Platform::Claude => {
-                let agents_target = get_claude_agents_dir(global);
-                let commands_target = get_claude_commands_dir(global);
+                let agents_target = get_claude_agents_dir(claude_global);
+                let commands_target = get_claude_commands_dir(claude_global);
                 println!("\nInstalling for Claude...\n");
                 let mut installed_count = 0;
                 let mut command_count = 0;
@@ -290,7 +307,7 @@ fn main() {
                 }
                 let mut workflow_installed = false;
                 if install_workflow_skill {
-                    let skills_target = get_claude_skills_dir(global);
+                    let skills_target = get_claude_skills_dir(claude_global);
                     match install_workflow_for_claude(&skills_target, &commands_target, &exe_dir) {
                         Ok(_) => {
                             println!("  Installed workflow skill and /ad:wf command");
@@ -305,13 +322,13 @@ fn main() {
                     println!("  Created {} commands in {:?}", command_count, commands_target);
                 }
                 if workflow_installed {
-                    let skills_target = get_claude_skills_dir(global);
+                    let skills_target = get_claude_skills_dir(claude_global);
                     println!("  Installed workflow skill to {:?}", skills_target.join("workflow-skill"));
                     println!("  Installed /ad:wf command to {:?}", commands_target.join("ad").join("wf.md"));
                 }
             }
             Platform::Codex => {
-                let prompts_target = get_codex_prompts_dir(global);
+                let prompts_target = get_codex_prompts_dir(codex_global);
                 println!("\nInstalling for Codex...\n");
                 let mut installed_count = 0;
                 for agent in &selected_agents {
@@ -325,7 +342,7 @@ fn main() {
                 }
                 let mut workflow_installed = false;
                 if install_workflow_skill {
-                    let skills_target = get_codex_skills_dir(global);
+                    let skills_target = get_codex_skills_dir(codex_global);
                     match install_workflow_for_codex(&skills_target, &prompts_target, &exe_dir) {
                         Ok(_) => {
                             println!("  Installed workflow skill and workflow prompt");
@@ -337,7 +354,7 @@ fn main() {
                 println!("\nDone for Codex!");
                 println!("  Installed {} prompts to {:?}", installed_count, prompts_target);
                 if workflow_installed {
-                    let skills_target = get_codex_skills_dir(global);
+                    let skills_target = get_codex_skills_dir(codex_global);
                     println!("  Installed workflow skill to {:?}", skills_target.join("workflow-skill"));
                     println!("  Installed workflow prompt to {:?}", prompts_target.join("workflow.md"));
                 }
