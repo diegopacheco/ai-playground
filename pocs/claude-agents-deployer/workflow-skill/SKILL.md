@@ -73,26 +73,39 @@ Wait for all 4 to complete before moving to Phase 3.
 
 ### Step 5 - Phase 3: Review (parallel)
 
+Create a `review/` folder with a subfolder named as the current date in `yyyy-MM-dd` format (e.g., `review/2026-02-09/`).
+
 Spawn 2 Task subagents in parallel:
 
-1. **Code Reviewer** - Use code-reviewer-agent.md. Tell it to review all code written in Phases 1 and 2 for quality, bugs, and best practices.
-2. **Security Reviewer** - Use security-reviewer-agent.md. Tell it to review all code for security vulnerabilities, OWASP Top 10, and security best practices.
+1. **Code Reviewer** - Use code-reviewer-agent.md. Tell it to review all code written in Phases 1 and 2 for quality, bugs, and best practices. Output the review to `review/{current-date}/code-review.md`.
+2. **Security Reviewer** - Use security-reviewer-agent.md. Tell it to review all code for security vulnerabilities, OWASP Top 10, and security best practices. Output the review to `review/{current-date}/sec-review.md`.
 
 Wait for both to complete. If either reviewer finds critical issues, fix them before moving to Phase 4.
 
 ### Step 6 - Phase 4: Document (parallel)
 
+Use the same `review/{current-date}/` folder created in Phase 3.
+
 Spawn 3 Task subagents in parallel:
 
 1. **Design Doc Syncer** - Use design-doc-syncer-agent.md. Tell it to sync the design document with the implemented code, updating it to reflect what was built.
-2. **Feature Documenter** - Use feature-documenter-agent.md. Tell it to document the feature including API docs, configuration, and usage.
-3. **Changes Summarizer** - Use changes-sumarizer-agent.md. Tell it to summarize all changes made, categorize them, and generate a changelog entry.
+2. **Feature Documenter** - Use feature-documenter-agent.md. Tell it to document the feature including API docs, configuration, and usage. Output to `review/{current-date}/features.md`.
+3. **Changes Summarizer** - Use changes-sumarizer-agent.md. Tell it to summarize all changes made, categorize them. Output to `review/{current-date}/summary.md`.
 
-### Step 7 - Summary
+### Step 7 - Changelog
 
-After all phases complete, provide a final summary to the user:
+After all phases complete, create a `changelog.md` file in the project root.
+
+Use git to analyze all changes made during this workflow:
+- Run `git status` to see modified/added files
+- Run `git diff` to see the actual code changes
+- Run `git log` to see commit history if any commits were made
+
+The changelog.md should contain:
+- Current date in `yyyy-MM-dd` format at the top
 - What was built (backend, frontend, database)
-- Test coverage (unit, integration, UI, stress)
+- List of all files created/modified with brief descriptions
+- Test coverage summary (unit, integration, UI, stress)
 - Review findings and fixes applied
 - Documentation generated
 - Any remaining issues or recommendations
