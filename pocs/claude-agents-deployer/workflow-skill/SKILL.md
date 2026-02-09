@@ -31,13 +31,34 @@ Read all agent definition files from the project's `agents/` directory. These fi
 
 ### Step 3 - Phase 1: Build (parallel)
 
-Spawn 3 Task subagents in parallel using `subagent_type: "general-purpose"`. Each subagent receives the user's feature description plus the corresponding agent definition as context:
+**Step 3.1 - Write Design Document**
 
-1. **Backend Developer** - Use the chosen language agent (java-backend-developer-agent.md, go-backend-developer-agent.md, or rust-backend-developer-agent.md). Tell it to implement the backend for the user's request.
-2. **React Developer** - Use react-developer-agent.md. Tell it to implement the frontend for the user's request.
-3. **Relational DBA** - Use relational-dba-agent.md. Tell it to design and create the database schema for the user's request.
+Before implementing, create a `design-doc.md` file in the project root that describes:
+- High-level architecture overview
+- Backend API endpoints and their responsibilities
+- Frontend components and their interactions
+- Database schema design (tables, relationships)
+- Integration points between frontend, backend, and database
 
-Wait for all 3 to complete before moving to Phase 2.
+This design document will guide all the build agents and ensure consistency.
+
+**Step 3.2 - Build Components (parallel)**
+
+Spawn 3 Task subagents in parallel using `subagent_type: "general-purpose"`. Each subagent receives the user's feature description, the design-doc.md content, plus the corresponding agent definition as context:
+
+1. **Backend Developer** - Use the chosen language agent (java-backend-developer-agent.md, go-backend-developer-agent.md, or rust-backend-developer-agent.md). Tell it to implement the backend for the user's request following the design-doc.md.
+2. **React Developer** - Use react-developer-agent.md. Tell it to implement the frontend for the user's request following the design-doc.md.
+3. **Relational DBA** - Use relational-dba-agent.md. Tell it to design and create the database schema for the user's request following the design-doc.md.
+
+**Step 3.3 - Verify Components**
+
+After all 3 build subagents complete, verify that each component is working:
+
+1. **Verify Database** - Check that the database schema was created and migrations run successfully. Start the database container if needed.
+2. **Verify Backend** - Build and start the backend server. Verify it compiles/runs without errors and can connect to the database. Test a health endpoint if available.
+3. **Verify Frontend** - Build the React frontend. Verify it compiles without errors. Check that it can be served and connects to the backend API.
+
+Fix any issues before moving to Phase 2. All three components must be operational.
 
 ### Step 4 - Phase 2: Test (parallel)
 
