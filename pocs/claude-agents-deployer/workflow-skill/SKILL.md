@@ -42,6 +42,65 @@ Before implementing, create a `design-doc.md` file in the project root that desc
 
 This design document will guide all the build agents and ensure consistency.
 
+**Step 3.1.1 - Review Workflow Plan**
+
+Present the user with all phases and steps that will be executed. Use AskUserQuestion to show the following checkboxes (all marked by default) and allow the user to uncheck any phases they want to skip:
+
+```
+The following phases will be executed. Uncheck any you want to skip:
+
+- [x] Phase 1: Build
+  - [x] Step 3.2 - Build Components (Backend, Frontend, Database)
+  - [x] Step 3.3 - Verify Components
+- [x] Phase 2: Test
+  - [x] Unit Tests
+  - [x] Integration Tests
+  - [x] UI Tests (Playwright)
+  - [x] Stress Tests (K6)
+- [x] Phase 3: Review
+  - [x] Code Review
+  - [x] Security Review
+- [x] Phase 4: Document
+  - [x] Design Doc Sync
+  - [x] Feature Documentation
+  - [x] Changes Summary
+- [x] Changelog & README Update
+```
+
+Store the user's selections and skip any unchecked phases/steps during execution.
+
+**Step 3.1.2 - Initialize Progress Tracking**
+
+Create a `todo.md` file in the project root with the current date in `yyyy-MM-dd` format and all selected phases listed with `[ ]` checkboxes. This file will be updated at the end of each phase to track progress.
+
+Example:
+```
+# Progress - 2026-02-09
+
+## Phase 1: Build
+- [ ] Build Components (Backend, Frontend, Database)
+- [ ] Verify Components
+
+## Phase 2: Test
+- [ ] Unit Tests
+- [ ] Integration Tests
+- [ ] UI Tests (Playwright)
+- [ ] Stress Tests (K6)
+
+## Phase 3: Review
+- [ ] Code Review
+- [ ] Security Review
+
+## Phase 4: Document
+- [ ] Design Doc Sync
+- [ ] Feature Documentation
+- [ ] Changes Summary
+
+## Finalize
+- [ ] Changelog
+- [ ] README Update
+```
+
 **Step 3.2 - Build Components (parallel)**
 
 Spawn 3 Task subagents in parallel using `subagent_type: "general-purpose"`. Each subagent receives the user's feature description, the design-doc.md content, plus the corresponding agent definition as context:
@@ -60,6 +119,8 @@ After all 3 build subagents complete, verify that each component is working:
 
 Fix any issues before moving to Phase 2. All three components must be operational.
 
+**Update Progress**: Update `todo.md` marking Phase 1 items as complete with `[x]`.
+
 ### Step 4 - Phase 2: Test (parallel)
 
 Spawn 4 Task subagents in parallel:
@@ -70,6 +131,8 @@ Spawn 4 Task subagents in parallel:
 4. **K6 Stress Test** - Use k6-stress-test-agent.md. Tell it to write k6 performance tests for the API endpoints.
 
 Wait for all 4 to complete before moving to Phase 3.
+
+**Update Progress**: Update `todo.md` marking Phase 2 items as complete with `[x]`.
 
 ### Step 5 - Phase 3: Review (parallel)
 
@@ -82,6 +145,8 @@ Spawn 2 Task subagents in parallel:
 
 Wait for both to complete. If either reviewer finds critical issues, fix them before moving to Phase 4.
 
+**Update Progress**: Update `todo.md` marking Phase 3 items as complete with `[x]`.
+
 ### Step 6 - Phase 4: Document (parallel)
 
 Use the same `review/{current-date}/` folder created in Phase 3.
@@ -91,6 +156,8 @@ Spawn 3 Task subagents in parallel:
 1. **Design Doc Syncer** - Use design-doc-syncer-agent.md. Tell it to sync the design document with the implemented code, updating it to reflect what was built.
 2. **Feature Documenter** - Use feature-documenter-agent.md. Tell it to document the feature including API docs, configuration, and usage. Output to `review/{current-date}/features.md`.
 3. **Changes Summarizer** - Use changes-sumarizer-agent.md. Tell it to summarize all changes made, categorize them. Output to `review/{current-date}/summary.md`.
+
+**Update Progress**: Update `todo.md` marking Phase 4 items as complete with `[x]`.
 
 ### Step 7 - Changelog
 
@@ -109,6 +176,28 @@ The changelog.md should contain:
 - Review findings and fixes applied
 - Documentation generated
 - Any remaining issues or recommendations
+
+**Update Progress**: Update `todo.md` marking Changelog as complete with `[x]`.
+
+### Step 8 - Update README
+
+Update or create the `README.md` file in the project root with:
+
+1. **Project Overview** - Brief description of what was built
+2. **Links to Documentation**:
+   - Link to `design-doc.md`
+   - Link to `review/{current-date}/code-review.md`
+   - Link to `review/{current-date}/sec-review.md`
+   - Link to `review/{current-date}/features.md`
+   - Link to `review/{current-date}/summary.md`
+   - Link to `changelog.md`
+3. **Summary Highlights** - Extract the best parts from `review/{current-date}/summary.md` including:
+   - Key features implemented
+   - Architecture highlights
+   - Notable technical decisions
+4. **Quick Start** - How to run the project (backend, frontend, database)
+
+**Update Progress**: Update `todo.md` marking README Update as complete with `[x]`. All items should now be marked as `[x]`.
 
 ## Agent Definition Location
 

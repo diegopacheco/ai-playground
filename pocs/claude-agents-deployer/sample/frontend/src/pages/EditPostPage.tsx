@@ -3,19 +3,16 @@ import { useState, useEffect } from "react";
 import { usePost, useUpdatePost } from "../hooks/useApi";
 
 export default function EditPostPage({ postId }: { postId: string }) {
-  const id = Number(postId);
   const navigate = useNavigate();
-  const { data: post, isLoading } = usePost(id);
-  const updatePost = useUpdatePost(id);
+  const { data: post, isLoading } = usePost(postId);
+  const updatePost = useUpdatePost(postId);
 
   const [title, setTitle] = useState("");
-  const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
 
   useEffect(() => {
     if (post) {
       setTitle(post.title);
-      setExcerpt(post.excerpt);
       setContent(post.content);
     }
   }, [post]);
@@ -40,12 +37,12 @@ export default function EditPostPage({ postId }: { postId: string }) {
     e.preventDefault();
     if (!title.trim() || !content.trim()) return;
     updatePost.mutate(
-      { title, content, excerpt },
+      { title, content },
       {
         onSuccess: () => {
           navigate({
             to: "/posts/$postId",
-            params: { postId: String(id) },
+            params: { postId },
           });
         },
       }
@@ -73,17 +70,6 @@ export default function EditPostPage({ postId }: { postId: string }) {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Excerpt
-          </label>
-          <input
-            type="text"
-            value={excerpt}
-            onChange={(e) => setExcerpt(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
             Content
           </label>
           <textarea
@@ -107,7 +93,7 @@ export default function EditPostPage({ postId }: { postId: string }) {
             onClick={() =>
               navigate({
                 to: "/posts/$postId",
-                params: { postId: String(id) },
+                params: { postId },
               })
             }
             className="bg-gray-200 text-gray-700 px-6 py-2.5 rounded-lg hover:bg-gray-300 transition-colors font-medium"

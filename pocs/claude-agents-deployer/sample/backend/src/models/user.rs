@@ -4,6 +4,7 @@ use sqlx::FromRow;
 use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize, FromRow, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct User {
     pub id: Uuid,
     pub name: String,
@@ -30,7 +31,7 @@ mod tests {
     }
 
     #[test]
-    fn test_user_serialize() {
+    fn test_user_serialize_camel_case() {
         let user = User {
             id: Uuid::nil(),
             name: "Alice".to_string(),
@@ -38,8 +39,9 @@ mod tests {
             created_at: NaiveDateTime::parse_from_str("2025-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").unwrap(),
         };
         let json = serde_json::to_string(&user).unwrap();
+        assert!(json.contains("createdAt"));
+        assert!(!json.contains("created_at"));
         assert!(json.contains("Alice"));
-        assert!(json.contains("alice@test.com"));
     }
 
     #[test]

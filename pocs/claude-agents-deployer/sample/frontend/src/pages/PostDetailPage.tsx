@@ -8,11 +8,10 @@ import {
 } from "../hooks/useApi";
 
 export default function PostDetailPage({ postId }: { postId: string }) {
-  const id = Number(postId);
   const navigate = useNavigate();
-  const { data: post, isLoading, error } = usePost(id);
-  const { data: comments } = useComments(id);
-  const createComment = useCreateComment(id);
+  const { data: post, isLoading, error } = usePost(postId);
+  const { data: comments } = useComments(postId);
+  const createComment = useCreateComment(postId);
   const deletePost = useDeletePost();
 
   const [commentAuthor, setCommentAuthor] = useState("");
@@ -38,7 +37,7 @@ export default function PostDetailPage({ postId }: { postId: string }) {
     e.preventDefault();
     if (!commentAuthor.trim() || !commentContent.trim()) return;
     createComment.mutate(
-      { postId: id, author: commentAuthor, content: commentContent },
+      { author: commentAuthor, content: commentContent },
       {
         onSuccess: () => {
           setCommentAuthor("");
@@ -50,7 +49,7 @@ export default function PostDetailPage({ postId }: { postId: string }) {
 
   function handleDelete() {
     if (!confirm("Are you sure you want to delete this post?")) return;
-    deletePost.mutate(id, {
+    deletePost.mutate(postId, {
       onSuccess: () => navigate({ to: "/" }),
     });
   }
