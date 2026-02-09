@@ -3,6 +3,14 @@ name = "blog-platform"
 version = "0.1.0"
 edition = "2024"
 
+[[bin]]
+name = "blog-platform"
+path = "src/main.rs"
+
+[lib]
+name = "blog_platform"
+path = "src/lib.rs"
+
 [dependencies]
 axum = "0.8"
 tokio = { version = "1", features = ["full"] }
@@ -14,3 +22,6 @@ chrono = { version = "0.4", features = ["serde"] }
 tower-http = { version = "0.6", features = ["cors"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[dev-dependencies]
+tower = { version = "0.5", features = ["util"] }
