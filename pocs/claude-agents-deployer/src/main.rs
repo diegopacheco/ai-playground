@@ -212,10 +212,14 @@ fn main() {
             }
         }
     }
+    let mut workflow_installed = false;
     if install_workflow_skill {
         let skills_target = get_claude_skills_dir(global);
         match install_workflow(&skills_target, &commands_target, &exe_dir) {
-            Ok(_) => println!("  Installed workflow skill and /ad:wf command"),
+            Ok(_) => {
+                println!("  Installed workflow skill and /ad:wf command");
+                workflow_installed = true;
+            }
             Err(e) => println!("  Failed to install workflow: {}", e),
         }
     }
@@ -223,5 +227,10 @@ fn main() {
     println!("  Installed {} agents to {:?}", installed_count, agents_target);
     if command_count > 0 {
         println!("  Created {} commands in {:?}", command_count, commands_target);
+    }
+    if workflow_installed {
+        let skills_target = get_claude_skills_dir(global);
+        println!("  Installed workflow skill to {:?}", skills_target.join("workflow-skill"));
+        println!("  Installed /ad:wf command to {:?}", commands_target.join("ad").join("wf.md"));
     }
 }
