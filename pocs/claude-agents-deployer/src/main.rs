@@ -67,6 +67,37 @@ fn get_claude_commands_dir(global: bool) -> PathBuf {
     }
 }
 
+fn get_claude_skills_dir(global: bool) -> PathBuf {
+    if global {
+        dirs::home_dir()
+            .expect("Could not find home directory")
+            .join(".claude")
+            .join("skills")
+    } else {
+        PathBuf::from(".claude").join("skills")
+    }
+}
+
+fn install_workflow(skills_dir: &Path, commands_dir: &Path, exe_dir: &Path) -> std::io::Result<()> {
+    let skill_source = if exe_dir.join("skills").join("workflow-skill").join("SKILL.md").exists() {
+        exe_dir.join("skills").join("workflow-skill").join("SKILL.md")
+    } else {
+        PathBuf::from("skills").join("workflow-skill").join("SKILL.md")
+    };
+    let command_source = if exe_dir.join("skills").join("workflow.md").exists() {
+        exe_dir.join("skills").join("workflow.md")
+    } else {
+        PathBuf::from("skills").join("workflow.md")
+    };
+    let skill_target = skills_dir.join("workflow-skill");
+    fs::create_dir_all(&skill_target)?;
+    fs::copy(&skill_source, skill_target.join("SKILL.md"))?;
+    let command_target = commands_dir.join("ad");
+    fs::create_dir_all(&command_target)?;
+    fs::copy(&command_source, command_target.join("wf.md"))?;
+    Ok(())
+}
+
 fn install_agent(agent: &Agent, target_dir: &Path) -> std::io::Result<()> {
     fs::create_dir_all(target_dir)?;
     let dest = target_dir.join(&agent.filename);
@@ -155,6 +186,11 @@ fn main() {
     } else {
         Vec::new()
     };
+    let install_workflow_skill = Confirm::with_theme(&theme)
+        .with_prompt("Install workflow skill/command (/ad:wf)?")
+        .default(true)
+        .interact()
+        .unwrap();
     println!("\nInstalling agents...\n");
     let mut installed_count = 0;
     let mut command_count = 0;
@@ -174,6 +210,13 @@ fn main() {
                 }
                 Err(e) => println!("  Failed to create command for {}: {}", agent.name, e),
             }
+        }
+    }
+    if install_workflow_skill {
+        let skills_target = get_claude_skills_dir(global);
+        match install_workflow(&skills_target, &commands_target, &exe_dir) {
+            Ok(_) => println!("  Installed workflow skill and /ad:wf command"),
+            Err(e) => println!("  Failed to install workflow: {}", e),
         }
     }
     println!("\nDone!");
