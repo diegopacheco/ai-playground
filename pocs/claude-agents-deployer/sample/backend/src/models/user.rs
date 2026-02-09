@@ -36,7 +36,8 @@ mod tests {
             id: Uuid::nil(),
             name: "Alice".to_string(),
             email: "alice@test.com".to_string(),
-            created_at: NaiveDateTime::parse_from_str("2025-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").unwrap(),
+            created_at: NaiveDateTime::parse_from_str("2025-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
+                .unwrap(),
         };
         let json = serde_json::to_string(&user).unwrap();
         assert!(json.contains("createdAt"));
@@ -50,7 +51,8 @@ mod tests {
             id: Uuid::new_v4(),
             name: "Bob".to_string(),
             email: "bob@test.com".to_string(),
-            created_at: NaiveDateTime::parse_from_str("2025-06-15 12:00:00", "%Y-%m-%d %H:%M:%S").unwrap(),
+            created_at: NaiveDateTime::parse_from_str("2025-06-15 12:00:00", "%Y-%m-%d %H:%M:%S")
+                .unwrap(),
         };
         let json = serde_json::to_string(&user).unwrap();
         let deserialized: User = serde_json::from_str(&json).unwrap();

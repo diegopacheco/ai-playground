@@ -6,6 +6,8 @@ import type {
   CreatePostPayload,
   UpdatePostPayload,
   CreateCommentPayload,
+  AppSettings,
+  UpdateSettingsPayload,
 } from "../types";
 
 const API_BASE = "/api";
@@ -19,7 +21,8 @@ async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
     },
   });
   if (!res.ok) {
-    throw new Error(`API error: ${res.status}`);
+    const body = await res.text();
+    throw new Error(`API error: ${res.status} ${body}`);
   }
   return res.json();
 }
@@ -105,5 +108,27 @@ export function useUsers() {
   return useQuery<User[]>({
     queryKey: ["users"],
     queryFn: () => fetchJson<User[]>("/users"),
+  });
+}
+
+export function useSettings() {
+  return useQuery<AppSettings>({
+    queryKey: ["settings"],
+    queryFn: () => fetchJson<AppSettings>("/settings"),
+  });
+}
+
+export function useUpdateSettings() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: UpdateSettingsPayload) =>
+      fetchJson<AppSettings>("/settings", {
+        method: "PUT",
+        body: JSON.stringify(payload),
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["settings"] });
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+    },
   });
 }

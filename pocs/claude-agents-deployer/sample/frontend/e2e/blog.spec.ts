@@ -10,6 +10,7 @@ test("nav bar has links", async ({ page }) => {
   await expect(page.locator("text=Home")).toBeVisible();
   await expect(page.locator("text=New Post")).toBeVisible();
   await expect(page.locator("text=Profile")).toBeVisible();
+  await expect(page.locator("text=Admin")).toBeVisible();
 });
 
 test("navigate to create post page", async ({ page }) => {
@@ -27,6 +28,13 @@ test("navigate to profile page", async ({ page }) => {
   await page.goto("/");
   await page.click("text=Profile");
   await expect(page).toHaveURL(/\/profile/);
+});
+
+test("navigate to admin page", async ({ page }) => {
+  await page.goto("/");
+  await page.click("text=Admin");
+  await expect(page).toHaveURL(/\/admin/);
+  await expect(page.locator("text=Admin Panel")).toBeVisible();
 });
 
 test("home page shows no posts message when empty", async ({ page }) => {

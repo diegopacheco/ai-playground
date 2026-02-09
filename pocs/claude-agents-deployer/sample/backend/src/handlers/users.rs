@@ -53,10 +53,7 @@ pub async fn list_users(State(pool): State<PgPool>) -> impl IntoResponse {
     }
 }
 
-pub async fn get_user(
-    State(pool): State<PgPool>,
-    Path(id): Path<Uuid>,
-) -> impl IntoResponse {
+pub async fn get_user(State(pool): State<PgPool>, Path(id): Path<Uuid>) -> impl IntoResponse {
     let user = sqlx::query_as::<_, User>("SELECT * FROM users WHERE id = $1")
         .bind(id)
         .fetch_optional(&pool)

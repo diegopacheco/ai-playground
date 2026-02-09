@@ -38,7 +38,8 @@ mod tests {
             content: "Great!".to_string(),
             author: "Bob".to_string(),
             post_id: Uuid::nil(),
-            created_at: NaiveDateTime::parse_from_str("2025-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").unwrap(),
+            created_at: NaiveDateTime::parse_from_str("2025-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
+                .unwrap(),
         };
         let json = serde_json::to_string(&comment).unwrap();
         assert!(json.contains("postId"));
@@ -53,7 +54,8 @@ mod tests {
             content: "Content".to_string(),
             author: "Author".to_string(),
             post_id: Uuid::new_v4(),
-            created_at: NaiveDateTime::parse_from_str("2025-06-15 12:00:00", "%Y-%m-%d %H:%M:%S").unwrap(),
+            created_at: NaiveDateTime::parse_from_str("2025-06-15 12:00:00", "%Y-%m-%d %H:%M:%S")
+                .unwrap(),
         };
         let json = serde_json::to_string(&comment).unwrap();
         let deserialized: Comment = serde_json::from_str(&json).unwrap();

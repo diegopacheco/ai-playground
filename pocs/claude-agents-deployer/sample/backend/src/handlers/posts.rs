@@ -54,10 +54,7 @@ pub async fn list_posts(State(pool): State<PgPool>) -> impl IntoResponse {
     }
 }
 
-pub async fn get_post(
-    State(pool): State<PgPool>,
-    Path(id): Path<Uuid>,
-) -> impl IntoResponse {
+pub async fn get_post(State(pool): State<PgPool>, Path(id): Path<Uuid>) -> impl IntoResponse {
     let post = sqlx::query_as::<_, Post>("SELECT * FROM posts WHERE id = $1")
         .bind(id)
         .fetch_optional(&pool)
@@ -135,10 +132,7 @@ pub async fn update_post(
     }
 }
 
-pub async fn delete_post(
-    State(pool): State<PgPool>,
-    Path(id): Path<Uuid>,
-) -> impl IntoResponse {
+pub async fn delete_post(State(pool): State<PgPool>, Path(id): Path<Uuid>) -> impl IntoResponse {
     let result = sqlx::query("DELETE FROM posts WHERE id = $1")
         .bind(id)
         .execute(&pool)

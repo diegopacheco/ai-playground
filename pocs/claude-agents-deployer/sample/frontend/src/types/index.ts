@@ -37,3 +37,15 @@ export interface CreateCommentPayload {
   author: string;
   content: string;
 }
+
+export interface AppSettings {
+  id: number;
+  commentsEnabled: boolean;
+  backgroundTheme: "classic" | "forest" | "sunset";
+  updatedAt: string;
+}
+
+export interface UpdateSettingsPayload {
+  commentsEnabled?: boolean;
+  backgroundTheme?: "classic" | "forest" | "sunset";
+}

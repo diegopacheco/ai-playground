@@ -14,6 +14,30 @@ pub async fn create_comment(
     Path(post_id): Path<Uuid>,
     Json(payload): Json<CreateComment>,
 ) -> impl IntoResponse {
+    let comments_enabled =
+        sqlx::query_scalar::<_, bool>("SELECT comments_enabled FROM settings WHERE id = 1")
+            .fetch_optional(&pool)
+            .await;
+
+    match comments_enabled {
+        Ok(Some(false)) => {
+            return (
+                StatusCode::FORBIDDEN,
+                Json(serde_json::json!({"error": "Comments are disabled"})),
+            )
+                .into_response();
+        }
+        Ok(_) => {}
+        Err(e) => {
+            tracing::error!("Failed to fetch settings: {}", e);
+            return (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                Json(serde_json::json!({"error": e.to_string()})),
+            )
+                .into_response();
+        }
+    }
+
     let post_exists = sqlx::query("SELECT id FROM posts WHERE id = $1")
         .bind(post_id)
         .fetch_optional(&pool)
@@ -85,10 +109,7 @@ pub async fn list_comments(
     }
 }
 
-pub async fn delete_comment(
-    State(pool): State<PgPool>,
-    Path(id): Path<Uuid>,
-) -> impl IntoResponse {
+pub async fn delete_comment(State(pool): State<PgPool>, Path(id): Path<Uuid>) -> impl IntoResponse {
     let result = sqlx::query("DELETE FROM comments WHERE id = $1")
         .bind(id)
         .execute(&pool)
