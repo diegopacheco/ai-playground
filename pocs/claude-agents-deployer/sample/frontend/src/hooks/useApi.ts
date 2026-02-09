@@ -31,7 +31,7 @@ export function usePosts() {
   });
 }
 
-export function usePost(id: number) {
+export function usePost(id: string) {
   return useQuery<Post>({
     queryKey: ["posts", id],
     queryFn: () => fetchJson<Post>(`/posts/${id}`),
@@ -53,7 +53,7 @@ export function useCreatePost() {
   });
 }
 
-export function useUpdatePost(id: number) {
+export function useUpdatePost(id: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: UpdatePostPayload) =>
@@ -71,7 +71,7 @@ export function useUpdatePost(id: number) {
 export function useDeletePost() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) =>
+    mutationFn: (id: string) =>
       fetchJson<void>(`/posts/${id}`, { method: "DELETE" }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -79,7 +79,7 @@ export function useDeletePost() {
   });
 }
 
-export function useComments(postId: number) {
+export function useComments(postId: string) {
   return useQuery<Comment[]>({
     queryKey: ["comments", postId],
     queryFn: () => fetchJson<Comment[]>(`/posts/${postId}/comments`),
@@ -87,7 +87,7 @@ export function useComments(postId: number) {
   });
 }
 
-export function useCreateComment(postId: number) {
+export function useCreateComment(postId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: CreateCommentPayload) =>
@@ -101,17 +101,9 @@ export function useCreateComment(postId: number) {
   });
 }
 
-export function useUser(id: number) {
-  return useQuery<User>({
-    queryKey: ["users", id],
-    queryFn: () => fetchJson<User>(`/users/${id}`),
-    enabled: !!id,
-  });
-}
-
-export function useCurrentUser() {
-  return useQuery<User>({
-    queryKey: ["users", "me"],
-    queryFn: () => fetchJson<User>("/users/me"),
+export function useUsers() {
+  return useQuery<User[]>({
+    queryKey: ["users"],
+    queryFn: () => fetchJson<User[]>("/users"),
   });
 }

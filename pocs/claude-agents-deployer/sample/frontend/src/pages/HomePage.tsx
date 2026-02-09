@@ -63,7 +63,7 @@ export default function HomePage() {
               <span>-</span>
               <span>{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
-            <p className="text-gray-600 leading-relaxed">{post.excerpt}</p>
+            <p className="text-gray-600 leading-relaxed line-clamp-3">{post.content}</p>
           </Link>
         ))}
       </div>

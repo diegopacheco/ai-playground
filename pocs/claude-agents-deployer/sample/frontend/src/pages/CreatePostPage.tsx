@@ -7,14 +7,13 @@ export default function CreatePostPage() {
   const createPost = useCreatePost();
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!title.trim() || !content.trim() || !author.trim()) return;
     createPost.mutate(
-      { title, content, excerpt, author },
+      { title, content, author },
       {
         onSuccess: (post) => {
           navigate({
@@ -57,17 +56,6 @@ export default function CreatePostPage() {
             onChange={(e) => setAuthor(e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Excerpt
-          </label>
-          <input
-            type="text"
-            value={excerpt}
-            onChange={(e) => setExcerpt(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           />
         </div>
         <div>
