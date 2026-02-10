@@ -242,7 +242,7 @@ fn create_command(agent: &Agent, commands_dir: &Path) -> std::io::Result<()> {
 
 fn main() {
     let theme = ColorfulTheme::default();
-    println!("\n  Claude/Codex Agent Deployer\n");
+    println!("\n  Rust Agent Deployer (Claude/Codex)\n");
     let exe_dir = std::env::current_exe()
         .ok()
         .and_then(|p| p.parent().map(|p| p.to_path_buf()))
