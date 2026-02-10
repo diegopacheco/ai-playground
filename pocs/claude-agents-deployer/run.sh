@@ -4,6 +4,6 @@ cargo build --release
 mkdir -p sample
 cp -r agents sample/
 cp -r skills sample/
-cp target/release/claude-agents-deployer sample/
+cp target/release/rad sample/
 cd sample
-./claude-agents-deployer
+./rad

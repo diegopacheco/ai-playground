@@ -1,10 +1,10 @@
-# Claude Agents Deployer
+# RAD - Rust Agent Deployer
 
-A Rust CLI tool that deploys markdown-based agent definitions to Claude Code as sub-agents.
+A Rust CLI tool that deploys markdown-based agent definitions to Claude Code and Codex as sub-agents.
 
 ## What It Does
 
-Claude Agents Deployer provides an interactive wizard to install pre-built AI agents into your Claude Code environment. It dynamically discovers agent files from the `agents/` folder and lets you choose which ones to install globally or locally. You can also turn agents into slash commands for quick access.
+RAD provides an interactive wizard to install pre-built AI agents into your Claude Code or Codex environment. It dynamically discovers agent files from the `agents/` folder and lets you choose which ones to install globally or locally. You can also turn agents into slash commands for quick access.
 
 ## Agents
 
@@ -49,7 +49,7 @@ Or build and run manually:
 
 ```bash
 cargo build --release
-./target/release/claude-agents-deployer
+./target/release/rad
 ```
 
 ## Wizard Flow

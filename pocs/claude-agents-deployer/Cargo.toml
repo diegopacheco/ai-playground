@@ -1,5 +1,5 @@
 [package]
-name = "claude-agents-deployer"
+name = "rad"
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.93"
@@ -9,3 +9,4 @@ dialoguer = "0.12"
 console = "0.16.2"
 dirs = "6.0.0"
 walkdir = "2.5"
+rust-embed = "8.5"
