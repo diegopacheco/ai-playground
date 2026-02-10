@@ -1,7 +1,16 @@
 use dialoguer::{theme::ColorfulTheme, Confirm, MultiSelect, Select};
+use rust_embed::RustEmbed;
 use std::fs;
 use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
+
+#[derive(RustEmbed)]
+#[folder = "agents/"]
+struct AgentsAssets;
+
+#[derive(RustEmbed)]
+#[folder = "skills/"]
+struct SkillsAssets;
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum Platform {
@@ -17,13 +26,41 @@ struct Agent {
 
 fn discover_agents(agents_dir: &Path) -> Vec<Agent> {
     let mut agents = Vec::new();
-    if !agents_dir.exists() {
-        return agents;
+    let mut found_from_fs = false;
+    if agents_dir.exists() {
+        for entry in WalkDir::new(agents_dir).max_depth(1).into_iter().filter_map(|e| e.ok()) {
+            let path = entry.path();
+            if path.is_file() && path.extension().map_or(false, |ext| ext == "md") {
+                if let Some(filename) = path.file_name().and_then(|f| f.to_str()) {
+                    let name = filename
+                        .trim_end_matches(".md")
+                        .replace("-", " ")
+                        .replace("agent", "")
+                        .trim()
+                        .split_whitespace()
+                        .map(|word| {
+                            let mut chars = word.chars();
+                            match chars.next() {
+                                None => String::new(),
+                                Some(first) => first.to_uppercase().collect::<String>() + chars.as_str(),
+                            }
+                        })
+                        .collect::<Vec<_>>()
+                        .join(" ");
+                    agents.push(Agent {
+                        name,
+                        filename: filename.to_string(),
+                        path: path.to_path_buf(),
+                    });
+                    found_from_fs = true;
+                }
+            }
+        }
     }
-    for entry in WalkDir::new(agents_dir).max_depth(1).into_iter().filter_map(|e| e.ok()) {
-        let path = entry.path();
-        if path.is_file() && path.extension().map_or(false, |ext| ext == "md") {
-            if let Some(filename) = path.file_name().and_then(|f| f.to_str()) {
+    if !found_from_fs {
+        for file_path in AgentsAssets::iter() {
+            let filename = file_path.as_ref();
+            if filename.ends_with(".md") {
                 let name = filename
                     .trim_end_matches(".md")
                     .replace("-", " ")
@@ -42,7 +79,7 @@ fn discover_agents(agents_dir: &Path) -> Vec<Agent> {
                 agents.push(Agent {
                     name,
                     filename: filename.to_string(),
-                    path: path.to_path_buf(),
+                    path: PathBuf::from(format!("embedded:{}", filename)),
                 });
             }
         }
@@ -107,47 +144,68 @@ fn get_codex_skills_dir(global: bool) -> PathBuf {
 }
 
 fn install_workflow_for_claude(skills_dir: &Path, commands_dir: &Path, exe_dir: &Path) -> std::io::Result<()> {
-    let skill_source = if exe_dir.join("skills").join("workflow-skill").join("SKILL.md").exists() {
-        exe_dir.join("skills").join("workflow-skill").join("SKILL.md")
-    } else {
-        PathBuf::from("skills").join("workflow-skill").join("SKILL.md")
-    };
-    let command_source = if exe_dir.join("skills").join("workflow.md").exists() {
-        exe_dir.join("skills").join("workflow.md")
-    } else {
-        PathBuf::from("skills").join("workflow.md")
-    };
     let skill_target = skills_dir.join("workflow-skill");
     fs::create_dir_all(&skill_target)?;
-    fs::copy(&skill_source, skill_target.join("SKILL.md"))?;
+    let skill_path = "workflow-skill/SKILL.md";
+    if let Some(content) = SkillsAssets::get(skill_path) {
+        fs::write(skill_target.join("SKILL.md"), content.data)?;
+    } else {
+        let skill_source = if exe_dir.join("skills").join("workflow-skill").join("SKILL.md").exists() {
+            exe_dir.join("skills").join("workflow-skill").join("SKILL.md")
+        } else {
+            PathBuf::from("skills").join("workflow-skill").join("SKILL.md")
+        };
+        fs::copy(&skill_source, skill_target.join("SKILL.md"))?;
+    }
     let command_target = commands_dir.join("ad");
     fs::create_dir_all(&command_target)?;
-    fs::copy(&command_source, command_target.join("wf.md"))?;
+    let workflow_path = "workflow.md";
+    if let Some(content) = SkillsAssets::get(workflow_path) {
+        fs::write(command_target.join("wf.md"), content.data)?;
+    } else {
+        let command_source = if exe_dir.join("skills").join("workflow.md").exists() {
+            exe_dir.join("skills").join("workflow.md")
+        } else {
+            PathBuf::from("skills").join("workflow.md")
+        };
+        fs::copy(&command_source, command_target.join("wf.md"))?;
+    }
     Ok(())
 }
 
 fn install_workflow_for_codex(skills_dir: &Path, prompts_dir: &Path, exe_dir: &Path) -> std::io::Result<()> {
-    let skill_source = if exe_dir.join("skills").join("workflow-skill").join("SKILL.md").exists() {
-        exe_dir.join("skills").join("workflow-skill").join("SKILL.md")
-    } else {
-        PathBuf::from("skills").join("workflow-skill").join("SKILL.md")
-    };
-    let prompt_source = if exe_dir.join("skills").join("workflow.md").exists() {
-        exe_dir.join("skills").join("workflow.md")
-    } else {
-        PathBuf::from("skills").join("workflow.md")
-    };
     let skill_target = skills_dir.join("workflow-skill");
     fs::create_dir_all(&skill_target)?;
-    fs::copy(&skill_source, skill_target.join("SKILL.md"))?;
+    let skill_path = "workflow-skill/SKILL.md";
+    if let Some(content) = SkillsAssets::get(skill_path) {
+        fs::write(skill_target.join("SKILL.md"), content.data)?;
+    } else {
+        let skill_source = if exe_dir.join("skills").join("workflow-skill").join("SKILL.md").exists() {
+            exe_dir.join("skills").join("workflow-skill").join("SKILL.md")
+        } else {
+            PathBuf::from("skills").join("workflow-skill").join("SKILL.md")
+        };
+        fs::copy(&skill_source, skill_target.join("SKILL.md"))?;
+    }
     fs::create_dir_all(prompts_dir)?;
-    fs::copy(&prompt_source, prompts_dir.join("workflow.md"))?;
+    let workflow_path = "workflow.md";
+    let workflow_content = if let Some(content) = SkillsAssets::get(workflow_path) {
+        content.data.to_vec()
+    } else {
+        let prompt_source = if exe_dir.join("skills").join("workflow.md").exists() {
+            exe_dir.join("skills").join("workflow.md")
+        } else {
+            PathBuf::from("skills").join("workflow.md")
+        };
+        fs::read(&prompt_source)?
+    };
+    fs::write(prompts_dir.join("workflow.md"), &workflow_content)?;
     let ad_target = prompts_dir.join("ad");
     fs::create_dir_all(&ad_target)?;
-    fs::copy(&prompt_source, ad_target.join("wf.md"))?;
-    fs::copy(&prompt_source, prompts_dir.join("ad-wf.md"))?;
+    fs::write(ad_target.join("wf.md"), &workflow_content)?;
+    fs::write(prompts_dir.join("ad-wf.md"), &workflow_content)?;
     if !cfg!(windows) {
-        fs::copy(&prompt_source, prompts_dir.join("ad:wf.md"))?;
+        fs::write(prompts_dir.join("ad:wf.md"), &workflow_content)?;
     }
     Ok(())
 }
@@ -155,7 +213,18 @@ fn install_workflow_for_codex(skills_dir: &Path, prompts_dir: &Path, exe_dir: &P
 fn install_agent(agent: &Agent, target_dir: &Path) -> std::io::Result<()> {
     fs::create_dir_all(target_dir)?;
     let dest = target_dir.join(&agent.filename);
-    fs::copy(&agent.path, &dest)?;
+    if agent.path.to_string_lossy().starts_with("embedded:") {
+        if let Some(content) = AgentsAssets::get(&agent.filename) {
+            fs::write(&dest, content.data)?;
+        } else {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::NotFound,
+                format!("Embedded agent {} not found", agent.filename)
+            ));
+        }
+    } else {
+        fs::copy(&agent.path, &dest)?;
+    }
     Ok(())
 }
 
