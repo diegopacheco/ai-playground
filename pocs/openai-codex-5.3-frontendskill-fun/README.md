@@ -40,3 +40,9 @@ https://skills.sh/anthropics/skills/frontend-design
   <tr><td>9</td><td><a href="./9.png"><img src="./9.png" width="280" alt="9" /></a></td></tr>
   <tr><td>10</td><td><a href="./10.png"><img src="./10.png" width="280" alt="10" /></a></td></tr>
 </table>
+
+## Original Prompt
+
+```
+using the front-end skill can  you build 10 different landing pages for a AI product? Do you best design work that will blow up UX mind! create a run.sh and make sure I can easiy flip from landing page 1 to 10. Make sure you use the skill: https://skills.sh/anthropics/skills/frontend-design
+```
