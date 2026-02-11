@@ -5,4 +5,3 @@ target/
 *.log
 k6-results/
 test-results/
-playwright-report/
