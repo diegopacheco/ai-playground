@@ -37,7 +37,7 @@ test.describe('Navigation', () => {
   test('should display user handle in navigation bar', async ({ page }) => {
     const user = await createTestUser(page, 'handlenavuser');
 
-    await expect(page.locator(`nav text=@${user.username}`)).toBeVisible();
+    await expect(page.locator('nav').locator(`text=@${user.username}`)).toBeVisible();
   });
 
   test('should navigate to login after logout', async ({ page }) => {
@@ -61,11 +61,12 @@ test.describe('Navigation', () => {
     await createTestUser(page, 'detailnavuser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Tweet for navigation ${Date.now()}`);
+    const tweetContent = `Tweet for navigation ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const commentLink = tweets[0].locator('a[href*="/tweet/"]');
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    const commentLink = tweetCard.locator('a[href*="/tweet/"]').last();
     await commentLink.click();
 
     await expect(page).toHaveURL(/\/tweet\/\d+/);
@@ -75,11 +76,12 @@ test.describe('Navigation', () => {
     await createTestUser(page, 'usernavuser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Tweet for user nav ${Date.now()}`);
+    const tweetContent = `Tweet for user nav ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const userLink = tweets[0].locator('a[href^="/profile/"]').first();
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    const userLink = tweetCard.locator('a[href^="/profile/"]').first();
     await userLink.click();
 
     await expect(page).toHaveURL(/\/profile\/\d+/);
@@ -89,10 +91,12 @@ test.describe('Navigation', () => {
     await createTestUser(page, 'backnavuser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Tweet for back nav ${Date.now()}`);
+    const tweetContent = `Tweet for back nav ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    await homePage.openTweetDetail(0);
+    await page.locator('p.mt-2.text-gray-900', { hasText: tweetContent }).click();
+    await page.waitForLoadState('networkidle');
     await expect(page).toHaveURL(/\/tweet\/\d+/);
 
     await page.locator('nav a:has-text("Home")').click();

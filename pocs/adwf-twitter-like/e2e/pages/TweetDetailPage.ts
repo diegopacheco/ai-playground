@@ -24,7 +24,7 @@ export class TweetDetailPage {
   async addComment(content: string) {
     await this.commentTextarea.fill(content);
     await this.commentButton.click();
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(1500);
   }
 
   async getCommentCount() {

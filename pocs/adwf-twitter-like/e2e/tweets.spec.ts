@@ -10,7 +10,7 @@ test.describe('Tweets', () => {
     const tweetContent = `Test tweet ${Date.now()}`;
     await homePage.createTweet(tweetContent);
 
-    await expect(page.locator(`text=${tweetContent}`)).toBeVisible();
+    await expect(page.locator(`text=${tweetContent}`)).toBeVisible({ timeout: 10000 });
   });
 
   test('should show character count when typing', async ({ page }) => {
@@ -51,54 +51,54 @@ test.describe('Tweets', () => {
     await createTestUser(page, 'likeuser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Tweet to like ${Date.now()}`);
+    const tweetContent = `Tweet to like ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const likeButton = tweets[0].locator('button[aria-label*="Like"]');
-    const initialClass = await likeButton.getAttribute('class');
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    await expect(tweetCard.locator('button[aria-label="Like"]')).toBeVisible();
 
-    await homePage.likeTweet(0);
+    await tweetCard.locator('button[aria-label="Like"]').click();
+    await page.waitForTimeout(1500);
 
-    const updatedClass = await likeButton.getAttribute('class');
-    expect(updatedClass).toContain('text-red-500');
-    expect(initialClass).not.toContain('text-red-500');
+    await expect(tweetCard.locator('button[aria-label="Unlike"]')).toBeVisible();
   });
 
   test('should unlike a tweet', async ({ page }) => {
     await createTestUser(page, 'unlikeuser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Tweet to unlike ${Date.now()}`);
+    const tweetContent = `Tweet to unlike ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    await homePage.likeTweet(0);
-    await page.waitForTimeout(500);
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    await tweetCard.locator('button[aria-label="Like"]').click();
+    await page.waitForTimeout(1500);
 
-    const tweets = await homePage.getTweetCards();
-    const likeButton = tweets[0].locator('button[aria-label*="Unlike"]');
-    await likeButton.click();
-    await page.waitForTimeout(500);
+    await expect(tweetCard.locator('button[aria-label="Unlike"]')).toBeVisible();
 
-    const updatedButton = tweets[0].locator('button[aria-label*="Like"]');
-    const updatedClass = await updatedButton.getAttribute('class');
-    expect(updatedClass).not.toContain('text-red-500');
+    await tweetCard.locator('button[aria-label="Unlike"]').click();
+    await page.waitForTimeout(1500);
+
+    await expect(tweetCard.locator('button[aria-label="Like"]')).toBeVisible();
   });
 
   test('should retweet a tweet', async ({ page }) => {
     await createTestUser(page, 'retweetuser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Tweet to retweet ${Date.now()}`);
+    const tweetContent = `Tweet to retweet ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const retweetButton = tweets[0].locator('button[aria-label*="Retweet"]');
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    await expect(tweetCard.locator('button[aria-label="Retweet"]')).toBeVisible();
 
-    await homePage.retweetTweet(0);
+    await tweetCard.locator('button[aria-label="Retweet"]').click();
+    await page.waitForTimeout(1500);
 
-    const updatedClass = await retweetButton.getAttribute('class');
-    expect(updatedClass).toContain('text-green-500');
+    await expect(tweetCard.locator('button[aria-label="Undo Retweet"]')).toBeVisible();
   });
 
   test('should navigate to tweet detail page', async ({ page }) => {
@@ -109,7 +109,9 @@ test.describe('Tweets', () => {
     await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    await homePage.openTweetDetail(0);
+    const tweetLink = page.locator('p.mt-2.text-gray-900', { hasText: tweetContent });
+    await tweetLink.click();
+    await page.waitForLoadState('networkidle');
 
     await expect(page).toHaveURL(/\/tweet\/\d+/);
     await expect(page.locator(`text=${tweetContent}`)).toBeVisible();
@@ -123,8 +125,8 @@ test.describe('Tweets', () => {
     await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const deleteButton = tweets[0].locator('button[aria-label="Delete tweet"]');
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    const deleteButton = tweetCard.locator('button[aria-label="Delete tweet"]');
     await deleteButton.click();
     await page.waitForTimeout(1000);
 
@@ -146,12 +148,21 @@ test.describe('Tweets', () => {
     await createTestUser(page, 'loadinguser');
     const homePage = new HomePage(page);
 
-    await homePage.tweetTextarea.fill(`Loading test ${Date.now()}`);
+    await page.route('**/api/tweets', async (route) => {
+      if (route.request().method() === 'POST') {
+        await new Promise(r => setTimeout(r, 1000));
+        await route.continue();
+      } else {
+        await route.continue();
+      }
+    });
 
-    const tweetButtonPromise = homePage.tweetButton.click();
+    await homePage.tweetTextarea.fill(`Loading test ${Date.now()}`);
+    await homePage.tweetButton.click();
 
     await expect(homePage.tweetButton).toHaveText('Posting...');
 
-    await tweetButtonPromise;
+    await page.unroute('**/api/tweets');
+    await page.waitForTimeout(2000);
   });
 });
