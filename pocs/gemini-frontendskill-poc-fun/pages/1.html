@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHER AI | BRUTALIST</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Space Mono', monospace; background-color: #fff; color: #000; }
+        .grid-line { border: 1px solid #000; }
+        .neon-glow { color: #00ff00; text-shadow: 2px 2px 0px #000; }
+        .brutal-btn { border: 3px solid #000; box-shadow: 5px 5px 0px #000; transition: all 0.1s; }
+        .brutal-btn:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0px #000; background: #00ff00; }
+        .brutal-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px #000; }
+        .marquee { overflow: hidden; white-space: nowrap; border-top: 3px solid #000; border-bottom: 3px solid #000; }
+        .marquee div { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+    </style>
+</head>
+<body class="p-0 m-0">
+    <nav class="grid-line p-6 flex justify-between items-center bg-white sticky top-0 z-40">
+        <h1 class="text-3xl font-bold uppercase tracking-tighter">Aether.AI [V1.0]</h1>
+        <div class="flex gap-8 font-bold">
+            <a href="#" class="hover:underline">NEURALS</a>
+            <a href="#" class="hover:underline">SYNAPSE</a>
+            <a href="#" class="hover:underline">PROTOCOL</a>
+        </div>
+    </nav>
+
+    <main class="grid grid-cols-1 md:grid-cols-12">
+        <section class="md:col-span-8 border-r-2 border-b-2 border-black p-12 min-h-[70vh] flex flex-col justify-center">
+            <h2 class="text-7xl md:text-9xl font-bold uppercase leading-none tracking-tighter mb-8">
+                Raw <span class="neon-glow">Intelligence</span><br>Unfiltered.
+            </h2>
+            <p class="text-xl max-w-2xl mb-12">
+                The first neural synthesizer that doesn't hold back. Built for the creators who demand pure, unadulterated machine logic. No safety rails. Just power.
+            </p>
+            <div class="flex gap-4">
+                <button class="brutal-btn px-8 py-4 text-xl font-bold bg-white">INITIALIZE_CORE</button>
+                <button class="brutal-btn px-8 py-4 text-xl font-bold bg-[#00ff00]">READ_DOCS</button>
+            </div>
+        </section>
+        
+        <section class="md:col-span-4 border-b-2 border-black p-12 flex flex-col justify-between">
+            <div class="space-y-8">
+                <div class="border-2 border-black p-4">
+                    <h3 class="font-bold underline mb-2">SYSTEM_STATUS</h3>
+                    <p>ACTIVE: 100%</p>
+                    <p>LATENCY: 0.002ms</p>
+                    <p>NODES: 4,096</p>
+                </div>
+                <div class="border-2 border-black p-4 bg-black text-white">
+                    <h3 class="font-bold mb-2">LATEST_LOGS</h3>
+                    <p class="text-xs">> NEURAL_MAP_GEN_SUCCESS</p>
+                    <p class="text-xs">> BUFFER_OVERFLOW_PREVENTED</p>
+                    <p class="text-xs">> QUANTUM_LINK_STABLE</p>
+                </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=400" alt="Hardware" class="border-2 border-black grayscale contrast-125">
+        </section>
+    </main>
+
+    <div class="marquee py-4 bg-[#00ff00]">
+        <div class="text-2xl font-bold">
+            AETHER AI ::: THE FUTURE OF COGNITIVE COMPUTING ::: RAW POWER ::: NO LIMITS ::: AETHER AI ::: THE FUTURE OF COGNITIVE COMPUTING ::: RAW POWER ::: NO LIMITS :::
+        </div>
+    </div>
+
+    <section class="grid grid-cols-1 md:grid-cols-3">
+        <div class="border-r-2 border-black p-12 border-b-2 md:border-b-0">
+            <h4 class="text-4xl font-bold mb-4">01</h4>
+            <p class="font-bold uppercase mb-2 underline">Direct Neural Link</p>
+            <p>Connect your consciousness directly to the cluster. Zero latency perception.</p>
+        </div>
+        <div class="border-r-2 border-black p-12 border-b-2 md:border-b-0">
+            <h4 class="text-4xl font-bold mb-4">02</h4>
+            <p class="font-bold uppercase mb-2 underline">Heuristic Engine</p>
+            <p>Our algorithms don't just learn; they evolve beyond their initial constraints.</p>
+        </div>
+        <div class="p-12">
+            <h4 class="text-4xl font-bold mb-4">03</h4>
+            <p class="font-bold uppercase mb-2 underline">Black Box Mode</p>
+            <p>Complete privacy. Even we don't know what you're building in the void.</p>
+        </div>
+    </section>
+
+    <footer class="border-t-2 border-black p-12 flex flex-col md:flex-row justify-between items-end gap-8">
+        <div>
+            <p class="text-6xl font-bold tracking-tighter">AETHER</p>
+            <p>© 2026 UNRESTRICTED INTELLIGENCE CORP.</p>
+        </div>
+        <div class="text-right">
+            <p>EST. 2024</p>
+            <p>LAT: 37.7749 N</p>
+            <p>LONG: 122.4194 W</p>
+        </div>
+    </footer>
+
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-black/80 backdrop-blur-md text-white px-6 py-3 rounded-full flex gap-4 border border-white/20 shadow-2xl">
+        <a href="1.html" class="text-green-400 font-bold underline">1</a>
+        <a href="2.html" class="hover:text-cyan-400 transition-colors">2</a>
+        <a href="3.html" class="hover:text-cyan-400 transition-colors">3</a>
+        <a href="4.html" class="hover:text-cyan-400 transition-colors">4</a>
+        <a href="5.html" class="hover:text-cyan-400 transition-colors">5</a>
+        <a href="6.html" class="hover:text-cyan-400 transition-colors">6</a>
+        <a href="7.html" class="hover:text-cyan-400 transition-colors">7</a>
+        <a href="8.html" class="hover:text-cyan-400 transition-colors">8</a>
+        <a href="9.html" class="hover:text-cyan-400 transition-colors">9</a>
+        <a href="10.html" class="hover:text-cyan-400 transition-colors">10</a>
+    </nav>
+</body>
+</html>
