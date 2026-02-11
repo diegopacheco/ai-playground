@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHAOS-CORE | MAXIMALIST</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Rubik:wght@900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Rubik', sans-serif; background-color: #4B0082; color: #fff; overflow-x: hidden; }
+        .bungee { font-family: 'Bungee', cursive; }
+        .rotate-sm { transform: rotate(-2deg); }
+        .rotate-lg { transform: rotate(5deg); }
+        .noise { position: fixed; inset: 0; opacity: 0.1; pointer-events: none; background: url('https://grainy-gradients.vercel.app/noise.svg'); }
+        .overlap { margin-top: -50px; }
+        .vibrant-pink { background-color: #FF007F; }
+        .vibrant-lime { background-color: #CCFF00; color: #000; }
+        .vibrant-cyan { background-color: #00FFFF; color: #000; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-20px) rotate(2deg); } }
+        .animate-bounce-slow { animation: bounce 3s infinite ease-in-out; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="noise"></div>
+    
+    <header class="vibrant-lime p-8 rotate-sm border-8 border-white shadow-[10px_10px_0px_#00FFFF] mb-20 flex justify-between items-center">
+        <h1 class="bungee text-5xl md:text-8xl">CHAOS_CORE</h1>
+        <div class="hidden md:block bungee text-2xl">V.99.9</div>
+    </header>
+
+    <main class="space-y-32 pb-40">
+        <section class="relative">
+            <div class="vibrant-pink p-12 rotate-lg border-8 border-white shadow-[20px_20px_0px_#CCFF00] relative z-10 max-w-5xl mx-auto">
+                <h2 class="bungee text-6xl md:text-[10rem] leading-none mb-8">MORE IS MORE.</h2>
+                <p class="text-3xl font-black uppercase tracking-tighter mb-8">AI shouldn't be boring. It should be LOUD. CHAOS-CORE is the first AI that prioritizes creative friction over seamless integration.</p>
+                <button class="vibrant-cyan p-8 text-4xl bungee border-4 border-black hover:scale-110 transition-transform">GET LOUD</button>
+            </div>
+            <div class="vibrant-cyan p-20 absolute -top-10 -right-20 -z-10 w-96 h-96 animate-bounce-slow rounded-full border-8 border-white"></div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white text-black p-12 -rotate-sm border-8 border-pink-500 shadow-[-15px_15px_0px_#4B0082]">
+                <h3 class="bungee text-4xl mb-4">GLITCH_SYNTH</h3>
+                <p class="text-xl font-bold">Generate unexpected results. Perfection is a lie. Embrace the error.</p>
+            </div>
+            <div class="vibrant-lime p-12 rotate-lg border-8 border-white shadow-[15px_-15px_0px_#FF007F]">
+                <h3 class="bungee text-4xl mb-4">OVERDRIVE</h3>
+                <p class="text-xl font-bold">Max out your processing. Why use 1 node when you can burn 1000?</p>
+            </div>
+        </section>
+
+        <section class="text-center">
+            <h2 class="bungee text-[8vw] leading-none text-transparent border-text stroke-white" style="-webkit-text-stroke: 4px white;">UNLEASH THE NOISE</h2>
+        </section>
+    </main>
+
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-black/80 backdrop-blur-md text-white px-6 py-3 rounded-full flex gap-4 border border-white/20 shadow-2xl">
+        <a href="1.html" class="hover:text-cyan-400 transition-colors">1</a>
+        <a href="2.html" class="hover:text-cyan-400 transition-colors">2</a>
+        <a href="3.html" class="hover:text-cyan-400 transition-colors">3</a>
+        <a href="4.html" class="hover:text-cyan-400 transition-colors">4</a>
+        <a href="5.html" class="hover:text-cyan-400 transition-colors">5</a>
+        <a href="6.html" class="text-lime-400 font-bold underline">6</a>
+        <a href="7.html" class="hover:text-cyan-400 transition-colors">7</a>
+        <a href="8.html" class="hover:text-cyan-400 transition-colors">8</a>
+        <a href="9.html" class="hover:text-cyan-400 transition-colors">9</a>
+        <a href="10.html" class="hover:text-cyan-400 transition-colors">10</a>
+    </nav>
+</body>
+</html>

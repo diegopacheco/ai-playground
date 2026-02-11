@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON-X | SYNTHWAVE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto Mono', monospace; background-color: #050505; color: #fff; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
+        .bg-grid {
+            background-image: 
+                linear-gradient(to right, rgba(255, 0, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 0, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            perspective: 500px;
+        }
+        .perspective-grid {
+            height: 400px;
+            width: 200%;
+            background-image: linear-gradient(0deg, transparent 24%, rgba(0, 255, 255, .3) 25%, rgba(0, 255, 255, .3) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, .3) 75%, rgba(0, 255, 255, .3) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 255, 255, .3) 25%, rgba(0, 255, 255, .3) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, .3) 75%, rgba(0, 255, 255, .3) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            transform: rotateX(45deg) translateX(-25%);
+            animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove { from { background-position: 0 0; } to { background-position: 0 500px; } }
+        .neon-text { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
+        .cyber-btn {
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            transition: all 0.3s;
+        }
+        .cyber-btn:hover { filter: brightness(1.2) drop-shadow(0 0 10px #00ffff); transform: scale(1.05); }
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%; pointer-events: none; z-index: 100;
+        }
+    </style>
+</head>
+<body class="relative">
+    <div class="scanlines"></div>
+    <div class="fixed top-0 left-0 w-full h-full bg-grid -z-10"></div>
+    
+    <nav class="p-8 flex justify-between items-center border-b border-magenta-500/30">
+        <div class="text-2xl font-black italic tracking-tighter neon-text">NEON-X</div>
+        <div class="flex gap-10 text-xs uppercase tracking-[0.2em] font-bold">
+            <a href="#" class="hover:text-[#00ffff] transition-colors">Nodes</a>
+            <a href="#" class="hover:text-[#00ffff] transition-colors">Uplink</a>
+            <a href="#" class="hover:text-[#00ffff] transition-colors">Terminal</a>
+        </div>
+    </nav>
+
+    <main class="relative z-10 py-20 px-8 text-center">
+        <h1 class="text-7xl md:text-[12rem] font-black italic neon-text mb-6">HYPER-DRIVE</h1>
+        <p class="text-2xl md:text-3xl max-w-4xl mx-auto mb-12 uppercase italic tracking-widest text-[#00ffff]">
+            Accelerated Cognition for the Digital Frontier.
+        </p>
+        
+        <div class="flex justify-center mb-24">
+            <button class="cyber-btn px-16 py-6 text-2xl font-black text-black uppercase italic">Initialize Uplink</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="bg-black/50 border border-[#ff00ff] p-8 backdrop-blur-md">
+                <div class="text-[#ff00ff] text-4xl mb-4">01</div>
+                <h3 class="text-xl font-bold mb-4 uppercase">Neural Overclock</h3>
+                <p class="text-sm opacity-70">Push your AI models to 400% efficiency with our proprietary synth-core engine.</p>
+            </div>
+            <div class="bg-black/50 border border-[#00ffff] p-8 backdrop-blur-md">
+                <div class="text-[#00ffff] text-4xl mb-4">02</div>
+                <h3 class="text-xl font-bold mb-4 uppercase">Visual Matrix</h3>
+                <p class="text-sm opacity-70">Real-time data visualization in 3D space. See the thoughts of the machine.</p>
+            </div>
+            <div class="bg-black/50 border border-[#ff00ff] p-8 backdrop-blur-md">
+                <div class="text-[#ff00ff] text-4xl mb-4">03</div>
+                <h3 class="text-xl font-bold mb-4 uppercase">Quantum Link</h3>
+                <p class="text-sm opacity-70">Instant synchronization across all devices via encrypted subspace protocols.</p>
+            </div>
+        </div>
+    </main>
+
+    <div class="fixed bottom-0 left-0 w-full overflow-hidden pointer-events-none -z-10">
+        <div class="perspective-grid"></div>
+    </div>
+
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[150] bg-black/80 backdrop-blur-md text-white px-6 py-3 rounded-full flex gap-4 border border-white/20 shadow-2xl">
+        <a href="1.html" class="hover:text-cyan-400 transition-colors">1</a>
+        <a href="2.html" class="hover:text-cyan-400 transition-colors">2</a>
+        <a href="3.html" class="text-pink-500 font-bold underline">3</a>
+        <a href="4.html" class="hover:text-cyan-400 transition-colors">4</a>
+        <a href="5.html" class="hover:text-cyan-400 transition-colors">5</a>
+        <a href="6.html" class="hover:text-cyan-400 transition-colors">6</a>
+        <a href="7.html" class="hover:text-cyan-400 transition-colors">7</a>
+        <a href="8.html" class="hover:text-cyan-400 transition-colors">8</a>
+        <a href="9.html" class="hover:text-cyan-400 transition-colors">9</a>
+        <a href="10.html" class="hover:text-cyan-400 transition-colors">10</a>
+    </nav>
+</body>
+</html>

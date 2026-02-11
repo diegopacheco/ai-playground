@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMNI-LINK | CYBERPUNK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Share Tech Mono', monospace; background-color: #050505; color: #00F3FF; overflow-x: hidden; }
+        .goldman { font-family: 'Goldman', cursive; }
+        .cyber-bg {
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, transparent 70%),
+                linear-gradient(0deg, #050505 0%, #0D0D0D 100%);
+        }
+        .neon-border { border: 1px solid #00F3FF; box-shadow: 0 0 10px #00F3FF, inset 0 0 5px #00F3FF; }
+        .glitch-text { position: relative; display: inline-block; }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8;
+        }
+        .glitch-text::before { color: #FF006B; left: -2px; clip-path: inset(45% 0 0 0); animation: glitch 2s infinite linear alternate-reverse; }
+        .glitch-text::after { color: #00F3FF; left: 2px; clip-path: inset(0 0 55% 0); animation: glitch 3s infinite linear alternate-reverse; }
+        @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(-2px, -2px); } 60% { transform: translate(2px, 2px); } 80% { transform: translate(2px, -2px); } 100% { transform: translate(0); } }
+        .scanline { position: fixed; top: 0; left: 0; width: 100%; height: 2px; background: rgba(0, 243, 255, 0.1); animation: scan 4s linear infinite; }
+        @keyframes scan { from { top: -10%; } to { top: 110%; } }
+    </style>
+</head>
+<body class="cyber-bg min-h-screen">
+    <div class="scanline"></div>
+    
+    <nav class="p-6 border-b border-[#00F3FF]/30 flex justify-between items-center backdrop-blur-md sticky top-0 z-50">
+        <div class="goldman text-2xl tracking-tighter text-[#FF006B]">OMNI.LINK//</div>
+        <div class="flex gap-8 text-xs">
+            <a href="#" class="hover:text-white transition-colors">[/NODE_EXPLORER]</a>
+            <a href="#" class="hover:text-white transition-colors">[/DATA_STREAM]</a>
+            <a href="#" class="hover:text-white transition-colors">[/NULL_VOID]</a>
+        </div>
+    </nav>
+
+    <main class="p-8 md:p-20">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+            <div class="md:col-span-8">
+                <h1 class="goldman text-6xl md:text-9xl mb-8 leading-none uppercase">
+                    <span class="glitch-text" data-text="JACK_IN">JACK_IN</span><br>
+                    TO THE <span class="text-white">VOID.</span>
+                </h1>
+                <p class="text-xl max-w-2xl mb-12 text-[#00F3FF]/80">The frontier is no longer digital or physical. It's the space between. Omni-Link provides the hardware-software synthesis required for true ascension.</p>
+                <div class="flex gap-6">
+                    <button class="neon-border px-10 py-4 bg-[#00F3FF]/10 hover:bg-[#00F3FF]/30 transition-all goldman uppercase tracking-widest">Connect Matrix</button>
+                    <button class="border border-[#FF006B] px-10 py-4 text-[#FF006B] hover:bg-[#FF006B]/10 transition-all goldman uppercase tracking-widest">Protocol X</button>
+                </div>
+            </div>
+            <div class="md:col-span-4 space-y-8">
+                <div class="neon-border p-6 bg-black/60">
+                    <h3 class="goldman text-sm mb-4">SYSTEM_LOAD</h3>
+                    <div class="h-2 w-full bg-gray-900 mb-2"><div class="h-full bg-[#FF006B]" style="width: 85%"></div></div>
+                    <p class="text-[10px] text-right">85.4% CAPACITY</p>
+                </div>
+                <div class="neon-border p-6 bg-black/60">
+                    <h3 class="goldman text-sm mb-4">LIVE_FEED</h3>
+                    <div class="text-[10px] space-y-1 opacity-60">
+                        <p>> SIG_INTERCEPT_SUCCESS</p>
+                        <p>> BYPASSING_FIREWALL_3</p>
+                        <p>> UPLINK_ESTABLISHED</p>
+                        <p>> DOWNLOADING_CONSCIOUSNESS...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-40 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="p-8 border-l-2 border-[#00F3FF]">
+                <h4 class="goldman text-xl mb-4">NEURAL_DIVE</h4>
+                <p class="text-sm opacity-60">Complete immersive feedback loops. See, hear, and feel the data as if it were reality itself.</p>
+            </div>
+            <div class="p-8 border-l-2 border-[#FF006B]">
+                <h4 class="goldman text-xl mb-4">GHOST_MODE</h4>
+                <p class="text-sm opacity-60">Untraceable operations across the global mesh. Leave no digital footprint behind.</p>
+            </div>
+            <div class="p-8 border-l-2 border-[#00F3FF]">
+                <h4 class="goldman text-xl mb-4">CELL_SYNC</h4>
+                <p class="text-sm opacity-60">Instant biological-digital synchronization. Your body is the ultimate peripheral.</p>
+            </div>
+        </div>
+    </main>
+
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-black/80 backdrop-blur-md text-white px-6 py-3 rounded-full flex gap-4 border border-white/20 shadow-2xl">
+        <a href="1.html" class="hover:text-cyan-400 transition-colors">1</a>
+        <a href="2.html" class="hover:text-cyan-400 transition-colors">2</a>
+        <a href="3.html" class="hover:text-cyan-400 transition-colors">3</a>
+        <a href="4.html" class="hover:text-cyan-400 transition-colors">4</a>
+        <a href="5.html" class="hover:text-cyan-400 transition-colors">5</a>
+        <a href="6.html" class="hover:text-cyan-400 transition-colors">6</a>
+        <a href="7.html" class="hover:text-cyan-400 transition-colors">7</a>
+        <a href="8.html" class="hover:text-cyan-400 transition-colors">8</a>
+        <a href="9.html" class="hover:text-cyan-400 transition-colors">9</a>
+        <a href="10.html" class="text-cyan-400 font-bold underline">10</a>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DECO-GEN | ART DECO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #064E3B; color: #F59E0B; }
+        h1, h2, h3 { font-family: 'Cormorant SC', serif; }
+        .deco-pattern {
+            background-color: #064E3B;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='24' viewBox='0 0 88 24'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='autumn' fill='%23f59e0b' fill-opacity='0.05'%3E%3Cpath d='M10 0l30 15L10 24L0 12zM78 0l10 12L78 24L48 15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .deco-border { border: 4px double #F59E0B; padding: 10px; position: relative; }
+        .deco-border::before { content: ''; position: absolute; inset: -15px; border: 1px solid #F59E0B; pointer-events: none; }
+        .gold-line { height: 2px; background: linear-gradient(90deg, transparent, #F59E0B, transparent); }
+    </style>
+</head>
+<body class="deco-pattern min-h-screen flex flex-col items-center p-8 md:p-20">
+    <header class="mb-24 text-center">
+        <div class="text-xs uppercase tracking-[1em] mb-4">Established 1925 / Reborn 2026</div>
+        <h1 class="text-6xl md:text-8xl font-bold tracking-widest border-b-2 border-[#F59E0B] pb-4 px-12">DECO-GEN</h1>
+    </header>
+
+    <main class="max-w-5xl w-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center mb-40">
+            <div class="deco-border">
+                <h2 class="text-5xl font-bold mb-8 leading-tight">The Golden Age <br> of Synthesis.</h2>
+                <p class="text-lg leading-relaxed mb-12 opacity-80 italic">Deco-Gen brings a touch of class to the machine age. Why settle for raw data when you can have orchestrated elegance?</p>
+                <button class="w-full py-4 border-2 border-[#F59E0B] font-bold uppercase tracking-widest hover:bg-[#F59E0B] hover:text-[#064E3B] transition-all">Commission AI</button>
+            </div>
+            <div class="relative">
+                <div class="aspect-[3/4] bg-black/40 border-4 border-[#F59E0B] p-4 flex items-center justify-center overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?auto=format&fit=crop&q=80&w=400" alt="Deco" class="sepia brightness-50 contrast-150">
+                </div>
+                <div class="absolute -bottom-10 -right-10 w-40 h-40 border-4 border-[#F59E0B] rotate-45"></div>
+            </div>
+        </div>
+
+        <div class="gold-line mb-40"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            <div class="space-y-6">
+                <div class="text-5xl">❈</div>
+                <h3 class="text-2xl font-bold">Refined Logic</h3>
+                <p class="text-sm opacity-70">Algorithms polished to a mirror finish. Only the most sophisticated results.</p>
+            </div>
+            <div class="space-y-6">
+                <div class="text-5xl">✥</div>
+                <h3 class="text-2xl font-bold">Symmetric Flow</h3>
+                <p class="text-sm opacity-70">Harmony in every generation. Symmetrical patterns for a balanced mind.</p>
+            </div>
+            <div class="space-y-6">
+                <div class="text-5xl">❊</div>
+                <h3 class="text-2xl font-bold">Ornate Privacy</h3>
+                <p class="text-sm opacity-70">Security as beautiful as it is impenetrable. Encrypted with style.</p>
+            </div>
+        </div>
+    </main>
+
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-black/80 backdrop-blur-md text-white px-6 py-3 rounded-full flex gap-4 border border-white/20 shadow-2xl">
+        <a href="1.html" class="hover:text-cyan-400 transition-colors">1</a>
+        <a href="2.html" class="hover:text-cyan-400 transition-colors">2</a>
+        <a href="3.html" class="hover:text-cyan-400 transition-colors">3</a>
+        <a href="4.html" class="hover:text-cyan-400 transition-colors">4</a>
+        <a href="5.html" class="hover:text-cyan-400 transition-colors">5</a>
+        <a href="6.html" class="hover:text-cyan-400 transition-colors">6</a>
+        <a href="7.html" class="hover:text-cyan-400 transition-colors">7</a>
+        <a href="8.html" class="hover:text-cyan-400 transition-colors">8</a>
+        <a href="9.html" class="text-yellow-600 font-bold underline">9</a>
+        <a href="10.html" class="hover:text-cyan-400 transition-colors">10</a>
+    </nav>
+</body>
+</html>

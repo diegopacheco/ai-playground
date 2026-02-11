@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GALA | ORGANIC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Quicksand', sans-serif; background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); color: #4A5568; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Comfortaa', cursive; }
+        .blob { position: absolute; filter: blur(80px); opacity: 0.4; z-index: -1; animation: move 20s infinite alternate; }
+        @keyframes move { from { transform: translate(0, 0) scale(1); } to { transform: translate(100px, 100px) scale(1.2); } }
+        .glass { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; }
+        .soft-btn { background: white; border-radius: 50px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: all 0.3s; color: #667eea; font-weight: bold; }
+        .soft-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2); }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="blob w-96 h-96 bg-blue-300 top-0 left-0"></div>
+    <div class="blob w-[500px] h-[500px] bg-purple-300 bottom-0 right-0"></div>
+    <div class="blob w-80 h-80 bg-pink-200 top-1/2 left-1/2"></div>
+
+    <nav class="p-8 flex justify-between items-center max-w-7xl mx-auto">
+        <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">Gala</div>
+        <div class="flex gap-8 text-sm font-semibold">
+            <a href="#" class="hover:text-blue-500 transition-colors">Empathy</a>
+            <a href="#" class="hover:text-blue-500 transition-colors">Growth</a>
+            <a href="#" class="hover:text-blue-500 transition-colors">Connect</a>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-8 py-20 text-center">
+        <h1 class="text-6xl md:text-8xl font-bold mb-8 leading-tight">
+            Intelligence that <br> <span class="text-blue-500">Feels</span>.
+        </h1>
+        <p class="text-xl md:text-2xl max-w-2xl mx-auto mb-12 opacity-80 leading-relaxed">
+            Gala is more than just code. It's a gentle companion designed to understand your emotions and support your personal journey.
+        </p>
+        
+        <div class="flex justify-center gap-6 mb-32">
+            <button class="soft-btn px-12 py-5 text-xl">Say Hello</button>
+            <button class="px-12 py-5 text-xl font-bold opacity-60 hover:opacity-100 transition-opacity">Learn More</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
+            <div class="glass p-12">
+                <div class="w-16 h-16 bg-blue-100 rounded-3xl flex items-center justify-center mb-6 text-3xl">🌿</div>
+                <h3 class="text-3xl font-bold mb-4">Mindful Feedback</h3>
+                <p class="text-lg opacity-70">Gala doesn't just give answers. It provides thoughtful reflections that help you grow through every interaction.</p>
+            </div>
+            <div class="glass p-12">
+                <div class="w-16 h-16 bg-purple-100 rounded-3xl flex items-center justify-center mb-6 text-3xl">✨</div>
+                <h3 class="text-3xl font-bold mb-4">Creative Flow</h3>
+                <p class="text-lg opacity-70">Experience a distraction-free environment where Gala helps you find your rhythm and stay in the zone.</p>
+            </div>
+        </div>
+    </main>
+
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-black/80 backdrop-blur-md text-white px-6 py-3 rounded-full flex gap-4 border border-white/20 shadow-2xl">
+        <a href="1.html" class="hover:text-cyan-400 transition-colors">1</a>
+        <a href="2.html" class="hover:text-cyan-400 transition-colors">2</a>
+        <a href="3.html" class="hover:text-cyan-400 transition-colors">3</a>
+        <a href="4.html" class="text-blue-300 font-bold underline">4</a>
+        <a href="5.html" class="hover:text-cyan-400 transition-colors">5</a>
+        <a href="6.html" class="hover:text-cyan-400 transition-colors">6</a>
+        <a href="7.html" class="hover:text-cyan-400 transition-colors">7</a>
+        <a href="8.html" class="hover:text-cyan-400 transition-colors">8</a>
+        <a href="9.html" class="hover:text-cyan-400 transition-colors">9</a>
+        <a href="10.html" class="hover:text-cyan-400 transition-colors">10</a>
+    </nav>
+</body>
+</html>

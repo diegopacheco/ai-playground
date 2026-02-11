@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA | EDITORIAL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #FBF8F1; color: #1A1A2E; }
+        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+        .lux-border { border-bottom: 1px solid rgba(26, 26, 46, 0.1); }
+        .reveal { transition: transform 1s, opacity 1s; }
+        .reveal:hover { opacity: 0.8; }
+        .stagger-1 { animation: fadeIn 1s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="p-8 md:p-12 flex justify-between items-center lux-border">
+        <span class="text-xs uppercase tracking-[0.3em]">Volume 01 / Issue 2026</span>
+        <h1 class="text-4xl font-bold italic">Lumina</h1>
+        <button class="px-6 py-2 border border-[#1A1A2E] text-sm uppercase tracking-widest hover:bg-[#1A1A2E] hover:text-white transition-all">Subscribe</button>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-8 md:px-12 py-20">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-end mb-32">
+            <div class="md:col-span-7">
+                <h2 class="text-7xl md:text-[9rem] leading-[0.85] font-bold mb-12 stagger-1">
+                    Curation <br> <span class="italic font-normal">Redefined</span>.
+                </h2>
+                <p class="text-2xl leading-relaxed max-w-xl text-[#1A1A2E]/80">
+                    Lumina weaves artificial intelligence into the fabric of your creative process. It doesn't just generate; it understands the soul of your vision.
+                </p>
+            </div>
+            <div class="md:col-span-5 text-right">
+                <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?auto=format&fit=crop&q=80&w=800" alt="Art" class="w-full grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl">
+                <p class="mt-4 text-xs italic opacity-60 italic">Fig 1.2: The convergence of logic and aesthetic.</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-24 mb-32">
+            <div class="space-y-6">
+                <span class="block w-8 h-[1px] bg-[#1A1A2E]"></span>
+                <h3 class="text-3xl italic">The Intuitive Eye</h3>
+                <p class="leading-relaxed opacity-70">Lumina analyzes millions of aesthetic data points to suggest compositions that resonate on a primal human level.</p>
+            </div>
+            <div class="space-y-6">
+                <span class="block w-8 h-[1px] bg-[#1A1A2E]"></span>
+                <h3 class="text-3xl italic">Silent Assistance</h3>
+                <p class="leading-relaxed opacity-70">No prompts required. Lumina observes your workflow and offers the perfect asset before you even know you need it.</p>
+            </div>
+            <div class="space-y-6">
+                <span class="block w-8 h-[1px] bg-[#1A1A2E]"></span>
+                <h3 class="text-3xl italic">Ethical Synthesis</h3>
+                <p class="leading-relaxed opacity-70">A new paradigm in AI. Every pixel generated is traced back to source inspirations with full transparency and artist credit.</p>
+            </div>
+        </div>
+
+        <section class="relative h-[80vh] flex items-center justify-center overflow-hidden mb-32">
+            <img src="https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?auto=format&fit=crop&q=80&w=1600" alt="Full" class="absolute inset-0 w-full h-full object-cover opacity-20">
+            <div class="relative text-center max-w-3xl">
+                <h2 class="text-5xl md:text-7xl italic mb-8">"Lumina is the first AI that feels like it has a point of view."</h2>
+                <p class="uppercase tracking-[0.4em] text-sm">— The New Aesthetic Review</p>
+            </div>
+        </section>
+
+        <div class="flex justify-between items-center py-20 border-t border-[#1A1A2E]/10">
+            <div class="text-6xl font-bold italic">L.</div>
+            <nav class="flex gap-12 uppercase text-xs tracking-widest">
+                <a href="#" class="hover:underline">Manifesto</a>
+                <a href="#" class="hover:underline">Studio</a>
+                <a href="#" class="hover:underline">Archive</a>
+            </nav>
+        </div>
+    </main>
+
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-black/80 backdrop-blur-md text-white px-6 py-3 rounded-full flex gap-4 border border-white/20 shadow-2xl">
+        <a href="1.html" class="hover:text-cyan-400 transition-colors">1</a>
+        <a href="2.html" class="text-orange-300 font-bold underline">2</a>
+        <a href="3.html" class="hover:text-cyan-400 transition-colors">3</a>
+        <a href="4.html" class="hover:text-cyan-400 transition-colors">4</a>
+        <a href="5.html" class="hover:text-cyan-400 transition-colors">5</a>
+        <a href="6.html" class="hover:text-cyan-400 transition-colors">6</a>
+        <a href="7.html" class="hover:text-cyan-400 transition-colors">7</a>
+        <a href="8.html" class="hover:text-cyan-400 transition-colors">8</a>
+        <a href="9.html" class="hover:text-cyan-400 transition-colors">9</a>
+        <a href="10.html" class="hover:text-cyan-400 transition-colors">10</a>
+    </nav>
+</body>
+</html>

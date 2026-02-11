@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOFT-NODE | NEUMORPHIC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #E0E5EC; color: #44476A; }
+        .neu-flat { border-radius: 50px; background: #E0E5EC; box-shadow: 20px 20px 60px #bec3c9, -20px -20px 60px #ffffff; }
+        .neu-pressed { border-radius: 50px; background: #E0E5EC; box-shadow: inset 20px 20px 60px #bec3c9, inset -20px -20px 60px #ffffff; }
+        .neu-btn { border-radius: 30px; background: #E0E5EC; box-shadow: 9px 9px 18px #bec3c9, -9px -9px 18px #ffffff; transition: all 0.2s; }
+        .neu-btn:active { box-shadow: inset 4px 4px 8px #bec3c9, inset -4px -4px 8px #ffffff; }
+        .neu-circle { border-radius: 50%; background: #E0E5EC; box-shadow: 20px 20px 60px #bec3c9, -20px -20px 60px #ffffff; }
+    </style>
+</head>
+<body class="flex flex-col items-center py-20 px-8">
+    <nav class="w-full max-w-4xl flex justify-between items-center mb-24">
+        <div class="neu-btn px-8 py-4 font-black tracking-tighter">SOFT-NODE</div>
+        <div class="flex gap-8">
+            <div class="neu-btn w-12 h-12 flex items-center justify-center">☁️</div>
+            <div class="neu-btn w-12 h-12 flex items-center justify-center">⚙️</div>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-4xl text-center">
+        <div class="neu-flat p-16 mb-20">
+            <h1 class="text-6xl font-extrabold mb-8 tracking-tight">Gentle <span class="text-blue-500/50">Intelligence.</span></h1>
+            <p class="text-xl opacity-60 max-w-2xl mx-auto mb-12">Soft-Node integrates seamlessly into your life with a tactile, human-centric interface that feels as good as it works.</p>
+            <button class="neu-btn px-12 py-6 text-xl font-bold text-blue-500/70">Connect Node</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="neu-pressed p-10">
+                <h3 class="font-bold mb-4">Quiet Processing</h3>
+                <p class="text-sm opacity-60">Zero-noise algorithms that work in the background without distraction.</p>
+            </div>
+            <div class="neu-pressed p-10">
+                <h3 class="font-bold mb-4">Tactile AI</h3>
+                <p class="text-sm opacity-60">Every interaction has a satisfying weight and response.</p>
+            </div>
+            <div class="neu-pressed p-10">
+                <h3 class="font-bold mb-4">Soft Security</h3>
+                <p class="text-sm opacity-60">Invisible protection that keeps your data safe without barriers.</p>
+            </div>
+        </div>
+    </main>
+
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-black/80 backdrop-blur-md text-white px-6 py-3 rounded-full flex gap-4 border border-white/20 shadow-2xl">
+        <a href="1.html" class="hover:text-cyan-400 transition-colors">1</a>
+        <a href="2.html" class="hover:text-cyan-400 transition-colors">2</a>
+        <a href="3.html" class="hover:text-cyan-400 transition-colors">3</a>
+        <a href="4.html" class="hover:text-cyan-400 transition-colors">4</a>
+        <a href="5.html" class="hover:text-cyan-400 transition-colors">5</a>
+        <a href="6.html" class="hover:text-cyan-400 transition-colors">6</a>
+        <a href="7.html" class="hover:text-cyan-400 transition-colors">7</a>
+        <a href="8.html" class="text-blue-300 font-bold underline">8</a>
+        <a href="9.html" class="hover:text-cyan-400 transition-colors">9</a>
+        <a href="10.html" class="hover:text-cyan-400 transition-colors">10</a>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORGE-1 | INDUSTRIAL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'JetBrains Mono', monospace; background-color: #1A202C; color: #E2E8F0; }
+        .blueprint-grid {
+            background-image: 
+                linear-gradient(rgba(237, 137, 54, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(237, 137, 54, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .caution { border: 2px solid #ED8936; }
+        .caution-bg { background-color: #ED8936; color: #000; }
+        .measure-line { position: relative; border-left: 1px solid #718096; border-right: 1px solid #718096; height: 10px; margin: 10px 0; }
+        .measure-line::after { content: ''; position: absolute; top: 50%; left: 0; right: 0; border-top: 1px solid #718096; }
+    </style>
+</head>
+<body class="blueprint-grid">
+    <header class="p-8 border-b border-gray-700 flex justify-between items-baseline">
+        <div>
+            <h1 class="text-3xl font-bold uppercase tracking-widest">FORGE-AI // UNIT_01</h1>
+            <p class="text-xs text-gray-500">SPEC_LEVEL: INDUSTRIAL_GRADE</p>
+        </div>
+        <div class="text-right">
+            <p class="text-xs">STATUS: STABLE</p>
+            <p class="text-xs">UPTIME: 99.9997%</p>
+        </div>
+    </header>
+
+    <main class="p-8 max-w-7xl mx-auto">
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-20">
+            <div class="md:col-span-7 caution p-12 bg-gray-900/50 backdrop-blur-sm">
+                <div class="measure-line w-full mb-8"><span class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px]">COGNITIVE_WIDTH_MAX</span></div>
+                <h2 class="text-5xl font-bold mb-8 uppercase leading-none">High-Throughput <br> <span class="text-[#ED8936]">Logic Synthesis</span></h2>
+                <p class="text-sm leading-relaxed mb-12 max-w-lg">Forge-1 is engineered for reliability. No hallucination. No personality. Just pure computational output optimized for heavy industrial applications.</p>
+                <button class="caution-bg px-10 py-4 font-bold uppercase tracking-widest text-sm hover:invert transition-all">Execute Deployment</button>
+            </div>
+            <div class="md:col-span-5 border border-gray-700 p-8 flex flex-col justify-center items-center text-center">
+                <div class="w-full aspect-square border-2 border-dashed border-gray-600 flex items-center justify-center mb-6">
+                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=400" alt="Industrial" class="grayscale opacity-50">
+                </div>
+                <p class="text-[10px] uppercase text-gray-500">FIG_04: HARDWARE_INTERFACE_LAYER</p>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-20">
+            <div class="border border-gray-700 p-6">
+                <p class="text-[10px] text-gray-500 mb-2">METRIC_01</p>
+                <h3 class="text-xl font-bold text-[#ED8936]">1.2 TB/s</h3>
+                <p class="text-xs">Inference Speed</p>
+            </div>
+            <div class="border border-gray-700 p-6">
+                <p class="text-[10px] text-gray-500 mb-2">METRIC_02</p>
+                <h3 class="text-xl font-bold text-[#ED8936]">0.0%</h3>
+                <p class="text-xs">Error Deviation</p>
+            </div>
+            <div class="border border-gray-700 p-6">
+                <p class="text-[10px] text-gray-500 mb-2">METRIC_03</p>
+                <h3 class="text-xl font-bold text-[#ED8936]">24/7/365</h3>
+                <p class="text-xs">Uptime Guarantee</p>
+            </div>
+            <div class="border border-gray-700 p-6">
+                <p class="text-[10px] text-gray-500 mb-2">METRIC_04</p>
+                <h3 class="text-xl font-bold text-[#ED8936]">ISO-AI</h3>
+                <p class="text-xs">Safety Certified</p>
+            </div>
+        </div>
+
+        <section class="border-t-4 border-[#ED8936] pt-12">
+            <h3 class="text-2xl font-bold uppercase mb-8">Technical Documentation</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-sm">
+                <p>The Forge-1 architecture utilizes a decentralized tensor array to ensure fault tolerance in high-pressure environments. Every output is verified against a secondary logic gate before delivery.</p>
+                <p>Direct integration with SCADA and industrial IoT protocols is standard. Built-in legacy support for COBOL and Fortran logic translation.</p>
+            </div>
+        </section>
+    </main>
+
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-black/80 backdrop-blur-md text-white px-6 py-3 rounded-full flex gap-4 border border-white/20 shadow-2xl">
+        <a href="1.html" class="hover:text-cyan-400 transition-colors">1</a>
+        <a href="2.html" class="hover:text-cyan-400 transition-colors">2</a>
+        <a href="3.html" class="hover:text-cyan-400 transition-colors">3</a>
+        <a href="4.html" class="hover:text-cyan-400 transition-colors">4</a>
+        <a href="5.html" class="hover:text-cyan-400 transition-colors">5</a>
+        <a href="6.html" class="hover:text-cyan-400 transition-colors">6</a>
+        <a href="7.html" class="text-orange-500 font-bold underline">7</a>
+        <a href="8.html" class="hover:text-cyan-400 transition-colors">8</a>
+        <a href="9.html" class="hover:text-cyan-400 transition-colors">9</a>
+        <a href="10.html" class="hover:text-cyan-400 transition-colors">10</a>
+    </nav>
+</body>
+</html>
