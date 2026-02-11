@@ -27,4 +27,4 @@ for i in $(seq 1 40); do
   fi
   sleep 1
 done
-bunx playwright test tests/ui.spec.ts
+bunx playwright test tests/ui.spec.ts --reporter=html
