@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
-if [ -f .run/backend.pid ]; then
-  kill "$(cat .run/backend.pid)" 2>/dev/null || true
-  rm -f .run/backend.pid
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$ROOT_DIR/.run/backend.pid" ]; then
+  kill "$(cat "$ROOT_DIR/.run/backend.pid")" 2>/dev/null || true
+  rm -f "$ROOT_DIR/.run/backend.pid"
 fi
-if [ -f .run/frontend.pid ]; then
-  kill "$(cat .run/frontend.pid)" 2>/dev/null || true
-  rm -f .run/frontend.pid
+if [ -f "$ROOT_DIR/.run/frontend.pid" ]; then
+  kill "$(cat "$ROOT_DIR/.run/frontend.pid")" 2>/dev/null || true
+  rm -f "$ROOT_DIR/.run/frontend.pid"
 fi
 pkill -f twitter_like_backend 2>/dev/null || true
 pkill -f 'serve . -l 4173' 2>/dev/null || true
