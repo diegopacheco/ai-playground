@@ -1,0 +1,8 @@
+node_modules/
+dist/
+target/
+.DS_Store
+*.log
+k6-results/
+test-results/
+playwright-report/
