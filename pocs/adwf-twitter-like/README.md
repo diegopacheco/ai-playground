@@ -221,6 +221,8 @@ View Playwright test report:
 npx playwright show-report
 ```
 
+<img src="playwright-report.png" width="600" alt="Playwright Test Report">
+
 Run K6 performance tests:
 ```bash
 ./run-k6-tests.sh
