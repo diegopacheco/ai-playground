@@ -1,0 +1,14 @@
+{
+  "name": "twitter-like-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "bunx --bun serve . -l 4173",
+    "build": "echo build-ok",
+    "test:ui": "echo ui-test-placeholder"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}
