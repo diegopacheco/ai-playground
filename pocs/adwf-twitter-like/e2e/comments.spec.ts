@@ -157,7 +157,7 @@ test.describe('Comments', () => {
 
     await page.route('**/api/tweets/*/comments', async (route) => {
       if (route.request().method() === 'POST') {
-        await new Promise(r => setTimeout(r, 1000));
+        await new Promise(r => setTimeout(r, 2000));
         await route.continue();
       } else {
         await route.continue();
@@ -167,10 +167,11 @@ test.describe('Comments', () => {
     await detailPage.commentTextarea.fill(`Comment ${Date.now()}`);
     await detailPage.commentButton.click();
 
-    await expect(detailPage.commentButton).toHaveText('Posting...');
+    const submitButton = page.locator('button[type="submit"]');
+    await expect(submitButton).toHaveText('Posting...');
 
     await page.unroute('**/api/tweets/*/comments');
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(3000);
   });
 
   test('should update comment count on tweet card', async ({ page }) => {
