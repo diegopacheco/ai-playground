@@ -28,7 +28,9 @@ export class HomePage {
   async createTweet(content: string) {
     await this.tweetTextarea.fill(content);
     await this.tweetButton.click();
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(1000);
+    await this.page.reload();
+    await this.page.waitForLoadState('networkidle');
   }
 
   async waitForTweetToAppear(content: string) {

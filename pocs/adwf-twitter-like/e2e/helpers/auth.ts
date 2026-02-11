@@ -37,7 +37,16 @@ export async function loginAsUser(page: Page, user: TestUser) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   });
-  const loginPage = new LoginPage(page);
-  await loginPage.login(user.email, user.password);
-  await loginPage.waitForNavigation();
+  await page.goto('/login');
+  await page.waitForSelector('#email', { timeout: 5000 });
+  const usernameInput = page.locator('#username');
+  const isSignupForm = await usernameInput.isVisible().catch(() => false);
+  if (isSignupForm) {
+    await page.locator('button.text-blue-500').click();
+    await usernameInput.waitFor({ state: 'hidden' });
+  }
+  await page.locator('#email').fill(user.email);
+  await page.locator('#password').fill(user.password);
+  await page.locator('button[type="submit"]').click();
+  await page.waitForURL('/');
 }
