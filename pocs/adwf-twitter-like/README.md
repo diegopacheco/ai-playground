@@ -201,8 +201,29 @@ migrations/          - Database migrations
 
 ## Testing
 
+Run Rust tests:
 ```bash
 cargo test
+```
+
+Run integration tests:
+```bash
+./run-integration-tests.sh
+```
+
+Run E2E tests with Playwright:
+```bash
+./run-e2e-tests.sh
+```
+
+View Playwright test report:
+```bash
+npx playwright show-report
+```
+
+Run K6 performance tests:
+```bash
+./run-k6-tests.sh
 ```
 
 ## Development
