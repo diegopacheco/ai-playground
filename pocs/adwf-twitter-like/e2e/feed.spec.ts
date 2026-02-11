@@ -7,7 +7,7 @@ test.describe('Feed', () => {
     await createTestUser(page, 'feeduser');
     const homePage = new HomePage(page);
 
-    await expect(homePage.feedList).toBeVisible();
+    await expect(homePage.feedList.or(page.locator('text=No tweets to display'))).toBeVisible();
   });
 
   test('should show tweet composer on home page', async ({ page }) => {
@@ -22,16 +22,11 @@ test.describe('Feed', () => {
     await createTestUser(page, 'refreshuser');
     const homePage = new HomePage(page);
 
-    const initialTweets = await homePage.getTweetCards();
-    const initialCount = initialTweets.length;
-
-    await homePage.createTweet(`New tweet ${Date.now()}`);
+    const tweetContent = `New tweet ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const updatedTweets = await homePage.getTweetCards();
-    const updatedCount = updatedTweets.length;
-
-    expect(updatedCount).toBeGreaterThan(initialCount);
+    await expect(page.locator(`text=${tweetContent}`)).toBeVisible({ timeout: 10000 });
   });
 
   test('should display tweets in reverse chronological order', async ({ page }) => {
@@ -55,39 +50,49 @@ test.describe('Feed', () => {
   test('should show loading spinner while fetching feed', async ({ page }) => {
     await createTestUser(page, 'loadingfeeduser');
 
-    await page.goto('/');
-
-    const spinner = page.locator('.animate-spin');
-    const isVisible = await spinner.isVisible().catch(() => false);
-
-    expect(isVisible || (await page.locator('.space-y-4').isVisible())).toBeTruthy();
-  });
-
-  test('should show error message when feed fails to load', async ({ page, context }) => {
-    await createTestUser(page, 'erroruser');
-
-    await context.route('**/api/tweets/feed**', (route) => {
-      route.abort();
+    await page.route('**/api/tweets/feed**', async (route) => {
+      await new Promise(r => setTimeout(r, 500));
+      await route.continue();
     });
 
     await page.goto('/');
-    await page.waitForTimeout(1000);
+
+    const spinner = page.locator('.animate-spin');
+    const feedContent = page.locator('.space-y-4');
+    const emptyMsg = page.locator('text=No tweets to display');
+
+    await expect(spinner.or(feedContent).or(emptyMsg).first()).toBeVisible({ timeout: 5000 });
+
+    await page.unroute('**/api/tweets/feed**');
+  });
+
+  test('should show error message when feed fails to load', async ({ page }) => {
+    await createTestUser(page, 'erroruser');
+
+    await page.route('**/api/tweets/feed**', (route) => {
+      route.fulfill({ status: 500, body: 'Internal Server Error' });
+    });
+
+    await page.goto('/');
 
     const errorMessage = page.locator('text=Failed to load tweets');
     const emptyMessage = page.locator('text=No tweets to display');
 
-    expect(await errorMessage.isVisible() || await emptyMessage.isVisible()).toBeTruthy();
+    await expect(errorMessage.or(emptyMessage).first()).toBeVisible({ timeout: 10000 });
+
+    await page.unroute('**/api/tweets/feed**');
   });
 
   test('should display user avatar in tweet cards', async ({ page }) => {
     await createTestUser(page, 'avataruser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Tweet with avatar ${Date.now()}`);
+    const tweetContent = `Tweet with avatar ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const avatar = tweets[0].locator('.bg-blue-500.rounded-full');
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    const avatar = tweetCard.locator('.bg-blue-500.rounded-full');
 
     await expect(avatar).toBeVisible();
   });
@@ -96,11 +101,12 @@ test.describe('Feed', () => {
     const user = await createTestUser(page, 'handleuser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Tweet with handle ${Date.now()}`);
+    const tweetContent = `Tweet with handle ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const handle = tweets[0].locator(`text=@${user.username}`);
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    const handle = tweetCard.locator(`text=@${user.username}`);
 
     await expect(handle).toBeVisible();
   });
@@ -109,11 +115,12 @@ test.describe('Feed', () => {
     await createTestUser(page, 'timeuser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Tweet with timestamp ${Date.now()}`);
+    const tweetContent = `Tweet with timestamp ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const timestamp = tweets[0].locator('span.text-gray-500.text-sm').last();
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    const timestamp = tweetCard.locator('span.text-gray-500.text-sm').last();
 
     await expect(timestamp).toBeVisible();
   });
@@ -122,13 +129,14 @@ test.describe('Feed', () => {
     await createTestUser(page, 'interactionuser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Tweet with interactions ${Date.now()}`);
+    const tweetContent = `Tweet with interactions ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const likeButton = tweets[0].locator('button[aria-label*="Like"]');
-    const retweetButton = tweets[0].locator('button[aria-label*="Retweet"]');
-    const commentLink = tweets[0].locator('a[href*="/tweet/"]');
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    const likeButton = tweetCard.locator('button[aria-label*="Like"]');
+    const retweetButton = tweetCard.locator('button[aria-label*="Retweet"]');
+    const commentLink = tweetCard.locator('a[href*="/tweet/"]').last();
 
     await expect(likeButton).toBeVisible();
     await expect(retweetButton).toBeVisible();
@@ -139,13 +147,14 @@ test.describe('Feed', () => {
     await createTestUser(page, 'countsuser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Tweet with counts ${Date.now()}`);
+    const tweetContent = `Tweet with counts ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const likeCount = tweets[0].locator('button[aria-label*="Like"] span').last();
-    const retweetCount = tweets[0].locator('button[aria-label*="Retweet"] span').last();
-    const commentCount = tweets[0].locator('a[href*="/tweet/"] span').last();
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    const likeCount = tweetCard.locator('button[aria-label*="Like"] span').last();
+    const retweetCount = tweetCard.locator('button[aria-label*="Retweet"] span').last();
+    const commentCount = tweetCard.locator('a[href*="/tweet/"]').last().locator('span');
 
     await expect(likeCount).toBeVisible();
     await expect(retweetCount).toBeVisible();

@@ -100,16 +100,10 @@ test.describe('Profile Page', () => {
     await loginAsUser(page, user1);
     await page.waitForTimeout(1000);
 
-    await page.goto('/');
-    await page.waitForTimeout(500);
+    const profilePage = new ProfilePage(page);
+    await profilePage.goto(user2.id);
 
-    const tweets = await homePage.getTweetCards();
-    if (tweets.length > 0) {
-      const userLink = tweets[0].locator('a[href^="/profile/"]').first();
-      await userLink.click();
-
-      await expect(page.locator('button:has-text("Follow")')).toBeVisible();
-    }
+    await expect(page.locator('button:has-text("Follow")')).toBeVisible();
   });
 
   test('should not show follow button on own profile', async ({ page }) => {
@@ -125,11 +119,12 @@ test.describe('Profile Page', () => {
     await createTestUser(page, 'navuser');
     const homePage = new HomePage(page);
 
-    await homePage.createTweet(`Navigation test ${Date.now()}`);
+    const tweetContent = `Navigation test ${Date.now()}`;
+    await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const usernameLink = tweets[0].locator('a[href^="/profile/"]').first();
+    const tweetCard = page.locator('div.border', { hasText: tweetContent });
+    const usernameLink = tweetCard.locator('a[href^="/profile/"]').first();
     await usernameLink.click();
 
     await expect(page).toHaveURL(/\/profile\/\d+/);
@@ -150,8 +145,7 @@ test.describe('Profile Page', () => {
     await createTestUser(page, 'notfounduser');
 
     await page.goto('/profile/999999999');
-    await page.waitForTimeout(1000);
 
-    await expect(page.locator('text=User not found')).toBeVisible();
+    await expect(page.locator('text=User not found')).toBeVisible({ timeout: 10000 });
   });
 });
