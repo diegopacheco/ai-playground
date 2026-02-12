@@ -1,6 +1,6 @@
-use argon2::password_hash::rand_core::OsRng;
 use argon2::password_hash::SaltString;
 use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
+use rand_core::OsRng;
 use axum::extract::Extension;
 use axum::{Json, extract::State};
 use sqlx::SqlitePool;

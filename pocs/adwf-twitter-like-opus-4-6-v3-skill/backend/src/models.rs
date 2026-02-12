@@ -80,6 +80,14 @@ pub struct AuthResponse {
     pub user: UserResponse,
 }
 
+#[derive(Debug, Clone, Serialize)]
+pub struct ProfileResponse {
+    pub user: UserResponse,
+    pub followers_count: i64,
+    pub following_count: i64,
+    pub is_following: bool,
+}
+
 #[derive(Debug, Deserialize)]
 pub struct CreatePostRequest {
     pub content: String,

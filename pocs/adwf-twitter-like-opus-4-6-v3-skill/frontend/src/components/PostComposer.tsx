@@ -22,6 +22,7 @@ export function PostComposer() {
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="What's happening?"
+        data-testid="post-content"
         rows={3}
         className="w-full resize-none outline-none text-lg placeholder-gray-500"
         maxLength={MAX_CHARS}
@@ -40,6 +41,7 @@ export function PostComposer() {
         </span>
         <button
           type="submit"
+          data-testid="post-submit"
           disabled={
             content.trim().length === 0 ||
             content.length > MAX_CHARS ||

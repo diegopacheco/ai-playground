@@ -31,6 +31,7 @@ export function RegisterPage() {
             <input
               id="username"
               type="text"
+              data-testid="register-username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
@@ -48,6 +49,7 @@ export function RegisterPage() {
             <input
               id="email"
               type="email"
+              data-testid="register-email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -65,6 +67,7 @@ export function RegisterPage() {
             <input
               id="password"
               type="password"
+              data-testid="register-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -77,6 +80,7 @@ export function RegisterPage() {
           )}
           <button
             type="submit"
+            data-testid="register-submit"
             disabled={register.isPending}
             className="w-full bg-[#1DA1F2] text-white py-2.5 rounded-full font-bold hover:bg-[#1a91da] disabled:opacity-50 cursor-pointer"
           >

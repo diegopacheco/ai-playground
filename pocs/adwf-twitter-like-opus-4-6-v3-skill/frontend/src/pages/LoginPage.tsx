@@ -30,6 +30,7 @@ export function LoginPage() {
             <input
               id="email"
               type="email"
+              data-testid="login-email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -47,6 +48,7 @@ export function LoginPage() {
             <input
               id="password"
               type="password"
+              data-testid="login-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -59,6 +61,7 @@ export function LoginPage() {
           )}
           <button
             type="submit"
+            data-testid="login-submit"
             disabled={login.isPending}
             className="w-full bg-[#1DA1F2] text-white py-2.5 rounded-full font-bold hover:bg-[#1a91da] disabled:opacity-50 cursor-pointer"
           >

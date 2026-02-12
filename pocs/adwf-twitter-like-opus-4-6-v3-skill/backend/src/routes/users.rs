@@ -3,12 +3,13 @@ use axum::Json;
 use sqlx::SqlitePool;
 
 use crate::errors::AppError;
-use crate::models::{Claims, User, UserResponse};
+use crate::models::{Claims, ProfileResponse, User, UserResponse};
 
 pub async fn get_user(
     State(pool): State<SqlitePool>,
+    Extension(claims): Extension<Claims>,
     Path(id): Path<String>,
-) -> Result<Json<UserResponse>, AppError> {
+) -> Result<Json<ProfileResponse>, AppError> {
     let user: User =
         sqlx::query_as("SELECT id, username, email, password_hash, created_at FROM users WHERE id = ?1")
             .bind(&id)
@@ -16,7 +17,33 @@ pub async fn get_user(
             .await?
             .ok_or_else(|| AppError::NotFound("User not found".to_string()))?;
 
-    Ok(Json(user.into()))
+    let followers_count: (i64,) =
+        sqlx::query_as("SELECT COUNT(*) FROM follows WHERE following_id = ?1")
+            .bind(&id)
+            .fetch_one(&pool)
+            .await?;
+
+    let following_count: (i64,) =
+        sqlx::query_as("SELECT COUNT(*) FROM follows WHERE follower_id = ?1")
+            .bind(&id)
+            .fetch_one(&pool)
+            .await?;
+
+    let is_following: Option<(String,)> =
+        sqlx::query_as("SELECT follower_id FROM follows WHERE follower_id = ?1 AND following_id = ?2")
+            .bind(&claims.sub)
+            .bind(&id)
+            .fetch_optional(&pool)
+            .await?;
+
+    let user_response: UserResponse = user.into();
+
+    Ok(Json(ProfileResponse {
+        user: user_response,
+        followers_count: followers_count.0,
+        following_count: following_count.0,
+        is_following: is_following.is_some(),
+    }))
 }
 
 pub async fn get_followers(
