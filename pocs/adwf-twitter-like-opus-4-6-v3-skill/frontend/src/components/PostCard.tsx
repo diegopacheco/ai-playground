@@ -23,7 +23,7 @@ export function PostCard({ post }: PostCardProps) {
   const toggleLike = useToggleLike();
 
   return (
-    <div className="border-b border-gray-200 p-4 hover:bg-gray-50 transition-colors">
+    <div data-testid="post-card" className="border-b border-gray-200 p-4 hover:bg-gray-50 transition-colors">
       <div className="flex gap-3">
         <Link
           to="/profile/$userId"
@@ -54,6 +54,7 @@ export function PostCard({ post }: PostCardProps) {
           </Link>
           <div className="mt-3 flex items-center gap-1">
             <button
+              data-testid="like-button"
               onClick={() => toggleLike.mutate(post)}
               className={`flex items-center gap-1 group cursor-pointer ${
                 post.liked_by_me
