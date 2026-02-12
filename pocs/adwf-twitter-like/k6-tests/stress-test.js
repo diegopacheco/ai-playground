@@ -28,12 +28,15 @@ export const options = {
 
 export function setup() {
   const registerUrl = `${BASE_URL}/api/auth/register`;
+  const loginUrl = `${BASE_URL}/api/auth/login`;
   const testUsers = [];
+  const ts = Date.now();
 
   for (let i = 0; i < 100; i++) {
+    const username = `st_${ts}_${i}`;
     const userData = {
-      username: `stress_user_${Date.now()}_${i}`,
-      email: `stress_user_${Date.now()}_${i}@test.com`,
+      username: username,
+      email: `${username}@test.com`,
       password: 'password123'
     };
 
@@ -48,8 +51,20 @@ export function setup() {
       testUsers.push({
         token: body.token,
         userId: body.user.id,
-        username: userData.username
+        username: username
       });
+    } else {
+      const loginRes = http.post(loginUrl, JSON.stringify({ username: username, password: 'password123' }), {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (loginRes.status === 200) {
+        const body = JSON.parse(loginRes.body);
+        testUsers.push({
+          token: body.token,
+          userId: body.user.id,
+          username: username
+        });
+      }
     }
 
     sleep(0.1);
@@ -95,6 +110,9 @@ export function setup() {
 }
 
 export default function(data) {
+  if (!data.users || data.users.length === 0) {
+    return;
+  }
   const user = data.users[__VU % data.users.length];
   const headers = {
     'Content-Type': 'application/json',
