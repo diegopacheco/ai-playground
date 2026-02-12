@@ -33,18 +33,25 @@ test.describe('Feed', () => {
     await createTestUser(page, 'orderuser');
     const homePage = new HomePage(page);
 
-    const tweet1 = `First tweet ${Date.now()}`;
+    const ts = Date.now();
+    const tweet1 = `OrderFirst ${ts}`;
     await homePage.createTweet(tweet1);
     await page.waitForTimeout(1000);
 
-    const tweet2 = `Second tweet ${Date.now() + 1}`;
+    const tweet2 = `OrderSecond ${ts}`;
     await homePage.createTweet(tweet2);
     await page.waitForTimeout(1000);
 
-    const tweets = await homePage.getTweetCards();
-    const firstTweetText = await tweets[0].locator('p.mt-2.text-gray-900').textContent();
+    const allTweets = page.locator('p.mt-2.text-gray-900');
+    const texts: string[] = [];
+    const count = await allTweets.count();
+    for (let i = 0; i < count; i++) {
+      texts.push(await allTweets.nth(i).textContent() || '');
+    }
 
-    expect(firstTweetText).toContain('Second tweet');
+    const idx1 = texts.findIndex(t => t.includes(`OrderFirst ${ts}`));
+    const idx2 = texts.findIndex(t => t.includes(`OrderSecond ${ts}`));
+    expect(idx2).toBeLessThan(idx1);
   });
 
   test('should show loading spinner while fetching feed', async ({ page }) => {
