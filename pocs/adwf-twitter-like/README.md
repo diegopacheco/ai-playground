@@ -2,6 +2,16 @@
 
 A full-stack Twitter clone application with a Rust backend and React frontend.
 
+## Notes
+
+1. The was very basic but ok.
+2. It took me 3 runs, 3x I got all my subscription tokens with opus 4.6 to maka
+the playwright e2e tests to work(85 test).
+```
+npx playwright show-report
+```
+<img src="e2e-tests-playwright.png" width="600" alt="Playwright Test Report">
+
 ## 📋 Project Overview
 
 **Status**: Development Complete (75% Production Ready)

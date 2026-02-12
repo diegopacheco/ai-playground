@@ -17,7 +17,7 @@ export class HomePage {
     this.characterCount = page.locator('text=/\\d+\\/280/');
     this.feedList = page.locator('.space-y-4').first();
     this.navigationBar = page.locator('nav');
-    this.profileLink = page.locator('a:has-text("Profile")');
+    this.profileLink = page.locator('nav a:has-text("Profile")');
     this.logoutButton = page.locator('button:has-text("Logout")');
   }
 

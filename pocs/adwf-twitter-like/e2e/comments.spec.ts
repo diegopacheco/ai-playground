@@ -27,7 +27,7 @@ test.describe('Comments', () => {
     const homePage = new HomePage(page);
     const detailPage = new TweetDetailPage(page);
 
-    const tweetContent = `Tweet ${Date.now()}`;
+    const tweetContent = `CharCountTweet ${Date.now()}`;
     await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
@@ -45,7 +45,7 @@ test.describe('Comments', () => {
     const homePage = new HomePage(page);
     const detailPage = new TweetDetailPage(page);
 
-    const tweetContent = `Tweet ${Date.now()}`;
+    const tweetContent = `EmptyBtnTweet ${Date.now()}`;
     await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
@@ -66,7 +66,7 @@ test.describe('Comments', () => {
     const homePage = new HomePage(page);
     const detailPage = new TweetDetailPage(page);
 
-    const tweetContent = `Tweet ${Date.now()}`;
+    const tweetContent = `LimitTweet ${Date.now()}`;
     await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
@@ -119,7 +119,9 @@ test.describe('Comments', () => {
 
     const commentCard = page.locator('.border.border-gray-200.rounded-lg', { hasText: commentContent });
     await commentCard.locator('button:has-text("Delete")').click();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
+    await page.reload();
+    await page.waitForLoadState('networkidle');
 
     const updatedCount = await detailPage.getCommentCount();
     expect(updatedCount).toBe(initialCount - 1);
@@ -130,7 +132,7 @@ test.describe('Comments', () => {
     const homePage = new HomePage(page);
     const detailPage = new TweetDetailPage(page);
 
-    const tweetContent = `Tweet ${Date.now()}`;
+    const tweetContent = `ClearCommentTweet ${Date.now()}`;
     await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
@@ -148,7 +150,7 @@ test.describe('Comments', () => {
     const homePage = new HomePage(page);
     const detailPage = new TweetDetailPage(page);
 
-    const tweetContent = `Tweet ${Date.now()}`;
+    const tweetContent = `LoadingTweet ${Date.now()}`;
     await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 
@@ -158,7 +160,7 @@ test.describe('Comments', () => {
     await page.route('**/api/tweets/*/comments', async (route) => {
       if (route.request().method() === 'POST') {
         await new Promise(r => setTimeout(r, 2000));
-        await route.continue();
+        try { await route.continue(); } catch {}
       } else {
         await route.continue();
       }
@@ -179,7 +181,7 @@ test.describe('Comments', () => {
     const homePage = new HomePage(page);
     const detailPage = new TweetDetailPage(page);
 
-    const tweetContent = `Tweet ${Date.now()}`;
+    const tweetContent = `CountTweet ${Date.now()}`;
     await homePage.createTweet(tweetContent);
     await page.waitForTimeout(1000);
 

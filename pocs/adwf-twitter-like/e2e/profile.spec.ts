@@ -103,7 +103,7 @@ test.describe('Profile Page', () => {
     const profilePage = new ProfilePage(page);
     await profilePage.goto(user2.id);
 
-    await expect(page.locator('button:has-text("Follow")')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Follow', exact: true })).toBeVisible();
   });
 
   test('should not show follow button on own profile', async ({ page }) => {
@@ -112,7 +112,7 @@ test.describe('Profile Page', () => {
 
     await homePage.goToProfile();
 
-    await expect(page.locator('button:has-text("Follow")')).not.toBeVisible();
+    await expect(page.getByRole('button', { name: 'Follow', exact: true })).not.toBeVisible();
   });
 
   test('should navigate to user profile from tweet', async ({ page }) => {

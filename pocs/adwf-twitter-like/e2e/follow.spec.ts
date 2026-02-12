@@ -20,7 +20,7 @@ test.describe('Follow/Unfollow', () => {
     const profilePage = new ProfilePage(page);
     await profilePage.goto(user2.id);
 
-    const followButton = page.locator('button:has-text("Follow")');
+    const followButton = page.getByRole('button', { name: 'Follow', exact: true });
     await expect(followButton).toBeVisible();
     await followButton.click();
     await page.waitForTimeout(1000);
@@ -42,14 +42,14 @@ test.describe('Follow/Unfollow', () => {
     const profilePage = new ProfilePage(page);
     await profilePage.goto(user2.id);
 
-    const followButton = page.locator('button:has-text("Follow")');
+    const followButton = page.getByRole('button', { name: 'Follow', exact: true });
     await followButton.click();
     await page.waitForTimeout(1000);
 
     await profilePage.switchToFollowersTab();
     await page.waitForTimeout(1000);
 
-    await expect(page.locator(`text=@${user1.username}`)).toBeVisible();
+    await expect(page.locator(`.space-y-3 >> text=@${user1.username}`)).toBeVisible();
   });
 
   test('should show followed user in following list', async ({ page, context }) => {
@@ -68,7 +68,7 @@ test.describe('Follow/Unfollow', () => {
     const profilePage = new ProfilePage(page);
     await profilePage.goto(user2.id);
 
-    const followButton = page.locator('button:has-text("Follow")');
+    const followButton = page.getByRole('button', { name: 'Follow', exact: true });
     await followButton.click();
     await page.waitForTimeout(1000);
 
@@ -100,7 +100,7 @@ test.describe('Follow/Unfollow', () => {
     const profilePage = new ProfilePage(page);
     await profilePage.goto(user2.id);
 
-    const followButton = page.locator('button:has-text("Follow")');
+    const followButton = page.getByRole('button', { name: 'Follow', exact: true });
     await followButton.click();
     await page.waitForTimeout(1000);
 
@@ -126,7 +126,7 @@ test.describe('Follow/Unfollow', () => {
     const profilePage = new ProfilePage(page);
     await profilePage.goto(user2.id);
 
-    await page.locator('button:has-text("Follow")').click();
+    await page.getByRole('button', { name: 'Follow', exact: true }).click();
     await page.waitForTimeout(1000);
 
     await page.goto('/');
@@ -151,7 +151,7 @@ test.describe('Follow/Unfollow', () => {
     const profilePage = new ProfilePage(page);
     await profilePage.goto(user2.id);
 
-    const followButton = page.locator('button:has-text("Follow")');
+    const followButton = page.getByRole('button', { name: 'Follow', exact: true });
     await followButton.click();
     await page.waitForTimeout(1000);
 
@@ -181,7 +181,7 @@ test.describe('Follow/Unfollow', () => {
     const profilePage = new ProfilePage(page);
     await profilePage.goto(user2.id);
 
-    const followButton = page.locator('button:has-text("Follow")');
+    const followButton = page.getByRole('button', { name: 'Follow', exact: true });
     await followButton.click();
     await page.waitForTimeout(1000);
 

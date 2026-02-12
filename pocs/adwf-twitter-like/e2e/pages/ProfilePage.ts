@@ -17,7 +17,7 @@ export class ProfilePage {
     this.username = page.locator('text=/^@[a-zA-Z0-9_]+$/');
     this.displayName = page.locator('h1.text-2xl');
     this.bio = page.locator('p.mt-2.text-gray-700');
-    this.followButton = page.locator('button:has-text("Follow")');
+    this.followButton = page.getByRole('button', { name: 'Follow', exact: true });
     this.tweetsTab = page.locator('button:has-text("Tweets")');
     this.followersTab = page.locator('button:has-text("Followers")');
     this.followingTab = page.locator('button:has-text("Following")');
