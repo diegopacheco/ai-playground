@@ -1,6 +1,6 @@
 ---
 name: deployer-workflow
-description: Full-stack development workflow that orchestrates all deployer agents (backend, frontend, database, testing, review, documentation) in a phased pipeline. Asks which backend language (Java/Go/Rust) then runs all agents.
+description: Full-stack development workflow that orchestrates deployer agents (backend, frontend, database, testing, review) in a phased pipeline. Asks which backend language (Java/Go/Rust) then runs all agents.
 allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task, AskUserQuestion, TaskCreate, TaskUpdate, TaskList]
 ---
 
@@ -12,9 +12,19 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task, AskUserQuestion, Task
 - Agent definition files: all markdown files in `agents/`
 - Design doc: `design-doc.md` (project root)
 - Progress file: `todo.md` (project root)
+- Mistakes file: `mistakes.md` (project root)
 - Review folder: `review/{yyyy-MM-dd}/`
 - Changelog: `changelog.md` (project root)
 - README: `README.md` (project root)
+
+## Agents
+
+There are 5 agents total:
+1. **Backend Developer** (java-backend-developer-agent.md / go-backend-developer-agent.md / rust-backend-developer-agent.md)
+2. **React Developer** (react-developer-agent.md)
+3. **Relational DBA** (relational-dba-agent.md)
+4. **Testing Agent** (testing-agent.md) - handles unit tests, integration tests, UI tests (Playwright), stress tests (K6)
+5. **Reviewer Agent** (reviewer-agent.md) - handles code review, security review, design doc sync, feature docs, changes summary
 
 ## Rules
 - If $ARGUMENTS is empty, ask: "What do you want to build? Describe the feature or application."
@@ -25,27 +35,37 @@ allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task, AskUserQuestion, Task
 - Read all agent definitions from `agents/` and pass them as context to subagents.
 - Use Task subagents with `subagent_type: "general-purpose"`.
 - Include user request, relevant files, and the full agent definition in each subagent prompt.
-- Phase order: Build -> Test -> Review -> Document -> Changelog -> README.
-- Phase dependencies: Test depends on Build. Review depends on Build + Test. Document depends on all previous phases.
+- Phase order: Build -> Test -> Review -> Changelog -> README.
+- Phase dependencies: Test depends on Build. Review depends on Build + Test. Changelog depends on all previous phases.
 - After each phase, update `todo.md` by marking completed items with `[x]`.
+
+## Mistakes Tracking
+
+- `mistakes.md` in the project root tracks all build failures, test failures, and issues across all phases.
+- Every agent MUST read `mistakes.md` before starting work to avoid repeating past mistakes.
+- Every agent MUST append new mistakes/issues they encounter to `mistakes.md` with the phase name and a short description.
+- At the start of the workflow, create `mistakes.md` if it does not exist with a header `# Mistakes Log`.
+- Format: `- [Phase N: Name] description of the mistake or issue and how it was fixed`
+
+## Build and Test Enforcement
+
+- The build MUST compile and pass before moving to Phase 2 (Test).
+- ALL tests (unit, integration, UI, stress) MUST pass before moving to Phase 3 (Review).
+- If the build fails, fix it immediately. Do not proceed until the build is green.
+- If any test fails, debug and fix the root cause. Re-run all tests until they all pass.
+- After fixing build or test failures, record what went wrong and how it was fixed in `mistakes.md`.
+- At the end of Phase 1, run the full build and verify it succeeds.
+- At the end of Phase 2, run all tests and verify they all pass.
 
 ## Step 1: Review Plan
 Use AskUserQuestion with checkboxes (all checked by default) and allow unchecking. Store selections and skip unchecked items:
 - Phase 1: Build
   - Build Components (Backend, Frontend, Database)
-  - Verify Components
+  - Verify Build (compile, run, connectivity)
 - Phase 2: Test
-  - Unit Tests
-  - Integration Tests
-  - UI Tests (Playwright)
-  - Stress Tests (K6)
+  - All Tests (Unit, Integration, UI Playwright, K6 Stress)
 - Phase 3: Review
-  - Code Review
-  - Security Review
-- Phase 4: Document
-  - Design Doc Sync
-  - Feature Documentation
-  - Changes Summary
+  - Full Review (Code, Security, Design Doc Sync, Feature Docs, Changes Summary)
 - Changelog & README Update
 
 Initialize `todo.md` with current date (yyyy-MM-dd) and all selected items as `[ ]`.
@@ -61,33 +81,38 @@ Create `design-doc.md` with:
 ## Phase 1: Build
 ### Build Components (parallel)
 Spawn 3 subagents in parallel:
-1. Backend Developer: use chosen language agent (java/go/rust backend agent). Implement backend per `design-doc.md`.
-2. React Developer: use react-developer-agent.md. Implement frontend per `design-doc.md`.
-3. Relational DBA: use relational-dba-agent.md. Design and create DB schema per `design-doc.md`.
+1. **Backend Developer**: use chosen language agent (java/go/rust backend agent). Implement backend per `design-doc.md`. Agent MUST read `mistakes.md` first.
+2. **React Developer**: use react-developer-agent.md. Implement frontend per `design-doc.md`. Agent MUST read `mistakes.md` first.
+3. **Relational DBA**: use relational-dba-agent.md. Design and create DB schema per `design-doc.md`. Agent MUST read `mistakes.md` first.
 
-### Verify Components
-Verify DB schema/migrations, backend builds and runs with DB connection, frontend builds and can be served and connects to backend. Fix issues before proceeding.
+### Verify Build
+After all 3 subagents complete:
+- Verify DB schema/migrations apply successfully.
+- Verify backend compiles, builds, and runs with DB connection.
+- Verify frontend builds and can be served and connects to backend.
+- If ANY build step fails: fix the issue, record it in `mistakes.md`, and re-verify.
+- Do NOT proceed to Phase 2 until the full build is green.
 
-## Phase 2: Test (parallel)
-Spawn 4 subagents:
-1. Unit Testers: unit-testers-agent.md for all code from Phase 1.
-2. Integration Tester: integration-tester-agent.md for API and DB interactions.
-3. UI Testing Playwright: ui-testing-playwright-agent.md for React e2e tests.
-4. K6 Stress Test: k6-stress-test-agent.md for API perf tests.
+## Phase 2: Test
+Spawn 1 subagent:
+1. **Testing Agent**: use testing-agent.md. Run all tests (unit, integration, UI Playwright, K6 stress) for all code from Phase 1. Agent MUST read `mistakes.md` first.
 
-## Phase 3: Review (parallel)
+After the testing agent completes:
+- Verify ALL tests pass by running the full test suite.
+- If ANY test fails: fix the issue, record it in `mistakes.md`, re-run all tests.
+- Do NOT proceed to Phase 3 until all tests are green.
+
+## Phase 3: Review
 Create `review/{current-date}/`.
-Spawn 2 subagents:
-1. Code Reviewer: code-reviewer-agent.md -> `review/{current-date}/code-review.md`.
-2. Security Reviewer: security-reviewer-agent.md -> `review/{current-date}/sec-review.md`.
-If critical issues are found, fix before Phase 4.
+Spawn 1 subagent:
+1. **Reviewer Agent**: use reviewer-agent.md. Perform code review, security review, sync design doc, write feature docs, and summarize changes. Agent MUST read `mistakes.md` first. Outputs:
+   - `review/{current-date}/code-review.md`
+   - `review/{current-date}/sec-review.md`
+   - `review/{current-date}/features.md`
+   - `review/{current-date}/summary.md`
+   - Updates `design-doc.md`
 
-## Phase 4: Document (parallel)
-Use `review/{current-date}/`.
-Spawn 3 subagents:
-1. Design Doc Syncer: design-doc-syncer-agent.md, update `design-doc.md`.
-2. Feature Documenter: feature-documenter-agent.md -> `review/{current-date}/features.md`.
-3. Changes Summarizer: changes-sumarizer-agent.md -> `review/{current-date}/summary.md`.
+If critical issues are found, fix them and record in `mistakes.md`.
 
 ## Changelog
 Create `changelog.md` using git info:
