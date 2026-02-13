@@ -2,6 +2,15 @@
 
 Full-stack Twitter clone built with Rust (Axum) backend, React 19 (TypeScript) frontend, and SQLite database.
 
+1. Login <br/>
+<img src="login.png" width="600" >
+
+2. Home <br/>
+<img src="home.png" width="600" >
+
+3. Post <br/>
+<img src="post.png" width="600" >
+
 ## Overview
 
 A social media application supporting user registration/login, posting (280 char limit), likes, follows, timeline feeds, and user profiles. JWT-based authentication protects all API endpoints.
