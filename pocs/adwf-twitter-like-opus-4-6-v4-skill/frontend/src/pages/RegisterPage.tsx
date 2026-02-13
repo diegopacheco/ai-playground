@@ -35,10 +35,11 @@ export function RegisterPage({ onNavigate }: RegisterPageProps) {
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Register</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="reg-username" className="block text-sm font-medium text-gray-700 mb-1">
               Username
             </label>
             <input
+              id="reg-username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -47,10 +48,11 @@ export function RegisterPage({ onNavigate }: RegisterPageProps) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="reg-email" className="block text-sm font-medium text-gray-700 mb-1">
               Email
             </label>
             <input
+              id="reg-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -59,10 +61,11 @@ export function RegisterPage({ onNavigate }: RegisterPageProps) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="reg-password" className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
             <input
+              id="reg-password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

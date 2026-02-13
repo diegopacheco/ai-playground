@@ -19,7 +19,7 @@ describe("LoginPage", () => {
   it("renders login form", () => {
     const onNavigate = vi.fn();
     renderWithProviders(<LoginPage onNavigate={onNavigate} />);
-    expect(screen.getByText("Login")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Login" })).toBeInTheDocument();
     expect(screen.getByLabelText("Username")).toBeInTheDocument();
     expect(screen.getByLabelText("Password")).toBeInTheDocument();
   });

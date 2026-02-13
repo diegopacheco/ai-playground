@@ -34,10 +34,11 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
               Username
             </label>
             <input
+              id="username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -46,10 +47,11 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
             <input
+              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

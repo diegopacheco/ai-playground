@@ -7,10 +7,10 @@
 - [x] Verify Build (compile, run, connectivity)
 
 ## Phase 2: Test
-- [ ] Unit Tests (Backend + Frontend)
-- [ ] Integration Tests
-- [ ] UI Tests (Playwright)
-- [ ] Stress Tests (K6)
+- [x] Unit Tests (Backend + Frontend)
+- [x] Integration Tests
+- [x] UI Tests (Playwright)
+- [x] Stress Tests (K6)
 
 ## Phase 3: Review
 - [ ] Code Review

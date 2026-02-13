@@ -19,7 +19,7 @@ describe("RegisterPage", () => {
   it("renders registration form", () => {
     const onNavigate = vi.fn();
     renderWithProviders(<RegisterPage onNavigate={onNavigate} />);
-    expect(screen.getByText("Register")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Register" })).toBeInTheDocument();
     expect(screen.getByLabelText("Username")).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Password")).toBeInTheDocument();
