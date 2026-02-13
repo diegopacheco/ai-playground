@@ -47,20 +47,6 @@ pub struct PostResponse {
     pub created_at: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
-pub struct Follow {
-    pub follower_id: String,
-    pub following_id: String,
-    pub created_at: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
-pub struct Like {
-    pub user_id: String,
-    pub post_id: String,
-    pub created_at: String,
-}
-
 #[derive(Debug, Deserialize)]
 pub struct RegisterRequest {
     pub username: String,
