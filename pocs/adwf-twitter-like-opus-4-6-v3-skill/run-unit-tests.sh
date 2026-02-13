@@ -1,2 +1,2 @@
 #!/bin/bash
-cd backend && cargo test --lib
+cd backend && cargo test --bin twitter-backend
