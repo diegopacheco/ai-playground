@@ -13,6 +13,11 @@ cleanup() {
   rm -f "$DB_FILE"
 }
 trap cleanup EXIT
+EXISTING_PID=$(lsof -ti :8080 2>/dev/null)
+if [ -n "$EXISTING_PID" ]; then
+  kill $EXISTING_PID 2>/dev/null || true
+  sleep 1
+fi
 rm -f "$DB_FILE"
 cd "$BACKEND_DIR" && cargo build --quiet 2>&1
 cd "$BACKEND_DIR" && ./target/debug/twitter-backend &
