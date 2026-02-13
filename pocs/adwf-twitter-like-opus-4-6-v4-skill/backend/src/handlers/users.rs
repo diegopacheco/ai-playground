@@ -1,4 +1,5 @@
 use axum::extract::{Path, State};
+use axum::http::StatusCode;
 use axum::Json;
 use sqlx::SqlitePool;
 
@@ -11,7 +12,7 @@ use crate::models::user::{
 pub async fn register(
     State(pool): State<SqlitePool>,
     Json(req): Json<CreateUserRequest>,
-) -> Result<Json<UserResponse>, AppError> {
+) -> Result<(StatusCode, Json<LoginResponse>), AppError> {
     if req.username.is_empty() || req.email.is_empty() || req.password.is_empty() {
         return Err(AppError::BadRequest("All fields are required".to_string()));
     }
@@ -34,7 +35,11 @@ pub async fn register(
                 .bind(user_id)
                 .fetch_one(&pool)
                 .await?;
-            Ok(Json(UserResponse::from(user)))
+            let token = create_token(user.id, &user.username)?;
+            Ok((StatusCode::CREATED, Json(LoginResponse {
+                token,
+                user: UserResponse::from(user),
+            })))
         }
         Err(sqlx::Error::Database(err)) if err.message().contains("UNIQUE") => {
             Err(AppError::Conflict("Username or email already exists".to_string()))

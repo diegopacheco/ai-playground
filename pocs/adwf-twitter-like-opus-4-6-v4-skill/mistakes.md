@@ -9,3 +9,13 @@
 - Test files (*.test.tsx) must be excluded from tsconfig.app.json to avoid build failures from test-only imports (vitest, @testing-library).
 - With `verbatimModuleSyntax: true`, always use `import type` for type-only imports; mixing value and type imports causes errors.
 - vitest.config.ts must NOT be included in tsconfig.node.json to avoid Plugin type conflicts between vitest's bundled vite and the project's vite.
+- [Phase 2: Test] Labels in forms must use htmlFor+id to connect to inputs; otherwise getByLabelText fails in testing-library.
+- [Phase 2: Test] Register handler must return a LoginResponse (with token) to match frontend AuthResponse type, not just UserResponse.
+- [Phase 2: Test] Integration tests should accept 200 or 201 for create operations since Axum defaults to 200 unless explicitly using StatusCode::CREATED.
+- [Review] getUserPosts frontend function sends user_id as query param to /api/posts but backend get_all_posts ignores user_id; profile page shows all posts instead of only the user's posts.
+- [Review] liked_by_me field is used on the frontend PostCard and PostDetailPage but the backend PostResponse never includes this field; like toggle always shows "not liked" state.
+- [Review] Frontend types PaginatedResponse, FollowInfo, and LikeCount.liked_by_me are defined but do not match any backend response shape; they are dead code.
+- [Review] PostRow in handlers/posts.rs and FeedRow in handlers/feed.rs are identical structs with identical into_response methods; should be a single shared type.
+- [Review] delete_post returns AppError::Unauthorized (401) when the user lacks ownership; the correct status is 403 Forbidden.
+- [Review] JWT secret is hardcoded in auth.rs as a string constant; must be loaded from environment variable in production.
+- [Review] sqlx::Error is converted to AppError::Internal with err.to_string() which can leak database schema details to clients.
