@@ -39,5 +39,5 @@ CREATE INDEX IF NOT EXISTS idx_follows_follower_id ON follows(follower_id);
 CREATE INDEX IF NOT EXISTS idx_follows_following_id ON follows(following_id);
 
 INSERT INTO users (username, email, password_hash, display_name)
-VALUES ('admin', 'admin@twitter.local', '$2b$12$LJ3m4ys3GZfbFMmKzUNGJeXF8N0S8FEbg0GfKFjGMGBqm7mLwGxKq', 'Admin User')
+VALUES ('admin', 'admin@twitter.local', '$2b$10$HUq/AB1CeyyL.lMxbTVbOeAG0ZwYYYMzjOE5wJFso0EE24RxiYA7O', 'Admin User')
 ON CONFLICT (username) DO NOTHING;
