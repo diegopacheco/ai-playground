@@ -1,6 +1,9 @@
 #!/bin/bash
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+kill $(lsof -ti:8080) 2>/dev/null
+kill $(lsof -ti:5173) 2>/dev/null
+
 echo "Starting database..."
 "$SCRIPT_DIR/db/start-db.sh"
 echo "Applying schema..."
