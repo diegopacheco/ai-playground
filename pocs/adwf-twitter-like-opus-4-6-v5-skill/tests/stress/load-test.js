@@ -54,7 +54,7 @@ export default function () {
     JSON.stringify({ content: `K6 load test tweet ${uniqueId}` }),
     { headers: authHeaders }
   );
-  check(tweetRes, { "create tweet status is 200": (r) => r.status === 200 });
+  check(tweetRes, { "create tweet status is 201": (r) => r.status === 201 });
 
   const feedRes = http.get(`${BASE_URL}/tweets/feed`, {
     headers: authHeaders,

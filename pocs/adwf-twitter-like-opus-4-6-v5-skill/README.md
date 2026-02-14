@@ -2,6 +2,16 @@
 
 A full-stack Twitter-like social media application built with Rust (Axum), React 19, and PostgreSQL.
 
+Login <br/>
+<img src="login.png" width="600" />
+
+Timeline <br/>
+<img src="timeline.png" width="600" />
+
+Profile <br/>
+<img src="profile.png" width="600" />
+
+
 ## Documentation
 
 - [Design Document](design-doc.md)
