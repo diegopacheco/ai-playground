@@ -16,6 +16,14 @@ cleanup() {
 }
 trap cleanup EXIT
 
+get_body() {
+  echo "$1" | sed '$d'
+}
+
+get_status() {
+  echo "$1" | tail -1
+}
+
 assert_status() {
   local description="$1"
   local expected="$2"
@@ -66,8 +74,8 @@ echo "=== Register ==="
 REGISTER_RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$BASE_URL/auth/register" \
   -H "Content-Type: application/json" \
   -d "{\"username\":\"$USERNAME\",\"email\":\"$EMAIL\",\"password\":\"password123\"}")
-REGISTER_BODY=$(echo "$REGISTER_RESPONSE" | head -n -1)
-REGISTER_STATUS=$(echo "$REGISTER_RESPONSE" | tail -n 1)
+REGISTER_BODY=$(get_body "$REGISTER_RESPONSE")
+REGISTER_STATUS=$(get_status "$REGISTER_RESPONSE")
 assert_status "Register user" "200" "$REGISTER_STATUS"
 assert_contains "Register returns token" "token" "$REGISTER_BODY"
 
@@ -76,8 +84,8 @@ echo "=== Login ==="
 LOGIN_RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$BASE_URL/auth/login" \
   -H "Content-Type: application/json" \
   -d "{\"email\":\"$EMAIL\",\"password\":\"password123\"}")
-LOGIN_BODY=$(echo "$LOGIN_RESPONSE" | head -n -1)
-LOGIN_STATUS=$(echo "$LOGIN_RESPONSE" | tail -n 1)
+LOGIN_BODY=$(get_body "$LOGIN_RESPONSE")
+LOGIN_STATUS=$(get_status "$LOGIN_RESPONSE")
 assert_status "Login user" "200" "$LOGIN_STATUS"
 assert_contains "Login returns token" "token" "$LOGIN_BODY"
 
@@ -90,9 +98,9 @@ TWEET_RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$BASE_URL/tweets" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $TOKEN" \
   -d '{"content":"Hello from integration test"}')
-TWEET_BODY=$(echo "$TWEET_RESPONSE" | head -n -1)
-TWEET_STATUS=$(echo "$TWEET_RESPONSE" | tail -n 1)
-assert_status "Create tweet" "200" "$TWEET_STATUS"
+TWEET_BODY=$(get_body "$TWEET_RESPONSE")
+TWEET_STATUS=$(get_status "$TWEET_RESPONSE")
+assert_status "Create tweet" "201" "$TWEET_STATUS"
 assert_contains "Tweet has content" "Hello from integration test" "$TWEET_BODY"
 
 TWEET_ID=$(echo "$TWEET_BODY" | grep -o '"id":[0-9]*' | head -1 | cut -d: -f2)
@@ -101,31 +109,31 @@ echo ""
 echo "=== Get Tweet ==="
 GET_TWEET_RESPONSE=$(curl -s -w "\n%{http_code}" "$BASE_URL/tweets/$TWEET_ID" \
   -H "Authorization: Bearer $TOKEN")
-GET_TWEET_STATUS=$(echo "$GET_TWEET_RESPONSE" | tail -n 1)
+GET_TWEET_STATUS=$(get_status "$GET_TWEET_RESPONSE")
 assert_status "Get tweet" "200" "$GET_TWEET_STATUS"
 
 echo ""
 echo "=== Get Feed ==="
 FEED_RESPONSE=$(curl -s -w "\n%{http_code}" "$BASE_URL/tweets/feed" \
   -H "Authorization: Bearer $TOKEN")
-FEED_STATUS=$(echo "$FEED_RESPONSE" | tail -n 1)
+FEED_STATUS=$(get_status "$FEED_RESPONSE")
 assert_status "Get feed" "200" "$FEED_STATUS"
 
 echo ""
 echo "=== Like Tweet ==="
 LIKE_RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$BASE_URL/tweets/$TWEET_ID/like" \
   -H "Authorization: Bearer $TOKEN")
-LIKE_STATUS=$(echo "$LIKE_RESPONSE" | tail -n 1)
+LIKE_STATUS=$(get_status "$LIKE_RESPONSE")
 assert_status "Like tweet" "200" "$LIKE_STATUS"
 
 echo ""
 echo "=== Unlike Tweet ==="
 UNLIKE_RESPONSE=$(curl -s -w "\n%{http_code}" -X DELETE "$BASE_URL/tweets/$TWEET_ID/like" \
   -H "Authorization: Bearer $TOKEN")
-UNLIKE_STATUS=$(echo "$UNLIKE_RESPONSE" | tail -n 1)
+UNLIKE_STATUS=$(get_status "$UNLIKE_RESPONSE")
 assert_status "Unlike tweet" "200" "$UNLIKE_STATUS"
 
-TIMESTAMP2=$(date +%s%N)
+TIMESTAMP2=$(date +%s)
 USERNAME2="testuser2_${TIMESTAMP2}"
 EMAIL2="test2_${TIMESTAMP2}@test.com"
 curl -s -X POST "$BASE_URL/auth/register" \
@@ -140,22 +148,22 @@ echo ""
 echo "=== Follow User ==="
 FOLLOW_RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$BASE_URL/users/$USER2_ID/follow" \
   -H "Authorization: Bearer $TOKEN")
-FOLLOW_STATUS=$(echo "$FOLLOW_RESPONSE" | tail -n 1)
+FOLLOW_STATUS=$(get_status "$FOLLOW_RESPONSE")
 assert_status "Follow user" "200" "$FOLLOW_STATUS"
 
 echo ""
 echo "=== Unfollow User ==="
 UNFOLLOW_RESPONSE=$(curl -s -w "\n%{http_code}" -X DELETE "$BASE_URL/users/$USER2_ID/follow" \
   -H "Authorization: Bearer $TOKEN")
-UNFOLLOW_STATUS=$(echo "$UNFOLLOW_RESPONSE" | tail -n 1)
+UNFOLLOW_STATUS=$(get_status "$UNFOLLOW_RESPONSE")
 assert_status "Unfollow user" "200" "$UNFOLLOW_STATUS"
 
 echo ""
 echo "=== Delete Tweet ==="
 DELETE_RESPONSE=$(curl -s -w "\n%{http_code}" -X DELETE "$BASE_URL/tweets/$TWEET_ID" \
   -H "Authorization: Bearer $TOKEN")
-DELETE_STATUS=$(echo "$DELETE_RESPONSE" | tail -n 1)
-assert_status "Delete tweet" "200" "$DELETE_STATUS"
+DELETE_STATUS=$(get_status "$DELETE_RESPONSE")
+assert_status "Delete tweet" "204" "$DELETE_STATUS"
 
 echo ""
 echo "========================="
