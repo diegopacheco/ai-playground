@@ -3,14 +3,23 @@
 ## Run
 
 ```
-./run-litellm.sh
+export OPENAI_API_KEY=your_api_key
+./start.sh
+```
+
+## Rust AI Application
+
+```
+export OPENAI_API_KEY=your_api_key
+cargo build
+cargo run
 ```
 
 ## Python AI Application
 
 ```
 export OPENAI_API_KEY=your_api_key
-./run-python3-app.sh
+./test.sh
 ```
 
 ## UI
