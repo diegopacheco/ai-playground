@@ -18,3 +18,34 @@ impl Config {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_config_struct_fields() {
+        let config = Config {
+            database_url: "pg://localhost/test".to_string(),
+            jwt_secret: "secret".to_string(),
+            server_port: 9090,
+        };
+        assert_eq!(config.database_url, "pg://localhost/test");
+        assert_eq!(config.jwt_secret, "secret");
+        assert_eq!(config.server_port, 9090);
+    }
+
+    #[test]
+    fn test_config_from_env_returns_config() {
+        let config = Config::from_env();
+        assert!(!config.database_url.is_empty());
+        assert!(!config.jwt_secret.is_empty());
+        assert!(config.server_port > 0);
+    }
+
+    #[test]
+    fn test_config_port_is_reasonable() {
+        let config = Config::from_env();
+        assert!(config.server_port > 0);
+    }
+}

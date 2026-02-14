@@ -9,7 +9,7 @@ pub async fn create_tweet(
     Extension(auth_user): Extension<AuthUser>,
     Json(payload): Json<CreateTweetRequest>,
 ) -> Result<(StatusCode, Json<TweetWithAuthor>), StatusCode> {
-    if payload.content.is_empty() || payload.content.len() > 280 {
+    if !payload.is_valid() {
         return Err(StatusCode::BAD_REQUEST);
     }
 

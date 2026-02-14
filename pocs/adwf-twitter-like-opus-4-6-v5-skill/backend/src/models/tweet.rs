@@ -17,3 +17,52 @@ pub struct TweetWithAuthor {
 pub struct CreateTweetRequest {
     pub content: String,
 }
+
+impl CreateTweetRequest {
+    pub fn is_valid(&self) -> bool {
+        !self.content.trim().is_empty() && self.content.len() <= 280
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_valid_tweet() {
+        let req = CreateTweetRequest { content: "Hello world".to_string() };
+        assert!(req.is_valid());
+    }
+
+    #[test]
+    fn test_empty_tweet_is_invalid() {
+        let req = CreateTweetRequest { content: "".to_string() };
+        assert!(!req.is_valid());
+    }
+
+    #[test]
+    fn test_whitespace_only_tweet_is_invalid() {
+        let req = CreateTweetRequest { content: "   ".to_string() };
+        assert!(!req.is_valid());
+    }
+
+    #[test]
+    fn test_280_chars_is_valid() {
+        let content = "a".repeat(280);
+        let req = CreateTweetRequest { content };
+        assert!(req.is_valid());
+    }
+
+    #[test]
+    fn test_281_chars_is_invalid() {
+        let content = "a".repeat(281);
+        let req = CreateTweetRequest { content };
+        assert!(!req.is_valid());
+    }
+
+    #[test]
+    fn test_single_char_is_valid() {
+        let req = CreateTweetRequest { content: "x".to_string() };
+        assert!(req.is_valid());
+    }
+}

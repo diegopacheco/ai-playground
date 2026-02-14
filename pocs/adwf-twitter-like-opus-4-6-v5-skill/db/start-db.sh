@@ -1,4 +1,7 @@
 #!/bin/bash
+podman stop twitter-postgres 2>/dev/null
+podman rm twitter-postgres 2>/dev/null
+
 podman run -d \
   --name twitter-postgres \
   -e POSTGRES_USER=twitter \
