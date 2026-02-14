@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  postgres:
+    image: docker.io/library/postgres:18
+    container_name: twitter-postgres
+    environment:
+      POSTGRES_USER: twitter
+      POSTGRES_PASSWORD: twitter123
+      POSTGRES_DB: twitter
+    ports:
+      - "5432:5432"
+    volumes:
+      - twitter_data:/var/lib/postgresql/data
+
+volumes:
+  twitter_data:
