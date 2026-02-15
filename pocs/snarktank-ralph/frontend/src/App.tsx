@@ -84,6 +84,7 @@ function AppContent() {
   const [page, setPage] = useState<'login' | 'register'>('login');
   const [snarks, setSnarks] = useState<Snark[]>([]);
   const [activeTab, setActiveTab] = useState<'all' | 'following'>('all');
+  const [searchInput, setSearchInput] = useState('');
   const { path, navigate } = useRoute();
 
   const loadSnarks = useCallback(async (tab: 'all' | 'following' = activeTab) => {
@@ -132,7 +133,6 @@ function AppContent() {
     } catch {}
   }
 
-  const [searchInput, setSearchInput] = useState('');
   const profileMatch = path.match(/^\/profile\/(.+)$/);
   const snarkMatch = path.match(/^\/snark\/(\d+)$/);
   const searchMatch = path.match(/^\/search\?q=(.+)$/);

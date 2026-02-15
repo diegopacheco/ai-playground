@@ -140,7 +140,7 @@
       "id": "ST-010",
       "title": "Search Users and Snarks",
       "priority": 10,
-      "passes": false,
+      "passes": true,
       "description": "Add a search bar that allows searching for users by username/display name and snarks by content. Results are displayed in separate sections.",
       "acceptanceCriteria": [
         "Search bar in the navigation header",

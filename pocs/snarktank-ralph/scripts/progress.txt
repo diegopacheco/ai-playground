@@ -33,6 +33,11 @@ Started: 2026-02-14
 - POST /api/snarks accepts optional parentId field for replies; validates parent exists
 - GET /api/snarks/:id returns snark detail with nested replies array (chronological ASC order)
 - Snark detail page route #/snark/:id must be matched before #/profile/:username in AppContent
+- Search router in backend/src/search.js, mounted at /api/search in index.js
+- GET /api/search?q=term returns { users: [], snarks: [] } with case-insensitive LIKE matching
+- Search uses optional auth pattern (inline JWT parsing) for followedByMe and likedByMe fields
+- All useState hooks in AppContent must be declared BEFORE the early return for !user (React hooks rule)
+- Search route #/search?q=... must be matched before #/profile/:username in AppContent routing
 ---
 
 ## 2026-02-14 - ST-001
@@ -177,4 +182,23 @@ Started: 2026-02-14
   - Replies use chronological order (ASC) unlike timeline (DESC) - this is intentional for conversation flow
   - POST /api/snarks now returns likeCount, replyCount, likedByMe in response (was missing before)
   - SnarkCard route for /snark/:id must be checked before /profile/:username in AppContent to avoid conflicts
+---
+
+## 2026-02-15 - ST-010
+- Implemented Search Users and Snarks feature
+- Backend: Created GET /api/search?q=term endpoint in search.js, returns { users: [], snarks: [] }
+- Search uses LIKE with COLLATE NOCASE for case-insensitive matching on username, display_name, and snark content
+- Search excludes replies (parent_id IS NULL filter) from snark results
+- Frontend: Added search bar in header, SearchPage component with Users and Snarks result sections
+- User results show profile card with follow button, snark results show full snark cards
+- Added 18 search-specific API tests (empty query, username search, display name search, content search, case-insensitive, auth, reply exclusion)
+- Files changed: backend/src/search.js (new), backend/src/index.js, backend/src/test.js, frontend/src/SearchPage.tsx (new), frontend/src/App.tsx, frontend/src/App.css, scripts/prd.json
+- All 162 tests pass, TypeScript compiles clean, frontend builds
+- Browser verified: search bar in header, search results page at #/search?q=term works correctly
+- **Learnings for future iterations:**
+  - All useState hooks must be declared before any conditional returns in React components (hooks rule of order)
+  - Search route in AppContent must be matched before profile route to avoid /search?q=... being caught by /profile/:username
+  - Search router follows same pattern as other routers: separate file, export router, mount in index.js
+  - COLLATE NOCASE in SQLite LIKE queries handles case-insensitive search without extra logic
+  - Search endpoint uses same optional auth pattern as GET /api/snarks for likedByMe/followedByMe fields
 ---
