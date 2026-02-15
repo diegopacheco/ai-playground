@@ -24,6 +24,36 @@ router.put('/profile', authMiddleware, (req, res) => {
   });
 });
 
+router.post('/:id/follow', authMiddleware, (req, res) => {
+  const targetId = parseInt(req.params.id);
+  if (targetId === req.user.id) {
+    return res.status(400).json({ error: 'Cannot follow yourself' });
+  }
+  const targetUser = db.prepare('SELECT id FROM users WHERE id = ?').get(targetId);
+  if (!targetUser) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+  try {
+    db.prepare('INSERT INTO follows (follower_id, following_id) VALUES (?, ?)').run(req.user.id, targetId);
+  } catch {
+    return res.status(409).json({ error: 'Already following this user' });
+  }
+  const followerCount = db.prepare('SELECT COUNT(*) as count FROM follows WHERE following_id = ?').get(targetId).count;
+  const followingCount = db.prepare('SELECT COUNT(*) as count FROM follows WHERE follower_id = ?').get(targetId).count;
+  res.json({ following: true, followerCount, followingCount });
+});
+
+router.delete('/:id/follow', authMiddleware, (req, res) => {
+  const targetId = parseInt(req.params.id);
+  const result = db.prepare('DELETE FROM follows WHERE follower_id = ? AND following_id = ?').run(req.user.id, targetId);
+  if (result.changes === 0) {
+    return res.status(404).json({ error: 'Not following this user' });
+  }
+  const followerCount = db.prepare('SELECT COUNT(*) as count FROM follows WHERE following_id = ?').get(targetId).count;
+  const followingCount = db.prepare('SELECT COUNT(*) as count FROM follows WHERE follower_id = ?').get(targetId).count;
+  res.json({ following: false, followerCount, followingCount });
+});
+
 router.get('/:username', (req, res) => {
   const user = db.prepare('SELECT id, username, display_name, bio, created_at FROM users WHERE username = ?').get(req.params.username);
   if (!user) {
@@ -38,6 +68,12 @@ router.get('/:username', (req, res) => {
       authUserId = decoded.id;
     } catch {}
   }
+
+  const followerCount = db.prepare('SELECT COUNT(*) as count FROM follows WHERE following_id = ?').get(user.id).count;
+  const followingCount = db.prepare('SELECT COUNT(*) as count FROM follows WHERE follower_id = ?').get(user.id).count;
+  const followedByMe = authUserId
+    ? db.prepare('SELECT COUNT(*) as count FROM follows WHERE follower_id = ? AND following_id = ?').get(authUserId, user.id).count > 0
+    : false;
 
   const snarks = db.prepare(`
     SELECT s.id, s.content, s.created_at, s.parent_id,
@@ -57,6 +93,9 @@ router.get('/:username', (req, res) => {
     displayName: user.display_name,
     bio: user.bio || '',
     createdAt: user.created_at,
+    followerCount,
+    followingCount,
+    followedByMe,
     snarks: snarks.map(s => ({
       id: s.id,
       content: s.content,

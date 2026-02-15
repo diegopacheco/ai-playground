@@ -245,6 +245,45 @@ async function runApiTests() {
 
     const profileWithAuth = await request('GET', '/api/users/timeline_user', null, loginToken);
     assert(profileWithAuth.status === 200, 'profile works with auth token');
+    assert(profileWithAuth.body.followerCount !== undefined, 'profile has followerCount');
+    assert(profileWithAuth.body.followingCount !== undefined, 'profile has followingCount');
+    assert(profileWithAuth.body.followedByMe !== undefined, 'profile has followedByMe');
+
+    const likeUserId = reg2.body.user.id;
+    const timelineUserId = reg.body.user.id;
+
+    const followRes = await request('POST', `/api/users/${timelineUserId}/follow`, {}, likeToken);
+    assert(followRes.status === 200, 'POST /api/users/:id/follow returns 200');
+    assert(followRes.body.following === true, 'follow response has following=true');
+    assert(followRes.body.followerCount === 1, 'follower count is 1 after follow');
+
+    const doubleFollow = await request('POST', `/api/users/${timelineUserId}/follow`, {}, likeToken);
+    assert(doubleFollow.status === 409, 'cannot follow same user twice');
+
+    const selfFollow = await request('POST', `/api/users/${likeUserId}/follow`, {}, likeToken);
+    assert(selfFollow.status === 400, 'cannot follow yourself');
+
+    const profileAfterFollow = await request('GET', '/api/users/timeline_user', null, likeToken);
+    assert(profileAfterFollow.body.followerCount === 1, 'profile shows 1 follower');
+    assert(profileAfterFollow.body.followedByMe === true, 'followedByMe is true for follower');
+
+    const profileNotFollower = await request('GET', '/api/users/like_user', null, loginToken);
+    assert(profileNotFollower.body.followedByMe === false, 'followedByMe is false when not following');
+    assert(profileNotFollower.body.followerCount === 0, 'non-followed user has 0 followers');
+
+    const unfollowRes = await request('DELETE', `/api/users/${timelineUserId}/follow`, {}, likeToken);
+    assert(unfollowRes.status === 200, 'DELETE /api/users/:id/follow returns 200');
+    assert(unfollowRes.body.following === false, 'unfollow response has following=false');
+    assert(unfollowRes.body.followerCount === 0, 'follower count is 0 after unfollow');
+
+    const doubleUnfollow = await request('DELETE', `/api/users/${timelineUserId}/follow`, {}, likeToken);
+    assert(doubleUnfollow.status === 404, 'cannot unfollow user not being followed');
+
+    const followNoAuth = await request('POST', `/api/users/${timelineUserId}/follow`, {});
+    assert(followNoAuth.status === 401, 'follow requires authentication');
+
+    const followNotFound = await request('POST', '/api/users/99999/follow', {}, likeToken);
+    assert(followNotFound.status === 404, 'follow returns 404 for non-existent user');
 
   } finally {
     await new Promise(r => server.close(r));

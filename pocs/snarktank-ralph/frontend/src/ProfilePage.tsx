@@ -21,6 +21,9 @@ interface ProfileData {
   displayName: string;
   bio: string;
   createdAt: string;
+  followerCount: number;
+  followingCount: number;
+  followedByMe: boolean;
   snarks: ProfileSnark[];
 }
 
@@ -117,6 +120,26 @@ export default function ProfilePage({ username, onNavigate }: { username: string
     return <div className="profile-page"><p className="empty-state">Loading...</p></div>;
   }
 
+  async function handleFollowToggle() {
+    if (!profile || !token) return;
+    const method = profile.followedByMe ? 'DELETE' : 'POST';
+    try {
+      const res = await fetch(`/api/users/${profile.id}/follow`, {
+        method,
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setProfile(prev => prev ? {
+          ...prev,
+          followedByMe: data.following,
+          followerCount: data.followerCount,
+          followingCount: data.followingCount,
+        } : null);
+      }
+    } catch {}
+  }
+
   const isOwnProfile = user && user.username === profile.username;
   const joinDate = new Date(profile.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
@@ -124,9 +147,19 @@ export default function ProfilePage({ username, onNavigate }: { username: string
     <div className="profile-page">
       <button className="back-btn" onClick={() => onNavigate('/')}>Back</button>
       <div className="profile-header">
-        <div className="profile-names">
-          <h2 className="profile-display-name">{profile.displayName}</h2>
-          <span className="profile-username">@{profile.username}</span>
+        <div className="profile-names-row">
+          <div className="profile-names">
+            <h2 className="profile-display-name">{profile.displayName}</h2>
+            <span className="profile-username">@{profile.username}</span>
+          </div>
+          {!isOwnProfile && user && (
+            <button
+              className={`follow-btn ${profile.followedByMe ? 'following' : ''}`}
+              onClick={handleFollowToggle}
+            >
+              {profile.followedByMe ? 'Unfollow' : 'Follow'}
+            </button>
+          )}
         </div>
         <div className="profile-bio-section">
           {editingBio ? (
@@ -152,6 +185,10 @@ export default function ProfilePage({ username, onNavigate }: { username: string
               )}
             </div>
           )}
+        </div>
+        <div className="profile-stats">
+          <span><strong>{profile.followingCount}</strong> Following</span>
+          <span><strong>{profile.followerCount}</strong> Followers</span>
         </div>
         <p className="profile-joined">Joined {joinDate}</p>
       </div>
