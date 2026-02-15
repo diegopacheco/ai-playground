@@ -17,6 +17,9 @@ Started: 2026-02-14
 - POST /api/snarks requires auth, validates max 280 chars and non-empty
 - Snark API returns camelCase JSON with nested author object { id, username, displayName }
 - timeAgo utility in App.tsx for relative timestamps
+- ORDER BY uses `created_at DESC, id DESC` for stable ordering when timestamps match
+- index.js uses `require.main === module` guard so app can be imported in tests without auto-starting
+- API tests use plain http module requests against app.listen(3002) in test.js
 ---
 
 ## 2026-02-14 - ST-001
@@ -62,4 +65,18 @@ Started: 2026-02-14
   - GET /api/snarks uses subqueries for like_count and reply_count - future stories can rely on these
   - ComposeSnark uses onSnarkPosted callback to prepend new snark to timeline state without refetch
   - WHERE parent_id IS NULL in GET /api/snarks filters out replies from main timeline
+---
+
+## 2026-02-14 - ST-004
+- Verified and hardened the timeline feed implementation
+- Added stable ordering with `id DESC` tiebreaker for snarks with same timestamp
+- Made index.js test-friendly with `require.main === module` guard
+- Added 16 API-level tests for timeline: ordering, pagination (limit/offset), response shape (author, createdAt, likeCount, replyCount)
+- Files changed: backend/src/snarks.js, backend/src/index.js, backend/src/test.js
+- All 54 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - SQLite CURRENT_TIMESTAMP has second-level precision, so rapidly inserted rows share timestamps - always add `id DESC` as tiebreaker
+  - Use `require.main === module` pattern in index.js to prevent server auto-start during tests
+  - API tests use Node http module directly against a test server on port 3002
+  - The request() helper in test.js can be reused for all future API endpoint tests
 ---

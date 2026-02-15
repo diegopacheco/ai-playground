@@ -50,7 +50,7 @@ router.get('/', (req, res) => {
     FROM snarks s
     JOIN users u ON s.user_id = u.id
     WHERE s.parent_id IS NULL
-    ORDER BY s.created_at DESC
+    ORDER BY s.created_at DESC, s.id DESC
     LIMIT ? OFFSET ?
   `).all(limit, offset);
 

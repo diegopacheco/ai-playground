@@ -56,7 +56,7 @@
       "id": "ST-004",
       "title": "Timeline Feed",
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "description": "Display a timeline feed showing all snarks in reverse chronological order. Each snark card shows the author display name, username, content, and relative timestamp (e.g., '5m ago').",
       "acceptanceCriteria": [
         "Timeline shows all snarks newest first",
