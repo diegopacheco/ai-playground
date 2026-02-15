@@ -78,6 +78,29 @@ const hashedPassword2 = bcrypt.hashSync('pass456', 10);
 const result2 = db.prepare('INSERT INTO users (username, display_name, password) VALUES (?, ?, ?)').run('testuser2', 'Test User 2', hashedPassword2);
 assert(result2.lastInsertRowid > 0, 'second user can register with different username');
 
+const snarkResult = db.prepare('INSERT INTO snarks (user_id, content) VALUES (?, ?)').run(user.id, 'Hello SnarkTank!');
+assert(snarkResult.lastInsertRowid > 0, 'snark can be inserted');
+
+const snark = db.prepare('SELECT * FROM snarks WHERE id = ?').get(snarkResult.lastInsertRowid);
+assert(snark.content === 'Hello SnarkTank!', 'snark content stored correctly');
+assert(snark.user_id === user.id, 'snark user_id stored correctly');
+assert(snark.parent_id === null, 'snark parent_id is null for top-level snark');
+assert(snark.created_at !== null, 'snark has created_at timestamp');
+
+const maxContent = 'a'.repeat(280);
+const snarkMax = db.prepare('INSERT INTO snarks (user_id, content) VALUES (?, ?)').run(user.id, maxContent);
+assert(snarkMax.lastInsertRowid > 0, 'snark with 280 characters can be inserted');
+
+const snarkResult2 = db.prepare('INSERT INTO snarks (user_id, content) VALUES (?, ?)').run(result2.lastInsertRowid, 'Second user snark');
+assert(snarkResult2.lastInsertRowid > 0, 'different user can post snark');
+
+const allSnarks = db.prepare('SELECT s.*, u.username, u.display_name FROM snarks s JOIN users u ON s.user_id = u.id ORDER BY s.created_at DESC').all();
+assert(allSnarks.length === 3, 'all 3 snarks are retrievable');
+assert(allSnarks[0].created_at >= allSnarks[1].created_at, 'snarks ordered by created_at desc');
+
+const userSnarks = db.prepare('SELECT * FROM snarks WHERE user_id = ?').all(user.id);
+assert(userSnarks.length === 2, 'can filter snarks by user_id');
+
 console.log(`\nResults: ${passed} passed, ${failed} failed`);
 
 db.exec("DELETE FROM likes; DELETE FROM follows; DELETE FROM snarks; DELETE FROM users;");

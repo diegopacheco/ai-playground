@@ -126,3 +126,118 @@
 .app-main {
   padding: 20px 0;
 }
+
+.compose-form {
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+}
+
+.compose-input {
+  width: 100%;
+  border: none;
+  resize: none;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.compose-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+  border-top: 1px solid #e1e8ed;
+  padding-top: 8px;
+}
+
+.char-count {
+  color: #657786;
+  font-size: 14px;
+}
+
+.char-count-warning {
+  color: #ffad1f;
+}
+
+.char-count-over {
+  color: #e0245e;
+}
+
+.compose-error {
+  color: #e0245e;
+  font-size: 14px;
+}
+
+.compose-btn {
+  background: #1da1f2;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.compose-btn:hover {
+  background: #1991db;
+}
+
+.compose-btn:disabled {
+  background: #a0d1f5;
+  cursor: not-allowed;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.snark-card {
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.snark-author {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.snark-display-name {
+  font-weight: bold;
+  color: #14171a;
+}
+
+.snark-username {
+  color: #657786;
+}
+
+.snark-time {
+  color: #657786;
+  font-size: 14px;
+}
+
+.snark-time::before {
+  content: '\00b7';
+  margin-right: 6px;
+}
+
+.snark-content {
+  font-size: 15px;
+  line-height: 1.4;
+  color: #14171a;
+}
+
+.empty-state {
+  text-align: center;
+  color: #657786;
+  padding: 40px 0;
+}
