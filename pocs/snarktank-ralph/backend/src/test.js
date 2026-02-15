@@ -317,6 +317,46 @@ async function runApiTests() {
     const followingAfterUnfollow = await request('GET', '/api/snarks/following', null, likeToken);
     assert(followingAfterUnfollow.body.length === 0, 'following feed empty after unfollowing');
 
+    const parentSnark = await request('POST', '/api/snarks', { content: 'Parent snark for replies' }, loginToken);
+    const parentId = parentSnark.body.id;
+
+    const reply1 = await request('POST', '/api/snarks', { content: 'First reply', parentId }, likeToken);
+    assert(reply1.status === 201, 'reply to snark returns 201');
+    assert(reply1.body.parentId === parentId, 'reply has correct parentId');
+    assert(reply1.body.content === 'First reply', 'reply content stored correctly');
+    assert(reply1.body.likeCount === 0, 'reply response includes likeCount');
+    assert(reply1.body.replyCount === 0, 'reply response includes replyCount');
+
+    const reply2 = await request('POST', '/api/snarks', { content: 'Second reply', parentId }, loginToken);
+    assert(reply2.status === 201, 'second reply returns 201');
+
+    const detailRes = await request('GET', `/api/snarks/${parentId}`, null, loginToken);
+    assert(detailRes.status === 200, 'GET /api/snarks/:id returns 200');
+    assert(detailRes.body.id === parentId, 'snark detail has correct id');
+    assert(detailRes.body.content === 'Parent snark for replies', 'snark detail has correct content');
+    assert(detailRes.body.replyCount === 2, 'snark detail shows correct reply count');
+    assert(Array.isArray(detailRes.body.replies), 'snark detail has replies array');
+    assert(detailRes.body.replies.length === 2, 'snark detail has 2 replies');
+    assert(detailRes.body.replies[0].content === 'First reply', 'replies in chronological order (first)');
+    assert(detailRes.body.replies[1].content === 'Second reply', 'replies in chronological order (second)');
+    assert(detailRes.body.replies[0].author.username === 'like_user', 'reply has correct author');
+
+    const detailNotFound = await request('GET', '/api/snarks/99999');
+    assert(detailNotFound.status === 404, 'GET /api/snarks/:id returns 404 for non-existent snark');
+
+    const replyNoAuth = await request('POST', '/api/snarks', { content: 'unauth reply', parentId });
+    assert(replyNoAuth.status === 401, 'reply requires authentication');
+
+    const replyBadParent = await request('POST', '/api/snarks', { content: 'orphan reply', parentId: 99999 }, loginToken);
+    assert(replyBadParent.status === 404, 'reply to non-existent snark returns 404');
+
+    const timelineAfterReplies = await request('GET', '/api/snarks');
+    const replyInTimeline = timelineAfterReplies.body.find((s) => s.content === 'First reply');
+    assert(replyInTimeline === undefined, 'replies do not appear in main timeline');
+
+    const parentInTimeline = timelineAfterReplies.body.find((s) => s.id === parentId);
+    assert(parentInTimeline.replyCount === 2, 'parent snark shows correct reply count in timeline');
+
   } finally {
     await new Promise(r => server.close(r));
   }
