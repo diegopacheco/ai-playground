@@ -30,6 +30,9 @@ Started: 2026-02-14
 - Profile page at #/profile/:username, matched via regex in AppContent
 - Timeline tabs (All Snarks / Following) managed via activeTab state in AppContent
 - GET /api/snarks/following uses authMiddleware; GET /api/snarks uses optional inline JWT parsing
+- POST /api/snarks accepts optional parentId field for replies; validates parent exists
+- GET /api/snarks/:id returns snark detail with nested replies array (chronological ASC order)
+- Snark detail page route #/snark/:id must be matched before #/profile/:username in AppContent
 ---
 
 ## 2026-02-14 - ST-001
@@ -154,4 +157,24 @@ Started: 2026-02-14
   - The following feed only shows snarks from followed users, NOT the current user's own snarks
   - loadSnarks in App.tsx accepts a tab parameter to allow fetching on tab switch without waiting for state update
   - Tab UI uses .timeline-tabs container with .tab-btn and .tab-btn.active classes
+- POST /api/snarks accepts optional parentId for replies; validates parent exists (404 if not)
+- GET /api/snarks/:id returns snark detail with replies array in chronological order (ASC)
+- Snark detail page at #/snark/:id, matched via regex in AppContent (checked before profileMatch)
+- SnarkDetailPage component in SnarkDetailPage.tsx handles reply form and detail view
+- SnarkCard accepts showReplyBtn prop (default true) to optionally hide reply button
+---
+
+## 2026-02-15 - ST-009
+- Implemented Reply to Snarks feature with reply form, reply count, and snark detail page
+- Backend: Updated POST /api/snarks to accept parentId, added GET /api/snarks/:id for detail with replies
+- Frontend: Added reply button to SnarkCard, created SnarkDetailPage with reply form and replies list
+- Added route #/snark/:id in AppContent routing (checked before profile route)
+- Added 20 reply-specific tests (create reply, parentId, detail, replies array, order, 404, auth, timeline exclusion)
+- Files changed: backend/src/snarks.js, backend/src/test.js, frontend/src/App.tsx, frontend/src/App.css, frontend/src/SnarkDetailPage.tsx (new), scripts/prd.json
+- All 138 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - GET /api/snarks/:id must be registered AFTER /following and / routes but BEFORE /:id/like to avoid conflicts
+  - Replies use chronological order (ASC) unlike timeline (DESC) - this is intentional for conversation flow
+  - POST /api/snarks now returns likeCount, replyCount, likedByMe in response (was missing before)
+  - SnarkCard route for /snark/:id must be checked before /profile/:username in AppContent to avoid conflicts
 ---

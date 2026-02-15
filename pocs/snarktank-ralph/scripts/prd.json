@@ -126,7 +126,7 @@
       "id": "ST-009",
       "title": "Reply to Snarks",
       "priority": 9,
-      "passes": false,
+      "passes": true,
       "description": "Users can reply to snarks. Replies appear below the original snark. Each snark shows its reply count. Clicking a snark opens a detail view with all replies.",
       "acceptanceCriteria": [
         "Reply button on each snark card",

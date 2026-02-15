@@ -4,6 +4,7 @@ import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import ComposeSnark from './ComposeSnark';
 import ProfilePage from './ProfilePage';
+import SnarkDetailPage from './SnarkDetailPage';
 import './App.css';
 
 interface Snark {
@@ -131,6 +132,7 @@ function AppContent() {
   }
 
   const profileMatch = path.match(/^\/profile\/(.+)$/);
+  const snarkMatch = path.match(/^\/snark\/(\d+)$/);
 
   return (
     <div className="app">
@@ -142,7 +144,9 @@ function AppContent() {
         </div>
       </header>
       <main className="app-main">
-        {profileMatch ? (
+        {snarkMatch ? (
+          <SnarkDetailPage snarkId={parseInt(snarkMatch[1])} onNavigate={navigate} />
+        ) : profileMatch ? (
           <ProfilePage username={profileMatch[1]} onNavigate={navigate} />
         ) : (
           <>

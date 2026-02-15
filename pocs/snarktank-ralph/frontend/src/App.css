@@ -472,3 +472,46 @@
   padding-bottom: 8px;
   margin-bottom: 12px;
 }
+
+.reply-btn {
+  background: none;
+  border: none;
+  color: #657786;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.reply-btn:hover {
+  color: #1da1f2;
+  background: #e8f5fd;
+}
+
+.reply-form {
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.replies-title {
+  color: #14171a;
+  border-bottom: 1px solid #e1e8ed;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.reply-card {
+  border-left: 3px solid #1da1f2;
+}
+
+.reply-count {
+  color: #657786;
+  font-size: 14px;
+  padding: 4px 8px;
+}
+
+.snark-detail-card {
+  margin-bottom: 16px;
+}
