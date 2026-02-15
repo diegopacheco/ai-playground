@@ -1,0 +1,15 @@
+digraph code_analyzer {
+    scan [type="tool" tool="shell" prompt="find crates -name '*.rs' | wc -l | tr -d ' '"];
+    count_lines [type="tool" tool="shell" prompt="cat crates/llm-client/src/types.rs | wc -l | tr -d ' '"];
+    list_tests [type="tool" tool="shell" prompt="grep -rn 'fn test_' crates/ --include='*.rs'"];
+    count_tests [type="tool" tool="shell" prompt="grep -rc 'fn test_' crates/ --include='*.rs' | grep -v ':0$'"];
+
+    report_template [type="transform" operation="template" prompt="Project Stats: ${scan_output} rust files, types.rs has ${count_lines_output} lines. Tests found in: ${count_tests_output}"];
+    shout [type="transform" operation="uppercase"];
+
+    scan -> count_lines;
+    count_lines -> list_tests;
+    list_tests -> count_tests;
+    count_tests -> report_template;
+    report_template -> shout;
+}

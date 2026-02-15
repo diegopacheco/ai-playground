@@ -1,0 +1,16 @@
+digraph health_check {
+    check_rust [type="tool" tool="shell" prompt="rustc --version"];
+    check_cargo [type="tool" tool="shell" prompt="cargo --version"];
+    check_git [type="tool" tool="shell" prompt="git --version"];
+    disk_usage [type="tool" tool="shell" prompt="du -sh target 2>/dev/null || echo 'no target dir'"];
+    build_test [type="tool" tool="shell" prompt="cargo test 2>&1 | tail -20"];
+    json_payload [type="transform" operation="template" prompt="{\"rust\": \"${check_rust_output}\", \"cargo\": \"${check_cargo_output}\", \"git\": \"${check_git_output}\", \"disk\": \"${disk_usage_output}\", \"tests\": \"${build_test_output}\"}"];
+    final_report [type="transform" operation="template" prompt="=== ATTRACTOR HEALTH CHECK ===\nRust:  ${check_rust_output}\nCargo: ${check_cargo_output}\nGit:   ${check_git_output}\nDisk:  ${disk_usage_output}\n\nTest Results:\n${build_test_output}\n\nJSON Payload:\n${json_payload_output}\n=============================="];
+
+    check_rust -> check_cargo;
+    check_cargo -> check_git;
+    check_git -> disk_usage;
+    disk_usage -> build_test;
+    build_test -> json_payload;
+    json_payload -> final_report;
+}
