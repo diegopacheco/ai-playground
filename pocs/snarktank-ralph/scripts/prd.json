@@ -70,7 +70,7 @@
       "id": "ST-005",
       "title": "Like a Snark",
       "priority": 5,
-      "passes": false,
+      "passes": true,
       "description": "Users can like and unlike snarks. Each snark shows its like count. The like button toggles between liked and unliked states.",
       "acceptanceCriteria": [
         "Like button on each snark card",

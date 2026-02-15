@@ -20,6 +20,10 @@ Started: 2026-02-14
 - ORDER BY uses `created_at DESC, id DESC` for stable ordering when timestamps match
 - index.js uses `require.main === module` guard so app can be imported in tests without auto-starting
 - API tests use plain http module requests against app.listen(3002) in test.js
+- Test requests must use `Connection: close` header to prevent socket hang up errors on server.close()
+- Like/unlike endpoints: POST/DELETE /api/snarks/:id/like (auth required)
+- GET /api/snarks optionally parses JWT from Authorization header for likedByMe field (no authMiddleware)
+- jwt and JWT_SECRET are imported at top of snarks.js for inline token parsing
 ---
 
 ## 2026-02-14 - ST-001
@@ -79,4 +83,19 @@ Started: 2026-02-14
   - Use `require.main === module` pattern in index.js to prevent server auto-start during tests
   - API tests use Node http module directly against a test server on port 3002
   - The request() helper in test.js can be reused for all future API endpoint tests
+---
+
+## 2026-02-14 - ST-005
+- Implemented Like a Snark feature with like/unlike toggle and count display
+- Backend: POST /api/snarks/:id/like (like), DELETE /api/snarks/:id/like (unlike), both auth-protected
+- Updated GET /api/snarks to include likedByMe field by optionally parsing JWT from Authorization header
+- Frontend: Like button on SnarkCard with liked/unliked state toggle, immediate count update
+- Added 15 like-specific API tests (like, double-like prevention, unlike, likedByMe per user, auth required, 404)
+- Files changed: backend/src/snarks.js, backend/src/test.js, frontend/src/App.tsx, frontend/src/App.css
+- All 69 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - Node.js HTTP keep-alive connections cause "socket hang up" when server.close() is called - use `Connection: close` header in test requests
+  - For optional auth on public endpoints (like GET /api/snarks), parse JWT inline instead of using authMiddleware
+  - Like count uses 409 Conflict for duplicate likes (unique constraint on likes table handles this at DB level too)
+  - SnarkCard now accepts onLikeToggle callback - future actions (reply, etc.) should follow same pattern
 ---
