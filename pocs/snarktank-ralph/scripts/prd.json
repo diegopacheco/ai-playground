@@ -112,7 +112,7 @@
       "id": "ST-008",
       "title": "Following-Only Timeline",
       "priority": 8,
-      "passes": false,
+      "passes": true,
       "description": "Add a tab on the home page to switch between 'All Snarks' and 'Following' feeds. The Following feed only shows snarks from users the current user follows.",
       "acceptanceCriteria": [
         "Two tabs: All Snarks and Following",

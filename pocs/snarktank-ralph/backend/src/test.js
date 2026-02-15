@@ -285,6 +285,38 @@ async function runApiTests() {
     const followNotFound = await request('POST', '/api/users/99999/follow', {}, likeToken);
     assert(followNotFound.status === 404, 'follow returns 404 for non-existent user');
 
+    const reg3 = await request('POST', '/api/auth/register', { username: 'following_poster', displayName: 'Following Poster', password: 'pass123' });
+    const posterToken = reg3.body.token;
+    const posterId = reg3.body.user.id;
+
+    await request('POST', '/api/snarks', { content: 'Poster snark 1' }, posterToken);
+    await request('POST', '/api/snarks', { content: 'Poster snark 2' }, posterToken);
+
+    const followingEmpty = await request('GET', '/api/snarks/following', null, likeToken);
+    assert(followingEmpty.status === 200, 'GET /api/snarks/following returns 200');
+    assert(Array.isArray(followingEmpty.body), 'following feed returns array');
+    assert(followingEmpty.body.length === 0, 'following feed is empty when not following anyone');
+
+    await request('POST', `/api/users/${posterId}/follow`, {}, likeToken);
+
+    const followingFeed = await request('GET', '/api/snarks/following', null, likeToken);
+    assert(followingFeed.body.length === 2, 'following feed shows snarks from followed user');
+    assert(followingFeed.body[0].content === 'Poster snark 2', 'following feed newest first');
+    assert(followingFeed.body[0].author.username === 'following_poster', 'following feed has correct author');
+    assert(followingFeed.body[0].likeCount !== undefined, 'following feed snark has likeCount');
+    assert(followingFeed.body[0].replyCount !== undefined, 'following feed snark has replyCount');
+    assert(followingFeed.body[0].likedByMe !== undefined, 'following feed snark has likedByMe');
+
+    const followingOwnSnarks = await request('GET', '/api/snarks/following', null, loginToken);
+    assert(followingOwnSnarks.body.length === 0, 'following feed does not include own snarks unless followed');
+
+    const followingNoAuth = await request('GET', '/api/snarks/following');
+    assert(followingNoAuth.status === 401, 'following feed requires authentication');
+
+    await request('DELETE', `/api/users/${posterId}/follow`, {}, likeToken);
+    const followingAfterUnfollow = await request('GET', '/api/snarks/following', null, likeToken);
+    assert(followingAfterUnfollow.body.length === 0, 'following feed empty after unfollowing');
+
   } finally {
     await new Promise(r => server.close(r));
   }
