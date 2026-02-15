@@ -3,5 +3,24 @@ Started: 2026-02-14
 ---
 
 ## Codebase Patterns
-- (none yet - will be populated as stories are implemented)
+- Backend uses better-sqlite3 with WAL mode and foreign keys ON
+- Database is initialized in db.js, called from index.js on server start
+- Frontend proxies API calls to http://localhost:3001 via package.json proxy setting
+- Backend tests are in backend/src/test.js using plain Node.js assertions (no framework)
+- Use `npm run dev` from root to start both frontend (port 3000) and backend (port 3001)
+- Frontend is React + TypeScript, backend is plain Node.js + Express
+---
+
+## 2026-02-14 - ST-001
+- Verified project setup and database schema (already implemented in prior commits)
+- All 4 tables exist: users, snarks, likes, follows
+- All 19 schema tests pass
+- npm install, frontend build, and backend start all work correctly
+- Files verified: backend/src/index.js, backend/src/db.js, backend/src/test.js, frontend/src/App.tsx, frontend/src/index.tsx
+- **Learnings for future iterations:**
+  - Database file is snarktank.db in the backend directory
+  - Schema uses IF NOT EXISTS so tables are safe to re-create
+  - The snarks table has parent_id for replies (self-referencing FK)
+  - likes table has unique constraint on (user_id, snark_id) to prevent double likes
+  - follows table has unique constraint on (follower_id, following_id)
 ---
