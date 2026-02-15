@@ -1,0 +1,8 @@
+digraph pipeline {
+    ask [type="llm" prompt="What are the top 3 benefits of Rust?"];
+    summarize [type="transform" operation="template" prompt="Summary: ${ask_output}"];
+    output [type="transform" operation="uppercase" prompt="${summarize_output}"];
+
+    ask -> summarize;
+    summarize -> output;
+}

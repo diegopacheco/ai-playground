@@ -1,0 +1,14 @@
+[package]
+name = "attractor-cli"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "attractor-cli"
+path = "src/main.rs"
+
+[dependencies]
+attractor = { path = "../attractor" }
+llm-client = { path = "../llm-client" }
+tokio = { workspace = true }
+serde_json = { workspace = true }

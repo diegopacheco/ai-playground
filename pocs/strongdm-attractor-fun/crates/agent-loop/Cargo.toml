@@ -1,0 +1,11 @@
+[package]
+name = "agent-loop"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+llm-client = { path = "../llm-client" }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+regex = { workspace = true }
