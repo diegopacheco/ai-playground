@@ -84,7 +84,7 @@
       "id": "ST-006",
       "title": "User Profile Page",
       "priority": 6,
-      "passes": false,
+      "passes": true,
       "description": "Each user has a profile page showing their display name, username, bio, join date, and their snarks. Users can edit their own profile bio.",
       "acceptanceCriteria": [
         "Profile page at /profile/:username",

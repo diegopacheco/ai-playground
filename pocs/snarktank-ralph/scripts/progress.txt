@@ -24,6 +24,10 @@ Started: 2026-02-14
 - Like/unlike endpoints: POST/DELETE /api/snarks/:id/like (auth required)
 - GET /api/snarks optionally parses JWT from Authorization header for likedByMe field (no authMiddleware)
 - jwt and JWT_SECRET are imported at top of snarks.js for inline token parsing
+- Users router in backend/src/users.js, mounted at /api/users in index.js
+- PUT /profile must be registered before GET /:username in Express routers to avoid param conflicts
+- Hash-based routing via useRoute() hook in App.tsx - navigate with `#/path` format
+- Profile page at #/profile/:username, matched via regex in AppContent
 ---
 
 ## 2026-02-14 - ST-001
@@ -98,4 +102,20 @@ Started: 2026-02-14
   - For optional auth on public endpoints (like GET /api/snarks), parse JWT inline instead of using authMiddleware
   - Like count uses 409 Conflict for duplicate likes (unique constraint on likes table handles this at DB level too)
   - SnarkCard now accepts onLikeToggle callback - future actions (reply, etc.) should follow same pattern
+---
+
+## 2026-02-14 - ST-006
+- Implemented User Profile Page with backend API and frontend component
+- Backend: GET /api/users/:username (public, optional auth for likedByMe), PUT /api/users/profile (auth required, bio update)
+- Frontend: ProfilePage component with bio display/edit, user snarks list, hash-based routing via useRoute hook
+- Added clickable usernames in SnarkCard and header to navigate to profiles
+- Added 19 profile-specific API tests (profile fetch, 404, snarks list, bio update, bio validation, auth required)
+- Files changed: backend/src/users.js (new), backend/src/index.js, backend/src/test.js, frontend/src/ProfilePage.tsx (new), frontend/src/App.tsx, frontend/src/App.css
+- All 88 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - PUT /profile route must be registered BEFORE GET /:username in Express to avoid "profile" being matched as a username param
+  - Hash-based routing (useRoute hook) in App.tsx uses window.location.hash - all internal navigation uses `#/path` format
+  - Profile endpoint follows same optional auth pattern as GET /api/snarks for likedByMe field
+  - Users router mounted at /api/users in index.js, follows same pattern as auth and snarks routers
+  - Bio field has 160 char limit, defaults to empty string in API responses
 ---
