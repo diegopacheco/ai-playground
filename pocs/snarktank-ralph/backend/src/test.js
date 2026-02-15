@@ -209,6 +209,43 @@ async function runApiTests() {
     const likeNotFound = await request('POST', '/api/snarks/99999/like', {}, likeToken);
     assert(likeNotFound.status === 404, 'like returns 404 for non-existent snark');
 
+    const profileRes = await request('GET', '/api/users/timeline_user');
+    assert(profileRes.status === 200, 'GET /api/users/:username returns 200');
+    assert(profileRes.body.username === 'timeline_user', 'profile has correct username');
+    assert(profileRes.body.displayName === 'Timeline User', 'profile has correct displayName');
+    assert(profileRes.body.bio !== undefined, 'profile has bio field');
+    assert(profileRes.body.createdAt !== undefined, 'profile has createdAt field');
+    assert(Array.isArray(profileRes.body.snarks), 'profile has snarks array');
+    assert(profileRes.body.snarks.length > 0, 'profile snarks are not empty');
+    assert(profileRes.body.snarks[0].author.username === 'timeline_user', 'profile snarks belong to the user');
+
+    const profileNotFound = await request('GET', '/api/users/nonexistent_user_xyz');
+    assert(profileNotFound.status === 404, 'GET /api/users/:username returns 404 for unknown user');
+
+    const otherProfile = await request('GET', '/api/users/like_user');
+    assert(otherProfile.status === 200, 'can view other user profile');
+    assert(otherProfile.body.snarks.length === 0, 'user with no snarks has empty snarks array');
+
+    const updateBio = await request('PUT', '/api/users/profile', { bio: 'I love snarking!' }, loginToken);
+    assert(updateBio.status === 200, 'PUT /api/users/profile returns 200');
+    assert(updateBio.body.bio === 'I love snarking!', 'bio is updated correctly');
+
+    const profileAfterBio = await request('GET', '/api/users/timeline_user');
+    assert(profileAfterBio.body.bio === 'I love snarking!', 'bio persists after update');
+
+    const emptyBio = await request('PUT', '/api/users/profile', { bio: '' }, loginToken);
+    assert(emptyBio.status === 200, 'bio can be set to empty string');
+    assert(emptyBio.body.bio === '', 'empty bio is returned correctly');
+
+    const longBio = await request('PUT', '/api/users/profile', { bio: 'x'.repeat(161) }, loginToken);
+    assert(longBio.status === 400, 'bio over 160 chars is rejected');
+
+    const bioNoAuth = await request('PUT', '/api/users/profile', { bio: 'test' });
+    assert(bioNoAuth.status === 401, 'bio update requires authentication');
+
+    const profileWithAuth = await request('GET', '/api/users/timeline_user', null, loginToken);
+    assert(profileWithAuth.status === 200, 'profile works with auth token');
+
   } finally {
     await new Promise(r => server.close(r));
   }
