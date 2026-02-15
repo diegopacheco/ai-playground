@@ -1,0 +1,7 @@
+# Ralph Progress Log
+Started: 2026-02-14
+---
+
+## Codebase Patterns
+- (none yet - will be populated as stories are implemented)
+---
