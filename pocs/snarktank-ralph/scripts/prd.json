@@ -13,7 +13,7 @@
       "id": "ST-001",
       "title": "Project Setup and Database Schema",
       "priority": 1,
-      "passes": false,
+      "passes": true,
       "description": "Initialize the project with React frontend and Express backend. Create SQLite database with tables for users, snarks, likes, follows, and replies. Set up dev scripts in package.json.",
       "acceptanceCriteria": [
         "npm install works without errors",
