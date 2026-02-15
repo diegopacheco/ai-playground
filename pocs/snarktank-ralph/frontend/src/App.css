@@ -398,6 +398,46 @@
   margin: 8px 0 0 0;
 }
 
+.profile-names-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.follow-btn {
+  background: #1da1f2;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.follow-btn:hover {
+  background: #1991db;
+}
+
+.follow-btn.following {
+  background: white;
+  color: #657786;
+  border: 1px solid #e1e8ed;
+}
+
+.follow-btn.following:hover {
+  border-color: #e0245e;
+  color: #e0245e;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 16px;
+  margin: 12px 0 0 0;
+  color: #657786;
+  font-size: 14px;
+}
+
 .profile-snarks-title {
   color: #14171a;
   border-bottom: 1px solid #e1e8ed;
