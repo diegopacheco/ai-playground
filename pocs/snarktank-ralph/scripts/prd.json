@@ -42,7 +42,7 @@
       "id": "ST-003",
       "title": "Post a Snark",
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "description": "Logged-in users can compose and post a snark (max 280 characters). The snark shows author, content, and timestamp. A compose form is visible at the top of the timeline.",
       "acceptanceCriteria": [
         "Compose form accepts text up to 280 characters",

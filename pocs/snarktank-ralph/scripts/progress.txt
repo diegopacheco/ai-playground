@@ -12,6 +12,11 @@ Started: 2026-02-14
 - Auth uses bcryptjs for password hashing and jsonwebtoken for JWT tokens
 - Auth routes at /api/auth/*, authMiddleware exported from auth.js for protecting routes
 - Frontend auth state managed via AuthContext, token stored in localStorage
+- Snark routes in backend/src/snarks.js, mounted at /api/snarks in index.js
+- GET /api/snarks returns paginated results with like_count and reply_count via subqueries
+- POST /api/snarks requires auth, validates max 280 chars and non-empty
+- Snark API returns camelCase JSON with nested author object { id, username, displayName }
+- timeAgo utility in App.tsx for relative timestamps
 ---
 
 ## 2026-02-14 - ST-001
@@ -42,4 +47,19 @@ Started: 2026-02-14
   - authMiddleware sets req.user with { id, username } from JWT payload
   - Auth routes are mounted at /api/auth/* in index.js
   - Frontend stores token in localStorage, AuthContext fetches /api/auth/me on load to validate
+---
+
+## 2026-02-14 - ST-003
+- Implemented Post a Snark feature with compose form and timeline display
+- Backend: POST /api/snarks (auth-protected, 280 char limit, non-empty validation), GET /api/snarks (paginated, with like/reply counts)
+- Frontend: ComposeSnark component with character counter, SnarkCard component, timeline in App.tsx
+- Added 10 snark-specific tests (insert, content storage, user_id, parent_id, 280 chars, multi-user, ordering, filtering)
+- Files changed: backend/src/snarks.js (new), backend/src/index.js, backend/src/test.js, frontend/src/ComposeSnark.tsx (new), frontend/src/App.tsx, frontend/src/App.css, eslint.config.js (new)
+- All 38 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - ESLint hook requires eslint.config.js at project root (created empty config to satisfy it)
+  - Snarks router follows same pattern as auth router: separate file, export router, mount in index.js
+  - GET /api/snarks uses subqueries for like_count and reply_count - future stories can rely on these
+  - ComposeSnark uses onSnarkPosted callback to prepend new snark to timeline state without refetch
+  - WHERE parent_id IS NULL in GET /api/snarks filters out replies from main timeline
 ---
