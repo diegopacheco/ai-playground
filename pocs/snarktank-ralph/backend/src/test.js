@@ -357,6 +357,61 @@ async function runApiTests() {
     const parentInTimeline = timelineAfterReplies.body.find((s) => s.id === parentId);
     assert(parentInTimeline.replyCount === 2, 'parent snark shows correct reply count in timeline');
 
+    const searchReg1 = await request('POST', '/api/auth/register', { username: 'searchuser', displayName: 'Search Person', password: 'pass123' });
+    const searchToken1 = searchReg1.body.token;
+    const searchReg2 = await request('POST', '/api/auth/register', { username: 'findme', displayName: 'Find Me Here', password: 'pass123' });
+    const searchToken2 = searchReg2.body.token;
+
+    await request('POST', '/api/snarks', { content: 'Searching for meaning in life' }, searchToken1);
+    await request('POST', '/api/snarks', { content: 'A totally different snark' }, searchToken1);
+    await request('POST', '/api/snarks', { content: 'Find this hidden message' }, searchToken2);
+
+    const searchEmpty = await request('GET', '/api/search?q=');
+    assert(searchEmpty.status === 200, 'search with empty query returns 200');
+    assert(searchEmpty.body.users.length === 0, 'search empty query returns no users');
+    assert(searchEmpty.body.snarks.length === 0, 'search empty query returns no snarks');
+
+    const searchUsers = await request('GET', '/api/search?q=searchuser');
+    assert(searchUsers.status === 200, 'search users by username returns 200');
+    assert(searchUsers.body.users.length === 1, 'search finds user by username');
+    assert(searchUsers.body.users[0].username === 'searchuser', 'search returns correct user');
+    assert(searchUsers.body.users[0].displayName === 'Search Person', 'search user has displayName');
+    assert(typeof searchUsers.body.users[0].followerCount === 'number', 'search user has followerCount');
+    assert(typeof searchUsers.body.users[0].followedByMe === 'boolean', 'search user has followedByMe');
+
+    const searchByDisplay = await request('GET', '/api/search?q=Find%20Me');
+    assert(searchByDisplay.body.users.length === 1, 'search finds user by display name');
+    assert(searchByDisplay.body.users[0].username === 'findme', 'search by display name returns correct user');
+
+    const searchSnarks = await request('GET', '/api/search?q=meaning');
+    assert(searchSnarks.body.snarks.length === 1, 'search finds snark by content');
+    assert(searchSnarks.body.snarks[0].content === 'Searching for meaning in life', 'search returns correct snark');
+    assert(searchSnarks.body.snarks[0].author.username === 'searchuser', 'search snark has author');
+    assert(typeof searchSnarks.body.snarks[0].likeCount === 'number', 'search snark has likeCount');
+    assert(typeof searchSnarks.body.snarks[0].replyCount === 'number', 'search snark has replyCount');
+
+    const searchCaseInsensitive = await request('GET', '/api/search?q=SEARCHING');
+    assert(searchCaseInsensitive.body.snarks.length === 1, 'search is case-insensitive for snarks');
+
+    const searchCaseInsensitiveUser = await request('GET', '/api/search?q=SEARCHUSER');
+    assert(searchCaseInsensitiveUser.body.users.length === 1, 'search is case-insensitive for users');
+
+    const searchBoth = await request('GET', '/api/search?q=search');
+    assert(searchBoth.body.users.length >= 1, 'search returns users section');
+    assert(searchBoth.body.snarks.length >= 1, 'search returns snarks section');
+
+    const searchNoMatch = await request('GET', '/api/search?q=zzzznonexistent');
+    assert(searchNoMatch.body.users.length === 0, 'search with no match returns empty users');
+    assert(searchNoMatch.body.snarks.length === 0, 'search with no match returns empty snarks');
+
+    const searchAuth = await request('GET', '/api/search?q=searchuser', null, searchToken2);
+    assert(typeof searchAuth.body.users[0].followedByMe === 'boolean', 'search with auth returns followedByMe');
+
+    const replyForSearch = await request('POST', '/api/snarks', { content: 'Searching in a reply', parentId }, searchToken1);
+    const searchExcludeReplies = await request('GET', '/api/search?q=Searching');
+    const foundReply = searchExcludeReplies.body.snarks.find((s) => s.content === 'Searching in a reply');
+    assert(foundReply === undefined, 'search excludes replies from snark results');
+
   } finally {
     await new Promise(r => server.close(r));
   }
