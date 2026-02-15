@@ -39,6 +39,40 @@ router.post('/', authMiddleware, (req, res) => {
   });
 });
 
+router.get('/following', authMiddleware, (req, res) => {
+  const limit = Math.min(parseInt(req.query.limit) || 20, 50);
+  const offset = parseInt(req.query.offset) || 0;
+
+  const snarks = db.prepare(`
+    SELECT s.id, s.content, s.created_at, s.parent_id,
+           u.id as user_id, u.username, u.display_name,
+           (SELECT COUNT(*) FROM likes WHERE snark_id = s.id) as like_count,
+           (SELECT COUNT(*) FROM snarks WHERE parent_id = s.id) as reply_count,
+           (SELECT COUNT(*) FROM likes WHERE snark_id = s.id AND user_id = ?) as liked_by_me
+    FROM snarks s
+    JOIN users u ON s.user_id = u.id
+    WHERE s.parent_id IS NULL
+      AND s.user_id IN (SELECT following_id FROM follows WHERE follower_id = ?)
+    ORDER BY s.created_at DESC, s.id DESC
+    LIMIT ? OFFSET ?
+  `).all(req.user.id, req.user.id, limit, offset);
+
+  res.json(snarks.map(s => ({
+    id: s.id,
+    content: s.content,
+    createdAt: s.created_at,
+    parentId: s.parent_id,
+    likeCount: s.like_count,
+    replyCount: s.reply_count,
+    likedByMe: s.liked_by_me > 0,
+    author: {
+      id: s.user_id,
+      username: s.username,
+      displayName: s.display_name,
+    },
+  })));
+});
+
 router.get('/', (req, res) => {
   const limit = Math.min(parseInt(req.query.limit) || 20, 50);
   const offset = parseInt(req.query.offset) || 0;

@@ -118,4 +118,23 @@ Started: 2026-02-14
   - Profile endpoint follows same optional auth pattern as GET /api/snarks for likedByMe field
   - Users router mounted at /api/users in index.js, follows same pattern as auth and snarks routers
   - Bio field has 160 char limit, defaults to empty string in API responses
+- Follow/unfollow endpoints use user ID (not username) in URL: POST/DELETE /api/users/:id/follow
+- Follow endpoints registered BEFORE /:username GET route (same pattern as PUT /profile)
+- Profile API response includes followerCount, followingCount, followedByMe fields
+---
+
+## 2026-02-14 - ST-007
+- Implemented Follow and Unfollow Users feature
+- Backend: POST /api/users/:id/follow (follow), DELETE /api/users/:id/follow (unfollow), both auth-protected
+- Updated GET /api/users/:username to include followerCount, followingCount, followedByMe
+- Frontend: Follow/Unfollow button on other users' profiles, follower/following counts in profile header
+- Added 15 follow-specific API tests (follow, double-follow 409, self-follow 400, unfollow, counts, followedByMe, auth required, 404)
+- Files changed: backend/src/users.js, backend/src/test.js, frontend/src/ProfilePage.tsx, frontend/src/App.css
+- All 106 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - Follow endpoints use user ID in URL path (POST/DELETE /api/users/:id/follow), not username
+  - Follow routes must be registered before /:username route to avoid param conflicts (same pattern as PUT /profile)
+  - Self-follow returns 400, double-follow returns 409 (unique constraint on follows table)
+  - Follow API returns updated followerCount and followingCount for the target user
+  - Profile API uses optional auth pattern for followedByMe (same as likedByMe on snarks)
 ---
