@@ -192,6 +192,34 @@
   cursor: not-allowed;
 }
 
+.timeline-tabs {
+  display: flex;
+  border-bottom: 1px solid #e1e8ed;
+  margin-bottom: 12px;
+}
+
+.tab-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: bold;
+  color: #657786;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-btn:hover {
+  color: #1da1f2;
+  background: #e8f5fd;
+}
+
+.tab-btn.active {
+  color: #1da1f2;
+  border-bottom-color: #1da1f2;
+}
+
 .timeline {
   display: flex;
   flex-direction: column;

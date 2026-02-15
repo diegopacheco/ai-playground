@@ -28,6 +28,8 @@ Started: 2026-02-14
 - PUT /profile must be registered before GET /:username in Express routers to avoid param conflicts
 - Hash-based routing via useRoute() hook in App.tsx - navigate with `#/path` format
 - Profile page at #/profile/:username, matched via regex in AppContent
+- Timeline tabs (All Snarks / Following) managed via activeTab state in AppContent
+- GET /api/snarks/following uses authMiddleware; GET /api/snarks uses optional inline JWT parsing
 ---
 
 ## 2026-02-14 - ST-001
@@ -137,4 +139,19 @@ Started: 2026-02-14
   - Self-follow returns 400, double-follow returns 409 (unique constraint on follows table)
   - Follow API returns updated followerCount and followingCount for the target user
   - Profile API uses optional auth pattern for followedByMe (same as likedByMe on snarks)
+---
+
+## 2026-02-15 - ST-008
+- Implemented Following-Only Timeline with tab switching UI
+- Backend GET /api/snarks/following endpoint was already implemented in prior commit
+- Frontend: Added "All Snarks" and "Following" tab buttons above timeline, with active state styling
+- Following tab shows empty state message when not following anyone
+- Added 12 following-specific API tests (empty feed, feed after follow, ordering, auth required, unfollow clears feed)
+- Files changed: frontend/src/App.tsx, frontend/src/App.css, backend/src/test.js, scripts/prd.json
+- All 118 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - GET /api/snarks/following requires authMiddleware (unlike GET /api/snarks which uses optional auth)
+  - The following feed only shows snarks from followed users, NOT the current user's own snarks
+  - loadSnarks in App.tsx accepts a tab parameter to allow fetching on tab switch without waiting for state update
+  - Tab UI uses .timeline-tabs container with .tab-btn and .tab-btn.active classes
 ---

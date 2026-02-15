@@ -142,12 +142,19 @@ function AppContent() {
         ) : (
           <>
             <ComposeSnark onSnarkPosted={handleSnarkPosted} />
+            <div className="timeline-tabs">
+              <button className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`} onClick={() => { setActiveTab('all'); loadSnarks('all'); }}>All Snarks</button>
+              <button className={`tab-btn ${activeTab === 'following' ? 'active' : ''}`} onClick={() => { setActiveTab('following'); loadSnarks('following'); }}>Following</button>
+            </div>
             <div className="timeline">
               {snarks.map(s => (
                 <SnarkCard key={s.id} snark={s} onLikeToggle={handleLikeToggle} onNavigate={navigate} />
               ))}
-              {snarks.length === 0 && (
+              {snarks.length === 0 && activeTab === 'all' && (
                 <p className="empty-state">No snarks yet. Be the first to post!</p>
+              )}
+              {snarks.length === 0 && activeTab === 'following' && (
+                <p className="empty-state">No snarks from people you follow. Follow some users to see their snarks here!</p>
               )}
             </div>
           </>
