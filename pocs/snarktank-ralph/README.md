@@ -2,6 +2,20 @@
 
 https://github.com/snarktank/ralph
 
+## Result App
+
+Register <br/>
+<img src="register.png" width="600" />
+
+Profile <br/>
+<img src="user-profile.png" width="600" />
+
+Search <br/>
+<img src="search.png" width="600" />
+
+Timeline <br/>
+<img src="timeline.png" width="600" />
+
 ```
 Ralph will:
 
