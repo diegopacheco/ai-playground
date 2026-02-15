@@ -1,0 +1,8 @@
+digraph pipeline {
+    input [type="transform" operation="template" prompt="Rust is a systems programming language"];
+    upper [type="transform" operation="uppercase"];
+    trim [type="transform" operation="trim"];
+
+    input -> upper;
+    upper -> trim;
+}

@@ -1,0 +1,5 @@
+digraph pipeline {
+    run_cmd [type="tool" tool="shell" prompt="echo hello from attractor pipeline"];
+    transform [type="transform" operation="uppercase"];
+    run_cmd -> transform;
+}
