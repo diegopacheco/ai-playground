@@ -1,0 +1,204 @@
+# Ralph Progress Log
+Started: 2026-02-14
+---
+
+## Codebase Patterns
+- Backend uses better-sqlite3 with WAL mode and foreign keys ON
+- Database is initialized in db.js, called from index.js on server start
+- Frontend proxies API calls to http://localhost:3001 via package.json proxy setting
+- Backend tests are in backend/src/test.js using plain Node.js assertions (no framework)
+- Use `npm run dev` from root to start both frontend (port 3000) and backend (port 3001)
+- Frontend is React + TypeScript, backend is plain Node.js + Express
+- Auth uses bcryptjs for password hashing and jsonwebtoken for JWT tokens
+- Auth routes at /api/auth/*, authMiddleware exported from auth.js for protecting routes
+- Frontend auth state managed via AuthContext, token stored in localStorage
+- Snark routes in backend/src/snarks.js, mounted at /api/snarks in index.js
+- GET /api/snarks returns paginated results with like_count and reply_count via subqueries
+- POST /api/snarks requires auth, validates max 280 chars and non-empty
+- Snark API returns camelCase JSON with nested author object { id, username, displayName }
+- timeAgo utility in App.tsx for relative timestamps
+- ORDER BY uses `created_at DESC, id DESC` for stable ordering when timestamps match
+- index.js uses `require.main === module` guard so app can be imported in tests without auto-starting
+- API tests use plain http module requests against app.listen(3002) in test.js
+- Test requests must use `Connection: close` header to prevent socket hang up errors on server.close()
+- Like/unlike endpoints: POST/DELETE /api/snarks/:id/like (auth required)
+- GET /api/snarks optionally parses JWT from Authorization header for likedByMe field (no authMiddleware)
+- jwt and JWT_SECRET are imported at top of snarks.js for inline token parsing
+- Users router in backend/src/users.js, mounted at /api/users in index.js
+- PUT /profile must be registered before GET /:username in Express routers to avoid param conflicts
+- Hash-based routing via useRoute() hook in App.tsx - navigate with `#/path` format
+- Profile page at #/profile/:username, matched via regex in AppContent
+- Timeline tabs (All Snarks / Following) managed via activeTab state in AppContent
+- GET /api/snarks/following uses authMiddleware; GET /api/snarks uses optional inline JWT parsing
+- POST /api/snarks accepts optional parentId field for replies; validates parent exists
+- GET /api/snarks/:id returns snark detail with nested replies array (chronological ASC order)
+- Snark detail page route #/snark/:id must be matched before #/profile/:username in AppContent
+- Search router in backend/src/search.js, mounted at /api/search in index.js
+- GET /api/search?q=term returns { users: [], snarks: [] } with case-insensitive LIKE matching
+- Search uses optional auth pattern (inline JWT parsing) for followedByMe and likedByMe fields
+- All useState hooks in AppContent must be declared BEFORE the early return for !user (React hooks rule)
+- Search route #/search?q=... must be matched before #/profile/:username in AppContent routing
+---
+
+## 2026-02-14 - ST-001
+- Verified project setup and database schema (already implemented in prior commits)
+- All 4 tables exist: users, snarks, likes, follows
+- All 19 schema tests pass
+- npm install, frontend build, and backend start all work correctly
+- Files verified: backend/src/index.js, backend/src/db.js, backend/src/test.js, frontend/src/App.tsx, frontend/src/index.tsx
+- **Learnings for future iterations:**
+  - Database file is snarktank.db in the backend directory
+  - Schema uses IF NOT EXISTS so tables are safe to re-create
+  - The snarks table has parent_id for replies (self-referencing FK)
+  - likes table has unique constraint on (user_id, snark_id) to prevent double likes
+  - follows table has unique constraint on (follower_id, following_id)
+---
+
+## 2026-02-14 - ST-002
+- Implemented user registration and login with bcryptjs password hashing and JWT tokens
+- Backend: POST /api/auth/register, POST /api/auth/login, GET /api/auth/me (protected)
+- Frontend: AuthContext with login/register/logout, LoginPage, RegisterPage components
+- App.tsx shows auth pages when not logged in, main app when authenticated
+- Added 9 auth-specific tests (password hashing, JWT, duplicate username rejection)
+- Files changed: backend/src/auth.js, backend/src/index.js, backend/src/test.js, frontend/src/AuthContext.tsx, frontend/src/LoginPage.tsx, frontend/src/RegisterPage.tsx, frontend/src/App.tsx, frontend/src/App.css
+- All 28 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - Auth implementation was partially committed in a prior "progress ralph" commit, only tests and CSS were new
+  - JWT_SECRET is exported from auth.js for use in tests
+  - authMiddleware sets req.user with { id, username } from JWT payload
+  - Auth routes are mounted at /api/auth/* in index.js
+  - Frontend stores token in localStorage, AuthContext fetches /api/auth/me on load to validate
+---
+
+## 2026-02-14 - ST-003
+- Implemented Post a Snark feature with compose form and timeline display
+- Backend: POST /api/snarks (auth-protected, 280 char limit, non-empty validation), GET /api/snarks (paginated, with like/reply counts)
+- Frontend: ComposeSnark component with character counter, SnarkCard component, timeline in App.tsx
+- Added 10 snark-specific tests (insert, content storage, user_id, parent_id, 280 chars, multi-user, ordering, filtering)
+- Files changed: backend/src/snarks.js (new), backend/src/index.js, backend/src/test.js, frontend/src/ComposeSnark.tsx (new), frontend/src/App.tsx, frontend/src/App.css, eslint.config.js (new)
+- All 38 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - ESLint hook requires eslint.config.js at project root (created empty config to satisfy it)
+  - Snarks router follows same pattern as auth router: separate file, export router, mount in index.js
+  - GET /api/snarks uses subqueries for like_count and reply_count - future stories can rely on these
+  - ComposeSnark uses onSnarkPosted callback to prepend new snark to timeline state without refetch
+  - WHERE parent_id IS NULL in GET /api/snarks filters out replies from main timeline
+---
+
+## 2026-02-14 - ST-004
+- Verified and hardened the timeline feed implementation
+- Added stable ordering with `id DESC` tiebreaker for snarks with same timestamp
+- Made index.js test-friendly with `require.main === module` guard
+- Added 16 API-level tests for timeline: ordering, pagination (limit/offset), response shape (author, createdAt, likeCount, replyCount)
+- Files changed: backend/src/snarks.js, backend/src/index.js, backend/src/test.js
+- All 54 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - SQLite CURRENT_TIMESTAMP has second-level precision, so rapidly inserted rows share timestamps - always add `id DESC` as tiebreaker
+  - Use `require.main === module` pattern in index.js to prevent server auto-start during tests
+  - API tests use Node http module directly against a test server on port 3002
+  - The request() helper in test.js can be reused for all future API endpoint tests
+---
+
+## 2026-02-14 - ST-005
+- Implemented Like a Snark feature with like/unlike toggle and count display
+- Backend: POST /api/snarks/:id/like (like), DELETE /api/snarks/:id/like (unlike), both auth-protected
+- Updated GET /api/snarks to include likedByMe field by optionally parsing JWT from Authorization header
+- Frontend: Like button on SnarkCard with liked/unliked state toggle, immediate count update
+- Added 15 like-specific API tests (like, double-like prevention, unlike, likedByMe per user, auth required, 404)
+- Files changed: backend/src/snarks.js, backend/src/test.js, frontend/src/App.tsx, frontend/src/App.css
+- All 69 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - Node.js HTTP keep-alive connections cause "socket hang up" when server.close() is called - use `Connection: close` header in test requests
+  - For optional auth on public endpoints (like GET /api/snarks), parse JWT inline instead of using authMiddleware
+  - Like count uses 409 Conflict for duplicate likes (unique constraint on likes table handles this at DB level too)
+  - SnarkCard now accepts onLikeToggle callback - future actions (reply, etc.) should follow same pattern
+---
+
+## 2026-02-14 - ST-006
+- Implemented User Profile Page with backend API and frontend component
+- Backend: GET /api/users/:username (public, optional auth for likedByMe), PUT /api/users/profile (auth required, bio update)
+- Frontend: ProfilePage component with bio display/edit, user snarks list, hash-based routing via useRoute hook
+- Added clickable usernames in SnarkCard and header to navigate to profiles
+- Added 19 profile-specific API tests (profile fetch, 404, snarks list, bio update, bio validation, auth required)
+- Files changed: backend/src/users.js (new), backend/src/index.js, backend/src/test.js, frontend/src/ProfilePage.tsx (new), frontend/src/App.tsx, frontend/src/App.css
+- All 88 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - PUT /profile route must be registered BEFORE GET /:username in Express to avoid "profile" being matched as a username param
+  - Hash-based routing (useRoute hook) in App.tsx uses window.location.hash - all internal navigation uses `#/path` format
+  - Profile endpoint follows same optional auth pattern as GET /api/snarks for likedByMe field
+  - Users router mounted at /api/users in index.js, follows same pattern as auth and snarks routers
+  - Bio field has 160 char limit, defaults to empty string in API responses
+- Follow/unfollow endpoints use user ID (not username) in URL: POST/DELETE /api/users/:id/follow
+- Follow endpoints registered BEFORE /:username GET route (same pattern as PUT /profile)
+- Profile API response includes followerCount, followingCount, followedByMe fields
+---
+
+## 2026-02-14 - ST-007
+- Implemented Follow and Unfollow Users feature
+- Backend: POST /api/users/:id/follow (follow), DELETE /api/users/:id/follow (unfollow), both auth-protected
+- Updated GET /api/users/:username to include followerCount, followingCount, followedByMe
+- Frontend: Follow/Unfollow button on other users' profiles, follower/following counts in profile header
+- Added 15 follow-specific API tests (follow, double-follow 409, self-follow 400, unfollow, counts, followedByMe, auth required, 404)
+- Files changed: backend/src/users.js, backend/src/test.js, frontend/src/ProfilePage.tsx, frontend/src/App.css
+- All 106 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - Follow endpoints use user ID in URL path (POST/DELETE /api/users/:id/follow), not username
+  - Follow routes must be registered before /:username route to avoid param conflicts (same pattern as PUT /profile)
+  - Self-follow returns 400, double-follow returns 409 (unique constraint on follows table)
+  - Follow API returns updated followerCount and followingCount for the target user
+  - Profile API uses optional auth pattern for followedByMe (same as likedByMe on snarks)
+---
+
+## 2026-02-15 - ST-008
+- Implemented Following-Only Timeline with tab switching UI
+- Backend GET /api/snarks/following endpoint was already implemented in prior commit
+- Frontend: Added "All Snarks" and "Following" tab buttons above timeline, with active state styling
+- Following tab shows empty state message when not following anyone
+- Added 12 following-specific API tests (empty feed, feed after follow, ordering, auth required, unfollow clears feed)
+- Files changed: frontend/src/App.tsx, frontend/src/App.css, backend/src/test.js, scripts/prd.json
+- All 118 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - GET /api/snarks/following requires authMiddleware (unlike GET /api/snarks which uses optional auth)
+  - The following feed only shows snarks from followed users, NOT the current user's own snarks
+  - loadSnarks in App.tsx accepts a tab parameter to allow fetching on tab switch without waiting for state update
+  - Tab UI uses .timeline-tabs container with .tab-btn and .tab-btn.active classes
+- POST /api/snarks accepts optional parentId for replies; validates parent exists (404 if not)
+- GET /api/snarks/:id returns snark detail with replies array in chronological order (ASC)
+- Snark detail page at #/snark/:id, matched via regex in AppContent (checked before profileMatch)
+- SnarkDetailPage component in SnarkDetailPage.tsx handles reply form and detail view
+- SnarkCard accepts showReplyBtn prop (default true) to optionally hide reply button
+---
+
+## 2026-02-15 - ST-009
+- Implemented Reply to Snarks feature with reply form, reply count, and snark detail page
+- Backend: Updated POST /api/snarks to accept parentId, added GET /api/snarks/:id for detail with replies
+- Frontend: Added reply button to SnarkCard, created SnarkDetailPage with reply form and replies list
+- Added route #/snark/:id in AppContent routing (checked before profile route)
+- Added 20 reply-specific tests (create reply, parentId, detail, replies array, order, 404, auth, timeline exclusion)
+- Files changed: backend/src/snarks.js, backend/src/test.js, frontend/src/App.tsx, frontend/src/App.css, frontend/src/SnarkDetailPage.tsx (new), scripts/prd.json
+- All 138 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - GET /api/snarks/:id must be registered AFTER /following and / routes but BEFORE /:id/like to avoid conflicts
+  - Replies use chronological order (ASC) unlike timeline (DESC) - this is intentional for conversation flow
+  - POST /api/snarks now returns likeCount, replyCount, likedByMe in response (was missing before)
+  - SnarkCard route for /snark/:id must be checked before /profile/:username in AppContent to avoid conflicts
+---
+
+## 2026-02-15 - ST-010
+- Implemented Search Users and Snarks feature
+- Backend: Created GET /api/search?q=term endpoint in search.js, returns { users: [], snarks: [] }
+- Search uses LIKE with COLLATE NOCASE for case-insensitive matching on username, display_name, and snark content
+- Search excludes replies (parent_id IS NULL filter) from snark results
+- Frontend: Added search bar in header, SearchPage component with Users and Snarks result sections
+- User results show profile card with follow button, snark results show full snark cards
+- Added 18 search-specific API tests (empty query, username search, display name search, content search, case-insensitive, auth, reply exclusion)
+- Files changed: backend/src/search.js (new), backend/src/index.js, backend/src/test.js, frontend/src/SearchPage.tsx (new), frontend/src/App.tsx, frontend/src/App.css, scripts/prd.json
+- All 162 tests pass, TypeScript compiles clean, frontend builds
+- Browser verified: search bar in header, search results page at #/search?q=term works correctly
+- **Learnings for future iterations:**
+  - All useState hooks must be declared before any conditional returns in React components (hooks rule of order)
+  - Search route in AppContent must be matched before profile route to avoid /search?q=... being caught by /profile/:username
+  - Search router follows same pattern as other routers: separate file, export router, mount in index.js
+  - COLLATE NOCASE in SQLite LIKE queries handles case-insensitive search without extra logic
+  - Search endpoint uses same optional auth pattern as GET /api/snarks for likedByMe/followedByMe fields
+---

@@ -1,0 +1,155 @@
+{
+  "projectName": "SnarkTank",
+  "description": "A Twitter-like microblogging application where users can post short messages (snarks), follow other users, like and reply to snarks, and view a timeline feed.",
+  "branchName": "ralph/snarktank-twitter",
+  "techStack": {
+    "frontend": "React with TypeScript",
+    "backend": "Node.js with Express",
+    "database": "SQLite",
+    "styling": "Plain CSS"
+  },
+  "userStories": [
+    {
+      "id": "ST-001",
+      "title": "Project Setup and Database Schema",
+      "priority": 1,
+      "passes": true,
+      "description": "Initialize the project with React frontend and Express backend. Create SQLite database with tables for users, snarks, likes, follows, and replies. Set up dev scripts in package.json.",
+      "acceptanceCriteria": [
+        "npm install works without errors",
+        "Database tables are created on server start",
+        "Backend runs on port 3001",
+        "Frontend runs on port 3000",
+        "npm run dev starts both frontend and backend"
+      ]
+    },
+    {
+      "id": "ST-002",
+      "title": "User Registration and Login",
+      "priority": 2,
+      "passes": true,
+      "description": "Implement user registration and login with username, display name, and password. Store hashed passwords. Use JWT tokens for session management. Create login and register pages.",
+      "acceptanceCriteria": [
+        "Users can register with username, display name, and password",
+        "Users can login with username and password",
+        "Passwords are hashed before storage",
+        "JWT token is returned on successful login",
+        "Invalid credentials show error message",
+        "Registration validates unique username"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "title": "Post a Snark",
+      "priority": 3,
+      "passes": true,
+      "description": "Logged-in users can compose and post a snark (max 280 characters). The snark shows author, content, and timestamp. A compose form is visible at the top of the timeline.",
+      "acceptanceCriteria": [
+        "Compose form accepts text up to 280 characters",
+        "Character counter shows remaining characters",
+        "Submit button posts the snark to the backend",
+        "New snark appears in the timeline immediately",
+        "Empty snarks cannot be submitted"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "title": "Timeline Feed",
+      "priority": 4,
+      "passes": true,
+      "description": "Display a timeline feed showing all snarks in reverse chronological order. Each snark card shows the author display name, username, content, and relative timestamp (e.g., '5m ago').",
+      "acceptanceCriteria": [
+        "Timeline shows all snarks newest first",
+        "Each snark shows author display name and @username",
+        "Each snark shows relative timestamp",
+        "Timeline loads on the home page",
+        "API endpoint GET /api/snarks returns paginated results"
+      ]
+    },
+    {
+      "id": "ST-005",
+      "title": "Like a Snark",
+      "priority": 5,
+      "passes": true,
+      "description": "Users can like and unlike snarks. Each snark shows its like count. The like button toggles between liked and unliked states.",
+      "acceptanceCriteria": [
+        "Like button on each snark card",
+        "Clicking like toggles the liked state",
+        "Like count updates immediately",
+        "Users cannot like the same snark twice",
+        "API endpoints POST/DELETE /api/snarks/:id/like work correctly"
+      ]
+    },
+    {
+      "id": "ST-006",
+      "title": "User Profile Page",
+      "priority": 6,
+      "passes": true,
+      "description": "Each user has a profile page showing their display name, username, bio, join date, and their snarks. Users can edit their own profile bio.",
+      "acceptanceCriteria": [
+        "Profile page at /profile/:username",
+        "Shows display name, @username, bio, and join date",
+        "Lists all snarks by that user",
+        "Own profile shows edit bio button",
+        "Bio can be updated and saved"
+      ]
+    },
+    {
+      "id": "ST-007",
+      "title": "Follow and Unfollow Users",
+      "priority": 7,
+      "passes": true,
+      "description": "Users can follow and unfollow other users. Profile page shows follower and following counts. A follow/unfollow button appears on other users profiles.",
+      "acceptanceCriteria": [
+        "Follow button on profile pages of other users",
+        "Button toggles between Follow and Unfollow",
+        "Follower and following counts displayed on profile",
+        "Users cannot follow themselves",
+        "API endpoints POST/DELETE /api/users/:id/follow work correctly"
+      ]
+    },
+    {
+      "id": "ST-008",
+      "title": "Following-Only Timeline",
+      "priority": 8,
+      "passes": true,
+      "description": "Add a tab on the home page to switch between 'All Snarks' and 'Following' feeds. The Following feed only shows snarks from users the current user follows.",
+      "acceptanceCriteria": [
+        "Two tabs: All Snarks and Following",
+        "Following tab only shows snarks from followed users",
+        "Tabs switch without page reload",
+        "Empty state message when not following anyone",
+        "API endpoint GET /api/snarks/following returns filtered results"
+      ]
+    },
+    {
+      "id": "ST-009",
+      "title": "Reply to Snarks",
+      "priority": 9,
+      "passes": true,
+      "description": "Users can reply to snarks. Replies appear below the original snark. Each snark shows its reply count. Clicking a snark opens a detail view with all replies.",
+      "acceptanceCriteria": [
+        "Reply button on each snark card",
+        "Reply form opens when clicking reply",
+        "Reply count displayed on snark card",
+        "Snark detail page at /snark/:id shows all replies",
+        "Replies are shown in chronological order"
+      ]
+    },
+    {
+      "id": "ST-010",
+      "title": "Search Users and Snarks",
+      "priority": 10,
+      "passes": true,
+      "description": "Add a search bar that allows searching for users by username/display name and snarks by content. Results are displayed in separate sections.",
+      "acceptanceCriteria": [
+        "Search bar in the navigation header",
+        "Search results page at /search?q=term",
+        "Results split into Users and Snarks sections",
+        "User results show profile card with follow button",
+        "Snark results show full snark cards",
+        "Search is case-insensitive"
+      ]
+    }
+  ]
+}
