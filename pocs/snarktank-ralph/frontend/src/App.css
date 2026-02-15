@@ -515,3 +515,52 @@
 .snark-detail-card {
   margin-bottom: 16px;
 }
+
+.search-form {
+  flex: 1;
+  max-width: 250px;
+  margin: 0 12px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e1e8ed;
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  border-color: #1da1f2;
+}
+
+.search-section-title {
+  color: #14171a;
+  border-bottom: 1px solid #e1e8ed;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.search-user-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.search-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.search-user-bio {
+  color: #657786;
+  font-size: 14px;
+  margin: 4px 0 0 0;
+}

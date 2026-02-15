@@ -5,6 +5,7 @@ import RegisterPage from './RegisterPage';
 import ComposeSnark from './ComposeSnark';
 import ProfilePage from './ProfilePage';
 import SnarkDetailPage from './SnarkDetailPage';
+import SearchPage from './SearchPage';
 import './App.css';
 
 interface Snark {
@@ -131,13 +132,33 @@ function AppContent() {
     } catch {}
   }
 
+  const [searchInput, setSearchInput] = useState('');
   const profileMatch = path.match(/^\/profile\/(.+)$/);
   const snarkMatch = path.match(/^\/snark\/(\d+)$/);
+  const searchMatch = path.match(/^\/search\?q=(.+)$/);
+  const searchQuery = searchMatch ? decodeURIComponent(searchMatch[1]) : '';
+
+  function handleSearchSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const q = searchInput.trim();
+    if (q) {
+      navigate(`/search?q=${encodeURIComponent(q)}`);
+    }
+  }
 
   return (
     <div className="app">
       <header className="app-header">
         <h1 className="clickable" onClick={() => navigate('/')}>SnarkTank</h1>
+        <form className="search-form" onSubmit={handleSearchSubmit}>
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search..."
+            value={searchInput}
+            onChange={e => setSearchInput(e.target.value)}
+          />
+        </form>
         <div className="header-user">
           <span className="clickable" onClick={() => navigate(`/profile/${user.username}`)}>@{user.username}</span>
           <button onClick={logout} className="logout-btn">Logout</button>
@@ -146,6 +167,8 @@ function AppContent() {
       <main className="app-main">
         {snarkMatch ? (
           <SnarkDetailPage snarkId={parseInt(snarkMatch[1])} onNavigate={navigate} />
+        ) : searchMatch ? (
+          <SearchPage query={searchQuery} onNavigate={navigate} />
         ) : profileMatch ? (
           <ProfilePage username={profileMatch[1]} onNavigate={navigate} />
         ) : (

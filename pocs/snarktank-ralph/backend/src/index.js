@@ -4,6 +4,7 @@ const { initializeDatabase } = require('./db');
 const { router: authRouter } = require('./auth');
 const { router: snarksRouter } = require('./snarks');
 const { router: usersRouter } = require('./users');
+const { router: searchRouter } = require('./search');
 
 const app = express();
 const PORT = 3001;
@@ -14,6 +15,7 @@ app.use(express.json());
 initializeDatabase();
 
 app.use('/api/auth', authRouter);
+app.use('/api/search', searchRouter);
 app.use('/api/snarks', snarksRouter);
 app.use('/api/users', usersRouter);
 

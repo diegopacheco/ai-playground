@@ -180,3 +180,33 @@ Iteration 7 complete. Continuing...
   Ralph Iteration 8 of 10 (claude)
 ===============================================================
 ```
+
+I run out of subscription tokensm, I had to run again:
+```
+❯ ./scripts/ralph.sh --tool claude 10
+Starting Ralph - Tool: claude - Max iterations: 10
+
+===============================================================
+  Ralph Iteration 1 of 10 (claude)
+===============================================================
+ST-008 is complete. There are still stories with `passes: false` (ST-009 and ST-010), so another iteration will pick those up.
+
+**Summary of ST-008 implementation:**
+- Added "All Snarks" and "Following" tab buttons to the timeline UI with active state styling
+- Tabs switch without page reload, loading the appropriate feed
+- Following tab shows a specific empty state message when not following anyone
+- Added 12 new API tests for the `/api/snarks/following` endpoint
+- All 118 tests pass, TypeScript compiles clean, frontend builds successfully
+Iteration 1 complete. Continuing...
+
+===============================================================
+  Ralph Iteration 2 of 10 (claude)
+===============================================================
+ST-009 is complete. Checking remaining stories - ST-010 (Search Users and Snarks) still has `passes: false`, so another iteration will pick it up.
+
+**Summary of ST-009 implementation:**
+- **Backend**: Updated `POST /api/snarks` to accept optional `parentId` for replies (validates parent exists). Added `GET /api/snarks/:id` endpoint returning snark detail with nested `replies` array in chronological order.
+- **Frontend**: Added Reply button with reply count to `SnarkCard`. Created `SnarkDetailPage` component with reply form and replies list. Added `#/snark/:id` route in `AppContent`.
+- **Tests**: 20 new tests covering reply creation, snark detail, reply ordering, 404 handling, auth requirements, and timeline exclusion of replies. All 138 tests pass.
+Iteration 2 complete. Continuing...
+```
