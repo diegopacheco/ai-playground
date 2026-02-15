@@ -101,9 +101,82 @@ assert(allSnarks[0].created_at >= allSnarks[1].created_at, 'snarks ordered by cr
 const userSnarks = db.prepare('SELECT * FROM snarks WHERE user_id = ?').all(user.id);
 assert(userSnarks.length === 2, 'can filter snarks by user_id');
 
-console.log(`\nResults: ${passed} passed, ${failed} failed`);
+const http = require('http');
+const app = require('./index');
 
-db.exec("DELETE FROM likes; DELETE FROM follows; DELETE FROM snarks; DELETE FROM users;");
-db.close();
+function request(method, path, body, authToken) {
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'localhost',
+      port: 3002,
+      path,
+      method,
+      headers: { 'Content-Type': 'application/json' },
+    };
+    if (authToken) options.headers['Authorization'] = `Bearer ${authToken}`;
+    const req = http.request(options, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try { resolve({ status: res.statusCode, body: JSON.parse(data) }); }
+        catch { resolve({ status: res.statusCode, body: data }); }
+      });
+    });
+    if (body) req.write(JSON.stringify(body));
+    req.end();
+  });
+}
 
-if (failed > 0) process.exit(1);
+async function runApiTests() {
+  db.exec("DELETE FROM likes; DELETE FROM follows; DELETE FROM snarks; DELETE FROM users;");
+
+  const server = app.listen(3002);
+  await new Promise(r => setTimeout(r, 100));
+
+  try {
+    const reg = await request('POST', '/api/auth/register', { username: 'timeline_user', displayName: 'Timeline User', password: 'pass123' });
+    const loginToken = reg.body.token;
+
+    for (let i = 0; i < 5; i++) {
+      await request('POST', '/api/snarks', { content: `Snark number ${i + 1}` }, loginToken);
+    }
+
+    const timeline = await request('GET', '/api/snarks');
+    assert(timeline.status === 200, 'GET /api/snarks returns 200');
+    assert(Array.isArray(timeline.body), 'GET /api/snarks returns array');
+    assert(timeline.body.length === 5, 'timeline returns all 5 snarks');
+    assert(timeline.body[0].content === 'Snark number 5', 'timeline snarks are newest first');
+    assert(timeline.body[4].content === 'Snark number 1', 'oldest snark is last');
+
+    assert(timeline.body[0].author !== undefined, 'snark has author object');
+    assert(timeline.body[0].author.displayName === 'Timeline User', 'snark author has displayName');
+    assert(timeline.body[0].author.username === 'timeline_user', 'snark author has username');
+    assert(timeline.body[0].createdAt !== undefined, 'snark has createdAt timestamp');
+    assert(timeline.body[0].likeCount !== undefined, 'snark has likeCount');
+    assert(timeline.body[0].replyCount !== undefined, 'snark has replyCount');
+
+    const page1 = await request('GET', '/api/snarks?limit=2&offset=0');
+    assert(page1.body.length === 2, 'pagination limit=2 returns 2 snarks');
+    assert(page1.body[0].content === 'Snark number 5', 'page 1 starts with newest');
+
+    const page2 = await request('GET', '/api/snarks?limit=2&offset=2');
+    assert(page2.body.length === 2, 'pagination offset=2 returns next 2 snarks');
+    assert(page2.body[0].content === 'Snark number 3', 'page 2 starts correctly');
+
+    const page3 = await request('GET', '/api/snarks?limit=2&offset=4');
+    assert(page3.body.length === 1, 'last page returns remaining snarks');
+
+  } finally {
+    server.close();
+  }
+}
+
+runApiTests().then(() => {
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  db.exec("DELETE FROM likes; DELETE FROM follows; DELETE FROM snarks; DELETE FROM users;");
+  db.close();
+  if (failed > 0) process.exit(1);
+}).catch(err => {
+  console.error('Test error:', err);
+  process.exit(1);
+});
