@@ -98,7 +98,7 @@
       "id": "ST-007",
       "title": "Follow and Unfollow Users",
       "priority": 7,
-      "passes": false,
+      "passes": true,
       "description": "Users can follow and unfollow other users. Profile page shows follower and following counts. A follow/unfollow button appears on other users profiles.",
       "acceptanceCriteria": [
         "Follow button on profile pages of other users",

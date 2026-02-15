@@ -76,19 +76,21 @@ function AppContent() {
   const { user, token, logout } = useAuth();
   const [page, setPage] = useState<'login' | 'register'>('login');
   const [snarks, setSnarks] = useState<Snark[]>([]);
+  const [activeTab, setActiveTab] = useState<'all' | 'following'>('all');
   const { path, navigate } = useRoute();
 
-  const loadSnarks = useCallback(async () => {
+  const loadSnarks = useCallback(async (tab: 'all' | 'following' = activeTab) => {
     try {
       const headers: Record<string, string> = {};
       if (token) headers['Authorization'] = `Bearer ${token}`;
-      const res = await fetch('/api/snarks', { headers });
+      const url = tab === 'following' ? '/api/snarks/following' : '/api/snarks';
+      const res = await fetch(url, { headers });
       if (res.ok) {
         const data = await res.json();
         setSnarks(data);
       }
     } catch {}
-  }, [token]);
+  }, [token, activeTab]);
 
   useEffect(() => {
     if (user && path === '/') loadSnarks();
