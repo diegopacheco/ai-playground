@@ -27,7 +27,7 @@
       "id": "ST-002",
       "title": "User Registration and Login",
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "description": "Implement user registration and login with username, display name, and password. Store hashed passwords. Use JWT tokens for session management. Create login and register pages.",
       "acceptanceCriteria": [
         "Users can register with username, display name, and password",

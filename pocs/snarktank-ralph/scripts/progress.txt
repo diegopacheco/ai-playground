@@ -9,6 +9,9 @@ Started: 2026-02-14
 - Backend tests are in backend/src/test.js using plain Node.js assertions (no framework)
 - Use `npm run dev` from root to start both frontend (port 3000) and backend (port 3001)
 - Frontend is React + TypeScript, backend is plain Node.js + Express
+- Auth uses bcryptjs for password hashing and jsonwebtoken for JWT tokens
+- Auth routes at /api/auth/*, authMiddleware exported from auth.js for protecting routes
+- Frontend auth state managed via AuthContext, token stored in localStorage
 ---
 
 ## 2026-02-14 - ST-001
@@ -23,4 +26,20 @@ Started: 2026-02-14
   - The snarks table has parent_id for replies (self-referencing FK)
   - likes table has unique constraint on (user_id, snark_id) to prevent double likes
   - follows table has unique constraint on (follower_id, following_id)
+---
+
+## 2026-02-14 - ST-002
+- Implemented user registration and login with bcryptjs password hashing and JWT tokens
+- Backend: POST /api/auth/register, POST /api/auth/login, GET /api/auth/me (protected)
+- Frontend: AuthContext with login/register/logout, LoginPage, RegisterPage components
+- App.tsx shows auth pages when not logged in, main app when authenticated
+- Added 9 auth-specific tests (password hashing, JWT, duplicate username rejection)
+- Files changed: backend/src/auth.js, backend/src/index.js, backend/src/test.js, frontend/src/AuthContext.tsx, frontend/src/LoginPage.tsx, frontend/src/RegisterPage.tsx, frontend/src/App.tsx, frontend/src/App.css
+- All 28 tests pass, TypeScript compiles clean, frontend builds
+- **Learnings for future iterations:**
+  - Auth implementation was partially committed in a prior "progress ralph" commit, only tests and CSS were new
+  - JWT_SECRET is exported from auth.js for use in tests
+  - authMiddleware sets req.user with { id, username } from JWT payload
+  - Auth routes are mounted at /api/auth/* in index.js
+  - Frontend stores token in localStorage, AuthContext fetches /api/auth/me on load to validate
 ---
