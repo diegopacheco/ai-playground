@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './AuthContext';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import ComposeSnark from './ComposeSnark';
+import ProfilePage from './ProfilePage';
 import './App.css';
 
 interface Snark {
@@ -32,12 +33,30 @@ function timeAgo(dateStr: string): string {
   return `${days}d ago`;
 }
 
-function SnarkCard({ snark, onLikeToggle }: { snark: Snark; onLikeToggle: (id: number) => void }) {
+function useRoute() {
+  const [path, setPath] = useState(window.location.hash.slice(1) || '/');
+
+  useEffect(() => {
+    function onHashChange() {
+      setPath(window.location.hash.slice(1) || '/');
+    }
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  function navigate(newPath: string) {
+    window.location.hash = newPath;
+  }
+
+  return { path, navigate };
+}
+
+function SnarkCard({ snark, onLikeToggle, onNavigate }: { snark: Snark; onLikeToggle: (id: number) => void; onNavigate: (path: string) => void }) {
   return (
     <div className="snark-card">
       <div className="snark-author">
-        <span className="snark-display-name">{snark.author.displayName}</span>
-        <span className="snark-username">@{snark.author.username}</span>
+        <span className="snark-display-name clickable" onClick={() => onNavigate(`/profile/${snark.author.username}`)}>{snark.author.displayName}</span>
+        <span className="snark-username clickable" onClick={() => onNavigate(`/profile/${snark.author.username}`)}>@{snark.author.username}</span>
         <span className="snark-time">{timeAgo(snark.createdAt)}</span>
       </div>
       <div className="snark-content">{snark.content}</div>
@@ -57,6 +76,7 @@ function AppContent() {
   const { user, token, logout } = useAuth();
   const [page, setPage] = useState<'login' | 'register'>('login');
   const [snarks, setSnarks] = useState<Snark[]>([]);
+  const { path, navigate } = useRoute();
 
   const loadSnarks = useCallback(async () => {
     try {
@@ -71,8 +91,8 @@ function AppContent() {
   }, [token]);
 
   useEffect(() => {
-    if (user) loadSnarks();
-  }, [user, loadSnarks]);
+    if (user && path === '/') loadSnarks();
+  }, [user, loadSnarks, path]);
 
   if (!user) {
     if (page === 'register') {
@@ -103,25 +123,33 @@ function AppContent() {
     } catch {}
   }
 
+  const profileMatch = path.match(/^\/profile\/(.+)$/);
+
   return (
     <div className="app">
       <header className="app-header">
-        <h1>SnarkTank</h1>
+        <h1 className="clickable" onClick={() => navigate('/')}>SnarkTank</h1>
         <div className="header-user">
-          <span>@{user.username}</span>
+          <span className="clickable" onClick={() => navigate(`/profile/${user.username}`)}>@{user.username}</span>
           <button onClick={logout} className="logout-btn">Logout</button>
         </div>
       </header>
       <main className="app-main">
-        <ComposeSnark onSnarkPosted={handleSnarkPosted} />
-        <div className="timeline">
-          {snarks.map(s => (
-            <SnarkCard key={s.id} snark={s} onLikeToggle={handleLikeToggle} />
-          ))}
-          {snarks.length === 0 && (
-            <p className="empty-state">No snarks yet. Be the first to post!</p>
-          )}
-        </div>
+        {profileMatch ? (
+          <ProfilePage username={profileMatch[1]} onNavigate={navigate} />
+        ) : (
+          <>
+            <ComposeSnark onSnarkPosted={handleSnarkPosted} />
+            <div className="timeline">
+              {snarks.map(s => (
+                <SnarkCard key={s.id} snark={s} onLikeToggle={handleLikeToggle} onNavigate={navigate} />
+              ))}
+              {snarks.length === 0 && (
+                <p className="empty-state">No snarks yet. Be the first to post!</p>
+              )}
+            </div>
+          </>
+        )}
       </main>
     </div>
   );
