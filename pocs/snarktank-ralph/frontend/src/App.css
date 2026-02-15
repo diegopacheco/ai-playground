@@ -236,6 +236,34 @@
   color: #14171a;
 }
 
+.snark-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e1e8ed;
+}
+
+.like-btn {
+  background: none;
+  border: none;
+  color: #657786;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.like-btn:hover {
+  color: #e0245e;
+  background: #fde8e8;
+}
+
+.like-btn.liked {
+  color: #e0245e;
+  font-weight: bold;
+}
+
 .empty-state {
   text-align: center;
   color: #657786;

@@ -11,6 +11,7 @@ interface Snark {
   createdAt: string;
   likeCount: number;
   replyCount: number;
+  likedByMe: boolean;
   author: {
     id: number;
     username: string;
@@ -31,7 +32,7 @@ function timeAgo(dateStr: string): string {
   return `${days}d ago`;
 }
 
-function SnarkCard({ snark }: { snark: Snark }) {
+function SnarkCard({ snark, onLikeToggle }: { snark: Snark; onLikeToggle: (id: number) => void }) {
   return (
     <div className="snark-card">
       <div className="snark-author">
@@ -40,6 +41,14 @@ function SnarkCard({ snark }: { snark: Snark }) {
         <span className="snark-time">{timeAgo(snark.createdAt)}</span>
       </div>
       <div className="snark-content">{snark.content}</div>
+      <div className="snark-actions">
+        <button
+          className={`like-btn ${snark.likedByMe ? 'liked' : ''}`}
+          onClick={() => onLikeToggle(snark.id)}
+        >
+          {snark.likedByMe ? 'Liked' : 'Like'} ({snark.likeCount})
+        </button>
+      </div>
     </div>
   );
 }
@@ -51,13 +60,15 @@ function AppContent() {
 
   const loadSnarks = useCallback(async () => {
     try {
-      const res = await fetch('/api/snarks');
+      const headers: Record<string, string> = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch('/api/snarks', { headers });
       if (res.ok) {
         const data = await res.json();
         setSnarks(data);
       }
     } catch {}
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (user) loadSnarks();
@@ -71,7 +82,25 @@ function AppContent() {
   }
 
   function handleSnarkPosted(snark: Snark) {
-    setSnarks(prev => [{ ...snark, likeCount: 0, replyCount: 0 }, ...prev]);
+    setSnarks(prev => [{ ...snark, likeCount: 0, replyCount: 0, likedByMe: false }, ...prev]);
+  }
+
+  async function handleLikeToggle(snarkId: number) {
+    const snark = snarks.find(s => s.id === snarkId);
+    if (!snark || !token) return;
+    const method = snark.likedByMe ? 'DELETE' : 'POST';
+    try {
+      const res = await fetch(`/api/snarks/${snarkId}/like`, {
+        method,
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setSnarks(prev => prev.map(s =>
+          s.id === snarkId ? { ...s, likedByMe: data.liked, likeCount: data.likeCount } : s
+        ));
+      }
+    } catch {}
   }
 
   return (
@@ -87,7 +116,7 @@ function AppContent() {
         <ComposeSnark onSnarkPosted={handleSnarkPosted} />
         <div className="timeline">
           {snarks.map(s => (
-            <SnarkCard key={s.id} snark={s} />
+            <SnarkCard key={s.id} snark={s} onLikeToggle={handleLikeToggle} />
           ))}
           {snarks.length === 0 && (
             <p className="empty-state">No snarks yet. Be the first to post!</p>

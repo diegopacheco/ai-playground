@@ -105,13 +105,13 @@ const http = require('http');
 const app = require('./index');
 
 function request(method, path, body, authToken) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const options = {
       hostname: 'localhost',
       port: 3002,
       path,
       method,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Connection': 'close' },
     };
     if (authToken) options.headers['Authorization'] = `Bearer ${authToken}`;
     const req = http.request(options, (res) => {
@@ -122,6 +122,7 @@ function request(method, path, body, authToken) {
         catch { resolve({ status: res.statusCode, body: data }); }
       });
     });
+    req.on('error', reject);
     if (body) req.write(JSON.stringify(body));
     req.end();
   });
@@ -166,8 +167,50 @@ async function runApiTests() {
     const page3 = await request('GET', '/api/snarks?limit=2&offset=4');
     assert(page3.body.length === 1, 'last page returns remaining snarks');
 
+    const reg2 = await request('POST', '/api/auth/register', { username: 'like_user', displayName: 'Like User', password: 'pass123' });
+    const likeToken = reg2.body.token;
+
+    const snarkForLike = await request('POST', '/api/snarks', { content: 'Like this snark' }, loginToken);
+    const snarkId = snarkForLike.body.id;
+
+    const likeRes = await request('POST', `/api/snarks/${snarkId}/like`, {}, likeToken);
+    assert(likeRes.status === 200, 'POST /api/snarks/:id/like returns 200');
+    assert(likeRes.body.liked === true, 'like response has liked=true');
+    assert(likeRes.body.likeCount === 1, 'like count is 1 after first like');
+
+    const doubleLike = await request('POST', `/api/snarks/${snarkId}/like`, {}, likeToken);
+    assert(doubleLike.status === 409, 'cannot like same snark twice');
+
+    const selfLike = await request('POST', `/api/snarks/${snarkId}/like`, {}, loginToken);
+    assert(selfLike.status === 200, 'different user can also like the snark');
+    assert(selfLike.body.likeCount === 2, 'like count is 2 after second user likes');
+
+    const unlikeRes = await request('DELETE', `/api/snarks/${snarkId}/like`, {}, likeToken);
+    assert(unlikeRes.status === 200, 'DELETE /api/snarks/:id/like returns 200');
+    assert(unlikeRes.body.liked === false, 'unlike response has liked=false');
+    assert(unlikeRes.body.likeCount === 1, 'like count decreases after unlike');
+
+    const timelineWithLikes = await request('GET', '/api/snarks', null, loginToken);
+    const likedSnark = timelineWithLikes.body.find((s) => s.id === snarkId);
+    assert(likedSnark.likedByMe === true, 'likedByMe is true for snark liked by current user');
+    assert(likedSnark.likeCount === 1, 'timeline shows correct like count');
+
+    const timelineOther = await request('GET', '/api/snarks', null, likeToken);
+    const otherView = timelineOther.body.find((s) => s.id === snarkId);
+    assert(otherView.likedByMe === false, 'likedByMe is false for unliked user');
+
+    const noAuthTimeline = await request('GET', '/api/snarks');
+    const noAuthSnark = noAuthTimeline.body.find((s) => s.id === snarkId);
+    assert(noAuthSnark.likedByMe === false, 'likedByMe is false when not authenticated');
+
+    const likeNoAuth = await request('POST', `/api/snarks/${snarkId}/like`, {});
+    assert(likeNoAuth.status === 401, 'like requires authentication');
+
+    const likeNotFound = await request('POST', '/api/snarks/99999/like', {}, likeToken);
+    assert(likeNotFound.status === 404, 'like returns 404 for non-existent snark');
+
   } finally {
-    server.close();
+    await new Promise(r => server.close(r));
   }
 }
 
