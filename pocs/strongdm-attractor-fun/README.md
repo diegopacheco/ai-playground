@@ -118,3 +118,27 @@ digraph pipeline {
     summarize -> output;
 }
 ```
+
+```
+  ---
+  pipeline-interesting.dot - Code Analyzer (6 nodes, no API key needed)
+
+  scan ──> count_lines ──> list_tests ──> count_tests ──> report_template ──> shout
+
+  Runs 4 shell commands to scan the codebase (count .rs files, count lines, find all tests, count tests per file), then chains the
+  results into a template, and uppercases the final report. Output shows: 42 Rust files, 22 tests across 8 files.
+
+  ---
+  pipeline-condition.dot - Health Check (7 nodes, no API key needed)
+
+  check_rust ──> check_cargo ──> check_git ──> disk_usage ──> build_test ──> json_payload ──> final_report
+
+  Checks your toolchain versions, disk usage of target/, runs cargo test, builds a JSON payload from all results, then formats a
+  final report. Detected: rustc 1.93.0, 645M target dir, all 22 tests passing.
+
+  ---
+  To run them yourself:
+
+  cargo run --bin attractor-cli -- pipeline-interesting.dot
+  cargo run --bin attractor-cli -- pipeline-condition.dot
+```
