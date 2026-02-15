@@ -13,7 +13,7 @@ use tokio::sync::Mutex;
 pub struct Pipeline {
     graph: PipelineGraph,
     stylesheet: Stylesheet,
-    client: LlmClient,
+    client: Option<LlmClient>,
     default_model: String,
 }
 
@@ -27,7 +27,20 @@ impl Pipeline {
         Self {
             graph,
             stylesheet,
-            client,
+            client: Some(client),
+            default_model,
+        }
+    }
+
+    pub fn without_client(
+        graph: PipelineGraph,
+        stylesheet: Stylesheet,
+        default_model: String,
+    ) -> Self {
+        Self {
+            graph,
+            stylesheet,
+            client: None,
             default_model,
         }
     }
@@ -65,7 +78,6 @@ impl Pipeline {
                     let mut handles = Vec::new();
                     for pn in parallel_nodes {
                         let state_clone = Arc::clone(state);
-                        let _model = self.resolve_model(&pn.id);
                         let prompt = {
                             let s = state_clone.lock().await;
                             pn.prompt()
@@ -123,6 +135,8 @@ impl Pipeline {
                     }
                 }
                 NodeType::Llm => {
+                    let client = self.client.as_ref()
+                        .ok_or_else(|| "LLM client not configured. Set ANTHROPIC_API_KEY, OPENAI_API_KEY, or GEMINI_API_KEY".to_string())?;
                     let s = state.lock().await;
                     let prompt = node
                         .prompt()
@@ -141,8 +155,7 @@ impl Pipeline {
                     if let Some(max) = config.max_tokens {
                         request.max_tokens = max;
                     }
-                    let response = self
-                        .client
+                    let response = client
                         .complete(&request)
                         .await
                         .map_err(|e| e.to_string())?;

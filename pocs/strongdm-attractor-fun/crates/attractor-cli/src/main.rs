@@ -1,4 +1,4 @@
-use attractor::{Parser, PipelineGraph, Pipeline, Stylesheet};
+use attractor::{Parser, Pipeline, PipelineGraph, Stylesheet};
 use llm_client::LlmClient;
 
 #[tokio::main]
@@ -42,15 +42,15 @@ async fn main() {
     let default_model = std::env::var("ATTRACTOR_MODEL")
         .unwrap_or_else(|_| "claude-sonnet-4-20250514".to_string());
 
-    let provider = llm_client::catalog::provider_for_model(&default_model)
-        .unwrap_or("anthropic");
+    let provider = llm_client::catalog::provider_for_model(&default_model).unwrap_or("anthropic");
 
-    let client = LlmClient::from_env(provider).unwrap_or_else(|e| {
-        eprintln!("Failed to create LLM client: {}", e);
-        std::process::exit(1);
-    });
-
-    let pipeline = Pipeline::new(pipeline_graph, stylesheet, client, default_model);
+    let pipeline = match LlmClient::from_env(provider) {
+        Ok(client) => Pipeline::new(pipeline_graph, stylesheet, client, default_model),
+        Err(_) => {
+            eprintln!("No API key found, running without LLM client (LLM nodes will fail).");
+            Pipeline::without_client(pipeline_graph, stylesheet, default_model)
+        }
+    };
 
     match pipeline.run().await {
         Ok(state) => {
