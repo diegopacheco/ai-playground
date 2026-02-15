@@ -2,6 +2,19 @@
 
 https://github.com/snarktank/ralph
 
+```
+Ralph will:
+
+1. Create a feature branch (from PRD branchName)
+2. Pick the highest priority story where passes: false
+3. Implement that single story
+4. Run quality checks (typecheck, tests)
+5. Commit if checks pass
+6. Update prd.json to mark story as passes: true
+7. Append learnings to progress.txt
+8. Repeat until all stories pass or max iterations reached
+```
+
 ## First
 
 ```

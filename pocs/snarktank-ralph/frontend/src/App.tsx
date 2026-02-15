@@ -51,7 +51,7 @@ function useRoute() {
   return { path, navigate };
 }
 
-function SnarkCard({ snark, onLikeToggle, onNavigate }: { snark: Snark; onLikeToggle: (id: number) => void; onNavigate: (path: string) => void }) {
+function SnarkCard({ snark, onLikeToggle, onNavigate, showReplyBtn = true }: { snark: Snark; onLikeToggle: (id: number) => void; onNavigate: (path: string) => void; showReplyBtn?: boolean }) {
   return (
     <div className="snark-card">
       <div className="snark-author">
@@ -61,6 +61,11 @@ function SnarkCard({ snark, onLikeToggle, onNavigate }: { snark: Snark; onLikeTo
       </div>
       <div className="snark-content">{snark.content}</div>
       <div className="snark-actions">
+        {showReplyBtn && (
+          <button className="reply-btn" onClick={() => onNavigate(`/snark/${snark.id}`)}>
+            Reply ({snark.replyCount})
+          </button>
+        )}
         <button
           className={`like-btn ${snark.likedByMe ? 'liked' : ''}`}
           onClick={() => onLikeToggle(snark.id)}
