@@ -75,6 +75,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/coding-agent-gsd
 21 - Codex App (Mac) - Tetris Game <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-app-agent-fun
 
+22 - Ralph - Twitter like app <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/snarktank-ralph
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
@@ -144,3 +147,12 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/drawing-to-site-age
 
 22 - Agent Drawing Action: Draw and the agen tell what it is <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-drawing-action
+
+23 - Strands Agents - Python <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/strands-agents-simple
+
+24 - Strands Multi Agents - TS <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/strands-agents-ts-multi-agents
+
+25 - Strands Agents Memory - TS <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/strands-agents-ts-memory
