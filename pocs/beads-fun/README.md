@@ -32,7 +32,15 @@ Added more tasks:
 
 ## Result
 
+<img src="result.png" width="600" />
 
+## Beads Experience Notes
+
+* Fast
+* Dependency management is nice
+* however did not make the code be better
+* Monolith rust backend is bad
+* Monolith react frontend is bad
 
 ## Beads Commands
 
