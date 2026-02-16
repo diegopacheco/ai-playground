@@ -78,6 +78,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-app-agent-fun
 22 - Ralph - Twitter like app <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/snarktank-ralph
 
+23 - StrongDM - Attractor <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/strongdm-attractor-fun
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
