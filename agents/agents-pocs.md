@@ -177,3 +177,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/openai-codex-5.3-fr
 
 29 - swarms-rs - rust Agent <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/swarms-rs-rust-agent-fun
+
+30 - Open Memory - Python <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/open-memory-fun
