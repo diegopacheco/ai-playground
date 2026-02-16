@@ -1,4 +1,5 @@
 #!/bin/bash
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 API="http://localhost:8080/api"
 PASS=0
 FAIL=0
@@ -16,11 +17,20 @@ check() {
   fi
 }
 
+cleanup() {
+  kill $SERVER_PID 2>/dev/null
+  rm -f "$SCRIPT_DIR/backend/twitter.db"
+  rm -rf "$SCRIPT_DIR/backend/uploads"
+}
+trap cleanup EXIT
+
 echo "=== Starting backend for tests ==="
-rm -f backend/twitter.db
-cd backend && cargo run &
+lsof -ti:8080 | xargs kill -9 2>/dev/null
+sleep 1
+rm -f "$SCRIPT_DIR/backend/twitter.db"
+rm -rf "$SCRIPT_DIR/backend/uploads"
+(cd "$SCRIPT_DIR/backend" && cargo run) &
 SERVER_PID=$!
-cd ..
 for i in $(seq 1 30); do
   curl -s "$API/tweets" > /dev/null 2>&1 && break
   sleep 1
@@ -107,9 +117,6 @@ echo "Passed: $PASS"
 echo "Failed: $FAIL"
 TOTAL=$((PASS + FAIL))
 echo "Total:  $TOTAL"
-
-kill $SERVER_PID 2>/dev/null
-rm -f backend/twitter.db
 
 if [ $FAIL -gt 0 ]; then
   exit 1
