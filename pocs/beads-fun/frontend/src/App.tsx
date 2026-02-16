@@ -9,7 +9,13 @@ interface Tweet {
   username: string
   content: string
   likes: number
+  image_url: string | null
   created_at: string
+}
+
+interface AuthState {
+  token: string
+  username: string
 }
 
 function timeAgo(dateStr: string): string {
@@ -23,27 +29,99 @@ function timeAgo(dateStr: string): string {
   return `${days}d`
 }
 
-function App() {
+function AuthForm({ onAuth }: { onAuth: (auth: AuthState) => void }) {
+  const [isLogin, setIsLogin] = useState(true)
   const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+
+  const handleSubmit = async () => {
+    setError('')
+    const endpoint = isLogin ? '/login' : '/register'
+    const res = await fetch(`${API}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    })
+    const data = await res.json()
+    if (!res.ok) {
+      setError(data.error || 'Something went wrong')
+      return
+    }
+    localStorage.setItem('auth', JSON.stringify(data))
+    onAuth(data)
+  }
+
+  return (
+    <div className="auth-container">
+      <div className="auth-box">
+        <h1 className="auth-title">Twitter Clone</h1>
+        <h2>{isLogin ? 'Login' : 'Register'}</h2>
+        {error && <div className="auth-error">{error}</div>}
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+        />
+        <button className="btn-tweet" onClick={handleSubmit}>
+          {isLogin ? 'Login' : 'Register'}
+        </button>
+        <button className="btn-switch" onClick={() => { setIsLogin(!isLogin); setError('') }}>
+          {isLogin ? 'Need an account? Register' : 'Have an account? Login'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function TweetImage({ url }: { url: string }) {
+  const src = url.startsWith('/') ? `http://localhost:8080${url}` : url
+  return <img className="tweet-image" src={src} alt="tweet attachment" />
+}
+
+function Feed({ auth, onLogout }: { auth: AuthState; onLogout: () => void }) {
   const [content, setContent] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [activeSearch, setActiveSearch] = useState('')
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
   const queryClient = useQueryClient()
 
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${auth.token}`,
+  }
+
   const { data: tweets = [], isLoading } = useQuery<Tweet[]>({
-    queryKey: ['tweets'],
-    queryFn: () => fetch(`${API}/tweets`).then(r => r.json()),
+    queryKey: ['tweets', activeSearch],
+    queryFn: () => {
+      const url = activeSearch
+        ? `${API}/tweets/search?q=${encodeURIComponent(activeSearch)}`
+        : `${API}/tweets`
+      return fetch(url).then(r => r.json())
+    },
     refetchInterval: 5000,
   })
 
   const createMutation = useMutation({
-    mutationFn: (body: { username: string; content: string }) =>
+    mutationFn: (body: { content: string; image_url: string | null }) =>
       fetch(`${API}/tweets`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+        headers,
+        body: JSON.stringify({ ...body, username: auth.username }),
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tweets'] })
       setContent('')
+      setImageUrl(null)
     },
   })
 
@@ -55,39 +133,86 @@ function App() {
 
   const deleteMutation = useMutation({
     mutationFn: (id: number) =>
-      fetch(`${API}/tweets/${id}`, { method: 'DELETE' }),
+      fetch(`${API}/tweets/${id}`, { method: 'DELETE', headers }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tweets'] }),
   })
 
   const handleSubmit = () => {
-    if (!username.trim() || !content.trim()) return
-    createMutation.mutate({ username: username.trim(), content: content.trim() })
+    if (!content.trim()) return
+    createMutation.mutate({ content: content.trim(), image_url: imageUrl })
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    const formData = new FormData()
+    formData.append('file', file)
+    const res = await fetch(`${API}/upload`, { method: 'POST', body: formData })
+    const data = await res.json()
+    setImageUrl(data.url)
+    setUploading(false)
+  }
+
+  const handleSearch = () => {
+    setActiveSearch(searchQuery.trim())
+  }
+
+  const clearSearch = () => {
+    setSearchQuery('')
+    setActiveSearch('')
   }
 
   return (
     <div className="app">
       <div className="header">
-        <h1>Home</h1>
+        <div className="header-row">
+          <h1>Home</h1>
+          <div className="header-user">
+            <span>@{auth.username}</span>
+            <button className="btn-logout" onClick={onLogout}>Logout</button>
+          </div>
+        </div>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search tweets..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleSearch()}
+          />
+          <button className="btn-search" onClick={handleSearch}>Search</button>
+          {activeSearch && (
+            <button className="btn-clear" onClick={clearSearch}>Clear</button>
+          )}
+        </div>
+        {activeSearch && (
+          <div className="search-info">Results for: "{activeSearch}"</div>
+        )}
       </div>
 
       <div className="compose-box">
-        <input
-          type="text"
-          placeholder="Your username"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-        />
         <textarea
           placeholder="What is happening?!"
           value={content}
           onChange={e => setContent(e.target.value)}
           maxLength={280}
         />
+        {imageUrl && (
+          <div className="image-preview">
+            <TweetImage url={imageUrl} />
+            <button className="btn-remove-image" onClick={() => setImageUrl(null)}>Remove</button>
+          </div>
+        )}
         <div className="compose-actions">
+          <label className="btn-image-upload">
+            {uploading ? 'Uploading...' : 'Add Image'}
+            <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
+          </label>
           <button
             className="btn-tweet"
             onClick={handleSubmit}
-            disabled={!username.trim() || !content.trim() || createMutation.isPending}
+            disabled={!content.trim() || createMutation.isPending}
           >
             Post
           </button>
@@ -97,7 +222,9 @@ function App() {
       {isLoading && <div className="loading">Loading tweets...</div>}
 
       {!isLoading && tweets.length === 0 && (
-        <div className="empty-state">No tweets yet. Be the first to post!</div>
+        <div className="empty-state">
+          {activeSearch ? 'No tweets match your search.' : 'No tweets yet. Be the first to post!'}
+        </div>
       )}
 
       {tweets.map(tweet => (
@@ -111,6 +238,11 @@ function App() {
             <span className="tweet-time">{timeAgo(tweet.created_at)}</span>
           </div>
           <div className="tweet-content">{tweet.content}</div>
+          {tweet.image_url && (
+            <div className="tweet-image-container">
+              <TweetImage url={tweet.image_url} />
+            </div>
+          )}
           <div className="tweet-actions">
             <button
               className={`tweet-action ${tweet.likes > 0 ? 'liked' : ''}`}
@@ -118,17 +250,37 @@ function App() {
             >
               {tweet.likes > 0 ? '\u2764\uFE0F' : '\u2661'} {tweet.likes > 0 ? tweet.likes : ''}
             </button>
-            <button
-              className="tweet-action delete"
-              onClick={() => deleteMutation.mutate(tweet.id)}
-            >
-              \u2715 Delete
-            </button>
+            {tweet.username === auth.username && (
+              <button
+                className="tweet-action delete"
+                onClick={() => deleteMutation.mutate(tweet.id)}
+              >
+                \u2715 Delete
+              </button>
+            )}
           </div>
         </div>
       ))}
     </div>
   )
+}
+
+function App() {
+  const [auth, setAuth] = useState<AuthState | null>(() => {
+    const stored = localStorage.getItem('auth')
+    return stored ? JSON.parse(stored) : null
+  })
+
+  const handleLogout = () => {
+    localStorage.removeItem('auth')
+    setAuth(null)
+  }
+
+  if (!auth) {
+    return <AuthForm onAuth={setAuth} />
+  }
+
+  return <Feed auth={auth} onLogout={handleLogout} />
 }
 
 export default App

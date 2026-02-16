@@ -21,6 +21,139 @@
   font-weight: 700;
 }
 
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #71767b;
+  font-size: 14px;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid #536471;
+  color: #e7e9ea;
+  border-radius: 9999px;
+  padding: 4px 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-logout:hover {
+  background: rgba(239, 243, 244, 0.1);
+}
+
+.search-bar {
+  display: flex;
+  gap: 8px;
+}
+
+.search-bar input {
+  flex: 1;
+  background: #202327;
+  border: 1px solid #2f3336;
+  border-radius: 9999px;
+  padding: 8px 16px;
+  color: #e7e9ea;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #1d9bf0;
+}
+
+.btn-search,
+.btn-clear {
+  background: transparent;
+  border: 1px solid #536471;
+  color: #e7e9ea;
+  border-radius: 9999px;
+  padding: 4px 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-search:hover,
+.btn-clear:hover {
+  background: rgba(239, 243, 244, 0.1);
+}
+
+.search-info {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #1d9bf0;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.auth-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 320px;
+  padding: 32px;
+  border: 1px solid #2f3336;
+  border-radius: 16px;
+}
+
+.auth-title {
+  font-size: 28px;
+  text-align: center;
+}
+
+.auth-box h2 {
+  font-size: 18px;
+  color: #71767b;
+  text-align: center;
+}
+
+.auth-box input {
+  background: transparent;
+  border: 1px solid #2f3336;
+  border-radius: 8px;
+  padding: 12px;
+  color: #e7e9ea;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.auth-box input:focus {
+  outline: none;
+  border-color: #1d9bf0;
+}
+
+.auth-error {
+  color: #f4212e;
+  font-size: 14px;
+  text-align: center;
+}
+
+.btn-switch {
+  background: transparent;
+  border: none;
+  color: #1d9bf0;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-switch:hover {
+  text-decoration: underline;
+}
+
 .compose-box {
   padding: 16px;
   border-bottom: 1px solid #2f3336;
@@ -29,7 +162,6 @@
   gap: 12px;
 }
 
-.compose-box input,
 .compose-box textarea {
   background: transparent;
   border: 1px solid #2f3336;
@@ -39,21 +171,59 @@
   font-size: 15px;
   font-family: inherit;
   resize: none;
+  min-height: 80px;
 }
 
-.compose-box input:focus,
 .compose-box textarea:focus {
   outline: none;
   border-color: #1d9bf0;
 }
 
-.compose-box textarea {
-  min-height: 80px;
-}
-
 .compose-actions {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-image-upload {
+  background: transparent;
+  border: 1px solid #536471;
+  color: #1d9bf0;
+  border-radius: 9999px;
+  padding: 6px 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-image-upload:hover {
+  background: rgba(29, 155, 240, 0.1);
+}
+
+.image-preview {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #2f3336;
+}
+
+.image-preview img {
+  max-height: 200px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.btn-remove-image {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .btn-tweet {
@@ -128,6 +298,21 @@
   margin-left: 48px;
   margin-bottom: 12px;
   white-space: pre-wrap;
+}
+
+.tweet-image-container {
+  margin-left: 48px;
+  margin-bottom: 12px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #2f3336;
+}
+
+.tweet-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  display: block;
 }
 
 .tweet-actions {
