@@ -87,6 +87,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/LiteLLM-fun
 25 - Portkey OSS <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/portkey-fun
 
+26 - SuperClaude - Opus 4.5 - Twitter Like Application <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/SuperClaude-poc
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
