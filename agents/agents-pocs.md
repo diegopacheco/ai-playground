@@ -81,6 +81,12 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/snarktank-ralph
 23 - StrongDM - Attractor <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/strongdm-attractor-fun
 
+24 - LiteLLM <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/LiteLLM-fun
+
+25 - Portkey OSS <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/portkey-fun
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
@@ -159,3 +165,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/strands-agents-ts-m
 
 25 - Strands Agents Memory - TS <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/strands-agents-ts-memory
+
+26 - My Custom Skill V5 - Twitter like app <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-twitter-like-opus-4-6-v5-skill
