@@ -168,3 +168,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/strands-agents-ts-m
 
 26 - My Custom Skill V5 - Twitter like app <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-twitter-like-opus-4-6-v5-skill
+
+27 - Frontend Skill - Gemini 3 - UX <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/gemini-frontendskill-poc-fun
+
+28 - Frontend Skill - Codex 5.3 - UX <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/openai-codex-5.3-frontendskill-fun
