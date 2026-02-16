@@ -7,7 +7,7 @@ check() {
   local name="$1"
   local expected="$2"
   local actual="$3"
-  if echo "$actual" | grep -q "$expected"; then
+  if echo "$actual" | grep -qF "$expected"; then
     echo "[PASS] $name"
     PASS=$((PASS + 1))
   else
@@ -17,18 +17,10 @@ check() {
 }
 
 echo "=== Starting backend for tests ==="
-cd backend && cargo run &
-SERVER_PID=$!
-for i in $(seq 1 30); do
-  curl -s "$API/tweets" > /dev/null 2>&1 && break
-  sleep 1
-done
-
 rm -f backend/twitter.db
-kill $SERVER_PID 2>/dev/null
-sleep 1
 cd backend && cargo run &
 SERVER_PID=$!
+cd ..
 for i in $(seq 1 30); do
   curl -s "$API/tweets" > /dev/null 2>&1 && break
   sleep 1
@@ -84,7 +76,13 @@ RES=$(curl -s "$API/tweets/search?q=testuser")
 check "Search tweets by username" "Hello World" "$RES"
 
 RES=$(curl -s "$API/tweets/search?q=nonexistent")
-check "Search no results" "[]" "$RES"
+if [ "$RES" = "[]" ]; then
+  echo "[PASS] Search no results is empty array"
+  PASS=$((PASS + 1))
+else
+  echo "[FAIL] Search no results is empty array (got '$RES')"
+  FAIL=$((FAIL + 1))
+fi
 
 echo ""
 echo "=== Image Upload Test ==="
