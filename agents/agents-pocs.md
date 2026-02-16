@@ -174,3 +174,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/gemini-frontendskil
 
 28 - Frontend Skill - Codex 5.3 - UX <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/openai-codex-5.3-frontendskill-fun
+
+29 - swarms-rs - rust Agent <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/swarms-rs-rust-agent-fun
