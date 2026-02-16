@@ -111,12 +111,21 @@ function Feed({ auth, onLogout }: { auth: AuthState; onLogout: () => void }) {
     refetchInterval: 5000,
   })
 
+  const authFetch = async (url: string, opts: RequestInit) => {
+    const res = await fetch(url, opts)
+    if (res.status === 401) {
+      onLogout()
+      throw new Error('Session expired')
+    }
+    return res
+  }
+
   const createMutation = useMutation({
     mutationFn: (body: { content: string; image_url: string | null }) =>
-      fetch(`${API}/tweets`, {
+      authFetch(`${API}/tweets`, {
         method: 'POST',
         headers,
-        body: JSON.stringify({ ...body, username: auth.username }),
+        body: JSON.stringify(body),
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tweets'] })
@@ -133,7 +142,7 @@ function Feed({ auth, onLogout }: { auth: AuthState; onLogout: () => void }) {
 
   const deleteMutation = useMutation({
     mutationFn: (id: number) =>
-      fetch(`${API}/tweets/${id}`, { method: 'DELETE', headers }),
+      authFetch(`${API}/tweets/${id}`, { method: 'DELETE', headers }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tweets'] }),
   })
 
