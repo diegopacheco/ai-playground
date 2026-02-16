@@ -1,0 +1,4 @@
+openmemory-py
+python-dotenv
+pyyaml
+langchain
