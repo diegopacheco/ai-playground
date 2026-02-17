@@ -99,6 +99,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/oh-my-claudecode-si
 29 - Oh My Claude Code (OMC) - Opus 4.6 - Teams ON - Twitter Like App <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/oh-my-claudecode-teams
 
+30 - Claude Code Teams - Opus 4.6 - Twitter Like App <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-code-teams
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
