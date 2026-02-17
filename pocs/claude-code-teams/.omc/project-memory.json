@@ -1,0 +1,156 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1771315220623,
+  "projectRoot": "/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/claude-code-teams",
+  "techStack": {
+    "languages": [
+      {
+        "name": "Rust",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "Cargo.toml"
+        ]
+      }
+    ],
+    "frameworks": [],
+    "packageManager": "cargo",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "cargo build",
+    "testCommand": "cargo test",
+    "lintCommand": "cargo clippy",
+    "devCommand": "cargo run",
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "src"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "frontend": {
+      "path": "frontend",
+      "purpose": null,
+      "fileCount": 10,
+      "lastAccessed": 1771315220528,
+      "keyFiles": [
+        "README.md",
+        "eslint.config.js",
+        "index.html",
+        "package-lock.json",
+        "package.json"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 1,
+      "lastAccessed": 1771315220528,
+      "keyFiles": [
+        "main.rs"
+      ]
+    },
+    "target": {
+      "path": "target",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1771315220529,
+      "keyFiles": [
+        "CACHEDIR.TAG"
+      ]
+    },
+    "frontend/node_modules": {
+      "path": "frontend/node_modules",
+      "purpose": "Dependencies",
+      "fileCount": 1,
+      "lastAccessed": 1771315220529,
+      "keyFiles": []
+    },
+    "frontend/public": {
+      "path": "frontend/public",
+      "purpose": "Public files",
+      "fileCount": 1,
+      "lastAccessed": 1771315220529,
+      "keyFiles": [
+        "vite.svg"
+      ]
+    },
+    "frontend/src": {
+      "path": "frontend/src",
+      "purpose": "Source code",
+      "fileCount": 4,
+      "lastAccessed": 1771315220529,
+      "keyFiles": [
+        "App.css",
+        "App.tsx",
+        "index.css"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "Cargo.toml",
+      "accessCount": 1,
+      "lastAccessed": 1771315343324,
+      "type": "file"
+    },
+    {
+      "path": "src/main.rs",
+      "accessCount": 1,
+      "lastAccessed": 1771315343839,
+      "type": "file"
+    },
+    {
+      "path": "run.sh",
+      "accessCount": 1,
+      "lastAccessed": 1771315344385,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 1,
+      "lastAccessed": 1771315344963,
+      "type": "file"
+    },
+    {
+      "path": "frontend/package.json",
+      "accessCount": 1,
+      "lastAccessed": 1771315349046,
+      "type": "file"
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "accessCount": 1,
+      "lastAccessed": 1771315349200,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771315349812,
+      "type": "file"
+    },
+    {
+      "path": "frontend/index.html",
+      "accessCount": 1,
+      "lastAccessed": 1771315350389,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
