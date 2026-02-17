@@ -104,21 +104,75 @@
   },
   "hotPaths": [
     {
-      "path": "Cargo.toml",
-      "accessCount": 1,
-      "lastAccessed": 1771315343324,
+      "path": "src/main.rs",
+      "accessCount": 5,
+      "lastAccessed": 1771315462004,
       "type": "file"
     },
     {
-      "path": "src/main.rs",
-      "accessCount": 1,
-      "lastAccessed": 1771315343839,
+      "path": "frontend/src/App.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1771315423866,
+      "type": "file"
+    },
+    {
+      "path": "Cargo.toml",
+      "accessCount": 3,
+      "lastAccessed": 1771315432488,
       "type": "file"
     },
     {
       "path": "run.sh",
-      "accessCount": 1,
-      "lastAccessed": 1771315344385,
+      "accessCount": 3,
+      "lastAccessed": 1771315440809,
+      "type": "file"
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "accessCount": 3,
+      "lastAccessed": 1771315446674,
+      "type": "file"
+    },
+    {
+      "path": "frontend/package.json",
+      "accessCount": 2,
+      "lastAccessed": 1771315424391,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/components/Header.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1771315476070,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/components/Layout.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1771315476650,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/components/TweetCard.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1771315477254,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/api.ts",
+      "accessCount": 2,
+      "lastAccessed": 1771315489475,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/hooks.ts",
+      "accessCount": 2,
+      "lastAccessed": 1771315490185,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/types.ts",
+      "accessCount": 2,
+      "lastAccessed": 1771315501305,
       "type": "file"
     },
     {
@@ -128,27 +182,33 @@
       "type": "file"
     },
     {
-      "path": "frontend/package.json",
-      "accessCount": 1,
-      "lastAccessed": 1771315349046,
-      "type": "file"
-    },
-    {
-      "path": "frontend/vite.config.ts",
-      "accessCount": 1,
-      "lastAccessed": 1771315349200,
-      "type": "file"
-    },
-    {
-      "path": "frontend/src/App.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1771315349812,
-      "type": "file"
-    },
-    {
       "path": "frontend/index.html",
       "accessCount": 1,
       "lastAccessed": 1771315350389,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/App.css",
+      "accessCount": 1,
+      "lastAccessed": 1771315422894,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/index.css",
+      "accessCount": 1,
+      "lastAccessed": 1771315423114,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/main.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771315423302,
+      "type": "file"
+    },
+    {
+      "path": "stop.sh",
+      "accessCount": 1,
+      "lastAccessed": 1771315444784,
       "type": "file"
     }
   ],

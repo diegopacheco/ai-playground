@@ -1,0 +1,56 @@
+{
+  "agents": [
+    {
+      "agent_id": "af16ae1",
+      "agent_type": "rust-backend",
+      "started_at": "2026-02-17T08:03:26.995Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-02-17T08:04:41.243Z",
+      "duration_ms": 74248
+    },
+    {
+      "agent_id": "a63cf2b",
+      "agent_type": "react-ui",
+      "started_at": "2026-02-17T08:03:30.181Z",
+      "parent_mode": "none",
+      "status": "running"
+    },
+    {
+      "agent_id": "a00a3dd",
+      "agent_type": "tanstack-data",
+      "started_at": "2026-02-17T08:03:35.551Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-02-17T08:04:27.081Z",
+      "duration_ms": 51530
+    },
+    {
+      "agent_id": "addcc2f",
+      "agent_type": "scripts",
+      "started_at": "2026-02-17T08:03:37.965Z",
+      "parent_mode": "none",
+      "status": "running"
+    },
+    {
+      "agent_id": "a0ebd86",
+      "agent_type": "tanstack-data",
+      "started_at": "2026-02-17T08:04:27.234Z",
+      "parent_mode": "none",
+      "status": "running"
+    },
+    {
+      "agent_id": "ac489ea",
+      "agent_type": "rust-backend",
+      "started_at": "2026-02-17T08:04:41.407Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-02-17T08:04:49.804Z",
+      "duration_ms": 8397
+    }
+  ],
+  "total_spawned": 6,
+  "total_completed": 3,
+  "total_failed": 0,
+  "last_updated": "2026-02-17T08:04:49.907Z"
+}
