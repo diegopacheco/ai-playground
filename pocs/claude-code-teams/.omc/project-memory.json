@@ -105,14 +105,32 @@
   "hotPaths": [
     {
       "path": "frontend/src/App.tsx",
-      "accessCount": 6,
-      "lastAccessed": 1771315534336,
+      "accessCount": 7,
+      "lastAccessed": 1771315555043,
       "type": "file"
     },
     {
       "path": "src/main.rs",
       "accessCount": 5,
       "lastAccessed": 1771315462004,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/api.ts",
+      "accessCount": 5,
+      "lastAccessed": 1771315590638,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/components/TweetCard.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1771315573651,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/components/TweetFeed.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1771315575301,
       "type": "file"
     },
     {
@@ -134,15 +152,15 @@
       "type": "file"
     },
     {
-      "path": "frontend/src/api.ts",
-      "accessCount": 3,
-      "lastAccessed": 1771315518160,
-      "type": "file"
-    },
-    {
       "path": "frontend/src/main.tsx",
       "accessCount": 3,
       "lastAccessed": 1771315529574,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/types.ts",
+      "accessCount": 3,
+      "lastAccessed": 1771315556073,
       "type": "file"
     },
     {
@@ -164,21 +182,9 @@
       "type": "file"
     },
     {
-      "path": "frontend/src/components/TweetCard.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1771315477254,
-      "type": "file"
-    },
-    {
       "path": "frontend/src/hooks.ts",
       "accessCount": 2,
       "lastAccessed": 1771315490185,
-      "type": "file"
-    },
-    {
-      "path": "frontend/src/types.ts",
-      "accessCount": 2,
-      "lastAccessed": 1771315501305,
       "type": "file"
     },
     {
@@ -197,12 +203,6 @@
       "path": "frontend/src/components/TweetCompose.tsx",
       "accessCount": 2,
       "lastAccessed": 1771315538530,
-      "type": "file"
-    },
-    {
-      "path": "frontend/src/components/TweetFeed.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1771315539093,
       "type": "file"
     },
     {
@@ -228,6 +228,18 @@
       "accessCount": 1,
       "lastAccessed": 1771315542853,
       "type": "file"
+    },
+    {
+      "path": "frontend/tsconfig.app.json",
+      "accessCount": 1,
+      "lastAccessed": 1771315546014,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src",
+      "accessCount": 1,
+      "lastAccessed": 1771315595679,
+      "type": "directory"
     }
   ],
   "userDirectives": []

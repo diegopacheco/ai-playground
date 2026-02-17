@@ -1,4 +1,4 @@
-import { Tweet } from "../types";
+import type { Tweet } from "../types";
 import TweetCard from "./TweetCard";
 
 interface TweetFeedProps {
