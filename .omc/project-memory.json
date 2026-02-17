@@ -111,6 +111,54 @@
   },
   "hotPaths": [
     {
+      "path": "pocs/oh-my-claudecode-teams/backend/Cargo.toml",
+      "accessCount": 7,
+      "lastAccessed": 1771303866044,
+      "type": "file"
+    },
+    {
+      "path": "pocs/oh-my-claudecode-teams/backend/src/main.rs",
+      "accessCount": 4,
+      "lastAccessed": 1771303846545,
+      "type": "file"
+    },
+    {
+      "path": "pocs/oh-my-claudecode-teams/frontend/src/App.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1771303869958,
+      "type": "file"
+    },
+    {
+      "path": "pocs/oh-my-claudecode-teams/frontend/src/TweetCard.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1771303871970,
+      "type": "file"
+    },
+    {
+      "path": "pocs/oh-my-claudecode-teams/frontend/src/App.css",
+      "accessCount": 3,
+      "lastAccessed": 1771303854515,
+      "type": "file"
+    },
+    {
+      "path": "pocs/oh-my-claudecode-teams/frontend/src/Timeline.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1771303872896,
+      "type": "file"
+    },
+    {
+      "path": "pocs/oh-my-claudecode-teams/run.sh",
+      "accessCount": 2,
+      "lastAccessed": 1771303847781,
+      "type": "file"
+    },
+    {
+      "path": "pocs/oh-my-claudecode-teams/frontend/src/TweetForm.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1771303853386,
+      "type": "file"
+    },
+    {
       "path": "pocs/oh-my-claudecode-simple",
       "accessCount": 1,
       "lastAccessed": 1771301304359,
