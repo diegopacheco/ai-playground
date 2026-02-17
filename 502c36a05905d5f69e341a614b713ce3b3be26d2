@@ -1,0 +1,44 @@
+pocs/claude-code-teams/frontend/src/hooks.ts
+  4e67d0fe87565bac 1-41
+pocs/claude-code-teams/frontend/src/components/TweetCard.tsx
+  4e67d0fe87565bac 1-114
+pocs/claude-code-teams/stop.sh
+  4e67d0fe87565bac 1-18
+pocs/claude-code-teams/frontend/src/types.ts
+  4e67d0fe87565bac 1-7
+pocs/claude-code-teams/frontend/src/components/Header.tsx
+  4e67d0fe87565bac 1-23
+pocs/claude-code-teams/Cargo.toml
+  4e67d0fe87565bac 8-14
+pocs/claude-code-teams/frontend/src/api.ts
+  4e67d0fe87565bac 1-36
+pocs/claude-code-teams/frontend/src/components/Layout.tsx
+  4e67d0fe87565bac 1-19
+pocs/claude-code-teams/frontend/vite.config.ts
+  4e67d0fe87565bac 12-19
+pocs/claude-code-teams/run.sh
+  4e67d0fe87565bac 3-15
+pocs/claude-code-teams/src/main.rs
+  4e67d0fe87565bac 1-116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "502c36a05905d5f69e341a614b713ce3b3be26d2",
+  "prompts": {
+    "4e67d0fe87565bac": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5f09a82-8c30-4a6d-a85a-77a044494bf0",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 403,
+      "total_deletions": 6,
+      "accepted_lines": 402,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/19280ca35140e2c4ad72ce2cf10ae956449af8049adb855b25afbe1682747bc6"
+    }
+  }
+}
