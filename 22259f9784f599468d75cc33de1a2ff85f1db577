@@ -1,0 +1,32 @@
+pocs/claude-code-teams/frontend/src/api.ts
+  4e67d0fe87565bac 1
+pocs/claude-code-teams/frontend/src/types.ts
+  4e67d0fe87565bac 1,7
+pocs/claude-code-teams/frontend/src/App.tsx
+  4e67d0fe87565bac 5,8-11,13-15,17-23,25-32,39-40
+pocs/claude-code-teams/frontend/src/components/TweetCard.tsx
+  4e67d0fe87565bac 1
+pocs/claude-code-teams/frontend/src/components/TweetFeed.tsx
+  4e67d0fe87565bac 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "22259f9784f599468d75cc33de1a2ff85f1db577",
+  "prompts": {
+    "4e67d0fe87565bac": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e5f09a82-8c30-4a6d-a85a-77a044494bf0",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 31,
+      "total_deletions": 43,
+      "accepted_lines": 30,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/535038a17d724d4f13b409ea78f4303934727d6ee2d5774cc20376e261084e38"
+    }
+  }
+}
