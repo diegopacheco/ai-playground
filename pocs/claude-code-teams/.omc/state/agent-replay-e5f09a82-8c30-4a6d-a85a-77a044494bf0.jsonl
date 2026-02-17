@@ -1,0 +1,9 @@
+{"t":0,"agent":"af16ae1","agent_type":"rust-backend","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a63cf2b","agent_type":"react-ui","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a00a3dd","agent_type":"tanstack-data","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"addcc2f","agent_type":"scripts","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a00a3dd","agent_type":"tanstack-data","event":"agent_stop","success":true,"duration_ms":51530}
+{"t":0,"agent":"a0ebd86","agent_type":"tanstack-data","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"af16ae1","agent_type":"rust-backend","event":"agent_stop","success":true,"duration_ms":74248}
+{"t":0,"agent":"ac489ea","agent_type":"rust-backend","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"ac489ea","agent_type":"rust-backend","event":"agent_stop","success":true,"duration_ms":8397}
