@@ -1,12 +1,6 @@
-const API_BASE = "http://localhost:3001/api";
+import { Tweet } from "./types";
 
-export interface Tweet {
-  id: string;
-  username: string;
-  content: string;
-  likes: number;
-  createdAt: string;
-}
+const API_BASE = "http://localhost:3001/api";
 
 export async function fetchTweets(): Promise<Tweet[]> {
   const res = await fetch(`${API_BASE}/tweets`);

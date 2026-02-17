@@ -7,3 +7,6 @@
 {"t":0,"agent":"af16ae1","agent_type":"rust-backend","event":"agent_stop","success":true,"duration_ms":74248}
 {"t":0,"agent":"ac489ea","agent_type":"rust-backend","event":"agent_start","parent_mode":"none"}
 {"t":0,"agent":"ac489ea","agent_type":"rust-backend","event":"agent_stop","success":true,"duration_ms":8397}
+{"t":0,"agent":"addcc2f","agent_type":"scripts","event":"agent_stop","success":true,"duration_ms":115885}
+{"t":0,"agent":"a1c546e","agent_type":"scripts","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a1c546e","agent_type":"scripts","event":"agent_stop","success":true,"duration_ms":3799}
