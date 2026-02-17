@@ -93,6 +93,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/SuperClaude-poc
 27 - beads (bd) - with Claude Code + Opus 4.6 - Twitter App <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/beads-fun
 
+28 - Oh My Claude Code (OMC) - Opus 4.6 - Twitter Like App <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/oh-my-claudecode-simple
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
