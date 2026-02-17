@@ -1,0 +1,24 @@
+pocs/git-ai-fun/game.sh
+  52b8821012cd076d 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "7a4ab31380b28d34ed261712ce9ad4e2a0add73d",
+  "prompts": {
+    "52b8821012cd076d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c03eb85f-32a0-4eb3-a430-625832bbddb0",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 7,
+      "total_deletions": 7,
+      "accepted_lines": 4,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/bdf26be59568549d0325b0398b01149ca3a3f7a757a1ef2cb9b0a459c2bb2015"
+    }
+  }
+}
