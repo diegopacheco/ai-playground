@@ -12,3 +12,9 @@ https://github.com/Yeachan-Heo/oh-my-claudecode
 
 ## Result
 
+```
+❯ /oh-my-claudecode:autopilot Build a tiwitter like app. make sure frontend is tanstack, backend is rust edition: 2024, version:
+1.93+ and there is a run.sh and stop.sh
+```
+
+<img src="result.png" width="600" />
