@@ -18,3 +18,10 @@ https://github.com/Yeachan-Heo/oh-my-claudecode
 ```
 
 <img src="result.png" width="600" />
+
+## Experience Notes
+
+* It worked with once shot BUT...
+* The UI was kind of okay
+* the backend was all in one file and not well structured
+* The result application had just 1 UI, had no profile, no login, no follow, just posting tweets and timeline...
