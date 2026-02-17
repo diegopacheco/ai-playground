@@ -17,4 +17,5 @@ https://github.com/rbbydotdev/refined-github-with-ai-pr <br/>
 
 ## PR
 
-https://github.com/diegopacheco/ai-playground/pull/5
+https://github.com/diegopacheco/ai-playground/pull/5 <br/>
+https://github.com/diegopacheco/ai-playground/pull/6
