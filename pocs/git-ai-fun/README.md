@@ -10,6 +10,11 @@ https://github.com/rbbydotdev/refined-github-with-ai-pr <br/>
   ⎿  you  ████████████████████████████████████████ ai
           100%                                   0%
 
+⏺ Bash(git-ai status 2>&1)
+  ⎿  you  ███████████████████████████████░░░░░░░░░ ai
+          79%                                  21%
+          100% AI code accepted
+
 ## PR
 
 https://github.com/diegopacheco/ai-playground/pull/5
