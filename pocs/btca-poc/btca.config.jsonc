@@ -1,0 +1,14 @@
+{
+  "$schema": "https://btca.dev/btca.schema.json",
+  "dataDirectory": ".btca",
+  "resources": [
+    {
+      "type": "git",
+      "name": "svelte-dev",
+      "url": "https://github.com/sveltejs/svelte.dev",
+      "branch": "main"
+    }
+  ],
+  "model": "gpt-5.3-codex",
+  "provider": "openai"
+}
