@@ -6,7 +6,9 @@ https://code.claude.com/docs/en/agent-teams#orchestrate-teams-of-claude-code-ses
 
 * It worked very easily
 * It sucked a lot of tokens very fast.
-* 
+* The final app was not impressive, it onyl had the timeline.
+* Monolithic rust backend.
+* Frontend code was kind of ok.
 
 ## Prompt
 
@@ -17,6 +19,8 @@ Frontend should be react + tanstack
 code is on the read (at least the initial projet)
 create a run.sh and a stop.sh
 ```
+
+<img src="result.png" width="600" />
 
 ### Progreess
 
