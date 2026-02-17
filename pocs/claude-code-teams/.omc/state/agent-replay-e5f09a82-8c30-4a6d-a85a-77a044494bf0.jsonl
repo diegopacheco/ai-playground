@@ -10,3 +10,4 @@
 {"t":0,"agent":"addcc2f","agent_type":"scripts","event":"agent_stop","success":true,"duration_ms":115885}
 {"t":0,"agent":"a1c546e","agent_type":"scripts","event":"agent_start","parent_mode":"none"}
 {"t":0,"agent":"a1c546e","agent_type":"scripts","event":"agent_stop","success":true,"duration_ms":3799}
+{"t":0,"agent":"a0ebd86","agent_type":"tanstack-data","event":"agent_stop","success":true,"duration_ms":120443}

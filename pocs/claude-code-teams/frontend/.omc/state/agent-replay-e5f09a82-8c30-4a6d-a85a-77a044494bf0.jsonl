@@ -1,0 +1,7 @@
+{"t":0,"agent":"a63cf2b","agent_type":"react-ui","event":"agent_stop","success":true}
+{"t":0,"agent":"ac17461","agent_type":"react-ui","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"ac17461","agent_type":"react-ui","event":"agent_stop","success":true,"duration_ms":5975}
+{"t":0,"agent":"ad918c2","agent_type":"rust-backend","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a35a46d","agent_type":"react-ui","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a17c2d5","agent_type":"tanstack-data","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a44f021","agent_type":"scripts","event":"agent_start","parent_mode":"none"}

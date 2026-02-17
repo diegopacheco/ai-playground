@@ -1,4 +1,4 @@
-import { Tweet } from "./types";
+import type { Tweet } from "./types";
 
 const API_BASE = "http://localhost:3001/api";
 

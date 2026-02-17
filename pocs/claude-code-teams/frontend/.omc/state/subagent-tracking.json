@@ -1,0 +1,45 @@
+{
+  "agents": [
+    {
+      "agent_id": "ac17461",
+      "agent_type": "react-ui",
+      "started_at": "2026-02-17T08:07:03.911Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-02-17T08:07:09.886Z",
+      "duration_ms": 5975
+    },
+    {
+      "agent_id": "ad918c2",
+      "agent_type": "rust-backend",
+      "started_at": "2026-02-17T08:07:15.031Z",
+      "parent_mode": "none",
+      "status": "running"
+    },
+    {
+      "agent_id": "a35a46d",
+      "agent_type": "react-ui",
+      "started_at": "2026-02-17T08:07:15.577Z",
+      "parent_mode": "none",
+      "status": "running"
+    },
+    {
+      "agent_id": "a17c2d5",
+      "agent_type": "tanstack-data",
+      "started_at": "2026-02-17T08:07:16.029Z",
+      "parent_mode": "none",
+      "status": "running"
+    },
+    {
+      "agent_id": "a44f021",
+      "agent_type": "scripts",
+      "started_at": "2026-02-17T08:07:16.928Z",
+      "parent_mode": "none",
+      "status": "running"
+    }
+  ],
+  "total_spawned": 5,
+  "total_completed": 1,
+  "total_failed": 0,
+  "last_updated": "2026-02-17T08:07:17.031Z"
+}

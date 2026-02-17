@@ -2,6 +2,12 @@
 
 https://code.claude.com/docs/en/agent-teams#orchestrate-teams-of-claude-code-sessions
 
+## Experience notes
+
+* It worked very easily
+* It sucked a lot of tokens very fast.
+* 
+
 ## Prompt
 
 ```
