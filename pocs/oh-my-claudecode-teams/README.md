@@ -28,3 +28,12 @@ Team mode is on.
 ```
 
 <img src="result.png" width="600" />
+
+## Experience Notes
+
+* I did not got impressed with the teams feature. 
+* I Saw 3 wrokers running in parallel, but the result was not good.
+* There was a constant try to get rust in edition 2021 (instead if 2024)
+* React code is all flat on the src folder.
+* I did not like the code.
+* Again the twitter app is pretty based just timeline and post did not have a lot of features like: follow, search, login, register, profile.
