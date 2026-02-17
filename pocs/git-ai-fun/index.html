@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: monospace; background: #1a1a2e; color: #eee; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .game { text-align: center; max-width: 500px; }
+    h1 { font-size: 2rem; margin-bottom: 1.5rem; color: #e94560; }
+    .choices { display: flex; gap: 1rem; justify-content: center; margin: 2rem 0; }
+    .choices button { font-size: 3rem; padding: 1rem 1.5rem; border: 2px solid #e94560; border-radius: 12px; background: #16213e; cursor: pointer; transition: all 0.2s; }
+    .choices button:hover { background: #e94560; transform: scale(1.1); }
+    .result { font-size: 1.5rem; margin: 1.5rem 0; min-height: 2rem; }
+    .scores { display: flex; gap: 2rem; justify-content: center; margin: 1.5rem 0; font-size: 1.2rem; }
+    .score-box { padding: 0.5rem 1rem; border: 1px solid #533483; border-radius: 8px; background: #16213e; }
+    .win { color: #4ecca3; }
+    .lose { color: #e94560; }
+    .tie { color: #f5a623; }
+    .pick { font-size: 1.2rem; margin: 0.5rem 0; color: #aaa; }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>=== Rock, Paper, Scissors, Shoot! ===</h1>
+    <div class="choices">
+      <button onclick="play('rock')">🪨</button>
+      <button onclick="play('paper')">📄</button>
+      <button onclick="play('scissors')">✂️</button>
+    </div>
+    <div class="pick" id="pick"></div>
+    <div class="result" id="result"></div>
+    <div class="scores">
+      <div class="score-box">You: <span id="player-score">0</span></div>
+      <div class="score-box">Computer: <span id="computer-score">0</span></div>
+    </div>
+  </div>
+  <script>
+    let playerScore = 0;
+    let computerScore = 0;
+    const choices = ['rock', 'paper', 'scissors'];
+    const icons = { rock: '🪨', paper: '📄', scissors: '✂️' };
+
+    function play(player) {
+      const computer = choices[Math.floor(Math.random() * 3)];
+      document.getElementById('pick').textContent =
+        'You: ' + icons[player] + '  vs  Computer: ' + icons[computer];
+
+      let msg = '';
+      let cls = '';
+      if (player === computer) {
+        msg = "It's a tie!";
+        cls = 'tie';
+      } else if (
+        (player === 'rock' && computer === 'scissors') ||
+        (player === 'paper' && computer === 'rock') ||
+        (player === 'scissors' && computer === 'paper')
+      ) {
+        msg = 'You win!';
+        cls = 'win';
+        playerScore++;
+      } else {
+        msg = 'Computer wins!';
+        cls = 'lose';
+        computerScore++;
+      }
+
+      const el = document.getElementById('result');
+      el.textContent = msg;
+      el.className = 'result ' + cls;
+      document.getElementById('player-score').textContent = playerScore;
+      document.getElementById('computer-score').textContent = computerScore;
+    }
+  </script>
+</body>
+</html>

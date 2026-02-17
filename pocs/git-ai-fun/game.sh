@@ -4,7 +4,7 @@ choices=("rock" "paper" "scissors")
 
 computer_choice=${choices[$((RANDOM % 3))]}
 
-echo "Rock, Paper, Scissors, Shoot!"
+echo "=== Rock, Paper, Scissors, Shoot! ==="
 echo ""
 echo "Enter your choice (rock, paper, scissors):"
 read -r player_choice
