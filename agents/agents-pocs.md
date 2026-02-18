@@ -198,3 +198,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/swarms-rs-rust-agen
 
 30 - Open Memory - Python <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/open-memory-fun
+
+31 - OpenRouter - Typescript - LLama 3 - City Curiosities Agent <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/openrouter-poc
