@@ -1,0 +1,14 @@
+{
+  "name": "openrouter-poc",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "ts-node --esm src/index.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "@types/node": "^20.11.0"
+  }
+}
