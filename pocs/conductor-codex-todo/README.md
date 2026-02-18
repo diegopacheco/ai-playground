@@ -12,6 +12,7 @@ fatal: '/Users/diegopacheco/conductor/workspaces/todo-v1/zurich' already exists
 * It's kind of anoying because required to be a git initialized repo, but I gave that to him and was still bothering me.
 * It said on the ui: `creating zurich and copying...` but did not move stay there a long time.
 * When I try to open the workspace again, it said: `Failed to add project: Failed to add project: Can't add a directory where git is not initialized` - very anoying because I already initialized the git repo, but it seems that conductor is not recognizing it.
+* Even clicking on the quick start it does not work.
 
 
 ## Result
