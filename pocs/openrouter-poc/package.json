@@ -5,10 +5,9 @@
   "scripts": {
     "start": "ts-node --esm src/index.ts"
   },
-  "dependencies": {},
   "devDependencies": {
+    "@types/node": "^20.19.33",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3",
-    "@types/node": "^20.11.0"
+    "typescript": "^5.3.3"
   }
 }

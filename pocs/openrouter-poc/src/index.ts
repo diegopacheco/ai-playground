@@ -8,26 +8,28 @@ if (!OPENROUTER_API_KEY) {
 }
 
 async function getCityCuriosities(city: string): Promise<string> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 60000);
+
   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    signal: controller.signal,
     method: "POST",
     headers: {
       "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      models: [
-        "google/gemma-3-12b-it:free",
-        "mistralai/mistral-small-3.1-24b-instruct:free",
-        "deepseek/deepseek-r1-0528:free",
-      ],
+      model: "meta-llama/llama-3.2-3b-instruct@preset/llama-3-3-70-b",
       messages: [
         {
           role: "user",
-          content: `Tell me exactly 3 interesting curiosities about the city of ${city}. Number each curiosity (1, 2, 3).`,
+          content: `Tell me exactly 2 interesting curiosities about the city of ${city}. Number each curiosity (1, 2).`,
         },
       ],
     }),
   });
+
+  clearTimeout(timeout);
 
   if (!response.ok) {
     const error = await response.text();
