@@ -1,0 +1,85 @@
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { apiLogin } from '../api'
+import { useAuth } from '../AuthContext'
+
+const s: Record<string, React.CSSProperties> = {
+  container: { display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 60 },
+  title: { fontSize: 32, fontWeight: 800, marginBottom: 32, color: '#1d9bf0' },
+  form: { width: '100%', maxWidth: 360, display: 'flex', flexDirection: 'column', gap: 16 },
+  input: {
+    background: 'transparent',
+    border: '1px solid #536471',
+    borderRadius: 8,
+    padding: '12px 16px',
+    color: '#e7e9ea',
+    fontSize: 16,
+    outline: 'none',
+  },
+  btn: {
+    background: '#1d9bf0',
+    border: 'none',
+    borderRadius: 24,
+    padding: '12px',
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 700,
+    cursor: 'pointer',
+  },
+  error: { color: '#f4212e', fontSize: 14, textAlign: 'center' },
+  link: { color: '#1d9bf0', textAlign: 'center', marginTop: 8 },
+}
+
+export default function Login() {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { login } = useAuth()
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    try {
+      const data = await apiLogin(username, password)
+      login(data)
+      navigate('/')
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Login failed')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div style={s.container}>
+      <h1 style={s.title}>𝕏 Clone</h1>
+      <form onSubmit={handleSubmit} style={s.form}>
+        <input
+          style={s.input}
+          placeholder="Username"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+          required
+        />
+        <input
+          style={s.input}
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
+        {error && <p style={s.error}>{error}</p>}
+        <button style={s.btn} type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Log in'}
+        </button>
+        <p style={s.link}>
+          No account? <Link to="/register" style={{ color: '#1d9bf0' }}>Sign up</Link>
+        </p>
+      </form>
+    </div>
+  )
+}
