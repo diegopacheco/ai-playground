@@ -1,6 +1,9 @@
 # PyTorch dataset 
 data/
 
+# Oh My Claude Code
+.omc
+
 # Mac
 .DS_Store
 
