@@ -108,6 +108,12 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/cc-sonnet-4.6-poc
 32 - Langflow for MacOS - Building a Memory Agent with Langflow <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/langflow-macos
 
+33 - Superset - OpenAI Codex 5.3 - Todo Application <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/superset-todo-poc
+
+34 - Condutor <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/conductor-codex-todo
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
