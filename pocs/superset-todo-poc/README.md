@@ -11,3 +11,6 @@ https://superset.sh/
 
 Superset in action <br/>
 <img src="superset-codex-in-action.png" width="600" />
+
+Generated App - Grocery Todo List <br/>
+<img src="app.png" width="600" />
