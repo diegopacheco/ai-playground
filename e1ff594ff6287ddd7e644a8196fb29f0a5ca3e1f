@@ -1,0 +1,82 @@
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/package.json
+  9d85164be3f1dd71 1-23
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/pages/Timeline.tsx
+  9d85164be3f1dd71 1-121
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/components/Post.tsx
+  9d85164be3f1dd71 1-96
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/main.tsx
+  9d85164be3f1dd71 1-15
+pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/db.rs
+  9d85164be3f1dd71 1-56
+pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/auth.rs
+  9d85164be3f1dd71 1-43
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/tsconfig.node.json
+  9d85164be3f1dd71 1-10
+pocs/cc-sonnet-4.6-poc/twitter-clone/backend/Cargo.toml
+  9d85164be3f1dd71 1-15
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/tsconfig.json
+  9d85164be3f1dd71 1-21
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/App.tsx
+  9d85164be3f1dd71 1-31
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/pages/Login.tsx
+  9d85164be3f1dd71 1-85
+pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/auth.rs
+  9d85164be3f1dd71 1-83
+pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/main.rs
+  9d85164be3f1dd71 1-50
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/pages/Profile.tsx
+  9d85164be3f1dd71 1-137
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/types.ts
+  9d85164be3f1dd71 1-30
+pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/follows.rs
+  9d85164be3f1dd71 1-98
+pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/models.rs
+  9d85164be3f1dd71 1-78
+pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/mod.rs
+  9d85164be3f1dd71 1-36
+pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/likes.rs
+  9d85164be3f1dd71 1-48
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/pages/Search.tsx
+  9d85164be3f1dd71 1-130
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/vite.config.ts
+  9d85164be3f1dd71 1-15
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/api.ts
+  9d85164be3f1dd71 1-99
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/index.html
+  9d85164be3f1dd71 1-22
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/AuthContext.tsx
+  9d85164be3f1dd71 1-39
+pocs/cc-sonnet-4.6-poc/twitter-clone/run.sh
+  9d85164be3f1dd71 1-25
+pocs/cc-sonnet-4.6-poc/twitter-clone/stop.sh
+  9d85164be3f1dd71 1-19
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/pages/Register.tsx
+  9d85164be3f1dd71 1-95
+pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/components/Navbar.tsx
+  9d85164be3f1dd71 1-54
+pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/posts.rs
+  9d85164be3f1dd71 1-123
+pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/search.rs
+  9d85164be3f1dd71 1-69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "e1ff594ff6287ddd7e644a8196fb29f0a5ca3e1f",
+  "prompts": {
+    "9d85164be3f1dd71": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5f256aef-e3da-489a-8a6e-f96e99990cbc",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 1856,
+      "total_deletions": 90,
+      "accepted_lines": 1766,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/8cc50b26f03e7cfd9d7077523a506667ac2fea4c3740a57140d51492bdfc2340"
+    }
+  }
+}
