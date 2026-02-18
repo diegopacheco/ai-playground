@@ -1,0 +1,295 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1771384869414,
+  "projectRoot": "/Users/diegopacheco/git/diegopacheco/ai-playground",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "agents": {
+      "path": "agents",
+      "purpose": null,
+      "fileCount": 9,
+      "lastAccessed": 1771384869343,
+      "keyFiles": [
+        "AgentKit-In-Action.png",
+        "SDD-research.md",
+        "SDD-sucks.png",
+        "agents-pocs.md",
+        "continuous-claude.md"
+      ]
+    },
+    "concepts": {
+      "path": "concepts",
+      "purpose": null,
+      "fileCount": 6,
+      "lastAccessed": 1771384869343,
+      "keyFiles": [
+        "README.md",
+        "car.meta.json",
+        "car.mp4",
+        "genai.ipynb",
+        "requirements.txt"
+      ]
+    },
+    "deep-research": {
+      "path": "deep-research",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1771384869344,
+      "keyFiles": []
+    },
+    "mcp": {
+      "path": "mcp",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1771384869344,
+      "keyFiles": []
+    },
+    "nano-banana-pro": {
+      "path": "nano-banana-pro",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1771384869344,
+      "keyFiles": [
+        "SanFrancisco-Weather-Nano-Banana-Pro.png",
+        "conan-comics-vs-sdd-banana-pro.png",
+        "infographic-nano-banana-pro.png"
+      ]
+    },
+    "papers-summary": {
+      "path": "papers-summary",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1771384869344,
+      "keyFiles": [
+        "Popai_Tree of Thoughts:_Deliberate_Problem_Solving_wirh_large_language_models_2305.10601.md",
+        "SciSummary_Retrieval-Augmented Generation for Knowledge-Intensive_NLP_Tasks.md",
+        "claude_attention_is_all_you_need.md"
+      ]
+    },
+    "pocs": {
+      "path": "pocs",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1771384869344,
+      "keyFiles": []
+    },
+    "sdd": {
+      "path": "sdd",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1771384869345,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/auth.rs",
+      "accessCount": 2,
+      "lastAccessed": 1771385303154,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/posts.rs",
+      "accessCount": 2,
+      "lastAccessed": 1771385314840,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/follows.rs",
+      "accessCount": 2,
+      "lastAccessed": 1771385326048,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/likes.rs",
+      "accessCount": 2,
+      "lastAccessed": 1771385329899,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/search.rs",
+      "accessCount": 2,
+      "lastAccessed": 1771385336968,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/run.sh",
+      "accessCount": 2,
+      "lastAccessed": 1771385360623,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/AuthContext.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1771385380610,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/backend/Cargo.toml",
+      "accessCount": 1,
+      "lastAccessed": 1771385030412,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/models.rs",
+      "accessCount": 1,
+      "lastAccessed": 1771385036047,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/db.rs",
+      "accessCount": 1,
+      "lastAccessed": 1771385040506,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/auth.rs",
+      "accessCount": 1,
+      "lastAccessed": 1771385049341,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/handlers/mod.rs",
+      "accessCount": 1,
+      "lastAccessed": 1771385053619,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/backend/src/main.rs",
+      "accessCount": 1,
+      "lastAccessed": 1771385102977,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/package.json",
+      "accessCount": 1,
+      "lastAccessed": 1771385111443,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/vite.config.ts",
+      "accessCount": 1,
+      "lastAccessed": 1771385112777,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/tsconfig.json",
+      "accessCount": 1,
+      "lastAccessed": 1771385115459,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/tsconfig.node.json",
+      "accessCount": 1,
+      "lastAccessed": 1771385119512,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/index.html",
+      "accessCount": 1,
+      "lastAccessed": 1771385122539,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/types.ts",
+      "accessCount": 1,
+      "lastAccessed": 1771385125130,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/api.ts",
+      "accessCount": 1,
+      "lastAccessed": 1771385136608,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/main.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771385141399,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/App.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771385160384,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/components/Navbar.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771385160968,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/components/Post.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771385165971,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/pages/Login.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771385177720,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/pages/Register.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771385184660,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/pages/Timeline.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771385195317,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/pages/Search.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771385211271,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/frontend/src/pages/Profile.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771385224965,
+      "type": "file"
+    },
+    {
+      "path": "pocs/cc-sonnet-4.6-poc/twitter-clone/stop.sh",
+      "accessCount": 1,
+      "lastAccessed": 1771385234468,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
