@@ -1,0 +1,30 @@
+pocs/openrouter-poc/src/index.ts
+  6d1355e0231238f6 1-71
+pocs/openrouter-poc/run.sh
+  6d1355e0231238f6 1-10
+pocs/openrouter-poc/package.json
+  6d1355e0231238f6 1-14
+pocs/openrouter-poc/tsconfig.json
+  6d1355e0231238f6 1-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.3",
+  "base_commit_sha": "6a1c9a78224df98189154a5dfef3ee3c70dc0ba9",
+  "prompts": {
+    "6d1355e0231238f6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f5129176-6705-45a9-b11a-36e2e197146e",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 116,
+      "total_deletions": 5,
+      "accepted_lines": 111,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f08141be5d659056a30f2f379ed778491394030824dec94a5b889754412616ea"
+    }
+  }
+}
