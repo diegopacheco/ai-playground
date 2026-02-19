@@ -1,0 +1,26 @@
+mcp/flux-kanban-mcp/install-mcp-claude.sh
+  97c7bda85dc7e368 1-35
+mcp/flux-kanban-mcp/README.md
+  97c7bda85dc7e368 7,9,12-26,28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "1c0c68e9b4b187b114a9a9e804261b7d4ab9ef92",
+  "prompts": {
+    "97c7bda85dc7e368": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9c0a79db-7981-4670-8459-5ebc22c0ef2e",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 53,
+      "total_deletions": 4,
+      "accepted_lines": 53,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/715add4cf18e04c85c484bba1cefbb83d721bd7b0220bd1f732d94b04b7d4766"
+    }
+  }
+}
