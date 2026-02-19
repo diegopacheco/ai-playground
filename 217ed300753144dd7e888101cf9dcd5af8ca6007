@@ -1,0 +1,36 @@
+pocs/java-25-spring-boot-4-spring-ai-skills/src/main/resources/.claude/skills/java-expert/SKILL.md
+  52dc153f170c0a52 1-61
+pocs/java-25-spring-boot-4-spring-ai-skills/src/main/java/com/github/diegopacheco/sandboxspring/controller/AgentController.java
+  52dc153f170c0a52 1-35
+pocs/java-25-spring-boot-4-spring-ai-skills/src/main/java/com/github/diegopacheco/sandboxspring/config/AgentConfig.java
+  52dc153f170c0a52 1-29
+pocs/java-25-spring-boot-4-spring-ai-skills/pom.xml
+  52dc153f170c0a52 12,17-18,23-26,28-36,50-82
+pocs/java-25-spring-boot-4-spring-ai-skills/src/main/resources/.claude/skills/spring-boot-helper/SKILL.md
+  52dc153f170c0a52 1-61
+pocs/java-25-spring-boot-4-spring-ai-skills/src/main/java/com/github/diegopacheco/sandboxspring/config/SkillsConfig.java
+  52dc153f170c0a52 1-7
+pocs/java-25-spring-boot-4-spring-ai-skills/src/main/resources/application.properties
+  52dc153f170c0a52 2-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "217ed300753144dd7e888101cf9dcd5af8ca6007",
+  "prompts": {
+    "52dc153f170c0a52": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "51a98a5f-c74f-4509-9d85-26d550908cef",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 275,
+      "total_deletions": 51,
+      "accepted_lines": 245,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/6e87a7d24333150ba4297b24500c76274842a9b447ac025b6da7bc431dd92243"
+    }
+  }
+}
