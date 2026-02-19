@@ -1,0 +1,32 @@
+mcp/flux-kanban-mcp/todo/app/tsconfig.test.json
+  558aa5307c04081d 1-15
+mcp/flux-kanban-mcp/todo/app/tests/ItemList.test.tsx
+  558aa5307c04081d 1-46
+mcp/flux-kanban-mcp/todo/app/package.json
+  558aa5307c04081d 10-11
+mcp/flux-kanban-mcp/todo/app/tests/listsStore.test.ts
+  558aa5307c04081d 1-57
+mcp/flux-kanban-mcp/todo/app/tests/SearchBar.test.tsx
+  558aa5307c04081d 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "64a04f42ae802e79d73185cab5aaddd58aa7a5d3",
+  "prompts": {
+    "558aa5307c04081d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f23826cc-b135-45f6-8d40-f8e8edc85cbd",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 156,
+      "total_deletions": 2,
+      "accepted_lines": 155,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/1b74cad017954fcb2bb5f03a72c0de8b06f2d5f7dd67f5a74d8e0147b283ad49"
+    }
+  }
+}
