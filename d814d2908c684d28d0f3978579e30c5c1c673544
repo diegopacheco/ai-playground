@@ -1,0 +1,26 @@
+pocs/java-25-spring-boot-4-spring-ai-a2a/trip-planner/src/main/java/com/github/diegopacheco/sandboxspring/client/A2AClient.java
+  8987df2459e1d9f7 21,51
+pocs/java-25-spring-boot-4-spring-ai-a2a/test.sh
+  8987df2459e1d9f7 17,23,29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "d814d2908c684d28d0f3978579e30c5c1c673544",
+  "prompts": {
+    "8987df2459e1d9f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e37392ee-d5d2-42ef-8ddc-68dfd70dc5a1",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 10,
+      "total_deletions": 10,
+      "accepted_lines": 5,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/94eb88588c81dcbe463ce06d914ed8f042a43a82f31dc9d3b9ba321349875a36"
+    }
+  }
+}
