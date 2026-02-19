@@ -210,3 +210,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/open-memory-fun
 
 31 - OpenRouter - Typescript - LLama 3 - City Curiosities Agent <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/openrouter-poc
+
+32 - Java 25 - Spring Boot 4x - Spring AI - Skill - OpenAI - Java Expert Agent <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-spring-boot-4-spring-ai-skills
