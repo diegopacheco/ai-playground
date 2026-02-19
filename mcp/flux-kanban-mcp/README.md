@@ -48,6 +48,9 @@ Flux DONE <br/>
 I reported a but in claude code and them he created a task on flux. <br/>
 <img src="bug-flux.png" width="600" />
 
+Here is the todo app generated <br/>
+<img src="todo-app.png" width="600" />
+
 
 ```
 ⏺ 16/16 tests passing. Marking the task done in Flux.
