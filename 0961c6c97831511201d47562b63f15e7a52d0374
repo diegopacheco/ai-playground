@@ -1,0 +1,26 @@
+mcp/flux-kanban-mcp/todo/server/src/index.ts
+  558aa5307c04081d 1-4,12-28,41,49-50,52,54,59-60
+mcp/flux-kanban-mcp/todo/server/package.json
+  558aa5307c04081d 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "0961c6c97831511201d47562b63f15e7a52d0374",
+  "prompts": {
+    "558aa5307c04081d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f23826cc-b135-45f6-8d40-f8e8edc85cbd",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 31,
+      "total_deletions": 32,
+      "accepted_lines": 31,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/0f00828cb4e9653f4df5e22a853abfcc74a4181ec0c7f4c106190cfcb88f9dd6"
+    }
+  }
+}
