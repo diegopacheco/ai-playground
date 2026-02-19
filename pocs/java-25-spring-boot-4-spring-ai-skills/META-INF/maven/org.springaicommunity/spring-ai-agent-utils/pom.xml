@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.springaicommunity</groupId>
+  <artifactId>spring-ai-agent-utils</artifactId>
+  <version>0.5.0-SNAPSHOT</version>
+  <name>spring-ai-agent-utils</name>
+  <description>Spring AI Agent Utilities</description>
+  <url>https://github.com/spring-ai-community/spring-ai-agent-utils</url>
+  <organization>
+    <name>Spring AI Community</name>
+    <url>https://github.com/spring-ai-community</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>Apache License 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Christian Tzolov</name>
+    </developer>
+  </developers>
+  <scm>
+    <connection>git://github.com/spring-ai-community/spring-ai-agent-utils.git</connection>
+    <developerConnection>git@github.com:spring-ai-community/spring-ai-agent-utils.git</developerConnection>
+    <url>https://github.com/spring-ai-community/spring-ai-agent-utils</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>org.springaicommunity</groupId>
+      <artifactId>spring-ai-agent-utils-common</artifactId>
+      <version>0.5.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>7.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.ai</groupId>
+      <artifactId>spring-ai-client-chat</artifactId>
+      <version>2.0.0-M2</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.vladsch.flexmark</groupId>
+      <artifactId>flexmark-html2md-converter</artifactId>
+      <version>0.64.8</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+</project>
