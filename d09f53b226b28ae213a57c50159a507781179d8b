@@ -1,0 +1,24 @@
+pocs/java-25-spring-boot-4-spring-ai-subagents-orchestration/pom.xml
+  0e84b4b14921d22d 7,12,17-18,23-26,28-36,50-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "d09f53b226b28ae213a57c50159a507781179d8b",
+  "prompts": {
+    "0e84b4b14921d22d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b791860e-e9b9-46cb-b85b-85903d9f204f",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 59,
+      "total_deletions": 17,
+      "accepted_lines": 50,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/bdf131a7d03c74923c2830218398447a8478408e758186c8bb138430b4523445"
+    }
+  }
+}
