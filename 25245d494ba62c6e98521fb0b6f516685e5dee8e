@@ -1,0 +1,46 @@
+pocs/java-25-spring-boot-4-spring-ai-a2a/hotel-agent/src/main/resources/application.yml
+  8987df2459e1d9f7 1-13
+pocs/java-25-spring-boot-4-spring-ai-a2a/run.sh
+  8987df2459e1d9f7 1-46
+pocs/java-25-spring-boot-4-spring-ai-a2a/stop.sh
+  8987df2459e1d9f7 1-6
+pocs/java-25-spring-boot-4-spring-ai-a2a/weather-agent/src/main/resources/application.yml
+  8987df2459e1d9f7 1-13
+pocs/java-25-spring-boot-4-spring-ai-a2a/weather-agent/src/main/java/com/github/diegopacheco/sandboxspring/config/WeatherAgentConfig.java
+  8987df2459e1d9f7 21,26,30,36
+pocs/java-25-spring-boot-4-spring-ai-a2a/trip-planner/src/main/java/com/github/diegopacheco/sandboxspring/controller/TripPlannerController.java
+  8987df2459e1d9f7 1-29
+pocs/java-25-spring-boot-4-spring-ai-a2a/trip-planner/src/main/java/com/github/diegopacheco/sandboxspring/client/A2AClient.java
+  8987df2459e1d9f7 1-66
+pocs/java-25-spring-boot-4-spring-ai-a2a/trip-planner/src/main/java/com/github/diegopacheco/sandboxspring/tools/RemoteAgentTools.java
+  8987df2459e1d9f7 1-38
+pocs/java-25-spring-boot-4-spring-ai-a2a/trip-planner/src/main/java/com/github/diegopacheco/sandboxspring/config/TripPlannerConfig.java
+  8987df2459e1d9f7 1-62
+pocs/java-25-spring-boot-4-spring-ai-a2a/trip-planner/src/main/resources/application.yml
+  8987df2459e1d9f7 1-18
+pocs/java-25-spring-boot-4-spring-ai-a2a/test.sh
+  8987df2459e1d9f7 1-38
+pocs/java-25-spring-boot-4-spring-ai-a2a/hotel-agent/src/main/java/com/github/diegopacheco/sandboxspring/config/HotelAgentConfig.java
+  8987df2459e1d9f7 21,26,30,36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "25245d494ba62c6e98521fb0b6f516685e5dee8e",
+  "prompts": {
+    "8987df2459e1d9f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e37392ee-d5d2-42ef-8ddc-68dfd70dc5a1",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 245,
+      "total_deletions": 20,
+      "accepted_lines": 337,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/14214e63a89dda9dcd553f0f2ea0c9faff5f2b489757236493c6289f5850d3ad"
+    }
+  }
+}
