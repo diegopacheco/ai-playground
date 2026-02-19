@@ -1,0 +1,24 @@
+mcp/flux-kanban-mcp/todo/design-doc.md
+  558aa5307c04081d 1-103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "a25a4def0a9cf0eef96784e960a246681f54456f",
+  "prompts": {
+    "558aa5307c04081d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f23826cc-b135-45f6-8d40-f8e8edc85cbd",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 103,
+      "total_deletions": 0,
+      "accepted_lines": 103,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/34fa35bce8a94e88349268ce1ad9735ad06cc6c15a43a4b44ad8eca915f6061e"
+    }
+  }
+}
