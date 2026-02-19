@@ -18,7 +18,7 @@ public class A2AClient {
                 "2.0",
                 "message/send",
                 UUID.randomUUID().toString(),
-                new Params(new Message("user", List.of(new Part("text", message))))
+                new Params(new Message("message", UUID.randomUUID().toString(), "user", List.of(new Part("text", message))))
         );
 
         var response = restClient.post()
@@ -48,7 +48,7 @@ public class A2AClient {
 
     record Params(Message message) {}
 
-    record Message(String role, List<Part> parts) {}
+    record Message(String kind, String messageId, String role, List<Part> parts) {}
 
     record Part(String kind, String text) {}
 
