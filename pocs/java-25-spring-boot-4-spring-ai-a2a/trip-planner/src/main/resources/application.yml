@@ -1,0 +1,18 @@
+server:
+  port: 10000
+  servlet:
+    context-path: /a2a
+spring:
+  application:
+    name: trip-planner
+  ai:
+    a2a:
+      server:
+        enabled: true
+    openai:
+      api-key: ${OPENAI_API_KEY}
+agents:
+  weather:
+    url: http://localhost:10001/a2a/
+  hotel:
+    url: http://localhost:10002/a2a/

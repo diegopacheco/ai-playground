@@ -1,0 +1,13 @@
+server:
+  port: 10002
+  servlet:
+    context-path: /a2a
+spring:
+  application:
+    name: hotel-agent
+  ai:
+    a2a:
+      server:
+        enabled: true
+    openai:
+      api-key: ${OPENAI_API_KEY}
