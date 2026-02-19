@@ -1,0 +1,36 @@
+pocs/java-25-spring-boot-4-spring-ai-subagents-orchestration/test.sh
+  0e84b4b14921d22d 1-21
+pocs/java-25-spring-boot-4-spring-ai-subagents-orchestration/src/main/java/com/github/diegopacheco/sandboxspring/controller/SubagentController.java
+  0e84b4b14921d22d 1-25
+pocs/java-25-spring-boot-4-spring-ai-subagents-orchestration/src/main/java/com/github/diegopacheco/sandboxspring/service/SubagentService.java
+  0e84b4b14921d22d 1-27
+pocs/java-25-spring-boot-4-spring-ai-subagents-orchestration/src/main/resources/agents/architect.md
+  0e84b4b14921d22d 1-19
+pocs/java-25-spring-boot-4-spring-ai-subagents-orchestration/src/main/resources/agents/builder.md
+  0e84b4b14921d22d 1-17
+pocs/java-25-spring-boot-4-spring-ai-subagents-orchestration/src/main/java/com/github/diegopacheco/sandboxspring/config/AgentConfig.java
+  0e84b4b14921d22d 1-46
+pocs/java-25-spring-boot-4-spring-ai-subagents-orchestration/src/main/resources/application.properties
+  0e84b4b14921d22d 2-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "692a3a93a88a55a728c67c008b53deb64e2de82f",
+  "prompts": {
+    "0e84b4b14921d22d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b791860e-e9b9-46cb-b85b-85903d9f204f",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 163,
+      "total_deletions": 4,
+      "accepted_lines": 159,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/dbeb258819c2579e1cc96d7822e78cc5c84a765c5ab7fd8377d619cd5df39d41"
+    }
+  }
+}
