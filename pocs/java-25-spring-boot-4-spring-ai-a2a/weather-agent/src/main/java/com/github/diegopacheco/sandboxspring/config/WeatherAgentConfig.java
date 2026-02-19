@@ -18,22 +18,22 @@ public class WeatherAgentConfig {
 
     @Bean
     public AgentCard agentCard(@Value("${server.port:10001}") int port) {
-        return AgentCard.builder()
+        return new AgentCard.Builder()
                 .name("Weather Agent")
                 .description("Provides current weather conditions and forecasts for any location worldwide")
                 .url("http://localhost:" + port + "/a2a/")
                 .version("1.0.0")
-                .capabilities(AgentCapabilities.builder().streaming(false).build())
+                .capabilities(new AgentCapabilities.Builder().streaming(false).build())
                 .defaultInputModes(List.of("text"))
                 .defaultOutputModes(List.of("text"))
                 .skills(List.of(
-                        AgentSkill.builder()
+                        new AgentSkill.Builder()
                                 .id("current_weather")
                                 .name("Current Weather")
                                 .description("Get current weather conditions for any location")
                                 .tags(List.of("weather", "current", "temperature"))
                                 .build(),
-                        AgentSkill.builder()
+                        new AgentSkill.Builder()
                                 .id("weather_forecast")
                                 .name("Weather Forecast")
                                 .description("Get multi-day weather forecast for any location")

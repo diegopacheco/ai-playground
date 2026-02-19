@@ -18,22 +18,22 @@ public class HotelAgentConfig {
 
     @Bean
     public AgentCard agentCard(@Value("${server.port:10002}") int port) {
-        return AgentCard.builder()
+        return new AgentCard.Builder()
                 .name("Hotel Agent")
                 .description("Provides hotel search, recommendations and availability for travel destinations")
                 .url("http://localhost:" + port + "/a2a/")
                 .version("1.0.0")
-                .capabilities(AgentCapabilities.builder().streaming(false).build())
+                .capabilities(new AgentCapabilities.Builder().streaming(false).build())
                 .defaultInputModes(List.of("text"))
                 .defaultOutputModes(List.of("text"))
                 .skills(List.of(
-                        AgentSkill.builder()
+                        new AgentSkill.Builder()
                                 .id("hotel_search")
                                 .name("Hotel Search")
                                 .description("Search for hotels by destination and budget tier")
                                 .tags(List.of("hotel", "search", "accommodation"))
                                 .build(),
-                        AgentSkill.builder()
+                        new AgentSkill.Builder()
                                 .id("hotel_availability")
                                 .name("Hotel Availability")
                                 .description("Check hotel availability and pricing for specific dates")
