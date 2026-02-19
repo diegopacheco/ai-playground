@@ -216,3 +216,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-spring-boot
 
 33 - Java 25 - Spring Boot 4x - Spring AI - Orchestrate Sub-Agents - OpenAI - Java Expert Agent <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-spring-boot-4-spring-ai-subagents-orchestration
+
+34 - Java 25 - Spring Boot 4x - Spring AI - A2A - OpenAI - Travel Planner Agent <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-spring-boot-4-spring-ai-a2a
