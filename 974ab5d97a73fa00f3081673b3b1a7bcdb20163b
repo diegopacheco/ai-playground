@@ -1,0 +1,60 @@
+mcp/flux-kanban-mcp/todo/app/src/store/listsStore.ts
+  558aa5307c04081d 1-17
+mcp/flux-kanban-mcp/todo/app/src/components/ImageDrop.tsx
+  558aa5307c04081d 1-63
+mcp/flux-kanban-mcp/todo/server/package.json
+  558aa5307c04081d 1-11
+mcp/flux-kanban-mcp/todo/app/src/components/SearchBar.tsx
+  558aa5307c04081d 1-18
+mcp/flux-kanban-mcp/todo/stop.sh
+  558aa5307c04081d 1-10
+mcp/flux-kanban-mcp/todo/app/src/pages/ListPage.tsx
+  558aa5307c04081d 1-84
+mcp/flux-kanban-mcp/todo/server/src/index.ts
+  558aa5307c04081d 1-67
+mcp/flux-kanban-mcp/todo/run.sh
+  558aa5307c04081d 1-21
+mcp/flux-kanban-mcp/todo/app/src/components/ItemList.tsx
+  558aa5307c04081d 1-40
+mcp/flux-kanban-mcp/todo/app/src/main.tsx
+  558aa5307c04081d 3-5,8,12-15
+mcp/flux-kanban-mcp/todo/server/tsconfig.json
+  558aa5307c04081d 1-9
+mcp/flux-kanban-mcp/todo/app/src/components/AddItem.tsx
+  558aa5307c04081d 1-31
+mcp/flux-kanban-mcp/todo/app/src/pages/HomePage.tsx
+  558aa5307c04081d 1-8
+mcp/flux-kanban-mcp/todo/app/src/index.css
+  558aa5307c04081d 1-5,7-11,13-17,19-22,25-33,35-41,44,46-47,50-59,62-89,91-108,110-114,116-244,246,248-253,255-284,286-300,302-306,308-312
+mcp/flux-kanban-mcp/todo/app/src/types/index.ts
+  558aa5307c04081d 1-13
+mcp/flux-kanban-mcp/todo/app/src/components/ListSidebar.tsx
+  558aa5307c04081d 1-58
+mcp/flux-kanban-mcp/todo/app/src/hooks/useLists.ts
+  558aa5307c04081d 1-113
+mcp/flux-kanban-mcp/todo/app/src/router.tsx
+  558aa5307c04081d 1-28
+mcp/flux-kanban-mcp/todo/app/src/components/Layout.tsx
+  558aa5307c04081d 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "974ab5d97a73fa00f3081673b3b1a7bcdb20163b",
+  "prompts": {
+    "558aa5307c04081d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f23826cc-b135-45f6-8d40-f8e8edc85cbd",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 911,
+      "total_deletions": 56,
+      "accepted_lines": 906,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/14a1bb33240f23b2b232eff9b248081f383a15f690477c31910b4f3c1bb20fae"
+    }
+  }
+}
