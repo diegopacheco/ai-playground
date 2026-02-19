@@ -1,0 +1,24 @@
+mcp/flux-kanban-mcp/uninstall-flux-claude.sh
+  ab031446d169d5b9 4,6-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "cc0d5410993a34d47e13efa702e0f7ececcc8263",
+  "prompts": {
+    "ab031446d169d5b9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "876480b2-ab65-4052-8df5-073b93788f08",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 8,
+      "total_deletions": 7,
+      "accepted_lines": 8,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/e145388e37e9251cfd77eec8fa92d09b328298915698bb7ba18b21665ebec2be"
+    }
+  }
+}
