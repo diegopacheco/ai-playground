@@ -15,16 +15,6 @@ fi
 
 podman pull "$IMAGE"
 
-if podman ps -a --format '{{.Names}}' | grep -q '^flux-web$'; then
-  podman rm -f flux-web >/dev/null
-fi
-
-podman run -d --userns=keep-id -p 3000:3000 \
-  -v flux-data:/app/packages/data \
-  -v flux-blobs:/home/flux \
-  -e FLUX_DATA=/app/packages/data/flux.sqlite \
-  --name flux-web "$IMAGE" bun packages/server/dist/index.js
-
 claude mcp add flux -- podman run -i --userns=keep-id --rm \
   -v flux-data:/app/packages/data \
   -v flux-blobs:/home/flux \
