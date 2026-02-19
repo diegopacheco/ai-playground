@@ -1,0 +1,44 @@
+pocs/java-25-spring-boot-4-spring-ai-a2a/weather-agent/src/main/java/com/github/diegopacheco/sandboxspring/tools/WeatherTools.java
+  8987df2459e1d9f7 1-24
+pocs/java-25-spring-boot-4-spring-ai-a2a/weather-agent/src/main/java/com/github/diegopacheco/sandboxspring/WeatherAgentApplication.java
+  8987df2459e1d9f7 1-11
+pocs/java-25-spring-boot-4-spring-ai-a2a/hotel-agent/src/main/java/com/github/diegopacheco/sandboxspring/HotelAgentApplication.java
+  8987df2459e1d9f7 1-11
+pocs/java-25-spring-boot-4-spring-ai-a2a/hotel-agent/src/main/java/com/github/diegopacheco/sandboxspring/tools/HotelTools.java
+  8987df2459e1d9f7 1-37
+pocs/java-25-spring-boot-4-spring-ai-a2a/trip-planner/src/main/java/com/github/diegopacheco/sandboxspring/TripPlannerApplication.java
+  8987df2459e1d9f7 1-11
+pocs/java-25-spring-boot-4-spring-ai-a2a/hotel-agent/pom.xml
+  8987df2459e1d9f7 1-47
+pocs/java-25-spring-boot-4-spring-ai-a2a/trip-planner/pom.xml
+  8987df2459e1d9f7 1-47
+pocs/java-25-spring-boot-4-spring-ai-a2a/weather-agent/pom.xml
+  8987df2459e1d9f7 1-47
+pocs/java-25-spring-boot-4-spring-ai-a2a/weather-agent/src/main/java/com/github/diegopacheco/sandboxspring/config/WeatherAgentConfig.java
+  8987df2459e1d9f7 1-57
+pocs/java-25-spring-boot-4-spring-ai-a2a/hotel-agent/src/main/java/com/github/diegopacheco/sandboxspring/config/HotelAgentConfig.java
+  8987df2459e1d9f7 1-57
+pocs/java-25-spring-boot-4-spring-ai-a2a/pom.xml
+  8987df2459e1d9f7 1-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "05e831299132602be1d9a5831af69c20514ac70d",
+  "prompts": {
+    "8987df2459e1d9f7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e37392ee-d5d2-42ef-8ddc-68dfd70dc5a1",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 514,
+      "total_deletions": 0,
+      "accepted_lines": 514,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/068fcc9c1e6bafa716f1ca9a1892ba6665001dc81c8f7cfb21967b7eb86d838a"
+    }
+  }
+}
