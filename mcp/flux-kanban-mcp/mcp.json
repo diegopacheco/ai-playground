@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "flux": {
+      "type": "stdio",
+      "command": "podman",
+      "args": [
+        "run", "-i", "--userns=keep-id", "--rm",
+        "-v", "flux-data:/app/packages/data",
+        "-v", "flux-blobs:/home/flux",
+        "-e", "FLUX_DATA=/app/packages/data/flux.sqlite",
+        "sirsjg/flux-mcp:latest",
+        "bun", "packages/mcp/dist/index.js"
+      ]
+    }
+  }
+}
