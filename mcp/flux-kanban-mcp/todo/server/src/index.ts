@@ -1,11 +1,31 @@
-import Anthropic from '@anthropic-ai/sdk'
-
-const client = new Anthropic()
+import { writeFile, unlink } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { randomUUID } from 'node:crypto'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
+}
+
+async function extractItemsWithClaude(imagePath: string): Promise<string[]> {
+  const prompt = `@${imagePath}\nExtract all grocery items visible in this image. Return ONLY a JSON array of strings. Example: ["milk","eggs","bread"]. No explanation, no markdown, only the JSON array.`
+
+  const proc = Bun.spawn(
+    ['claude', '-p', prompt, '--dangerously-skip-permissions'],
+    { stdout: 'pipe', stderr: 'pipe' }
+  )
+
+  const stdout = await new Response(proc.stdout).text()
+  await proc.exited
+
+  const trimmed = stdout.trim()
+  const start = trimmed.indexOf('[')
+  const end = trimmed.lastIndexOf(']')
+  const json = start >= 0 && end >= 0 ? trimmed.slice(start, end + 1) : '[]'
+
+  return JSON.parse(json) as string[]
 }
 
 Bun.serve({
@@ -18,6 +38,7 @@ Bun.serve({
     const url = new URL(req.url)
 
     if (req.method === 'POST' && url.pathname === '/extract-items') {
+      let tmpPath: string | null = null
       try {
         const formData = await req.formData()
         const file = formData.get('image') as File | null
@@ -25,38 +46,18 @@ Bun.serve({
           return Response.json({ error: 'No image provided' }, { status: 400, headers: corsHeaders })
         }
 
+        const ext = (file.name.split('.').pop() ?? 'jpg').toLowerCase()
+        tmpPath = join(tmpdir(), `grocery-${randomUUID()}.${ext}`)
         const buffer = await file.arrayBuffer()
-        const base64 = Buffer.from(buffer).toString('base64')
-        const mediaType = file.type as 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp'
+        await writeFile(tmpPath, Buffer.from(buffer))
 
-        const response = await client.messages.create({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 1024,
-          messages: [
-            {
-              role: 'user',
-              content: [
-                {
-                  type: 'image',
-                  source: { type: 'base64', media_type: mediaType, data: base64 },
-                },
-                {
-                  type: 'text',
-                  text: 'Extract all grocery items visible in this image. Return ONLY a JSON array of strings, each string being one grocery item name. Example: ["milk","eggs","bread"]. No explanation, no markdown, only the JSON array.',
-                },
-              ],
-            },
-          ],
-        })
-
-        const textBlock = response.content.find(c => c.type === 'text')
-        const text = textBlock && textBlock.type === 'text' ? textBlock.text.trim() : '[]'
-        const items: string[] = JSON.parse(text)
-
+        const items = await extractItemsWithClaude(tmpPath)
         return Response.json({ items }, { headers: corsHeaders })
       } catch (err) {
         console.error('Error extracting items:', err)
         return Response.json({ error: 'Failed to process image' }, { status: 500, headers: corsHeaders })
+      } finally {
+        if (tmpPath) await unlink(tmpPath).catch(() => {})
       }
     }
 
