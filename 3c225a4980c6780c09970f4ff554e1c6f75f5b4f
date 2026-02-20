@@ -1,0 +1,38 @@
+pocs/java-25-spring-boot-4-spring-ai-ask-user-tool/src/main/java/com/github/diegopacheco/sandboxspring/config/AppConfig.java
+  615e8184c27349df 3,13,15
+pocs/java-25-spring-boot-4-spring-ai-ask-user-tool/src/main/java/com/github/diegopacheco/sandboxspring/handler/SimulatedQuestionHandler.java
+  615e8184c27349df 1-26
+pocs/java-25-spring-boot-4-spring-ai-ask-user-tool/run.sh
+  615e8184c27349df 3-18
+pocs/java-25-spring-boot-4-spring-ai-ask-user-tool/src/main/java/com/github/diegopacheco/sandboxspring/AskUserToolApplication.java
+  615e8184c27349df 7
+pocs/java-25-spring-boot-4-spring-ai-ask-user-tool/src/main/resources/application.yml
+  615e8184c27349df 1-2
+pocs/java-25-spring-boot-4-spring-ai-ask-user-tool/src/main/java/com/github/diegopacheco/sandboxspring/controller/TripPlannerController.java
+  615e8184c27349df 1-28
+pocs/java-25-spring-boot-4-spring-ai-ask-user-tool/test.sh
+  615e8184c27349df 2-4
+pocs/java-25-spring-boot-4-spring-ai-ask-user-tool/pom.xml
+  615e8184c27349df 35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "3c225a4980c6780c09970f4ff554e1c6f75f5b4f",
+  "prompts": {
+    "615e8184c27349df": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fba971bd-0de9-4b88-9956-9da0ba453ea6",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 81,
+      "total_deletions": 31,
+      "accepted_lines": 80,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/db968baa01636cde05662edeaa41a078411cc4cdcfb262a59cf7a72741aa443c"
+    }
+  }
+}
