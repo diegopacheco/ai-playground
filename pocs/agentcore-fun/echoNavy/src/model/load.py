@@ -1,0 +1,30 @@
+import os
+from strands.models.openai import OpenAIModel
+from dotenv import load_dotenv
+from bedrock_agentcore.identity.auth import requires_api_key
+
+@requires_api_key(provider_name=os.getenv("BEDROCK_AGENTCORE_MODEL_PROVIDER_API_KEY_NAME", ""))
+def agentcore_identity_api_key_provider(api_key: str) -> str:
+    return api_key
+
+def _get_api_key() -> str:
+    """
+    Uses AgentCore Identity for API key management in deployed environments,
+    and falls back to .env file for local development.
+    """
+    if os.getenv("LOCAL_DEV") == "1":
+        load_dotenv(".env.local")
+        return os.getenv("OPENAI_API_KEY")
+    else:
+        return agentcore_identity_api_key_provider()
+
+MODEL_ID = "gpt-5.1"
+
+def load_model() -> OpenAIModel:
+    """
+    Get authenticated OpenAI model client.
+    """
+    return OpenAIModel(
+        client_args={"api_key": _get_api_key()},
+        model_id=MODEL_ID,
+    )
