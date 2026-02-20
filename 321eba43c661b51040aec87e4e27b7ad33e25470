@@ -1,0 +1,24 @@
+pocs/agentcore-fun/.gitignore
+  3a2599fef085e61b 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "321eba43c661b51040aec87e4e27b7ad33e25470",
+  "prompts": {
+    "3a2599fef085e61b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f76f3f62-dca1-4d38-af8d-dc9a6b3781a9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 8,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/6d89165258a8fd74fdf16ab91f4142d7778b718ecddaa582a8acd650cc204507"
+    }
+  }
+}
