@@ -1,7 +1,7 @@
 package com.github.diegopacheco.sandboxspring.config;
 
+import com.github.diegopacheco.sandboxspring.handler.SimulatedQuestionHandler;
 import org.springaicommunity.agent.tools.AskUserQuestionTool;
-import org.springaicommunity.agent.utils.CommandLineQuestionHandler;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
     @Bean
-    public AskUserQuestionTool askUserQuestionTool() {
+    public AskUserQuestionTool askUserQuestionTool(SimulatedQuestionHandler handler) {
         return AskUserQuestionTool.builder()
-                .questionHandler(new CommandLineQuestionHandler())
+                .questionHandler(handler)
                 .build();
     }
 
