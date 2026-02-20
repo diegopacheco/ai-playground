@@ -1,2 +1,4 @@
 #!/bin/bash
-java -jar target/java-25-spring-boot-4-spring-ai-ask-user-tool-1.0-SNAPSHOT.jar
+curl -s -X POST http://localhost:8080/plan \
+  -H "Content-Type: application/json" \
+  -d '{"message": "I want to plan a trip. Please help me plan the perfect vacation."}' | cat
