@@ -114,6 +114,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/superset-todo-poc
 34 - Condutor <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/conductor-codex-todo
 
+35 - Klaw Agents <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/klaw-agents
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
