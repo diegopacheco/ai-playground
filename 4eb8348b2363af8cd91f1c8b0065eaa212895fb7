@@ -1,0 +1,28 @@
+pocs/letta-code-fun/index.ts
+  0fb9886980e48a3c 1-14
+pocs/letta-code-fun/run.sh
+  0fb9886980e48a3c 1,3
+pocs/letta-code-fun/package.json
+  0fb9886980e48a3c 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "4eb8348b2363af8cd91f1c8b0065eaa212895fb7",
+  "prompts": {
+    "0fb9886980e48a3c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d4f6e1b-73e6-4087-8c21-c2405ad324f7",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 1,
+      "accepted_lines": 17,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/bb0cab6d6670d416887a368aa2399c4328cc9fd2b21c2559a9d92b8dd930f414"
+    }
+  }
+}
