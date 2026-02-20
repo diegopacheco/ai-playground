@@ -1,0 +1,42 @@
+pocs/java-25-spring-boot-4-spring-ai-todo-write-tool/src/main/java/com/github/diegopacheco/sandboxspring/config/AgentConfig.java
+  36dcbe64813b91d7 1-36
+pocs/java-25-spring-boot-4-spring-ai-todo-write-tool/src/main/java/com/github/diegopacheco/sandboxspring/event/TodoUpdateEvent.java
+  36dcbe64813b91d7 1-20
+pocs/java-25-spring-boot-4-spring-ai-todo-write-tool/src/main/java/com/github/diegopacheco/sandboxspring/controller/AgentController.java
+  36dcbe64813b91d7 1-37
+pocs/java-25-spring-boot-4-spring-ai-todo-write-tool/src/main/java/com/github/diegopacheco/sandboxspring/event/TodoProgressListener.java
+  36dcbe64813b91d7 1-26
+pocs/java-25-spring-boot-4-spring-ai-todo-write-tool/src/main/java/com/github/diegopacheco/sandboxspring/Application.java
+  36dcbe64813b91d7 1-12
+pocs/java-25-spring-boot-4-spring-ai-todo-write-tool/pom.xml
+  36dcbe64813b91d7 1-90
+pocs/java-25-spring-boot-4-spring-ai-todo-write-tool/src/main/java/com/github/diegopacheco/sandboxspring/controller/HelloController.java
+  36dcbe64813b91d7 1-13
+pocs/java-25-spring-boot-4-spring-ai-todo-write-tool/src/main/resources/application.properties
+  36dcbe64813b91d7 1-4
+pocs/java-25-spring-boot-4-spring-ai-todo-write-tool/run.sh
+  36dcbe64813b91d7 1-2
+pocs/java-25-spring-boot-4-spring-ai-todo-write-tool/test.sh
+  36dcbe64813b91d7 1-14,16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "b25bc31e64e46bdeaa69c90e210faa492fa55027",
+  "prompts": {
+    "36dcbe64813b91d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "50ad9d53-316a-4232-b740-f27c8cadafb9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 256,
+      "total_deletions": 0,
+      "accepted_lines": 255,
+      "overriden_lines": 1,
+      "messages_url": "https://usegitai.com/cas/2982d5b797bf20504aef690bfb3a713e8125fb990e515721663275c21a6b45ab"
+    }
+  }
+}
