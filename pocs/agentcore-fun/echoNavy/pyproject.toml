@@ -1,0 +1,20 @@
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "echoNavy"
+version = "0.1.0"
+requires-python = ">=3.10"
+
+dependencies = [
+    "aws-opentelemetry-distro >= 0.10.0",
+    "bedrock-agentcore >= 1.0.3",
+    "mcp >= 1.19.0",
+    "pytest >= 7.0.0",
+    "pytest-asyncio >= 0.21.0",
+    "python-dotenv >= 1.2.1",
+    "strands-agents-tools >= 0.2.16",
+    "strands-agents[openai] >= 1.13.0"
+]
