@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/agent")
 public class AgentController {
@@ -21,6 +23,7 @@ public class AgentController {
     public String ask(@RequestBody String prompt) {
         return chatClient.prompt()
                 .user(prompt)
+                .advisors(a -> a.param("chat_memory_conversation_id", UUID.randomUUID().toString()))
                 .call()
                 .content();
     }
@@ -31,6 +34,7 @@ public class AgentController {
                 .user("Find the top 5 Java design patterns, describe each one briefly, " +
                       "give a real-world use case for each, and provide a summary. " +
                       "Use TodoWrite to organize your tasks.")
+                .advisors(a -> a.param("chat_memory_conversation_id", UUID.randomUUID().toString()))
                 .call()
                 .content();
     }
