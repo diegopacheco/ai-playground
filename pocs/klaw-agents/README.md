@@ -143,3 +143,8 @@ Invoke the Agent:
 klaw controller start
 klaw run lead-scorer --task "Analyze new leads in HubSpot, score 1-100 based on fit"
 ```
+
+After you done.
+```
+klaw delete cluster local
+```
