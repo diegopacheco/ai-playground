@@ -1,0 +1,24 @@
+pocs/java-25-spring-boot-4-spring-ai-todo-write-tool/src/main/java/com/github/diegopacheco/sandboxspring/controller/AgentController.java
+  36dcbe64813b91d7 10-11,26,37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "4bd9a161f5f339eef4c19594e6351543d837d94b",
+  "prompts": {
+    "36dcbe64813b91d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "50ad9d53-316a-4232-b740-f27c8cadafb9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 3,
+      "accepted_lines": 4,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/fa9fe370cc2e877dec028598b3ceb89789b2202de730a750350c21965fa83e2c"
+    }
+  }
+}
