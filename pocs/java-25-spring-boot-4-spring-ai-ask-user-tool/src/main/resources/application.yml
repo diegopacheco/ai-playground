@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: ask-user-tool
+  main:
+    web-application-type: none
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
