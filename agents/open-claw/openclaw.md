@@ -17,6 +17,10 @@ https://openclaw.ai/
 3. OpenClaw is very buggy.
 4. I had to troubleshoot for a while to figure our that when I change the BOT and APP Tokens that open claw had them hard coded on a json file in ~/openclaw/config.json. I had to change them there and restart the app to make it work. Funny is that the installation ask to create env vars which I did but clearly not all parts of open claw code use them.
 5. It felt very half backed, the UI, specially to configure slack is terrible, is awful.
+5. Open Claw installer is interesting, it install all dependencies but does not install slack, that I had to do outsite, the documentation while installing is not clear, for slack there was several steps and not clear instructions.
+6. Open Claw has a command you can run to check if you are in a security risk, I run it and got ZERO critial but some warnings.
+7. Credentials stay open in clear text in files. 
+8. There is a bash auto-complete for `openclaw` which is nice and there are diffent components like the gateway, the dashbaord, you can also use a TUI or WEB-UI.
 
 ### Result
 
@@ -38,3 +42,5 @@ https://openclaw.ai/
 6 - Open Claw Dashboard <br/>
 <img src="sebastian-skills.png" width="600" />
 
+7 - Usage <br/>
+<img src="sebastian-skills.png" width="600" />
