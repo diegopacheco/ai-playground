@@ -22,3 +22,9 @@ https://openclaw.ai/
 
 1 - VM Instalation of Open Claw <br/>
 <img src="sebastian-vm.png" width="600" />
+
+2 - VM Instalation of Open Claw <br/>
+<img src="sebastian-vm-2.png" width="600" />
+
+3 - Open Claw Sec Recommendations <br/>
+<img src="sebastian-sec.png" width="600" />
