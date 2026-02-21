@@ -37,10 +37,10 @@ https://openclaw.ai/
 <img src="sebastian-skills.png" width="600" />
 
 5 - Chat with Open Claw Agent on the Dashboard <br/>
-<img src="sebastian-skills.png" width="600" />
+<img src="chat.png" width="600" />
 
 6 - Open Claw Dashboard <br/>
-<img src="sebastian-skills.png" width="600" />
+<img src="dashboard.png" width="600" />
 
 7 - Usage <br/>
-<img src="sebastian-skills.png" width="600" />
+<img src="usage.png" width="600" />
