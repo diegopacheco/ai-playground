@@ -28,3 +28,9 @@ https://openclaw.ai/
 
 3 - Open Claw Sec Recommendations <br/>
 <img src="sebastian-sec.png" width="600" />
+
+4 - Open Claw Built In Skills <br/>
+<img src="sebastian-skills.png" width="600" />
+
+5 - Chat with Open Claw Agent on the Dashboard <br/>
+<img src="sebastian-skills.png" width="600" />
