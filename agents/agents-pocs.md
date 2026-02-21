@@ -117,6 +117,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/conductor-codex-tod
 35 - Klaw Agents <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/klaw-agents
 
+36 - Open Claw, Ubuntu 24, Open AI API + Slack <br/>
+https://github.com/diegopacheco/ai-playground/blob/main/agents/open-claw/openclaw.md
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
