@@ -30,7 +30,9 @@ https://github.com/steveyegge/gastown
 * Had to re-install gastown even with the recommended is brew using go like this:
 ```
 CGO_ENABLED=1 go install github.com/steveyegge/gastown/cmd/gt@latest
+CGO_ENABLED=1 go install github.com/steveyegge/beads/cmd/bd@latest
 ```
+
 
 ## Results
 
