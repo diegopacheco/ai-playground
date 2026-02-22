@@ -8,6 +8,7 @@ https://github.com/steveyegge/gastown
 * I had to install via homebrew
 * Instalation was a bit manual and had todo several steps.
 * POC Repo: https://github.com/diegopacheco/gastown-poc
+* I had issues with convoy to create a feature, doc mention flags that dont exist anymore.
 * 
 
 ## Results
@@ -138,4 +139,23 @@ Start working with: cd /Users/diegopacheco/gt/twitter_like/crew/diegopacheco
 ```
 cd twitter_like/crew/diegopacheco/
 gt mayor attach
+```
+
+## Build a Feature
+
+```
+bd init
+gt convoy create "build a twitter like application with registration, login, timeline, profile, search, follow, like, post images and limit chars 140. make sure there is a default admin user admin/admin and a run.sh to run the app. frontend must be react and backend must be rust, make sure react is with bun and vite and typescript use as much astanstack as possible. for backend use tokio and actixes, makes ure the frontend and backend are not monolithic, use sqllite for the db in rust." gt-abc12 gt-def34 --notify
+```
+
+## Give work to agent
+
+```
+gt sling gt-abc12 twitter_like
+```
+
+## Track Progress
+
+```
+gt convoy list
 ```
