@@ -178,6 +178,22 @@ bd init
 gt convoy create "build a twitter like application with registration, login, timeline, profile, search, follow, like, post images and limit chars 140. make sure there is a default admin user admin/admin and a run.sh to run the app. frontend must be react and backend must be rust, make sure react is with bun and vite and typescript use as much astanstack as possible. for backend use tokio and actixes, makes ure the frontend and backend are not monolithic, use sqllite for the db in rust." gt-abc12 gt-def34 --notify
 ```
 
+```
+WARNING: This binary was built with 'go build' directly.
+         Use 'make build' to create a properly signed binary.
+⚠ Warning: couldn't track gt-abc12: Error: resolving dependency ID gt-abc12: no issue found matching "gt-abc12"
+⚠ Warning: couldn't track gt-def34: Error: resolving dependency ID gt-def34: no issue found matching "gt-def34"
+✓ Created convoy 🚚 hq-cv-gezjo
+
+  Name:     build a twitter like application with registration, login, timeline, profile, search, follow, like, post images and limit chars 140. make sure there is a default admin user admin/admin and a run.sh to run the app. frontend must be react and backend must be rust, make sure react is with bun and vite and typescript use as much astanstack as possible. for backend use tokio and actixes, makes ure the frontend and backend are not monolithic, use sqllite for the db in rust.
+  Tracking: 0 issues
+  Issues:   gt-abc12, gt-def34
+  Owner:    overseer
+  Notify:   mayor/
+
+  Convoy auto-closes when all tracked issues complete
+```
+
 ## Give work to agent
 
 ```
