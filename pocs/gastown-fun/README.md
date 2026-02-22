@@ -159,3 +159,9 @@ gt sling gt-abc12 twitter_like
 ```
 gt convoy list
 ```
+
+## Monitor Agents
+
+```
+gt agent list
+```
