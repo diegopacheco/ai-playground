@@ -3,6 +3,7 @@ data/
 
 # Oh My Claude Code
 .omc
+.omc/
 
 # Mac
 .DS_Store
