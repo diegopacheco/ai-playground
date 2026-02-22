@@ -9,6 +9,7 @@ https://github.com/steveyegge/gastown
 * Instalation was a bit manual and had todo several steps.
 * POC Repo: https://github.com/diegopacheco/gastown-poc
 * I had issues with convoy to create a feature, doc mention flags that dont exist anymore.
+* GasTown Mayor/tmux crashed doring claude code run in a middle of a healthchecker.
 * 
 
 ## Results
