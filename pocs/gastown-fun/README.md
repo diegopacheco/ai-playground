@@ -32,7 +32,11 @@ First update go to: `go version go1.26.0 darwin/arm64` them:
 ```
 brew install icu4c
 CGO_ENABLED=1 go install github.com/steveyegge/gastown/cmd/gt@latest
-CGO_ENABLED=1 go install github.com/steveyegge/beads/cmd/bd@latest
+
+mkdir /tmp/beads
+cd cd /tmp/beads/
+git clone https://github.com/steveyegge/beads.git
+CGO_CFLAGS="-I$(brew --prefix icu4c)/include" CGO_LDFLAGS="-L$(brew --prefix icu4c)/lib" CGO_ENABLED=1 go build -o "$HOME/.local/bin/bd" ./cmd/bd
 ```
 
 
