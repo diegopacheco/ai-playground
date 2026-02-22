@@ -123,6 +123,9 @@ https://github.com/diegopacheco/ai-playground/blob/main/agents/open-claw/opencla
 37 - Moltis (Personal Agent),Ubuntu 24 with OpenAI <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/moltis-personal-agent
 
+38 - Gas Town <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/gastown-fun
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
