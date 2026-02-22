@@ -232,5 +232,5 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-spring-boot
 35 - Java 25 - Spring Boot 4x - Spring AI - AskUserQuestions - OpenAI - Travel Planner Agent <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-spring-boot-4-spring-ai-ask-user-tool
 
-36 - Java 25 - Spring Boot 4x - Spring AI - TodoWriteTool - OpenAI - Travel Planner Agent <br/>
+36 - Java 25 - Spring Boot 4x - Spring AI - TodoWriteTool - OpenAI - Travel Planner Agent<br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-spring-boot-4-spring-ai-todo-write-tool
