@@ -25,6 +25,8 @@ https://github.com/steveyegge/gastown
            --json   Output as JSON
 ```
 * GT uses a lot of tokens indeed.
+* Spent all my subscription tokens + 14 USD Dollars in less than 30min.
+* All got stuck with conf issue and could not produce anything yet but sucked money.
 
 ## Results
 
@@ -180,4 +182,54 @@ gt convoy list
 
 ```
 gt agent list
+```
+
+## Shutdown
+
+```
+❯ gt shutdown --all --yes --cleanup-orphans
+Sessions to stop:
+  → hq-boot
+  → hq-deacon
+  → hq-mayor
+  → tl-refinery
+  → tl-witness
+
+Shutting down Gas Town...
+  ✓ tl-refinery stopped
+  ✓ tl-witness stopped
+  ✓ hq-mayor stopped
+  ✓ hq-boot stopped
+  ✓ hq-deacon stopped
+
+Cleaning up orphaned Claude processes...
+  ○ No orphaned processes found
+
+Cleaning up polecats...
+  ○ No polecats to clean up
+
+Stopping daemon...
+  ○ Daemon not tracked by PID file
+  ⚠ Found 1 orphaned daemon process(es): [26174]
+  ✓ Killed 1 orphaned daemon(s)
+
+Verifying shutdown...
+  ✓ No orphaned Claude processes detected
+
+✓ Gas Town shutdown complete (5 sessions stopped)
+❯ gt status
+Town: gt
+/Users/diegopacheco/gt
+
+👤 Overseer: diegopacheco <diego.pacheco.it@gmail.com>
+
+🎩 mayor        ○
+🐺 deacon       ○
+
+─── twitter_like/ ───────────────────────────────────────────
+
+🦉 witness      ○
+🏭 refinery     ○
+👷 Crew (1)
+   diegopacheco ○
 ```
