@@ -65,3 +65,75 @@ Next steps:
 
 Note: Dolt server is running (stop with gt dolt stop)
 ```
+
+## Create a Rig and Crew
+
+```
+ gt rig add twitter_like https://github.com/diegopacheco/gastown-poc.git
+Creating rig twitter_like...
+  Repository: https://github.com/diegopacheco/gastown-poc.git
+  Cloning repository (this may take a moment)...
+   ✓ Created shared bare repo
+  Creating mayor clone...
+   ✓ Created mayor clone
+  Initializing beads database...
+   ✓ Initialized beads (prefix: tl)
+  Creating refinery worktree...
+   ✓ Created refinery worktree
+  Warning: Could not create agent beads: creating tl-twitter_like-witness: bd create --json --id=tl-twitter_like-witness --title=Witness for twitter_like - monitors polecat health and progress. --description=Witness for twitter_like - monitors polecat health and progress.
+
+role_type: witness                                                                                                                 rig: twitter_like                                                                                                                  agent_state: idle
+hook_bead: null
+cleanup_status: null
+active_mr: null
+notification_level: null --type=agent --labels=gt:agent --force: Error: failed to open rig "twitter_like" database: dolt backend requires CGO (not available on this build); use sqlite backend or install from pre-built binaries
+  ! Could not create rig identity bead: bd create --json --id=tl-rig-twitter_like --title=twitter_like --description=Rig identity bead for twitter_like.
+
+repo: https://github.com/diegopacheco/gastown-poc.git
+prefix: tl
+state: active --labels=gt:rig --force: Error: failed to open rig "twitter_like" database: dolt backend requires CGO (not available on this build); use sqlite backend or install from pre-built binaries
+  Synced hooks for 4 target(s)
+
+✓ Rig created in 7.6s
+
+Structure:
+  twitter_like/
+  ├── config.json
+  ├── .repo.git/        (shared bare repo for refinery+polecats)
+  ├── .beads/           (prefix: tl)
+  ├── plugins/          (rig-level plugins)
+  ├── mayor/rig/        (clone: main)
+  ├── refinery/rig/     (worktree: main, sees polecat branches)
+  ├── crew/             (empty - add crew with 'gt crew add')
+  ├── witness/
+  └── polecats/         (.claude/ scaffolded for polecat sessions)
+
+Next steps:
+  gt crew add <name> --rig twitter_like   # Create your personal workspace
+  cd /Users/diegopacheco/gt/twitter_like/crew/<name>              # Start working
+❯ gt crew add diegopacheco --rig twitter_like
+Creating crew workspace diegopacheco in twitter_like...
+✓ Created crew workspace: twitter_like/diegopacheco
+  Path: /Users/diegopacheco/gt/twitter_like/crew/diegopacheco
+  Branch: main
+⚠ Warning: could not create agent bead for diegopacheco: bd create --json --id=tl-twitter_like-crew-diegopacheco --title=Crew worker diegopacheco in twitter_like - human-managed persistent workspace. --description=Crew worker diegopacheco in twitter_like - human-managed persistent workspace.
+
+role_type: crew
+rig: twitter_like
+agent_state: idle
+hook_bead: null
+cleanup_status: null
+active_mr: null
+notification_level: null --type=agent --labels=gt:agent --force: Error: failed to open rig "twitter_like" database: dolt backend requires CGO (not available on this build); use sqlite backend or install from pre-built binaries
+
+✓ Created 1 crew workspace(s): [diegopacheco]
+
+Start working with: cd /Users/diegopacheco/gt/twitter_like/crew/diegopacheco
+```
+
+## Attach to Mayor's office
+
+```
+cd twitter_like/crew/diegopacheco/
+gt mayor attach
+```
