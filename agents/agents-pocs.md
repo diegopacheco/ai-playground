@@ -117,8 +117,11 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/conductor-codex-tod
 35 - Klaw Agents <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/klaw-agents
 
-36 - Open Claw, Ubuntu 24, Open AI API + Slack <br/>
+36 - Open Claw(Personal Agent), Ubuntu 24, Open AI API + Slack <br/>
 https://github.com/diegopacheco/ai-playground/blob/main/agents/open-claw/openclaw.md
+
+37 - Moltis (Personal Agent),Ubuntu 24 with OpenAI <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/moltis-personal-agent
 
 ### POCs: AI Agents
 
