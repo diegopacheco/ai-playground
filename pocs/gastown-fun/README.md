@@ -227,6 +227,15 @@ gt sling hq-cv-7ueam twitter_like
 gt agent list
 ```
 
+```
+❯ gt agent list
+
+  🎩 Mayor
+── twitter_like ──
+  🏭 refinery
+  🦉 witness
+```
+
 ## Shutdown
 
 ```
