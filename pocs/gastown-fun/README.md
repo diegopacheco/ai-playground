@@ -38,7 +38,10 @@ cd cd /tmp/beads/
 git clone https://github.com/steveyegge/beads.git
 CGO_CFLAGS="-I$(brew --prefix icu4c)/include" CGO_LDFLAGS="-L$(brew --prefix icu4c)/lib" CGO_ENABLED=1 go build -o "$HOME/.local/bin/bd" ./cmd/bd
 ```
-
+* Claude Code with Opus 4.6 Comment on Gas Town:
+```
+My honest take: gastown is early-stage software with significant installation/configuration friction. You've already spent considerable time debugging infrastructure that should "just work." Unless you specifically need to evaluate gastown further, your time is better spent elsewhere.
+```
 
 ## Results
 
