@@ -10,7 +10,21 @@ https://github.com/steveyegge/gastown
 * POC Repo: https://github.com/diegopacheco/gastown-poc
 * I had issues with convoy to create a feature, doc mention flags that dont exist anymore.
 * GasTown Mayor/tmux crashed doring claude code run in a middle of a healthchecker.
-* 
+* GastTown is crashing and looping over:
+```
+⏺ Bash(cd ~/gt && gt hook status 2>&1)
+  ⎿  Error: Exit code 1
+     Error: listing hooked beads: bd list --json --status=hooked --assignee=mayor/ --limit=0: Warning: redirect target does not
+     exist or is not a directory: /Users/.beads
+     Error initializing --no-db mode: no .beads directory found (hint: run 'bd init' first or set BEADS_DIR)
+     Usage:
+       gt hook status [target] [flags]
+
+     Flags:
+       -h, --help   help for status
+           --json   Output as JSON
+```
+* GT uses a lot of tokens indeed.
 
 ## Results
 
