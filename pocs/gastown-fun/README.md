@@ -44,6 +44,24 @@ CGO_CFLAGS="-I$(brew --prefix icu4c)/include" CGO_LDFLAGS="-L$(brew --prefix icu
 as you already noted.
 
 My honest take: gastown is early-stage software with significant installation/configuration friction. You've already spent considerable time debugging infrastructure that should "just work." Unless you specifically need to evaluate gastown further, your time is better spent elsewhere.
+
+⏺ Same problems even after a fresh install. The root issue is now clear:
+
+Version mismatch: The Go-built gt (from source) calls bd init --backend but the Go-built bd (v0.55.4 from source) doesn't have a
+--backend flag anymore. The two binaries are incompatible.
+
+Also: No formulas found - the formula provisioning that was supposed to happen during gt install failed because beads init failed
+  first. Without formulas, gt sling can't work.
+
+This is a circular dependency:
+- gt needs bd with --backend flag (old version)
+- Old bd (Homebrew) doesn't have CGO/dolt support
+- New bd (source) has CGO but removed --backend flag
+
+Bottom line: Gastown v0.7.0 is not in a usable state for your setup. The Homebrew build lacks CGO, and building from source
+creates version incompatibilities. This matches everything in your README notes - it eats tokens/money and can't produce results.
+
+I'd recommend updating your README with these findings and moving on.
 ```
 
 ## Results
