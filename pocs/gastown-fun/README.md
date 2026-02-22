@@ -194,17 +194,32 @@ WARNING: This binary was built with 'go build' directly.
   Convoy auto-closes when all tracked issues complete
 ```
 
-## Give work to agent
-
-```
-gt sling gt-abc12 twitter_like
-```
-
 ## Track Progress
 
 ```
 gt convoy list
 ```
+
+```
+❯ gt convoy list
+WARNING: This binary was built with 'go build' directly.
+         Use 'make build' to create a properly signed binary.
+Convoys
+
+  1. 🚚 hq-cv-gezjo: build a twitter like application with registration, login, timeline, profile, search, follow, like, post images and limit chars 140. make sure there is a default admin user admin/admin and a run.sh to run the app. frontend must be react and backend must be rust, make sure react is with bun and vite and typescript use as much astanstack as possible. for backend use tokio and actixes, makes ure the frontend and backend are not monolithic, use sqllite for the db in rust. ●
+  2. 🚚 hq-cv-7ueam: build a twitter like application with registration, login, timeline, profile, search, follow, like, post images and limit chars 140. make sure there is a default admin user admin/admin and a run.sh to run the app. frontend must be react and backend must be rust, make sure react is with bun and vite and typescript use as much astanstack as possible. for backend use tokio and actixes, makes ure the frontend and backend are not monolithic, use sqllite for the db in rust. ●
+
+Use 'gt convoy status <id>' or 'gt convoy status <n>' for detailed view.
+```
+
+## Give work to agent
+
+```
+gt sling hq-cv-gezjo twitter_like
+gt sling hq-cv-7ueam twitter_like
+```
+
+
 
 ## Monitor Agents
 
