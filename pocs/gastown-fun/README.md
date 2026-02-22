@@ -6,6 +6,8 @@ https://github.com/steveyegge/gastown
 
 * npm instalation did not work
 * I had to install via homebrew
+* Instalation was a bit manual and had todo several steps.
+* POC Repo: https://github.com/diegopacheco/gastown-poc
 * 
 
 ## Results
