@@ -28,7 +28,9 @@ https://github.com/steveyegge/gastown
 * Spent all my subscription tokens + 14 USD Dollars in less than 30min.
 * All got stuck with conf issue and could not produce anything yet but sucked money.
 * Had to re-install gastown even with the recommended is brew using go like this:
+First update go to: `go version go1.26.0 darwin/arm64` them:
 ```
+brew install icu4c
 CGO_ENABLED=1 go install github.com/steveyegge/gastown/cmd/gt@latest
 CGO_ENABLED=1 go install github.com/steveyegge/beads/cmd/bd@latest
 ```
