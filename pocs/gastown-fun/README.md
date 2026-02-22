@@ -27,6 +27,10 @@ https://github.com/steveyegge/gastown
 * GT uses a lot of tokens indeed.
 * Spent all my subscription tokens + 14 USD Dollars in less than 30min.
 * All got stuck with conf issue and could not produce anything yet but sucked money.
+* Had to re-install gastown even with the recommended is brew using go like this:
+```
+CGO_ENABLED=1 go install github.com/steveyegge/gastown/cmd/gt@latest
+```
 
 ## Results
 
