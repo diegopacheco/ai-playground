@@ -40,6 +40,9 @@ CGO_CFLAGS="-I$(brew --prefix icu4c)/include" CGO_LDFLAGS="-L$(brew --prefix icu
 ```
 * Claude Code with Opus 4.6 Comment on Gas Town:
 ```
+3. Give up on gastown for now - it's v0.7.0, clearly still rough. The tool is eating tokens and time without producing results,
+as you already noted.
+
 My honest take: gastown is early-stage software with significant installation/configuration friction. You've already spent considerable time debugging infrastructure that should "just work." Unless you specifically need to evaluate gastown further, your time is better spent elsewhere.
 ```
 
