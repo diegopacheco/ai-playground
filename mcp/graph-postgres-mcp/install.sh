@@ -30,14 +30,10 @@ CODEX_CONFIG="$HOME/.codex/config.toml"
 if [ -d "$HOME/.codex" ]; then
   if [ -f "$CODEX_CONFIG" ]; then
     sed -i.bak '/\[mcp-servers\.graph-postgres-mcp\]/,/^$/d' "$CODEX_CONFIG"
+    sed -i.bak '/\[mcp-servers\.graph-postgres-mcp\.env\]/,/^$/d' "$CODEX_CONFIG"
     rm -f "${CODEX_CONFIG}.bak"
   fi
   cat >> "$CODEX_CONFIG" <<EOF
-
-[mcp-servers.graph-postgres-mcp]
-type = "stdio"
-command = "node"
-args = ["$ENTRY_POINT"]
 
 [mcp-servers.graph-postgres-mcp.env]
 PG_HOST = "localhost"
@@ -45,6 +41,11 @@ PG_PORT = "5432"
 PG_USER = "graphmcp"
 PG_PASSWORD = "graphmcp123"
 PG_DATABASE = "graphmcpdb"
+
+[mcp-servers.graph-postgres-mcp]
+type = "stdio"
+command = "node"
+args = ["$ENTRY_POINT"]
 EOF
   echo "Registered graph-postgres-mcp in Codex CLI."
 else
