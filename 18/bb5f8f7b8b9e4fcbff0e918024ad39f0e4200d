@@ -1,0 +1,24 @@
+mcp/graph-postgres-mcp/install.sh
+  f41392dd628a985d 33,44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "18bb5f8f7b8b9e4fcbff0e918024ad39f0e4200d",
+  "prompts": {
+    "f41392dd628a985d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c89ec-7229-7e72-b4fc-2b2bece4077a",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 5,
+      "accepted_lines": 2,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a2a07c8e7de322fe0255daa94c1fd2034fbb2fd101c9905c795adab48e8dee8e"
+    }
+  }
+}
