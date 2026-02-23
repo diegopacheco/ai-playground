@@ -215,6 +215,8 @@ graph-postgres-mcp/
 ├── start.sh
 ├── stop.sh
 ├── test.sh
+├── install.sh                (installs MCP into Claude Code and Codex)
+├── uninstall.sh              (removes MCP from Claude Code and Codex)
 └── src/
     ├── index.ts              (MCP server entry point)
     ├── schema-generator.ts   (introspects PG, builds GraphQL schema)
@@ -258,6 +260,53 @@ Environment variables with defaults:
 | PG_USER | graphmcp | PostgreSQL user |
 | PG_PASSWORD | graphmcp123 | PostgreSQL password |
 | PG_DATABASE | graphmcpdb | PostgreSQL database |
+
+## MCP Installer (install.sh)
+
+### Overview
+
+`install.sh` registers this MCP server in both **Claude Code** and **OpenAI Codex CLI** so they can use the GraphQL-Postgres tools. It builds the project, then writes the MCP config into each tool's settings file.
+
+### Claude Code Installation
+
+Claude Code stores MCP server configs in `~/.claude.json` under the `mcpServers` key. The installer uses the `claude mcp add` CLI command:
+
+```bash
+claude mcp add graph-postgres-mcp \
+  -s user \
+  -- node /absolute/path/to/graph-postgres-mcp/dist/index.js
+```
+
+This registers the MCP at user scope so it is available in all projects.
+
+### Codex CLI Installation
+
+Codex CLI stores MCP configs in `~/.codex/config.toml`. The installer appends a `[mcp-servers.graph-postgres-mcp]` section:
+
+```toml
+[mcp-servers.graph-postgres-mcp]
+type = "stdio"
+command = "node"
+args = ["/absolute/path/to/graph-postgres-mcp/dist/index.js"]
+env = { PG_HOST = "localhost", PG_PORT = "5432", PG_USER = "graphmcp", PG_PASSWORD = "graphmcp123", PG_DATABASE = "graphmcpdb" }
+```
+
+### Installer Flow
+
+```
+1. Resolve absolute path to project directory
+2. Run npm install
+3. Run npm run build (tsc)
+4. Detect if 'claude' CLI is available → register MCP in Claude Code
+5. Detect if '~/.codex/config.toml' exists → register MCP in Codex CLI
+6. Print summary of what was installed
+```
+
+### Uninstaller (uninstall.sh)
+
+Removes the MCP registration from both tools:
+- Claude Code: `claude mcp remove graph-postgres-mcp -s user`
+- Codex: removes the `[mcp-servers.graph-postgres-mcp]` block from `~/.codex/config.toml`
 
 ## Limitations
 
