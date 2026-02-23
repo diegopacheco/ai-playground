@@ -16,6 +16,8 @@ CODEX_CONFIG="$HOME/.codex/config.toml"
 if [ -f "$CODEX_CONFIG" ]; then
   sed -i.bak '/\[mcp-servers\.graph-postgres-mcp\]/,/^$/d' "$CODEX_CONFIG"
   sed -i.bak '/\[mcp-servers\.graph-postgres-mcp\.env\]/,/^$/d' "$CODEX_CONFIG"
+  sed -i.bak '/\[mcp_servers\.graph-postgres-mcp\]/,/^$/d' "$CODEX_CONFIG"
+  sed -i.bak '/\[mcp_servers\.graph-postgres-mcp\.env\]/,/^$/d' "$CODEX_CONFIG"
   rm -f "${CODEX_CONFIG}.bak"
   echo "Removed graph-postgres-mcp from Codex CLI."
 else
