@@ -1,59 +1,137 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const mcp_js_1 = require("@modelcontextprotocol/sdk/server/mcp.js");
+const index_js_1 = require("@modelcontextprotocol/sdk/server/index.js");
 const stdio_js_1 = require("@modelcontextprotocol/sdk/server/stdio.js");
-const zod_1 = require("zod");
+const types_js_1 = require("@modelcontextprotocol/sdk/types.js");
 const resolvers_1 = require("./resolvers");
 const schema_generator_1 = require("./schema-generator");
 const pg_client_1 = require("./pg-client");
-const server = new mcp_js_1.McpServer({
-    name: "graph-postgres-mcp",
-    version: "1.0.0",
-});
-server.tool("graphql_query", "Execute a read-only GraphQL query against the PostgreSQL database. All tables and columns are available as GraphQL types. Use list_tables or get_schema to discover available data.", {
-    query: zod_1.z.string().describe("GraphQL query string, e.g. { users(limit: 10) { id name email } }"),
-    variables: zod_1.z
-        .string()
-        .optional()
-        .describe("Optional GraphQL variables as JSON string, e.g. {\"id\": 1}"),
-}, async ({ query, variables }) => {
-    const parsedVars = variables ? JSON.parse(variables) : undefined;
-    const result = await (0, resolvers_1.executeGraphQL)(query, parsedVars);
-    return {
-        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
-    };
-});
-server.tool("list_tables", "List all PostgreSQL tables exposed in the GraphQL schema with their columns and types.", {}, async () => {
-    const tables = (0, schema_generator_1.getTableSchemas)();
-    const output = tables.map((t) => ({
-        table: t.name,
-        primaryKeys: t.primaryKeys,
-        columns: t.columns.map((c) => ({
-            name: c.column_name,
-            type: c.data_type,
-            nullable: c.is_nullable === "YES",
-        })),
-    }));
-    return {
-        content: [{ type: "text", text: JSON.stringify(output, null, 2) }],
-    };
-});
-server.tool("get_schema", "Return the current GraphQL schema in SDL format showing all available types and queries.", {}, async () => {
-    const sdl = (0, schema_generator_1.getSchemaSDL)();
-    return {
-        content: [{ type: "text", text: sdl }],
-    };
-});
-server.tool("refresh_schema", "Re-introspect PostgreSQL and rebuild the GraphQL schema. Call this after new tables or columns are added to the database.", {}, async () => {
-    const result = await (0, schema_generator_1.refreshSchema)();
-    return {
-        content: [
-            {
-                type: "text",
-                text: `Schema refreshed: ${result.tableCount} tables, ${result.fieldCount} fields`,
+const GRAPHQL_ONLY_NOTICE = "IMPORTANT: This MCP provides access to PostgreSQL ONLY through GraphQL. " +
+    "You must NEVER access PostgreSQL directly with raw SQL. " +
+    "Always use the graphql_query tool to read data. " +
+    "Use get_schema or list_tables to discover available tables and fields. " +
+    "If you need data from the database, write a GraphQL query and pass it to graphql_query.";
+const server = new index_js_1.Server({ name: "graph-postgres-mcp", version: "1.0.0" }, { capabilities: { tools: {} } });
+server.setRequestHandler(types_js_1.ListToolsRequestSchema, async () => ({
+    tools: [
+        {
+            name: "graphql_query",
+            description: GRAPHQL_ONLY_NOTICE +
+                " Execute a read-only GraphQL query against PostgreSQL. " +
+                "All database tables and columns are exposed as GraphQL types. " +
+                "Use list_tables first to see what is available, then build your GraphQL query.",
+            inputSchema: {
+                type: "object",
+                properties: {
+                    query: {
+                        type: "string",
+                        description: "GraphQL query string. Example: { users(limit: 10) { id name email } }",
+                    },
+                    variables: {
+                        type: "string",
+                        description: 'Optional GraphQL variables as JSON string. Example: {"id": 1}',
+                    },
+                },
+                required: ["query"],
             },
-        ],
-    };
+        },
+        {
+            name: "list_tables",
+            description: GRAPHQL_ONLY_NOTICE +
+                " List all PostgreSQL tables currently exposed in the GraphQL schema, " +
+                "including column names, types, and primary keys. " +
+                "Call this first to discover what data is available before writing GraphQL queries.",
+            inputSchema: {
+                type: "object",
+                properties: {},
+            },
+        },
+        {
+            name: "get_schema",
+            description: GRAPHQL_ONLY_NOTICE +
+                " Return the full GraphQL schema in SDL format. " +
+                "Shows all available types, queries, and arguments. " +
+                "Use this to understand the exact GraphQL query syntax available.",
+            inputSchema: {
+                type: "object",
+                properties: {},
+            },
+        },
+        {
+            name: "refresh_schema",
+            description: GRAPHQL_ONLY_NOTICE +
+                " Re-introspect PostgreSQL and rebuild the GraphQL schema. " +
+                "Call this after new tables or columns have been added to the database. " +
+                "The GraphQL schema will be updated to include all new tables and fields.",
+            inputSchema: {
+                type: "object",
+                properties: {},
+            },
+        },
+    ],
+}));
+server.setRequestHandler(types_js_1.CallToolRequestSchema, async (request) => {
+    const { name, arguments: args } = request.params;
+    switch (name) {
+        case "graphql_query": {
+            const queryStr = args?.query;
+            if (!queryStr) {
+                return {
+                    content: [{ type: "text", text: "Error: query parameter is required" }],
+                    isError: true,
+                };
+            }
+            const variables = args?.variables
+                ? JSON.parse(args.variables)
+                : undefined;
+            const result = await (0, resolvers_1.executeGraphQL)(queryStr, variables);
+            return {
+                content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+            };
+        }
+        case "list_tables": {
+            const tables = (0, schema_generator_1.getTableSchemas)();
+            const output = tables.map((t) => ({
+                table: t.name,
+                primaryKeys: t.primaryKeys,
+                columns: t.columns.map((c) => ({
+                    name: c.column_name,
+                    type: c.data_type,
+                    nullable: c.is_nullable === "YES",
+                })),
+            }));
+            return {
+                content: [{ type: "text", text: JSON.stringify(output, null, 2) }],
+            };
+        }
+        case "get_schema": {
+            const sdl = (0, schema_generator_1.getSchemaSDL)();
+            return {
+                content: [{ type: "text", text: sdl }],
+            };
+        }
+        case "refresh_schema": {
+            const result = await (0, schema_generator_1.refreshSchema)();
+            return {
+                content: [
+                    {
+                        type: "text",
+                        text: `Schema refreshed: ${result.tableCount} tables, ${result.fieldCount} fields`,
+                    },
+                ],
+            };
+        }
+        default:
+            return {
+                content: [
+                    {
+                        type: "text",
+                        text: `Unknown tool: ${name}. Use graphql_query to access data through GraphQL. Never access PostgreSQL directly.`,
+                    },
+                ],
+                isError: true,
+            };
+    }
 });
 async function main() {
     await (0, schema_generator_1.refreshSchema)();
