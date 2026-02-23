@@ -22,7 +22,7 @@ if [ "${UI_SKIP_PG_CHECK:-0}" != "1" ] && command -v podman > /dev/null 2>&1; th
   fi
 fi
 
-TMP_JS="$(mktemp /tmp/graphmcp-ui.XXXXXX.js)"
+TMP_JS="$(mktemp -t graphmcp-ui)"
 
 cat > "$TMP_JS" <<'EOF'
 const http = require("http");
@@ -457,16 +457,76 @@ function formatGraphQL(source) {
   return out.replace(/\n{3,}/g, "\n\n").trim()
 }
 
+function wrap(cls, s) {
+  return '<span class="' + cls + '">' + escapeHtml(s) + '</span>'
+}
+
 function highlightGraphQL(source) {
-  let html = escapeHtml(String(source || ""))
-  html = html.replace(/(&quot;.*?&quot;|'.*?')/g, '<span class="gql-s">$1</span>')
-  html = html.replace(/\b(query|mutation|subscription|fragment|on|true|false|null)\b/g, '<span class="gql-k">$1</span>')
-  html = html.replace(/(\$[A-Za-z_][A-Za-z0-9_]*)/g, '<span class="gql-v">$1</span>')
-  html = html.replace(/\b(-?\d+(?:\.\d+)?)\b/g, '<span class="gql-n">$1</span>')
-  html = html.replace(/([{}()[\]:!,])/g, '<span class="gql-p">$1</span>')
-  html = html.replace(/(^|[\s{(,])([A-Za-z_][A-Za-z0-9_]*)(?=\s*:)/g, '$1<span class="gql-a">$2</span>')
-  html = html.replace(/(^|[\s{(])([A-Za-z_][A-Za-z0-9_]*)(?=\s*(?:\(|\{|\n|$))/gm, '$1<span class="gql-f">$2</span>')
-  return html
+  const s = String(source || "")
+  const keywords = new Set(["query", "mutation", "subscription", "fragment", "on", "true", "false", "null"])
+  let out = ""
+  let i = 0
+  while (i < s.length) {
+    const ch = s[i]
+    if (ch === '"' || ch === "'") {
+      const q = ch
+      let j = i + 1
+      let esc = false
+      while (j < s.length) {
+        const cj = s[j]
+        if (esc) {
+          esc = false
+        } else if (cj === "\\") {
+          esc = true
+        } else if (cj === q) {
+          j += 1
+          break
+        }
+        j += 1
+      }
+      out += wrap("gql-s", s.slice(i, j))
+      i = j
+      continue
+    }
+    if (ch === "$") {
+      let j = i + 1
+      while (j < s.length && /[A-Za-z0-9_]/.test(s[j])) j += 1
+      out += wrap("gql-v", s.slice(i, j))
+      i = j
+      continue
+    }
+    if (/[0-9]/.test(ch) || (ch === "-" && /[0-9]/.test(s[i + 1] || ""))) {
+      let j = i + 1
+      while (j < s.length && /[0-9.]/.test(s[j])) j += 1
+      out += wrap("gql-n", s.slice(i, j))
+      i = j
+      continue
+    }
+    if ("{}()[]:!,".includes(ch)) {
+      out += wrap("gql-p", ch)
+      i += 1
+      continue
+    }
+    if (/[A-Za-z_]/.test(ch)) {
+      let j = i + 1
+      while (j < s.length && /[A-Za-z0-9_]/.test(s[j])) j += 1
+      const token = s.slice(i, j)
+      let k = j
+      while (k < s.length && /\s/.test(s[k])) k += 1
+      if (keywords.has(token)) {
+        out += wrap("gql-k", token)
+      } else if (s[k] === ":") {
+        out += wrap("gql-a", token)
+      } else {
+        out += wrap("gql-f", token)
+      }
+      i = j
+      continue
+    }
+    out += escapeHtml(ch)
+    i += 1
+  }
+  return out
 }
 
 function updateQueryPreview() {
