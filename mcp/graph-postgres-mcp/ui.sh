@@ -178,6 +178,15 @@ textarea{resize:none;min-height:0}
 .toolCard b{font-size:12px}
 .toolCard div{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.35}
 .fill{display:grid;min-height:0}
+.queryPane{display:grid;grid-template-rows:minmax(120px,1fr) 8px minmax(110px,.9fr);min-height:0;gap:0}
+.queryPreview{background:#111827;border-color:#374151;color:#e5e7eb}
+.gql-k{color:#93c5fd}
+.gql-f{color:#fcd34d}
+.gql-a{color:#86efac}
+.gql-v{color:#c4b5fd}
+.gql-s{color:#f9a8d4}
+.gql-n{color:#fca5a5}
+.gql-p{color:#d1d5db}
 .label{font-size:12px;color:var(--muted);padding:8px 10px 0}
 @media (max-width:1100px){.app{grid-template-columns:1fr;grid-template-rows:minmax(260px,42vh) 10px minmax(420px,1fr)}#split-main{cursor:row-resize}.app.vertical{grid-template-columns:1fr;grid-template-rows:minmax(260px,var(--left-w)) 10px minmax(500px,1fr)}}
 </style>
@@ -223,11 +232,14 @@ textarea{resize:none;min-height:0}
         </div>
         <div class="controls">
           <button id="run" class="primary">Run Query</button>
+          <button id="formatQuery">Format Query</button>
           <span class="status">MCP tool: graphql_query</span>
           <span class="status" id="queryStatus"></span>
         </div>
-        <div class="paneBody fill">
+        <div class="paneBody queryPane">
           <textarea id="query">{ list_tables }</textarea>
+          <div></div>
+          <pre id="queryPreview" class="queryPreview"></pre>
         </div>
       </section>
       <div class="split v" id="split-rt"></div>
@@ -330,9 +342,141 @@ function renderStarterButtons() {
     btn.textContent = tableName
     btn.addEventListener("click", () => {
       el("query").value = "{ " + tableName + "(limit: 10) { " + fields + " } }"
+      updateQueryPreview()
     })
     host.appendChild(btn)
   }
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+}
+
+function formatGraphQL(source) {
+  const s = String(source || "").trim()
+  if (!s) return ""
+  let out = ""
+  let indent = 0
+  let i = 0
+  let inString = false
+  let stringQuote = '"'
+  let escape = false
+  let lineStart = true
+  function pad() {
+    if (lineStart) {
+      out += "  ".repeat(Math.max(0, indent))
+      lineStart = false
+    }
+  }
+  function nl() {
+    out = out.replace(/[ \t]+$/g, "")
+    out += "\n"
+    lineStart = true
+  }
+  while (i < s.length) {
+    const ch = s[i]
+    if (inString) {
+      pad()
+      out += ch
+      if (escape) {
+        escape = false
+      } else if (ch === "\\") {
+        escape = true
+      } else if (ch === stringQuote) {
+        inString = false
+      }
+      i += 1
+      continue
+    }
+    if (ch === '"' || ch === "'") {
+      pad()
+      inString = true
+      stringQuote = ch
+      out += ch
+      i += 1
+      continue
+    }
+    if (ch === " " || ch === "\t" || ch === "\r" || ch === "\n") {
+      if (!lineStart && !/[ \n([{:,]$/.test(out)) {
+        out += " "
+      }
+      i += 1
+      continue
+    }
+    if (ch === "{") {
+      pad()
+      if (!lineStart && !/[ (\n]$/.test(out)) out += " "
+      out += "{"
+      indent += 1
+      nl()
+      i += 1
+      continue
+    }
+    if (ch === "}") {
+      indent = Math.max(0, indent - 1)
+      if (!lineStart) nl()
+      pad()
+      out += "}"
+      if (i < s.length - 1) nl()
+      i += 1
+      continue
+    }
+    if (ch === "(" || ch === "[") {
+      pad()
+      out += ch
+      i += 1
+      continue
+    }
+    if (ch === ")" || ch === "]") {
+      pad()
+      out += ch
+      i += 1
+      continue
+    }
+    if (ch === ":") {
+      pad()
+      out += ": "
+      i += 1
+      while (i < s.length && /[ \t]/.test(s[i])) i += 1
+      continue
+    }
+    if (ch === ",") {
+      pad()
+      out += ","
+      nl()
+      i += 1
+      continue
+    }
+    pad()
+    out += ch
+    i += 1
+  }
+  return out.replace(/\n{3,}/g, "\n\n").trim()
+}
+
+function highlightGraphQL(source) {
+  let html = escapeHtml(String(source || ""))
+  html = html.replace(/(&quot;.*?&quot;|'.*?')/g, '<span class="gql-s">$1</span>')
+  html = html.replace(/\b(query|mutation|subscription|fragment|on|true|false|null)\b/g, '<span class="gql-k">$1</span>')
+  html = html.replace(/(\$[A-Za-z_][A-Za-z0-9_]*)/g, '<span class="gql-v">$1</span>')
+  html = html.replace(/\b(-?\d+(?:\.\d+)?)\b/g, '<span class="gql-n">$1</span>')
+  html = html.replace(/([{}()[\]:!,])/g, '<span class="gql-p">$1</span>')
+  html = html.replace(/(^|[\s{(,])([A-Za-z_][A-Za-z0-9_]*)(?=\s*:)/g, '$1<span class="gql-a">$2</span>')
+  html = html.replace(/(^|[\s{(])([A-Za-z_][A-Za-z0-9_]*)(?=\s*(?:\(|\{|\n|$))/gm, '$1<span class="gql-f">$2</span>')
+  return html
+}
+
+function updateQueryPreview() {
+  el("queryPreview").innerHTML = highlightGraphQL(el("query").value)
+}
+
+function formatQuery() {
+  const q = el("query")
+  q.value = formatGraphQL(q.value)
+  updateQueryPreview()
 }
 
 function renderTools() {
@@ -514,9 +658,11 @@ function setupSplitters() {
 }
 
 el("run").addEventListener("click", runQuery)
+el("formatQuery").addEventListener("click", formatQuery)
 el("refreshSchema").addEventListener("click", refreshSchema)
 el("reloadView").addEventListener("click", loadView)
-el("qTables").addEventListener("click", () => { el("query").value = "{ list_tables }" })
+el("qTables").addEventListener("click", () => { el("query").value = "{ list_tables }"; updateQueryPreview() })
+el("query").addEventListener("input", updateQueryPreview)
 el("query").addEventListener("keydown", (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
     e.preventDefault()
@@ -525,6 +671,7 @@ el("query").addEventListener("keydown", (e) => {
 })
 
 setupSplitters()
+updateQueryPreview()
 loadView()
 </script>
 </body>
