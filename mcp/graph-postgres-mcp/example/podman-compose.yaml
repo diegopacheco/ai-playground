@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: docker.io/library/postgres:17
+    container_name: graphmcp-example-postgres
+    environment:
+      POSTGRES_USER: exampleuser
+      POSTGRES_PASSWORD: examplepass
+      POSTGRES_DB: exampledb
+    ports:
+      - "5433:5432"
+    volumes:
+      - exampledata:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+volumes:
+  exampledata:

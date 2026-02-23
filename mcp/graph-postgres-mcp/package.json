@@ -1,0 +1,20 @@
+{
+  "name": "graph-postgres-mcp",
+  "version": "1.0.0",
+  "description": "MCP server providing read-only PostgreSQL access through GraphQL",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "graphql": "^16.10.0",
+    "pg": "^8.13.1",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.11",
+    "typescript": "^5.7.3"
+  }
+}
