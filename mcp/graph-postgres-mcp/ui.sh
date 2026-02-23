@@ -124,7 +124,7 @@ async function callToolJson(name, args) {
 }
 
 function pageHtml() {
-  return `<!doctype html>
+  return String.raw`<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
