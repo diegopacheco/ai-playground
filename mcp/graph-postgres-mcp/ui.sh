@@ -49,6 +49,7 @@ let transport = null;
 let mcpConnected = false;
 let mcpTools = [];
 let mcpLastError = null;
+let mcpQueue = Promise.resolve();
 
 function send(res, status, body, contentType) {
   res.writeHead(status, {
@@ -115,6 +116,12 @@ async function callTool(name, args) {
   await connectMcp();
   const result = await client.callTool({ name, arguments: args || {} });
   return result;
+}
+
+function runMcp(fn) {
+  const next = mcpQueue.then(fn, fn);
+  mcpQueue = next.then(() => {}, () => {});
+  return next;
 }
 
 async function callToolJson(name, args) {
@@ -578,15 +585,17 @@ async function loadTools() {
 async function loadView() {
   setStatus("Loading...", false)
   try {
-    const [tablesRes, schemaRes] = await Promise.all([fetch("/tables"), fetch("/schema")])
+    const tablesRes = await fetch("/tables")
     const tablesData = await tablesRes.json()
+    const schemaRes = await fetch("/schema")
     const schemaData = await schemaRes.json()
     state.tables = tablesData.tables || []
     state.sdl = schemaData.sdl || ""
     renderTables()
     renderStarterButtons()
     el("schema").textContent = state.sdl
-    await Promise.all([loadHealth(), loadTools()])
+    await loadHealth()
+    await loadTools()
     setStatus("Loaded " + state.tables.length + " tables via MCP", false)
   } catch (e) {
     setStatus(String(e && e.message ? e.message : e), true)
@@ -751,8 +760,11 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === "GET" && url.pathname === "/health") {
       try {
-        await connectMcp()
-        sendJson(res, 200, { connected: true, tools: mcpTools.map((t) => t.name), lastError: mcpLastError })
+        const data = await runMcp(async () => {
+          await connectMcp()
+          return { connected: true, tools: mcpTools.map((t) => t.name), lastError: mcpLastError }
+        })
+        sendJson(res, 200, data)
       } catch (err) {
         mcpLastError = err && err.message ? err.message : String(err)
         sendJson(res, 500, { connected: false, lastError: mcpLastError })
@@ -760,24 +772,27 @@ const server = http.createServer(async (req, res) => {
       return
     }
     if (req.method === "GET" && url.pathname === "/tools") {
-      await connectMcp()
-      const tools = await client.listTools()
-      mcpTools = tools.tools || []
-      sendJson(res, 200, { tools: mcpTools })
+      const data = await runMcp(async () => {
+        await connectMcp()
+        const tools = await client.listTools()
+        mcpTools = tools.tools || []
+        return { tools: mcpTools }
+      })
+      sendJson(res, 200, data)
       return
     }
     if (req.method === "GET" && url.pathname === "/schema") {
-      const result = await callTool("get_schema", {})
+      const result = await runMcp(() => callTool("get_schema", {}))
       sendJson(res, 200, { sdl: getTextContent(result) })
       return
     }
     if (req.method === "GET" && url.pathname === "/tables") {
-      const result = await callToolJson("list_tables", {})
+      const result = await runMcp(() => callToolJson("list_tables", {}))
       sendJson(res, 200, { tables: result })
       return
     }
     if (req.method === "POST" && url.pathname === "/refresh") {
-      const raw = await callTool("refresh_schema", {})
+      const raw = await runMcp(() => callTool("refresh_schema", {}))
       const text = getTextContent(raw)
       let tableCount = null
       let fieldCount = null
@@ -812,7 +827,7 @@ const server = http.createServer(async (req, res) => {
       if (variables !== undefined) {
         args.variables = JSON.stringify(variables)
       }
-      const out = await callToolJson("graphql_query", args)
+      const out = await runMcp(() => callToolJson("graphql_query", args))
       sendJson(res, 200, out)
       return
     }
