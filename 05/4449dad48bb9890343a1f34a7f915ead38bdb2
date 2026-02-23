@@ -1,0 +1,24 @@
+mcp/graph-postgres-mcp/src/index.ts
+  98f46d1d8f41df5c 1,4-6,11-16,18-20,23-60,62-72,74-84,86,88-89,91-106,108-125,129-132,140-152,155
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "054449dad48bb9890343a1f34a7f915ead38bdb2",
+  "prompts": {
+    "98f46d1d8f41df5c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e38f0bb9-882c-4c8a-b517-723b46bf4e52",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 144,
+      "total_deletions": 69,
+      "accepted_lines": 128,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/34f3e60b69144cb58b148743619dcbb80ec9ca509c286d23a4d144b19ee5430b"
+    }
+  }
+}
