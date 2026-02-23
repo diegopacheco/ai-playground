@@ -1,0 +1,62 @@
+mcp/graph-postgres-mcp/example/sql-client.sh
+  98f46d1d8f41df5c 1-2
+mcp/graph-postgres-mcp/init.sql
+  98f46d1d8f41df5c 1-31
+mcp/graph-postgres-mcp/package.json
+  98f46d1d8f41df5c 1-20
+mcp/graph-postgres-mcp/stop.sh
+  98f46d1d8f41df5c 1-2
+mcp/graph-postgres-mcp/example/stop.sh
+  98f46d1d8f41df5c 1-3
+mcp/graph-postgres-mcp/install.sh
+  98f46d1d8f41df5c 1-55
+mcp/graph-postgres-mcp/uninstall.sh
+  98f46d1d8f41df5c 1-26
+mcp/graph-postgres-mcp/src/types.ts
+  98f46d1d8f41df5c 1-18
+mcp/graph-postgres-mcp/test.sh
+  98f46d1d8f41df5c 1-46
+mcp/graph-postgres-mcp/src/index.ts
+  98f46d1d8f41df5c 1-101
+mcp/graph-postgres-mcp/src/schema-generator.ts
+  98f46d1d8f41df5c 1-197
+mcp/graph-postgres-mcp/src/resolvers.ts
+  98f46d1d8f41df5c 1-23
+mcp/graph-postgres-mcp/example/schema.sql
+  98f46d1d8f41df5c 1-34
+mcp/graph-postgres-mcp/podman-compose.yaml
+  98f46d1d8f41df5c 1-15
+mcp/graph-postgres-mcp/start.sh
+  98f46d1d8f41df5c 1-7
+mcp/graph-postgres-mcp/tsconfig.json
+  98f46d1d8f41df5c 1-17
+mcp/graph-postgres-mcp/src/pg-client.ts
+  98f46d1d8f41df5c 1-28
+mcp/graph-postgres-mcp/example/seed.sql
+  98f46d1d8f41df5c 1-32
+mcp/graph-postgres-mcp/example/podman-compose.yaml
+  98f46d1d8f41df5c 1-16
+mcp/graph-postgres-mcp/example/run-pgsql.sh
+  98f46d1d8f41df5c 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "7394c2fa3a53f117833455a19c831865c8c5cc73",
+  "prompts": {
+    "98f46d1d8f41df5c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e38f0bb9-882c-4c8a-b517-723b46bf4e52",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 696,
+      "total_deletions": 6,
+      "accepted_lines": 690,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/2b33bd5d28f95d4748306cc7824b3a07336c5cc82648ef3bc45ee74adf3d77a4"
+    }
+  }
+}
