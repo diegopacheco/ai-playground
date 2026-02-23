@@ -198,8 +198,7 @@ textarea{resize:none;min-height:0}
           <button id="refreshSchema" class="good">Refresh Schema</button>
           <button id="reloadView">Reload View</button>
           <button id="qTables">list_tables</button>
-          <button id="qUsers">users</button>
-          <button id="qPosts">posts</button>
+          <span id="starterButtons"></span>
         </div>
         <div class="status" id="status" style="padding:10px 2px">Loading...</div>
         <div id="tables" class="tables"></div>
@@ -315,6 +314,27 @@ function renderTables() {
   }
 }
 
+function renderStarterButtons() {
+  const host = el("starterButtons")
+  host.innerHTML = ""
+  const tables = Array.isArray(state.tables) ? state.tables : []
+  for (const t of tables) {
+    const tableName = t.table || t.name || ""
+    if (!tableName) continue
+    const cols = (Array.isArray(t.columns) ? t.columns : [])
+      .map((c) => c.name || c.column_name || "")
+      .filter(Boolean)
+      .slice(0, 6)
+    const fields = cols.length > 0 ? cols.join(" ") : "id"
+    const btn = document.createElement("button")
+    btn.textContent = tableName
+    btn.addEventListener("click", () => {
+      el("query").value = "{ " + tableName + "(limit: 10) { " + fields + " } }"
+    })
+    host.appendChild(btn)
+  }
+}
+
 function renderTools() {
   const host = el("tools")
   host.innerHTML = ""
@@ -360,6 +380,7 @@ async function loadView() {
     state.tables = tablesData.tables || []
     state.sdl = schemaData.sdl || ""
     renderTables()
+    renderStarterButtons()
     el("schema").textContent = state.sdl
     await Promise.all([loadHealth(), loadTools()])
     setStatus("Loaded " + state.tables.length + " tables via MCP", false)
@@ -496,8 +517,6 @@ el("run").addEventListener("click", runQuery)
 el("refreshSchema").addEventListener("click", refreshSchema)
 el("reloadView").addEventListener("click", loadView)
 el("qTables").addEventListener("click", () => { el("query").value = "{ list_tables }" })
-el("qUsers").addEventListener("click", () => { el("query").value = "{ users(limit: 10) { id name email created_at } }" })
-el("qPosts").addEventListener("click", () => { el("query").value = "{ posts(limit: 10) { id user_id title published created_at } }" })
 el("query").addEventListener("keydown", (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
     e.preventDefault()
