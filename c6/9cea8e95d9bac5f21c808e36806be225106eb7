@@ -1,0 +1,24 @@
+mcp/graph-postgres-mcp/ui.sh
+  f41392dd628a985d 181-189,235,239,241-242,345,351-455,457-479,661,664-665,674
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "c69cea8e95d9bac5f21c808e36806be225106eb7",
+  "prompts": {
+    "f41392dd628a985d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c89ec-7229-7e72-b4fc-2b2bece4077a",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 149,
+      "total_deletions": 2,
+      "accepted_lines": 149,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/00056d92fd23cf91a702f0bd19dfd749943347a10b3b4f5b40571ef9e97df0d4"
+    }
+  }
+}
