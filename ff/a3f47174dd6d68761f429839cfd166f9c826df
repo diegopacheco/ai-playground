@@ -1,0 +1,24 @@
+mcp/graph-postgres-mcp/design-doc.md
+  98f46d1d8f41df5c 1-276
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "ffa3f47174dd6d68761f429839cfd166f9c826df",
+  "prompts": {
+    "98f46d1d8f41df5c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e38f0bb9-882c-4c8a-b517-723b46bf4e52",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 276,
+      "total_deletions": 0,
+      "accepted_lines": 276,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/fb07639067f6ce71ab5e91f2a2d8ceb45888039e7bb8622a88a38ca0fadeeb89"
+    }
+  }
+}
