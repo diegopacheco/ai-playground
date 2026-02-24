@@ -1,0 +1,40 @@
+mcp/README.md
+  40b9fa0a184b9169 1-69
+mcp/llm-judges/design-doc.md
+  ed1ecf6a848e2962 1-237
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "fa4502a87c0679972a1f3487f3811300ceac57e4",
+  "prompts": {
+    "40b9fa0a184b9169": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c8e8c-6c12-7c21-9bbc-0de66bf2a80a",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 69,
+      "total_deletions": 0,
+      "accepted_lines": 69,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/b4e2a9653146880452482445c6112c1d6da8615ca312033f4ec1e59e0312a8bc"
+    },
+    "ed1ecf6a848e2962": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cc9798ef-a43b-426f-8ca3-6e7957134cf7",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 237,
+      "total_deletions": 0,
+      "accepted_lines": 237,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a9a8c87418811d210b9dd4b3b05d433a246805065bb436b857e8ea57e9a822a8"
+    }
+  }
+}
