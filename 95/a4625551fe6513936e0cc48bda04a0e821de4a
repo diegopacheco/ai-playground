@@ -1,0 +1,24 @@
+mcp/llm-judges/src/judges/claude.rs
+  56a937f2521cf59f 8-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "95a4625551fe6513936e0cc48bda04a0e821de4a",
+  "prompts": {
+    "56a937f2521cf59f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8bfe9f5c-86fd-4fd1-b909-c9cca71b7e60",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 1,
+      "accepted_lines": 5,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/1ab75e881b04e43ead1d1665968fb321f9382c244719a524281fbb4eb0580768"
+    }
+  }
+}
