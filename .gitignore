@@ -5,6 +5,9 @@ data/
 .omc
 .omc/
 
+llm-judges/target/
+target/
+
 # Mac
 .DS_Store
 
