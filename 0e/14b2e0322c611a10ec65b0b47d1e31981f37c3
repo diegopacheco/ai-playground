@@ -1,0 +1,48 @@
+mcp/llm-judges/src/judges/copilot.rs
+  ed1ecf6a848e2962 1-12
+mcp/llm-judges/src/mcp.rs
+  ed1ecf6a848e2962 1-55
+mcp/llm-judges/Cargo.toml
+  ed1ecf6a848e2962 7-9
+mcp/llm-judges/src/engine.rs
+  ed1ecf6a848e2962 1-133
+mcp/llm-judges/src/judges/mod.rs
+  ed1ecf6a848e2962 1-15
+mcp/llm-judges/src/judges/runner.rs
+  ed1ecf6a848e2962 1-64
+mcp/llm-judges/src/judges/gemini.rs
+  ed1ecf6a848e2962 1-10
+mcp/llm-judges/src/judges/codex.rs
+  ed1ecf6a848e2962 1-12
+mcp/llm-judges/src/tools.rs
+  ed1ecf6a848e2962 1-116
+mcp/llm-judges/src/main.rs
+  ed1ecf6a848e2962 1-37
+mcp/llm-judges/src/judges/claude.rs
+  ed1ecf6a848e2962 1-12
+mcp/llm-judges/install.sh
+  ed1ecf6a848e2962 1-48
+mcp/llm-judges/README.md
+  ed1ecf6a848e2962 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "0e14b2e0322c611a10ec65b0b47d1e31981f37c3",
+  "prompts": {
+    "ed1ecf6a848e2962": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cc9798ef-a43b-426f-8ca3-6e7957134cf7",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 556,
+      "total_deletions": 2,
+      "accepted_lines": 556,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/277789e1b1de3522a0706e10f1e019380c8b070b936400b51e29402bd2978854"
+    }
+  }
+}
