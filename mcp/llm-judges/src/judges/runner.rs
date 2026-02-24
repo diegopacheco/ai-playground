@@ -26,20 +26,33 @@ impl JudgeRunner {
             .spawn()
             .map_err(|e| format!("Failed to spawn {}: {}", self.name, e))?;
 
-        let result = timeout(Duration::from_secs(120), async {
-            let mut stdout = child.stdout.take().unwrap();
-            let mut output = String::new();
-            stdout.read_to_string(&mut output).await.map_err(|e| e.to_string())?;
+        let mut stdout_reader = child.stdout.take().unwrap();
+        let mut stderr_reader = child.stderr.take().unwrap();
+
+        let result = timeout(Duration::from_secs(180), async {
+            let mut stdout_buf = String::new();
+            let mut stderr_buf = String::new();
+            let (stdout_res, stderr_res) = tokio::join!(
+                stdout_reader.read_to_string(&mut stdout_buf),
+                stderr_reader.read_to_string(&mut stderr_buf),
+            );
+            stdout_res.map_err(|e| e.to_string())?;
+            stderr_res.map_err(|e| e.to_string())?;
             child.wait().await.map_err(|e| e.to_string())?;
-            Ok::<String, String>(output)
+            Ok::<(String, String), String>((stdout_buf, stderr_buf))
         })
         .await;
 
         match result {
-            Ok(Ok(output)) => {
-                let trimmed = output.trim().to_string();
+            Ok(Ok((stdout_out, stderr_out))) => {
+                let trimmed = stdout_out.trim().to_string();
                 if trimmed.is_empty() {
-                    Err(format!("Judge {} returned empty response", self.name))
+                    let err_trimmed = stderr_out.trim().to_string();
+                    if err_trimmed.is_empty() {
+                        Err(format!("Judge {} returned empty response", self.name))
+                    } else {
+                        Err(format!("Judge {} failed: {}", self.name, err_trimmed))
+                    }
                 } else {
                     Ok(trimmed)
                 }
@@ -47,7 +60,7 @@ impl JudgeRunner {
             Ok(Err(e)) => Err(e),
             Err(_) => {
                 let _ = child.kill().await;
-                Err(format!("Judge {} timed out after 120s", self.name))
+                Err(format!("Judge {} timed out after 180s", self.name))
             }
         }
     }
