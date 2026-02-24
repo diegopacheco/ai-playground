@@ -1,0 +1,24 @@
+mcp/llm-judges/src/judges/runner.rs
+  8126a30e76a3ff25 29-40,42,47-48,50-55,63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.4",
+  "base_commit_sha": "3c1f3bbf4d44f29bba48e95b0b5cc397d4c14b80",
+  "prompts": {
+    "8126a30e76a3ff25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d03a58db-4862-4542-bf67-7e1ef854dc9e",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 22,
+      "total_deletions": 9,
+      "accepted_lines": 22,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/3cc744eee0cafa83e01541c3dfed985f2e30bf589575091e3d15c625ce722512"
+    }
+  }
+}
