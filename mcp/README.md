@@ -41,6 +41,16 @@ What it does:
 - Aggregates verdicts into a consolidated PASS/FAIL/SPLIT result.
 - Specifies MCP tools for judging content, selecting judges, and listing available judges.
 
+### 5. `clihub`
+
+Turn any MCP server into a compiled CLI binary. <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/clihub-fun
+
+What it does:
+- Provides a CLI tool that can connect to any MCP server and generate a standalone CLI binary for interacting with that MCP server.
+- The generated CLI binary can be used to send commands to the MCP server without needing the original CLI tool or environment.
+- Supports authentication (e.g., OAuth) and can be used to create custom CLIs for specific MCP servers.
+
 ## Notes
 
 - `graph-postgres-mcp` is a POC for a custom MCP server implementation.
