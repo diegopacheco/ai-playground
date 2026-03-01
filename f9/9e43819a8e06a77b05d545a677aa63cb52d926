@@ -1,0 +1,24 @@
+pocs/autobench-skill-poc/design-doc.md
+  a83850533ca5361b 1-211
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "f99e43819a8e06a77b05d545a677aa63cb52d926",
+  "prompts": {
+    "a83850533ca5361b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9b938c25-a0d2-46cf-bb96-3fc79fbdd569",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 211,
+      "total_deletions": 0,
+      "accepted_lines": 211,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/3bf9b0172387307cfeae70ab1e08a4eca4df6cae88cb68cc63b602ed4cd45dfa"
+    }
+  }
+}
