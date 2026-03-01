@@ -159,3 +159,27 @@ Verdict after rollback: **BETTER** (marginal improvement from primitive array op
 - Vector API SIMD comma scan has JIT warmup overhead and doesn't benefit for short fields (5-10 bytes) — the scalar loop finishes before SIMD kicks in
 - Allocating a 32MB byte[] adds GC pressure compared to OS-managed mmap pages
 - The Vector API incubator module adds class loading overhead at startup
+
+### ROLLED BACK to Wave 4
+Reverted all Wave 5 changes. Best version remains Wave 4 (mmap + bulk byte copy + fixed-point + primitive arrays).
+
+After rollback verification: 156.8ms avg (consistent with Wave 4)
+
+## Performance Trend
+
+```
+Avg Time (ms)   Rows/sec
+  420 |*                                          2.4M
+  380 |
+  340 |
+  300 |  *                                        3.2M
+  260 |
+  220 |        *w3                                4.4M
+  200 |     *         *w5                         5.1M
+  160 |           *w4(best)                       6.4M
+  120 |
+   80 |
+      +-----+-----+-----+-----+-----+---
+       W0    W1    W2    W3r   W4    W5r
+                                (r=after rollback)
+```
