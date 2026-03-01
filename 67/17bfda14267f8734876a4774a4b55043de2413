@@ -1,0 +1,24 @@
+pocs/autobench-skill-poc/sample-bench/findings.md
+  822f650fb0c706a8 43-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "6717bfda14267f8734876a4774a4b55043de2413",
+  "prompts": {
+    "822f650fb0c706a8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "985d4d83-1d8c-4752-ab5b-74523fd30a40",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 30,
+      "total_deletions": 0,
+      "accepted_lines": 30,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/88a9b611348663f57096a46da9249d82b3bff6f804d63ecc663f453e46ff7363"
+    }
+  }
+}
