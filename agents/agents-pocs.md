@@ -237,3 +237,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-spring-boot
 
 36 - Java 25 - Spring Boot 4x - Spring AI - TodoWriteTool - OpenAI - Travel Planner Agent<br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-spring-boot-4-spring-ai-todo-write-tool
+
+37 - Verified Spec Driven Development (VSDD) Agent Skill - Twitter Like App with Opus 4.6 <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/VSDD-poc
