@@ -3,7 +3,7 @@ pub fn validate_username(username: &str) -> Result<(), String> {
     if trimmed.is_empty() {
         return Err("Username cannot be empty".to_string());
     }
-    if trimmed.len() > 30 {
+    if trimmed.chars().count() > 30 {
         return Err("Username must be 30 characters or less".to_string());
     }
     if !trimmed.chars().all(|c| c.is_ascii_alphanumeric() || c == '_') {
@@ -16,7 +16,7 @@ pub fn validate_password(password: &str) -> Result<(), String> {
     if password.is_empty() {
         return Err("Password cannot be empty".to_string());
     }
-    if password.len() > 128 {
+    if password.chars().count() > 128 {
         return Err("Password must be 128 characters or less".to_string());
     }
     Ok(())
@@ -26,7 +26,7 @@ pub fn validate_display_name(name: &str) -> Result<(), String> {
     if name.is_empty() {
         return Err("Display name cannot be empty".to_string());
     }
-    if name.len() > 50 {
+    if name.chars().count() > 50 {
         return Err("Display name must be 50 characters or less".to_string());
     }
     if name.chars().any(|c| c.is_control()) {
@@ -36,8 +36,11 @@ pub fn validate_display_name(name: &str) -> Result<(), String> {
 }
 
 pub fn validate_bio(bio: &str) -> Result<(), String> {
-    if bio.len() > 200 {
+    if bio.chars().count() > 200 {
         return Err("Bio must be 200 characters or less".to_string());
+    }
+    if bio.chars().any(|c| c.is_control()) {
+        return Err("Bio cannot contain control characters".to_string());
     }
     Ok(())
 }
