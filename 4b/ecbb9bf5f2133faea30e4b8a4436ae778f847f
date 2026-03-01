@@ -1,0 +1,24 @@
+pocs/autobench-skill-poc/sample-bench/src/CsvAnalytics.java
+  822f650fb0c706a8 2-3,5,8-9,13-48,56-70,72-110,112-145,147-148,150-151,154,157,162,165-166,174,182-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "4becbb9bf5f2133faea30e4b8a4436ae778f847f",
+  "prompts": {
+    "822f650fb0c706a8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "985d4d83-1d8c-4752-ab5b-74523fd30a40",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 157,
+      "total_deletions": 62,
+      "accepted_lines": 150,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f295a56a7dc54750a9eaf3190f98ae20d249088ee769b55a9361a28175d524fe"
+    }
+  }
+}
