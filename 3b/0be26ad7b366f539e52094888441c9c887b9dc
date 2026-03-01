@@ -1,0 +1,40 @@
+pocs/VSDD-poc/twitter-like-application/review/adversarial-review.md
+  4b1f15003a52ca7e 1-24
+pocs/VSDD-poc/twitter-like-application/frontend/src/App.tsx
+  4b1f15003a52ca7e 45,53-55
+pocs/VSDD-poc/twitter-like-application/review/verification-report.md
+  4b1f15003a52ca7e 1-46
+pocs/VSDD-poc/twitter-like-application/backend/src/validation.rs
+  4b1f15003a52ca7e 53
+pocs/VSDD-poc/twitter-like-application/backend/src/handlers.rs
+  4b1f15003a52ca7e 1,49,67,314
+pocs/VSDD-poc/twitter-like-application/backend/src/lib.rs
+  4b1f15003a52ca7e 13
+pocs/VSDD-poc/twitter-like-application/review/convergence-report.md
+  4b1f15003a52ca7e 1-35
+pocs/VSDD-poc/twitter-like-application/frontend/src/api.ts
+  4b1f15003a52ca7e 4-6,8-9
+pocs/VSDD-poc/twitter-like-application/backend/src/db.rs
+  4b1f15003a52ca7e 68-69,72-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.6",
+  "base_commit_sha": "3b0be26ad7b366f539e52094888441c9c887b9dc",
+  "prompts": {
+    "4b1f15003a52ca7e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fde26c4a-9ac9-4b74-8386-eae74847a9f1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 134,
+      "total_deletions": 28,
+      "accepted_lines": 128,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/bee0e36d97590cb77a8e178e009f3997d9c5dfcc173f2c5dcaf9581b224ab9fc"
+    }
+  }
+}
