@@ -19,7 +19,7 @@ Anti-cheat rules are enforced: no hardcoded results, no skipping work, no pre-co
 /autobench <br/>
 <img src="autobench-in-action.png" width="600" />
 
-Optimizations in Waves
+Optimizations in Waves <br/>
 <img src="optimizations.png" width="600" />
 
 ## Results — Java 25 CSV Analytics (1M rows, 32.6MB)
