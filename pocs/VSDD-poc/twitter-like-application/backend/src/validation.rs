@@ -50,7 +50,7 @@ pub fn validate_post_content(content: &str) -> Result<(), String> {
     if trimmed.is_empty() {
         return Err("Post content cannot be empty".to_string());
     }
-    if content.len() > 280 {
+    if content.chars().count() > 280 {
         return Err("Post content must be 280 characters or less".to_string());
     }
     Ok(())

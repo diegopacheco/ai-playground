@@ -1,4 +1,4 @@
-use actix_web::{web, HttpRequest, HttpResponse, cookie::Cookie};
+use actix_web::{web, HttpRequest, HttpResponse, cookie::{Cookie, SameSite}};
 use actix_multipart::Multipart;
 use futures_util::StreamExt;
 use crate::db::AppState;
@@ -46,6 +46,7 @@ pub async fn register(state: web::Data<AppState>, body: web::Json<serde_json::Va
             let cookie = Cookie::build("session_id", session_id)
                 .path("/")
                 .http_only(true)
+                .same_site(SameSite::Lax)
                 .finish();
             HttpResponse::Created()
                 .cookie(cookie)
@@ -63,6 +64,7 @@ pub async fn login(state: web::Data<AppState>, body: web::Json<serde_json::Value
             let cookie = Cookie::build("session_id", session_id)
                 .path("/")
                 .http_only(true)
+                .same_site(SameSite::Lax)
                 .finish();
             HttpResponse::Ok().cookie(cookie).json(user)
         }
@@ -309,9 +311,9 @@ pub async fn search(state: web::Data<AppState>, req: HttpRequest, query: web::Qu
         return HttpResponse::BadRequest().json(serde_json::json!({"error": "Type must be 'posts' or 'users'"}));
     }
     let (page, limit) = parse_page_limit(&query);
+    let uid = get_session_user_id(&state, &req);
     let conn = state.db.lock().unwrap();
     let result = if search_type == "posts" {
-        let uid = get_session_user_id(&state, &req);
         crate::db::search_posts(&conn, q, page, limit, uid)
     } else {
         crate::db::search_users(&conn, q, page, limit)

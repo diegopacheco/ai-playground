@@ -42,15 +42,17 @@ function PostCard({ post, onDelete }: { post: Post; onDelete?: () => void }) {
 
   async function toggleLike() {
     if (!user) return
-    if (liked) {
-      const r = await api.unlikePost(post.id)
-      setLiked(false)
-      setLikeCount(r.like_count)
-    } else {
-      const r = await api.likePost(post.id)
-      setLiked(true)
-      setLikeCount(r.like_count)
-    }
+    try {
+      if (liked) {
+        const r = await api.unlikePost(post.id)
+        setLiked(false)
+        setLikeCount(r.like_count)
+      } else {
+        const r = await api.likePost(post.id)
+        setLiked(true)
+        setLikeCount(r.like_count)
+      }
+    } catch (_) {}
   }
 
   async function handleDelete() {

@@ -1,13 +1,12 @@
 const BASE = '/api'
 
 async function request(path: string, opts: RequestInit = {}) {
-  const res = await fetch(`${BASE}${path}`, {
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json', ...opts.headers as Record<string, string> },
-    ...opts,
-  })
+  const headers: Record<string, string> = { ...opts.headers as Record<string, string> }
+  if (opts.body) headers['Content-Type'] = 'application/json'
+  const res = await fetch(`${BASE}${path}`, { credentials: 'include', headers, ...opts })
   if (res.status === 204) return null
-  const data = await res.json()
+  let data
+  try { data = await res.json() } catch { data = { error: res.statusText } }
   if (!res.ok) throw new Error(data.error || 'Request failed')
   return data
 }
