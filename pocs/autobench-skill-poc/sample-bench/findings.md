@@ -136,3 +136,26 @@ Verdict after rollback: **BETTER** (marginal improvement from primitive array op
 - Fixed-point arithmetic replaced all floating-point multiply/add with integer operations — long math is faster and avoids FPU pipeline stalls
 - Extracted processLine() into a separate method helped JIT focus optimization on the hot loop
 - Minor revenue rounding difference (0.01 on 18B total) is acceptable fixed-point precision artifact
+
+## Wave 5 — 2026-03-01
+
+### What was tried
+- Vectorized comma scan: SIMD ByteVector.SPECIES_256 to find commas 32 bytes at a time
+- Larger bulk buffer: increased from 64KB to 256KB
+- Direct FileInputStream: read entire file into byte[] instead of mmap
+- Thread-local line buffer: process directly from shared byte[] without copying into line buffer
+
+### Results
+| Metric | Before | After | Delta |
+|---|---|---|---|
+| Avg Time | 151.3ms | 208.6ms | +37.9% |
+| Throughput | 215.5 MB/s | 156.3 MB/s | -27.5% |
+| Rows/sec | 6,609,385 | 4,793,864 | -27.5% |
+
+### Verdict: WORSE
+
+### Why
+- FileInputStream.read() for entire 32MB file has higher upfront cost than mmap which lazily pages
+- Vector API SIMD comma scan has JIT warmup overhead and doesn't benefit for short fields (5-10 bytes) — the scalar loop finishes before SIMD kicks in
+- Allocating a 32MB byte[] adds GC pressure compared to OS-managed mmap pages
+- The Vector API incubator module adds class loading overhead at startup

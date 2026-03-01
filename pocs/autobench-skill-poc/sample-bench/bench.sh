@@ -7,7 +7,7 @@ echo "=== CSV Analytics Benchmark ==="
 echo "Date: $(date '+%Y-%m-%d %H:%M:%S')"
 echo ""
 
-javac -d out src/GenerateCSV.java src/CsvAnalytics.java
+javac --add-modules jdk.incubator.vector -d out src/GenerateCSV.java src/CsvAnalytics.java 2>&1 | grep -v "warning:"
 
 if [ ! -f data.csv ]; then
     echo "Generating 1M row CSV..."
@@ -25,7 +25,7 @@ echo "Correctness check: $ROW_COUNT lines (1M data rows + header) OK"
 
 echo ""
 echo "Running analytics validation..."
-VALIDATION=$(java -cp out CsvAnalytics data.csv)
+VALIDATION=$(java --add-modules jdk.incubator.vector -cp out CsvAnalytics data.csv 2>&1 | grep -v "WARNING:")
 VTOTAL=$(echo "$VALIDATION" | grep "Total rows:" | awk '{print $3}')
 if [ "$VTOTAL" != "1000000" ]; then
     echo "FAIL: Analytics reported $VTOTAL rows instead of 1000000"
@@ -42,7 +42,7 @@ for RUN in 1 2 3; do
     echo "--- Run $RUN ---"
     START_NS=$(python3 -c "import time; print(int(time.time_ns()))")
 
-    OUTPUT=$(java -cp out -Xmx512m CsvAnalytics data.csv 2>&1)
+    OUTPUT=$(java --add-modules jdk.incubator.vector -cp out -Xmx512m CsvAnalytics data.csv 2>&1 | grep -v "WARNING:")
 
     END_NS=$(python3 -c "import time; print(int(time.time_ns()))")
     ELAPSED_MS=$(python3 -c "print(($END_NS - $START_NS) / 1_000_000)")
