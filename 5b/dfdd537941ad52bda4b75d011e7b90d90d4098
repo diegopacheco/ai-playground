@@ -1,0 +1,32 @@
+pocs/VSDD-poc/twitter-like-application/backend/src/db.rs
+  4b1f15003a52ca7e 1-95
+pocs/VSDD-poc/twitter-like-application/spec.md
+  4b1f15003a52ca7e 4,8,10,12-17,20,23-24,27-29,34-35,41,49,55,69,73-75,78-81,84-87,90-91,94-97,100,103-105,108-109,112,114-115,120-125,128-138,141-144,147-150,153-155,158-161,164-166,170,173-177,182-189,192-193,196-198
+pocs/VSDD-poc/twitter-like-application/backend/src/handlers.rs
+  4b1f15003a52ca7e 1-87
+pocs/VSDD-poc/twitter-like-application/backend/src/validation.rs
+  4b1f15003a52ca7e 1-181
+pocs/VSDD-poc/twitter-like-application/backend/Cargo.toml
+  4b1f15003a52ca7e 7-11,13-14,16-20,22-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.6",
+  "base_commit_sha": "5bdfdd537941ad52bda4b75d011e7b90d90d4098",
+  "prompts": {
+    "4b1f15003a52ca7e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fde26c4a-9ac9-4b74-8386-eae74847a9f1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 483,
+      "total_deletions": 132,
+      "accepted_lines": 479,
+      "overriden_lines": 3,
+      "messages_url": "https://usegitai.com/cas/1615eba6d12c891825e391aa2b27ef650b0097c693b86cdb6eae1749b66dba2b"
+    }
+  }
+}
