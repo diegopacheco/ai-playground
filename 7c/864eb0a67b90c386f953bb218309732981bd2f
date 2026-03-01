@@ -1,0 +1,28 @@
+pocs/autobench-skill-poc/sample-bench/src/CsvAnalytics.java
+  822f650fb0c706a8 2,9,14-15,18,20-21,34,46-49,51,56-58,60-61,66,68-69,81,83-85,90-91,96-97,105-111,113-114,120-133,137,141-172,176-180,187-197,202,234-236,238-239
+pocs/autobench-skill-poc/sample-bench/bench.sh
+  822f650fb0c706a8 45
+pocs/autobench-skill-poc/sample-bench/findings.md
+  822f650fb0c706a8 97-138
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "7c864eb0a67b90c386f953bb218309732981bd2f",
+  "prompts": {
+    "822f650fb0c706a8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "985d4d83-1d8c-4752-ab5b-74523fd30a40",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 175,
+      "total_deletions": 112,
+      "accepted_lines": 155,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/3dab93add84169cb5f56627e5828aaf93c60998496dbd2f5d8b18952616d1c8a"
+    }
+  }
+}
