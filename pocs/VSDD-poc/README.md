@@ -2,6 +2,8 @@
 
 ## Result
 
+<img src="twitter-like-application/result-app.png" width="600" alt="VSDD Result App Screenshot" />
+
 ```
 ⏺ VSDD Complete — Convergence Report
 
