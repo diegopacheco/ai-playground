@@ -1,0 +1,28 @@
+pocs/VSDD-poc/install-cc.sh
+  a2e07076295c09de 1-9
+pocs/VSDD-poc/agent-skill/SKILL.md
+  a2e07076295c09de 1-144
+pocs/VSDD-poc/uninstall.sh
+  a2e07076295c09de 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.6",
+  "base_commit_sha": "887608016a017e8ad7d5b968142dce99bdb40a6d",
+  "prompts": {
+    "a2e07076295c09de": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4030d23c-f554-4718-8541-2d8d9542b690",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 161,
+      "total_deletions": 0,
+      "accepted_lines": 161,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/166e446b5c6b71a473739d2a62e3108fb50c24a54c706ccc391bef658014eefc"
+    }
+  }
+}
