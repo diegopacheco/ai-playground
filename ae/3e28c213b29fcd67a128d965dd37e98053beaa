@@ -1,0 +1,28 @@
+pocs/DSPy-poc/requirements.txt
+  c6d3325d0675f365 1-2
+pocs/DSPy-poc/main.py
+  c6d3325d0675f365 1-38
+pocs/DSPy-poc/run.sh
+  c6d3325d0675f365 1-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "ae3e28c213b29fcd67a128d965dd37e98053beaa",
+  "prompts": {
+    "c6d3325d0675f365": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac17acdf-c7db-4bf1-81cc-1866c95397d6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 46,
+      "total_deletions": 2,
+      "accepted_lines": 44,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/1d45e43eab1da853d1abfa26e601e520e4c2515aa713b81772b54a9a72f8574d"
+    }
+  }
+}
