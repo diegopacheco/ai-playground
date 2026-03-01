@@ -243,3 +243,12 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/VSDD-poc
 
 38 - Autobench Agent Skill for Claude Code - Opus 4.6 <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/autobench-skill-poc/sample-bench
+
+39 - BeeAI, TS - Chat Agent with OpenAI <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/beeai-ts-poc
+
+40 - Mantra, TS - Chef Agent with OpenAI <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/mastra-poc
+
+41 - Google ADK, GO with OpenAI <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/google-adk-go-poc
