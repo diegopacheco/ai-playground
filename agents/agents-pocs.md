@@ -240,3 +240,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/java-25-spring-boot
 
 37 - Verified Spec Driven Development (VSDD) Agent Skill - Twitter Like App with Opus 4.6 <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/VSDD-poc
+
+38 - Autobench Agent Skill for Claude Code - Opus 4.6 <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/autobench-skill-poc/sample-bench
