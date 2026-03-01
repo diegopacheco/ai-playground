@@ -1,40 +1,44 @@
 # Twitter-Like Application — Specification
 
 ## Overview
-A full-stack Twitter-like application with a Rust backend (Actix-web + SQLite) and React 19 frontend (TanStack Router, Vite, Bun). Features: user registration, authentication, posts, likes, image uploads, search, timeline, profiles, and hot topics.
+A full-stack Twitter-like application with a Rust backend (Actix-web + SQLite) and React 19 frontend (TanStack Router, Vite, Bun). Features: user registration with default admin/admin, posts, likes, image uploads, search, timeline, profiles, and hot topics.
 
 ## Architecture
 
-### Backend: Rust 1.93+
+### Backend: Rust (latest stable)
 - **Framework**: Actix-web 4
-- **Database**: SQLite via rusqlite
+- **Database**: SQLite via rusqlite (with `PRAGMA foreign_keys = ON`)
 - **Async Runtime**: Tokio
-- **Image Storage**: Local filesystem (uploads/ directory)
-- **Auth**: Session-based with cookie tokens
-- **JSON**: serde + serde_json
+- **Image Storage**: Local filesystem (`uploads/` directory), UUID filename with original extension preserved (e.g., `uuid.jpg`)
+- **Auth**: Session-based. Cookie name: `session_id`. Cookie attributes: HttpOnly, SameSite=Lax, Path=/. Session token is a random UUID stored in an in-memory HashMap. Sessions are lost on server restart.
+- **JSON**: serde + serde_json. All endpoints accept/return `application/json` except post creation which uses `multipart/form-data`.
+- **Password Hashing**: bcrypt with cost factor 12
+- **CORS**: Backend sets `Access-Control-Allow-Origin` for `http://localhost:5173`, `Access-Control-Allow-Credentials: true`, and allows GET/POST/PUT/DELETE methods with Content-Type header.
+- **Timestamps**: Unix epoch in seconds (i64).
 
 ### Frontend: React 19
-- **Bundler**: Vite
+- **Bundler**: Vite (dev mode with proxy to backend on port 8080)
 - **Package Manager**: Bun
 - **Routing**: TanStack Router
-- **HTTP Client**: fetch API (no axios)
-- **Styling**: CSS (no framework)
+- **HTTP Client**: fetch API
+- **Styling**: CSS
 
 ### Scripts
-- `run.sh` — builds and starts both backend and frontend
-- `stop.sh` — stops both backend and frontend
-- `test-all.sh` — runs all backend and frontend tests
+- `run.sh` — builds backend (cargo build --release), starts backend on port 8080 in background, installs frontend deps (bun install), starts frontend dev server on port 5173 in background. Writes PIDs to `.pids` file.
+- `stop.sh` — reads `.pids` file and kills both processes.
+- `test-all.sh` — runs `cargo test` for backend and `bun test` for frontend.
 
 ## Database Schema
 
 ```sql
+PRAGMA foreign_keys = ON;
+
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE COLLATE NOCASE,
     password_hash TEXT NOT NULL,
     display_name TEXT NOT NULL,
-    bio TEXT DEFAULT '',
-    avatar_url TEXT DEFAULT '',
+    bio TEXT NOT NULL DEFAULT '',
     created_at INTEGER NOT NULL
 );
 
@@ -42,13 +46,13 @@ CREATE TABLE posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     author_id INTEGER NOT NULL REFERENCES users(id),
     content TEXT NOT NULL,
-    image_url TEXT DEFAULT '',
+    image_url TEXT NOT NULL DEFAULT '',
     created_at INTEGER NOT NULL
 );
 
 CREATE TABLE likes (
     user_id INTEGER NOT NULL REFERENCES users(id),
-    post_id INTEGER NOT NULL REFERENCES posts(id),
+    post_id INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
     created_at INTEGER NOT NULL,
     PRIMARY KEY (user_id, post_id)
 );
@@ -62,166 +66,133 @@ CREATE TABLE follows (
 );
 ```
 
-Default seed: user `admin` with password `admin` is created on first startup.
+Default seed on startup: user `admin` with password `admin`, display_name `Admin`, bio empty string. Created only if no user with username `admin` exists.
 
 ## API Endpoints
 
+All endpoints return JSON. Error responses: `{ "error": "message" }`.
+User object shape: `{ id, username, display_name, bio, created_at }` (never includes password_hash).
+Post object shape: `{ id, author_id, author_username, author_display_name, content, image_url, like_count, liked_by_me, created_at }`.
+
 ### Auth
-- `POST /api/auth/register` — Register new user. Body: `{ username, password, display_name }`. Username: 1-30 chars, ASCII alphanumeric + underscore. Password: 1-128 chars. Returns user object + sets session cookie.
-- `POST /api/auth/login` — Login. Body: `{ username, password }`. Returns user object + sets session cookie.
-- `POST /api/auth/logout` — Logout. Clears session cookie.
-- `GET /api/auth/me` — Get current authenticated user.
+- `POST /api/auth/register` — Body: `{ username, password, display_name }`. Returns 201 + user object + sets session cookie. Errors: 400 validation, 409 duplicate username.
+- `POST /api/auth/login` — Body: `{ username, password }`. Returns 200 + user object + sets session cookie. Errors: 401 invalid credentials.
+- `POST /api/auth/logout` — Clears session cookie. Returns 200. Works even if not authenticated.
+- `GET /api/auth/me` — Returns 200 + user object. Errors: 401 if not authenticated.
 
 ### Posts
-- `POST /api/posts` — Create post. Multipart form: `content` (1-280 chars) + optional `image` (JPEG/PNG, max 5MB). Returns created post.
-- `GET /api/posts/:id` — Get single post with author info and like count.
-- `DELETE /api/posts/:id` — Delete own post. Only author can delete.
-- `GET /api/posts` — List recent posts (paginated). Query: `?page=1&limit=20`.
+- `POST /api/posts` — Multipart form: `content` field (1-280 chars, required) + optional `image` file (JPEG/PNG only, max 5MB). Returns 201 + post object. Errors: 401 unauth, 400 validation (empty content, content too long, invalid image type, image too large).
+- `GET /api/posts/:id` — Returns 200 + post object. `liked_by_me` is false if not authenticated. Errors: 404 not found.
+- `DELETE /api/posts/:id` — Deletes post and associated likes (CASCADE). If post has an image, deletes the file from uploads/. Returns 204. Errors: 401 unauth, 403 not the author, 404 not found.
+- `GET /api/posts` — Recent posts, sorted by created_at DESC. Query: `?page=1&limit=20`. Defaults: page=1, limit=20. Limit range: 1-100. Returns 200 + `{ posts: [...], total: N }`.
 
 ### Likes
-- `POST /api/posts/:id/like` — Like a post. Idempotent (liking twice is not an error, just no-op).
-- `DELETE /api/posts/:id/like` — Unlike a post. Idempotent.
-- `GET /api/posts/:id/likes` — Get like count and whether current user liked it.
+- `POST /api/posts/:id/like` — Like a post. Idempotent. Returns 200 + `{ like_count }`. Errors: 401 unauth, 404 post not found.
+- `DELETE /api/posts/:id/like` — Unlike a post. Idempotent. Returns 200 + `{ like_count }`. Errors: 401 unauth, 404 post not found.
 
 ### Follows
-- `POST /api/users/:id/follow` — Follow a user. Cannot self-follow. Idempotent.
-- `DELETE /api/users/:id/follow` — Unfollow a user. Idempotent.
-- `GET /api/users/:id/followers` — Get followers list.
-- `GET /api/users/:id/following` — Get following list.
+- `POST /api/users/:id/follow` — Follow a user. Idempotent. Returns 200. Errors: 401 unauth, 404 user not found, 400 self-follow.
+- `DELETE /api/users/:id/follow` — Unfollow a user. Idempotent. Returns 200. Errors: 401 unauth, 404 user not found.
+- `GET /api/users/:id/followers` — Returns 200 + `{ users: [...] }`. No pagination (return all).
+- `GET /api/users/:id/following` — Returns 200 + `{ users: [...] }`. No pagination (return all).
 
 ### Timeline
-- `GET /api/timeline` — Get posts from followed users, sorted by most recent. Query: `?page=1&limit=20`. Includes the authenticated user's own posts.
+- `GET /api/timeline` — Posts from followed users AND own posts, sorted by created_at DESC. Query: `?page=1&limit=20`. Defaults: page=1, limit=20. Limit range: 1-100. Ties broken by post id DESC. Returns 200 + `{ posts: [...], total: N }`. Returns empty list if no follows and no own posts. Errors: 401 unauth.
 
 ### Profile
-- `GET /api/users/:id` — Get user profile (display_name, bio, avatar_url, post count, follower count, following count).
-- `PUT /api/users/:id` — Update own profile. Body: `{ display_name, bio }`. Only the user themselves can update.
-- `GET /api/users/:id/posts` — Get posts by a specific user (paginated).
+- `GET /api/users/:id` — Public. Returns 200 + `{ id, username, display_name, bio, created_at, post_count, follower_count, following_count }`. Errors: 404 not found.
+- `PUT /api/users/:id` — Body: `{ display_name, bio }`. Both fields required in request. display_name: 1-50 chars. bio: 0-200 chars. Returns 200 + updated user object. Errors: 401 unauth, 403 not own profile, 400 validation.
+- `GET /api/users/:id/posts` — Posts by user, sorted by created_at DESC. Query: `?page=1&limit=20`. Returns 200 + `{ posts: [...], total: N }`. Errors: 404 user not found.
 
 ### Search
-- `GET /api/search?q=term&type=posts` — Search posts by content (LIKE match). Query: `?q=term&type=posts&page=1&limit=20`.
-- `GET /api/search?q=term&type=users` — Search users by username or display_name.
+- `GET /api/search?q=term&type=posts` — Search posts by content using SQL LIKE with wildcards escaped (%, _, ' are escaped). Query: `?q=term&type=posts&page=1&limit=20`. Returns 200 + `{ posts: [...], total: N }`. Errors: 400 if q is empty or type is invalid.
+- `GET /api/search?q=term&type=users` — Search users by username OR display_name using SQL LIKE with wildcards escaped. Returns 200 + `{ users: [...], total: N }`.
 
 ### Hot Topics
-- `GET /api/hot` — Returns top 10 posts with most likes in the last 24 hours.
+- `GET /api/hot` — Public. Returns top 10 posts with the most likes where post was created within the last 24 hours from the current server timestamp. Only posts with at least 1 like are included. Ties broken by created_at DESC then id DESC. Returns 200 + `{ posts: [...] }`. Returns empty list if no qualifying posts.
 
-## Behavioral Contracts
-
-### Registration
-- **Preconditions**: username non-empty, 1-30 chars, ASCII `[a-zA-Z0-9_]` only, unique (case-insensitive). Password non-empty, 1-128 chars. display_name non-empty, 1-50 chars.
-- **Postconditions**: User stored in DB. Password stored as bcrypt hash. Session cookie set. Returns user object (no password_hash).
-- **Errors**: 400 for validation failures, 409 for duplicate username.
-
-### Login
-- **Preconditions**: username and password provided.
-- **Postconditions**: Session cookie set if credentials valid.
-- **Errors**: 401 for invalid credentials.
-
-### Post Creation
-- **Preconditions**: User authenticated. Content 1-280 chars. Image optional, must be JPEG/PNG, max 5MB.
-- **Postconditions**: Post stored in DB. Image saved to `uploads/` with UUID filename. Returns post with generated id and timestamp.
-- **Errors**: 401 if not authenticated. 400 for validation failures.
-
-### Like/Unlike
-- **Preconditions**: User authenticated. Post must exist.
-- **Postconditions**: Like row inserted/deleted. Idempotent — no error if already liked/not liked.
-- **Errors**: 401 if not authenticated. 404 if post not found.
-
-### Follow/Unfollow
-- **Preconditions**: User authenticated. Target user must exist. Cannot self-follow.
-- **Postconditions**: Follow row inserted/deleted. Idempotent.
-- **Errors**: 401 if not authenticated. 404 if target user not found. 400 if self-follow.
-
-### Timeline
-- **Preconditions**: User authenticated. Page >= 1, limit 1-100.
-- **Postconditions**: Returns posts from followed users + own posts, sorted by created_at DESC, paginated.
-- **Errors**: 401 if not authenticated.
-
-### Search
-- **Preconditions**: `q` parameter non-empty. `type` is "posts" or "users".
-- **Postconditions**: Returns matching results via SQL LIKE `%term%`, paginated.
-- **Errors**: 400 if q is empty or type is invalid.
-
-### Hot Topics
-- **Preconditions**: None (public endpoint).
-- **Postconditions**: Returns top 10 posts by like count where post created_at is within last 24 hours. Includes author info and like count.
-
-### Profile Update
-- **Preconditions**: User authenticated. Can only update own profile.
-- **Postconditions**: display_name and bio updated in DB.
-- **Errors**: 401 if not authenticated. 403 if updating another user's profile.
+### Static Files
+- `GET /uploads/:filename` — Serves uploaded images with correct Content-Type based on file extension.
 
 ## Edge Case Catalog
 
 ### Registration
-- Empty username, password, or display_name
-- Username > 30 chars
-- Username with special chars (spaces, @, unicode)
-- Duplicate username with different casing
-- Password > 128 chars
-- display_name > 50 chars
+- Empty username, password, or display_name -> 400
+- Username > 30 chars -> 400
+- Username with special chars (spaces, @, unicode) -> 400
+- Duplicate username with different casing -> 409
+- Password > 128 chars -> 400
+- display_name > 50 chars -> 400
 
 ### Posts
-- Empty content
-- Content at exactly 280 chars
-- Content at 281 chars
-- Post with image > 5MB
-- Post with non-image file
-- Post with valid JPEG and PNG
-- Delete post that doesn't exist
-- Delete another user's post
-- Get post that doesn't exist
+- Empty content -> 400
+- Content at exactly 280 chars -> 201 success
+- Content at 281 chars -> 400
+- Post with image > 5MB -> 400
+- Post with non-image file (e.g., .txt) -> 400
+- Post with valid JPEG -> 201 success
+- Post with valid PNG -> 201 success
+- Delete post that doesn't exist -> 404
+- Delete another user's post -> 403
+- Get post that doesn't exist -> 404
+- Delete post with image -> image file deleted from disk
 
 ### Likes
-- Like a post twice (idempotent)
-- Unlike a post not liked (idempotent)
-- Like non-existent post
-- Like while not authenticated
+- Like a post twice -> 200, count stays same
+- Unlike a post not liked -> 200, count stays same
+- Like non-existent post -> 404
+- Like while not authenticated -> 401
 
 ### Follows
-- Self-follow
-- Follow twice (idempotent)
-- Unfollow when not following (idempotent)
-- Follow non-existent user
+- Self-follow -> 400
+- Follow twice -> 200, no duplicate
+- Unfollow when not following -> 200
+- Follow non-existent user -> 404
 
 ### Timeline
-- Timeline with no follows (only own posts)
-- Timeline with follows who have no posts
-- Pagination beyond available posts
+- No follows, no own posts -> empty list
+- Follows but no posts from anyone -> empty list
+- Pagination page beyond available -> empty list
 
 ### Search
-- Empty search query
-- Search with no results
-- Search with special SQL chars (%, _, ')
-- Invalid type parameter
+- Empty search query -> 400
+- Search with no results -> empty list
+- Search with SQL wildcard chars (%, _) -> properly escaped, treated as literals
+- Invalid type parameter -> 400
 
 ### Hot Topics
-- No posts in last 24 hours (empty result)
-- Posts with zero likes excluded from results
+- No posts in last 24 hours -> empty list
+- All posts have zero likes -> empty list
+- Fewer than 10 qualifying posts -> return only those
 
 ## Non-Functional Requirements
 - Backend serves on port 8080
-- Frontend serves on port 5173 (Vite dev) or built static files served by backend
+- Frontend dev server on port 5173 with Vite proxy to backend
 - SQLite database file: `data/twitter.db`
 - Uploaded images served at `/uploads/filename`
-- Password hashing: bcrypt
-- Session tokens: random UUID stored in memory (HashMap)
-- No external services required
+- No user deletion feature (out of scope)
+- No avatar upload feature (out of scope)
+- Pagination is offset-based (simple, known limitation with concurrent writes)
+- display_name allows any printable characters (no control characters or null bytes), 1-50 chars
+- bio allows any printable characters, 0-200 chars
 
 ## Verification Architecture
 
 ### Property-Based Testing (proptest)
-1. Any valid username passes registration, any invalid username is rejected
-2. Post content length validation is exact at 280 char boundary
-3. Like idempotency — liking N times results in exactly 1 like
-4. Follow idempotency — following N times results in exactly 1 follow
-5. Timeline always returns posts sorted by created_at DESC
-6. Search results always contain the search term
+1. Any valid username (matching `[a-zA-Z0-9_]{1,30}`) passes registration validation
+2. Any invalid username is rejected
+3. Post content length validation is exact at 280 char boundary
+4. Like idempotency — liking N times results in exactly 1 like row
+5. Follow idempotency — following N times results in exactly 1 follow row
+6. Timeline posts are always sorted by (created_at DESC, id DESC)
+7. Search results for posts always contain the search term in content
+8. Search results for users always contain the search term in username OR display_name
 
 ### Purity Boundary Map
-- **Pure Core**: Validation functions (username, password, content, image type/size), search term sanitization, pagination math
-- **Effectful Shell**: Database operations, file I/O (image storage), timestamp generation, session management, HTTP handlers
+- **Pure Core**: Validation functions (username, password, content length, image type/size check, display_name, bio), search term escaping, pagination offset calculation
+- **Effectful Shell**: Database operations, file I/O (image storage), timestamp generation, session management, bcrypt hashing, HTTP handlers
 
 ### Test Categories
-- **Unit Tests**: Validation functions, pagination logic, password hashing
-- **Integration Tests**: Full API endpoint tests using actix-web test utilities
-- **Frontend Tests**: Component rendering, API integration mocks
+- **Unit Tests (Rust)**: Validation functions, pagination logic, search term escaping
+- **Integration Tests (Rust)**: Full API endpoint tests using actix-web test server with test database
+- **Frontend Tests (Bun)**: Component rendering tests
