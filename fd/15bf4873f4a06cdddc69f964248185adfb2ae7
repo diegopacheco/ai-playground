@@ -1,0 +1,24 @@
+pocs/VSDD-poc/twitter-like-application/spec.md
+  4b1f15003a52ca7e 1-227
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.6",
+  "base_commit_sha": "fd15bf4873f4a06cdddc69f964248185adfb2ae7",
+  "prompts": {
+    "4b1f15003a52ca7e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fde26c4a-9ac9-4b74-8386-eae74847a9f1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 465,
+      "total_deletions": 238,
+      "accepted_lines": 227,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/6c1603932f30bfc6fdbad3f387aaa1f38acd14451a3c7395af74ca3bb79820d9"
+    }
+  }
+}
