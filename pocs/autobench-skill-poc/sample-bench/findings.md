@@ -94,3 +94,45 @@ Naive implementation using `BufferedReader`, `String.split(",")`, `Double.parseD
 - MemorySegment per-byte access via ValueLayout.JAVA_BYTE may have more overhead than ByteBuffer.get()
 - Virtual threads provided no benefit — CPU-bound work doesn't benefit from lightweight scheduling
 - Primitive array aggregation was a genuine improvement but masked by JVM flag regression
+
+### PARTIAL ROLLBACK applied
+Kept: primitive arrays + ordinal matching (no HashMap boxing). Reverted: JVM flags, MemorySegment (back to MappedByteBuffer), virtual threads (back to platform threads).
+
+After rollback:
+| Metric | Value | vs Wave 2 |
+|---|---|---|
+| Avg Time | 189.7ms | -3.6% |
+| Throughput | 171.9 MB/s | +3.7% |
+| Rows/sec | 5,271,481 | +3.7% |
+
+Verdict after rollback: **BETTER** (marginal improvement from primitive array optimization)
+
+## Wave 4 — 2026-03-01
+
+### What was tried
+- Bulk byte copy: copy 64KB chunks from MappedByteBuffer into local byte[] arrays, scan from local memory
+- Branchless field scanning: streamlined comma-finding loop with early exit after 5 commas found
+- Fixed-point arithmetic: replaced all double arithmetic with long-based fixed-point (4 decimal places)
+- AOT compilation: SKIPPED (GraalVM native-image not available on this system)
+
+### Results
+| Metric | Before | After | Delta |
+|---|---|---|---|
+| Avg Time | 189.7ms | 151.3ms | -20.2% |
+| Throughput | 171.9 MB/s | 215.5 MB/s | +25.4% |
+| Rows/sec | 5,271,481 | 6,609,385 | +25.4% |
+
+### Delta vs Baseline
+| Metric | Baseline | Wave 4 | Delta |
+|---|---|---|---|
+| Avg Time | 411.7ms | 151.3ms | -63.3% |
+| Throughput | 79.2 MB/s | 215.5 MB/s | +172.1% |
+| Rows/sec | 2,428,953 | 6,609,385 | +172.0% |
+
+### Verdict: BETTER
+
+### Why
+- Bulk byte copy eliminated per-byte ByteBuffer.get() overhead — copying 64KB at once is much cheaper than individual calls
+- Fixed-point arithmetic replaced all floating-point multiply/add with integer operations — long math is faster and avoids FPU pipeline stalls
+- Extracted processLine() into a separate method helped JIT focus optimization on the hot loop
+- Minor revenue rounding difference (0.01 on 18B total) is acceptable fixed-point precision artifact
