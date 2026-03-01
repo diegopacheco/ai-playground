@@ -63,21 +63,18 @@ pub fn seed_admin(conn: &Connection) {
 }
 
 pub fn register_user(state: &AppState, username: &str, password: &str, display_name: &str) -> Result<serde_json::Value, (u16, String)> {
-    let conn = state.db.lock().unwrap();
-    let existing: i64 = conn.query_row(
-        "SELECT COUNT(*) FROM users WHERE username = ?1",
-        [username],
-        |row| row.get(0),
-    ).unwrap_or(0);
-    if existing > 0 {
-        return Err((409, "Username already taken".to_string()));
-    }
     let hash = bcrypt::hash(password, 12).map_err(|e| (500, e.to_string()))?;
     let ts = now();
-    conn.execute(
+    let conn = state.db.lock().unwrap();
+    let result = conn.execute(
         "INSERT INTO users (username, password_hash, display_name, bio, created_at) VALUES (?1, ?2, ?3, ?4, ?5)",
         rusqlite::params![username, hash, display_name, "", ts],
-    ).map_err(|e| (500, e.to_string()))?;
+    );
+    match result {
+        Err(e) if e.to_string().contains("UNIQUE") => return Err((409, "Username already taken".to_string())),
+        Err(e) => return Err((500, e.to_string())),
+        Ok(_) => {}
+    }
     let id = conn.last_insert_rowid();
     let session_id = uuid::Uuid::new_v4().to_string();
     drop(conn);

@@ -10,6 +10,7 @@ use db::AppState;
 
 pub fn create_app_state(db_path: &str) -> web::Data<AppState> {
     let conn = Connection::open(db_path).expect("Failed to open database");
+    conn.execute_batch("PRAGMA foreign_keys = ON;").expect("Failed to enable foreign keys");
     db::init_db(&conn);
     db::seed_admin(&conn);
     let state = AppState {
