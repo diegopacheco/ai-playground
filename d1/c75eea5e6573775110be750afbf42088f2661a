@@ -1,0 +1,24 @@
+pocs/autobench-skill-poc/README.md
+  0b744c2199020e37 6-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "d1c75eea5e6573775110be750afbf42088f2661a",
+  "prompts": {
+    "0b744c2199020e37": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e3fd5ccf-a92e-4a6c-85e4-856957275d8c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 20,
+      "total_deletions": 1,
+      "accepted_lines": 19,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/11882f65a1c85ecd054597c2c6484e8a2d5f1627c982bd5e6b5163fdf509369c"
+    }
+  }
+}
