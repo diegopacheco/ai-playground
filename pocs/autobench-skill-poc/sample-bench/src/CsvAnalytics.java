@@ -1,23 +1,23 @@
 import java.io.*;
-import java.nio.*;
+import java.lang.foreign.*;
 import java.nio.channels.*;
 import java.util.*;
-import java.util.concurrent.*;
 
 public class CsvAnalytics {
-    static final Map<String, String> INTERN_CACHE = new ConcurrentHashMap<>(32);
+    static final String[] CATEGORIES = {"books", "clothing", "electronics", "food", "health", "home", "sports", "toys"};
+    static final String[] REGIONS = {"east", "north", "south", "west"};
 
     public static void main(String[] args) throws Exception {
         String filename = args.length > 0 ? args[0] : "data.csv";
 
-        try (RandomAccessFile raf = new RandomAccessFile(filename, "r");
-             FileChannel channel = raf.getChannel()) {
+        try (var arena = Arena.ofShared();
+             FileChannel channel = new RandomAccessFile(filename, "r").getChannel()) {
 
             long fileSize = channel.size();
-            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, fileSize);
+            MemorySegment segment = channel.map(FileChannel.MapMode.READ_ONLY, 0, fileSize, arena);
 
-            int headerEnd = 0;
-            while (headerEnd < fileSize && buffer.get(headerEnd) != '\n') headerEnd++;
+            long headerEnd = 0;
+            while (headerEnd < fileSize && segment.get(ValueLayout.JAVA_BYTE, headerEnd) != '\n') headerEnd++;
             headerEnd++;
 
             int numThreads = Runtime.getRuntime().availableProcessors();
@@ -30,44 +30,49 @@ public class CsvAnalytics {
             chunkStarts[0] = headerEnd;
             for (int t = 1; t < numThreads; t++) {
                 long pos = headerEnd + t * chunkSize;
-                while (pos < fileSize && buffer.get((int) pos) != '\n') pos++;
+                while (pos < fileSize && segment.get(ValueLayout.JAVA_BYTE, pos) != '\n') pos++;
                 pos++;
                 chunkStarts[t] = pos;
                 chunkEnds[t - 1] = chunkStarts[t];
             }
             chunkEnds[numThreads - 1] = fileSize;
 
-            ExecutorService pool = Executors.newFixedThreadPool(numThreads);
-            Future<PartialResult>[] futures = new Future[numThreads];
+            PartialResult[] results = new PartialResult[numThreads];
+            Thread[] threads = new Thread[numThreads];
 
             for (int t = 0; t < numThreads; t++) {
-                final int start = (int) chunkStarts[t];
-                final int end = (int) chunkEnds[t];
-                futures[t] = pool.submit(() -> processChunk(buffer, start, end));
+                final int idx = t;
+                final long start = chunkStarts[t];
+                final long end = chunkEnds[t];
+                threads[t] = Thread.ofVirtual().start(() -> {
+                    results[idx] = processChunk(segment, start, end);
+                });
             }
+            for (Thread thread : threads) thread.join();
 
             long totalRows = 0;
             double totalRevenue = 0.0;
             double minPrice = Double.MAX_VALUE;
             double maxPrice = Double.MIN_VALUE;
             long totalQuantity = 0;
-            HashMap<String, Double> revenueByCategory = new HashMap<>(16);
-            HashMap<String, Double> revenueByRegion = new HashMap<>(8);
-            HashMap<String, Long> countByCategory = new HashMap<>(16);
+            double[] revenueByCategory = new double[CATEGORIES.length];
+            double[] revenueByRegion = new double[REGIONS.length];
+            long[] countByCategory = new long[CATEGORIES.length];
 
-            for (Future<PartialResult> f : futures) {
-                PartialResult r = f.get();
+            for (PartialResult r : results) {
                 totalRows += r.totalRows;
                 totalRevenue += r.totalRevenue;
                 totalQuantity += r.totalQuantity;
                 if (r.minPrice < minPrice) minPrice = r.minPrice;
                 if (r.maxPrice > maxPrice) maxPrice = r.maxPrice;
-                r.revenueByCategory.forEach((k, v) -> revenueByCategory.merge(k, v, Double::sum));
-                r.revenueByRegion.forEach((k, v) -> revenueByRegion.merge(k, v, Double::sum));
-                r.countByCategory.forEach((k, v) -> countByCategory.merge(k, v, Long::sum));
+                for (int i = 0; i < CATEGORIES.length; i++) {
+                    revenueByCategory[i] += r.revenueByCategory[i];
+                    countByCategory[i] += r.countByCategory[i];
+                }
+                for (int i = 0; i < REGIONS.length; i++) {
+                    revenueByRegion[i] += r.revenueByRegion[i];
+                }
             }
-
-            pool.shutdown();
 
             System.out.println("=== CSV Analytics Results ===");
             System.out.println("Total rows: " + totalRows);
@@ -78,34 +83,32 @@ public class CsvAnalytics {
             System.out.println("Avg revenue per row: " + String.format("%.2f", totalRevenue / totalRows));
             System.out.println();
             System.out.println("Revenue by category:");
-            revenueByCategory.entrySet().stream()
-                .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
-                .forEach(e -> System.out.println("  " + e.getKey() + ": " + String.format("%.2f", e.getValue())));
+            Integer[] catIdx = new Integer[CATEGORIES.length];
+            for (int i = 0; i < catIdx.length; i++) catIdx[i] = i;
+            Arrays.sort(catIdx, (a, b) -> Double.compare(revenueByCategory[b], revenueByCategory[a]));
+            for (int i : catIdx) System.out.println("  " + CATEGORIES[i] + ": " + String.format("%.2f", revenueByCategory[i]));
             System.out.println();
             System.out.println("Revenue by region:");
-            revenueByRegion.entrySet().stream()
-                .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
-                .forEach(e -> System.out.println("  " + e.getKey() + ": " + String.format("%.2f", e.getValue())));
+            Integer[] regIdx = new Integer[REGIONS.length];
+            for (int i = 0; i < regIdx.length; i++) regIdx[i] = i;
+            Arrays.sort(regIdx, (a, b) -> Double.compare(revenueByRegion[b], revenueByRegion[a]));
+            for (int i : regIdx) System.out.println("  " + REGIONS[i] + ": " + String.format("%.2f", revenueByRegion[i]));
             System.out.println();
             System.out.println("Count by category:");
-            countByCategory.entrySet().stream()
-                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                .forEach(e -> System.out.println("  " + e.getKey() + ": " + e.getValue()));
+            Arrays.sort(catIdx, (a, b) -> Long.compare(countByCategory[b], countByCategory[a]));
+            for (int i : catIdx) System.out.println("  " + CATEGORIES[i] + ": " + countByCategory[i]);
         }
     }
 
-    static PartialResult processChunk(MappedByteBuffer masterBuffer, int start, int end) {
-        ByteBuffer buf = masterBuffer.duplicate();
-        buf.position(start);
-        buf.limit(end);
-
+    static PartialResult processChunk(MemorySegment seg, long start, long end) {
         PartialResult result = new PartialResult();
         byte[] lineBytes = new byte[256];
+        long pos = start;
 
-        while (buf.hasRemaining()) {
+        while (pos < end) {
             int lineLen = 0;
-            while (buf.hasRemaining()) {
-                byte b = buf.get();
+            while (pos < end) {
+                byte b = seg.get(ValueLayout.JAVA_BYTE, pos++);
                 if (b == '\n') break;
                 if (lineLen < lineBytes.length) lineBytes[lineLen++] = b;
             }
@@ -127,8 +130,8 @@ public class CsvAnalytics {
             }
             if (p4 == -1) continue;
 
-            String category = intern(new String(lineBytes, p0 + 1, p1 - p0 - 1));
-            String region = intern(new String(lineBytes, p1 + 1, p2 - p1 - 1));
+            int catOrd = matchCategory(lineBytes, p0 + 1, p1);
+            int regOrd = matchRegion(lineBytes, p1 + 1, p2);
             int quantity = parseIntBytes(lineBytes, p2 + 1, p3);
             double price = parseDoubleBytes(lineBytes, p3 + 1, p4);
             double discount = parseDoubleBytes(lineBytes, p4 + 1, lineLen);
@@ -140,15 +143,40 @@ public class CsvAnalytics {
             if (price < result.minPrice) result.minPrice = price;
             if (price > result.maxPrice) result.maxPrice = price;
 
-            result.revenueByCategory.merge(category, revenue, Double::sum);
-            result.revenueByRegion.merge(region, revenue, Double::sum);
-            result.countByCategory.merge(category, 1L, Long::sum);
+            if (catOrd >= 0) {
+                result.revenueByCategory[catOrd] += revenue;
+                result.countByCategory[catOrd]++;
+            }
+            if (regOrd >= 0) {
+                result.revenueByRegion[regOrd] += revenue;
+            }
         }
         return result;
     }
 
-    static String intern(String s) {
-        return INTERN_CACHE.computeIfAbsent(s, k -> k);
+    static int matchCategory(byte[] b, int from, int to) {
+        int len = to - from;
+        byte first = b[from];
+        return switch (first) {
+            case 'b' -> 0;
+            case 'c' -> 1;
+            case 'e' -> 2;
+            case 'f' -> 3;
+            case 'h' -> len == 6 ? 4 : 5;
+            case 's' -> 6;
+            case 't' -> 7;
+            default -> -1;
+        };
+    }
+
+    static int matchRegion(byte[] b, int from, int to) {
+        return switch (b[from]) {
+            case 'e' -> 0;
+            case 'n' -> 1;
+            case 's' -> 2;
+            case 'w' -> 3;
+            default -> -1;
+        };
     }
 
     static int parseIntBytes(byte[] b, int from, int to) {
@@ -186,8 +214,8 @@ public class CsvAnalytics {
         double minPrice = Double.MAX_VALUE;
         double maxPrice = Double.MIN_VALUE;
         long totalQuantity = 0;
-        HashMap<String, Double> revenueByCategory = new HashMap<>(16);
-        HashMap<String, Double> revenueByRegion = new HashMap<>(8);
-        HashMap<String, Long> countByCategory = new HashMap<>(16);
+        double[] revenueByCategory = new double[CATEGORIES.length];
+        double[] revenueByRegion = new double[REGIONS.length];
+        long[] countByCategory = new long[CATEGORIES.length];
     }
 }

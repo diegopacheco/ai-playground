@@ -70,3 +70,27 @@ Naive implementation using `BufferedReader`, `String.split(",")`, `Double.parseD
 - Parallel processing split work across CPU cores — near-linear scaling for this embarrassingly parallel task
 - Byte-level parsing avoided creating String objects per line — massive reduction in GC pressure
 - String interning ensured only 12 unique category/region strings existed in memory
+
+## Wave 3 — 2026-03-01
+
+### What was tried
+- Virtual threads: replaced Executors.newFixedThreadPool with Thread.ofVirtual()
+- Primitive arrays for aggregation: replaced HashMap<String,Double> with double[] indexed by ordinal matching
+- MemorySegment (Panama API): replaced MappedByteBuffer with java.lang.foreign.MemorySegment for direct memory access
+- JVM tuning flags: -XX:+UseZGC -XX:+AlwaysPreTouch -XX:-TieredCompilation
+
+### Results
+| Metric | Before | After | Delta |
+|---|---|---|---|
+| Avg Time | 196.7ms | 225.0ms | +14.4% |
+| Throughput | 165.7 MB/s | 144.9 MB/s | -12.5% |
+| Rows/sec | 5,083,884 | 4,444,444 | -12.6% |
+
+### Verdict: WORSE
+
+### Why
+- -XX:-TieredCompilation forces direct C2 compilation, adding startup overhead for short-lived JVM processes
+- ZGC adds overhead for workloads with minimal GC pressure (primitive arrays produce no garbage)
+- MemorySegment per-byte access via ValueLayout.JAVA_BYTE may have more overhead than ByteBuffer.get()
+- Virtual threads provided no benefit — CPU-bound work doesn't benefit from lightweight scheduling
+- Primitive array aggregation was a genuine improvement but masked by JVM flag regression
