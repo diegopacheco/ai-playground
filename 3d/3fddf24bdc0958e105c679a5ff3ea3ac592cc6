@@ -1,0 +1,36 @@
+pocs/autobench-skill-poc/templates/bench-uuid.sh
+  a83850533ca5361b 1-92
+pocs/autobench-skill-poc/skills/autobench/SKILL.md
+  a83850533ca5361b 1-166
+pocs/autobench-skill-poc/templates/bench-csv.sh
+  a83850533ca5361b 1-63
+pocs/autobench-skill-poc/commands/autobench.md
+  a83850533ca5361b 1
+pocs/autobench-skill-poc/templates/bench-crud.sh
+  a83850533ca5361b 1-115
+pocs/autobench-skill-poc/install.sh
+  a83850533ca5361b 1-27
+pocs/autobench-skill-poc/uninstall.sh
+  a83850533ca5361b 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "3d3fddf24bdc0958e105c679a5ff3ea3ac592cc6",
+  "prompts": {
+    "a83850533ca5361b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9b938c25-a0d2-46cf-bb96-3fc79fbdd569",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 477,
+      "total_deletions": 0,
+      "accepted_lines": 477,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/db8037dbe1fc97d811c7eeeafb724d33367585eb0551141127aac4324a4bb3e8"
+    }
+  }
+}
