@@ -95,3 +95,29 @@ files.
   That's ~1.3% of your 200k context window. Not huge, but it's there on every conversation. If you're not actively using it, those
   tokens are wasted overhead.
 ```
+
+## Savings
+
+```
+⏺ context-mode saved you 62% of context space this session.
+
+  ┌─────────────────────────────────────────┬──────────────────────┐
+  │                 Metric                  │        Value         │
+  ├─────────────────────────────────────────┼──────────────────────┤
+  │ Total data processed                    │             453.1 KB │
+  ├─────────────────────────────────────────┼──────────────────────┤
+  │ Kept in sandbox (never entered context) │             282.4 KB │
+  ├─────────────────────────────────────────┼──────────────────────┤
+  │ Actually entered context                │             170.8 KB │
+  ├─────────────────────────────────────────┼──────────────────────┤
+  │ Tokens consumed                         │              ~43,717 │
+  ├─────────────────────────────────────────┼──────────────────────┤
+  │ Tokens saved                            │              ~72,284 │
+  ├─────────────────────────────────────────┼──────────────────────┤
+  │ Savings ratio                           │ 2.7x (62% reduction) │
+  └─────────────────────────────────────────┴──────────────────────┘
+
+  Without context-mode, all 453 KB of git logs, diffs, file contents, and GitHub fetches would have flooded your context window.
+  Instead, 282 KB stayed in the sandbox and only the relevant search results came through. That's ~72K tokens you didn't burn
+  reading raw git output.
+```
