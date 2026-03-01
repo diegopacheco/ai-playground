@@ -1,0 +1,28 @@
+pocs/google-adk-go-poc/run.sh
+  fdfd76db3f89d0f1 5,8-9
+pocs/google-adk-go-poc/main.go
+  fdfd76db3f89d0f1 4,16-18,21-22,157,161-182,184,186-187,189-215
+pocs/google-adk-go-poc/README.md
+  fdfd76db3f89d0f1 6-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "c19c8e5e2e11c53e61c4a6fdb81d6354c597c1bc",
+  "prompts": {
+    "fdfd76db3f89d0f1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "07ffc410-d68a-408a-8f76-fb62c7a63bb1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 72,
+      "total_deletions": 15,
+      "accepted_lines": 68,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/796f02699e284d88697743405df7cef087100e8ff761bd41c53a945d5d5bc93f"
+    }
+  }
+}
