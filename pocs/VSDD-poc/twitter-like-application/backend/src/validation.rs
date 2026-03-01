@@ -1,37 +1,80 @@
 pub fn validate_username(username: &str) -> Result<(), String> {
-    todo!()
+    let trimmed = username.trim();
+    if trimmed.is_empty() {
+        return Err("Username cannot be empty".to_string());
+    }
+    if trimmed.len() > 30 {
+        return Err("Username must be 30 characters or less".to_string());
+    }
+    if !trimmed.chars().all(|c| c.is_ascii_alphanumeric() || c == '_') {
+        return Err("Username can only contain ASCII letters, numbers, and underscores".to_string());
+    }
+    Ok(())
 }
 
 pub fn validate_password(password: &str) -> Result<(), String> {
-    todo!()
+    if password.is_empty() {
+        return Err("Password cannot be empty".to_string());
+    }
+    if password.len() > 128 {
+        return Err("Password must be 128 characters or less".to_string());
+    }
+    Ok(())
 }
 
 pub fn validate_display_name(name: &str) -> Result<(), String> {
-    todo!()
+    if name.is_empty() {
+        return Err("Display name cannot be empty".to_string());
+    }
+    if name.len() > 50 {
+        return Err("Display name must be 50 characters or less".to_string());
+    }
+    if name.chars().any(|c| c.is_control()) {
+        return Err("Display name cannot contain control characters".to_string());
+    }
+    Ok(())
 }
 
 pub fn validate_bio(bio: &str) -> Result<(), String> {
-    todo!()
+    if bio.len() > 200 {
+        return Err("Bio must be 200 characters or less".to_string());
+    }
+    Ok(())
 }
 
 pub fn validate_post_content(content: &str) -> Result<(), String> {
-    todo!()
+    let trimmed = content.trim();
+    if trimmed.is_empty() {
+        return Err("Post content cannot be empty".to_string());
+    }
+    if content.len() > 280 {
+        return Err("Post content must be 280 characters or less".to_string());
+    }
+    Ok(())
 }
 
 pub fn validate_image_type(content_type: &str) -> Result<(), String> {
-    todo!()
+    match content_type {
+        "image/jpeg" | "image/png" => Ok(()),
+        _ => Err("Image must be JPEG or PNG".to_string()),
+    }
 }
 
 pub fn validate_image_size(size: usize) -> Result<(), String> {
-    todo!()
+    if size > 5 * 1024 * 1024 {
+        return Err("Image must be 5MB or less".to_string());
+    }
+    Ok(())
 }
 
 pub fn escape_search_term(term: &str) -> String {
-    todo!()
+    term.replace('\'', "''")
+        .replace('%', "\\%")
+        .replace('_', "\\_")
 }
 
 pub fn pagination_offset(page: i64, limit: i64) -> i64 {
-    todo!()
+    (page - 1) * limit
 }
 
 #[cfg(test)]
