@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -12,11 +13,13 @@ import (
 	"os"
 	"strings"
 
-	"google.golang.org/adk/agent/llmagent"
-	"google.golang.org/adk/cmd/launcher"
-	"google.golang.org/adk/cmd/launcher/full"
-	"google.golang.org/adk/model"
 	"google.golang.org/genai"
+
+	"google.golang.org/adk/agent"
+	"google.golang.org/adk/agent/llmagent"
+	"google.golang.org/adk/model"
+	"google.golang.org/adk/runner"
+	"google.golang.org/adk/session"
 )
 
 type OpenAIModel struct {
@@ -151,11 +154,63 @@ func main() {
 
 	openaiModel := &OpenAIModel{name: "gpt-4o", apiKey: apiKey}
 
-	myAgent := &llmagent.Agent{
+	myAgent, err := llmagent.New(llmagent.Config{
 		Name:        "my_agent",
 		Model:       openaiModel,
 		Instruction: "You are a helpful assistant. Answer user questions clearly and concisely.",
+	})
+	if err != nil {
+		log.Fatalf("Failed to create agent: %v", err)
 	}
 
-	launcher.New(full.Options{}, "my_agent", myAgent).Start(ctx)
+	sessionService := session.InMemoryService()
+	r, err := runner.New(runner.Config{
+		AppName:        "openai_adk_app",
+		Agent:          myAgent,
+		SessionService: sessionService,
+	})
+	if err != nil {
+		log.Fatalf("Failed to create runner: %v", err)
+	}
+
+	userID := "user1"
+	createResp, err := sessionService.Create(ctx, &session.CreateRequest{
+		AppName: "openai_adk_app",
+		UserID:  userID,
+	})
+	if err != nil {
+		log.Fatalf("Failed to create session: %v", err)
+	}
+	sess := createResp.Session
+
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Agent started. Type your message (Ctrl+C to quit):")
+
+	for {
+		fmt.Print("\nYou -> ")
+		userInput, err := reader.ReadString('\n')
+		if err != nil {
+			break
+		}
+		userInput = strings.TrimSpace(userInput)
+		if userInput == "" {
+			continue
+		}
+
+		userMsg := genai.NewContentFromText(userInput, "user")
+		fmt.Print("Agent -> ")
+		for event, err := range r.Run(ctx, userID, sess.ID(), userMsg, agent.RunConfig{}) {
+			if err != nil {
+				fmt.Printf("\nERROR: %v\n", err)
+			} else {
+				if event.LLMResponse.Content == nil {
+					continue
+				}
+				for _, p := range event.LLMResponse.Content.Parts {
+					fmt.Print(p.Text)
+				}
+			}
+		}
+		fmt.Println()
+	}
 }
