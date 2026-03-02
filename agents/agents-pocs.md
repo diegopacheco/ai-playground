@@ -252,3 +252,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/mastra-poc
 
 41 - Google ADK, GO with OpenAI <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/google-adk-go-poc
+
+42- Dapr Agents, Python with OpenAI <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/dapr-agents-poc
