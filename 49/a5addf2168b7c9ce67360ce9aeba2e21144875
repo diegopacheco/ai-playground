@@ -1,0 +1,36 @@
+pocs/dapr-agents-poc/components/agent-memory.yaml
+  3e3d5e097dd6595e 1-12
+pocs/dapr-agents-poc/components/llm-provider.yaml
+  3e3d5e097dd6595e 1-12
+pocs/dapr-agents-poc/agent.py
+  3e3d5e097dd6595e 1-32
+pocs/dapr-agents-poc/tools.py
+  3e3d5e097dd6595e 1-23
+pocs/dapr-agents-poc/requirements.txt
+  3e3d5e097dd6595e 1
+pocs/dapr-agents-poc/run.sh
+  3e3d5e097dd6595e 1-41
+pocs/dapr-agents-poc/README.md
+  3e3d5e097dd6595e 5-9,12-17,19-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "49a5addf2168b7c9ce67360ce9aeba2e21144875",
+  "prompts": {
+    "3e3d5e097dd6595e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0f286eb0-100e-42c9-8f75-0c90ac55a3bb",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 11,
+      "accepted_lines": 136,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f75c4f373d850b7d5f7a7a2e693397cb6e4095d8a232b8ee1ea6467b44a30423"
+    }
+  }
+}
