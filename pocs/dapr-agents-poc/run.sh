@@ -19,10 +19,28 @@ if ! podman ps 2>/dev/null | grep -q dapr_redis; then
   dapr init --container-runtime podman
 fi
 
+PYTHON_BIN=""
+for p in python3.13 python3.12 python3.11; do
+  if command -v $p &> /dev/null; then
+    PYTHON_BIN=$p
+    break
+  fi
+done
+
+if [ -z "$PYTHON_BIN" ]; then
+  echo "Python 3.11-3.13 not found. Installing python@3.13 via brew..."
+  brew install python@3.13
+  PYTHON_BIN=$(brew --prefix python@3.13)/bin/python3.13
+fi
+
+echo "Using: $PYTHON_BIN ($($PYTHON_BIN --version))"
+
+sed -i '' "s|\${OPENAI_API_KEY}|${OPENAI_API_KEY}|g" components/llm-provider.yaml
+
 rm -rf venv
-echo "Creating Python virtual environment..."
-python3 -m venv venv
+$PYTHON_BIN -m venv venv
 source venv/bin/activate
+pip install --upgrade pip
 pip install -r requirements.txt
 
 echo ""
