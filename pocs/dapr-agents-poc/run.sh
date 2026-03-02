@@ -35,7 +35,22 @@ fi
 
 echo "Using: $PYTHON_BIN ($($PYTHON_BIN --version))"
 
-sed -i '' "s|\${OPENAI_API_KEY}|${OPENAI_API_KEY}|g" components/llm-provider.yaml
+mkdir -p runtime-components
+cp components/agent-memory.yaml runtime-components/
+cat > runtime-components/llm-provider.yaml <<YAMLDOC
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: llm-provider
+spec:
+  type: conversation.openai
+  version: v1
+  metadata:
+  - name: key
+    value: "${OPENAI_API_KEY}"
+  - name: model
+    value: gpt-4o-mini
+YAMLDOC
 
 rm -rf venv
 $PYTHON_BIN -m venv venv
@@ -51,7 +66,7 @@ DASHBOARD_PID=$!
 echo ""
 echo "Running agent with Dapr sidecar..."
 echo "==========================================="
-dapr run --app-id assistant-agent --resources-path components -- python agent.py
+dapr run --app-id assistant-agent --resources-path runtime-components -- python agent.py
 
 echo ""
 echo "Agent finished. Dashboard still running at http://localhost:9999"
