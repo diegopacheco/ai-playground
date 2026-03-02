@@ -1,0 +1,24 @@
+pocs/dapr-agents-poc/run.sh
+  3e3d5e097dd6595e 22-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "2022af320f3c1ba87e1c777121565fe7951016a0",
+  "prompts": {
+    "3e3d5e097dd6595e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0f286eb0-100e-42c9-8f75-0c90ac55a3bb",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 20,
+      "total_deletions": 2,
+      "accepted_lines": 19,
+      "overriden_lines": 2,
+      "messages_url": "https://usegitai.com/cas/ede50d46d60f7f42cbe460d96385987a84aa81067f9aa447395ee95ceed9a6eb"
+    }
+  }
+}
