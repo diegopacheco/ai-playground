@@ -1,0 +1,24 @@
+pocs/Ghost-Fun/app/run.sh
+  5db015f8e03a0c37 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "4f187994c218a5bcc5041c6676d9ca567cc2d64e",
+  "prompts": {
+    "5db015f8e03a0c37": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5cd53c31-07fe-446a-9f6e-6c288c69561c",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 0,
+      "accepted_lines": 11,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/9dc2ff9e9b63fee3c089fdd7f103b58de5a2ce650145ea3cda6ed65514c16f64"
+    }
+  }
+}
