@@ -15,7 +15,6 @@ cd backend && ./target/release/memory-game-backend &
 BACKEND_PID=$!
 echo $BACKEND_PID > /tmp/memory-backend.pid
 echo "Backend started (PID $BACKEND_PID) on http://localhost:8080"
-cd ..
 cd frontend && bun dev &
 FRONTEND_PID=$!
 echo $FRONTEND_PID > /tmp/memory-frontend.pid
