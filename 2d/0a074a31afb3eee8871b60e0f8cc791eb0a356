@@ -1,0 +1,28 @@
+pocs/Ghost-Fun/app/stop.sh
+  258c72fbfffd4207 1-11
+pocs/Ghost-Fun/app/start.sh
+  258c72fbfffd4207 1-11
+pocs/Ghost-Fun/app/frontend/src/index.css
+  258c72fbfffd4207 1-2,9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "2d0a074a31afb3eee8871b60e0f8cc791eb0a356",
+  "prompts": {
+    "258c72fbfffd4207": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "61258ab4-eb2d-40fa-889a-5844e6db05ea",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 25,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/7f4d27d32fe519168882494edff4eb1ee61bf074fc5303c29026b2b0aca38fb3"
+    }
+  }
+}
