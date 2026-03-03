@@ -88,3 +88,14 @@ you  ░░░░░░░░░░░░░░░░░░░░░░░░░
 
   ✓ ghost: committed follow-up changes 'create a memory game with frontend written in React, Tanstack, vite, bun and the backend in rust with sqllite. make sure there is a leaderboard ui, there is a timmer for 120s to finish the game and the game tracks how many moves.'
 ```
+
+```
+❯ ghost commit -m "Add a run.sh and stop.sh to run the whole app and stop it all."
+
+  ▸ ghost
+  agent     claude
+  model     claude-sonnet-4-6
+  intent    Add a run.sh and stop.sh to run the whole app and stop it all.
+
+⠇ running claude…
+```
