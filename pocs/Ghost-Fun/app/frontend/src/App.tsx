@@ -1,35 +1,28 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Board from './components/Board'
+import Leaderboard from './components/Leaderboard'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+type View = 'menu' | 'game' | 'leaderboard'
+
+export default function App() {
+  const [view, setView] = useState<View>('menu')
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="app">
+      <h1 className="title">Memory Game</h1>
+      <nav className="nav">
+        <button onClick={() => setView('game')}>Play</button>
+        <button onClick={() => setView('leaderboard')}>Leaderboard</button>
+      </nav>
+      {view === 'menu' && (
+        <div className="menu">
+          <p>Match all pairs before time runs out!</p>
+          <button className="btn-play" onClick={() => setView('game')}>Start Game</button>
+        </div>
+      )}
+      {view === 'game' && <Board onGameEnd={() => setView('leaderboard')} />}
+      {view === 'leaderboard' && <Leaderboard />}
+    </div>
   )
 }
-
-export default App
