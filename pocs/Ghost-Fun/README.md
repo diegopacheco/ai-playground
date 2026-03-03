@@ -14,6 +14,15 @@ Supports claude, gemini, codex, and opencode — swap agents per-commit or set a
 * Did not like Opus was not the default model for claude
 * It works
 
+## Result APP
+
+Memory Game 1 <br/>
+<img src="result-1.png" width="600" />
+
+Memory Game 2 <br/>
+<img src="result-2.png" width="600" />
+
+
 ## Result
 
 ```
