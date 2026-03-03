@@ -1,0 +1,26 @@
+pocs/Ghost-Fun/app/frontend/src/main.tsx
+  258c72fbfffd4207 3,7-8,11-13
+pocs/Ghost-Fun/app/frontend/src/api.ts
+  258c72fbfffd4207 1-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "5438483dd3a05c8df7e6602e197d60bbf6de9351",
+  "prompts": {
+    "258c72fbfffd4207": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "61258ab4-eb2d-40fa-889a-5844e6db05ea",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 28,
+      "total_deletions": 1,
+      "accepted_lines": 28,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/19f7978a2b34507a1787bf48cb4875d8f7c3344d475a0f3c33b8cc9f405a8abb"
+    }
+  }
+}
