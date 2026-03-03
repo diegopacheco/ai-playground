@@ -128,3 +128,52 @@ you  ░░░░░░░░░░░░░░░░░░░░░░░░░
 
   ✓ ghost: committed follow-up changes 'Add a run.sh and stop.sh to run the whole app and stop it all.'
 ```
+
+## Logs
+
+```
+❯ ghost log
+b63c5b4 2026-03-02 (diegopacheco)
+  intent   run.sh still with errors: ❯ ./run.sh
+  agent    claude
+  model    claude-sonnet-4-6
+  session  d1bc6514-c1c9-44b6-ad21-0ee19035623f
+  files    run.sh
+
+3fb814c 2026-03-02 (diegopacheco)
+  intent   run.sh still have erors - Error: Os { code: 48, kind: AddrInUse, message: Address already in use }
+  agent    claude
+  model    claude-sonnet-4-6
+  session  084cc1b6-7ece-422a-92c1-f10d04e47404
+  files    run.sh
+
+e5870fb 2026-03-02 (diegopacheco)
+  intent   fix the bug on run.sh ❯ ./run.sh
+  agent    claude
+  model    claude-sonnet-4-6
+  session  230994cd-32cc-46c5-a9e4-820dfdd6653f                                                                                                  files    run.sh
+                                                                                                                                               d2a473e 2026-03-02 (diegopacheco)
+  intent   Add a run.sh and stop.sh to run the whole app and stop it all.                                                                        agent    claude                                                                                                                                model    claude-sonnet-4-6                                                                                                                     session  9ffcc530-e642-41c9-82e7-c4076878dde3
+  files    run.sh
+
+4f18799 2026-03-02 (diegopacheco)
+  intent   Add a run.sh and stop.sh to run the whole app and stop it all.
+  agent    claude
+  model    claude-sonnet-4-6
+  session  9ffcc530-e642-41c9-82e7-c4076878dde3
+  files    pocs/Ghost-Fun/app/run.sh
+
+2d0a074 2026-03-02 (diegopacheco)
+  intent   create a memory game with frontend written in React, Tanstack, vite, bun and the backend in rust with sqllite. make sure there is a leaderboard ui, there is a timmer for 120s to finish the game and the game tracks how many moves.
+  agent    claude
+  model    claude-sonnet-4-6
+  session  f1ad9cbd-1392-4652-885b-94077c4a31e7
+  files    frontend/src/index.css,start.sh,stop.sh
+
+bceb742 2026-03-02 (diegopacheco)
+  intent   create a memory game with frontend written in React, Tanstack, vite, bun and the backend in rust with sqllite. make sure there is a leaderboard ui, there is a timmer for 120s to finish the game and the game tracks how many moves.
+  agent    claude
+  model    claude-sonnet-4-6
+  session  f1ad9cbd-1392-4652-885b-94077c4a31e7
+  files    pocs/Ghost-Fun/app/frontend/src/App.css,pocs/Ghost-Fun/app/frontend/src/App.tsx,pocs/Ghost-Fun/app/frontend/src/components/Board.tsx,pocs/Ghost-Fun/app/frontend/src/components/Card.tsx,pocs/Ghost-Fun/app/frontend/src/components/Leaderboard.tsx,pocs/Ghost-Fun/app/frontend/src/components/Timer.tsx
+```
