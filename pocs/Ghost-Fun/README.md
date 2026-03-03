@@ -10,7 +10,9 @@ Supports claude, gemini, codex, and opencode — swap agents per-commit or set a
 
 ## Experience Notes
 
-*
+* Installion was easy
+* Did not like Opus was not the default model for claude
+* 
 
 ## Result
 
