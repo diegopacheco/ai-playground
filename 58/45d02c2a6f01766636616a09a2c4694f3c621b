@@ -1,0 +1,28 @@
+pocs/Ghost-Fun/app/backend/Cargo.toml
+  258c72fbfffd4207 4,7-12
+pocs/Ghost-Fun/app/backend/src/main.rs
+  258c72fbfffd4207 1-86
+pocs/Ghost-Fun/app/frontend/index.html
+  258c72fbfffd4207 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "5845d02c2a6f01766636616a09a2c4694f3c621b",
+  "prompts": {
+    "258c72fbfffd4207": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "61258ab4-eb2d-40fa-889a-5844e6db05ea",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 94,
+      "total_deletions": 4,
+      "accepted_lines": 94,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/71925ddadf0dc2bfc088301600aa2d2e3c9a296583c3e95f2ccc4bc7fd631ff9"
+    }
+  }
+}
