@@ -12,7 +12,7 @@ Supports claude, gemini, codex, and opencode — swap agents per-commit or set a
 
 * Installion was easy
 * Did not like Opus was not the default model for claude
-* 
+* It works
 
 ## Result
 
@@ -32,7 +32,6 @@ ghost commit -m "create a memory game with frontend written in React, Tanstack, 
 ```
 ⠴ running claude…Everything is built and tested. Here's the full project structure:
 
-```
 app/
 ├── start.sh          # starts backend + frontend
 ├── stop.sh           # stops both
@@ -51,15 +50,14 @@ app/
             ├── Card.tsx    # flip animation
             ├── Timer.tsx   # countdown with danger pulse
             └── Leaderboard.tsx  # TanStack Query, auto-refreshes
-```
+
 
 **How to run:**
-```bash
+
 cd app
 ./start.sh
 # Backend: http://localhost:8080
 # Frontend: http://localhost:5173
-```
 
 **Features implemented:**
 - **16 cards** (8 emoji pairs), shuffled each game
@@ -98,4 +96,26 @@ you  ░░░░░░░░░░░░░░░░░░░░░░░░░
   intent    Add a run.sh and stop.sh to run the whole app and stop it all.
 
 ⠇ running claude…
+```
+
+```
+⠏ running claude…Done. `run.sh` builds the Rust backend and starts both services:
+
+- Backend on `http://localhost:8080`
+- Frontend on `http://localhost:5173`
+
+PIDs are saved to `/tmp/memory-backend.pid` and `/tmp/memory-frontend.pid`, which the existing `stop.sh` uses to kill both processes.
+[main 4f187994] added Ghost ghost-meta ghost-prompt: Add a run.sh and stop.sh to run the whole app and stop it all. ghost-agent: claude ghost-model: claude-sonnet-4-6 ghost-session: 9ffcc530-e642-41c9-82e7-c4076878dde3 ghost-files: pocs/Ghost-Fun/app/run.sh
+ Date: Mon Mar 2 22:25:46 2026 -0800
+ 1 file changed, 11 insertions(+)
+ create mode 100644 pocs/Ghost-Fun/app/run.sh
+
+  ✓ ghost: tagged agent commit with ghost-meta 'Add a run.sh and stop.sh to run the whole app and stop it all.'
+[main d2a473ee] Add a run.sh and stop.sh to run the whole app and stop it all. (follow-up)
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ mode change 100644 => 100755 pocs/Ghost-Fun/app/run.sh
+you  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ai
+     0%                                    0%
+
+  ✓ ghost: committed follow-up changes 'Add a run.sh and stop.sh to run the whole app and stop it all.'
 ```
