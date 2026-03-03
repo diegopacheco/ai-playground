@@ -1,0 +1,34 @@
+pocs/Ghost-Fun/app/frontend/src/components/Timer.tsx
+  258c72fbfffd4207 1-15
+pocs/Ghost-Fun/app/frontend/src/components/Board.tsx
+  258c72fbfffd4207 1-161
+pocs/Ghost-Fun/app/frontend/src/App.tsx
+  258c72fbfffd4207 2-3,6,8-9,12-26
+pocs/Ghost-Fun/app/frontend/src/App.css
+  258c72fbfffd4207 1-15,17-50,52,55-58,60-81,84-87,89-92,94-97,100-102,105-110,114-237,240-242
+pocs/Ghost-Fun/app/frontend/src/components/Card.tsx
+  258c72fbfffd4207 1-20
+pocs/Ghost-Fun/app/frontend/src/components/Leaderboard.tsx
+  258c72fbfffd4207 1-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.7",
+  "base_commit_sha": "df1d2806836eb14b5e095da3db3620bd956cf54c",
+  "prompts": {
+    "258c72fbfffd4207": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "61258ab4-eb2d-40fa-889a-5844e6db05ea",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 481,
+      "total_deletions": 54,
+      "accepted_lines": 481,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/7f4d27d32fe519168882494edff4eb1ee61bf074fc5303c29026b2b0aca38fb3"
+    }
+  }
+}
