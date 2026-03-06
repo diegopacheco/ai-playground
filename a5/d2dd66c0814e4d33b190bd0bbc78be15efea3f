@@ -1,0 +1,40 @@
+pocs/monte-carlo-simulation-drunk-sailor/README.md
+  01074cb6b7684d89 1-4,6-43
+pocs/monte-carlo-simulation-drunk-sailor/backend/Cargo.toml
+  01074cb6b7684d89 2,4,7-15
+pocs/monte-carlo-simulation-drunk-sailor/frontend/src/App.css
+  01074cb6b7684d89 1-5,7,9-136
+pocs/monte-carlo-simulation-drunk-sailor/frontend/src/App.tsx
+  01074cb6b7684d89 1-2,5-75,77-83,85-92,95-109,111-121,123-126,129-169
+pocs/monte-carlo-simulation-drunk-sailor/backend/src/main.rs
+  01074cb6b7684d89 1-90
+pocs/monte-carlo-simulation-drunk-sailor/frontend/index.html
+  01074cb6b7684d89 6
+pocs/monte-carlo-simulation-drunk-sailor/frontend/src/main.tsx
+  01074cb6b7684d89 3,7-8,11-13
+pocs/monte-carlo-simulation-drunk-sailor/frontend/src/index.css
+  01074cb6b7684d89 7,18-21
+pocs/monte-carlo-simulation-drunk-sailor/run.sh
+  01074cb6b7684d89 1-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "a5d2dd66c0814e4d33b190bd0bbc78be15efea3f",
+  "prompts": {
+    "01074cb6b7684d89": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "605fcda2-6bc6-40f3-8c7a-e255cc7fceb6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 471,
+      "total_deletions": 120,
+      "accepted_lines": 467,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f5b0f2f68f34c8f69a01f261911482c84fbad6dd7667c36ddaa4a75498343988"
+    }
+  }
+}
