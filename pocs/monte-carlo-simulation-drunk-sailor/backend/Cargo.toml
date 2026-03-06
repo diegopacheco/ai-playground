@@ -1,0 +1,15 @@
+[package]
+name = "drunk-sailor-backend"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+actix-web = "4"
+actix-cors = "0.7"
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rand = "0.8"
+
+[profile.release]
+opt-level = 3
