@@ -255,3 +255,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/google-adk-go-poc
 
 42- Dapr Agents, Python with OpenAI <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/dapr-agents-poc
+
+43 - Kovalski: K8s SRE Agent Operator with Opus 4.6 <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/k8s-sre-agent-operator
