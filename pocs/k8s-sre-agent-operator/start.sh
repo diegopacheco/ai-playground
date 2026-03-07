@@ -36,9 +36,15 @@ while true; do
     sleep 1
 done
 
+kubectl port-forward svc/sre-agent-operator 30080:8080 &
+PF_PID=$!
+echo "$PF_PID" > /tmp/sre-agent-portforward.pid
+sleep 1
+
 echo ""
 echo "SRE Agent Operator is running."
-echo "  GET  /logs -> curl http://localhost:30080/logs"
-echo "  POST /fix  -> curl -X POST http://localhost:30080/fix"
+echo "  GET  /logs -> kovalski logs"
+echo "  POST /fix  -> kovalski fix"
+echo "  Port-forward PID: $PF_PID"
 echo ""
 kubectl get pods -A
