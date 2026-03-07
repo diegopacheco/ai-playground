@@ -1,0 +1,60 @@
+pocs/k8s-sre-agent-operator/specs/broken-deployment-missing-env.yaml
+  bee120974b8081d7 1-20
+pocs/k8s-sre-agent-operator/start.sh
+  bee120974b8081d7 1-42
+pocs/k8s-sre-agent-operator/operator/Containerfile
+  bee120974b8081d7 1-15
+pocs/k8s-sre-agent-operator/specs/sre-agent-operator.yaml
+  bee120974b8081d7 1-73
+pocs/k8s-sre-agent-operator/stop.sh
+  bee120974b8081d7 1-6
+pocs/k8s-sre-agent-operator/operator/src/agent/mod.rs
+  bee120974b8081d7 1-2
+pocs/k8s-sre-agent-operator/operator/src/k8s/diagnostics.rs
+  bee120974b8081d7 1-182
+pocs/k8s-sre-agent-operator/operator/src/main.rs
+  bee120974b8081d7 1-27
+pocs/k8s-sre-agent-operator/operator/Cargo.toml
+  bee120974b8081d7 1-13
+pocs/k8s-sre-agent-operator/specs/broken-deployment-bad-port.yaml
+  bee120974b8081d7 1-32
+pocs/k8s-sre-agent-operator/operator/src/k8s/applier.rs
+  bee120974b8081d7 1-28
+pocs/k8s-sre-agent-operator/specs/broken-deployment-wrong-image.yaml
+  bee120974b8081d7 1-20
+pocs/k8s-sre-agent-operator/kind-config.yaml
+  bee120974b8081d7 1-5
+pocs/k8s-sre-agent-operator/operator/src/routes/fix.rs
+  bee120974b8081d7 1-68
+pocs/k8s-sre-agent-operator/operator/src/routes/logs.rs
+  bee120974b8081d7 1-13
+pocs/k8s-sre-agent-operator/operator/src/agent/runner.rs
+  bee120974b8081d7 1-42
+pocs/k8s-sre-agent-operator/operator/src/agent/claude.rs
+  bee120974b8081d7 1-10
+pocs/k8s-sre-agent-operator/operator/src/routes/mod.rs
+  bee120974b8081d7 1-2
+pocs/k8s-sre-agent-operator/operator/src/k8s/mod.rs
+  bee120974b8081d7 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "67656cbc73d7e348c7d4bdea01eddb1b30c8a746",
+  "prompts": {
+    "bee120974b8081d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1735c94c-d303-4e1d-83a9-2a6bead7d788",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 602,
+      "total_deletions": 0,
+      "accepted_lines": 602,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/fb9666a8d5111029d356e1b6ce6b892dae524ac474f682e5ce1ed32506713ad9"
+    }
+  }
+}
