@@ -15,13 +15,6 @@ podman save sre-agent-operator:latest -o /tmp/sre-agent-operator.tar
 kind load image-archive /tmp/sre-agent-operator.tar --name "$CLUSTER_NAME"
 rm -f /tmp/sre-agent-operator.tar
 
-if [ -z "$ANTHROPIC_API_KEY" ]; then
-    echo "WARNING: ANTHROPIC_API_KEY not set. /fix endpoint will not work."
-    kubectl create secret generic anthropic-secret --from-literal=api-key="not-set" 2>/dev/null || true
-else
-    kubectl create secret generic anthropic-secret --from-literal=api-key="$ANTHROPIC_API_KEY" 2>/dev/null || true
-fi
-
 for f in "$SCRIPT_DIR/specs/"*.yaml; do
     echo "Applying $f"
     kubectl apply -f "$f"
