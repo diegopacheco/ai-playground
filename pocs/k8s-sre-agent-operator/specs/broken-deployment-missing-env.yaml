@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broken-missing-env
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broken-missing-env
+  template:
+    metadata:
+      labels:
+        app: broken-missing-env
+    spec:
+      containers:
+        - name: app
+          image: postgres:16
+          ports:
+            - containerPort: 5432

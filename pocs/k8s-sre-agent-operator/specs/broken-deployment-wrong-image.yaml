@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broken-wrong-image
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broken-wrong-image
+  template:
+    metadata:
+      labels:
+        app: broken-wrong-image
+    spec:
+      containers:
+        - name: web
+          image: nginxxxxx:latesttttt
+          ports:
+            - containerPort: 80
