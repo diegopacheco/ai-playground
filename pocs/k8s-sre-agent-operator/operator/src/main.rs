@@ -19,6 +19,7 @@ async fn main() {
     let app = Router::new()
         .route("/logs", get(routes::logs::get_logs))
         .route("/fix", post(routes::fix::fix_deployments))
+        .route("/status", get(routes::status::get_status))
         .with_state(state);
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8080").await.unwrap();
