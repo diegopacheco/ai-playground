@@ -1,6 +1,8 @@
-# K8s SRE Agent Operator
+# Kovalski: K8s SRE Agent Operator
 
 Kubernetes SRE Agent Operator written in Rust 1.93+ (edition 2024) that runs inside a Kind cluster. It exposes REST endpoints to inspect pod logs and automatically fix broken deployments using Claude CLI as the AI reasoning engine.
+
+<img src="logo.png" width="400">
 
 ## Stack
 
