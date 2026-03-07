@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="New Frame - Exported from UXMagic Copilot">
+    <title>New Frame</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['var(--font-heading-name)', 'sans-serif'],
+            body: ['var(--font-body-name)', 'sans-serif'],
+          },
+          spacing: {
+            base: 'var(--space-base)',
+          },
+          borderRadius: {
+            small: 'var(--radius-small)',
+            large: 'var(--radius-large)',
+          },
+          boxShadow: {
+            custom: 'var(--shadow-custom)',
+            'custom-hover': 'var(--shadow-custom-hover)',
+          },
+          colors: {
+            background: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+            },
+            neutral: {
+              50: '#f9fafb',
+              100: '#f3f4f6',
+              200: '#e5e7eb',
+              300: '#d1d5db',
+              400: '#9ca3af',
+              500: '#6b7280',
+              600: '#4b5563',
+              700: '#374151',
+              800: '#1f2937',
+              900: '#111827',
+            },
+            primary: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            },
+            danger: {
+              50: '#fef2f2',
+              100: '#fee2e2',
+              500: '#ef4444',
+              600: '#dc2626',
+            }
+          }
+        }
+      }
+    }
+  
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="theme-color" content="#007bff">
+    <meta name="color-scheme" content="light dark">
+    <meta name="author" content="UXMagic Copilot">
+</head>
+<body>
+    
+
+  <!-- Header -->
+  <header class="bg-white border-b border-neutral-200 px-6 py-4 flex items-center justify-between shrink-0 z-10">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-primary-600 rounded-small flex items-center justify-center text-white shadow-custom">
+        <i data-lucide="kanban-square" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h1 class="font-heading text-xl font-semibold text-neutral-900 leading-tight">Product Roadmap</h1>
+        <p class="text-xs text-neutral-500 font-medium">Q4 2023 • Team Alpha</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-4">
+      <div class="flex -space-x-2 overflow-hidden">
+        <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="User 1">
+        <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="User 2">
+        <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2.25&amp;w=256&amp;h=256&amp;q=80" alt="User 3">
+        <div class="h-8 w-8 rounded-full ring-2 ring-white bg-neutral-100 flex items-center justify-center text-xs font-medium text-neutral-600">+2</div>
+      </div>
+      
+      <div class="h-6 w-px bg-neutral-200"></div>
+      
+      <button onclick="toggleErrorSim()" class="text-neutral-500 hover:text-danger-600 transition-colors" title="Simulate Backend Error">
+        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+      </button>
+      
+      <button class="bg-neutral-900 hover:bg-neutral-800 text-white px-4 py-2 rounded-small text-sm font-medium transition-colors shadow-custom flex items-center gap-2">
+        <i data-lucide="plus" class="w-4 h-4"></i>
+        <span>New Queue</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Error Toast (Hidden by default) -->
+  <div id="error-toast" class="fixed top-20 right-6 z-50 transform transition-all duration-300 translate-x-full opacity-0">
+    <div class="bg-white border-l-4 border-danger-500 rounded-r-small shadow-custom-hover p-4 flex items-start gap-3 max-w-md">
+      <div class="text-danger-500 mt-0.5">
+        <i data-lucide="x-circle" class="w-5 h-5"></i>
+      </div>
+      <div>
+        <h3 class="font-heading text-sm font-semibold text-neutral-900">Sync Failed</h3>
+        <p class="text-sm text-neutral-600 mt-1">Backend connection timed out. Your changes have not been saved. Please try again.</p>
+        <button onclick="hideError()" class="text-xs font-medium text-danger-600 hover:text-danger-700 mt-2">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Board Area -->
+  <main class="flex-1 overflow-x-auto overflow-y-hidden kanban-container bg-background-50 p-6">
+    <div class="flex h-full gap-6 min-w-max">
+      
+      <!-- Column 1: Backlog -->
+      <div class="w-80 flex flex-col h-full max-h-full">
+        <!-- Column Header -->
+        <div class="flex items-center justify-between mb-3 px-1">
+          <div class="flex items-center gap-2">
+            <h2 class="font-heading font-semibold text-neutral-700 text-sm uppercase tracking-wide">Backlog</h2>
+            <span class="bg-neutral-200 text-neutral-600 text-xs font-medium px-2 py-0.5 rounded-full">4</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="text-xs text-neutral-400 font-medium">Limit: ∞</span>
+            <button class="text-neutral-400 hover:text-neutral-600 p-1 rounded hover:bg-neutral-100">
+              <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Column Content -->
+        <div class="flex-1 bg-neutral-100 rounded-large p-2 flex flex-col gap-3 overflow-y-auto column-scroll border border-neutral-200/50">
+          
+          <!-- Card 1 -->
+          <div class="bg-white p-3 rounded-small shadow-sm border border-neutral-200 hover:shadow-custom cursor-pointer group transition-all">
+            <div class="flex justify-between items-start mb-2">
+              <span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Design</span>
+              <button class="text-neutral-300 hover:text-neutral-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                <i data-lucide="more-vertical" class="w-3 h-3"></i>
+              </button>
+            </div>
+            <h3 class="font-heading text-sm font-medium text-neutral-800 mb-2 leading-snug">Update color palette for dark mode</h3>
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center gap-1 text-neutral-400 text-xs">
+                <i data-lucide="message-square" class="w-3 h-3"></i>
+                <span>2</span>
+              </div>
+              <img class="h-5 w-5 rounded-full object-cover ring-1 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="Assignee">
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-white p-3 rounded-small shadow-sm border border-neutral-200 hover:shadow-custom cursor-pointer group transition-all">
+            <div class="flex justify-between items-start mb-2">
+              <span class="bg-purple-50 text-purple-700 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Research</span>
+            </div>
+            <h3 class="font-heading text-sm font-medium text-neutral-800 mb-2 leading-snug">Competitor analysis for Q4 features</h3>
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center gap-1 text-neutral-400 text-xs">
+                <i data-lucide="paperclip" class="w-3 h-3"></i>
+                <span>1</span>
+              </div>
+              <div class="h-5 w-5 rounded-full bg-neutral-200 flex items-center justify-center text-[10px] font-bold text-neutral-500">JD</div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-white p-3 rounded-small shadow-sm border border-neutral-200 hover:shadow-custom cursor-pointer group transition-all">
+            <div class="flex justify-between items-start mb-2">
+              <span class="bg-orange-50 text-orange-700 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Bug</span>
+            </div>
+            <h3 class="font-heading text-sm font-medium text-neutral-800 mb-2 leading-snug">Fix navigation glitch on mobile safari</h3>
+            <div class="w-full bg-neutral-100 h-1.5 rounded-full mt-2 mb-1 overflow-hidden">
+              <div class="bg-orange-400 h-full rounded-full" style="width: 80%"></div>
+            </div>
+            <div class="flex items-center justify-between mt-2">
+              <span class="text-[10px] text-orange-600 font-medium">High Priority</span>
+              <img class="h-5 w-5 rounded-full object-cover ring-1 ring-white" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="Assignee">
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="bg-white p-3 rounded-small shadow-sm border border-neutral-200 hover:shadow-custom cursor-pointer group transition-all">
+             <div class="flex justify-between items-start mb-2">
+              <span class="bg-green-50 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Dev</span>
+            </div>
+            <h3 class="font-heading text-sm font-medium text-neutral-800 mb-2 leading-snug">Setup CI/CD pipeline for staging</h3>
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1 text-neutral-400 text-xs">
+                  <i data-lucide="check-square" class="w-3 h-3"></i>
+                  <span>0/4</span>
+                </div>
+              </div>
+              <img class="h-5 w-5 rounded-full object-cover ring-1 ring-white" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2.25&amp;w=256&amp;h=256&amp;q=80" alt="Assignee">
+            </div>
+          </div>
+
+        </div>
+        
+        <!-- Add Button -->
+        <button class="mt-3 flex items-center gap-2 text-neutral-500 hover:text-neutral-800 hover:bg-neutral-200/50 p-2 rounded-small transition-colors text-sm font-medium">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Add Card</span>
+        </button>
+      </div>
+
+      <!-- Column 2: In Progress (WIP Limit Reached) -->
+      <div class="w-80 flex flex-col h-full max-h-full">
+        <!-- Column Header -->
+        <div class="flex items-center justify-between mb-3 px-1">
+          <div class="flex items-center gap-2">
+            <h2 class="font-heading font-semibold text-neutral-700 text-sm uppercase tracking-wide">In Progress</h2>
+            <span class="bg-danger-100 text-danger-700 text-xs font-bold px-2 py-0.5 rounded-full border border-danger-200">3 / 3</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="text-xs text-danger-600 font-medium flex items-center gap-1">
+              <i data-lucide="alert-circle" class="w-3 h-3"></i>
+              Max Reached
+            </span>
+            <button class="text-neutral-400 hover:text-neutral-600 p-1 rounded hover:bg-neutral-100">
+              <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Column Content -->
+        <div class="flex-1 bg-neutral-100 rounded-large p-2 flex flex-col gap-3 overflow-y-auto column-scroll border-2 border-danger-100 relative">
+          
+          <!-- Card 1 -->
+          <div class="bg-white p-3 rounded-small shadow-sm border border-neutral-200 hover:shadow-custom cursor-pointer group transition-all">
+            <div class="flex justify-between items-start mb-2">
+              <span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Design</span>
+            </div>
+            <h3 class="font-heading text-sm font-medium text-neutral-800 mb-2 leading-snug">Homepage hero section redesign</h3>
+            <div class="w-full bg-neutral-100 h-1.5 rounded-full mt-2 mb-1 overflow-hidden">
+              <div class="bg-blue-500 h-full rounded-full" style="width: 45%"></div>
+            </div>
+            <div class="flex items-center justify-between mt-2">
+              <span class="text-[10px] text-neutral-400 font-medium">Due Tomorrow</span>
+              <img class="h-5 w-5 rounded-full object-cover ring-1 ring-white" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="Assignee">
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-white p-3 rounded-small shadow-sm border border-neutral-200 hover:shadow-custom cursor-pointer group transition-all">
+            <div class="flex justify-between items-start mb-2">
+              <span class="bg-green-50 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Dev</span>
+            </div>
+            <h3 class="font-heading text-sm font-medium text-neutral-800 mb-2 leading-snug">API integration for user profile</h3>
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center gap-1 text-neutral-400 text-xs">
+                <i data-lucide="git-branch" class="w-3 h-3"></i>
+                <span>PR #402</span>
+              </div>
+              <img class="h-5 w-5 rounded-full object-cover ring-1 ring-white" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2.25&amp;w=256&amp;h=256&amp;q=80" alt="Assignee">
+            </div>
+          </div>
+          
+          <!-- Card 3 -->
+          <div class="bg-white p-3 rounded-small shadow-sm border border-neutral-200 hover:shadow-custom cursor-pointer group transition-all">
+            <div class="flex justify-between items-start mb-2">
+              <span class="bg-purple-50 text-purple-700 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Content</span>
+            </div>
+            <h3 class="font-heading text-sm font-medium text-neutral-800 mb-2 leading-snug">Draft blog post for release v2.0</h3>
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center gap-1 text-neutral-400 text-xs">
+                <i data-lucide="clock" class="w-3 h-3"></i>
+                <span>4h logged</span>
+              </div>
+              <img class="h-5 w-5 rounded-full object-cover ring-1 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="Assignee">
+            </div>
+          </div>
+
+        </div>
+        
+        <!-- Add Button (Disabled) -->
+        <button class="mt-3 flex items-center gap-2 text-neutral-400 bg-neutral-100 p-2 rounded-small cursor-not-allowed text-sm font-medium border border-neutral-200" disabled="" title="WIP Limit Reached">
+          <i data-lucide="lock" class="w-4 h-4"></i>
+          <span>Queue Full (Limit 3)</span>
+        </button>
+      </div>
+
+      <!-- Column 3: Review -->
+      <div class="w-80 flex flex-col h-full max-h-full">
+        <!-- Column Header -->
+        <div class="flex items-center justify-between mb-3 px-1">
+          <div class="flex items-center gap-2">
+            <h2 class="font-heading font-semibold text-neutral-700 text-sm uppercase tracking-wide">Review</h2>
+            <span class="bg-neutral-200 text-neutral-600 text-xs font-medium px-2 py-0.5 rounded-full">2 / 5</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="text-xs text-neutral-400 font-medium">Limit: 5</span>
+            <button class="text-neutral-400 hover:text-neutral-600 p-1 rounded hover:bg-neutral-100">
+              <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Column Content -->
+        <div class="flex-1 bg-neutral-100 rounded-large p-2 flex flex-col gap-3 overflow-y-auto column-scroll border border-neutral-200/50">
+          
+          <!-- Card 1 -->
+          <div class="bg-white p-3 rounded-small shadow-sm border border-neutral-200 hover:shadow-custom cursor-pointer group transition-all">
+            <div class="flex justify-between items-start mb-2">
+              <span class="bg-green-50 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Dev</span>
+            </div>
+            <h3 class="font-heading text-sm font-medium text-neutral-800 mb-2 leading-snug">Refactor authentication middleware</h3>
+            <div class="flex items-center gap-2 mt-2 mb-1">
+              <span class="text-[10px] bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded">Needs Approval</span>
+            </div>
+            <div class="flex items-center justify-between mt-2">
+              <div class="flex items-center gap-1 text-neutral-400 text-xs">
+                <i data-lucide="message-square" class="w-3 h-3"></i>
+                <span>5</span>
+              </div>
+              <img class="h-5 w-5 rounded-full object-cover ring-1 ring-white" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2.25&amp;w=256&amp;h=256&amp;q=80" alt="Assignee">
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-white p-3 rounded-small shadow-sm border border-neutral-200 hover:shadow-custom cursor-pointer group transition-all">
+            <div class="flex justify-between items-start mb-2">
+              <span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Design</span>
+            </div>
+            <h3 class="font-heading text-sm font-medium text-neutral-800 mb-2 leading-snug">Mobile app icon set</h3>
+            <div class="grid grid-cols-4 gap-1 mt-2 mb-2">
+              <div class="aspect-square bg-neutral-100 rounded"></div>
+              <div class="aspect-square bg-neutral-100 rounded"></div>
+              <div class="aspect-square bg-neutral-100 rounded"></div>
+              <div class="aspect-square bg-neutral-100 rounded flex items-center justify-center text-[10px] text-neutral-400">+2</div>
+            </div>
+            <div class="flex items-center justify-between mt-1">
+              <span class="text-[10px] text-neutral-400 font-medium">Updated 2h ago</span>
+              <img class="h-5 w-5 rounded-full object-cover ring-1 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="Assignee">
+            </div>
+          </div>
+
+        </div>
+        
+        <!-- Add Button -->
+        <button class="mt-3 flex items-center gap-2 text-neutral-500 hover:text-neutral-800 hover:bg-neutral-200/50 p-2 rounded-small transition-colors text-sm font-medium">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Add Card</span>
+        </button>
+      </div>
+
+      <!-- Column 4: Done -->
+      <div class="w-80 flex flex-col h-full max-h-full">
+        <!-- Column Header -->
+        <div class="flex items-center justify-between mb-3 px-1">
+          <div class="flex items-center gap-2">
+            <h2 class="font-heading font-semibold text-neutral-700 text-sm uppercase tracking-wide">Done</h2>
+            <span class="bg-neutral-200 text-neutral-600 text-xs font-medium px-2 py-0.5 rounded-full">12</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="text-xs text-neutral-400 font-medium">Limit: ∞</span>
+            <button class="text-neutral-400 hover:text-neutral-600 p-1 rounded hover:bg-neutral-100">
+              <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Column Content -->
+        <div class="flex-1 bg-neutral-100 rounded-large p-2 flex flex-col gap-3 overflow-y-auto column-scroll border border-neutral-200/50">
+          
+          <!-- Card 1 -->
+          <div class="bg-white p-3 rounded-small shadow-sm border border-neutral-200 opacity-75 hover:opacity-100 transition-all">
+            <div class="flex justify-between items-start mb-2">
+              <span class="bg-neutral-100 text-neutral-600 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider line-through">Admin</span>
+              <div class="text-green-500">
+                <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <h3 class="font-heading text-sm font-medium text-neutral-500 mb-2 leading-snug line-through">Quarterly planning meeting</h3>
+            <div class="flex items-center justify-between mt-2">
+              <span class="text-[10px] text-neutral-400 font-medium">Completed Yesterday</span>
+              <div class="h-5 w-5 rounded-full bg-neutral-200 flex items-center justify-center text-[10px] font-bold text-neutral-500">JD</div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-white p-3 rounded-small shadow-sm border border-neutral-200 opacity-75 hover:opacity-100 transition-all">
+            <div class="flex justify-between items-start mb-2">
+              <span class="bg-neutral-100 text-neutral-600 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider line-through">Dev</span>
+              <div class="text-green-500">
+                <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <h3 class="font-heading text-sm font-medium text-neutral-500 mb-2 leading-snug line-through">Database migration script</h3>
+            <div class="flex items-center justify-between mt-2">
+              <span class="text-[10px] text-neutral-400 font-medium">Completed 2 days ago</span>
+              <img class="h-5 w-5 rounded-full object-cover ring-1 ring-white" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="Assignee">
+            </div>
+          </div>
+
+        </div>
+        
+        <!-- Add Button (Hidden for Done usually, but kept for consistency) -->
+        <div class="mt-3 h-9"></div>
+      </div>
+
+      <!-- Add New Column Placeholder -->
+      <div class="w-80 flex flex-col h-full pt-10 opacity-50 hover:opacity-100 transition-opacity cursor-pointer group">
+        <div class="border-2 border-dashed border-neutral-300 rounded-large h-full flex items-center justify-center bg-neutral-50 group-hover:bg-white group-hover:border-neutral-400 transition-all">
+          <div class="flex flex-col items-center gap-2 text-neutral-500">
+            <i data-lucide="plus-circle" class="w-8 h-8"></i>
+            <span class="font-medium">Add New Queue</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Modals (Hidden by default) -->
+  <!-- Add Queue Modal -->
+  <div class="hidden fixed inset-0 bg-neutral-900/50 z-50 flex items-center justify-center backdrop-blur-sm">
+    <div class="bg-white rounded-large shadow-custom w-full max-w-md p-6 m-4">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-heading text-lg font-semibold text-neutral-900">Create New Queue</h3>
+        <button class="text-neutral-400 hover:text-neutral-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-neutral-700 mb-1">Queue Name</label>
+          <input type="text" class="w-full border border-neutral-300 rounded-small px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="e.g. QA Testing">
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-neutral-700 mb-1">WIP Limit</label>
+          <div class="flex items-center gap-2">
+            <input type="number" class="w-24 border border-neutral-300 rounded-small px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="0">
+            <span class="text-xs text-neutral-500">Set to 0 for no limit</span>
+          </div>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-neutral-700 mb-1">Color Theme</label>
+          <div class="flex gap-2">
+            <button class="w-6 h-6 rounded-full bg-neutral-500 ring-2 ring-offset-2 ring-neutral-500"></button>
+            <button class="w-6 h-6 rounded-full bg-blue-500"></button>
+            <button class="w-6 h-6 rounded-full bg-green-500"></button>
+            <button class="w-6 h-6 rounded-full bg-purple-500"></button>
+            <button class="w-6 h-6 rounded-full bg-orange-500"></button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-end gap-3 mt-6">
+        <button class="px-4 py-2 text-neutral-600 font-medium hover:bg-neutral-100 rounded-small transition-colors">Cancel</button>
+        <button class="px-4 py-2 bg-neutral-900 text-white font-medium rounded-small hover:bg-neutral-800 transition-colors shadow-custom">Create Queue</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Simple error simulation script
+    function toggleErrorSim() {
+      const toast = document.getElementById('error-toast');
+      toast.classList.remove('translate-x-full', 'opacity-0');
+      
+      // Auto hide after 5 seconds
+      setTimeout(() => {
+        hideError();
+      }, 5000);
+    }
+
+    function hideError() {
+      const toast = document.getElementById('error-toast');
+      toast.classList.add('translate-x-full', 'opacity-0');
+    }
+  </script>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
