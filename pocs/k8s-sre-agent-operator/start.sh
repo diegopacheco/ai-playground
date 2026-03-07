@@ -11,7 +11,9 @@ kubectl cluster-info --context "kind-$CLUSTER_NAME"
 cd "$SCRIPT_DIR/operator"
 podman build -t sre-agent-operator:latest -f Containerfile .
 
-kind load docker-image sre-agent-operator:latest --name "$CLUSTER_NAME"
+podman save sre-agent-operator:latest -o /tmp/sre-agent-operator.tar
+kind load image-archive /tmp/sre-agent-operator.tar --name "$CLUSTER_NAME"
+rm -f /tmp/sre-agent-operator.tar
 
 if [ -z "$ANTHROPIC_API_KEY" ]; then
     echo "WARNING: ANTHROPIC_API_KEY not set. /fix endpoint will not work."
