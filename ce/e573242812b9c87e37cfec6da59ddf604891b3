@@ -1,0 +1,24 @@
+pocs/uxmagic-poc/source/run.sh
+  80fbca9c156102db 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "cee573242812b9c87e37cfec6da59ddf604891b3",
+  "prompts": {
+    "80fbca9c156102db": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f786fb6d-c936-48e4-b000-1ca255863b08",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 0,
+      "accepted_lines": 2,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a9c32eb272b3583da1566b8175df36271457cb6744af0b669f4bdb0059d56d1f"
+    }
+  }
+}
