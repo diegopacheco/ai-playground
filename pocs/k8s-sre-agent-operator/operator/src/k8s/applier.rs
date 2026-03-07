@@ -4,7 +4,7 @@ use tokio::io::AsyncReadExt;
 
 pub async fn apply_file(path: &str) -> Result<String, String> {
     let mut child = Command::new("kubectl")
-        .args(&["apply", "-f", path])
+        .args(&["apply", "--validate=false", "-f", path])
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .spawn()

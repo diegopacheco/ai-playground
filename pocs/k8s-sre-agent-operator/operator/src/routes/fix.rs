@@ -46,22 +46,55 @@ pub async fn fix_deployments(
 }
 
 fn extract_yaml(response: &str) -> String {
-    let lines: Vec<&str> = response.lines().collect();
-    let mut yaml_lines = Vec::new();
+    let mut blocks: Vec<String> = Vec::new();
+    let mut current_block: Vec<&str> = Vec::new();
     let mut in_fence = false;
 
-    for line in &lines {
+    for line in response.lines() {
         if line.starts_with("```") {
+            if in_fence && !current_block.is_empty() {
+                blocks.push(current_block.join("\n"));
+                current_block.clear();
+            }
             in_fence = !in_fence;
             continue;
         }
         if in_fence {
-            yaml_lines.push(*line);
+            current_block.push(line);
         }
     }
 
-    if yaml_lines.is_empty() {
-        return response.to_string();
+    if !blocks.is_empty() {
+        return blocks.join("\n---\n");
+    }
+
+    let mut yaml_lines: Vec<&str> = Vec::new();
+    for line in response.lines() {
+        let trimmed = line.trim();
+        if trimmed.is_empty()
+            || trimmed.starts_with("apiVersion:")
+            || trimmed.starts_with("kind:")
+            || trimmed.starts_with("metadata:")
+            || trimmed.starts_with("spec:")
+            || trimmed.starts_with("---")
+            || trimmed.starts_with("- ")
+            || trimmed.starts_with("name:")
+            || trimmed.starts_with("namespace:")
+            || trimmed.starts_with("labels:")
+            || trimmed.starts_with("containers:")
+            || trimmed.starts_with("image:")
+            || trimmed.starts_with("ports:")
+            || trimmed.starts_with("replicas:")
+            || trimmed.starts_with("selector:")
+            || trimmed.starts_with("template:")
+            || trimmed.starts_with("matchLabels:")
+            || trimmed.starts_with("app:")
+            || trimmed.starts_with("env:")
+            || trimmed.starts_with("containerPort:")
+            || line.starts_with("  ")
+        {
+            yaml_lines.push(line);
+        }
     }
 
     yaml_lines.join("\n")
