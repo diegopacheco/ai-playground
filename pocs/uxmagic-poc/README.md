@@ -11,3 +11,12 @@ generate a kanban board, where I can add as many queues as I want, also I should
 ## Result(Figma)
 
 <img src="result.png" width="600" />
+
+## Experience notes
+
+* It works very well
+* You get some free credits to try
+* You can preview
+* You can export to figma
+* You can get the HTML/CSS files
+* The UX looks nice and solid
