@@ -11,6 +11,6 @@ RUN apt-get update && apt-get install -y curl nodejs npm ca-certificates && rm -
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${KARCH}/kubectl" && \
     chmod +x kubectl && mv kubectl /usr/local/bin/ && \
     npm install -g @anthropic-ai/claude-code
-COPY --from=builder /app/target/release/k8s-sre-agent-operator /usr/local/bin/sre-agent
+COPY --from=builder /app/target/release/sre-agent /usr/local/bin/sre-agent
 EXPOSE 8080
 CMD ["sre-agent"]
