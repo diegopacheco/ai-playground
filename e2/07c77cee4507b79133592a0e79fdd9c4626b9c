@@ -1,0 +1,24 @@
+pocs/k8s-sre-agent-operator/operator/Containerfile
+  bee120974b8081d7 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "e207c77cee4507b79133592a0e79fdd9c4626b9c",
+  "prompts": {
+    "bee120974b8081d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1735c94c-d303-4e1d-83a9-2a6bead7d788",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/13e4781a6bd3936da24eebeb90b2a518c975565398cbc7ac7047d068ee794de2"
+    }
+  }
+}
