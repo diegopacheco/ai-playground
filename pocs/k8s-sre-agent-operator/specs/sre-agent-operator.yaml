@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sre-agent
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: sre-agent-role
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log", "events", "services", "configmaps"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "replicasets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: sre-agent-binding
+subjects:
+  - kind: ServiceAccount
+    name: sre-agent
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: sre-agent-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sre-agent-operator
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sre-agent-operator
+  template:
+    metadata:
+      labels:
+        app: sre-agent-operator
+    spec:
+      serviceAccountName: sre-agent
+      containers:
+        - name: sre-agent
+          image: sre-agent-operator:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: anthropic-secret
+                  key: api-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sre-agent-operator
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    app: sre-agent-operator
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080

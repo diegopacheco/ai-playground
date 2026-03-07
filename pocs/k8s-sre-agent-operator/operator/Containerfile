@@ -1,0 +1,15 @@
+FROM rust:1.94-bookworm AS builder
+WORKDIR /app
+COPY Cargo.toml ./
+COPY src ./src
+RUN cargo build --release
+
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/* && \
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    chmod +x kubectl && mv kubectl /usr/local/bin/ && \
+    curl -fsSL https://github.com/anthropics/claude-code/releases/latest/download/claude-cli-linux-x64 -o /usr/local/bin/claude && \
+    chmod +x /usr/local/bin/claude
+COPY --from=builder /app/target/release/k8s-sre-agent-operator /usr/local/bin/sre-agent
+EXPOSE 8080
+CMD ["sre-agent"]
