@@ -15,6 +15,7 @@ fn main() {
     match args[1].as_str() {
         "logs" => rt.block_on(do_get(&format!("{}/logs", base_url))),
         "fix" => rt.block_on(do_post(&format!("{}/fix", base_url))),
+        "status" => rt.block_on(do_get(&format!("{}/status", base_url))),
         _ => {
             eprintln!("Unknown command: {}", args[1]);
             print_usage();
@@ -68,6 +69,7 @@ fn print_usage() {
     eprintln!("Commands:");
     eprintln!("  logs    Read all pod logs from the cluster");
     eprintln!("  fix     Fix broken deployments using Claude AI");
+    eprintln!("  status  Show all resources in the cluster (kubectl get all)");
     eprintln!("");
     eprintln!("Environment:");
     eprintln!("  KOVALSKI_URL  Base URL of the SRE agent (default: http://localhost:30080)");

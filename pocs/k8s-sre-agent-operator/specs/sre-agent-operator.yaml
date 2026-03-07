@@ -45,6 +45,9 @@ spec:
         app: sre-agent-operator
     spec:
       serviceAccountName: sre-agent
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
       containers:
         - name: sre-agent
           image: localhost/sre-agent-operator:latest
