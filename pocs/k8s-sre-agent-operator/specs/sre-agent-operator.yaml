@@ -54,12 +54,6 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
-          env:
-            - name: ANTHROPIC_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: anthropic-secret
-                  key: api-key
 ---
 apiVersion: v1
 kind: Service
