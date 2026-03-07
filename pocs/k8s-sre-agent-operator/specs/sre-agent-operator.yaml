@@ -47,7 +47,7 @@ spec:
       serviceAccountName: sre-agent
       containers:
         - name: sre-agent
-          image: sre-agent-operator:latest
+          image: localhost/sre-agent-operator:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
