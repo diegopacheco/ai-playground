@@ -1,0 +1,26 @@
+pocs/k8s-sre-agent-operator/operator/src/routes/fix.rs
+  bee120974b8081d7 49-50,53,55-58,63,67-97
+pocs/k8s-sre-agent-operator/operator/src/k8s/applier.rs
+  bee120974b8081d7 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "cc310c1b3786ccbd61dc5363869f2fa1598d32d5",
+  "prompts": {
+    "bee120974b8081d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1735c94c-d303-4e1d-83a9-2a6bead7d788",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 40,
+      "total_deletions": 7,
+      "accepted_lines": 40,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/59da9cb7001659488bb764b3578e260152b20e263d6699f0e143cea72ac99a6f"
+    }
+  }
+}
