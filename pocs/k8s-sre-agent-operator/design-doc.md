@@ -88,6 +88,11 @@ Calls `GET /status` and prints `kubectl get all -A` output.
 2. Runs `claude -p` locally on the host to summarize findings
 3. Prints what is running, what is failing, why, and recommended actions
 
+### kovalski deploy
+1. Applies `specs/sre-agent-operator.yaml` to the current cluster via `kubectl apply -f`
+2. Waits for the sre-agent-operator pod to be ready (polls every 1s)
+3. Installs ServiceAccount, ClusterRole, ClusterRoleBinding, Deployment, and Service
+
 ### kovalski ui
 Opens the web UI in the default browser.
 

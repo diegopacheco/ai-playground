@@ -38,6 +38,7 @@ kovalski status         Show all resources in the cluster (kubectl get all)
 kovalski logs-summary   Summarize logs using Claude AI
 kovalski fix            Fix broken deployments using Claude AI
 kovalski ui             Open the web UI in the browser
+kovalski deploy         Deploy sre-agent-operator to the current cluster
 ```
 
 The `fix` command collects diagnostics from the operator, sends them to Claude CLI locally, saves fixed specs to `fixed-specs/`, and applies them to the cluster.
