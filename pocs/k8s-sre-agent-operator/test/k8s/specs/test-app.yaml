@@ -1,0 +1,1 @@
+Created `k8s.yaml` with a Deployment (1 replica, `test-app:latest`, `imagePullPolicy: Never`, port 8080) and a LoadBalancer Service exposing port 8080.
