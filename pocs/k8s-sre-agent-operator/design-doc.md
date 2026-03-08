@@ -14,6 +14,9 @@ A Kubernetes SRE Agent Operator written in Rust that runs inside a Kind cluster.
 - **AI Engine**: Claude CLI invoked locally on the host via `tokio::process::Command`
 - **Container Runtime**: podman
 - **Cluster**: Kind (Kubernetes in Docker)
+- **UI**: React + TypeScript + Vite
+- **UI Data Fetching**: TanStack React Query
+- **UI Package Manager**: bun
 
 ## Architecture
 
@@ -30,11 +33,16 @@ A Kubernetes SRE Agent Operator written in Rust that runs inside a Kind cluster.
 | Operator    |  | (host process)  |
 | (K8s Pod)   |  +-----------------+
 |             |
-| GET /logs   |
-| GET /status |
-| GET /diag   |
-| POST /apply |
-+---|---------+
+| GET /logs        |
+| GET /status      |
+| GET /diagnostics |
+| POST /apply      |
+| POST /fix        |
+| GET /api/status  |
+| GET /api/history |
+| POST /api/fix    |
+| Static UI files  |
++---|--------------+
     |
     v
 +----------------+
@@ -65,6 +73,15 @@ Receives raw YAML in the request body, writes it to a temp file, and runs `kubec
 
 ### POST /fix (legacy, server-side)
 Server-side fix flow that calls Claude CLI from inside the pod. Kept for compatibility but the CLI-driven flow is preferred.
+
+### GET /api/status
+Returns JSON `Vec<ClusterObject>` with namespace, kind, name, status, ready, restarts, age, yaml. Used by the web UI.
+
+### GET /api/history
+Returns JSON `Vec<HistoryEvent>` with timestamp, event_type, summary, details, success. Used by the web UI.
+
+### POST /api/fix
+Returns JSON `FixResult` with diagnostics, claude_response, kubectl_output, success. Used by the web UI.
 
 ## kovalski CLI
 
@@ -193,6 +210,8 @@ k8s-sre-agent-operator/
         status.rs
         diagnostics.rs
         apply.rs
+        api_status.rs
+        history.rs
       k8s/
         mod.rs
         diagnostics.rs
@@ -202,9 +221,6 @@ k8s-sre-agent-operator/
         claude.rs
         runner.rs
       history.rs
-      routes/
-        api_status.rs
-        history.rs
   ui/
     package.json
     vite.config.ts
@@ -279,11 +295,14 @@ kovalski k8s --name test-app --image test-app:latest --port 8080
 
 ## Flow
 
-1. `./build.sh` - builds operator and CLI binaries
-2. `./start.sh` - Kind cluster comes up with broken deployments
+1. `./build.sh` - builds UI and Rust binaries (operator + CLI)
+2. `./start.sh` - Kind cluster comes up with broken deployments and UI
 3. `kovalski status` - see all resources and their states
 4. `kovalski logs` - see raw pod logs
 5. `kovalski logs-summary` - AI-powered summary of cluster health
 6. `kovalski fix` - AI diagnoses issues, generates fixed YAML, saves to `fixed-specs/`, applies to cluster
 7. `kovalski status` - verify pods are now healthy
-8. `./stop.sh` - tear down
+8. `kovalski ui` - open the web UI in browser
+9. `kovalski deploy` - install sre-agent on any cluster
+10. `kovalski k8s --name <app> --image <img> --port <port>` - generate and deploy K8s manifests
+11. `./stop.sh` - tear down
