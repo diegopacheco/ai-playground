@@ -20,6 +20,8 @@ async fn main() {
         .route("/logs", get(routes::logs::get_logs))
         .route("/fix", post(routes::fix::fix_deployments))
         .route("/status", get(routes::status::get_status))
+        .route("/diagnostics", get(routes::diagnostics::get_diagnostics))
+        .route("/apply", post(routes::apply::apply_yaml))
         .with_state(state);
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8080").await.unwrap();
