@@ -146,6 +146,40 @@ fn extract_name(doc: &str) -> Option<String> {
     None
 }
 
+async fn run_claude_text_only(prompt: &str) -> Result<String, String> {
+    let mut child = Command::new("claude")
+        .args(&["-p", prompt, "--dangerously-skip-permissions", "--disallowedTools", "Bash,Edit,Write,Read,Glob,Grep"])
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|e| format!("Failed to spawn claude: {}", e))?;
+
+    let result = timeout(Duration::from_secs(180), async {
+        let mut stdout = child.stdout.take().unwrap();
+        let mut output = String::new();
+        stdout.read_to_string(&mut output).await.map_err(|e| e.to_string())?;
+        child.wait().await.map_err(|e| e.to_string())?;
+        Ok::<String, String>(output)
+    })
+    .await;
+
+    match result {
+        Ok(Ok(output)) => {
+            let trimmed = output.trim().to_string();
+            if trimmed.is_empty() {
+                Err("Claude returned empty response".to_string())
+            } else {
+                Ok(trimmed)
+            }
+        }
+        Ok(Err(e)) => Err(e),
+        Err(_) => {
+            let _ = child.kill().await;
+            Err("Claude timed out after 180s".to_string())
+        }
+    }
+}
+
 async fn run_claude(prompt: &str) -> Result<String, String> {
     let mut child = Command::new("claude")
         .args(&["-p", prompt, "--dangerously-skip-permissions"])
@@ -359,7 +393,7 @@ async fn do_k8s() {
          Directory name: {}\n\nFILES:\n{}\n\nSOURCE:\n{}", dir_name, file_listing, source_snippets
     );
 
-    let analysis = match run_claude(&analyze_prompt).await {
+    let analysis = match run_claude_text_only(&analyze_prompt).await {
         Ok(r) => r,
         Err(e) => {
             eprintln!("Claude error analyzing project: {}", e);
@@ -396,7 +430,7 @@ async fn do_k8s() {
          FILES:\n{}\n\nSOURCE:\n{}", port, file_listing, source_snippets
     );
 
-    let containerfile_content = match run_claude(&containerfile_prompt).await {
+    let containerfile_content = match run_claude_text_only(&containerfile_prompt).await {
         Ok(r) => extract_dockerfile(&r),
         Err(e) => {
             eprintln!("Claude error generating Containerfile: {}", e);
@@ -437,7 +471,7 @@ async fn do_k8s() {
         name, image_name, port, port, port
     );
 
-    let k8s_yaml = match run_claude(&k8s_prompt).await {
+    let k8s_yaml = match run_claude_text_only(&k8s_prompt).await {
         Ok(r) => extract_k8s_yaml(&r),
         Err(e) => {
             eprintln!("Claude error generating K8s manifests: {}", e);
