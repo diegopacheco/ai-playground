@@ -1,0 +1,56 @@
+pocs/k8s-sre-agent-operator/test/k8s/deploy.yaml
+  24ce249c4081c7b1 1-34
+pocs/k8s-sre-agent-operator/operator/src/cli/main.rs
+  bee120974b8081d7 149-182,396,433,474
+pocs/k8s-sre-agent-operator/test/k8s/Containerfile
+  c8b679e77a449fb7 5,10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "a51dea5c00d5c39a3f4ebd5cb83561cf72a87aab",
+  "prompts": {
+    "24ce249c4081c7b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "75129d4e-dd97-47c6-bceb-796a70cfa818",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 34,
+      "total_deletions": 0,
+      "accepted_lines": 34,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/d71f9ebe4931ca1ced59653ed1c62cbf1c8be8983f51d1307066c46b4387fbb2"
+    },
+    "bee120974b8081d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1735c94c-d303-4e1d-83a9-2a6bead7d788",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 39,
+      "total_deletions": 5,
+      "accepted_lines": 37,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f7a8b7b6ea1ba1ed8393a3c133722c97755a9f0cb225f5e796a66ee707b793bd"
+    },
+    "c8b679e77a449fb7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2078bcd3-a041-4178-b12f-94e47253270a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 2,
+      "accepted_lines": 2,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/85a0332cb0665660bad08735a061847c19b6feeb3eccc0d65198a62d8c19cb2e"
+    }
+  }
+}
