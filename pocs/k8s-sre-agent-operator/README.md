@@ -120,3 +120,61 @@ kube-system          kube-scheduler-sre-agent-cluster-control-plane            1
 local-path-storage   local-path-provisioner-67b8995b4b-8mdmj                   1/1     Running             0          85s
 ```
 
+kovalski
+```
+❯ operator/target/release/kovalski
+Usage: kovalski <command>
+
+Commands:
+  logs    Read all pod logs from the cluster
+  fix     Fix broken deployments using Claude AI
+  status       Show all resources in the cluster (kubectl get all)
+  logs-summary Summarize logs using Claude AI
+
+Environment:
+  KOVALSKI_URL  Base URL of the SRE agent (default: http://localhost:30080)
+```
+
+kovalski status
+```
+❯ operator/target/release/kovalski status
+Handling connection for 30080
+NAMESPACE            NAME                                                          READY   STATUS             RESTARTS       AGE
+default              pod/broken-bad-port-f66875f78-7wddx                           0/1     Running            4 (18s ago)    2m58s
+default              pod/broken-missing-env-6c4b848f69-gndv5                       0/1     Error              4 (2m6s ago)   2m58s
+default              pod/broken-wrong-image-b8cd65b56-vktjg                        0/1     ImagePullBackOff   0              2m58s
+default              pod/sre-agent-operator-5c8bc95796-4hhzc                       1/1     Running            0              2m58s
+kube-system          pod/coredns-7d764666f9-lvf5v                                  1/1     Running            0              4m19s
+kube-system          pod/coredns-7d764666f9-ts8wn                                  1/1     Running            0              4m19s
+kube-system          pod/etcd-sre-agent-cluster-control-plane                      1/1     Running            0              4m28s
+kube-system          pod/kindnet-4h27v                                             1/1     Running            0              4m19s
+kube-system          pod/kindnet-wb8l6                                             1/1     Running            0              4m14s
+kube-system          pod/kube-apiserver-sre-agent-cluster-control-plane            1/1     Running            0              4m27s
+kube-system          pod/kube-controller-manager-sre-agent-cluster-control-plane   1/1     Running            0              4m27s
+kube-system          pod/kube-proxy-75bmw                                          1/1     Running            0              4m19s
+kube-system          pod/kube-proxy-wxvh9                                          1/1     Running            0              4m14s
+kube-system          pod/kube-scheduler-sre-agent-cluster-control-plane            1/1     Running            0              4m27s
+local-path-storage   pod/local-path-provisioner-67b8995b4b-8mdmj                   1/1     Running            0              4m19s
+
+NAMESPACE     NAME                         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                  AGE
+default       service/kubernetes           ClusterIP   10.96.0.1       <none>        443/TCP                  4m28s
+default       service/sre-agent-operator   NodePort    10.96.169.246   <none>        8080:30080/TCP           2m58s
+kube-system   service/kube-dns             ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP,9153/TCP   4m27s
+
+NAMESPACE            NAME                                     READY   UP-TO-DATE   AVAILABLE   AGE
+default              deployment.apps/broken-bad-port          0/1     1            0           2m58s
+default              deployment.apps/broken-missing-env       0/1     1            0           2m58s
+default              deployment.apps/broken-wrong-image       0/1     1            0           2m58s
+default              deployment.apps/sre-agent-operator       1/1     1            1           2m58s
+kube-system          deployment.apps/coredns                  2/2     2            2           4m27s
+local-path-storage   deployment.apps/local-path-provisioner   1/1     1            1           4m25s
+
+NAMESPACE            NAME                                                DESIRED   CURRENT   READY   AGE
+default              replicaset.apps/broken-bad-port-f66875f78           1         1         0       2m58s
+default              replicaset.apps/broken-missing-env-6c4b848f69       1         1         0       2m58s
+default              replicaset.apps/broken-wrong-image-b8cd65b56        1         1         0       2m58s
+default              replicaset.apps/sre-agent-operator-5c8bc95796       1         1         1       2m58s
+kube-system          replicaset.apps/coredns-7d764666f9                  2         2         2       4m20s
+local-path-storage   replicaset.apps/local-path-provisioner-67b8995b4b   1         1         1       4m20s
+```
+
