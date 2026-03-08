@@ -1,0 +1,46 @@
+pocs/k8s-sre-agent-operator/ui/src/components/StatusBadge.tsx
+  bee120974b8081d7 1-23
+pocs/k8s-sre-agent-operator/ui/src/pages/FixPage.tsx
+  bee120974b8081d7 1-86
+pocs/k8s-sre-agent-operator/operator/src/cli/main.rs
+  bee120974b8081d7 25,267-274,279-280,283
+pocs/k8s-sre-agent-operator/ui/src/components/YamlModal.tsx
+  bee120974b8081d7 1-45
+pocs/k8s-sre-agent-operator/ui/src/pages/LogsPage.tsx
+  bee120974b8081d7 1-52
+pocs/k8s-sre-agent-operator/build.sh
+  bee120974b8081d7 6-10
+pocs/k8s-sre-agent-operator/ui/src/pages/ClusterPage.tsx
+  bee120974b8081d7 1-71
+pocs/k8s-sre-agent-operator/start.sh
+  bee120974b8081d7 11-16
+pocs/k8s-sre-agent-operator/design-doc.md
+  bee120974b8081d7 91-93,131,135-140,185-205,208-234
+pocs/k8s-sre-agent-operator/README.md
+  bee120974b8081d7 17-19,28-31,40,47-55
+pocs/k8s-sre-agent-operator/operator/Containerfile
+  bee120974b8081d7 16
+pocs/k8s-sre-agent-operator/ui/src/pages/HistoryPage.tsx
+  bee120974b8081d7 1-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "3225cb955b6859cf9403c57b4ccd82dab7c6f5dc",
+  "prompts": {
+    "bee120974b8081d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1735c94c-d303-4e1d-83a9-2a6bead7d788",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 456,
+      "total_deletions": 13,
+      "accepted_lines": 452,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a680268ea15e728230c6da38f296e3615adfc08441c8f58a8429b39e5519a3e1"
+    }
+  }
+}
