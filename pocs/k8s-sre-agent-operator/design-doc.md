@@ -88,6 +88,9 @@ Calls `GET /status` and prints `kubectl get all -A` output.
 2. Runs `claude -p` locally on the host to summarize findings
 3. Prints what is running, what is failing, why, and recommended actions
 
+### kovalski ui
+Opens the web UI in the default browser.
+
 ### Environment
 - `KOVALSKI_URL` - base URL of the SRE agent (default: `http://localhost:30080`)
 
@@ -125,15 +128,16 @@ When `kovalski fix` runs, the corrected YAML manifests are saved to `fixed-specs
 ## Scripts
 
 ### build.sh
-Builds both `sre-agent` (operator) and `kovalski` (CLI) binaries via `cargo build --release`.
+Builds the UI (`bun install && bun run build`) and both Rust binaries (`sre-agent` and `kovalski`) via `cargo build --release`.
 
 ### start.sh
 1. Creates a Kind cluster with `kind-config.yaml` (control-plane + worker, port mapping 30080)
-2. Builds the operator container image with podman
-3. Saves and loads the image into Kind via `kind load image-archive`
-4. Applies all specs from `specs/` (broken deployments + operator)
-5. Waits for the operator pod to be ready
-6. Starts `kubectl port-forward` in background (30080 -> 8080)
+2. Builds the UI with bun and copies dist into operator build context
+3. Builds the operator container image with podman
+4. Saves and loads the image into Kind via `kind load image-archive`
+5. Applies all specs from `specs/` (broken deployments + operator)
+6. Waits for the operator pod to be ready
+7. Starts `kubectl port-forward` in background (30080 -> 8080)
 
 ### stop.sh
 1. Kills the port-forward process
@@ -178,7 +182,55 @@ k8s-sre-agent-operator/
         mod.rs
         claude.rs
         runner.rs
+      history.rs
+      routes/
+        api_status.rs
+        history.rs
+  ui/
+    package.json
+    vite.config.ts
+    index.html
+    src/
+      main.tsx
+      App.tsx
+      api.ts
+      index.css
+      pages/
+        ClusterPage.tsx
+        LogsPage.tsx
+        FixPage.tsx
+        HistoryPage.tsx
+      components/
+        StatusBadge.tsx
+        YamlModal.tsx
 ```
+
+## Web UI
+
+The operator serves a web UI built with React, Vite, TypeScript, and TanStack Query. Access via `kovalski ui` or directly at the operator URL.
+
+### Stack
+- React + TypeScript
+- Vite (build tool)
+- TanStack React Query (data fetching)
+- bun (package manager)
+- react-syntax-highlighter (YAML display)
+
+### Tabs
+
+1. **Cluster** - Shows all cluster objects (Pods, Deployments, Services, ReplicaSets) grouped by kind in tables. Click any row to see its full YAML in a modal with fullscreen toggle.
+2. **Logs** - Displays all pod logs with auto-refresh toggle (5s interval, ON/OFF badge).
+3. **Fix** - Click "Run Fix" to trigger server-side fix. Shows diagnostics, Claude analysis, and kubectl output sections.
+4. **History** - Timeline of all cluster changes (fixes, applies) with expandable details.
+
+### API Endpoints (JSON)
+- `GET /api/status` - Returns `Vec<ClusterObject>` with namespace, kind, name, status, ready, restarts, age, yaml
+- `GET /api/logs` - Returns pod logs as text
+- `GET /api/history` - Returns `Vec<HistoryEvent>` with timestamp, event_type, summary, details, success
+- `POST /api/fix` - Returns `FixResult` with diagnostics, claude_response, kubectl_output, success
+
+### Build
+The UI is built with `bun run build` and the dist is copied into the operator container at `/app/static`. The operator serves it via `tower-http::ServeDir` as a fallback service with SPA routing.
 
 ## Flow
 
