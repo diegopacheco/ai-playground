@@ -1,7 +1,7 @@
 FROM golang:1.23-alpine AS builder
 WORKDIR /app
-COPY go.mod .
-COPY main.go .
+COPY go.mod ./
+COPY main.go ./
 RUN go build -o test-app .
 FROM alpine:3.21
 WORKDIR /app
