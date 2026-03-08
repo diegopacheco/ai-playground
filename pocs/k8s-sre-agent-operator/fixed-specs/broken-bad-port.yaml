@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broken-bad-port
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broken-bad-port
+  template:
+    metadata:
+      labels:
+        app: broken-bad-port
+    spec:
+      containers:
+      - name: web
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
