@@ -178,3 +178,154 @@ kube-system          replicaset.apps/coredns-7d764666f9                  2      
 local-path-storage   replicaset.apps/local-path-provisioner-67b8995b4b   1         1         1       4m20s
 ```
 
+kovalski logs-summary
+```
+❯ operator/target/release/kovalski logs-summary
+Collecting logs from cluster...
+Handling connection for 30080
+Asking Claude to summarize...
+
+## Cluster Log Analysis
+
+### Healthy Pods (no action needed)
+
+| Pod | Status |
+|-----|--------|
+| `default/sre-agent-operator` | Running, listening on :8080 |
+| `kube-system/coredns` (x2) | Running, CoreDNS-1.13.1 |
+| `kube-system/etcd` | Running, leader elected, serving traffic |
+| `kube-system/kube-apiserver` | Running, all caches synced |
+| `kube-system/kube-controller-manager` | Running, garbage collector active |
+| `kube-system/kube-proxy` (x2) | Running, iptables proxier active |
+| `kube-system/kube-scheduler` | Running, lease acquired (RBAC errors are transient startup noise on KIND clusters) |
+| `kube-system/kindnet` (x2) | Running, routing CIDRs for both nodes |
+| `local-path-storage/local-path-provisioner` | Running |
+
+### Failing Pods (3 issues)
+
+**1. `default/broken-bad-port` -- NOT actually failing**
+- Nginx 1.29.5 started successfully with 4 workers
+- The pod name suggests a bad port config, but the container itself is healthy. The issue is likely a **Service/containerPort mismatch** -- the Service targets a port that nginx is not listening on, or the Deployment `containerPort` doesn't match nginx's `listen` directive (default 80).
+- **Fix:** Check the Service `targetPort` and Deployment `containerPort` match nginx's listening port (80). Run: `kubectl get svc,deploy broken-bad-port -o yaml` and align the ports.
+
+**2. `default/broken-missing-env` -- CrashLoopBackOff**
+- PostgreSQL refuses to start because `POSTGRES_PASSWORD` env var is not set.
+- **Fix:** Add the env var to the Deployment:
+  ```
+  kubectl set env deployment/broken-missing-env POSTGRES_PASSWORD=<your-password>
+  ```
+  Or add `POSTGRES_HOST_AUTH_METHOD=trust` for non-production use.
+
+**3. `default/broken-wrong-image` -- ImagePullBackOff**
+- The container `web` cannot pull its image. The image name/tag is invalid or does not exist in the registry.
+- **Fix:** Correct the image reference in the Deployment spec:
+  ```
+  kubectl set image deployment/broken-wrong-image web=<valid-image:tag>
+  ```
+
+### Summary of Actions
+
+| Priority | Pod | Issue | Action |
+|----------|-----|-------|--------|
+| P1 | `broken-wrong-image` | Invalid image, cannot pull | Fix the image name/tag in the Deployment |
+| P1 | `broken-missing-env` | Missing `POSTGRES_PASSWORD` | Add the required env var to the Deployment |
+| P2 | `broken-bad-port` | Likely port mismatch (container runs fine) | Verify Service targetPort matches nginx listen port (80) |
+
+The cluster control plane (etcd, apiserver, controller-manager, scheduler, coredns, kube-proxy, kindnet) is fully healthy. This is a KIND cluster with 1 control-plane + 1 worker node running Kubernetes v1.35.0.
+```
+
+kovalski fix
+```
+❯ operator/target/release/kovalski fix
+Collecting diagnostics from cluster...
+Handling connection for 30080
+Found issues. Asking Claude to fix...
+---
+--- Pod: broken-bad-port-f66875f78-7wddx (phase: Running) ---
+  Condition: PodReadyToStartContainers = True ()
+  Condition: Initialized = True ()
+  Condition: Ready = False (containers with unready status: [web])
+  Condition: ContainersReady = False (containers with unready status: [web])
+  Condition: PodScheduled = True ()
+  Container: web ready=false restarts=5
+    Waiting: CrashLoopBackOff (back-off 1m20s restarting failed container=web pod=broken-bad-port-f66875f78-7wddx_default(cdd970a4-9102-41de-ace0-daf3e5a8e9b6))
+  Logs:
+2026/03/08 00:46:12 [notice] 1#1: start worker process 39
+2026/03/08 00:46:51 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2026/03/08 00:46:51 [notice] 37#37: gracefully shutting down
+2026/03/08 00:46:51 [notice] 36#36: gracefully shutting down
+2026/03/08 00:46:51 [notice] 37#37: exiting
+2026/03/08 00:46:51 [notice] 36#36: exiting
+2026/03/08 00:46:51 [notice] 36#36: exit
+2026/03/08 00:46:51 [notice] 37#37: exit
+2026/03/08 00:46:51 [notice] 39#39: gracefully shutting down
+2026/03/08 00:46:51 [notice] 39#39: exiting
+2026/03/08 00:46:51 [notice] 39#39: exit
+2026/03/08 00:46:51 [notice] 38#38: gracefully shutting down
+2026/03/08 00:46:51 [notice] 38#38: exiting
+2026/03/08 00:46:51 [notice] 38#38: exit
+2026/03/08 00:46:51 [notice] 1#1: signal 17 (SIGCHLD) received from 39
+2026/03/08 00:46:51 [notice] 1#1: worker process 39 exited with code 0                                                                        2026/03/08 00:46:51 [notice] 1#1: worker process 37 exited with code 0
+2026/03/08 00:46:51 [notice] 1#1: worker process 36 exited with code 0
+2026/03/08 00:46:51 [notice] 1#1: worker process 38 exited with code 0
+2026/03/08 00:46:51 [notice] 1#1: exit
+
+
+--- Pod: broken-missing-env-6c4b848f69-gndv5 (phase: Running) ---
+  Condition: PodReadyToStartContainers = True ()
+  Condition: Initialized = True ()
+  Condition: Ready = False (containers with unready status: [app])
+  Condition: ContainersReady = False (containers with unready status: [app])
+  Condition: PodScheduled = True ()
+  Container: app ready=false restarts=5
+    Waiting: CrashLoopBackOff (back-off 2m40s restarting failed container=app pod=broken-missing-env-6c4b848f69-gndv5_default(5a3f41ee-01a4-4428-878e-dc8a18a75345))
+  Logs:
+Error: Database is uninitialized and superuser password is not specified.
+       You must specify POSTGRES_PASSWORD to a non-empty value for the
+       superuser. For example, "-e POSTGRES_PASSWORD=password" on "docker run".
+
+       You may also use "POSTGRES_HOST_AUTH_METHOD=trust" to allow all                                                                               connections without a password. This is *not* recommended.
+
+       See PostgreSQL documentation about "trust":
+       https://www.postgresql.org/docs/current/auth-trust.html
+
+
+--- Pod: broken-wrong-image-b8cd65b56-vktjg (phase: Pending) ---
+  Condition: PodReadyToStartContainers = True ()
+  Condition: Initialized = True ()
+  Condition: Ready = False (containers with unready status: [web])
+  Condition: ContainersReady = False (containers with unready status: [web])
+  Condition: PodScheduled = True ()
+  Container: web ready=false restarts=0
+    Waiting: ImagePullBackOff (Back-off pulling image "nginxxxxx:latesttttt": ErrImagePull: failed to pull and unpack image "docker.io/library/nginxxxxx:latesttttt": failed to resolve reference "docker.io/library/nginxxxxx:latesttttt": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed)
+
+--- Deployment: broken-bad-port (ready: 0/1) ---
+  Condition: Available = False (Deployment does not have minimum availability.)
+  Condition: Progressing = True (ReplicaSet "broken-bad-port-f66875f78" is progressing.)
+  Container spec: name=web image=nginx:latest
+    port: 80
+    readinessProbe: path=/healthz port=Int(9999)
+    livenessProbe: path=/healthz port=Int(9999)
+
+--- Deployment: broken-missing-env (ready: 0/1) ---
+  Condition: Available = False (Deployment does not have minimum availability.)
+  Condition: Progressing = True (ReplicaSet "broken-missing-env-6c4b848f69" is progressing.)
+  Container spec: name=app image=postgres:16
+    port: 5432
+
+--- Deployment: broken-wrong-image (ready: 0/1) ---
+  Condition: Available = False (Deployment does not have minimum availability.)
+  Condition: Progressing = True (ReplicaSet "broken-wrong-image-b8cd65b56" is progressing.)
+  Container spec: name=web image=nginxxxxx:latesttttt
+    port: 80
+
+
+---
+Saved fixed spec: /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/k8s-sre-agent-operator/fixed-specs/broken-bad-port.yaml
+Saved fixed spec: /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/k8s-sre-agent-operator/fixed-specs/broken-missing-env.yaml
+Saved fixed spec: /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/k8s-sre-agent-operator/fixed-specs/broken-wrong-image.yaml
+Applying fixes to cluster...
+deployment.apps/broken-bad-port configured
+deployment.apps/broken-missing-env configured
+deployment.apps/broken-wrong-image configured
+```
