@@ -419,30 +419,35 @@ async fn do_k8s() {
 
     println!("Asking Claude to generate K8s manifests...");
     let k8s_prompt = format!(
-        "You are a Kubernetes expert. Generate K8s YAML manifests for an app with these specs:\n\
+        "Generate Kubernetes YAML manifests. \
+         IMPORTANT: Output ONLY raw YAML starting with apiVersion. \
+         No markdown, no fences, no backticks, no explanation, no description. \
+         Just the raw YAML content.\n\n\
+         Specs:\n\
          - Name: {}\n\
          - Image: {}\n\
-         - Image pull policy: Never\n\
-         - Container port: {}\n\
-         - 1 replica\n\
-         - Namespace: default\n\n\
-         Generate exactly 2 resources separated by '---':\n\
-         1. A Deployment with 1 replica\n\
-         2. A Service of type LoadBalancer exposing port {} targeting port {}\n\n\
-         Output ONLY valid YAML. No markdown fences, no explanation, no comments in the YAML.",
+         - imagePullPolicy: Never\n\
+         - containerPort: {}\n\
+         - replicas: 1\n\
+         - namespace: default\n\n\
+         Generate exactly:\n\
+         1. A Deployment\n\
+         2. A Service type LoadBalancer port {} targetPort {}\n\
+         Separate with ---",
         name, image_name, port, port, port
     );
 
     let k8s_yaml = match run_claude(&k8s_prompt).await {
-        Ok(r) => extract_yaml(&r),
+        Ok(r) => extract_k8s_yaml(&r),
         Err(e) => {
             eprintln!("Claude error generating K8s manifests: {}", e);
             process::exit(1);
         }
     };
 
-    if k8s_yaml.trim().is_empty() {
-        eprintln!("Claude returned empty K8s manifests.");
+    if k8s_yaml.trim().is_empty() || !k8s_yaml.contains("apiVersion") {
+        eprintln!("Claude returned invalid K8s manifests (must contain apiVersion).");
+        eprintln!("Raw response:\n{}", k8s_yaml);
         process::exit(1);
     }
 
@@ -528,6 +533,50 @@ kind delete cluster --name \"{}\"\n",
     println!("");
     println!("Run ./start.sh to create the cluster and deploy.");
     println!("Run ./stop.sh to tear down.");
+}
+
+fn extract_k8s_yaml(response: &str) -> String {
+    let mut blocks: Vec<String> = Vec::new();
+    let mut current_block: Vec<&str> = Vec::new();
+    let mut in_fence = false;
+
+    for line in response.lines() {
+        if line.starts_with("```") {
+            if in_fence && !current_block.is_empty() {
+                blocks.push(current_block.join("\n"));
+                current_block.clear();
+            }
+            in_fence = !in_fence;
+            continue;
+        }
+        if in_fence {
+            current_block.push(line);
+        }
+    }
+
+    if !blocks.is_empty() {
+        let combined = blocks.join("\n---\n");
+        if combined.contains("apiVersion") {
+            return combined;
+        }
+    }
+
+    let mut yaml_lines: Vec<&str> = Vec::new();
+    let mut found = false;
+    for line in response.lines() {
+        if line.starts_with("apiVersion") {
+            found = true;
+        }
+        if found {
+            yaml_lines.push(line);
+        }
+    }
+
+    if !yaml_lines.is_empty() {
+        return yaml_lines.join("\n");
+    }
+
+    response.to_string()
 }
 
 fn extract_dockerfile(response: &str) -> String {
