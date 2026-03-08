@@ -21,6 +21,7 @@ fn main() {
         "logs" => rt.block_on(do_get(&format!("{}/logs", base_url))),
         "fix" => rt.block_on(do_fix(&base_url)),
         "status" => rt.block_on(do_get(&format!("{}/status", base_url))),
+        "logs-summary" => rt.block_on(do_logs_summary(&base_url)),
         _ => {
             eprintln!("Unknown command: {}", args[1]);
             print_usage();
@@ -80,6 +81,23 @@ async fn do_fix(base_url: &str) {
         process::exit(1);
     }
 
+    let project_dir = find_project_dir();
+    let fixed_dir = format!("{}/fixed-specs", project_dir);
+    std::fs::create_dir_all(&fixed_dir).unwrap_or_else(|e| {
+        eprintln!("Failed to create fixed-specs dir: {}", e);
+        process::exit(1);
+    });
+
+    let docs: Vec<&str> = yaml_content.split("\n---\n").collect();
+    for (i, doc) in docs.iter().enumerate() {
+        let name = extract_name(doc).unwrap_or_else(|| format!("fix-{}", i));
+        let path = format!("{}/{}.yaml", fixed_dir, name);
+        std::fs::write(&path, doc.trim()).unwrap_or_else(|e| {
+            eprintln!("Failed to write {}: {}", path, e);
+        });
+        println!("Saved fixed spec: {}", path);
+    }
+
     println!("Applying fixes to cluster...");
 
     match client.post(&format!("{}/apply", base_url))
@@ -96,6 +114,33 @@ async fn do_fix(base_url: &str) {
             process::exit(1);
         }
     }
+}
+
+fn find_project_dir() -> String {
+    let exe = env::current_exe().unwrap_or_default();
+    let mut dir = exe.parent().unwrap().to_path_buf();
+    loop {
+        if dir.join("specs").exists() {
+            return dir.to_string_lossy().to_string();
+        }
+        if !dir.pop() {
+            break;
+        }
+    }
+    env::current_dir()
+        .unwrap_or_default()
+        .to_string_lossy()
+        .to_string()
+}
+
+fn extract_name(doc: &str) -> Option<String> {
+    for line in doc.lines() {
+        let trimmed = line.trim();
+        if trimmed.starts_with("name:") {
+            return Some(trimmed.trim_start_matches("name:").trim().to_string());
+        }
+    }
+    None
 }
 
 async fn run_claude(prompt: &str) -> Result<String, String> {
@@ -156,6 +201,47 @@ fn extract_yaml(response: &str) -> String {
     }
 
     response.to_string()
+}
+
+async fn do_logs_summary(base_url: &str) {
+    println!("Collecting logs from cluster...");
+    let client = reqwest::Client::new();
+
+    let logs = match client.get(&format!("{}/logs", base_url)).send().await {
+        Ok(resp) => {
+            if !resp.status().is_success() {
+                eprintln!("Failed to get logs: {}", resp.text().await.unwrap_or_default());
+                process::exit(1);
+            }
+            resp.text().await.unwrap_or_default()
+        }
+        Err(e) => {
+            eprintln!("Failed to connect: {}", e);
+            process::exit(1);
+        }
+    };
+
+    if logs.trim().is_empty() || logs.trim() == "No logs found." {
+        println!("No logs found.");
+        return;
+    }
+
+    println!("Asking Claude to summarize...");
+
+    let prompt = format!(
+        "You are a Kubernetes SRE expert. Analyze the following pod logs from a cluster. \
+         Summarize the findings: what is running, what is failing, why it is failing, \
+         and what actions should be taken to fix it. Be concise and actionable.\n\n\
+         LOGS:\n{}", logs
+    );
+
+    match run_claude(&prompt).await {
+        Ok(summary) => println!("\n{}", summary),
+        Err(e) => {
+            eprintln!("Claude error: {}", e);
+            process::exit(1);
+        }
+    }
 }
 
 async fn do_get(url: &str) {
