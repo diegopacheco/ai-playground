@@ -1,0 +1,10 @@
+FROM golang:1.23-bookworm AS builder
+WORKDIR /app
+COPY go.mod ./
+COPY main.go ./
+RUN go build -o test-app .
+
+FROM debian:bookworm-slim
+COPY --from=builder /app/test-app /usr/local/bin/test-app
+EXPOSE 8080
+CMD ["test-app"]
