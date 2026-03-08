@@ -1,0 +1,28 @@
+pocs/k8s-sre-agent-operator/README.md
+  bee120974b8081d7 42,66-67
+pocs/k8s-sre-agent-operator/design-doc.md
+  bee120974b8081d7 109,115-123,296,310
+pocs/k8s-sre-agent-operator/operator/src/cli/main.rs
+  bee120974b8081d7 333,341,345-375,378-456,458-465,467-472,479,539-574,577,598-599
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "996756190d72a920c6a21146d2ead2b18fa468a6",
+  "prompts": {
+    "bee120974b8081d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1735c94c-d303-4e1d-83a9-2a6bead7d788",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 190,
+      "total_deletions": 64,
+      "accepted_lines": 187,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/5a737ef776503e4fa85e48130ffbe5f79fb6f07b57c7a3fc6d079fcb87001e4f"
+    }
+  }
+}
