@@ -321,80 +321,162 @@ async fn do_deploy() {
 
 async fn do_k8s(args: &[String]) {
     let mut name = String::new();
-    let mut image = String::new();
     let mut port: u16 = 8080;
-    let mut replicas: u32 = 1;
 
     let mut i = 0;
     while i < args.len() {
         match args[i].as_str() {
             "--name" => { i += 1; name = args[i].clone(); }
-            "--image" => { i += 1; image = args[i].clone(); }
             "--port" => { i += 1; port = args[i].parse().unwrap_or(8080); }
-            "--replicas" => { i += 1; replicas = args[i].parse().unwrap_or(1); }
             _ => {
                 eprintln!("Unknown k8s flag: {}", args[i]);
-                eprintln!("Usage: kovalski k8s --name <name> --image <image> [--port <port>] [--replicas <n>]");
+                eprintln!("Usage: kovalski k8s --name <name> [--port <port>]");
                 process::exit(1);
             }
         }
         i += 1;
     }
 
-    if name.is_empty() || image.is_empty() {
-        eprintln!("Usage: kovalski k8s --name <name> --image <image> [--port <port>] [--replicas <n>]");
+    if name.is_empty() {
+        eprintln!("Usage: kovalski k8s --name <name> [--port <port>]");
         process::exit(1);
     }
 
-    let yaml = format!(
-"apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {}
-  namespace: default
-spec:
-  replicas: {}
-  selector:
-    matchLabels:
-      app: {}
-  template:
-    metadata:
-      labels:
-        app: {}
-    spec:
-      containers:
-        - name: {}
-          image: {}
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {}
-  namespace: default
-spec:
-  type: LoadBalancer
-  selector:
-    app: {}
-  ports:
-    - port: {}
-      targetPort: {}
-      protocol: TCP",
-        name, replicas, name, name, name, image, port, name, name, port, port
+    let cwd = env::current_dir().unwrap_or_default();
+    let image_name = format!("{}:latest", name);
+
+    let mut file_listing = String::new();
+    let mut source_snippets = String::new();
+    if let Ok(entries) = std::fs::read_dir(&cwd) {
+        for entry in entries.flatten() {
+            let fname = entry.file_name().to_string_lossy().to_string();
+            file_listing.push_str(&format!("{}\n", fname));
+            let ext = std::path::Path::new(&fname)
+                .extension()
+                .unwrap_or_default()
+                .to_string_lossy()
+                .to_string();
+            let is_source = matches!(ext.as_str(), "go" | "rs" | "py" | "js" | "ts" | "java" | "rb" | "mod" | "sum" | "toml" | "lock" | "json");
+            if is_source {
+                if let Ok(content) = std::fs::read_to_string(entry.path()) {
+                    let preview: String = content.lines().take(30).collect::<Vec<&str>>().join("\n");
+                    source_snippets.push_str(&format!("--- {} ---\n{}\n\n", fname, preview));
+                }
+            }
+        }
+    }
+
+    println!("Asking Claude to generate Containerfile...");
+    let containerfile_prompt = format!(
+        "You are a devops expert. Generate a Containerfile (Dockerfile) for this project. \
+         The app should listen on port {}. Use multi-stage build. Use the name Containerfile not Dockerfile. \
+         Do not write any comments in the Containerfile. Make it compact with no blank lines between commands. \
+         Output ONLY the Containerfile content, no markdown fences, no explanation.\n\n\
+         FILES:\n{}\n\nSOURCE:\n{}", port, file_listing, source_snippets
     );
 
-    let specs_dir = env::current_dir()
-        .unwrap_or_default()
-        .join("specs");
+    let containerfile_content = match run_claude(&containerfile_prompt).await {
+        Ok(r) => extract_dockerfile(&r),
+        Err(e) => {
+            eprintln!("Claude error generating Containerfile: {}", e);
+            process::exit(1);
+        }
+    };
+
+    if containerfile_content.trim().is_empty() {
+        eprintln!("Claude returned empty Containerfile.");
+        process::exit(1);
+    }
+
+    let containerfile_path = cwd.join("Containerfile");
+    std::fs::write(&containerfile_path, &containerfile_content).unwrap_or_else(|e| {
+        eprintln!("Failed to write Containerfile: {}", e);
+        process::exit(1);
+    });
+    println!("Generated: {}", containerfile_path.display());
+
+    println!("Building image with podman...");
+    let build_output = Command::new("podman")
+        .args(&["build", "-t", &image_name, "-f", "Containerfile", "."])
+        .current_dir(&cwd)
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("Failed to run podman")
+        .wait_with_output()
+        .await
+        .expect("Failed to wait for podman");
+
+    if !build_output.status.success() {
+        let stderr = String::from_utf8_lossy(&build_output.stderr);
+        eprintln!("Podman build failed:\n{}", stderr);
+        process::exit(1);
+    }
+    println!("Image built: {}", image_name);
+
+    println!("Loading image into kind...");
+    let tar_path = format!("/tmp/{}.tar", name);
+    let save = Command::new("podman")
+        .args(&["save", &image_name, "-o", &tar_path])
+        .output()
+        .await
+        .expect("Failed to save image");
+    if !save.status.success() {
+        eprintln!("Failed to save image to tar.");
+        process::exit(1);
+    }
+
+    let cluster_name = detect_kind_cluster().await;
+    let load = Command::new("kind")
+        .args(&["load", "image-archive", &tar_path, "--name", &cluster_name])
+        .output()
+        .await
+        .expect("Failed to load image into kind");
+    if !load.status.success() {
+        let stderr = String::from_utf8_lossy(&load.stderr);
+        eprintln!("Failed to load image into kind: {}", stderr);
+        process::exit(1);
+    }
+    let _ = std::fs::remove_file(&tar_path);
+    println!("Image loaded into kind cluster '{}'.", cluster_name);
+
+    println!("Asking Claude to generate K8s manifests...");
+    let k8s_prompt = format!(
+        "You are a Kubernetes expert. Generate K8s YAML manifests for an app with these specs:\n\
+         - Name: {}\n\
+         - Image: {}\n\
+         - Image pull policy: Never\n\
+         - Container port: {}\n\
+         - 1 replica\n\
+         - Namespace: default\n\n\
+         Generate exactly 2 resources separated by '---':\n\
+         1. A Deployment with 1 replica\n\
+         2. A Service of type LoadBalancer exposing port {} targeting port {}\n\n\
+         Output ONLY valid YAML. No markdown fences, no explanation, no comments in the YAML.",
+        name, image_name, port, port, port
+    );
+
+    let k8s_yaml = match run_claude(&k8s_prompt).await {
+        Ok(r) => extract_yaml(&r),
+        Err(e) => {
+            eprintln!("Claude error generating K8s manifests: {}", e);
+            process::exit(1);
+        }
+    };
+
+    if k8s_yaml.trim().is_empty() {
+        eprintln!("Claude returned empty K8s manifests.");
+        process::exit(1);
+    }
+
+    let specs_dir = cwd.join("specs");
     std::fs::create_dir_all(&specs_dir).unwrap_or_else(|e| {
         eprintln!("Failed to create specs dir: {}", e);
         process::exit(1);
     });
 
     let spec_path = specs_dir.join(format!("{}.yaml", name));
-    std::fs::write(&spec_path, &yaml).unwrap_or_else(|e| {
+    std::fs::write(&spec_path, &k8s_yaml).unwrap_or_else(|e| {
         eprintln!("Failed to write spec: {}", e);
         process::exit(1);
     });
@@ -454,6 +536,47 @@ spec:
     }
 }
 
+fn extract_dockerfile(response: &str) -> String {
+    let mut blocks: Vec<String> = Vec::new();
+    let mut current_block: Vec<&str> = Vec::new();
+    let mut in_fence = false;
+
+    for line in response.lines() {
+        if line.starts_with("```") {
+            if in_fence && !current_block.is_empty() {
+                blocks.push(current_block.join("\n"));
+                current_block.clear();
+            }
+            in_fence = !in_fence;
+            continue;
+        }
+        if in_fence {
+            current_block.push(line);
+        }
+    }
+
+    if !blocks.is_empty() {
+        return blocks[0].clone();
+    }
+
+    response.to_string()
+}
+
+async fn detect_kind_cluster() -> String {
+    let output = Command::new("kind")
+        .args(&["get", "clusters"])
+        .output()
+        .await;
+
+    if let Ok(out) = output {
+        let clusters = String::from_utf8_lossy(&out.stdout);
+        if let Some(first) = clusters.lines().filter(|l| !l.contains("enabling")).next() {
+            return first.trim().to_string();
+        }
+    }
+    "kind".to_string()
+}
+
 fn open_ui(base_url: &str) {
     println!("Opening UI at {}", base_url);
     #[cfg(target_os = "macos")]
@@ -472,8 +595,8 @@ fn print_usage() {
     eprintln!("  logs-summary Summarize logs using Claude AI");
     eprintln!("  ui           Open the web UI in the browser");
     eprintln!("  deploy       Deploy sre-agent-operator to the current cluster");
-    eprintln!("  k8s          Generate K8s manifests, save to specs/, and apply");
-    eprintln!("               --name <name> --image <image> [--port <port>] [--replicas <n>]");
+    eprintln!("  k8s          Generate Containerfile, build image, generate K8s manifests, deploy");
+    eprintln!("               --name <name> [--port <port>]");
     eprintln!("");
     eprintln!("Environment:");
     eprintln!("  KOVALSKI_URL  Base URL of the SRE agent (default: http://localhost:30080)");

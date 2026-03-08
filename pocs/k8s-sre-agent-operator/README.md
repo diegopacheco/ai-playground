@@ -39,8 +39,8 @@ kovalski logs-summary   Summarize logs using Claude AI
 kovalski fix            Fix broken deployments using Claude AI
 kovalski ui             Open the web UI in the browser
 kovalski deploy         Deploy sre-agent-operator to the current cluster
-kovalski k8s            Generate K8s manifests, save to specs/, and apply
-                        --name <name> --image <image> [--port <port>] [--replicas <n>]
+kovalski k8s            Generate Containerfile, build image, generate K8s manifests, deploy
+                        --name <name> [--port <port>]
 ```
 
 The `fix` command collects diagnostics from the operator, sends them to Claude CLI locally, saves fixed specs to `fixed-specs/`, and applies them to the cluster.
@@ -63,8 +63,8 @@ A test cluster with MetalLB is provided in `test/cluster/` along with a simple G
 ```bash
 cd test/cluster && ./start.sh
 kovalski deploy
-kovalski k8s --name test-app --image test-app:latest --port 8080
-cd test/cluster && ./stop.sh
+cd ../k8s && kovalski k8s --name test-app --port 8080
+cd ../cluster && ./stop.sh
 ```
 
 ## Broken Specs
