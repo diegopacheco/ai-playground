@@ -1,8 +1,8 @@
-# K8s SRE Agent Operator - Design Doc
+# Kovalski: K8s SRE Agent Operator - Design Doc
 
 ## Overview
 
-A Kubernetes SRE Agent Operator written in Rust that runs inside a Kind cluster and provides REST endpoints to inspect and automatically fix broken deployments using Claude CLI as the AI reasoning engine.
+A Kubernetes SRE Agent Operator written in Rust that runs inside a Kind cluster. The operator exposes REST endpoints for cluster inspection. The `kovalski` CLI tool runs on the host, calls the operator for cluster data, and uses Claude CLI locally for AI-powered diagnostics and auto-remediation.
 
 ## Stack
 
@@ -10,50 +10,90 @@ A Kubernetes SRE Agent Operator written in Rust that runs inside a Kind cluster 
 - **K8s Client**: kube-rs
 - **Async Runtime**: tokio
 - **HTTP Server**: axum
-- **AI Engine**: Claude CLI invoked as a child process via `tokio::process::Command`
+- **HTTP Client**: reqwest (CLI)
+- **AI Engine**: Claude CLI invoked locally on the host via `tokio::process::Command`
+- **Container Runtime**: podman
 - **Cluster**: Kind (Kubernetes in Docker)
 
 ## Architecture
 
 ```
-+-------------------+       +-------------------------+
-|   User / curl     | ----> |  SRE Agent Operator     |
-|                   |       |  (Rust Pod in Kind)      |
-+-------------------+       |                         |
-                            |  GET /logs              |
-                            |  POST /fix              |
-                            +---|---------------------+
-                                |
-                    +-----------+-----------+
-                    |                       |
-            +-------v-------+     +--------v--------+
-            | K8s API Server |     | Claude CLI      |
-            | (kube-rs)      |     | (child process) |
-            +----------------+     +-----------------+
++---------------------+
+|   kovalski CLI      |
+|   (runs on host)    |
++-----|----------|----+
+      |          |
+      | HTTP     | claude -p (local)
+      v          v
++-------------+  +-----------------+
+| SRE Agent   |  | Claude CLI      |
+| Operator    |  | (host process)  |
+| (K8s Pod)   |  +-----------------+
+|             |
+| GET /logs   |
+| GET /status |
+| GET /diag   |
+| POST /apply |
++---|---------+
+    |
+    v
++----------------+
+| K8s API Server |
+| (kube-rs)      |
++----------------+
 ```
 
-## REST Endpoints
+## Operator REST Endpoints
 
 ### GET /logs
+Reads pod logs across all namespaces via kube-rs. Returns aggregated log output.
 
-Reads pod logs across all namespaces in the cluster. Returns aggregated log output so the user can see what is happening.
+### GET /status
+Runs `kubectl get all -A` and returns the output.
 
-### POST /fix
+### GET /diagnostics
+Collects diagnostic data from unhealthy pods and deployments in the default namespace:
+- Pod conditions, container states, restart counts
+- Waiting/terminated reasons
+- Container logs (tail 20 lines)
+- Deployment ready vs desired replicas
+- Container specs (image, ports, probes)
+Skips sre-agent pods.
 
-1. Collects diagnostic data from the cluster:
-   - Pod status and events for failing pods
-   - Pod logs from crashlooping or erroring containers
-   - Deployment describe output
-2. Builds a prompt with all the diagnostic context
-3. Invokes Claude CLI: `claude -p "<prompt>" --dangerously-skip-permissions`
-4. Parses the response to extract corrected YAML specs
-5. Writes the fixed specs to the `specs/` folder
-6. Applies them to the cluster via `kubectl apply -f specs/`
-7. Returns the fix summary to the caller
+### POST /apply
+Receives raw YAML in the request body, writes it to a temp file, and runs `kubectl apply --validate=false -f` on it.
+
+### POST /fix (legacy, server-side)
+Server-side fix flow that calls Claude CLI from inside the pod. Kept for compatibility but the CLI-driven flow is preferred.
+
+## kovalski CLI
+
+The `kovalski` binary runs on the host and provides these commands:
+
+### kovalski logs
+Calls `GET /logs` and prints all pod logs.
+
+### kovalski status
+Calls `GET /status` and prints `kubectl get all -A` output.
+
+### kovalski fix
+1. Calls `GET /diagnostics` to get cluster issues from the operator
+2. Runs `claude -p` locally on the host with the diagnostics as context
+3. Extracts YAML from Claude's response
+4. Saves each fixed manifest to `fixed-specs/` directory
+5. Sends the YAML to `POST /apply` on the operator to apply fixes
+
+### kovalski logs-summary
+1. Calls `GET /logs` to get all pod logs from the operator
+2. Runs `claude -p` locally on the host to summarize findings
+3. Prints what is running, what is failing, why, and recommended actions
+
+### Environment
+- `KOVALSKI_URL` - base URL of the SRE agent (default: `http://localhost:30080`)
 
 ## Claude CLI Integration
 
-Follows the same pattern as `agent-debate-club`:
+Follows the same pattern as `agent-debate-club`. Spawned as a child process on the host:
 
 ```rust
 pub fn build_command(prompt: &str) -> (String, Vec<String>) {
@@ -68,31 +108,36 @@ pub fn build_command(prompt: &str) -> (String, Vec<String>) {
 }
 ```
 
-Spawned via `tokio::process::Command` with stdout/stderr capture and a timeout.
+Spawned via `tokio::process::Command` with stdout/stderr capture and a 180s timeout.
 
 ## Broken Specs (specs/)
 
-The `specs/` folder contains intentionally broken K8s manifests so `/fix` has real problems to solve. Broken scenarios include:
+The `specs/` folder contains intentionally broken K8s manifests so `kovalski fix` has real problems to solve:
 
-- **Wrong image name**: deployment referencing a non-existent container image
-- **Bad port configuration**: container port mismatch or service targeting wrong port
-- **Missing environment variables**: app crashing because required env vars are not set
-- **Resource limit issues**: memory limit too low causing OOMKill
-- **Bad readiness/liveness probes**: probe pointing to wrong path or port
+- **Wrong image name**: `nginxxxxx:latesttttt` (non-existent image)
+- **Bad probes**: readiness/liveness probes on port 9999 while nginx listens on 80
+- **Missing env vars**: postgres without required `POSTGRES_PASSWORD`
+
+## Fixed Specs (fixed-specs/)
+
+When `kovalski fix` runs, the corrected YAML manifests are saved to `fixed-specs/`, named by deployment (e.g. `fixed-specs/broken-bad-port.yaml`).
 
 ## Scripts
 
-### start.sh
+### build.sh
+Builds both `sre-agent` (operator) and `kovalski` (CLI) binaries via `cargo build --release`.
 
-1. Creates a Kind cluster using `kind-config.yaml`
-2. Builds the Rust operator container image
-3. Loads the image into Kind
-4. Applies all specs from `specs/` folder (including the broken ones)
-5. Deploys the SRE agent operator into the cluster
+### start.sh
+1. Creates a Kind cluster with `kind-config.yaml` (control-plane + worker, port mapping 30080)
+2. Builds the operator container image with podman
+3. Saves and loads the image into Kind via `kind load image-archive`
+4. Applies all specs from `specs/` (broken deployments + operator)
+5. Waits for the operator pod to be ready
+6. Starts `kubectl port-forward` in background (30080 -> 8080)
 
 ### stop.sh
-
-1. Deletes the Kind cluster
+1. Kills the port-forward process
+2. Deletes the Kind cluster
 
 ## Project Structure
 
@@ -101,6 +146,7 @@ k8s-sre-agent-operator/
   design-doc.md
   README.md
   kind-config.yaml
+  build.sh
   start.sh
   stop.sh
   specs/
@@ -108,15 +154,22 @@ k8s-sre-agent-operator/
     broken-deployment-bad-port.yaml
     broken-deployment-missing-env.yaml
     sre-agent-operator.yaml
+  fixed-specs/
+    (generated by kovalski fix)
   operator/
     Cargo.toml
     Containerfile
     src/
       main.rs
+      cli/
+        main.rs
       routes/
         mod.rs
         logs.rs
         fix.rs
+        status.rs
+        diagnostics.rs
+        apply.rs
       k8s/
         mod.rs
         diagnostics.rs
@@ -129,8 +182,11 @@ k8s-sre-agent-operator/
 
 ## Flow
 
-1. User runs `start.sh` - Kind cluster comes up with broken deployments
-2. User calls `GET /logs` - sees errors and crashloops
-3. User calls `POST /fix` - operator gathers diagnostics, asks Claude to reason about the failures, gets corrected YAML, applies fixes
-4. User calls `GET /logs` again - sees pods recovering
-5. User runs `stop.sh` to tear down
+1. `./build.sh` - builds operator and CLI binaries
+2. `./start.sh` - Kind cluster comes up with broken deployments
+3. `kovalski status` - see all resources and their states
+4. `kovalski logs` - see raw pod logs
+5. `kovalski logs-summary` - AI-powered summary of cluster health
+6. `kovalski fix` - AI diagnoses issues, generates fixed YAML, saves to `fixed-specs/`, applies to cluster
+7. `kovalski status` - verify pods are now healthy
+8. `./stop.sh` - tear down
