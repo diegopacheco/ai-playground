@@ -1,0 +1,24 @@
+pocs/k8s-sre-agent-operator/test/k8s/k8s.yaml
+  c99543d6d7d4a5de 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "edcf528716e8317de28e065317ac98415606d03a",
+  "prompts": {
+    "c99543d6d7d4a5de": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d42f9aa0-3138-4531-8dd3-bec11111d23f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 39,
+      "total_deletions": 0,
+      "accepted_lines": 39,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/4fccbf1facd51bf38b8d7259c8b74131bf748c0243c67eabf71ba1460558fc7e"
+    }
+  }
+}
