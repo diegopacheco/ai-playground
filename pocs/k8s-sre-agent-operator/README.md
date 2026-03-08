@@ -48,3 +48,75 @@ curl -X POST http://localhost:30080/fix
 cd operator
 cargo build --release
 ```
+
+### Result
+
+```
+./build.sh
+./start.sh
+```
+
+```
+--> 81322263762e
+[2/2] STEP 1/7: FROM debian:bookworm-slim
+[2/2] STEP 2/7: RUN apt-get update && apt-get install -y curl nodejs npm ca-certificates && rm -rf /var/lib/apt/lists/* &&     ARCH=$(uname -m) &&     if [ "$ARCH" = "aarch64" ]; then KARCH="arm64"; else KARCH="amd64"; fi &&     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${KARCH}/kubectl" &&     chmod +x kubectl && mv kubectl /usr/local/bin/ &&     npm install -g @anthropic-ai/claude-code
+--> Using cache 4bc3064ce730201c4fee822a4d4ebbbac90ec2ffd95274da5d98d6253b891182
+--> 4bc3064ce730
+[2/2] STEP 3/7: RUN useradd -m -s /bin/bash sre && mkdir -p /home/sre/.kube && chown -R sre:sre /home/sre
+--> Using cache a3ce17f97ec394b37adaf7440eba3990435817be34c976338a63ddc1fb1ced68
+--> a3ce17f97ec3
+[2/2] STEP 4/7: COPY --from=builder /app/target/release/sre-agent /usr/local/bin/sre-agent
+--> Using cache ac410eb3914721f5fe84b1d0c087897b0cc40946002e0290aae490e94372a17c
+--> ac410eb39147
+[2/2] STEP 5/7: USER sre
+--> Using cache 29a8bfa67c2bf44ee0a2a121bf3a1b973e298c75fd56352d1783ac7cebc267c2
+--> 29a8bfa67c2b
+[2/2] STEP 6/7: EXPOSE 8080
+--> Using cache 5189fded07381190d9c23aff3381582b362f7df160ef7c40a269ba03b9ace255
+--> 5189fded0738
+[2/2] STEP 7/7: CMD ["sre-agent"]
+--> Using cache 5386ac153f112077f295f3ed9f5aedbef4a365939d706dcec2e8d3ee6206ba83
+[2/2] COMMIT sre-agent-operator:latest
+--> 5386ac153f11
+Successfully tagged localhost/sre-agent-operator:latest
+5386ac153f112077f295f3ed9f5aedbef4a365939d706dcec2e8d3ee6206ba83
+enabling experimental podman provider
+Applying /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/k8s-sre-agent-operator/specs/broken-deployment-bad-port.yaml
+deployment.apps/broken-bad-port created
+Applying /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/k8s-sre-agent-operator/specs/broken-deployment-missing-env.yaml
+deployment.apps/broken-missing-env created
+Applying /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/k8s-sre-agent-operator/specs/broken-deployment-wrong-image.yaml
+deployment.apps/broken-wrong-image created
+Applying /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/k8s-sre-agent-operator/specs/sre-agent-operator.yaml
+serviceaccount/sre-agent created
+clusterrole.rbac.authorization.k8s.io/sre-agent-role created
+clusterrolebinding.rbac.authorization.k8s.io/sre-agent-binding created
+deployment.apps/sre-agent-operator created
+service/sre-agent-operator created
+Waiting for sre-agent-operator pod to be ready...
+Forwarding from 127.0.0.1:30080 -> 8080
+Forwarding from [::1]:30080 -> 8080
+
+SRE Agent Operator is running.
+  GET  /logs -> kovalski logs
+  POST /fix  -> kovalski fix
+  Port-forward PID: 69022
+
+NAMESPACE            NAME                                                      READY   STATUS              RESTARTS   AGE
+default              broken-bad-port-f66875f78-7wddx                           0/1     ContainerCreating   0          4s
+default              broken-missing-env-6c4b848f69-gndv5                       0/1     ContainerCreating   0          4s
+default              broken-wrong-image-b8cd65b56-vktjg                        0/1     ContainerCreating   0          4s
+default              sre-agent-operator-5c8bc95796-4hhzc                       1/1     Running             0          4s
+kube-system          coredns-7d764666f9-lvf5v                                  1/1     Running             0          85s
+kube-system          coredns-7d764666f9-ts8wn                                  1/1     Running             0          85s
+kube-system          etcd-sre-agent-cluster-control-plane                      1/1     Running             0          94s
+kube-system          kindnet-4h27v                                             1/1     Running             0          85s
+kube-system          kindnet-wb8l6                                             1/1     Running             0          80s
+kube-system          kube-apiserver-sre-agent-cluster-control-plane            1/1     Running             0          93s
+kube-system          kube-controller-manager-sre-agent-cluster-control-plane   1/1     Running             0          93s
+kube-system          kube-proxy-75bmw                                          1/1     Running             0          85s
+kube-system          kube-proxy-wxvh9                                          1/1     Running             0          80s
+kube-system          kube-scheduler-sre-agent-cluster-control-plane            1/1     Running             0          93s
+local-path-storage   local-path-provisioner-67b8995b4b-8mdmj                   1/1     Running             0          85s
+```
+
