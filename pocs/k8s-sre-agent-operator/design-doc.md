@@ -106,21 +106,22 @@ Calls `GET /status` and prints `kubectl get all -A` output.
 3. Prints what is running, what is failing, why, and recommended actions
 
 ### kovalski k8s
-Scans the current directory, uses Claude CLI to generate all artifacts, builds and deploys to the cluster.
+Scans the current directory, uses Claude CLI to analyze the project, generate all artifacts, build and deploy to the cluster. No arguments needed - the LLM figures out the app name and port from the source code.
 
 ```
-kovalski k8s --name <name> [--port <port>]
+kovalski k8s
 ```
 
 1. Scans the current directory for source files (go, rs, py, js, ts, java, rb, etc.)
-2. Calls Claude CLI to generate a `Containerfile` based on the project source code
-3. Builds the container image with `podman build`
-4. Saves and loads the image into the Kind cluster via `kind load image-archive`
-5. Calls Claude CLI to generate K8s manifests (1 Deployment, 1 Service type LoadBalancer)
-6. Saves the YAML to `specs/<name>.yaml`
-7. Runs `kubectl apply -f` to deploy
-8. Waits for the pod to be ready
-9. Prints the LoadBalancer external IP if available (MetalLB)
+2. Calls Claude CLI to analyze the project and detect the app name and port
+3. Calls Claude CLI to generate a `Containerfile` based on the project source code
+4. Builds the container image with `podman build`
+5. Saves and loads the image into the Kind cluster via `kind load image-archive`
+6. Calls Claude CLI to generate K8s manifests (1 Deployment, 1 Service type LoadBalancer)
+7. Saves the YAML to `specs/<name>.yaml` (user can edit these later if needed)
+8. Runs `kubectl apply -f` to deploy
+9. Waits for the pod to be ready
+10. Prints the LoadBalancer external IP if available (MetalLB)
 
 ### kovalski deploy
 1. Applies `specs/sre-agent-operator.yaml` to the current cluster via `kubectl apply -f`
@@ -293,7 +294,7 @@ Usage:
 ```
 cd test/cluster && ./start.sh
 kovalski deploy
-cd ../k8s && kovalski k8s --name test-app --port 8080
+cd ../k8s && kovalski k8s
 ```
 
 ## Flow
@@ -307,5 +308,5 @@ cd ../k8s && kovalski k8s --name test-app --port 8080
 7. `kovalski status` - verify pods are now healthy
 8. `kovalski ui` - open the web UI in browser
 9. `kovalski deploy` - install sre-agent on any cluster
-10. `kovalski k8s --name <app> --port <port>` - generate Containerfile, build image, generate K8s manifests, deploy
+10. `kovalski k8s` - analyze project, generate Containerfile + K8s manifests, build, deploy
 11. `./stop.sh` - tear down
