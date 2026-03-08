@@ -106,18 +106,21 @@ Calls `GET /status` and prints `kubectl get all -A` output.
 3. Prints what is running, what is failing, why, and recommended actions
 
 ### kovalski k8s
-Generates Kubernetes manifests (Deployment + LoadBalancer Service) for a given app, saves them to `specs/`, and applies with `kubectl apply -f`.
+Scans the current directory, uses Claude CLI to generate all artifacts, builds and deploys to the cluster.
 
 ```
-kovalski k8s --name <name> --image <image> [--port <port>] [--replicas <n>]
+kovalski k8s --name <name> [--port <port>]
 ```
 
-1. Generates a Deployment with the specified image, port, replicas
-2. Generates a Service of type `LoadBalancer` (for MetalLB) exposing the port
-3. Saves the YAML to `specs/<name>.yaml`
-4. Runs `kubectl apply -f` to deploy
-5. Waits for the pod to be ready
-6. Prints the LoadBalancer external IP if available
+1. Scans the current directory for source files (go, rs, py, js, ts, java, rb, etc.)
+2. Calls Claude CLI to generate a `Containerfile` based on the project source code
+3. Builds the container image with `podman build`
+4. Saves and loads the image into the Kind cluster via `kind load image-archive`
+5. Calls Claude CLI to generate K8s manifests (1 Deployment, 1 Service type LoadBalancer)
+6. Saves the YAML to `specs/<name>.yaml`
+7. Runs `kubectl apply -f` to deploy
+8. Waits for the pod to be ready
+9. Prints the LoadBalancer external IP if available (MetalLB)
 
 ### kovalski deploy
 1. Applies `specs/sre-agent-operator.yaml` to the current cluster via `kubectl apply -f`
@@ -290,7 +293,7 @@ Usage:
 ```
 cd test/cluster && ./start.sh
 kovalski deploy
-kovalski k8s --name test-app --image test-app:latest --port 8080
+cd ../k8s && kovalski k8s --name test-app --port 8080
 ```
 
 ## Flow
@@ -304,5 +307,5 @@ kovalski k8s --name test-app --image test-app:latest --port 8080
 7. `kovalski status` - verify pods are now healthy
 8. `kovalski ui` - open the web UI in browser
 9. `kovalski deploy` - install sre-agent on any cluster
-10. `kovalski k8s --name <app> --image <img> --port <port>` - generate and deploy K8s manifests
+10. `kovalski k8s --name <app> --port <port>` - generate Containerfile, build image, generate K8s manifests, deploy
 11. `./stop.sh` - tear down
