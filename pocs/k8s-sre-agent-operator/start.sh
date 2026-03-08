@@ -8,6 +8,12 @@ kind create cluster --name "$CLUSTER_NAME" --config "$SCRIPT_DIR/kind-config.yam
 
 kubectl cluster-info --context "kind-$CLUSTER_NAME"
 
+cd "$SCRIPT_DIR/ui"
+bun install
+bun run build
+rm -rf "$SCRIPT_DIR/operator/ui-dist"
+cp -r "$SCRIPT_DIR/ui/dist" "$SCRIPT_DIR/operator/ui-dist"
+
 cd "$SCRIPT_DIR/operator"
 podman build -t sre-agent-operator:latest -f Containerfile .
 

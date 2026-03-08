@@ -22,6 +22,7 @@ fn main() {
         "fix" => rt.block_on(do_fix(&base_url)),
         "status" => rt.block_on(do_get(&format!("{}/status", base_url))),
         "logs-summary" => rt.block_on(do_logs_summary(&base_url)),
+        "ui" => open_ui(&base_url),
         _ => {
             eprintln!("Unknown command: {}", args[1]);
             print_usage();
@@ -263,14 +264,23 @@ async fn do_get(url: &str) {
     }
 }
 
+fn open_ui(base_url: &str) {
+    println!("Opening UI at {}", base_url);
+    #[cfg(target_os = "macos")]
+    let _ = std::process::Command::new("open").arg(base_url).spawn();
+    #[cfg(target_os = "linux")]
+    let _ = std::process::Command::new("xdg-open").arg(base_url).spawn();
+}
+
 fn print_usage() {
     eprintln!("Usage: kovalski <command>");
     eprintln!("");
     eprintln!("Commands:");
-    eprintln!("  logs    Read all pod logs from the cluster");
-    eprintln!("  fix     Fix broken deployments using Claude AI");
+    eprintln!("  logs         Read all pod logs from the cluster");
+    eprintln!("  fix          Fix broken deployments using Claude AI");
     eprintln!("  status       Show all resources in the cluster (kubectl get all)");
     eprintln!("  logs-summary Summarize logs using Claude AI");
+    eprintln!("  ui           Open the web UI in the browser");
     eprintln!("");
     eprintln!("Environment:");
     eprintln!("  KOVALSKI_URL  Base URL of the SRE agent (default: http://localhost:30080)");

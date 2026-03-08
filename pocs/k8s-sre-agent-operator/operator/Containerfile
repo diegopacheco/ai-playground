@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y curl nodejs npm ca-certificates && rm -
     npm install -g @anthropic-ai/claude-code
 RUN useradd -m -s /bin/bash sre && mkdir -p /home/sre/.kube && chown -R sre:sre /home/sre
 COPY --from=builder /app/target/release/sre-agent /usr/local/bin/sre-agent
+COPY ui-dist /app/static
 USER sre
 EXPOSE 8080
 CMD ["sre-agent"]
