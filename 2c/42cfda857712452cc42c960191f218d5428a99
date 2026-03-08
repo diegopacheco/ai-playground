@@ -1,0 +1,24 @@
+pocs/k8s-sre-agent-operator/design-doc.md
+  bee120974b8081d7 1,5,13-15,21-31,34-43,46,49,51-52,54-61,63-64,66-92,96,111,115-119,121,123,127-128,130-136,139-140,149,157-158,164-165,170-172,185-192
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "2c42cfda857712452cc42c960191f218d5428a99",
+  "prompts": {
+    "bee120974b8081d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1735c94c-d303-4e1d-83a9-2a6bead7d788",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 107,
+      "total_deletions": 51,
+      "accepted_lines": 105,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/236d6d6474b754d52b25571c0119d4a5df1f7f62175689d1a8b269ceec7a1044"
+    }
+  }
+}
