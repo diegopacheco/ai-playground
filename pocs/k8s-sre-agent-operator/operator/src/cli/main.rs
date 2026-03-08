@@ -24,6 +24,7 @@ fn main() {
         "logs-summary" => rt.block_on(do_logs_summary(&base_url)),
         "ui" => open_ui(&base_url),
         "deploy" => rt.block_on(do_deploy()),
+        "k8s" => rt.block_on(do_k8s(&args[2..])),
         _ => {
             eprintln!("Unknown command: {}", args[1]);
             print_usage();
@@ -318,6 +319,141 @@ async fn do_deploy() {
     println!("sre-agent-operator is ready.");
 }
 
+async fn do_k8s(args: &[String]) {
+    let mut name = String::new();
+    let mut image = String::new();
+    let mut port: u16 = 8080;
+    let mut replicas: u32 = 1;
+
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--name" => { i += 1; name = args[i].clone(); }
+            "--image" => { i += 1; image = args[i].clone(); }
+            "--port" => { i += 1; port = args[i].parse().unwrap_or(8080); }
+            "--replicas" => { i += 1; replicas = args[i].parse().unwrap_or(1); }
+            _ => {
+                eprintln!("Unknown k8s flag: {}", args[i]);
+                eprintln!("Usage: kovalski k8s --name <name> --image <image> [--port <port>] [--replicas <n>]");
+                process::exit(1);
+            }
+        }
+        i += 1;
+    }
+
+    if name.is_empty() || image.is_empty() {
+        eprintln!("Usage: kovalski k8s --name <name> --image <image> [--port <port>] [--replicas <n>]");
+        process::exit(1);
+    }
+
+    let yaml = format!(
+"apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {}
+  namespace: default
+spec:
+  replicas: {}
+  selector:
+    matchLabels:
+      app: {}
+  template:
+    metadata:
+      labels:
+        app: {}
+    spec:
+      containers:
+        - name: {}
+          image: {}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {}
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app: {}
+  ports:
+    - port: {}
+      targetPort: {}
+      protocol: TCP",
+        name, replicas, name, name, name, image, port, name, name, port, port
+    );
+
+    let specs_dir = env::current_dir()
+        .unwrap_or_default()
+        .join("specs");
+    std::fs::create_dir_all(&specs_dir).unwrap_or_else(|e| {
+        eprintln!("Failed to create specs dir: {}", e);
+        process::exit(1);
+    });
+
+    let spec_path = specs_dir.join(format!("{}.yaml", name));
+    std::fs::write(&spec_path, &yaml).unwrap_or_else(|e| {
+        eprintln!("Failed to write spec: {}", e);
+        process::exit(1);
+    });
+    println!("Generated: {}", spec_path.display());
+
+    println!("Applying to cluster...");
+    let output = Command::new("kubectl")
+        .args(&["apply", "-f", &spec_path.to_string_lossy()])
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("Failed to run kubectl")
+        .wait_with_output()
+        .await
+        .expect("Failed to wait for kubectl");
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    if !stdout.is_empty() { println!("{}", stdout); }
+    if !stderr.is_empty() { eprintln!("{}", stderr); }
+
+    if !output.status.success() {
+        eprintln!("Apply failed.");
+        process::exit(1);
+    }
+
+    println!("Waiting for {} to be ready...", name);
+    loop {
+        let check = Command::new("kubectl")
+            .args(&["get", "pods", "-l", &format!("app={}", name), "-o", "jsonpath={.items[0].status.conditions[?(@.type==\"Ready\")].status}"])
+            .output()
+            .await;
+
+        if let Ok(out) = check {
+            let val = String::from_utf8_lossy(&out.stdout);
+            if val.trim() == "True" {
+                break;
+            }
+        }
+        tokio::time::sleep(Duration::from_secs(1)).await;
+    }
+
+    println!("{} is ready.", name);
+
+    let svc_output = Command::new("kubectl")
+        .args(&["get", "svc", &name, "-o", "jsonpath={.status.loadBalancer.ingress[0].ip}"])
+        .output()
+        .await;
+
+    if let Ok(out) = svc_output {
+        let ip = String::from_utf8_lossy(&out.stdout).trim().to_string();
+        if !ip.is_empty() {
+            println!("Service available at: http://{}:{}", ip, port);
+        } else {
+            println!("Service created (LoadBalancer IP pending).");
+        }
+    }
+}
+
 fn open_ui(base_url: &str) {
     println!("Opening UI at {}", base_url);
     #[cfg(target_os = "macos")]
@@ -336,6 +472,8 @@ fn print_usage() {
     eprintln!("  logs-summary Summarize logs using Claude AI");
     eprintln!("  ui           Open the web UI in the browser");
     eprintln!("  deploy       Deploy sre-agent-operator to the current cluster");
+    eprintln!("  k8s          Generate K8s manifests, save to specs/, and apply");
+    eprintln!("               --name <name> --image <image> [--port <port>] [--replicas <n>]");
     eprintln!("");
     eprintln!("Environment:");
     eprintln!("  KOVALSKI_URL  Base URL of the SRE agent (default: http://localhost:30080)");

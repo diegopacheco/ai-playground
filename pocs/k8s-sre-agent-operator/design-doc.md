@@ -88,6 +88,20 @@ Calls `GET /status` and prints `kubectl get all -A` output.
 2. Runs `claude -p` locally on the host to summarize findings
 3. Prints what is running, what is failing, why, and recommended actions
 
+### kovalski k8s
+Generates Kubernetes manifests (Deployment + LoadBalancer Service) for a given app, saves them to `specs/`, and applies with `kubectl apply -f`.
+
+```
+kovalski k8s --name <name> --image <image> [--port <port>] [--replicas <n>]
+```
+
+1. Generates a Deployment with the specified image, port, replicas
+2. Generates a Service of type `LoadBalancer` (for MetalLB) exposing the port
+3. Saves the YAML to `specs/<name>.yaml`
+4. Runs `kubectl apply -f` to deploy
+5. Waits for the pod to be ready
+6. Prints the LoadBalancer external IP if available
+
 ### kovalski deploy
 1. Applies `specs/sre-agent-operator.yaml` to the current cluster via `kubectl apply -f`
 2. Waits for the sre-agent-operator pod to be ready (polls every 1s)
@@ -208,6 +222,15 @@ k8s-sre-agent-operator/
       components/
         StatusBadge.tsx
         YamlModal.tsx
+  test/
+    k8s/
+      main.go
+      go.mod
+      Containerfile
+    cluster/
+      kind-config.yaml
+      start.sh
+      stop.sh
 ```
 
 ## Web UI
@@ -236,6 +259,23 @@ The operator serves a web UI built with React, Vite, TypeScript, and TanStack Qu
 
 ### Build
 The UI is built with `bun run build` and the dist is copied into the operator container at `/app/static`. The operator serves it via `tower-http::ServeDir` as a fallback service with SPA routing.
+
+## Test Environment
+
+### test/k8s/
+A simple Go HTTP app used for testing `kovalski k8s`. Serves `/` and `/health` on port 8080.
+
+### test/cluster/
+A standalone Kind cluster with MetalLB for testing `kovalski deploy` and `kovalski k8s`:
+- `start.sh` - Creates Kind cluster, installs MetalLB with L2 advertisement, builds and loads the test-app and sre-agent-operator images
+- `stop.sh` - Deletes the Kind cluster
+
+Usage:
+```
+cd test/cluster && ./start.sh
+kovalski deploy
+kovalski k8s --name test-app --image test-app:latest --port 8080
+```
 
 ## Flow
 
