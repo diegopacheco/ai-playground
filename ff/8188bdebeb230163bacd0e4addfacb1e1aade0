@@ -1,0 +1,22 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "ff8188bdebeb230163bacd0e4addfacb1e1aade0",
+  "prompts": {
+    "bee120974b8081d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1735c94c-d303-4e1d-83a9-2a6bead7d788",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 14,
+      "accepted_lines": 0,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/723e400b616edb25339b8ba5a871352a363879092fba9996cb78f9b6b0be88e0"
+    }
+  }
+}
