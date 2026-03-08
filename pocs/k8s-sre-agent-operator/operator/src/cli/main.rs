@@ -269,7 +269,8 @@ fn print_usage() {
     eprintln!("Commands:");
     eprintln!("  logs    Read all pod logs from the cluster");
     eprintln!("  fix     Fix broken deployments using Claude AI");
-    eprintln!("  status  Show all resources in the cluster (kubectl get all)");
+    eprintln!("  status       Show all resources in the cluster (kubectl get all)");
+    eprintln!("  logs-summary Summarize logs using Claude AI");
     eprintln!("");
     eprintln!("Environment:");
     eprintln!("  KOVALSKI_URL  Base URL of the SRE agent (default: http://localhost:30080)");
