@@ -327,6 +327,9 @@ async fn do_k8s() {
     if let Ok(entries) = std::fs::read_dir(&cwd) {
         for entry in entries.flatten() {
             let fname = entry.file_name().to_string_lossy().to_string();
+            if fname == "Containerfile" || fname == "Dockerfile" || fname == "specs" {
+                continue;
+            }
             file_listing.push_str(&format!("{}\n", fname));
             let ext = std::path::Path::new(&fname)
                 .extension()
@@ -385,10 +388,11 @@ async fn do_k8s() {
 
     println!("Asking Claude to generate Containerfile...");
     let containerfile_prompt = format!(
-        "You are a devops expert. Generate a Containerfile (Dockerfile) for this project. \
-         The app listens on port {}. Use multi-stage build. Use the name Containerfile not Dockerfile. \
-         Do not write any comments in the Containerfile. Make it compact with no blank lines between commands. \
-         Output ONLY the Containerfile content, no markdown fences, no explanation.\n\n\
+        "Generate a Containerfile for this project. The app listens on port {}. \
+         Use multi-stage build. No comments. No blank lines between commands. \
+         IMPORTANT: Output ONLY the raw Containerfile starting with FROM. \
+         No markdown, no fences, no backticks, no explanation, no description. \
+         Just the Containerfile instructions starting with FROM.\n\n\
          FILES:\n{}\n\nSOURCE:\n{}", port, file_listing, source_snippets
     );
 
@@ -400,8 +404,9 @@ async fn do_k8s() {
         }
     };
 
-    if containerfile_content.trim().is_empty() {
-        eprintln!("Claude returned empty Containerfile.");
+    if containerfile_content.trim().is_empty() || !containerfile_content.trim().starts_with("FROM") {
+        eprintln!("Claude returned invalid Containerfile (must start with FROM).");
+        eprintln!("Raw response:\n{}", containerfile_content);
         process::exit(1);
     }
 
@@ -573,7 +578,27 @@ fn extract_dockerfile(response: &str) -> String {
     }
 
     if !blocks.is_empty() {
+        for block in &blocks {
+            if block.trim().starts_with("FROM") {
+                return block.clone();
+            }
+        }
         return blocks[0].clone();
+    }
+
+    let mut from_lines: Vec<&str> = Vec::new();
+    let mut found_from = false;
+    for line in response.lines() {
+        if line.starts_with("FROM") {
+            found_from = true;
+        }
+        if found_from {
+            from_lines.push(line);
+        }
+    }
+
+    if !from_lines.is_empty() {
+        return from_lines.join("\n");
     }
 
     response.to_string()
