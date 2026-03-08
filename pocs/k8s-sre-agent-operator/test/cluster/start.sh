@@ -3,7 +3,6 @@ set -e
 
 CLUSTER_NAME="kovalski-test"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 kind create cluster --name "$CLUSTER_NAME" --config "$SCRIPT_DIR/kind-config.yaml"
 kubectl cluster-info --context "kind-$CLUSTER_NAME"
@@ -35,19 +34,6 @@ metadata:
   namespace: metallb-system
 EOF
 
-cd "$SCRIPT_DIR/../k8s"
-podman build -t test-app:latest -f Containerfile .
-podman save test-app:latest -o /tmp/test-app.tar
-kind load image-archive /tmp/test-app.tar --name "$CLUSTER_NAME"
-rm -f /tmp/test-app.tar
-
-cd "$PROJECT_ROOT/operator"
-podman build -t sre-agent-operator:latest -f Containerfile .
-podman save sre-agent-operator:latest -o /tmp/sre-agent-operator.tar
-kind load image-archive /tmp/sre-agent-operator.tar --name "$CLUSTER_NAME"
-rm -f /tmp/sre-agent-operator.tar
-
 echo ""
 echo "Cluster '$CLUSTER_NAME' is ready with MetalLB."
 echo "Run: kovalski deploy"
-echo "Run: kovalski k8s --name test-app --image test-app:latest --port 8080"
