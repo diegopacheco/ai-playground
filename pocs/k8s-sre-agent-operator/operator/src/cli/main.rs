@@ -417,51 +417,6 @@ async fn do_k8s() {
     });
     println!("Generated: {}", containerfile_path.display());
 
-    println!("Building image with podman...");
-    let build_output = Command::new("podman")
-        .args(&["build", "-t", &image_name, "-f", "Containerfile", "."])
-        .current_dir(&cwd)
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .expect("Failed to run podman")
-        .wait_with_output()
-        .await
-        .expect("Failed to wait for podman");
-
-    if !build_output.status.success() {
-        let stderr = String::from_utf8_lossy(&build_output.stderr);
-        eprintln!("Podman build failed:\n{}", stderr);
-        process::exit(1);
-    }
-    println!("Image built: {}", image_name);
-
-    println!("Loading image into kind...");
-    let tar_path = format!("/tmp/{}.tar", name);
-    let save = Command::new("podman")
-        .args(&["save", &image_name, "-o", &tar_path])
-        .output()
-        .await
-        .expect("Failed to save image");
-    if !save.status.success() {
-        eprintln!("Failed to save image to tar.");
-        process::exit(1);
-    }
-
-    let cluster_name = detect_kind_cluster().await;
-    let load = Command::new("kind")
-        .args(&["load", "image-archive", &tar_path, "--name", &cluster_name])
-        .output()
-        .await
-        .expect("Failed to load image into kind");
-    if !load.status.success() {
-        let stderr = String::from_utf8_lossy(&load.stderr);
-        eprintln!("Failed to load image into kind: {}", stderr);
-        process::exit(1);
-    }
-    let _ = std::fs::remove_file(&tar_path);
-    println!("Image loaded into kind cluster '{}'.", cluster_name);
-
     println!("Asking Claude to generate K8s manifests...");
     let k8s_prompt = format!(
         "You are a Kubernetes expert. Generate K8s YAML manifests for an app with these specs:\n\
@@ -504,58 +459,75 @@ async fn do_k8s() {
     });
     println!("Generated: {}", spec_path.display());
 
-    println!("Applying to cluster...");
-    let output = Command::new("kubectl")
-        .args(&["apply", "-f", &spec_path.to_string_lossy()])
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .expect("Failed to run kubectl")
-        .wait_with_output()
-        .await
-        .expect("Failed to wait for kubectl");
+    let cluster_name = format!("{}-cluster", name);
 
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    let stderr = String::from_utf8_lossy(&output.stderr);
-    if !stdout.is_empty() { println!("{}", stdout); }
-    if !stderr.is_empty() { eprintln!("{}", stderr); }
+    let start_sh = format!(
+"#!/bin/bash\n\
+set -e\n\
+\n\
+CLUSTER_NAME=\"{cluster}\"\n\
+SCRIPT_DIR=\"$(cd \"$(dirname \"$0\")\" && pwd)\"\n\
+\n\
+kind create cluster --name \"$CLUSTER_NAME\"\n\
+kubectl cluster-info --context \"kind-$CLUSTER_NAME\"\n\
+\n\
+cd \"$SCRIPT_DIR\"\n\
+podman build -t {image} -f Containerfile .\n\
+podman save {image} -o /tmp/{name}.tar\n\
+kind load image-archive /tmp/{name}.tar --name \"$CLUSTER_NAME\"\n\
+rm -f /tmp/{name}.tar\n\
+\n\
+for f in \"$SCRIPT_DIR/specs/\"*.yaml; do\n\
+    echo \"Applying $f\"\n\
+    kubectl apply -f \"$f\"\n\
+done\n\
+\n\
+echo \"Waiting for {name} pod to be ready...\"\n\
+while true; do\n\
+    READY=$(kubectl get pods -l app={name} -o jsonpath='{{.items[0].status.conditions[?(@.type==\"Ready\")].status}}' 2>/dev/null)\n\
+    if [ \"$READY\" = \"True\" ]; then\n\
+        break\n\
+    fi\n\
+    sleep 1\n\
+done\n\
+\n\
+echo \"{name} is running.\"\n\
+kubectl get pods -A\n",
+        cluster = cluster_name, image = image_name, name = name
+    );
 
-    if !output.status.success() {
-        eprintln!("Apply failed.");
+    let stop_sh = format!(
+"#!/bin/bash\n\
+set -e\n\
+\n\
+kind delete cluster --name \"{}\"\n",
+        cluster_name
+    );
+
+    let start_path = cwd.join("start.sh");
+    let stop_path = cwd.join("stop.sh");
+
+    std::fs::write(&start_path, &start_sh).unwrap_or_else(|e| {
+        eprintln!("Failed to write start.sh: {}", e);
         process::exit(1);
+    });
+    std::fs::write(&stop_path, &stop_sh).unwrap_or_else(|e| {
+        eprintln!("Failed to write stop.sh: {}", e);
+        process::exit(1);
+    });
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        let _ = std::fs::set_permissions(&start_path, std::fs::Permissions::from_mode(0o755));
+        let _ = std::fs::set_permissions(&stop_path, std::fs::Permissions::from_mode(0o755));
     }
 
-    println!("Waiting for {} to be ready...", name);
-    loop {
-        let check = Command::new("kubectl")
-            .args(&["get", "pods", "-l", &format!("app={}", name), "-o", "jsonpath={.items[0].status.conditions[?(@.type==\"Ready\")].status}"])
-            .output()
-            .await;
-
-        if let Ok(out) = check {
-            let val = String::from_utf8_lossy(&out.stdout);
-            if val.trim() == "True" {
-                break;
-            }
-        }
-        tokio::time::sleep(Duration::from_secs(1)).await;
-    }
-
-    println!("{} is ready.", name);
-
-    let svc_output = Command::new("kubectl")
-        .args(&["get", "svc", &name, "-o", "jsonpath={.status.loadBalancer.ingress[0].ip}"])
-        .output()
-        .await;
-
-    if let Ok(out) = svc_output {
-        let ip = String::from_utf8_lossy(&out.stdout).trim().to_string();
-        if !ip.is_empty() {
-            println!("Service available at: http://{}:{}", ip, port);
-        } else {
-            println!("Service created (LoadBalancer IP pending).");
-        }
-    }
+    println!("Generated: {}", start_path.display());
+    println!("Generated: {}", stop_path.display());
+    println!("");
+    println!("Run ./start.sh to create the cluster and deploy.");
+    println!("Run ./stop.sh to tear down.");
 }
 
 fn extract_dockerfile(response: &str) -> String {
@@ -604,20 +576,6 @@ fn extract_dockerfile(response: &str) -> String {
     response.to_string()
 }
 
-async fn detect_kind_cluster() -> String {
-    let output = Command::new("kind")
-        .args(&["get", "clusters"])
-        .output()
-        .await;
-
-    if let Ok(out) = output {
-        let clusters = String::from_utf8_lossy(&out.stdout);
-        if let Some(first) = clusters.lines().filter(|l| !l.contains("enabling")).next() {
-            return first.trim().to_string();
-        }
-    }
-    "kind".to_string()
-}
 
 fn open_ui(base_url: &str) {
     println!("Opening UI at {}", base_url);
