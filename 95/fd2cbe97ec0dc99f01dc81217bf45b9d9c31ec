@@ -1,0 +1,24 @@
+pocs/k8s-sre-agent-operator/README.md
+  bee120974b8081d7 3,13-15,18,21-24,26-37,50,55-58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "95fd2cbe97ec0dc99f01dc81217bf45b9d9c31ec",
+  "prompts": {
+    "bee120974b8081d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1735c94c-d303-4e1d-83a9-2a6bead7d788",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 27,
+      "total_deletions": 289,
+      "accepted_lines": 27,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/e956be3c66b4a185b1ad2d030104289a6b411162b86258f6604f54f26342f9bd"
+    }
+  }
+}
