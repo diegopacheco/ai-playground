@@ -384,7 +384,7 @@ async fn do_k8s() {
 
     println!("Detected app: {} on port {}", name, port);
 
-    let image_name = format!("{}:latest", name);
+    let image_name = format!("localhost/{}:latest", name);
 
     println!("Asking Claude to generate Containerfile...");
     let containerfile_prompt = format!(
