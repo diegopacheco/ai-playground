@@ -24,7 +24,7 @@ fn main() {
         "logs-summary" => rt.block_on(do_logs_summary(&base_url)),
         "ui" => open_ui(&base_url),
         "deploy" => rt.block_on(do_deploy()),
-        "k8s" => rt.block_on(do_k8s(&args[2..])),
+        "k8s" => rt.block_on(do_k8s()),
         _ => {
             eprintln!("Unknown command: {}", args[1]);
             print_usage();
@@ -319,31 +319,8 @@ async fn do_deploy() {
     println!("sre-agent-operator is ready.");
 }
 
-async fn do_k8s(args: &[String]) {
-    let mut name = String::new();
-    let mut port: u16 = 8080;
-
-    let mut i = 0;
-    while i < args.len() {
-        match args[i].as_str() {
-            "--name" => { i += 1; name = args[i].clone(); }
-            "--port" => { i += 1; port = args[i].parse().unwrap_or(8080); }
-            _ => {
-                eprintln!("Unknown k8s flag: {}", args[i]);
-                eprintln!("Usage: kovalski k8s --name <name> [--port <port>]");
-                process::exit(1);
-            }
-        }
-        i += 1;
-    }
-
-    if name.is_empty() {
-        eprintln!("Usage: kovalski k8s --name <name> [--port <port>]");
-        process::exit(1);
-    }
-
+async fn do_k8s() {
     let cwd = env::current_dir().unwrap_or_default();
-    let image_name = format!("{}:latest", name);
 
     let mut file_listing = String::new();
     let mut source_snippets = String::new();
@@ -359,17 +336,57 @@ async fn do_k8s(args: &[String]) {
             let is_source = matches!(ext.as_str(), "go" | "rs" | "py" | "js" | "ts" | "java" | "rb" | "mod" | "sum" | "toml" | "lock" | "json");
             if is_source {
                 if let Ok(content) = std::fs::read_to_string(entry.path()) {
-                    let preview: String = content.lines().take(30).collect::<Vec<&str>>().join("\n");
+                    let preview: String = content.lines().take(50).collect::<Vec<&str>>().join("\n");
                     source_snippets.push_str(&format!("--- {} ---\n{}\n\n", fname, preview));
                 }
             }
         }
     }
 
+    let dir_name = cwd.file_name().unwrap_or_default().to_string_lossy().to_string();
+
+    println!("Analyzing project source code...");
+    let analyze_prompt = format!(
+        "You are a devops expert. Analyze this project and determine:\n\
+         1. A short app name suitable for a K8s deployment (lowercase, hyphens ok, no spaces)\n\
+         2. The port the app listens on\n\n\
+         Respond with EXACTLY two lines, nothing else:\n\
+         name: <app-name>\n\
+         port: <port-number>\n\n\
+         Directory name: {}\n\nFILES:\n{}\n\nSOURCE:\n{}", dir_name, file_listing, source_snippets
+    );
+
+    let analysis = match run_claude(&analyze_prompt).await {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("Claude error analyzing project: {}", e);
+            process::exit(1);
+        }
+    };
+
+    let mut name = String::new();
+    let mut port: u16 = 8080;
+    for line in analysis.lines() {
+        let line = line.trim();
+        if line.starts_with("name:") {
+            name = line.trim_start_matches("name:").trim().to_string();
+        } else if line.starts_with("port:") {
+            port = line.trim_start_matches("port:").trim().parse().unwrap_or(8080);
+        }
+    }
+
+    if name.is_empty() {
+        name = dir_name.clone();
+    }
+
+    println!("Detected app: {} on port {}", name, port);
+
+    let image_name = format!("{}:latest", name);
+
     println!("Asking Claude to generate Containerfile...");
     let containerfile_prompt = format!(
         "You are a devops expert. Generate a Containerfile (Dockerfile) for this project. \
-         The app should listen on port {}. Use multi-stage build. Use the name Containerfile not Dockerfile. \
+         The app listens on port {}. Use multi-stage build. Use the name Containerfile not Dockerfile. \
          Do not write any comments in the Containerfile. Make it compact with no blank lines between commands. \
          Output ONLY the Containerfile content, no markdown fences, no explanation.\n\n\
          FILES:\n{}\n\nSOURCE:\n{}", port, file_listing, source_snippets
@@ -595,8 +612,7 @@ fn print_usage() {
     eprintln!("  logs-summary Summarize logs using Claude AI");
     eprintln!("  ui           Open the web UI in the browser");
     eprintln!("  deploy       Deploy sre-agent-operator to the current cluster");
-    eprintln!("  k8s          Generate Containerfile, build image, generate K8s manifests, deploy");
-    eprintln!("               --name <name> [--port <port>]");
+    eprintln!("  k8s          Analyze project, generate Containerfile + K8s manifests, build, deploy");
     eprintln!("");
     eprintln!("Environment:");
     eprintln!("  KOVALSKI_URL  Base URL of the SRE agent (default: http://localhost:30080)");
