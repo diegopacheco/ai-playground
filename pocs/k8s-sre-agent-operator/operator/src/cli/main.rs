@@ -23,6 +23,7 @@ fn main() {
         "status" => rt.block_on(do_get(&format!("{}/status", base_url))),
         "logs-summary" => rt.block_on(do_logs_summary(&base_url)),
         "ui" => open_ui(&base_url),
+        "deploy" => rt.block_on(do_deploy()),
         _ => {
             eprintln!("Unknown command: {}", args[1]);
             print_usage();
@@ -264,6 +265,59 @@ async fn do_get(url: &str) {
     }
 }
 
+async fn do_deploy() {
+    let spec_path = find_project_dir() + "/specs/sre-agent-operator.yaml";
+    if !std::path::Path::new(&spec_path).exists() {
+        eprintln!("Spec not found: {}", spec_path);
+        process::exit(1);
+    }
+
+    println!("Deploying sre-agent-operator to current cluster...");
+
+    let output = Command::new("kubectl")
+        .args(&["apply", "-f", &spec_path])
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("Failed to run kubectl")
+        .wait_with_output()
+        .await
+        .expect("Failed to wait for kubectl");
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let stderr = String::from_utf8_lossy(&output.stderr);
+
+    if !stdout.is_empty() {
+        println!("{}", stdout);
+    }
+    if !stderr.is_empty() {
+        eprintln!("{}", stderr);
+    }
+
+    if !output.status.success() {
+        eprintln!("Deploy failed.");
+        process::exit(1);
+    }
+
+    println!("Waiting for sre-agent-operator pod to be ready...");
+    loop {
+        let check = Command::new("kubectl")
+            .args(&["get", "pods", "-l", "app=sre-agent-operator", "-o", "jsonpath={.items[0].status.conditions[?(@.type==\"Ready\")].status}"])
+            .output()
+            .await;
+
+        if let Ok(out) = check {
+            let val = String::from_utf8_lossy(&out.stdout);
+            if val.trim() == "True" {
+                break;
+            }
+        }
+        tokio::time::sleep(Duration::from_secs(1)).await;
+    }
+
+    println!("sre-agent-operator is ready.");
+}
+
 fn open_ui(base_url: &str) {
     println!("Opening UI at {}", base_url);
     #[cfg(target_os = "macos")]
@@ -281,6 +335,7 @@ fn print_usage() {
     eprintln!("  status       Show all resources in the cluster (kubectl get all)");
     eprintln!("  logs-summary Summarize logs using Claude AI");
     eprintln!("  ui           Open the web UI in the browser");
+    eprintln!("  deploy       Deploy sre-agent-operator to the current cluster");
     eprintln!("");
     eprintln!("Environment:");
     eprintln!("  KOVALSKI_URL  Base URL of the SRE agent (default: http://localhost:30080)");
