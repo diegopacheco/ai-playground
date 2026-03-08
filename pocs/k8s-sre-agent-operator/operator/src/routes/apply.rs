@@ -1,7 +1,14 @@
+use axum::extract::State;
 use axum::http::StatusCode;
+use std::sync::Arc;
+use crate::AppState;
 use crate::k8s::applier;
+use crate::history;
 
-pub async fn apply_yaml(body: String) -> Result<String, (StatusCode, String)> {
+pub async fn apply_yaml(
+    State(state): State<Arc<AppState>>,
+    body: String,
+) -> Result<String, (StatusCode, String)> {
     if body.trim().is_empty() {
         return Err((StatusCode::BAD_REQUEST, "Empty YAML body".to_string()));
     }
@@ -14,9 +21,14 @@ pub async fn apply_yaml(body: String) -> Result<String, (StatusCode, String)> {
     std::fs::write(&fix_path, &body)
         .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
-    let result = applier::apply_file(&fix_path)
-        .await
-        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e))?;
-
-    Ok(result)
+    match applier::apply_file(&fix_path).await {
+        Ok(result) => {
+            history::add_event(&state.history, "apply", &result, &body, true).await;
+            Ok(result)
+        }
+        Err(e) => {
+            history::add_event(&state.history, "apply", &e, &body, false).await;
+            Err((StatusCode::INTERNAL_SERVER_ERROR, e))
+        }
+    }
 }

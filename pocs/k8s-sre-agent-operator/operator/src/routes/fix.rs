@@ -1,20 +1,36 @@
 use axum::extract::State;
 use axum::http::StatusCode;
+use axum::Json;
+use serde::Serialize;
 use std::sync::Arc;
 use crate::AppState;
 use crate::k8s::diagnostics;
 use crate::k8s::applier;
 use crate::agent::runner;
+use crate::history;
+
+#[derive(Serialize)]
+pub struct FixResult {
+    pub diagnostics: String,
+    pub claude_response: String,
+    pub kubectl_output: String,
+    pub success: bool,
+}
 
 pub async fn fix_deployments(
     State(state): State<Arc<AppState>>,
-) -> Result<String, (StatusCode, String)> {
+) -> Result<Json<FixResult>, (StatusCode, String)> {
     let diag = diagnostics::collect_diagnostics(&state.k8s_client)
         .await
         .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
     if diag.trim().is_empty() {
-        return Ok("No issues detected in the cluster.".to_string());
+        return Ok(Json(FixResult {
+            diagnostics: String::new(),
+            claude_response: "No issues detected in the cluster.".to_string(),
+            kubectl_output: String::new(),
+            success: true,
+        }));
     }
 
     let prompt = format!(
@@ -38,11 +54,30 @@ pub async fn fix_deployments(
     std::fs::write(&fix_path, &yaml_content)
         .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
-    let apply_result = applier::apply_file(&fix_path)
-        .await
-        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e))?;
+    match applier::apply_file(&fix_path).await {
+        Ok(kubectl_output) => {
+            history::add_event(&state.history, "fix",
+                &format!("Fixed: {}", kubectl_output),
+                &format!("Diagnostics:\n{}\n\nClaude:\n{}", diag, response),
+                true).await;
 
-    Ok(format!("Fix applied.\n\nClaude analysis:\n{}\n\nKubectl output:\n{}", response, apply_result))
+            Ok(Json(FixResult {
+                diagnostics: diag,
+                claude_response: response,
+                kubectl_output,
+                success: true,
+            }))
+        }
+        Err(e) => {
+            history::add_event(&state.history, "fix", &e, &diag, false).await;
+            Ok(Json(FixResult {
+                diagnostics: diag,
+                claude_response: response,
+                kubectl_output: e,
+                success: false,
+            }))
+        }
+    }
 }
 
 fn extract_yaml(response: &str) -> String {
@@ -68,34 +103,5 @@ fn extract_yaml(response: &str) -> String {
         return blocks.join("\n---\n");
     }
 
-    let mut yaml_lines: Vec<&str> = Vec::new();
-    for line in response.lines() {
-        let trimmed = line.trim();
-        if trimmed.is_empty()
-            || trimmed.starts_with("apiVersion:")
-            || trimmed.starts_with("kind:")
-            || trimmed.starts_with("metadata:")
-            || trimmed.starts_with("spec:")
-            || trimmed.starts_with("---")
-            || trimmed.starts_with("- ")
-            || trimmed.starts_with("name:")
-            || trimmed.starts_with("namespace:")
-            || trimmed.starts_with("labels:")
-            || trimmed.starts_with("containers:")
-            || trimmed.starts_with("image:")
-            || trimmed.starts_with("ports:")
-            || trimmed.starts_with("replicas:")
-            || trimmed.starts_with("selector:")
-            || trimmed.starts_with("template:")
-            || trimmed.starts_with("matchLabels:")
-            || trimmed.starts_with("app:")
-            || trimmed.starts_with("env:")
-            || trimmed.starts_with("containerPort:")
-            || line.starts_with("  ")
-        {
-            yaml_lines.push(line);
-        }
-    }
-
-    yaml_lines.join("\n")
+    response.to_string()
 }
