@@ -2,6 +2,10 @@
 
 A skill for Claude Code and Fox Codex that evaluates other skills across 9 quality criteria, producing a scored pass/fail report.
 
+# Result
+
+
+
 ## Evaluation Criteria
 
 | Criteria | Pass Condition | What It Measures |
