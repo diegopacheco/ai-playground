@@ -1,0 +1,24 @@
+pocs/skill-evaluator/skill-evaluator/scripts/evaluate.sh
+  201de4c46a61a5b7 27-33,37-41,43-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "4d74222eafb42dd17518e89a1ca3748c3f0b18f3",
+  "prompts": {
+    "201de4c46a61a5b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eef03176-7fde-4374-989c-d8bb165c1ed6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 17,
+      "total_deletions": 9,
+      "accepted_lines": 14,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/8b0eb216e9d3a99b608e46436e85d34dbd93e9c1df75cda4ffad67ecae3eb9c1"
+    }
+  }
+}
