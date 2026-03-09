@@ -1,0 +1,24 @@
+pocs/skill-evaluator/eval-report.md
+  bceb8171dc6c4ae5 1-46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "0cfefb63f5c1aacf0bda84252bc59963ea045de0",
+  "prompts": {
+    "bceb8171dc6c4ae5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a1761f98-2932-4f02-8a3f-d550f319e313",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 46,
+      "total_deletions": 0,
+      "accepted_lines": 46,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/cde52ebc296598d0896f4c449ccba21c880adaf85ced68a4380afaa92c42f219"
+    }
+  }
+}
