@@ -66,6 +66,10 @@ The skill will:
 Overall: 6.3/10 | FAIL (Anti-Cheating below threshold)
 ```
 
+## Evaluation Report
+
+See [eval-report.md](eval-report.md) for the latest skill evaluation results.
+
 ## Project Structure
 
 ```
