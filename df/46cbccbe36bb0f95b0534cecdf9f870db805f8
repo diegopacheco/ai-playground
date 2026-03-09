@@ -1,0 +1,24 @@
+pocs/skill-evaluator/skill-evaluator/references/best-practices-checklist.md
+  201de4c46a61a5b7 1-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "df46cbccbe36bb0f95b0534cecdf9f870db805f8",
+  "prompts": {
+    "201de4c46a61a5b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eef03176-7fde-4374-989c-d8bb165c1ed6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 80,
+      "total_deletions": 0,
+      "accepted_lines": 80,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/0c4ad35798f14923aefaf20bbfafd0435bd3592cd4122c6df67050e1a576e2da"
+    }
+  }
+}
