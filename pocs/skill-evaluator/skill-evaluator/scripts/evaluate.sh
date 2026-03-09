@@ -24,18 +24,26 @@ if [ ! -f "$SKILL_MD" ]; then
 fi
 echo "STRUCTURE: SKILL.md found"
 
-FRONTMATTER=$(sed -n '/^---$/,/^---$/p' "$SKILL_MD")
-if [ -z "$FRONTMATTER" ]; then
-  echo "FRONTMATTER: missing"
+FIRST_LINE=$(head -1 "$SKILL_MD")
+if [ "$FIRST_LINE" = "---" ]; then
+  FRONTMATTER=$(sed -n '1,/^---$/p' "$SKILL_MD" | tail -n +2)
+  SECOND_MARKER=$(grep -n "^---$" "$SKILL_MD" | sed -n '2p' | cut -d: -f1)
+  if [ -n "$SECOND_MARKER" ]; then
+    echo "FRONTMATTER: present"
+    HAS_NAME=$(echo "$FRONTMATTER" | grep -c "^name:")
+    HAS_DESC=$(echo "$FRONTMATTER" | grep -c "^description:")
+    echo "FRONTMATTER_NAME: $HAS_NAME"
+    echo "FRONTMATTER_DESC: $HAS_DESC"
+    BODY=$(tail -n +"$((SECOND_MARKER + 1))" "$SKILL_MD")
+  else
+    echo "FRONTMATTER: malformed"
+    BODY=$(cat "$SKILL_MD")
+  fi
 else
-  echo "FRONTMATTER: present"
-  HAS_NAME=$(echo "$FRONTMATTER" | grep -c "^name:")
-  HAS_DESC=$(echo "$FRONTMATTER" | grep -c "^description:")
-  echo "FRONTMATTER_NAME: $HAS_NAME"
-  echo "FRONTMATTER_DESC: $HAS_DESC"
+  echo "FRONTMATTER: missing"
+  BODY=$(cat "$SKILL_MD")
 fi
 
-BODY=$(sed '1,/^---$/d' "$SKILL_MD" | sed '1,/^---$/d')
 WORD_COUNT=$(echo "$BODY" | wc -w | tr -d ' ')
 LINE_COUNT=$(echo "$BODY" | wc -l | tr -d ' ')
 echo "BODY_WORDS: $WORD_COUNT"
