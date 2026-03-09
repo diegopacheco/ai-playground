@@ -258,3 +258,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/dapr-agents-poc
 
 43 - Kovalski: K8s SRE Agent Operator with Opus 4.6 <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/k8s-sre-agent-operator
+
+44 - Agent Skill Evaluator: Skill that evaluates Skills for Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/skill-evaluator
