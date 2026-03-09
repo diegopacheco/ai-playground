@@ -1,0 +1,24 @@
+pocs/skill-evaluator/README.md
+  201de4c46a61a5b7 1-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "fe0662ec6a17877be5a0a2c35c16dc579be33d40",
+  "prompts": {
+    "201de4c46a61a5b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eef03176-7fde-4374-989c-d8bb165c1ed6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 76,
+      "total_deletions": 0,
+      "accepted_lines": 76,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/d1e64a0756f48b6507cda5fcbcc265943b2f3208ab3c4b7a5a4e696860008cfe"
+    }
+  }
+}
