@@ -4,7 +4,11 @@ A skill for Claude Code and Fox Codex that evaluates other skills across 9 quali
 
 # Result
 
-
+| Step | Screenshot |
+|---|---|
+| List Skills | ![List Skills](1.list-skills.png) |
+| Selection | ![Selection](2.selection.png) |
+| Results | ![Results](3.results.png) |
 
 ## Evaluation Criteria
 
