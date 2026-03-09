@@ -1,0 +1,32 @@
+pocs/skill-evaluator/skill-evaluator/SKILL.md
+  201de4c46a61a5b7 1-223
+pocs/skill-evaluator/install.sh
+  201de4c46a61a5b7 1-25
+pocs/skill-evaluator/skill-evaluator/scripts/evaluate.sh
+  201de4c46a61a5b7 1-127
+pocs/skill-evaluator/uninstall.sh
+  201de4c46a61a5b7 1-17
+pocs/skill-evaluator/skill-evaluator/references/scoring-rubric.md
+  201de4c46a61a5b7 1-123
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "617f28aee50edb43db1daf27b0a4f23ba0242c7d",
+  "prompts": {
+    "201de4c46a61a5b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eef03176-7fde-4374-989c-d8bb165c1ed6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 490,
+      "total_deletions": 0,
+      "accepted_lines": 515,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/970464708626e3ef48a47ea7b4fc61751fb410e124609ea5fc41b226d6e90b05"
+    }
+  }
+}
