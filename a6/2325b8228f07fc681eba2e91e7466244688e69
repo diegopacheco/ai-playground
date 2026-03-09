@@ -1,0 +1,24 @@
+pocs/skill-evaluator/design-doc.md
+  201de4c46a61a5b7 1-432
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "a62325b8228f07fc681eba2e91e7466244688e69",
+  "prompts": {
+    "201de4c46a61a5b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eef03176-7fde-4374-989c-d8bb165c1ed6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 588,
+      "total_deletions": 131,
+      "accepted_lines": 457,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/c6e60893e29dc033cbc662bbea5c4a731851532b86cf5872e9ffb0f135abe2fc"
+    }
+  }
+}
