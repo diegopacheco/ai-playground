@@ -53,3 +53,15 @@ Reviews changed code for quality every 5 minutes.
 ## Result
 
 The command keeps running at the specified interval until you stop the session or cancel it. Each iteration runs the full prompt/command as if you typed it fresh.
+
+## Prompt
+
+```
+❯ /loop 5m fix all antipatterns and add unit tests for the go app
+```
+
+### Result
+
+```
+
+```
