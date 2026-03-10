@@ -64,4 +64,15 @@ The command keeps running at the specified interval until you stop the session o
 
 ```
 
+⏺ CronCreate(*/5 * * * *: fix all antipatterns and add unit tests for the go app)
+  ⎿  Scheduled ada885e6 (Every 5 minutes)
+
+⏺ Scheduled. Here's the summary:
+
+  - What: "fix all antipatterns and add unit tests for the go app"
+  - Cron: */5 * * * * (every 5 minutes)
+  - Recurring: yes, auto-expires after 3 days
+  - Job ID: ada885e6
+
+  The loop will run every 5 minutes while this session is idle. To cancel early, use /loop stop or I can call CronDelete with ID ada885e6.
 ```
