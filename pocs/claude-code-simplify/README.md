@@ -104,3 +104,91 @@ After:
 ```java
 UserService service = new UserService();
 ```
+
+## /simplify in action
+
+```
+❯ /simplify also create a simplify-report.md with code before and after you /simplify changes
+
+⏺ Let me get the diff first, then launch the three review agents.
+
+⏺ Bash(cd /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/claude-code-simplify && git diff HEAD 2>/dev/null | head -20; echo "---"; git
+    status --short)
+⎿  ---
+
+⏺ Bash(git status)
+⎿  On branch main
+    Your branch is up to date with 'origin/main'.
+
+    nothing to commit, working tree clean
+
+⏺ No git diff available - all changes were already committed or the files are untracked. Let me check the recently modified files.
+
+⏺ Searched for 1 pattern, read 1 file (ctrl+o to expand)
+
+⏺ Let me read all the source files to pass to the agents.
+
+⏺ Read 4 files (ctrl+o to expand)
+
+⏺ I have all the source code. Now launching the three review agents in parallel.
+
+⏺ Agent(Code reuse review)
+⎿  Backgrounded agent (↓ to manage · ctrl+o to expand)
+
+⏺ Agent(Code quality review)
+⎿  Backgrounded agent (↓ to manage · ctrl+o to expand)
+
+⏺ Agent(Efficiency review)
+⎿  Backgrounded agent (↓ to manage · ctrl+o to expand)
+
+⏺ Three review agents launched in parallel. I'll apply fixes once they complete.
+
+✻ Brewed for 1m 11s · 3 background tasks still running (↓ to manage)
+
+⏺ Agent "Code reuse review" completed
+
+⏺ Agent 1 (Code Reuse) complete. Waiting for the other two agents.
+
+⏺ Agent "Code quality review" completed
+
+⏺ Agent 2 (Code Quality) complete. Waiting for Agent 3 (Efficiency).
+
+⏺ Agent "Efficiency review" completed
+
+⏺ All three agents complete. Now I'll apply all fixes. Key changes:
+
+1. Add copy constructor to Stock
+2. Simplify StockService — eliminate copy blocks, single-pass stats, remove redundant methods
+3. DashboardController — use StockService, remove StockRepository
+4. StockApiController — use StockService, return Stock directly instead of Map
+```
+
+## Result
+
+Look [simplify-report.md](simplify-report.md) for the full before/after code snippets and explanations of each change.
+
+```
+⏺ Done. Here's what /simplify fixed:
+
+665 lines -> 271 lines (59% reduction)
+
+┌───────────────────────────────────────────┬─────────────────────────────────────────────┐
+│                    Fix                    │                   Impact                    │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Added Stock(Stock other) copy constructor │ Eliminated 12 copy-paste blocks             │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Single-pass stats loop                    │ 5 loops -> 1, in 1 location instead of 3    │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Controllers use StockService exclusively  │ 8 service bypasses removed                  │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ API returns Stock directly                │ 4 stringly-typed Map conversions gone       │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Removed 5 unused methods                  │ getTotalMarketValue, getAverageChange, etc. │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Reusable Random field                     │ No more new Random() per call               │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Streams + enhanced for-each               │ Cleaner iteration                           │
+└───────────────────────────────────────────┴─────────────────────────────────────────────┘
+
+The app is running at http://localhost:8082 and the full before/after report is at stock-app/simplify-report.md.
+```
