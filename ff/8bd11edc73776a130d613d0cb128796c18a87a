@@ -1,0 +1,28 @@
+pocs/agent-safehouse-poc/.gitignore
+  d8b53b8a0bdce6ca 1
+pocs/agent-safehouse-poc/run.sh
+  d8b53b8a0bdce6ca 1-41
+pocs/agent-safehouse-poc/README.md
+  d8b53b8a0bdce6ca 5-21,23-49,51-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.9",
+  "base_commit_sha": "ff8bd11edc73776a130d613d0cb128796c18a87a",
+  "prompts": {
+    "d8b53b8a0bdce6ca": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b485bd7-df2c-41e0-9b1b-2a69fd18cb16",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 101,
+      "total_deletions": 13,
+      "accepted_lines": 88,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/8e06a68d543b969313507f8994b4ba9eb29fce60b4b079b431d7e6f54bc77b3b"
+    }
+  }
+}
