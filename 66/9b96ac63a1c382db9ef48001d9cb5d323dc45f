@@ -1,0 +1,30 @@
+pocs/claude-code-loop/app/main.go
+  c6c897c8e2e49da4 1-133
+pocs/claude-code-loop/app/run.sh
+  c6c897c8e2e49da4 1-7
+pocs/claude-code-loop/app/ANTI_PATTERNS.md
+  c6c897c8e2e49da4 1-76
+pocs/claude-code-loop/app/stop.sh
+  c6c897c8e2e49da4 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.9",
+  "base_commit_sha": "669b96ac63a1c382db9ef48001d9cb5d323dc45f",
+  "prompts": {
+    "c6c897c8e2e49da4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cf385faa-1d8e-4196-a654-b44441796392",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 225,
+      "total_deletions": 0,
+      "accepted_lines": 225,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a64748cced2cff972e862240a7ec1e7b80a947f9f4d80cca4cf2fda87fd762b2"
+    }
+  }
+}
