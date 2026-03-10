@@ -1,0 +1,48 @@
+pocs/claude-code-simplify/stock-app/run.sh
+  e32f915c88bd2a50 1-6
+pocs/claude-code-simplify/stock-app/src/main/resources/templates/dashboard.html
+  e32f915c88bd2a50 1-108
+pocs/claude-code-simplify/stock-app/src/main/resources/templates/stock-detail.html
+  e32f915c88bd2a50 1-91
+pocs/claude-code-simplify/stock-app/src/main/java/com/stock/StockApp.java
+  e32f915c88bd2a50 1-11
+pocs/claude-code-simplify/stock-app/stop.sh
+  e32f915c88bd2a50 1-9
+pocs/claude-code-simplify/stock-app/src/main/resources/application.properties
+  e32f915c88bd2a50 1-2
+pocs/claude-code-simplify/stock-app/pom.xml
+  e32f915c88bd2a50 1-37
+pocs/claude-code-simplify/stock-app/src/main/resources/templates/stock-list.html
+  e32f915c88bd2a50 1-71
+pocs/claude-code-simplify/stock-app/src/main/java/com/stock/model/Stock.java
+  e32f915c88bd2a50 1-52
+pocs/claude-code-simplify/stock-app/src/main/java/com/stock/repository/StockRepository.java
+  e32f915c88bd2a50 1-39
+pocs/claude-code-simplify/stock-app/src/main/java/com/stock/service/StockService.java
+  e32f915c88bd2a50 1-265
+pocs/claude-code-simplify/stock-app/src/main/java/com/stock/controller/StockApiController.java
+  e32f915c88bd2a50 1-181
+pocs/claude-code-simplify/stock-app/src/main/java/com/stock/controller/DashboardController.java
+  e32f915c88bd2a50 1-167
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.9",
+  "base_commit_sha": "f35a4a5674716d527331e1e59dc2f6146fda05c7",
+  "prompts": {
+    "e32f915c88bd2a50": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac9bb97e-a954-404a-ad1a-18dba76520b5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 1039,
+      "total_deletions": 0,
+      "accepted_lines": 1039,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/10ee0283a57cb713fcd3d8478482d0a636a0aef13be5f49cbd8d896d3e848953"
+    }
+  }
+}
