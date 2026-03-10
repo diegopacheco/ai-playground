@@ -53,7 +53,7 @@
         </div>
         <div class="stat-card">
             <div class="label">Avg Change</div>
-            <div class="value" th:classappend="${#numbers.formatDecimal(avgChange, 1, 2) > 0} ? 'green' : 'red'" th:text="${avgChange} + '%'">0%</div>
+            <div class="value" th:classappend="${avgChange >= 0} ? 'green' : 'red'" th:text="${#numbers.formatDecimal(avgChange, 1, 2)} + '%'">0%</div>
         </div>
         <div class="stat-card">
             <div class="label">Gainers / Losers</div>
