@@ -38,7 +38,7 @@ public class DashboardController {
             avgChange = avgChange + stocks.get(i).getChangePercent();
         }
         avgChange = avgChange / stocks.size();
-        model.addAttribute("avgChange", String.format("%.2f", avgChange));
+        model.addAttribute("avgChange", avgChange);
 
         long totalVol = 0;
         for (int i = 0; i < stocks.size(); i++) {
