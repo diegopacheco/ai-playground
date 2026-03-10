@@ -1,0 +1,26 @@
+pocs/claude-code-simplify/stock-app/run.sh
+  e32f915c88bd2a50 6
+pocs/claude-code-simplify/stock-app/src/main/resources/application.properties
+  e32f915c88bd2a50 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.9",
+  "base_commit_sha": "b8ecbd35192bdc79e237c0264b9685ccd9f870dc",
+  "prompts": {
+    "e32f915c88bd2a50": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac9bb97e-a954-404a-ad1a-18dba76520b5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 4,
+      "accepted_lines": 2,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/ee8c73c060290d5d1cb0b4d8cb3e8ad28399403d8e21de9f872ff55d6acd24d9"
+    }
+  }
+}
