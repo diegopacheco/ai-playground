@@ -1,0 +1,24 @@
+pocs/claude-code-loop/README.md
+  c6c897c8e2e49da4 3-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.9",
+  "base_commit_sha": "26f4a82008a06b66975690a394a470316e73f1b5",
+  "prompts": {
+    "c6c897c8e2e49da4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cf385faa-1d8e-4196-a654-b44441796392",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 53,
+      "total_deletions": 0,
+      "accepted_lines": 53,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/2be26ff56404b03f8a56634e76212101571a20ae5498929c39d5cfa2ff491d23"
+    }
+  }
+}
