@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stock Dashboard</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0e17; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+h1 { text-align: center; color: #00d4ff; margin-bottom: 30px; font-size: 28px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+.card { background: #151b2b; border-radius: 12px; padding: 24px; border: 1px solid #1e2a3a; }
+.symbol { font-size: 22px; font-weight: bold; color: #ffffff; }
+.price { font-size: 36px; font-weight: bold; margin: 12px 0; }
+.change { font-size: 16px; font-weight: 600; }
+.up { color: #00e676; }
+.down { color: #ff1744; }
+.bar-container { margin-top: 14px; height: 6px; background: #1e2a3a; border-radius: 3px; overflow: hidden; }
+.bar { height: 100%; border-radius: 3px; transition: width 0.5s; }
+.timestamp { text-align: center; color: #555; margin-top: 20px; font-size: 13px; }
+</style>
+</head>
+<body>
+<h1>Stock Price Dashboard</h1>
+<div class="grid" id="grid"></div>
+<div class="timestamp" id="ts"></div>
+<script>
+function escapeText(str) {
+  var div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+function render(stocks) {
+  var grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  var maxPrice = 0;
+  for (var i = 0; i < stocks.length; i++) {
+    if (stocks[i].price > maxPrice) maxPrice = stocks[i].price;
+  }
+  for (var i = 0; i < stocks.length; i++) {
+    var s = stocks[i];
+    var isUp = s.change >= 0;
+    var sign = isUp ? "+" : "";
+    var cls = isUp ? "up" : "down";
+    var pct = (maxPrice > 0) ? (s.price / maxPrice * 100) : 0;
+    var barColor = isUp ? "#00e676" : "#ff1744";
+    var card = document.createElement("div");
+    card.className = "card";
+    var symbolDiv = document.createElement("div");
+    symbolDiv.className = "symbol";
+    symbolDiv.textContent = s.symbol;
+    var priceDiv = document.createElement("div");
+    priceDiv.className = "price " + cls;
+    priceDiv.textContent = "$" + s.price.toFixed(2);
+    var changeDiv = document.createElement("div");
+    changeDiv.className = "change " + cls;
+    changeDiv.textContent = sign + s.change.toFixed(2);
+    var barContainer = document.createElement("div");
+    barContainer.className = "bar-container";
+    var bar = document.createElement("div");
+    bar.className = "bar";
+    bar.style.width = pct.toFixed(1) + "%";
+    bar.style.background = barColor;
+    barContainer.appendChild(bar);
+    card.appendChild(symbolDiv);
+    card.appendChild(priceDiv);
+    card.appendChild(changeDiv);
+    card.appendChild(barContainer);
+    grid.appendChild(card);
+  }
+  document.getElementById("ts").textContent = "Last update: " + new Date().toLocaleTimeString();
+}
+function poll() {
+  fetch("/api/stocks")
+    .then(function(r) { return r.json(); })
+    .then(render);
+}
+poll();
+setInterval(poll, 2000);
+</script>
+</body>
+</html>
