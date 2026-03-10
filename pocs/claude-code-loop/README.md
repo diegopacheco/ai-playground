@@ -116,3 +116,29 @@ after 5 min
 │ 15  │ No tests                            │ 9 unit tests covering all handlers, simulation, cancellation, and data integrity │
 └─────┴─────────────────────────────────────┴──────────────────────────────────────────────────────────────────────────────────┘
 ```
+
+## Delete Crom
+
+```
+❯ list all croms
+
+⏺ CronList
+⎿  ada885e6 Every 5 minutes
+
+⏺ There's 1 active cron job:
+
+┌──────────┬─────────────────┬────────────────────────────────────────────────────────┐
+│    ID    │    Schedule     │                         Prompt                         │
+├──────────┼─────────────────┼────────────────────────────────────────────────────────┤
+│ ada885e6 │ Every 5 minutes │ fix all antipatterns and add unit tests for the go app │
+└──────────┴─────────────────┴────────────────────────────────────────────────────────┘
+
+Since all anti-patterns are now fixed and tests are passing, want me to delete this cron job?
+
+❯ delete ada885e6
+
+⏺ CronDelete(ada885e6)
+⎿  Cancelled ada885e6
+
+⏺ Done. Cron job ada885e6 has been deleted.
+```
