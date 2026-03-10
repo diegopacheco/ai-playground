@@ -29,6 +29,19 @@ public class Stock {
         this.previousClose = previousClose;
     }
 
+    public Stock(Stock other) {
+        this.symbol = other.symbol;
+        this.name = other.name;
+        this.price = other.price;
+        this.change = other.change;
+        this.changePercent = other.changePercent;
+        this.volume = other.volume;
+        this.high = other.high;
+        this.low = other.low;
+        this.open = other.open;
+        this.previousClose = other.previousClose;
+    }
+
     public String getSymbol() { return symbol; }
     public void setSymbol(String symbol) { this.symbol = symbol; }
     public String getName() { return name; }
