@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Stock Monitor - Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0a0e17; color: #e0e0e0; }
+        .header { background: #131722; padding: 20px 40px; border-bottom: 1px solid #1e222d; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { color: #00c853; font-size: 24px; }
+        .nav { display: flex; gap: 20px; }
+        .nav a { color: #787b86; text-decoration: none; font-size: 14px; padding: 8px 16px; border-radius: 4px; }
+        .nav a:hover { color: #e0e0e0; background: #1e222d; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 24px 40px; }
+        .stat-card { background: #131722; border-radius: 8px; padding: 20px; border: 1px solid #1e222d; }
+        .stat-card .label { color: #787b86; font-size: 12px; text-transform: uppercase; margin-bottom: 8px; }
+        .stat-card .value { font-size: 28px; font-weight: 700; color: #e0e0e0; }
+        .stat-card .value.green { color: #00c853; }
+        .stat-card .value.red { color: #ff5252; }
+        .content { padding: 0 40px 40px; }
+        .section-title { font-size: 18px; margin: 24px 0 12px; color: #e0e0e0; }
+        table { width: 100%; border-collapse: collapse; background: #131722; border-radius: 8px; overflow: hidden; }
+        th { background: #1e222d; color: #787b86; font-size: 12px; text-transform: uppercase; padding: 12px 16px; text-align: left; }
+        td { padding: 14px 16px; border-bottom: 1px solid #1e222d; font-size: 14px; }
+        tr:hover { background: #1e222d; }
+        .symbol { color: #2196f3; font-weight: 600; text-decoration: none; }
+        .symbol:hover { text-decoration: underline; }
+        .green { color: #00c853; }
+        .red { color: #ff5252; }
+        .btn { background: #2196f3; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .btn:hover { background: #1976d2; }
+        .actions { padding: 24px 40px 0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Stock Monitor</h1>
+        <div class="nav">
+            <a href="/">Dashboard</a>
+            <a href="/gainers">Gainers</a>
+            <a href="/losers">Losers</a>
+            <a href="/volume">Volume</a>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="label">Total Stocks</div>
+            <div class="value" th:text="${totalStocks}">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Combined Price</div>
+            <div class="value">$<span th:text="${totalValue}">0</span></div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Avg Change</div>
+            <div class="value" th:classappend="${#numbers.formatDecimal(avgChange, 1, 2) > 0} ? 'green' : 'red'" th:text="${avgChange} + '%'">0%</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Gainers / Losers</div>
+            <div class="value"><span class="green" th:text="${gainerCount}">0</span> / <span class="red" th:text="${loserCount}">0</span></div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn" onclick="simulate()">Simulate Price Update</button>
+    </div>
+
+    <div class="content">
+        <h2 class="section-title">All Stocks</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Change</th>
+                    <th>Change %</th>
+                    <th>Volume</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Open</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="stock : ${stocks}">
+                    <td><a class="symbol" th:href="@{/stock/{s}(s=${stock.symbol})}" th:text="${stock.symbol}"></a></td>
+                    <td th:text="${stock.name}"></td>
+                    <td th:text="'$' + ${#numbers.formatDecimal(stock.price, 1, 2)}"></td>
+                    <td th:classappend="${stock.change > 0} ? 'green' : 'red'" th:text="${stock.change > 0 ? '+' : ''} + ${#numbers.formatDecimal(stock.change, 1, 2)}"></td>
+                    <td th:classappend="${stock.changePercent > 0} ? 'green' : 'red'" th:text="${stock.changePercent > 0 ? '+' : ''} + ${#numbers.formatDecimal(stock.changePercent, 1, 2)} + '%'"></td>
+                    <td th:text="${#numbers.formatInteger(stock.volume, 1, 'COMMA')}"></td>
+                    <td th:text="'$' + ${#numbers.formatDecimal(stock.high, 1, 2)}"></td>
+                    <td th:text="'$' + ${#numbers.formatDecimal(stock.low, 1, 2)}"></td>
+                    <td th:text="'$' + ${#numbers.formatDecimal(stock.open, 1, 2)}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function simulate() {
+            fetch('/api/simulate', { method: 'POST' })
+                .then(r => r.json())
+                .then(() => window.location.reload());
+        }
+    </script>
+</body>
+</html>

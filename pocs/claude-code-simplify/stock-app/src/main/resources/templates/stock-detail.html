@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="'Stock Monitor - ' + ${stock.symbol}">Stock Detail</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0a0e17; color: #e0e0e0; }
+        .header { background: #131722; padding: 20px 40px; border-bottom: 1px solid #1e222d; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { color: #00c853; font-size: 24px; }
+        .nav { display: flex; gap: 20px; }
+        .nav a { color: #787b86; text-decoration: none; font-size: 14px; padding: 8px 16px; border-radius: 4px; }
+        .nav a:hover { color: #e0e0e0; background: #1e222d; }
+        .detail { padding: 40px; }
+        .stock-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 32px; }
+        .stock-header .symbol { font-size: 32px; font-weight: 700; color: #2196f3; }
+        .stock-header .name { font-size: 18px; color: #787b86; }
+        .price-section { margin-bottom: 32px; }
+        .price-section .price { font-size: 48px; font-weight: 700; }
+        .price-section .change { font-size: 20px; margin-left: 16px; }
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .info-card { background: #131722; border-radius: 8px; padding: 20px; border: 1px solid #1e222d; }
+        .info-card .label { color: #787b86; font-size: 12px; text-transform: uppercase; margin-bottom: 8px; }
+        .info-card .value { font-size: 20px; font-weight: 600; }
+        .green { color: #00c853; }
+        .red { color: #ff5252; }
+        .back-link { color: #2196f3; text-decoration: none; font-size: 14px; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Stock Monitor</h1>
+        <div class="nav">
+            <a href="/">Dashboard</a>
+            <a href="/gainers">Gainers</a>
+            <a href="/losers">Losers</a>
+            <a href="/volume">Volume</a>
+        </div>
+    </div>
+
+    <div class="detail">
+        <a href="/" class="back-link">Back to Dashboard</a>
+
+        <div class="stock-header">
+            <span class="symbol" th:text="${stock.symbol}"></span>
+            <span class="name" th:text="${stock.name}"></span>
+        </div>
+
+        <div class="price-section">
+            <span class="price" th:text="'$' + ${#numbers.formatDecimal(stock.price, 1, 2)}"></span>
+            <span class="change" th:classappend="${stock.change > 0} ? 'green' : 'red'"
+                  th:text="${stock.change > 0 ? '+' : ''} + ${#numbers.formatDecimal(stock.change, 1, 2)} + ' (' + ${#numbers.formatDecimal(stock.changePercent, 1, 2)} + '%)'"></span>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">Open</div>
+                <div class="value" th:text="'$' + ${#numbers.formatDecimal(stock.open, 1, 2)}"></div>
+            </div>
+            <div class="info-card">
+                <div class="label">Previous Close</div>
+                <div class="value" th:text="'$' + ${#numbers.formatDecimal(stock.previousClose, 1, 2)}"></div>
+            </div>
+            <div class="info-card">
+                <div class="label">Volume</div>
+                <div class="value" th:text="${#numbers.formatInteger(stock.volume, 1, 'COMMA')}"></div>
+            </div>
+            <div class="info-card">
+                <div class="label">Day High</div>
+                <div class="value" th:text="'$' + ${#numbers.formatDecimal(stock.high, 1, 2)}"></div>
+            </div>
+            <div class="info-card">
+                <div class="label">Day Low</div>
+                <div class="value" th:text="'$' + ${#numbers.formatDecimal(stock.low, 1, 2)}"></div>
+            </div>
+            <div class="info-card">
+                <div class="label">Day Range</div>
+                <div class="value" th:text="'$' + ${dayRange}"></div>
+            </div>
+            <div class="info-card">
+                <div class="label">Change from Open</div>
+                <div class="value" th:classappend="${stock.price > stock.open} ? 'green' : 'red'" th:text="'$' + ${changeFromOpen}"></div>
+            </div>
+            <div class="info-card">
+                <div class="label">Change from Open %</div>
+                <div class="value" th:classappend="${stock.price > stock.open} ? 'green' : 'red'" th:text="${changeFromOpenPercent} + '%'"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
