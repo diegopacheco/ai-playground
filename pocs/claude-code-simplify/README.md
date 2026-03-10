@@ -2,6 +2,15 @@
 
 `/simplify` is a bundled Claude Code slash command that reviews changed code for reuse, quality, and efficiency, then automatically fixes any issues found.
 
+## Experience Notes
+
+* Claude Code is sucking memory like crazy, saw a warning for 2 or 3 GB used.
+* simplify command uses a lot of sub-agents
+* simplify uses a lot of tokens
+* Claude seems to be focus on lines of code which works in some cases but is not the best.
+* I wish was focused on better design and architecture, not just line count.
+* I see that in a pojo it compact the lines to be all in one line, ugly and cheating if you asked me.
+
 ## What it does
 
 - Reviews code for **reuse opportunities** (duplicated logic, patterns that could be consolidated)
@@ -12,6 +21,37 @@
 ## How to use
 
 Type `/simplify` in Claude Code after making code changes. It analyzes your current changes and applies improvements.
+
+
+## Result
+
+Look [simplify-report.md](simplify-report.md) for the full before/after code snippets and explanations of each change.
+
+```
+⏺ Done. Here's what /simplify fixed:
+
+665 lines -> 271 lines (59% reduction)
+
+┌───────────────────────────────────────────┬─────────────────────────────────────────────┐
+│                    Fix                    │                   Impact                    │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Added Stock(Stock other) copy constructor │ Eliminated 12 copy-paste blocks             │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Single-pass stats loop                    │ 5 loops -> 1, in 1 location instead of 3    │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Controllers use StockService exclusively  │ 8 service bypasses removed                  │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ API returns Stock directly                │ 4 stringly-typed Map conversions gone       │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Removed 5 unused methods                  │ getTotalMarketValue, getAverageChange, etc. │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Reusable Random field                     │ No more new Random() per call               │
+├───────────────────────────────────────────┼─────────────────────────────────────────────┤
+│ Streams + enhanced for-each               │ Cleaner iteration                           │
+└───────────────────────────────────────────┴─────────────────────────────────────────────┘
+
+The app is running at http://localhost:8082 and the full before/after report is at stock-app/simplify-report.md.
+```
 
 ## Usage
 
@@ -161,34 +201,4 @@ UserService service = new UserService();
 2. Simplify StockService — eliminate copy blocks, single-pass stats, remove redundant methods
 3. DashboardController — use StockService, remove StockRepository
 4. StockApiController — use StockService, return Stock directly instead of Map
-```
-
-## Result
-
-Look [simplify-report.md](simplify-report.md) for the full before/after code snippets and explanations of each change.
-
-```
-⏺ Done. Here's what /simplify fixed:
-
-665 lines -> 271 lines (59% reduction)
-
-┌───────────────────────────────────────────┬─────────────────────────────────────────────┐
-│                    Fix                    │                   Impact                    │
-├───────────────────────────────────────────┼─────────────────────────────────────────────┤
-│ Added Stock(Stock other) copy constructor │ Eliminated 12 copy-paste blocks             │
-├───────────────────────────────────────────┼─────────────────────────────────────────────┤
-│ Single-pass stats loop                    │ 5 loops -> 1, in 1 location instead of 3    │
-├───────────────────────────────────────────┼─────────────────────────────────────────────┤
-│ Controllers use StockService exclusively  │ 8 service bypasses removed                  │
-├───────────────────────────────────────────┼─────────────────────────────────────────────┤
-│ API returns Stock directly                │ 4 stringly-typed Map conversions gone       │
-├───────────────────────────────────────────┼─────────────────────────────────────────────┤
-│ Removed 5 unused methods                  │ getTotalMarketValue, getAverageChange, etc. │
-├───────────────────────────────────────────┼─────────────────────────────────────────────┤
-│ Reusable Random field                     │ No more new Random() per call               │
-├───────────────────────────────────────────┼─────────────────────────────────────────────┤
-│ Streams + enhanced for-each               │ Cleaner iteration                           │
-└───────────────────────────────────────────┴─────────────────────────────────────────────┘
-
-The app is running at http://localhost:8082 and the full before/after report is at stock-app/simplify-report.md.
 ```
