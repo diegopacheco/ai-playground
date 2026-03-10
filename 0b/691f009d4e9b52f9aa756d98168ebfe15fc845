@@ -1,0 +1,26 @@
+pocs/claude-code-simplify/stock-app/src/main/resources/templates/dashboard.html
+  e32f915c88bd2a50 56
+pocs/claude-code-simplify/stock-app/src/main/java/com/stock/controller/DashboardController.java
+  e32f915c88bd2a50 41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.9",
+  "base_commit_sha": "0b691f009d4e9b52f9aa756d98168ebfe15fc845",
+  "prompts": {
+    "e32f915c88bd2a50": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac9bb97e-a954-404a-ad1a-18dba76520b5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 3,
+      "accepted_lines": 2,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/016c54a7ead379f7c834f4c17b3336ab121a58c741a2518eee71cfd01c6a0b97"
+    }
+  }
+}
