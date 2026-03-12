@@ -261,3 +261,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/k8s-sre-agent-opera
 
 44 - Agent Skill Evaluator: Skill that evaluates Skills for Claude/Codex <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/skill-evaluator
+
+45 - Agent Skill: Leak Detector with Claude/Coidex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/leak-detector-skill
