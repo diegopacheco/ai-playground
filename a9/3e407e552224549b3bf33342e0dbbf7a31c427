@@ -1,0 +1,28 @@
+pocs/leak-detector-skill/install.sh
+  199c5ae5e69e5b0d 1-25
+pocs/leak-detector-skill/skills/leak-detector/SKILL.md
+  199c5ae5e69e5b0d 1-156
+pocs/leak-detector-skill/uninstall.sh
+  199c5ae5e69e5b0d 1-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "a93e407e552224549b3bf33342e0dbbf7a31c427",
+  "prompts": {
+    "199c5ae5e69e5b0d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "affb7e16-a769-4f04-b046-88f62e6d0489",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 202,
+      "total_deletions": 0,
+      "accepted_lines": 202,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/c91685a9ce87dc2c95945afcd99c34de079b122095a30e6d7d04606e59b4a9b8"
+    }
+  }
+}
