@@ -1,0 +1,24 @@
+pocs/leak-detector-skill/README.md
+  199c5ae5e69e5b0d 1-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "fb4b013d854aa4db54faf18476d27cbc2bd445cb",
+  "prompts": {
+    "199c5ae5e69e5b0d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "affb7e16-a769-4f04-b046-88f62e6d0489",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 87,
+      "total_deletions": 0,
+      "accepted_lines": 87,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/5fedc1d97e494982b8a083685805e6a3e43fdec84b0ac356ec463ca2e5b9396b"
+    }
+  }
+}
