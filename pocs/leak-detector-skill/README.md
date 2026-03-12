@@ -2,6 +2,42 @@
 
 A Claude Code and Codex skill that scans your codebase for leaked PII, secrets/credentials, and security vulnerabilities before you push.
 
+## Result
+
+```
+❯ /leak-detector
+
+⏺ I'll scan the codebase for PII, secrets, and security vulnerabilities. Let me start by discovering all source files.
+
+⏺ Searched for 9 patterns, read 1 file (ctrl+o to expand)
+
+⏺ Found 6 files. Let me read them and run the security scans.
+
+⏺ Searched for 1 pattern, read 6 files (ctrl+o to expand)
+
+⏺ Now let me run the PII, secrets, and security disaster scans in parallel.
+
+⏺ Searched for 15 patterns (ctrl+o to expand)
+
+⏺ All matches are from documentation files (SKILL.md, design-doc.md) referencing patterns as examples — not actual PII, secrets, or
+vulnerabilities in code. Let me also check for .env files and .gitignore.
+
+⏺ Searched for 2 patterns (ctrl+o to expand)
+
+⏺ No .env files found. Scan complete. Here's the report:
+
+---
+Scan complete: 6 files scanned
+
+  PII:              0 findings
+  Secrets:          0 findings
+  Security Issues:  0 findings
+  --------------------------
+  Total:            0 findings
+
+Verdict: CLEAN - no leaks detected
+```
+
 ## What It Detects
 
 ### PII
