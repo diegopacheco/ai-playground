@@ -3,6 +3,8 @@
 HOOK_DIR="$HOME/.claude/hooks"
 SETTINGS_FILE="$HOME/.claude/settings.json"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+CONTEXT_MODE_HOOK="$HOME/.claude/plugins/cache/claude-context-mode/context-mode/0.7.2/hooks/pretooluse.sh"
+CONTEXT_MODE_HOOK_MKT="$HOME/.claude/plugins/marketplaces/claude-context-mode/hooks/pretooluse.sh"
 
 mkdir -p "$HOOK_DIR"
 
@@ -52,26 +54,61 @@ with open(settings_file, 'w') as f:
     f.write('\n')
 
 print('Hook registered in settings.json')
-
-if settings.get('enabledPlugins', {}).get('context-mode@claude-context-mode'):
-    print('WARNING: context-mode plugin is enabled')
-    print('  context-mode blocks curl/wget before this hook can ask')
-    print('  consider disabling context-mode or its curl/wget interception')
-
-approve_variants = os.path.expanduser('~/.claude/hooks/approve-variants.py')
-if os.path.exists(approve_variants):
-    with open(approve_variants, 'r') as f:
-        content = f.read()
-    if 'curl' in content and 'read-only' in content:
-        fixed = content.replace('|curl|', '|')
-        fixed = re.sub(r'\|curl(?=\|)', '', fixed)
-        fixed = re.sub(r'curl\|', '', fixed)
-        if fixed != content:
-            with open(approve_variants, 'w') as f:
-                f.write(fixed)
-            print('Patched approve-variants.py: removed curl from safe list')
 "
 
+patch_approve_variants() {
+    local avfile="$HOME/.claude/hooks/approve-variants.py"
+    if [ -f "$avfile" ]; then
+        if grep -q 'curl' "$avfile"; then
+            sed -i.bak 's/|curl//g' "$avfile"
+            echo "Patched approve-variants.py: removed curl from safe list"
+        fi
+    fi
+}
+
+patch_context_mode() {
+    local hookfile="$1"
+    if [ ! -f "$hookfile" ]; then
+        return
+    fi
+    cp "$hookfile" "$hookfile.bak"
+    python3 -c "
+import re
+
+with open('$hookfile', 'r') as f:
+    content = f.read()
+
+content = re.sub(
+    r'  # curl/wget.*?exit 0\n  fi\n',
+    '',
+    content,
+    flags=re.DOTALL
+)
+
+content = re.sub(
+    r'# ─── WebFetch: deny.*?exit 0\nfi',
+    '# ─── WebFetch: passthrough ───\nif [ \"\\\$TOOL\" = \"WebFetch\" ]; then\n  exit 0\nfi',
+    content,
+    flags=re.DOTALL
+)
+
+with open('$hookfile', 'w') as f:
+    f.write(content)
+"
+    echo "Patched context-mode: $hookfile"
+    echo "  backup: $hookfile.bak"
+}
+
+patch_approve_variants
+
+if [ -f "$CONTEXT_MODE_HOOK" ]; then
+    patch_context_mode "$CONTEXT_MODE_HOOK"
+fi
+if [ -f "$CONTEXT_MODE_HOOK_MKT" ]; then
+    patch_context_mode "$CONTEXT_MODE_HOOK_MKT"
+fi
+
+echo ""
 echo "permissions hook installed"
 echo "  hook: $HOOK_DIR/permissions.py"
 echo "  config: $SETTINGS_FILE"

@@ -2,6 +2,8 @@
 
 HOOK_FILE="$HOME/.claude/hooks/permissions.py"
 SETTINGS_FILE="$HOME/.claude/settings.json"
+CONTEXT_MODE_HOOK="$HOME/.claude/plugins/cache/claude-context-mode/context-mode/0.7.2/hooks/pretooluse.sh"
+CONTEXT_MODE_HOOK_MKT="$HOME/.claude/plugins/marketplaces/claude-context-mode/hooks/pretooluse.sh"
 
 if [ -f "$HOOK_FILE" ]; then
     rm "$HOOK_FILE"
@@ -22,12 +24,12 @@ with open(settings_file, 'r') as f:
 if 'hooks' in settings and 'PreToolUse' in settings['hooks']:
     filtered = []
     for entry in settings['hooks']['PreToolUse']:
-        dominated = False
+        keep = True
         for h in entry.get('hooks', []):
             if 'permissions.py' in h.get('command', ''):
-                dominated = True
+                keep = False
                 break
-        if not dominated:
+        if keep:
             filtered.append(entry)
     settings['hooks']['PreToolUse'] = filtered
     if not settings['hooks']['PreToolUse']:
@@ -44,4 +46,23 @@ print('Hook removed from settings.json')
     echo "permissions hook uninstalled"
 else
     echo "settings.json not found, nothing to clean"
+fi
+
+restore_context_mode() {
+    local hookfile="$1"
+    if [ -f "$hookfile.bak" ]; then
+        cp "$hookfile.bak" "$hookfile"
+        rm "$hookfile.bak"
+        echo "Restored context-mode: $hookfile"
+    fi
+}
+
+restore_context_mode "$CONTEXT_MODE_HOOK"
+restore_context_mode "$CONTEXT_MODE_HOOK_MKT"
+
+AVFILE="$HOME/.claude/hooks/approve-variants.py"
+if [ -f "$AVFILE.bak" ]; then
+    cp "$AVFILE.bak" "$AVFILE"
+    rm "$AVFILE.bak"
+    echo "Restored approve-variants.py"
 fi
