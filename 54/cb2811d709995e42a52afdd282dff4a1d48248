@@ -1,0 +1,24 @@
+pocs/cc-hook-better-permissions/README.md
+  dbf71c3dbc3e46e9 3,9-12,14-21,37,39-40,51-56,65,67,69-115,124-126,128,131-134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "54cb2811d709995e42a52afdd282dff4a1d48248",
+  "prompts": {
+    "dbf71c3dbc3e46e9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "828fa36d-077d-4b9e-9c1e-b0f0e1c8e0b2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 84,
+      "total_deletions": 17,
+      "accepted_lines": 83,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/089d5a8b0835709acba28227f25177d8972d707750e0633389b179c62779df14"
+    }
+  }
+}
