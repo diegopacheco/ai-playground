@@ -4,13 +4,6 @@ use serde::Serialize;
 use tokio::sync::mpsc;
 
 #[derive(Debug, Clone, Serialize)]
-pub struct MusicianOutput {
-    pub musician: String,
-    pub round: usize,
-    pub abc_notation: String,
-}
-
-#[derive(Debug, Clone, Serialize)]
 #[serde(tag = "type")]
 pub enum ComposeEvent {
     #[serde(rename = "thinking")]

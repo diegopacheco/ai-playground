@@ -96,25 +96,6 @@ body {
   cursor: not-allowed;
 }
 
-.loading {
-  text-align: center;
-  padding: 40px;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #333;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 16px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
 .error {
   background: #c0392b;
   color: white;
@@ -123,41 +104,121 @@ body {
   margin-bottom: 20px;
 }
 
-.band-members {
+.status-bar {
   display: flex;
-  gap: 12px;
+  gap: 20px;
   justify-content: center;
-  margin-bottom: 24px;
+  padding: 16px;
+  background: #16213e;
+  border-radius: 12px;
+  margin-bottom: 16px;
 }
 
-.member-card {
-  padding: 12px 24px;
-  background: #16213e;
-  border-radius: 10px;
-  border: 2px solid;
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.status-item.pulse .status-dot {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.status-label {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.status-state {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid #16213e;
+  margin-bottom: 0;
+}
+
+.tab {
+  padding: 10px 18px;
+  background: #0f3460;
+  color: #aaa;
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 8px 8px 0 0;
   cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
   transition: all 0.2s;
 }
 
-.member-card:hover,
-.member-card.active {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+.tab:hover:not(:disabled) {
+  color: #eee;
+  background: #16213e;
 }
 
-.member-name {
-  font-weight: bold;
+.tab.active {
+  color: #eee;
+  background: #16213e;
+  border-bottom-color: #3498db;
+}
+
+.tab:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.tab-content {
+  background: #16213e;
+  border-radius: 0 0 12px 12px;
+  padding: 20px;
+  min-height: 200px;
+}
+
+.thinking-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
   font-size: 1rem;
 }
 
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #333;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .round {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .round h3 {
   color: #888;
-  margin-bottom: 12px;
-  font-size: 1rem;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -165,45 +226,51 @@ body {
 .round-outputs {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .musician-output {
-  background: #16213e;
+  background: #0f3460;
   border-radius: 10px;
-  padding: 16px;
+  padding: 14px;
   border-left: 4px solid;
 }
 
-.output-header {
+.musician-output h4 {
+  color: #aaa;
   margin-bottom: 8px;
+  font-size: 0.85rem;
 }
 
 .musician-tag {
-  padding: 4px 12px;
+  display: inline-block;
+  padding: 3px 10px;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: bold;
   text-transform: uppercase;
   color: white;
+  margin-bottom: 8px;
 }
 
 .abc-text {
-  background: #0f3460;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 0.85rem;
+  background: #0a1628;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
   overflow-x: auto;
   white-space: pre-wrap;
   color: #ccc;
   font-family: 'Courier New', monospace;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .abc-render {
   margin-top: 8px;
   background: white;
-  border-radius: 8px;
-  padding: 8px;
+  border-radius: 6px;
+  padding: 6px;
 }
 
 .abc-render svg {
@@ -211,16 +278,7 @@ body {
 }
 
 .final-song {
-  margin-top: 32px;
-  padding: 24px;
-  background: #16213e;
-  border-radius: 12px;
-}
-
-.final-song h2 {
-  text-align: center;
-  margin-bottom: 16px;
-  color: #2ecc71;
+  padding: 0;
 }
 
 .playback-controls {
@@ -247,6 +305,21 @@ body {
 
 .play-btn:hover {
   background: #27ae60;
+}
+
+.sing-btn {
+  padding: 10px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  background: #f39c12;
+}
+
+.sing-btn:hover {
+  background: #e67e22;
 }
 
 .stop-btn {

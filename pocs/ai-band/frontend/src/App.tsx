@@ -127,6 +127,32 @@ function App() {
       synthRef.current.stop();
       synthRef.current = null;
     }
+    window.speechSynthesis.cancel();
+  };
+
+  const singLyrics = () => {
+    const lyricsOutputs = outputs.filter(o => o.musician === 'lyrics');
+    if (lyricsOutputs.length === 0) return;
+    window.speechSynthesis.cancel();
+    const lastLyrics = lyricsOutputs[lyricsOutputs.length - 1].abc_notation;
+    const lines = lastLyrics.split('\n')
+      .filter(l => l.trim().startsWith('w:'))
+      .map(l => l.replace(/^w:\s*/, '').replace(/[|~\-_*]/g, ' ').trim())
+      .filter(l => l.length > 0);
+    const text = lines.join('. ');
+    if (!text) return;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.8;
+    utterance.pitch = 1.1;
+    const voices = window.speechSynthesis.getVoices();
+    const english = voices.find(v => v.lang.startsWith('en'));
+    if (english) utterance.voice = english;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const playWithSinging = () => {
+    playSong();
+    setTimeout(() => singLyrics(), 500);
   };
 
   const groupedByRound: Record<number, MusicianOutput[]> = {};
@@ -245,7 +271,8 @@ function App() {
             {activeTab === 'song' && finalSong && (
               <div className="final-song">
                 <div className="playback-controls">
-                  <button className="play-btn" onClick={playSong}>Play</button>
+                  <button className="play-btn" onClick={playSong}>Play Music</button>
+                  <button className="sing-btn" onClick={playWithSinging}>Play + Sing</button>
                   <button className="stop-btn" onClick={stopSong}>Stop</button>
                 </div>
                 <div ref={notationRef} className="notation-display" />
