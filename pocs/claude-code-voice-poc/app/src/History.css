@@ -1,0 +1,170 @@
+.history-page {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.history-page h2 {
+  font-size: 2rem;
+  color: #ffd93d;
+}
+
+.no-history {
+  font-size: 1.3rem;
+  color: #95a5a6;
+}
+
+.history-table-wrapper {
+  width: 100%;
+  max-width: 900px;
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.history-table th {
+  background: rgba(255, 217, 61, 0.15);
+  color: #ffd93d;
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.history-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #bdc3c7;
+}
+
+.history-table tr {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.history-table tr:hover {
+  background: rgba(255, 217, 61, 0.08);
+}
+
+.history-table tr.selected {
+  background: rgba(255, 217, 61, 0.15);
+}
+
+.battle-detail {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 217, 61, 0.2);
+  animation: slide-up 0.3s ease;
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.battle-detail h3 {
+  color: #fff;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.detail-champion {
+  font-size: 1.2rem;
+  color: #bdc3c7;
+  margin-bottom: 0.5rem;
+}
+
+.champ-name {
+  color: #ffd93d;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.detail-score {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.detail-rounds {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail-round {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.round-label {
+  font-weight: 700;
+  color: #ffd93d;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.round-matchup {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.round-pokemon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.round-pokemon img {
+  width: 72px;
+  height: 72px;
+  image-rendering: pixelated;
+}
+
+.round-pokemon span {
+  text-transform: capitalize;
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.round-power {
+  color: #ffd93d !important;
+  font-weight: 700;
+  font-size: 0.75rem !important;
+}
+
+.round-vs {
+  font-weight: 900;
+  color: #ff6b6b;
+  font-size: 1.2rem;
+}
+
+.round-winner {
+  font-weight: 700;
+  color: #6bcb77;
+  font-size: 0.9rem;
+}
+
+.round-winner.tie {
+  color: #f39c12;
+}

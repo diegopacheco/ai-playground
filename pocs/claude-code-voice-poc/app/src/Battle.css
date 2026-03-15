@@ -1,0 +1,211 @@
+.battle-page {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  min-height: calc(100vh - 60px);
+}
+
+.scoreboard {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 217, 61, 0.3);
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 700;
+}
+
+.p1-score { color: #ff6b6b; }
+.p2-score { color: #4d96ff; }
+
+.score-num {
+  font-size: 2.5rem;
+}
+
+.round-info {
+  font-size: 1.2rem;
+  color: #ffd93d;
+  font-weight: 600;
+}
+
+.arena {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 800px;
+  justify-content: center;
+}
+
+.fighter {
+  transition: transform 0.3s ease;
+}
+
+.fighter.attack-left {
+  animation: attack-l 0.5s ease infinite;
+}
+
+.fighter.attack-right {
+  animation: attack-r 0.5s ease infinite;
+}
+
+@keyframes attack-l {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(40px); }
+}
+
+@keyframes attack-r {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-40px); }
+}
+
+.fighter-card {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  border: 3px solid rgba(255, 217, 61, 0.4);
+  min-width: 180px;
+}
+
+.fighter-card img {
+  width: 120px;
+  height: 120px;
+  image-rendering: pixelated;
+}
+
+.fighter-card h3 {
+  text-transform: capitalize;
+  color: #fff;
+  margin: 0;
+}
+
+.power-badge {
+  background: linear-gradient(135deg, #ffd93d, #ff6b6b);
+  color: #1a1a2e;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.vs-battle {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #ffd93d;
+  min-width: 120px;
+  text-align: center;
+}
+
+.clash-effect {
+  font-size: 2rem;
+  color: #ff6b6b;
+  animation: clash 0.3s ease infinite;
+  text-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+}
+
+@keyframes clash {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.2) rotate(-5deg); }
+  75% { transform: scale(1.2) rotate(5deg); }
+}
+
+.round-result {
+  font-size: 1.5rem;
+  color: #6bcb77;
+  animation: result-pop 0.5s ease;
+  font-weight: 700;
+}
+
+@keyframes result-pop {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.fight-btn {
+  padding: 1rem 4rem;
+  font-size: 1.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.fight-btn:hover:not(.disabled) {
+  transform: scale(1.1);
+  box-shadow: 0 0 40px rgba(231, 76, 60, 0.5);
+}
+
+.fight-btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.round-history {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.round-entry {
+  color: #bdc3c7;
+  font-size: 0.9rem;
+}
+
+.champion-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  animation: champion-entrance 1s ease;
+}
+
+@keyframes champion-entrance {
+  from { transform: scale(0) rotate(-180deg); opacity: 0; }
+  to { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.champion-title {
+  font-size: 3rem;
+  background: linear-gradient(90deg, #ffd93d, #ff6b6b, #ffd93d);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 2s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.trophy {
+  font-size: 6rem;
+  animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
