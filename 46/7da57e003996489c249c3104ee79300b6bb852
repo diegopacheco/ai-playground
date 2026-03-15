@@ -1,0 +1,30 @@
+pocs/cc-hook-better-permissions/test.sh
+  dbf71c3dbc3e46e9 1-26
+pocs/cc-hook-better-permissions/design-doc.md
+  dbf71c3dbc3e46e9 74-75,85-87,90-94,97-98,101-105,108-109,112-116,209-228
+pocs/cc-hook-better-permissions/permissions.py
+  dbf71c3dbc3e46e9 8,73-102,146,163-164,166,168,170-171,174-175,177-178,181-183,188-189,192-193,195-196,204-209,211-218,220
+pocs/cc-hook-better-permissions/install.sh
+  dbf71c3dbc3e46e9 17,55-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "467da57e003996489c249c3104ee79300b6bb852",
+  "prompts": {
+    "dbf71c3dbc3e46e9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "828fa36d-077d-4b9e-9c1e-b0f0e1c8e0b2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 164,
+      "total_deletions": 44,
+      "accepted_lines": 155,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/2ccd90c9932f9d1dd2634bc9c010723893783ccae77d57da6229474419c6a38e"
+    }
+  }
+}
