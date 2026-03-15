@@ -1,0 +1,26 @@
+pocs/ai-band/start.sh
+  066875b375f8c2a7 4,9
+pocs/ai-band/run.sh
+  066875b375f8c2a7 6,11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "60dd8b0e543611ac282dd549e887ee40c60ef0e7",
+  "prompts": {
+    "066875b375f8c2a7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "54082819-f81d-490d-af06-52efde48f0c2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 4,
+      "accepted_lines": 4,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/407ddfa4fac287e4eca6aadf768755fa89e1ddb518007e481c5591d193ee2b43"
+    }
+  }
+}
