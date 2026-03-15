@@ -1,6 +1,7 @@
 use crate::agents::runner::AgentRunner;
 use crate::band::prompts;
 use serde::Serialize;
+use tokio::sync::mpsc;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct MusicianOutput {
@@ -10,9 +11,16 @@ pub struct MusicianOutput {
 }
 
 #[derive(Debug, Clone, Serialize)]
-pub struct CompositionResult {
-    pub rounds: Vec<Vec<MusicianOutput>>,
-    pub final_song: String,
+#[serde(tag = "type")]
+pub enum ComposeEvent {
+    #[serde(rename = "thinking")]
+    Thinking { musician: String, round: usize },
+    #[serde(rename = "done")]
+    Done { musician: String, round: usize, abc_notation: String },
+    #[serde(rename = "final")]
+    Final { final_song: String },
+    #[serde(rename = "error")]
+    Error { message: String },
 }
 
 fn extract_abc(response: &str) -> String {
@@ -40,75 +48,65 @@ fn extract_abc(response: &str) -> String {
     }
 }
 
-pub async fn compose(genre: &str, num_rounds: usize) -> Result<CompositionResult, String> {
-    let mut all_rounds: Vec<Vec<MusicianOutput>> = Vec::new();
+async fn run_musician(name: &str, prompt: String) -> Result<String, String> {
+    let runner = AgentRunner::new(name);
+    let response = runner.run(&prompt).await?;
+    Ok(extract_abc(&response))
+}
+
+pub async fn compose_stream(genre: String, num_rounds: usize, tx: mpsc::Sender<ComposeEvent>) {
     let mut context = format!("Genre: {}\n", genre);
+    let mut final_melody = String::new();
+    let mut final_bass = String::new();
+    let mut final_lyrics = String::new();
 
     for round in 1..=num_rounds {
-        let mut round_outputs: Vec<MusicianOutput> = Vec::new();
+        let _ = tx.send(ComposeEvent::Thinking { musician: "drums".into(), round }).await;
+        let _ = tx.send(ComposeEvent::Thinking { musician: "bass".into(), round }).await;
 
-        let drums_runner = AgentRunner::new("drums");
-        let prompt = prompts::drums_prompt(round, &context);
-        let drums_response = drums_runner.run(&prompt).await?;
-        let drums_abc = extract_abc(&drums_response);
+        let drums_prompt = prompts::drums_prompt(round, &context);
+        let bass_prompt = prompts::bass_prompt(round, &context);
+        let (drums_result, bass_result) = tokio::join!(
+            run_musician("drums", drums_prompt),
+            run_musician("bass", bass_prompt)
+        );
+
+        let drums_abc = match drums_result {
+            Ok(abc) => abc,
+            Err(e) => { let _ = tx.send(ComposeEvent::Error { message: e }).await; return; }
+        };
         context.push_str(&format!("\n[DRUMS Round {}]:\n{}\n", round, drums_abc));
-        round_outputs.push(MusicianOutput {
-            musician: "drums".to_string(),
-            round,
-            abc_notation: drums_abc,
-        });
+        let _ = tx.send(ComposeEvent::Done { musician: "drums".into(), round, abc_notation: drums_abc }).await;
 
-        let bass_runner = AgentRunner::new("bass");
-        let prompt = prompts::bass_prompt(round, &context);
-        let bass_response = bass_runner.run(&prompt).await?;
-        let bass_abc = extract_abc(&bass_response);
+        let bass_abc = match bass_result {
+            Ok(abc) => abc,
+            Err(e) => { let _ = tx.send(ComposeEvent::Error { message: e }).await; return; }
+        };
         context.push_str(&format!("\n[BASS Round {}]:\n{}\n", round, bass_abc));
-        round_outputs.push(MusicianOutput {
-            musician: "bass".to_string(),
-            round,
-            abc_notation: bass_abc,
-        });
+        final_bass = bass_abc.clone();
+        let _ = tx.send(ComposeEvent::Done { musician: "bass".into(), round, abc_notation: bass_abc }).await;
 
-        let melody_runner = AgentRunner::new("melody");
-        let prompt = prompts::melody_prompt(round, &context);
-        let melody_response = melody_runner.run(&prompt).await?;
-        let melody_abc = extract_abc(&melody_response);
+        let _ = tx.send(ComposeEvent::Thinking { musician: "melody".into(), round }).await;
+        let melody_prompt = prompts::melody_prompt(round, &context);
+        let melody_abc = match run_musician("melody", melody_prompt).await {
+            Ok(abc) => abc,
+            Err(e) => { let _ = tx.send(ComposeEvent::Error { message: e }).await; return; }
+        };
         context.push_str(&format!("\n[MELODY Round {}]:\n{}\n", round, melody_abc));
-        round_outputs.push(MusicianOutput {
-            musician: "melody".to_string(),
-            round,
-            abc_notation: melody_abc,
-        });
+        final_melody = melody_abc.clone();
+        let _ = tx.send(ComposeEvent::Done { musician: "melody".into(), round, abc_notation: melody_abc }).await;
 
-        let lyrics_runner = AgentRunner::new("lyrics");
-        let prompt = prompts::lyrics_prompt(round, &context);
-        let lyrics_response = lyrics_runner.run(&prompt).await?;
-        let lyrics_abc = extract_abc(&lyrics_response);
+        let _ = tx.send(ComposeEvent::Thinking { musician: "lyrics".into(), round }).await;
+        let lyrics_prompt = prompts::lyrics_prompt(round, &context);
+        let lyrics_abc = match run_musician("lyrics", lyrics_prompt).await {
+            Ok(abc) => abc,
+            Err(e) => { let _ = tx.send(ComposeEvent::Error { message: e }).await; return; }
+        };
         context.push_str(&format!("\n[LYRICS Round {}]:\n{}\n", round, lyrics_abc));
-        round_outputs.push(MusicianOutput {
-            musician: "lyrics".to_string(),
-            round,
-            abc_notation: lyrics_abc,
-        });
-
-        all_rounds.push(round_outputs);
+        final_lyrics = lyrics_abc.clone();
+        let _ = tx.send(ComposeEvent::Done { musician: "lyrics".into(), round, abc_notation: lyrics_abc }).await;
     }
 
-    let last_round = all_rounds.last().unwrap();
-    let mut final_song = String::new();
-    for output in last_round {
-        if output.musician == "melody" || output.musician == "bass" {
-            final_song.push_str(&output.abc_notation);
-            final_song.push('\n');
-        }
-        if output.musician == "lyrics" {
-            final_song.push_str(&output.abc_notation);
-            final_song.push('\n');
-        }
-    }
-
-    Ok(CompositionResult {
-        rounds: all_rounds,
-        final_song,
-    })
+    let final_song = format!("{}\n{}\n{}", final_melody, final_bass, final_lyrics);
+    let _ = tx.send(ComposeEvent::Final { final_song }).await;
 }
