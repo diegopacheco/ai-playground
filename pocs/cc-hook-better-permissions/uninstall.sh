@@ -5,12 +5,15 @@ SETTINGS_FILE="$HOME/.claude/settings.json"
 CONTEXT_MODE_HOOK="$HOME/.claude/plugins/cache/claude-context-mode/context-mode/0.7.2/hooks/pretooluse.sh"
 CONTEXT_MODE_HOOK_MKT="$HOME/.claude/plugins/marketplaces/claude-context-mode/hooks/pretooluse.sh"
 
-if [ -f "$HOOK_FILE" ]; then
-    rm "$HOOK_FILE"
-    echo "removed $HOOK_FILE"
-else
-    echo "hook file not found, skipping"
-fi
+POST_HOOK_FILE="$HOME/.claude/hooks/permissions_post.py"
+APPROVED_FILE="$HOME/.claude/hooks/permissions_approved.json"
+
+for f in "$HOOK_FILE" "$POST_HOOK_FILE" "$APPROVED_FILE"; do
+    if [ -f "$f" ]; then
+        rm "$f"
+        echo "removed $f"
+    fi
+done
 
 if [ -f "$SETTINGS_FILE" ]; then
     cp "$SETTINGS_FILE" "$SETTINGS_FILE.bak"
@@ -21,21 +24,22 @@ settings_file = os.path.expanduser('$SETTINGS_FILE')
 with open(settings_file, 'r') as f:
     settings = json.load(f)
 
-if 'hooks' in settings and 'PreToolUse' in settings['hooks']:
-    filtered = []
-    for entry in settings['hooks']['PreToolUse']:
-        keep = True
-        for h in entry.get('hooks', []):
-            if 'permissions.py' in h.get('command', ''):
-                keep = False
-                break
-        if keep:
-            filtered.append(entry)
-    settings['hooks']['PreToolUse'] = filtered
-    if not settings['hooks']['PreToolUse']:
-        del settings['hooks']['PreToolUse']
-    if not settings['hooks']:
-        del settings['hooks']
+for hook_type in ['PreToolUse', 'PostToolUse']:
+    if 'hooks' in settings and hook_type in settings['hooks']:
+        filtered = []
+        for entry in settings['hooks'][hook_type]:
+            keep = True
+            for h in entry.get('hooks', []):
+                if 'permissions' in h.get('command', ''):
+                    keep = False
+                    break
+            if keep:
+                filtered.append(entry)
+        settings['hooks'][hook_type] = filtered
+        if not settings['hooks'][hook_type]:
+            del settings['hooks'][hook_type]
+if 'hooks' in settings and not settings['hooks']:
+    del settings['hooks']
 
 with open(settings_file, 'w') as f:
     json.dump(settings, f, indent=2)

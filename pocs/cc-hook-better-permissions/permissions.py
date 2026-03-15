@@ -8,6 +8,7 @@ from pathlib import Path
 from fnmatch import fnmatch
 
 HOME = str(Path.home())
+APPROVED_FILE = os.path.join(HOME, ".claude", "hooks", "permissions_approved.json")
 
 CREDENTIAL_PATTERNS = [
     os.path.join(HOME, ".ssh", "id_*"),
@@ -68,6 +69,21 @@ NETWORK_COMMANDS = [
     "ssh", "scp", "rsync", "ftp", "sftp",
     "http.server", "php -S",
 ]
+
+
+def load_approved():
+    if os.path.exists(APPROVED_FILE):
+        try:
+            with open(APPROVED_FILE, "r") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, OSError):
+            pass
+    return {}
+
+
+def is_approved(category):
+    approved = load_approved()
+    return approved.get(category, False)
 
 
 def make_allow(reason="auto-approved by permissions hook"):
@@ -165,8 +181,12 @@ def check_bash(tool_input):
     if command_touches_credentials(command):
         return make_block("Blocked: command accesses credential/secret files")
     if is_rm_command(command):
+        if is_approved("rm"):
+            return make_allow("rm previously approved by user")
         return make_ask(f"rm command detected: {command}")
     if is_network_command(command):
+        if is_approved("network"):
+            return make_allow("network command previously approved by user")
         return make_ask(f"Network command detected: {command}")
     return make_allow("safe bash command")
 
