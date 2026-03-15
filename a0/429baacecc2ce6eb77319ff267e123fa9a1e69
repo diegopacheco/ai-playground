@@ -1,0 +1,26 @@
+pocs/cc-hook-better-permissions/uninstall.sh
+  dbf71c3dbc3e46e9 5-6,27,30,32,50-67
+pocs/cc-hook-better-permissions/install.sh
+  dbf71c3dbc3e46e9 6-7,57-67,69-86,88-96,98-109,111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "a0429baacecc2ce6eb77319ff267e123fa9a1e69",
+  "prompts": {
+    "dbf71c3dbc3e46e9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "828fa36d-077d-4b9e-9c1e-b0f0e1c8e0b2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 78,
+      "total_deletions": 20,
+      "accepted_lines": 78,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/12e09d0d81232d448f4c372a03ed799b4ee401f9c7ae747b9c31c2a39a2b7697"
+    }
+  }
+}
