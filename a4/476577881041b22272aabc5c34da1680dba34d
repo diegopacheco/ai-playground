@@ -1,0 +1,28 @@
+pocs/deepagents-fun/main.py
+  d573cb6634d22cef 4
+pocs/deepagents-fun/README.md
+  d573cb6634d22cef 1-5
+pocs/deepagents-fun/run.sh
+  d573cb6634d22cef 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "a4476577881041b22272aabc5c34da1680dba34d",
+  "prompts": {
+    "d573cb6634d22cef": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0db53084-9d8c-43bc-9f20-e190b5a48510",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 7,
+      "total_deletions": 1,
+      "accepted_lines": 7,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f829facffc8c84188e268428f31a10f2900aa6e38a748428db1c3b2d30a7e729"
+    }
+  }
+}
