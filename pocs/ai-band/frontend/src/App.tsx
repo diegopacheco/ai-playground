@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import abcjs from 'abcjs';
 import './App.css';
 
@@ -8,11 +8,6 @@ interface MusicianOutput {
   abc_notation: string;
 }
 
-interface CompositionResult {
-  rounds: MusicianOutput[][];
-  final_song: string;
-}
-
 const MUSICIAN_COLORS: Record<string, string> = {
   drums: '#e74c3c',
   bass: '#3498db',
@@ -20,62 +15,99 @@ const MUSICIAN_COLORS: Record<string, string> = {
   lyrics: '#f39c12',
 };
 
-const MUSICIAN_ICONS: Record<string, string> = {
-  drums: 'Drums',
-  bass: 'Bass',
-  melody: 'Melody',
-  lyrics: 'Lyrics',
-};
-
 function App() {
   const [genre, setGenre] = useState('jazz funk');
   const [rounds, setRounds] = useState(2);
   const [composing, setComposing] = useState(false);
-  const [result, setResult] = useState<CompositionResult | null>(null);
+  const [outputs, setOutputs] = useState<MusicianOutput[]>([]);
+  const [thinking, setThinking] = useState<string | null>(null);
+  const [thinkingRound, setThinkingRound] = useState<number>(0);
+  const [finalSong, setFinalSong] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activeMusician, setActiveMusician] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('live');
   const notationRef = useRef<HTMLDivElement>(null);
   const synthRef = useRef<any>(null);
 
-  const compose = async () => {
+  const compose = useCallback(() => {
     setComposing(true);
     setError(null);
-    setResult(null);
-    try {
-      const res = await fetch('http://localhost:8080/compose', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ genre, rounds }),
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Composition failed');
-      }
-      const data: CompositionResult = await res.json();
-      setResult(data);
-      renderAbc(data.final_song);
-    } catch (e: any) {
-      setError(e.message);
-    } finally {
-      setComposing(false);
-    }
-  };
+    setOutputs([]);
+    setFinalSong(null);
+    setThinking(null);
+    setActiveTab('live');
 
-  const renderAbc = (abc: string) => {
-    if (notationRef.current) {
-      abcjs.renderAbc(notationRef.current, abc, {
+    const url = `http://localhost:8080/compose?genre=${encodeURIComponent(genre)}&rounds=${rounds}`;
+    const es = new EventSource(url);
+
+    es.addEventListener('thinking', (e: MessageEvent) => {
+      const data = JSON.parse(e.data);
+      setThinking(data.musician);
+      setThinkingRound(data.round);
+    });
+
+    es.addEventListener('done', (e: MessageEvent) => {
+      const data = JSON.parse(e.data);
+      setThinking(null);
+      setOutputs(prev => [...prev, {
+        musician: data.musician,
+        round: data.round,
+        abc_notation: data.abc_notation,
+      }]);
+    });
+
+    es.addEventListener('final', (e: MessageEvent) => {
+      const data = JSON.parse(e.data);
+      setFinalSong(data.final_song);
+      setComposing(false);
+      setActiveTab('song');
+      es.close();
+    });
+
+    es.addEventListener('error', (e: MessageEvent) => {
+      if (e.data) {
+        const data = JSON.parse(e.data);
+        setError(data.message);
+      }
+      setComposing(false);
+      es.close();
+    });
+
+    es.onerror = () => {
+      if (composing) {
+        setError('Connection lost');
+        setComposing(false);
+      }
+      es.close();
+    };
+  }, [genre, rounds]);
+
+  useEffect(() => {
+    if (finalSong && notationRef.current && activeTab === 'song') {
+      abcjs.renderAbc(notationRef.current, finalSong, {
         responsive: 'resize',
         staffwidth: 700,
       });
     }
-  };
+  }, [finalSong, activeTab]);
+
+  useEffect(() => {
+    outputs.forEach((o) => {
+      const id = `abc-${o.musician}-${o.round}`;
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el && el.children.length === 0) {
+          abcjs.renderAbc(el, o.abc_notation, { responsive: 'resize', staffwidth: 500 });
+        }
+      }, 50);
+    });
+  }, [outputs, activeTab]);
 
   const playSong = () => {
-    if (!result || !notationRef.current) return;
+    if (!finalSong || !notationRef.current) return;
     if (synthRef.current) {
       synthRef.current.stop();
     }
-    const visualObj = abcjs.renderAbc(notationRef.current, result.final_song, {
+    const visualObj = abcjs.renderAbc(notationRef.current, finalSong, {
       responsive: 'resize',
       staffwidth: 700,
     });
@@ -97,16 +129,13 @@ function App() {
     }
   };
 
-  const renderMusicianAbc = (abc: string, musician: string, round: number) => {
-    const id = `abc-${musician}-${round}`;
-    setTimeout(() => {
-      const el = document.getElementById(id);
-      if (el) {
-        abcjs.renderAbc(el, abc, { responsive: 'resize', staffwidth: 400 });
-      }
-    }, 100);
-    return id;
-  };
+  const groupedByRound: Record<number, MusicianOutput[]> = {};
+  outputs.forEach(o => {
+    if (!groupedByRound[o.round]) groupedByRound[o.round] = [];
+    groupedByRound[o.round].push(o);
+  });
+
+  const musicians = ['drums', 'bass', 'melody', 'lyrics'];
 
   return (
     <div className="app">
@@ -138,72 +167,93 @@ function App() {
         </button>
       </div>
 
-      {composing && (
-        <div className="loading">
-          <div className="spinner" />
-          <p>Musicians are jamming... This takes a few minutes.</p>
-        </div>
-      )}
-
       {error && <div className="error">{error}</div>}
 
-      {result && (
-        <div className="results">
-          <div className="band-members">
-            {['drums', 'bass', 'melody', 'lyrics'].map((m) => (
-              <div
+      {(composing || outputs.length > 0) && (
+        <>
+          <div className="status-bar">
+            {musicians.map(m => {
+              const done = outputs.filter(o => o.musician === m);
+              const isThinking = thinking === m;
+              return (
+                <div key={m} className={`status-item ${isThinking ? 'pulse' : ''} ${done.length > 0 ? 'completed' : ''}`}>
+                  <div className="status-dot" style={{ backgroundColor: isThinking ? MUSICIAN_COLORS[m] : done.length > 0 ? MUSICIAN_COLORS[m] : '#444' }} />
+                  <span className="status-label">{m}</span>
+                  {isThinking && <span className="status-state">R{thinkingRound} thinking...</span>}
+                  {!isThinking && done.length > 0 && <span className="status-state">R{done[done.length-1].round} done</span>}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="tabs">
+            <button className={`tab ${activeTab === 'live' ? 'active' : ''}`} onClick={() => setActiveTab('live')}>Live Progress</button>
+            {['drums', 'bass', 'melody', 'lyrics'].map(m => (
+              <button
                 key={m}
-                className={`member-card ${activeMusician === m ? 'active' : ''}`}
-                style={{ borderColor: MUSICIAN_COLORS[m] }}
-                onClick={() => setActiveMusician(activeMusician === m ? null : m)}
+                className={`tab ${activeTab === m ? 'active' : ''}`}
+                style={activeTab === m ? { borderBottomColor: MUSICIAN_COLORS[m] } : {}}
+                onClick={() => setActiveTab(m)}
+                disabled={outputs.filter(o => o.musician === m).length === 0}
               >
-                <div className="member-name" style={{ color: MUSICIAN_COLORS[m] }}>
-                  {MUSICIAN_ICONS[m]}
-                </div>
-              </div>
+                {m.charAt(0).toUpperCase() + m.slice(1)}
+              </button>
             ))}
+            <button className={`tab ${activeTab === 'song' ? 'active' : ''}`} onClick={() => setActiveTab('song')} disabled={!finalSong}>
+              Final Song
+            </button>
           </div>
 
-          <div className="rounds-section">
-            {result.rounds.map((round, ri) => (
-              <div key={ri} className="round">
-                <h3>Round {ri + 1}</h3>
-                <div className="round-outputs">
-                  {round
-                    .filter((o) => !activeMusician || o.musician === activeMusician)
-                    .map((output, oi) => (
-                      <div
-                        key={oi}
-                        className="musician-output"
-                        style={{ borderLeftColor: MUSICIAN_COLORS[output.musician] }}
-                      >
-                        <div className="output-header">
-                          <span
-                            className="musician-tag"
-                            style={{ backgroundColor: MUSICIAN_COLORS[output.musician] }}
-                          >
-                            {output.musician}
-                          </span>
+          <div className="tab-content">
+            {activeTab === 'live' && (
+              <div className="live-feed">
+                {Object.entries(groupedByRound).map(([round, items]) => (
+                  <div key={round} className="round">
+                    <h3>Round {round}</h3>
+                    <div className="round-outputs">
+                      {items.map((output, i) => (
+                        <div key={i} className="musician-output" style={{ borderLeftColor: MUSICIAN_COLORS[output.musician] }}>
+                          <span className="musician-tag" style={{ backgroundColor: MUSICIAN_COLORS[output.musician] }}>{output.musician}</span>
+                          <pre className="abc-text">{output.abc_notation}</pre>
+                          <div id={`abc-${output.musician}-${output.round}`} className="abc-render" />
                         </div>
-                        <pre className="abc-text">{output.abc_notation}</pre>
-                        <div id={renderMusicianAbc(output.abc_notation, output.musician, output.round)} className="abc-render" />
-                      </div>
-                    ))}
-                </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                {thinking && (
+                  <div className="thinking-indicator">
+                    <div className="spinner" />
+                    <span style={{ color: MUSICIAN_COLORS[thinking] }}>{thinking}</span> is composing (Round {thinkingRound})...
+                  </div>
+                )}
+              </div>
+            )}
+
+            {musicians.map(m => activeTab === m && (
+              <div key={m} className="musician-tab">
+                {outputs.filter(o => o.musician === m).map((output, i) => (
+                  <div key={i} className="musician-output" style={{ borderLeftColor: MUSICIAN_COLORS[m] }}>
+                    <h4>Round {output.round}</h4>
+                    <pre className="abc-text">{output.abc_notation}</pre>
+                    <div id={`abc-${output.musician}-${output.round}`} className="abc-render" />
+                  </div>
+                ))}
               </div>
             ))}
-          </div>
 
-          <div className="final-song">
-            <h2>Final Composition</h2>
-            <div className="playback-controls">
-              <button className="play-btn" onClick={playSong}>Play</button>
-              <button className="stop-btn" onClick={stopSong}>Stop</button>
-            </div>
-            <div ref={notationRef} className="notation-display" />
-            <pre className="abc-text final-abc">{result.final_song}</pre>
+            {activeTab === 'song' && finalSong && (
+              <div className="final-song">
+                <div className="playback-controls">
+                  <button className="play-btn" onClick={playSong}>Play</button>
+                  <button className="stop-btn" onClick={stopSong}>Stop</button>
+                </div>
+                <div ref={notationRef} className="notation-display" />
+                <pre className="abc-text final-abc">{finalSong}</pre>
+              </div>
+            )}
           </div>
-        </div>
+        </>
       )}
     </div>
   );
