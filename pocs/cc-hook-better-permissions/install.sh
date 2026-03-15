@@ -9,7 +9,8 @@ CONTEXT_MODE_HOOK_MKT="$HOME/.claude/plugins/marketplaces/claude-context-mode/ho
 mkdir -p "$HOOK_DIR"
 
 cp "$SCRIPT_DIR/permissions.py" "$HOOK_DIR/permissions.py"
-chmod +x "$HOOK_DIR/permissions.py"
+cp "$SCRIPT_DIR/permissions_post.py" "$HOOK_DIR/permissions_post.py"
+chmod +x "$HOOK_DIR/permissions.py" "$HOOK_DIR/permissions_post.py"
 
 if [ -f "$SETTINGS_FILE" ]; then
     cp "$SETTINGS_FILE" "$SETTINGS_FILE.bak"
@@ -48,6 +49,29 @@ for entry in settings['hooks']['PreToolUse']:
 
 if not already_installed:
     settings['hooks']['PreToolUse'].append(hook_entry)
+
+post_hook_entry = {
+    'matcher': 'Bash',
+    'hooks': [
+        {
+            'type': 'command',
+            'command': 'python3 ~/.claude/hooks/permissions_post.py'
+        }
+    ]
+}
+
+if 'PostToolUse' not in settings['hooks']:
+    settings['hooks']['PostToolUse'] = []
+
+post_installed = False
+for entry in settings['hooks']['PostToolUse']:
+    for h in entry.get('hooks', []):
+        if 'permissions_post.py' in h.get('command', ''):
+            post_installed = True
+            break
+
+if not post_installed:
+    settings['hooks']['PostToolUse'].append(post_hook_entry)
 
 with open(settings_file, 'w') as f:
     json.dump(settings, f, indent=2)
@@ -110,7 +134,8 @@ fi
 
 echo ""
 echo "permissions hook installed"
-echo "  hook: $HOOK_DIR/permissions.py"
+echo "  pre-hook:  $HOOK_DIR/permissions.py"
+echo "  post-hook: $HOOK_DIR/permissions_post.py"
 echo "  config: $SETTINGS_FILE"
 if [ -f "$SETTINGS_FILE.bak" ]; then
     echo "  backup: $SETTINGS_FILE.bak"
