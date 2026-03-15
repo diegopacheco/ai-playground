@@ -1,0 +1,24 @@
+pocs/ai-band/README.md
+  066875b375f8c2a7 1-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "dd1d052d7f5a6f525546b3f3cb47e9a0983a9e00",
+  "prompts": {
+    "066875b375f8c2a7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "54082819-f81d-490d-af06-52efde48f0c2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 21,
+      "total_deletions": 0,
+      "accepted_lines": 21,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a7d67bc01b6bffc1d72e8c85836e747afa874c0c7c25c3142796b109ae99bd65"
+    }
+  }
+}
