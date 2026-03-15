@@ -267,3 +267,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/leak-detector-skill
 
 46 - DeepAgents: Python + OpenAI API <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/deepagents-fun
+
+47 - AI Band: Agent compose song with Sonnet 4.6 <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/ai-band
