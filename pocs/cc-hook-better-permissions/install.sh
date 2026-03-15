@@ -14,7 +14,7 @@ if [ -f "$SETTINGS_FILE" ]; then
 fi
 
 python3 -c "
-import json, os, sys
+import json, os, re
 
 settings_file = os.path.expanduser('$SETTINGS_FILE')
 hook_entry = {
@@ -52,6 +52,24 @@ with open(settings_file, 'w') as f:
     f.write('\n')
 
 print('Hook registered in settings.json')
+
+if settings.get('enabledPlugins', {}).get('context-mode@claude-context-mode'):
+    print('WARNING: context-mode plugin is enabled')
+    print('  context-mode blocks curl/wget before this hook can ask')
+    print('  consider disabling context-mode or its curl/wget interception')
+
+approve_variants = os.path.expanduser('~/.claude/hooks/approve-variants.py')
+if os.path.exists(approve_variants):
+    with open(approve_variants, 'r') as f:
+        content = f.read()
+    if 'curl' in content and 'read-only' in content:
+        fixed = content.replace('|curl|', '|')
+        fixed = re.sub(r'\|curl(?=\|)', '', fixed)
+        fixed = re.sub(r'curl\|', '', fixed)
+        if fixed != content:
+            with open(approve_variants, 'w') as f:
+                f.write(fixed)
+            print('Patched approve-variants.py: removed curl from safe list')
 "
 
 echo "permissions hook installed"

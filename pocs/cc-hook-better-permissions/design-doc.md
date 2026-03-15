@@ -71,8 +71,8 @@ Tool Invocation
 
 ```json
 {
-  "tool": "Bash",
-  "params": {
+  "tool_name": "Bash",
+  "tool_input": {
     "command": "rm -rf /tmp/stuff"
   }
 }
@@ -82,14 +82,39 @@ Tool names: `Bash`, `Read`, `Write`, `Edit`, `Glob`, `Grep`, `WebFetch`, `WebSea
 
 ### Output (stdout JSON)
 
+The output must use the `hookSpecificOutput` envelope with `permissionDecision`:
+
+**Allow:**
 ```json
-{"decision": "allow"}
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "allow",
+    "permissionDecisionReason": "safe bash command"
+  }
+}
 ```
+
+**Block:**
 ```json
-{"decision": "block", "reason": "Access to SSH private keys is blocked by security policy"}
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "deny",
+    "permissionDecisionReason": "Blocked: access to SSH private keys"
+  }
+}
 ```
+
+**Ask user:**
 ```json
-{"decision": "ask", "message": "rm command detected: rm -rf /tmp/stuff — allow?"}
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "ask",
+    "permissionDecisionReason": "rm command detected: rm -rf /tmp/stuff"
+  }
+}
 ```
 
 ## Credential Detection Rules
@@ -180,6 +205,26 @@ The hook script. Receives tool call JSON on stdin, outputs decision JSON on stdo
 ```
 
 Using `"matcher": ".*"` so a single script handles all tools. The script itself decides allow/block/ask based on tool name and params.
+
+## Known Conflicts with Other Hooks
+
+### context-mode plugin
+
+The `context-mode` plugin (if enabled in `settings.json`) has its own PreToolUse hooks that
+block `curl`/`wget` in Bash and block `WebFetch` entirely. This runs at the plugin level
+before our hook, so our `ask` decision never reaches the user.
+
+**Fix:** The `install.sh` script warns if context-mode is enabled. The user must either:
+- Disable context-mode's curl/wget interception
+- Or disable the context-mode plugin when using this permissions hook
+
+### approve-variants.py
+
+If `approve-variants.py` is registered as a PreToolUse hook for Bash, it may auto-approve
+commands (including `curl`) before `permissions.py` runs. The original `approve-variants.py`
+lists `curl` in its safe "read-only" commands.
+
+**Fix:** The `install.sh` script removes `curl` from `approve-variants.py` safe list if present.
 
 ## Edge Cases and Gaps
 
