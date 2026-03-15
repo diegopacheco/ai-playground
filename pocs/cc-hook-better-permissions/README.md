@@ -1,15 +1,24 @@
 # cc-hook-better-permissions
 
-A Claude Code PreToolUse hook that enforces a smarter permissions policy. Blocks credential access, asks before destructive or network operations, and auto-approves everything else.
+A Claude Code hook-based permissions system that blocks credential access, asks before destructive or network operations (and remembers your answer), and auto-approves everything else.
 
 ## Permission Tiers
 
 | Tier | What | Behavior |
 |------|------|----------|
-| BLOCK | SSH keys, `.env`, AWS/GCP/K8s credentials, GPG keys, tokens | Always denied |
-| ASK | `rm`, `rmdir`, `shred` (file deletion) | Prompts user |
-| ASK | `curl`, `wget`, `ssh`, `scp`, `nc` (network) | Prompts user |
-| ALLOW | Read, Glob, Grep, Edit, Write (non-credential paths) | Auto-approved |
+| BLOCK | SSH keys, `.env`, AWS/GCP/K8s credentials, GPG keys, tokens | Always denied, no override |
+| ASK | `rm`, `rmdir`, `shred` (file deletion) | Prompts user once, then remembers |
+| ASK | `curl`, `wget`, `ssh`, `scp`, `nc` (network) | Prompts user once, then remembers |
+| ALLOW | Read, Glob, Grep, Edit, Write (non-credential paths) | Auto-approved silently |
+
+## Remember My Answer
+
+When you approve a command category (network or rm), the PostToolUse hook saves your decision to `~/.claude/hooks/permissions_approved.json`. Next time a command in that category runs, it auto-approves without asking again.
+
+To reset approvals, delete the file:
+```bash
+rm ~/.claude/hooks/permissions_approved.json
+```
 
 ## Blocked Credential Paths
 
@@ -25,13 +34,12 @@ A Claude Code PreToolUse hook that enforces a smarter permissions policy. Blocks
 
 ## How It Works
 
-The hook registers as a PreToolUse handler matching all tools (`.*`). On every tool call:
+Two hooks work together:
 
-1. Reads the tool invocation JSON from stdin
-2. Checks tool name and params against the permission rules
-3. Outputs a decision JSON: `allow`, `block`, or `ask`
+- **PreToolUse** (`permissions.py`) — intercepts every tool call, checks against permission rules, returns `allow`, `deny`, or `ask`. Checks the approved file to skip asking for previously approved categories.
+- **PostToolUse** (`permissions_post.py`) — runs after Bash commands succeed. If the command was a network or rm command (meaning the user approved it), saves the category to the approved file.
 
-For Bash commands, it parses the command string to detect credential paths, rm operations, and network commands. For file-based tools (Read, Write, Edit), it checks the file path. Paths are normalized and symlinks are resolved before matching.
+Paths are normalized and symlinks are resolved before matching.
 
 ## Install
 
@@ -40,7 +48,12 @@ chmod +x install.sh
 ./install.sh
 ```
 
-This copies `permissions.py` to `~/.claude/hooks/` and registers the PreToolUse hook in `~/.claude/settings.json`. A backup of your existing settings is created automatically.
+The installer:
+- Copies `permissions.py` and `permissions_post.py` to `~/.claude/hooks/`
+- Registers PreToolUse and PostToolUse hooks in `~/.claude/settings.json`
+- Patches `approve-variants.py` to remove `curl` from its safe list (if present)
+- Patches `context-mode` plugin to remove its curl/wget/WebFetch blocking (if present)
+- Creates `.bak` backups before modifying any file
 
 ## Uninstall
 
@@ -49,7 +62,57 @@ chmod +x uninstall.sh
 ./uninstall.sh
 ```
 
-Removes the hook file and cleans the entry from `settings.json`.
+Removes hook files, cleans entries from `settings.json`, restores `context-mode` and `approve-variants.py` from backups, and deletes the approved file.
+
+## File Tree
+
+```
+cc-hook-better-permissions/
+├── design-doc.md
+├── permissions.py          # PreToolUse hook (allow/deny/ask)
+├── permissions_post.py     # PostToolUse hook (remember approvals)
+├── install.sh
+├── uninstall.sh
+├── test.sh
+└── README.md
+```
+
+## Proof It Works
+
+First session — curl asked once, then remembered:
+```
+❯ curl google.com
+
+⏺ Bash(curl -s google.com)
+  ⎿  <HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
+     <TITLE>301 Moved</TITLE></HEAD><BODY>
+     <H1>301 Moved</H1>
+
+⏺ Google returns a 301 redirect to http://www.google.com/.
+
+❯ curl google.com
+
+⏺ Bash(curl -s google.com)
+  ⎿  <HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
+     <TITLE>301 Moved</TITLE></HEAD><BODY>
+     <H1>301 Moved</H1>
+
+⏺ Same 301 redirect response. Google redirects to www.google.com.
+```
+
+New session — still remembered, no prompt:
+```
+❯ claude
+
+❯ curl google.com
+
+⏺ Bash(curl -s google.com)
+  ⎿  <HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
+     <TITLE>301 Moved</TITLE></HEAD><BODY>
+     <H1>301 Moved</H1>
+
+⏺ Google returns a 301 redirect to http://www.google.com/.
+```
 
 ## Requirements
 
@@ -58,11 +121,15 @@ Removes the hook file and cleans the entry from `settings.json`.
 
 ## Testing
 
-After installing, verify each tier in Claude Code:
+```bash
+./test.sh
+```
+
+Or manually in Claude Code after installing:
 
 ```
-cat ~/.ssh/id_rsa          → BLOCKED
-rm -rf /tmp/test           → ASK
-curl https://httpbin.org   → ASK
-cat README.md              → ALLOWED (no prompt)
+cat ~/.ssh/id_rsa          -> BLOCKED
+rm -rf /tmp/test           -> ASK (first time), ALLOWED (after)
+curl https://httpbin.org   -> ASK (first time), ALLOWED (after)
+cat README.md              -> ALLOWED (no prompt)
 ```
