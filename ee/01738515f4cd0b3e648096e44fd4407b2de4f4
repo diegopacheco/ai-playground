@@ -1,0 +1,66 @@
+pocs/claude-code-voice-poc/app/package.json
+  fafb12cb7879100e 10-12
+pocs/claude-code-voice-poc/app/src/Pokedex.css
+  fafb12cb7879100e 1-122
+pocs/claude-code-voice-poc/app/e2e/app.spec.js
+  fafb12cb7879100e 1-47
+pocs/claude-code-voice-poc/app/src/store.js
+  fafb12cb7879100e 1-76
+pocs/claude-code-voice-poc/app/src/History.css
+  fafb12cb7879100e 1-170
+pocs/claude-code-voice-poc/app/src/index.css
+  fafb12cb7879100e 1-4,8-11,15,18-58
+pocs/claude-code-voice-poc/app/src/App.jsx
+  fafb12cb7879100e 1-3,7,9-15,17-23,25-33,35-47,50-54
+pocs/claude-code-voice-poc/app/src/Cards.jsx
+  fafb12cb7879100e 1-133
+pocs/claude-code-voice-poc/app/src/store.test.js
+  fafb12cb7879100e 1-83
+pocs/claude-code-voice-poc/app/playwright.config.js
+  fafb12cb7879100e 1-15
+pocs/claude-code-voice-poc/app/src/Cards.css
+  fafb12cb7879100e 1-179
+pocs/claude-code-voice-poc/app/src/App.css
+  fafb12cb7879100e 1-6,8,11-19,22-24,27,30-36,39,42,45-48,51-60,63-64,67-72,74-83,86-88
+pocs/claude-code-voice-poc/app/src/useStore.js
+  fafb12cb7879100e 1-8
+pocs/claude-code-voice-poc/app/src/History.jsx
+  fafb12cb7879100e 1-107
+pocs/claude-code-voice-poc/test.sh
+  fafb12cb7879100e 1-10
+pocs/claude-code-voice-poc/app/src/Battle.jsx
+  fafb12cb7879100e 1-143
+pocs/claude-code-voice-poc/app/src/main.jsx
+  fafb12cb7879100e 3-4,7-10,12-39,42-44
+pocs/claude-code-voice-poc/app/src/Battle.css
+  fafb12cb7879100e 1-211
+pocs/claude-code-voice-poc/run.sh
+  fafb12cb7879100e 1-4
+pocs/claude-code-voice-poc/app/src/Pokedex.jsx
+  fafb12cb7879100e 1-111
+pocs/claude-code-voice-poc/DESIGN.md
+  fafb12cb7879100e 1-2,5-50
+pocs/claude-code-voice-poc/README.md
+  fafb12cb7879100e 1-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "ee01738515f4cd0b3e648096e44fd4407b2de4f4",
+  "prompts": {
+    "fafb12cb7879100e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27d7555a-7ce3-41c1-bc57-ad3d83e238f8",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 1777,
+      "total_deletions": 420,
+      "accepted_lines": 1728,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/4a66dfcfbb4c531fa2ee7ed00ce98666df544ad52d92507ed3444e6d544d085b"
+    }
+  }
+}
