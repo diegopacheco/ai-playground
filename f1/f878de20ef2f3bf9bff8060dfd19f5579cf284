@@ -1,0 +1,30 @@
+pocs/ai-band/backend/Cargo.toml
+  066875b375f8c2a7 12
+pocs/ai-band/backend/src/band/engine.rs
+  066875b375f8c2a7 4,14-23,51-57,59-61,64-65,67-77,79,81-84,86-87,89-94,96-97,99-104,106-107,110-111
+pocs/ai-band/backend/src/main.rs
+  066875b375f8c2a7 7-8,16-45,60
+pocs/ai-band/frontend/src/App.tsx
+  066875b375f8c2a7 1,22-25,27,31,34-63,65-69,72-73,75-86,91-103,106,110,132-138,172-187,189-192,194-197,199-200,202-204,207-212,214-218,220-227,229,231-241,245-246,252-254,256
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.10",
+  "base_commit_sha": "f1f878de20ef2f3bf9bff8060dfd19f5579cf284",
+  "prompts": {
+    "066875b375f8c2a7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "54082819-f81d-490d-af06-52efde48f0c2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 257,
+      "total_deletions": 182,
+      "accepted_lines": 240,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/2dbe97a02c3fe496fb41e82c5edbf61745f856a607aad528f5b234ddfa05dbb3"
+    }
+  }
+}
