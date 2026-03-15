@@ -264,3 +264,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/skill-evaluator
 
 45 - Agent Skill: Leak Detector with Claude/Coidex <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/leak-detector-skill
+
+46 - DeepAgents: Python + OpenAI API <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/deepagents-fun
