@@ -1,0 +1,274 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #1a1a2e;
+  color: #eee;
+}
+
+.app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #e74c3c, #3498db, #2ecc71, #f39c12);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: #888;
+  margin-top: 8px;
+  font-size: 1.1rem;
+}
+
+.controls {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 20px;
+  background: #16213e;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.input-group input,
+.input-group select {
+  padding: 10px 14px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #0f3460;
+  color: #eee;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #3498db;
+}
+
+.compose-btn {
+  padding: 10px 32px;
+  background: linear-gradient(135deg, #e74c3c, #f39c12);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.compose-btn:hover {
+  opacity: 0.9;
+}
+
+.compose-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #333;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error {
+  background: #c0392b;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.band-members {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.member-card {
+  padding: 12px 24px;
+  background: #16213e;
+  border-radius: 10px;
+  border: 2px solid;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.member-card:hover,
+.member-card.active {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.member-name {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.round {
+  margin-bottom: 24px;
+}
+
+.round h3 {
+  color: #888;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.round-outputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.musician-output {
+  background: #16213e;
+  border-radius: 10px;
+  padding: 16px;
+  border-left: 4px solid;
+}
+
+.output-header {
+  margin-bottom: 8px;
+}
+
+.musician-tag {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+}
+
+.abc-text {
+  background: #0f3460;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  color: #ccc;
+  font-family: 'Courier New', monospace;
+}
+
+.abc-render {
+  margin-top: 8px;
+  background: white;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.abc-render svg {
+  width: 100%;
+}
+
+.final-song {
+  margin-top: 32px;
+  padding: 24px;
+  background: #16213e;
+  border-radius: 12px;
+}
+
+.final-song h2 {
+  text-align: center;
+  margin-bottom: 16px;
+  color: #2ecc71;
+}
+
+.playback-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.play-btn,
+.stop-btn {
+  padding: 10px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+}
+
+.play-btn {
+  background: #2ecc71;
+}
+
+.play-btn:hover {
+  background: #27ae60;
+}
+
+.stop-btn {
+  background: #e74c3c;
+}
+
+.stop-btn:hover {
+  background: #c0392b;
+}
+
+.notation-display {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  min-height: 100px;
+}
+
+.notation-display svg {
+  width: 100%;
+}
+
+.final-abc {
+  margin-top: 12px;
+}
