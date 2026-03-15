@@ -5,6 +5,7 @@ import sys
 import re
 import os
 from pathlib import Path
+from fnmatch import fnmatch
 
 HOME = str(Path.home())
 
@@ -69,6 +70,36 @@ NETWORK_COMMANDS = [
 ]
 
 
+def make_allow(reason="auto-approved by permissions hook"):
+    return {
+        "hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "permissionDecision": "allow",
+            "permissionDecisionReason": reason
+        }
+    }
+
+
+def make_block(reason):
+    return {
+        "hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "permissionDecision": "deny",
+            "permissionDecisionReason": reason
+        }
+    }
+
+
+def make_ask(message):
+    return {
+        "hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "permissionDecision": "ask",
+            "permissionDecisionReason": message
+        }
+    }
+
+
 def normalize_path(p):
     p = p.replace("$HOME", HOME).replace("~", HOME)
     p = os.path.normpath(p)
@@ -82,11 +113,10 @@ def normalize_path(p):
 def is_credential_path(path_str):
     normalized = normalize_path(path_str)
     for pattern in CREDENTIAL_PATTERNS:
-        from fnmatch import fnmatch
         if fnmatch(normalized, pattern):
             return True
-        if normalized.startswith(os.path.join(HOME, ".gnupg")):
-            return True
+    if normalized.startswith(os.path.join(HOME, ".gnupg")):
+        return True
     basename = os.path.basename(normalized)
     if basename in CREDENTIAL_FILENAMES:
         return True
@@ -113,7 +143,7 @@ def command_touches_credentials(command):
 
 def is_rm_command(command):
     tokens = command.split()
-    for i, token in enumerate(tokens):
+    for token in tokens:
         if token in ("|", "&&", ";", "||"):
             continue
         clean = token.split("/")[-1]
@@ -130,40 +160,40 @@ def is_network_command(command):
     return False
 
 
-def check_bash(params):
-    command = params.get("command", "")
+def check_bash(tool_input):
+    command = tool_input.get("command", "")
     if command_touches_credentials(command):
-        return {"decision": "block", "reason": "Blocked: command accesses credential/secret files"}
+        return make_block("Blocked: command accesses credential/secret files")
     if is_rm_command(command):
-        return {"decision": "ask", "message": f"rm command detected: {command}"}
+        return make_ask(f"rm command detected: {command}")
     if is_network_command(command):
-        return {"decision": "ask", "message": f"Network command detected: {command}"}
-    return {"decision": "allow"}
+        return make_ask(f"Network command detected: {command}")
+    return make_allow("safe bash command")
 
 
-def check_file_path(params):
-    file_path = params.get("file_path", "")
+def check_file_path(tool_input):
+    file_path = tool_input.get("file_path", "")
     if file_path and is_credential_path(file_path):
-        return {"decision": "block", "reason": f"Blocked: access to credential file {file_path}"}
-    return {"decision": "allow"}
+        return make_block(f"Blocked: access to credential file {file_path}")
+    return make_allow("safe file path")
 
 
-def check_glob(params):
-    pattern = params.get("pattern", "")
-    path = params.get("path", "")
+def check_glob(tool_input):
+    pattern = tool_input.get("pattern", "")
+    path = tool_input.get("path", "")
     for check in [pattern, path]:
         if check:
             for substr in CREDENTIAL_SUBSTRINGS:
                 if substr in check:
-                    return {"decision": "block", "reason": f"Blocked: glob pattern targets credential directory"}
-    return {"decision": "allow"}
+                    return make_block("Blocked: glob pattern targets credential directory")
+    return make_allow("safe glob")
 
 
-def check_grep(params):
-    path = params.get("path", "")
+def check_grep(tool_input):
+    path = tool_input.get("path", "")
     if path and is_credential_path(path):
-        return {"decision": "block", "reason": f"Blocked: grep targets credential file {path}"}
-    return {"decision": "allow"}
+        return make_block(f"Blocked: grep targets credential file {path}")
+    return make_allow("safe grep")
 
 
 def main():
@@ -171,22 +201,23 @@ def main():
     try:
         data = json.loads(raw)
     except json.JSONDecodeError:
-        print(json.dumps({"decision": "allow"}))
-        return
+        sys.exit(0)
 
-    tool = data.get("tool", "")
-    params = data.get("params", {}) if isinstance(data.get("params"), dict) else {}
+    tool_name = data.get("tool_name", "")
+    tool_input = data.get("tool_input", {})
+    if not isinstance(tool_input, dict):
+        tool_input = {}
 
-    if tool == "Bash":
-        result = check_bash(params)
-    elif tool in ("Read", "Write", "Edit"):
-        result = check_file_path(params)
-    elif tool == "Glob":
-        result = check_glob(params)
-    elif tool == "Grep":
-        result = check_grep(params)
+    if tool_name == "Bash":
+        result = check_bash(tool_input)
+    elif tool_name in ("Read", "Write", "Edit"):
+        result = check_file_path(tool_input)
+    elif tool_name == "Glob":
+        result = check_glob(tool_input)
+    elif tool_name == "Grep":
+        result = check_grep(tool_input)
     else:
-        result = {"decision": "allow"}
+        result = make_allow("no restriction for this tool")
 
     print(json.dumps(result))
 
