@@ -1,0 +1,32 @@
+pocs/ai-band/frontend/src/App.tsx
+  d287d537a9ebb16e 16,21,41-43,86,168,188-195,230
+pocs/ai-band/backend/src/main.rs
+  d287d537a9ebb16e 14,20,25
+pocs/ai-band/backend/src/agents/claude.rs
+  d287d537a9ebb16e 8
+pocs/ai-band/backend/src/band/engine.rs
+  d287d537a9ebb16e 50,52-55,57,76,98,108-115,118-119
+pocs/ai-band/backend/src/band/prompts.rs
+  d287d537a9ebb16e 6,9,20,23,34,37,43-48,51,55-69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "4745610decace155ef3f882fc314e5daf5924874",
+  "prompts": {
+    "d287d537a9ebb16e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "73aa1a26-0275-440f-809e-f4ba0cb4d36c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 70,
+      "total_deletions": 13,
+      "accepted_lines": 68,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a6805b18e8baadb0ebca425d25c0f1418f30f7b4ecb44e1ead31dec4066c88e7"
+    }
+  }
+}
