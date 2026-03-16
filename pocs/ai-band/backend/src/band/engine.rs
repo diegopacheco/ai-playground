@@ -54,6 +54,7 @@ pub async fn compose_stream(genre: String, num_rounds: usize, lyrics_theme: Stri
     }
     let mut final_drums = String::new();
     let mut final_bass = String::new();
+    let mut final_guitar = String::new();
     let mut final_melody = String::new();
     let mut final_lyrics = String::new();
 
@@ -61,11 +62,11 @@ pub async fn compose_stream(genre: String, num_rounds: usize, lyrics_theme: Stri
         let _ = tx.send(ComposeEvent::Thinking { musician: "drums".into(), round }).await;
         let _ = tx.send(ComposeEvent::Thinking { musician: "bass".into(), round }).await;
 
-        let drums_prompt = prompts::drums_prompt(round, &context);
-        let bass_prompt = prompts::bass_prompt(round, &context);
+        let drums_p = prompts::drums_prompt(round, &genre, &context);
+        let bass_p = prompts::bass_prompt(round, &genre, &context);
         let (drums_result, bass_result) = tokio::join!(
-            run_musician("drums", drums_prompt),
-            run_musician("bass", bass_prompt)
+            run_musician("drums", drums_p),
+            run_musician("bass", bass_p)
         );
 
         let drums_abc = match drums_result {
@@ -84,9 +85,19 @@ pub async fn compose_stream(genre: String, num_rounds: usize, lyrics_theme: Stri
         final_bass = bass_abc.clone();
         let _ = tx.send(ComposeEvent::Done { musician: "bass".into(), round, abc_notation: bass_abc }).await;
 
+        let _ = tx.send(ComposeEvent::Thinking { musician: "guitar".into(), round }).await;
+        let guitar_p = prompts::guitar_prompt(round, &genre, &context);
+        let guitar_abc = match run_musician("guitar", guitar_p).await {
+            Ok(abc) => abc,
+            Err(e) => { let _ = tx.send(ComposeEvent::Error { message: e }).await; return; }
+        };
+        context.push_str(&format!("\n[GUITAR Round {}]:\n{}\n", round, guitar_abc));
+        final_guitar = guitar_abc.clone();
+        let _ = tx.send(ComposeEvent::Done { musician: "guitar".into(), round, abc_notation: guitar_abc }).await;
+
         let _ = tx.send(ComposeEvent::Thinking { musician: "melody".into(), round }).await;
-        let melody_prompt = prompts::melody_prompt(round, &context);
-        let melody_abc = match run_musician("melody", melody_prompt).await {
+        let melody_p = prompts::melody_prompt(round, &genre, &context);
+        let melody_abc = match run_musician("melody", melody_p).await {
             Ok(abc) => abc,
             Err(e) => { let _ = tx.send(ComposeEvent::Error { message: e }).await; return; }
         };
@@ -95,8 +106,8 @@ pub async fn compose_stream(genre: String, num_rounds: usize, lyrics_theme: Stri
         let _ = tx.send(ComposeEvent::Done { musician: "melody".into(), round, abc_notation: melody_abc }).await;
 
         let _ = tx.send(ComposeEvent::Thinking { musician: "lyrics".into(), round }).await;
-        let lyrics_prompt = prompts::lyrics_prompt(round, &context, &lyrics_theme);
-        let lyrics_abc = match run_musician("lyrics", lyrics_prompt).await {
+        let lyrics_p = prompts::lyrics_prompt(round, &genre, &context, &lyrics_theme);
+        let lyrics_abc = match run_musician("lyrics", lyrics_p).await {
             Ok(abc) => abc,
             Err(e) => { let _ = tx.send(ComposeEvent::Error { message: e }).await; return; }
         };
@@ -107,16 +118,16 @@ pub async fn compose_stream(genre: String, num_rounds: usize, lyrics_theme: Stri
 
     let last_round = num_rounds;
     let _ = tx.send(ComposeEvent::Thinking { musician: "singer".into(), round: last_round }).await;
-    let singer_prompt = prompts::singer_prompt(&context);
-    let singer_abc = match run_musician("singer", singer_prompt).await {
+    let singer_p = prompts::singer_prompt(&genre, &context);
+    let singer_abc = match run_musician("singer", singer_p).await {
         Ok(abc) => abc,
         Err(e) => { let _ = tx.send(ComposeEvent::Error { message: e }).await; return; }
     };
     let _ = tx.send(ComposeEvent::Done { musician: "singer".into(), round: last_round, abc_notation: singer_abc.clone() }).await;
 
     let final_song = format!(
-        "{}\n\n{}\n\n{}\n\n{}\n\n{}",
-        final_drums, final_bass, final_melody, final_lyrics, singer_abc
+        "{}\n\n{}\n\n{}\n\n{}\n\n{}\n\n{}",
+        final_drums, final_bass, final_guitar, final_melody, final_lyrics, singer_abc
     );
     let _ = tx.send(ComposeEvent::Final { final_song }).await;
 }

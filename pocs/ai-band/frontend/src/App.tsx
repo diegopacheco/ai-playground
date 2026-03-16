@@ -11,6 +11,7 @@ interface MusicianOutput {
 const MUSICIAN_COLORS: Record<string, string> = {
   drums: '#e74c3c',
   bass: '#3498db',
+  guitar: '#e67e22',
   melody: '#2ecc71',
   lyrics: '#f39c12',
   singer: '#9b59b6',
@@ -165,13 +166,13 @@ function App() {
     groupedByRound[o.round].push(o);
   });
 
-  const musicians = ['drums', 'bass', 'melody', 'lyrics', 'singer'];
+  const musicians = ['drums', 'bass', 'guitar', 'melody', 'lyrics', 'singer'];
 
   return (
     <div className="app">
       <header className="header">
         <h1>AI Band Composer</h1>
-        <p className="subtitle">Four AI musicians collaborate to compose a song</p>
+        <p className="subtitle">Six AI musicians collaborate to compose a song</p>
       </header>
 
       <div className="controls">
@@ -227,7 +228,7 @@ function App() {
 
           <div className="tabs">
             <button className={`tab ${activeTab === 'live' ? 'active' : ''}`} onClick={() => setActiveTab('live')}>Live Progress</button>
-            {['drums', 'bass', 'melody', 'lyrics', 'singer'].map(m => (
+            {['drums', 'bass', 'guitar', 'melody', 'lyrics', 'singer'].map(m => (
               <button
                 key={m}
                 className={`tab ${activeTab === m ? 'active' : ''}`}
