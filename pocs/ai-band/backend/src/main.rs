@@ -11,16 +11,18 @@ use crate::band::engine::ComposeEvent;
 struct ComposeRequest {
     genre: String,
     rounds: Option<usize>,
+    lyrics_theme: Option<String>,
 }
 
 async fn compose_sse(query: web::Query<ComposeRequest>) -> HttpResponse {
     let genre = query.genre.clone();
     let rounds = query.rounds.unwrap_or(2);
+    let lyrics_theme = query.lyrics_theme.clone().unwrap_or_default();
 
     let (tx, mut rx) = mpsc::channel::<ComposeEvent>(32);
 
     tokio::spawn(async move {
-        band::engine::compose_stream(genre, rounds, tx).await;
+        band::engine::compose_stream(genre, rounds, lyrics_theme, tx).await;
     });
 
     let stream = async_stream::stream! {

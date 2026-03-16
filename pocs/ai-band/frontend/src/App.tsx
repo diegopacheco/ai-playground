@@ -13,10 +13,12 @@ const MUSICIAN_COLORS: Record<string, string> = {
   bass: '#3498db',
   melody: '#2ecc71',
   lyrics: '#f39c12',
+  singer: '#9b59b6',
 };
 
 function App() {
   const [genre, setGenre] = useState('jazz funk');
+  const [lyricsTheme, setLyricsTheme] = useState('');
   const [rounds, setRounds] = useState(2);
   const [composing, setComposing] = useState(false);
   const [outputs, setOutputs] = useState<MusicianOutput[]>([]);
@@ -36,7 +38,9 @@ function App() {
     setThinking(null);
     setActiveTab('live');
 
-    const url = `http://localhost:8080/compose?genre=${encodeURIComponent(genre)}&rounds=${rounds}`;
+    const params = new URLSearchParams({ genre, rounds: String(rounds) });
+    if (lyricsTheme.trim()) params.set('lyrics_theme', lyricsTheme.trim());
+    const url = `http://localhost:8080/compose?${params.toString()}`;
     const es = new EventSource(url);
 
     es.addEventListener('thinking', (e: MessageEvent) => {
@@ -79,7 +83,7 @@ function App() {
       }
       es.close();
     };
-  }, [genre, rounds]);
+  }, [genre, rounds, lyricsTheme]);
 
   useEffect(() => {
     if (finalSong && notationRef.current && activeTab === 'song') {
@@ -161,7 +165,7 @@ function App() {
     groupedByRound[o.round].push(o);
   });
 
-  const musicians = ['drums', 'bass', 'melody', 'lyrics'];
+  const musicians = ['drums', 'bass', 'melody', 'lyrics', 'singer'];
 
   return (
     <div className="app">
@@ -178,6 +182,15 @@ function App() {
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
             placeholder="e.g. jazz funk, rock, classical"
+          />
+        </div>
+        <div className="input-group">
+          <label>Lyrics Theme / Influence</label>
+          <input
+            type="text"
+            value={lyricsTheme}
+            onChange={(e) => setLyricsTheme(e.target.value)}
+            placeholder="e.g. love, space travel, rainy days"
           />
         </div>
         <div className="input-group">
@@ -214,7 +227,7 @@ function App() {
 
           <div className="tabs">
             <button className={`tab ${activeTab === 'live' ? 'active' : ''}`} onClick={() => setActiveTab('live')}>Live Progress</button>
-            {['drums', 'bass', 'melody', 'lyrics'].map(m => (
+            {['drums', 'bass', 'melody', 'lyrics', 'singer'].map(m => (
               <button
                 key={m}
                 className={`tab ${activeTab === m ? 'active' : ''}`}
