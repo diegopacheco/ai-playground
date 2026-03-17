@@ -78,17 +78,17 @@ export default function GamePlay({ gameId }: Props) {
   return (
     <div className="flex gap-6">
       <div className="flex-1 flex flex-col">
-        <div className="bg-[#0d0d14] border border-amber-900/30 rounded-lg p-4 h-[60vh] overflow-y-auto mb-4">
+        <div className="bg-[#3a2815] border border-amber-800/40 rounded-lg p-4 h-[60vh] overflow-y-auto mb-4">
           {messages.map((msg, i) => (
             <div key={i} className={`mb-4 ${msg.role === 'player' ? 'text-right' : ''}`}>
               {msg.role === 'dm' && (
                 <div className="mb-1">
-                  <span className="text-amber-500 font-bold text-sm">Dungeon Master</span>
+                  <span className="text-amber-400 font-bold text-sm">Dungeon Master</span>
                 </div>
               )}
               {msg.role === 'player' && (
                 <div className="mb-1">
-                  <span className="text-emerald-400 font-bold text-sm">You</span>
+                  <span className="text-emerald-300 font-bold text-sm">You</span>
                 </div>
               )}
               {msg.role === 'system' && (
@@ -99,10 +99,10 @@ export default function GamePlay({ gameId }: Props) {
               <div
                 className={`inline-block max-w-[85%] px-4 py-3 rounded-lg text-left whitespace-pre-wrap ${
                   msg.role === 'dm'
-                    ? 'bg-amber-900/20 border border-amber-900/30 text-gray-200'
+                    ? 'bg-[#4a3520] border border-amber-800/40 text-amber-100'
                     : msg.role === 'player'
-                    ? 'bg-emerald-900/20 border border-emerald-900/30 text-gray-200'
-                    : 'bg-red-900/20 border border-red-900/30 text-red-300'
+                    ? 'bg-emerald-900/30 border border-emerald-800/40 text-emerald-100'
+                    : 'bg-red-900/30 border border-red-800/40 text-red-300'
                 }`}
               >
                 {msg.content}
@@ -112,8 +112,8 @@ export default function GamePlay({ gameId }: Props) {
 
           {thinking && (
             <div className="mb-4">
-              <span className="text-amber-500 font-bold text-sm">Dungeon Master</span>
-              <div className="mt-1 text-amber-400 animate-pulse">The Dungeon Master is weaving the story...</div>
+              <span className="text-amber-400 font-bold text-sm">Dungeon Master</span>
+              <div className="mt-1 text-amber-300 animate-pulse">The Dungeon Master is weaving the story...</div>
             </div>
           )}
 
@@ -128,7 +128,7 @@ export default function GamePlay({ gameId }: Props) {
             onKeyDown={handleKeyDown}
             placeholder="What do you do?"
             disabled={thinking}
-            className="flex-1 px-4 py-3 rounded bg-[#1a1a2e] border border-amber-900/40 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500 disabled:opacity-50"
+            className="flex-1 px-4 py-3 rounded bg-[#3a2815] border border-amber-800/50 text-amber-100 placeholder-amber-900/60 focus:outline-none focus:border-amber-500 disabled:opacity-50"
           />
           <button
             onClick={handleSend}
