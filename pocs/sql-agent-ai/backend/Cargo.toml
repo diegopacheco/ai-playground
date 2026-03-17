@@ -1,0 +1,18 @@
+[package]
+name = "sql-agent-backend"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+axum = { version = "0.8", features = ["macros"] }
+sqlx = { version = "0.8", features = ["runtime-tokio", "postgres", "bigdecimal", "chrono"] }
+bigdecimal = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+uuid = { version = "1", features = ["v4"] }
+tower-http = { version = "0.6", features = ["cors"] }
+tokio-stream = "0.1"
+futures = "0.3"
+async-stream = "0.3"
+chrono = { version = "0.4", features = ["serde"] }
