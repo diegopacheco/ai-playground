@@ -1,0 +1,82 @@
+pocs/ai-rpg/run.sh
+  860a4035aa70aa05 1-13
+pocs/ai-rpg/backend/src/persistence/db.rs
+  860a4035aa70aa05 1-125
+pocs/ai-rpg/backend/src/sse/mod.rs
+  860a4035aa70aa05 1
+pocs/ai-rpg/backend/src/main.rs
+  860a4035aa70aa05 1-44
+pocs/ai-rpg/backend/src/persistence/mod.rs
+  860a4035aa70aa05 1
+pocs/ai-rpg/frontend/src/App.tsx
+  860a4035aa70aa05 2-4,6,8-10,12-15,17-23,25-30,32-36,38-40,42,44-49
+pocs/ai-rpg/backend/src/agents/claude.rs
+  860a4035aa70aa05 1-28
+pocs/ai-rpg/backend/src/routes/game_routes.rs
+  860a4035aa70aa05 1-167
+pocs/ai-rpg/backend/Cargo.toml
+  860a4035aa70aa05 7-15
+pocs/ai-rpg/backend/src/game/engine.rs
+  860a4035aa70aa05 1-175
+pocs/ai-rpg/backend/src/sse/broadcaster.rs
+  860a4035aa70aa05 1-41
+pocs/ai-rpg/stop.sh
+  860a4035aa70aa05 1-12
+pocs/ai-rpg/backend/src/routes/mod.rs
+  860a4035aa70aa05 1-10
+pocs/ai-rpg/frontend/src/index.css
+  860a4035aa70aa05 1,5-7
+pocs/ai-rpg/frontend/src/hooks/useGameSSE.ts
+  860a4035aa70aa05 1-51
+pocs/ai-rpg/frontend/src/components/GameSetup.tsx
+  860a4035aa70aa05 1-72
+pocs/ai-rpg/frontend/src/components/GamePlay.tsx
+  860a4035aa70aa05 1-146
+pocs/ai-rpg/backend/src/game/mod.rs
+  860a4035aa70aa05 1
+pocs/ai-rpg/frontend/src/components/GameHistory.tsx
+  860a4035aa70aa05 1-58
+pocs/ai-rpg/frontend/vite.config.ts
+  860a4035aa70aa05 3,6
+pocs/ai-rpg/frontend/src/components/CharacterPanel.tsx
+  860a4035aa70aa05 1-69
+pocs/ai-rpg/backend/src/agents/mod.rs
+  860a4035aa70aa05 1
+pocs/ai-rpg/frontend/src/api/games.ts
+  860a4035aa70aa05 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "69c622835c11ee8ff68e8069fdc5815f1e0476e4",
+  "prompts": {
+    "860a4035aa70aa05": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d19d89bd-61c3-42a1-af0a-b05040ff67c6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 1106,
+      "total_deletions": 222,
+      "accepted_lines": 1102,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/9f8ec7ba19e6f96b4cbd7338d0c7c479f113d4238c362f2af30c6bc5ea454f2d"
+    },
+    "cd7ad2b5d0564c5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "080b9fe4-7f90-4fa0-a56e-371ca4d2898a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 824,
+      "total_deletions": 25,
+      "accepted_lines": 799,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/ed1b3b3b9c34670b40b3117f4834e52aedd2a71508196b9ad2043732acceb821"
+    }
+  }
+}
