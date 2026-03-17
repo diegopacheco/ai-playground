@@ -270,3 +270,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/deepagents-fun
 
 47 - AI Band: Agent compose song with Sonnet 4.6 <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/ai-band
+
+48 - AI Dungeon Master: Agent that creates DnD campaigns with Claude <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/ai-rpg
