@@ -273,3 +273,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/ai-band
 
 48 - AI Dungeon Master: Agent that creates DnD campaigns with Claude <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/ai-rpg
+
+49 - SQL Agent with Claude (user only give text that is transalted internaly to sql - only read and local - no distributed monolith) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/sql-agent-ai
