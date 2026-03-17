@@ -132,6 +132,12 @@ frontend/
 │   └── types/               # TypeScript types
 ```
 
+## Screenshots
+
+![sql-agent-text](sql-agent-text.png)
+![sql-agent-result](sql-agent-result.png)
+![sql-agent-rows](sql-agent-rows.png)
+
 ## Tech Stack
 
 **Backend**: Rust, Axum, SQLx, PostgreSQL, Tokio, SSE
