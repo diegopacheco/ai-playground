@@ -1,0 +1,42 @@
+pocs/ai-rpg/frontend/src/App.tsx
+  860a4035aa70aa05 18-19,22,30,36
+pocs/ai-rpg/frontend/src/components/GameSetup.tsx
+  860a4035aa70aa05 34-35,39,45,50,54
+pocs/ai-rpg/frontend/src/index.css
+  860a4035aa70aa05 5-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "18d0204d06dd633b588dda9982350bed7c981c32",
+  "prompts": {
+    "860a4035aa70aa05": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d19d89bd-61c3-42a1-af0a-b05040ff67c6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 22,
+      "total_deletions": 22,
+      "accepted_lines": 22,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/92420bed40bff607bfe30380b96104c0f11bb4389e3a3efd96151c46c7269b10"
+    },
+    "cd7ad2b5d0564c5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "080b9fe4-7f90-4fa0-a56e-371ca4d2898a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 68,
+      "total_deletions": 0,
+      "accepted_lines": 809,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/1a079eb37528dc2ee2186207ecb7172c94928a45d904174429ff46535a87a7ac"
+    }
+  }
+}
