@@ -2,6 +2,10 @@
 
 Text-based RPG where an LLM acts as the Dungeon Master, generating the world and responding to player actions in real-time.
 
+![AI RPG](ai-RPG.png)
+
+![AI Screen](ai-screen.png)
+
 ## Architecture
 
 ```
