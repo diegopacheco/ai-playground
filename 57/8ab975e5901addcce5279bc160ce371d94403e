@@ -1,0 +1,38 @@
+pocs/ai-rpg/README.md
+  3ee90ece7fe43822 5-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "578ab975e5901addcce5279bc160ce371d94403e",
+  "prompts": {
+    "3ee90ece7fe43822": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b2ac71f0-0959-49de-86c6-28c3942d40ad",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 0,
+      "accepted_lines": 4,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/854d8a197063c254f282a936f848ca9c26427786ecc2b97768aa96f327eba744"
+    },
+    "cd7ad2b5d0564c5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "080b9fe4-7f90-4fa0-a56e-371ca4d2898a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 139,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/2736491b8bfa8179520a895e59f20b00818a52a66cbd493f4c79070344070362"
+    }
+  }
+}
