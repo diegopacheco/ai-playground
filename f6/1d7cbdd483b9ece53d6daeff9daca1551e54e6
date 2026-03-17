@@ -1,0 +1,94 @@
+pocs/sql-agent-ai/backend/src/persistence/mod.rs
+  cd7ad2b5d0564c5a 1-2
+pocs/sql-agent-ai/backend/src/agents/claude.rs
+  cd7ad2b5d0564c5a 1-15
+pocs/sql-agent-ai/backend/src/sql_agent/engine.rs
+  cd7ad2b5d0564c5a 1-268
+pocs/sql-agent-ai/frontend/tsconfig.json
+  cd7ad2b5d0564c5a 1-19
+pocs/sql-agent-ai/backend/src/agents/runner.rs
+  cd7ad2b5d0564c5a 1-39
+pocs/sql-agent-ai/frontend/src/App.tsx
+  cd7ad2b5d0564c5a 1-89
+pocs/sql-agent-ai/frontend/vite.config.ts
+  cd7ad2b5d0564c5a 1-12
+pocs/sql-agent-ai/frontend/src/main.tsx
+  cd7ad2b5d0564c5a 1-10
+pocs/sql-agent-ai/podman-compose.yaml
+  cd7ad2b5d0564c5a 1-16
+pocs/sql-agent-ai/stop.sh
+  cd7ad2b5d0564c5a 1-12
+pocs/sql-agent-ai/backend/src/persistence/db.rs
+  cd7ad2b5d0564c5a 1-71
+pocs/sql-agent-ai/frontend/src/components/ResultView.tsx
+  cd7ad2b5d0564c5a 1-121
+pocs/sql-agent-ai/frontend/postcss.config.js
+  cd7ad2b5d0564c5a 1-6
+pocs/sql-agent-ai/backend/src/routes/schema.rs
+  cd7ad2b5d0564c5a 1-53
+pocs/sql-agent-ai/frontend/src/components/History.tsx
+  cd7ad2b5d0564c5a 1-45
+pocs/sql-agent-ai/frontend/package.json
+  cd7ad2b5d0564c5a 1-26
+pocs/sql-agent-ai/run.sh
+  cd7ad2b5d0564c5a 1-40
+pocs/sql-agent-ai/frontend/src/components/QueryInput.tsx
+  cd7ad2b5d0564c5a 1-76
+pocs/sql-agent-ai/backend/src/routes/query.rs
+  cd7ad2b5d0564c5a 1-71
+pocs/sql-agent-ai/backend/src/routes/history.rs
+  cd7ad2b5d0564c5a 1-20
+pocs/sql-agent-ai/frontend/src/hooks/useQuerySSE.ts
+  cd7ad2b5d0564c5a 1-64
+pocs/sql-agent-ai/backend/src/main.rs
+  cd7ad2b5d0564c5a 1-50
+pocs/sql-agent-ai/start.sh
+  cd7ad2b5d0564c5a 1-2
+pocs/sql-agent-ai/backend/src/agents/mod.rs
+  cd7ad2b5d0564c5a 1-2
+pocs/sql-agent-ai/test.sh
+  cd7ad2b5d0564c5a 1-18
+pocs/sql-agent-ai/frontend/tailwind.config.js
+  cd7ad2b5d0564c5a 1-5
+pocs/sql-agent-ai/frontend/src/components/SchemaView.tsx
+  cd7ad2b5d0564c5a 1-34
+pocs/sql-agent-ai/backend/src/sql_agent/mod.rs
+  cd7ad2b5d0564c5a 1
+pocs/sql-agent-ai/frontend/src/index.css
+  cd7ad2b5d0564c5a 1-10
+pocs/sql-agent-ai/backend/src/routes/mod.rs
+  cd7ad2b5d0564c5a 1-3
+pocs/sql-agent-ai/frontend/src/api/queries.ts
+  cd7ad2b5d0564c5a 1-31
+pocs/sql-agent-ai/backend/Cargo.toml
+  cd7ad2b5d0564c5a 1-18
+pocs/sql-agent-ai/frontend/src/components/EventLog.tsx
+  cd7ad2b5d0564c5a 1-79
+pocs/sql-agent-ai/backend/src/persistence/models.rs
+  cd7ad2b5d0564c5a 1-16
+pocs/sql-agent-ai/init.sql
+  cd7ad2b5d0564c5a 1-96
+pocs/sql-agent-ai/frontend/src/types/index.ts
+  cd7ad2b5d0564c5a 1-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "f61d7cbdd483b9ece53d6daeff9daca1551e54e6",
+  "prompts": {
+    "cd7ad2b5d0564c5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "080b9fe4-7f90-4fa0-a56e-371ca4d2898a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 151,
+      "total_deletions": 0,
+      "accepted_lines": 1504,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/36331ec7610bf07034d1871d09a19ec2b3d2d3f3fcf2277152c9a2f9b2bc1c6c"
+    }
+  }
+}
