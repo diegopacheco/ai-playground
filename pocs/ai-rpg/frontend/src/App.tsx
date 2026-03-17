@@ -15,11 +15,11 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f]">
-      <nav className="border-b border-amber-900/30 bg-[#0d0d14] px-6 py-4">
+    <div className="min-h-screen bg-[#2c1e0f]">
+      <nav className="border-b border-amber-800/40 bg-[#3a2815] px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <h1
-            className="text-2xl font-bold text-amber-400 cursor-pointer"
+            className="text-2xl font-bold text-amber-300 cursor-pointer"
             onClick={() => setScreen('setup')}
           >
             Dungeon Master AI
@@ -27,13 +27,13 @@ function App() {
           <div className="flex gap-4">
             <button
               onClick={() => setScreen('setup')}
-              className={`px-4 py-2 rounded transition-colors ${screen === 'setup' ? 'bg-amber-700 text-white' : 'text-amber-400 hover:bg-amber-900/30'}`}
+              className={`px-4 py-2 rounded transition-colors ${screen === 'setup' ? 'bg-amber-700 text-white' : 'text-amber-300 hover:bg-amber-900/40'}`}
             >
               New Game
             </button>
             <button
               onClick={() => setScreen('history')}
-              className={`px-4 py-2 rounded transition-colors ${screen === 'history' ? 'bg-amber-700 text-white' : 'text-amber-400 hover:bg-amber-900/30'}`}
+              className={`px-4 py-2 rounded transition-colors ${screen === 'history' ? 'bg-amber-700 text-white' : 'text-amber-300 hover:bg-amber-900/40'}`}
             >
               History
             </button>
