@@ -1,0 +1,94 @@
+pocs/agent-memory-bench/README.md
+  851e722ed0f69877 1-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "f6e92e707aaacd2c2e6493a28aee8a41778bc92e",
+  "prompts": {
+    "3d2fa756091723c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "764f3149-b5ec-416d-b563-c4a22c7c58fe",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 390,
+      "total_deletions": 4,
+      "accepted_lines": 386,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/517a6e4b08ac4764e2f39ed02972b46ee840903297249f1371ae431339acd356"
+    },
+    "6cc3a840e68a1982": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8d7542f9-546a-42a5-bbbb-5afda7cf1287",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 163,
+      "total_deletions": 2,
+      "accepted_lines": 163,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/0109e7e856b8dff7132c6e7de5c5120ed06d05f2dfcdbdab1dc0fe451ff8f527"
+    },
+    "71344900a6953db9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7bcf828e-b1f1-4e36-a0d0-0da42397ca91",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 378,
+      "total_deletions": 5,
+      "accepted_lines": 376,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/baedc8d10d349c11db0891041dad7f69258f63e85f731f0e8ebcb269c018b3fd"
+    },
+    "851e722ed0f69877": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2902c54e-23ed-44e1-bb68-9da691deca54",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 34,
+      "total_deletions": 0,
+      "accepted_lines": 34,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/3e6264ee7c6fe70684068b51d8628190ddd45c74bbf31fc41c5b72ccc8b6eb66"
+    },
+    "90c3c61672e149d3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6536a207-d672-4e81-ae55-fdee999e90ce",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 1283,
+      "total_deletions": 5,
+      "accepted_lines": 1277,
+      "overriden_lines": 1,
+      "messages_url": "https://usegitai.com/cas/536f3d71214ba31c0e572c8f18bb9573dcda9e29bf6dfa5dc11edf882e809877"
+    },
+    "a710657e4c93df9d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fbbab2bd-735e-46b0-a981-b6060574ad67",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 390,
+      "total_deletions": 2,
+      "accepted_lines": 390,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/609c6bd85e44ed6badf63eb5b22119a71a7b3d9e087a093f8eed21c5b6cbd4b3"
+    }
+  }
+}
