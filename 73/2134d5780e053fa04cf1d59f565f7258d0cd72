@@ -1,0 +1,28 @@
+pocs/agent-semantic-similarity-eval/backend/src/main.rs
+  a676de5512df696a 3,16,20
+pocs/agent-semantic-similarity-eval/frontend/index.html
+  a676de5512df696a 1-227
+pocs/agent-semantic-similarity-eval/backend/Cargo.toml
+  a676de5512df696a 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "732134d5780e053fa04cf1d59f565f7258d0cd72",
+  "prompts": {
+    "a676de5512df696a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5869ff08-55d7-4aad-902f-5a4a52e8e94f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 244,
+      "total_deletions": 17,
+      "accepted_lines": 232,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/bad86ea2c95066d78f2d04a742876278288455859aba2a539145c2be895ef84c"
+    }
+  }
+}
