@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semantic Similarity Eval</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f0f1a; color: #e0e0e0; min-height: 100vh; }
+.container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+h1 { text-align: center; font-size: 28px; margin-bottom: 8px; color: #7c8aff; }
+.subtitle { text-align: center; color: #888; margin-bottom: 32px; font-size: 14px; }
+.tabs { display: flex; gap: 4px; margin-bottom: 24px; }
+.tab { padding: 10px 20px; background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 8px 8px 0 0; cursor: pointer; color: #888; font-size: 14px; }
+.tab.active { background: #1e1e3a; border-bottom-color: #1e1e3a; color: #7c8aff; }
+.panel { display: none; }
+.panel.active { display: block; }
+.form-group { margin-bottom: 16px; }
+label { display: block; margin-bottom: 6px; font-size: 13px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+textarea, input { width: 100%; padding: 12px; background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 8px; color: #e0e0e0; font-size: 14px; font-family: inherit; resize: vertical; }
+textarea:focus, input:focus { outline: none; border-color: #7c8aff; }
+textarea { min-height: 80px; }
+.btn { padding: 12px 32px; background: #7c8aff; color: #0f0f1a; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 8px; }
+.btn:hover { background: #6b7bff; }
+.btn:disabled { background: #3a3a5a; color: #666; cursor: not-allowed; }
+.result-card { background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 12px; padding: 24px; margin-top: 24px; }
+.verdict { font-size: 22px; font-weight: 700; text-align: center; padding: 12px; border-radius: 8px; margin-bottom: 20px; }
+.verdict.pass { background: #1a3a2a; color: #4ade80; border: 1px solid #2a5a3a; }
+.verdict.fail { background: #3a1a1a; color: #f87171; border: 1px solid #5a2a2a; }
+.verdict.marginal { background: #3a3a1a; color: #facc15; border: 1px solid #5a5a2a; }
+.verdict.error { background: #2a1a1a; color: #f87171; }
+.scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+.score-box { text-align: center; padding: 16px 8px; background: #12122a; border-radius: 8px; }
+.score-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.score-value { font-size: 28px; font-weight: 700; color: #7c8aff; }
+.reasoning { background: #12122a; padding: 16px; border-radius: 8px; font-size: 13px; line-height: 1.6; color: #bbb; }
+.reasoning-title { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.batch-item { background: #12122a; border: 1px solid #1a1a3a; border-radius: 8px; padding: 16px; margin-bottom: 12px; position: relative; }
+.batch-item .remove-btn { position: absolute; top: 8px; right: 12px; background: none; border: none; color: #f87171; cursor: pointer; font-size: 18px; }
+.add-btn { padding: 10px; background: transparent; border: 1px dashed #3a3a5a; border-radius: 8px; color: #7c8aff; cursor: pointer; width: 100%; font-size: 14px; margin-bottom: 16px; }
+.add-btn:hover { border-color: #7c8aff; }
+.summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+.summary-box { text-align: center; padding: 16px; background: #12122a; border-radius: 8px; }
+.summary-box .score-value.pass-color { color: #4ade80; }
+.summary-box .score-value.fail-color { color: #f87171; }
+.summary-box .score-value.marginal-color { color: #facc15; }
+.batch-result { border: 1px solid #2a2a4a; border-radius: 8px; padding: 16px; margin-bottom: 12px; background: #12122a; }
+.batch-result .q { font-weight: 600; margin-bottom: 8px; color: #ccc; }
+.batch-result .mini-scores { display: flex; gap: 16px; font-size: 12px; color: #888; margin-bottom: 8px; }
+.batch-result .mini-verdict { font-weight: 600; font-size: 14px; }
+.spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid #3a3a5a; border-top-color: #7c8aff; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 8px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Semantic Similarity Eval</h1>
+    <p class="subtitle">Evaluate candidate answers against golden answers using cosine similarity, BERTScore, and LLM judge</p>
+
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('single')">Single Eval</div>
+        <div class="tab" onclick="switchTab('batch')">Batch Eval</div>
+    </div>
+
+    <div id="single-panel" class="panel active">
+        <div class="form-group">
+            <label>Question</label>
+            <textarea id="question" placeholder="What is the capital of France?"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Golden Answer (expected)</label>
+            <textarea id="golden" placeholder="The capital of France is Paris."></textarea>
+        </div>
+        <div class="form-group">
+            <label>Candidate Answer (to evaluate)</label>
+            <textarea id="candidate" placeholder="Paris is the capital city of France."></textarea>
+        </div>
+        <button class="btn" id="eval-btn" onclick="runSingleEval()">Evaluate</button>
+        <div id="single-result" class="hidden"></div>
+    </div>
+
+    <div id="batch-panel" class="panel">
+        <div id="batch-items"></div>
+        <button class="add-btn" onclick="addBatchItem()">+ Add Item</button>
+        <button class="btn" id="batch-btn" onclick="runBatchEval()">Evaluate All</button>
+        <div id="batch-result" class="hidden"></div>
+    </div>
+</div>
+
+<script>
+const API = 'http://localhost:3000';
+
+function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    if (tab === 'single') {
+        document.querySelectorAll('.tab')[0].classList.add('active');
+        document.getElementById('single-panel').classList.add('active');
+    } else {
+        document.querySelectorAll('.tab')[1].classList.add('active');
+        document.getElementById('batch-panel').classList.add('active');
+    }
+}
+
+async function runSingleEval() {
+    const question = document.getElementById('question').value.trim();
+    const golden = document.getElementById('golden').value.trim();
+    const candidate = document.getElementById('candidate').value.trim();
+    if (!question || !golden || !candidate) return;
+
+    const btn = document.getElementById('eval-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Evaluating...';
+    document.getElementById('single-result').classList.add('hidden');
+
+    try {
+        const res = await fetch(API + '/api/eval', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question, golden_answer: golden, candidate_answer: candidate })
+        });
+        const data = await res.json();
+        renderSingleResult(data);
+    } catch (e) {
+        document.getElementById('single-result').innerHTML = '<div class="result-card"><div class="verdict error">Connection Error: ' + e.message + '</div></div>';
+        document.getElementById('single-result').classList.remove('hidden');
+    }
+    btn.disabled = false;
+    btn.textContent = 'Evaluate';
+}
+
+function renderSingleResult(r) {
+    const verdictClass = r.verdict.startsWith('PASS') ? 'pass' : r.verdict.startsWith('FAIL') ? 'fail' : r.verdict.startsWith('MARGINAL') ? 'marginal' : 'error';
+    document.getElementById('single-result').innerHTML = `
+        <div class="result-card">
+            <div class="verdict ${verdictClass}">${r.verdict}</div>
+            <div class="scores">
+                <div class="score-box"><div class="score-label">Cosine</div><div class="score-value">${(r.cosine_score * 100).toFixed(1)}%</div></div>
+                <div class="score-box"><div class="score-label">BERT</div><div class="score-value">${(r.bert_score * 100).toFixed(1)}%</div></div>
+                <div class="score-box"><div class="score-label">Judge</div><div class="score-value">${(r.judge_score * 100).toFixed(1)}%</div></div>
+                <div class="score-box"><div class="score-label">Final</div><div class="score-value">${(r.final_score * 100).toFixed(1)}%</div></div>
+            </div>
+            <div class="reasoning">
+                <div class="reasoning-title">Judge Reasoning</div>
+                ${r.judge_reasoning}
+            </div>
+        </div>`;
+    document.getElementById('single-result').classList.remove('hidden');
+}
+
+let batchCount = 0;
+function addBatchItem() {
+    batchCount++;
+    const div = document.createElement('div');
+    div.className = 'batch-item';
+    div.id = 'batch-' + batchCount;
+    div.innerHTML = `
+        <button class="remove-btn" onclick="this.parentElement.remove()">&times;</button>
+        <div class="form-group"><label>Question</label><input type="text" class="bq" placeholder="Question"></div>
+        <div class="form-group"><label>Golden Answer</label><input type="text" class="bg" placeholder="Golden answer"></div>
+        <div class="form-group"><label>Candidate Answer</label><input type="text" class="bc" placeholder="Candidate answer"></div>`;
+    document.getElementById('batch-items').appendChild(div);
+}
+
+addBatchItem();
+addBatchItem();
+
+async function runBatchEval() {
+    const items = [];
+    document.querySelectorAll('.batch-item').forEach(el => {
+        const q = el.querySelector('.bq').value.trim();
+        const g = el.querySelector('.bg').value.trim();
+        const c = el.querySelector('.bc').value.trim();
+        if (q && g && c) items.push({ question: q, golden_answer: g, candidate_answer: c });
+    });
+    if (items.length === 0) return;
+
+    const btn = document.getElementById('batch-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Evaluating ' + items.length + ' items...';
+    document.getElementById('batch-result').classList.add('hidden');
+
+    try {
+        const res = await fetch(API + '/api/eval/batch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items })
+        });
+        const data = await res.json();
+        renderBatchResult(data);
+    } catch (e) {
+        document.getElementById('batch-result').innerHTML = '<div class="result-card"><div class="verdict error">Connection Error: ' + e.message + '</div></div>';
+        document.getElementById('batch-result').classList.remove('hidden');
+    }
+    btn.disabled = false;
+    btn.textContent = 'Evaluate All';
+}
+
+function renderBatchResult(data) {
+    let html = `<div class="result-card">
+        <div class="summary">
+            <div class="summary-box"><div class="score-label">Average</div><div class="score-value">${(data.average_score * 100).toFixed(1)}%</div></div>
+            <div class="summary-box"><div class="score-label">Pass</div><div class="score-value pass-color">${data.pass_count}</div></div>
+            <div class="summary-box"><div class="score-label">Marginal</div><div class="score-value marginal-color">${data.marginal_count}</div></div>
+            <div class="summary-box"><div class="score-label">Fail</div><div class="score-value fail-color">${data.fail_count}</div></div>
+        </div>`;
+    data.results.forEach(r => {
+        const vc = r.verdict.startsWith('PASS') ? 'pass' : r.verdict.startsWith('FAIL') ? 'fail' : 'marginal';
+        html += `<div class="batch-result">
+            <div class="q">${r.question}</div>
+            <div class="mini-scores">
+                <span>Cosine: ${(r.cosine_score * 100).toFixed(1)}%</span>
+                <span>BERT: ${(r.bert_score * 100).toFixed(1)}%</span>
+                <span>Judge: ${(r.judge_score * 100).toFixed(1)}%</span>
+                <span>Final: ${(r.final_score * 100).toFixed(1)}%</span>
+            </div>
+            <div class="mini-verdict ${vc}">${r.verdict}</div>
+        </div>`;
+    });
+    html += '</div>';
+    document.getElementById('batch-result').innerHTML = html;
+    document.getElementById('batch-result').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
