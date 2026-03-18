@@ -71,6 +71,12 @@ Request:
 
 Response includes all individual results plus `average_score`, `pass_count`, `fail_count`, and `marginal_count`.
 
+## Result
+
+The image below shows the evaluation result for a batch request, displaying cosine similarity, BERTScore, LLM judge scores, and the final weighted verdict for each question-answer pair.
+
+<img src="semantic-similarity-eval.png" alt="Semantic Similarity Eval Result" width="100%"/>
+
 ## How to Run
 
 ### Prerequisites
