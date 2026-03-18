@@ -285,3 +285,7 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-semantic-drif
 
 52 - Agent Similarity Eval with Rust <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-semantic-similarity-eval
+
+53 - Agent memory benchmark with Rust <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-memory-bench
+
