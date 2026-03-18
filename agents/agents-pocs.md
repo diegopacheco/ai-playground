@@ -280,3 +280,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/sql-agent-ai
 50 - Agent Observability Stack - Traces every agent decision as OpenTelemetry spans. Rust backend with React frontend and Jaeger for distributed tracing. <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-observability
 
+51 - Agent Semantic Drift Detector with Rust <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-semantic-drift-detector
+
