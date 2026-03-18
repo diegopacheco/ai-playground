@@ -289,3 +289,5 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-semantic-simi
 53 - Agent memory benchmark with Rust <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-memory-bench
 
+54 - Agent Intent Eval with Rust <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-intent-eval
