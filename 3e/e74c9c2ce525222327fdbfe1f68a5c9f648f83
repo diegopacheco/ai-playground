@@ -1,0 +1,104 @@
+pocs/agent-semantic-drift-detector/src/persistence/db.rs
+  a710657e4c93df9d 1-49
+pocs/agent-semantic-drift-detector/src/agents/mod.rs
+  a710657e4c93df9d 1
+pocs/agent-semantic-drift-detector/src/persistence/mod.rs
+  a710657e4c93df9d 1-2
+pocs/agent-semantic-drift-detector/README.md
+  a710657e4c93df9d 1-97
+pocs/agent-semantic-drift-detector/src/drift/detector.rs
+  a710657e4c93df9d 1-30
+pocs/agent-semantic-drift-detector/src/main.rs
+  a710657e4c93df9d 1-94
+pocs/agent-semantic-drift-detector/src/drift/mod.rs
+  a710657e4c93df9d 1-3
+pocs/agent-semantic-drift-detector/src/persistence/models.rs
+  a710657e4c93df9d 1-17
+pocs/agent-semantic-drift-detector/src/agents/runner.rs
+  a710657e4c93df9d 1-30
+pocs/agent-semantic-drift-detector/src/drift/embeddings.rs
+  a710657e4c93df9d 1-86
+pocs/agent-semantic-drift-detector/src/drift/plotter.rs
+  a710657e4c93df9d 1-72
+pocs/agent-semantic-drift-detector/Cargo.toml
+  a710657e4c93df9d 7-12
+pocs/agent-semantic-drift-detector/run.sh
+  a710657e4c93df9d 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "3ee74c9c2ce525222327fdbfe1f68a5c9f648f83",
+  "prompts": {
+    "3d2fa756091723c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "764f3149-b5ec-416d-b563-c4a22c7c58fe",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 386,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/517a6e4b08ac4764e2f39ed02972b46ee840903297249f1371ae431339acd356"
+    },
+    "90c3c61672e149d3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6536a207-d672-4e81-ae55-fdee999e90ce",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1277,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/536f3d71214ba31c0e572c8f18bb9573dcda9e29bf6dfa5dc11edf882e809877"
+    },
+    "95ad39c7dce519f0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6f4d0800-cb88-4519-ac2d-e4404fd41393",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 84,
+      "total_deletions": 0,
+      "accepted_lines": 84,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/fff3b65ca814aab7300640aaabce8aeab1598369e22422c5e7400c71857b7d87"
+    },
+    "a710657e4c93df9d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fbbab2bd-735e-46b0-a981-b6060574ad67",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 100,
+      "total_deletions": 0,
+      "accepted_lines": 490,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/b7bee0a4cbeb1383546f5b81eb6ba9b9eb4ec0737bbc41f5ee8b59e4cda94795"
+    },
+    "ecb13711cfde2420": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d548a8d1-ebd1-4783-85b3-5e25453790ab",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 131,
+      "total_deletions": 0,
+      "accepted_lines": 131,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/51c9c45af0565f67b992f4998c58ae1e4dc3de1bc3a082e8d3b7c0921fd946ec"
+    }
+  }
+}
