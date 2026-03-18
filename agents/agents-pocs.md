@@ -276,3 +276,7 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/ai-rpg
 
 49 - SQL Agent with Claude (user only give text that is transalted internaly to sql - only read and local - no distributed monolith) <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/sql-agent-ai
+
+50 - Agent Observability Stack - Traces every agent decision as OpenTelemetry spans. Rust backend with React frontend and Jaeger for distributed tracing. <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-observability
+
