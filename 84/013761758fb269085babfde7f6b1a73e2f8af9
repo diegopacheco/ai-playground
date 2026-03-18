@@ -1,0 +1,64 @@
+pocs/agent-semantic-similarity-eval/backend/src/eval/judge.rs
+  3d2fa756091723c1 1-44
+pocs/agent-semantic-similarity-eval/backend/src/routes/eval.rs
+  3d2fa756091723c1 1-88
+pocs/agent-semantic-similarity-eval/run.sh
+  3d2fa756091723c1 1-2
+pocs/agent-semantic-similarity-eval/README.md
+  95ad39c7dce519f0 1-84
+pocs/agent-semantic-similarity-eval/backend/src/eval/scorer.rs
+  3d2fa756091723c1 1-51
+pocs/agent-semantic-similarity-eval/backend/src/lib.rs
+  3d2fa756091723c1 1-3
+pocs/agent-semantic-similarity-eval/backend/src/eval/mod.rs
+  3d2fa756091723c1 1-4
+pocs/agent-semantic-similarity-eval/backend/src/agents/mod.rs
+  3d2fa756091723c1 1
+pocs/agent-semantic-similarity-eval/backend/src/main.rs
+  3d2fa756091723c1 1-22
+pocs/agent-semantic-similarity-eval/backend/src/routes/mod.rs
+  3d2fa756091723c1 1
+pocs/agent-semantic-similarity-eval/backend/Cargo.toml
+  3d2fa756091723c1 1-12
+pocs/agent-semantic-similarity-eval/backend/src/agents/runner.rs
+  3d2fa756091723c1 1-35
+pocs/agent-semantic-similarity-eval/backend/src/eval/cosine.rs
+  3d2fa756091723c1 1-87
+pocs/agent-semantic-similarity-eval/backend/src/eval/bertscore.rs
+  3d2fa756091723c1 1-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "84013761758fb269085babfde7f6b1a73e2f8af9",
+  "prompts": {
+    "3d2fa756091723c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "764f3149-b5ec-416d-b563-c4a22c7c58fe",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 386,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/517a6e4b08ac4764e2f39ed02972b46ee840903297249f1371ae431339acd356"
+    },
+    "95ad39c7dce519f0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6f4d0800-cb88-4519-ac2d-e4404fd41393",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 84,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/fff3b65ca814aab7300640aaabce8aeab1598369e22422c5e7400c71857b7d87"
+    }
+  }
+}
