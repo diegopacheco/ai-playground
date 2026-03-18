@@ -283,3 +283,5 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-observability
 51 - Agent Semantic Drift Detector with Rust <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-semantic-drift-detector
 
+52 - Agent Similarity Eval with Rust <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-semantic-similarity-eval
