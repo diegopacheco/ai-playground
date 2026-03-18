@@ -1,0 +1,24 @@
+pocs/agent-semantic-similarity-eval/README.md
+  125be888ba59525a 74-79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "02718eb98c80f5d751b7361017b106c1c7713756",
+  "prompts": {
+    "125be888ba59525a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6c5cc5e0-6fb4-41a6-a2e9-6fa82822df48",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 0,
+      "accepted_lines": 6,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/8602973bd6daec93d6f2f19e9c36c5e7dcfaf39da7bcec88e4d59e0e9aa11a09"
+    }
+  }
+}
