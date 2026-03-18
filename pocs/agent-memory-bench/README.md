@@ -4,34 +4,69 @@ A Rust-based benchmark that evaluates different memory strategies for AI agents.
 
 ## Memory Strategies
 
-* **Raw Context** - Feeds the full interaction history (or a windowed subset for large distances) directly into the prompt
-* **Summarization** - Groups interactions into batches, summarizes per-person attributes, and queries against the summaries
-* **RAG** - Scores and retrieves the top-K most relevant interactions based on person and attribute matching
-* **Knowledge Graph** - Builds a graph of person-attribute-value triples and queries the relevant subgraph plus neighbors
+| Strategy | Description |
+|---|---|
+| **Raw Context** | Feeds the full interaction history (or a windowed subset for large distances) directly into the prompt |
+| **Summarization** | Groups interactions into batches of 50, summarizes per-person attributes, and queries against the summaries |
+| **RAG** | Scores and retrieves the top-10 most relevant interactions based on person and attribute matching |
+| **Knowledge Graph** | Builds a graph of person-attribute-value triples and queries the relevant subgraph plus neighbors |
 
 ## How It Works
 
-1. Generates 1000 random facts mapping people to favorite attributes (city, food, hobby, color)
-2. For each retrieval distance (1, 10, 100, 1000), picks a target fact and builds a prompt using each strategy
-3. Calls Claude via CLI to answer the recall question
+1. Generates 1,000 random facts mapping people to favorite attributes (city, food, hobby, color)
+2. For each retrieval distance (1, 10, 100, 1,000), picks a target fact and builds a prompt using each strategy
+3. Calls Claude CLI to answer the recall question
 4. Checks if the LLM response contains the expected answer
 5. Reports per-strategy accuracy and latency
 
+## Architecture
+
+```
+┌─────────────────────────────────────────────┐
+│            Fact Generator (1000 facts)       │
+│   Person ──► Attribute ──► Value             │
+│   (Alice)    (food)        (sushi)           │
+└──────────────────┬──────────────────────────┘
+                   │
+        ┌──────────┼──────────┐
+        ▼          ▼          ▼
+  ┌──────────┐ ┌────────┐ ┌─────────────────┐
+  │Raw Context│ │  RAG   │ │ Knowledge Graph │
+  │Summarize │ │ Top-K  │ │    Triples      │
+  └─────┬────┘ └───┬────┘ └───────┬─────────┘
+        │          │              │
+        ▼          ▼              ▼
+  ┌─────────────────────────────────────────┐
+  │          Claude CLI (sonnet)            │
+  │     "What is Alice's favorite food?"    │
+  └────────────────┬────────────────────────┘
+                   │
+                   ▼
+  ┌─────────────────────────────────────────┐
+  │   Accuracy + Latency Report             │
+  └─────────────────────────────────────────┘
+```
+
+## Retrieval Distances
+
+The benchmark tests recall at four distances to simulate how well each strategy handles temporal decay:
+
+- **Distance 1** — The target fact is the most recent interaction
+- **Distance 10** — The target fact is 10 interactions ago
+- **Distance 100** — The target fact is 100 interactions ago
+- **Distance 1000** — The target fact is the very first interaction (hardest)
+
 ## Requirements
 
-* Rust (edition 2021)
-* Claude CLI (`claude`) installed and configured
-* tokio, serde, serde_json, rand
+- Rust (edition 2021)
+- Claude CLI (`claude`) installed and configured
+- Dependencies: `tokio`, `serde`, `serde_json`, `rand`
 
 ## Build and Run
 
 ```bash
 ./run.sh
 ```
-
-## Output
-
-Prints a table with strategy, distance, correctness, latency, response, and expected answer, followed by an accuracy summary per strategy.
 
 ## Result
 
@@ -70,3 +105,12 @@ knowledge_graph      1          4          25.0%
 
 === Benchmark Complete ===
 ```
+
+### Key Takeaways
+
+| Strategy | Accuracy | Observation |
+|---|---|---|
+| **Raw Context** | 75.0% | Best overall — direct context wins when it fits the window |
+| **Summarization** | 0.0% | Lossy compression discards specific values during aggregation |
+| **RAG** | 25.0% | Keyword-based retrieval helps at medium distances but struggles with ambiguity |
+| **Knowledge Graph** | 25.0% | Structured lookup works when the graph has the right node, fails on sparse subgraphs |
