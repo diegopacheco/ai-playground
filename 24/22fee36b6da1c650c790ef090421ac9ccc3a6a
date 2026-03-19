@@ -1,0 +1,24 @@
+pocs/agent-terminator-game/frontend/vite.config.ts
+  56e650543ae86d60 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "2422fee36b6da1c650c790ef090421ac9ccc3a6a",
+  "prompts": {
+    "56e650543ae86d60": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "034e596a-b5ab-4883-b8c8-3b3f59584f8f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/c5055e1bcb418bc6e6a6d867365de5de3354297af8c64993e971925c19cd7a04"
+    }
+  }
+}
