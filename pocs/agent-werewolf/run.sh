@@ -1,7 +1,9 @@
 #!/bin/bash
-cd "$(dirname "$0")/backend" && cargo build --release 2>&1 && ./target/release/werewolf-server &
+BASEDIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$BASEDIR/backend" && cargo build --release 2>&1
+cd "$BASEDIR/backend" && ./target/release/werewolf-server &
 BACKEND_PID=$!
-cd "$(dirname "$0")/frontend" && npm install && npm run dev &
+cd "$BASEDIR/frontend" && npm install && npm run dev &
 FRONTEND_PID=$!
 echo "Backend PID: $BACKEND_PID"
 echo "Frontend PID: $FRONTEND_PID"

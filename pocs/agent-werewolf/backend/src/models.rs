@@ -90,9 +90,3 @@ pub struct VoteAction {
     pub vote: String,
     pub reasoning: String,
 }
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SseEvent {
-    pub event: String,
-    pub data: serde_json::Value,
-}
