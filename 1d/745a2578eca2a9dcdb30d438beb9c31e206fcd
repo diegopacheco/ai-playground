@@ -1,0 +1,24 @@
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/agent/AgentRunner.java
+  0301882befe28189 6,12,26,30-32,34,38,40-42,46-50,54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "1d745a2578eca2a9dcdb30d438beb9c31e206fcd",
+  "prompts": {
+    "0301882befe28189": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ff6bde92-f73a-49c5-98b5-c2f652fcf2ce",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 21,
+      "total_deletions": 15,
+      "accepted_lines": 17,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f7aed3b854a78d20315572d453d2275a5891f422da4f5dbc39a0fac65e248cc9"
+    }
+  }
+}
