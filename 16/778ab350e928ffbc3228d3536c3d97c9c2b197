@@ -1,0 +1,24 @@
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/engine/Mosquito.java
+  56e650543ae86d60 18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "16778ab350e928ffbc3228d3536c3d97c9c2b197",
+  "prompts": {
+    "56e650543ae86d60": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "034e596a-b5ab-4883-b8c8-3b3f59584f8f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/5382b2d4b322811e82ec34670b3b9d5e89b12b4f0f3b2205cab46a8f5ddae2a1"
+    }
+  }
+}
