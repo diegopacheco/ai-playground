@@ -1,0 +1,24 @@
+pocs/agents-auction-hourse/README.md
+  57a98d229a31f4a6 90,92,95,97,100-102,105,107,109-112
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "e2b9a49ce3f48bf1418857f4ed92d7e98ec9da66",
+  "prompts": {
+    "57a98d229a31f4a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a8f84f61-803d-47a0-9f5c-9297d73f36c1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 16,
+      "total_deletions": 15,
+      "accepted_lines": 16,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/8d1d00127b789da07171d252aafd7cc52f9d45df53b8496294e434bb61588aba"
+    }
+  }
+}
