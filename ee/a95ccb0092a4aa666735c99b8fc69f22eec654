@@ -1,0 +1,102 @@
+pocs/agent-terminator-game/frontend/vite.config.ts
+  56e650543ae86d60 1-16
+pocs/agent-terminator-game/frontend/app/api/game.ts
+  56e650543ae86d60 1-30
+pocs/agent-terminator-game/frontend/package.json
+  56e650543ae86d60 1-24
+pocs/agent-terminator-game/frontend/app/components/StatsPanel.tsx
+  56e650543ae86d60 1-178
+pocs/agent-terminator-game/test.sh
+  56e650543ae86d60 1-13
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/controller/AgentController.java
+  56e650543ae86d60 1-19
+pocs/agent-terminator-game/frontend/app/routes/_index.tsx
+  56e650543ae86d60 1-120
+pocs/agent-terminator-game/frontend/app/components/SetupPanel.tsx
+  56e650543ae86d60 1-128
+pocs/agent-terminator-game/run.sh
+  56e650543ae86d60 1-13
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/config/CorsConfig.java
+  56e650543ae86d60 1-23
+pocs/agent-terminator-game/backend/pom.xml
+  56e650543ae86d60 1-42
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/config/SqliteConfig.java
+  56e650543ae86d60 1-14
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/repository/GameRepository.java
+  56e650543ae86d60 1-11
+pocs/agent-terminator-game/frontend/app/hooks/useSound.ts
+  56e650543ae86d60 1-41
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/TerminatorGameApplication.java
+  56e650543ae86d60 1-11
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/sse/SseBroadcaster.java
+  56e650543ae86d60 1-56
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/agent/AgentRunner.java
+  56e650543ae86d60 1-54
+pocs/agent-terminator-game/backend/src/main/resources/schema.sql
+  56e650543ae86d60 1-27
+pocs/agent-terminator-game/frontend/app/hooks/useGameSSE.ts
+  56e650543ae86d60 1-144
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/engine/Direction.java
+  56e650543ae86d60 1-32
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/model/GameEvent.java
+  56e650543ae86d60 1-38
+pocs/agent-terminator-game/frontend/tsconfig.json
+  56e650543ae86d60 1-22
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/agent/AgentRegistry.java
+  56e650543ae86d60 1-23
+pocs/agent-terminator-game/frontend/app/root.tsx
+  56e650543ae86d60 1-26
+pocs/agent-terminator-game/stop.sh
+  56e650543ae86d60 1-9
+pocs/agent-terminator-game/frontend/app/components/HistoryTable.tsx
+  56e650543ae86d60 1-93
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/model/Game.java
+  56e650543ae86d60 1-70
+pocs/agent-terminator-game/frontend/app/components/GameGrid.tsx
+  56e650543ae86d60 1-157
+pocs/agent-terminator-game/backend/src/main/resources/application.properties
+  56e650543ae86d60 1-5
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/repository/GameEventRepository.java
+  56e650543ae86d60 1-11
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/engine/Position.java
+  56e650543ae86d60 1-11
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/engine/GameEngine.java
+  56e650543ae86d60 1-437
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/config/SqliteDialect.java
+  56e650543ae86d60 1-51
+pocs/agent-terminator-game/frontend/env.d.ts
+  56e650543ae86d60 1-2
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/engine/Egg.java
+  56e650543ae86d60 1-34
+pocs/agent-terminator-game/frontend/app/types/index.ts
+  56e650543ae86d60 1-103
+pocs/agent-terminator-game/design-doc.md
+  56e650543ae86d60 1-355
+pocs/agent-terminator-game/frontend/app/app.css
+  56e650543ae86d60 1-66
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/engine/Mosquito.java
+  56e650543ae86d60 1-29
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/controller/GameController.java
+  56e650543ae86d60 1-78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "eea95ccb0092a4aa666735c99b8fc69f22eec654",
+  "prompts": {
+    "56e650543ae86d60": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "034e596a-b5ab-4883-b8c8-3b3f59584f8f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 7,
+      "total_deletions": 6,
+      "accepted_lines": 2616,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/1b78cbd5fdee57cb198a1c19c52338fbc7fbf5194919581e65c2812f3cf0a1db"
+    }
+  }
+}
