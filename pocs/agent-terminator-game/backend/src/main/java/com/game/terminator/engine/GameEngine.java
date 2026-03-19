@@ -93,7 +93,7 @@ public class GameEngine implements Runnable {
                     return;
                 }
 
-                Thread.sleep(1000);
+                Thread.sleep(700);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 endGame("interrupted");
@@ -123,27 +123,74 @@ public class GameEngine implements Runnable {
     }
 
     private Direction getTerminatorMove() {
-        String gridState = buildGridStatePrompt("terminator");
-        String response = terminatorAgent.run(gridState);
-        Direction dir = parseTerminatorDirection(response);
-        if (dir == null) {
-            dir = Direction.CARDINAL[ThreadLocalRandom.current().nextInt(4)];
+        Position nearest = findNearestTarget();
+        if (nearest == null) {
+            return Direction.CARDINAL[ThreadLocalRandom.current().nextInt(4)];
         }
-        return dir;
+        int dx = nearest.x() - terminatorPos.x();
+        int dy = nearest.y() - terminatorPos.y();
+        if (Math.abs(dx) >= Math.abs(dy)) {
+            return dx > 0 ? Direction.RIGHT : Direction.LEFT;
+        } else {
+            return dy > 0 ? Direction.DOWN : Direction.UP;
+        }
+    }
+
+    private Position findNearestTarget() {
+        Position best = null;
+        int bestDist = Integer.MAX_VALUE;
+        for (Mosquito m : mosquitos) {
+            if (!m.isAlive()) continue;
+            int d = Math.abs(m.getPosition().x() - terminatorPos.x()) + Math.abs(m.getPosition().y() - terminatorPos.y());
+            if (d < bestDist) { bestDist = d; best = m.getPosition(); }
+        }
+        for (Egg e : eggs) {
+            if (!e.isActive()) continue;
+            int d = Math.abs(e.getPosition().x() - terminatorPos.x()) + Math.abs(e.getPosition().y() - terminatorPos.y());
+            if (d < bestDist) { bestDist = d; best = e.getPosition(); }
+        }
+        return best;
     }
 
     private void moveMosquitos() {
         List<Mosquito> alive = mosquitos.stream().filter(Mosquito::isAlive).toList();
         if (alive.isEmpty()) return;
 
-        String gridState = buildGridStatePrompt("mosquito");
-        String response = mosquitoAgent.run(gridState);
-        Map<String, Direction> moves = parseMosquitoMoves(response, alive);
-
         for (Mosquito m : alive) {
-            Direction dir = moves.getOrDefault(m.getId(), randomDirection());
+            Direction dir = evadeTerminator(m);
             m.setPosition(m.getPosition().move(dir, gridSize));
         }
+    }
+
+    private Direction evadeTerminator(Mosquito m) {
+        int dx = m.getPosition().x() - terminatorPos.x();
+        int dy = m.getPosition().y() - terminatorPos.y();
+        int dist = Math.abs(dx) + Math.abs(dy);
+        if (dist <= 4) {
+            if (Math.abs(dx) >= Math.abs(dy)) {
+                return dx > 0 ? Direction.RIGHT : Direction.LEFT;
+            } else {
+                return dy > 0 ? Direction.DOWN : Direction.UP;
+            }
+        }
+        List<Mosquito> others = mosquitos.stream()
+            .filter(Mosquito::isAlive)
+            .filter(o -> !o.getId().equals(m.getId()))
+            .toList();
+        if (!others.isEmpty() && ThreadLocalRandom.current().nextInt(3) == 0) {
+            Mosquito target = others.get(ThreadLocalRandom.current().nextInt(others.size()));
+            int tdx = target.getPosition().x() - m.getPosition().x();
+            int tdy = target.getPosition().y() - m.getPosition().y();
+            if (tdx > 0 && tdy > 0) return Direction.DOWN_RIGHT;
+            if (tdx > 0 && tdy < 0) return Direction.UP_RIGHT;
+            if (tdx < 0 && tdy > 0) return Direction.DOWN_LEFT;
+            if (tdx < 0 && tdy < 0) return Direction.UP_LEFT;
+            if (tdx > 0) return Direction.RIGHT;
+            if (tdx < 0) return Direction.LEFT;
+            if (tdy > 0) return Direction.DOWN;
+            return Direction.UP;
+        }
+        return Direction.ALL[ThreadLocalRandom.current().nextInt(Direction.ALL.length)];
     }
 
     private Direction randomDirection() {
