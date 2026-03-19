@@ -1,0 +1,24 @@
+pocs/agent-terminator-game/design-doc.md
+  0301882befe28189 57,60,63,67,72,77-81,83,102,121,123,126-131,169-171,175,199-200,243-244,247,250-251,256,268,272,274,288,299,310,320,322-334
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "b3b7f92605adf4dc5cb90967e87732bbd86fcd40",
+  "prompts": {
+    "0301882befe28189": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ff6bde92-f73a-49c5-98b5-c2f652fcf2ce",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 52,
+      "total_deletions": 60,
+      "accepted_lines": 52,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/91818dc0c46c42d8bdcc602acba943c832ddc239fdafd5779e84475c0082d83f"
+    }
+  }
+}
