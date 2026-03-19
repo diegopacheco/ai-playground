@@ -50,7 +50,7 @@ export default function HistoryTable() {
                       className="text-xs px-2 py-0.5 rounded capitalize"
                       style={{
                         backgroundColor: getAgentColor(a.agent_name) + "20",
-                        color: AGENT_COLORS[a.agent_name] || "#9CA3AF",
+                        color: getAgentColor(a.agent_name),
                       }}
                     >
                       {a.agent_name}
