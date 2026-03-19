@@ -81,14 +81,24 @@ public class GameEngine implements Runnable {
                 Future<String> mosqFuture = executor.submit(() -> mosquitoAgent.run(mosqPrompt));
 
                 if (termCycle && termFuture != null) {
-                    String termResponse = termFuture.get(12, TimeUnit.SECONDS);
-                    Direction termDir = parseTerminatorDirection(termResponse);
+                    Direction termDir = null;
+                    try {
+                        String termResponse = termFuture.get(12, TimeUnit.SECONDS);
+                        termDir = parseTerminatorDirection(termResponse);
+                    } catch (TimeoutException | ExecutionException e) {
+                        termFuture.cancel(true);
+                    }
                     if (termDir == null) termDir = Direction.CARDINAL[ThreadLocalRandom.current().nextInt(4)];
                     terminatorPos = terminatorPos.move(termDir, gridSize);
                 }
 
-                String mosqResponse = mosqFuture.get(12, TimeUnit.SECONDS);
-                Map<String, Direction> moves = parseMosquitoMoves(mosqResponse, alive);
+                Map<String, Direction> moves = Map.of();
+                try {
+                    String mosqResponse = mosqFuture.get(12, TimeUnit.SECONDS);
+                    moves = parseMosquitoMoves(mosqResponse, alive);
+                } catch (TimeoutException | ExecutionException e) {
+                    mosqFuture.cancel(true);
+                }
                 for (Mosquito m : alive) {
                     Direction dir = moves.getOrDefault(m.getId(),
                         Direction.ALL[ThreadLocalRandom.current().nextInt(Direction.ALL.length)]);
@@ -96,11 +106,8 @@ public class GameEngine implements Runnable {
                 }
 
                 List<Map<String, Object>> killEvents = processTerminatorKills();
-
                 List<Map<String, Object>> dateEvents = processMosquitoDating();
-
                 List<Map<String, Object>> hatchEvents = processEggHatching();
-
                 List<String> deathEvents = processMosquitoAging();
 
                 int aliveMosquitos = (int) mosquitos.stream().filter(Mosquito::isAlive).count();
@@ -116,10 +123,6 @@ public class GameEngine implements Runnable {
                 }
 
                 Thread.sleep(700);
-            } catch (TimeoutException e) {
-                continue;
-            } catch (ExecutionException e) {
-                continue;
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 endGame("interrupted");
