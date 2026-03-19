@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import { remix } from "@remix-run/dev";
+import { remixVitePlugin as remix } from "@remix-run/dev/dist/vite/plugin.js";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
