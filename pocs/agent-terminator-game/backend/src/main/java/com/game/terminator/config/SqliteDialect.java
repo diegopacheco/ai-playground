@@ -4,6 +4,7 @@ import org.springframework.data.jdbc.core.dialect.JdbcDialect;
 import org.springframework.data.relational.core.dialect.LimitClause;
 import org.springframework.data.relational.core.dialect.LockClause;
 import org.springframework.data.relational.core.sql.LockOptions;
+import org.springframework.data.relational.core.sql.render.SelectRenderContext;
 
 public class SqliteDialect implements JdbcDialect {
 
@@ -47,5 +48,10 @@ public class SqliteDialect implements JdbcDialect {
                 return Position.AFTER_ORDER_BY;
             }
         };
+    }
+
+    @Override
+    public SelectRenderContext getSelectContext() {
+        return new SelectRenderContext() {};
     }
 }
