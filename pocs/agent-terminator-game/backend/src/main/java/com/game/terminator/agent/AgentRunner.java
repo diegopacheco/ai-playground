@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class AgentRunner {
+
+    private static final Logger LOG = Logger.getLogger(AgentRunner.class.getName());
 
     private final String name;
     private final String model;
@@ -17,6 +20,8 @@ public class AgentRunner {
 
     public String run(String prompt) {
         List<String> command = buildCommand(prompt);
+        LOG.info("[" + name + "/" + model + "] calling CLI...");
+        long start = System.currentTimeMillis();
         try {
             ProcessBuilder pb = new ProcessBuilder(command);
             pb.redirectErrorStream(true);
@@ -29,12 +34,18 @@ public class AgentRunner {
                 }
             }
             boolean finished = process.waitFor(10, TimeUnit.SECONDS);
+            long elapsed = System.currentTimeMillis() - start;
             if (!finished) {
                 process.destroyForcibly();
+                LOG.warning("[" + name + "/" + model + "] TIMEOUT after " + elapsed + "ms");
                 return "";
             }
-            return output.toString().trim();
+            String result = output.toString().trim();
+            LOG.info("[" + name + "/" + model + "] response in " + elapsed + "ms: " + result);
+            return result;
         } catch (Exception e) {
+            long elapsed = System.currentTimeMillis() - start;
+            LOG.severe("[" + name + "/" + model + "] ERROR after " + elapsed + "ms: " + e.getMessage());
             return "";
         }
     }
