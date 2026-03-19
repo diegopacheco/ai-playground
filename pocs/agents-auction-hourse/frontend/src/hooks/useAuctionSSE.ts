@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Bid, Round, AuctionAgent } from "../types/index.ts";
+import type { Bid, Round } from "../types/index.ts";
 
 interface SSEState {
   status: "connecting" | "bidding" | "round_end" | "finished" | "error";
@@ -9,7 +9,7 @@ interface SSEState {
   thinkingAgent: string | null;
   bids: Bid[];
   rounds: Round[];
-  standings: AuctionAgent[];
+  standings: { agent_name: string; items_won: number; total_spent: number; remaining_budget: number; initial_budget: number }[];
   winner: string | null;
   errorMessage: string | null;
 }
