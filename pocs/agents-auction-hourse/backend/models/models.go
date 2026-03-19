@@ -91,10 +91,11 @@ type RoundResultData struct {
 }
 
 type FinalStanding struct {
-	Agent          string `json:"agent"`
-	ItemsWon       int    `json:"items_won"`
-	TotalSpent     int    `json:"total_spent"`
-	RemainingBudge int    `json:"remaining_budget"`
+	Agent           string `json:"agent_name"`
+	ItemsWon        int    `json:"items_won"`
+	TotalSpent      int    `json:"total_spent"`
+	RemainingBudget int    `json:"remaining_budget"`
+	InitialBudget   int    `json:"initial_budget"`
 }
 
 type AuctionOverData struct {
