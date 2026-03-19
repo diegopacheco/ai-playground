@@ -78,17 +78,23 @@ export function Leaderboard({ agents, rounds, currentBids }: LeaderboardProps) {
   );
 }
 
+interface FinalStanding {
+  agent_name: string;
+  items_won: number;
+  total_spent: number;
+  remaining_budget: number;
+  initial_budget: number;
+}
+
 interface FinalLeaderboardProps {
-  standings: AuctionAgent[];
+  standings: FinalStanding[];
   winner: string;
 }
 
 export function FinalLeaderboard({ standings, winner }: FinalLeaderboardProps) {
   const sorted = [...standings].sort((a, b) => {
     if (b.items_won !== a.items_won) return b.items_won - a.items_won;
-    const aSpent = a.initial_budget - a.remaining_budget;
-    const bSpent = b.initial_budget - b.remaining_budget;
-    return aSpent - bSpent;
+    return a.total_spent - b.total_spent;
   });
 
   return (
@@ -99,8 +105,8 @@ export function FinalLeaderboard({ standings, winner }: FinalLeaderboardProps) {
       <div className="space-y-4">
         {sorted.map((s) => {
           const color = AGENT_COLORS[s.agent_name] || "#6b7280";
-          const spent = s.initial_budget - s.remaining_budget;
           const isWinner = s.agent_name === winner;
+          const budgetPercent = s.initial_budget > 0 ? (s.remaining_budget / s.initial_budget) * 100 : 0;
           return (
             <div
               key={s.agent_name}
@@ -123,14 +129,14 @@ export function FinalLeaderboard({ standings, winner }: FinalLeaderboardProps) {
                   <div className="text-amber-400 font-bold">
                     {s.items_won} items won
                   </div>
-                  <div className="text-gray-400 text-sm">${spent} spent</div>
+                  <div className="text-gray-400 text-sm">${s.total_spent} spent</div>
                 </div>
               </div>
               <div className="w-full bg-gray-600 rounded-full h-2 mt-2">
                 <div
                   className="h-2 rounded-full"
                   style={{
-                    width: `${(s.remaining_budget / s.initial_budget) * 100}%`,
+                    width: `${Math.max(budgetPercent, 0)}%`,
                     backgroundColor: color,
                   }}
                 />

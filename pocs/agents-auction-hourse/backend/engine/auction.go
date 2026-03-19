@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"sort"
+	"time"
 
 	"github.com/google/uuid"
 
@@ -47,6 +48,7 @@ func pickItems(count int) []models.FunItem {
 }
 
 func RunAuction(auctionID string, auctionAgents []models.AuctionAgent) {
+	time.Sleep(1 * time.Second)
 	items := pickItems(3)
 	totalRounds := 3
 
@@ -175,10 +177,11 @@ func RunAuction(auctionID string, auctionAgents []models.AuctionAgent) {
 	var standings []models.FinalStanding
 	for _, a := range auctionAgents {
 		standings = append(standings, models.FinalStanding{
-			Agent:          a.AgentName,
-			ItemsWon:       itemsWon[a.AgentName],
-			TotalSpent:     totalSpent[a.AgentName],
-			RemainingBudge: budgets[a.AgentName],
+			Agent:           a.AgentName,
+			ItemsWon:        itemsWon[a.AgentName],
+			TotalSpent:      totalSpent[a.AgentName],
+			RemainingBudget: budgets[a.AgentName],
+			InitialBudget:   a.InitialBudget,
 		})
 	}
 

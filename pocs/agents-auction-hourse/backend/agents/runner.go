@@ -17,7 +17,7 @@ type AgentRunner struct {
 }
 
 func (r *AgentRunner) Run(prompt string) (string, int64, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 
 	cmd := r.Builder.BuildCommand(prompt)
