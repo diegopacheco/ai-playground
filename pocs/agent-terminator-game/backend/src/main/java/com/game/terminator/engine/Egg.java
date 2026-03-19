@@ -20,7 +20,7 @@ public class Egg {
     }
 
     public boolean shouldHatch() {
-        return ticksAlive >= 5 && !hatched && !destroyed;
+        return ticksAlive >= 3 && !hatched && !destroyed;
     }
 
     public String getId() { return id; }

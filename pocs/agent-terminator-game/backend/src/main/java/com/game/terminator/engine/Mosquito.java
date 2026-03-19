@@ -15,7 +15,7 @@ public class Mosquito {
 
     public void tick() {
         age++;
-        if (age >= 7) {
+        if (age >= 12) {
             alive = false;
         }
     }
