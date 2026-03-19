@@ -9,9 +9,10 @@ export default function GameSetup() {
   const [availableAgents, setAvailableAgents] = useState<AgentInfo[]>([]);
   const [selected, setSelected] = useState<AgentSelection[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    getAgents().then(setAvailableAgents).catch(() => {});
+    getAgents().then(setAvailableAgents).catch(() => setError("Backend not reachable at localhost:3000. Make sure it is running."));
   }, []);
 
   function toggleAgent(agent: AgentInfo) {
@@ -30,8 +31,14 @@ export default function GameSetup() {
   async function startGame() {
     if (selected.length < 4) return;
     setLoading(true);
-    const result = await createGame(selected);
-    router.push(`/game/${result.id}`);
+    setError("");
+    try {
+      const result = await createGame(selected);
+      router.push(`/game/${result.id}`);
+    } catch {
+      setError("Failed to create game. Make sure the backend is running on localhost:3000.");
+      setLoading(false);
+    }
   }
 
   return (
@@ -78,6 +85,10 @@ export default function GameSetup() {
           );
         })}
       </div>
+
+      {error && (
+        <div className="mb-4 p-3 rounded bg-red-950 border border-red-800 text-red-400">{error}</div>
+      )}
 
       <div className="flex items-center gap-4">
         <button

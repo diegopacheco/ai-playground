@@ -10,7 +10,7 @@ echo ""
 echo "--- Create Game ---"
 GAME=$(curl -s -X POST http://localhost:3000/api/games \
   -H "Content-Type: application/json" \
-  -d '{"agents":[{"name":"claude","model":"sonnet"},{"name":"gemini","model":"gemini-2.5-flash"},{"name":"copilot","model":"gpt-4o"},{"name":"codex","model":"o4-mini"}]}')
+  -d '{"agents":[{"name":"claude","model":"sonnet"},{"name":"gemini","model":"gemini-3-flash"},{"name":"copilot","model":"claude-sonnet-4.6"},{"name":"codex","model":"gpt-5.4-mini"}]}')
 echo "$GAME" | python3 -m json.tool
 GAME_ID=$(echo "$GAME" | python3 -c "import sys,json; print(json.load(sys.stdin)['id'])")
 echo ""
