@@ -1,0 +1,36 @@
+pocs/agent-terminator-game/frontend/app/routes/_index.tsx
+  56e650543ae86d60 69,77
+pocs/agent-terminator-game/frontend/app/components/GameGrid.tsx
+  56e650543ae86d60 75,89
+pocs/agent-terminator-game/frontend/app/app.css
+  56e650543ae86d60 65
+pocs/agent-terminator-game/frontend/vite.config.ts
+  56e650543ae86d60 4,8-12
+pocs/agent-terminator-game/frontend/app/components/SetupPanel.tsx
+  56e650543ae86d60 26,34-35,45,57,71-72,82,94,121
+pocs/agent-terminator-game/frontend/app/root.tsx
+  56e650543ae86d60 19
+pocs/agent-terminator-game/frontend/app/components/StatsPanel.tsx
+  56e650543ae86d60 31,33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "e0a6b0ee4564cc64b32a286c36b617138aa48912",
+  "prompts": {
+    "56e650543ae86d60": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "034e596a-b5ab-4883-b8c8-3b3f59584f8f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 24,
+      "total_deletions": 18,
+      "accepted_lines": 24,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/121a85521198bc61904da05e1b4e792d0f21329feec89aae269f99d6d0dbbcba"
+    }
+  }
+}
