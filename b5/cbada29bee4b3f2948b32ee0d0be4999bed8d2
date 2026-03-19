@@ -1,0 +1,38 @@
+pocs/agent-werewolf/README.md
+  d6b21fff462f7bfb 121-123,125-127,129-131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "b5cbada29bee4b3f2948b32ee0d0be4999bed8d2",
+  "prompts": {
+    "56e650543ae86d60": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "034e596a-b5ab-4883-b8c8-3b3f59584f8f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 2615,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/53a56150066f5795c9846cca34934e2334794baee081ceea57bbd437742370b0"
+    },
+    "d6b21fff462f7bfb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fa24f624-b385-4a45-a94d-91f3ccafd042",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 5,
+      "accepted_lines": 10,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/559aaed2c0330c948710ed9bd0fb15867cf9d7da14489304f339505510019e0c"
+    }
+  }
+}
