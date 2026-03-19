@@ -1,0 +1,28 @@
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/engine/Mosquito.java
+  56e650543ae86d60 18
+pocs/agent-terminator-game/frontend/app/components/HistoryTable.tsx
+  56e650543ae86d60 1,9-17,21-23,39-47,71,86
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/engine/GameEngine.java
+  56e650543ae86d60 72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "14bd03541d8ce4b66180db724ffc5d366a01f676",
+  "prompts": {
+    "56e650543ae86d60": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "034e596a-b5ab-4883-b8c8-3b3f59584f8f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 27,
+      "total_deletions": 9,
+      "accepted_lines": 27,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/5212942ed45272d9598f4c88e34eff5f808e72de5fbede4612902714bacf087c"
+    }
+  }
+}
