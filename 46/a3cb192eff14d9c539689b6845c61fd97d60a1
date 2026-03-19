@@ -1,0 +1,24 @@
+pocs/agents-auction-hourse/frontend/src/hooks/useAuctionSSE.ts
+  57a98d229a31f4a6 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "46a3cb192eff14d9c539689b6845c61fd97d60a1",
+  "prompts": {
+    "57a98d229a31f4a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a8f84f61-803d-47a0-9f5c-9297d73f36c1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 3,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/6221a4c1c22216603006e2a43782af35c44a2d60c9c7e9789663e2f12770a3c5"
+    }
+  }
+}
