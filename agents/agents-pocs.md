@@ -291,3 +291,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-memory-bench
 
 54 - Agent Intent Eval with Rust <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-intent-eval
+
+55 - Multi-Agent System Auction House with 3 Agents <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agents-auction-hourse
