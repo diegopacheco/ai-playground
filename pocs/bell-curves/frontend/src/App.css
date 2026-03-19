@@ -1,0 +1,179 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0f0f1a;
+  color: #e0e0e0;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  padding: 30px 0 20px;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #888;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #1e1e2e;
+  padding-bottom: 0;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  background: transparent;
+  color: #888;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.tabs button:hover {
+  color: #bbb;
+  background: #1a1a2e;
+}
+
+.tabs button.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+  background: #1a1a2e;
+}
+
+main {
+  background: #16162a;
+  border-radius: 12px;
+  padding: 28px;
+  border: 1px solid #2a2a3e;
+}
+
+.tab-content h2 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  color: #c0c0e0;
+}
+
+.tab-content .description {
+  color: #777;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+.controls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+.controls select,
+.controls input[type="number"] {
+  background: #0f0f1a;
+  border: 1px solid #333;
+  color: #e0e0e0;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.controls input[type="range"] {
+  width: 120px;
+  accent-color: #667eea;
+}
+
+.run-btn {
+  padding: 8px 24px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.run-btn:hover {
+  opacity: 0.85;
+}
+
+.run-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chart-container {
+  background: #12122a;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #222;
+}
+
+.stats {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: #1a1a2e;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid #2a2a3e;
+  flex: 1;
+  min-width: 140px;
+}
+
+.stat-card .label {
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-card .value {
+  font-size: 1.3rem;
+  color: #667eea;
+  font-weight: 600;
+  margin-top: 4px;
+}
