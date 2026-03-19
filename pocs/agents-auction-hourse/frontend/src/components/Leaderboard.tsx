@@ -1,4 +1,3 @@
-import type { AuctionAgent } from "../types/index.ts";
 import { AGENT_COLORS } from "../types/index.ts";
 import type { Bid, Round } from "../types/index.ts";
 
