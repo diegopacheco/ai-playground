@@ -1,0 +1,46 @@
+pocs/agent-werewolf/frontend/src/components/HistoryTable.tsx
+  d6b21fff462f7bfb 3,52
+pocs/agent-werewolf/frontend/src/components/GameSetup.tsx
+  d6b21fff462f7bfb 4,10-14,23-33,35-38,42-45,48,51,55,67,70-73,75-81,83-88,90-92,99-106,112-119,128,131,133-134
+pocs/agent-werewolf/frontend/src/components/GameLive.tsx
+  d6b21fff462f7bfb 3,115,129,155
+pocs/agent-werewolf/frontend/src/types/index.ts
+  d6b21fff462f7bfb 63-67
+pocs/agent-werewolf/backend/src/engine.rs
+  d6b21fff462f7bfb 8,11-35,45-46,49,51,55-62,67-68,75-77,80,82,87,89,99,101-104,107,126,131-132,134,142,146-147,157-159,162-163,168,170,183,186,189-193,212,232,244,249-250,252,255,259,261,264,271,275-279,286,301,312,317-318,320,324-325,329,331,334,341-343,354-356,362-363,379,381,399,401
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "218eb4f1012ae63b04b177eb4d9b7e5cb9a92338",
+  "prompts": {
+    "56e650543ae86d60": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "034e596a-b5ab-4883-b8c8-3b3f59584f8f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 2260,
+      "total_deletions": 0,
+      "accepted_lines": 2615,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/53a56150066f5795c9846cca34934e2334794baee081ceea57bbd437742370b0"
+    },
+    "d6b21fff462f7bfb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fa24f624-b385-4a45-a94d-91f3ccafd042",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 211,
+      "total_deletions": 139,
+      "accepted_lines": 199,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/7f93546b1e80e168f325f3c1eeb261b4121526b3926284d78228268ec6a321ee"
+    }
+  }
+}
