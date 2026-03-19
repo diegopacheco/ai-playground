@@ -54,31 +54,33 @@ A real-time simulation game where AI agents control a Terminator and Mosquitos o
 - Eggs are small oval icons
 
 ### Terminator (1 unit)
-- Moves 1 block per cycle
+- Moves 1 block every 3rd cycle
 - Can move: UP, DOWN, LEFT, RIGHT only (4 directions)
 - Kills all mosquitos and eggs on the cell it enters
-- AI agent decides direction each cycle
+- AI agent decides direction each move cycle
 - Cannot move outside grid boundaries
 
-### Mosquitos (start with 3)
+### Mosquitos (start with 6)
 - Move 1 block per cycle in any direction (UP, DOWN, LEFT, RIGHT, and diagonals = 8 directions)
 - AI agent decides direction for each mosquito each cycle
 - When 2 mosquitos are on the same cell, they "date" and produce 1 egg on that cell
-- Mosquitos die after 7 cycles (lifespan counter)
+- Mosquitos die after 14 cycles (lifespan counter)
 - Mosquitos cannot move outside grid boundaries
 
 ### Eggs
 - Laid when 2 mosquitos occupy the same cell (dating)
-- After 5 seconds on the grid, the egg hatches into a new mosquito
+- After 3 cycles on the grid, the egg hatches into a new mosquito
 - Eggs do not move
 - Terminator destroys eggs by stepping on them
 
 ### Cycle Timing
-- 1 cycle = 1 second
+- 1 cycle = ~700ms sleep + LLM response time
+- Both agent CLI calls run in parallel via a 2-thread ExecutorService
+- Agent CLI process timeout: 10 seconds
+- Future.get timeout: 12 seconds
+- If LLM times out or returns invalid JSON, entities move randomly (logged)
 - Eggs laid every time 2 mosquitos share a cell
-- Egg hatching: 5 seconds after being laid
-- Mosquito lifespan: 7 cycles from birth
-- Game runs continuously until user stops it or all mosquitos + eggs are eliminated
+- Game runs continuously until user stops it or win/lose condition is met
 
 ### Win/Lose Conditions
 - **Terminator wins**: All mosquitos AND all eggs are destroyed
@@ -97,12 +99,11 @@ A real-time simulation game where AI agents control a Terminator and Mosquitos o
 | Terminator wins    | Victory fanfare + "Terminated" voice            |
 | Mosquitos win      | Buzzing swarm crescendo                         |
 
-Sounds will be short MP3/WAV files served from `/public/sounds/` and played via the Web Audio API. A mute toggle will be available in the UI.
+Sounds are short MP3 files served from `/public/sounds/` and played via the Web Audio API. A mute toggle is available in the UI.
 
 ## AI Agent Integration
 
 ### Available Agents
-Same as the auction house reference project:
 
 | Agent   | Models                                              |
 |---------|-----------------------------------------------------|
@@ -117,19 +118,17 @@ Each cycle, the backend calls the agent CLI with a prompt describing:
 - Entity being controlled (terminator or mosquito group)
 - Valid moves
 
-The agent returns a JSON response:
+The terminator agent returns:
 ```json
-{
-  "moves": [
-    {"entity_id": "terminator", "direction": "RIGHT"},
-    {"entity_id": "mosquito_1", "direction": "UP_LEFT"},
-    {"entity_id": "mosquito_2", "direction": "DOWN"}
-  ],
-  "reasoning": "Moving terminator toward nearest cluster..."
-}
+{"direction": "UP|DOWN|LEFT|RIGHT"}
 ```
 
-Fallback: if agent times out (20s) or returns invalid JSON, entities move randomly.
+The mosquito agent returns:
+```json
+{"moves": [{"id": "m_1", "direction": "UP"}, {"id": "m_2", "direction": "DOWN_LEFT"}]}
+```
+
+Fallback: if agent times out (10s process / 12s future) or returns invalid JSON, entities move randomly. All agent calls and fallbacks are logged with timing.
 
 ### Agent CLI Commands
 - **claude**: `claude -p "<prompt>" --model <model> --dangerously-skip-permissions`
@@ -167,20 +166,19 @@ Layout: Game grid on the LEFT (70% width), Stats panel on the RIGHT (30% width)
 - Terminator agent name + model
 - Mosquito agent name + model
 - Live counts:
-  - Terminator: 1 (always, with health bar style)
-  - Mosquitos alive: N (with trend arrow)
-  - Eggs on grid: N (with trend arrow)
+  - Terminator: 1
+  - Mosquitos alive: N
+  - Eggs on grid: N
   - Total kills: N
   - Total hatched: N
   - Total dates: N
-- Event log: scrolling list of recent events with timestamps
+- Event log: scrolling list of recent events
 - Mute/unmute sound toggle
 - "Stop Simulation" button
 
 ### Tab 3: History
 - Table of past simulations
 - Columns: Date, Terminator Agent, Mosquito Agent, Winner, Duration, Max Mosquitos, Total Kills
-- Click row to see replay details
 
 ## Backend API Endpoints
 
@@ -198,12 +196,8 @@ Layout: Game grid on the LEFT (70% width), Stats panel on the RIGHT (30% width)
 | Event             | Data                                                       |
 |-------------------|------------------------------------------------------------|
 | game_start        | {grid_size, terminator_pos, mosquito_positions, agent_info} |
-| cycle_update      | {cycle, terminator, mosquitos[], eggs[], moves[]}           |
-| terminator_kill   | {cycle, position, killed_mosquitos, killed_eggs}            |
-| mosquito_date     | {cycle, position, mosquito_ids, egg_id}                     |
-| egg_hatch         | {cycle, position, egg_id, new_mosquito_id}                  |
-| mosquito_death    | {cycle, mosquito_id, cause: "age" or "killed"}              |
-| game_over         | {winner, cycles, stats}                                     |
+| cycle_update      | {cycle, terminator, mosquitos[], eggs[], kills[], dates[], hatches[], deaths[], stats} |
+| game_over         | {winner, cycles, total_kills, total_hatched, total_dates, max_mosquitos, alive_mosquitos, active_eggs} |
 
 ## Database Schema (SQLite + Spring Data JDBC)
 
@@ -246,25 +240,20 @@ agent-terminator-game/
 │   │   ├── TerminatorGameApplication.java
 │   │   ├── config/
 │   │   │   ├── CorsConfig.java
-│   │   │   └── SqliteConfig.java
+│   │   │   ├── SqliteConfig.java
+│   │   │   └── SqliteDialect.java
 │   │   ├── controller/
 │   │   │   ├── AgentController.java
-│   │   │   ├── GameController.java
-│   │   │   └── SseController.java
+│   │   │   └── GameController.java
 │   │   ├── engine/
 │   │   │   ├── GameEngine.java
-│   │   │   ├── Grid.java
-│   │   │   ├── Entity.java
-│   │   │   ├── Terminator.java
+│   │   │   ├── Direction.java
+│   │   │   ├── Position.java
 │   │   │   ├── Mosquito.java
 │   │   │   └── Egg.java
 │   │   ├── agent/
 │   │   │   ├── AgentRegistry.java
-│   │   │   ├── AgentRunner.java
-│   │   │   ├── ClaudeAgent.java
-│   │   │   ├── GeminiAgent.java
-│   │   │   ├── CopilotAgent.java
-│   │   │   └── CodexAgent.java
+│   │   │   └── AgentRunner.java
 │   │   ├── model/
 │   │   │   ├── Game.java
 │   │   │   └── GameEvent.java
@@ -276,19 +265,17 @@ agent-terminator-game/
 │   ├── src/main/resources/
 │   │   ├── application.properties
 │   │   └── schema.sql
-│   ├── pom.xml
-│   └── mvnw / mvnw.cmd
+│   └── pom.xml
 ├── frontend/
 │   ├── app/
 │   │   ├── root.tsx
+│   │   ├── app.css
 │   │   ├── routes/
-│   │   │   ├── _index.tsx
-│   │   │   └── game.$id.tsx
+│   │   │   └── _index.tsx
 │   │   ├── components/
 │   │   │   ├── SetupPanel.tsx
 │   │   │   ├── GameGrid.tsx
 │   │   │   ├── StatsPanel.tsx
-│   │   │   ├── EventLog.tsx
 │   │   │   └── HistoryTable.tsx
 │   │   ├── hooks/
 │   │   │   ├── useGameSSE.ts
@@ -298,6 +285,7 @@ agent-terminator-game/
 │   │   └── types/
 │   │       └── index.ts
 │   ├── public/
+│   │   ├── favicon.ico
 │   │   └── sounds/
 │   │       ├── hasta-la-vista.mp3
 │   │       ├── ill-be-back.mp3
@@ -308,6 +296,7 @@ agent-terminator-game/
 │   │       ├── victory.mp3
 │   │       └── swarm.mp3
 │   ├── package.json
+│   ├── env.d.ts
 │   ├── vite.config.ts
 │   └── tsconfig.json
 ├── run.sh
@@ -318,7 +307,7 @@ agent-terminator-game/
 
 ## run.sh / stop.sh
 
-**run.sh**: builds the Java backend with Maven wrapper, starts it on port 8080, installs frontend deps with bun, starts Remix dev server on port 5173, saves PIDs to `/tmp/terminator-game-*.pid`.
+**run.sh**: builds the Java backend with Maven, starts it on port 8080, installs frontend deps with bun, starts Remix dev server on port 5173, saves PIDs to `/tmp/terminator-game-*.pid`.
 
 **stop.sh**: kills both processes by PID, falls back to pkill and lsof port kill, cleans up PID files.
 
@@ -328,18 +317,21 @@ agent-terminator-game/
 1. User selects agents on Setup tab -> POST /api/games
 2. Backend creates game record in SQLite
 3. Backend starts GameEngine in a new thread
-4. GameEngine loop (every 1 second):
+4. GameEngine loop (every ~700ms + LLM time):
    a. Increment cycle counter
-   b. Call Terminator agent CLI with grid state -> get move direction
-   c. Call Mosquito agent CLI with grid state -> get moves for all mosquitos
-   d. Apply moves (with boundary checks)
-   e. Check terminator cell -> kill mosquitos/eggs on that cell
-   f. Check mosquito collisions -> if 2+ mosquitos on same cell, create egg
-   g. Check egg timers -> hatch eggs older than 5 seconds
-   h. Check mosquito age -> kill mosquitos older than 7 cycles
-   i. Broadcast cycle_update + any special events via SSE
-   j. Check win/lose conditions
-5. On game over -> broadcast game_over, update DB
+   b. Build grid state prompts for both agents
+   c. Submit both agent CLI calls in parallel (2-thread pool)
+   d. Wait for Terminator response (every 3rd cycle only, 12s timeout)
+   e. Wait for Mosquito response (every cycle, 12s timeout)
+   f. On timeout/error: fall back to random moves (logged)
+   g. Apply moves (with boundary checks)
+   h. Check terminator cell -> kill mosquitos/eggs on that cell
+   i. Check mosquito collisions -> if 2+ mosquitos on same cell, create egg
+   j. Check egg timers -> hatch eggs older than 3 cycles
+   k. Check mosquito age -> kill mosquitos older than 14 cycles
+   l. Broadcast cycle_update via SSE
+   m. Check win/lose conditions
+5. On game over -> broadcast game_over, update DB, shutdown executor
 ```
 
 ## Visual Design
