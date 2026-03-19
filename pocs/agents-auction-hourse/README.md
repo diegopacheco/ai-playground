@@ -87,28 +87,29 @@ Frontend: http://localhost:5173
 ## Screenshots
 
 ### Setup Page
-![Setup Page](screenshots/01-setup-page.png)
+Pick exactly 3 agents from Claude, Gemini, Copilot, and Codex. Each agent card shows model selection and budget configuration.
+
+![Setup Page](screenshots/setup.png)
 
 ### Agents Selected
-![Agents Selected](screenshots/02-setup-agents-selected.png)
+Once 3 agents are selected, their cards expand to show model dropdowns and budget inputs. The Start Auction button becomes active.
 
-### History Page
-![History Page](screenshots/03-history-page.png)
+![Agents Selected](screenshots/setup-selected.png)
 
 ### Live Auction
-![Live Auction](screenshots/04-auction-live.png)
+Agents bid sequentially on fun items. Each bid card reveals the agent's strategy and reasoning. The leaderboard sidebar tracks wins and remaining budgets in real-time.
+
+![Live Auction](screenshots/auction.png)
 
 ### Auction Results
-![Auction Results](screenshots/05-auction-results.png)
+Final standings show the Savviest Bidder (most items won, least spent). Full round history displays every bid with reasoning. Fallback bids are marked with a yellow FALLBACK badge.
 
-## Taking Screenshots
+![Auction Results](screenshots/results.png)
 
-```bash
-cd e2e
-npm install
-npx playwright install chromium
-npx playwright test screenshots.spec.ts
-```
+### Auction History
+The history page shows all past auctions in a sortable table. Expand any row to see the complete round-by-round breakdown with all bids, reasoning, response times, and fallback indicators.
+
+![History Page](screenshots/history.png)
 
 ## API
 
