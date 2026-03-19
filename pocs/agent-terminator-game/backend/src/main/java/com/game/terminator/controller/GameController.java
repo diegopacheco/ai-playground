@@ -42,6 +42,7 @@ public class GameController {
         Game game = new Game(id, terminatorAgent, terminatorModel,
                 mosquitoAgent, mosquitoModel, gridSize, "running", Instant.now().toString());
         gameRepository.save(game);
+        game.markNotNew();
 
         AgentRunner termRunner = new AgentRunner(terminatorAgent, terminatorModel);
         AgentRunner mosqRunner = new AgentRunner(mosquitoAgent, mosquitoModel);
