@@ -1,0 +1,28 @@
+pocs/agent-terminator-game/frontend/app/hooks/useSound.ts
+  56e650543ae86d60 3,5-167,171,177-181,183
+pocs/agent-terminator-game/backend/src/main/java/com/game/terminator/engine/GameEngine.java
+  56e650543ae86d60 96,126-135,137-150,152,160,165-191,193
+pocs/agent-terminator-game/README.md
+  56e650543ae86d60 1-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "32b5712d3e049b9be0c65ca773269673cc22d909",
+  "prompts": {
+    "56e650543ae86d60": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "034e596a-b5ab-4883-b8c8-3b3f59584f8f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 268,
+      "total_deletions": 33,
+      "accepted_lines": 266,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/53ad1fd9c5780fbaa78531b39ff67fe1ae2d5963857882739000ca3b68d68512"
+    }
+  }
+}
