@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Game, AGENT_COLORS } from "@/types";
+import { Game, getAgentColor } from "@/types";
 import { getGames } from "@/lib/api";
 
 export default function HistoryTable() {
@@ -49,7 +49,7 @@ export default function HistoryTable() {
                       key={a.id}
                       className="text-xs px-2 py-0.5 rounded capitalize"
                       style={{
-                        backgroundColor: (AGENT_COLORS[a.agent_name] || "#6B7280") + "20",
+                        backgroundColor: getAgentColor(a.agent_name) + "20",
                         color: AGENT_COLORS[a.agent_name] || "#9CA3AF",
                       }}
                     >
