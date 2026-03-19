@@ -1,0 +1,11 @@
+{
+  "name": "auction-e2e",
+  "private": true,
+  "scripts": {
+    "test": "npx playwright test",
+    "screenshots": "npx playwright test screenshots.spec.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}
