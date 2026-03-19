@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { listGames } from "~/api/game";
 import type { Game } from "~/types";
 
@@ -6,11 +6,21 @@ export default function HistoryTable() {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    listGames()
-      .then(setGames)
+  const fetchGames = useCallback(() => {
+    setLoading(true);
+    fetch("/api/games")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setGames(data);
+        }
+      })
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    fetchGames();
+  }, [fetchGames]);
 
   if (loading) {
     return <div className="text-center text-gray-500 py-10">Loading...</div>;
@@ -26,7 +36,15 @@ export default function HistoryTable() {
 
   return (
     <div className="max-w-6xl mx-auto p-8">
-      <h2 className="text-2xl font-bold text-gray-300 mb-6">Game History</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-300">Game History</h2>
+        <button
+          onClick={fetchGames}
+          className="bg-emerald-700 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+        >
+          Refresh
+        </button>
+      </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
@@ -50,7 +68,7 @@ export default function HistoryTable() {
                   {new Date(game.createdAt).toLocaleDateString()}
                 </td>
                 <td className="py-3 px-4">
-                  <span className="text-red-400">{game.terminatorAgent}</span>
+                  <span className="text-white">{game.terminatorAgent}</span>
                   <span className="text-gray-600 text-xs ml-1">
                     {game.terminatorModel}
                   </span>
@@ -65,7 +83,7 @@ export default function HistoryTable() {
                   <span
                     className={`font-bold ${
                       game.winner === "terminator"
-                        ? "text-red-400"
+                        ? "text-white"
                         : game.winner === "mosquitos"
                           ? "text-green-400"
                           : "text-yellow-400"
