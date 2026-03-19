@@ -69,7 +69,7 @@ public class GameEngine implements Runnable {
         while (running) {
             cycle++;
             try {
-                if (cycle % 2 == 0) {
+                if (cycle % 3 == 0) {
                     Direction termDir = getTerminatorMove();
                     terminatorPos = terminatorPos.move(termDir, gridSize);
                 }
