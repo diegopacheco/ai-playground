@@ -1,0 +1,8 @@
+backend/auction-server
+backend/auction.db
+backend/auction.db-wal
+backend/auction.db-shm
+frontend/node_modules/
+frontend/dist/
+e2e/node_modules/
+screenshots/
