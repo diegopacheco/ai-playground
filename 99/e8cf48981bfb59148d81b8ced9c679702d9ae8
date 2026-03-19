@@ -1,0 +1,94 @@
+pocs/agent-werewolf/frontend/src/hooks/useGameSSE.ts
+  d6b21fff462f7bfb 1-51
+pocs/agent-werewolf/frontend/src/app/history/page.tsx
+  d6b21fff462f7bfb 1-10
+pocs/agent-werewolf/e2e/playwright.config.ts
+  d6b21fff462f7bfb 1-10
+pocs/agent-werewolf/backend/Cargo.toml
+  d6b21fff462f7bfb 1-16
+pocs/agent-werewolf/backend/src/agents/gemini.rs
+  d6b21fff462f7bfb 1-10
+pocs/agent-werewolf/e2e/package.json
+  d6b21fff462f7bfb 1-11
+pocs/agent-werewolf/.gitignore
+  d6b21fff462f7bfb 1-8
+pocs/agent-werewolf/frontend/package.json
+  d6b21fff462f7bfb 1-24
+pocs/agent-werewolf/frontend/tsconfig.json
+  d6b21fff462f7bfb 1-21
+pocs/agent-werewolf/stop.sh
+  d6b21fff462f7bfb 1-9
+pocs/agent-werewolf/e2e/screenshots.spec.ts
+  d6b21fff462f7bfb 1-16
+pocs/agent-werewolf/backend/src/handlers.rs
+  d6b21fff462f7bfb 1-86
+pocs/agent-werewolf/README.md
+  d6b21fff462f7bfb 1-125
+pocs/agent-werewolf/backend/src/db.rs
+  d6b21fff462f7bfb 1-234
+pocs/agent-werewolf/backend/src/agents/codex.rs
+  d6b21fff462f7bfb 1-12
+pocs/agent-werewolf/run.sh
+  d6b21fff462f7bfb 1-12
+pocs/agent-werewolf/backend/src/agents/copilot.rs
+  d6b21fff462f7bfb 1-12
+pocs/agent-werewolf/test.sh
+  d6b21fff462f7bfb 1-19
+pocs/agent-werewolf/frontend/next.config.ts
+  d6b21fff462f7bfb 1-5
+pocs/agent-werewolf/frontend/src/components/GameSetup.tsx
+  d6b21fff462f7bfb 1-96
+pocs/agent-werewolf/design-doc.md
+  d6b21fff462f7bfb 1-280
+pocs/agent-werewolf/frontend/src/lib/api.ts
+  d6b21fff462f7bfb 1-31
+pocs/agent-werewolf/backend/src/agents/claude.rs
+  d6b21fff462f7bfb 1-12
+pocs/agent-werewolf/backend/src/models.rs
+  d6b21fff462f7bfb 1-98
+pocs/agent-werewolf/backend/src/agents/mod.rs
+  d6b21fff462f7bfb 1-63
+pocs/agent-werewolf/frontend/postcss.config.mjs
+  d6b21fff462f7bfb 1-7
+pocs/agent-werewolf/frontend/src/components/GameLive.tsx
+  d6b21fff462f7bfb 1-202
+pocs/agent-werewolf/backend/src/engine.rs
+  d6b21fff462f7bfb 1-432
+pocs/agent-werewolf/frontend/src/app/globals.css
+  d6b21fff462f7bfb 1
+pocs/agent-werewolf/frontend/src/app/layout.tsx
+  d6b21fff462f7bfb 1-26
+pocs/agent-werewolf/frontend/src/types/index.ts
+  d6b21fff462f7bfb 1-62
+pocs/agent-werewolf/frontend/src/app/page.tsx
+  d6b21fff462f7bfb 1-5
+pocs/agent-werewolf/frontend/src/app/game/[id]/page.tsx
+  d6b21fff462f7bfb 1-10
+pocs/agent-werewolf/backend/src/main.rs
+  d6b21fff462f7bfb 1-43
+pocs/agent-werewolf/backend/src/sse.rs
+  d6b21fff462f7bfb 1-32
+pocs/agent-werewolf/frontend/src/components/HistoryTable.tsx
+  d6b21fff462f7bfb 1-88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "99e8cf48981bfb59148d81b8ced9c679702d9ae8",
+  "prompts": {
+    "d6b21fff462f7bfb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fa24f624-b385-4a45-a94d-91f3ccafd042",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 2182,
+      "total_deletions": 3,
+      "accepted_lines": 2179,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/e40f6e0d572c2550d5d97ad80d2e76f181e6f09e595cb7d34e635708d169a366"
+    }
+  }
+}
