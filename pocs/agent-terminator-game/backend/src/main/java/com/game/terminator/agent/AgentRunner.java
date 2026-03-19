@@ -28,7 +28,7 @@ public class AgentRunner {
                     output.append(line).append("\n");
                 }
             }
-            boolean finished = process.waitFor(20, TimeUnit.SECONDS);
+            boolean finished = process.waitFor(10, TimeUnit.SECONDS);
             if (!finished) {
                 process.destroyForcibly();
                 return "";

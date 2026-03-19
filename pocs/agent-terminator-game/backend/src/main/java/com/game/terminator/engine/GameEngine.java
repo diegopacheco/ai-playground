@@ -9,8 +9,7 @@ import com.game.terminator.sse.SseBroadcaster;
 
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 public class GameEngine implements Runnable {
@@ -34,6 +33,7 @@ public class GameEngine implements Runnable {
     private int mosquitoCounter = 0;
     private int eggCounter = 0;
     private volatile boolean running = true;
+    private ExecutorService executor;
 
     private static final Map<String, GameEngine> RUNNING_GAMES = new ConcurrentHashMap<>();
 
@@ -66,15 +66,34 @@ public class GameEngine implements Runnable {
         try { Thread.sleep(1000); } catch (InterruptedException e) { return; }
         broadcastGameStart();
 
+        executor = Executors.newFixedThreadPool(2);
         while (running) {
             cycle++;
             try {
-                if (cycle % 3 == 0) {
-                    Direction termDir = getTerminatorMove();
+                boolean termCycle = (cycle % 3 == 0);
+                String termPrompt = termCycle ? buildGridStatePrompt("terminator") : null;
+                String mosqPrompt = buildGridStatePrompt("mosquito");
+                List<Mosquito> alive = mosquitos.stream().filter(Mosquito::isAlive).toList();
+
+                Future<String> termFuture = termCycle
+                    ? executor.submit(() -> terminatorAgent.run(termPrompt))
+                    : null;
+                Future<String> mosqFuture = executor.submit(() -> mosquitoAgent.run(mosqPrompt));
+
+                if (termCycle && termFuture != null) {
+                    String termResponse = termFuture.get(12, TimeUnit.SECONDS);
+                    Direction termDir = parseTerminatorDirection(termResponse);
+                    if (termDir == null) termDir = Direction.CARDINAL[ThreadLocalRandom.current().nextInt(4)];
                     terminatorPos = terminatorPos.move(termDir, gridSize);
                 }
 
-                moveMosquitos();
+                String mosqResponse = mosqFuture.get(12, TimeUnit.SECONDS);
+                Map<String, Direction> moves = parseMosquitoMoves(mosqResponse, alive);
+                for (Mosquito m : alive) {
+                    Direction dir = moves.getOrDefault(m.getId(),
+                        Direction.ALL[ThreadLocalRandom.current().nextInt(Direction.ALL.length)]);
+                    m.setPosition(m.getPosition().move(dir, gridSize));
+                }
 
                 List<Map<String, Object>> killEvents = processTerminatorKills();
 
@@ -97,6 +116,10 @@ public class GameEngine implements Runnable {
                 }
 
                 Thread.sleep(700);
+            } catch (TimeoutException e) {
+                continue;
+            } catch (ExecutionException e) {
+                continue;
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 endGame("interrupted");
@@ -125,29 +148,6 @@ public class GameEngine implements Runnable {
         );
     }
 
-    private Direction getTerminatorMove() {
-        String prompt = buildGridStatePrompt("terminator");
-        String response = terminatorAgent.run(prompt);
-        Direction d = parseTerminatorDirection(response);
-        if (d != null) return d;
-        return Direction.CARDINAL[ThreadLocalRandom.current().nextInt(4)];
-    }
-
-
-    private void moveMosquitos() {
-        List<Mosquito> alive = mosquitos.stream().filter(Mosquito::isAlive).toList();
-        if (alive.isEmpty()) return;
-
-        String prompt = buildGridStatePrompt("mosquito");
-        String response = mosquitoAgent.run(prompt);
-        Map<String, Direction> moves = parseMosquitoMoves(response, alive);
-
-        for (Mosquito m : alive) {
-            Direction dir = moves.getOrDefault(m.getId(),
-                Direction.ALL[ThreadLocalRandom.current().nextInt(Direction.ALL.length)]);
-            m.setPosition(m.getPosition().move(dir, gridSize));
-        }
-    }
 
 
     private List<Map<String, Object>> processTerminatorKills() {
@@ -255,6 +255,7 @@ public class GameEngine implements Runnable {
 
     private void endGame(String winner) {
         running = false;
+        if (executor != null) executor.shutdownNow();
         RUNNING_GAMES.remove(game.getId());
         game.setWinner(winner);
         game.setTotalCycles(cycle);
