@@ -10,9 +10,12 @@ import com.game.terminator.sse.SseBroadcaster;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class GameEngine implements Runnable {
+
+    private static final Logger LOG = Logger.getLogger(GameEngine.class.getName());
 
     private final Game game;
     private final AgentRunner terminatorAgent;
@@ -80,13 +83,21 @@ public class GameEngine implements Runnable {
                     : null;
                 Future<String> mosqFuture = executor.submit(() -> mosquitoAgent.run(mosqPrompt));
 
+                LOG.info("=== CYCLE " + cycle + " === alive=" + alive.size() + " eggs=" + eggs.stream().filter(Egg::isActive).count());
+
                 if (termCycle && termFuture != null) {
                     Direction termDir = null;
                     try {
                         String termResponse = termFuture.get(12, TimeUnit.SECONDS);
                         termDir = parseTerminatorDirection(termResponse);
+                        if (termDir != null) {
+                            LOG.info("TERMINATOR LLM move: " + termDir);
+                        } else {
+                            LOG.warning("TERMINATOR LLM returned unparseable response, using random");
+                        }
                     } catch (TimeoutException | ExecutionException e) {
                         termFuture.cancel(true);
+                        LOG.warning("TERMINATOR LLM timeout/error, using random");
                     }
                     if (termDir == null) termDir = Direction.CARDINAL[ThreadLocalRandom.current().nextInt(4)];
                     terminatorPos = terminatorPos.move(termDir, gridSize);
@@ -96,8 +107,10 @@ public class GameEngine implements Runnable {
                 try {
                     String mosqResponse = mosqFuture.get(12, TimeUnit.SECONDS);
                     moves = parseMosquitoMoves(mosqResponse, alive);
+                    LOG.info("MOSQUITO LLM moves parsed: " + moves.size() + "/" + alive.size());
                 } catch (TimeoutException | ExecutionException e) {
                     mosqFuture.cancel(true);
+                    LOG.warning("MOSQUITO LLM timeout/error, all random");
                 }
                 for (Mosquito m : alive) {
                     Direction dir = moves.getOrDefault(m.getId(),
