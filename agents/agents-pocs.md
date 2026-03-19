@@ -297,3 +297,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agents-auction-hour
 
 56 - Multi-Agent system Werewolf Agent Game <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-werewolf
+
+57 - Multi-Agent System - Terminator Mosquito Game <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-terminator-game
