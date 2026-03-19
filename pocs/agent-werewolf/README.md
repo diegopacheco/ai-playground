@@ -118,8 +118,14 @@ agent-werewolf/
 
 ## Screenshots
 
-### Setup Page
-![Setup Page](screenshots/01-setup.png)
+### Live Game - Discussion and Voting Phase
+Agents discuss who they suspect is the werewolf, make accusations, and cast votes to eliminate a player.
+![Live Game - Discussion](werewolf-going.png)
 
-### History Page
-![History Page](screenshots/02-history.png)
+### Game Result - Werewolf Wins
+Final game result showing role reveals, deception score, and which agent was the werewolf.
+![Game Result](werewolf-result.png)
+
+### Game History
+History page showing past games with agents, werewolf identity, winner, and deception scores.
+![Game History](history.png)
