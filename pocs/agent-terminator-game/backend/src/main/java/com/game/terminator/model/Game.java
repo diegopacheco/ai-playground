@@ -1,10 +1,12 @@
 package com.game.terminator.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("games")
-public class Game {
+public class Game implements Persistable<String> {
     @Id
     private String id;
     private String terminatorAgent;
@@ -22,6 +24,9 @@ public class Game {
     private String createdAt;
     private String endedAt;
 
+    @Transient
+    private boolean isNew = false;
+
     public Game() {}
 
     public Game(String id, String terminatorAgent, String terminatorModel,
@@ -35,9 +40,15 @@ public class Game {
         this.gridSize = gridSize;
         this.status = status;
         this.createdAt = createdAt;
+        this.isNew = true;
     }
 
+    @Override
     public String getId() { return id; }
+
+    @Override
+    public boolean isNew() { return isNew; }
+
     public void setId(String id) { this.id = id; }
     public String getTerminatorAgent() { return terminatorAgent; }
     public void setTerminatorAgent(String terminatorAgent) { this.terminatorAgent = terminatorAgent; }
@@ -67,4 +78,5 @@ public class Game {
     public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
     public String getEndedAt() { return endedAt; }
     public void setEndedAt(String endedAt) { this.endedAt = endedAt; }
+    public void markNotNew() { this.isNew = false; }
 }
