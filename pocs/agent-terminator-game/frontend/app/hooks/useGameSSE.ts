@@ -100,6 +100,7 @@ export function useGameSSE(gameId: string | null) {
         }
         return {
           ...prev,
+          status: "running",
           cycle: data.cycle,
           terminator: data.terminator,
           mosquitos: data.mosquitos,

@@ -63,13 +63,16 @@ public class GameEngine implements Runnable {
     @Override
     public void run() {
         initializeEntities();
+        try { Thread.sleep(1000); } catch (InterruptedException e) { return; }
         broadcastGameStart();
 
         while (running) {
             cycle++;
             try {
-                Direction termDir = getTerminatorMove();
-                terminatorPos = terminatorPos.move(termDir, gridSize);
+                if (cycle % 2 == 0) {
+                    Direction termDir = getTerminatorMove();
+                    terminatorPos = terminatorPos.move(termDir, gridSize);
+                }
 
                 moveMosquitos();
 
@@ -105,14 +108,14 @@ public class GameEngine implements Runnable {
 
     private void initializeEntities() {
         terminatorPos = new Position(gridSize / 2, gridSize / 2);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 6; i++) {
             Position pos = randomPosition();
             while (pos.equals(terminatorPos)) {
                 pos = randomPosition();
             }
             mosquitos.add(new Mosquito("m_" + (++mosquitoCounter), pos));
         }
-        maxMosquitos = 3;
+        maxMosquitos = 6;
     }
 
     private Position randomPosition() {
