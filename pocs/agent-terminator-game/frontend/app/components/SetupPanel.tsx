@@ -23,7 +23,7 @@ export default function SetupPanel({ onStart, loading }: Props) {
 
   return (
     <div className="max-w-4xl mx-auto p-8">
-      <h1 className="text-4xl font-bold text-center mb-2 text-red-500">
+      <h1 className="text-4xl font-bold text-center mb-2 text-white">
         TERMINATOR MOSQUITO GAME
       </h1>
       <p className="text-center text-gray-400 mb-10 text-lg">
@@ -31,8 +31,8 @@ export default function SetupPanel({ onStart, loading }: Props) {
       </p>
 
       <div className="grid grid-cols-2 gap-8 mb-10">
-        <div className="bg-[#111] border border-red-900/50 rounded-xl p-6">
-          <h2 className="text-2xl font-bold text-red-500 mb-4 flex items-center gap-2">
+        <div className="bg-[#0d2818] border border-red-900/50 rounded-xl p-6">
+          <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
             <span className="text-3xl">🤖</span> Terminator
           </h2>
           <label className="block text-sm text-gray-400 mb-1">Agent</label>
@@ -42,7 +42,7 @@ export default function SetupPanel({ onStart, loading }: Props) {
               setTerminatorAgent(e.target.value);
               setTerminatorModel(getModels(e.target.value)[0] || "");
             }}
-            className="w-full bg-[#1a1a1a] border border-gray-700 rounded-lg p-3 mb-4 text-white"
+            className="w-full bg-[#0f2e1a] border border-gray-700 rounded-lg p-3 mb-4 text-white"
           >
             {AVAILABLE_AGENTS.map((a) => (
               <option key={a.name} value={a.name}>
@@ -54,7 +54,7 @@ export default function SetupPanel({ onStart, loading }: Props) {
           <select
             value={terminatorModel}
             onChange={(e) => setTerminatorModel(e.target.value)}
-            className="w-full bg-[#1a1a1a] border border-gray-700 rounded-lg p-3 text-white"
+            className="w-full bg-[#0f2e1a] border border-gray-700 rounded-lg p-3 text-white"
           >
             {getModels(terminatorAgent).map((m) => (
               <option key={m} value={m}>
@@ -68,8 +68,8 @@ export default function SetupPanel({ onStart, loading }: Props) {
           />
         </div>
 
-        <div className="bg-[#111] border border-green-900/50 rounded-xl p-6">
-          <h2 className="text-2xl font-bold text-green-500 mb-4 flex items-center gap-2">
+        <div className="bg-[#0d2818] border border-green-900/50 rounded-xl p-6">
+          <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
             <span className="text-3xl">🦟</span> Mosquitos
           </h2>
           <label className="block text-sm text-gray-400 mb-1">Agent</label>
@@ -79,7 +79,7 @@ export default function SetupPanel({ onStart, loading }: Props) {
               setMosquitoAgent(e.target.value);
               setMosquitoModel(getModels(e.target.value)[0] || "");
             }}
-            className="w-full bg-[#1a1a1a] border border-gray-700 rounded-lg p-3 mb-4 text-white"
+            className="w-full bg-[#0f2e1a] border border-gray-700 rounded-lg p-3 mb-4 text-white"
           >
             {AVAILABLE_AGENTS.map((a) => (
               <option key={a.name} value={a.name}>
@@ -91,7 +91,7 @@ export default function SetupPanel({ onStart, loading }: Props) {
           <select
             value={mosquitoModel}
             onChange={(e) => setMosquitoModel(e.target.value)}
-            className="w-full bg-[#1a1a1a] border border-gray-700 rounded-lg p-3 text-white"
+            className="w-full bg-[#0f2e1a] border border-gray-700 rounded-lg p-3 text-white"
           >
             {getModels(mosquitoAgent).map((m) => (
               <option key={m} value={m}>
@@ -118,7 +118,7 @@ export default function SetupPanel({ onStart, loading }: Props) {
             })
           }
           disabled={loading}
-          className="bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold text-xl px-12 py-4 rounded-xl transition-all transform hover:scale-105"
+          className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xl px-12 py-4 rounded-xl transition-all transform hover:scale-105"
         >
           {loading ? "Starting..." : "START SIMULATION"}
         </button>

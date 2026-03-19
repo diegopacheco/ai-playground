@@ -66,7 +66,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen">
-      <nav className="border-b border-gray-800 bg-[#0d0d0d]">
+      <nav className="border-b border-gray-800 bg-[#071a10]">
         <div className="max-w-7xl mx-auto flex">
           {(["setup", "simulation", "history"] as Tab[]).map((t) => (
             <button
@@ -74,7 +74,7 @@ export default function Index() {
               onClick={() => setTab(t)}
               className={`px-6 py-4 text-sm font-bold uppercase tracking-wider transition-colors ${
                 tab === t
-                  ? "text-red-500 border-b-2 border-red-500"
+                  ? "text-white border-b-2 border-white"
                   : "text-gray-500 hover:text-gray-300"
               }`}
             >
