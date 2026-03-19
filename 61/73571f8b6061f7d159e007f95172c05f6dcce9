@@ -1,0 +1,40 @@
+pocs/agent-werewolf/frontend/src/app/game/[id]/page.tsx
+  d220b6100b156c9b 3-5,7,12-27
+pocs/agent-werewolf/frontend/src/components/GameReplay.tsx
+  d220b6100b156c9b 1-116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "6173571f8b6061f7d159e007f95172c05f6dcce9",
+  "prompts": {
+    "56e650543ae86d60": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "034e596a-b5ab-4883-b8c8-3b3f59584f8f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 2615,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/53a56150066f5795c9846cca34934e2334794baee081ceea57bbd437742370b0"
+    },
+    "d220b6100b156c9b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "081ecbea-ea8b-4238-b2d0-0bf2a4625ae1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 136,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/1b8cc4c6410c4b65d5a004b4c3dc642ec7bbdde91bd2762aed38729a36b1f6fe"
+    }
+  }
+}
