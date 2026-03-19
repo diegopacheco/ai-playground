@@ -3,12 +3,13 @@ package com.game.terminator.agent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.logging.Logger;
 
 public class AgentRunner {
 
     private static final Logger LOG = Logger.getLogger(AgentRunner.class.getName());
+    private static final ExecutorService IO_POOL = Executors.newCachedThreadPool();
 
     private final String name;
     private final String model;
@@ -22,30 +23,35 @@ public class AgentRunner {
         List<String> command = buildCommand(prompt);
         LOG.info("[" + name + "/" + model + "] calling CLI...");
         long start = System.currentTimeMillis();
+        Process process = null;
         try {
             ProcessBuilder pb = new ProcessBuilder(command);
             pb.redirectErrorStream(true);
-            Process process = pb.start();
-            StringBuilder output = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    output.append(line).append("\n");
+            process = pb.start();
+            Process proc = process;
+            Future<String> readFuture = IO_POOL.submit(() -> {
+                StringBuilder output = new StringBuilder();
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        output.append(line).append("\n");
+                    }
                 }
-            }
-            boolean finished = process.waitFor(10, TimeUnit.SECONDS);
+                return output.toString().trim();
+            });
+            String result = readFuture.get(10, TimeUnit.SECONDS);
             long elapsed = System.currentTimeMillis() - start;
-            if (!finished) {
-                process.destroyForcibly();
-                LOG.warning("[" + name + "/" + model + "] TIMEOUT after " + elapsed + "ms");
-                return "";
-            }
-            String result = output.toString().trim();
             LOG.info("[" + name + "/" + model + "] response in " + elapsed + "ms: " + result);
             return result;
+        } catch (TimeoutException e) {
+            long elapsed = System.currentTimeMillis() - start;
+            LOG.warning("[" + name + "/" + model + "] TIMEOUT after " + elapsed + "ms");
+            if (process != null) process.destroyForcibly();
+            return "";
         } catch (Exception e) {
             long elapsed = System.currentTimeMillis() - start;
             LOG.severe("[" + name + "/" + model + "] ERROR after " + elapsed + "ms: " + e.getMessage());
+            if (process != null) process.destroyForcibly();
             return "";
         }
     }
