@@ -1,0 +1,24 @@
+pocs/agents-auction-hourse/.gitignore
+  57a98d229a31f4a6 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "68f171de275bb1ee200e24f497b71c726fe8d0b0",
+  "prompts": {
+    "57a98d229a31f4a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a8f84f61-803d-47a0-9f5c-9297d73f36c1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 8,
+      "total_deletions": 0,
+      "accepted_lines": 8,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/984297cc44130e82798af919915944b54ca407a13b07ef22f9fea46ca0208d2b"
+    }
+  }
+}
