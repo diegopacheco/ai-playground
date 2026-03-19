@@ -28,9 +28,9 @@ export default function StatsPanel({
   onStop,
 }: Props) {
   return (
-    <div className="bg-[#111] border border-gray-800 rounded-xl p-5 flex flex-col gap-4 h-full">
+    <div className="bg-[#0d2818] border border-gray-800 rounded-xl p-5 flex flex-col gap-4 h-full">
       <div className="text-center">
-        <div className="text-5xl font-mono font-bold text-red-500 tracking-wider">
+        <div className="text-5xl font-mono font-bold text-white tracking-wider">
           {formatTime(state.cycle)}
         </div>
         <div className="text-sm text-gray-500 mt-1">

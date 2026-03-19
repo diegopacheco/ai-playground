@@ -72,7 +72,7 @@ export default function GameGrid({ state }: Props) {
   }
 
   return (
-    <div className="inline-block bg-[#0d0d0d] border border-gray-800 rounded-lg p-2">
+    <div className="inline-block bg-[#071a10] border border-gray-800 rounded-lg p-2">
       {Array.from({ length: state.gridSize }, (_, y) => (
         <div key={y} className="flex">
           {Array.from({ length: state.gridSize }, (_, x) => {
@@ -86,7 +86,7 @@ export default function GameGrid({ state }: Props) {
             return (
               <div
                 key={key}
-                className={`grid-cell relative flex items-center justify-center border border-[#1a1a1a] ${
+                className={`grid-cell relative flex items-center justify-center border border-[#0f2e1a] ${
                   isTerminator ? "terminator-glow bg-red-950/30" : ""
                 }`}
                 style={{
