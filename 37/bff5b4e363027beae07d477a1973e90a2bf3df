@@ -1,0 +1,32 @@
+pocs/agents-auction-hourse/frontend/src/components/Leaderboard.tsx
+  57a98d229a31f4a6 81-88,90,97,109,132,139
+pocs/agents-auction-hourse/backend/agents/runner.go
+  57a98d229a31f4a6 20
+pocs/agents-auction-hourse/backend/models/models.go
+  57a98d229a31f4a6 94,97-98
+pocs/agents-auction-hourse/backend/engine/auction.go
+  57a98d229a31f4a6 8,51,183-184
+pocs/agents-auction-hourse/stop.sh
+  57a98d229a31f4a6 5-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "37bff5b4e363027beae07d477a1973e90a2bf3df",
+  "prompts": {
+    "57a98d229a31f4a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a8f84f61-803d-47a0-9f5c-9297d73f36c1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 31,
+      "total_deletions": 17,
+      "accepted_lines": 26,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/217fa1a4bc94f41614a552d037431670f9d9fea65e7bdb92d44715bf7c86ab90"
+    }
+  }
+}
