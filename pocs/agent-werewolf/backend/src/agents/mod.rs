@@ -11,23 +11,23 @@ pub fn get_available_agents() -> Vec<AgentInfo> {
     vec![
         AgentInfo {
             name: "claude".to_string(),
-            models: vec!["sonnet".to_string(), "opus".to_string(), "haiku".to_string()],
+            models: vec!["opus".to_string(), "sonnet".to_string(), "haiku".to_string()],
             default_model: "sonnet".to_string(),
         },
         AgentInfo {
             name: "gemini".to_string(),
-            models: vec!["gemini-2.5-pro".to_string(), "gemini-2.5-flash".to_string()],
-            default_model: "gemini-2.5-flash".to_string(),
+            models: vec!["gemini-3.1-pro".to_string(), "gemini-3-flash".to_string(), "gemini-2.5-pro".to_string()],
+            default_model: "gemini-3-flash".to_string(),
         },
         AgentInfo {
             name: "copilot".to_string(),
-            models: vec!["gpt-4o".to_string(), "o3-mini".to_string(), "claude-3.5-sonnet".to_string()],
-            default_model: "gpt-4o".to_string(),
+            models: vec!["claude-sonnet-4.6".to_string(), "claude-sonnet-4.5".to_string(), "gemini-3-pro".to_string()],
+            default_model: "claude-sonnet-4.6".to_string(),
         },
         AgentInfo {
             name: "codex".to_string(),
-            models: vec!["o3-mini".to_string(), "o4-mini".to_string()],
-            default_model: "o4-mini".to_string(),
+            models: vec!["gpt-5.4".to_string(), "gpt-5.4-mini".to_string(), "gpt-5.3-codex".to_string()],
+            default_model: "gpt-5.4-mini".to_string(),
         },
     ]
 }
