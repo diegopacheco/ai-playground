@@ -60,3 +60,8 @@ export const AGENT_COLORS: Record<string, string> = {
   copilot: "#7C3AED",
   codex: "#059669",
 };
+
+export function getAgentColor(name: string): string {
+  const base = name.replace(/-\d+$/, "");
+  return AGENT_COLORS[base] || "#6B7280";
+}

@@ -1,6 +1,6 @@
 "use client";
 import { useGameSSE, GameEvent } from "@/hooks/useGameSSE";
-import { AGENT_COLORS } from "@/types";
+import { getAgentColor } from "@/types";
 
 interface Props {
   gameId: string;
@@ -43,7 +43,7 @@ export default function GameLive({ gameId }: Props) {
                 <div
                   key={a.name}
                   className={`px-3 py-1 rounded text-sm ${a.alive ? "bg-gray-800" : "bg-gray-900 opacity-60 line-through"}`}
-                  style={{ borderLeft: `3px solid ${AGENT_COLORS[a.name] || "#6B7280"}` }}
+                  style={{ borderLeft: `3px solid ${getAgentColor(a.name)}` }}
                 >
                   <span className="capitalize font-semibold">{a.name}</span>
                   <span className={`ml-2 ${a.role === "werewolf" ? "text-red-400" : "text-blue-400"}`}>
@@ -112,7 +112,7 @@ function EventCard({ event }: { event: GameEvent }) {
         <div className="p-2 rounded bg-gray-900 border border-gray-800 text-sm">
           <span
             className="font-semibold capitalize"
-            style={{ color: AGENT_COLORS[data.agent as string] || "#9CA3AF" }}
+            style={{ color: getAgentColor(data.agent as string) }}
           >
             {data.agent as string}
           </span>
@@ -126,7 +126,7 @@ function EventCard({ event }: { event: GameEvent }) {
           <div className="flex items-center gap-2 mb-1">
             <span
               className="font-semibold capitalize"
-              style={{ color: AGENT_COLORS[data.agent as string] || "#9CA3AF" }}
+              style={{ color: getAgentColor(data.agent as string) }}
             >
               {data.agent as string}
             </span>
@@ -152,7 +152,7 @@ function EventCard({ event }: { event: GameEvent }) {
         <div className="p-3 rounded bg-gray-800 border border-gray-700">
           <span
             className="font-semibold capitalize"
-            style={{ color: AGENT_COLORS[data.agent as string] || "#9CA3AF" }}
+            style={{ color: getAgentColor(data.agent as string) }}
           >
             {data.agent as string}
           </span>
