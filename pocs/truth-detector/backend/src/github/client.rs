@@ -55,6 +55,14 @@ pub async fn fetch_commits(username: &str) -> Result<Vec<FetchedCommit>, Box<dyn
                 }
             }
         }
+        if commit_refs.len() < 10 {
+            if let Some(head) = &event.payload.head {
+                if !seen.contains(head) {
+                    seen.insert(head.clone());
+                    commit_refs.push((event.repo.name.clone(), head.clone(), String::new(), event.created_at.clone()));
+                }
+            }
+        }
         if commit_refs.len() >= 10 {
             break;
         }
@@ -64,6 +72,11 @@ pub async fn fetch_commits(username: &str) -> Result<Vec<FetchedCommit>, Box<dyn
     for (repo_name, sha, message, date) in &commit_refs {
         match fetch_commit_detail(repo_name, sha).await {
             Ok(detail) => {
+                let msg = if message.is_empty() {
+                    detail.commit.message.clone()
+                } else {
+                    message.clone()
+                };
                 let mut diff = String::new();
                 if let Some(files) = &detail.files {
                     for f in files {
@@ -81,7 +94,7 @@ pub async fn fetch_commits(username: &str) -> Result<Vec<FetchedCommit>, Box<dyn
                 }
                 results.push(FetchedCommit {
                     sha: sha.clone(),
-                    message: message.clone(),
+                    message: msg,
                     repo_name: repo_name.clone(),
                     date: date.clone(),
                     diff,
