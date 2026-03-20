@@ -54,7 +54,7 @@ function AnalyzePage() {
     <div className="space-y-6">
       <UserInput
         onAnalyze={handleAnalyze}
-        isLoading={analyzeMutation.isPending}
+        isLoading={analyzeMutation.isPending || (!!analysisId && sseState.phase !== "complete" && sseState.phase !== "error")}
       />
 
       {analysisId && sseState.phase !== "idle" && (
@@ -66,7 +66,7 @@ function AnalyzePage() {
           <ScoreSummary analysis={analysis} />
 
           <div>
-            <h2 className="text-lg font-semibold text-gray-200 mb-3">
+            <h2 className="text-lg font-semibold text-gray-800 mb-3">
               Commit Results
             </h2>
             <div className="space-y-3">

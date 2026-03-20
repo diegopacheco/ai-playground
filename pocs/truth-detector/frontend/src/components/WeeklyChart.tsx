@@ -8,8 +8,8 @@ function WeeklyChart({ scores }: WeeklyChartProps) {
   const maxScore = Math.max(...scores.map((s) => s.total_score), 1);
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-lg p-5">
-      <h2 className="text-lg font-semibold text-gray-200 mb-4">
+    <div className="bg-gray-50 border border-gray-200 rounded-lg p-5">
+      <h2 className="text-lg font-semibold text-gray-800 mb-4">
         Weekly Trend
       </h2>
       <div className="flex items-end gap-2 h-40">
@@ -20,7 +20,7 @@ function WeeklyChart({ scores }: WeeklyChartProps) {
               key={score.id}
               className="flex flex-col items-center flex-1 gap-1"
             >
-              <span className="text-xs text-gray-400">
+              <span className="text-xs text-gray-500">
                 {score.total_score}
               </span>
               <div

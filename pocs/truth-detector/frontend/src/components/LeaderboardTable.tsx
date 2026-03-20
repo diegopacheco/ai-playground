@@ -25,13 +25,13 @@ const columns = [
   columnHelper.accessor("github_user", {
     header: "User",
     cell: (info) => (
-      <span className="font-medium text-gray-200">{info.getValue()}</span>
+      <span className="font-medium text-gray-800">{info.getValue()}</span>
     ),
   }),
   columnHelper.accessor("avg_score", {
     header: "Avg Score",
     cell: (info) => (
-      <span className="text-white font-bold">{info.getValue().toFixed(1)}</span>
+      <span className="text-gray-900 font-bold">{info.getValue().toFixed(1)}</span>
     ),
   }),
   columnHelper.accessor("total_score", {
@@ -85,12 +85,12 @@ function LeaderboardTable({ entries }: LeaderboardTableProps) {
       <table className="w-full text-sm">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="border-b border-gray-800">
+            <tr key={headerGroup.id} className="border-b border-gray-200">
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
                   onClick={header.column.getToggleSortingHandler()}
-                  className="text-left px-3 py-2 text-gray-400 font-medium cursor-pointer hover:text-gray-200 transition-colors select-none"
+                  className="text-left px-3 py-2 text-gray-500 font-medium cursor-pointer hover:text-gray-800 transition-colors select-none"
                 >
                   {flexRender(
                     header.column.columnDef.header,
@@ -107,10 +107,10 @@ function LeaderboardTable({ entries }: LeaderboardTableProps) {
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              className="border-b border-gray-800/50 hover:bg-gray-900/50 transition-colors"
+              className="border-b border-gray-200/50 hover:bg-gray-50/50 transition-colors"
             >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="px-3 py-2.5 text-gray-300">
+                <td key={cell.id} className="px-3 py-2.5 text-gray-700">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

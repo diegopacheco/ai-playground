@@ -11,6 +11,7 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
             .route("/users/{username}/latest", web::get().to(analysis::get_latest))
             .route("/leaderboard", web::get().to(aggregation::get_leaderboard))
             .route("/leaderboard/week/{week_start}", web::get().to(aggregation::get_leaderboard_week))
+            .route("/leaderboard/track", web::get().to(aggregation::get_tracked_users))
             .route("/leaderboard/track", web::post().to(aggregation::track_user))
             .route("/leaderboard/track/{username}", web::delete().to(aggregation::untrack_user)),
     );

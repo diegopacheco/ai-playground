@@ -25,6 +25,7 @@ pub struct GitHubCommitRef {
     pub message: String,
 }
 
+#[allow(dead_code)]
 #[derive(Deserialize)]
 pub struct GitHubCommitDetail {
     pub sha: String,
@@ -32,18 +33,21 @@ pub struct GitHubCommitDetail {
     pub files: Option<Vec<GitHubFile>>,
 }
 
+#[allow(dead_code)]
 #[derive(Deserialize)]
 pub struct GitHubCommitInfo {
     pub message: String,
     pub author: GitHubAuthor,
 }
 
+#[allow(dead_code)]
 #[derive(Deserialize)]
 pub struct GitHubAuthor {
     pub name: String,
     pub date: String,
 }
 
+#[allow(dead_code)]
 #[derive(Deserialize)]
 pub struct GitHubFile {
     pub filename: String,
