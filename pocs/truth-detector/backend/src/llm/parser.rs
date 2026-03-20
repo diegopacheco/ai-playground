@@ -1,23 +1,54 @@
 use crate::github::types::FetchedCommit;
-use crate::models::types::{LlmBatchResponse, LlmCommitResult};
+use crate::llm::prompt::group_by_day;
+use crate::models::types::LlmCommitResult;
+use serde::Deserialize;
+
+#[derive(Deserialize)]
+struct DayResult {
+    day_index: usize,
+    classification: String,
+    summary: String,
+    score: i32,
+}
+
+#[derive(Deserialize)]
+struct DayBatchResponse {
+    results: Vec<DayResult>,
+}
 
 pub fn parse_batch_response(raw: &str, commits: &[FetchedCommit]) -> Vec<LlmCommitResult> {
+    let groups = group_by_day(commits);
+
     if let Some(parsed) = try_parse(raw) {
-        let mut results = Vec::new();
-        let mut found = std::collections::HashSet::new();
-        for r in parsed.results {
-            if r.index >= 1 && r.index <= commits.len() {
-                found.insert(r.index);
-                results.push(r);
+        let mut commit_results = Vec::new();
+        let mut day_map = std::collections::HashMap::new();
+
+        for dr in &parsed.results {
+            if dr.day_index >= 1 && dr.day_index <= groups.len() {
+                day_map.insert(dr.day_index, dr);
             }
         }
-        for i in 1..=commits.len() {
-            if !found.contains(&i) {
-                results.push(fallback_entry(i, &commits[i - 1]));
+
+        for (gi, group) in groups.iter().enumerate() {
+            let day_idx = gi + 1;
+            if let Some(dr) = day_map.get(&day_idx) {
+                for &ci in &group.commits {
+                    commit_results.push(LlmCommitResult {
+                        index: ci + 1,
+                        classification: dr.classification.clone(),
+                        summary: dr.summary.clone(),
+                        score: dr.score,
+                    });
+                }
+            } else {
+                for &ci in &group.commits {
+                    commit_results.push(fallback_entry(ci + 1, &commits[ci]));
+                }
             }
         }
-        results.sort_by_key(|r| r.index);
-        results
+
+        commit_results.sort_by_key(|r| r.index);
+        commit_results
     } else {
         commits
             .iter()
@@ -27,7 +58,7 @@ pub fn parse_batch_response(raw: &str, commits: &[FetchedCommit]) -> Vec<LlmComm
     }
 }
 
-fn try_parse(raw: &str) -> Option<LlmBatchResponse> {
+fn try_parse(raw: &str) -> Option<DayBatchResponse> {
     let start = raw.find('{')?;
     let end = raw.rfind('}')?;
     if end < start {
