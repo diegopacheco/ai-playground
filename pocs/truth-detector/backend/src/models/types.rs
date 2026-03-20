@@ -107,6 +107,7 @@ pub struct LlmCommitResult {
     pub score: i32,
 }
 
+#[allow(dead_code)]
 #[derive(Serialize, Deserialize)]
 pub struct LlmBatchResponse {
     pub results: Vec<LlmCommitResult>,
