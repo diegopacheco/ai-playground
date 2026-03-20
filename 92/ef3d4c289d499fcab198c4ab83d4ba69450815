@@ -1,0 +1,102 @@
+pocs/truth-detector/frontend/src/hooks/useLeaderboard.ts
+  11c58b10b8b844c1 1-42
+pocs/truth-detector/frontend/src/routes/index.tsx
+  11c58b10b8b844c1 1-86
+pocs/truth-detector/backend/src/router.rs
+  11c58b10b8b844c1 1-17
+pocs/truth-detector/frontend/src/components/ScoreSummary.tsx
+  11c58b10b8b844c1 1-59
+pocs/truth-detector/backend/src/github/client.rs
+  11c58b10b8b844c1 1-103
+pocs/truth-detector/backend/src/sse/broadcaster.rs
+  11c58b10b8b844c1 1-34
+pocs/truth-detector/backend/src/engine/scoring.rs
+  11c58b10b8b844c1 1-47
+pocs/truth-detector/frontend/src/components/WeeklyChart.tsx
+  11c58b10b8b844c1 1-41
+pocs/truth-detector/frontend/deno.json
+  11c58b10b8b844c1 1-14
+pocs/truth-detector/frontend/src/components/LeaderboardTable.tsx
+  11c58b10b8b844c1 1-125
+pocs/truth-detector/backend/src/engine/analyzer.rs
+  11c58b10b8b844c1 1-144
+pocs/truth-detector/frontend/src/components/RankBadge.tsx
+  11c58b10b8b844c1 1-14
+pocs/truth-detector/frontend/src/components/AnalysisProgress.tsx
+  11c58b10b8b844c1 1-56
+pocs/truth-detector/backend/src/llm/parser.rs
+  11c58b10b8b844c1 1-52
+pocs/truth-detector/frontend/src/components/UserInput.tsx
+  11c58b10b8b844c1 1-38
+pocs/truth-detector/backend/src/persistence/db.rs
+  11c58b10b8b844c1 1-283
+pocs/truth-detector/backend/Cargo.toml
+  11c58b10b8b844c1 17
+pocs/truth-detector/frontend/src/hooks/useAnalysisSSE.ts
+  11c58b10b8b844c1 1-114
+pocs/truth-detector/frontend/src/hooks/useAnalysis.ts
+  11c58b10b8b844c1 1-37
+pocs/truth-detector/backend/src/llm/prompt.rs
+  11c58b10b8b844c1 1-26
+pocs/truth-detector/frontend/tsconfig.json
+  11c58b10b8b844c1 1-20
+pocs/truth-detector/backend/src/handlers/stream.rs
+  11c58b10b8b844c1 1-31
+pocs/truth-detector/frontend/src/routes/__root.tsx
+  11c58b10b8b844c1 1-46
+pocs/truth-detector/frontend/src/api/client.ts
+  11c58b10b8b844c1 1-62
+pocs/truth-detector/frontend/src/components/ClassificationBadge.tsx
+  11c58b10b8b844c1 1-21
+pocs/truth-detector/frontend/package.json
+  11c58b10b8b844c1 1-27
+pocs/truth-detector/frontend/src/types/index.ts
+  11c58b10b8b844c1 1-56
+pocs/truth-detector/backend/src/llm/runner.rs
+  11c58b10b8b844c1 1-40
+pocs/truth-detector/frontend/index.html
+  11c58b10b8b844c1 1-12
+pocs/truth-detector/frontend/src/components/LeaderboardForm.tsx
+  11c58b10b8b844c1 1-73
+pocs/truth-detector/backend/src/github/cache.rs
+  11c58b10b8b844c1 1-30
+pocs/truth-detector/backend/src/main.rs
+  11c58b10b8b844c1 1-47
+pocs/truth-detector/frontend/src/main.tsx
+  11c58b10b8b844c1 1-10
+pocs/truth-detector/backend/src/handlers/aggregation.rs
+  11c58b10b8b844c1 1-64
+pocs/truth-detector/frontend/src/routes/leaderboard.tsx
+  11c58b10b8b844c1 1-94
+pocs/truth-detector/backend/src/handlers/analysis.rs
+  11c58b10b8b844c1 1-57
+pocs/truth-detector/frontend/src/App.tsx
+  11c58b10b8b844c1 1-23
+pocs/truth-detector/frontend/src/index.css
+  11c58b10b8b844c1 1
+pocs/truth-detector/backend/src/github/types.rs
+  11c58b10b8b844c1 1-59
+pocs/truth-detector/frontend/vite.config.ts
+  11c58b10b8b844c1 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "92ef3d4c289d499fcab198c4ab83d4ba69450815",
+  "prompts": {
+    "11c58b10b8b844c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9c1f71a5-6d76-4fe2-b652-80fdd5909546",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 2119,
+      "total_deletions": 2,
+      "accepted_lines": 2117,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/073f4abfc26e5049d3f9e47b2934bf76893eee31f4b753f2b6f454e348775ac0"
+    }
+  }
+}
