@@ -1,0 +1,14 @@
+{
+  "tasks": {
+    "dev": "deno run -A npm:vite",
+    "build": "deno run -A npm:vite build",
+    "install": "deno install --allow-scripts"
+  },
+  "nodeModulesDir": "auto",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": true
+  }
+}
