@@ -1,14 +1,23 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   analyzeUser,
+  getAgents,
   getAnalysis,
   getLatestAnalysis,
   getWeeklyScores,
 } from "../api/client";
 
+export function useAgents() {
+  return useQuery({
+    queryKey: ["agents"],
+    queryFn: () => getAgents(),
+  });
+}
+
 export function useAnalyze() {
   return useMutation({
-    mutationFn: (githubUser: string) => analyzeUser(githubUser),
+    mutationFn: (params: { githubUser: string; cli: string; model: string }) =>
+      analyzeUser(params.githubUser, params.cli, params.model),
   });
 }
 
