@@ -19,10 +19,19 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return res.json();
 }
 
-export function analyzeUser(githubUser: string): Promise<AnalyzeResponse> {
+export interface AgentInfo {
+  name: string;
+  models: string[];
+}
+
+export function getAgents(): Promise<AgentInfo[]> {
+  return request("/agents");
+}
+
+export function analyzeUser(githubUser: string, cli: string, model: string): Promise<AnalyzeResponse> {
   return request("/analyze", {
     method: "POST",
-    body: JSON.stringify({ github_user: githubUser }),
+    body: JSON.stringify({ github_user: githubUser, cli, model }),
   });
 }
 

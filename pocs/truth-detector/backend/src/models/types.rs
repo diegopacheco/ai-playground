@@ -12,11 +12,28 @@ pub struct AppState {
 #[derive(Deserialize)]
 pub struct AnalyzeRequest {
     pub github_user: String,
+    pub cli: String,
+    pub model: String,
 }
 
 #[derive(Serialize)]
 pub struct AnalyzeResponse {
     pub id: String,
+}
+
+#[derive(Serialize, Clone)]
+pub struct AgentInfo {
+    pub name: String,
+    pub models: Vec<String>,
+}
+
+pub fn available_agents() -> Vec<AgentInfo> {
+    vec![
+        AgentInfo { name: "claude".into(), models: vec!["opus".into(), "sonnet".into(), "haiku".into()] },
+        AgentInfo { name: "gemini".into(), models: vec!["gemini-3.1-pro".into(), "gemini-3-flash".into(), "gemini-2.5-pro".into()] },
+        AgentInfo { name: "copilot".into(), models: vec!["claude-sonnet-4.6".into(), "claude-sonnet-4.5".into(), "gemini-3-pro".into()] },
+        AgentInfo { name: "codex".into(), models: vec!["gpt-5.4".into(), "gpt-5.4-mini".into(), "gpt-5.3-codex".into()] },
+    ]
 }
 
 #[derive(Serialize, Deserialize, Clone)]

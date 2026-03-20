@@ -1,15 +1,13 @@
 use std::time::Duration;
 use tokio::process::Command;
 
-pub async fn run_llm(prompt: &str) -> Result<String, Box<dyn std::error::Error + Send + Sync>> {
-    let cli = std::env::var("LLM_CLI").unwrap_or_else(|_| "claude".to_string());
-    let model = std::env::var("LLM_MODEL").unwrap_or_else(|_| "sonnet".to_string());
+pub async fn run_llm(prompt: &str, cli: &str, model: &str) -> Result<String, Box<dyn std::error::Error + Send + Sync>> {
     let timeout_secs: u64 = std::env::var("LLM_TIMEOUT")
-        .unwrap_or_else(|_| "30".to_string())
+        .unwrap_or_else(|_| "60".to_string())
         .parse()
-        .unwrap_or(30);
+        .unwrap_or(60);
 
-    let mut cmd = match cli.as_str() {
+    let mut cmd = match cli {
         "gemini" => {
             let mut c = Command::new("gemini");
             c.args(["-y", "-p", prompt]);
@@ -17,7 +15,12 @@ pub async fn run_llm(prompt: &str) -> Result<String, Box<dyn std::error::Error +
         }
         "copilot" => {
             let mut c = Command::new("copilot");
-            c.args(["--allow-all", "--model", &model, "-p", prompt]);
+            c.args(["--allow-all", "--model", model, "-p", prompt]);
+            c
+        }
+        "codex" => {
+            let mut c = Command::new("codex");
+            c.args(["exec", "--full-auto", "-m", model, prompt]);
             c
         }
         _ => {
@@ -26,7 +29,7 @@ pub async fn run_llm(prompt: &str) -> Result<String, Box<dyn std::error::Error +
                 "-p",
                 prompt,
                 "--model",
-                &model,
+                model,
                 "--dangerously-skip-permissions",
             ]);
             c

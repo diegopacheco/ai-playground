@@ -4,6 +4,7 @@ use actix_web::web;
 pub fn configure(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/api")
+            .route("/agents", web::get().to(analysis::get_agents))
             .route("/analyze", web::post().to(analysis::create_analysis))
             .route("/analyze/{id}", web::get().to(analysis::get_analysis))
             .route("/analyze/{id}/stream", web::get().to(stream::stream_analysis))

@@ -10,6 +10,8 @@ pub async fn create_analysis(
 ) -> HttpResponse {
     let id = uuid::Uuid::new_v4().to_string();
     let github_user = body.github_user.clone();
+    let cli = body.cli.clone();
+    let model = body.model.clone();
 
     {
         let conn = data.db.lock().await;
@@ -24,10 +26,14 @@ pub async fn create_analysis(
     let analysis_id = id.clone();
     let user = github_user.clone();
     tokio::spawn(async move {
-        analyzer::run_analysis(state, analysis_id, user).await;
+        analyzer::run_analysis(state, analysis_id, user, cli, model).await;
     });
 
     HttpResponse::Ok().json(AnalyzeResponse { id })
+}
+
+pub async fn get_agents() -> HttpResponse {
+    HttpResponse::Ok().json(crate::models::types::available_agents())
 }
 
 pub async fn get_analysis(

@@ -5,14 +5,14 @@ use crate::models::types::{AppState, CommitResult, SseCommitAnalyzed, SseCommitI
 use crate::persistence::db;
 use crate::sse::broadcaster;
 
-pub async fn run_analysis(app_state: AppState, analysis_id: String, github_user: String) {
+pub async fn run_analysis(app_state: AppState, analysis_id: String, github_user: String, cli: String, model: String) {
     let sender = {
         let channels = &app_state.channels;
         let map = channels.lock().await;
         map.get(&analysis_id).cloned()
     };
 
-    let result = run_inner(&app_state, &analysis_id, &github_user, &sender).await;
+    let result = run_inner(&app_state, &analysis_id, &github_user, &sender, &cli, &model).await;
 
     if let Err(e) = result {
         {
@@ -37,6 +37,8 @@ async fn run_inner(
     analysis_id: &str,
     github_user: &str,
     sender: &Option<tokio::sync::broadcast::Sender<String>>,
+    cli: &str,
+    model: &str,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let (commits, cached) = cache::get_or_fetch(&app_state.db, github_user).await?;
 
@@ -68,7 +70,7 @@ async fn run_inner(
     }
 
     let batch_prompt = prompt::build_batch_prompt(&commits);
-    let raw_output = runner::run_llm(&batch_prompt).await?;
+    let raw_output = runner::run_llm(&batch_prompt, cli, model).await?;
     let llm_results = parser::parse_batch_response(&raw_output, &commits);
 
     let commit_results: Vec<CommitResult> = llm_results
