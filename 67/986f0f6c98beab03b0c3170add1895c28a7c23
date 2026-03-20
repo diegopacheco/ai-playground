@@ -1,0 +1,46 @@
+pocs/truth-detector/frontend/src/components/LeaderboardTable.tsx
+  11c58b10b8b844c1 113
+pocs/truth-detector/frontend/src/components/CommitCard.tsx
+  11c58b10b8b844c1 13
+pocs/truth-detector/frontend/src/components/RankBadge.tsx
+  11c58b10b8b844c1 8
+pocs/truth-detector/README.md
+  11c58b10b8b844c1 1-163
+pocs/truth-detector/frontend/src/components/AnalysisProgress.tsx
+  11c58b10b8b844c1 17,40
+pocs/truth-detector/backend/src/github/types.rs
+  11c58b10b8b844c1 28,36,43,50
+pocs/truth-detector/frontend/src/routes/index.tsx
+  11c58b10b8b844c1 57
+pocs/truth-detector/frontend/src/components/UserInput.tsx
+  11c58b10b8b844c1 13,19-20,24-25,27,32,36-45
+pocs/truth-detector/frontend/src/components/ClassificationBadge.tsx
+  11c58b10b8b844c1 6-8
+pocs/truth-detector/backend/src/handlers/aggregation.rs
+  11c58b10b8b844c1 43-50
+pocs/truth-detector/backend/src/router.rs
+  11c58b10b8b844c1 14
+pocs/truth-detector/frontend/src/components/LeaderboardForm.tsx
+  11c58b10b8b844c1 45,56,61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "67986f0f6c98beab03b0c3170add1895c28a7c23",
+  "prompts": {
+    "11c58b10b8b844c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9c1f71a5-6d76-4fe2-b652-80fdd5909546",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 216,
+      "total_deletions": 29,
+      "accepted_lines": 205,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/d27bf569386c0cbc8d34b2d86e15f6a7287110fbbbf2b5dd1686236996c39808"
+    }
+  }
+}
