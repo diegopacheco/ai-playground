@@ -1,0 +1,38 @@
+pocs/truth-detector/backend/src/engine/analyzer.rs
+  11c58b10b8b844c1 8,15,40-41,73
+pocs/truth-detector/backend/src/handlers/analysis.rs
+  11c58b10b8b844c1 13-14,29,35-36
+pocs/truth-detector/backend/src/llm/prompt.rs
+  11c58b10b8b844c1 5-35,37-38,43,47,49
+pocs/truth-detector/frontend/src/hooks/useAnalysis.ts
+  11c58b10b8b844c1 4,10-16,19-20
+pocs/truth-detector/backend/src/models/types.rs
+  11c58b10b8b844c1 15-16,24-36
+pocs/truth-detector/backend/src/llm/runner.rs
+  11c58b10b8b844c1 4,6,8,10,18,21-23
+pocs/truth-detector/frontend/src/api/client.ts
+  11c58b10b8b844c1 22-31,34
+pocs/truth-detector/backend/src/router.rs
+  11c58b10b8b844c1 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "3284b881cbccb251f5c78674c681b571103af725",
+  "prompts": {
+    "11c58b10b8b844c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9c1f71a5-6d76-4fe2-b652-80fdd5909546",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 98,
+      "total_deletions": 23,
+      "accepted_lines": 97,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a8ac6ab2bb6e7c23eb7a8f74082798648785be0a55bd238ed6d89bc4d9abec75"
+    }
+  }
+}
