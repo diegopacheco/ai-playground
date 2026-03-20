@@ -1,0 +1,26 @@
+pocs/truth-detector/backend/src/github/types.rs
+  11c58b10b8b844c1 19
+pocs/truth-detector/backend/src/github/client.rs
+  11c58b10b8b844c1 58-65,75-79,97
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "ee23690f501abe7e497a1701098248f583d0881f",
+  "prompts": {
+    "11c58b10b8b844c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9c1f71a5-6d76-4fe2-b652-80fdd5909546",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 15,
+      "total_deletions": 1,
+      "accepted_lines": 15,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/edc13c34cf87c36119355477754cd4f36d963c7504010791c2b37210fa507fa5"
+    }
+  }
+}
