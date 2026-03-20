@@ -1,0 +1,24 @@
+pocs/truth-detector/frontend/src/components/WeeklyChart.tsx
+  11c58b10b8b844c1 2,9,16,18,20-30,32-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "8e8513660cc6b12bb9bd47948a81477718e6a39d",
+  "prompts": {
+    "11c58b10b8b844c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9c1f71a5-6d76-4fe2-b652-80fdd5909546",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 36,
+      "total_deletions": 17,
+      "accepted_lines": 35,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/093ee541a241529ea018e739a377c7655c4ab9215575c8be2d4294dba54892ee"
+    }
+  }
+}
