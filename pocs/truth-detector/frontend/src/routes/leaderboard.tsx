@@ -48,11 +48,11 @@ function LeaderboardPage() {
       <LeaderboardForm />
 
       <div>
-        <h2 className="text-lg font-semibold text-gray-200 mb-3">
+        <h2 className="text-lg font-semibold text-gray-800 mb-3">
           This Week ({weekStart} to {currentEnd})
         </h2>
         {leaderboardQuery.isLoading && (
-          <p className="text-gray-400">Loading leaderboard...</p>
+          <p className="text-gray-500">Loading leaderboard...</p>
         )}
         {leaderboardQuery.data && (
           <LeaderboardTable entries={leaderboardQuery.data} />
@@ -74,11 +74,11 @@ function LeaderboardPage() {
 
         {showPrevious && (
           <div className="mt-4">
-            <h2 className="text-lg font-semibold text-gray-200 mb-3">
+            <h2 className="text-lg font-semibold text-gray-800 mb-3">
               Previous Week ({previousWeekStart} to {previousEnd})
             </h2>
             {previousWeekQuery.isLoading && (
-              <p className="text-gray-400">Loading...</p>
+              <p className="text-gray-500">Loading...</p>
             )}
             {previousWeekQuery.data && (
               <LeaderboardTable entries={previousWeekQuery.data} />

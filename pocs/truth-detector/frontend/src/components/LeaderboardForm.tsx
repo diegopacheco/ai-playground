@@ -37,12 +37,12 @@ function LeaderboardForm() {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder="GitHub username"
-          className="flex-1 bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+          className="flex-1 bg-gray-50 border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
         />
         <button
           type="submit"
           disabled={trackMutation.isPending || !value.trim()}
-          className="bg-blue-600 hover:bg-blue-500 disabled:bg-gray-700 disabled:text-gray-500 text-white font-medium px-6 py-2 rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed"
+          className="bg-blue-600 hover:bg-blue-500 disabled:bg-gray-300 disabled:text-gray-500 text-white font-medium px-6 py-2 rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed"
         >
           Add &amp; Analyze
         </button>
@@ -53,12 +53,12 @@ function LeaderboardForm() {
           {trackedUsers.map((user) => (
             <span
               key={user}
-              className="inline-flex items-center gap-1 bg-gray-800 border border-gray-700 rounded-full px-3 py-1 text-sm text-gray-300"
+              className="inline-flex items-center gap-1 bg-blue-50 border border-blue-200 rounded-full px-3 py-1 text-sm text-gray-700"
             >
               {user}
               <button
                 onClick={() => handleRemove(user)}
-                className="text-gray-500 hover:text-red-400 transition-colors cursor-pointer ml-1"
+                className="text-gray-400 hover:text-red-500 transition-colors cursor-pointer ml-1"
               >
                 &#x2715;
               </button>

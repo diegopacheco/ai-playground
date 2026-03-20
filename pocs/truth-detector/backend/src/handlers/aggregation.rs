@@ -40,6 +40,14 @@ pub async fn get_leaderboard_week(
     }
 }
 
+pub async fn get_tracked_users(data: web::Data<AppState>) -> HttpResponse {
+    let conn = data.db.lock().await;
+    match db::get_tracked_users(&conn) {
+        Ok(users) => HttpResponse::Ok().json(users),
+        Err(e) => HttpResponse::InternalServerError().json(serde_json::json!({"error": e.to_string()})),
+    }
+}
+
 pub async fn track_user(
     body: web::Json<TrackRequest>,
     data: web::Data<AppState>,

@@ -6,32 +6,32 @@ export const Route = createRootRoute({
 
 function RootLayout() {
   return (
-    <div className="bg-gray-950 text-gray-100 min-h-screen">
-      <header className="border-b border-gray-800 px-6 py-4">
-        <h1 className="text-2xl font-bold text-white mb-4">Truth Detector</h1>
+    <div className="bg-white text-gray-900 min-h-screen">
+      <header className="border-b border-gray-200 px-6 py-4">
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">Truth Detector</h1>
         <nav className="flex gap-6">
           <Link
             to="/"
-            className="pb-2 text-sm font-medium transition-colors hover:text-white"
+            className="pb-2 text-sm font-medium transition-colors hover:text-gray-900"
             activeProps={{
               className:
-                "pb-2 text-sm font-medium text-white border-b-2 border-blue-500",
+                "pb-2 text-sm font-medium text-gray-900 border-b-2 border-blue-500",
             }}
             inactiveProps={{
-              className: "pb-2 text-sm font-medium text-gray-400 hover:text-white",
+              className: "pb-2 text-sm font-medium text-gray-500 hover:text-gray-900",
             }}
           >
             Analyze User
           </Link>
           <Link
             to="/leaderboard"
-            className="pb-2 text-sm font-medium transition-colors hover:text-white"
+            className="pb-2 text-sm font-medium transition-colors hover:text-gray-900"
             activeProps={{
               className:
-                "pb-2 text-sm font-medium text-white border-b-2 border-blue-500",
+                "pb-2 text-sm font-medium text-gray-900 border-b-2 border-blue-500",
             }}
             inactiveProps={{
-              className: "pb-2 text-sm font-medium text-gray-400 hover:text-white",
+              className: "pb-2 text-sm font-medium text-gray-500 hover:text-gray-900",
             }}
           >
             Leaderboard

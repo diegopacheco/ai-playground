@@ -3,9 +3,9 @@ interface ClassificationBadgeProps {
 }
 
 const styles: Record<string, string> = {
-  DEEP: "bg-green-500/20 text-green-400 border border-green-500/30",
-  DECENT: "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30",
-  SHALLOW: "bg-red-500/20 text-red-400 border border-red-500/30",
+  DEEP: "bg-green-100 text-green-700 border border-green-300",
+  DECENT: "bg-yellow-100 text-yellow-700 border border-yellow-300",
+  SHALLOW: "bg-red-100 text-red-700 border border-red-300",
 };
 
 function ClassificationBadge({ classification }: ClassificationBadgeProps) {

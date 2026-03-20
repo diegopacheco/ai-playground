@@ -17,8 +17,8 @@ function ScoreSummary({ analysis }: ScoreSummaryProps) {
   ).length;
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-lg p-5">
-      <h2 className="text-lg font-semibold text-gray-200 mb-4">
+    <div className="bg-gray-50 border border-gray-200 rounded-lg p-5">
+      <h2 className="text-lg font-semibold text-gray-800 mb-4">
         Score Summary
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
@@ -26,7 +26,7 @@ function ScoreSummary({ analysis }: ScoreSummaryProps) {
           <div className="text-gray-500 text-xs uppercase tracking-wide">
             Total
           </div>
-          <div className="text-2xl font-bold text-white">
+          <div className="text-2xl font-bold text-gray-900">
             {analysis.total_score}
             <span className="text-gray-500 text-sm font-normal">/100</span>
           </div>
@@ -35,21 +35,21 @@ function ScoreSummary({ analysis }: ScoreSummaryProps) {
           <div className="text-gray-500 text-xs uppercase tracking-wide">
             Average
           </div>
-          <div className="text-2xl font-bold text-white">
+          <div className="text-2xl font-bold text-gray-900">
             {analysis.avg_score.toFixed(1)}
           </div>
         </div>
         <div className="flex items-center gap-2">
           <ClassificationBadge classification="DEEP" />
-          <span className="text-white font-medium">x{deep}</span>
+          <span className="text-gray-900 font-medium">x{deep}</span>
         </div>
         <div className="flex items-center gap-2">
           <ClassificationBadge classification="DECENT" />
-          <span className="text-white font-medium">x{decent}</span>
+          <span className="text-gray-900 font-medium">x{decent}</span>
         </div>
         <div className="flex items-center gap-2">
           <ClassificationBadge classification="SHALLOW" />
-          <span className="text-white font-medium">x{shallow}</span>
+          <span className="text-gray-900 font-medium">x{shallow}</span>
         </div>
       </div>
     </div>
