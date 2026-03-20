@@ -1,5 +1,5 @@
 interface ClassificationBadgeProps {
-  classification: "DEEP" | "DECENT" | "SHALLOW";
+  classification: string;
 }
 
 const styles: Record<string, string> = {
@@ -11,7 +11,7 @@ const styles: Record<string, string> = {
 function ClassificationBadge({ classification }: ClassificationBadgeProps) {
   return (
     <span
-      className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold uppercase ${styles[classification]}`}
+      className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold uppercase ${styles[classification] ?? "bg-gray-100 text-gray-700 border border-gray-300"}`}
     >
       {classification}
     </span>
