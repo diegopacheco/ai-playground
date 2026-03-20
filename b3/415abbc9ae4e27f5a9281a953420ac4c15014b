@@ -1,0 +1,30 @@
+pocs/truth-detector/frontend/src/components/ClassificationBadge.tsx
+  11c58b10b8b844c1 2,14
+pocs/truth-detector/frontend/src/routes/index.tsx
+  11c58b10b8b844c1 3,29,39,43,58
+pocs/truth-detector/frontend/src/components/UserInput.tsx
+  11c58b10b8b844c1 1-2,5,7,10,12-13,15-29,33-34,40-41,52,56-81
+pocs/truth-detector/frontend/src/components/ScoreSummary.tsx
+  11c58b10b8b844c1 30,39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "b3415abbc9ae4e27f5a9281a953420ac4c15014b",
+  "prompts": {
+    "11c58b10b8b844c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9c1f71a5-6d76-4fe2-b652-80fdd5909546",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 76,
+      "total_deletions": 29,
+      "accepted_lines": 63,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/24caff0580f48e2a7807b143b78e42b7872825a1fd5c9171ee6daea57279929a"
+    }
+  }
+}
