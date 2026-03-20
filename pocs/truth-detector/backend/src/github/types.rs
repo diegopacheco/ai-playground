@@ -16,6 +16,7 @@ pub struct GitHubRepo {
 #[derive(Deserialize)]
 pub struct GitHubPayload {
     pub commits: Option<Vec<GitHubCommitRef>>,
+    pub head: Option<String>,
 }
 
 #[derive(Deserialize)]
