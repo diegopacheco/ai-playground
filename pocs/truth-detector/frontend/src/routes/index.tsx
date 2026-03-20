@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { useAnalyze, useAnalysisQuery, useWeeklyScores } from "../hooks/useAnalysis";
+import { useAgents, useAnalyze, useAnalysisQuery, useWeeklyScores } from "../hooks/useAnalysis";
 import { useAnalysisSSE } from "../hooks/useAnalysisSSE";
 import UserInput from "../components/UserInput";
 import AnalysisProgress from "../components/AnalysisProgress";
@@ -19,7 +19,6 @@ function parseUsername(input: string): string {
     const parts = url.pathname.split("/").filter(Boolean);
     if (parts.length > 0) return parts[0];
   } catch {
-    /* not a URL */
   }
   return trimmed;
 }
@@ -27,6 +26,7 @@ function parseUsername(input: string): string {
 function AnalyzePage() {
   const [analysisId, setAnalysisId] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
+  const agentsQuery = useAgents();
   const analyzeMutation = useAnalyze();
   const sseState = useAnalysisSSE(analysisId);
   const analysisQuery = useAnalysisQuery(
@@ -36,11 +36,11 @@ function AnalyzePage() {
     sseState.phase === "complete" ? username : null
   );
 
-  const handleAnalyze = (input: string) => {
+  const handleAnalyze = (input: string, cli: string, model: string) => {
     const user = parseUsername(input);
     setUsername(user);
     setAnalysisId(null);
-    analyzeMutation.mutate(user, {
+    analyzeMutation.mutate({ githubUser: user, cli, model }, {
       onSuccess: (data) => {
         setAnalysisId(data.id);
       },
@@ -55,6 +55,7 @@ function AnalyzePage() {
       <UserInput
         onAnalyze={handleAnalyze}
         isLoading={analyzeMutation.isPending || (!!analysisId && sseState.phase !== "complete" && sseState.phase !== "error")}
+        agents={agentsQuery.data ?? []}
       />
 
       {analysisId && sseState.phase !== "idle" && (

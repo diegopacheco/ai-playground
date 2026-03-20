@@ -27,7 +27,7 @@ function ScoreSummary({ analysis }: ScoreSummaryProps) {
             Total
           </div>
           <div className="text-2xl font-bold text-gray-900">
-            {analysis.total_score}
+            {analysis.total_score ?? 0}
             <span className="text-gray-500 text-sm font-normal">/100</span>
           </div>
         </div>
@@ -36,7 +36,7 @@ function ScoreSummary({ analysis }: ScoreSummaryProps) {
             Average
           </div>
           <div className="text-2xl font-bold text-gray-900">
-            {analysis.avg_score.toFixed(1)}
+            {(analysis.avg_score ?? 0).toFixed(1)}
           </div>
         </div>
         <div className="flex items-center gap-2">
