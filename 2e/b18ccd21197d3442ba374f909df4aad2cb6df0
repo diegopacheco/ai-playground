@@ -1,0 +1,26 @@
+pocs/truth-detector/run.sh
+  11c58b10b8b844c1 1-33
+pocs/truth-detector/stop.sh
+  11c58b10b8b844c1 1-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "2eb18ccd21197d3442ba374f909df4aad2cb6df0",
+  "prompts": {
+    "11c58b10b8b844c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9c1f71a5-6d76-4fe2-b652-80fdd5909546",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 52,
+      "total_deletions": 0,
+      "accepted_lines": 52,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/baa44b5d8b46156b8ffba17115efa5f3c8d23033e7bbb87488d43aa0b76e03d8"
+    }
+  }
+}
