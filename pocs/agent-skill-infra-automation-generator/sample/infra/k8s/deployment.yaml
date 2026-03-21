@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent-werewolf-backend
+  namespace: agent-werewolf
+  labels:
+    app: agent-werewolf-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: agent-werewolf-backend
+  template:
+    metadata:
+      labels:
+        app: agent-werewolf-backend
+    spec:
+      containers:
+        - name: agent-werewolf-backend
+          image: agent-werewolf-backend:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /api/agents
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/agents
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent-werewolf-frontend
+  namespace: agent-werewolf
+  labels:
+    app: agent-werewolf-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: agent-werewolf-frontend
+  template:
+    metadata:
+      labels:
+        app: agent-werewolf-frontend
+    spec:
+      containers:
+        - name: agent-werewolf-frontend
+          image: agent-werewolf-frontend:latest
+          ports:
+            - containerPort: 3001
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3001
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3001
+            initialDelaySeconds: 5
+            periodSeconds: 5

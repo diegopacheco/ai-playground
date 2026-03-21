@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "agent-werewolf.fullname" . }}-config
+  labels:
+    {{- include "agent-werewolf.labels" . | nindent 4 }}
+data:
+  BACKEND_PORT: "{{ .Values.backend.service.port }}"
+  FRONTEND_PORT: "{{ .Values.frontend.service.port }}"

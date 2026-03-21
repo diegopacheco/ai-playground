@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: agent-werewolf-backend
+  namespace: agent-werewolf
+spec:
+  type: ClusterIP
+  selector:
+    app: agent-werewolf-backend
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agent-werewolf-frontend
+  namespace: agent-werewolf
+spec:
+  type: ClusterIP
+  selector:
+    app: agent-werewolf-frontend
+  ports:
+    - port: 3001
+      targetPort: 3001
+      protocol: TCP
