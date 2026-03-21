@@ -1,0 +1,94 @@
+pocs/cc-hook-tool-time-tracker/hooks/track-end.sh
+  d9a9887c7236f6dd 1-30
+pocs/cc-hook-tool-time-tracker/README.md
+  d9a9887c7236f6dd 1-96
+pocs/cc-hook-tool-time-tracker/design-doc.md
+  d9a9887c7236f6dd 1-209
+pocs/cc-hook-tool-time-tracker/uninstall.sh
+  d9a9887c7236f6dd 1-52
+pocs/cc-hook-tool-time-tracker/scripts/clear-log.sh
+  d9a9887c7236f6dd 1-15
+pocs/cc-hook-tool-time-tracker/install.sh
+  d9a9887c7236f6dd 1-87
+pocs/cc-hook-tool-time-tracker/scripts/report.sh
+  d9a9887c7236f6dd 1-39
+pocs/cc-hook-tool-time-tracker/hooks/track-start.sh
+  d9a9887c7236f6dd 1-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "ed65f9da2dbcdf5540059ba2e88c7cde11f4b50f",
+  "prompts": {
+    "2345ab9866d2de0a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "84ee7d5e-1bf1-4f35-aed4-3dd1304181ed",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 839,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f1ce769787dad3af1c73cdd12d7357270b60b5d0b8da7d529cc1ec3c0d6526c8"
+    },
+    "315974c9d7e8cf87": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "edb2469d-e453-4b6b-aeb8-0093a5f31472",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 57,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/d57ac02f080b2c3a498e189e996302bee85190aa61a0398440a71d37b93b9fc4"
+    },
+    "362b3bc3f93ccef3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2361e993-bb34-464d-83d9-c2b9fe398008",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 40,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/572d48be933342542db10323f69fb0a0f726872a14afa6a2c89f3039ad4c4f1f"
+    },
+    "5ea68f0f2ae25c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9a36c71b-19fa-4993-aa37-8a4139620b10",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1156,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a2f5808d94fba174815bee08f18413af74811bd49b8f5eef4be2ff4b787fe83a"
+    },
+    "d9a9887c7236f6dd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6450a640-1087-4656-98f0-e548bfa4115e",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 543,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/86f51b02ec19adf842d90a24d8ae78ba34efd7ad1c28dd8596b6fbbdc67a023a"
+    }
+  }
+}
