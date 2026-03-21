@@ -1,0 +1,39 @@
+meta {
+  name: Create Game
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/api/games
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/json
+}
+
+body:json {
+  {
+    "agents": [
+      {
+        "name": "Claude",
+        "model": "claude-sonnet-4-20250514"
+      },
+      {
+        "name": "Gemini",
+        "model": "gemini-2.0-flash"
+      },
+      {
+        "name": "Copilot",
+        "model": "gpt-4o"
+      },
+      {
+        "name": "Codex",
+        "model": "codex-mini-latest"
+      }
+    ]
+  }
+}
