@@ -1,0 +1,52 @@
+pocs/agent-skill-infra-automation-generator/skills/infra-automation-generator/install.sh
+  5ea68f0f2ae25c15 1-14
+pocs/agent-skill-infra-automation-generator/skills/infra-automation-generator/uninstall.md
+  5ea68f0f2ae25c15 1-12
+pocs/agent-skill-infra-automation-generator/sample/README.md
+  315974c9d7e8cf87 1-57
+pocs/agent-skill-infra-automation-generator/README.md
+  5ea68f0f2ae25c15 1-160
+pocs/agent-skill-infra-automation-generator/install.sh
+  5ea68f0f2ae25c15 1-13
+pocs/agent-skill-infra-automation-generator/uninstall.sh
+  5ea68f0f2ae25c15 1-8
+pocs/agent-skill-infra-automation-generator/design-doc.md
+  5ea68f0f2ae25c15 1-226
+pocs/agent-skill-infra-automation-generator/skills/infra-automation-generator/SKILL.md
+  5ea68f0f2ae25c15 1-723
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "76555357aa1a802449899b8e0c78a9b4d5efa665",
+  "prompts": {
+    "315974c9d7e8cf87": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "edb2469d-e453-4b6b-aeb8-0093a5f31472",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 57,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/d57ac02f080b2c3a498e189e996302bee85190aa61a0398440a71d37b93b9fc4"
+    },
+    "5ea68f0f2ae25c15": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9a36c71b-19fa-4993-aa37-8a4139620b10",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 1156,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a2f5808d94fba174815bee08f18413af74811bd49b8f5eef4be2ff4b787fe83a"
+    }
+  }
+}
