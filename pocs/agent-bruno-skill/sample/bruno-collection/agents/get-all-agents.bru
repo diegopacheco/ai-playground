@@ -1,0 +1,15 @@
+meta {
+  name: List Available Agents
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3000/api/agents
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}

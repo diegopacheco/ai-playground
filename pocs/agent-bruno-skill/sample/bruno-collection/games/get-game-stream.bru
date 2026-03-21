@@ -1,0 +1,15 @@
+meta {
+  name: Stream Game Events
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:3000/api/games/fa64836d-caf9-466e-a58c-c4652ccb752d/stream
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: text/event-stream
+}
