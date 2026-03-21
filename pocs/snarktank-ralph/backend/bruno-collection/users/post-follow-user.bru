@@ -1,0 +1,16 @@
+meta {
+  name: Follow User
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3001/api/users/:id/follow
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+  Authorization: Bearer {{token}}
+}

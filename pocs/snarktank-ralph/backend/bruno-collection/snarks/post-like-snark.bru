@@ -1,0 +1,16 @@
+meta {
+  name: Like Snark
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:3001/api/snarks/:id/like
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+  Authorization: Bearer {{token}}
+}

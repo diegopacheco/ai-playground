@@ -1,0 +1,6 @@
+{
+  "version": "1",
+  "name": "snarktank-backend API",
+  "type": "collection",
+  "ignore": ["node_modules", "target", "dist", "build"]
+}

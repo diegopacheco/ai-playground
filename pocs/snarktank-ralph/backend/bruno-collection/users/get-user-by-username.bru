@@ -1,0 +1,15 @@
+meta {
+  name: Get User By Username
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3001/api/users/:username
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}

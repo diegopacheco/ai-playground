@@ -1,0 +1,20 @@
+meta {
+  name: Get All Snarks
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3001/api/snarks?limit=20&offset=0
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+query {
+  limit: 20
+  offset: 0
+}
