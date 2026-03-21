@@ -1,0 +1,19 @@
+meta {
+  name: Search Users and Snarks
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3001/api/search?q=hello
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+query {
+  q: hello
+}

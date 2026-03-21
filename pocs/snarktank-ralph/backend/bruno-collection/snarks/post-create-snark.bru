@@ -1,0 +1,24 @@
+meta {
+  name: Create Snark
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3001/api/snarks
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/json
+  Authorization: Bearer {{token}}
+}
+
+body:json {
+  {
+    "content": "This is a snarky post about something trending",
+    "parentId": null
+  }
+}

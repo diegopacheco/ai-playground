@@ -1,0 +1,16 @@
+meta {
+  name: Unfollow User
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:3001/api/users/:id/follow
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+  Authorization: Bearer {{token}}
+}
