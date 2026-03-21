@@ -1,0 +1,6 @@
+apiVersion: v2
+name: agent-werewolf
+description: Helm chart for agent-werewolf
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
