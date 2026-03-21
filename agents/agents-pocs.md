@@ -300,3 +300,18 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-werewolf
 
 57 - Multi-Agent System - Terminator Mosquito Game <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-terminator-game
+
+58 - Agent Skill: Runbook Generator with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-runbook
+
+59 - Agent Skill: Security Threat Analyst with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-threat-analyst
+
+60 - Claude Code Hook - Tool Call Time Tracker and Report <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/cc-hook-tool-time-tracker
+
+61 - Agent Skill: Bruno Collection Reverse Engineering Generation for Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-bruno-skill
+
+62 - Agent Skill: Infrastructure Automation Generator with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-infra-automation-generator
