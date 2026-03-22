@@ -9,6 +9,17 @@ Text-to-Speech POC using [KittenTTS](https://github.com/KittenML/KittenTTS) - an
 - Supports 8 built-in voices (male and female variants)
 - Allows generating new audio from custom text directly in the browser
 
+## Model Details
+
+- **Model**: kitten-tts-nano
+- **Parameters**: 15M
+- **Format**: ONNX
+- **Output sample rate**: 24kHz
+- **Model size on disk**: ~60MB
+- **Generation time**: ~1-3 seconds per sentence on CPU
+- **Hardware required**: CPU only, no GPU needed
+- **Voices available**: 8 built-in voices (4 male, 4 female)
+
 ## Stack
 
 - Python 3.13
@@ -28,4 +39,4 @@ Open http://localhost:8080 in your browser to play audio and generate new speech
 
 ## Result
 
-<img src="result.png" alt="KittenTTS Web UI" width="600"/>
+<img src="kittenTTS-result.png" alt="KittenTTS Web UI" width="600"/>
