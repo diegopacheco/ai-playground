@@ -1,0 +1,30 @@
+pocs/just-bash-vercel-poc/run.sh
+  da541cb0a831d357 1-5
+pocs/just-bash-vercel-poc/src/index.ts
+  da541cb0a831d357 1-50
+pocs/just-bash-vercel-poc/package.json
+  da541cb0a831d357 2-8,11-14
+pocs/just-bash-vercel-poc/tsconfig.json
+  da541cb0a831d357 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "c947409f0931343630b0202e97a760051d5bfe43",
+  "prompts": {
+    "da541cb0a831d357": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fc4e93e3-0879-434d-9b8c-71756427c9a2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 79,
+      "total_deletions": 0,
+      "accepted_lines": 79,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/ca67eaecea0c8b2b8ffd788c044f1ce505fa49d2ca2d83cbdadc81b3c77a0c7b"
+    }
+  }
+}
