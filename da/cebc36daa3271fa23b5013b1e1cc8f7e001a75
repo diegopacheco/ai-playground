@@ -1,0 +1,24 @@
+pocs/agent-skill-grafana-generator/sample/README.md
+  ad30f9b946ea673f 1-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "dacebc36daa3271fa23b5013b1e1cc8f7e001a75",
+  "prompts": {
+    "ad30f9b946ea673f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0bd71f95-c9e3-4c99-9121-926dd4782395",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 68,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/7da0c0679914b71d35dba206e813920d75433ec040f971448704bfef69a12eff"
+    }
+  }
+}
