@@ -110,6 +110,9 @@ WARNING: Missing metrics dependencies. Add to pom.xml:
 
 And add to application.properties:
 management.endpoints.web.exposure.include=prometheus,health
+management.metrics.distribution.percentiles-histogram.http.server.requests=true
+management.metrics.distribution.minimum-expected-value.http.server.requests=1ms
+management.metrics.distribution.maximum-expected-value.http.server.requests=10s
 ```
 
 For spring-boot (Gradle):
@@ -117,6 +120,12 @@ For spring-boot (Gradle):
 WARNING: Missing metrics dependencies. Add to build.gradle:
 implementation 'org.springframework.boot:spring-boot-starter-actuator'
 implementation 'io.micrometer:micrometer-registry-prometheus'
+
+And add to application.properties:
+management.endpoints.web.exposure.include=prometheus,health
+management.metrics.distribution.percentiles-histogram.http.server.requests=true
+management.metrics.distribution.minimum-expected-value.http.server.requests=1ms
+management.metrics.distribution.maximum-expected-value.http.server.requests=10s
 ```
 
 For actix-web:
@@ -158,11 +167,19 @@ import "github.com/prometheus/client_golang/prometheus/promhttp"
 router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 ```
 
-Also check histogram bucket granularity. For stacks other than Spring Boot (Micrometer), print:
+Also check histogram bucket granularity. For all stacks, print:
 ```
 NOTE: Default histogram buckets may be too coarse for p99.9 accuracy.
 Consider configuring finer buckets in your metrics setup.
 ```
+
+For Spring Boot specifically, histogram buckets are DISABLED by default. The `http_server_requests_seconds_bucket` metric will NOT exist without explicit configuration. The skill MUST always include these properties in the warning, even if the dependencies already exist:
+```
+management.metrics.distribution.percentiles-histogram.http.server.requests=true
+management.metrics.distribution.minimum-expected-value.http.server.requests=1ms
+management.metrics.distribution.maximum-expected-value.http.server.requests=10s
+```
+Without these properties, the Latency Percentiles and Latency Heatmap panels will show "No data".
 
 ## Step 5 — Discover All HTTP Endpoints
 
