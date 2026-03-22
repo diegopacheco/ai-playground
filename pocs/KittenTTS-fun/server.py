@@ -1,10 +1,19 @@
-from flask import Flask, send_file, render_template_string
+from flask import Flask, send_file, render_template_string, request
 from kittentts import KittenTTS
+import soundfile as sf
 import os
 
 app = Flask(__name__)
 
 AUDIO_FILE = "output.wav"
+SAMPLE_RATE = 24000
+
+VOICES = [
+    "expr-voice-2-m", "expr-voice-2-f",
+    "expr-voice-3-m", "expr-voice-3-f",
+    "expr-voice-4-m", "expr-voice-4-f",
+    "expr-voice-5-m", "expr-voice-5-f",
+]
 
 HTML_PAGE = """
 <!DOCTYPE html>
@@ -42,20 +51,6 @@ HTML_PAGE = """
             color: #888;
             margin-bottom: 30px;
             font-size: 0.95em;
-        }
-        .text-box {
-            background: rgba(0,0,0,0.3);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
-            font-style: italic;
-            color: #ccc;
-            line-height: 1.6;
-        }
-        .voice-info {
-            color: #e94560;
-            font-size: 0.85em;
-            margin-bottom: 20px;
         }
         audio {
             width: 100%;
@@ -107,24 +102,17 @@ HTML_PAGE = """
     <div class="container">
         <h1>KittenTTS</h1>
         <p class="subtitle">Text-to-Speech with KittenML</p>
-
         <div id="player-section">
             <audio id="audio-player" controls autoplay>
                 <source src="/audio" type="audio/wav">
             </audio>
         </div>
-
         <div class="generate-form">
             <textarea id="text-input" placeholder="Type text to generate speech...">Artificial intelligence is transforming the way we interact with technology every single day.</textarea>
             <select id="voice-select">
-                <option value="Jasper">Jasper</option>
-                <option value="Bella">Bella</option>
-                <option value="Luna">Luna</option>
-                <option value="Bruno">Bruno</option>
-                <option value="Rosie">Rosie</option>
-                <option value="Hugo">Hugo</option>
-                <option value="Kiki">Kiki</option>
-                <option value="Leo">Leo</option>
+                {% for v in voices %}
+                <option value="{{ v }}">{{ v }}</option>
+                {% endfor %}
             </select>
             <button id="gen-btn" onclick="generate()">Generate Speech</button>
             <p class="status" id="status"></p>
@@ -136,10 +124,8 @@ HTML_PAGE = """
             const status = document.getElementById('status');
             const text = document.getElementById('text-input').value;
             const voice = document.getElementById('voice-select').value;
-
             btn.disabled = true;
             status.textContent = 'Generating audio...';
-
             try {
                 const resp = await fetch('/generate', {
                     method: 'POST',
@@ -170,12 +156,12 @@ model = None
 def get_model():
     global model
     if model is None:
-        model = KittenTTS("KittenML/kitten-tts-mini-0.8")
+        model = KittenTTS()
     return model
 
 @app.route("/")
 def index():
-    return render_template_string(HTML_PAGE)
+    return render_template_string(HTML_PAGE, voices=VOICES)
 
 @app.route("/audio")
 def audio():
@@ -185,23 +171,23 @@ def audio():
 
 @app.route("/generate", methods=["POST"])
 def generate():
-    from flask import request
     data = request.get_json()
     text = data.get("text", "Hello world")
-    voice = data.get("voice", "Jasper")
+    voice = data.get("voice", "expr-voice-2-m")
     m = get_model()
-    m.generate_to_file(text, AUDIO_FILE, voice=voice, speed=1.0)
+    audio_data = m.generate(text, voice=voice, speed=1.0)
+    sf.write(AUDIO_FILE, audio_data, SAMPLE_RATE)
     return {"status": "ok"}
 
 if __name__ == "__main__":
     print("Generating initial audio...")
     m = get_model()
-    m.generate_to_file(
+    audio_data = m.generate(
         "Artificial intelligence is transforming the way we interact with technology every single day.",
-        AUDIO_FILE,
-        voice="Jasper",
+        voice="expr-voice-2-m",
         speed=1.0
     )
+    sf.write(AUDIO_FILE, audio_data, SAMPLE_RATE)
     print(f"Audio saved to {AUDIO_FILE}")
     print("Starting server at http://localhost:8080")
     app.run(host="0.0.0.0", port=8080)
