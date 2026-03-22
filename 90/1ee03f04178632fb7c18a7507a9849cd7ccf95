@@ -1,0 +1,32 @@
+pocs/openai-oauth-fun/tsconfig.json
+  1dca3080092d3bbf 1-14
+pocs/openai-oauth-fun/README.md
+  1dca3080092d3bbf 1-36,61-63,81,83,86-88
+pocs/openai-oauth-fun/package.json
+  1dca3080092d3bbf 1-18
+pocs/openai-oauth-fun/src/index.ts
+  1dca3080092d3bbf 1-60
+pocs/openai-oauth-fun/run.sh
+  1dca3080092d3bbf 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "901ee03f04178632fb7c18a7507a9849cd7ccf95",
+  "prompts": {
+    "1dca3080092d3bbf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "09085d49-f984-4325-a4ba-323327ebca5b",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 177,
+      "total_deletions": 14,
+      "accepted_lines": 156,
+      "overriden_lines": 7,
+      "messages_url": "https://usegitai.com/cas/8201763cff5a56f880b217bb7829eacc1cf5cd131450e713839125cbf1001dc9"
+    }
+  }
+}
