@@ -1,0 +1,56 @@
+pocs/agent-terminator-game/prometheus/prometheus.yml
+  256dff8d58594bd9 1-11
+pocs/agent-terminator-game/run-grafana.sh
+  256dff8d58594bd9 1-13
+pocs/agent-terminator-game/grafana/dashboards/dashboard.json
+  256dff8d58594bd9 1-181
+pocs/agent-terminator-game/backend/pom.xml
+  ad30f9b946ea673f 33-40
+pocs/agent-terminator-game/backend/src/main/resources/application.properties
+  ad30f9b946ea673f 6-9
+pocs/agent-terminator-game/grafana/provisioning/datasources/datasources.yaml
+  256dff8d58594bd9 1-8
+pocs/agent-terminator-game/podman-compose.yaml
+  256dff8d58594bd9 1-28
+pocs/agent-terminator-game/grafana/provisioning/dashboards/dashboards.yaml
+  256dff8d58594bd9 1-12
+pocs/agent-terminator-game/test-grafana.sh
+  256dff8d58594bd9 1-22
+pocs/agent-terminator-game/stop-grafana.sh
+  256dff8d58594bd9 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "2813e0305d53fd66517d7d2e4185f4b4c9aaaaac",
+  "prompts": {
+    "256dff8d58594bd9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "75d15fc0-8f4a-4635-a430-7e2857d5cd9a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 278,
+      "total_deletions": 0,
+      "accepted_lines": 278,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/24d00f4ba95e24d9d6ca32c48f5cabae63c65740bd27fc7e60d98218a295d6e7"
+    },
+    "ad30f9b946ea673f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0bd71f95-c9e3-4c99-9121-926dd4782395",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 30,
+      "total_deletions": 1,
+      "accepted_lines": 30,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/08bcb0186405107033b22787aca97db03742ed74da4890120d09c47d8b623a0e"
+    }
+  }
+}
