@@ -1,0 +1,26 @@
+pocs/KittenTTS-fun/README.md
+  1d1bc4da9eb9ce14 7,9,14-15,18,23,31
+pocs/KittenTTS-fun/server.py
+  1d1bc4da9eb9ce14 1,3,9,11-16,113-115,159,164,176,178-179,185,187,190
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "b4985149b9608151b06c89472737bd864b70fdb4",
+  "prompts": {
+    "1d1bc4da9eb9ce14": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9708f743-0739-4c85-b6df-fb4416826b07",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 28,
+      "total_deletions": 40,
+      "accepted_lines": 28,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/0ba4f07085c5bc076fb0170b96b0aa5644442d0a0f2cdb9e0b1c0366b42b7499"
+    }
+  }
+}
