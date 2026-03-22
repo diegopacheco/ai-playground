@@ -1,0 +1,181 @@
+{
+  "uid": "agent-terminator-game-grafana",
+  "title": "agent-terminator-game Observability",
+  "tags": ["spring-boot", "auto-generated"],
+  "timezone": "browser",
+  "refresh": "10s",
+  "time": { "from": "now-15m", "to": "now" },
+  "templating": {
+    "list": [{
+      "name": "DS_PROMETHEUS",
+      "type": "datasource",
+      "query": "prometheus",
+      "current": { "text": "Prometheus", "value": "Prometheus" }
+    }]
+  },
+  "panels": [
+    {
+      "type": "row",
+      "title": "Machine Metrics",
+      "collapsed": false,
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 1 },
+      "id": 100
+    },
+    {
+      "type": "timeseries",
+      "title": "CPU Usage %",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "100 - (avg(rate(node_cpu_seconds_total{mode=\"idle\"}[1m])) * 100)", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "percent" }, "overrides": [] },
+      "gridPos": { "x": 0, "y": 1, "w": 8, "h": 8 },
+      "id": 1
+    },
+    {
+      "type": "timeseries",
+      "title": "Memory Usage %",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "(1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "percent" }, "overrides": [] },
+      "gridPos": { "x": 8, "y": 1, "w": 8, "h": 8 },
+      "id": 2
+    },
+    {
+      "type": "timeseries",
+      "title": "Memory Used",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "bytes" }, "overrides": [] },
+      "gridPos": { "x": 16, "y": 1, "w": 8, "h": 8 },
+      "id": 3
+    },
+    {
+      "type": "gauge",
+      "title": "Disk Usage %",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "(1 - node_filesystem_avail_bytes{mountpoint=\"/\"} / node_filesystem_size_bytes{mountpoint=\"/\"}) * 100", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "percent", "thresholds": { "steps": [{ "value": 0, "color": "green" }, { "value": 70, "color": "yellow" }, { "value": 85, "color": "red" }] } }, "overrides": [] },
+      "gridPos": { "x": 0, "y": 9, "w": 6, "h": 8 },
+      "id": 4
+    },
+    {
+      "type": "timeseries",
+      "title": "Disk I/O",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        { "expr": "rate(node_disk_read_bytes_total[1m])", "legendFormat": "Read", "refId": "A" },
+        { "expr": "rate(node_disk_written_bytes_total[1m])", "legendFormat": "Write", "refId": "B" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "Bps" }, "overrides": [] },
+      "gridPos": { "x": 6, "y": 9, "w": 9, "h": 8 },
+      "id": 5
+    },
+    {
+      "type": "timeseries",
+      "title": "Disk IOPS",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        { "expr": "rate(node_disk_reads_completed_total[1m])", "legendFormat": "Reads", "refId": "A" },
+        { "expr": "rate(node_disk_writes_completed_total[1m])", "legendFormat": "Writes", "refId": "B" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "iops" }, "overrides": [] },
+      "gridPos": { "x": 15, "y": 9, "w": 9, "h": 8 },
+      "id": 6
+    },
+    {
+      "type": "timeseries",
+      "title": "Network In",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "rate(node_network_receive_bytes_total{device!=\"lo\"}[1m])", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "Bps" }, "overrides": [] },
+      "gridPos": { "x": 0, "y": 17, "w": 12, "h": 8 },
+      "id": 7
+    },
+    {
+      "type": "timeseries",
+      "title": "Network Out",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "rate(node_network_transmit_bytes_total{device!=\"lo\"}[1m])", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "Bps" }, "overrides": [] },
+      "gridPos": { "x": 12, "y": 17, "w": 12, "h": 8 },
+      "id": 8
+    },
+    {
+      "type": "row",
+      "title": "Application Metrics",
+      "collapsed": false,
+      "gridPos": { "x": 0, "y": 25, "w": 24, "h": 1 },
+      "id": 101
+    },
+    {
+      "type": "stat",
+      "title": "Total Requests/sec",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "sum(rate(http_server_requests_seconds_count[1m]))", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "reqps" }, "overrides": [] },
+      "gridPos": { "x": 0, "y": 26, "w": 6, "h": 4 },
+      "id": 9
+    },
+    {
+      "type": "stat",
+      "title": "Total Errors/sec",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "sum(rate(http_server_requests_seconds_count{status=~\"5..\"}[1m]))", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "reqps", "color": { "mode": "fixed", "fixedColor": "red" } }, "overrides": [] },
+      "gridPos": { "x": 6, "y": 26, "w": 6, "h": 4 },
+      "id": 10
+    },
+    {
+      "type": "timeseries",
+      "title": "Error Rate %",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "sum(rate(http_server_requests_seconds_count{status=~\"5..\"}[1m])) / sum(rate(http_server_requests_seconds_count[1m])) * 100", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "percent" }, "overrides": [] },
+      "gridPos": { "x": 12, "y": 26, "w": 12, "h": 8 },
+      "id": 11
+    },
+    {
+      "type": "timeseries",
+      "title": "Requests/sec per Endpoint",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "sum by (uri, method) (rate(http_server_requests_seconds_count[1m]))", "legendFormat": "{{method}} {{uri}}", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "reqps" }, "overrides": [] },
+      "gridPos": { "x": 0, "y": 34, "w": 12, "h": 8 },
+      "id": 12
+    },
+    {
+      "type": "timeseries",
+      "title": "Errors/sec per Endpoint",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "sum by (uri, method) (rate(http_server_requests_seconds_count{status=~\"5..\"}[1m]))", "legendFormat": "{{method}} {{uri}}", "refId": "A" }],
+      "fieldConfig": { "defaults": { "unit": "reqps" }, "overrides": [] },
+      "gridPos": { "x": 12, "y": 34, "w": 12, "h": 8 },
+      "id": 13
+    },
+    {
+      "type": "timeseries",
+      "title": "Latency Percentiles",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [
+        { "expr": "histogram_quantile(0.5, sum by (le) (rate(http_server_requests_seconds_bucket[1m])))", "legendFormat": "p50", "refId": "A" },
+        { "expr": "histogram_quantile(0.7, sum by (le) (rate(http_server_requests_seconds_bucket[1m])))", "legendFormat": "p70", "refId": "B" },
+        { "expr": "histogram_quantile(0.9, sum by (le) (rate(http_server_requests_seconds_bucket[1m])))", "legendFormat": "p90", "refId": "C" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket[1m])))", "legendFormat": "p95", "refId": "D" },
+        { "expr": "histogram_quantile(0.99, sum by (le) (rate(http_server_requests_seconds_bucket[1m])))", "legendFormat": "p99", "refId": "E" },
+        { "expr": "histogram_quantile(0.999, sum by (le) (rate(http_server_requests_seconds_bucket[1m])))", "legendFormat": "p99.9", "refId": "F" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "gridPos": { "x": 0, "y": 42, "w": 24, "h": 10 },
+      "id": 14
+    },
+    {
+      "type": "heatmap",
+      "title": "Latency Heatmap",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "targets": [{ "expr": "sum(increase(http_server_requests_seconds_bucket[1m])) by (le)", "refId": "A", "format": "heatmap" }],
+      "gridPos": { "x": 0, "y": 52, "w": 24, "h": 8 },
+      "id": 15
+    }
+  ],
+  "schemaVersion": 39,
+  "version": 1
+}
