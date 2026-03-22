@@ -315,3 +315,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-bruno-skill
 
 62 - Agent Skill: Infrastructure Automation Generator with Claude/Codex <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-infra-automation-generator
+
+63 - Agent Skill: Grafana Generator with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-grafana-generator
