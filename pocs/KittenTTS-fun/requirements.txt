@@ -1,0 +1,3 @@
+kittentts
+soundfile
+flask
