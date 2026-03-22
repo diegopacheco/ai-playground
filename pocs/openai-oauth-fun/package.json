@@ -1,0 +1,18 @@
+{
+  "name": "openai-oauth-fun",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "proxy": "npx openai-oauth"
+  },
+  "dependencies": {
+    "openai": "^4.95.0",
+    "openai-oauth": "^1.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0",
+    "@types/node": "^22.0.0"
+  }
+}
