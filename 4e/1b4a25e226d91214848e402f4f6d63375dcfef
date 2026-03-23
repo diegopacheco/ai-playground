@@ -1,0 +1,26 @@
+pocs/claude-context-manager/README.md
+  2631620085f27edc 4,8-10,12-14,19,25-39,48,67,69-75,113-115,119
+pocs/claude-context-manager/design-doc.md
+  2631620085f27edc 1,5,14,17,19,22,45-65,72-80,82,90,92,97-124,132-133,137-138,142,144,146,148,150,152,154,160-166,170-178,180-185,187,189-190,194,196,203,206-210,212-215,218,220,223-224,226,229,233-242,244-251,259-261,267,276-281,284-285,287,289-290,294,297,299-302,304-312,314-320,329-331,334-336,340,376,378
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "4e1b4a25e226d91214848e402f4f6d63375dcfef",
+  "prompts": {
+    "2631620085f27edc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eb474785-f0ce-4868-94ae-df5031f08af5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 227,
+      "total_deletions": 121,
+      "accepted_lines": 226,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/7cee93b58a3b85a4d737d849ae17390b09edc162fb73cd62a3c3460ebd9be674"
+    }
+  }
+}
