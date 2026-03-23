@@ -68,6 +68,10 @@ fn scan_global(claude_dir: &Path, artifacts: &mut Vec<Artifact>) {
     if projects_dir.exists() {
         scan_memory_dir(&projects_dir, artifacts);
     }
+    let plugins_dir = claude_dir.join("plugins").join("marketplaces");
+    if plugins_dir.exists() {
+        scan_plugins_dir(&plugins_dir, claude_dir, artifacts);
+    }
 }
 
 fn scan_project(claude_dir: &Path, artifacts: &mut Vec<Artifact>) {
@@ -182,6 +186,76 @@ fn scan_hooks_from_json(json: &Value, source: &Path, scope: Scope, artifacts: &m
             }
         }
     }
+}
+
+fn scan_plugins_dir(plugins_dir: &Path, claude_dir: &Path, artifacts: &mut Vec<Artifact>) {
+    let enabled = load_enabled_plugins(claude_dir);
+    if let Ok(marketplaces) = fs::read_dir(plugins_dir) {
+        for marketplace_entry in marketplaces.flatten() {
+            let marketplace_path = marketplace_entry.path();
+            if !marketplace_path.is_dir() { continue; }
+            let marketplace_name = marketplace_path.file_name()
+                .map(|n| n.to_string_lossy().to_string())
+                .unwrap_or_default();
+            if let Ok(plugins) = fs::read_dir(&marketplace_path) {
+                for plugin_entry in plugins.flatten() {
+                    let plugin_path = plugin_entry.path();
+                    if !plugin_path.is_dir() { continue; }
+                    let plugin_name = plugin_path.file_name()
+                        .map(|n| n.to_string_lossy().to_string())
+                        .unwrap_or_default();
+                    let plugin_json = plugin_path.join(".claude-plugin").join("plugin.json");
+                    let mcp_json = plugin_path.join(".mcp.json");
+                    let mut metadata = HashMap::new();
+                    let mut description = String::new();
+                    if plugin_json.exists() {
+                        if let Ok(content) = fs::read_to_string(&plugin_json) {
+                            if let Ok(json) = serde_json::from_str::<Value>(&content) {
+                                if let Some(desc) = json.get("description").and_then(|v| v.as_str()) {
+                                    description = desc.chars().take(80).collect();
+                                }
+                                if let Some(ver) = json.get("version").and_then(|v| v.as_str()) {
+                                    metadata.insert("version".to_string(), ver.to_string());
+                                }
+                            }
+                        }
+                    }
+                    metadata.insert("preview".to_string(), description);
+                    metadata.insert("marketplace".to_string(), marketplace_name.clone());
+                    let enabled_key = format!("{}@{}", plugin_name, marketplace_name);
+                    let is_enabled = enabled.contains(&enabled_key);
+                    let health = if is_enabled {
+                        if mcp_json.exists() { Health::Active } else { Health::Warning("no .mcp.json".to_string()) }
+                    } else {
+                        Health::Warning("disabled".to_string())
+                    };
+                    artifacts.push(Artifact {
+                        name: plugin_name,
+                        kind: ArtifactKind::Mcp,
+                        scope: Scope::Global,
+                        source_path: plugin_path,
+                        health,
+                        metadata,
+                    });
+                }
+            }
+        }
+    }
+}
+
+fn load_enabled_plugins(claude_dir: &Path) -> Vec<String> {
+    let settings_path = claude_dir.join("settings.json");
+    if let Ok(content) = fs::read_to_string(&settings_path) {
+        if let Ok(json) = serde_json::from_str::<Value>(&content) {
+            if let Some(plugins) = json.get("enabledPlugins").and_then(|v| v.as_object()) {
+                return plugins.iter()
+                    .filter(|(_, v)| v.as_bool().unwrap_or(false))
+                    .map(|(k, _)| k.clone())
+                    .collect();
+            }
+        }
+    }
+    Vec::new()
 }
 
 fn scan_file_dir(dir: &Path, kind: ArtifactKind, scope: Scope, artifacts: &mut Vec<Artifact>) {
