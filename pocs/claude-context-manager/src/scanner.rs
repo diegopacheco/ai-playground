@@ -129,28 +129,55 @@ fn scan_hooks_from_json(json: &Value, source: &Path, scope: Scope, artifacts: &m
     if let Some(hooks) = json.get("hooks").and_then(|v| v.as_object()) {
         for (event, config) in hooks {
             if let Some(arr) = config.as_array() {
-                for (_i, hook) in arr.iter().enumerate() {
-                    let mut metadata = HashMap::new();
-                    metadata.insert("event".to_string(), event.clone());
-                    let cmd_str = hook.get("command")
+                for entry in arr {
+                    let matcher = entry.get("matcher")
                         .and_then(|v| v.as_str())
                         .unwrap_or("");
-                    metadata.insert("command".to_string(), cmd_str.to_string());
-                    let hook_name = if !cmd_str.is_empty() {
-                        let short_cmd: String = cmd_str.chars().take(60).collect();
-                        format!("{}: {}", event, short_cmd)
+                    let inner_hooks = entry.get("hooks").and_then(|v| v.as_array());
+                    if let Some(inner) = inner_hooks {
+                        for hook in inner {
+                            let cmd_str = hook.get("command")
+                                .and_then(|v| v.as_str())
+                                .unwrap_or("");
+                            let mut metadata = HashMap::new();
+                            metadata.insert("event".to_string(), event.clone());
+                            metadata.insert("command".to_string(), cmd_str.to_string());
+                            metadata.insert("matcher".to_string(), matcher.to_string());
+                            let short_cmd = cmd_str.split('/').last().unwrap_or(cmd_str);
+                            let hook_name = if !matcher.is_empty() {
+                                format!("{} [{}]: {}", event, matcher, short_cmd)
+                            } else {
+                                format!("{}: {}", event, short_cmd)
+                            };
+                            let h = health::check_hook(&metadata);
+                            artifacts.push(Artifact {
+                                name: hook_name,
+                                kind: ArtifactKind::Hook,
+                                scope: scope.clone(),
+                                source_path: source.to_path_buf(),
+                                health: h,
+                                metadata: metadata.clone(),
+                            });
+                        }
                     } else {
-                        event.clone()
-                    };
-                    let h = health::check_hook(&metadata);
-                    artifacts.push(Artifact {
-                        name: hook_name,
-                        kind: ArtifactKind::Hook,
-                        scope: scope.clone(),
-                        source_path: source.to_path_buf(),
-                        health: h,
-                        metadata: metadata.clone(),
-                    });
+                        let cmd_str = entry.get("command")
+                            .and_then(|v| v.as_str())
+                            .unwrap_or("");
+                        let mut metadata = HashMap::new();
+                        metadata.insert("event".to_string(), event.clone());
+                        metadata.insert("command".to_string(), cmd_str.to_string());
+                        let short_cmd = cmd_str.split('/').last().unwrap_or(cmd_str);
+                        let hook_name = format!("{}: {}", event, short_cmd);
+                        let h = health::check_hook(&metadata);
+                        artifacts.push(Artifact {
+                            name: hook_name,
+                            kind: ArtifactKind::Hook,
+                            scope: scope.clone(),
+                            source_path: source.to_path_buf(),
+                            health: h,
+                            metadata: metadata.clone(),
+                        });
+                    }
                 }
             }
         }
