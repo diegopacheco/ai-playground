@@ -68,6 +68,10 @@ fn scan_global(claude_dir: &Path, artifacts: &mut Vec<Artifact>) {
     if projects_dir.exists() {
         scan_memory_dir(&projects_dir, artifacts);
     }
+    let skills_dir = claude_dir.join("skills");
+    if skills_dir.exists() {
+        scan_skills_dir(&skills_dir, Scope::Global, artifacts);
+    }
     let plugins_dir = claude_dir.join("plugins").join("marketplaces");
     if plugins_dir.exists() {
         scan_plugins_dir(&plugins_dir, claude_dir, artifacts);

@@ -207,6 +207,9 @@ impl App {
                         }
                     }
                 }
+                KeyCode::Char(' ') => {
+                    self.toggle_preview();
+                }
                 KeyCode::Char('/') => {
                     self.searching = true;
                     self.search_query.clear();
@@ -347,6 +350,46 @@ impl App {
             None => {}
         }
         true
+    }
+
+    fn toggle_preview(&mut self) {
+        if self.preview_content.is_some() {
+            self.preview_content = None;
+            return;
+        }
+        match self.tab {
+            Tab::Catalog => {
+                if self.selection < self.catalog.items.len() {
+                    let item = &self.catalog.items[self.selection];
+                    let content = std::fs::read_to_string(&item.repo_path)
+                        .unwrap_or_else(|_| format!("Cannot read: {}", item.repo_path.display()));
+                    self.preview_content = Some(content);
+                }
+            }
+            Tab::Backup => {}
+            _ => {
+                let items = self.current_items();
+                if self.selection < items.len() {
+                    let artifact = &items[self.selection];
+                    let path = &artifact.source_path;
+                    let content = if path.is_file() {
+                        std::fs::read_to_string(path)
+                            .unwrap_or_else(|_| format!("Cannot read: {}", path.display()))
+                    } else if path.is_dir() {
+                        let mut buf = format!("Directory: {}\n\n", path.display());
+                        if let Ok(entries) = std::fs::read_dir(path) {
+                            for entry in entries.flatten() {
+                                buf.push_str(&format!("  {}\n", entry.file_name().to_string_lossy()));
+                            }
+                        }
+                        buf
+                    } else {
+                        format!("Path not found: {}", path.display())
+                    };
+                    self.preview_content = Some(content);
+                }
+            }
+        }
     }
 
     fn do_install(&mut self, idx: usize, global: bool) {
