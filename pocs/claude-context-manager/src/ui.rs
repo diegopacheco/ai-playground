@@ -23,6 +23,10 @@ pub fn draw(f: &mut Frame, app: &App) {
     draw_content(f, app, chunks[2]);
     draw_footer(f, app, chunks[3]);
 
+    if let Some(ref content) = app.preview_content {
+        draw_preview_overlay(f, content);
+    }
+
     if app.show_help {
         draw_help_overlay(f);
     }
@@ -501,6 +505,22 @@ fn draw_dialog(f: &mut Frame, app: &App, dialog: &Dialog) {
             f.render_widget(p, area);
         }
     }
+}
+
+fn draw_preview_overlay(f: &mut Frame, content: &str) {
+    let area = centered_rect(80, 85, f.area());
+    f.render_widget(Clear, area);
+    let lines: Vec<Line> = content.lines()
+        .take(100)
+        .map(|l| Line::from(Span::styled(l, Style::default().fg(Color::White))))
+        .collect();
+    let preview = Paragraph::new(lines)
+        .block(Block::default()
+            .title(" Preview (Space to close) ")
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(Color::Cyan)))
+        .wrap(Wrap { trim: false });
+    f.render_widget(preview, area);
 }
 
 fn centered_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {
