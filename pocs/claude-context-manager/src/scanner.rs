@@ -128,20 +128,20 @@ fn scan_mcps_from_json(json: &Value, source: &Path, scope: Scope, artifacts: &mu
 fn scan_hooks_from_json(json: &Value, source: &Path, scope: Scope, artifacts: &mut Vec<Artifact>) {
     if let Some(hooks) = json.get("hooks").and_then(|v| v.as_object()) {
         for (event, config) in hooks {
-            let mut metadata = HashMap::new();
-            metadata.insert("event".to_string(), event.clone());
             if let Some(arr) = config.as_array() {
-                for (i, hook) in arr.iter().enumerate() {
-                    let hook_name = if let Some(cmd) = hook.get("command").and_then(|v| v.as_str()) {
-                        metadata.insert(format!("command_{}", i), cmd.to_string());
-                        format!("{} [{}]", event, cmd.split_whitespace().next().unwrap_or(""))
+                for (_i, hook) in arr.iter().enumerate() {
+                    let mut metadata = HashMap::new();
+                    metadata.insert("event".to_string(), event.clone());
+                    let cmd_str = hook.get("command")
+                        .and_then(|v| v.as_str())
+                        .unwrap_or("");
+                    metadata.insert("command".to_string(), cmd_str.to_string());
+                    let hook_name = if !cmd_str.is_empty() {
+                        let short_cmd: String = cmd_str.chars().take(60).collect();
+                        format!("{}: {}", event, short_cmd)
                     } else {
-                        format!("{} [{}]", event, i)
+                        event.clone()
                     };
-                    if i == 0 {
-                        metadata.insert("command".to_string(),
-                            hook.get("command").and_then(|v| v.as_str()).unwrap_or("").to_string());
-                    }
                     let h = health::check_hook(&metadata);
                     artifacts.push(Artifact {
                         name: hook_name,
