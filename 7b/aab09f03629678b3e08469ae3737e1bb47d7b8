@@ -1,0 +1,24 @@
+pocs/claude-context-manager/design-doc.md
+  2631620085f27edc 1-262
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "7baab09f03629678b3e08469ae3737e1bb47d7b8",
+  "prompts": {
+    "2631620085f27edc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eb474785-f0ce-4868-94ae-df5031f08af5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 264,
+      "total_deletions": 2,
+      "accepted_lines": 262,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/ba2f46871e098836769eb7ececb67149f1da8fdcc980f45be9db9e0b631552ed"
+    }
+  }
+}
