@@ -392,7 +392,6 @@ fn draw_dialog(f: &mut Frame, app: &App, dialog: &Dialog) {
                     .border_style(Style::default().fg(Color::Green)));
             f.render_widget(p, area);
         }
-        Dialog::ConfirmInstall(_) => {}
     }
 }
 

@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -89,7 +88,6 @@ fn scan_catalog(repo_root: &Path) -> Vec<CatalogItem> {
                 description: desc,
                 repo_path: path.to_path_buf(),
                 installed: false,
-                metadata: HashMap::new(),
             });
         }
 
@@ -108,7 +106,6 @@ fn scan_catalog(repo_root: &Path) -> Vec<CatalogItem> {
                         description: read_first_line(path),
                         repo_path: path.to_path_buf(),
                         installed: false,
-                        metadata: HashMap::new(),
                     });
                 }
                 if parent_name == "agents" {
@@ -121,7 +118,6 @@ fn scan_catalog(repo_root: &Path) -> Vec<CatalogItem> {
                         description: read_first_line(path),
                         repo_path: path.to_path_buf(),
                         installed: false,
-                        metadata: HashMap::new(),
                     });
                 }
             }
@@ -138,7 +134,6 @@ fn scan_catalog(repo_root: &Path) -> Vec<CatalogItem> {
                                 description: format!("MCP from {}", path.display()),
                                 repo_path: path.to_path_buf(),
                                 installed: false,
-                                metadata: HashMap::new(),
                             });
                         }
                     }
