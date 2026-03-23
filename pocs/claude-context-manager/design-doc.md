@@ -157,7 +157,29 @@ Claude Code stores configuration across multiple files and directories at both g
 - Archive structure preserves relative paths from `~/.claude/` and `.claude/`
 - Stores a manifest JSON inside the archive listing all included items
 
-### 9.4 Restore
+### 9.4 Catalog (Remote Install)
+
+- Source repository: `https://github.com/diegopacheco/ai-playground`
+- On entering the Catalog tab, the tool runs `git clone --depth 1` into a temp directory (`/tmp/claude-catalog-XXXXX`)
+- Scanner walks the cloned repo looking for:
+  - `skills/` directories containing `SKILL.md` files
+  - `.claude/commands/` directories containing command `.md` files
+  - `.claude/agents/` directories containing agent definition files
+  - `settings.json` files containing MCP server configurations
+- Results are displayed in a browsable list grouped by type (Skills, Commands, Agents, MCPs)
+- Each item shows: name, description (parsed from frontmatter/SKILL.md), source path in repo
+- Items already installed locally are marked with a green checkmark
+- User selects an item and presses `[i]` to install
+- Installation confirmation dialog: "Install skill 'threat-analyst' to ~/.claude/commands/? [y/N]"
+- Install actions per type:
+  - **Skills**: copies the skill directory into the target project's `skills/` folder
+  - **Commands**: copies the `.md` file into `~/.claude/commands/` or `.claude/commands/`
+  - **Agents**: copies the agent file into `~/.claude/agents/` or `.claude/agents/`
+  - **MCPs**: merges the MCP entry into the target `settings.json`
+- User chooses install scope (global vs project) via a popup before install
+- Temp directory is cleaned up on application exit
+
+### 9.5 Restore
 
 - **Full restore**: extracts entire archive, overwrites current config
 - **Selective restore**: shows archive contents in a checklist, user picks what to restore
@@ -178,7 +200,8 @@ claude-context-manager/
 │   ├── restore.rs          (full and selective restore)
 │   ├── remover.rs          (delete MCPs, hooks, commands)
 │   ├── model.rs            (data types for all artifacts)
-│   └── health.rs           (status checks, color assignment)
+│   ├── health.rs           (status checks, color assignment)
+│   └── catalog.rs          (git clone, scan remote repo, install)
 ├── run.sh
 ├── release.sh
 └── design-doc.md
@@ -193,6 +216,14 @@ Artifact
 ├── scope: Scope (Global | Project)
 ├── source_path: PathBuf
 ├── health: Health (Active | Warning(reason) | Broken(reason))
+└── metadata: HashMap<String, String>
+
+CatalogItem
+├── name: String
+├── kind: ArtifactKind (Mcp | Command | Agent | Skill)
+├── description: String
+├── repo_path: PathBuf
+├── installed: bool
 └── metadata: HashMap<String, String>
 
 Backup
@@ -215,6 +246,7 @@ Backup
 | `b`         | Create backup                  |
 | `r`         | Restore backup                 |
 | `s`         | Selective restore              |
+| `i`         | Install from catalog           |
 | `/`         | Search / filter current list   |
 | `q`         | Quit                           |
 | `?`         | Show help overlay              |
@@ -242,6 +274,7 @@ Builds a statically linked release binary via `cargo build --release` and copies
 | `walkdir`   | Directory traversal        |
 | `chrono`    | Timestamps for backups     |
 | `dirs`      | Home directory resolution  |
+| `tempfile`  | Temp directory for catalog |
 
 ## 15. Risks and Mitigations
 
@@ -252,6 +285,8 @@ Builds a statically linked release binary via `cargo build --release` and copies
 | Backup archive grows large                | Only config files (no caches/logs), show size      |
 | Project-level paths vary                  | Auto-detect `.claude/` relative to CWD            |
 | Rust edition 2024 ecosystem maturity      | Pin dependency versions, test on CI               |
+| Catalog clone fails (no network/git)     | Show error in TUI, allow retry, cache last clone  |
+| Catalog repo structure changes            | Scanner uses flexible pattern matching, not hardcoded paths |
 
 ## 16. Future Considerations (Out of Scope for v1)
 
