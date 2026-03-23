@@ -21,6 +21,7 @@ pub struct App {
     pub searching: bool,
     pub restore_entries: Vec<String>,
     pub restore_selected: Vec<bool>,
+    pub preview_content: Option<String>,
 }
 
 pub enum Dialog {
@@ -49,6 +50,7 @@ impl App {
             searching: false,
             restore_entries: Vec::new(),
             restore_selected: Vec::new(),
+            preview_content: None,
         }
     }
 
