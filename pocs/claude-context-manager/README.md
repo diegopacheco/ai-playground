@@ -3,6 +3,29 @@
 A Rust TUI application that gives you full visibility and control over all Claude Code configuration.
 Scan, inspect, preview, remove, backup, restore, and install Claude artifacts from a single terminal dashboard.
 
+## Screenshots
+
+Dashboard with bar charts showing artifact counts, health summary, and context/memory file list.
+![Dashboard](result/01-dashboard.png)
+
+MCPs tab listing all discovered plugins from `~/.claude/plugins/marketplaces/` with enabled/disabled status.
+![MCPs](result/02-mcps.png)
+
+Hooks tab showing event name, matcher pattern, and command for each hook (e.g., `PostToolUse [Edit]: eslint-hook.sh`).
+![Hooks](result/03-hooks.png)
+
+Commands tab listing all user-defined commands from `~/.claude/commands/` and project `.claude/commands/`.
+![Commands](result/04-commands.png)
+
+Agents/Skills tab showing both subagents and skills discovered from `~/.claude/agents/` and `~/.claude/skills/`.
+![Agents and Skills](result/05-agents-skills.png)
+
+Catalog tab after loading from [github.com/diegopacheco/ai-playground](https://github.com/diegopacheco/ai-playground) with 113 installable items.
+![Catalog](result/06-catalog.png)
+
+Backup/Restore tab with confirmation dialog for creating a full backup of all Claude config.
+![Backup](result/07-backup.png)
+
 ## Features
 
 - **7 tabs**: Context/Memory (with dashboard), MCPs, Hooks, Commands, Agents/Skills, Catalog, Backup/Restore
@@ -58,13 +81,15 @@ Scan, inspect, preview, remove, backup, restore, and install Claude artifacts fr
 
 ## Catalog
 
-The Catalog tab connects to `github.com/diegopacheco/ai-playground` and scans for:
+The Catalog tab connects to [github.com/diegopacheco/ai-playground](https://github.com/diegopacheco/ai-playground) and scans for:
 - Skills (`SKILL.md` directories)
 - Commands (`.md` files in `commands/` folders)
 - Agents (`.md` files in `agents/` folders)
 - MCP configs (`mcpServers` in `settings.json` files)
 
 Press `[l]` to load (runs git clone in background thread), then `[i]` to install. Choose `[g]` for global (`~/.claude/`) or `[p]` for project (`.claude/`) scope. Already-installed items are marked with a checkmark.
+
+Source catalog repository: [https://github.com/diegopacheco/ai-playground](https://github.com/diegopacheco/ai-playground)
 
 ## Plugin/MCP Discovery
 
@@ -104,6 +129,10 @@ Edition 2024
 | Archive      | tar + flate2          |
 | File walking | walkdir               |
 | Date/time    | chrono                |
+
+## Documentation
+
+See the full [Design Document](design-doc.md) for architecture, data model, and implementation details.
 
 ## Project Structure
 
