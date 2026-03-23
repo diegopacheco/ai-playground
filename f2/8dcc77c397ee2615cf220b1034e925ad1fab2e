@@ -1,0 +1,28 @@
+pocs/claude-context-manager/src/app.rs
+  2631620085f27edc 55-74,90,99,187-188,201-203
+pocs/claude-context-manager/src/catalog.rs
+  2631620085f27edc 4-5,15,25-30,37,41,43-44,46-57,59-87,89-103,106
+pocs/claude-context-manager/src/main.rs
+  2631620085f27edc 30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "f28dcc77c397ee2615cf220b1034e925ad1fab2e",
+  "prompts": {
+    "2631620085f27edc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eb474785-f0ce-4868-94ae-df5031f08af5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 100,
+      "total_deletions": 57,
+      "accepted_lines": 100,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/ace25c951a430ad6c259616d4cdfde0437b542eaa4b0ffc93013b452bd43308b"
+    }
+  }
+}
