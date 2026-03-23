@@ -52,6 +52,7 @@ impl App {
         }
     }
 
+    #[allow(dead_code)]
     pub fn tick(&mut self) {
         if matches!(self.catalog.status, CatalogStatus::Loading) {
             if self.catalog.check_loaded() {

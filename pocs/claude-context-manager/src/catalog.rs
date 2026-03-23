@@ -8,6 +8,7 @@ use crate::model::{ArtifactKind, CatalogItem};
 
 const REPO_URL: &str = "https://github.com/diegopacheco/ai-playground";
 
+#[allow(dead_code)]
 pub struct Catalog {
     pub items: Vec<CatalogItem>,
     pub temp_dir: Option<tempfile::TempDir>,
@@ -15,6 +16,7 @@ pub struct Catalog {
     pub receiver: Option<mpsc::Receiver<CatalogResult>>,
 }
 
+#[allow(dead_code)]
 pub enum CatalogStatus {
     NotLoaded,
     Loading,
@@ -22,6 +24,7 @@ pub enum CatalogStatus {
     Error(String),
 }
 
+#[allow(dead_code)]
 pub struct CatalogResult {
     pub items: Vec<CatalogItem>,
     pub temp_dir: Option<tempfile::TempDir>,
@@ -89,6 +92,7 @@ impl Catalog {
         });
     }
 
+    #[allow(dead_code)]
     pub fn check_loaded(&mut self) -> bool {
         if let Some(ref rx) = self.receiver {
             if let Ok(result) = rx.try_recv() {
