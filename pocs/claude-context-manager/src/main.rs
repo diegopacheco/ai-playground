@@ -27,6 +27,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     while app.running {
         terminal.draw(|f| ui::draw(f, &app))?;
+        app.tick();
         if event::poll(std::time::Duration::from_millis(100))? {
             app.handle_event();
         }

@@ -52,6 +52,26 @@ impl App {
         }
     }
 
+    pub fn tick(&mut self) {
+        if matches!(self.catalog.status, CatalogStatus::Loading) {
+            if self.catalog.check_loaded() {
+                match &self.catalog.status {
+                    CatalogStatus::Loaded => {
+                        let installed: Vec<String> = self.artifacts.iter()
+                            .map(|a| a.name.clone())
+                            .collect();
+                        self.catalog.mark_installed(&installed);
+                        self.status_msg = format!("Catalog loaded: {} items", self.catalog.items.len());
+                    }
+                    CatalogStatus::Error(e) => {
+                        self.status_msg = format!("Catalog error: {}", e);
+                    }
+                    _ => {}
+                }
+            }
+        }
+    }
+
     pub fn refresh(&mut self) {
         self.artifacts = scanner::scan_all();
         self.backups = backup::list_backups();
@@ -67,7 +87,7 @@ impl App {
             Tab::Catalog | Tab::Backup => None,
         };
         if let Some(kinds) = kind_filter {
-            let items: Vec<&Artifact> = self.artifacts.iter()
+            self.artifacts.iter()
                 .filter(|a| kinds.contains(&a.kind))
                 .filter(|a| {
                     if self.search_query.is_empty() {
@@ -76,8 +96,7 @@ impl App {
                         a.name.to_lowercase().contains(&self.search_query.to_lowercase())
                     }
                 })
-                .collect();
-            items
+                .collect()
         } else {
             Vec::new()
         }
@@ -165,21 +184,8 @@ impl App {
                     if matches!(self.tab, Tab::Catalog) {
                         match self.catalog.status {
                             CatalogStatus::NotLoaded => {
-                                self.status_msg = "Loading catalog...".to_string();
-                                self.catalog.load();
-                                let installed: Vec<String> = self.artifacts.iter()
-                                    .map(|a| a.name.clone())
-                                    .collect();
-                                self.catalog.mark_installed(&installed);
-                                match &self.catalog.status {
-                                    CatalogStatus::Loaded => {
-                                        self.status_msg = format!("Catalog loaded: {} items", self.catalog.items.len());
-                                    }
-                                    CatalogStatus::Error(e) => {
-                                        self.status_msg = format!("Catalog error: {}", e);
-                                    }
-                                    _ => {}
-                                }
+                                self.status_msg = "Cloning catalog from GitHub...".to_string();
+                                self.catalog.start_load();
                             }
                             CatalogStatus::Loaded => {
                                 if self.selection < self.catalog.items.len() {
@@ -192,20 +198,9 @@ impl App {
                 }
                 KeyCode::Char('l') => {
                     if matches!(self.tab, Tab::Catalog) {
-                        self.status_msg = "Loading catalog...".to_string();
-                        self.catalog.load();
-                        let installed: Vec<String> = self.artifacts.iter()
-                            .map(|a| a.name.clone())
-                            .collect();
-                        self.catalog.mark_installed(&installed);
-                        match &self.catalog.status {
-                            CatalogStatus::Loaded => {
-                                self.status_msg = format!("Catalog loaded: {} items", self.catalog.items.len());
-                            }
-                            CatalogStatus::Error(e) => {
-                                self.status_msg = format!("Catalog error: {}", e);
-                            }
-                            _ => {}
+                        if !matches!(self.catalog.status, CatalogStatus::Loading) {
+                            self.status_msg = "Cloning catalog from GitHub...".to_string();
+                            self.catalog.start_load();
                         }
                     }
                 }
