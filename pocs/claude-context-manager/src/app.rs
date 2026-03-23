@@ -28,7 +28,6 @@ pub enum Dialog {
     ConfirmBackup,
     ConfirmFullRestore(usize),
     SelectiveRestore(usize),
-    ConfirmInstall(usize),
     InstallScope(usize),
 }
 
@@ -347,7 +346,7 @@ impl App {
                     _ => {}
                 }
             }
-            Some(Dialog::ConfirmInstall(_)) | None => {}
+            None => {}
         }
         true
     }

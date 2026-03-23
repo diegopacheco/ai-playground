@@ -48,23 +48,6 @@ pub enum Health {
     Broken(String),
 }
 
-impl Health {
-    pub fn label(&self) -> &str {
-        match self {
-            Health::Active => "active",
-            Health::Warning(_) => "warning",
-            Health::Broken(_) => "broken",
-        }
-    }
-
-    pub fn detail(&self) -> &str {
-        match self {
-            Health::Active => "",
-            Health::Warning(s) => s.as_str(),
-            Health::Broken(s) => s.as_str(),
-        }
-    }
-}
 
 #[derive(Debug, Clone)]
 pub struct Artifact {
@@ -83,7 +66,6 @@ pub struct CatalogItem {
     pub description: String,
     pub repo_path: PathBuf,
     pub installed: bool,
-    pub metadata: HashMap<String, String>,
 }
 
 #[derive(Debug, Clone)]
