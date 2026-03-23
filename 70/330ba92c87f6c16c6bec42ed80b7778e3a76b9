@@ -1,0 +1,40 @@
+pocs/claude-context-manager/src/ui.rs
+  2631620085f27edc 1-416
+pocs/claude-context-manager/src/backup.rs
+  2631620085f27edc 1-106
+pocs/claude-context-manager/src/restore.rs
+  2631620085f27edc 1-127
+pocs/claude-context-manager/Cargo.toml
+  2631620085f27edc 6-9
+pocs/claude-context-manager/src/main.rs
+  2631620085f27edc 1-39
+pocs/claude-context-manager/run.sh
+  2631620085f27edc 1-2
+pocs/claude-context-manager/src/catalog.rs
+  2631620085f27edc 1-285
+pocs/claude-context-manager/release.sh
+  2631620085f27edc 1-4
+pocs/claude-context-manager/src/app.rs
+  2631620085f27edc 1-373
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "70330ba92c87f6c16c6bec42ed80b7778e3a76b9",
+  "prompts": {
+    "2631620085f27edc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eb474785-f0ce-4868-94ae-df5031f08af5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 1360,
+      "total_deletions": 4,
+      "accepted_lines": 1356,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/8239e4dac3da69d292c548a31385c415763b0daf023338b018f37c019eae2ec5"
+    }
+  }
+}
