@@ -5,7 +5,7 @@ use ratatui::text::{Line, Span};
 use ratatui::widgets::{Block, Borders, Clear, List, ListItem, Paragraph, Tabs, Wrap};
 use crate::app::{App, Dialog};
 use crate::catalog::CatalogStatus;
-use crate::model::{Health, Tab};
+use crate::model::{ArtifactKind, Health, Tab};
 
 pub fn draw(f: &mut Frame, app: &App) {
     let chunks = Layout::default()
@@ -62,10 +62,118 @@ fn draw_tabs(f: &mut Frame, app: &App, area: Rect) {
 
 fn draw_content(f: &mut Frame, app: &App, area: Rect) {
     match app.tab {
+        Tab::Context => draw_context_dashboard(f, app, area),
         Tab::Catalog => draw_catalog(f, app, area),
         Tab::Backup => draw_backup(f, app, area),
         _ => draw_artifact_list(f, app, area),
     }
+}
+
+fn draw_context_dashboard(f: &mut Frame, app: &App, area: Rect) {
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(16),
+            Constraint::Min(5),
+        ])
+        .split(area);
+
+    let mcps = app.artifacts.iter().filter(|a| a.kind == ArtifactKind::Mcp).count();
+    let hooks = app.artifacts.iter().filter(|a| a.kind == ArtifactKind::Hook).count();
+    let commands = app.artifacts.iter().filter(|a| a.kind == ArtifactKind::Command).count();
+    let agents = app.artifacts.iter().filter(|a| a.kind == ArtifactKind::Agent).count();
+    let skills = app.artifacts.iter().filter(|a| a.kind == ArtifactKind::Skill).count();
+    let context_files = app.artifacts.iter().filter(|a| a.kind == ArtifactKind::ContextFile).count();
+    let memory_files = app.artifacts.iter().filter(|a| a.kind == ArtifactKind::MemoryFile).count();
+    let total = app.artifacts.len();
+    let healthy = app.artifacts.iter().filter(|a| matches!(a.health, Health::Active)).count();
+    let warnings = app.artifacts.iter().filter(|a| matches!(a.health, Health::Warning(_))).count();
+    let broken = app.artifacts.iter().filter(|a| matches!(a.health, Health::Broken(_))).count();
+    let backups = app.backups.len();
+
+    let bar_width = 30usize;
+    let max_count = *[mcps, hooks, commands, agents, skills, context_files, memory_files].iter().max().unwrap_or(&1).max(&1);
+
+    let make_bar = |count: usize, color: Color| -> Vec<Span> {
+        let filled = if max_count > 0 { (count * bar_width) / max_count } else { 0 };
+        let filled = filled.max(if count > 0 { 1 } else { 0 });
+        vec![
+            Span::styled("█".repeat(filled), Style::default().fg(color)),
+            Span::styled("░".repeat(bar_width - filled), Style::default().fg(Color::DarkGray)),
+            Span::styled(format!(" {}", count), Style::default().fg(Color::White).add_modifier(Modifier::BOLD)),
+        ]
+    };
+
+    let mut lines = vec![
+        Line::from(""),
+        Line::from(vec![
+            Span::styled("   Claude Context Manager ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
+            Span::styled(format!("  {} total artifacts", total), Style::default().fg(Color::DarkGray)),
+        ]),
+        Line::from(""),
+    ];
+
+    let categories: Vec<(&str, usize, Color)> = vec![
+        ("  MCPs           ", mcps, Color::Magenta),
+        ("  Hooks          ", hooks, Color::Blue),
+        ("  Commands       ", commands, Color::Green),
+        ("  Agents         ", agents, Color::Yellow),
+        ("  Skills         ", skills, Color::Cyan),
+        ("  Context Files  ", context_files, Color::White),
+        ("  Memory Files   ", memory_files, Color::DarkGray),
+    ];
+
+    for (label, count, color) in categories {
+        let mut spans = vec![Span::styled(label, Style::default().fg(color))];
+        spans.extend(make_bar(count, color));
+        lines.push(Line::from(spans));
+    }
+
+    lines.push(Line::from(""));
+    lines.push(Line::from(vec![
+        Span::styled("  Health  ", Style::default().fg(Color::White)),
+        Span::styled(format!("● {} active  ", healthy), Style::default().fg(Color::Green)),
+        Span::styled(format!("● {} warning  ", warnings), Style::default().fg(Color::Yellow)),
+        Span::styled(format!("○ {} broken  ", broken), Style::default().fg(Color::Red)),
+        Span::styled(format!("  {} backups", backups), Style::default().fg(Color::DarkGray)),
+    ]));
+
+    let summary = Paragraph::new(lines)
+        .block(Block::default()
+            .title(" Dashboard ")
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(Color::Cyan)));
+    f.render_widget(summary, chunks[0]);
+
+    let items = app.current_items();
+    let list_items: Vec<ListItem> = items.iter().enumerate().map(|(i, artifact)| {
+        let (icon, icon_color) = match &artifact.health {
+            Health::Active => ("●", Color::Green),
+            Health::Warning(_) => ("●", Color::Yellow),
+            Health::Broken(_) => ("○", Color::Red),
+        };
+        let selected = i == app.selection;
+        let name_style = if selected {
+            Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)
+        } else {
+            Style::default().fg(Color::White)
+        };
+        let line = Line::from(vec![
+            Span::styled(if selected { " > " } else { "   " }, Style::default().fg(Color::Cyan)),
+            Span::styled(icon, Style::default().fg(icon_color)),
+            Span::raw(" "),
+            Span::styled(&artifact.name, name_style),
+            Span::styled(format!("  [{}]", artifact.scope.label()), Style::default().fg(Color::DarkGray)),
+        ]);
+        ListItem::new(line)
+    }).collect();
+
+    let list = List::new(list_items)
+        .block(Block::default()
+            .title(format!(" Context & Memory ({}) ", items.len()))
+            .borders(Borders::ALL)
+            .border_style(Style::default().fg(Color::DarkGray)));
+    f.render_widget(list, chunks[1]);
 }
 
 fn draw_artifact_list(f: &mut Frame, app: &App, area: Rect) {
