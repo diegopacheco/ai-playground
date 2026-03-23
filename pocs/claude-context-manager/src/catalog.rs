@@ -1,6 +1,8 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::sync::mpsc;
+use std::thread;
 use serde_json::Value;
 use crate::model::{ArtifactKind, CatalogItem};
 
@@ -10,6 +12,7 @@ pub struct Catalog {
     pub items: Vec<CatalogItem>,
     pub temp_dir: Option<tempfile::TempDir>,
     pub status: CatalogStatus,
+    pub receiver: Option<mpsc::Receiver<CatalogResult>>,
 }
 
 pub enum CatalogStatus {
@@ -19,44 +22,88 @@ pub enum CatalogStatus {
     Error(String),
 }
 
+pub struct CatalogResult {
+    pub items: Vec<CatalogItem>,
+    pub temp_dir: Option<tempfile::TempDir>,
+    pub error: Option<String>,
+}
+
 impl Catalog {
     pub fn new() -> Self {
         Self {
             items: Vec::new(),
             temp_dir: None,
             status: CatalogStatus::NotLoaded,
+            receiver: None,
         }
     }
 
-    pub fn load(&mut self) {
+    pub fn start_load(&mut self) {
         self.status = CatalogStatus::Loading;
-        let temp = match tempfile::tempdir() {
-            Ok(t) => t,
-            Err(e) => {
-                self.status = CatalogStatus::Error(format!("temp dir failed: {}", e));
-                return;
-            }
-        };
+        let (tx, rx) = mpsc::channel();
+        self.receiver = Some(rx);
 
-        let clone_path = temp.path().join("ai-playground");
-        let result = Command::new("git")
-            .args(["clone", "--depth", "1", REPO_URL, &clone_path.to_string_lossy()])
-            .output();
+        thread::spawn(move || {
+            let temp = match tempfile::tempdir() {
+                Ok(t) => t,
+                Err(e) => {
+                    let _ = tx.send(CatalogResult {
+                        items: Vec::new(),
+                        temp_dir: None,
+                        error: Some(format!("temp dir failed: {}", e)),
+                    });
+                    return;
+                }
+            };
 
-        match result {
-            Ok(output) if output.status.success() => {
-                self.items = scan_catalog(&clone_path);
-                self.temp_dir = Some(temp);
-                self.status = CatalogStatus::Loaded;
+            let clone_path = temp.path().join("ai-playground");
+            let result = Command::new("git")
+                .args(["clone", "--depth", "1", REPO_URL, &clone_path.to_string_lossy()])
+                .output();
+
+            match result {
+                Ok(output) if output.status.success() => {
+                    let items = scan_catalog(&clone_path);
+                    let _ = tx.send(CatalogResult {
+                        items,
+                        temp_dir: Some(temp),
+                        error: None,
+                    });
+                }
+                Ok(output) => {
+                    let stderr = String::from_utf8_lossy(&output.stderr);
+                    let _ = tx.send(CatalogResult {
+                        items: Vec::new(),
+                        temp_dir: None,
+                        error: Some(format!("git clone failed: {}", stderr)),
+                    });
+                }
+                Err(e) => {
+                    let _ = tx.send(CatalogResult {
+                        items: Vec::new(),
+                        temp_dir: None,
+                        error: Some(format!("git not found: {}", e)),
+                    });
+                }
             }
-            Ok(output) => {
-                let stderr = String::from_utf8_lossy(&output.stderr);
-                self.status = CatalogStatus::Error(format!("git clone failed: {}", stderr));
-            }
-            Err(e) => {
-                self.status = CatalogStatus::Error(format!("git not found: {}", e));
+        });
+    }
+
+    pub fn check_loaded(&mut self) -> bool {
+        if let Some(ref rx) = self.receiver {
+            if let Ok(result) = rx.try_recv() {
+                if let Some(err) = result.error {
+                    self.status = CatalogStatus::Error(err);
+                } else {
+                    self.items = result.items;
+                    self.temp_dir = result.temp_dir;
+                    self.status = CatalogStatus::Loaded;
+                }
+                self.receiver = None;
+                return true;
             }
         }
+        false
     }
 
     pub fn mark_installed(&mut self, installed_names: &[String]) {
