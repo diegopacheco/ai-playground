@@ -1,0 +1,24 @@
+pocs/claude-context-manager/README.md
+  2631620085f27edc 6-28,84,92-93,133-135
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "117fd8137b06678f9829075acd87d557feebeb94",
+  "prompts": {
+    "2631620085f27edc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eb474785-f0ce-4868-94ae-df5031f08af5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 30,
+      "total_deletions": 1,
+      "accepted_lines": 30,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/6bc293183e03fe0628e7a80430d7a9288aeaf4ecbffd4a7af8bf7c4378dd88b5"
+    }
+  }
+}
