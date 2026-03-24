@@ -28,3 +28,7 @@ Light mode - default theme with white background and light gray cards.
 Dark mode - toggled theme with dark background and dark gray cards, preference saved in localStorage.
 <br>
 <img src="dark-on.png" alt="Dark Mode" width="600">
+
+## 3-Passes
+
+See [3-passes/README.md](3-passes/README.md) - Dark mode implemented with cook `x3` repeat passes (3 iterative refinement rounds).
