@@ -126,6 +126,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/moltis-personal-age
 38 - Gas Town <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/gastown-fun
 
+39 - Cook: Raph, Race, Review, Orchestrate loops over claude code <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/cook-cli-fun
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
