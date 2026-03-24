@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Mode</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      background-color: #ffffff;
+      color: #1a1a1a;
+    }
+    body.dark {
+      background-color: #1a1a1a;
+      color: #e0e0e0;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+    p {
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .toggle-btn {
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: 2px solid currentColor;
+      border-radius: 8px;
+      cursor: pointer;
+      background: transparent;
+      color: inherit;
+      margin-bottom: 32px;
+    }
+    .toggle-btn:hover {
+      opacity: 0.7;
+    }
+    .card {
+      max-width: 600px;
+      width: 100%;
+      padding: 24px;
+      border-radius: 12px;
+      background-color: #f0f0f0;
+      margin-bottom: 16px;
+    }
+    body.dark .card {
+      background-color: #2a2a2a;
+    }
+    .card h2 {
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+    }
+    .card p {
+      margin-bottom: 0;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dark Mode</h1>
+  <p>Click the button below to toggle between light and dark themes. Your preference is saved in localStorage.</p>
+  <button class="toggle-btn" onclick="toggleDark()">Toggle Dark Mode</button>
+  <div class="card">
+    <h2>Card One</h2>
+    <p>This card adapts its background and text color based on the current theme.</p>
+  </div>
+  <div class="card">
+    <h2>Card Two</h2>
+    <p>Smooth transitions make the switch between light and dark feel natural.</p>
+  </div>
+  <script>
+    function toggleDark() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('dark', document.body.classList.contains('dark'));
+    }
+    if (localStorage.getItem('dark') === 'true') {
+      document.body.classList.add('dark');
+    }
+  </script>
+</body>
+</html>
