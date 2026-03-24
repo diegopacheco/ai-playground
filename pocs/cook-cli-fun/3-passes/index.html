@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Mode</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Dark Mode</h1>
+      <button id="theme-toggle" class="toggle-btn" aria-label="Toggle dark mode">
+        <span class="slider"></span>
+      </button>
+    </header>
+    <main>
+      <section class="card">
+        <h2>Welcome</h2>
+        <p>This page supports dark mode. Click the toggle button to switch themes. Your preference is saved automatically.</p>
+      </section>
+      <section class="card">
+        <h2>Features</h2>
+        <ul>
+          <li>Smooth theme transitions</li>
+          <li>Persisted preference via localStorage</li>
+          <li>Respects system preference on first visit</li>
+          <li>Keyboard shortcut Ctrl+Shift+L</li>
+          <li>Respects reduced motion preference</li>
+        </ul>
+      </section>
+      <section class="card">
+        <h2>Sample Form</h2>
+        <form onsubmit="return false">
+          <label for="name">Name</label>
+          <input type="text" id="name" placeholder="Enter your name">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Enter your email">
+          <button type="submit" class="btn-primary">Submit</button>
+        </form>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2026 Dark Mode App</p>
+      <p class="shortcut-hint">Toggle: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd></p>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
