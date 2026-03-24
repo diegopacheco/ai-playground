@@ -1,0 +1,32 @@
+pocs/cook-cli-fun/3-passes/app.js
+  98e38493d8a1dceb 1-37
+pocs/cook-cli-fun/3-passes/README.md
+  98e38493d8a1dceb 1-29
+pocs/cook-cli-fun/3-passes/index.html
+  98e38493d8a1dceb 1-50
+pocs/cook-cli-fun/3-passes/style.css
+  98e38493d8a1dceb 1-256
+pocs/cook-cli-fun/3-passes/run.sh
+  98e38493d8a1dceb 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "e39720b2d4b8f5e560ce0d9e056e34204975b961",
+  "prompts": {
+    "98e38493d8a1dceb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b3816dd2-6748-43a2-8482-2e4c89894254",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 391,
+      "total_deletions": 13,
+      "accepted_lines": 378,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/9777aef5605b50ef7e46c90fdcde85121a7a1c9b4b5bbedbf29f470d2f1dde0c"
+    }
+  }
+}
