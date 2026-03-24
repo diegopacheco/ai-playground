@@ -1,0 +1,12 @@
+{
+  "agent": "claude",
+  "sandbox": "agent",
+  "steps": {
+    "work": {},
+    "review": {},
+    "gate": {},
+    "iterate": {},
+    "ralph": {}
+  },
+  "env": []
+}
