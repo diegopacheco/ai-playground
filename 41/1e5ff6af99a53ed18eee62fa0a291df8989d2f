@@ -1,0 +1,42 @@
+pocs/cook-cli-fun/README.md
+  f17c178809280ebd 24-30
+pocs/cook-cli-fun/run.sh
+  f17c178809280ebd 1-2
+pocs/cook-cli-fun/index.html
+  a603d96fd013a7ef 1-94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "411e5ff6af99a53ed18eee62fa0a291df8989d2f",
+  "prompts": {
+    "a603d96fd013a7ef": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "961efd37-fe66-4beb-b50e-27fdc4442cd7",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 94,
+      "total_deletions": 0,
+      "accepted_lines": 94,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/d79d6b407c6bb20891a4471259e81e23b940ad1fd10db6e839f4d709fe6e5391"
+    },
+    "f17c178809280ebd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "41d05d0e-c8e0-4176-a850-c9b458b377b8",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 0,
+      "accepted_lines": 9,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/25da6f62acba33ef7ba4d1b5dc1df1a8aaf9b6cd1b6dc6cbbfbb583fa1975424"
+    }
+  }
+}
