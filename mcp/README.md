@@ -51,9 +51,19 @@ What it does:
 - The generated CLI binary can be used to send commands to the MCP server without needing the original CLI tool or environment.
 - Supports authentication (e.g., OAuth) and can be used to create custom CLIs for specific MCP servers.
 
+### 6. `fastmcp-fun`
+
+FastMCP-based MCP server and client in Python 3.13.
+
+What it does:
+- Builds an MCP server using FastMCP exposing calculator tools (add, subtract, multiply, divide), a greeting resource template, and a math prompt.
+- Includes an MCP client that connects to the server, lists tools/resources/prompts, and calls each one printing results.
+- Uses pure FastMCP with no extra dependencies like litellm or dspy.
+
 ## Notes
 
 - `graph-postgres-mcp` is a POC for a custom MCP server implementation.
 - `flux-kanban-mcp` is an MCP integration/setup around Flux.
 - `claude-code-mcp-playwright-fun` is a Playwright MCP usage project and testing workflow.
 - `llm-judges` is an POC for a LLM-as-judge MCP server design/specification.
+- `fastmcp-fun` is a FastMCP-based MCP server and client in Python.
