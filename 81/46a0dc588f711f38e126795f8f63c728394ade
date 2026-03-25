@@ -1,0 +1,24 @@
+mcp/README.md
+  aed7308655ffcd5c 54-62,69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "8146a0dc588f711f38e126795f8f63c728394ade",
+  "prompts": {
+    "aed7308655ffcd5c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "72c509a4-3819-40ae-807e-b653d625bfb1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 10,
+      "total_deletions": 0,
+      "accepted_lines": 10,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a2d90a67268274e6eed385c8bea0a0be5beadd78a32bb2e6d8770bc09e8ab4c4"
+    }
+  }
+}
