@@ -1,0 +1,8 @@
+spring:
+  ai:
+    mcp:
+      server:
+        type: SYNC
+        protocol: STREAMABLE
+        annotation-scanner:
+          enabled: true
