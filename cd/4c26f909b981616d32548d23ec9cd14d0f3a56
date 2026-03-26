@@ -1,0 +1,46 @@
+pocs/java-25-spring-mcp-testing/src/test/java/com/github/diegopacheco/mcptesting/ExchangeRateMcpToolUnitTest.java
+  0bbc7459c2cb1521 1-22
+pocs/java-25-spring-mcp-testing/src/main/java/com/github/diegopacheco/mcptesting/ExchangeRateResponse.java
+  0bbc7459c2cb1521 1-6
+pocs/java-25-spring-mcp-testing/run.sh
+  0bbc7459c2cb1521 1-2
+pocs/java-25-spring-mcp-testing/README.md
+  0bbc7459c2cb1521 1-125
+pocs/java-25-spring-mcp-testing/test.sh
+  0bbc7459c2cb1521 1-60
+pocs/java-25-spring-mcp-testing/src/main/java/com/github/diegopacheco/mcptesting/ExchangeRateMcpTool.java
+  0bbc7459c2cb1521 1-20
+pocs/java-25-spring-mcp-testing/src/main/java/com/github/diegopacheco/mcptesting/Application.java
+  0bbc7459c2cb1521 1-11
+pocs/java-25-spring-mcp-testing/src/main/java/com/github/diegopacheco/mcptesting/TestMcpClientFactory.java
+  0bbc7459c2cb1521 1-23
+pocs/java-25-spring-mcp-testing/pom.xml
+  0bbc7459c2cb1521 1-19,26-61
+pocs/java-25-spring-mcp-testing/src/test/java/com/github/diegopacheco/mcptesting/ExchangeRateMcpToolIntegrationTest.java
+  0bbc7459c2cb1521 1-72
+pocs/java-25-spring-mcp-testing/src/main/resources/application.yml
+  0bbc7459c2cb1521 1-8
+pocs/java-25-spring-mcp-testing/src/main/java/com/github/diegopacheco/mcptesting/ExchangeRateService.java
+  0bbc7459c2cb1521 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "cd4c26f909b981616d32548d23ec9cd14d0f3a56",
+  "prompts": {
+    "0bbc7459c2cb1521": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4d5706f3-2751-40ee-88b6-a8840c930ab1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 459,
+      "total_deletions": 30,
+      "accepted_lines": 429,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/135262ace904398dee803843b6d51f9997a38bd80a3fbab787a2d0d47cb4f24f"
+    }
+  }
+}
