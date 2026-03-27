@@ -332,23 +332,24 @@ body::before {
 .masonry .giant {
   grid-column: span 7;
   min-height: 260px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.08), transparent 55%),
+    linear-gradient(160deg, transparent 0 58%, rgba(255, 74, 31, 0.16) 58% 62%, transparent 62%),
+    var(--panel);
 }
 
 .masonry .alert {
   grid-column: span 5;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05), transparent),
+    var(--panel);
 }
 
 .masonry .stripe {
   grid-column: span 12;
   min-height: 120px;
   background:
-    repeating-linear-gradient(
-      45deg,
-      var(--accent),
-      var(--accent) 12px,
-      transparent 12px,
-      transparent 24px
-    ),
+    linear-gradient(135deg, transparent 0 28%, var(--accent) 28% 31%, transparent 31% 58%, rgba(255,255,255,0.3) 58% 61%, transparent 61% 100%),
     var(--panel);
 }
 
@@ -356,17 +357,26 @@ body::before {
   grid-column: span 3;
   min-height: 280px;
   border-radius: 180px;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255, 242, 216, 0.82) 0 18%, transparent 19%),
+    radial-gradient(circle at 50% 50%, rgba(120, 204, 222, 0.18) 0 56%, transparent 57%),
+    linear-gradient(180deg, rgba(255,255,255,0.08), transparent),
+    var(--panel);
 }
 
 .skyline .glow {
   grid-column: span 5;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.08), transparent 60%),
+    radial-gradient(circle at 90% 10%, rgba(255,169,120,0.18), transparent 30%),
+    var(--panel);
 }
 
 .skyline .wave {
   grid-column: span 4;
   background:
-    radial-gradient(circle at 50% 130%, var(--accent) 0 34%, transparent 35%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent),
+    linear-gradient(180deg, rgba(255,255,255,0.16), transparent 40%),
+    linear-gradient(135deg, transparent 0 30%, rgba(126, 214, 227, 0.12) 30% 45%, transparent 45% 58%, rgba(255, 169, 120, 0.14) 58% 72%, transparent 72%),
     var(--panel);
 }
 
@@ -441,12 +451,15 @@ body::before {
 .palace .arch {
   grid-column: span 5;
   border-radius: 180px 180px 24px 24px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.58), rgba(255,255,255,0.08)),
+    var(--panel);
 }
 
 .palace .fan {
   grid-column: span 3;
   background:
-    conic-gradient(from 180deg at 50% 100%, transparent 0 10%, rgba(255, 255, 255, 0.4) 10% 20%, transparent 20% 30%, rgba(255, 255, 255, 0.4) 30% 40%, transparent 40% 50%, rgba(255, 255, 255, 0.4) 50% 60%, transparent 60% 70%, rgba(255, 255, 255, 0.4) 70% 80%, transparent 80% 100%),
+    conic-gradient(from 180deg at 50% 100%, transparent 0 10%, rgba(176, 122, 30, 0.28) 10% 20%, transparent 20% 30%, rgba(176, 122, 30, 0.22) 30% 40%, transparent 40% 50%, rgba(176, 122, 30, 0.28) 50% 60%, transparent 60% 70%, rgba(176, 122, 30, 0.22) 70% 80%, transparent 80% 100%),
     var(--panel);
 }
 
@@ -498,35 +511,46 @@ body::before {
 }
 
 .theme-02 {
-  --page-bg: #f6f146;
-  --panel: rgba(17,17,17,0.96);
-  --text: #111;
-  --muted: rgba(255,255,255,0.76);
-  --line: rgba(17,17,17,0.5);
-  --accent: #ff4a1f;
-  --accent-soft: rgba(255,74,31,0.2);
-  --font-display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  --font-body: "Courier New", monospace;
-  --shadow: 14px 14px 0 rgba(17,17,17,0.18);
+  --page-bg: #f3eee3;
+  --panel: rgba(24,24,24,0.92);
+  --text: #181818;
+  --muted: rgba(247,242,233,0.74);
+  --line: rgba(24,24,24,0.16);
+  --accent: #c6442d;
+  --accent-soft: rgba(198,68,45,0.12);
+  --font-display: "Franklin Gothic Heavy", "Arial Black", sans-serif;
+  --font-body: "Nimbus Sans Narrow", "Liberation Sans Narrow", sans-serif;
+  --shadow: 0 24px 70px rgba(24,24,24,0.12);
 }
 
 .theme-02 .hero,
 .theme-02 .detail-card,
 .theme-02 .panel,
 .theme-02 .stat-row div {
-  color: #fff;
+  color: #f7f2e9;
+}
+
+.theme-02 .hero {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.06), transparent 52%),
+    linear-gradient(155deg, transparent 0 76%, rgba(198,68,45,0.14) 76% 80%, transparent 80%),
+    rgba(24,24,24,0.96);
+}
+
+.theme-02 .detail-card {
+  background: rgba(24,24,24,0.9);
 }
 
 .theme-03 {
-  --page-bg: #07142b;
-  --panel: rgba(7,20,43,0.62);
-  --text: #f6f2ff;
-  --muted: rgba(246,242,255,0.76);
-  --line: rgba(123,216,255,0.24);
-  --accent: #ff6b6b;
-  --accent-soft: rgba(255,107,107,0.16);
-  --font-display: "Gill Sans", "Trebuchet MS", sans-serif;
-  --font-body: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  --page-bg: #0d1b29;
+  --panel: rgba(10,27,41,0.7);
+  --text: #ecf4f8;
+  --muted: rgba(236,244,248,0.72);
+  --line: rgba(149,197,214,0.2);
+  --accent: #e58d67;
+  --accent-soft: rgba(229,141,103,0.14);
+  --font-display: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  --font-body: "Trebuchet MS", "Lucida Grande", sans-serif;
   --shadow: 0 30px 90px rgba(0,0,0,0.35);
 }
 
@@ -587,22 +611,33 @@ body::before {
 }
 
 .theme-08 {
-  --page-bg: #f3e5c8;
-  --panel: rgba(61,35,18,0.9);
-  --text: #3d2312;
-  --muted: rgba(244,229,200,0.78);
-  --line: rgba(61,35,18,0.2);
+  --page-bg: #f6efdf;
+  --panel: rgba(255,252,246,0.78);
+  --text: #372313;
+  --muted: rgba(55,35,19,0.66);
+  --line: rgba(176,122,30,0.16);
   --accent: #b07a1e;
-  --accent-soft: rgba(176,122,30,0.16);
-  --font-display: Georgia, serif;
-  --font-body: "Lucida Sans Unicode", sans-serif;
-  --shadow: 0 20px 70px rgba(61,35,18,0.15);
+  --accent-soft: rgba(176,122,30,0.12);
+  --font-display: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  --font-body: "Trebuchet MS", "Lucida Grande", sans-serif;
+  --shadow: 0 24px 70px rgba(61,35,18,0.08);
 }
 
 .theme-08 .hero,
 .theme-08 .detail-card,
 .theme-08 .panel {
-  color: #f4e5c8;
+  color: #3d2312;
+}
+
+.theme-08 .hero {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.24)),
+    rgba(255,252,246,0.72);
+}
+
+.theme-08 .detail-card,
+.theme-08 .panel {
+  background: rgba(255,252,246,0.7);
 }
 
 .theme-09 {
