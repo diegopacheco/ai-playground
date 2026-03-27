@@ -20,10 +20,17 @@ await mkdir("screenshots", { recursive: true });
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 1440, height: 1800 } });
+const page = await browser.newPage({
+  viewport: { width: 1440, height: 1800 },
+  deviceScaleFactor: 2
+});
 
 for (const [pagePath, file] of pages) {
   await page.goto(`file://${root}/${pagePath}`, { waitUntil: "load" });
+  await page.waitForTimeout(1000);
+  await page.addStyleTag({
+    content: `*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;}`
+  });
   await page.screenshot({ path: `screenshots/${file}`, fullPage: true });
 }
 
