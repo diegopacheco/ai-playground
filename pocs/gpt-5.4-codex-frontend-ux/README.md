@@ -21,9 +21,10 @@ Open `http://127.0.0.1:4173`.
 
 ## Screenshot capture
 
-Start the site, then run:
+Run:
 
 ```bash
+bun add -d playwright
 bunx playwright install chromium
 node scripts/capture.mjs
 ```
@@ -37,8 +38,8 @@ Editorial launch page with serif headlines, newsroom spacing, and warm print-lik
 
 ![Signal Bloom](screenshots/landing-01.png)
 
-### 02. Monolith Grid
-Brutalist logistics page with hard edges, industrial blocks, and bold warehouse energy.
+### 02. Transit Form
+Swiss-poster logistics page with sharper alignment, stronger restraint, and a cleaner operational tone.
 
 ![Monolith Grid](screenshots/landing-02.png)
 
@@ -67,8 +68,8 @@ Playful family learning page with kinetic colors, rounded geometry, and upbeat m
 
 ![Sprout Parade](screenshots/landing-07.png)
 
-### 08. Crown Avenue
-Art deco finance page with geometric ornament, symmetry, and ceremonial structure.
+### 08. Aurelian Ledger
+Private wealth page with cream space, subtle gold framing, and a quieter luxury feel.
 
 ![Crown Avenue](screenshots/landing-08.png)
 
