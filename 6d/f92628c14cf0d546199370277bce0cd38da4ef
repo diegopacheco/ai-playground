@@ -1,0 +1,24 @@
+pocs/gpt-5.4-codex-frontend-ux/scripts/capture.mjs
+  cdd1ed94835ad13c 23-25,30-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "6df92628c14cf0d546199370277bce0cd38da4ef",
+  "prompts": {
+    "cdd1ed94835ad13c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d2e51-5583-7db1-81aa-cb18c75f1611",
+        "model": "gpt-5.4"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 8,
+      "total_deletions": 1,
+      "accepted_lines": 7,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/003419f7baf6e56a5c3c58143529f7d4215a326636e767a31113a27e67c25bc7"
+    }
+  }
+}
