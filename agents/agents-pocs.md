@@ -321,3 +321,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-infra-a
 
 63 - Agent Skill: Grafana Generator with Claude/Codex <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-grafana-generator
+
+64 - PR Agent: Multi-agent System for PR review, tests coverage with Claude/Codex/Gemini/Copilot <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-pr-monitor
