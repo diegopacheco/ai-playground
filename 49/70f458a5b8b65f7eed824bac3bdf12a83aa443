@@ -1,0 +1,86 @@
+pocs/agent-pr-monitor/frontend/vite.config.ts
+  f5516e8e661b027b 1-11
+pocs/agent-pr-monitor/src/main.rs
+  f5516e8e661b027b 1-211
+pocs/agent-pr-monitor/design-doc.md
+  f5516e8e661b027b 1-645
+pocs/agent-pr-monitor/frontend/tsconfig.json
+  f5516e8e661b027b 1-21
+pocs/agent-pr-monitor/src/server.rs
+  f5516e8e661b027b 1-233
+pocs/agent-pr-monitor/frontend/src/components/Header.tsx
+  f5516e8e661b027b 1-62
+pocs/agent-pr-monitor/frontend/src/components/PrConversation.tsx
+  f5516e8e661b027b 1-64
+pocs/agent-pr-monitor/src/compiler.rs
+  f5516e8e661b027b 1-133
+pocs/agent-pr-monitor/frontend/src/api/client.ts
+  f5516e8e661b027b 1-54
+pocs/agent-pr-monitor/src/tester.rs
+  f5516e8e661b027b 1-262
+pocs/agent-pr-monitor/run.sh
+  f5516e8e661b027b 1-2
+pocs/agent-pr-monitor/README.md
+  f5516e8e661b027b 1-76
+pocs/agent-pr-monitor/src/monitor.rs
+  f5516e8e661b027b 1-161
+pocs/agent-pr-monitor/frontend/src/components/ActivityLog.tsx
+  f5516e8e661b027b 1-49
+pocs/agent-pr-monitor/frontend/src/main.tsx
+  f5516e8e661b027b 1-5
+pocs/agent-pr-monitor/src/pr.rs
+  f5516e8e661b027b 1-285
+pocs/agent-pr-monitor/frontend/src/components/FileViewer.tsx
+  f5516e8e661b027b 1-104
+pocs/agent-pr-monitor/frontend/src/index.css
+  f5516e8e661b027b 1-638
+pocs/agent-pr-monitor/frontend/package.json
+  f5516e8e661b027b 1-23
+pocs/agent-pr-monitor/src/detect.rs
+  f5516e8e661b027b 1-100
+pocs/agent-pr-monitor/frontend/src/App.tsx
+  f5516e8e661b027b 1-134
+pocs/agent-pr-monitor/frontend/src/components/CounterCards.tsx
+  f5516e8e661b027b 1-41
+pocs/agent-pr-monitor/frontend/src/hooks/useSSE.ts
+  f5516e8e661b027b 1-60
+pocs/agent-pr-monitor/build.sh
+  f5516e8e661b027b 1-2
+pocs/agent-pr-monitor/src/state.rs
+  f5516e8e661b027b 1-229
+pocs/agent-pr-monitor/frontend/src/components/FileExplorer.tsx
+  f5516e8e661b027b 1-79
+pocs/agent-pr-monitor/src/agents.rs
+  f5516e8e661b027b 1-71
+pocs/agent-pr-monitor/Cargo.toml
+  f5516e8e661b027b 1-14
+pocs/agent-pr-monitor/frontend/index.html
+  f5516e8e661b027b 1-12
+pocs/agent-pr-monitor/frontend/src/types/index.ts
+  f5516e8e661b027b 1-104
+pocs/agent-pr-monitor/src/commenter.rs
+  f5516e8e661b027b 1-186
+pocs/agent-pr-monitor/frontend/src/components/AgentLogs.tsx
+  f5516e8e661b027b 1-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "4970f458a5b8b65f7eed824bac3bdf12a83aa443",
+  "prompts": {
+    "f5516e8e661b027b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d22d60-d31b-4342-af3e-0ae9d4316a10",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 4644,
+      "total_deletions": 422,
+      "accepted_lines": 4222,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/85ed09e83e123e4476b8a7f0258df2fbf27dc78d4e2c7ec5a3818734b184fe1a"
+    }
+  }
+}
