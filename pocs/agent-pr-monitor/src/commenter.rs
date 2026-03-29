@@ -94,6 +94,11 @@ fn implement_comment_changes(
     Ok((reply, files_changed))
 }
 
+fn is_agent_comment(body: &str) -> bool {
+    body.starts_with("[claude-") || body.starts_with("[gemini-")
+        || body.starts_with("[copilot-") || body.starts_with("[codex-")
+}
+
 fn handle_review_comments(
     clone_path: &str, agent: &str, model: &str,
     owner: &str, repo: &str, pr_number: u64, state: &SharedState, dry_run: bool,
@@ -107,6 +112,10 @@ fn handle_review_comments(
         let body = comment["body"].as_str().unwrap_or("").to_string();
         let file_path = comment["path"].as_str().map(|s| s.to_string());
         let line = comment["line"].as_u64();
+
+        if is_agent_comment(&body) {
+            continue;
+        }
 
         {
             let st = state.lock().unwrap();
@@ -201,6 +210,10 @@ fn handle_issue_comments(
         let comment_id = comment["id"].as_u64().unwrap_or(0);
         let author = comment["user"]["login"].as_str().unwrap_or("unknown").to_string();
         let body = comment["body"].as_str().unwrap_or("").to_string();
+
+        if is_agent_comment(&body) {
+            continue;
+        }
 
         {
             let st = state.lock().unwrap();
