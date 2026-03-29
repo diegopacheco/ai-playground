@@ -58,6 +58,20 @@ pub fn git_pull(clone_path: &str) -> Result<String, String> {
     Ok(stdout)
 }
 
+pub fn git_merge_abort(clone_path: &str) {
+    let _ = Command::new("git")
+        .args(["merge", "--abort"])
+        .current_dir(clone_path)
+        .output();
+}
+
+pub fn git_reset_hard(clone_path: &str) {
+    let _ = Command::new("git")
+        .args(["reset", "--hard", "HEAD"])
+        .current_dir(clone_path)
+        .output();
+}
+
 pub fn git_add_commit_push(clone_path: &str, message: &str) -> Result<String, String> {
     let output = Command::new("git")
         .args(["add", "-A"])
