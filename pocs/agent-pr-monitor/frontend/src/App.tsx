@@ -4,9 +4,9 @@ import type {
   Counters,
   TestClassification,
   AgentAction,
+  AgentLog,
   ConversationEntry,
   FileEntry,
-  AgentLog,
 } from "./types";
 import {
   fetchStatus,
@@ -90,6 +90,10 @@ export default function App() {
     ),
     onTestClassification: useCallback(
       (tc: TestClassification) => setTestClassification(tc),
+      []
+    ),
+    onNewLog: useCallback(
+      (log: AgentLog) => setLogs((prev) => [...prev, log]),
       []
     ),
     onCycleEnd: useCallback(() => {

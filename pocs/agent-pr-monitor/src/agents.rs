@@ -1,47 +1,49 @@
-use std::io::Write;
 use std::process::Command;
+use std::fs;
 
 pub fn run_llm(agent: &str, model: &str, prompt: &str) -> Result<String, String> {
     let prompt = prompt.replace('\0', "");
+    let tmp_file = format!("/tmp/agent-pr-prompt-{}.txt", std::process::id());
+    fs::write(&tmp_file, &prompt)
+        .map_err(|e| format!("Failed to write prompt file: {}", e))?;
+
     let mut cmd = match agent {
         "claude" => {
-            let mut c = Command::new("claude");
-            c.arg("-p").arg("--model").arg(model).arg("--dangerously-skip-permissions");
+            let mut c = Command::new("sh");
+            c.arg("-c").arg(format!("cat '{}' | claude -p --model {} --dangerously-skip-permissions", tmp_file, model));
             c
         }
         "gemini" => {
-            let mut c = Command::new("gemini");
-            c.arg("-y").arg("-p");
+            let mut c = Command::new("sh");
+            c.arg("-c").arg(format!("cat '{}' | gemini -y -p", tmp_file));
             c
         }
         "copilot" => {
-            let mut c = Command::new("copilot");
-            c.arg("--allow-all").arg("--model").arg(model).arg("-p");
+            let mut c = Command::new("sh");
+            c.arg("-c").arg(format!("cat '{}' | copilot --allow-all --model {} -p", tmp_file, model));
             c
         }
         "codex" => {
-            let mut c = Command::new("codex");
-            c.arg("exec").arg("--full-auto").arg("-m").arg(model);
+            let mut c = Command::new("sh");
+            c.arg("-c").arg(format!("cat '{}' | codex exec --full-auto -m {}", tmp_file, model));
             c
         }
-        _ => return Err(format!("Unknown agent: {}", agent)),
+        _ => {
+            let _ = fs::remove_file(&tmp_file);
+            return Err(format!("Unknown agent: {}", agent));
+        }
     };
 
-    let mut child = cmd
-        .stdin(std::process::Stdio::piped())
+    let output = cmd
         .stdout(std::process::Stdio::piped())
         .stderr(std::process::Stdio::piped())
-        .spawn()
-        .map_err(|e| format!("Failed to spawn {}: {}", agent, e))?;
+        .output()
+        .map_err(|e| {
+            let _ = fs::remove_file(&tmp_file);
+            format!("Failed to spawn {}: {}", agent, e)
+        })?;
 
-    if let Some(mut stdin) = child.stdin.take() {
-        stdin.write_all(prompt.as_bytes())
-            .map_err(|e| format!("Failed to write prompt to {}: {}", agent, e))?;
-    }
-
-    let output = child
-        .wait_with_output()
-        .map_err(|e| format!("Failed to wait for {}: {}", agent, e))?;
+    let _ = fs::remove_file(&tmp_file);
 
     if output.status.success() {
         Ok(String::from_utf8_lossy(&output.stdout).to_string())
@@ -64,6 +66,29 @@ pub fn extract_code_block(response: &str) -> Option<String> {
     } else {
         Some(code)
     }
+}
+
+pub fn extract_all_code_blocks(response: &str) -> Vec<String> {
+    let mut blocks = Vec::new();
+    let mut remaining = response;
+    while let Some(start) = remaining.find("```") {
+        let after = &remaining[start + 3..];
+        let content_start = match after.find('\n') {
+            Some(i) => i + 1,
+            None => break,
+        };
+        let rest = &after[content_start..];
+        let end = match rest.find("```") {
+            Some(i) => i,
+            None => break,
+        };
+        let code = rest[..end].trim().to_string();
+        if !code.is_empty() {
+            blocks.push(code);
+        }
+        remaining = &rest[end + 3..];
+    }
+    blocks
 }
 
 pub fn available_agents() -> Vec<(&'static str, Vec<&'static str>)> {

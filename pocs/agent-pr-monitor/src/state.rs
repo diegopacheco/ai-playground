@@ -160,7 +160,10 @@ impl AppState {
     }
 
     pub fn add_log(&mut self, log: AgentLog) {
+        let json = serde_json::to_string(&log).unwrap_or_default();
         self.logs.push(log);
+        let msg = format!("event: new_log\ndata: {}\n\n", json);
+        self.sse_clients.retain(|sender| sender.send(msg.clone()).is_ok());
     }
 
     pub fn add_comment(&mut self, thread: CommentThread) {
