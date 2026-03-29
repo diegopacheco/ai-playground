@@ -53,9 +53,10 @@ fn handle_review_comments(
         );
 
         let response = agents::run_llm(agent, model, &prompt)?;
+        let prefixed = format!("[{}-{}] {}", agent, model, response);
 
         if !dry_run {
-            pr::reply_to_review_comment(owner, repo, pr_number, comment_id, &response)?;
+            pr::reply_to_review_comment(owner, repo, pr_number, comment_id, &prefixed)?;
         } else {
             println!("[dry-run] Skipping reply to review comment {}", comment_id);
         }
@@ -72,7 +73,7 @@ fn handle_review_comments(
             timestamp: now_timestamp(),
             replies: vec![CommentReply {
                 author: agent.to_string(),
-                body: response.clone(),
+                body: prefixed.clone(),
                 timestamp: now_timestamp(),
                 is_agent: true,
             }],
@@ -149,9 +150,10 @@ fn handle_issue_comments(
         );
 
         let response = agents::run_llm(agent, model, &prompt)?;
+        let prefixed = format!("[{}-{}] {}", agent, model, response);
 
         if !dry_run {
-            pr::post_pr_comment(owner, repo, pr_number, &response)?;
+            pr::post_pr_comment(owner, repo, pr_number, &prefixed)?;
         } else {
             println!("[dry-run] Skipping post of issue comment reply");
         }
@@ -168,7 +170,7 @@ fn handle_issue_comments(
             timestamp: now_timestamp(),
             replies: vec![CommentReply {
                 author: agent.to_string(),
-                body: response.clone(),
+                body: prefixed.clone(),
                 timestamp: now_timestamp(),
                 is_agent: true,
             }],
