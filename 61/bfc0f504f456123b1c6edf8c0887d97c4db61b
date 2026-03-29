@@ -1,0 +1,24 @@
+pocs/agent-pr-monitor/src/agents.rs
+  fdcaaf2f27ce6336 1,9,14,19,24,30-31,37-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "61bfc0f504f456123b1c6edf8c0887d97c4db61b",
+  "prompts": {
+    "fdcaaf2f27ce6336": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f5bbff2a-1837-4d50-a6e1-c5df9c39b8fb",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 16,
+      "total_deletions": 13,
+      "accepted_lines": 12,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f67fb5973a2a2ea7ab55dc4b3d362fc57f17333d93496e32b03066d0383a04da"
+    }
+  }
+}
