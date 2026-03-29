@@ -4,6 +4,11 @@ A Rust CLI tool that monitors GitHub Pull Requests using LLM agents. It clones a
 
 Supports multiple LLM backends via CLI subprocess: `claude`, `gemini`, `copilot`, `codex`.
 
+Here is a PR monitored by the agent:
+https://github.com/diegopacheco/ai-playground/pull/8
+
+The result application is on the folder sample/
+
 ## Features
 
 * Automatic compilation error detection and fixing (up to 10 retries)
