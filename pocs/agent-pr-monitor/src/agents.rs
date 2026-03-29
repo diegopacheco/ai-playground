@@ -2,6 +2,8 @@ use std::process::Command;
 use std::time::Duration;
 
 pub fn run_llm(agent: &str, model: &str, prompt: &str) -> Result<String, String> {
+    let prompt = prompt.replace('\0', "");
+    let prompt = prompt.as_str();
     let mut cmd = match agent {
         "claude" => {
             let mut c = Command::new("claude");
