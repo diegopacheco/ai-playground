@@ -1,0 +1,38 @@
+pocs/agent-pr-monitor/src/commenter.rs
+  fdcaaf2f27ce6336 225-226
+pocs/agent-pr-monitor/src/main.rs
+  fdcaaf2f27ce6336 145-146,150
+pocs/agent-pr-monitor/src/pr.rs
+  fdcaaf2f27ce6336 181-220
+pocs/agent-pr-monitor/src/compiler.rs
+  fdcaaf2f27ce6336 2,8-10,12-13,36
+pocs/agent-pr-monitor/src/state.rs
+  fdcaaf2f27ce6336 189-213
+pocs/agent-pr-monitor/src/tester.rs
+  fdcaaf2f27ce6336 2,11-12,23,34,118,120,123
+pocs/agent-pr-monitor/src/detect.rs
+  fdcaaf2f27ce6336 80-99
+pocs/agent-pr-monitor/src/monitor.rs
+  fdcaaf2f27ce6336 68-74,91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "7cb3c81636d0cd4c7cb6ae5a91c51361cd46f883",
+  "prompts": {
+    "fdcaaf2f27ce6336": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f5bbff2a-1837-4d50-a6e1-c5df9c39b8fb",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 116,
+      "total_deletions": 23,
+      "accepted_lines": 116,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/92ca595a492fcdf0f92c543fcb2c93e4b895bae99ee21fd235d6f30542449c9e"
+    }
+  }
+}
