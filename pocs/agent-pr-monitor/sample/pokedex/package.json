@@ -23,20 +23,20 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular/build": "^21.2.5",
-    "@angular/cli": "^21.2.5",
-    "@angular/compiler-cli": "^21.2.0",
-    "@playwright/test": "^1.52.0",
-    "jsdom": "^28.0.0",
-    "prettier": "^3.8.1",
-    "typescript": "~6.0.2",
     "@angular-eslint/builder": "^19.7.0",
     "@angular-eslint/eslint-plugin": "^19.7.0",
     "@angular-eslint/eslint-plugin-template": "^19.7.0",
     "@angular-eslint/template-parser": "^19.7.0",
+    "@angular/build": "^21.2.5",
+    "@angular/cli": "^21.2.5",
+    "@angular/compiler-cli": "^21.2.0",
+    "@playwright/test": "^1.58.2",
     "@typescript-eslint/eslint-plugin": "^8.34.0",
     "@typescript-eslint/parser": "^8.34.0",
     "eslint": "^9.28.0",
+    "jsdom": "^28.0.0",
+    "prettier": "^3.8.1",
+    "typescript": "~6.0.2",
     "vitest": "^4.0.8"
   }
 }
