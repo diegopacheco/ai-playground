@@ -1,0 +1,34 @@
+pocs/agent-pr-monitor/sample/pokedex/src/app/app.ts
+  967a54aa2cbd5eba 5,10,15
+pocs/agent-pr-monitor/sample/pokedex/src/app/battle.component.ts
+  967a54aa2cbd5eba 1-160
+pocs/agent-pr-monitor/sample/pokedex/src/app/app.html
+  967a54aa2cbd5eba 8-23,27-33,35-37,39-51,53-54,56-61,63-68,70-76,78-86,88-108,113-117
+pocs/agent-pr-monitor/sample/pokedex/src/app/battle.component.css
+  967a54aa2cbd5eba 1-382
+pocs/agent-pr-monitor/sample/pokedex/src/app/app.css
+  967a54aa2cbd5eba 75-104
+pocs/agent-pr-monitor/sample/pokedex/src/app/battle.component.html
+  967a54aa2cbd5eba 1-113
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "7875d98525356244803d993a62428a5bb92ae0d6",
+  "prompts": {
+    "967a54aa2cbd5eba": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a704b347-ec9a-4444-b5c1-969ce436ed93",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 783,
+      "total_deletions": 84,
+      "accepted_lines": 783,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/662ab5e2f01deb8531cf2fd593a2963723f27060454da5d3983b13246dd90850"
+    }
+  }
+}
