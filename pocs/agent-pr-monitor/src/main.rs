@@ -65,23 +65,8 @@ async fn main() {
         .and_then(|p| p.parse().ok())
         .unwrap_or(3000);
 
-    let agent_name = match get_flag(&args, "--llm") {
-        Some(a) => a,
-        None => {
-            println!("Error: --llm is required");
-            print_usage();
-            return;
-        }
-    };
-
-    let model = match get_flag(&args, "--model") {
-        Some(m) => m,
-        None => {
-            println!("Error: --model is required");
-            print_usage();
-            return;
-        }
-    };
+    let agent_name = get_flag(&args, "--llm").unwrap_or_else(|| "claude".to_string());
+    let model = get_flag(&args, "--model").unwrap_or_else(|| "sonnet".to_string());
 
     let refresh_secs = match get_flag(&args, "--refresh") {
         Some(d) => match parse_duration(&d) {
