@@ -1,0 +1,24 @@
+pocs/agent-pr-monitor/sample/pokedex/src/app/pokedex-battle.spec.ts
+  af865560118bda31 1-156
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "3d90f15265e21b718a71dbcf1b145d72ee90a234",
+  "prompts": {
+    "af865560118bda31": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "57474f9b-40b3-4736-a361-8ec8cd35e824",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 222,
+      "total_deletions": 66,
+      "accepted_lines": 156,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/5c3cc99820786f62e7c8681aa499f4a42d691f36a37d1e02b901b9e4ada3bab6"
+    }
+  }
+}
