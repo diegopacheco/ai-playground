@@ -1,0 +1,26 @@
+pocs/agent-pr-monitor/sample/pokedex/e2e/pokedex.spec.ts
+  d89f90868dc5b759 1-72
+pocs/agent-pr-monitor/sample/pokedex/playwright.config.ts
+  d89f90868dc5b759 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "a6a23915cf3855a333621faa6423ffb5d13c34b8",
+  "prompts": {
+    "d89f90868dc5b759": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "01c3f142-3d9b-4bbb-b699-908aac3cf4b0",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 89,
+      "total_deletions": 0,
+      "accepted_lines": 89,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/729bb834eba5177b66cc26c6daa66dddbf139d70a85033bf98e767cec3b7ee82"
+    }
+  }
+}
