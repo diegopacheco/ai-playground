@@ -77,6 +77,26 @@ pub fn detect_project(path: &str) -> DetectedProject {
     }
 }
 
+pub fn detect_project_from_changed_files(clone_path: &str, changed_files: &[String]) -> DetectedProject {
+    for f in changed_files {
+        let full = format!("{}/{}", clone_path, f);
+        let mut dir = std::path::Path::new(&full).parent();
+        while let Some(d) = dir {
+            if d.to_string_lossy().len() < clone_path.len() {
+                break;
+            }
+            if let Some(pt) = detect_at(d) {
+                return DetectedProject {
+                    project_type: pt,
+                    project_root: d.to_string_lossy().to_string(),
+                };
+            }
+            dir = d.parent();
+        }
+    }
+    detect_project(clone_path)
+}
+
 pub fn build_command(project: &ProjectType) -> (&str, Vec<&str>) {
     match project {
         ProjectType::Rust => ("cargo", vec!["build"]),

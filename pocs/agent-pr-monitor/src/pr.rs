@@ -58,6 +58,20 @@ pub fn git_pull(clone_path: &str) -> Result<String, String> {
     Ok(stdout)
 }
 
+pub fn git_merge_abort(clone_path: &str) {
+    let _ = Command::new("git")
+        .args(["merge", "--abort"])
+        .current_dir(clone_path)
+        .output();
+}
+
+pub fn git_reset_hard(clone_path: &str) {
+    let _ = Command::new("git")
+        .args(["reset", "--hard", "HEAD"])
+        .current_dir(clone_path)
+        .output();
+}
+
 pub fn git_add_commit_push(clone_path: &str, message: &str) -> Result<String, String> {
     let output = Command::new("git")
         .args(["add", "-A"])
@@ -135,6 +149,87 @@ pub fn get_pr_branch(owner: &str, repo: &str, pr_number: u64) -> Result<String, 
         return Err(format!("Failed to get PR branch: {}", String::from_utf8_lossy(&output.stderr)));
     }
     Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
+}
+
+pub fn get_pr_base_branch(owner: &str, repo: &str, pr_number: u64) -> Result<String, String> {
+    let output = Command::new("gh")
+        .args([
+            "pr", "view", &pr_number.to_string(),
+            "--repo", &format!("{}/{}", owner, repo),
+            "--json", "baseRefName", "-q", ".baseRefName",
+        ])
+        .output()
+        .map_err(|e| format!("Failed to get PR base branch: {}", e))?;
+    if !output.status.success() {
+        return Err(format!("Failed to get PR base branch: {}", String::from_utf8_lossy(&output.stderr)));
+    }
+    Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
+}
+
+pub fn merge_base_branch(clone_path: &str, base_branch: &str) -> Result<String, String> {
+    let output = Command::new("git")
+        .args(["fetch", "origin", base_branch])
+        .current_dir(clone_path)
+        .output()
+        .map_err(|e| format!("git fetch failed: {}", e))?;
+    if !output.status.success() {
+        return Err(format!("git fetch failed: {}", String::from_utf8_lossy(&output.stderr)));
+    }
+
+    let output = Command::new("git")
+        .args(["merge", &format!("origin/{}", base_branch), "--no-edit"])
+        .current_dir(clone_path)
+        .output()
+        .map_err(|e| format!("git merge failed: {}", e))?;
+    let stdout = String::from_utf8_lossy(&output.stdout).to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr).to_string();
+    if !output.status.success() && (stdout.contains("CONFLICT") || stderr.contains("CONFLICT")) {
+        return Err(format!("Merge conflict: {} {}", stdout, stderr));
+    }
+    if !output.status.success() {
+        return Err(format!("git merge failed: {} {}", stdout, stderr));
+    }
+    Ok(stdout)
+}
+
+pub fn get_pr_changed_files(owner: &str, repo: &str, pr_number: u64) -> Result<Vec<String>, String> {
+    let output = Command::new("gh")
+        .args([
+            "pr", "view", &pr_number.to_string(),
+            "--repo", &format!("{}/{}", owner, repo),
+            "--json", "files", "-q", ".files[].path",
+        ])
+        .output()
+        .map_err(|e| format!("Failed to get PR changed files: {}", e))?;
+    if !output.status.success() {
+        return Err(format!("Failed to get PR changed files: {}", String::from_utf8_lossy(&output.stderr)));
+    }
+    let files: Vec<String> = String::from_utf8_lossy(&output.stdout)
+        .lines()
+        .filter(|l| !l.is_empty())
+        .map(|l| l.to_string())
+        .collect();
+    Ok(files)
+}
+
+pub fn get_changed_dirs(clone_path: &str, changed_files: &[String]) -> Vec<String> {
+    let mut dirs = std::collections::HashSet::new();
+    for f in changed_files {
+        let full = format!("{}/{}", clone_path, f);
+        if let Some(parent) = Path::new(&full).parent() {
+            dirs.insert(parent.to_string_lossy().to_string());
+        }
+    }
+    dirs.into_iter().collect()
+}
+
+pub fn list_changed_source_files(clone_path: &str, changed_files: &[String]) -> Vec<String> {
+    let dirs = get_changed_dirs(clone_path, changed_files);
+    let mut files = Vec::new();
+    for dir in &dirs {
+        list_source_files_recursive(Path::new(dir), &mut files);
+    }
+    files
 }
 
 pub fn get_pr_diff(owner: &str, repo: &str, pr_number: u64) -> Result<String, String> {
@@ -242,10 +337,25 @@ pub fn write_file(path: &str, content: &str) -> Result<(), String> {
     fs::write(path, content).map_err(|e| format!("Failed to write {}: {}", path, e))
 }
 
-pub fn list_source_files(clone_path: &str) -> Vec<String> {
-    let mut files = Vec::new();
-    list_source_files_recursive(Path::new(clone_path), &mut files);
-    files
+fn is_source_file(name: &str) -> bool {
+    let extensions = [
+        ".rs", ".go", ".java", ".kt", ".scala",
+        ".ts", ".tsx", ".js", ".jsx", ".mjs",
+        ".py", ".rb", ".c", ".cpp", ".h", ".hpp",
+        ".cs", ".swift", ".toml", ".yaml", ".yml",
+        ".json", ".xml", ".html", ".css", ".scss",
+        ".sql", ".sh", ".bash", ".zsh",
+        ".mod", ".sum", ".lock", ".gradle",
+    ];
+    let lower = name.to_lowercase();
+    extensions.iter().any(|ext| lower.ends_with(ext))
+        || lower == "makefile"
+        || lower == "dockerfile"
+        || lower == "containerfile"
+        || lower == "cargo.toml"
+        || lower == "pom.xml"
+        || lower == "build.gradle"
+        || lower == "package.json"
 }
 
 fn list_source_files_recursive(path: &Path, files: &mut Vec<String>) {
@@ -260,7 +370,7 @@ fn list_source_files_recursive(path: &Path, files: &mut Vec<String>) {
             }
             if entry_path.is_dir() {
                 list_source_files_recursive(&entry_path, files);
-            } else {
+            } else if is_source_file(&name) {
                 files.push(entry_path.to_string_lossy().to_string());
             }
         }

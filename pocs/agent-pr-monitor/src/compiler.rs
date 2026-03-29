@@ -1,13 +1,16 @@
 use crate::agents;
-use crate::detect::{build_command, detect_project};
+use crate::detect::{build_command, detect_project_from_changed_files};
 use crate::pr;
 use crate::state::{ActionType, AgentAction, AgentLog, SharedState, now_timestamp};
 use std::process::Command;
 
 pub fn check_and_fix_compilation(
-    clone_path: &str, agent: &str, model: &str, state: &SharedState, dry_run: bool,
+    clone_path: &str, agent: &str, model: &str,
+    owner: &str, repo: &str, pr_number: u64,
+    state: &SharedState, dry_run: bool,
 ) -> Result<(), String> {
-    let detected = detect_project(clone_path);
+    let changed_files = pr::get_pr_changed_files(owner, repo, pr_number).unwrap_or_default();
+    let detected = detect_project_from_changed_files(clone_path, &changed_files);
     let project_root = &detected.project_root;
     let (cmd, args) = build_command(&detected.project_type);
 
@@ -30,7 +33,7 @@ pub fn check_and_fix_compilation(
     );
 
     for attempt in 0..10 {
-        let source_files = pr::list_source_files(project_root);
+        let source_files = pr::list_changed_source_files(clone_path, &changed_files);
         let mut file_context = String::new();
         for f in &source_files {
             if let Ok(content) = pr::read_file(f) {

@@ -27,12 +27,33 @@ pub fn run_single_cycle(
             Ok(_) => println!("git pull: OK"),
             Err(e) => {
                 if e.contains("Merge conflict") || e.contains("CONFLICT") {
-                    println!("Merge conflict detected, attempting resolution...");
+                    println!("Merge conflict detected on pull, attempting resolution...");
                     if let Err(err) = resolve_merge_conflict(clone_path, agent, model, state, dry_run) {
-                        println!("Failed to resolve merge conflict: {}", err);
+                        println!("Failed to resolve pull conflict: {}", err);
+                        pr::git_merge_abort(clone_path);
+                        pr::git_reset_hard(clone_path);
+                        println!("Aborted merge, reset to clean state");
                     }
                 } else {
                     println!("git pull error: {}", e);
+                    pr::git_reset_hard(clone_path);
+                }
+            }
+        }
+        let base_branch = pr::get_pr_base_branch(owner, repo, pr_number).unwrap_or_else(|_| "main".to_string());
+        match pr::merge_base_branch(clone_path, &base_branch) {
+            Ok(_) => println!("Base branch merge: OK"),
+            Err(e) => {
+                if e.contains("Merge conflict") || e.contains("CONFLICT") {
+                    println!("Merge conflict with base branch ({}), attempting resolution...", base_branch);
+                    if let Err(err) = resolve_merge_conflict(clone_path, agent, model, state, dry_run) {
+                        println!("Failed to resolve base branch conflict: {}", err);
+                        pr::git_merge_abort(clone_path);
+                        println!("Aborted merge to clean state");
+                    }
+                } else {
+                    println!("Base branch merge error: {}", e);
+                    pr::git_merge_abort(clone_path);
                 }
             }
         }
@@ -51,7 +72,13 @@ pub fn run_single_cycle(
         }
     }
 
-    match compiler::check_and_fix_compilation(clone_path, agent, model, state, dry_run) {
+    let changed_files = pr::get_pr_changed_files(owner, repo, pr_number).unwrap_or_default();
+    if !changed_files.is_empty() {
+        let detected = crate::detect::detect_project_from_changed_files(clone_path, &changed_files);
+        println!("Project detected: {} at {}", detected.project_type, detected.project_root);
+    }
+
+    match compiler::check_and_fix_compilation(clone_path, agent, model, owner, repo, pr_number, state, dry_run) {
         Ok(_) => println!("Compilation: OK"),
         Err(e) => println!("Compilation check: {}", e),
     }
@@ -68,7 +95,7 @@ pub fn run_single_cycle(
 
     {
         let mut st = state.lock().unwrap();
-        st.refresh_file_tree();
+        st.refresh_file_tree_scoped(clone_path, &changed_files);
         let cycle = st.counters.total_cycles;
         st.broadcast_sse_json("cycle_end", &serde_json::json!({"cycle": cycle, "status": "complete"}));
         println!(
