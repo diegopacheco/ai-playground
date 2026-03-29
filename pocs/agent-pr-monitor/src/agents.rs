@@ -1,44 +1,47 @@
+use std::io::Write;
 use std::process::Command;
-use std::time::Duration;
 
 pub fn run_llm(agent: &str, model: &str, prompt: &str) -> Result<String, String> {
     let prompt = prompt.replace('\0', "");
-    let prompt = prompt.as_str();
     let mut cmd = match agent {
         "claude" => {
             let mut c = Command::new("claude");
-            c.arg("-p").arg(prompt).arg("--model").arg(model).arg("--dangerously-skip-permissions");
+            c.arg("-p").arg("--model").arg(model).arg("--dangerously-skip-permissions");
             c
         }
         "gemini" => {
             let mut c = Command::new("gemini");
-            c.arg("-y").arg("-p").arg(prompt);
+            c.arg("-y").arg("-p");
             c
         }
         "copilot" => {
             let mut c = Command::new("copilot");
-            c.arg("--allow-all").arg("--model").arg(model).arg("-p").arg(prompt);
+            c.arg("--allow-all").arg("--model").arg(model).arg("-p");
             c
         }
         "codex" => {
             let mut c = Command::new("codex");
-            c.arg("exec").arg("--full-auto").arg("-m").arg(model).arg(prompt);
+            c.arg("exec").arg("--full-auto").arg("-m").arg(model);
             c
         }
         _ => return Err(format!("Unknown agent: {}", agent)),
     };
 
-    let child = cmd
+    let mut child = cmd
+        .stdin(std::process::Stdio::piped())
         .stdout(std::process::Stdio::piped())
         .stderr(std::process::Stdio::piped())
         .spawn()
         .map_err(|e| format!("Failed to spawn {}: {}", agent, e))?;
 
+    if let Some(mut stdin) = child.stdin.take() {
+        stdin.write_all(prompt.as_bytes())
+            .map_err(|e| format!("Failed to write prompt to {}: {}", agent, e))?;
+    }
+
     let output = child
         .wait_with_output()
         .map_err(|e| format!("Failed to wait for {}: {}", agent, e))?;
-
-    let _ = Duration::from_secs(30);
 
     if output.status.success() {
         Ok(String::from_utf8_lossy(&output.stdout).to_string())
