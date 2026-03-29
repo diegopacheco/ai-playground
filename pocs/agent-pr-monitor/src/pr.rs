@@ -248,6 +248,27 @@ pub fn list_source_files(clone_path: &str) -> Vec<String> {
     files
 }
 
+fn is_source_file(name: &str) -> bool {
+    let extensions = [
+        ".rs", ".go", ".java", ".kt", ".scala",
+        ".ts", ".tsx", ".js", ".jsx", ".mjs",
+        ".py", ".rb", ".c", ".cpp", ".h", ".hpp",
+        ".cs", ".swift", ".toml", ".yaml", ".yml",
+        ".json", ".xml", ".html", ".css", ".scss",
+        ".sql", ".sh", ".bash", ".zsh",
+        ".mod", ".sum", ".lock", ".gradle",
+    ];
+    let lower = name.to_lowercase();
+    extensions.iter().any(|ext| lower.ends_with(ext))
+        || lower == "makefile"
+        || lower == "dockerfile"
+        || lower == "containerfile"
+        || lower == "cargo.toml"
+        || lower == "pom.xml"
+        || lower == "build.gradle"
+        || lower == "package.json"
+}
+
 fn list_source_files_recursive(path: &Path, files: &mut Vec<String>) {
     if let Ok(entries) = fs::read_dir(path) {
         for entry in entries.flatten() {
@@ -260,7 +281,7 @@ fn list_source_files_recursive(path: &Path, files: &mut Vec<String>) {
             }
             if entry_path.is_dir() {
                 list_source_files_recursive(&entry_path, files);
-            } else {
+            } else if is_source_file(&name) {
                 files.push(entry_path.to_string_lossy().to_string());
             }
         }
