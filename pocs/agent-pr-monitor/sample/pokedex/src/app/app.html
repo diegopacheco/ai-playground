@@ -1,0 +1,107 @@
+<div class="pokedex-container">
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="pokeball-icon"></div>
+        <h1>Pokedex</h1>
+      </div>
+      <div class="search-bar">
+        <input
+          type="text"
+          placeholder="Search by name, id, or type..."
+          [ngModel]="searchTerm()"
+          (ngModelChange)="searchTerm.set($event)"
+          (keyup.enter)="onSearch()"
+        />
+        <button class="search-btn" (click)="onSearch()">Search</button>
+      </div>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <div class="pokeball-spinner"></div>
+      <p>Loading Pokemon...</p>
+    </div>
+  }
+
+  @if (searchError()) {
+    <div class="error-msg">{{ searchError() }}</div>
+  }
+
+  @if (!loading()) {
+    <div class="pokemon-grid">
+      @for (pokemon of filteredList(); track pokemon.id) {
+        <div class="pokemon-card" (click)="selectPokemon(pokemon)" [style.border-color]="getTypeColor(pokemon.types[0])">
+          <div class="card-bg" [style.background]="'linear-gradient(135deg, ' + getTypeColor(pokemon.types[0]) + '22, ' + getTypeColor(pokemon.types[0]) + '44)'"></div>
+          <span class="pokemon-id">{{ formatId(pokemon.id) }}</span>
+          <img [src]="pokemon.sprite" [alt]="pokemon.name" class="pokemon-img" loading="lazy" />
+          <h3 class="pokemon-name">{{ capitalize(pokemon.name) }}</h3>
+          <div class="type-badges">
+            @for (type of pokemon.types; track type) {
+              <span class="type-badge" [style.background-color]="getTypeColor(type)">{{ capitalize(type) }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage() === 0" class="page-btn">Previous</button>
+      <span class="page-info">Page {{ currentPage() + 1 }}</span>
+      <button (click)="nextPage()" class="page-btn">Next</button>
+    </div>
+  }
+
+  @if (selectedPokemon(); as pokemon) {
+    <div class="modal-overlay" (click)="closeDetail()">
+      <div class="modal-card" (click)="$event.stopPropagation()" [style.border-top]="'4px solid ' + getTypeColor(pokemon.types[0])">
+        <button class="close-btn" (click)="closeDetail()">X</button>
+        <div class="modal-header" [style.background]="'linear-gradient(135deg, ' + getTypeColor(pokemon.types[0]) + '33, ' + getTypeColor(pokemon.types[0]) + '66)'">
+          <img [src]="pokemon.sprite" [alt]="pokemon.name" class="modal-img" />
+        </div>
+        <div class="modal-body">
+          <span class="modal-id">{{ formatId(pokemon.id) }}</span>
+          <h2>{{ capitalize(pokemon.name) }}</h2>
+          <div class="type-badges modal-types">
+            @for (type of pokemon.types; track type) {
+              <span class="type-badge" [style.background-color]="getTypeColor(type)">{{ capitalize(type) }}</span>
+            }
+          </div>
+          <div class="pokemon-meta">
+            <div class="meta-item">
+              <span class="meta-label">Height</span>
+              <span class="meta-value">{{ pokemon.height / 10 }} m</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Weight</span>
+              <span class="meta-value">{{ pokemon.weight / 10 }} kg</span>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat-row">
+              <span class="stat-label">HP</span>
+              <div class="stat-bar-bg"><div class="stat-bar" [style.width]="getStatBarWidth(pokemon.hp)" [style.background-color]="getStatBarColor(pokemon.hp)"></div></div>
+              <span class="stat-value">{{ pokemon.hp }}</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">ATK</span>
+              <div class="stat-bar-bg"><div class="stat-bar" [style.width]="getStatBarWidth(pokemon.attack)" [style.background-color]="getStatBarColor(pokemon.attack)"></div></div>
+              <span class="stat-value">{{ pokemon.attack }}</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">DEF</span>
+              <div class="stat-bar-bg"><div class="stat-bar" [style.width]="getStatBarWidth(pokemon.defense)" [style.background-color]="getStatBarColor(pokemon.defense)"></div></div>
+              <span class="stat-value">{{ pokemon.defense }}</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">SPD</span>
+              <div class="stat-bar-bg"><div class="stat-bar" [style.width]="getStatBarWidth(pokemon.speed)" [style.background-color]="getStatBarColor(pokemon.speed)"></div></div>
+              <span class="stat-value">{{ pokemon.speed }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
