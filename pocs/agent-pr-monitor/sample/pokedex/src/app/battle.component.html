@@ -1,0 +1,113 @@
+<div class="battle-container">
+  @if (!battleActive()) {
+    <div class="selection-phase">
+      <h2 class="selection-title">
+        @if (selecting() === 'player') {
+          Choose YOUR Pokemon
+        } @else if (selecting() === 'enemy') {
+          Choose OPPONENT Pokemon
+        } @else {
+          Ready to Battle!
+        }
+      </h2>
+
+      <div class="chosen-display">
+        <div class="chosen-slot" [class.filled]="playerPokemon()">
+          @if (playerPokemon(); as p) {
+            <img [src]="p.sprite" [alt]="p.name" class="chosen-img" />
+            <span class="chosen-name">{{ capitalize(p.name) }}</span>
+            <div class="chosen-types">
+              @for (type of p.types; track type) {
+                <span class="type-badge-sm" [style.background-color]="getTypeColor(type)">{{ capitalize(type) }}</span>
+              }
+            </div>
+          } @else {
+            <div class="empty-slot">Your Pokemon</div>
+          }
+        </div>
+
+        <div class="vs-badge">VS</div>
+
+        <div class="chosen-slot" [class.filled]="enemyPokemon()">
+          @if (enemyPokemon(); as e) {
+            <img [src]="e.sprite" [alt]="e.name" class="chosen-img" />
+            <span class="chosen-name">{{ capitalize(e.name) }}</span>
+            <div class="chosen-types">
+              @for (type of e.types; track type) {
+                <span class="type-badge-sm" [style.background-color]="getTypeColor(type)">{{ capitalize(type) }}</span>
+              }
+            </div>
+          } @else {
+            <div class="empty-slot">Opponent</div>
+          }
+        </div>
+      </div>
+
+      @if (!selecting() && playerPokemon() && enemyPokemon()) {
+        <button class="fight-btn" (click)="startBattle()">START BATTLE</button>
+      }
+
+      @if (selecting()) {
+        <div class="search-row">
+          <input type="text" placeholder="Search pokemon..." [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" />
+        </div>
+
+        @if (loading()) {
+          <div class="loading-text">Loading Pokemon...</div>
+        } @else {
+          <div class="pick-grid">
+            @for (pokemon of filteredPokemon(); track pokemon.id) {
+              <div class="pick-card" (click)="selectForBattle(pokemon)" [style.border-color]="getTypeColor(pokemon.types[0])">
+                <img [src]="pokemon.sprite" [alt]="pokemon.name" class="pick-img" loading="lazy" />
+                <span class="pick-name">{{ capitalize(pokemon.name) }}</span>
+                <span class="pick-id">{{ formatId(pokemon.id) }}</span>
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+  }
+
+  @if (battleActive()) {
+    <div class="arena">
+      <div class="arena-field">
+        <div class="fighter player-side">
+          <div class="fighter-info">
+            <span class="fighter-name">{{ capitalize(playerPokemon()!.name) }}</span>
+            <div class="hp-bar-container">
+              <div class="hp-bar" [style.width.%]="playerHpPercent()" [style.background-color]="hpBarColor(playerHpPercent())"></div>
+            </div>
+            <span class="hp-text">{{ playerHp() }} / {{ playerPokemon()!.hp }} HP</span>
+          </div>
+          <img [src]="playerPokemon()!.sprite" [alt]="playerPokemon()!.name" class="arena-sprite player-sprite" />
+        </div>
+
+        <div class="fighter enemy-side">
+          <img [src]="enemyPokemon()!.sprite" [alt]="enemyPokemon()!.name" class="arena-sprite enemy-sprite" />
+          <div class="fighter-info">
+            <span class="fighter-name">{{ capitalize(enemyPokemon()!.name) }}</span>
+            <div class="hp-bar-container">
+              <div class="hp-bar" [style.width.%]="enemyHpPercent()" [style.background-color]="hpBarColor(enemyHpPercent())"></div>
+            </div>
+            <span class="hp-text">{{ enemyHp() }} / {{ enemyPokemon()!.hp }} HP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="battle-controls">
+        @if (!battleOver()) {
+          <button class="attack-btn" (click)="attack()">ATTACK</button>
+        } @else {
+          <button class="reset-btn" (click)="resetBattle()">NEW BATTLE</button>
+        }
+      </div>
+
+      <div class="battle-log">
+        @for (entry of battleLog(); track $index) {
+          <div class="log-entry" [class]="'log-' + entry.type">{{ entry.text }}</div>
+        }
+      </div>
+    </div>
+  }
+</div>
