@@ -222,7 +222,8 @@ fn handle_issue_comments(
             }
         }
 
-        let source_files = pr::list_source_files(clone_path);
+        let changed_files = pr::get_pr_changed_files(owner, repo, pr_number).unwrap_or_default();
+        let source_files = pr::list_changed_source_files(clone_path, &changed_files);
         let mut file_context = String::new();
         for f in source_files.iter().take(10) {
             if let Ok(content) = pr::read_file(f) {

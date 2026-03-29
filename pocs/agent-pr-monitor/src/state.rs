@@ -186,6 +186,31 @@ impl AppState {
         }
     }
 
+    pub fn refresh_file_tree_scoped(&mut self, clone_path: &str, changed_files: &[String]) {
+        if changed_files.is_empty() {
+            self.refresh_file_tree();
+            return;
+        }
+        let dirs = crate::pr::get_changed_dirs(clone_path, changed_files);
+        let mut entries = Vec::new();
+        for dir in &dirs {
+            let path = Path::new(dir);
+            if path.exists() {
+                let dir_name = path.file_name()
+                    .map(|n| n.to_string_lossy().to_string())
+                    .unwrap_or_else(|| dir.clone());
+                entries.push(FileEntry {
+                    path: dir.clone(),
+                    name: dir_name,
+                    is_dir: true,
+                    children: build_file_tree(path),
+                });
+            }
+        }
+        entries.sort_by(|a, b| a.name.cmp(&b.name));
+        self.file_tree = entries;
+    }
+
     pub fn broadcast_sse(&mut self, event: &str, data: &str) {
         let msg = format!("event: {}\ndata: {}\n\n", event, data);
         self.sse_clients.retain(|sender| sender.send(msg.clone()).is_ok());

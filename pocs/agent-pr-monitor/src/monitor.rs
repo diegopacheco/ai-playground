@@ -65,7 +65,13 @@ pub fn run_single_cycle(
         }
     }
 
-    match compiler::check_and_fix_compilation(clone_path, agent, model, state, dry_run) {
+    let changed_files = pr::get_pr_changed_files(owner, repo, pr_number).unwrap_or_default();
+    if !changed_files.is_empty() {
+        let detected = crate::detect::detect_project_from_changed_files(clone_path, &changed_files);
+        println!("Project detected: {} at {}", detected.project_type, detected.project_root);
+    }
+
+    match compiler::check_and_fix_compilation(clone_path, agent, model, owner, repo, pr_number, state, dry_run) {
         Ok(_) => println!("Compilation: OK"),
         Err(e) => println!("Compilation check: {}", e),
     }
@@ -82,7 +88,7 @@ pub fn run_single_cycle(
 
     {
         let mut st = state.lock().unwrap();
-        st.refresh_file_tree();
+        st.refresh_file_tree_scoped(clone_path, &changed_files);
         let cycle = st.counters.total_cycles;
         st.broadcast_sse_json("cycle_end", &serde_json::json!({"cycle": cycle, "status": "complete"}));
         println!(

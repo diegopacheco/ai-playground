@@ -142,10 +142,12 @@ async fn main() {
 
     let state: SharedState = Arc::new(Mutex::new(AppState::new(pr_info)));
 
+    let changed_files = pr::get_pr_changed_files(&owner, &repo, pr_number).unwrap_or_default();
+
     {
         let mut st = state.lock().unwrap();
         st.dry_run = dry_run;
-        st.refresh_file_tree();
+        st.refresh_file_tree_scoped(&clone_path, &changed_files);
     }
 
     if ui_mode {

@@ -1,5 +1,5 @@
 use crate::agents;
-use crate::detect::{detect_project, test_command};
+use crate::detect::{detect_project_from_changed_files, test_command};
 use crate::pr;
 use crate::state::{ActionType, AgentAction, AgentLog, SharedState, now_timestamp};
 use std::process::Command;
@@ -8,7 +8,8 @@ pub fn check_and_fix_tests(
     clone_path: &str, agent: &str, model: &str,
     owner: &str, repo: &str, pr_number: u64, state: &SharedState, dry_run: bool,
 ) -> Result<(), String> {
-    let detected = detect_project(clone_path);
+    let changed_files = pr::get_pr_changed_files(owner, repo, pr_number).unwrap_or_default();
+    let detected = detect_project_from_changed_files(clone_path, &changed_files);
     let project_root = &detected.project_root;
     let (cmd, args) = test_command(&detected.project_type);
 
@@ -19,7 +20,7 @@ pub fn check_and_fix_tests(
         .map_err(|e| format!("Test command failed: {}", e))?;
 
     if output.status.success() {
-        check_test_gaps(clone_path, agent, model, owner, repo, pr_number, state, dry_run)?;
+        check_test_gaps(clone_path, agent, model, owner, repo, pr_number, state, dry_run, &changed_files)?;
         return Ok(());
     }
 
@@ -30,7 +31,7 @@ pub fn check_and_fix_tests(
     );
 
     for attempt in 0..10 {
-        let source_files = pr::list_source_files(project_root);
+        let source_files = pr::list_changed_source_files(clone_path, &changed_files);
         let mut file_context = String::new();
         for f in &source_files {
             if let Ok(content) = pr::read_file(f) {
@@ -114,11 +115,12 @@ pub fn check_and_fix_tests(
 fn check_test_gaps(
     clone_path: &str, agent: &str, model: &str,
     owner: &str, repo: &str, pr_number: u64, state: &SharedState, dry_run: bool,
+    changed_files: &[String],
 ) -> Result<(), String> {
-    let detected = detect_project(clone_path);
+    let detected = detect_project_from_changed_files(clone_path, changed_files);
     let project_root = &detected.project_root;
     let pr_diff = pr::get_pr_diff(owner, repo, pr_number).unwrap_or_default();
-    let source_files = pr::list_source_files(project_root);
+    let source_files = pr::list_changed_source_files(clone_path, &changed_files);
     let mut file_context = String::new();
     let mut test_files = String::new();
 
