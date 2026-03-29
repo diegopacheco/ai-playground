@@ -1,0 +1,44 @@
+pocs/agent-pr-monitor/sample/pokedex/run.sh
+  967a54aa2cbd5eba 1-5
+pocs/agent-pr-monitor/sample/pokedex/eslint.config.mjs
+  967a54aa2cbd5eba 1-22
+pocs/agent-pr-monitor/sample/pokedex/server.ts
+  967a54aa2cbd5eba 1-22
+pocs/agent-pr-monitor/sample/pokedex/build.sh
+  967a54aa2cbd5eba 1-7
+pocs/agent-pr-monitor/sample/pokedex/src/app/app.css
+  967a54aa2cbd5eba 1-465
+pocs/agent-pr-monitor/sample/pokedex/src/app/app.ts
+  967a54aa2cbd5eba 1-4,8-9,11,14-107
+pocs/agent-pr-monitor/sample/pokedex/src/styles.css
+  967a54aa2cbd5eba 1-16
+pocs/agent-pr-monitor/sample/pokedex/angular.json
+  967a54aa2cbd5eba 42-43
+pocs/agent-pr-monitor/sample/pokedex/src/app/app.html
+  967a54aa2cbd5eba 1-25,28-47,49-53,56-103,106-107
+pocs/agent-pr-monitor/sample/pokedex/package.json
+  967a54aa2cbd5eba 9-10,30-37
+pocs/agent-pr-monitor/sample/pokedex/src/app/pokemon.service.ts
+  967a54aa2cbd5eba 1-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "7991ddd2644e93884a0784accfb76e27996c59eb",
+  "prompts": {
+    "967a54aa2cbd5eba": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a704b347-ec9a-4444-b5c1-969ce436ed93",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 812,
+      "total_deletions": 352,
+      "accepted_lines": 805,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/d6be408f3d6ac1cdbdf2e7f389e526a166c74ba29ce3bb3dfafc3af6c9a60d28"
+    }
+  }
+}
