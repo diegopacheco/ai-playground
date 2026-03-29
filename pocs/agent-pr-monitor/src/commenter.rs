@@ -99,12 +99,32 @@ fn is_agent_comment(body: &str) -> bool {
         || body.starts_with("[copilot-") || body.starts_with("[codex-")
 }
 
+fn find_already_answered_ids(comments: &[serde_json::Value]) -> Vec<u64> {
+    let mut answered = Vec::new();
+    for (i, comment) in comments.iter().enumerate() {
+        let body = comment["body"].as_str().unwrap_or("");
+        if is_agent_comment(body) {
+            continue;
+        }
+        let comment_id = comment["id"].as_u64().unwrap_or(0);
+        for later in &comments[i + 1..] {
+            let later_body = later["body"].as_str().unwrap_or("");
+            if is_agent_comment(later_body) {
+                answered.push(comment_id);
+                break;
+            }
+        }
+    }
+    answered
+}
+
 fn handle_review_comments(
     clone_path: &str, agent: &str, model: &str,
     owner: &str, repo: &str, pr_number: u64, state: &SharedState, dry_run: bool,
 ) -> Result<(), String> {
     let json_str = pr::get_pr_comments(owner, repo, pr_number)?;
     let comments: Vec<serde_json::Value> = serde_json::from_str(&json_str).unwrap_or_default();
+    let already_answered = find_already_answered_ids(&comments);
 
     for comment in comments {
         let comment_id = comment["id"].as_u64().unwrap_or(0);
@@ -114,6 +134,10 @@ fn handle_review_comments(
         let line = comment["line"].as_u64();
 
         if is_agent_comment(&body) {
+            continue;
+        }
+
+        if already_answered.contains(&comment_id) {
             continue;
         }
 
@@ -205,6 +229,7 @@ fn handle_issue_comments(
 ) -> Result<(), String> {
     let json_str = pr::get_pr_review_comments(owner, repo, pr_number)?;
     let comments: Vec<serde_json::Value> = serde_json::from_str(&json_str).unwrap_or_default();
+    let already_answered = find_already_answered_ids(&comments);
 
     for comment in comments {
         let comment_id = comment["id"].as_u64().unwrap_or(0);
@@ -212,6 +237,10 @@ fn handle_issue_comments(
         let body = comment["body"].as_str().unwrap_or("").to_string();
 
         if is_agent_comment(&body) {
+            continue;
+        }
+
+        if already_answered.contains(&comment_id) {
             continue;
         }
 
