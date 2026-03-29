@@ -2,15 +2,17 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PokemonService, Pokemon } from './pokemon.service';
+import { BattleComponent } from './battle.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BattleComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
+  activeTab = signal<'pokedex' | 'battle'>('pokedex');
   pokemonList = signal<Pokemon[]>([]);
   selectedPokemon = signal<Pokemon | null>(null);
   searchTerm = signal('');

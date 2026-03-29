@@ -72,6 +72,36 @@
   letter-spacing: 2px;
 }
 
+.tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.tab-btn {
+  padding: 10px 28px;
+  border-radius: 30px;
+  border: 2px solid #333;
+  background: transparent;
+  color: #888;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #e63946, #d62828);
+  border-color: #e63946;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(230, 57, 70, 0.3);
+}
+
+.tab-btn:hover:not(.active) {
+  border-color: #e63946;
+  color: #e63946;
+}
+
 .search-bar {
   display: flex;
   gap: 10px;
