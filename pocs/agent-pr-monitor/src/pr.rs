@@ -137,6 +137,47 @@ pub fn get_pr_branch(owner: &str, repo: &str, pr_number: u64) -> Result<String, 
     Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
 }
 
+pub fn get_pr_base_branch(owner: &str, repo: &str, pr_number: u64) -> Result<String, String> {
+    let output = Command::new("gh")
+        .args([
+            "pr", "view", &pr_number.to_string(),
+            "--repo", &format!("{}/{}", owner, repo),
+            "--json", "baseRefName", "-q", ".baseRefName",
+        ])
+        .output()
+        .map_err(|e| format!("Failed to get PR base branch: {}", e))?;
+    if !output.status.success() {
+        return Err(format!("Failed to get PR base branch: {}", String::from_utf8_lossy(&output.stderr)));
+    }
+    Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
+}
+
+pub fn merge_base_branch(clone_path: &str, base_branch: &str) -> Result<String, String> {
+    let output = Command::new("git")
+        .args(["fetch", "origin", base_branch])
+        .current_dir(clone_path)
+        .output()
+        .map_err(|e| format!("git fetch failed: {}", e))?;
+    if !output.status.success() {
+        return Err(format!("git fetch failed: {}", String::from_utf8_lossy(&output.stderr)));
+    }
+
+    let output = Command::new("git")
+        .args(["merge", &format!("origin/{}", base_branch), "--no-edit"])
+        .current_dir(clone_path)
+        .output()
+        .map_err(|e| format!("git merge failed: {}", e))?;
+    let stdout = String::from_utf8_lossy(&output.stdout).to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr).to_string();
+    if !output.status.success() && (stdout.contains("CONFLICT") || stderr.contains("CONFLICT")) {
+        return Err(format!("Merge conflict: {} {}", stdout, stderr));
+    }
+    if !output.status.success() {
+        return Err(format!("git merge failed: {} {}", stdout, stderr));
+    }
+    Ok(stdout)
+}
+
 pub fn get_pr_diff(owner: &str, repo: &str, pr_number: u64) -> Result<String, String> {
     let output = Command::new("gh")
         .args([

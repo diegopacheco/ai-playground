@@ -27,12 +27,26 @@ pub fn run_single_cycle(
             Ok(_) => println!("git pull: OK"),
             Err(e) => {
                 if e.contains("Merge conflict") || e.contains("CONFLICT") {
-                    println!("Merge conflict detected, attempting resolution...");
+                    println!("Merge conflict detected on pull, attempting resolution...");
                     if let Err(err) = resolve_merge_conflict(clone_path, agent, model, state, dry_run) {
                         println!("Failed to resolve merge conflict: {}", err);
                     }
                 } else {
                     println!("git pull error: {}", e);
+                }
+            }
+        }
+        let base_branch = pr::get_pr_base_branch(owner, repo, pr_number).unwrap_or_else(|_| "main".to_string());
+        match pr::merge_base_branch(clone_path, &base_branch) {
+            Ok(_) => println!("Base branch merge: OK"),
+            Err(e) => {
+                if e.contains("Merge conflict") || e.contains("CONFLICT") {
+                    println!("Merge conflict with base branch, attempting resolution...");
+                    if let Err(err) = resolve_merge_conflict(clone_path, agent, model, state, dry_run) {
+                        println!("Failed to resolve merge conflict: {}", err);
+                    }
+                } else {
+                    println!("Base branch merge error: {}", e);
                 }
             }
         }
