@@ -178,6 +178,46 @@ pub fn merge_base_branch(clone_path: &str, base_branch: &str) -> Result<String, 
     Ok(stdout)
 }
 
+pub fn get_pr_changed_files(owner: &str, repo: &str, pr_number: u64) -> Result<Vec<String>, String> {
+    let output = Command::new("gh")
+        .args([
+            "pr", "view", &pr_number.to_string(),
+            "--repo", &format!("{}/{}", owner, repo),
+            "--json", "files", "-q", ".files[].path",
+        ])
+        .output()
+        .map_err(|e| format!("Failed to get PR changed files: {}", e))?;
+    if !output.status.success() {
+        return Err(format!("Failed to get PR changed files: {}", String::from_utf8_lossy(&output.stderr)));
+    }
+    let files: Vec<String> = String::from_utf8_lossy(&output.stdout)
+        .lines()
+        .filter(|l| !l.is_empty())
+        .map(|l| l.to_string())
+        .collect();
+    Ok(files)
+}
+
+pub fn get_changed_dirs(clone_path: &str, changed_files: &[String]) -> Vec<String> {
+    let mut dirs = std::collections::HashSet::new();
+    for f in changed_files {
+        let full = format!("{}/{}", clone_path, f);
+        if let Some(parent) = Path::new(&full).parent() {
+            dirs.insert(parent.to_string_lossy().to_string());
+        }
+    }
+    dirs.into_iter().collect()
+}
+
+pub fn list_changed_source_files(clone_path: &str, changed_files: &[String]) -> Vec<String> {
+    let dirs = get_changed_dirs(clone_path, changed_files);
+    let mut files = Vec::new();
+    for dir in &dirs {
+        list_source_files_recursive(Path::new(dir), &mut files);
+    }
+    files
+}
+
 pub fn get_pr_diff(owner: &str, repo: &str, pr_number: u64) -> Result<String, String> {
     let output = Command::new("gh")
         .args([
@@ -281,12 +321,6 @@ pub fn read_file(path: &str) -> Result<String, String> {
 
 pub fn write_file(path: &str, content: &str) -> Result<(), String> {
     fs::write(path, content).map_err(|e| format!("Failed to write {}: {}", path, e))
-}
-
-pub fn list_source_files(clone_path: &str) -> Vec<String> {
-    let mut files = Vec::new();
-    list_source_files_recursive(Path::new(clone_path), &mut files);
-    files
 }
 
 fn is_source_file(name: &str) -> bool {
