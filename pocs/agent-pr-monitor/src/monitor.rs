@@ -29,10 +29,14 @@ pub fn run_single_cycle(
                 if e.contains("Merge conflict") || e.contains("CONFLICT") {
                     println!("Merge conflict detected on pull, attempting resolution...");
                     if let Err(err) = resolve_merge_conflict(clone_path, agent, model, state, dry_run) {
-                        println!("Failed to resolve merge conflict: {}", err);
+                        println!("Failed to resolve pull conflict: {}", err);
+                        pr::git_merge_abort(clone_path);
+                        pr::git_reset_hard(clone_path);
+                        println!("Aborted merge, reset to clean state");
                     }
                 } else {
                     println!("git pull error: {}", e);
+                    pr::git_reset_hard(clone_path);
                 }
             }
         }
@@ -41,12 +45,15 @@ pub fn run_single_cycle(
             Ok(_) => println!("Base branch merge: OK"),
             Err(e) => {
                 if e.contains("Merge conflict") || e.contains("CONFLICT") {
-                    println!("Merge conflict with base branch, attempting resolution...");
+                    println!("Merge conflict with base branch ({}), attempting resolution...", base_branch);
                     if let Err(err) = resolve_merge_conflict(clone_path, agent, model, state, dry_run) {
-                        println!("Failed to resolve merge conflict: {}", err);
+                        println!("Failed to resolve base branch conflict: {}", err);
+                        pr::git_merge_abort(clone_path);
+                        println!("Aborted merge to clean state");
                     }
                 } else {
                     println!("Base branch merge error: {}", e);
+                    pr::git_merge_abort(clone_path);
                 }
             }
         }
