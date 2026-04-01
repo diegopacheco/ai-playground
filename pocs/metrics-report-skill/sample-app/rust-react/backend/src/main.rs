@@ -2,7 +2,7 @@ mod models;
 mod service;
 
 use actix_cors::Cors;
-use actix_web::{web, App, HttpResponse, HttpServer, middleware};
+use actix_web::{web, App, HttpResponse, HttpServer};
 use models::{ErrorResponse, HealthResponse, RetirementInput};
 
 async fn calculate(input: web::Json<RetirementInput>) -> HttpResponse {
