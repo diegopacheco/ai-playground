@@ -1,0 +1,24 @@
+pocs/metrics-report-skill/README.md
+  8f575587e5cc086f 1-112
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "9cd2263b3a152da20a5ed2d8a94b23bb52101563",
+  "prompts": {
+    "8f575587e5cc086f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d5c35da7-82d1-41fc-bc2a-fd275fb85a12",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 112,
+      "total_deletions": 0,
+      "accepted_lines": 112,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/c11b90ec5c46640d7dd1ac055af4b3f49b962fcaa7754765e86b16a39bd38dca"
+    }
+  }
+}
