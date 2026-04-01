@@ -1,0 +1,358 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Metrics" [level=1] [ref=e6]
+      - generic [ref=e7]: v1.0
+    - navigation [ref=e8]:
+      - link "D Dashboard" [ref=e9] [cursor=pointer]:
+        - /url: /dashboard
+        - generic [ref=e10]: D
+        - generic [ref=e11]: Dashboard
+      - link "T Tests" [ref=e12] [cursor=pointer]:
+        - /url: /tests
+        - generic [ref=e13]: T
+        - generic [ref=e14]: Tests
+      - link "C Coverage" [ref=e15] [cursor=pointer]:
+        - /url: /coverage
+        - generic [ref=e16]: C
+        - generic [ref=e17]: Coverage
+      - link "F Failures" [ref=e18] [cursor=pointer]:
+        - /url: /failures
+        - generic [ref=e19]: F
+        - generic [ref=e20]: Failures
+      - link "A Authors" [ref=e21] [cursor=pointer]:
+        - /url: /authors
+        - generic [ref=e22]: A
+        - generic [ref=e23]: Authors
+      - link "R Trends" [ref=e24] [cursor=pointer]:
+        - /url: /trends
+        - generic [ref=e25]: R
+        - generic [ref=e26]: Trends
+      - link "Q Quality" [ref=e27] [cursor=pointer]:
+        - /url: /quality
+        - generic [ref=e28]: Q
+        - generic [ref=e29]: Quality
+    - button "Dark Mode" [ref=e31] [cursor=pointer]
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img [ref=e35]
+        - textbox "Search tests, files, authors, metrics..." [ref=e38]
+      - generic [ref=e39]:
+        - generic [ref=e40]: user-service
+        - generic [ref=e41]: main
+        - generic [ref=e42]: a1b2c3d
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e46]: "Total: 234"
+        - generic [ref=e47]: "Passing: 221"
+        - generic [ref=e48]: "Failing: 13"
+      - combobox [ref=e50]:
+        - option "All Types" [selected]
+        - option "unit (156)"
+        - option "integration (38)"
+        - option "contract (8)"
+        - option "e2e (18)"
+        - option "stress (4)"
+        - option "observability (10)"
+      - table [ref=e52]:
+        - rowgroup [ref=e53]:
+          - row "File ^ Type Tests Passing Failing Author Status" [ref=e54]:
+            - columnheader "File ^" [ref=e55] [cursor=pointer]
+            - columnheader "Type" [ref=e56] [cursor=pointer]
+            - columnheader "Tests" [ref=e57] [cursor=pointer]
+            - columnheader "Passing" [ref=e58] [cursor=pointer]
+            - columnheader "Failing" [ref=e59] [cursor=pointer]
+            - columnheader "Author" [ref=e60] [cursor=pointer]
+            - columnheader "Status" [ref=e61] [cursor=pointer]
+        - rowgroup [ref=e62]:
+          - row "frontend/e2e/checkout.e2e.spec.ts e2e 6 6 0 unknown PASS" [ref=e63] [cursor=pointer]:
+            - cell "frontend/e2e/checkout.e2e.spec.ts" [ref=e64]:
+              - link "frontend/e2e/checkout.e2e.spec.ts" [ref=e65]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/frontend/e2e/checkout.e2e.spec.ts
+            - cell "e2e" [ref=e66]
+            - cell "6" [ref=e67]
+            - cell "6" [ref=e68]
+            - cell "0" [ref=e69]
+            - cell "unknown" [ref=e70]
+            - cell "PASS" [ref=e71]
+          - row "frontend/e2e/login.e2e.spec.ts e2e 6 5 1 unknown FAIL" [ref=e72] [cursor=pointer]:
+            - cell "frontend/e2e/login.e2e.spec.ts" [ref=e73]:
+              - link "frontend/e2e/login.e2e.spec.ts" [ref=e74]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/frontend/e2e/login.e2e.spec.ts
+            - cell "e2e" [ref=e75]
+            - cell "6" [ref=e76]
+            - cell "5" [ref=e77]
+            - cell "1" [ref=e78]
+            - cell "unknown" [ref=e79]
+            - cell "FAIL" [ref=e80]
+          - row "frontend/e2e/user-management.e2e.spec.ts e2e 6 5 1 unknown FAIL" [ref=e81] [cursor=pointer]:
+            - cell "frontend/e2e/user-management.e2e.spec.ts" [ref=e82]:
+              - link "frontend/e2e/user-management.e2e.spec.ts" [ref=e83]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/frontend/e2e/user-management.e2e.spec.ts
+            - cell "e2e" [ref=e84]
+            - cell "6" [ref=e85]
+            - cell "5" [ref=e86]
+            - cell "1" [ref=e87]
+            - cell "unknown" [ref=e88]
+            - cell "FAIL" [ref=e89]
+          - row "frontend/src/__tests__/Dashboard.test.tsx unit 5 5 0 unknown PASS" [ref=e90] [cursor=pointer]:
+            - cell "frontend/src/__tests__/Dashboard.test.tsx" [ref=e91]:
+              - link "frontend/src/__tests__/Dashboard.test.tsx" [ref=e92]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/frontend/src/__tests__/Dashboard.test.tsx
+            - cell "unit" [ref=e93]
+            - cell "5" [ref=e94]
+            - cell "5" [ref=e95]
+            - cell "0" [ref=e96]
+            - cell "unknown" [ref=e97]
+            - cell "PASS" [ref=e98]
+          - row "frontend/src/__tests__/LoginForm.test.tsx unit 6 6 0 unknown PASS" [ref=e99] [cursor=pointer]:
+            - cell "frontend/src/__tests__/LoginForm.test.tsx" [ref=e100]:
+              - link "frontend/src/__tests__/LoginForm.test.tsx" [ref=e101]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/frontend/src/__tests__/LoginForm.test.tsx
+            - cell "unit" [ref=e102]
+            - cell "6" [ref=e103]
+            - cell "6" [ref=e104]
+            - cell "0" [ref=e105]
+            - cell "unknown" [ref=e106]
+            - cell "PASS" [ref=e107]
+          - row "frontend/src/__tests__/RoleManager.test.tsx unit 5 5 0 unknown PASS" [ref=e108] [cursor=pointer]:
+            - cell "frontend/src/__tests__/RoleManager.test.tsx" [ref=e109]:
+              - link "frontend/src/__tests__/RoleManager.test.tsx" [ref=e110]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/frontend/src/__tests__/RoleManager.test.tsx
+            - cell "unit" [ref=e111]
+            - cell "5" [ref=e112]
+            - cell "5" [ref=e113]
+            - cell "0" [ref=e114]
+            - cell "unknown" [ref=e115]
+            - cell "PASS" [ref=e116]
+          - row "frontend/src/__tests__/UserList.test.tsx unit 7 6 1 unknown FAIL" [ref=e117] [cursor=pointer]:
+            - cell "frontend/src/__tests__/UserList.test.tsx" [ref=e118]:
+              - link "frontend/src/__tests__/UserList.test.tsx" [ref=e119]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/frontend/src/__tests__/UserList.test.tsx
+            - cell "unit" [ref=e120]
+            - cell "7" [ref=e121]
+            - cell "6" [ref=e122]
+            - cell "1" [ref=e123]
+            - cell "unknown" [ref=e124]
+            - cell "FAIL" [ref=e125]
+          - row "frontend/src/__tests__/UserProfile.test.tsx unit 5 5 0 unknown PASS" [ref=e126] [cursor=pointer]:
+            - cell "frontend/src/__tests__/UserProfile.test.tsx" [ref=e127]:
+              - link "frontend/src/__tests__/UserProfile.test.tsx" [ref=e128]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/frontend/src/__tests__/UserProfile.test.tsx
+            - cell "unit" [ref=e129]
+            - cell "5" [ref=e130]
+            - cell "5" [ref=e131]
+            - cell "0" [ref=e132]
+            - cell "unknown" [ref=e133]
+            - cell "PASS" [ref=e134]
+          - row "src/test/java/com/example/userservice/config/SecurityConfigTest.java unit 5 5 0 unknown PASS" [ref=e135] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/config/SecurityConfigTest.java" [ref=e136]:
+              - link "src/test/java/com/example/userservice/config/SecurityConfigTest.java" [ref=e137]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/config/SecurityConfigTest.java
+            - cell "unit" [ref=e138]
+            - cell "5" [ref=e139]
+            - cell "5" [ref=e140]
+            - cell "0" [ref=e141]
+            - cell "unknown" [ref=e142]
+            - cell "PASS" [ref=e143]
+          - row "src/test/java/com/example/userservice/contract/AuthApiContractTest.java contract 4 4 0 unknown PASS" [ref=e144] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/contract/AuthApiContractTest.java" [ref=e145]:
+              - link "src/test/java/com/example/userservice/contract/AuthApiContractTest.java" [ref=e146]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/contract/AuthApiContractTest.java
+            - cell "contract" [ref=e147]
+            - cell "4" [ref=e148]
+            - cell "4" [ref=e149]
+            - cell "0" [ref=e150]
+            - cell "unknown" [ref=e151]
+            - cell "PASS" [ref=e152]
+          - row "src/test/java/com/example/userservice/contract/UserApiContractTest.java contract 4 4 0 unknown PASS" [ref=e153] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/contract/UserApiContractTest.java" [ref=e154]:
+              - link "src/test/java/com/example/userservice/contract/UserApiContractTest.java" [ref=e155]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/contract/UserApiContractTest.java
+            - cell "contract" [ref=e156]
+            - cell "4" [ref=e157]
+            - cell "4" [ref=e158]
+            - cell "0" [ref=e159]
+            - cell "unknown" [ref=e160]
+            - cell "PASS" [ref=e161]
+          - row "src/test/java/com/example/userservice/controller/HealthControllerTest.java unit 5 5 0 unknown PASS" [ref=e162] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/controller/HealthControllerTest.java" [ref=e163]:
+              - link "src/test/java/com/example/userservice/controller/HealthControllerTest.java" [ref=e164]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/controller/HealthControllerTest.java
+            - cell "unit" [ref=e165]
+            - cell "5" [ref=e166]
+            - cell "5" [ref=e167]
+            - cell "0" [ref=e168]
+            - cell "unknown" [ref=e169]
+            - cell "PASS" [ref=e170]
+          - row "src/test/java/com/example/userservice/controller/UserControllerTest.java unit 10 9 1 unknown FAIL" [ref=e171] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/controller/UserControllerTest.java" [ref=e172]:
+              - link "src/test/java/com/example/userservice/controller/UserControllerTest.java" [ref=e173]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/controller/UserControllerTest.java
+            - cell "unit" [ref=e174]
+            - cell "10" [ref=e175]
+            - cell "9" [ref=e176]
+            - cell "1" [ref=e177]
+            - cell "unknown" [ref=e178]
+            - cell "FAIL" [ref=e179]
+          - row "src/test/java/com/example/userservice/integration/AuthApiIT.java integration 7 6 1 unknown FAIL" [ref=e180] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/integration/AuthApiIT.java" [ref=e181]:
+              - link "src/test/java/com/example/userservice/integration/AuthApiIT.java" [ref=e182]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/integration/AuthApiIT.java
+            - cell "integration" [ref=e183]
+            - cell "7" [ref=e184]
+            - cell "6" [ref=e185]
+            - cell "1" [ref=e186]
+            - cell "unknown" [ref=e187]
+            - cell "FAIL" [ref=e188]
+          - row "src/test/java/com/example/userservice/integration/CacheIT.java integration 5 4 1 unknown FAIL" [ref=e189] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/integration/CacheIT.java" [ref=e190]:
+              - link "src/test/java/com/example/userservice/integration/CacheIT.java" [ref=e191]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/integration/CacheIT.java
+            - cell "integration" [ref=e192]
+            - cell "5" [ref=e193]
+            - cell "4" [ref=e194]
+            - cell "1" [ref=e195]
+            - cell "unknown" [ref=e196]
+            - cell "FAIL" [ref=e197]
+          - row "src/test/java/com/example/userservice/integration/DatabaseIT.java integration 6 6 0 unknown PASS" [ref=e198] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/integration/DatabaseIT.java" [ref=e199]:
+              - link "src/test/java/com/example/userservice/integration/DatabaseIT.java" [ref=e200]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/integration/DatabaseIT.java
+            - cell "integration" [ref=e201]
+            - cell "6" [ref=e202]
+            - cell "6" [ref=e203]
+            - cell "0" [ref=e204]
+            - cell "unknown" [ref=e205]
+            - cell "PASS" [ref=e206]
+          - row "src/test/java/com/example/userservice/integration/ExternalApiIT.java integration 6 6 0 unknown PASS" [ref=e207] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/integration/ExternalApiIT.java" [ref=e208]:
+              - link "src/test/java/com/example/userservice/integration/ExternalApiIT.java" [ref=e209]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/integration/ExternalApiIT.java
+            - cell "integration" [ref=e210]
+            - cell "6" [ref=e211]
+            - cell "6" [ref=e212]
+            - cell "0" [ref=e213]
+            - cell "unknown" [ref=e214]
+            - cell "PASS" [ref=e215]
+          - row "src/test/java/com/example/userservice/integration/MessagingIT.java integration 6 6 0 unknown PASS" [ref=e216] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/integration/MessagingIT.java" [ref=e217]:
+              - link "src/test/java/com/example/userservice/integration/MessagingIT.java" [ref=e218]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/integration/MessagingIT.java
+            - cell "integration" [ref=e219]
+            - cell "6" [ref=e220]
+            - cell "6" [ref=e221]
+            - cell "0" [ref=e222]
+            - cell "unknown" [ref=e223]
+            - cell "PASS" [ref=e224]
+          - row "src/test/java/com/example/userservice/integration/UserApiIT.java integration 8 7 1 unknown FAIL" [ref=e225] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/integration/UserApiIT.java" [ref=e226]:
+              - link "src/test/java/com/example/userservice/integration/UserApiIT.java" [ref=e227]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/integration/UserApiIT.java
+            - cell "integration" [ref=e228]
+            - cell "8" [ref=e229]
+            - cell "7" [ref=e230]
+            - cell "1" [ref=e231]
+            - cell "unknown" [ref=e232]
+            - cell "FAIL" [ref=e233]
+          - row "src/test/java/com/example/userservice/mapper/UserMapperTest.java unit 5 5 0 unknown PASS" [ref=e234] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/mapper/UserMapperTest.java" [ref=e235]:
+              - link "src/test/java/com/example/userservice/mapper/UserMapperTest.java" [ref=e236]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/mapper/UserMapperTest.java
+            - cell "unit" [ref=e237]
+            - cell "5" [ref=e238]
+            - cell "5" [ref=e239]
+            - cell "0" [ref=e240]
+            - cell "unknown" [ref=e241]
+            - cell "PASS" [ref=e242]
+          - row "src/test/java/com/example/userservice/observability/MetricsTest.java observability 5 4 1 unknown FAIL" [ref=e243] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/observability/MetricsTest.java" [ref=e244]:
+              - link "src/test/java/com/example/userservice/observability/MetricsTest.java" [ref=e245]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/observability/MetricsTest.java
+            - cell "observability" [ref=e246]
+            - cell "5" [ref=e247]
+            - cell "4" [ref=e248]
+            - cell "1" [ref=e249]
+            - cell "unknown" [ref=e250]
+            - cell "FAIL" [ref=e251]
+          - row "src/test/java/com/example/userservice/observability/TracingTest.java observability 5 4 1 unknown FAIL" [ref=e252] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/observability/TracingTest.java" [ref=e253]:
+              - link "src/test/java/com/example/userservice/observability/TracingTest.java" [ref=e254]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/observability/TracingTest.java
+            - cell "observability" [ref=e255]
+            - cell "5" [ref=e256]
+            - cell "4" [ref=e257]
+            - cell "1" [ref=e258]
+            - cell "unknown" [ref=e259]
+            - cell "FAIL" [ref=e260]
+          - row "src/test/java/com/example/userservice/repository/UserRepositoryTest.java unit 7 7 0 unknown PASS" [ref=e261] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/repository/UserRepositoryTest.java" [ref=e262]:
+              - link "src/test/java/com/example/userservice/repository/UserRepositoryTest.java" [ref=e263]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/repository/UserRepositoryTest.java
+            - cell "unit" [ref=e264]
+            - cell "7" [ref=e265]
+            - cell "7" [ref=e266]
+            - cell "0" [ref=e267]
+            - cell "unknown" [ref=e268]
+            - cell "PASS" [ref=e269]
+          - row "src/test/java/com/example/userservice/service/AuthServiceTest.java unit 8 7 1 unknown FAIL" [ref=e270] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/service/AuthServiceTest.java" [ref=e271]:
+              - link "src/test/java/com/example/userservice/service/AuthServiceTest.java" [ref=e272]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/service/AuthServiceTest.java
+            - cell "unit" [ref=e273]
+            - cell "8" [ref=e274]
+            - cell "7" [ref=e275]
+            - cell "1" [ref=e276]
+            - cell "unknown" [ref=e277]
+            - cell "FAIL" [ref=e278]
+          - row "src/test/java/com/example/userservice/service/NotificationServiceTest.java unit 6 5 1 unknown FAIL" [ref=e279] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/service/NotificationServiceTest.java" [ref=e280]:
+              - link "src/test/java/com/example/userservice/service/NotificationServiceTest.java" [ref=e281]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/service/NotificationServiceTest.java
+            - cell "unit" [ref=e282]
+            - cell "6" [ref=e283]
+            - cell "5" [ref=e284]
+            - cell "1" [ref=e285]
+            - cell "unknown" [ref=e286]
+            - cell "FAIL" [ref=e287]
+          - row "src/test/java/com/example/userservice/service/RoleServiceTest.java unit 5 4 1 unknown FAIL" [ref=e288] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/service/RoleServiceTest.java" [ref=e289]:
+              - link "src/test/java/com/example/userservice/service/RoleServiceTest.java" [ref=e290]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/service/RoleServiceTest.java
+            - cell "unit" [ref=e291]
+            - cell "5" [ref=e292]
+            - cell "4" [ref=e293]
+            - cell "1" [ref=e294]
+            - cell "unknown" [ref=e295]
+            - cell "FAIL" [ref=e296]
+          - row "src/test/java/com/example/userservice/service/UserServiceTest.java unit 11 10 1 unknown FAIL" [ref=e297] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/service/UserServiceTest.java" [ref=e298]:
+              - link "src/test/java/com/example/userservice/service/UserServiceTest.java" [ref=e299]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/service/UserServiceTest.java
+            - cell "unit" [ref=e300]
+            - cell "11" [ref=e301]
+            - cell "10" [ref=e302]
+            - cell "1" [ref=e303]
+            - cell "unknown" [ref=e304]
+            - cell "FAIL" [ref=e305]
+          - row "src/test/java/com/example/userservice/validation/UserValidatorTest.java unit 6 6 0 unknown PASS" [ref=e306] [cursor=pointer]:
+            - cell "src/test/java/com/example/userservice/validation/UserValidatorTest.java" [ref=e307]:
+              - link "src/test/java/com/example/userservice/validation/UserValidatorTest.java" [ref=e308]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/src/test/java/com/example/userservice/validation/UserValidatorTest.java
+            - cell "unit" [ref=e309]
+            - cell "6" [ref=e310]
+            - cell "6" [ref=e311]
+            - cell "0" [ref=e312]
+            - cell "unknown" [ref=e313]
+            - cell "PASS" [ref=e314]
+          - row "stress/load-test-users.k6.js stress 4 4 0 unknown PASS" [ref=e315] [cursor=pointer]:
+            - cell "stress/load-test-users.k6.js" [ref=e316]:
+              - link "stress/load-test-users.k6.js" [ref=e317]:
+                - /url: https://github.com/diegopacheco/user-service/blob/main/stress/load-test-users.k6.js
+            - cell "stress" [ref=e318]
+            - cell "4" [ref=e319]
+            - cell "4" [ref=e320]
+            - cell "0" [ref=e321]
+            - cell "unknown" [ref=e322]
+            - cell "PASS" [ref=e323]
