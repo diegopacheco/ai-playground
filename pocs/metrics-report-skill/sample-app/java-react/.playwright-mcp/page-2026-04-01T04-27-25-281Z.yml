@@ -1,0 +1,134 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - heading "Metrics" [level=1] [ref=e6]
+        - generic [ref=e7]: v1.0
+      - navigation [ref=e8]:
+        - link "D Dashboard" [ref=e9] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e10]: D
+          - generic [ref=e11]: Dashboard
+        - link "T Tests" [ref=e12] [cursor=pointer]:
+          - /url: /tests
+          - generic [ref=e13]: T
+          - generic [ref=e14]: Tests
+        - link "C Coverage" [ref=e15] [cursor=pointer]:
+          - /url: /coverage
+          - generic [ref=e16]: C
+          - generic [ref=e17]: Coverage
+        - link "F Failures" [ref=e18] [cursor=pointer]:
+          - /url: /failures
+          - generic [ref=e19]: F
+          - generic [ref=e20]: Failures
+        - link "A Authors" [ref=e21] [cursor=pointer]:
+          - /url: /authors
+          - generic [ref=e22]: A
+          - generic [ref=e23]: Authors
+        - link "R Trends" [ref=e24] [cursor=pointer]:
+          - /url: /trends
+          - generic [ref=e25]: R
+          - generic [ref=e26]: Trends
+        - link "Q Quality" [ref=e27] [cursor=pointer]:
+          - /url: /quality
+          - generic [ref=e28]: Q
+          - generic [ref=e29]: Quality
+      - button "Dark Mode" [ref=e31] [cursor=pointer]
+    - main [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - img [ref=e35]
+          - textbox "Search tests, files, authors, metrics..." [ref=e38]
+        - generic [ref=e39]:
+          - generic [ref=e40]: ai-playground
+          - generic [ref=e41]: main
+          - generic [ref=e42]: e581dcfb
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - heading "Total Tests Over Time" [level=3] [ref=e47]
+            - img [ref=e50]:
+              - generic [ref=e57]: 3/31
+              - generic [ref=e59]:
+                - generic [ref=e61]: "0"
+                - generic [ref=e63]: "5"
+                - generic [ref=e65]: "10"
+                - generic [ref=e67]: "15"
+                - generic [ref=e69]: "20"
+          - generic [ref=e73]:
+            - heading "Pass Rate Over Time" [level=3] [ref=e74]
+            - img [ref=e77]:
+              - generic [ref=e84]: 3/31
+              - generic [ref=e86]:
+                - generic [ref=e88]: "0"
+                - generic [ref=e90]: "25"
+                - generic [ref=e92]: "50"
+                - generic [ref=e94]: "75"
+                - generic [ref=e96]: "100"
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - heading "Score Over Time" [level=3] [ref=e102]
+            - img [ref=e105]:
+              - generic [ref=e112]: 3/31
+              - generic [ref=e114]:
+                - generic [ref=e116]: "0"
+                - generic [ref=e118]: "2"
+                - generic [ref=e120]: "4"
+                - generic [ref=e122]: "6"
+                - generic [ref=e124]: "8"
+          - generic [ref=e128]:
+            - heading "Coverage Over Time" [level=3] [ref=e129]
+            - img [ref=e132]:
+              - generic [ref=e139]: 3/31
+              - generic [ref=e141]:
+                - generic [ref=e143]: "0"
+                - generic [ref=e145]: "8"
+                - generic [ref=e147]: "16"
+                - generic [ref=e149]: "24"
+                - generic [ref=e151]: "32"
+        - generic [ref=e156]:
+          - heading "Tests by Type Over Time" [level=3] [ref=e157]
+          - generic [ref=e159]:
+            - img [ref=e160]:
+              - generic [ref=e167]: 3/31
+              - generic [ref=e169]:
+                - generic [ref=e171]: "0"
+                - generic [ref=e173]: "5"
+                - generic [ref=e175]: "10"
+                - generic [ref=e177]: "15"
+                - generic [ref=e179]: "20"
+            - list [ref=e214]:
+              - listitem [ref=e215]:
+                - img [ref=e216]
+                - text: unit
+              - listitem [ref=e218]:
+                - img [ref=e219]
+                - text: integration
+              - listitem [ref=e221]:
+                - img [ref=e222]
+                - text: contract
+              - listitem [ref=e224]:
+                - img [ref=e225]
+                - text: e2e
+              - listitem [ref=e227]:
+                - img [ref=e228]
+                - text: css
+              - listitem [ref=e230]:
+                - img [ref=e231]
+                - text: stress
+              - listitem [ref=e233]:
+                - img [ref=e234]
+                - text: chaos
+              - listitem [ref=e236]:
+                - img [ref=e237]
+                - text: mutation
+              - listitem [ref=e239]:
+                - img [ref=e240]
+                - text: observability
+              - listitem [ref=e242]:
+                - img [ref=e243]
+                - text: fuzzy
+              - listitem [ref=e245]:
+                - img [ref=e246]
+                - text: propertybased
+  - generic [ref=e248]: "16"

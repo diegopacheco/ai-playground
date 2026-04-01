@@ -1,0 +1,103 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Metrics" [level=1] [ref=e6]
+      - generic [ref=e7]: v1.0
+    - navigation [ref=e8]:
+      - link "D Dashboard" [ref=e9] [cursor=pointer]:
+        - /url: /dashboard
+        - generic [ref=e10]: D
+        - generic [ref=e11]: Dashboard
+      - link "T Tests" [ref=e12] [cursor=pointer]:
+        - /url: /tests
+        - generic [ref=e13]: T
+        - generic [ref=e14]: Tests
+      - link "C Coverage" [ref=e15] [cursor=pointer]:
+        - /url: /coverage
+        - generic [ref=e16]: C
+        - generic [ref=e17]: Coverage
+      - link "F Failures" [ref=e18] [cursor=pointer]:
+        - /url: /failures
+        - generic [ref=e19]: F
+        - generic [ref=e20]: Failures
+      - link "A Authors" [ref=e21] [cursor=pointer]:
+        - /url: /authors
+        - generic [ref=e22]: A
+        - generic [ref=e23]: Authors
+      - link "R Trends" [ref=e24] [cursor=pointer]:
+        - /url: /trends
+        - generic [ref=e25]: R
+        - generic [ref=e26]: Trends
+      - link "Q Quality" [ref=e27] [cursor=pointer]:
+        - /url: /quality
+        - generic [ref=e28]: Q
+        - generic [ref=e29]: Quality
+    - button "Dark Mode" [ref=e31] [cursor=pointer]
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img [ref=e35]
+        - textbox "Search tests, files, authors, metrics..." [ref=e38]
+      - generic [ref=e39]:
+        - generic [ref=e40]: ai-playground
+        - generic [ref=e41]: main
+        - generic [ref=e42]: e581dcfb
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e46]: "Total: 20"
+        - generic [ref=e47]: "Passing: 19"
+        - generic [ref=e48]: "Failing: 1"
+      - combobox [ref=e50]:
+        - option "All Types" [selected]
+        - option "unit (20)"
+      - table [ref=e52]:
+        - rowgroup [ref=e53]:
+          - row "File ^ Type Tests Passing Failing Author Status" [ref=e54]:
+            - columnheader "File ^" [ref=e55] [cursor=pointer]
+            - columnheader "Type" [ref=e56] [cursor=pointer]
+            - columnheader "Tests" [ref=e57] [cursor=pointer]
+            - columnheader "Passing" [ref=e58] [cursor=pointer]
+            - columnheader "Failing" [ref=e59] [cursor=pointer]
+            - columnheader "Author" [ref=e60] [cursor=pointer]
+            - columnheader "Status" [ref=e61] [cursor=pointer]
+        - rowgroup [ref=e62]:
+          - row "backend/src/test/java/com/retirement/service/RetirementCalculationServiceTest.java unit 10 10 0 diegopacheco PASS" [ref=e63] [cursor=pointer]:
+            - cell "backend/src/test/java/com/retirement/service/RetirementCalculationServiceTest.java" [ref=e64]:
+              - link "backend/src/test/java/com/retirement/service/RetirementCalculationServiceTest.java" [ref=e65]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/test/java/com/retirement/service/RetirementCalculationServiceTest.java
+            - cell "unit" [ref=e66]
+            - cell "10" [ref=e67]
+            - cell "10" [ref=e68]
+            - cell "0" [ref=e69]
+            - cell "diegopacheco" [ref=e70]
+            - cell "PASS" [ref=e71]
+          - row "frontend/src/__tests__/App.test.js unit 5 5 0 diegopacheco PASS" [ref=e72] [cursor=pointer]:
+            - cell "frontend/src/__tests__/App.test.js" [ref=e73]:
+              - link "frontend/src/__tests__/App.test.js" [ref=e74]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/frontend/src/__tests__/App.test.js
+            - cell "unit" [ref=e75]
+            - cell "5" [ref=e76]
+            - cell "5" [ref=e77]
+            - cell "0" [ref=e78]
+            - cell "diegopacheco" [ref=e79]
+            - cell "PASS" [ref=e80]
+          - row "frontend/src/__tests__/HomePage.test.js unit 3 3 0 diegopacheco PASS" [ref=e81] [cursor=pointer]:
+            - cell "frontend/src/__tests__/HomePage.test.js" [ref=e82]:
+              - link "frontend/src/__tests__/HomePage.test.js" [ref=e83]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/frontend/src/__tests__/HomePage.test.js
+            - cell "unit" [ref=e84]
+            - cell "3" [ref=e85]
+            - cell "3" [ref=e86]
+            - cell "0" [ref=e87]
+            - cell "diegopacheco" [ref=e88]
+            - cell "PASS" [ref=e89]
+          - row "frontend/src/__tests__/ResultsPage.test.js unit 2 1 1 diegopacheco FAIL" [ref=e90] [cursor=pointer]:
+            - cell "frontend/src/__tests__/ResultsPage.test.js" [ref=e91]:
+              - link "frontend/src/__tests__/ResultsPage.test.js" [ref=e92]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/frontend/src/__tests__/ResultsPage.test.js
+            - cell "unit" [ref=e93]
+            - cell "2" [ref=e94]
+            - cell "1" [ref=e95]
+            - cell "1" [ref=e96]
+            - cell "diegopacheco" [ref=e97]
+            - cell "FAIL" [ref=e98]
