@@ -1,0 +1,15 @@
+{
+  "port": 3737,
+  "testTypes": {
+    "unit": true,
+    "integration": true,
+    "contract": true,
+    "e2e": true,
+    "css": false,
+    "stress": false,
+    "chaos": false,
+    "mutation": false,
+    "observability": true
+  },
+  "githubRemote": "origin"
+}
