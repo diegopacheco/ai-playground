@@ -86,9 +86,6 @@ export default function Dashboard({ data }: Props) {
             <div className="stat-card-value">{passRate}%</div>
           </div>
         </div>
-      </div>
-
-      <div className="type-cards-section">
         <div className="type-cards-grid">
           {typeStats.map(({ type, label, total, backend, frontend }) => (
             <div key={type} className="type-card">
