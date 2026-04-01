@@ -14,71 +14,71 @@ class RetirementCalculationServiceTest:
 
   private def createValidInput(): RetirementInput =
     val input = RetirementInput()
-    input.setCurrentAge(30)
-    input.setRetirementAge(65)
-    input.setCurrentSavings(50000.0)
-    input.setMonthlyContribution(1000.0)
-    input.setExpectedAnnualReturn(7.0)
-    input.setDesiredMonthlyIncome(5000.0)
-    input.setLifeExpectancy(90)
-    input.setInflationRate(3.0)
+    input.currentAge = 30
+    input.retirementAge = 65
+    input.currentSavings = 50000.0
+    input.monthlyContribution = 1000.0
+    input.expectedAnnualReturn = 7.0
+    input.desiredMonthlyIncome = 5000.0
+    input.lifeExpectancy = 90
+    input.inflationRate = 3.0
     input
 
   @Test
   def testValidCalculationReturnsResult(): Unit =
     val result = service.calculate(createValidInput())
     assertNotNull(result)
-    assertTrue(result.getTotalSavingsAtRetirement > 0)
+    assertTrue(result.totalSavingsAtRetirement > 0)
 
   @Test
   def testYearsToRetirementCalculation(): Unit =
     val result = service.calculate(createValidInput())
-    assertEquals(35, result.getYearsToRetirement)
+    assertEquals(35, result.yearsToRetirement)
 
   @Test
   def testYearsInRetirementCalculation(): Unit =
     val result = service.calculate(createValidInput())
-    assertEquals(25, result.getYearsInRetirement)
+    assertEquals(25, result.yearsInRetirement)
 
   @Test
   def testRetirementAgeNotGreaterThanCurrentAge(): Unit =
     val input = createValidInput()
-    input.setRetirementAge(25)
+    input.retirementAge = 25
     assertThrows(classOf[IllegalArgumentException], () => service.calculate(input))
 
   @Test
   def testLessThanFiveYearsToRetirement(): Unit =
     val input = createValidInput()
-    input.setCurrentAge(62)
-    input.setRetirementAge(65)
+    input.currentAge = 62
+    input.retirementAge = 65
     assertThrows(classOf[IllegalArgumentException], () => service.calculate(input))
 
   @Test
   def testLifeExpectancyLessThanRetirementAge(): Unit =
     val input = createValidInput()
-    input.setLifeExpectancy(60)
+    input.lifeExpectancy = 60
     assertThrows(classOf[IllegalArgumentException], () => service.calculate(input))
 
   @Test
   def testReturnLessThanInflation(): Unit =
     val input = createValidInput()
-    input.setExpectedAnnualReturn(2.0)
-    input.setInflationRate(5.0)
+    input.expectedAnnualReturn = 2.0
+    input.inflationRate = 5.0
     assertThrows(classOf[IllegalArgumentException], () => service.calculate(input))
 
   @Test
   def testProjectionsCountMatchesYears(): Unit =
     val result = service.calculate(createValidInput())
-    assertEquals(35, result.getYearlyProjections.size())
+    assertEquals(35, result.yearlyProjections.size())
 
   @Test
   def testTotalContributionsIncludeInitialSavings(): Unit =
     val result = service.calculate(createValidInput())
     val expectedContributions = 50000.0 + (1000.0 * 12 * 35)
-    assertEquals(expectedContributions, result.getTotalContributions, 0.01)
+    assertEquals(expectedContributions, result.totalContributions, 0.01)
 
   @Test
   def testRecommendationsNotEmpty(): Unit =
     val result = service.calculate(createValidInput())
-    assertNotNull(result.getRecommendations)
-    assertFalse(result.getRecommendations.isEmpty)
+    assertNotNull(result.recommendations)
+    assertFalse(result.recommendations.isEmpty)
