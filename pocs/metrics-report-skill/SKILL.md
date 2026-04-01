@@ -58,13 +58,13 @@ Detect stacks using Glob (one call, check results):
 
 Print: `[Phase 1/6] Done. Detected stacks: <list stacks found>`
 
-## Phase 2: Parallel Scan (use 3 Agents simultaneously)
+## Phase 2: Scan and Run Tests
 
-Print: `[Phase 2/6] Scanning codebase (3 agents: file count, git attribution, test runner)...`
+Print: `[Phase 2/6] Scanning codebase and running tests...`
 
-Launch these 3 agents in PARALLEL using the Agent tool:
+Launch 2 background agents for read-only scanning, then run tests DIRECTLY with Bash (no agent).
 
-### Agent 1: File Count and Test Discovery
+### Background Agent 1: File Count and Test Discovery
 
 Use Glob to count all source files (skip node_modules, target, dist, build, .git, __pycache__, venv, .venv, metrics-report). Split by frontend/backend using file extension and path.
 
@@ -95,7 +95,7 @@ For each test file, extract test method names and line numbers using Grep (not R
 
 Return: file counts, test file list with types and test names.
 
-### Agent 2: Git Attribution (batch)
+### Background Agent 2: Git Attribution (batch)
 
 Run a SINGLE bash command to get all test file authors at once:
 
@@ -105,44 +105,31 @@ for f in $(find . -path '*/test*' -name '*.java' -o -name '*.py' -o -name '*.rs'
 
 Return: map of file path to author.
 
-### Agent 3: Run Tests and Collect Coverage (SEQUENTIAL — single agent)
+### Run Tests Directly (NO agent — use Bash directly)
 
-CRITICAL: All test execution MUST happen in this ONE agent. Tests MUST run sequentially, one test type at a time. NEVER run multiple test types in parallel. NEVER spawn sub-agents for test execution.
+CRITICAL: Do NOT delegate test execution to an agent. Run tests DIRECTLY using Bash tool calls from the main conversation. Agent overhead adds massive latency for fast-running tests.
 
-PROGRESS REPORTING (MANDATORY for Agent 3): Before running each test type, print:
-`[Test X/Y] Running <type> tests (<backend|frontend|other>)...`
-After each test type completes, print:
+First use Grep to quickly check which test types actually exist:
+- Grep for `@SpringBootTest|@Testcontainers` in backend test files for integration
+- Grep for `Pact|Contract` for contract tests
+- Grep for `MeterRegistry|prometheus|actuator` for observability tests
+- Grep for `@playwright/test` for e2e tests
+
+Only run test types that have actual test files. Skip types with zero tests immediately.
+
+Run each test type sequentially with Bash. Print progress before and after each:
+
+`[Test X/Y] Running <type> tests (<backend|frontend>)...`
 `[Test X/Y] <type> tests done: <N> passed, <M> failed (<duration>s)`
-Where X is the current test number and Y is the total number of enabled test types.
 
-Count the total enabled test types from metrics-config.json FIRST, use that as Y. Increment X for each test type you run.
+Commands per stack:
 
-Only run test types enabled in metrics-config.json. Run backend tests first, then frontend tests. For each stack, run one test type at a time in this order:
-
-**Step 1 — Backend tests (one at a time, wait for each to finish before starting next):**
-1. Unit tests first
-2. Integration tests
-3. Contract tests
-4. Observability tests
-
-**Step 2 — Frontend tests (one at a time, wait for each to finish before starting next):**
-1. Unit tests first
-2. E2E tests (Playwright)
-3. CSS visual tests
-
-**Step 3 — Other test types (one at a time):**
-1. Stress tests (k6)
-2. Chaos tests
-3. Mutation tests
-
-For each test type, run the test command, WAIT for it to complete, parse the output, PRINT the result, then move to the next type. Commands per stack:
-
-Java (Maven): `./mvnw test jacoco:report -q 2>&1 | tail -20`
-Java (Gradle): `./gradlew test jacocoTestReport -q 2>&1 | tail -20`
+Java (Maven): `cd backend && ./mvnw test 2>&1 | tail -20`
+Java (Gradle): `cd backend && ./gradlew test jacocoTestReport -q 2>&1 | tail -20`
 Python: `pytest --tb=short -v --cov=. --cov-report=json 2>&1 | tail -30`
 Rust: `cargo test 2>&1 | tail -20` then `cargo tarpaulin --out json 2>&1` if available
-Node: `npm test -- --watchAll=false --coverage 2>&1 | tail -30`
-E2E: `npx playwright test 2>&1 | tail -20`
+Node: `cd frontend && npx react-scripts test --watchAll=false --coverage 2>&1 | tail -40`
+E2E: `cd frontend && npx playwright test 2>&1 | tail -20`
 
 Parse test results from output after each run. Parse coverage from report files:
 - Java: `target/site/jacoco/jacoco.csv`
@@ -150,9 +137,7 @@ Parse test results from output after each run. Parse coverage from report files:
 - Rust: `tarpaulin-report.json`
 - Node: `coverage/coverage-summary.json`
 
-Return: test results (pass/fail per test), coverage data, durations.
-
-When all 3 agents complete, print: `[Phase 2/6] Done. Found <N> test files, <M> source files, ran <K> test types.`
+When done, print: `[Phase 2/6] Done. Found <N> test files, <M> source files, ran <K> test types.`
 
 ## Phase 3: LLM Coverage Mapping (fast)
 
@@ -280,7 +265,8 @@ Print: `Metrics report running at http://localhost:3737`
 - Preserve previous history snapshots.
 - JSON must be valid.
 - ALWAYS print progress. Never go more than 1 tool call without telling the user what is happening. Use [Phase X/6] and [Test X/Y] format.
-- MAXIMIZE parallelism for codebase scanning (Agents 1, 2). Use Agent tool for independent read-only work.
-- NEVER parallelize test execution. All test runs MUST be sequential in a single agent (Agent 3), one test type at a time: backend first, then frontend.
+- MAXIMIZE parallelism for codebase scanning (Agents 1, 2). Use Agent tool ONLY for read-only scanning work.
+- NEVER delegate test execution to agents. Run tests DIRECTLY with Bash tool calls. Agent overhead adds massive latency for fast tests.
+- NEVER parallelize test execution. Run test types sequentially: backend first, then frontend.
 - MINIMIZE file reads. Use Grep/Glob over Read when possible.
 - BATCH shell commands. One Bash call with chained commands over many calls.
