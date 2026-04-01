@@ -1,0 +1,24 @@
+pocs/metrics-report-skill/sample-app/django-6-python313/backend/retirement_planner/settings.py
+  e95d6717b280928c 9,57-60,69-73
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "da5ea6b334d952c0705cc5f539bcb6758e386bfc",
+  "prompts": {
+    "e95d6717b280928c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc145385-8046-4faf-bc1d-db6641c7c10a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 38,
+      "total_deletions": 54,
+      "accepted_lines": 38,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/e4dc9d45e156691f4d5f1472847fec40ac664ab9e0c1630cb874c056ed93d83b"
+    }
+  }
+}
