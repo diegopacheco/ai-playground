@@ -1,0 +1,24 @@
+pocs/metrics-report-skill/sample-app/scala3-react/backend/src/main/scala/com/retirement/service/RetirementCalculationService.scala
+  270194a82cc57017 10,12,14,16,22-26,29-30,34,38,45,53-54,63,69-82,105,108,111,114,123,126
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "9bf903aafba2d603dcb94351af5273c3f9c7bceb",
+  "prompts": {
+    "270194a82cc57017": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e27f7afd-7b4b-48c3-bb5c-7d53a34da3e5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 37,
+      "total_deletions": 38,
+      "accepted_lines": 37,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/9a3523472e060130c88f11326e192250966d576195eb73cd9f6c5013707fe8ef"
+    }
+  }
+}
