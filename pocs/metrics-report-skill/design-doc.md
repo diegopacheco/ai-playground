@@ -19,17 +19,18 @@ A Claude Code skill that reads an entire codebase, identifies all test types, ru
 ┌─────────────────────────────────────────────────────┐
 │                   SKILL EXECUTION                    │
 │                                                      │
-│  1. Stack Detection                                  │
-│  2. Codebase Scan (all files)                        │
-│  3. Test Discovery & Classification                  │
-│  4. Test Execution (per selected types)              │
-│  5. Coverage Collection (tool + LLM hybrid)          │
-│  6. Git Attribution (blame/log)                      │
-│  7. LLM Quality Evaluation                           │
-│  8. Score Computation                                │
-│  9. JSON Output Generation                           │
-│ 10. History Snapshot                                 │
-│ 11. Metrics Application Bootstrap                    │
+│  Phase 1: Setup + Stack Detection                    │
+│  Phase 2: Parallel Scan (3 agents)                   │
+│    ├─ Agent 1: File Count + Test Discovery           │
+│    ├─ Agent 2: Git Attribution                       │
+│    └─ Agent 3: Test Execution (SEQUENTIAL)           │
+│         └─ Backend → Frontend → Other, 1 type/time   │
+│  Phase 3: LLM Coverage Mapping                       │
+│  Phase 4: Quality Evaluation                         │
+│  Phase 5: Score Computation + JSON Output            │
+│  Phase 6: History Snapshot + Auto-run Website         │
+│                                                      │
+│  Progress: [Phase X/6] and [Test X/Y] throughout     │
 └──────────────────┬──────────────────────────────────┘
                    │ writes JSON
                    ▼
@@ -94,7 +95,7 @@ Identify test files using path patterns, naming conventions, and import analysis
 | Mutation | `pitest` config in pom.xml, `mutmut` config, `cargo-mutants` config, mutation report files |
 | Observability | Tests verifying logging output, metrics emission (`MeterRegistry`, `prometheus`), tracing (`opentelemetry`, `tracing`), health endpoints, alert rules |
 
-### Step 4: Test Execution
+### Step 4: Test Execution (SEQUENTIAL — single agent)
 
 Before execution, the skill checks `metrics-config.json` for which test types to run. On first run, the skill generates a default config:
 
@@ -117,6 +118,24 @@ Before execution, the skill checks `metrics-config.json` for which test types to
 ```
 
 Mutation, stress, chaos, and CSS are disabled by default (slow/destructive). The user toggles them in the config.
+
+**CRITICAL: All test execution happens in a single agent, sequentially, one test type at a time. Tests are NEVER run in parallel. The execution order is:**
+
+1. **Backend tests first** (one at a time, wait for completion before next):
+   - Unit tests
+   - Integration tests
+   - Contract tests
+   - Observability tests
+
+2. **Frontend tests second** (one at a time, wait for completion before next):
+   - Unit tests
+   - E2E tests (Playwright)
+   - CSS visual tests
+
+3. **Other test types last** (one at a time):
+   - Stress tests (k6)
+   - Chaos tests
+   - Mutation tests
 
 Execution commands per stack:
 
@@ -406,49 +425,68 @@ pkill -f "serve -s dist -l 3737"
 echo "Metrics application stopped"
 ```
 
+## Progress Reporting (MANDATORY)
+
+The skill MUST print progress at every phase transition and every test type execution. Format:
+
+- Phase transitions: `[Phase X/6] <phase name>...` at start, `[Phase X/6] Done. <summary>` at end
+- Test steps inside Agent 3: `[Test X/Y] Running <type> tests (<backend|frontend|other>)...` then `[Test X/Y] <type> tests done: <N> passed, <M> failed (<duration>s)`
+- Final summary block with score, test counts, coverage, and stacks
+
+The user must always know what is happening. Never go silent for more than one tool call without printing status.
+
 ## Skill Execution Flow
 
 ```
 User invokes skill
        │
        ▼
-Read metrics-config.json (create default if missing)
+[Phase 1/6] Setup and Detection
+  Read metrics-config.json (create default if missing)
+  Detect stacks present in codebase
        │
        ▼
-Detect stacks present in codebase
+[Phase 2/6] Parallel Scan (3 agents launched simultaneously)
+  ┌──────────────────┬──────────────────┬──────────────────────────────┐
+  │ Agent 1           │ Agent 2          │ Agent 3                      │
+  │ File Count &      │ Git Attribution  │ Run Tests (SEQUENTIAL)       │
+  │ Test Discovery    │ (batch)          │ One type at a time:          │
+  │                   │                  │  1. Backend unit             │
+  │ Glob/Grep to      │ Single bash cmd  │  2. Backend integration      │
+  │ count files,      │ to get all test  │  3. Backend contract         │
+  │ find tests,       │ file authors     │  4. Backend observability    │
+  │ classify types    │                  │  5. Frontend unit            │
+  │                   │                  │  6. Frontend e2e             │
+  │                   │                  │  7. Frontend css             │
+  │                   │                  │  8. Stress/Chaos/Mutation    │
+  │                   │                  │                              │
+  │                   │                  │ Reports [Test X/Y] progress  │
+  └──────────────────┴──────────────────┴──────────────────────────────┘
        │
        ▼
-Scan all source files (count, classify frontend/backend)
+[Phase 3/6] LLM Coverage Mapping
+  Grep imports from test files → map to source files
        │
        ▼
-Discover all test files, classify by type
+[Phase 4/6] Quality Evaluation
+  Read 3 representative test files per type → rate quality
        │
        ▼
-Run enabled test types, capture results
+[Phase 5/6] Compute Score and Generate JSON
+  Score 0-10 → write metrics-latest.json
        │
        ▼
-Collect tool-based coverage (JaCoCo, Istanbul, coverage.py, tarpaulin)
+[Phase 6/6] History and Finalize
+  Save history snapshot, copy data to metrics-application
        │
        ▼
-LLM reads all test files → maps coverage to source files for all test types
+Print final summary:
+  === METRICS REPORT COMPLETE ===
+  Score, tests, coverage, stacks
        │
        ▼
-Git blame/log → attribute tests to authors
-       │
-       ▼
-LLM evaluates test quality per type
-       │
-       ▼
-Compute score (0-10)
-       │
-       ▼
-Write metrics-latest.json + history snapshot
-       │
-       ▼
-Bootstrap metrics-application if not exists
-       │
-       ▼
-Print: "Run metrics-report/run.sh to view the report"
+Auto-run: metrics-report/run.sh
+  Metrics report live at http://localhost:3737
 ```
 
 ## File Structure
