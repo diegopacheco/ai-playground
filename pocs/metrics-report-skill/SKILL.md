@@ -87,7 +87,7 @@ Print: `[Phase 1/7] Done. Detected stacks: <list stacks found>`
 
 ## Phase 2: Scan and Run Tests
 
-Print: `[Phase 2/6] Scanning codebase and running tests...`
+Print: `[Phase 2/7] Scanning codebase and running tests...`
 
 Launch 2 background agents for read-only scanning, then run tests DIRECTLY with Bash (no agent).
 
@@ -166,11 +166,11 @@ Parse test results from output after each run. Parse coverage from report files:
 - Rust: `tarpaulin-report.json`
 - Node: `coverage/coverage-summary.json`
 
-When done, print: `[Phase 2/6] Done. Found <N> test files, <M> source files, ran <K> test types.`
+When done, print: `[Phase 2/7] Done. Found <N> test files, <M> source files, ran <K> test types.`
 
 ## Phase 3: LLM Coverage Mapping (fast)
 
-Print: `[Phase 3/6] Mapping test coverage to source files...`
+Print: `[Phase 3/7] Mapping test coverage to source files...`
 
 Do NOT read every file. Instead, for each test file use Grep to extract import statements in one batch:
 
@@ -180,11 +180,11 @@ Grep pattern="^import " path="test-file.java"
 
 Map imports to source files. For E2E tests, Grep for route URLs (`page.goto`, `http.get`) and map to controllers. Keep it to direct imports only — do not trace full call chains.
 
-Print: `[Phase 3/6] Done. Mapped <N> test files to <M> source files.`
+Print: `[Phase 3/7] Done. Mapped <N> test files to <M> source files.`
 
 ## Phase 4: Quality Evaluation (fast)
 
-Print: `[Phase 4/6] Evaluating test quality...`
+Print: `[Phase 4/7] Evaluating test quality...`
 
 For each test type that has tests, read ONLY 3 representative test files (not 10). Evaluate quickly:
 - Assertion quality (meaningful vs trivial)
@@ -193,11 +193,11 @@ For each test type that has tests, read ONLY 3 representative test files (not 10
 
 Rate: poor/fair/good/excellent with one sentence justification.
 
-Print: `[Phase 4/6] Done. Quality ratings: <list each type and its rating>`
+Print: `[Phase 4/7] Done. Quality ratings: <list each type and its rating>`
 
 ## Phase 5: Compute Score and Generate JSON
 
-Print: `[Phase 5/6] Computing score and generating report JSON...`
+Print: `[Phase 5/7] Computing score and generating report JSON...`
 
 Score (0-10):
 | Criteria | Max | Calculation |
@@ -246,11 +246,11 @@ Coverage file shape: `{ "file": "", "layer": "backend|frontend", "githubUrl": ""
 
 GitHub URL pattern: `https://github.com/{owner}/{repo}/blob/{branch}/{filepath}#L{line}`
 
-Print: `[Phase 5/6] Done. Score: <total>/10 (coverage: <X>, diversity: <X>, pass rate: <X>, quality: <X>, ratio: <X>)`
+Print: `[Phase 5/7] Done. Score: <total>/10 (coverage: <X>, diversity: <X>, pass rate: <X>, quality: <X>, ratio: <X>)`
 
 ## Phase 6: History and Finalize
 
-Print: `[Phase 6/6] Saving history and finalizing...`
+Print: `[Phase 6/7] Saving history and finalizing...`
 
 Run in ONE Bash call:
 
@@ -270,7 +270,7 @@ cp metrics-report/data/history-index.json metrics-report/metrics-application/pub
 cp metrics-report/data/history/*.json metrics-report/metrics-application/public/data/history/
 ```
 
-Print: `[Phase 6/6] Done. History saved.`
+Print: `[Phase 6/7] Done. History saved.`
 
 Print final summary:
 ```
