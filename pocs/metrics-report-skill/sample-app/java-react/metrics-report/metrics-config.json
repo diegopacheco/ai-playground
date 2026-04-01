@@ -9,7 +9,9 @@
     "stress": false,
     "chaos": false,
     "mutation": false,
-    "observability": true
+    "observability": true,
+    "fuzzy": false,
+    "propertybased": false
   },
   "githubRemote": "origin"
 }

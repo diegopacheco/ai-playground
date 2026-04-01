@@ -44,7 +44,9 @@ Check if `metrics-report/metrics-config.json` exists. If not, create it:
     "stress": false,
     "chaos": false,
     "mutation": false,
-    "observability": true
+    "observability": true,
+    "fuzzy": false,
+    "propertybased": false
   },
   "githubRemote": "origin"
 }
@@ -85,6 +87,8 @@ Classify each test file by type using these Grep checks (batch them):
 - Chaos: Grep for `chaos-monkey|litmus|toxiproxy` across test files
 - Observability: Grep for `MeterRegistry|prometheus|opentelemetry|actuator/health|tracing` in test files
 - CSS: Grep for `jest-image-snapshot|percy|chromatic|toMatchImageSnapshot` in test files
+- Fuzzy: Grep for `fuzz|Fuzz|FuzzTest|@FuzzTest|cargo-fuzz|go-fuzz|jazzer|atheris` in test files
+- Property-Based: Grep for `@Property|jqwik|QuickCheck|hypothesis|proptest|fast-check|fc\.property` in test files
 - Everything else in test dirs = unit
 
 For each test file, extract test method names and line numbers using Grep (not Read):
@@ -174,7 +178,7 @@ Score (0-10):
 | Criteria | Max | Calculation |
 |----------|-----|-------------|
 | Coverage breadth | 3 | (covered files / total source files) * 3 |
-| Type diversity | 2 | 9 types=2.0, 7-8=1.7, 5-6=1.5, 3-4=1.0, 1-2=0.5 |
+| Type diversity | 2 | 11 types=2.0, 9-10=1.7, 7-8=1.5, 5-6=1.2, 3-4=1.0, 1-2=0.5 |
 | Pass rate | 2 | (passing / total) * 2 |
 | Test quality | 2 | Average ratings: poor=0, fair=0.7, good=1.5, excellent=2.0 |
 | Code-to-test ratio | 1 | test LOC / source LOC: >0.8=1.0, >0.5=0.7, >0.3=0.4, <0.3=0.1 |
@@ -198,7 +202,9 @@ Generate `metrics-report/data/metrics-latest.json` with the full schema:
       "stress": { "total": 0, "passing": 0, "failing": 0, "duration": 0, "files": [] },
       "chaos": { "total": 0, "passing": 0, "failing": 0, "duration": 0, "files": [] },
       "mutation": { "total": 0, "passing": 0, "failing": 0, "duration": 0, "files": [] },
-      "observability": { "total": 0, "passing": 0, "failing": 0, "duration": 0, "files": [] }
+      "observability": { "total": 0, "passing": 0, "failing": 0, "duration": 0, "files": [] },
+      "fuzzy": { "total": 0, "passing": 0, "failing": 0, "duration": 0, "files": [] },
+      "propertybased": { "total": 0, "passing": 0, "failing": 0, "duration": 0, "files": [] }
     }
   },
   "failures": { "byType": {}, "details": [] },

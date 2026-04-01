@@ -16,6 +16,8 @@ const TYPE_COLORS: Record<TestType, string> = {
   chaos: '#f97316',
   mutation: '#6366f1',
   observability: '#14b8a6',
+  fuzzy: '#a855f7',
+  propertybased: '#0ea5e9',
 };
 
 const RATING_COLORS: Record<string, { bg: string; text: string }> = {
