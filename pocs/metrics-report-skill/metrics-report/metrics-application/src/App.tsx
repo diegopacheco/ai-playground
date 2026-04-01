@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route, NavLink, Navigate } from 'react-router-dom'
-import { MetricsReport } from './types/metrics'
+import { MetricsReport, TEST_TYPES, TestType } from './types/metrics'
 import SearchBar from './components/SearchBar'
 import Dashboard from './pages/Dashboard'
 import Tests from './pages/Tests'
@@ -9,6 +9,52 @@ import Failures from './pages/Failures'
 import Authors from './pages/Authors'
 import Trends from './pages/Trends'
 import Quality from './pages/Quality'
+
+function normalizeMetrics(raw: any): MetricsReport {
+  const byType: any = {}
+  for (const t of TEST_TYPES) {
+    if (raw.tests[t]) {
+      const typeData = raw.tests[t]
+      const files = (typeData.files || []).map((f: any) => {
+        const tests = (f.tests || []).map((tc: any) => ({
+          name: tc.name,
+          status: tc.status,
+          duration: tc.duration || 0,
+          line: tc.line || 0,
+          githubUrl: tc.githubUrl || f.githubUrl || '',
+        }))
+        const passing = tests.filter((tc: any) => tc.status === 'pass').length
+        const failing = tests.filter((tc: any) => tc.status === 'fail').length
+        return {
+          path: f.file || f.path || '',
+          type: t as TestType,
+          testCount: tests.length,
+          passing,
+          failing,
+          author: f.author || 'unknown',
+          githubUrl: f.githubUrl || '',
+          tests,
+        }
+      })
+      byType[t] = {
+        total: typeData.total || 0,
+        passing: typeData.passing || 0,
+        failing: typeData.failing || 0,
+        duration: typeData.duration || 0,
+        files,
+      }
+    }
+  }
+  return {
+    ...raw,
+    tests: {
+      total: raw.tests.total || 0,
+      passing: raw.tests.passing || 0,
+      failing: raw.tests.failing || 0,
+      byType,
+    },
+  }
+}
 
 function App() {
   const [data, setData] = useState<MetricsReport | null>(null)
@@ -30,7 +76,8 @@ function App() {
       try {
         const res = await fetch('/data/metrics-latest.json')
         if (!res.ok) throw new Error('Failed to load metrics data')
-        const metrics = await res.json()
+        const raw = await res.json()
+        const metrics = raw.tests?.byType ? raw : normalizeMetrics(raw)
         setData(metrics)
 
         try {
@@ -40,7 +87,8 @@ function App() {
             const historyData = await Promise.all(
               files.slice(0, 50).map(async (f) => {
                 const r = await fetch(`/data/history/${f}`)
-                return r.json()
+                const raw = await r.json()
+                return raw.tests?.byType ? raw : normalizeMetrics(raw)
               })
             )
             setHistory(historyData)
