@@ -1,0 +1,170 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Metrics" [level=1] [ref=e6]
+      - generic [ref=e7]: v1.0
+    - navigation [ref=e8]:
+      - link "D Dashboard" [ref=e9] [cursor=pointer]:
+        - /url: /dashboard
+        - generic [ref=e10]: D
+        - generic [ref=e11]: Dashboard
+      - link "T Tests" [ref=e12] [cursor=pointer]:
+        - /url: /tests
+        - generic [ref=e13]: T
+        - generic [ref=e14]: Tests
+      - link "C Coverage" [ref=e15] [cursor=pointer]:
+        - /url: /coverage
+        - generic [ref=e16]: C
+        - generic [ref=e17]: Coverage
+      - link "F Failures" [ref=e18] [cursor=pointer]:
+        - /url: /failures
+        - generic [ref=e19]: F
+        - generic [ref=e20]: Failures
+      - link "A Authors" [ref=e21] [cursor=pointer]:
+        - /url: /authors
+        - generic [ref=e22]: A
+        - generic [ref=e23]: Authors
+      - link "R Trends" [ref=e24] [cursor=pointer]:
+        - /url: /trends
+        - generic [ref=e25]: R
+        - generic [ref=e26]: Trends
+      - link "Q Quality" [ref=e27] [cursor=pointer]:
+        - /url: /quality
+        - generic [ref=e28]: Q
+        - generic [ref=e29]: Quality
+    - button "Dark Mode" [ref=e31] [cursor=pointer]
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img [ref=e35]
+        - textbox "Search tests, files, authors, metrics..." [ref=e38]
+      - generic [ref=e39]:
+        - generic [ref=e40]: ai-playground
+        - generic [ref=e41]: main
+        - generic [ref=e42]: 03d1f9b5
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - button "Backend" [ref=e46] [cursor=pointer]
+        - button "Frontend" [ref=e47] [cursor=pointer]
+      - generic [ref=e48]:
+        - generic [ref=e49]: "Total Files: 8"
+        - generic [ref=e50]: "Tool Coverage: 0"
+        - generic [ref=e51]: "LLM Mapping: 3"
+      - table [ref=e53]:
+        - rowgroup [ref=e54]:
+          - row "File ^ Unit Integration Contract E2e Css Stress Chaos Mutation Observability" [ref=e55]:
+            - columnheader "File ^" [ref=e56] [cursor=pointer]
+            - columnheader "Unit" [ref=e57] [cursor=pointer]
+            - columnheader "Integration" [ref=e58] [cursor=pointer]
+            - columnheader "Contract" [ref=e59] [cursor=pointer]
+            - columnheader "E2e" [ref=e60] [cursor=pointer]
+            - columnheader "Css" [ref=e61] [cursor=pointer]
+            - columnheader "Stress" [ref=e62] [cursor=pointer]
+            - columnheader "Chaos" [ref=e63] [cursor=pointer]
+            - columnheader "Mutation" [ref=e64] [cursor=pointer]
+            - columnheader "Observability" [ref=e65] [cursor=pointer]
+        - rowgroup [ref=e66]:
+          - row "backend/src/main/java/com/retirement/config/CorsConfig.java - - - - - - - - -" [ref=e67]:
+            - cell "backend/src/main/java/com/retirement/config/CorsConfig.java" [ref=e68]:
+              - link "backend/src/main/java/com/retirement/config/CorsConfig.java" [ref=e69] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/config/CorsConfig.java
+            - cell "-" [ref=e70]
+            - cell "-" [ref=e71]
+            - cell "-" [ref=e72]
+            - cell "-" [ref=e73]
+            - cell "-" [ref=e74]
+            - cell "-" [ref=e75]
+            - cell "-" [ref=e76]
+            - cell "-" [ref=e77]
+            - cell "-" [ref=e78]
+          - row "backend/src/main/java/com/retirement/config/GlobalExceptionHandler.java - - - - - - - - -" [ref=e79]:
+            - cell "backend/src/main/java/com/retirement/config/GlobalExceptionHandler.java" [ref=e80]:
+              - link "backend/src/main/java/com/retirement/config/GlobalExceptionHandler.java" [ref=e81] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/config/GlobalExceptionHandler.java
+            - cell "-" [ref=e82]
+            - cell "-" [ref=e83]
+            - cell "-" [ref=e84]
+            - cell "-" [ref=e85]
+            - cell "-" [ref=e86]
+            - cell "-" [ref=e87]
+            - cell "-" [ref=e88]
+            - cell "-" [ref=e89]
+            - cell "-" [ref=e90]
+          - row "backend/src/main/java/com/retirement/controller/RetirementController.java - - - - - - - - -" [ref=e91]:
+            - cell "backend/src/main/java/com/retirement/controller/RetirementController.java" [ref=e92]:
+              - link "backend/src/main/java/com/retirement/controller/RetirementController.java" [ref=e93] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/controller/RetirementController.java
+            - cell "-" [ref=e94]
+            - cell "-" [ref=e95]
+            - cell "-" [ref=e96]
+            - cell "-" [ref=e97]
+            - cell "-" [ref=e98]
+            - cell "-" [ref=e99]
+            - cell "-" [ref=e100]
+            - cell "-" [ref=e101]
+            - cell "-" [ref=e102]
+          - row "backend/src/main/java/com/retirement/model/RetirementInput.java mapped - - - - - - - -" [ref=e103]:
+            - cell "backend/src/main/java/com/retirement/model/RetirementInput.java" [ref=e104]:
+              - link "backend/src/main/java/com/retirement/model/RetirementInput.java" [ref=e105] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/model/RetirementInput.java
+            - cell "mapped" [ref=e106]
+            - cell "-" [ref=e107]
+            - cell "-" [ref=e108]
+            - cell "-" [ref=e109]
+            - cell "-" [ref=e110]
+            - cell "-" [ref=e111]
+            - cell "-" [ref=e112]
+            - cell "-" [ref=e113]
+            - cell "-" [ref=e114]
+          - row "backend/src/main/java/com/retirement/model/RetirementResult.java mapped - - - - - - - -" [ref=e115]:
+            - cell "backend/src/main/java/com/retirement/model/RetirementResult.java" [ref=e116]:
+              - link "backend/src/main/java/com/retirement/model/RetirementResult.java" [ref=e117] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/model/RetirementResult.java
+            - cell "mapped" [ref=e118]
+            - cell "-" [ref=e119]
+            - cell "-" [ref=e120]
+            - cell "-" [ref=e121]
+            - cell "-" [ref=e122]
+            - cell "-" [ref=e123]
+            - cell "-" [ref=e124]
+            - cell "-" [ref=e125]
+            - cell "-" [ref=e126]
+          - row "backend/src/main/java/com/retirement/model/YearlyProjection.java - - - - - - - - -" [ref=e127]:
+            - cell "backend/src/main/java/com/retirement/model/YearlyProjection.java" [ref=e128]:
+              - link "backend/src/main/java/com/retirement/model/YearlyProjection.java" [ref=e129] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/model/YearlyProjection.java
+            - cell "-" [ref=e130]
+            - cell "-" [ref=e131]
+            - cell "-" [ref=e132]
+            - cell "-" [ref=e133]
+            - cell "-" [ref=e134]
+            - cell "-" [ref=e135]
+            - cell "-" [ref=e136]
+            - cell "-" [ref=e137]
+            - cell "-" [ref=e138]
+          - row "backend/src/main/java/com/retirement/RetirementPlannerApplication.java - - - - - - - - -" [ref=e139]:
+            - cell "backend/src/main/java/com/retirement/RetirementPlannerApplication.java" [ref=e140]:
+              - link "backend/src/main/java/com/retirement/RetirementPlannerApplication.java" [ref=e141] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/RetirementPlannerApplication.java
+            - cell "-" [ref=e142]
+            - cell "-" [ref=e143]
+            - cell "-" [ref=e144]
+            - cell "-" [ref=e145]
+            - cell "-" [ref=e146]
+            - cell "-" [ref=e147]
+            - cell "-" [ref=e148]
+            - cell "-" [ref=e149]
+            - cell "-" [ref=e150]
+          - row "backend/src/main/java/com/retirement/service/RetirementCalculationService.java mapped - - - - - - - -" [ref=e151]:
+            - cell "backend/src/main/java/com/retirement/service/RetirementCalculationService.java" [ref=e152]:
+              - link "backend/src/main/java/com/retirement/service/RetirementCalculationService.java" [ref=e153] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/service/RetirementCalculationService.java
+            - cell "mapped" [ref=e154]
+            - cell "-" [ref=e155]
+            - cell "-" [ref=e156]
+            - cell "-" [ref=e157]
+            - cell "-" [ref=e158]
+            - cell "-" [ref=e159]
+            - cell "-" [ref=e160]
+            - cell "-" [ref=e161]
+            - cell "-" [ref=e162]
