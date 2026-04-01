@@ -1,0 +1,48 @@
+pocs/metrics-report-skill/sample-app/scala3-react/backend/src/main/scala/com/retirement/config/JacksonConfig.scala
+  270194a82cc57017 1-11
+pocs/metrics-report-skill/sample-app/scala3-react/backend/src/main/scala/com/retirement/service/RetirementCalculationService.scala
+  270194a82cc57017 1-133
+pocs/metrics-report-skill/sample-app/scala3-react/backend/src/main/scala/com/retirement/controller/RetirementController.scala
+  270194a82cc57017 1-24
+pocs/metrics-report-skill/sample-app/scala3-react/backend/src/main/scala/com/retirement/config/CorsConfig.scala
+  270194a82cc57017 1-15
+pocs/metrics-report-skill/sample-app/scala3-react/backend/src/main/scala/com/retirement/config/GlobalExceptionHandler.scala
+  270194a82cc57017 1-19
+pocs/metrics-report-skill/sample-app/rust-react/frontend/src/pages/HomePage.jsx
+  9a18cabbc9a95d80 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "3b035e1132faf40922c7eb6991542af9a372f5a9",
+  "prompts": {
+    "270194a82cc57017": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e27f7afd-7b4b-48c3-bb5c-7d53a34da3e5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 45,
+      "total_deletions": 0,
+      "accepted_lines": 202,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/69412e73b6208526704a14cf02c7e1ac00a2c3c60d1c68271ec3db3ad9623ac4"
+    },
+    "9a18cabbc9a95d80": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "304a19ef-7044-4993-9ba6-e2d6938701ea",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 31,
+      "total_deletions": 0,
+      "accepted_lines": 31,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/8d90a23f099d4c9fcb264356312a1be01a174a2e0b70ae2fef66314aaf7f101e"
+    }
+  }
+}
