@@ -1,0 +1,104 @@
+pocs/metrics-report-skill/sample-app/rust-react/frontend/src/index.css
+  9a18cabbc9a95d80 1-5
+pocs/metrics-report-skill/sample-app/django-6-python313/backend/api/service.py
+  e95d6717b280928c 1-147
+pocs/metrics-report-skill/sample-app/rust-react/frontend/package.json
+  9a18cabbc9a95d80 1-28
+pocs/metrics-report-skill/sample-app/rust-react/frontend/src/App.css
+  9a18cabbc9a95d80 1-396
+pocs/metrics-report-skill/sample-app/rust-react/backend/Cargo.toml
+  9a18cabbc9a95d80 1-11
+pocs/metrics-report-skill/sample-app/rust-react/frontend/index.html
+  9a18cabbc9a95d80 1-12
+pocs/metrics-report-skill/sample-app/scala3-react/backend/src/main/scala/com/retirement/model/YearlyProjection.scala
+  270194a82cc57017 1-12
+pocs/metrics-report-skill/sample-app/django-6-python313/backend/retirement_planner/settings.py
+  e95d6717b280928c 18-20,24,71-72,74-76
+pocs/metrics-report-skill/sample-app/scala3-react/backend/src/main/resources/application.properties
+  270194a82cc57017 1-2
+pocs/metrics-report-skill/sample-app/django-6-python313/backend/api/tests.py
+  e95d6717b280928c 2,4-66
+pocs/metrics-report-skill/sample-app/scala3-react/backend/pom.xml
+  270194a82cc57017 1-72
+pocs/metrics-report-skill/sample-app/rust-react/backend/src/service.rs
+  9a18cabbc9a95d80 1-287
+pocs/metrics-report-skill/sample-app/django-6-python313/backend/api/views.py
+  e95d6717b280928c 1-5,7-22
+pocs/metrics-report-skill/sample-app/rust-react/frontend/src/main.jsx
+  9a18cabbc9a95d80 1-16
+pocs/metrics-report-skill/sample-app/rust-react/backend/src/models.rs
+  9a18cabbc9a95d80 1-54
+pocs/metrics-report-skill/sample-app/scala3-react/backend/src/main/scala/com/retirement/model/RetirementResult.scala
+  270194a82cc57017 1-19
+pocs/metrics-report-skill/sample-app/django-6-python313/stop.sh
+  e95d6717b280928c 1-18
+pocs/metrics-report-skill/sample-app/scala3-react/backend/src/main/scala/com/retirement/model/RetirementInput.scala
+  270194a82cc57017 1-51
+pocs/metrics-report-skill/sample-app/django-6-python313/backend/api/urls.py
+  e95d6717b280928c 1-7
+pocs/metrics-report-skill/sample-app/django-6-python313/backend/api/serializers.py
+  e95d6717b280928c 1-12
+pocs/metrics-report-skill/sample-app/rust-react/frontend/src/setupTests.js
+  9a18cabbc9a95d80 1
+pocs/metrics-report-skill/sample-app/rust-react/frontend/src/App.jsx
+  9a18cabbc9a95d80 1-64
+pocs/metrics-report-skill/sample-app/rust-react/backend/src/main.rs
+  9a18cabbc9a95d80 1-40
+pocs/metrics-report-skill/sample-app/django-6-python313/backend/retirement_planner/urls.py
+  e95d6717b280928c 2,6
+pocs/metrics-report-skill/sample-app/django-6-python313/run.sh
+  e95d6717b280928c 1-17
+pocs/metrics-report-skill/sample-app/scala3-react/backend/src/main/scala/com/retirement/RetirementPlannerApplication.scala
+  270194a82cc57017 1-11
+pocs/metrics-report-skill/sample-app/rust-react/frontend/vite.config.js
+  9a18cabbc9a95d80 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "1904ace591e81f804ca21256c7252c642e7259d5",
+  "prompts": {
+    "270194a82cc57017": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e27f7afd-7b4b-48c3-bb5c-7d53a34da3e5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 324,
+      "total_deletions": 0,
+      "accepted_lines": 324,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/94b52b66645a4d4e40cb4c108f2a7547ceb63151c457ff1ce8e945ba778ea843"
+    },
+    "9a18cabbc9a95d80": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "304a19ef-7044-4993-9ba6-e2d6938701ea",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 925,
+      "total_deletions": 0,
+      "accepted_lines": 925,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/1ddb2ea3e120424ee5edb5ef2c4e70453562e97e4ee072f2e6a23eec8892fa23"
+    },
+    "e95d6717b280928c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc145385-8046-4faf-bc1d-db6641c7c10a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 269,
+      "total_deletions": 20,
+      "accepted_lines": 297,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/06bc68396b817df1b8bc6c1422b2dec657134226b0e26a78c6eb1e99926664c0"
+    }
+  }
+}
