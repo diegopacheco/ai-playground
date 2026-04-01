@@ -1,0 +1,24 @@
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/charts/TrendLineChart.tsx
+  e155c5bcaf6c2fc2 36-38,46-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "2255808f3063a4b356dbc95749ad37bc305525e7",
+  "prompts": {
+    "e155c5bcaf6c2fc2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "39400211-ca9d-441c-8d2e-49918c274912",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 7,
+      "accepted_lines": 11,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/cce6544bd76914a9f82a9d3a09205f6e6a581d9143391d0eeee463f07fc9ed9d"
+    }
+  }
+}
