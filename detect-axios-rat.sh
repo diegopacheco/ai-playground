@@ -9,7 +9,22 @@ check_lockfile() {
   dir="$(dirname "$lockfile")"
 
   local malicious_version
-  malicious_version=$(grep -E '"version": "1\.14\.1"|"version": "0\.30\.4"' "$lockfile" 2>/dev/null)
+  malicious_version=$(node -e "
+    const fs = require('fs');
+    const lock = JSON.parse(fs.readFileSync('$lockfile', 'utf8'));
+    const pkgs = lock.packages || {};
+    const deps = lock.dependencies || {};
+    for (const [key, val] of Object.entries(pkgs)) {
+      if ((key.endsWith('/axios') || key === 'axios') && (val.version === '1.14.1' || val.version === '0.30.4')) {
+        console.log(key + ' -> ' + val.version);
+      }
+    }
+    for (const [key, val] of Object.entries(deps)) {
+      if (key === 'axios' && (val.version === '1.14.1' || val.version === '0.30.4')) {
+        console.log(key + ' -> ' + val.version);
+      }
+    }
+  " 2>/dev/null)
   if [ -n "$malicious_version" ]; then
     echo "[ALERT] Malicious axios version found in: $lockfile"
     echo "        $malicious_version"
@@ -58,30 +73,129 @@ check_yarn_lock() {
   fi
 }
 
-check_rat_artifacts() {
-  local os_type
-  os_type="$(uname -s)"
-  echo "--- Checking RAT artifacts on $os_type ---"
+check_disk_artifacts() {
+  echo "--- Checking macOS disk artifacts ---"
+  local clean=1
 
-  if [ "$os_type" = "Darwin" ]; then
-    if [ -e "/Library/Caches/com.apple.act.mond" ]; then
-      echo "[CRITICAL] RAT artifact found: /Library/Caches/com.apple.act.mond"
-      echo "[CRITICAL] Machine is likely compromised. Isolate immediately."
-      FOUND=1
-    else
-      echo "[OK] No macOS RAT artifact found."
+  if [ -e "/Library/Caches/com.apple.act.mond" ]; then
+    echo "[CRITICAL] RAT artifact found: /Library/Caches/com.apple.act.mond"
+    FOUND=1
+    clean=0
+  fi
+
+  if [ -e "$HOME/Library/Caches/com.apple.act.mond" ]; then
+    echo "[CRITICAL] RAT artifact found: $HOME/Library/Caches/com.apple.act.mond"
+    FOUND=1
+    clean=0
+  fi
+
+  local hidden
+  hidden=$(find /tmp -maxdepth 1 -name ".*" -newer /tmp -type f 2>/dev/null)
+  if [ -n "$hidden" ]; then
+    echo "[ALERT] Suspicious hidden files in /tmp:"
+    echo "        $hidden"
+    FOUND=1
+    clean=0
+  fi
+
+  if [ -e "/tmp/ld.py" ]; then
+    echo "[CRITICAL] RAT dropper found: /tmp/ld.py"
+    FOUND=1
+    clean=0
+  fi
+
+  if [ "$clean" -eq 1 ]; then
+    echo "[OK] No macOS disk artifacts found."
+  fi
+}
+
+check_persistence() {
+  echo "--- Checking macOS persistence mechanisms ---"
+  local clean=1
+
+  for rc in "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.bash_profile" "$HOME/.zprofile"; do
+    if [ -f "$rc" ]; then
+      local suspicious
+      suspicious=$(grep -n -E 'sfrclak|act\.mond|plain-crypto|nohup.*node|curl.*\|.*sh|wget.*\|.*sh' "$rc" 2>/dev/null)
+      if [ -n "$suspicious" ]; then
+        echo "[CRITICAL] Suspicious entry in $rc:"
+        echo "           $suspicious"
+        FOUND=1
+        clean=0
+      fi
     fi
-  elif [ "$os_type" = "Linux" ]; then
-    if [ -e "/tmp/ld.py" ]; then
-      echo "[CRITICAL] RAT artifact found: /tmp/ld.py"
-      echo "[CRITICAL] Machine is likely compromised. Isolate immediately."
-      FOUND=1
-    else
-      echo "[OK] No Linux RAT artifact found."
+  done
+
+  local plist_dirs=("$HOME/Library/LaunchAgents" "/Library/LaunchAgents" "/Library/LaunchDaemons")
+  for pdir in "${plist_dirs[@]}"; do
+    if [ -d "$pdir" ]; then
+      local suspicious_plist
+      suspicious_plist=$(grep -rl -E 'sfrclak|act\.mond|plain-crypto|wt\.exe' "$pdir" 2>/dev/null)
+      if [ -n "$suspicious_plist" ]; then
+        echo "[CRITICAL] Suspicious LaunchAgent/Daemon plist:"
+        echo "           $suspicious_plist"
+        FOUND=1
+        clean=0
+      fi
     fi
-  else
-    echo "[INFO] Unsupported OS for RAT artifact check. Manually check:"
-    echo "       Windows: %PROGRAMDATA%\\wt.exe"
+  done
+
+  local cron_entries
+  cron_entries=$(crontab -l 2>/dev/null | grep -E 'sfrclak|act\.mond|plain-crypto|nohup.*node')
+  if [ -n "$cron_entries" ]; then
+    echo "[CRITICAL] Suspicious crontab entries:"
+    echo "           $cron_entries"
+    FOUND=1
+    clean=0
+  fi
+
+  if [ "$clean" -eq 1 ]; then
+    echo "[OK] No persistence mechanisms found."
+  fi
+}
+
+check_network() {
+  echo "--- Checking macOS network activity ---"
+  local clean=1
+
+  local c2_conn
+  c2_conn=$(lsof -i -n -P 2>/dev/null | grep -E '142\.11\.206\.73|:8000' | grep -i 'ESTABLISHED')
+  if [ -n "$c2_conn" ]; then
+    echo "[CRITICAL] Active connection to C2 server detected:"
+    echo "           $c2_conn"
+    FOUND=1
+    clean=0
+  fi
+
+  local dns_check
+  dns_check=$(log show --predicate 'process == "mDNSResponder"' --style compact --last 1h 2>/dev/null | grep -i 'sfrclak' | head -5)
+  if [ -n "$dns_check" ]; then
+    echo "[CRITICAL] DNS resolution for C2 domain sfrclak.com detected:"
+    echo "           $dns_check"
+    FOUND=1
+    clean=0
+  fi
+
+  local suspect_node
+  suspect_node=$(ps aux 2>/dev/null | grep -E 'nohup.*node|node.*sfrclak|node.*act\.mond' | grep -v grep)
+  if [ -n "$suspect_node" ]; then
+    echo "[CRITICAL] Suspicious node process running:"
+    echo "           $suspect_node"
+    FOUND=1
+    clean=0
+  fi
+
+  local suspect_python
+  suspect_python=$(ps aux 2>/dev/null | grep -E 'python.*ld\.py|python.*sfrclak' | grep -v grep)
+  if [ -n "$suspect_python" ]; then
+    echo "[CRITICAL] Suspicious python process running:"
+    echo "           $suspect_python"
+    FOUND=1
+    clean=0
+  fi
+
+  if [ "$clean" -eq 1 ]; then
+    echo "[OK] No suspicious network activity found."
   fi
 }
 
@@ -107,7 +221,13 @@ done < <(find "$BASE_DIR" -name "yarn.lock" -not -path "*/node_modules/*" -print
 echo "Scanned $YARN_COUNT yarn.lock files."
 echo ""
 
-check_rat_artifacts
+check_disk_artifacts
+echo ""
+
+check_persistence
+echo ""
+
+check_network
 echo ""
 
 if [ "$FOUND" -eq 0 ]; then
