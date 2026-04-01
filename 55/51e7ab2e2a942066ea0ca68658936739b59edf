@@ -1,0 +1,198 @@
+pocs/metrics-report-skill/sample-app/java-react/frontend/src/pages/ResultsPage.js
+  311abd0f0ca2d313 28,53,94,98-100,103,105,108-109,118,127
+  0583025990c48244 1-27,29-52,54-93,95-97,101-102,104,106-107,110-117,119-126,128-157
+pocs/metrics-report-skill/metrics-report/metrics-application/tsconfig.app.json
+  46d2150f9d0ad8b4 1-8
+pocs/metrics-report-skill/sample-app/java-react/frontend/src/pages/SimulationPage.js
+  311abd0f0ca2d313 56,73,90
+  0583025990c48244 1-55,57-72,74-89,91-111
+pocs/metrics-report-skill/metrics-report/metrics-application/src/vite-env.d.ts
+  46d2150f9d0ad8b4 1
+pocs/metrics-report-skill/sample-app/java-react/metrics-report/metrics-config.json
+  866424f0d659e12e 1-15
+pocs/metrics-report-skill/metrics-report/metrics-application/src/App.tsx
+  46d2150f9d0ad8b4 1-129
+pocs/metrics-report-skill/metrics-report/metrics-application/src/index.css
+  46d2150f9d0ad8b4 1-1206
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/charts/ScoreRadar.tsx
+  46d2150f9d0ad8b4 1-39
+pocs/metrics-report-skill/metrics-report/metrics-application/src/pages/Tests.tsx
+  46d2150f9d0ad8b4 1-53
+pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/model/RetirementResult.java
+  0583025990c48244 1-50
+pocs/metrics-report-skill/metrics-report/stop.sh
+  46d2150f9d0ad8b4 1-9
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/charts/PassFailDonut.tsx
+  46d2150f9d0ad8b4 1-56
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/FailureList.tsx
+  46d2150f9d0ad8b4 1-177
+pocs/metrics-report-skill/metrics-report/metrics-application/src/pages/Trends.tsx
+  46d2150f9d0ad8b4 1-52
+pocs/metrics-report-skill/metrics-report/metrics-application/tsconfig.json
+  46d2150f9d0ad8b4 1-21
+pocs/metrics-report-skill/metrics-report/metrics-application/tsconfig.node.json
+  46d2150f9d0ad8b4 1-12
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/SearchBar.tsx
+  46d2150f9d0ad8b4 1-57
+pocs/metrics-report-skill/sample-app/java-react/frontend/src/App.css
+  0583025990c48244 1-4,7-10,20,27,30-32,36,39-41,44-46,48,50-61,64,66-68,71,73,80-88,94-97,103,106-109,113-121,123-124,130,132-133,135-137,139,145-147,149-150,152-160,163-164,171-174,178-180,182,185-186,193-199,202,208-217,219,234-240,242-244,246,249,251-252,257,263-267,269,272,275,294,303-304,317-319,322,325-331,333-334,336,339
+  311abd0f0ca2d313 11-17,21-24,29,33-35,37-38,42-43,47,49,62-63,65,69-70,72,74-79,89-93,98-102,104-105,110-112,122,125-129,131,134,138,140-144,148,151,161-162,165-170,175-177,181,183-184,187-192,200-201,203-207,218,220-229,232-233,241,245,247-248,250,253-256,258-262,268,273-274,276-292,295-302,305-316,320-321,323-324,332,335,337-338
+pocs/metrics-report-skill/metrics-report/metrics-application/src/types/metrics.ts
+  46d2150f9d0ad8b4 1-131
+pocs/metrics-report-skill/sample-app/java-react/frontend/src/pages/AboutPage.js
+  0583025990c48244 1-62
+pocs/metrics-report-skill/metrics-report/metrics-config.json
+  46d2150f9d0ad8b4 1-15
+pocs/metrics-report-skill/sample-app/java-react/backend/src/test/java/com/retirement/service/RetirementCalculationServiceTest.java
+  0583025990c48244 1-100
+pocs/metrics-report-skill/metrics-report/metrics-application/run.sh
+  46d2150f9d0ad8b4 1-33
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/TestTable.tsx
+  46d2150f9d0ad8b4 1-199
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/CoverageTable.tsx
+  46d2150f9d0ad8b4 1-141
+pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/controller/RetirementController.java
+  0583025990c48244 1-36
+pocs/metrics-report-skill/SKILL.md
+  46d2150f9d0ad8b4 1-208
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/charts/StackedAreaChart.tsx
+  46d2150f9d0ad8b4 1-65
+pocs/metrics-report-skill/sample-app/java-react/README.md
+  0583025990c48244 1-93
+pocs/metrics-report-skill/metrics-report/metrics-application/index.html
+  46d2150f9d0ad8b4 1-13
+pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/config/CorsConfig.java
+  0583025990c48244 1-22
+pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/config/GlobalExceptionHandler.java
+  0583025990c48244 1-26
+pocs/metrics-report-skill/sample-app/java-react/frontend/src/pages/HomePage.js
+  0583025990c48244 1-7,9-13,15-22,24-30,32-38,40-46,48-57
+  311abd0f0ca2d313 8,14,23,31,39,47
+pocs/metrics-report-skill/metrics-report/metrics-application/package.json
+  46d2150f9d0ad8b4 1-24
+pocs/metrics-report-skill/design-doc.md
+  46d2150f9d0ad8b4 1-508
+pocs/metrics-report-skill/metrics-report/metrics-application/src/pages/Dashboard.tsx
+  46d2150f9d0ad8b4 1-79
+pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/service/RetirementCalculationService.java
+  0583025990c48244 1-160
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/QualityCard.tsx
+  46d2150f9d0ad8b4 1-75
+pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/model/RetirementInput.java
+  0583025990c48244 1-61
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/AuthorLeaderboard.tsx
+  46d2150f9d0ad8b4 1-105
+pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/RetirementPlannerApplication.java
+  0583025990c48244 1-11
+pocs/metrics-report-skill/sample-app/java-react/frontend/src/__tests__/App.test.js
+  0583025990c48244 1-28
+pocs/metrics-report-skill/metrics-report/run.sh
+  46d2150f9d0ad8b4 1-33
+pocs/metrics-report-skill/sample-app/java-react/frontend/src/index.css
+  311abd0f0ca2d313 1-2,10-15,17
+  0583025990c48244 3,5-9,16,20-22
+pocs/metrics-report-skill/sample-app/java-react/backend/pom.xml
+  0583025990c48244 1-42
+pocs/metrics-report-skill/sample-app/java-react/frontend/src/__tests__/ResultsPage.test.js
+  0583025990c48244 1-14
+pocs/metrics-report-skill/uninstall.sh
+  46d2150f9d0ad8b4 1-9
+pocs/metrics-report-skill/sample-app/java-react/frontend/src/App.js
+  0583025990c48244 1-6,10-12,14-34
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/charts/TypeBarChart.tsx
+  46d2150f9d0ad8b4 1-38
+pocs/metrics-report-skill/sample-app/java-react/backend/src/main/resources/application.properties
+  0583025990c48244 1-2
+pocs/metrics-report-skill/sample-app/java-react/frontend/src/__tests__/HomePage.test.js
+  0583025990c48244 1-22
+pocs/metrics-report-skill/metrics-report/metrics-application/src/main.tsx
+  46d2150f9d0ad8b4 1-13
+pocs/metrics-report-skill/metrics-report/metrics-application/vite.config.ts
+  46d2150f9d0ad8b4 1-9
+pocs/metrics-report-skill/metrics-report/metrics-application/src/pages/Coverage.tsx
+  46d2150f9d0ad8b4 1-49
+pocs/metrics-report-skill/metrics-report/metrics-application/src/pages/Failures.tsx
+  46d2150f9d0ad8b4 1-44
+pocs/metrics-report-skill/sample-app/java-react/stop.sh
+  0583025990c48244 1-14
+pocs/metrics-report-skill/sample-app/java-react/metrics-report/metrics-application/src/index.css
+  866424f0d659e12e 6,84,863,865-866,868-870
+pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/model/YearlyProjection.java
+  0583025990c48244 1-27
+pocs/metrics-report-skill/metrics-report/metrics-application/src/pages/Quality.tsx
+  46d2150f9d0ad8b4 1-64
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/charts/TrendLineChart.tsx
+  46d2150f9d0ad8b4 1-87
+pocs/metrics-report-skill/metrics-report/metrics-application/src/pages/Authors.tsx
+  46d2150f9d0ad8b4 1-22
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/ScoreGauge.tsx
+  46d2150f9d0ad8b4 1-89
+pocs/metrics-report-skill/metrics-report/metrics-application/stop.sh
+  46d2150f9d0ad8b4 1-8
+pocs/metrics-report-skill/install.sh
+  46d2150f9d0ad8b4 1-9
+pocs/metrics-report-skill/sample-app/java-react/run.sh
+  0583025990c48244 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "5551e7ab2e2a942066ea0ca68658936739b59edf",
+  "prompts": {
+    "0583025990c48244": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dad1fe60-05c5-45a4-8de7-7727c91332b4",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 1392,
+      "total_deletions": 57,
+      "accepted_lines": 1288,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/84a75545c73bbf749be99e324627e8b7bb77ac52952e6f746f36b1abf3839332"
+    },
+    "311abd0f0ca2d313": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9628a31d-7936-4403-a39d-f66d124b17db",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 250,
+      "total_deletions": 159,
+      "accepted_lines": 196,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/919c9bcb09e2c89708eb169ddc9d8b269755d6d538812194d9b12a76262092ec"
+    },
+    "46d2150f9d0ad8b4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "55c2eacb-e4fa-470d-b1a9-3d2ebf352e48",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 4700,
+      "total_deletions": 810,
+      "accepted_lines": 3890,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/2c41e0f958a31c762385b7c0e6fec17aff837b733f09bcabe90623d499f8a1a9"
+    },
+    "866424f0d659e12e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "41632be5-90d5-4756-b5a1-6056a0d2249c",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 1108,
+      "total_deletions": 680,
+      "accepted_lines": 497,
+      "overriden_lines": 10
+    }
+  }
+}
