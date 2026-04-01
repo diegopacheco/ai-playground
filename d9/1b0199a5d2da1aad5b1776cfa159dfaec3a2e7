@@ -1,0 +1,28 @@
+pocs/metrics-report-skill/metrics-report/metrics-application/src/pages/Trends.tsx
+  e155c5bcaf6c2fc2 10,14
+pocs/metrics-report-skill/metrics-report/metrics-application/src/App.tsx
+  e155c5bcaf6c2fc2 167
+pocs/metrics-report-skill/metrics-report/metrics-application/src/pages/Dashboard.tsx
+  e155c5bcaf6c2fc2 91-100,102-103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "d91b0199a5d2da1aad5b1776cfa159dfaec3a2e7",
+  "prompts": {
+    "e155c5bcaf6c2fc2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "39400211-ca9d-441c-8d2e-49918c274912",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 15,
+      "total_deletions": 13,
+      "accepted_lines": 15,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/b6c71b832c5f7a0889472019781c409d67956f572b5b0723226068a45716a716"
+    }
+  }
+}
