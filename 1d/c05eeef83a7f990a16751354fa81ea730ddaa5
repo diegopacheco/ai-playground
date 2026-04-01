@@ -1,0 +1,58 @@
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/vite.config.js
+  270194a82cc57017 1-6
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/src/main.jsx
+  270194a82cc57017 1-13
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/src/store.js
+  270194a82cc57017 1-11
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/src/App.css
+  270194a82cc57017 1-340
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/src/routeTree.jsx
+  270194a82cc57017 1-39
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/index.html
+  270194a82cc57017 1-12
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/src/index.css
+  270194a82cc57017 1-23
+pocs/metrics-report-skill/install.sh
+  e155c5bcaf6c2fc2 8-16
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/package.json
+  270194a82cc57017 1-21
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/src/App.jsx
+  270194a82cc57017 1-30
+pocs/metrics-report-skill/SKILL.md
+  e155c5bcaf6c2fc2 90,169,173,183,187,196,200,249,253,273
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "1dc05eeef83a7f990a16751354fa81ea730ddaa5",
+  "prompts": {
+    "270194a82cc57017": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e27f7afd-7b4b-48c3-bb5c-7d53a34da3e5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 495,
+      "total_deletions": 0,
+      "accepted_lines": 495,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/837d1c64009f71c792b7decf02647661a266368a1324f79bf51a68bcdd019c8d"
+    },
+    "e155c5bcaf6c2fc2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "39400211-ca9d-441c-8d2e-49918c274912",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 10,
+      "accepted_lines": 19,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/0fc22af3eb7ef03fefa42de9afa7cb7a3eaac593a482ed8c3e4922578aed5aa9"
+    }
+  }
+}
