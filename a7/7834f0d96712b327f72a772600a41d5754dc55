@@ -1,0 +1,24 @@
+pocs/metrics-report-skill/sample-app/rust-react/frontend/src/pages/SimulationPage.jsx
+  9a18cabbc9a95d80 1-105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "a77834f0d96712b327f72a772600a41d5754dc55",
+  "prompts": {
+    "9a18cabbc9a95d80": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "304a19ef-7044-4993-9ba6-e2d6938701ea",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 105,
+      "total_deletions": 0,
+      "accepted_lines": 105,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/8d90a23f099d4c9fcb264356312a1be01a174a2e0b70ae2fef66314aaf7f101e"
+    }
+  }
+}
