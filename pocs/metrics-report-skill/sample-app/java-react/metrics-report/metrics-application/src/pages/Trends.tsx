@@ -7,11 +7,11 @@ interface Props {
 }
 
 export default function Trends({ history }: Props) {
-  if (history.length < 2) {
+  if (history.length === 0) {
     return (
       <div className="trends-page">
         <div className="empty-state">
-          Not enough data for trends. Run the metrics report multiple times to see trends.
+          No history data yet. Run the metrics report multiple times to build trend data.
         </div>
       </div>
     );
