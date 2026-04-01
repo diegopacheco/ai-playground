@@ -1,0 +1,28 @@
+pocs/metrics-report-skill/sample-app/scala3-react/stop.sh
+  270194a82cc57017 1-14
+pocs/metrics-report-skill/sample-app/scala3-react/backend/pom.xml
+  270194a82cc57017 17,64-70
+pocs/metrics-report-skill/sample-app/scala3-react/run.sh
+  270194a82cc57017 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "8c3725a58e1f6eef4c330f6e99cca27e728da361",
+  "prompts": {
+    "270194a82cc57017": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e27f7afd-7b4b-48c3-bb5c-7d53a34da3e5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 22,
+      "total_deletions": 1,
+      "accepted_lines": 35,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/1c487ce0e642e6a6c57d6391e1ee67574f4f3b5da8fc4f860a3f933763715069"
+    }
+  }
+}
