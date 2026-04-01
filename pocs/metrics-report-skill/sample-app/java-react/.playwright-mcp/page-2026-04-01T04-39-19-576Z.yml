@@ -1,0 +1,196 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Metrics" [level=1] [ref=e6]
+      - generic [ref=e7]: v1.0
+    - navigation [ref=e8]:
+      - link "D Dashboard" [ref=e9] [cursor=pointer]:
+        - /url: /dashboard
+        - generic [ref=e10]: D
+        - generic [ref=e11]: Dashboard
+      - link "T Tests" [ref=e12] [cursor=pointer]:
+        - /url: /tests
+        - generic [ref=e13]: T
+        - generic [ref=e14]: Tests
+      - link "C Coverage" [ref=e15] [cursor=pointer]:
+        - /url: /coverage
+        - generic [ref=e16]: C
+        - generic [ref=e17]: Coverage
+      - link "F Failures" [ref=e18] [cursor=pointer]:
+        - /url: /failures
+        - generic [ref=e19]: F
+        - generic [ref=e20]: Failures
+      - link "A Authors" [ref=e21] [cursor=pointer]:
+        - /url: /authors
+        - generic [ref=e22]: A
+        - generic [ref=e23]: Authors
+      - link "R Trends" [ref=e24] [cursor=pointer]:
+        - /url: /trends
+        - generic [ref=e25]: R
+        - generic [ref=e26]: Trends
+      - link "Q Quality" [ref=e27] [cursor=pointer]:
+        - /url: /quality
+        - generic [ref=e28]: Q
+        - generic [ref=e29]: Quality
+    - button "Dark Mode" [ref=e31] [cursor=pointer]
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img [ref=e35]
+        - textbox "Search tests, files, authors, metrics..." [ref=e38]
+      - generic [ref=e39]:
+        - generic [ref=e40]: ai-playground
+        - generic [ref=e41]: main
+        - generic [ref=e42]: e581dcfb
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - button "Backend" [ref=e46] [cursor=pointer]
+        - button "Frontend" [ref=e47] [cursor=pointer]
+      - generic [ref=e48]:
+        - generic [ref=e49]: "Total Files: 8"
+        - generic [ref=e50]: "Tool Coverage: 8"
+        - generic [ref=e51]: "LLM Mapping: 4"
+      - table [ref=e53]:
+        - rowgroup [ref=e54]:
+          - row "File ^ Unit Integration Contract E2e Css Stress Chaos Mutation Observability Fuzzy Propertybased" [ref=e55]:
+            - columnheader "File ^" [ref=e56] [cursor=pointer]
+            - columnheader "Unit" [ref=e57] [cursor=pointer]
+            - columnheader "Integration" [ref=e58] [cursor=pointer]
+            - columnheader "Contract" [ref=e59] [cursor=pointer]
+            - columnheader "E2e" [ref=e60] [cursor=pointer]
+            - columnheader "Css" [ref=e61] [cursor=pointer]
+            - columnheader "Stress" [ref=e62] [cursor=pointer]
+            - columnheader "Chaos" [ref=e63] [cursor=pointer]
+            - columnheader "Mutation" [ref=e64] [cursor=pointer]
+            - columnheader "Observability" [ref=e65] [cursor=pointer]
+            - columnheader "Fuzzy" [ref=e66] [cursor=pointer]
+            - columnheader "Propertybased" [ref=e67] [cursor=pointer]
+        - rowgroup [ref=e68]:
+          - row "backend/src/main/java/com/retirement/config/CorsConfig.java 0% - - - - - - - - - -" [ref=e69]:
+            - cell "backend/src/main/java/com/retirement/config/CorsConfig.java" [ref=e70]:
+              - link "backend/src/main/java/com/retirement/config/CorsConfig.java" [ref=e71] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/config/CorsConfig.java
+            - cell "0%" [ref=e72]:
+              - generic [ref=e73]: 0%
+            - cell "-" [ref=e74]
+            - cell "-" [ref=e75]
+            - cell "-" [ref=e76]
+            - cell "-" [ref=e77]
+            - cell "-" [ref=e78]
+            - cell "-" [ref=e79]
+            - cell "-" [ref=e80]
+            - cell "-" [ref=e81]
+            - cell "-" [ref=e82]
+            - cell "-" [ref=e83]
+          - row "backend/src/main/java/com/retirement/config/GlobalExceptionHandler.java 0% - - - - - - - - - -" [ref=e84]:
+            - cell "backend/src/main/java/com/retirement/config/GlobalExceptionHandler.java" [ref=e85]:
+              - link "backend/src/main/java/com/retirement/config/GlobalExceptionHandler.java" [ref=e86] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/config/GlobalExceptionHandler.java
+            - cell "0%" [ref=e87]:
+              - generic [ref=e88]: 0%
+            - cell "-" [ref=e89]
+            - cell "-" [ref=e90]
+            - cell "-" [ref=e91]
+            - cell "-" [ref=e92]
+            - cell "-" [ref=e93]
+            - cell "-" [ref=e94]
+            - cell "-" [ref=e95]
+            - cell "-" [ref=e96]
+            - cell "-" [ref=e97]
+            - cell "-" [ref=e98]
+          - row "backend/src/main/java/com/retirement/controller/RetirementController.java 0% - - - - - - - - - -" [ref=e99]:
+            - cell "backend/src/main/java/com/retirement/controller/RetirementController.java" [ref=e100]:
+              - link "backend/src/main/java/com/retirement/controller/RetirementController.java" [ref=e101] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/controller/RetirementController.java
+            - cell "0%" [ref=e102]:
+              - generic [ref=e103]: 0%
+            - cell "-" [ref=e104]
+            - cell "-" [ref=e105]
+            - cell "-" [ref=e106]
+            - cell "-" [ref=e107]
+            - cell "-" [ref=e108]
+            - cell "-" [ref=e109]
+            - cell "-" [ref=e110]
+            - cell "-" [ref=e111]
+            - cell "-" [ref=e112]
+            - cell "-" [ref=e113]
+          - row "backend/src/main/java/com/retirement/model/RetirementInput.java 85% - - - - - - - - - -" [ref=e114]:
+            - cell "backend/src/main/java/com/retirement/model/RetirementInput.java" [ref=e115]:
+              - link "backend/src/main/java/com/retirement/model/RetirementInput.java" [ref=e116] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/model/RetirementInput.java
+            - cell "85%" [ref=e117]:
+              - generic [ref=e118]: 85%
+            - cell "-" [ref=e119]
+            - cell "-" [ref=e120]
+            - cell "-" [ref=e121]
+            - cell "-" [ref=e122]
+            - cell "-" [ref=e123]
+            - cell "-" [ref=e124]
+            - cell "-" [ref=e125]
+            - cell "-" [ref=e126]
+            - cell "-" [ref=e127]
+            - cell "-" [ref=e128]
+          - row "backend/src/main/java/com/retirement/model/RetirementResult.java 80% - - - - - - - - - -" [ref=e129]:
+            - cell "backend/src/main/java/com/retirement/model/RetirementResult.java" [ref=e130]:
+              - link "backend/src/main/java/com/retirement/model/RetirementResult.java" [ref=e131] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/model/RetirementResult.java
+            - cell "80%" [ref=e132]:
+              - generic [ref=e133]: 80%
+            - cell "-" [ref=e134]
+            - cell "-" [ref=e135]
+            - cell "-" [ref=e136]
+            - cell "-" [ref=e137]
+            - cell "-" [ref=e138]
+            - cell "-" [ref=e139]
+            - cell "-" [ref=e140]
+            - cell "-" [ref=e141]
+            - cell "-" [ref=e142]
+            - cell "-" [ref=e143]
+          - row "backend/src/main/java/com/retirement/model/YearlyProjection.java 75% - - - - - - - - - -" [ref=e144]:
+            - cell "backend/src/main/java/com/retirement/model/YearlyProjection.java" [ref=e145]:
+              - link "backend/src/main/java/com/retirement/model/YearlyProjection.java" [ref=e146] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/model/YearlyProjection.java
+            - cell "75%" [ref=e147]:
+              - generic [ref=e148]: 75%
+            - cell "-" [ref=e149]
+            - cell "-" [ref=e150]
+            - cell "-" [ref=e151]
+            - cell "-" [ref=e152]
+            - cell "-" [ref=e153]
+            - cell "-" [ref=e154]
+            - cell "-" [ref=e155]
+            - cell "-" [ref=e156]
+            - cell "-" [ref=e157]
+            - cell "-" [ref=e158]
+          - row "backend/src/main/java/com/retirement/RetirementPlannerApplication.java 0% - - - - - - - - - -" [ref=e159]:
+            - cell "backend/src/main/java/com/retirement/RetirementPlannerApplication.java" [ref=e160]:
+              - link "backend/src/main/java/com/retirement/RetirementPlannerApplication.java" [ref=e161] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/RetirementPlannerApplication.java
+            - cell "0%" [ref=e162]:
+              - generic [ref=e163]: 0%
+            - cell "-" [ref=e164]
+            - cell "-" [ref=e165]
+            - cell "-" [ref=e166]
+            - cell "-" [ref=e167]
+            - cell "-" [ref=e168]
+            - cell "-" [ref=e169]
+            - cell "-" [ref=e170]
+            - cell "-" [ref=e171]
+            - cell "-" [ref=e172]
+            - cell "-" [ref=e173]
+          - row "backend/src/main/java/com/retirement/service/RetirementCalculationService.java 92% - - - - - - - - - -" [ref=e174]:
+            - cell "backend/src/main/java/com/retirement/service/RetirementCalculationService.java" [ref=e175]:
+              - link "backend/src/main/java/com/retirement/service/RetirementCalculationService.java" [ref=e176] [cursor=pointer]:
+                - /url: https://github.com/diegopacheco/ai-playground/blob/main/pocs/metrics-report-skill/sample-app/java-react/backend/src/main/java/com/retirement/service/RetirementCalculationService.java
+            - cell "92%" [ref=e177]:
+              - generic [ref=e178]: 92%
+            - cell "-" [ref=e179]
+            - cell "-" [ref=e180]
+            - cell "-" [ref=e181]
+            - cell "-" [ref=e182]
+            - cell "-" [ref=e183]
+            - cell "-" [ref=e184]
+            - cell "-" [ref=e185]
+            - cell "-" [ref=e186]
+            - cell "-" [ref=e187]
+            - cell "-" [ref=e188]
