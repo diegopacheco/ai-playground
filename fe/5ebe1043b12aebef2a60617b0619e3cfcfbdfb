@@ -1,0 +1,24 @@
+detect-axios-rat.sh
+  53a5b13abaad504e 1-127
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "fe5ebe1043b12aebef2a60617b0619e3cfcfbdfb",
+  "prompts": {
+    "53a5b13abaad504e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f397e4c7-0708-4550-b39b-13bc7f589325",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 127,
+      "total_deletions": 0,
+      "accepted_lines": 127,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/c79f54faada2bc066fbf70c3746af36c5284fd5964885825d9b3b8f5394d1480"
+    }
+  }
+}
