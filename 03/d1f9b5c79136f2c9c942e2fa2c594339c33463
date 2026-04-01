@@ -1,0 +1,24 @@
+pocs/metrics-report-skill/metrics-report/metrics-application/src/App.tsx
+  e155c5bcaf6c2fc2 3,13-58,79-80,90-91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "03d1f9b5c79136f2c9c942e2fa2c594339c33463",
+  "prompts": {
+    "e155c5bcaf6c2fc2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "39400211-ca9d-441c-8d2e-49918c274912",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 51,
+      "total_deletions": 3,
+      "accepted_lines": 51,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f9435a759583c5b23d3a317d88b2b4984bfdd45504a9d1622457f48268fa0f13"
+    }
+  }
+}
