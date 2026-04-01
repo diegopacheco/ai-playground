@@ -153,32 +153,77 @@ Run each test type sequentially with Bash. Print progress before and after each:
 
 Commands per stack:
 
-Java (Maven): `cd backend && ./mvnw test 2>&1 | tail -20`
+Java (Maven): `cd backend && ./mvnw test jacoco:report 2>&1 | tail -20`
 Java (Gradle): `cd backend && ./gradlew test jacocoTestReport -q 2>&1 | tail -20`
-Python: `pytest --tb=short -v --cov=. --cov-report=json 2>&1 | tail -30`
-Rust: `cargo test 2>&1 | tail -20` then `cargo tarpaulin --out json 2>&1` if available
+Scala (Maven): `cd backend && ./mvnw test jacoco:report 2>&1 | tail -20`
+Scala (sbt): `cd backend && sbt jacoco 2>&1 | tail -20`
+Python: `cd backend && python -m pytest --tb=short -v --cov=. --cov-report=json 2>&1 | tail -30`
+Rust: `cd backend && cargo test 2>&1 | tail -20` then `cargo tarpaulin --out json 2>&1` if available
 Node: `cd frontend && npx react-scripts test --watchAll=false --coverage 2>&1 | tail -40`
 E2E: `cd frontend && npx playwright test 2>&1 | tail -20`
 
 Parse test results from output after each run. Parse coverage from report files:
-- Java: `target/site/jacoco/jacoco.csv`
-- Python: `coverage.json`
-- Rust: `tarpaulin-report.json`
-- Node: `coverage/coverage-summary.json`
+- Java/Scala (Maven): `backend/target/site/jacoco/jacoco.csv`
+- Scala (sbt): `backend/target/scala-*/jacoco/report/jacoco.csv`
+- Python: `backend/coverage.json`
+- Rust: `backend/tarpaulin-report.json`
+- Node: `frontend/coverage/coverage-summary.json`
 
 When done, print: `[Phase 2/7] Done. Found <N> test files, <M> source files, ran <K> test types.`
 
-## Phase 3: LLM Coverage Mapping (fast)
+## Phase 3: LLM Coverage Mapping and Tool Coverage Parsing
 
 Print: `[Phase 3/7] Mapping test coverage to source files...`
 
-Do NOT read every file. Instead, for each test file use Grep to extract import statements in one batch:
+### Step A: Parse tool coverage reports for per-file percentages
 
+For **backend** files, parse the coverage report generated in Phase 2:
+
+**Java/Scala (JaCoCo CSV):** Read `backend/target/site/jacoco/jacoco.csv` with Bash:
+```bash
+cat backend/target/site/jacoco/jacoco.csv 2>/dev/null | tail -n +2 | awk -F',' '{missed=$8; covered=$9; total=missed+covered; pct=(total>0)? int(covered*100/total) : 0; print $3","pct}'
+```
+This gives CLASS_NAME,COVERAGE_PCT. Map each class name to its source file path.
+
+**Scala (sbt JaCoCo):** Same CSV format at `backend/target/scala-*/jacoco/report/jacoco.csv`.
+
+**Python (coverage.json):** Read with Bash:
+```bash
+python3 -c "import json,sys; d=json.load(open('backend/coverage.json')); [print(f'{k},{int(v[\"summary\"][\"percent_covered\"])}') for k,v in d.get('files',{}).items()]" 2>/dev/null
+```
+
+**Rust (tarpaulin):** Read with Bash:
+```bash
+cat backend/tarpaulin-report.json 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); [print(f'{f[\"path\"]},{int(f[\"coverable\"] and f[\"covered\"]*100/f[\"coverable\"] or 0)}') for f in d.get('files',[])]"
+```
+
+**Node/React (coverage-summary.json):** Read with Bash:
+```bash
+cat frontend/coverage/coverage-summary.json 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); [print(f'{k},{int(v[\"lines\"][\"pct\"])}') for k,v in d.items() if k != 'total']"
+```
+
+If the coverage report file does not exist (tool not available), set `tool: null` and proceed to Step B for LLM mapping.
+
+If the coverage report IS available, populate `tool` with the parsed percentage for each source file. Files not in the report get `tool: 0`.
+
+### Step B: LLM import mapping (for files missing tool coverage)
+
+For each test file, use Grep to extract imports:
 ```
 Grep pattern="^import " path="test-file.java"
 ```
 
-Map imports to source files. For E2E tests, Grep for route URLs (`page.goto`, `http.get`) and map to controllers. Keep it to direct imports only — do not trace full call chains.
+Map imports to source files. For E2E tests, Grep for route URLs (`page.goto`, `http.get`) and map to controllers. Keep it to direct imports only — no full call chains.
+
+Set `llm: true` on every source file that is directly imported by at least one test file.
+
+### Building the coverage array
+
+For EVERY backend source file and EVERY frontend source file, create a coverage entry. Each entry must include ALL test types that have tests (not just unit). For test types with no tests, omit them from the coverage object.
+
+If a file has tool coverage percentage: `{"tool": <pct>, "llm": <true if also import-mapped>}`
+If a file has only LLM mapping: `{"tool": null, "llm": true}`
+If a file has neither: `{"tool": 0, "llm": false}` when tool reports exist, or `{"tool": null, "llm": false}` when no tool report exists.
 
 Print: `[Phase 3/7] Done. Mapped <N> test files to <M> source files.`
 
@@ -242,7 +287,7 @@ Generate `metrics-report/data/metrics-latest.json` with the full schema:
 
 Test file shape: `{ "path": "", "type": "", "testCount": 0, "passing": 0, "failing": 0, "author": "", "githubUrl": "", "tests": [{ "name": "", "status": "pass|fail", "duration": 0, "error": "", "line": 0, "githubUrl": "" }] }`
 
-Coverage file shape: `{ "file": "", "layer": "backend|frontend", "githubUrl": "", "coverage": { "unit": { "tool": null, "llm": false } } }`
+Coverage file shape: `{ "file": "", "layer": "backend|frontend", "githubUrl": "", "coverage": { "unit": { "tool": 85, "llm": true }, "integration": { "tool": null, "llm": false } } }` — include an entry for every test type that has tests. `tool` is a 0-100 integer from the coverage report (or null if no tool report), `llm` is true if the file is import-mapped by a test.
 
 GitHub URL pattern: `https://github.com/{owner}/{repo}/blob/{branch}/{filepath}#L{line}`
 
