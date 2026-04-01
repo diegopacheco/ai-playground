@@ -1,0 +1,46 @@
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/src/pages/ResultsPage.jsx
+  270194a82cc57017 1-160
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/src/pages/AboutPage.jsx
+  270194a82cc57017 1-60
+pocs/metrics-report-skill/metrics-report/metrics-application/src/index.css
+  e155c5bcaf6c2fc2 892-893,898,904,931
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/src/pages/HomePage.jsx
+  270194a82cc57017 1-56
+pocs/metrics-report-skill/sample-app/scala3-react/frontend/src/pages/SimulationPage.jsx
+  270194a82cc57017 1-112
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "7d6b888c8144f230538b235116efdb2a813c4549",
+  "prompts": {
+    "270194a82cc57017": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e27f7afd-7b4b-48c3-bb5c-7d53a34da3e5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 401,
+      "total_deletions": 0,
+      "accepted_lines": 401,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/4ed61c6455b706b158b9d75d899c3982ec86025fe1d972d54a68206208abe4d2"
+    },
+    "e155c5bcaf6c2fc2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "39400211-ca9d-441c-8d2e-49918c274912",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 32,
+      "total_deletions": 47,
+      "accepted_lines": 15,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/51ed0089c86d8518721fda532479fef6fefaf48ad8a38cfa258fb90dafc00ee8"
+    }
+  }
+}
