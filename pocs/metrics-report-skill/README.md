@@ -52,7 +52,7 @@ A sortable table of all discovered test files. Each row shows the file path, tes
 
 ### Coverage
 
-Split into Backend and Frontend tabs. Each tab displays a per-file coverage matrix showing which test types cover each source file. Columns include unit, integration, contract, e2e, CSS, stress, chaos, mutation, observability, fuzzy, and property-based. Coverage can be tool-reported percentages or LLM-mapped indicators. Summary badges show total files, tool coverage count, and LLM mapping count.
+Split into Backend and Frontend tabs. Each tab displays a per-file coverage matrix showing which test types cover each source file. Columns include unit, integration, contract, e2e, CSS, stress, chaos, mutation, observability, fuzzy, and property-based. Backend coverage is parsed from real tool reports (JaCoCo CSV for Java/Scala, coverage.json for Python, tarpaulin for Rust) and shows actual per-file percentages with color coding (green for high, yellow for moderate, red for low). Files not covered show 0%. Summary badges show total files, tool coverage count, and LLM mapping count.
 
 ![Coverage](screenshots/03-coverage.png)
 
@@ -70,7 +70,7 @@ A leaderboard of contributors ranked by test count (sourced from git blame). Sho
 
 ### Trends
 
-Historical trend charts that track metrics over time across multiple report snapshots. Includes 5 interactive line/area charts: Total Tests Over Time, Pass Rate Over Time, Score Over Time, Coverage Over Time, and Tests by Type Over Time. Each chart plots data points from saved history snapshots.
+Historical trend charts that track metrics over time across multiple report snapshots. Includes 5 charts: Total Tests Over Time, Pass Rate Over Time, Score Over Time, Coverage Over Time, and Tests by Type Over Time. When multiple snapshots exist, the charts render as line/area charts showing progression. With a single snapshot, the charts switch to bar charts with value labels for clear readability instead of invisible dots.
 
 ![Trends](screenshots/06-trends.png)
 

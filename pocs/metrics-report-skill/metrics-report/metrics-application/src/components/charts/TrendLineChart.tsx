@@ -2,11 +2,15 @@ import React, { useMemo } from 'react';
 import {
   LineChart,
   Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   Tooltip,
   CartesianGrid,
   ResponsiveContainer,
+  Cell,
+  LabelList,
 } from 'recharts';
 import { MetricsReport } from '../../types/metrics';
 
@@ -67,6 +71,25 @@ export default function TrendLineChart({ history, metric }: TrendLineChartProps)
     score: 'Score',
     coverage: 'Avg Coverage (%)',
   };
+
+  if (data.length <= 1) {
+    return (
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={data} barSize={80}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" fontSize={12} />
+          <YAxis fontSize={12} />
+          <Tooltip formatter={(val: number) => [val, metricLabels[metric]]} />
+          <Bar dataKey="value" radius={[6, 6, 0, 0]} name={metricLabels[metric]}>
+            {data.map((_, i) => (
+              <Cell key={i} fill="#3b82f6" />
+            ))}
+            <LabelList dataKey="value" position="top" fontSize={14} fontWeight={600} fill="#3b82f6" />
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    );
+  }
 
   return (
     <ResponsiveContainer width="100%" height={300}>

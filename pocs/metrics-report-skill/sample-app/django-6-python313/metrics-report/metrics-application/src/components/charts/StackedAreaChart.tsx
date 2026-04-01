@@ -2,12 +2,15 @@ import React, { useMemo } from 'react';
 import {
   AreaChart,
   Area,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   Tooltip,
   CartesianGrid,
   ResponsiveContainer,
   Legend,
+  LabelList,
 } from 'recharts';
 import { MetricsReport, TEST_TYPES } from '../../types/metrics';
 
@@ -41,6 +44,33 @@ export default function StackedAreaChart({ history }: StackedAreaChartProps) {
       return entry;
     });
   }, [history]);
+
+  const activeTypes = useMemo(() => {
+    return TEST_TYPES.filter((type) =>
+      data.some((d) => (d[type] as number) > 0)
+    );
+  }, [data]);
+
+  if (data.length <= 1) {
+    return (
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={data} barSize={80}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" fontSize={12} />
+          <YAxis fontSize={12} />
+          <Tooltip />
+          <Legend />
+          {activeTypes.map((type) => (
+            <Bar key={type} dataKey={type} stackId="1" fill={TYPE_COLORS[type]} radius={[6, 6, 0, 0]}>
+              {activeTypes.indexOf(type) === activeTypes.length - 1 && (
+                <LabelList dataKey={type} position="top" fontSize={14} fontWeight={600} fill="#3b82f6" />
+              )}
+            </Bar>
+          ))}
+        </BarChart>
+      </ResponsiveContainer>
+    );
+  }
 
   return (
     <ResponsiveContainer width="100%" height={300}>
