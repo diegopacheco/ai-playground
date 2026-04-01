@@ -1,11 +1,31 @@
 import React from 'react';
-import { MetricsReport, TEST_TYPES } from '../types/metrics';
+import { MetricsReport, TEST_TYPES, TestType } from '../types/metrics';
 import ScoreGauge from '../components/ScoreGauge';
 import PassFailDonut from '../components/charts/PassFailDonut';
 import TypeBarChart from '../components/charts/TypeBarChart';
 
 interface Props {
   data: MetricsReport;
+}
+
+const TYPE_LABELS: Record<TestType, string> = {
+  unit: 'Unit',
+  integration: 'Integration',
+  contract: 'Contract',
+  e2e: 'E2E',
+  css: 'CSS',
+  stress: 'Stress',
+  chaos: 'Chaos',
+  mutation: 'Mutation',
+  observability: 'Observability',
+  fuzzy: 'Fuzzy',
+  propertybased: 'Property-Based',
+};
+
+function isFrontendFile(path: string): boolean {
+  return /\.(tsx?|jsx?|css|scss|vue|svelte)$/.test(path) &&
+    (/frontend|src\/__tests__|src\/components|src\/pages|\.spec\.(ts|js)x?$|\.test\.(ts|js)x?$/.test(path) ||
+    !/\.java$|\.py$|\.rs$|\.go$/.test(path));
 }
 
 export default function Dashboard({ data }: Props) {
@@ -16,6 +36,28 @@ export default function Dashboard({ data }: Props) {
   const qualityEntries = TEST_TYPES
     .filter((t) => data.quality?.byType?.[t])
     .map((t) => ({ type: t, rating: data.quality.byType[t]!.rating }));
+
+  const typeStats = TEST_TYPES.map((t) => {
+    const typeData = data.tests.byType[t];
+    let backendTotal = 0;
+    let frontendTotal = 0;
+    if (typeData?.files) {
+      typeData.files.forEach((f) => {
+        if (isFrontendFile(f.path)) {
+          frontendTotal += f.testCount;
+        } else {
+          backendTotal += f.testCount;
+        }
+      });
+    }
+    return {
+      type: t,
+      label: TYPE_LABELS[t],
+      total: typeData?.total || 0,
+      backend: backendTotal,
+      frontend: frontendTotal,
+    };
+  });
 
   return (
     <div className="dashboard-page">
@@ -46,6 +88,19 @@ export default function Dashboard({ data }: Props) {
         </div>
       </div>
 
+      <div className="type-cards-grid">
+        {typeStats.map(({ type, label, total, backend, frontend }) => (
+          <div key={type} className="type-card">
+            <div className="type-card-label">{label}</div>
+            <div className="type-card-value">{total}</div>
+            <div className="type-card-split">
+              <span className="type-card-back">BE: {backend}</span>
+              <span className="type-card-front">FE: {frontend}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
       <div className="chart-row">
         <div className="chart-card">
           <PassFailDonut passing={data.tests.passing} failing={data.tests.failing} />
@@ -69,7 +124,7 @@ export default function Dashboard({ data }: Props) {
         <div className="quality-summary">
           {qualityEntries.map(({ type, rating }) => (
             <span key={type} className={`quality-badge quality-badge-${rating}`}>
-              {type}: {rating}
+              {TYPE_LABELS[type]}: {rating}
             </span>
           ))}
         </div>

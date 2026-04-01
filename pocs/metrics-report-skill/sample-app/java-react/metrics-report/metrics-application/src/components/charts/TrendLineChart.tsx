@@ -33,7 +33,9 @@ export default function TrendLineChart({ history, metric }: TrendLineChartProps)
           value = report.score.total;
           break;
         case 'coverage': {
-          const allFiles = [...report.coverage.backend, ...report.coverage.frontend];
+          const backend = report.coverage?.backend || [];
+          const frontend = report.coverage?.frontend || [];
+          const allFiles = [...backend, ...frontend];
           if (allFiles.length === 0) {
             value = 0;
             break;
@@ -41,12 +43,14 @@ export default function TrendLineChart({ history, metric }: TrendLineChartProps)
           let sum = 0;
           let count = 0;
           allFiles.forEach((f) => {
-            Object.values(f.coverage).forEach((c) => {
-              if (c && c.tool !== null) {
-                sum += c.tool;
-                count++;
-              }
-            });
+            if (f.coverage) {
+              Object.values(f.coverage).forEach((c: any) => {
+                if (c && c.tool !== null && c.tool !== undefined) {
+                  sum += c.tool;
+                  count++;
+                }
+              });
+            }
           });
           value = count > 0 ? Math.round(sum / count) : 0;
           break;

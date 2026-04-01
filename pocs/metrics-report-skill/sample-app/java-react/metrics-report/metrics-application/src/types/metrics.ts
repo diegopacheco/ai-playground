@@ -1,6 +1,6 @@
-export type TestType = 'unit' | 'integration' | 'contract' | 'e2e' | 'css' | 'stress' | 'chaos' | 'mutation' | 'observability';
+export type TestType = 'unit' | 'integration' | 'contract' | 'e2e' | 'css' | 'stress' | 'chaos' | 'mutation' | 'observability' | 'fuzzy' | 'propertybased';
 
-export const TEST_TYPES: TestType[] = ['unit', 'integration', 'contract', 'e2e', 'css', 'stress', 'chaos', 'mutation', 'observability'];
+export const TEST_TYPES: TestType[] = ['unit', 'integration', 'contract', 'e2e', 'css', 'stress', 'chaos', 'mutation', 'observability', 'fuzzy', 'propertybased'];
 
 export type QualityRating = 'poor' | 'fair' | 'good' | 'excellent';
 
@@ -92,6 +92,8 @@ export interface AuthorStats {
   chaos: number;
   mutation: number;
   observability: number;
+  fuzzy: number;
+  propertybased: number;
   total: number;
 }
 
