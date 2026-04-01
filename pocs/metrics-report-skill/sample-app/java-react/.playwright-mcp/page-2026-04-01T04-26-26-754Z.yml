@@ -1,0 +1,191 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - heading "Metrics" [level=1] [ref=e6]
+        - generic [ref=e7]: v1.0
+      - navigation [ref=e8]:
+        - link "D Dashboard" [ref=e9] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e10]: D
+          - generic [ref=e11]: Dashboard
+        - link "T Tests" [ref=e12] [cursor=pointer]:
+          - /url: /tests
+          - generic [ref=e13]: T
+          - generic [ref=e14]: Tests
+        - link "C Coverage" [ref=e15] [cursor=pointer]:
+          - /url: /coverage
+          - generic [ref=e16]: C
+          - generic [ref=e17]: Coverage
+        - link "F Failures" [ref=e18] [cursor=pointer]:
+          - /url: /failures
+          - generic [ref=e19]: F
+          - generic [ref=e20]: Failures
+        - link "A Authors" [ref=e21] [cursor=pointer]:
+          - /url: /authors
+          - generic [ref=e22]: A
+          - generic [ref=e23]: Authors
+        - link "R Trends" [ref=e24] [cursor=pointer]:
+          - /url: /trends
+          - generic [ref=e25]: R
+          - generic [ref=e26]: Trends
+        - link "Q Quality" [ref=e27] [cursor=pointer]:
+          - /url: /quality
+          - generic [ref=e28]: Q
+          - generic [ref=e29]: Quality
+      - button "Dark Mode" [ref=e31] [cursor=pointer]
+    - main [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - img [ref=e35]
+          - textbox "Search tests, files, authors, metrics..." [ref=e38]
+        - generic [ref=e39]:
+          - generic [ref=e40]: ai-playground
+          - generic [ref=e41]: main
+          - generic [ref=e42]: e581dcfb
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - generic [ref=e47]:
+            - img [ref=e48]:
+              - generic [ref=e51]: "4.8"
+            - generic [ref=e52]:
+              - generic [ref=e54]:
+                - generic [ref=e55]: Coverage Breadth
+                - generic [ref=e56]: 1.2/3
+              - generic [ref=e60]:
+                - generic [ref=e61]: Type Diversity
+                - generic [ref=e62]: 0.5/2
+              - generic [ref=e66]:
+                - generic [ref=e67]: Pass Rate
+                - generic [ref=e68]: 1.9/2
+              - generic [ref=e72]:
+                - generic [ref=e73]: Test Quality
+                - generic [ref=e74]: 1.1/2
+              - generic [ref=e78]:
+                - generic [ref=e79]: Code:Test Ratio
+                - generic [ref=e80]: 0.1/1
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - generic [ref=e85]: Total Files
+              - generic [ref=e86]: "18"
+              - generic [ref=e87]: "Backend: 8 / Frontend: 10"
+            - generic [ref=e88]:
+              - generic [ref=e89]: Test Files
+              - generic [ref=e90]: "4"
+            - generic [ref=e91]:
+              - generic [ref=e92]: Total Tests
+              - generic [ref=e93]: "20"
+            - generic [ref=e94]:
+              - generic [ref=e95]: Pass Rate
+              - generic [ref=e96]: 95.0%
+          - generic [ref=e97]:
+            - generic [ref=e98]:
+              - generic [ref=e99]: Unit
+              - generic [ref=e100]: "20"
+              - generic [ref=e101]:
+                - generic [ref=e102]: "BE: 10"
+                - generic [ref=e103]: "FE: 10"
+            - generic [ref=e104]:
+              - generic [ref=e105]: Integration
+              - generic [ref=e106]: "0"
+              - generic [ref=e107]:
+                - generic [ref=e108]: "BE: 0"
+                - generic [ref=e109]: "FE: 0"
+            - generic [ref=e110]:
+              - generic [ref=e111]: Contract
+              - generic [ref=e112]: "0"
+              - generic [ref=e113]:
+                - generic [ref=e114]: "BE: 0"
+                - generic [ref=e115]: "FE: 0"
+            - generic [ref=e116]:
+              - generic [ref=e117]: E2E
+              - generic [ref=e118]: "0"
+              - generic [ref=e119]:
+                - generic [ref=e120]: "BE: 0"
+                - generic [ref=e121]: "FE: 0"
+            - generic [ref=e122]:
+              - generic [ref=e123]: CSS
+              - generic [ref=e124]: "0"
+              - generic [ref=e125]:
+                - generic [ref=e126]: "BE: 0"
+                - generic [ref=e127]: "FE: 0"
+            - generic [ref=e128]:
+              - generic [ref=e129]: Stress
+              - generic [ref=e130]: "0"
+              - generic [ref=e131]:
+                - generic [ref=e132]: "BE: 0"
+                - generic [ref=e133]: "FE: 0"
+            - generic [ref=e134]:
+              - generic [ref=e135]: Chaos
+              - generic [ref=e136]: "0"
+              - generic [ref=e137]:
+                - generic [ref=e138]: "BE: 0"
+                - generic [ref=e139]: "FE: 0"
+            - generic [ref=e140]:
+              - generic [ref=e141]: Mutation
+              - generic [ref=e142]: "0"
+              - generic [ref=e143]:
+                - generic [ref=e144]: "BE: 0"
+                - generic [ref=e145]: "FE: 0"
+            - generic [ref=e146]:
+              - generic [ref=e147]: Observability
+              - generic [ref=e148]: "0"
+              - generic [ref=e149]:
+                - generic [ref=e150]: "BE: 0"
+                - generic [ref=e151]: "FE: 0"
+            - generic [ref=e152]:
+              - generic [ref=e153]: Fuzzy
+              - generic [ref=e154]: "0"
+              - generic [ref=e155]:
+                - generic [ref=e156]: "BE: 0"
+                - generic [ref=e157]: "FE: 0"
+            - generic [ref=e158]:
+              - generic [ref=e159]: Property-Based
+              - generic [ref=e160]: "0"
+              - generic [ref=e161]:
+                - generic [ref=e162]: "BE: 0"
+                - generic [ref=e163]: "FE: 0"
+        - generic [ref=e164]:
+          - generic [ref=e166]:
+            - generic [ref=e168]:
+              - img [ref=e169]
+              - list [ref=e171]:
+                - listitem [ref=e172]:
+                  - img [ref=e173]
+                  - text: Passing
+                - listitem [ref=e175]:
+                  - img [ref=e176]
+                  - text: Failing
+            - generic:
+              - generic: 95%
+              - generic: pass rate
+          - generic [ref=e180]:
+            - img [ref=e181]:
+              - generic [ref=e186]:
+                - generic [ref=e188]: unit
+                - generic [ref=e190]: contract
+                - generic [ref=e192]: e2e
+                - generic [ref=e194]: css
+                - generic [ref=e196]: stress
+                - generic [ref=e198]: chaos
+                - generic [ref=e200]: observability
+                - generic [ref=e202]: propertybased
+              - generic [ref=e204]:
+                - generic [ref=e206]: "0"
+                - generic [ref=e208]: "5"
+                - generic [ref=e210]: "10"
+                - generic [ref=e212]: "15"
+                - generic [ref=e214]: "20"
+            - list [ref=e216]:
+              - listitem [ref=e217]:
+                - img [ref=e218]
+                - text: Passing
+              - listitem [ref=e220]:
+                - img [ref=e221]
+                - text: Failing
+        - generic [ref=e223]:
+          - generic [ref=e224]: Java/Spring Boot
+          - generic [ref=e225]: React
+        - generic [ref=e226]: "Report generated: 3/31/2026, 2:14:00 PM"
+        - generic [ref=e228]: "Unit: fair"
+  - generic [ref=e229]: "0"
