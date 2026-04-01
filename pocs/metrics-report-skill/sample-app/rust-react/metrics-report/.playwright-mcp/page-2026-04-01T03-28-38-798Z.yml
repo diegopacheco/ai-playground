@@ -1,0 +1,66 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Metrics" [level=1] [ref=e6]
+      - generic [ref=e7]: v1.0
+    - navigation [ref=e8]:
+      - link "D Dashboard" [ref=e9] [cursor=pointer]:
+        - /url: /dashboard
+        - generic [ref=e10]: D
+        - generic [ref=e11]: Dashboard
+      - link "T Tests" [ref=e12] [cursor=pointer]:
+        - /url: /tests
+        - generic [ref=e13]: T
+        - generic [ref=e14]: Tests
+      - link "C Coverage" [ref=e15] [cursor=pointer]:
+        - /url: /coverage
+        - generic [ref=e16]: C
+        - generic [ref=e17]: Coverage
+      - link "F Failures" [ref=e18] [cursor=pointer]:
+        - /url: /failures
+        - generic [ref=e19]: F
+        - generic [ref=e20]: Failures
+      - link "A Authors" [ref=e21] [cursor=pointer]:
+        - /url: /authors
+        - generic [ref=e22]: A
+        - generic [ref=e23]: Authors
+      - link "R Trends" [ref=e24] [cursor=pointer]:
+        - /url: /trends
+        - generic [ref=e25]: R
+        - generic [ref=e26]: Trends
+      - link "Q Quality" [ref=e27] [cursor=pointer]:
+        - /url: /quality
+        - generic [ref=e28]: Q
+        - generic [ref=e29]: Quality
+    - button "Dark Mode" [ref=e31] [cursor=pointer]
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img [ref=e35]
+        - textbox "Search tests, files, authors, metrics..." [ref=e38]
+      - generic [ref=e39]:
+        - generic [ref=e40]: ai-playground
+        - generic [ref=e41]: main
+        - generic [ref=e42]: 2255808f
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - button "Backend" [ref=e46] [cursor=pointer]
+        - button "Frontend" [ref=e47] [cursor=pointer]
+      - generic [ref=e48]:
+        - generic [ref=e49]: "Total Files: 0"
+        - generic [ref=e50]: "Tool Coverage: 0"
+        - generic [ref=e51]: "LLM Mapping: 0"
+      - table [ref=e53]:
+        - rowgroup [ref=e54]:
+          - row "File ^ Unit Integration Contract E2e Css Stress Chaos Mutation Observability" [ref=e55]:
+            - columnheader "File ^" [ref=e56] [cursor=pointer]
+            - columnheader "Unit" [ref=e57] [cursor=pointer]
+            - columnheader "Integration" [ref=e58] [cursor=pointer]
+            - columnheader "Contract" [ref=e59] [cursor=pointer]
+            - columnheader "E2e" [ref=e60] [cursor=pointer]
+            - columnheader "Css" [ref=e61] [cursor=pointer]
+            - columnheader "Stress" [ref=e62] [cursor=pointer]
+            - columnheader "Chaos" [ref=e63] [cursor=pointer]
+            - columnheader "Mutation" [ref=e64] [cursor=pointer]
+            - columnheader "Observability" [ref=e65] [cursor=pointer]
+        - rowgroup
