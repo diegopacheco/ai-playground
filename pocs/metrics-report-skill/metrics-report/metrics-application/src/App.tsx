@@ -164,7 +164,7 @@ function App() {
             <Route path="/coverage" element={<Coverage data={data} searchQuery={searchQuery} />} />
             <Route path="/failures" element={<Failures data={data} searchQuery={searchQuery} history={history} />} />
             <Route path="/authors" element={<Authors data={data} searchQuery={searchQuery} />} />
-            <Route path="/trends" element={<Trends history={history} />} />
+            <Route path="/trends" element={<Trends history={history.length > 0 ? history : [data]} />} />
             <Route path="/quality" element={<Quality data={data} />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
