@@ -1,0 +1,24 @@
+pocs/metrics-report-skill/SKILL.md
+  9359a626b62d2413 61,63,65,67,98,108,110,112-116,118,120,122-123,127-128,131-132,140,268-270
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.23",
+  "base_commit_sha": "5329de8dc7ff6527064a9f1fc8d915bd29448c2f",
+  "prompts": {
+    "9359a626b62d2413": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b082cd31-509c-4bfb-bbb6-e6d00d7ed804",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>",
+      "messages": [],
+      "total_additions": 25,
+      "total_deletions": 39,
+      "accepted_lines": 24,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/b2c2412ff8775dbef4f384577ac8131a2ed1655c369c6fa364619bc66104ed6a"
+    }
+  }
+}
