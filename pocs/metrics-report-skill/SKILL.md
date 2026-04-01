@@ -14,15 +14,40 @@ IMPORTANT: Optimize for speed. Use Agent tool to parallelize independent work. U
 
 You MUST print progress to the user at every phase transition and every test type execution. Use this exact format:
 
-- Phase transitions: `[Phase X/6] <phase name>...`
+- Phase transitions: `[Phase X/7] <phase name>...`
 - Agent 3 test steps: `[Test X/Y] Running <type> tests (<backend|frontend>)...` then `[Test X/Y] <type> tests: <N> passed, <M> failed`
-- Phase completion: `[Phase X/6] Done. <one-line summary of result>`
+- Phase completion: `[Phase X/7] Done. <one-line summary of result>`
 
 This is NON-NEGOTIABLE. The user must always know what is happening and where we are in the process. Never go silent for more than one tool call without printing status.
 
+## Phase 0: Install Metrics Report Site
+
+Print: `[Phase 0/7] Installing metrics report site...`
+
+Check if `metrics-report/metrics-application/` exists. If NOT, copy it from the skill installation directory and run npm install:
+
+```bash
+SKILL_DIR="$HOME/.claude/skills/metrics-report"
+if [ ! -d "metrics-report/metrics-application" ]; then
+  mkdir -p metrics-report
+  cp -r "$SKILL_DIR/metrics-report/"* metrics-report/
+  cd metrics-report/metrics-application && npm install && cd ../..
+fi
+```
+
+If `metrics-report/metrics-application/` already exists but `node_modules` is missing, just run npm install:
+
+```bash
+if [ -d "metrics-report/metrics-application" ] && [ ! -d "metrics-report/metrics-application/node_modules" ]; then
+  cd metrics-report/metrics-application && npm install && cd ../..
+fi
+```
+
+Print: `[Phase 0/7] Done. Metrics report site ready.`
+
 ## Phase 1: Setup and Detection (do all at once)
 
-Print: `[Phase 1/6] Setup and detection...`
+Print: `[Phase 1/7] Setup and detection...`
 
 Run these in a SINGLE Bash call chained with &&:
 
@@ -58,7 +83,7 @@ Detect stacks using Glob (one call, check results):
 - `manage.py` or django in `pyproject.toml` = Django/Python
 - `Cargo.toml` with actix/axum/tokio = Rust
 
-Print: `[Phase 1/6] Done. Detected stacks: <list stacks found>`
+Print: `[Phase 1/7] Done. Detected stacks: <list stacks found>`
 
 ## Phase 2: Scan and Run Tests
 
