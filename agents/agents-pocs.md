@@ -324,3 +324,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-grafana
 
 64 - PR Agent: Multi-agent System for PR review, tests coverage with Claude/Codex/Gemini/Copilot <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-pr-monitor
+
+65 - Agent Metrics Report: Read all codebase and generate test metrics with claude agent skill <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/metrics-report-skill
