@@ -88,17 +88,19 @@ export default function Dashboard({ data }: Props) {
         </div>
       </div>
 
-      <div className="type-cards-grid">
-        {typeStats.map(({ type, label, total, backend, frontend }) => (
-          <div key={type} className="type-card">
-            <div className="type-card-label">{label}</div>
-            <div className="type-card-value">{total}</div>
-            <div className="type-card-split">
-              <span className="type-card-back">BE: {backend}</span>
-              <span className="type-card-front">FE: {frontend}</span>
+      <div className="type-cards-section">
+        <div className="type-cards-grid">
+          {typeStats.map(({ type, label, total, backend, frontend }) => (
+            <div key={type} className="type-card">
+              <div className="type-card-label">{label}</div>
+              <div className="type-card-value">{total}</div>
+              <div className="type-card-split">
+                <span className="type-card-back">BE: {backend}</span>
+                <span className="type-card-front">FE: {frontend}</span>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <div className="chart-row">
