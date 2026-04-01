@@ -1,0 +1,28 @@
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/charts/StackedAreaChart.tsx
+  8f575587e5cc086f 5-6,13,48-73
+pocs/metrics-report-skill/README.md
+  8f575587e5cc086f 55,73
+pocs/metrics-report-skill/metrics-report/metrics-application/src/components/charts/TrendLineChart.tsx
+  8f575587e5cc086f 5-6,12-13,75-92
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "3a66f0b852ef8a004e6524e83ed301db899e1e2b",
+  "prompts": {
+    "8f575587e5cc086f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d5c35da7-82d1-41fc-bc2a-fd275fb85a12",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 55,
+      "total_deletions": 2,
+      "accepted_lines": 55,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/e5b22c42a1f72347b06a8d26a1025d5e82f354020c1661dd44d7d09e169926e8"
+    }
+  }
+}
