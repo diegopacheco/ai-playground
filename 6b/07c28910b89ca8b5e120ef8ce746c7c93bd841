@@ -1,0 +1,84 @@
+pocs/flight-agent-mcp/frontend/vite.config.ts
+  643c9bceb85a60bb 1-9
+pocs/flight-agent-mcp/frontend/src/api/flights.ts
+  643c9bceb85a60bb 1-17
+pocs/flight-agent-mcp/backend/.gitignore
+  643c9bceb85a60bb 1
+pocs/flight-agent-mcp/frontend/postcss.config.js
+  643c9bceb85a60bb 1-6
+pocs/flight-agent-mcp/frontend/tailwind.config.js
+  643c9bceb85a60bb 1-5
+pocs/flight-agent-mcp/frontend/tsconfig.node.json
+  643c9bceb85a60bb 1-20
+pocs/flight-agent-mcp/backend/src/routes/mod.rs
+  643c9bceb85a60bb 1
+pocs/flight-agent-mcp/backend/src/main.rs
+  643c9bceb85a60bb 1-19
+pocs/flight-agent-mcp/backend/src/agents/mod.rs
+  643c9bceb85a60bb 1-16
+pocs/flight-agent-mcp/frontend/package.json
+  643c9bceb85a60bb 1-26
+pocs/flight-agent-mcp/frontend/src/components/SearchForm.tsx
+  643c9bceb85a60bb 1-150
+pocs/flight-agent-mcp/stop.sh
+  643c9bceb85a60bb 1-13
+pocs/flight-agent-mcp/frontend/tsconfig.json
+  643c9bceb85a60bb 1-7
+pocs/flight-agent-mcp/frontend/.gitignore
+  643c9bceb85a60bb 1-2
+pocs/flight-agent-mcp/backend/src/lib.rs
+  643c9bceb85a60bb 1-2
+pocs/flight-agent-mcp/frontend/src/vite-env.d.ts
+  643c9bceb85a60bb 1
+pocs/flight-agent-mcp/frontend/src/types/index.ts
+  643c9bceb85a60bb 1-41
+pocs/flight-agent-mcp/design-doc.md
+  643c9bceb85a60bb 1-231
+pocs/flight-agent-mcp/frontend/index.html
+  643c9bceb85a60bb 1-12
+pocs/flight-agent-mcp/run.sh
+  643c9bceb85a60bb 1-9
+pocs/flight-agent-mcp/backend/src/agents/runner.rs
+  643c9bceb85a60bb 1-62
+pocs/flight-agent-mcp/frontend/src/index.css
+  643c9bceb85a60bb 1-8
+pocs/flight-agent-mcp/frontend/src/App.tsx
+  643c9bceb85a60bb 1-57
+pocs/flight-agent-mcp/backend/Cargo.toml
+  643c9bceb85a60bb 1-13
+pocs/flight-agent-mcp/backend/src/agents/claude.rs
+  643c9bceb85a60bb 1-12
+pocs/flight-agent-mcp/frontend/tsconfig.app.json
+  643c9bceb85a60bb 1-22
+pocs/flight-agent-mcp/frontend/src/components/ResultsGrid.tsx
+  643c9bceb85a60bb 1-115
+pocs/flight-agent-mcp/backend/src/agents/codex.rs
+  643c9bceb85a60bb 1-10
+pocs/flight-agent-mcp/backend/src/routes/search.rs
+  643c9bceb85a60bb 1-206
+pocs/flight-agent-mcp/frontend/src/main.tsx
+  643c9bceb85a60bb 1-15
+pocs/flight-agent-mcp/README.md
+  643c9bceb85a60bb 2-92
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "6b07c28910b89ca8b5e120ef8ce746c7c93bd841",
+  "prompts": {
+    "643c9bceb85a60bb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8c22aa6f-0205-4dea-a6f3-1c717d4e9eda",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 1284,
+      "total_deletions": 76,
+      "accepted_lines": 1199,
+      "overriden_lines": 1,
+      "messages_url": "https://usegitai.com/cas/79616732cf937c58196f054550733787cf3f0940d3fe89c3c33862b3cb86aa59"
+    }
+  }
+}
