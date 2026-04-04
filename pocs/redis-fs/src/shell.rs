@@ -65,6 +65,7 @@ pub fn run(conn: &mut Connection) {
                 }
             }
             "pwd" => println!("{}", cwd),
+            "import" => commands::import(conn, &cwd, &args),
             "exec" => commands::exec(conn, &cwd, &args),
             "exit" => break,
             _ => println!("unknown command: {}", cmd),
