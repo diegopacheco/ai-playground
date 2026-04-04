@@ -327,3 +327,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-pr-monitor
 
 65 - Agent Metrics Report: Read all codebase and generate test metrics with claude agent skill <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/metrics-report-skill
+
+66 - Flight MCP Skill Search Agent with claude/codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/flight-agent-mcp
