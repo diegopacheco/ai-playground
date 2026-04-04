@@ -90,6 +90,26 @@ pub fn ls(conn: &mut Connection, cwd: &str, args: &[&str]) {
     }
 }
 
+pub fn import(conn: &mut Connection, cwd: &str, args: &[&str]) {
+    if args.len() < 2 {
+        println!("usage: import <local-path> <virtual-path>");
+        return;
+    }
+    let local_path = args[0];
+    let vpath = path::resolve(cwd, args[1]);
+    match std::fs::read_to_string(local_path) {
+        Ok(content) => {
+            let parent = path::parent(&vpath);
+            let name = path::basename(&vpath);
+            store::set_meta(conn, &vpath, "file", content.len());
+            store::set_data(conn, &vpath, &content);
+            store::add_to_dir(conn, &parent, &name);
+            println!("imported {} -> {}", local_path, vpath);
+        }
+        Err(e) => println!("error: cannot read {}: {}", local_path, e),
+    }
+}
+
 pub fn exec(conn: &mut Connection, cwd: &str, args: &[&str]) {
     if args.is_empty() {
         println!("usage: exec <path>");

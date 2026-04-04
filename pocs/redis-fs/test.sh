@@ -61,5 +61,13 @@ check "list after deletes" "scripts" "$OUTPUT"
 OUTPUT=$(echo -e "cd /scripts\npwd\nexit" | $BIN)
 check "cd and pwd" "/scripts" "$OUTPUT"
 
+echo "hello from real disk" > /tmp/redis-fs-test-import.txt
+OUTPUT=$(echo -e "import /tmp/redis-fs-test-import.txt /imported.txt\nexit" | $BIN)
+check "import file" "imported /tmp/redis-fs-test-import.txt -> /imported.txt" "$OUTPUT"
+
+OUTPUT=$(echo -e "cat /imported.txt\nexit" | $BIN)
+check "read imported file" "hello from real disk" "$OUTPUT"
+rm -f /tmp/redis-fs-test-import.txt
+
 echo ""
 echo "Results: $PASS passed, $FAIL failed"
