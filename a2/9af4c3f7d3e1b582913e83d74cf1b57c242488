@@ -1,0 +1,46 @@
+pocs/redis-fs/src/store.rs
+  6c9d35369ba3b721 1-50
+pocs/redis-fs/stop-redis.sh
+  6c9d35369ba3b721 1-4
+pocs/redis-fs/src/path.rs
+  6c9d35369ba3b721 1-48
+pocs/redis-fs/src/main.rs
+  6c9d35369ba3b721 1-5,7-9
+pocs/redis-fs/Cargo.toml
+  6c9d35369ba3b721 4
+pocs/redis-fs/design-doc.md
+  6c9d35369ba3b721 1-153
+pocs/redis-fs/test.sh
+  6c9d35369ba3b721 1-65
+pocs/redis-fs/README.md
+  6c9d35369ba3b721 1-77
+pocs/redis-fs/src/shell.rs
+  6c9d35369ba3b721 1-81
+pocs/redis-fs/src/commands.rs
+  6c9d35369ba3b721 1-113
+pocs/redis-fs/start-redis.sh
+  6c9d35369ba3b721 1-6
+pocs/redis-fs/dump-redis.sh
+  6c9d35369ba3b721 1-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "a29af4c3f7d3e1b582913e83d74cf1b57c242488",
+  "prompts": {
+    "6c9d35369ba3b721": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4d625800-5fae-44d6-9270-4769a773eed1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 1002,
+      "total_deletions": 364,
+      "accepted_lines": 639,
+      "overriden_lines": 1,
+      "messages_url": "https://usegitai.com/cas/af2d26354d37bee20d22a4dc657590f533e6bffa8682504335eb73171c47b6bd"
+    }
+  }
+}
