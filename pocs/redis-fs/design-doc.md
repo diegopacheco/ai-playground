@@ -61,6 +61,7 @@ src/
 | `ls [path]` | List directory contents |
 | `cd <path>` | Change current directory |
 | `pwd` | Print current directory |
+| `import <local-path> <virtual-path>` | Read a real file from disk and store it in the virtual fs |
 | `exec <path>` | Write file content to a temp file and execute it with bash |
 | `exit` | Quit the shell |
 
@@ -125,6 +126,14 @@ No FUSE dependency. No other crates beyond `redis`.
 4. redis-fs adds `hello.txt` to the `fs:dir:/` set
 5. User types `cat /hello.txt`
 6. redis-fs fetches `fs:data:/hello.txt` and prints `Hello World`
+
+## Flow: Import a Real File
+
+1. User types `import /home/user/data.txt /data.txt`
+2. redis-fs reads the content of `/home/user/data.txt` from the local disk
+3. redis-fs stores the content at `fs:data:/data.txt` in Redis
+4. redis-fs stores metadata at `fs:meta:/data.txt` (type=file, size=N)
+5. redis-fs adds `data.txt` to the `fs:dir:/` set
 
 ## Flow: Execute a Bash Script
 

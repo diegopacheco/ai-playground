@@ -29,6 +29,7 @@ The CLI connects to Redis on `localhost:6379` and stores filesystem data using t
 | `ls [path]` | List directory contents |
 | `cd <path>` | Change directory |
 | `pwd` | Print current directory |
+| `import <local-path> <virtual-path>` | Import a real file from disk into the virtual fs |
 | `exec <path>` | Execute a file as a bash script |
 | `exit` | Quit |
 
