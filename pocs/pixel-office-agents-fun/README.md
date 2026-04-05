@@ -2,6 +2,16 @@
 
 A pixel-art virtual office where AI agents live, work, and execute tasks. Spawn agents into your office, assign them work, and watch them sit at their desks typing away. Built with a canvas-based pixel engine using sprites from [pixel-agents](https://github.com/pablodelucca/pixel-agents).
 
+### Pixel Office with 4 agents working at their desks
+Each agent is assigned a unique desk. The control panel on the right shows the spawn form, active agents list with status badges (working/done), and the "Clear All" button. Characters walk from the entrance doorway to their desk and start typing.
+
+![Pixel Office with agents working](result-1.png)
+
+### Interactive chat with an agent
+Double-clicking an agent opens the chat panel. Here "sauron" (a Claude agent) responds to a question while sitting at its desk. The conversation history is persisted in SQLite and loaded when reopening the chat.
+
+![Chat with agent](result-2.png)
+
 ## Architecture
 
 ```
@@ -146,4 +156,4 @@ pixel-office-agents-fun/
 ## Credits
 
 - Pixel art sprites from [pixel-agents](https://github.com/pablodelucca/pixel-agents) by Pablo De Lucca
-- Inspired by the agent-debate-club architecture pattern
+- Inspired by the agent-debate-club architecture pattern by [Diego Pacheco](https://diegopacheco.github.io/)
