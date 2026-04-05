@@ -1,0 +1,28 @@
+pocs/pixel-office-agents-fun/backend/src/persistence/db.rs
+  b066130302993f2e 113-114,116,118-125
+pocs/pixel-office-agents-fun/frontend/src/App.tsx
+  b066130302993f2e 44-45
+pocs/pixel-office-agents-fun/frontend/index.html
+  b066130302993f2e 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "e89a6f0005c3c6609b496d53fcc7ca2fb4ea6d68",
+  "prompts": {
+    "b066130302993f2e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8ce33fc3-6ba7-4278-977f-5df609ff0fe3",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 3,
+      "accepted_lines": 14,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/71d5ad26b75874b7014e3a9de1d5496fc25d6f5e0289eb0ffd64bf3076133461"
+    }
+  }
+}
