@@ -330,3 +330,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/metrics-report-skil
 
 66 - Flight MCP Skill Search Agent with claude/codex <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/flight-agent-mcp
+
+67 - Multi-Agent System: Pixel Office Control Panel with Claude,Codex,Gemni and Copilot <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/pixel-office-agents-fun
