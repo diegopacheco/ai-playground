@@ -1,0 +1,24 @@
+pocs/pixel-office-agents-fun/README.md
+  b066130302993f2e 5-14,159
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "b7c2d861f9738ae83b918c92f3ec51965a6bf798",
+  "prompts": {
+    "b066130302993f2e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8ce33fc3-6ba7-4278-977f-5df609ff0fe3",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 12,
+      "total_deletions": 2,
+      "accepted_lines": 11,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/d5bd121c87ff3a5cd1708454a37adc7586d7ae1bb346a2b6f686d7f6501fce03"
+    }
+  }
+}
