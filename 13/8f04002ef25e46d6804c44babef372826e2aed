@@ -1,0 +1,108 @@
+pocs/pixel-office-agents-fun/backend/Cargo.toml
+  b066130302993f2e 1-17
+pocs/pixel-office-agents-fun/backend/src/main.rs
+  b066130302993f2e 1-29
+pocs/pixel-office-agents-fun/frontend/package.json
+  b066130302993f2e 1-23
+pocs/pixel-office-agents-fun/stop.sh
+  b066130302993f2e 1-6
+pocs/pixel-office-agents-fun/backend/src/persistence/models.rs
+  b066130302993f2e 1-47
+pocs/pixel-office-agents-fun/frontend/src/types/index.ts
+  b066130302993f2e 1-54
+pocs/pixel-office-agents-fun/frontend/src/App.tsx
+  b066130302993f2e 1-239
+pocs/pixel-office-agents-fun/frontend/src/api/agents.ts
+  b066130302993f2e 1-43
+pocs/pixel-office-agents-fun/backend/src/agents/claude.rs
+  b066130302993f2e 1-12
+pocs/pixel-office-agents-fun/backend/src/persistence/db.rs
+  b066130302993f2e 1-120
+pocs/pixel-office-agents-fun/backend/src/agents/gemini.rs
+  b066130302993f2e 1-10
+pocs/pixel-office-agents-fun/frontend/index.html
+  b066130302993f2e 1-16
+pocs/pixel-office-agents-fun/frontend/src/hooks/useAgentSSE.ts
+  b066130302993f2e 1-55
+pocs/pixel-office-agents-fun/backend/src/agents/mod.rs
+  b066130302993f2e 1-5
+pocs/pixel-office-agents-fun/frontend/src/canvas/office.ts
+  b066130302993f2e 1-482
+pocs/pixel-office-agents-fun/README.md
+  b066130302993f2e 1-135
+pocs/pixel-office-agents-fun/frontend/run.sh
+  b066130302993f2e 1-6
+pocs/pixel-office-agents-fun/run.sh
+  b066130302993f2e 1-8
+pocs/pixel-office-agents-fun/design-doc.md
+  b066130302993f2e 1-175
+pocs/pixel-office-agents-fun/frontend/stop.sh
+  b066130302993f2e 1-9
+pocs/pixel-office-agents-fun/backend/src/persistence/mod.rs
+  b066130302993f2e 1-2
+pocs/pixel-office-agents-fun/backend/src/routes/history.rs
+  b066130302993f2e 1-37
+pocs/pixel-office-agents-fun/frontend/src/main.tsx
+  b066130302993f2e 1-14
+pocs/pixel-office-agents-fun/frontend/src/components/PixelOffice.tsx
+  b066130302993f2e 1-83
+pocs/pixel-office-agents-fun/backend/src/sse/broadcaster.rs
+  b066130302993f2e 1-39
+pocs/pixel-office-agents-fun/backend/run.sh
+  b066130302993f2e 1-6
+pocs/pixel-office-agents-fun/frontend/src/components/AgentOutputPanel.tsx
+  b066130302993f2e 1-131
+pocs/pixel-office-agents-fun/backend/stop.sh
+  b066130302993f2e 1-9
+pocs/pixel-office-agents-fun/backend/src/sse/mod.rs
+  b066130302993f2e 1
+pocs/pixel-office-agents-fun/backend/src/agents/runner.rs
+  b066130302993f2e 1-37
+pocs/pixel-office-agents-fun/frontend/vite.config.ts
+  b066130302993f2e 1-15
+pocs/pixel-office-agents-fun/frontend/src/canvas/pathfinding.ts
+  b066130302993f2e 1-71
+pocs/pixel-office-agents-fun/backend/src/routes/agents.rs
+  b066130302993f2e 1-220
+pocs/pixel-office-agents-fun/frontend/src/components/AgentChatPanel.tsx
+  b066130302993f2e 1-171
+pocs/pixel-office-agents-fun/frontend/src/canvas/sprites.ts
+  b066130302993f2e 1-40
+pocs/pixel-office-agents-fun/frontend/src/canvas/types.ts
+  b066130302993f2e 1-39
+pocs/pixel-office-agents-fun/backend/src/agents/codex.rs
+  b066130302993f2e 1-9
+pocs/pixel-office-agents-fun/frontend/src/hooks/useAgents.ts
+  b066130302993f2e 1-18
+pocs/pixel-office-agents-fun/backend/src/agents/copilot.rs
+  b066130302993f2e 1-9
+pocs/pixel-office-agents-fun/frontend/tsconfig.json
+  b066130302993f2e 1-21
+pocs/pixel-office-agents-fun/backend/src/lib.rs
+  b066130302993f2e 1-12
+pocs/pixel-office-agents-fun/frontend/src/components/AgentSpawnForm.tsx
+  b066130302993f2e 1-111
+pocs/pixel-office-agents-fun/backend/src/routes/mod.rs
+  b066130302993f2e 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "138f04002ef25e46d6804c44babef372826e2aed",
+  "prompts": {
+    "b066130302993f2e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8ce33fc3-6ba7-4278-977f-5df609ff0fe3",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 2683,
+      "total_deletions": 95,
+      "accepted_lines": 2588,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/9dade2e4b839621cfc8a8f5f5c0d3d6d847b21648c1edfc8ee08bbf10e867a32"
+    }
+  }
+}
