@@ -110,11 +110,17 @@ pub async fn get_messages(pool: &Pool, agent_id: &str) -> Result<Vec<MessageReco
 }
 
 pub async fn get_next_desk_index(pool: &Pool) -> Result<i64, sqlx::Error> {
-    let row: (i64,) = sqlx::query_as(
-        "SELECT COALESCE(MAX(desk_index), -1) + 1 FROM agents WHERE status IN ('spawning', 'thinking', 'working')"
+    let used: Vec<(i64,)> = sqlx::query_as(
+        "SELECT desk_index FROM agents"
     )
-    .fetch_one(pool)
+    .fetch_all(pool)
     .await
-    .unwrap_or((0,));
-    Ok(row.0 % 6)
+    .unwrap_or_default();
+    let used_set: std::collections::HashSet<i64> = used.into_iter().map(|r| r.0).collect();
+    for i in 0..6 {
+        if !used_set.contains(&i) {
+            return Ok(i);
+        }
+    }
+    Ok(used_set.len() as i64 % 6)
 }

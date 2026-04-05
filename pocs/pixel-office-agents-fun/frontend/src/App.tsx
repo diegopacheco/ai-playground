@@ -41,8 +41,8 @@ export default function App() {
   return (
     <div style={containerStyle}>
       <header style={headerStyle}>
-        <h1 style={titleStyle}>PIXEL OFFICE</h1>
-        <span style={subtitleStyle}>Agent HQ</span>
+        <h1 style={titleStyle}>Multi-Agent System</h1>
+        <span style={subtitleStyle}>Pixel Office Control Panel</span>
       </header>
       <div style={mainStyle}>
         <div style={canvasCol}>
