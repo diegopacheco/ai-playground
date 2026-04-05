@@ -5,9 +5,10 @@ import { chatWithAgent, fetchAgent } from '../api/agents'
 interface Props {
   agent: Agent
   onClose: () => void
+  onThinkingChange?: (agentId: string, thinking: boolean) => void
 }
 
-export default function AgentChatPanel({ agent, onClose }: Props) {
+export default function AgentChatPanel({ agent, onClose, onThinkingChange }: Props) {
   const [input, setInput] = useState('')
   const [chatHistory, setChatHistory] = useState<{ role: string; content: string }[]>([])
   const [thinking, setThinking] = useState(false)
@@ -34,6 +35,7 @@ export default function AgentChatPanel({ agent, onClose }: Props) {
     setChatHistory(prev => [...prev, { role: 'user', content: msg }])
     setInput('')
     setThinking(true)
+    onThinkingChange?.(agent.id, true)
     try {
       const response = await chatWithAgent(agent.id, msg)
       setChatHistory(prev => [...prev, { role: response.role, content: response.content }])
@@ -41,6 +43,7 @@ export default function AgentChatPanel({ agent, onClose }: Props) {
       setChatHistory(prev => [...prev, { role: 'assistant', content: 'Failed to get response' }])
     }
     setThinking(false)
+    onThinkingChange?.(agent.id, false)
   }
 
   return (

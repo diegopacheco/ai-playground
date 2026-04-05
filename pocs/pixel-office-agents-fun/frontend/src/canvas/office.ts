@@ -159,19 +159,56 @@ export class PixelOfficeEngine {
     const agent = this.agents.get(id)
     if (!agent) return
     agent.status = status
+
+    const isWalking = agent.path.length > 0
+
     if (status === 'thinking') {
-      agent.speechBubble = '...'
-      agent.speechTimer = 180
+      if (!isWalking) {
+        agent.speechBubble = '...'
+        agent.speechTimer = 180
+      }
     } else if (status === 'working') {
-      agent.state = 'typing'
+      if (!isWalking) agent.state = 'typing'
       agent.speechBubble = null
     } else if (status === 'done') {
-      agent.state = 'idle'
+      if (isWalking) {
+        const desk = DESK_SLOTS[agent.deskIndex % DESK_SLOTS.length]
+        agent.position = { x: desk.chairX, y: desk.chairY }
+        agent.path = []
+      }
+      agent.state = 'sitting'
       agent.speechBubble = 'Done!'
       agent.speechTimer = 120
     } else if (status === 'error') {
+      if (isWalking) {
+        const desk = DESK_SLOTS[agent.deskIndex % DESK_SLOTS.length]
+        agent.position = { x: desk.chairX, y: desk.chairY }
+        agent.path = []
+      }
+      agent.state = 'sitting'
       agent.speechBubble = 'Error!'
       agent.speechTimer = 120
+    } else if (status === 'stopped') {
+      if (isWalking) {
+        const desk = DESK_SLOTS[agent.deskIndex % DESK_SLOTS.length]
+        agent.position = { x: desk.chairX, y: desk.chairY }
+        agent.path = []
+      }
+      agent.state = 'sitting'
+    }
+  }
+
+  setAgentTyping(id: string, typing: boolean) {
+    const agent = this.agents.get(id)
+    if (!agent) return
+    if (typing) {
+      agent.state = 'typing'
+      agent.speechBubble = '...'
+      agent.speechTimer = 9999
+    } else {
+      agent.state = 'sitting'
+      agent.speechBubble = null
+      agent.speechTimer = 0
     }
   }
 

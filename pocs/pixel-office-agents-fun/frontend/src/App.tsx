@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import PixelOffice from './components/PixelOffice'
+import PixelOffice, { PixelOfficeHandle } from './components/PixelOffice'
 import AgentSpawnForm from './components/AgentSpawnForm'
 import AgentOutputPanel from './components/AgentOutputPanel'
 import AgentChatPanel from './components/AgentChatPanel'
@@ -13,6 +13,7 @@ export default function App() {
   const queryClient = useQueryClient()
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null)
   const [panelMode, setPanelMode] = useState<'output' | 'chat' | null>(null)
+  const officeRef = useRef<PixelOfficeHandle>(null)
 
   const handleSpawn = async (req: CreateAgentRequest) => {
     await spawnAgent(req)
@@ -46,7 +47,7 @@ export default function App() {
       </header>
       <div style={mainStyle}>
         <div style={canvasCol}>
-          <PixelOffice agents={agents} onAgentClick={handleAgentClick} />
+          <PixelOffice ref={officeRef} agents={agents} onAgentClick={handleAgentClick} />
           <div style={legendStyle}>
             <span style={legendItem}><span style={dot('#ffaa00')}></span> Thinking</span>
             <span style={legendItem}><span style={dot('#00cc44')}></span> Working</span>
@@ -61,7 +62,11 @@ export default function App() {
             <AgentOutputPanel agent={selectedAgent} onClose={handleClosePanel} />
           )}
           {selectedAgent && panelMode === 'chat' && (
-            <AgentChatPanel agent={selectedAgent} onClose={handleClosePanel} />
+            <AgentChatPanel
+              agent={selectedAgent}
+              onClose={handleClosePanel}
+              onThinkingChange={(id, thinking) => officeRef.current?.setAgentTyping(id, thinking)}
+            />
           )}
           <div style={agentListStyle}>
             <div style={listHeaderRow}>

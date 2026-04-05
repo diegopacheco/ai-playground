@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useImperativeHandle, forwardRef } from 'react'
 import { PixelOfficeEngine } from '../canvas/office'
 import { Agent, AGENT_TYPES } from '../types'
 
@@ -7,13 +7,23 @@ interface Props {
   onAgentClick: (agentId: string, clicks: number) => void
 }
 
-export default function PixelOffice({ agents, onAgentClick }: Props) {
+export interface PixelOfficeHandle {
+  setAgentTyping: (id: string, typing: boolean) => void
+}
+
+const PixelOffice = forwardRef<PixelOfficeHandle, Props>(({ agents, onAgentClick }, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const engineRef = useRef<PixelOfficeEngine | null>(null)
   const knownAgentsRef = useRef<Set<string>>(new Set())
   const rafRef = useRef<number>(0)
   const onClickRef = useRef(onAgentClick)
   onClickRef.current = onAgentClick
+
+  useImperativeHandle(ref, () => ({
+    setAgentTyping: (id: string, typing: boolean) => {
+      engineRef.current?.setAgentTyping(id, typing)
+    }
+  }))
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -80,4 +90,6 @@ export default function PixelOffice({ agents, onAgentClick }: Props) {
       }}
     />
   )
-}
+})
+
+export default PixelOffice
