@@ -1,0 +1,48 @@
+pocs/pixel-office-agents-fun/backend/.backend.pid
+  6c77a714b999ab6e 1
+pocs/pixel-office-agents-fun/frontend/src/canvas/office.ts
+  b066130302993f2e 162-164,166-169,171,174-179,183-188,191-197,201-211
+pocs/pixel-office-agents-fun/frontend/.frontend.pid
+  6c77a714b999ab6e 1
+pocs/pixel-office-agents-fun/frontend/src/components/AgentChatPanel.tsx
+  b066130302993f2e 8,11,38,46
+pocs/pixel-office-agents-fun/frontend/src/components/PixelOffice.tsx
+  b066130302993f2e 1,10-14,22-26,93-95
+pocs/pixel-office-agents-fun/frontend/src/App.tsx
+  b066130302993f2e 1,3,16,50,65-69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "1b42df6deca9e8798dc2a3037d8a35018e05fd60",
+  "prompts": {
+    "6c77a714b999ab6e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d5bb1-6388-7463-9fb6-836c99dbe8e2",
+        "model": "gpt-5.4"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 0,
+      "accepted_lines": 2,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f9023ba77a8e616f7d04ebee4190c30671d71833402ae85128ff615eaccd91e6"
+    },
+    "b066130302993f2e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8ce33fc3-6ba7-4278-977f-5df609ff0fe3",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 69,
+      "total_deletions": 12,
+      "accepted_lines": 69,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/69f388d2b823abd99d5e7f24cad5352d81693a246ec1a2205ff5524f97470a86"
+    }
+  }
+}
