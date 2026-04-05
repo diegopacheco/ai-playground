@@ -215,6 +215,6 @@ async fn get_agent_types() -> Json<Vec<serde_json::Value>> {
         serde_json::json!({ "id": "claude", "name": "Claude", "model": "opus", "color": "#D97706" }),
         serde_json::json!({ "id": "gemini", "name": "Gemini", "model": "gemini-3.0", "color": "#4285F4" }),
         serde_json::json!({ "id": "copilot", "name": "Copilot", "model": "claude-sonnet-4", "color": "#6366F1" }),
-        serde_json::json!({ "id": "codex", "name": "Codex", "model": "gpt-5.2-codex", "color": "#10B981" }),
+        serde_json::json!({ "id": "codex", "name": "Codex", "model": "gpt-5.4", "color": "#10B981" }),
     ])
 }

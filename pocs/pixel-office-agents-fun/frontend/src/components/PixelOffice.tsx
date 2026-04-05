@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect } from 'react'
 import { PixelOfficeEngine } from '../canvas/office'
 import { Agent, AGENT_TYPES } from '../types'
 
@@ -12,21 +12,21 @@ export default function PixelOffice({ agents, onAgentClick }: Props) {
   const engineRef = useRef<PixelOfficeEngine | null>(null)
   const knownAgentsRef = useRef<Set<string>>(new Set())
   const rafRef = useRef<number>(0)
-
-  const loop = useCallback(() => {
-    const engine = engineRef.current
-    if (!engine) return
-    engine.update()
-    engine.render()
-    rafRef.current = requestAnimationFrame(loop)
-  }, [])
+  const onClickRef = useRef(onAgentClick)
+  onClickRef.current = onAgentClick
 
   useEffect(() => {
     if (!canvasRef.current) return
     const engine = new PixelOfficeEngine(canvasRef.current)
     engineRef.current = engine
 
-    engine.onClick((id, clicks) => onAgentClick(id, clicks))
+    engine.onClick((id, clicks) => onClickRef.current(id, clicks))
+
+    const loop = () => {
+      engine.update()
+      engine.render()
+      rafRef.current = requestAnimationFrame(loop)
+    }
 
     engine.init().then(() => {
       rafRef.current = requestAnimationFrame(loop)
@@ -36,7 +36,7 @@ export default function PixelOffice({ agents, onAgentClick }: Props) {
       cancelAnimationFrame(rafRef.current)
       engine.destroy()
     }
-  }, [loop, onAgentClick])
+  }, [])
 
   useEffect(() => {
     const engine = engineRef.current

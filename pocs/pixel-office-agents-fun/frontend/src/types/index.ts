@@ -42,7 +42,7 @@ export const AGENT_TYPES: AgentType[] = [
   { id: 'claude', name: 'Claude', model: 'opus', color: '#D97706' },
   { id: 'gemini', name: 'Gemini', model: 'gemini-3.0', color: '#4285F4' },
   { id: 'copilot', name: 'Copilot', model: 'claude-sonnet-4', color: '#6366F1' },
-  { id: 'codex', name: 'Codex', model: 'gpt-5.2-codex', color: '#10B981' },
+  { id: 'codex', name: 'Codex', model: 'gpt-5.4', color: '#10B981' },
 ]
 
 export const CHAR_FRAME_W = 16
