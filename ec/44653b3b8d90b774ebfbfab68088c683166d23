@@ -1,0 +1,30 @@
+pocs/pixel-office-agents-fun/backend/src/agents/codex.rs
+  b066130302993f2e 5-7
+pocs/pixel-office-agents-fun/frontend/src/components/PixelOffice.tsx
+  b066130302993f2e 1,15-16,23,25-29,39
+pocs/pixel-office-agents-fun/backend/src/routes/agents.rs
+  b066130302993f2e 218
+pocs/pixel-office-agents-fun/frontend/src/types/index.ts
+  b066130302993f2e 45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "ec44653b3b8d90b774ebfbfab68088c683166d23",
+  "prompts": {
+    "b066130302993f2e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8ce33fc3-6ba7-4278-977f-5df609ff0fe3",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 27,
+      "total_deletions": 19,
+      "accepted_lines": 27,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/6e7ae746dbe1050ce7bdb6310954049cc7c22b54d961fa67e19b2c5c8fb299d7"
+    }
+  }
+}
