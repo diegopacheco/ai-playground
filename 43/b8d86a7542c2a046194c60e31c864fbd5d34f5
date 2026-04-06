@@ -1,0 +1,52 @@
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/hooks/useGameHistory.ts
+  5922e215bf83ba37 1-2,4-5,8,10-14,16,19-24,26-27
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/pages/HistoryPage.tsx
+  5922e215bf83ba37 2,4-5,10-12,16,18-19,25-26
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/App.tsx
+  5922e215bf83ba37 1-30,32-37
+pocs/lm-studio-gemma-4-26b-a4b-cc/index.html
+  5922e215bf83ba37 1-3
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/logic/gameLogic.ts
+  5922e215bf83ba37 1-2,4-12,18,20-21
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/pages/GamePage.tsx
+  5922e215bf83ba37 2-16,19-22,27-36,39,41-45,52-53,57-58
+pocs/lm-studio-gemma-4-26b-a4b-cc/stop.sh
+  5922e215bf83ba37 1
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/main.tsx
+  5922e215bf83ba37 2-11
+pocs/lm-studio-gemma-4-26b-a4b-cc/vite.config.ts
+  5922e215bf83ba37 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "43b8d86a7542c2a046194c60e31c864fbd5d34f5",
+  "prompts": {
+    "5922e215bf83ba37": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "428cae72-9405-4d8c-a86f-ccaea2d18314",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 171,
+      "total_deletions": 159,
+      "accepted_lines": 161,
+      "overriden_lines": 0
+    },
+    "c57dad1ad571e58d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8ec89de-c174-47fe-bcb0-b39adc0ece2f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 266,
+      "overriden_lines": 0
+    }
+  }
+}
