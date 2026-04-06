@@ -1,9 +1,10 @@
 import { createRouter } from '@tanstack/react-router'
+import rootRoute from './routes/_root'
 import { route as index } from './routes/_root/index'
 import { route as results } from './routes/_root/results'
 
 export const router = createRouter({
-  routeTree: index.addSibling(results),
+  routeTree: rootRoute.addChildren([index, results]),
   defaultPreload: 'intent',
   scrollRestoration: false,
 })
