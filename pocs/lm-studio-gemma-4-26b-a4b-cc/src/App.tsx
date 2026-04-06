@@ -1,5 +1,5 @@
 
-import { createRootRoute, createRoute, createRouter, RouterProvider, createRoute as createRouteFn } from '@tanstack/react-router'
+import { createRootRoute, createRoute, createRouter, RouterProvider } from '@tanstack/react-router'
 import React from 'react'
 import './index.css'
 
@@ -8,13 +8,13 @@ import { HistoryPage } from './pages/HistoryPage'
 
 const rootRoute = createRootRoute()
 
-const indexRoute = createRouteFn({
+const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: GamePage,
 })
 
-const historyRoute = createRouteFn({
+const historyRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/history',
   component: HistoryPage,

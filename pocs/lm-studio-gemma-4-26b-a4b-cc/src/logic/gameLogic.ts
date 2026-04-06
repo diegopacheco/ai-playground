@@ -8,7 +8,7 @@ export interface GameResult {
   timestamp: number
 }
 
-export function getGameResult(playerMove: Move, computer/computerMove: Move): Result {
+export function getGameResult(playerMove: Move, computerMove: Move): Result {
   if (playerMove === computerMove) return 'Draw'
   if (
     (playerMove === 'Rock' && computerMove === 'Scissors') ||

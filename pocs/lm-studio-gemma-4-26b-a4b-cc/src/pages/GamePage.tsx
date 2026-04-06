@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react'
 import { useGameHistory } from '../hooks/useGameHistory'
-import { Move, getGameResult } from '../logic/gameLogic'
+import { getGameResult } from '../logic/gameLogic'
+import type { Move } from '../logic/gameLogic'
 import { Link } from '@tanstack/react-router'
 
 const moves: Move[] = ['Rock', 'Paper', 'Scissors']
@@ -16,7 +16,7 @@ export function GamePage() {
   const { addResult } = useGameHistory()
 
   const play = (playerMove: Move) => {
-    const computerMove = moves[Math.floor(Math.random() * moves.length)]
+    const computerMove = moves[Math.floor(Math.random() * moves.length)] as Move
     const result = getGameResult(playerMove, computerMove)
 
     const newResult = {

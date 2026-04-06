@@ -1,5 +1,6 @@
-
 import React from 'react'
+import { useGameHistory } from '../hooks/useGameHistory'
+import { Link } from '@tanstack/react-router'
 
 export function HistoryPage() {
   const { history } = useGameHistory()
