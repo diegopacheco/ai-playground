@@ -138,6 +138,11 @@ LM Studio UI showing the loaded and available models: GLM 4.7 Flash, Gemma 4 26B
 
 LM Studio Developer tab with the Qwen 3.5 35B A3B model loaded. The local server runs at `http://127.0.0.1:1234` with the model using 22.87 GB and parallel set to 4. Shows the available REST API endpoints including OpenAI-compatible and Anthropic-compatible routes.
 
+### LM Studio Developer View with Gemma 4 26B A4B
+![LM Studio Gemma 4 Developer View](gemma-4-lmstudio.png)
+
+LM Studio Developer tab with the Gemma 4 26B A4B model loaded. The local server runs at `http://127.0.0.1:1234` with the model using 11.99 GB and parallel set to 4. Shows the supported REST API endpoints including LM Studio API, OpenAI-compatible, and Anthropic-compatible routes.
+
 ### LM Studio Context Length Settings
 ![LM Studio context length](n-context-length-lm-studio.png)
 
