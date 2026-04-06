@@ -1,0 +1,38 @@
+local-models/README.md
+  173acfd6fe874362 1-25,30-166
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "1ab31ef28e878e5d2137cc310552b7d460417f7a",
+  "prompts": {
+    "173acfd6fe874362": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "19291442-4e25-4f6f-8f34-0f8c927e0e5f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 166,
+      "total_deletions": 0,
+      "accepted_lines": 162,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/13001469207a0b53c2a4719147572079e56372e54692f379353065f8075cc1bd"
+    },
+    "d04f5438c0a74664": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6a610681-260c-4a2b-9616-150187dcc801",
+        "model": "qwen/qwen3.5-35b-a3b"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 2,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/0b7787fc4fed44ad3ae7c3e0aeab1752512eac15534d23faf20638189d4bd3b0"
+    }
+  }
+}
