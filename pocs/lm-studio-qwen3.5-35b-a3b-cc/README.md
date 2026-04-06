@@ -20,8 +20,14 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 * Code was generate relatively fast how ever the page was empty/blank so it could not one shot it.
 * Qwen 3.5 used my playwright mcp to check what was wrong with the app. Smart move.
 * Time to time this model stop and was doing nothing - I had to poke it all the time
-* I saw conversation compacting a lot like 2-3 times.
-* 
+* I saw conversation compacting a lot like 3 times.
+* Page still blank - I had to tip the model that he had routing issues.
+* Still strugling with routing errors:
+```
+router.tsx:7 Uncaught TypeError: rootRoute.addChildren is not a function
+    at router.tsx:7:24Understand this error
+csNotification.bundle.js:323 PubSub already loaded, using existing version
+```
 
 # React + TypeScript + Vite
 
