@@ -10,6 +10,17 @@ Gemma 4, 26B A4B
 Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 19 and TanStack, make sure you update my readme at the and, dont delete waht I already have and make sure you create a run.sh and stop.sh. You also will create 2 pages - one to play the game and other to show all historical games results.
 ```
 
+## Results
+
+Playing Rock - Loss against Computer's Paper
+![result-1](result-1.png)
+
+Playing Paper - Win against Computer's Rock
+![result-2](result-2.png)
+
+Game History page showing all previous matches
+![result-3](result-3.png)
+
 ## Experience Notes
 
 * FREE - No payment for tokens
@@ -142,8 +153,23 @@ error: script "dev" exited with code 1
 ```
 * Many errors to be able to render the app on the console
 * Model was strugglign with basic typescript syntax.
-* 
+* and more errors:
+```
+Uncaught SyntaxError: The requested module '/src/logic/gameLogic.ts' does not provide an export named 'GameResult' (at useGameHistory.ts:2:10)
+```
+* Gave up and ask Opus to fix all errors.
+```
+⏺ All fixed. Here's a summary of the errors corrected:
 
+  1. HistoryPage.tsx — missing imports for useGameHistory and Link
+  2. useGameHistory.ts — Move imported but unused; changed to import type { GameResult }
+  3. App.tsx — createRoute imported twice (once aliased as createRouteFn); deduplicated
+  4. GamePage.tsx — Move needed import type for verbatimModuleSyntax; array index needed cast due to noUncheckedIndexedAccess
+  5. index.html — missing <!DOCTYPE html>, <html>, <head>, <body> tags
+  6. tsconfig.json — missing DOM and DOM.Iterable libs (browser APIs like document, localStorage were unresolved)
+  7. Added src/vite-env.d.ts — needed for Vite's CSS import type declarations
+```
+* Final UI was ugly.
 
 ## How to Run
 1. Ensure Bun is installed.

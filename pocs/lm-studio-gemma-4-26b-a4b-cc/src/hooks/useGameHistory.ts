@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { GameResult, Move } from '../logic/gameLogic'
+import type { GameResult } from '../logic/gameLogic'
 
 export function useGameHistory() {
   const [history, setHistory] = useState<GameResult[]>([])
