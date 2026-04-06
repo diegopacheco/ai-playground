@@ -12,6 +12,7 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 
 ## Experience Notes
 
+* FREE - Dont need to pay for tokens
 * LM Studio 0.49
 * IT loose my read me - I had to copy it back.
 * Qwen 3.5 was faster than GLM 4.7 flash to produce code.
@@ -20,7 +21,7 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 * Code was generate relatively fast how ever the page was empty/blank so it could not one shot it.
 * Qwen 3.5 used my playwright mcp to check what was wrong with the app. Smart move.
 * Time to time this model stop and was doing nothing - I had to poke it all the time
-* I saw conversation compacting a lot like 6 times.
+* I saw conversation compacting a lot like 7 times.
 * Page still blank - I had to tip the model that he had routing issues.
 * Still strugling with routing errors:
 ```
