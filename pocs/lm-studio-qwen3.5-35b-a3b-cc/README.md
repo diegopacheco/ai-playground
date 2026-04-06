@@ -66,6 +66,7 @@ _root.tsx:12 Uncaught ReferenceError: createFileRoute is not defined
 (anonymous) @ _root.tsx:12Understand this error
 ```
 * Had to tip the model again - but now showing an exemplo on my file system.
+* After a lot of strung - fixed the routing.
 * 
 
 # React + TypeScript + Vite
