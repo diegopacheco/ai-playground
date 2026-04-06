@@ -1,0 +1,24 @@
+pocs/lm-studio-qwen3.5-35b-a3b-cc/src/router.tsx
+  ac528fbdb98fd946 2,7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "f62d5e27c762b3c7dcbbbfb4260831acd1df7463",
+  "prompts": {
+    "ac528fbdb98fd946": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9fdfaeb7-b84c-4a21-9024-d6a225a9f9ef",
+        "model": "qwen/qwen3.5-35b-a3b"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 1,
+      "accepted_lines": 2,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/cd97a6643576b19a96f33f00a779935ef779b08d4e00c63d66353e6bdbcc0670"
+    }
+  }
+}
