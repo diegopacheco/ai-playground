@@ -4,6 +4,18 @@
 GLM 4.7 Flash 
 ```
 
+## Screenshots
+
+### Game Interface
+![Game Interface](game.png)
+
+This shows the main game page where you can choose between rock, paper, or scissors. The interface displays three large buttons for each choice, and after selecting, it shows the result with your choice, the computer's choice, and whether you won, lost, or tied.
+
+### History Page
+![History Page](history.png)
+
+The history page displays all past games in a clean table format. It shows the player's choice, computer's choice, and the result (win/lose/tie) for each game. Results are color-coded - green for wins, red for losses, and gray for ties.
+
 ## Prompt 
 
 ```
