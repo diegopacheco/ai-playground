@@ -140,6 +140,7 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@vitejs/plugin-react' importe
 }
 error: script "dev" exited with code 1
 ```
+* Many errors to be able to render the app on the console
 * 
 
 
