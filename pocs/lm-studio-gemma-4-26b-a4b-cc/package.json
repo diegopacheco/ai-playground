@@ -1,0 +1,12 @@
+{
+  "name": "lm-studio-gemma-4-26b-a4b-cc",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
