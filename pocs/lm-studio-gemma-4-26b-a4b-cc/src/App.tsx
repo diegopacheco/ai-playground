@@ -1,35 +1,37 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider, Link, Outlet } from 'react-router-dom';
-import { GamePage } from './pages/GamePage';
-import { HistoryPage } from './pages/HistoryPage';
-import { createRoot } from 'react-dom/client';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: (
-      <div>
-        <nav style={{ padding: '10px', background: '#eee' }}>
-          <Link to="/" style={{ marginRight: '10px' }}>Play</Link>
-          <Link to="/history">History</Link>
-        </nav>
-        <hr />
-        <Outlet />
-      </div>
-    ),
-    children: [
-      { index: true, element: <GamePage /> },
-      { path: 'history', element: <HistoryPage /> },
-    ],
-  },
-]);
+import { createRootRoute, createRoute, createRouter, RouterProvider, createRoute as createRouteFn } from '@tanstack/react-router'
+import React from 'react'
+import './index.css'
 
-export const App = () => {
-  return <RouterProvider router={router} />;
-};
+import { GamePage } from './pages/GamePage'
+import { HistoryPage } from './pages/HistoryPage'
 
-const container = document.getElementById('root');
-if (container) {
-  const root = createRoot(container);
-  root.render(<App />);
+const rootRoute = createRootRoute()
+
+const indexRoute = createRouteFn({
+  getParentRoute: () => rootRoute,
+  path: '/',
+  component: GamePage,
+})
+
+const historyRoute = createRouteFn({
+  getParentRoute: () => rootRoute,
+  path: '/history',
+  component: HistoryPage,
+})
+
+const routeTree = rootRoute.addChildren([indexRoute, historyRoute])
+
+const router = createRouter({ routeTree })
+
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
 }
+
+export function App() {
+  return <RouterProvider router={router} />
+}
+
+export default App
