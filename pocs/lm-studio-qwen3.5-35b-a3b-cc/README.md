@@ -20,7 +20,7 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 * Code was generate relatively fast how ever the page was empty/blank so it could not one shot it.
 * Qwen 3.5 used my playwright mcp to check what was wrong with the app. Smart move.
 * Time to time this model stop and was doing nothing - I had to poke it all the time
-* I saw conversation compacting a lot like 3 times.
+* I saw conversation compacting a lot like 6 times.
 * Page still blank - I had to tip the model that he had routing issues.
 * Still strugling with routing errors:
 ```
@@ -28,6 +28,44 @@ router.tsx:7 Uncaught TypeError: rootRoute.addChildren is not a function
     at router.tsx:7:24Understand this error
 csNotification.bundle.js:323 PubSub already loaded, using existing version
 ```
+* Go another error:
+```
+_root.tsx:12 Uncaught ReferenceError: createFileRoute is not defined
+    at _root.tsx:12:22
+csNotification.bundle.js:323 PubSub already loaded, using existing version
+node_modules/pubsub-js-lite/src/pubsub.js	@	csNotification.bundle.js:323
+(anonymous)	@	csNotification.bundle.js:311
+(anonymous)	@	csNotification.bundle.js:323
+(anonymous)	@	csNotification.bundle.js:323
+(anonymous)	@	csNotification.bundle.js:323
+```
+* And another:
+```
+VM805:1 Uncaught TypeError: window.__chromium_devtools_metrics_reporter is not a function
+    at se (<anonymous>:1:13593)
+    at <anonymous>:1:14115
+    at <anonymous>:1:16101
+
+VM806:1 Uncaught TypeError: window.__chromium_devtools_metrics_reporter is not a function
+    at se (<anonymous>:1:13593)
+    at <anonymous>:1:14115
+    at <anonymous>:1:16101
+VM807:1 Uncaught TypeError: window.__chromium_devtools_metrics_reporter is not a function
+    at se (<anonymous>:1:13593)
+    at <anonymous>:1:14115
+    at <anonymous>:1:16101
+@tanstack_react-router.js?v=43097e8a:848 Uncaught Error: Invariant failed: Duplicate routes found with id: __root__
+    at router.tsx:6:23
+```
+* Struggling with TanStack Router - i had to tip it - look here for a working example: https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-debate-club/frontend
+* And errors:
+```
+_root.tsx:12 Uncaught ReferenceError: createFileRoute is not defined
+    at _root.tsx:12:22
+(anonymous) @ _root.tsx:12Understand this error
+```
+* Had to tip the model again - but now showing an exemplo on my file system.
+* 
 
 # React + TypeScript + Vite
 

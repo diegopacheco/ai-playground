@@ -1,5 +1,5 @@
 import { createRouter } from '@tanstack/react-router'
-import rootRoute from './routes/_root'
+import { route as rootRoute } from './routes/_root'
 import { route as index } from './routes/_root/index'
 import { route as results } from './routes/_root/results'
 
