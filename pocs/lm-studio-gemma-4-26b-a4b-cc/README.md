@@ -97,7 +97,17 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 ```
 * So the model does not really tell much whats going on was just that generic message all the time.
 *  Was able to add React 19 and vite 8 which is good.
-*  
+*  Got a lot of thoose as well:
+```
+⏺ <|tool_response>
+
+  Read 1 file (ctrl+o to expand)
+```
+* Running for a while too...
+```
+✻ Combobulating… (28m 8s · ↓ 18.9k tokens)
+```
+* 
 
 
 ## How to Run
