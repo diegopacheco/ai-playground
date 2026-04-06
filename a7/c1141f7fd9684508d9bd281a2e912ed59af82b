@@ -1,0 +1,38 @@
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/index.html
+  5922e215bf83ba37 1-10
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/index.css
+  5922e215bf83ba37 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "a7c1141f7fd9684508d9bd281a2e912ed59af82b",
+  "prompts": {
+    "5922e215bf83ba37": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "428cae72-9405-4d8c-a86f-ccaea2d18314",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 21,
+      "total_deletions": 10,
+      "accepted_lines": 11,
+      "overriden_lines": 0
+    },
+    "c57dad1ad571e58d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8ec89de-c174-47fe-bcb0-b39adc0ece2f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 266,
+      "overriden_lines": 0
+    }
+  }
+}
