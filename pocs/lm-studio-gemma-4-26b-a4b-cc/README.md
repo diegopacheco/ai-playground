@@ -113,6 +113,33 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 error: Script not found "dev"
 ```
 * Model was stuck - errors in several tool calls - I restart claude.
+* and them errors:
+```
+❯ ./run.sh
+$ vite
+vite.config.ts (3:18) [UNRESOLVED_IMPORT] Warning: Could not resolve '@vitejs/plugin-react' in vite.config.ts
+   ╭─[ vite.config.ts:3:19 ]
+   │
+ 3 │ import react from '@vitejs/plugin-react'
+   │                   ───────────┬──────────
+   │                              ╰──────────── Module not found, treating it as an external dependency
+───╯
+
+failed to load config from /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/lm-studio-gemma-4-26b-a4b-cc/vite.config.ts
+error when starting dev server:
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@vitejs/plugin-react' imported from /Users/diegopacheco/git/diegopacheco/ai-playground/pocs/lm-studio-gemma-4-26b-a4b-cc/node_modules/.vite-temp/vite.config.ts.timestamp-1775457424984-d77bff4e3b2eb.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:749:20)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:726:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:312:38)
+    at #link (node:internal/modules/esm/module_job:208:49) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+error: script "dev" exited with code 1
+```
 * 
 
 
