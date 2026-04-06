@@ -1,0 +1,24 @@
+pocs/lm-studio-glm-4.7-flash/README.md
+  ea2b99a623e702e4 19-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "0255f1f64bfce43cc77097b2a23692b135d38548",
+  "prompts": {
+    "ea2b99a623e702e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "50110789-6d16-46e6-a60e-b2729288f260",
+        "model": "zai-org/glm-4.7-flash"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 0,
+      "accepted_lines": 5,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/d26f52b0082c60e3cb12b6f6c49b2e73285cd4f35e3fb24374e07a44ceaabcd1"
+    }
+  }
+}
