@@ -169,3 +169,8 @@ POC: [lm-studio-gemma-4-26b-a4b-cc](https://github.com/diegopacheco/ai-playgroun
 Runs Meta's CodeLlama Instruct 7B model locally through LM Studio. CodeLlama is a code-specialized variant of Llama 2 with 7 billion parameters, fine-tuned for instruction following and code generation. It is a smaller, dense model compared to the MoE models above, requiring less memory and running faster on modest hardware. The POC demonstrates using CodeLlama for code-related tasks through LM Studio.
 
 POC: [llm-studio-codellma-instruct-7B](https://github.com/diegopacheco/ai-playground/tree/main/pocs/llm-studio-codellma-instruct-7B)
+
+### Local Agent Rust + Llama 3
+A local AI agent built in Rust using Llama 3 as the backing model. The agent runs entirely on your machine without external API calls, leveraging Llama 3 for reasoning and task execution.
+
+POC: [local-agent-rust-llama3](https://github.com/diegopacheco/local-agent-rust-llama3)
