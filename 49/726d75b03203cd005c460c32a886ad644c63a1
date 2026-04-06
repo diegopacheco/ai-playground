@@ -1,0 +1,24 @@
+pocs/lm-studio-glm-4.7-flash/src/routes/index.tsx
+  e72c4c7cddcf1afa 2-3,21-31,54-56,65-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "49726d75b03203cd005c460c32a886ad644c63a1",
+  "prompts": {
+    "e72c4c7cddcf1afa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a88dad3d-3ccc-4067-abec-fe050ef48a19",
+        "model": "zai-org/glm-4.7-flash"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 20,
+      "total_deletions": 2,
+      "accepted_lines": 20,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/62d366b234b8c7e3a8aa2e4571060641ba6b170e84c8607700579f51292796c2"
+    }
+  }
+}
