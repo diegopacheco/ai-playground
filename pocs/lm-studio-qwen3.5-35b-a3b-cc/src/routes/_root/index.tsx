@@ -31,7 +31,13 @@ function formatChoice(choice: Choice): string {
   return `${icons[choice]} ${choice.charAt(0).toUpperCase() + choice.slice(1)}`
 }
 
-export default function Home() {
+import { createFileRoute } from '@tanstack/react-router'
+
+export const route = createFileRoute('/_root/')({
+  component: Home,
+})
+
+function Home() {
   const [results, setResults] = useState<GameResult[]>([])
   const [playerChoice, setPlayerChoice] = useState<Choice | null>(null)
   const [computerChoice, setComputerChoice] = useState<Choice | null>(null)

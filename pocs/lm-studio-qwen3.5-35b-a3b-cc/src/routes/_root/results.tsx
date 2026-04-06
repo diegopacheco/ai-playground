@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { createFileRoute } from '@tanstack/react-router'
 
 type Choice = 'rock' | 'paper' | 'scissors'
 type Result = 'win' | 'lose' | 'draw'
@@ -16,7 +17,11 @@ function formatChoice(choice: Choice): string {
   return `${icons[choice]} ${choice.charAt(0).toUpperCase() + choice.slice(1)}`
 }
 
-export default function Results() {
+export const route = createFileRoute('/_root/results')({
+  component: Results,
+})
+
+function Results() {
   const [results, setResults] = useState<GameResult[]>([])
   const [gameCount, setGameCount] = useState(0)
 
