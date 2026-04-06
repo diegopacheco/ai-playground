@@ -1,0 +1,30 @@
+pocs/lm-studio-qwen3.5-35b-a3b-cc/src/routes/_root/index.tsx
+  ac528fbdb98fd946 34-39
+pocs/lm-studio-qwen3.5-35b-a3b-cc/src/routes/_root.tsx
+  ac528fbdb98fd946 4-5,9
+pocs/lm-studio-qwen3.5-35b-a3b-cc/src/router.tsx
+  ac528fbdb98fd946 6
+pocs/lm-studio-qwen3.5-35b-a3b-cc/src/routes/_root/results.tsx
+  ac528fbdb98fd946 2,20-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "9db234d6bc773309f9fb45068525e23ce84508b7",
+  "prompts": {
+    "ac528fbdb98fd946": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9fdfaeb7-b84c-4a21-9024-d6a225a9f9ef",
+        "model": "qwen/qwen3.5-35b-a3b"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 24,
+      "total_deletions": 14,
+      "accepted_lines": 16,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/3e3f7599f2602c208526d4cf6564a880fbe2fd0e8e7c3d47454ea88d281045c2"
+    }
+  }
+}
