@@ -1,0 +1,36 @@
+pocs/lm-studio-gemma-4-26b-a4b-cc/package.json
+  e0c08bf719eee62c 6-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "69ce59c1c232bbbb09a484a7279ebf105a3628e3",
+  "prompts": {
+    "c57dad1ad571e58d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8ec89de-c174-47fe-bcb0-b39adc0ece2f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 266,
+      "overriden_lines": 0
+    },
+    "e0c08bf719eee62c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc15cf75-73ba-468b-a55d-8f81323c2b86",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 0,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    }
+  }
+}
