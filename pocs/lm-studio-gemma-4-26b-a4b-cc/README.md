@@ -89,7 +89,7 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
      - Navigate to the History page and ensure past games are listed.
      - Verify that stop.sh successfully terminates the process.
 ```
-* Compact the conversation 3x time
+* Compact the conversation 4x time
 * Also created a CLAUDE.md file locally
 * It try todo this a bunch of times:
 ```
@@ -141,6 +141,7 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@vitejs/plugin-react' importe
 error: script "dev" exited with code 1
 ```
 * Many errors to be able to render the app on the console
+* Model was strugglign with basic typescript syntax.
 * 
 
 
