@@ -1,0 +1,24 @@
+pocs/lm-studio-qwen3.5-35b-a3b-cc/README.md
+  c57dad1ad571e58d 15-16,19,23,25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "1718833a73c958bf5b3ad2b92bc6d80647860087",
+  "prompts": {
+    "c57dad1ad571e58d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8ec89de-c174-47fe-bcb0-b39adc0ece2f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 4,
+      "accepted_lines": 272,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/02e6daa7b136d3b1fd322679425b692d37e5aa97cb8613a4035fe966b9d137c5"
+    }
+  }
+}
