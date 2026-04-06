@@ -1,4 +1,4 @@
-import { Outlet } from '@tanstack/react-router'
+import { Outlet, createFileRoute } from '@tanstack/react-router'
 import { RootLayout } from '../layouts/root-layout'
 
 export default function _root() {
@@ -8,3 +8,7 @@ export default function _root() {
     </RootLayout>
   )
 }
+
+export const route = createFileRoute('/$')({
+  component: _root,
+})
