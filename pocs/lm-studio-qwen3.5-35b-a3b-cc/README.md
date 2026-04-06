@@ -10,6 +10,18 @@ Qwen 3.5, 35B A3B
 Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 19 and TanStack, make sure you update my readme at the and, dont delete waht I already have and make sure you create a run.sh and stop.sh. You also will create 2 pages - one to play the game and other to show all historical games results.
 ```
 
+## Screenshots
+
+### Play Page - Choose your move
+![Play Page](qwen-app-working-after-opus-1.png)
+
+### Game Result - After playing a round
+![Game Result](qwen-app-working-after-opus-2.png)
+
+### Results Page - Game history and statistics
+![Results Page](qwen-app-working-after-opus-3.png)
+
+
 ## Experience Notes
 
 * FREE - Dont need to pay for tokens
@@ -67,7 +79,16 @@ _root.tsx:12 Uncaught ReferenceError: createFileRoute is not defined
 ```
 * Had to tip the model again - but now showing an exemplo on my file system.
 * After a lot of strung - fixed the routing.
-* 
+* Gave up - Asked Opus 4.6 to fix the routing: 
+```
+⏺ The problems are clear:
+
+  1. src/router.tsx is deleted but main.tsx imports it
+  2. __root__.tsx incorrectly uses createFileRoute instead of createRootRoute
+  3. _root/index.tsx has wrong route path '/index'
+  4. main.tsx uses old render API instead of React 19's createRoot
+  5. No file-based routing plugin installed, so routes need manual wiring
+```
 
 # React + TypeScript + Vite
 
