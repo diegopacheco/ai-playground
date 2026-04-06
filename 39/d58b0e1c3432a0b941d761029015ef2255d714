@@ -1,0 +1,38 @@
+pocs/lm-studio-glm-4.7-flash/src/routes/history.tsx
+  e72c4c7cddcf1afa 1,5-9
+pocs/lm-studio-glm-4.7-flash/src/App.tsx
+  e72c4c7cddcf1afa 2,4,11-12
+pocs/lm-studio-glm-4.7-flash/README.md
+  e72c4c7cddcf1afa 38-79
+pocs/lm-studio-glm-4.7-flash/package.json
+  e72c4c7cddcf1afa 13-14,19-20
+pocs/lm-studio-glm-4.7-flash/vite.config.ts
+  e72c4c7cddcf1afa 3,6
+pocs/lm-studio-glm-4.7-flash/src/main.tsx
+  e72c4c7cddcf1afa 3-4,9
+pocs/lm-studio-glm-4.7-flash/src/routes/index.tsx
+  e72c4c7cddcf1afa 1,7-11,103
+pocs/lm-studio-glm-4.7-flash/src/routes/__root.tsx
+  e72c4c7cddcf1afa 3,7-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "39d58b0e1c3432a0b941d761029015ef2255d714",
+  "prompts": {
+    "e72c4c7cddcf1afa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a88dad3d-3ccc-4067-abec-fe050ef48a19",
+        "model": "zai-org/glm-4.7-flash"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 211,
+      "total_deletions": 166,
+      "accepted_lines": 71,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/29cab6e421a3d6e97e8c080b54efd6cca1450152dc665e6b59e8f6ed7296600e"
+    }
+  }
+}
