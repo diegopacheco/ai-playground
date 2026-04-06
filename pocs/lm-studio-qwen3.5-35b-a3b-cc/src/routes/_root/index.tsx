@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 
 type Choice = 'rock' | 'paper' | 'scissors'
 type Result = 'win' | 'lose' | 'draw'
@@ -30,8 +30,6 @@ function formatChoice(choice: Choice): string {
   const icons = { rock: '🪨', paper: '📄', scissors: '✂️' }
   return `${icons[choice]} ${choice.charAt(0).toUpperCase() + choice.slice(1)}`
 }
-
-import { createFileRoute } from '@tanstack/react-router'
 
 export const route = createFileRoute('/_root/')({
   component: Home,
