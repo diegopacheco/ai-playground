@@ -1,0 +1,67 @@
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/vite-env.d.ts
+  05d490037dd4aa07 1
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/App.tsx
+  05d490037dd4aa07 2,11,17
+pocs/lm-studio-gemma-4-26b-a4b-cc/README.md
+  05d490037dd4aa07 13-23
+pocs/lm-studio-gemma-4-26b-a4b-cc/index.html
+  05d490037dd4aa07 1-12
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/logic/gameLogic.ts
+  ef9e7d25a56eadaa 11
+pocs/lm-studio-gemma-4-26b-a4b-cc/tsconfig.json
+  05d490037dd4aa07 3
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/pages/HistoryPage.tsx
+  05d490037dd4aa07 2-3
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/pages/GamePage.tsx
+  05d490037dd4aa07 3-4,19
+pocs/lm-studio-gemma-4-26b-a4b-cc/src/hooks/useGameHistory.ts
+  05d490037dd4aa07 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "b5a5ad9f5397d8c070571e5c14df1fb0895435cc",
+  "prompts": {
+    "05d490037dd4aa07": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "be6e36c2-3fda-4cea-bde9-27bacbf8f4d1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 34,
+      "total_deletions": 19,
+      "accepted_lines": 34,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/953bbb9c275da832a7eeb23dae640977ebb3c825b15a01d65e12930e84e09d11"
+    },
+    "c57dad1ad571e58d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8ec89de-c174-47fe-bcb0-b39adc0ece2f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 266,
+      "overriden_lines": 0
+    },
+    "ef9e7d25a56eadaa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f11aa28a-1418-49cc-8359-94071693a860",
+        "model": "google/gemma-4-26b-a4b"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/af729c70448efacaa27ac0bec2e3c48202a751757f6699958b6651b3f89e6524"
+    }
+  }
+}
