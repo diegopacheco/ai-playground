@@ -12,15 +12,17 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 
 ## Screenshots
 
-### Play Page - Choose your move
+### Play Page - Initial game screen with Rock, Paper, and Scissors buttons, navigation bar with Play and Results links, and a games played counter
+
 ![Play Page](qwen-app-working-after-opus-1.png)
 
-### Game Result - After playing a round
+### Game Result - Shows the outcome after playing a round, displaying your choice vs the computer choice, the result (Win, Lose, or Draw), a Play Again button, and the recent results list
+
 ![Game Result](qwen-app-working-after-opus-2.png)
 
-### Results Page - Game history and statistics
-![Results Page](qwen-app-working-after-opus-3.png)
+### Results Page - Full game history with statistics panel showing total Wins, Losses, and Draws, color-coded result cards, and a Clear All Results button
 
+![Results Page](qwen-app-working-after-opus-3.png)
 
 ## Experience Notes
 
