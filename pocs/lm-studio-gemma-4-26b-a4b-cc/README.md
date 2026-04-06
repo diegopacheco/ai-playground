@@ -89,7 +89,7 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
      - Navigate to the History page and ensure past games are listed.
      - Verify that stop.sh successfully terminates the process.
 ```
-* Compact the conversation 1x time
+* Compact the conversation 3x time
 * Also created a CLAUDE.md file locally
 * It try todo this a bunch of times:
 ```
@@ -112,6 +112,7 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 ❯ ./run.sh
 error: Script not found "dev"
 ```
+* Model was stuck - errors in several tool calls - I restart claude.
 * 
 
 
