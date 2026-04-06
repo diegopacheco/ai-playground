@@ -91,4 +91,8 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 ```
 * Compact the conversation 1x time
 * Also created a CLAUDE.md file locally
+* It try todo this a bunch of times:
+```
+⏺ Bash(bun add react@19 react-dom@19 @tanstack/react-router vite @types/react@19 @types/react-dom@19)
+```
 * 
