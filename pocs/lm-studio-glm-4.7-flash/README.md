@@ -16,6 +16,11 @@ This shows the main game page where you can choose between rock, paper, or sciss
 
 The history page displays all past games in a clean table format. It shows the player's choice, computer's choice, and the result (win/lose/tie) for each game. Results are color-coded - green for wins, red for losses, and gray for ties.
 
+### History Page (Fixed)
+![History Page Fixed](history-fixed.png)
+
+This shows the corrected history page after fixing the routing issues. The table now displays all past games correctly with color-coded results, and the page loads properly without blank screens or 404 errors.
+
 ## Prompt 
 
 ```
@@ -46,7 +51,7 @@ HTTP ERROR 404
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agents-auction-hourse/frontend
 * 32m and still strungling and I tip the model...
 * After a long time, app was running but it was ugly and history was not working.
-* 
+* Aftert a lot of strungle the app was working but result was ugly.
 
 ## Implementation
 
