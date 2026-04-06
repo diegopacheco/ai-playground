@@ -33,6 +33,7 @@ HTTP ERROR 404
 * I tip the model: take a look here to see tanstack working - you are struggling:
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agents-auction-hourse/frontend
 * 32m and still strungling and I tip the model...
+* After a long time, app was running but it was ugly and history was not working.
 * 
 
 ## Implementation
