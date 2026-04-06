@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import React from 'react'
 
 type Choice = 'rock' | 'paper' | 'scissors'
 type Result = 'win' | 'lose' | 'tie'
@@ -16,6 +17,17 @@ function Game() {
   const navigate = useNavigate()
 
   const choices: Choice[] = ['rock', 'paper', 'scissors']
+
+  const loadHistory = () => {
+    const savedHistory = localStorage.getItem('gameHistory')
+    if (savedHistory) {
+      setHistory(JSON.parse(savedHistory))
+    }
+  }
+
+  const saveHistory = (newHistory: Array<{ player: Choice; computer: Choice; result: Result }>) => {
+    localStorage.setItem('gameHistory', JSON.stringify(newHistory))
+  }
 
   const play = (choice: Choice) => {
     const computerChoice = choices[Math.floor(Math.random() * choices.length)]
@@ -39,7 +51,9 @@ function Game() {
     setComputerChoice(computer)
     setResult(result)
 
-    setHistory([...history, { player, computer, result }])
+    const newHistory = [...history, { player, computer, result }]
+    setHistory(newHistory)
+    saveHistory(newHistory)
   }
 
   const reset = () => {
@@ -47,6 +61,10 @@ function Game() {
     setComputerChoice(null)
     setResult(null)
   }
+
+  React.useEffect(() => {
+    loadHistory()
+  }, [])
 
   const getResultColor = (result: Result) => {
     if (result === 'win') return 'green'
