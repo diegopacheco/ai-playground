@@ -1,42 +1,58 @@
-import React, { useState } from 'react';
-import { Move, Result, getResult, getRandomMove } from '../logic/gameLogic';
-import { useGameHistory } from '../hooks/useGameHistory';
 
-export const GamePage: React.FC = () => {
-  const [lastResult, setLastResult] = useState<{ player: Move; computer: Move; result: Result } | null>(null);
-  const { addResult } = useGameHistory();
+import React, { useState } from 'react'
+import { useGameHistory } from '../hooks/useGameHistory'
+import { Move, getGameResult } from '../logic/gameLogic'
+import { Link } from '@tanstack/react-router'
+
+const moves: Move[] = ['Rock', 'Paper', 'Scissors']
+
+export function GamePage() {
+  const [lastResult, setLastResult] = useState<{
+    playerMove: Move;
+    computerMove: Move;
+    result: string;
+  } | null>(null)
+
+  const { addResult } = useGameHistory()
 
   const play = (playerMove: Move) => {
-    const computerMove = getRandomMove();
-    const result = getResult(playerMove, computerMove);
-    setLastResult({ player: playerMove, computer: computerMove, result });
-    
-    addResult({
-      id: crypto.randomUUID(),
+    const computerMove = moves[Math.floor(Math.random() * moves.length)]
+    const result = getGameResult(playerMove, computerMove)
+
+    const newResult = {
       playerMove,
       computerMove,
       result,
       timestamp: Date.now(),
-    });
-  };
+    }
+
+    setLastResult({
+      playerMove,
+      computerMove,
+      result,
+    })
+
+    addResult(newResult)
+  }
 
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
+    <div style={{ padding: '20px' }}>
       <h1>Rock Paper Scissors</h1>
-      <div style={{ marginBottom: '20px' }}>
-        {(['Rock', 'Paper', 'Scissors'] as const).map((move) => (
+      <nav>
+        <Link to="/history">View History</Link>
+      </nav>
+      <div style={{ marginTop: '20px' }}>
+        {moves.map((move) => (
           <button key={move} onClick={() => play(move)} style={{ margin: '5px', padding: '10px 20px' }}>
             {move}
           </button>
         ))}
       </div>
       {lastResult && (
-        <div style={{ marginTop: '20px', border: '1px solid #ccc', padding: '10px' }}>
-          <p>You: {lastResult.player}</p>
-          <p>Computer: {lastResult.computer}</p>
-          <p><strong>Result: {lastResult.result}</strong></p>
+        <div style={{ marginTop: '20px', fontWeight: 'bold' }}>
+          You chose {lastResult.playerMove}, Computer chose {lastResult.computerMove}. Result: {lastResult.result}
         </div>
       )}
     </div>
-  );
-};
+  )
+}

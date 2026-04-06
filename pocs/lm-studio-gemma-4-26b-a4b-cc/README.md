@@ -107,6 +107,11 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 ```
 ✻ Combobulating… (28m 8s · ↓ 18.9k tokens)
 ```
+* when was done - 30min later the script was not work - app was not running
+```
+❯ ./run.sh
+error: Script not found "dev"
+```
 * 
 
 
