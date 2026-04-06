@@ -1,0 +1,37 @@
+local-models/README.md
+  153e8a9dd1afa41c 172-176
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "85dd23ba3baf3c7d7a49dc31710371602959c850",
+  "prompts": {
+    "153e8a9dd1afa41c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "df90097a-e523-4778-9544-0417451d19e6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 0,
+      "accepted_lines": 5,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/a4995ca400f8a9dbe62504306049bb0bbe44b377a71e3ea321dbf7845107d61d"
+    },
+    "c57dad1ad571e58d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8ec89de-c174-47fe-bcb0-b39adc0ece2f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 266,
+      "overriden_lines": 0
+    }
+  }
+}
