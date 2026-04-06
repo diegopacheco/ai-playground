@@ -18,6 +18,8 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 * You can see tool usage but it does not tell to you want he is doing.
 * Qwen use the right version of vite 8x and react 19.
 * Code was generate relatively fast how ever the page was empty/blank so it could not one shot it.
+* Qwen 3.5 used my playwright mcp to check what was wrong with the app. Smart move.
+* Time to time this model stop and was doing nothing - I had to poke it all the time
 * 
 
 # React + TypeScript + Vite

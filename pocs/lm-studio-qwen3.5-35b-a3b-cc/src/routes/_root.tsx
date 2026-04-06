@@ -1,10 +1,10 @@
 import { Outlet } from '@tanstack/react-router'
 import { RootLayout } from '../layouts/root-layout'
 
-export const Route = {
-  component: () => (
+export default function _root() {
+  return (
     <RootLayout>
       <Outlet />
     </RootLayout>
-  ),
+  )
 }
