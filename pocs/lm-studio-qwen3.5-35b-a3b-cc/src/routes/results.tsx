@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createRoute } from '@tanstack/react-router'
+import { Route as rootRoute } from './__root__'
 
 type Choice = 'rock' | 'paper' | 'scissors'
 type Result = 'win' | 'lose' | 'draw'
@@ -13,11 +14,13 @@ interface GameResult {
 }
 
 function formatChoice(choice: Choice): string {
-  const icons = { rock: '🪨', paper: '📄', scissors: '✂️' }
+  const icons: Record<Choice, string> = { rock: '🪨', paper: '📄', scissors: '✂️' }
   return `${icons[choice]} ${choice.charAt(0).toUpperCase() + choice.slice(1)}`
 }
 
-export const route = createFileRoute('/_root/results')({
+export const Route = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/results',
   component: Results,
 })
 

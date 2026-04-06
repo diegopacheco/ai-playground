@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createRoute } from '@tanstack/react-router'
+import { Route as rootRoute } from './__root__'
 
 type Choice = 'rock' | 'paper' | 'scissors'
 type Result = 'win' | 'lose' | 'draw'
@@ -27,11 +28,13 @@ function determineResult(player: Choice, computer: Choice): Result {
 }
 
 function formatChoice(choice: Choice): string {
-  const icons = { rock: '🪨', paper: '📄', scissors: '✂️' }
+  const icons: Record<Choice, string> = { rock: '🪨', paper: '📄', scissors: '✂️' }
   return `${icons[choice]} ${choice.charAt(0).toUpperCase() + choice.slice(1)}`
 }
 
-export const route = createFileRoute('/_root/')({
+export const Route = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/',
   component: Home,
 })
 
@@ -108,12 +111,8 @@ function Home() {
         </div>
       ) : (
         <div style={{ marginTop: '20px' }}>
-          <p>
-            You chose: {formatChoice(playerChoice)}
-          </p>
-          <p>
-            Computer chose: {formatChoice(computerChoice)}
-          </p>
+          <p>You chose: {formatChoice(playerChoice)}</p>
+          <p>Computer chose: {formatChoice(computerChoice!)}</p>
           <h3 style={{ color: currentResult === 'win' ? '#28a745' : currentResult === 'lose' ? '#dc3545' : '#6c757d' }}>
             {resultText}
           </h3>

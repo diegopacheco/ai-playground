@@ -1,13 +1,11 @@
 import { createRouter } from '@tanstack/react-router'
-import { route as __root__ } from './routes/__root__.tsx'
-import { route as index } from './routes/_root/index'
-import { route as results } from './routes/_root/results'
+import { Route as rootRoute } from './routes/__root__'
+import { Route as indexRoute } from './routes/index'
+import { Route as resultsRoute } from './routes/results'
 
-export const router = createRouter({
-  routeTree: __root__.addChildren([index, results]),
-  defaultPreload: 'intent',
-  scrollRestoration: false,
-})
+const routeTree = rootRoute.addChildren([indexRoute, resultsRoute])
+
+export const router = createRouter({ routeTree })
 
 declare module '@tanstack/react-router' {
   interface Register {
