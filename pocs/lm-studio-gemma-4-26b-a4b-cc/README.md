@@ -95,4 +95,14 @@ Build a paper, rock, cissors game in Typescript. You muse use vite, bun, react 1
 ```
 ⏺ Bash(bun add react@19 react-dom@19 @tanstack/react-router vite @types/react@19 @types/react-dom@19)
 ```
-* 
+* So the model does not really tell much whats going on was just that generic message all the time.
+*  Was able to add React 19 and vite 8 which is good.
+*  
+
+
+## How to Run
+1. Ensure Bun is installed.
+2. Run `./run.sh` to start the development server.
+3. Open `http://localhost:5173` in your browser.
+
+To stop the server, run `./stop.sh`.
