@@ -43,6 +43,7 @@ const enemySpawnPoints = [
 ];
 
 const propSpawns = [
+  { x: 3.5, y: 1.5, kind: "crate" },
   { x: 4.5, y: 3.5, kind: "barrel" },
   { x: 8.5, y: 3.5, kind: "torch" },
   { x: 11.5, y: 4.5, kind: "barrel" },
@@ -195,18 +196,77 @@ function playSound(type) {
   oscillator.stop(now + 0.19);
 }
 
+function playMusicNote(frequency, startAt, duration, gainValue, type) {
+  if (!audioContext || !state.soundEnabled) return;
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  const filter = audioContext.createBiquadFilter();
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(frequency, startAt);
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(900, startAt);
+  oscillator.connect(filter);
+  filter.connect(gain);
+  gain.connect(audioContext.destination);
+  gain.gain.setValueAtTime(0.0001, startAt);
+  gain.gain.exponentialRampToValueAtTime(gainValue, startAt + 0.03);
+  gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+  oscillator.start(startAt);
+  oscillator.stop(startAt + duration + 0.02);
+}
+
+function scheduleFallbackMusic() {
+  if (!state.soundEnabled) return;
+  ensureAudio();
+  if (!audioContext) return;
+  const now = audioContext.currentTime;
+  const bass = [65.41, 73.42, 82.41, 73.42, 61.74, 65.41, 82.41, 98.0];
+  const lead = [196, 220, 246.94, 220, 174.61, 196, 220, 246.94];
+  bass.forEach((note, index) => {
+    const t = now + index * 0.4;
+    playMusicNote(note, t, 0.34, 0.025, "triangle");
+    playMusicNote(lead[index], t + 0.08, 0.18, 0.012, "square");
+  });
+  musicLoopId = window.setTimeout(scheduleFallbackMusic, 3200);
+}
+
 function startMusic() {
-  if (!state.soundEnabled || !bgmEl) return;
-  if (typeof bgmEl.play === "function") bgmEl.play();
+  if (!state.soundEnabled) return;
+  stopMusic();
+  if (bgmEl && typeof bgmEl.play === "function") {
+    try {
+      bgmEl.play();
+    } catch (_error) {
+      scheduleFallbackMusic();
+    }
+    window.setTimeout(() => {
+      if (state.soundEnabled && (!bgmEl || bgmEl.playing === false)) {
+        scheduleFallbackMusic();
+      }
+    }, 600);
+    return;
+  }
+  scheduleFallbackMusic();
 }
 
 function stopMusic() {
-  if (!bgmEl) return;
-  if (typeof bgmEl.stop === "function") bgmEl.stop();
+  window.clearTimeout(musicLoopId);
+  musicLoopId = 0;
+  if (bgmEl && typeof bgmEl.stop === "function") bgmEl.stop();
 }
 
 function syncMusicButton() {
   if (musicButton) musicButton.textContent = `Sound: ${state.soundEnabled ? "On" : "Off"}`;
+}
+
+function toggleSound() {
+  state.soundEnabled = !state.soundEnabled;
+  syncMusicButton();
+  if (state.soundEnabled) {
+    startMusic();
+  } else {
+    stopMusic();
+  }
 }
 
 function createEnemySprite(frame = 0) {
@@ -502,9 +562,9 @@ function fire() {
     const size = canvas.height / projection.distance;
     const centerDx = Math.abs(projection.screenX - canvas.width / 2);
     const centerDy = Math.abs(projection.screenY - aimY);
-    if (centerDx > size * 0.45) continue;
-    if (centerDy > size * 0.3) continue;
-    if (!hasLineOfSight(state.player.x, state.player.y, prop.x, prop.y)) continue;
+    if (centerDx > size * 0.6) continue;
+    if (centerDy > size * 0.42) continue;
+    if (!hasLineOfSight(state.player.x, state.player.y, prop.x, prop.y, 0.55)) continue;
     const score = centerDx + centerDy + projection.distance * 10;
     if (score < bestScore) {
       bestScore = score;
@@ -831,6 +891,7 @@ function collectItems() {
     if (Math.hypot(item.x - state.player.x, item.y - state.player.y) < 0.8) {
       item.active = false;
       state.player.health = Math.min(100, state.player.health + 25);
+      playSound("hurt");
       statusEl.textContent = "life restored";
     }
   }
@@ -871,7 +932,7 @@ function resetGame() {
   messageEl.classList.add("hidden");
   statusEl.textContent = "Sweep the hall";
   startButton.textContent = "Start";
-  menuTextEl.textContent = "WASD to move, mouse to turn, click to fire, Shift to sprint.";
+  menuTextEl.textContent = "WASD to move, mouse to turn, click to fire, Shift to sprint. Use the Sound button or press M to toggle audio.";
 }
 
 function frame(time) {
@@ -896,6 +957,7 @@ function frame(time) {
 document.addEventListener("keydown", (event) => {
   state.keys[event.key.toLowerCase()] = true;
   if (event.key === " ") fire();
+  if (event.key.toLowerCase() === "m") toggleSound();
   if (event.key === "Enter") {
     if (state.active) {
       openMenu("Paused", "Press Enter or Start to continue.");
@@ -951,13 +1013,7 @@ startButton.addEventListener("click", () => {
 });
 
 musicButton.addEventListener("click", () => {
-  state.soundEnabled = !state.soundEnabled;
-  syncMusicButton();
-  if (state.soundEnabled) {
-    startMusic();
-  } else {
-    stopMusic();
-  }
+  toggleSound();
 });
 
 quitButton.addEventListener("click", () => {
@@ -1000,7 +1056,7 @@ function openMenu(title, text) {
   document.exitPointerLock?.();
   messageEl.classList.remove("hidden");
   messageEl.querySelector("h2").textContent = title;
-  menuTextEl.textContent = text;
+  menuTextEl.textContent = `${text} Sound button or M toggles audio.`;
 }
 
 function startGame() {
