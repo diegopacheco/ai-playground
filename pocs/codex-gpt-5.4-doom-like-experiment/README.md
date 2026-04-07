@@ -1,6 +1,6 @@
-# Steel Breach
+# DoomLike
 
-Steel Breach is a small browser FPS built with plain HTML, CSS, and JavaScript. It uses a classic raycasting approach to create a fast retro corridor shooter feel with a heavier industrial presentation.
+DoomLike is a small browser FPS built with plain HTML, CSS, and JavaScript. It uses a classic raycasting approach to create a fast retro corridor shooter feel with a heavier industrial presentation.
 
 ## Features
 

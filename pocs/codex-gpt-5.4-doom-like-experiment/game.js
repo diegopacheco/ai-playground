@@ -10,6 +10,7 @@ const messageEl = document.getElementById("message");
 const menuTextEl = document.getElementById("menu-text");
 const startButton = document.getElementById("start");
 const quitButton = document.getElementById("quit");
+const reticleEl = document.getElementById("reticle");
 const touchButtons = [...document.querySelectorAll("[data-control]")];
 
 const map = [
@@ -32,11 +33,9 @@ const map = [
 ];
 
 const enemySpawns = [
-  { x: 13.5, y: 2.5 },
-  { x: 10.5, y: 5.5 },
-  { x: 2.5, y: 10.5 },
-  { x: 12.5, y: 11.5 },
-  { x: 7.5, y: 13.5 }
+  { x: 4.5, y: 1.5 },
+  { x: 6.5, y: 1.5 },
+  { x: 8.5, y: 1.5 }
 ];
 
 const props = [
@@ -92,6 +91,7 @@ const spriteCanvas = document.createElement("canvas");
 spriteCanvas.width = 64;
 spriteCanvas.height = 64;
 const spriteCtx = spriteCanvas.getContext("2d");
+let audioContext;
 
 function isWall(x, y) {
   const mx = Math.floor(x);
@@ -118,6 +118,67 @@ function castRay(angle) {
   }
 
   return { depth: maxDepth, edge: 0.5 };
+}
+
+function ensureAudio() {
+  if (!audioContext) {
+    const AudioCtor = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtor) audioContext = new AudioCtor();
+  }
+  if (audioContext?.state === "suspended") audioContext.resume();
+}
+
+function playSound(type) {
+  ensureAudio();
+  if (!audioContext) return;
+
+  const now = audioContext.currentTime;
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  const filter = audioContext.createBiquadFilter();
+
+  oscillator.connect(filter);
+  filter.connect(gain);
+  gain.connect(audioContext.destination);
+
+  if (type === "shot") {
+    oscillator.type = "square";
+    oscillator.frequency.setValueAtTime(180, now);
+    oscillator.frequency.exponentialRampToValueAtTime(70, now + 0.08);
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(1400, now);
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.exponentialRampToValueAtTime(0.12, now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+    oscillator.start(now);
+    oscillator.stop(now + 0.11);
+    return;
+  }
+
+  if (type === "kill") {
+    oscillator.type = "sawtooth";
+    oscillator.frequency.setValueAtTime(190, now);
+    oscillator.frequency.exponentialRampToValueAtTime(55, now + 0.22);
+    filter.type = "bandpass";
+    filter.frequency.setValueAtTime(700, now);
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.exponentialRampToValueAtTime(0.09, now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+    oscillator.start(now);
+    oscillator.stop(now + 0.25);
+    return;
+  }
+
+  oscillator.type = "triangle";
+  oscillator.frequency.setValueAtTime(120, now);
+  oscillator.frequency.exponentialRampToValueAtTime(60, now + 0.18);
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(900, now);
+  gain.gain.setValueAtTime(0.001, now);
+  gain.gain.exponentialRampToValueAtTime(0.08, now + 0.01);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+  oscillator.start(now);
+  oscillator.stop(now + 0.19);
 }
 
 function createEnemySprite(frame = 0) {
@@ -279,6 +340,7 @@ function damagePlayer(amount) {
     remaining -= absorbed;
   }
   state.player.health = Math.max(0, state.player.health - remaining);
+  playSound("hurt");
   flashEl.classList.add("active");
   setTimeout(() => flashEl.classList.remove("active"), 80);
 }
@@ -331,13 +393,15 @@ function fire() {
   let bestTarget = null;
   let bestScore = Infinity;
   state.shotKick = 1;
+  playSound("shot");
+  const aimY = canvas.height / 2 + state.player.pitch * canvas.height * 0.32;
 
   for (const enemy of state.enemies) {
     if (!enemy.alive) continue;
     const projection = projectSprite(enemy.x, enemy.y);
     const size = (canvas.height / projection.distance) * 1.45;
     const centerDx = Math.abs(projection.screenX - canvas.width / 2);
-    const centerDy = Math.abs(projection.screenY - canvas.height / 2);
+    const centerDy = Math.abs(projection.screenY - aimY);
     if (centerDx > size * 0.35) continue;
     if (centerDy > size * 0.45) continue;
     if (!hasLineOfSight(state.player.x, state.player.y, enemy.x, enemy.y)) continue;
@@ -353,6 +417,7 @@ function fire() {
   if (bestTarget) {
     bestTarget.alive = false;
     state.hitPulse = 1;
+    playSound("kill");
     statusEl.textContent = "target dropped";
   } else {
     statusEl.textContent = "miss";
@@ -425,7 +490,7 @@ function drawBackground() {
   ctx.strokeStyle = "rgba(102, 190, 158, 0.22)";
   ctx.lineWidth = 2;
   for (let i = 0; i < 7; i += 1) {
-    const x = 40 + i * 150 + Math.sin(state.lastTime * 0.001 + i) * 8;
+    const x = 40 + i * 150;
     ctx.beginPath();
     ctx.moveTo(x, 0);
     ctx.bezierCurveTo(x + 20, 80, x - 30, 170, x + 12, canvas.height * 0.5);
@@ -437,7 +502,7 @@ function drawBackground() {
     const y = 80 + i * 28;
     ctx.beginPath();
     ctx.moveTo(0, y);
-    ctx.lineTo(canvas.width, y + Math.sin(i + state.lastTime * 0.001) * 10);
+    ctx.lineTo(canvas.width, y + (i % 2 === 0 ? 6 : -6));
     ctx.stroke();
   }
 
@@ -463,8 +528,28 @@ function drawBackground() {
 
   ctx.fillStyle = "rgba(70, 112, 84, 0.18)";
   for (let i = 0; i < 10; i += 1) {
-    const x = ((i * 110) + state.lastTime * 0.03) % canvas.width;
+    const x = i * 110;
     ctx.fillRect(x, canvas.height * 0.12, 3, canvas.height * 0.24);
+  }
+
+  ctx.fillStyle = "#243122";
+  ctx.fillRect(0, canvas.height * 0.74, canvas.width, canvas.height * 0.26);
+  ctx.fillStyle = "#2f472a";
+  for (let i = 0; i < 24; i += 1) {
+    const x = i * 42;
+    const h = 18 + (i % 4) * 10;
+    ctx.fillRect(x, canvas.height * 0.78 - h, 28, h);
+  }
+  ctx.fillStyle = "#3f6a39";
+  for (let i = 0; i < 28; i += 1) {
+    const x = i * 34 + (i % 2) * 4;
+    const h = 10 + (i % 5) * 8;
+    ctx.fillRect(x, canvas.height * 0.82 - h, 14, h);
+  }
+  ctx.fillStyle = "#1b2218";
+  for (let i = 0; i < 16; i += 1) {
+    const x = i * 62;
+    ctx.fillRect(x, canvas.height * 0.86, 20, canvas.height * 0.14);
   }
 }
 
@@ -520,7 +605,7 @@ function projectSprite(x, y) {
   const distance = Math.hypot(dx, dy);
   const angle = normalizeAngle(Math.atan2(dy, dx) - state.player.angle);
   const screenX = ((angle + fov / 2) / fov) * canvas.width;
-  const screenY = canvas.height / 2 + state.player.pitch * canvas.height * 0.12;
+  const screenY = canvas.height / 2;
   return { x, y, distance, angle, screenX, screenY };
 }
 
@@ -630,6 +715,7 @@ function updateHud() {
 function updateEffects(dt) {
   state.shotKick = Math.max(0, state.shotKick - dt * 6);
   state.hitPulse = Math.max(0, state.hitPulse - dt * 3);
+  reticleEl.style.transform = `translate(-50%, calc(-50% + ${Math.round(state.player.pitch * 120)}px))`;
 }
 
 function endGame(text) {
@@ -794,7 +880,7 @@ function quitGame() {
   state.touch.turnLeft = false;
   state.touch.turnRight = false;
   messageEl.classList.remove("hidden");
-  messageEl.querySelector("h2").textContent = "Steel Breach";
+  messageEl.querySelector("h2").textContent = "DoomLike";
   menuTextEl.textContent = "Press Enter or Start to begin. Use Enter or Escape to open the menu while playing.";
 }
 
