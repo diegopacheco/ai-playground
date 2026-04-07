@@ -289,6 +289,14 @@ function hasLineOfSight(fromX, fromY, toX, toY, padding = 0.28) {
   return true;
 }
 
+function hitsEnemy(x, y, padding = 0.42) {
+  for (const enemy of state.enemies) {
+    if (!enemy.alive) continue;
+    if (Math.hypot(enemy.x - x, enemy.y - y) < padding) return true;
+  }
+  return false;
+}
+
 function movePlayer(dt) {
   const sprint = state.keys.shift ? 1.55 : 1;
   const speed = state.player.moveSpeed * sprint * dt;
@@ -324,10 +332,18 @@ function movePlayer(dt) {
   const nextX = state.player.x + moveX;
   const nextY = state.player.y + moveY;
 
-  if (!isWall(nextX + Math.sign(moveX) * state.player.radius, state.player.y) && !isWall(nextX, state.player.y)) {
+  if (
+    !isWall(nextX + Math.sign(moveX) * state.player.radius, state.player.y) &&
+    !isWall(nextX, state.player.y) &&
+    !hitsEnemy(nextX, state.player.y)
+  ) {
     state.player.x = nextX;
   }
-  if (!isWall(state.player.x, nextY + Math.sign(moveY) * state.player.radius) && !isWall(state.player.x, nextY)) {
+  if (
+    !isWall(state.player.x, nextY + Math.sign(moveY) * state.player.radius) &&
+    !isWall(state.player.x, nextY) &&
+    !hitsEnemy(state.player.x, nextY)
+  ) {
     state.player.y = nextY;
   }
 }
@@ -377,7 +393,7 @@ function updateEnemies(dt) {
   if (state.player.health <= 0) {
     endGame("System failure");
   } else if (living === 0) {
-    endGame("Foundry secured");
+    endGame("Jungle secure");
   }
 }
 
