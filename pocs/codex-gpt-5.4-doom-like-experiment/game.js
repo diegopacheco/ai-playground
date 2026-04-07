@@ -1,7 +1,9 @@
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const armorEl = document.getElementById("armor");
+const armorBarEl = document.getElementById("armor-bar");
 const healthEl = document.getElementById("health");
+const healthBarEl = document.getElementById("health-bar");
 const killsEl = document.getElementById("kills");
 const fpsEl = document.getElementById("fps");
 const statusEl = document.getElementById("status");
@@ -399,7 +401,7 @@ function updateEnemies(dt) {
     }
   }
 
-  killsEl.textContent = `${state.enemies.length - living} / ${state.enemies.length}`;
+  killsEl.textContent = `🎯 ${state.enemies.length - living} / ${state.enemies.length}`;
   if (state.player.health <= 0) {
     endGame("Game Over");
   } else if (living === 0) {
@@ -733,6 +735,8 @@ function drawWeapon() {
 function updateHud() {
   armorEl.textContent = Math.round(state.player.armor);
   healthEl.textContent = Math.round(state.player.health);
+  armorBarEl.style.width = `${Math.max(0, Math.min(100, state.player.armor))}%`;
+  healthBarEl.style.width = `${Math.max(0, Math.min(100, state.player.health))}%`;
   fpsEl.textContent = `${state.fps} FPS`;
   const remaining = state.enemies.filter((enemy) => enemy.alive).length;
   statusEl.textContent = remaining === 0 ? "Sector clean" : `${remaining} signatures left`;
