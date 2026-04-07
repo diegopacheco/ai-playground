@@ -193,6 +193,50 @@ function playSound(type) {
   oscillator.stop(now + 0.19);
 }
 
+function playMusicNote(frequency, startAt, duration, gainValue, type) {
+  if (!audioContext || !state.musicEnabled) return;
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(frequency, startAt);
+  oscillator.connect(gain);
+  gain.connect(audioContext.destination);
+  gain.gain.setValueAtTime(0.0001, startAt);
+  gain.gain.exponentialRampToValueAtTime(gainValue, startAt + 0.03);
+  gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+  oscillator.start(startAt);
+  oscillator.stop(startAt + duration + 0.02);
+}
+
+function scheduleMusic() {
+  if (!state.musicEnabled) return;
+  ensureAudio();
+  if (!audioContext) return;
+  const now = audioContext.currentTime;
+  const bass = [65.41, 73.42, 82.41, 73.42, 61.74, 65.41, 82.41, 98.0];
+  const lead = [196, 220, 246.94, 220, 174.61, 196, 220, 246.94];
+  bass.forEach((note, index) => {
+    const t = now + index * 0.4;
+    playMusicNote(note, t, 0.34, 0.025, "triangle");
+    playMusicNote(lead[index], t + 0.08, 0.18, 0.012, "square");
+  });
+  musicLoopId = window.setTimeout(scheduleMusic, 3200);
+}
+
+function startMusic() {
+  window.clearTimeout(musicLoopId);
+  if (state.musicEnabled) scheduleMusic();
+}
+
+function stopMusic() {
+  window.clearTimeout(musicLoopId);
+  musicLoopId = 0;
+}
+
+function syncMusicButton() {
+  if (musicButton) musicButton.textContent = `Music: ${state.musicEnabled ? "On" : "Off"}`;
+}
+
 function createEnemySprite(frame = 0) {
   spriteCtx.clearRect(0, 0, spriteCanvas.width, spriteCanvas.height);
   spriteCtx.imageSmoothingEnabled = false;
@@ -280,6 +324,36 @@ function createTorchSprite(frame = 0) {
   return spriteCanvas;
 }
 
+function createDoorSprite() {
+  spriteCtx.clearRect(0, 0, spriteCanvas.width, spriteCanvas.height);
+  spriteCtx.imageSmoothingEnabled = false;
+  const paint = (x, y, w, h, color) => {
+    spriteCtx.fillStyle = color;
+    spriteCtx.fillRect(x, y, w, h);
+  };
+  paint(14, 6, 36, 52, "#4c5f58");
+  paint(18, 10, 28, 44, "#79978c");
+  paint(24, 18, 16, 22, "#98f0bf");
+  paint(24, 44, 16, 6, "#203028");
+  paint(42, 30, 4, 4, "#d7e0db");
+  return spriteCanvas;
+}
+
+function createMedkitSprite() {
+  spriteCtx.clearRect(0, 0, spriteCanvas.width, spriteCanvas.height);
+  spriteCtx.imageSmoothingEnabled = false;
+  const paint = (x, y, w, h, color) => {
+    spriteCtx.fillStyle = color;
+    spriteCtx.fillRect(x, y, w, h);
+  };
+  paint(18, 22, 28, 24, "#daddd8");
+  paint(22, 26, 20, 16, "#f7faf5");
+  paint(28, 28, 8, 12, "#d94141");
+  paint(24, 32, 16, 4, "#d94141");
+  paint(24, 18, 16, 6, "#6e7a74");
+  return spriteCanvas;
+}
+
 function hasLineOfSight(fromX, fromY, toX, toY, padding = 0.28) {
   const dx = toX - fromX;
   const dy = toY - fromY;
@@ -305,6 +379,14 @@ function hitsEnemy(x, y, padding = 0.42) {
   for (const enemy of state.enemies) {
     if (!enemy.alive) continue;
     if (Math.hypot(enemy.x - x, enemy.y - y) < padding) return true;
+  }
+  return false;
+}
+
+function hitsCrate(x, y, padding = 0.45) {
+  for (const prop of state.props) {
+    if (!prop.active || prop.kind !== "crate") continue;
+    if (Math.hypot(prop.x - x, prop.y - y) < padding) return true;
   }
   return false;
 }
@@ -347,14 +429,16 @@ function movePlayer(dt) {
   if (
     !isWall(nextX + Math.sign(moveX) * state.player.radius, state.player.y) &&
     !isWall(nextX, state.player.y) &&
-    !hitsEnemy(nextX, state.player.y)
+    !hitsEnemy(nextX, state.player.y) &&
+    !hitsCrate(nextX, state.player.y)
   ) {
     state.player.x = nextX;
   }
   if (
     !isWall(state.player.x, nextY + Math.sign(moveY) * state.player.radius) &&
     !isWall(state.player.x, nextY) &&
-    !hitsEnemy(state.player.x, nextY)
+    !hitsEnemy(state.player.x, nextY) &&
+    !hitsCrate(state.player.x, nextY)
   ) {
     state.player.y = nextY;
   }
@@ -440,13 +524,36 @@ function fire() {
     }
   }
 
+  for (const prop of state.props) {
+    if (!prop.active || prop.kind !== "crate") continue;
+    const projection = projectSprite(prop.x, prop.y);
+    const size = canvas.height / projection.distance;
+    const centerDx = Math.abs(projection.screenX - canvas.width / 2);
+    const centerDy = Math.abs(projection.screenY - aimY);
+    if (centerDx > size * 0.45) continue;
+    if (centerDy > size * 0.3) continue;
+    if (!hasLineOfSight(state.player.x, state.player.y, prop.x, prop.y)) continue;
+    const score = centerDx + centerDy + projection.distance * 10;
+    if (score < bestScore) {
+      bestScore = score;
+      bestTarget = prop;
+    }
+  }
+
   flashEl.classList.add("active");
   setTimeout(() => flashEl.classList.remove("active"), 50);
   if (bestTarget) {
-    bestTarget.alive = false;
-    state.hitPulse = 1;
-    playSound("kill");
-    statusEl.textContent = "target dropped";
+    if ("alive" in bestTarget) {
+      bestTarget.alive = false;
+      state.hitPulse = 1;
+      playSound("kill");
+      statusEl.textContent = "target dropped";
+    } else {
+      bestTarget.active = false;
+      state.items.push({ x: bestTarget.x, y: bestTarget.y, kind: "medkit", active: true });
+      playSound("kill");
+      statusEl.textContent = "life drop";
+    }
   } else {
     statusEl.textContent = "miss";
   }
@@ -612,7 +719,9 @@ function drawWorld() {
   }
 
   const sprites = [
-    ...props.map((prop) => ({ ...projectSprite(prop.x, prop.y), kind: "prop", prop })),
+    ...state.props.filter((prop) => prop.active).map((prop) => ({ ...projectSprite(prop.x, prop.y), kind: "prop", prop })),
+    ...state.items.filter((item) => item.active).map((item) => ({ ...projectSprite(item.x, item.y), kind: "item", item })),
+    ...(state.door.active ? [{ ...projectSprite(state.door.x, state.door.y), kind: "door", door: state.door }] : []),
     ...state.enemies
       .filter((enemy) => enemy.alive)
       .map((enemy) => ({ ...projectSprite(enemy.x, enemy.y), kind: "enemy", enemy }))
@@ -638,7 +747,7 @@ function projectSprite(x, y) {
 }
 
 function renderSprite(sprite, depthBuffer) {
-  const sizeScale = sprite.kind === "enemy" ? 1.45 : 1.05;
+  const sizeScale = sprite.kind === "enemy" ? 1.45 : sprite.kind === "door" ? 1.2 : sprite.kind === "item" ? 0.7 : 1.05;
   const size = (canvas.height / sprite.distance) * sizeScale;
   const screenX = sprite.screenX;
   const half = size / 2;
@@ -661,6 +770,8 @@ function getSpriteTexture(sprite) {
     const frame = Math.sin(state.lastTime * 0.012 + sprite.enemy.x) > 0 ? 0 : 2;
     return createEnemySprite(frame);
   }
+  if (sprite.kind === "door") return createDoorSprite();
+  if (sprite.kind === "item") return createMedkitSprite();
   if (sprite.prop.kind === "barrel") return createBarrelSprite();
   if (sprite.prop.kind === "crate") return createCrateSprite();
   const frame = Math.sin(state.lastTime * 0.02 + sprite.prop.x) > 0 ? 0 : 1;
@@ -742,6 +853,23 @@ function updateHud() {
   statusEl.textContent = remaining === 0 ? "Sector clean" : `${remaining} signatures left`;
 }
 
+function collectItems() {
+  for (const item of state.items) {
+    if (!item.active) continue;
+    if (Math.hypot(item.x - state.player.x, item.y - state.player.y) < 0.8) {
+      item.active = false;
+      state.player.health = Math.min(100, state.player.health + 25);
+      statusEl.textContent = "life restored";
+    }
+  }
+}
+
+function checkExit() {
+  if (state.door.active && Math.hypot(state.door.x - state.player.x, state.door.y - state.player.y) < 0.9) {
+    endGame("Jungle secure");
+  }
+}
+
 function updateEffects(dt) {
   state.shotKick = Math.max(0, state.shotKick - dt * 6);
   state.hitPulse = Math.max(0, state.hitPulse - dt * 3);
@@ -762,6 +890,9 @@ function resetGame() {
   state.player.health = 100;
   state.player.armor = 100;
   state.enemies = buildEnemies();
+  state.props = buildProps();
+  state.items = [];
+  state.door = { x: 13.5, y: 14.5, kind: "exit", active: true };
   state.shotKick = 0;
   state.hitPulse = 0;
   state.active = true;
@@ -781,6 +912,8 @@ function frame(time) {
   if (state.active) {
     movePlayer(dt);
     updateEnemies(dt);
+    collectItems();
+    checkExit();
   }
 
   drawWorld();
@@ -845,6 +978,16 @@ startButton.addEventListener("click", () => {
   startGame();
 });
 
+musicButton.addEventListener("click", () => {
+  state.musicEnabled = !state.musicEnabled;
+  syncMusicButton();
+  if (state.musicEnabled) {
+    startMusic();
+  } else {
+    stopMusic();
+  }
+});
+
 quitButton.addEventListener("click", () => {
   quitGame();
 });
@@ -889,6 +1032,7 @@ function openMenu(title, text) {
 }
 
 function startGame() {
+  startMusic();
   if (messageEl.querySelector("h2").textContent === "Paused") {
     state.active = true;
     messageEl.classList.add("hidden");
@@ -909,9 +1053,11 @@ function quitGame() {
   state.touch.right = false;
   state.touch.turnLeft = false;
   state.touch.turnRight = false;
+  stopMusic();
   messageEl.classList.remove("hidden");
   messageEl.querySelector("h2").textContent = "DoomLike";
   menuTextEl.textContent = "Press Enter or Start to begin. Use Enter or Escape to open the menu while playing.";
 }
 
+syncMusicButton();
 requestAnimationFrame(frame);
