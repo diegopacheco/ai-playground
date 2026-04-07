@@ -9,6 +9,7 @@ const flashEl = document.getElementById("flash");
 const messageEl = document.getElementById("message");
 const menuTextEl = document.getElementById("menu-text");
 const startButton = document.getElementById("start");
+const musicButton = document.getElementById("music");
 const quitButton = document.getElementById("quit");
 const reticleEl = document.getElementById("reticle");
 const touchButtons = [...document.querySelectorAll("[data-control]")];
@@ -34,19 +35,11 @@ const map = [
 
 const enemySpawnPoints = [
   { x: 4.5, y: 1.5 },
-  { x: 6.5, y: 1.5 },
-  { x: 8.5, y: 1.5 },
-  { x: 10.5, y: 1.5 },
-  { x: 11.5, y: 3.5 },
-  { x: 9.5, y: 5.5 },
-  { x: 6.5, y: 6.5 },
-  { x: 3.5, y: 8.5 },
-  { x: 10.5, y: 8.5 },
-  { x: 12.5, y: 11.5 },
-  { x: 7.5, y: 12.5 }
+  { x: 7.5, y: 1.5 },
+  { x: 10.5, y: 1.5 }
 ];
 
-const props = [
+const propSpawns = [
   { x: 4.5, y: 3.5, kind: "barrel" },
   { x: 8.5, y: 3.5, kind: "torch" },
   { x: 11.5, y: 4.5, kind: "barrel" },
@@ -58,20 +51,11 @@ const props = [
 ];
 
 function buildEnemies() {
-  const pool = [...enemySpawnPoints];
-  const picks = [];
+  return enemySpawnPoints.map((enemy, index) => ({ ...enemy, id: `enemy-${index}`, alive: true, cooldown: 0 }));
+}
 
-  while (pool.length > 0 && picks.length < 3) {
-    const index = Math.floor(Math.random() * pool.length);
-    const candidate = pool.splice(index, 1)[0];
-    const tooCloseToPlayer = Math.hypot(candidate.x - 1.5, candidate.y - 1.5) < 3.5;
-    const tooCloseToEnemy = picks.some((enemy) => Math.hypot(candidate.x - enemy.x, candidate.y - enemy.y) < 2.8);
-    if (!tooCloseToPlayer && !tooCloseToEnemy) {
-      picks.push(candidate);
-    }
-  }
-
-  return picks.map((enemy) => ({ ...enemy, alive: true, cooldown: 0 }));
+function buildProps() {
+  return propSpawns.map((prop, index) => ({ ...prop, id: `prop-${index}`, active: true }));
 }
 
 const state = {
@@ -97,6 +81,10 @@ const state = {
     armor: 100
   },
   enemies: buildEnemies(),
+  props: buildProps(),
+  items: [],
+  door: { x: 13.5, y: 14.5, kind: "exit", active: true },
+  musicEnabled: true,
   projectFlash: 0,
   fps: 0,
   lastTime: 0,
@@ -113,6 +101,7 @@ spriteCanvas.width = 64;
 spriteCanvas.height = 64;
 const spriteCtx = spriteCanvas.getContext("2d");
 let audioContext;
+let musicLoopId = 0;
 
 function isWall(x, y) {
   const mx = Math.floor(x);
