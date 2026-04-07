@@ -32,10 +32,18 @@ const map = [
   "1111111111111111"
 ];
 
-const enemySpawns = [
+const enemySpawnPoints = [
   { x: 4.5, y: 1.5 },
   { x: 6.5, y: 1.5 },
-  { x: 8.5, y: 1.5 }
+  { x: 8.5, y: 1.5 },
+  { x: 10.5, y: 1.5 },
+  { x: 11.5, y: 3.5 },
+  { x: 9.5, y: 5.5 },
+  { x: 6.5, y: 6.5 },
+  { x: 3.5, y: 8.5 },
+  { x: 10.5, y: 8.5 },
+  { x: 12.5, y: 11.5 },
+  { x: 7.5, y: 12.5 }
 ];
 
 const props = [
@@ -50,7 +58,20 @@ const props = [
 ];
 
 function buildEnemies() {
-  return enemySpawns.map((enemy) => ({ ...enemy, alive: true, cooldown: 0 }));
+  const pool = [...enemySpawnPoints];
+  const picks = [];
+
+  while (pool.length > 0 && picks.length < 3) {
+    const index = Math.floor(Math.random() * pool.length);
+    const candidate = pool.splice(index, 1)[0];
+    const tooCloseToPlayer = Math.hypot(candidate.x - 1.5, candidate.y - 1.5) < 3.5;
+    const tooCloseToEnemy = picks.some((enemy) => Math.hypot(candidate.x - enemy.x, candidate.y - enemy.y) < 2.8);
+    if (!tooCloseToPlayer && !tooCloseToEnemy) {
+      picks.push(candidate);
+    }
+  }
+
+  return picks.map((enemy) => ({ ...enemy, alive: true, cooldown: 0 }));
 }
 
 const state = {
