@@ -14,6 +14,7 @@ const startButton = document.getElementById("start");
 const musicButton = document.getElementById("music");
 const quitButton = document.getElementById("quit");
 const reticleEl = document.getElementById("reticle");
+const bgmEl = document.getElementById("bgm");
 const touchButtons = [...document.querySelectorAll("[data-control]")];
 
 const map = [
@@ -86,7 +87,7 @@ const state = {
   props: buildProps(),
   items: [],
   door: { x: 13.5, y: 14.5, kind: "exit", active: true },
-  musicEnabled: true,
+  soundEnabled: true,
   projectFlash: 0,
   fps: 0,
   lastTime: 0,
@@ -141,6 +142,7 @@ function ensureAudio() {
 }
 
 function playSound(type) {
+  if (!state.soundEnabled) return;
   ensureAudio();
   if (!audioContext) return;
 
@@ -193,48 +195,18 @@ function playSound(type) {
   oscillator.stop(now + 0.19);
 }
 
-function playMusicNote(frequency, startAt, duration, gainValue, type) {
-  if (!audioContext || !state.musicEnabled) return;
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  oscillator.type = type;
-  oscillator.frequency.setValueAtTime(frequency, startAt);
-  oscillator.connect(gain);
-  gain.connect(audioContext.destination);
-  gain.gain.setValueAtTime(0.0001, startAt);
-  gain.gain.exponentialRampToValueAtTime(gainValue, startAt + 0.03);
-  gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
-  oscillator.start(startAt);
-  oscillator.stop(startAt + duration + 0.02);
-}
-
-function scheduleMusic() {
-  if (!state.musicEnabled) return;
-  ensureAudio();
-  if (!audioContext) return;
-  const now = audioContext.currentTime;
-  const bass = [65.41, 73.42, 82.41, 73.42, 61.74, 65.41, 82.41, 98.0];
-  const lead = [196, 220, 246.94, 220, 174.61, 196, 220, 246.94];
-  bass.forEach((note, index) => {
-    const t = now + index * 0.4;
-    playMusicNote(note, t, 0.34, 0.025, "triangle");
-    playMusicNote(lead[index], t + 0.08, 0.18, 0.012, "square");
-  });
-  musicLoopId = window.setTimeout(scheduleMusic, 3200);
-}
-
 function startMusic() {
-  window.clearTimeout(musicLoopId);
-  if (state.musicEnabled) scheduleMusic();
+  if (!state.soundEnabled || !bgmEl) return;
+  if (typeof bgmEl.play === "function") bgmEl.play();
 }
 
 function stopMusic() {
-  window.clearTimeout(musicLoopId);
-  musicLoopId = 0;
+  if (!bgmEl) return;
+  if (typeof bgmEl.stop === "function") bgmEl.stop();
 }
 
 function syncMusicButton() {
-  if (musicButton) musicButton.textContent = `Music: ${state.musicEnabled ? "On" : "Off"}`;
+  if (musicButton) musicButton.textContent = `Sound: ${state.soundEnabled ? "On" : "Off"}`;
 }
 
 function createEnemySprite(frame = 0) {
@@ -979,9 +951,9 @@ startButton.addEventListener("click", () => {
 });
 
 musicButton.addEventListener("click", () => {
-  state.musicEnabled = !state.musicEnabled;
+  state.soundEnabled = !state.soundEnabled;
   syncMusicButton();
-  if (state.musicEnabled) {
+  if (state.soundEnabled) {
     startMusic();
   } else {
     stopMusic();

@@ -45,7 +45,7 @@
         <p id="menu-text">WASD to move, mouse to turn, click to fire, Shift to sprint.</p>
         <div class="menu-actions">
           <button id="start">Start</button>
-          <button id="music" class="alt">Music: On</button>
+          <button id="music" class="alt">Sound: On</button>
           <button id="quit" class="alt">Quit</button>
         </div>
       </div>
@@ -80,6 +80,8 @@
       </div>
     </div>
   </div>
+  <midi-player id="bgm" src="https://bitmidi.com/uploads/63939.mid" sound-font loop style="display:none"></midi-player>
+  <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
   <script src="game.js"></script>
 </body>
 </html>

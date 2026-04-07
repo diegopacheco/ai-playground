@@ -1,6 +1,8 @@
 # DoomLike
 
-DoomLike is a small browser FPS built with plain HTML, CSS, and JavaScript. It uses a classic raycasting approach to create a fast retro corridor shooter feel with a heavier industrial presentation.
+Cyber Jungle DoomLike is a small browser FPS built with plain HTML, CSS, and JavaScript. It uses a classic raycasting approach to create a fast retro corridor shooter feel with a heavier industrial presentation. You kill zombies if you can...
+
+<img src="result.png" width="800"  />
 
 ## Features
 
