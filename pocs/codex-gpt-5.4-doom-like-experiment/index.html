@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steel Breach</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="shell">
+    <div class="hud">
+      <div class="brand">
+        <span class="eyebrow">Sector 17</span>
+        <h1>Steel Breach</h1>
+      </div>
+      <div class="stats">
+        <div class="card">
+          <span>Armor</span>
+          <strong id="armor">100</strong>
+        </div>
+        <div class="card">
+          <span>Core</span>
+          <strong id="health">100</strong>
+        </div>
+        <div class="card">
+          <span>Targets</span>
+          <strong id="kills">0 / 5</strong>
+        </div>
+      </div>
+    </div>
+    <div class="viewport-frame">
+      <canvas id="game" width="960" height="540"></canvas>
+      <div class="reticle"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
+      <div class="flash" id="flash"></div>
+      <div class="message" id="message">
+        <h2>Enter The Foundry</h2>
+        <p id="menu-text">WASD to move, mouse to turn, click to fire, Shift to sprint.</p>
+        <div class="menu-actions">
+          <button id="start">Start</button>
+          <button id="quit" class="alt">Quit</button>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="panel">
+        <span>Weapon</span>
+        <strong>Arc Repeater</strong>
+      </div>
+      <div class="panel">
+        <span>Status</span>
+        <strong id="status">Sweep the hall</strong>
+      </div>
+      <div class="panel">
+        <span>Frame</span>
+        <strong id="fps">0 FPS</strong>
+      </div>
+    </div>
+    <div class="touch-controls">
+      <div class="touch-cluster movement">
+        <button class="touch-btn" data-control="forward">W</button>
+        <div class="touch-row">
+          <button class="touch-btn" data-control="left">A</button>
+          <button class="touch-btn" data-control="back">S</button>
+          <button class="touch-btn" data-control="right">D</button>
+        </div>
+      </div>
+      <div class="touch-cluster action">
+        <button class="touch-btn wide" data-control="turn-left">Turn L</button>
+        <button class="touch-btn fire" data-control="fire">Fire</button>
+        <button class="touch-btn wide" data-control="turn-right">Turn R</button>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
