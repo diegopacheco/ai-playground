@@ -471,7 +471,6 @@ function drawBackground() {
 function drawWorld() {
   drawBackground();
   const depthBuffer = new Array(canvas.width);
-  const pitchOffset = state.player.pitch * canvas.height * 0.35;
 
   for (let x = 0; x < canvas.width; x += 1) {
     const cameraX = (2 * x) / canvas.width - 1;
@@ -488,14 +487,14 @@ function drawWorld() {
     const green = Math.floor((78 + edgeGlow * 24 + panelBand * 0.25 + wetGlow) * shade);
     const blue = Math.floor((82 + edgeGlow * 26 + panelBand * 0.3 + wetGlow) * shade);
     ctx.fillStyle = `rgb(${red}, ${green}, ${blue})`;
-    ctx.fillRect(x, (canvas.height - wallHeight) / 2 + pitchOffset, 1, wallHeight);
+    ctx.fillRect(x, (canvas.height - wallHeight) / 2, 1, wallHeight);
     if (x % 24 === 0) {
       ctx.fillStyle = `rgba(188, 198, 194, ${Math.max(0.06, 0.25 - correctedDepth * 0.03)})`;
-      ctx.fillRect(x, (canvas.height - wallHeight) / 2 + pitchOffset, 1, wallHeight);
+      ctx.fillRect(x, (canvas.height - wallHeight) / 2, 1, wallHeight);
     }
     if (wallHeight > 120 && x % 37 < 3) {
       ctx.fillStyle = `rgba(30, 34, 32, ${Math.max(0.16, 0.7 - correctedDepth * 0.08)})`;
-      ctx.fillRect(x, (canvas.height - wallHeight) / 2 + wallHeight * 0.15 + pitchOffset, 1, wallHeight * 0.7);
+      ctx.fillRect(x, (canvas.height - wallHeight) / 2 + wallHeight * 0.15, 1, wallHeight * 0.7);
     }
   }
 
@@ -521,7 +520,7 @@ function projectSprite(x, y) {
   const distance = Math.hypot(dx, dy);
   const angle = normalizeAngle(Math.atan2(dy, dx) - state.player.angle);
   const screenX = ((angle + fov / 2) / fov) * canvas.width;
-  const screenY = canvas.height / 2 + state.player.pitch * canvas.height * 0.35;
+  const screenY = canvas.height / 2 + state.player.pitch * canvas.height * 0.12;
   return { x, y, distance, angle, screenX, screenY };
 }
 
@@ -695,7 +694,7 @@ document.addEventListener("keyup", (event) => {
 document.addEventListener("mousemove", (event) => {
   if (document.pointerLockElement === canvas && state.active) {
     state.player.angle += event.movementX * 0.0027;
-    state.player.pitch = Math.max(-0.85, Math.min(0.85, state.player.pitch + event.movementY * 0.0022));
+    state.player.pitch = Math.max(-0.35, Math.min(0.35, state.player.pitch + event.movementY * 0.0013));
   }
 });
 
@@ -714,7 +713,7 @@ canvas.addEventListener("mouseleave", () => {
 canvas.addEventListener("mousemove", (event) => {
   if (document.pointerLockElement !== canvas && state.dragging && state.active) {
     state.player.angle += event.movementX * 0.01;
-    state.player.pitch = Math.max(-0.85, Math.min(0.85, state.player.pitch + event.movementY * 0.005));
+    state.player.pitch = Math.max(-0.35, Math.min(0.35, state.player.pitch + event.movementY * 0.0022));
   }
 });
 
