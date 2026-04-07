@@ -412,7 +412,7 @@ function updateEnemies(dt) {
 
   killsEl.textContent = `${state.enemies.length - living} / ${state.enemies.length}`;
   if (state.player.health <= 0) {
-    endGame("System failure");
+    endGame("Game Over");
   } else if (living === 0) {
     endGame("Jungle secure");
   }
