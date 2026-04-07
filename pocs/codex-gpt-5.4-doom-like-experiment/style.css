@@ -1,0 +1,354 @@
+:root {
+  --bg: #090909;
+  --panel: rgba(14, 15, 16, 0.88);
+  --panel-strong: rgba(20, 22, 24, 0.95);
+  --accent: #ff6a00;
+  --accent-soft: #ffb36b;
+  --text: #f4e5cf;
+  --muted: #baa78f;
+  --line: rgba(255, 255, 255, 0.08);
+  --danger: #ff3b30;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(255, 106, 0, 0.18), transparent 30%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.02), transparent 40%),
+    linear-gradient(180deg, #14110f 0%, #090909 100%);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 72px 72px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.shell {
+  width: min(1200px, calc(100vw - 32px));
+  display: grid;
+  gap: 14px;
+}
+
+.hud,
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.brand,
+.card,
+.panel {
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent), var(--panel);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+}
+
+.brand {
+  padding: 14px 18px;
+  min-width: 240px;
+}
+
+.eyebrow,
+.card span,
+.panel span {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.brand h1 {
+  margin: 2px 0 0;
+  font-family: Impact, Haettenschweiler, fantasy;
+  letter-spacing: 0.08em;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-weight: 400;
+  line-height: 0.9;
+}
+
+.stats {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(110px, 1fr));
+  gap: 12px;
+}
+
+.card,
+.panel {
+  padding: 14px 16px;
+}
+
+.card strong,
+.panel strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.viewport-frame {
+  position: relative;
+  border: 1px solid rgba(255, 106, 0, 0.18);
+  background: var(--panel-strong);
+  padding: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 30px 120px rgba(0, 0, 0, 0.45);
+}
+
+.viewport-frame::before,
+.viewport-frame::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(255, 106, 0, 0.16), transparent 70%);
+  pointer-events: none;
+}
+
+.viewport-frame::before {
+  top: -70px;
+  left: -70px;
+}
+
+.viewport-frame::after {
+  right: -70px;
+  bottom: -70px;
+}
+
+#game {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.reticle,
+.scanlines,
+.vignette,
+.flash,
+.message {
+  position: absolute;
+  inset: 14px;
+}
+
+.reticle {
+  inset: 50% auto auto 50%;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  margin-top: -11px;
+  border: 1px solid rgba(255, 179, 107, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 0 18px rgba(255, 179, 107, 0.4);
+  pointer-events: none;
+}
+
+.reticle::before,
+.reticle::after {
+  content: "";
+  position: absolute;
+  background: rgba(255, 179, 107, 0.8);
+}
+
+.reticle::before {
+  top: 10px;
+  left: -10px;
+  width: 42px;
+  height: 1px;
+}
+
+.reticle::after {
+  left: 10px;
+  top: -10px;
+  width: 1px;
+  height: 42px;
+}
+
+.scanlines {
+  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 4px);
+  mix-blend-mode: soft-light;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.vignette {
+  background: radial-gradient(circle, transparent 55%, rgba(0, 0, 0, 0.6) 100%);
+  pointer-events: none;
+}
+
+.flash {
+  background: rgba(255, 240, 215, 0.8);
+  opacity: 0;
+  transition: opacity 80ms linear;
+  pointer-events: none;
+}
+
+.flash.active {
+  opacity: 0.24;
+}
+
+.message {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(9, 9, 9, 0.35), rgba(9, 9, 9, 0.78));
+  padding: 20px;
+}
+
+.message.hidden {
+  display: none;
+}
+
+.message h2 {
+  margin: 0;
+  font-family: Impact, Haettenschweiler, fantasy;
+  letter-spacing: 0.12em;
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 400;
+}
+
+.message p {
+  max-width: 460px;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.message button {
+  border: 0;
+  padding: 14px 28px;
+  background: linear-gradient(90deg, var(--accent), #ff8533);
+  color: #130a04;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 14px 40px rgba(255, 106, 0, 0.35);
+}
+
+.menu-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.message button.alt {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.08));
+  color: var(--text);
+  box-shadow: none;
+  border: 1px solid var(--line);
+}
+
+.footer {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.panel {
+  flex: 1;
+}
+
+.touch-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.touch-cluster {
+  display: grid;
+  gap: 10px;
+}
+
+.movement {
+  justify-items: center;
+}
+
+.touch-row {
+  display: flex;
+  gap: 10px;
+}
+
+.touch-btn {
+  min-width: 74px;
+  min-height: 58px;
+  border: 1px solid rgba(255, 106, 0, 0.28);
+  background: linear-gradient(180deg, rgba(255, 106, 0, 0.18), rgba(255, 106, 0, 0.08)), var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.touch-btn:active,
+.touch-btn.active {
+  background: linear-gradient(180deg, rgba(255, 106, 0, 0.4), rgba(255, 106, 0, 0.18)), var(--panel);
+}
+
+.touch-btn.wide {
+  min-width: 108px;
+}
+
+.touch-btn.fire {
+  min-width: 120px;
+  background: linear-gradient(180deg, rgba(255, 59, 48, 0.38), rgba(255, 59, 48, 0.16)), var(--panel);
+}
+
+@media (max-width: 820px) {
+  .shell {
+    width: min(100vw, calc(100vw - 18px));
+  }
+
+  .hud,
+  .footer {
+    display: grid;
+  }
+
+  .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .brand h1 {
+    font-size: 2.6rem;
+  }
+
+  .card strong,
+  .panel strong {
+    font-size: 1.05rem;
+  }
+
+  .touch-controls {
+    display: grid;
+  }
+
+  .touch-btn {
+    min-width: 64px;
+    min-height: 52px;
+  }
+}
