@@ -539,6 +539,7 @@ function fire() {
   state.shotKick = 1;
   playSound("shot");
   const aimY = canvas.height / 2 + state.player.pitch * canvas.height * 0.32;
+  const centerRayDepth = castRay(state.player.angle).depth;
 
   for (const enemy of state.enemies) {
     if (!enemy.alive) continue;
@@ -562,10 +563,11 @@ function fire() {
     const size = canvas.height / projection.distance;
     const centerDx = Math.abs(projection.screenX - canvas.width / 2);
     const centerDy = Math.abs(projection.screenY - aimY);
-    if (centerDx > size * 0.6) continue;
-    if (centerDy > size * 0.42) continue;
+    if (centerDx > size * 0.75) continue;
+    if (centerDy > size * 0.55) continue;
+    if (projection.distance > centerRayDepth + 0.7) continue;
     if (!hasLineOfSight(state.player.x, state.player.y, prop.x, prop.y, 0.55)) continue;
-    const score = centerDx + centerDy + projection.distance * 10;
+    const score = centerDx + centerDy + projection.distance * 6;
     if (score < bestScore) {
       bestScore = score;
       bestTarget = prop;
