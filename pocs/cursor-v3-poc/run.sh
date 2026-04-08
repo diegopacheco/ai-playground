@@ -1,5 +1,8 @@
 #!/bin/bash
 
+lsof -ti:8080 | xargs kill 2>/dev/null
+lsof -ti:5173 | xargs kill 2>/dev/null
+
 cd backend
 cargo build --release 2>&1
 ./target/release/tetris-backend &
