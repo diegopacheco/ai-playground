@@ -1,0 +1,69 @@
+pocs/cursor-v3-poc/frontend/src/GameBoard.tsx
+  3c5dc14ca3f8a0b0 1-60
+pocs/cursor-v3-poc/frontend/src/main.tsx
+  3c5dc14ca3f8a0b0 1-9
+pocs/cursor-v3-poc/backend/src/main.rs
+  3c5dc14ca3f8a0b0 1-109
+pocs/cursor-v3-poc/frontend/tsconfig.app.json
+  3c5dc14ca3f8a0b0 13,21
+pocs/cursor-v3-poc/run.sh
+  3c5dc14ca3f8a0b0 1-23
+pocs/cursor-v3-poc/stop.sh
+  3c5dc14ca3f8a0b0 1-18
+pocs/cursor-v3-poc/README.md
+  3c5dc14ca3f8a0b0 1-109
+pocs/cursor-v3-poc/frontend/src/types.ts
+  3c5dc14ca3f8a0b0 1-107
+pocs/cursor-v3-poc/frontend/src/NextPiece.tsx
+  3c5dc14ca3f8a0b0 1-45
+pocs/cursor-v3-poc/frontend/src/api.ts
+  3c5dc14ca3f8a0b0 1-31
+pocs/cursor-v3-poc/design-doc.md
+  3c5dc14ca3f8a0b0 1-128
+pocs/cursor-v3-poc/frontend/src/App.tsx
+  3c5dc14ca3f8a0b0 1-205
+pocs/cursor-v3-poc/backend/Cargo.toml
+  3c5dc14ca3f8a0b0 5,8-14
+pocs/cursor-v3-poc/frontend/src/Leaderboard.tsx
+  3c5dc14ca3f8a0b0 1-48
+pocs/cursor-v3-poc/frontend/index.html
+  3c5dc14ca3f8a0b0 6
+pocs/cursor-v3-poc/frontend/src/useGame.ts
+  3c5dc14ca3f8a0b0 1-254
+pocs/cursor-v3-poc/frontend/src/ConfigMenu.tsx
+  3c5dc14ca3f8a0b0 1-86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "43b748444c0987299767dd18e399088328439e9e",
+  "prompts": {
+    "3c5dc14ca3f8a0b0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "317a6ff8-60fd-418d-a307-59e4a1eed583",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 1244,
+      "total_deletions": 7,
+      "accepted_lines": 1243,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/055abced8bba4d1d4525af02f48d51e7ab5b90bb6d5c1f4bd0aa6784ea7c68fe"
+    },
+    "c57dad1ad571e58d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8ec89de-c174-47fe-bcb0-b39adc0ece2f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 266,
+      "overriden_lines": 0
+    }
+  }
+}
