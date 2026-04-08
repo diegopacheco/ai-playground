@@ -30,7 +30,7 @@ The screenshot below shows the Tetris game running in the browser alongside Curs
 
 The screenshot below shows Cursor v3's **Design Tool** in action. The user asked to rename the title from "TETRIS" to "web tewtris" and Cursor v3 walked through the full refactoring process: it located the header text in `frontend/src/App.tsx`, identified the HTML document title in `frontend/index.html`, showed the exact code diffs with highlighted changes in both files, and ran the linter to confirm no TypeScript issues. On the right side you can see the live browser preview reflecting the updated title with the neon-styled "web tewtris" heading rendered in the app's main menu. This demonstrates how Cursor v3's design tool lets you make UI changes conversationally while seeing the result in real time.
 
-
+<img src="design-tool.png" alt="Design Tool" />
 
 ## Features
 
