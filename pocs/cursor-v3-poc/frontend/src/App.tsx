@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import {
   createRouter,
   createRoute,
@@ -36,6 +36,7 @@ function HomePage() {
   const [view, setView] = useState<"menu" | "game" | "config" | "leaderboard">("menu");
   const [playerName, setPlayerName] = useState("Player");
   const [refreshKey, setRefreshKey] = useState(0);
+  const scoreSubmitted = useRef(false);
   const theme = THEMES[config.theme as ThemeName];
 
   const { state, startGame } = useGame(
@@ -46,22 +47,25 @@ function HomePage() {
   );
 
   const handleStart = useCallback(() => {
+    scoreSubmitted.current = false;
     startGame();
     setView("game");
   }, [startGame]);
 
-  const handleGameOver = useCallback(async () => {
-    if (state.score > 0) {
-      await submitScore({
+  useEffect(() => {
+    if (state.gameOver && state.score > 0 && !scoreSubmitted.current) {
+      scoreSubmitted.current = true;
+      submitScore({
         player_name: playerName,
         score: state.score,
         level: state.level,
         lines_cleared: state.linesCleared,
         difficulty: config.difficulty,
-      }).catch(() => {});
-      setRefreshKey((k) => k + 1);
+      })
+        .then(() => setRefreshKey((k) => k + 1))
+        .catch(() => {});
     }
-  }, [state.score, state.level, state.linesCleared, playerName, config.difficulty]);
+  }, [state.gameOver, state.score, state.level, state.linesCleared, playerName, config.difficulty]);
 
   const btnStyle: React.CSSProperties = {
     padding: "12px 32px",
@@ -89,7 +93,7 @@ function HomePage() {
     return (
       <div style={containerStyle}>
         <div style={{ marginTop: 80, display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
-          <h1 style={{ color: theme.accent, fontSize: 48, fontWeight: 900, margin: 0, letterSpacing: 4 }}>TETRIS</h1>
+          <h1 style={{ color: theme.accent, fontSize: 48, fontWeight: 900, margin: 0, letterSpacing: 4 }}>Tetris</h1>
           <p style={{ color: theme.text, opacity: 0.7, margin: 0 }}>A classic puzzle game</p>
           <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 8 }}>
             <label style={{ color: theme.text, fontSize: 13 }}>Player Name</label>
@@ -129,10 +133,6 @@ function HomePage() {
         </div>
       </div>
     );
-  }
-
-  if (state.gameOver && state.score > 0) {
-    handleGameOver();
   }
 
   const formatTime = (s: number) => {
