@@ -18,13 +18,13 @@ The screenshot below shows Cursor v3's AI agent explaining the Rust backend `Car
 
 The screenshot below shows Cursor v3's **Agent View** - a split-pane layout where the AI agent's explanation appears on the left while the actual source code is visible on the right. Here you can see the agent analyzing the `Cargo.toml` alongside the Rust backend's `main.rs` data model structs (`ScoreEntry`, `GameConfig`, etc.). The agent view makes it easy to cross-reference the AI's analysis with the real code, showing the file tree, open editors, and the agent conversation side by side.
 
-
+<img src="agent-view.png" alt="Agent View" />
 
 ## Browser View
 
 The screenshot below shows the Tetris game running in the browser alongside Cursor v3's agent panel. The user asked "is my app running?" and the agent confirmed both services are live - Frontend (Vite) on `http://localhost:5173` and Backend on `http://localhost:8080` - detecting the active terminal processes and open ports. On the right side you can see the actual Tetris game rendered in the browser with the classic theme, showing the game board with falling pieces, the score/level/lines panel, next piece preview, and keyboard controls.
 
-
+<img src="browser-cursor.png" alt="Browser View" />
 
 ## Design Tool
 
