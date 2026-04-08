@@ -1,0 +1,58 @@
+pocs/cursor-v3-poc/README.md
+  3c5dc14ca3f8a0b0 27-31
+pocs/cursor-v3-poc/frontend/src/App.tsx
+  35d7b9104b744a4e 96
+  3c5dc14ca3f8a0b0 1,39,50,55-58,64-66,68
+pocs/cursor-v3-poc/stop.sh
+  3c5dc14ca3f8a0b0 16-17
+pocs/cursor-v3-poc/run.sh
+  3c5dc14ca3f8a0b0 3-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "a35c68272dd0d75c13ec0f7b22b87e54dfba0538",
+  "prompts": {
+    "35d7b9104b744a4e": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2f340937-407d-47df-b3ec-9d436af815aa",
+        "model": "default"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 3,
+      "accepted_lines": 1,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/02dc94b107a7c8fe564381d5d9cc2c5fdf331500123cbb5ff04e6dbf9f27b9b2"
+    },
+    "3c5dc14ca3f8a0b0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "317a6ff8-60fd-418d-a307-59e4a1eed583",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 23,
+      "total_deletions": 13,
+      "accepted_lines": 23,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/f5c822eeaad64de18377f0daa58bbcf762ca2f20ad732bb135b3be631c1b3a02"
+    },
+    "c57dad1ad571e58d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8ec89de-c174-47fe-bcb0-b39adc0ece2f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 266,
+      "overriden_lines": 0
+    }
+  }
+}
