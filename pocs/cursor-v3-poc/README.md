@@ -18,6 +18,12 @@ The screenshot below shows Cursor v3's **Agent View** - a split-pane layout wher
 
 ![Cursor v3 Agent View](agent-view.png)
 
+## Browser View
+
+The screenshot below shows the Tetris game running in the browser alongside Cursor v3's agent panel. The user asked "is my app running?" and the agent confirmed both services are live - Frontend (Vite) on `http://localhost:5173` and Backend on `http://localhost:8080` - detecting the active terminal processes and open ports. On the right side you can see the actual Tetris game rendered in the browser with the classic theme, showing the game board with falling pieces, the score/level/lines panel, next piece preview, and keyboard controls.
+
+![Cursor v3 Browser View](browser-cursor.png)
+
 ## Features
 
 - 10 progressive difficulty levels with increasing speed
