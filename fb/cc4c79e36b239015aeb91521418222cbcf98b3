@@ -1,0 +1,37 @@
+pocs/cursor-v3-poc/README.md
+  3c5dc14ca3f8a0b0 13,19,25,31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "fbcc4c79e36b239015aeb91521418222cbcf98b3",
+  "prompts": {
+    "3c5dc14ca3f8a0b0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "317a6ff8-60fd-418d-a307-59e4a1eed583",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 4,
+      "accepted_lines": 4,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/3b00b914ec8a0e8707eb0eb67dc4c91734bb0c918b0b27592e59aec3d4b2f0dd"
+    },
+    "c57dad1ad571e58d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8ec89de-c174-47fe-bcb0-b39adc0ece2f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 266,
+      "overriden_lines": 0
+    }
+  }
+}
