@@ -12,7 +12,7 @@ See the [design-doc.md](design-doc.md) for full architectural details.
 
 The screenshot below shows Cursor v3's AI agent explaining the Rust backend `Cargo.toml` manifest. The agent breaks down each dependency (actix-web, tokio, serde, chrono, uuid) and infers that the project is an Actix Web HTTP API using async Tokio, exchanging JSON payloads with UUIDs and timestamps. This is the standard chat/agent view in Cursor v3, where you prompt the AI and it responds with structured analysis of your codebase.
 
-
+<img src="cursor-v3.png" alt="Cursor v3" />
 
 ## Agent View
 
