@@ -2,6 +2,52 @@
 
 Claude Dispatch is an Anthropic feature that lets users trigger Claude Cowork agents remotely, including from a phone or desktop. It provides a continuous conversation thread with Claude that survives device changes, allowing the agent to use the computer autonomously while users step away. It is a key building block toward Anthropic's always-on agent vision.
 
+## Screenshots
+
+### Claude Dispatch - Excel Generation
+![Claude Dispatch Excel](claude-dispatch-excel.png)
+
+Claude Dispatch was asked to search for restaurants and put the results in a spreadsheet. It generated a .xlsx file with top 10 restaurants including name, cuisine, price range, address, rating, and notable dish. It used professional dark-green formatting with alternating rows. The file was created and delivered directly in the Dispatch chat.
+
+### Claude Dispatch - Running a Script
+![Claude Dispatch Run Script](claude-dispatch-run-script.png)
+
+Claude Dispatch was asked to navigate to a folder and run a bash script (pocs-count-mac.sh). It executed the script and displayed the output showing a POCs counter by programming language. The output shows 4632 total POCs across 50+ languages including AI (444), Java (762), Scala (386), Rust (276), Zig (129), Go (139), and many others. This demonstrates Dispatch's ability to run arbitrary commands on your machine remotely.
+
+## Experience Notes
+
+* It was easy to pair my desktop with my claude app in my phone.
+* I did not share my documents access with claude (too creepy)
+* When you use the mobile from the mobile app you can accept permissions on the computer.
+* You can also allow permission on computer. 
+* It's a bit slow, pretty sure is not the best model(claude-sonnet-4-6), it was slow, did not felt like opus 4.6
+* This is lileraly the claw-* like OpenClaw, NanoClow,ZeroClaw, IronClaw, NemoClaw but from Anthorpic.
+* I guess technically it's a crab not a lobster :-) 
+* It can do all things in your machine, use chrome, open files, read files, all the things.
+* I asked to goto a folder an run some bash script I had and was able to do it. After dealing with apple security :-) 
+* It was smart enought to figureout my rust version but not smart enought to figureoput my java version - so I told him to go and check with sdkman after I tip it - them it found the right java (which was 25).
+* The cool thing is you have the same chat history in the computer and the phone.
+* I also asked to do some google search and lookup some restaurants for me and put in a sheet, it did a good job.
+
+## Generated Spreadsheet
+
+[grammado.xlsx](grammado.xlsx)
+
+This is the spreadsheet that Claude Dispatch generated when asked to search for restaurants in Gramado and put the results in a sheet. It contains a table with 10 restaurants including the following columns: Restaurant, Cuisine, Price Range (R$/person), Address, Rating, Notable Dish, and Description. Some highlights:
+
+| # | Restaurant | Cuisine | Rating | Notable Dish |
+|---|---|---|---|---|
+| 1 | Cantina Pastasciutta | Italian | 4.6 | Risotto Italianissimo |
+| 2 | Catherine Gramado | French | 4.8 | Escargot / Coq au vin |
+| 3 | Vue de la Vallee | Fondue/Swiss | 4.7 | Fondue de queijo uruguaio |
+| 4 | Il Piacere | Italian/Grilled | 4.6 | Argentine grilled meats |
+| 5 | Gasthof Edelweiss | Fondue/European | 4.9 | Fondue |
+| 6 | Restaurante Hoppner | German | 4.8 | 4-course tasting menu |
+| 7 | Nonno Mio | Italian/Galeto | 4.5 | Galeto ao Primo Canto |
+| 8 | Casa Di Paolo | Italian/Galeteria | 4.5 | Galeto + cappelletti soup |
+| 9 | Pizzaria Cara de Mau | Pizza/Entertainment | 4.6 | Pizza rodizio (pirate theme) |
+| 10 | Churrascaria Chama de Fogo | Brazilian BBQ | 4.5 | Churrasco rodizio |
+
 ## Claude Dispatch vs Claw-* Solutions
 
 | Feature | Claude Dispatch | OpenClaw | NanoClaw | ZeroClaw | NemoClaw |
@@ -40,30 +86,3 @@ Claude Dispatch is an Anthropic feature that lets users trigger Claude Cowork ag
 - [Claude Code Agent Teams](https://code.claude.com/docs/en/agent-teams)
 - [Anthropic Managed Agents](https://www.anthropic.com/engineering/managed-agents)
 - [Claude Code Channels (VentureBeat)](https://venturebeat.com/orchestration/anthropic-just-shipped-an-openclaw-killer-called-claude-code-channels)
-
-## Screenshots
-
-### Claude Dispatch - Excel Generation
-![Claude Dispatch Excel](claude-dispatch-excel.png)
-
-Claude Dispatch was asked to search for restaurants and put the results in a spreadsheet. It generated a .xlsx file with top 10 restaurants including name, cuisine, price range, address, rating, and notable dish. It used professional dark-green formatting with alternating rows. The file was created and delivered directly in the Dispatch chat.
-
-### Claude Dispatch - Running a Script
-![Claude Dispatch Run Script](claude-dispatch-run-script.png)
-
-Claude Dispatch was asked to navigate to a folder and run a bash script (pocs-count-mac.sh). It executed the script and displayed the output showing a POCs counter by programming language. The output shows 4632 total POCs across 50+ languages including AI (444), Java (762), Scala (386), Rust (276), Zig (129), Go (139), and many others. This demonstrates Dispatch's ability to run arbitrary commands on your machine remotely.
-
-## Experience Notes
-
-* It was easy to pair my desktop with my claude app in my phone.
-* I did not share my documents access with claude (too creepy)
-* When you use the mobile from the mobile app you can accept permissions on the computer.
-* You can also allow permission on computer. 
-* It's a bit slow, pretty sure is not the best model(claude-sonnet-4-6), it was slow, did not felt like opus 4.6
-* This is lileraly the claw-* like OpenClaw, NanoClow,ZeroClaw, IronClaw, NemoClaw but from Anthorpic.
-* I guess technically it's a crab not a lobster :-) 
-* It can do all things in your machine, use chrome, open files, read files, all the things.
-* I asked to goto a folder an run some bash script I had and was able to do it. After dealing with apple security :-) 
-* It was smart enought to figureout my rust version but not smart enought to figureoput my java version - so I told him to go and check with sdkman after I tip it - them it found the right java (which was 25).
-* The cool thing is you have the same chat history in the computer and the phone.
-* I also asked to do some google search and lookup some restaurants for me and put in a sheet, it did a good job.
