@@ -1,5 +1,5 @@
 # ai-playground
-AI POCS: ML, NLP, KAN, Reinforcement Learning, audio, translation, object-detection, GAN, LLM, Vision, Stable Diffusion, Classification, Clustering, XGBoost, NM, RNN, CNN, Pytorch, DJL, DeepLearning4J, ONNX, Keras, Tensorflow, OpenCV, nltk, transformers, transformers.js, sentense-transformers, gradio, chroma, langchain, langchain4j, spring-ai, sklearn, gensim, BERTopic, gymnasium, seaborn, matplotlib, pandas, numpy, scipy, scikit-learn, gradio, chroma, langchain4j, spring-ai, gensim, BERTopic, stable-difussion, anthropic, aws bedrock, cohere, flax, superlinked, hmmlearn, gluonnlp, LM Studio, LocalAI, streamlit, Pinecone. And more... All things AI POCS.
+AI POCS: ML, NLP, KAN, Reinforcement Learning, audio, translation, object-detection, GAN, LLM, Vision, Stable Diffusion, Classification, Clustering, XGBoost, NM, RNN, CNN, Pytorch, DJL, DeepLearning4J, ONNX, Keras, Tensorflow, OpenCV, nltk, transformers, transformers.js, sentense-transformers, gradio, chroma, langchain, langchain4j, spring-ai, sklearn, gensim, BERTopic, gymnasium, seaborn, matplotlib, pandas, numpy, scipy, scikit-learn, stable-difussion, anthropic, aws bedrock, cohere, flax, superlinked, hmmlearn, gluonnlp, LM Studio, LocalAI, streamlit, Pinecone, claude-code, MCP, FastMCP, codex, copilot, gemini, grok, openai, GPT, agents, crewai, DSPy, ollama, openrouter, mastra, langgraph, langflow, litellm, portkey, jax, tinygrad, micrograd, diffusers, deepface, faiss, pgvector, pyspark, brain.js, SHAP, XAI, strands, dapr-agents, google-adk, A2A, spring-boot, swarms, klaw, beeai, mesa, n8n. And more... All things AI POCS.
 
 ## Diego's AI Explained: Making Sense of AI (Essay)
 
@@ -11,6 +11,26 @@ https://github.com/diegopacheco/ai-playground/blob/main/AI.Explained.DiegoPachec
 [Traditional AI](https://github.com/diegopacheco/ai-playground/blob/main/concepts/traditionalai.ipynb)
 
 [Generative AI](https://github.com/diegopacheco/ai-playground/blob/main/concepts/genai.ipynb)
+
+## Diego's AI POCs
+
+More than 440+ AI POCs covering ML, NLP, LLMs, Vision, Reinforcement Learning, RAG, Embeddings, and more.
+https://github.com/diegopacheco/ai-playground/tree/main/pocs
+
+## Diego's AI Agents
+
+106+ POCs on AI Agents, multi-agents, coding agents, agent frameworks, and agent architectures.
+https://github.com/diegopacheco/ai-playground/tree/main/agents
+
+## Diego's MCP
+
+MCP (Model Context Protocol) POCs and integrations. Custom MCP servers, MCP clients, Playwright MCP, FastMCP, GraphQL-Postgres MCP, Flux Kanban MCP, LLM Judges MCP, and more.
+https://github.com/diegopacheco/ai-playground/tree/main/mcp
+
+## Diego's Local Models
+
+Running LLMs locally on your own machine using LM Studio. POCs with Qwen 3.5 35B, Gemma 4 26B, GLM 4.7 Flash, CodeLlama 7B, and Llama 3. Includes shell functions to connect Claude Code to local models via LM Studio's OpenAI-compatible and Anthropic-compatible API.
+https://github.com/diegopacheco/ai-playground/tree/main/local-models
 
 ## Diego's Hugging Face Demos
 
