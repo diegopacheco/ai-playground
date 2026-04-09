@@ -1,0 +1,37 @@
+pocs/claude-dispatch/README.md
+  073ebe99f7657b25 1-42,44-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.6",
+  "base_commit_sha": "2411fe2fc0cb675e35af041362f273de7198dd88",
+  "prompts": {
+    "073ebe99f7657b25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "49306c84-a4b9-491c-8697-b83871e2b5a8",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 54,
+      "total_deletions": 0,
+      "accepted_lines": 54,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/66f9d0a0f582e799937eeca680cac1ad5d9c79e13b61f78bf2ab6e647e719177"
+    },
+    "c57dad1ad571e58d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8ec89de-c174-47fe-bcb0-b39adc0ece2f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 266,
+      "overriden_lines": 0
+    }
+  }
+}
