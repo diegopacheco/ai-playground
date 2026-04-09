@@ -1,0 +1,37 @@
+README.md
+  01ec610dcfdd0b37 2,15-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.6",
+  "base_commit_sha": "620532511cd4af0435f4165c0261801d451cdc75",
+  "prompts": {
+    "01ec610dcfdd0b37": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a7f28fe1-1247-46d3-bd54-f4fd8acc1f1f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 21,
+      "total_deletions": 1,
+      "accepted_lines": 21,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/55af78ce739f16ac59e6f1d8f463f260f787ba3cbcbf60e5b0d0e6f121f71abd"
+    },
+    "c57dad1ad571e58d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8ec89de-c174-47fe-bcb0-b39adc0ece2f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "diegopacheco",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 266,
+      "overriden_lines": 0
+    }
+  }
+}
