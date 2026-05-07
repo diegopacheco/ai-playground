@@ -1,0 +1,38 @@
+pocs/trailblaze-test-poc/sample-app/index.html
+  s_04dc84fce05434::t_25c18754e13f2e 1-45
+pocs/trailblaze-test-poc/trails/web.trail.yaml
+  s_04dc84fce05434::t_64592b195f8fec 1-15,17-31,33-38,40-45,47-61,63-77,79-89
+  s_04dc84fce05434::t_a46db7fbbe5ea6 16,32,39,46,62,78
+pocs/trailblaze-test-poc/install.sh
+  s_04dc84fce05434::t_217f329c949b2b 1-15
+pocs/trailblaze-test-poc/start.sh
+  s_04dc84fce05434::t_1f80224fc4ecbb 1-28
+pocs/trailblaze-test-poc/stop.sh
+  s_04dc84fce05434::t_5fecdf9c32ce06 1-17
+pocs/trailblaze-test-poc/test.sh
+  s_04dc84fce05434::t_8f75a45a9638ed 1-19,21-35
+  s_04dc84fce05434::t_4f662d56a38d4b 20
+pocs/trailblaze-test-poc/README.md
+  h_8e2c3875396153 1-85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "108770e100c6b4ac0ecf9ab907a22b229e3743e3",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_04dc84fce05434": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5ae1ae4d-5892-4d5e-9088-9eccd71ccb1e",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
