@@ -1,0 +1,13 @@
+{
+    "selectedTrailblazeDriverTypes": {
+        "ANDROID": "ANDROID_ONDEVICE_INSTRUMENTATION",
+        "IOS": "IOS_HOST",
+        "WEB": "PLAYWRIGHT_NATIVE"
+    },
+    "selectedTargetAppId": "default",
+    "llmProvider": "none",
+    "llmModel": "none",
+    "logsDirectory": "/Users/diegopacheco/git/diegopacheco/ai-playground/logs",
+    "trailsDirectory": "/Users/diegopacheco/git/diegopacheco/ai-playground/trails",
+    "appDataDirectory": "/Users/diegopacheco/git/diegopacheco/ai-playground/.trailblaze"
+}
