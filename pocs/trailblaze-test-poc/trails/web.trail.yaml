@@ -1,0 +1,89 @@
+- config:
+    title: 'Counter interaction'
+    platform: web
+    driver: PLAYWRIGHT_NATIVE
+- prompts:
+  - step: Navigate to the local sample app
+    recording:
+      tools:
+      - web_navigate:
+          url: http://localhost:8080/
+          reasoning: Open the sample app served locally so we can drive its counter UI.
+  - step: Click the Counter navigation link
+    recording:
+      tools:
+      - web_click:
+          ref: e1
+          element: link "Counter"
+          reasoning: Move focus to the Counter section.
+          nodeSelector:
+            web:
+              cssSelector: "#nav-counter"
+  - step: Verify the counter starts at 0
+    recording:
+      tools:
+      - web_verify_text_visible:
+          text: 'Current value: 0'
+          reasoning: Initial render must show zero before any interaction.
+  - step: Click Increment three times
+    recording:
+      tools:
+      - web_click:
+          ref: e2
+          element: button "Increment"
+          reasoning: First increment.
+          nodeSelector:
+            web:
+              cssSelector: "#increment-btn"
+      - web_click:
+          ref: e2
+          element: button "Increment"
+          reasoning: Second increment.
+          nodeSelector:
+            web:
+              cssSelector: "#increment-btn"
+      - web_click:
+          ref: e2
+          element: button "Increment"
+          reasoning: Third increment.
+          nodeSelector:
+            web:
+              cssSelector: "#increment-btn"
+  - step: Verify the counter shows 3
+    recording:
+      tools:
+      - web_verify_text_visible:
+          text: 'Current value: 3'
+          reasoning: Three increments from zero must equal three.
+  - step: Click Decrement once
+    recording:
+      tools:
+      - web_click:
+          ref: e3
+          element: button "Decrement"
+          reasoning: Decrement back to two.
+          nodeSelector:
+            web:
+              cssSelector: "#decrement-btn"
+  - step: Verify the counter shows 2
+    recording:
+      tools:
+      - web_verify_text_visible:
+          text: 'Current value: 2'
+          reasoning: After one decrement from three the value must be two.
+  - step: Click Reset
+    recording:
+      tools:
+      - web_click:
+          ref: e4
+          element: button "Reset"
+          reasoning: Reset must return the counter to zero.
+          nodeSelector:
+            web:
+              cssSelector: "#reset-btn"
+  - step: Verify the counter is back at 0
+    recording:
+      tools:
+      - web_verify_text_visible:
+          text: 'Current value: 0'
+          reasoning: Reset must leave the counter at zero.

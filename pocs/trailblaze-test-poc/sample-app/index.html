@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Trailblaze POC - Counter</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 2rem; }
+  nav a { margin-right: 1rem; }
+  section { margin-top: 2rem; }
+  button { font-size: 1.2rem; padding: 0.4rem 0.8rem; margin-right: 0.5rem; }
+  #counter-value { font-size: 1.5rem; font-weight: bold; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Trailblaze POC</h1>
+  <nav>
+    <a id="nav-home" href="#home">Home</a>
+    <a id="nav-counter" href="#counter">Counter</a>
+  </nav>
+</header>
+
+<section id="home">
+  <h2>Home</h2>
+  <p>Welcome to the Trailblaze POC.</p>
+</section>
+
+<section id="counter">
+  <h2>Counter</h2>
+  <p id="counter-value">Current value: 0</p>
+  <button id="decrement-btn" aria-label="Decrement">-</button>
+  <button id="increment-btn" aria-label="Increment">+</button>
+  <button id="reset-btn" aria-label="Reset">Reset</button>
+</section>
+
+<script>
+  let value = 0;
+  const display = document.getElementById('counter-value');
+  const render = () => { display.textContent = 'Current value: ' + value; };
+  document.getElementById('increment-btn').addEventListener('click', () => { value += 1; render(); });
+  document.getElementById('decrement-btn').addEventListener('click', () => { value -= 1; render(); });
+  document.getElementById('reset-btn').addEventListener('click', () => { value = 0; render(); });
+</script>
+</body>
+</html>
