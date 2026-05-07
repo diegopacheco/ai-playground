@@ -1,0 +1,20 @@
+.trailblaze/trailblaze-settings.json
+  s_04dc84fce05434::t_16c6b2cf15fced 1-7,10-13
+  s_04dc84fce05434::t_3f6b54035ef70e 8-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "b3f58ae985e73b203760f9486b29405b9cfa2ab3",
+  "prompts": {},
+  "sessions": {
+    "s_04dc84fce05434": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5ae1ae4d-5892-4d5e-9088-9eccd71ccb1e",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
