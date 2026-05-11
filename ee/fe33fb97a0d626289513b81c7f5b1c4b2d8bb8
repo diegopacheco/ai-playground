@@ -1,0 +1,19 @@
+agents/claude-managed-agents.md
+  s_3a892993e4d8bb::t_7d9fcf5d6abd8a 1-70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "eefe33fb97a0d626289513b81c7f5b1c4b2d8bb8",
+  "prompts": {},
+  "sessions": {
+    "s_3a892993e4d8bb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5f81a479-27f9-4dcc-8af7-5e5730bce249",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
