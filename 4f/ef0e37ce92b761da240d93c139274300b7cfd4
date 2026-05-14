@@ -1,0 +1,104 @@
+pocs/repo-mcp-poc/src/tools/read_file.ts
+  s_1d786686075786::t_6bf2bbf922f759 1-46
+pocs/repo-mcp-poc/src/paths.ts
+  s_1d786686075786::t_0d9cafc67b3329 1-29
+pocs/repo-mcp-poc/src/tools/git_log.ts
+  s_1d786686075786::t_00e94ef216093b 1-17
+pocs/repo-mcp-poc/design-doc.md
+  s_1d786686075786::t_f83ddd56a0c645 134-137,139,141
+  s_1d786686075786::t_04b83e1851864f 283
+  s_1d786686075786::t_d8846f73f0d493 285-293,295-297
+  s_1d786686075786::t_0b6b202e555105 294
+  s_1d786686075786::t_cdf29f8879d230 66
+  s_1d786686075786::t_fb7a934071b2ee 106
+  s_1d786686075786::t_fd99f1d072fafe 51
+  s_1d786686075786::t_cf7e4665f27826 142
+  s_1d786686075786::t_06a6b98b73317c 147
+  s_1d786686075786::t_bd07b34cfc1826 174
+  s_1d786686075786::t_9b77f26f4e68d3 189-193,197-227,229-244
+  s_1d786686075786::t_9bcb32749e779d 303-305
+  s_1d786686075786::t_f35f0511a7789d 156
+  s_1d786686075786::t_e703ae854d5c70 160
+  s_1d786686075786::t_70131522febb9d 77-81
+  s_1d786686075786::t_8aa9872c0730ef 53
+  s_1d786686075786::t_292d0a98bf00c8 278
+  s_1d786686075786::t_5d26b9ca5f4023 171-173,175-186
+  s_1d786686075786::t_ac09ea808f78ed 266-268
+  s_1d786686075786::t_c08b42bea01c4e 71-73
+  s_1d786686075786::t_2aac6a62a82a3e 153-155
+  s_1d786686075786::t_1d8a285332360d 299
+  s_1d786686075786::t_aff2ea8f8234d4 1-50,52,54-65,67-70,74-76,82-105,107-133,138,140,143-146,148-152,157-159,161-170,187-188,194-196,228,245-265,269-277,279-282,284,298,300-302,306-308
+pocs/repo-mcp-poc/install.sh
+  s_1d786686075786::t_f1da9245275424 55,57-61,70,72
+  s_1d786686075786::t_1497cc7c108878 1-54,56,62-69,71,73-84
+pocs/repo-mcp-poc/tsconfig.json
+  s_1d786686075786::t_761dab8cb2fc48 6-7
+  s_1d786686075786::t_6eff17cf507a68 1-5,8-17
+pocs/repo-mcp-poc/src/registry.ts
+  s_1d786686075786::t_20219dfb1b8b44 1-41
+pocs/repo-mcp-poc/src/tools/add_repo.ts
+  s_1d786686075786::t_14c2c08330d516 1-29
+pocs/repo-mcp-poc/src/tools/tree.ts
+  s_1d786686075786::t_b678d9bfe3afdb 1-41
+pocs/repo-mcp-poc/src/tools/remove_repo.ts
+  s_1d786686075786::t_7a773302abdf49 1-13
+pocs/repo-mcp-poc/src/tools/grep.ts
+  s_1d786686075786::t_37e4d2d5c7347d 1-63
+pocs/repo-mcp-poc/src/tools/list_files.ts
+  s_1d786686075786::t_3efa9400156e13 1-14
+pocs/repo-mcp-poc/src/server.ts
+  s_1d786686075786::t_4d01810131e150 1-96
+pocs/repo-mcp-poc/.gitignore
+  s_1d786686075786::t_cc6642da17cc6c 1-3
+pocs/repo-mcp-poc/src/tools/list_repos.ts
+  s_1d786686075786::t_34c29d46ec66ac 1-17
+pocs/repo-mcp-poc/README.md
+  s_09b205b4b42109::t_03810ead9339bf 1-2,5-6
+  s_09b205b4b42109::t_9750046eb9b5d8 3-4
+  h_8e2c3875396153 7-204
+pocs/repo-mcp-poc/src/tools/repo_info.ts
+  s_1d786686075786::t_54089631d1dcc2 1-36
+pocs/repo-mcp-poc/src/freshness.ts
+  s_1d786686075786::t_ddf083d9a5bf78 1-79
+pocs/repo-mcp-poc/package.json
+  s_1d786686075786::t_a3a534d1f01ef1 1-23
+pocs/repo-mcp-poc/src/git.ts
+  s_1d786686075786::t_6620140ac870be 1-29
+pocs/repo-mcp-poc/src/filter.ts
+  s_1d786686075786::t_3ea61fe4fa6848 1-39
+pocs/repo-mcp-poc/src/index.ts
+  s_1d786686075786::t_ec30b569f91bdd 1-13
+pocs/repo-mcp-poc/src/cli-add.ts
+  s_1d786686075786::t_5a0f97d935ccec 1-17
+pocs/repo-mcp-poc/uninstall.sh
+  s_1d786686075786::t_3302146060d54c 1-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "4fef0e37ce92b761da240d93c139274300b7cfd4",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_09b205b4b42109": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7389e1ed-6596-4b7d-aab7-5f8eed7305eb",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_1d786686075786": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7b537aa3-554d-4949-ab95-07e64b5ea99c",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
