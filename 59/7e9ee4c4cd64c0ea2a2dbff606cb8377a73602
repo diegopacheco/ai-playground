@@ -1,0 +1,19 @@
+mcp/README.md
+  s_2916cce825a0ad::t_b9bb9885220117 63-72,80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "597e9ee4c4cd64c0ea2a2dbff606cb8377a73602",
+  "prompts": {},
+  "sessions": {
+    "s_2916cce825a0ad": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c5c46161-a96d-42af-860a-10a192a19822",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
