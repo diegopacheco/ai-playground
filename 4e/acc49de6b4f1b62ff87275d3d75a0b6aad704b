@@ -1,0 +1,19 @@
+agents/harness-patterns.md
+  s_f55e902084eee4::t_2aee9f15600501 1-180
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "4eacc49de6b4f1b62ff87275d3d75a0b6aad704b",
+  "prompts": {},
+  "sessions": {
+    "s_f55e902084eee4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1df8d07d-811f-4b0c-9e6a-a6206876ab3d",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
