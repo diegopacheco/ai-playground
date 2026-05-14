@@ -60,6 +60,16 @@ What it does:
 - Includes an MCP client that connects to the server, lists tools/resources/prompts, and calls each one printing results.
 - Uses pure FastMCP with no extra dependencies like litellm or dspy.
 
+### 7. `repo-mcp-poc`
+
+MCP server for exposing local git repositories to AI clients. <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/repo-mcp-poc
+
+What it does:
+- Provides MCP tools to register, list, and remove local git repositories.
+- Exposes repo browsing (tree, list files, read file), search (grep), and git log inspection through MCP.
+- Lets AI clients query repository contents and history without leaving the MCP interface.
+
 ## Notes
 
 - `graph-postgres-mcp` is a POC for a custom MCP server implementation.
@@ -67,3 +77,4 @@ What it does:
 - `claude-code-mcp-playwright-fun` is a Playwright MCP usage project and testing workflow.
 - `llm-judges` is an POC for a LLM-as-judge MCP server design/specification.
 - `fastmcp-fun` is a FastMCP-based MCP server and client in Python.
+- `repo-mcp-poc` is an MCP server that exposes local git repositories for AI-driven browsing and search.
