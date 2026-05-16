@@ -1,0 +1,13 @@
+{
+  "name": "copilotkit-fun-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@copilotkit/runtime": "^1.8.14",
+    "express": "^4.21.2",
+    "openai": "^4.77.0"
+  }
+}

@@ -1,0 +1,24 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - heading "Stock Insight Copilot" [level=1] [ref=e5]
+    - paragraph [ref=e6]: Ask the assistant about a stock to see its price and nearest branch.
+  - generic [ref=e10]:
+    - generic [ref=e11]:
+      - generic [ref=e13]:
+        - generic [ref=e15]: Hi! Ask me about a stock like "show me Apple" or "what's Tesla's price?" and I'll bring up the widget.
+        - generic [ref=e16]:
+          - button "Regenerate response" [ref=e17] [cursor=pointer]:
+            - img
+          - button "Copy to clipboard" [ref=e18] [cursor=pointer]:
+            - img
+          - button "Thumbs up" [ref=e19] [cursor=pointer]:
+            - img
+          - button "Thumbs down" [ref=e20] [cursor=pointer]:
+            - img
+      - contentinfo [ref=e21]
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - textbox "Type a message..." [ref=e24]
+        - button "Send" [disabled] [ref=e27]:
+          - img [ref=e28]
+      - paragraph [ref=e31]: Powered by CopilotKit
