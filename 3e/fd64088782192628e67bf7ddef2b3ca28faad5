@@ -1,0 +1,64 @@
+pocs/copilotkit-fun/frontend/vite.config.js
+  s_d69d33d5557f9f::t_a50e7482f26ebe 1-12
+pocs/copilotkit-fun/frontend/package.json
+  s_d69d33d5557f9f::t_ea7a303cbad2d4 1-22
+pocs/copilotkit-fun/README.md
+  s_4197d5b8ef2b93::t_a4d422fcf1dab0 3-5
+  s_4197d5b8ef2b93::t_3fe42b21c5ddc0 1-2,6-43
+pocs/copilotkit-fun/frontend/src/StockWidget.jsx
+  s_d69d33d5557f9f::t_65c9a2290e0f0e 1-30
+pocs/copilotkit-fun/frontend/src/App.jsx
+  s_d69d33d5557f9f::t_ada2c759ef7013 3,9,18-21,42-43,50-60,65,71,73-92
+  s_d69d33d5557f9f::t_427256a8947de3 1-2,4-8,10-17,22-41,44-49,61-64,66-70,72,93-96
+pocs/copilotkit-fun/frontend/src/main.jsx
+  s_d69d33d5557f9f::t_3da096bfbefc91 9
+  s_d69d33d5557f9f::t_d55eaec2a49a81 10
+  s_d69d33d5557f9f::t_6d7844d977836f 1-8,11-12
+pocs/copilotkit-fun/stop.sh
+  s_d69d33d5557f9f::t_aaff45f11daa35 1-25
+pocs/copilotkit-fun/frontend/src/styles.css
+  s_d69d33d5557f9f::t_1fcd1ffda3359d 3-6,14-15,17-19,23,27,38-51,54-64,66-67,70-91,94,97-99,102-110,113-114,121,130,134,153-154,157,159,167,169,179,184-185,191-193,196,199,201,221
+  s_d69d33d5557f9f::t_f95b15f49f044e 1-2,7-13,16,20-22,24-26,28-37,52-53,65,68-69,92-93,95-96,100-101,111-112,115-120,122-129,131-133,135-152,155-156,158,160-166,168,170-178,180-183,186-190,194-195,197-198,200,202-206,220,222
+  s_d69d33d5557f9f::t_3d683b406a7e96 207-219
+pocs/copilotkit-fun/eslint.config.js
+  s_d69d33d5557f9f::t_774f8c15fd8581 1-28
+pocs/copilotkit-fun/frontend/index.html
+  s_d69d33d5557f9f::t_6f550f65efa163 1-13
+pocs/copilotkit-fun/backend/package.json
+  s_d69d33d5557f9f::t_f5d39a2b9b6425 1-13
+pocs/copilotkit-fun/run.sh
+  s_d69d33d5557f9f::t_05cd6c6cecb768 1-30
+pocs/copilotkit-fun/backend/server.js
+  s_d69d33d5557f9f::t_b14c1726703c35 1,10-69,83,89-91
+  s_d69d33d5557f9f::t_964a73a85dee69 79-80
+  s_d69d33d5557f9f::t_56171e95eac5e7 3-9
+  s_d69d33d5557f9f::t_6a566376b4af52 70-73,76
+  s_d69d33d5557f9f::t_6fcc5f7907dfa2 2,74-75,77-78,81-82,84-88
+pocs/copilotkit-fun/frontend/src/BranchMap.jsx
+  s_d69d33d5557f9f::t_c817fa2b3ae4dd 5-17,20-25
+  s_d69d33d5557f9f::t_d31720f2fa0a25 1-4,18-19,26-98
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "3efd64088782192628e67bf7ddef2b3ca28faad5",
+  "prompts": {},
+  "sessions": {
+    "s_4197d5b8ef2b93": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7e0a9de8-d264-49bd-9a39-722954da2e62",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_d69d33d5557f9f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e8b64f9-acb3-40e8-a356-17d3c78e8ed5",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
