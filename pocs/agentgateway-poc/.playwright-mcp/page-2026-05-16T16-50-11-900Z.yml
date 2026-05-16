@@ -1,0 +1,144 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: Configuration is managed by an external source (XDS). Editing the configuration is not allowed via the UI.
+  - main [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e8]:
+        - generic [ref=e10]:
+          - img [ref=e11]
+          - generic [ref=e22]: agentgateway
+        - generic [ref=e24]:
+          - generic [ref=e25]: Navigation
+          - list [ref=e27]:
+            - listitem [ref=e28]:
+              - button "Home" [ref=e29] [cursor=pointer]:
+                - img [ref=e30]
+                - generic [ref=e33]: Home
+            - listitem [ref=e34]:
+              - button "Port Binds & Listeners" [ref=e35] [cursor=pointer]:
+                - img [ref=e36]
+                - generic [ref=e38]: Listeners
+                - generic: "1"
+            - listitem [ref=e39]:
+              - button "Routes" [ref=e40] [cursor=pointer]:
+                - img [ref=e41]
+                - generic [ref=e45]: Routes
+                - generic: "1"
+            - listitem [ref=e46]:
+              - button "Backends" [ref=e47] [cursor=pointer]:
+                - img [ref=e48]
+                - generic [ref=e51]: Backends
+                - generic: "1"
+            - listitem [ref=e52]:
+              - button "Policies" [ref=e53] [cursor=pointer]:
+                - img [ref=e54]
+                - generic [ref=e56]: Policies
+            - listitem [ref=e57]:
+              - button "Playground" [ref=e58] [cursor=pointer]:
+                - img [ref=e59]
+                - generic [ref=e62]: Playground
+            - listitem [ref=e63]:
+              - button "CEL Playground" [ref=e64] [cursor=pointer]:
+                - img [ref=e65]
+                - generic [ref=e67]: CEL Playground
+        - list [ref=e69]:
+          - listitem [ref=e70]:
+            - button "Restart Setup Wizard" [ref=e71] [cursor=pointer]:
+              - img [ref=e72]
+              - generic [ref=e75]: Restart Setup
+          - listitem [ref=e76]:
+            - button "Toggle Theme" [ref=e77] [cursor=pointer]:
+              - button "Toggle Theme Toggle theme" [ref=e78]:
+                - generic [ref=e79]:
+                  - img [ref=e81]
+                  - generic [ref=e87]: Toggle Theme
+                  - generic [ref=e88]: Toggle theme
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - heading "Playground" [level=1] [ref=e92]
+            - paragraph [ref=e93]: Test your configured routes and backends
+          - generic [ref=e94]:
+            - generic [ref=e95]:
+              - generic [ref=e96]:
+                - generic [ref=e97]:
+                  - img [ref=e98]
+                  - text: Routes
+                - generic [ref=e101]: 1 route available
+              - generic [ref=e104]:
+                - generic [ref=e106]:
+                  - generic [ref=e107]:
+                    - img [ref=e108]
+                    - generic [ref=e111]: unnamed
+                    - generic [ref=e112]: Port 80
+                  - generic [ref=e113]: http://localhost:80/
+                - generic [ref=e116] [cursor=pointer]:
+                  - generic [ref=e117]:
+                    - generic [ref=e118]:
+                      - generic [ref=e119]: openai
+                      - generic [ref=e120]: /*
+                    - generic [ref=e122]:
+                      - generic [ref=e123]:
+                        - img [ref=e124]
+                        - generic [ref=e127]: 1 backend
+                      - generic [ref=e129]: AI
+                  - img [ref=e130]
+            - generic [ref=e132]:
+              - generic [ref=e133]:
+                - generic [ref=e134]:
+                  - img [ref=e135]
+                  - text: Testing
+                - generic [ref=e138]: Test http backend
+              - generic [ref=e140]:
+                - generic [ref=e141]:
+                  - generic [ref=e142]:
+                    - img [ref=e143]
+                    - generic [ref=e146]: Request URL
+                  - generic [ref=e147]: http://localhost:80/
+                - generic [ref=e148]:
+                  - generic [ref=e149]:
+                    - generic [ref=e150]: HTTP Method
+                    - combobox [ref=e151]:
+                      - generic: GET
+                      - img
+                  - generic [ref=e152]:
+                    - generic [ref=e153]: Request Path
+                    - generic [ref=e154]:
+                      - textbox "/path" [ref=e155]: /
+                      - button "Send" [ref=e156]:
+                        - img
+                        - text: Send
+                - generic [ref=e157]:
+                  - heading "Route Configuration" [level=4] [ref=e158]:
+                    - img [ref=e159]
+                    - text: Route Configuration
+                  - generic [ref=e162]:
+                    - generic [ref=e163]:
+                      - generic [ref=e164]: "Name:"
+                      - generic [ref=e165]: openai
+                    - generic [ref=e166]:
+                      - generic [ref=e167]: "Listener:"
+                      - generic [ref=e168]: Unnamed
+                    - generic [ref=e169]:
+                      - generic [ref=e170]: "Port:"
+                      - generic [ref=e171]: "80"
+                    - generic [ref=e172]:
+                      - generic [ref=e173]: "Route Pattern:"
+                      - generic [ref=e175]: /*
+                    - generic [ref=e176]:
+                      - text: "Backends:"
+                      - generic [ref=e178]:
+                        - img [ref=e179]
+                        - generic [ref=e182]: AI
+                        - generic [ref=e183]: agentgateway-system/openai
+                - generic [ref=e184]:
+                  - tablist [ref=e185]:
+                    - tab "Headers" [selected] [ref=e186]
+                    - tab "Query" [ref=e187]
+                    - tab "Body" [ref=e188]
+                  - tabpanel "Headers" [ref=e189]:
+                    - generic [ref=e190]:
+                      - textbox "Header name" [ref=e191]
+                      - textbox "Header value" [ref=e192]
+                      - button "Add" [ref=e193]
+    - region "Notifications alt+T"
+  - alert [ref=e194]

@@ -1,0 +1,115 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: Configuration is managed by an external source (XDS). Editing the configuration is not allowed via the UI.
+  - main [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e8]:
+        - generic [ref=e10]:
+          - img [ref=e11]
+          - generic [ref=e22]: agentgateway
+        - generic [ref=e24]:
+          - generic [ref=e25]: Navigation
+          - list [ref=e27]:
+            - listitem [ref=e28]:
+              - button "Home" [ref=e29] [cursor=pointer]:
+                - img [ref=e30]
+                - generic [ref=e33]: Home
+            - listitem [ref=e34]:
+              - button "Port Binds & Listeners" [ref=e35] [cursor=pointer]:
+                - img [ref=e36]
+                - generic [ref=e38]: Listeners
+                - generic: "1"
+            - listitem [ref=e39]:
+              - button "Routes" [ref=e40] [cursor=pointer]:
+                - img [ref=e41]
+                - generic [ref=e45]: Routes
+                - generic: "1"
+            - listitem [ref=e46]:
+              - button "Backends" [ref=e47] [cursor=pointer]:
+                - img [ref=e48]
+                - generic [ref=e51]: Backends
+                - generic: "1"
+            - listitem [ref=e52]:
+              - button "Policies" [ref=e53] [cursor=pointer]:
+                - img [ref=e54]
+                - generic [ref=e56]: Policies
+            - listitem [ref=e57]:
+              - button "Playground" [ref=e58] [cursor=pointer]:
+                - img [ref=e59]
+                - generic [ref=e62]: Playground
+            - listitem [ref=e63]:
+              - button "CEL Playground" [ref=e64] [cursor=pointer]:
+                - img [ref=e65]
+                - generic [ref=e67]: CEL Playground
+        - list [ref=e69]:
+          - listitem [ref=e70]:
+            - button "Restart Setup Wizard" [ref=e71] [cursor=pointer]:
+              - img [ref=e72]
+              - generic [ref=e75]: Restart Setup
+          - listitem [ref=e76]:
+            - button "Toggle Theme" [ref=e77] [cursor=pointer]:
+              - button "Toggle Theme Toggle theme" [ref=e78]:
+                - generic [ref=e79]:
+                  - img [ref=e81]
+                  - generic [ref=e87]: Toggle Theme
+                  - generic [ref=e88]: Toggle theme
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e92]:
+            - generic [ref=e93]:
+              - img [ref=e94]
+              - generic [ref=e98]:
+                - heading "Backends" [level=1] [ref=e99]
+                - paragraph [ref=e100]: Configure backend services including MCP targets, AI providers, and service connections
+            - generic [ref=e101]:
+              - generic [ref=e104]: 1 total backend
+              - generic [ref=e107]: 1 AI
+          - generic [ref=e108]:
+            - generic [ref=e109]:
+              - button "Add Backend" [disabled]:
+                - img
+                - text: Add Backend
+            - generic [ref=e112]:
+              - generic [ref=e114] [cursor=pointer]:
+                - generic [ref=e115]:
+                  - img [ref=e116]
+                  - generic [ref=e118]:
+                    - heading "Port 80" [level=3] [ref=e119]
+                    - generic [ref=e121]:
+                      - img [ref=e122]
+                      - generic [ref=e130]: 1 AI
+                - generic [ref=e131]: 1 backends
+              - table [ref=e135]:
+                - rowgroup [ref=e136]:
+                  - row "Name Type Listener Route Details Weight Actions" [ref=e137]:
+                    - columnheader "Name" [ref=e138]
+                    - columnheader "Type" [ref=e139]
+                    - columnheader "Listener" [ref=e140]
+                    - columnheader "Route" [ref=e141]
+                    - columnheader "Details" [ref=e142]
+                    - columnheader "Weight" [ref=e143]
+                    - columnheader "Actions" [ref=e144]
+                - rowgroup [ref=e145]:
+                  - 'row "agentgateway-system/openai ai unnamed openai Provider: openAI Model: gpt-4o-mini 1" [ref=e146]':
+                    - cell "agentgateway-system/openai" [ref=e147]
+                    - cell "ai" [ref=e148]:
+                      - generic [ref=e149]:
+                        - img
+                        - generic [ref=e150]: ai
+                    - cell "unnamed" [ref=e151]:
+                      - generic [ref=e152]: unnamed
+                    - cell "openai" [ref=e153]:
+                      - generic [ref=e154]: openai
+                    - 'cell "Provider: openAI Model: gpt-4o-mini" [ref=e155]':
+                      - generic [ref=e156]:
+                        - generic [ref=e157]: "Provider: openAI"
+                        - generic [ref=e158]: "Model: gpt-4o-mini"
+                    - cell "1" [ref=e159]:
+                      - generic [ref=e160]: "1"
+                    - cell [ref=e161]:
+                      - generic [ref=e162]:
+                        - button [disabled]:
+                          - img
+                        - button [disabled]:
+                          - img
+    - region "Notifications alt+T"
+  - alert [ref=e163]

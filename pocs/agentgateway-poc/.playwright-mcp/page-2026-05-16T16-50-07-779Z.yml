@@ -1,0 +1,100 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: Configuration is managed by an external source (XDS). Editing the configuration is not allowed via the UI.
+  - main [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e8]:
+        - generic [ref=e10]:
+          - img [ref=e11]
+          - generic [ref=e22]: agentgateway
+        - generic [ref=e24]:
+          - generic [ref=e25]: Navigation
+          - list [ref=e27]:
+            - listitem [ref=e28]:
+              - button "Home" [ref=e29] [cursor=pointer]:
+                - img [ref=e30]
+                - generic [ref=e33]: Home
+            - listitem [ref=e34]:
+              - button "Port Binds & Listeners" [ref=e35] [cursor=pointer]:
+                - img [ref=e36]
+                - generic [ref=e38]: Listeners
+                - generic: "1"
+            - listitem [ref=e39]:
+              - button "Routes" [ref=e40] [cursor=pointer]:
+                - img [ref=e41]
+                - generic [ref=e45]: Routes
+                - generic: "1"
+            - listitem [ref=e46]:
+              - button "Backends" [ref=e47] [cursor=pointer]:
+                - img [ref=e48]
+                - generic [ref=e51]: Backends
+                - generic: "1"
+            - listitem [ref=e52]:
+              - button "Policies" [ref=e53] [cursor=pointer]:
+                - img [ref=e54]
+                - generic [ref=e56]: Policies
+            - listitem [ref=e57]:
+              - button "Playground" [ref=e58] [cursor=pointer]:
+                - img [ref=e59]
+                - generic [ref=e62]: Playground
+            - listitem [ref=e63]:
+              - button "CEL Playground" [ref=e64] [cursor=pointer]:
+                - img [ref=e65]
+                - generic [ref=e67]: CEL Playground
+        - list [ref=e69]:
+          - listitem [ref=e70]:
+            - button "Restart Setup Wizard" [ref=e71] [cursor=pointer]:
+              - img [ref=e72]
+              - generic [ref=e75]: Restart Setup
+          - listitem [ref=e76]:
+            - button "Toggle Theme" [ref=e77] [cursor=pointer]:
+              - button "Toggle Theme Toggle theme" [ref=e78]:
+                - generic [ref=e79]:
+                  - img [ref=e81]
+                  - generic [ref=e87]: Toggle Theme
+                  - generic [ref=e88]: Toggle theme
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e93]:
+            - img [ref=e94]
+            - generic [ref=e96]:
+              - heading "Policies" [level=1] [ref=e97]
+              - paragraph [ref=e98]: Configure security, traffic, and routing policies for your routes
+          - generic [ref=e99]:
+            - generic [ref=e100]:
+              - heading "Applied policies (non-inline)" [level=2] [ref=e101]
+              - generic [ref=e102]: XDS
+            - paragraph [ref=e103]: These are non-inline policies that can be applied to different targets.
+            - generic [ref=e106]: No non-route applied policies found.
+          - generic [ref=e110]:
+            - generic [ref=e112] [cursor=pointer]:
+              - generic [ref=e113]:
+                - img [ref=e114]
+                - generic [ref=e116]:
+                  - heading "Port 80" [level=3] [ref=e117]
+                  - paragraph [ref=e118]: 1 route available
+              - generic [ref=e119]: 1 routes
+            - table [ref=e123]:
+              - rowgroup [ref=e124]:
+                - row "Route Type Listener Path/Hostnames Policies Actions" [ref=e125]:
+                  - columnheader "Route" [ref=e126]
+                  - columnheader "Type" [ref=e127]
+                  - columnheader "Listener" [ref=e128]
+                  - columnheader "Path/Hostnames" [ref=e129]
+                  - columnheader "Policies" [ref=e130]
+                  - columnheader "Actions" [ref=e131]
+              - rowgroup [ref=e132]:
+                - row "openai HTTP Unnamed /* 0 policies Select" [ref=e133]:
+                  - cell "openai" [ref=e134]
+                  - cell "HTTP" [ref=e135]:
+                    - generic [ref=e136]: HTTP
+                  - cell "Unnamed" [ref=e137]:
+                    - generic [ref=e138]: Unnamed
+                  - cell "/*" [ref=e139]
+                  - cell "0 policies" [ref=e140]:
+                    - generic [ref=e141]: 0 policies
+                  - cell "Select" [ref=e142]:
+                    - button "Select" [ref=e143]:
+                      - img
+                      - text: Select
+    - region "Notifications alt+T"
+  - alert [ref=e144]

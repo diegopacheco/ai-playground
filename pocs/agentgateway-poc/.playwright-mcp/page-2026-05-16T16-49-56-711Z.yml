@@ -1,0 +1,129 @@
+- generic [ref=e1]:
+  - generic [ref=e2]: Configuration is managed by an external source (XDS). Editing the configuration is not allowed via the UI.
+  - main [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e8]:
+        - generic [ref=e10]:
+          - img [ref=e11]
+          - generic [ref=e22]: agentgateway
+        - generic [ref=e24]:
+          - generic [ref=e25]: Navigation
+          - list [ref=e27]:
+            - listitem [ref=e28]:
+              - button "Home" [ref=e29] [cursor=pointer]:
+                - img [ref=e30]
+                - generic [ref=e33]: Home
+            - listitem [ref=e34]:
+              - button "Port Binds & Listeners" [active] [ref=e35] [cursor=pointer]:
+                - img [ref=e36]
+                - generic [ref=e38]: Listeners
+                - generic: "1"
+            - listitem [ref=e39]:
+              - button "Routes" [ref=e40] [cursor=pointer]:
+                - img [ref=e41]
+                - generic [ref=e45]: Routes
+                - generic: "1"
+            - listitem [ref=e46]:
+              - button "Backends" [ref=e47] [cursor=pointer]:
+                - img [ref=e48]
+                - generic [ref=e51]: Backends
+                - generic: "1"
+            - listitem [ref=e52]:
+              - button "Policies" [ref=e53] [cursor=pointer]:
+                - img [ref=e54]
+                - generic [ref=e56]: Policies
+            - listitem [ref=e57]:
+              - button "Playground" [ref=e58] [cursor=pointer]:
+                - img [ref=e59]
+                - generic [ref=e62]: Playground
+            - listitem [ref=e63]:
+              - button "CEL Playground" [ref=e64] [cursor=pointer]:
+                - img [ref=e65]
+                - generic [ref=e67]: CEL Playground
+        - list [ref=e69]:
+          - listitem [ref=e70]:
+            - button "Restart Setup Wizard" [ref=e71] [cursor=pointer]:
+              - img [ref=e72]
+              - generic [ref=e75]: Restart Setup
+          - listitem [ref=e76]:
+            - button "Toggle Theme" [ref=e77] [cursor=pointer]:
+              - button "Toggle Theme Toggle theme" [ref=e78]:
+                - generic [ref=e79]:
+                  - img [ref=e81]
+                  - generic [ref=e87]: Toggle Theme
+                  - generic [ref=e88]: Toggle theme
+      - main [ref=e89]:
+        - generic [ref=e235]:
+          - generic [ref=e237]:
+            - generic [ref=e238]:
+              - img [ref=e239]
+              - generic [ref=e244]:
+                - heading "Port Binds & Listeners" [level=1] [ref=e245]
+                - paragraph [ref=e246]: Configure port bindings and manage listeners for your gateway
+            - generic [ref=e247]:
+              - generic [ref=e250]: 1 port bind
+              - generic [ref=e253]: 1 listener
+          - generic [ref=e254]:
+            - generic [ref=e255]:
+              - button "Add Bind" [disabled]:
+                - img
+                - text: Add Bind
+            - generic [ref=e258]:
+              - generic [ref=e260] [cursor=pointer]:
+                - generic [ref=e261]:
+                  - img [ref=e262]
+                  - generic [ref=e264]:
+                    - img [ref=e265]
+                    - generic [ref=e270]:
+                      - heading "Port 80" [level=3] [ref=e271]
+                      - paragraph [ref=e272]: 1 listener
+                - generic [ref=e273]:
+                  - generic [ref=e274]: "80"
+                  - button [disabled]:
+                    - img
+              - generic [ref=e276]:
+                - generic [ref=e277]:
+                  - heading "Listeners on Port 80" [level=4] [ref=e278]
+                  - button "Add Listener" [disabled]:
+                    - img
+                    - text: Add Listener
+                - table [ref=e281]:
+                  - rowgroup [ref=e282]:
+                    - row "Name Protocol Hostname Endpoint Backends TLS Policies Actions" [ref=e283]:
+                      - columnheader "Name" [ref=e284]
+                      - columnheader "Protocol" [ref=e285]
+                      - columnheader "Hostname" [ref=e286]
+                      - columnheader "Endpoint" [ref=e287]
+                      - columnheader "Backends" [ref=e288]
+                      - columnheader "TLS" [ref=e289]
+                      - columnheader "Policies" [ref=e290]
+                      - columnheader "Actions" [ref=e291]
+                  - rowgroup [ref=e292]:
+                    - row "listener-1 unnamed HTTP localhost http://localhost:80 1 backend TLS View Policies" [ref=e293]:
+                      - cell "listener-1 unnamed" [ref=e294]:
+                        - generic [ref=e295]:
+                          - generic [ref=e296]: listener-1
+                          - generic [ref=e297]: unnamed
+                      - cell "HTTP" [ref=e298]:
+                        - generic [ref=e299]: HTTP
+                      - cell "localhost" [ref=e300]
+                      - cell "http://localhost:80" [ref=e301]
+                      - cell "1 backend" [ref=e302]:
+                        - generic [ref=e303]: 1 backend
+                      - cell "TLS" [ref=e304]:
+                        - generic [ref=e305]:
+                          - generic [ref=e306]:
+                            - img
+                            - generic [ref=e307]: TLS
+                          - button [ref=e308]:
+                            - img
+                      - cell "View Policies" [ref=e309]:
+                        - link "View Policies" [ref=e311] [cursor=pointer]:
+                          - /url: /ui/policies/
+                          - generic [ref=e312]: View Policies
+                          - img [ref=e313]
+                      - cell [ref=e317]:
+                        - button [disabled]:
+                          - img
+    - region "Notifications alt+T"
+  - alert [ref=e105]

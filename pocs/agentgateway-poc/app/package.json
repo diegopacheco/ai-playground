@@ -1,0 +1,12 @@
+{
+  "name": "agentgateway-cli",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "chat": "./chat.js"
+  },
+  "dependencies": {
+    "openai": "^4.73.0"
+  }
+}

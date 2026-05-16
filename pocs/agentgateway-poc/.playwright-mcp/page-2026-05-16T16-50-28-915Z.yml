@@ -1,0 +1,153 @@
+- generic [ref=e1]:
+  - generic [ref=e2]: Configuration is managed by an external source (XDS). Editing the configuration is not allowed via the UI.
+  - main [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e8]:
+        - generic [ref=e10]:
+          - img [ref=e11]
+          - generic [ref=e22]: agentgateway
+        - generic [ref=e24]:
+          - generic [ref=e25]: Navigation
+          - list [ref=e27]:
+            - listitem [ref=e28]:
+              - button "Home" [ref=e29] [cursor=pointer]:
+                - img [ref=e30]
+                - generic [ref=e33]: Home
+            - listitem [ref=e34]:
+              - button "Port Binds & Listeners" [ref=e35] [cursor=pointer]:
+                - img [ref=e36]
+                - generic [ref=e38]: Listeners
+                - generic: "1"
+            - listitem [ref=e39]:
+              - button "Routes" [ref=e40] [cursor=pointer]:
+                - img [ref=e41]
+                - generic [ref=e45]: Routes
+                - generic: "1"
+            - listitem [ref=e46]:
+              - button "Backends" [ref=e47] [cursor=pointer]:
+                - img [ref=e48]
+                - generic [ref=e51]: Backends
+                - generic: "1"
+            - listitem [ref=e52]:
+              - button "Policies" [ref=e53] [cursor=pointer]:
+                - img [ref=e54]
+                - generic [ref=e56]: Policies
+            - listitem [ref=e57]:
+              - button "Playground" [ref=e58] [cursor=pointer]:
+                - img [ref=e59]
+                - generic [ref=e62]: Playground
+            - listitem [ref=e63]:
+              - button "CEL Playground" [active] [ref=e64] [cursor=pointer]:
+                - img [ref=e65]
+                - generic [ref=e67]: CEL Playground
+        - list [ref=e69]:
+          - listitem [ref=e70]:
+            - button "Restart Setup Wizard" [ref=e71] [cursor=pointer]:
+              - img [ref=e72]
+              - generic [ref=e75]: Restart Setup
+          - listitem [ref=e76]:
+            - button "Toggle Theme" [ref=e77] [cursor=pointer]:
+              - button "Toggle Theme Toggle theme" [ref=e78]:
+                - generic [ref=e79]:
+                  - img [ref=e81]
+                  - generic [ref=e87]: Toggle Theme
+                  - generic [ref=e88]: Toggle theme
+      - main [ref=e89]:
+        - generic [ref=e235]:
+          - generic [ref=e236]:
+            - button "Evaluate" [ref=e237]:
+              - img
+              - text: Evaluate
+            - button "Reset" [ref=e238]:
+              - img
+              - text: Reset
+          - generic [ref=e239]:
+            - generic [ref=e240]:
+              - generic [ref=e241]:
+                - generic [ref=e242]: Expression
+                - generic [ref=e244]:
+                  - textbox [ref=e247]:
+                    - generic [ref=e248]:
+                      - textbox "Editor content" [ref=e249]
+                      - textbox [ref=e250]
+                      - generic [ref=e262]:
+                        - generic [ref=e264]: request.method == 'GET' && response.code == 200 && request.path.
+                        - generic [ref=e266]: startsWith('/api/')
+                  - generic [ref=e268]:
+                    - button "HTTP" [ref=e269]
+                    - button "MCP Payload" [ref=e270]
+                    - button "Body Based Routing" [ref=e271]
+                    - button "JWT Claims" [ref=e272]
+                    - button "Source IP" [ref=e273]
+              - generic [ref=e274]:
+                - generic [ref=e276]: Result
+                - code [ref=e281]:
+                  - generic [ref=e282]:
+                    - textbox "Editor content" [ref=e283]
+                    - textbox [ref=e284]
+            - generic [ref=e295]:
+              - generic [ref=e296]:
+                - generic [ref=e297]: Input Data (YAML)
+                - combobox [ref=e298]:
+                  - option "Empty"
+                  - option "HTTP" [selected]
+              - textbox [ref=e303]:
+                - generic [ref=e304]:
+                  - textbox "Editor content" [ref=e305]
+                  - textbox [ref=e306]
+                  - generic [ref=e308]:
+                    - generic [ref=e311] [cursor=pointer]: 
+                    - generic [ref=e315] [cursor=pointer]: 
+                    - generic [ref=e320] [cursor=pointer]: 
+                    - generic [ref=e325] [cursor=pointer]: 
+                    - generic [ref=e330] [cursor=pointer]: 
+                    - generic [ref=e337] [cursor=pointer]: 
+                    - generic [ref=e350] [cursor=pointer]: 
+                    - generic [ref=e352] [cursor=pointer]: 
+                    - generic [ref=e356] [cursor=pointer]: 
+                  - generic [ref=e440]:
+                    - generic [ref=e442]: "apiKey:"
+                    - generic [ref=e444]: "key: <redacted>"
+                    - generic [ref=e446]: "role: admin"
+                    - generic [ref=e448]: "backend:"
+                    - generic [ref=e450]: "name: my-backend"
+                    - generic [ref=e452]: "protocol: http"
+                    - generic [ref=e454]: "type: service"
+                    - generic [ref=e456]: "basicAuth:"
+                    - generic [ref=e458]: "username: alice"
+                    - generic [ref=e460]: "extauthz: {}"
+                    - generic [ref=e462]: "extproc: {}"
+                    - generic [ref=e464]: "jwt:"
+                    - generic [ref=e466]: "exp: 1900650294"
+                    - generic [ref=e468]: "iss: agentgateway.dev"
+                    - generic [ref=e470]: "sub: test-user"
+                    - generic [ref=e472]: "llm:"
+                    - generic [ref=e474]: "completion:"
+                    - generic [ref=e476]: "- Hello"
+                    - generic [ref=e478]: "countTokens: 10"
+                    - generic [ref=e480]: "inputTokens: 100"
+                    - generic [ref=e482]: "outputTokens: 50"
+                    - generic [ref=e484]: "params:"
+                    - generic [ref=e486]: "frequency_penalty: 0.0"
+                    - generic [ref=e488]: "max_tokens: 1024"
+                    - generic [ref=e490]: "presence_penalty: 0.0"
+                    - generic [ref=e492]: "seed: 42"
+                    - generic [ref=e494]: "temperature: 0.7"
+                    - generic [ref=e496]: "top_p: 1.0"
+                    - generic [ref=e498]: "provider: fake-ai"
+                    - generic [ref=e500]: "requestModel: gpt-4"
+                    - generic [ref=e502]: "responseModel: gpt-4-turbo"
+                    - generic [ref=e504]: "streaming: false"
+                    - generic [ref=e506]: "totalTokens: 150"
+                    - generic [ref=e508]: "mcp:"
+                    - generic [ref=e510]: "tool:"
+                    - generic [ref=e512]: "name: get_weather"
+                    - generic [ref=e514]: "target: my-mcp-server"
+                    - generic [ref=e516]: "request:"
+                    - generic [ref=e518]: "body: eyJtb2RlbCI6ICJmYXN0In0="
+                    - generic [ref=e520]: "endTime: 2000-01-01T12:00:01Z"
+    - region "Notifications alt+T"
+  - alert [ref=e105]
+  - generic [ref=e522]:
+    - alert
+    - alert

@@ -1,0 +1,113 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: Configuration is managed by an external source (XDS). Editing the configuration is not allowed via the UI.
+  - main [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e8]:
+        - generic [ref=e10]:
+          - img [ref=e11]
+          - generic [ref=e22]: agentgateway
+        - generic [ref=e24]:
+          - generic [ref=e25]: Navigation
+          - list [ref=e27]:
+            - listitem [ref=e28]:
+              - button "Home" [ref=e29] [cursor=pointer]:
+                - img [ref=e30]
+                - generic [ref=e33]: Home
+            - listitem [ref=e34]:
+              - button "Port Binds & Listeners" [ref=e35] [cursor=pointer]:
+                - img [ref=e36]
+                - generic [ref=e38]: Listeners
+                - generic: "1"
+            - listitem [ref=e39]:
+              - button "Routes" [ref=e40] [cursor=pointer]:
+                - img [ref=e41]
+                - generic [ref=e45]: Routes
+                - generic: "1"
+            - listitem [ref=e46]:
+              - button "Backends" [ref=e47] [cursor=pointer]:
+                - img [ref=e48]
+                - generic [ref=e51]: Backends
+                - generic: "1"
+            - listitem [ref=e52]:
+              - button "Policies" [ref=e53] [cursor=pointer]:
+                - img [ref=e54]
+                - generic [ref=e56]: Policies
+            - listitem [ref=e57]:
+              - button "Playground" [ref=e58] [cursor=pointer]:
+                - img [ref=e59]
+                - generic [ref=e62]: Playground
+            - listitem [ref=e63]:
+              - button "CEL Playground" [ref=e64] [cursor=pointer]:
+                - img [ref=e65]
+                - generic [ref=e67]: CEL Playground
+        - list [ref=e69]:
+          - listitem [ref=e70]:
+            - button "Restart Setup Wizard" [ref=e71] [cursor=pointer]:
+              - img [ref=e72]
+              - generic [ref=e75]: Restart Setup
+          - listitem [ref=e76]:
+            - button "Toggle Theme" [ref=e77] [cursor=pointer]:
+              - button "Toggle Theme Toggle theme" [ref=e78]:
+                - generic [ref=e79]:
+                  - img [ref=e81]
+                  - generic [ref=e87]: Toggle Theme
+                  - generic [ref=e88]: Toggle theme
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e92]:
+            - generic [ref=e93]:
+              - img [ref=e94]
+              - generic [ref=e98]:
+                - heading "Routes" [level=1] [ref=e99]
+                - paragraph [ref=e100]: Configure HTTP and TCP routes with matching conditions and traffic management
+            - generic [ref=e101]:
+              - generic [ref=e104]: 1 HTTP route
+              - generic [ref=e107]: 0 TCP routes
+              - generic [ref=e110]: 1 bind with routes
+          - generic [ref=e111]:
+            - generic [ref=e112]:
+              - button "Add Route" [disabled]:
+                - img
+                - text: Add Route
+            - generic [ref=e115]:
+              - generic [ref=e117] [cursor=pointer]:
+                - generic [ref=e118]:
+                  - img [ref=e119]
+                  - generic [ref=e121]:
+                    - heading "Port 80" [level=3] [ref=e122]
+                    - generic [ref=e124]:
+                      - img [ref=e125]
+                      - generic [ref=e128]: 1 HTTP
+                - generic [ref=e129]: 1 routes
+              - table [ref=e133]:
+                - rowgroup [ref=e134]:
+                  - row "Name Type Listener Hostnames Path Backends Actions" [ref=e135]:
+                    - columnheader "Name" [ref=e136]
+                    - columnheader "Type" [ref=e137]
+                    - columnheader "Listener" [ref=e138]
+                    - columnheader "Hostnames" [ref=e139]
+                    - columnheader "Path" [ref=e140]
+                    - columnheader "Backends" [ref=e141]
+                    - columnheader "Actions" [ref=e142]
+                - rowgroup [ref=e143]:
+                  - row "openai HTTP unnamed * / 1 backend" [ref=e144]:
+                    - cell "openai" [ref=e145]
+                    - cell "HTTP" [ref=e146]:
+                      - generic [ref=e147]:
+                        - img
+                        - text: HTTP
+                    - cell "unnamed" [ref=e148]:
+                      - generic [ref=e149]: unnamed
+                    - cell "*" [ref=e150]
+                    - cell / [ref=e151]:
+                      - generic [ref=e152]: /
+                    - cell "1 backend" [ref=e153]:
+                      - generic [ref=e154]: 1 backend
+                    - cell [ref=e155]:
+                      - generic [ref=e156]:
+                        - button [disabled]:
+                          - img
+                        - button [disabled]:
+                          - img
+    - region "Notifications alt+T"
+  - alert [ref=e157]
