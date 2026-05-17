@@ -1,0 +1,63 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - heading "Memory Game" [level=1] [ref=e5]
+    - generic [ref=e6]:
+      - generic [ref=e7]: "Moves: 0"
+      - generic [ref=e8]: "Time: 0s"
+      - generic [ref=e9]: "Pairs: 0 / 8"
+  - button "New Game" [ref=e11] [cursor=pointer]
+  - generic [ref=e12]:
+    - generic [ref=e14] [cursor=pointer]:
+      - generic [ref=e15]: "?"
+      - generic [ref=e16]: 🥝
+    - generic [ref=e18] [cursor=pointer]:
+      - generic [ref=e19]: "?"
+      - generic [ref=e20]: 🍇
+    - generic [ref=e22] [cursor=pointer]:
+      - generic [ref=e23]: "?"
+      - generic [ref=e24]: 🍌
+    - generic [ref=e26] [cursor=pointer]:
+      - generic [ref=e27]: "?"
+      - generic [ref=e28]: 🍓
+    - generic [ref=e30] [cursor=pointer]:
+      - generic [ref=e31]: "?"
+      - generic [ref=e32]: 🥝
+    - generic [ref=e34] [cursor=pointer]:
+      - generic [ref=e35]: "?"
+      - generic [ref=e36]: 🍎
+    - generic [ref=e38] [cursor=pointer]:
+      - generic [ref=e39]: "?"
+      - generic [ref=e40]: 🍌
+    - generic [ref=e42] [cursor=pointer]:
+      - generic [ref=e43]: "?"
+      - generic [ref=e44]: 🍇
+    - generic [ref=e46] [cursor=pointer]:
+      - generic [ref=e47]: "?"
+      - generic [ref=e48]: 🍉
+    - generic [ref=e50] [cursor=pointer]:
+      - generic [ref=e51]: "?"
+      - generic [ref=e52]: 🍋
+    - generic [ref=e54] [cursor=pointer]:
+      - generic [ref=e55]: "?"
+      - generic [ref=e56]: 🍉
+    - generic [ref=e58] [cursor=pointer]:
+      - generic [ref=e59]: "?"
+      - generic [ref=e60]: 🍒
+    - generic [ref=e62] [cursor=pointer]:
+      - generic [ref=e63]: "?"
+      - generic [ref=e64]: 🍓
+    - generic [ref=e66] [cursor=pointer]:
+      - generic [ref=e67]: "?"
+      - generic [ref=e68]: 🍒
+    - generic [ref=e70] [cursor=pointer]:
+      - generic [ref=e71]: "?"
+      - generic [ref=e72]: 🍎
+    - generic [ref=e74] [cursor=pointer]:
+      - generic [ref=e75]: "?"
+      - generic [ref=e76]: 🍋
+  - generic [ref=e77]:
+    - heading "Leaderboard" [level=2] [ref=e78]
+    - list [ref=e79]:
+      - listitem [ref=e80]:
+        - generic [ref=e81]: Diego
+        - generic [ref=e82]: 21 moves · 50s
