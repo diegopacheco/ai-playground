@@ -1,5 +1,7 @@
 # Analysis — `CLAUDE.md` (12-rule template)
 
+Opus 4.7 Analyis.
+
 Target file: [`../CLAUDE.md`](../CLAUDE.md)
 
 ## Overall score
