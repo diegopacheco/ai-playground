@@ -1,0 +1,16 @@
+[package]
+name = "memory-backend"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.94"
+
+[dependencies]
+actix-web = "4.9"
+actix-cors = "0.7"
+tokio = { version = "1.41", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rand = "0.8"
+
+[dev-dependencies]
+actix-rt = "2.10"

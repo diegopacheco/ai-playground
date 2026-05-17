@@ -1,0 +1,191 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  min-height: 100vh;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.game {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+}
+
+.controls button {
+  background: #fff;
+  color: #1e3c72;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.controls button:hover {
+  transform: translateY(-1px);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.card {
+  aspect-ratio: 1;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  font-size: 2.2rem;
+  user-select: none;
+}
+
+.card-front {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+}
+
+.card-back {
+  background: #fff;
+  color: #1e3c72;
+  transform: rotateY(180deg);
+}
+
+.card.matched .card-back {
+  background: #4ade80;
+  color: #064e3b;
+}
+
+.win {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+.submit-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.submit-row input {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+}
+
+.submit-row button {
+  background: #4ade80;
+  color: #064e3b;
+  border: none;
+  padding: 8px 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.submit-row button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fee2e2;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.leaderboard {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.leaderboard h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.leaderboard ol {
+  list-style: decimal inside;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.leaderboard li {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+.leaderboard .empty {
+  text-align: center;
+  opacity: 0.7;
+}

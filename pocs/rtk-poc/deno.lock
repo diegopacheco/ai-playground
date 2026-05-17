@@ -1,0 +1,110 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@luca/esbuild-deno-loader@0.11": "0.11.1",
+    "jsr:@std/bytes@^1.0.2": "1.0.6",
+    "jsr:@std/cli@^1.0.8": "1.0.29",
+    "jsr:@std/encoding@^1.0.5": "1.0.10",
+    "jsr:@std/fmt@^1.0.3": "1.0.10",
+    "jsr:@std/html@^1.0.3": "1.0.6",
+    "jsr:@std/http@1.0.12": "1.0.12",
+    "jsr:@std/internal@^1.0.10": "1.0.10",
+    "jsr:@std/media-types@^1.1.0": "1.1.0",
+    "jsr:@std/net@^1.0.4": "1.0.6",
+    "jsr:@std/path@^1.0.6": "1.1.2",
+    "jsr:@std/path@^1.0.8": "1.1.2",
+    "jsr:@std/streams@^1.0.8": "1.1.0",
+    "npm:typescript@6": "6.0.3"
+  },
+  "jsr": {
+    "@luca/esbuild-deno-loader@0.11.1": {
+      "integrity": "dc020d16d75b591f679f6b9288b10f38bdb4f24345edb2f5732affa1d9885267",
+      "dependencies": [
+        "jsr:@std/bytes",
+        "jsr:@std/encoding",
+        "jsr:@std/path@^1.0.6"
+      ]
+    },
+    "@std/bytes@1.0.6": {
+      "integrity": "f6ac6adbd8ccd99314045f5703e23af0a68d7f7e58364b47d2c7f408aeb5820a"
+    },
+    "@std/cli@1.0.29": {
+      "integrity": "fa4ef29130baa834d8a13b7d138240c3a2fcfba740bfb7afa646a360a15ec84f"
+    },
+    "@std/encoding@1.0.10": {
+      "integrity": "8783c6384a2d13abd5e9e87a7ae0520a30e9f56aeeaa3bdf910a3eaaf5c811a1"
+    },
+    "@std/fmt@1.0.10": {
+      "integrity": "90dfba288802ac6de82fb31d0917eb9e4450b9925b954d5e51fc29ac07419db5"
+    },
+    "@std/html@1.0.6": {
+      "integrity": "eaf759c8141e0733ca30eb49e4c08d8e6ca442b85c4d51f9894a56f502993e08"
+    },
+    "@std/http@1.0.12": {
+      "integrity": "85246d8bfe9c8e2538518725b158bdc31f616e0869255f4a8d9e3de919cab2aa",
+      "dependencies": [
+        "jsr:@std/cli",
+        "jsr:@std/encoding",
+        "jsr:@std/fmt",
+        "jsr:@std/html",
+        "jsr:@std/media-types",
+        "jsr:@std/net",
+        "jsr:@std/path@^1.0.8",
+        "jsr:@std/streams"
+      ]
+    },
+    "@std/internal@1.0.10": {
+      "integrity": "e3be62ce42cab0e177c27698e5d9800122f67b766a0bea6ca4867886cbde8cf7"
+    },
+    "@std/media-types@1.1.0": {
+      "integrity": "c9d093f0c05c3512932b330e3cc1fe1d627b301db33a4c2c2185c02471d6eaa4"
+    },
+    "@std/net@1.0.6": {
+      "integrity": "110735f93e95bb9feb95790a8b1d1bf69ec0dc74f3f97a00a76ea5efea25500c"
+    },
+    "@std/path@1.1.2": {
+      "integrity": "c0b13b97dfe06546d5e16bf3966b1cadf92e1cc83e56ba5476ad8b498d9e3038",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/streams@1.1.0": {
+      "integrity": "2f7024d841f343fd478afe0c958a3f0f068ef2a0d2bcc954f550f97ac1fa22e3"
+    }
+  },
+  "npm": {
+    "typescript@6.0.3": {
+      "integrity": "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==",
+      "bin": true
+    }
+  },
+  "redirects": {
+    "https://esm.sh/@types/react-dom@~18.3.7/client.d.ts": "https://esm.sh/@types/react-dom@18.3.7/client.d.ts",
+    "https://esm.sh/@types/react@~18.3.26/index.d.ts": "https://esm.sh/@types/react@18.3.28/index.d.ts",
+    "https://esm.sh/@types/react@~18.3.26/jsx-runtime.d.ts": "https://esm.sh/@types/react@18.3.28/jsx-runtime.d.ts",
+    "https://esm.sh/@types/scheduler@~0.23.0/index.d.ts": "https://esm.sh/@types/scheduler@0.23.0/index.d.ts",
+    "https://esm.sh/scheduler@^0.23.2?target=denonext": "https://esm.sh/scheduler@0.23.2?target=denonext"
+  },
+  "remote": {
+    "https://deno.land/x/denoflate@1.2.1/mod.ts": "f5628e44b80b3d80ed525afa2ba0f12408e3849db817d47a883b801f9ce69dd6",
+    "https://deno.land/x/denoflate@1.2.1/pkg/denoflate.js": "b9f9ad9457d3f12f28b1fb35c555f57443427f74decb403113d67364e4f2caf4",
+    "https://deno.land/x/denoflate@1.2.1/pkg/denoflate_bg.wasm.js": "d581956245407a2115a3d7e8d85a9641c032940a8e810acbd59ca86afd34d44d",
+    "https://deno.land/x/esbuild@v0.24.0/mod.js": "15b51f08198c373555700a695b6c6630a86f2c254938e81be7711eb6d4edc74e",
+    "https://esm.sh/react-dom@18.3.1/client": "21721a0da8572c9017131699230e73bd29b31cae9763948f5a7e3966315d07a2",
+    "https://esm.sh/react-dom@18.3.1/denonext/client.mjs": "d68545ce29e9d2dd03261912eaf97e5f81469e9a9a7edcab3a91da6093d17606",
+    "https://esm.sh/react-dom@18.3.1/denonext/react-dom.mjs": "4ab8347fbe57895464f248300ab4bc23063b92fc6aaa1679255187d0d3b4d4a6",
+    "https://esm.sh/react@18.3.1": "336090fd1f03fdb9530dce4ac761717b5e1e1a630c775bac184ec4ee0809cf89",
+    "https://esm.sh/react@18.3.1/denonext/jsx-runtime.mjs": "bcfa2f01bbb7c04a674e06d5748773d46c431e8ac8e8ff79aad6962af0a79b0f",
+    "https://esm.sh/react@18.3.1/denonext/react.mjs": "fec8d5ab4ffa55c8b563abc31060c3dc0205699aff20beec4aba0311efdcc1a0",
+    "https://esm.sh/react@18.3.1/jsx-runtime": "fae022412d077731999a21e4ed1eac632822bab088f04c980b08750ba33ade9a",
+    "https://esm.sh/scheduler@0.23.2/denonext/scheduler.mjs": "8a1a8a363eb417fc8d40f6b15132e8964320782d7169e68fc6ac98b8b8c201eb",
+    "https://esm.sh/scheduler@0.23.2?target=denonext": "5f446c6d28a83c4c3905e964a311ac654bf1b1993bb6647ee731a592068d5a1a"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@luca/esbuild-deno-loader@0.11",
+      "jsr:@std/http@1.0.12",
+      "npm:typescript@6"
+    ]
+  }
+}
