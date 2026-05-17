@@ -1,0 +1,14 @@
+pocs/12-rules-template-poc/analysis/README.md
+  h_8e2c3875396153 3-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "8fb8540c427785eb51cac61ea5a5b43199c32856",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
