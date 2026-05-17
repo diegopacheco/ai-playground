@@ -1,0 +1,123 @@
+:root {
+  font-family: system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at 20% 10%, #1f2937, #0b0f17 70%);
+  color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.app {
+  width: min(520px, 100%);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 32px;
+  backdrop-filter: blur(8px);
+}
+
+header h1 { margin: 0; font-size: 26px; letter-spacing: 0.4px; }
+header .sub { margin: 6px 0 24px; color: #9ca3af; font-size: 14px; }
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field span {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #9ca3af;
+}
+
+.field input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #e5e7eb;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.field input:focus { border-color: #60a5fa; }
+
+.form button {
+  margin-top: 8px;
+  padding: 12px 16px;
+  background: #2563eb;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.form button:hover:not(:disabled) { background: #1d4ed8; }
+.form button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.result {
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.result.approved { border-color: rgba(52, 211, 153, 0.4); }
+.result.denied   { border-color: rgba(248, 113, 113, 0.4); }
+
+.result .status {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.result.approved .status { color: #34d399; }
+.result.denied   .status { color: #f87171; }
+
+.result .reason {
+  color: #d1d5db;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.terms {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 16px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.terms dt { color: #9ca3af; }
+.terms dd { margin: 0; color: #e5e7eb; font-variant-numeric: tabular-nums; }
+
+.error {
+  margin-top: 20px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  color: #fca5a5;
+  font-size: 14px;
+}

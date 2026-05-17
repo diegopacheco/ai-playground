@@ -1,0 +1,22 @@
+type Query {
+    health: String!
+}
+
+type Mutation {
+    requestAutoLoan(input: AutoLoanInput!): AutoLoanDecision!
+}
+
+input AutoLoanInput {
+    amount: Float!
+    termMonths: Int!
+    annualIncome: Float!
+    vehicleValue: Float!
+    creditScore: Int!
+}
+
+type AutoLoanDecision {
+    approved: Boolean!
+    monthlyPayment: Float!
+    interestRate: Float!
+    reason: String!
+}

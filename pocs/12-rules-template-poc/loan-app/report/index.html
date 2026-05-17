@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Loan App — Test Report</title>
+<style>
+  :root { font-family: system-ui, -apple-system, sans-serif; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px; background: radial-gradient(circle at 20% 10%, #1f2937, #0b0f17 70%); color: #e5e7eb; min-height: 100vh; }
+  h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: 0.3px; }
+  .sub { color: #9ca3af; margin: 0 0 18px; font-size: 13px; }
+  .overall { display: inline-block; padding: 8px 18px; border-radius: 999px; font-weight: 700; letter-spacing: 1.5px; font-size: 14px; }
+  .overall.pass    { background: rgba(52,211,153,0.15);  color: #34d399; border: 1px solid rgba(52,211,153,0.4); }
+  .overall.fail    { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.4); }
+  .overall.missing { background: rgba(251,191,36,0.15);  color: #fbbf24; border: 1px solid rgba(251,191,36,0.4); }
+  .totals { display: flex; gap: 12px; margin: 20px 0 28px; flex-wrap: wrap; }
+  .pill { padding: 8px 14px; border-radius: 999px; font-size: 13px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); }
+  .pill strong { font-variant-numeric: tabular-nums; margin-left: 6px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 18px; }
+  .card.pass    { border-color: rgba(52,211,153,0.35); }
+  .card.fail    { border-color: rgba(248,113,113,0.45); }
+  .card.missing { border-color: rgba(251,191,36,0.35); }
+  .card header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .card h2 { font-size: 15px; margin: 0; font-weight: 600; }
+  .bar { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; margin-bottom: 14px; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, #34d399, #60a5fa); transition: width 0.3s; }
+  .card.fail .bar-fill { background: linear-gradient(90deg, #f87171, #fbbf24); }
+  .card.missing .bar-fill { background: #6b7280; }
+  .badge { padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+  .badge.pass    { background: rgba(52,211,153,0.18);  color: #34d399; }
+  .badge.fail    { background: rgba(248,113,113,0.18); color: #f87171; }
+  .badge.missing { background: rgba(251,191,36,0.18);  color: #fbbf24; }
+  .row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; }
+  .row strong { font-variant-numeric: tabular-nums; }
+  .pass-row strong { color: #34d399; }
+  .fail-row strong { color: #f87171; }
+  .skip-row strong { color: #fbbf24; }
+  .detail { margin-top: 12px; font-size: 12px; color: #9ca3af; line-height: 1.5; }
+  .src { margin-top: 6px; font-size: 11px; color: #6b7280; font-family: ui-monospace, SFMono-Regular, monospace; word-break: break-all; }
+  footer { margin-top: 36px; font-size: 12px; color: #6b7280; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px; }
+</style>
+</head>
+<body>
+  <h1>Loan App — Test Report</h1>
+  <p class="sub">Generated 2026-05-17T07:01:40.679Z</p>
+  <div class="overall pass">PASS</div>
+  <div class="totals">
+    <span class="pill">Total <strong>1121168</strong></span>
+    <span class="pill" style="color:#34d399">Passed <strong>1121168</strong></span>
+    <span class="pill" style="color:#f87171">Failed <strong>0</strong></span>
+    <span class="pill" style="color:#fbbf24">Skipped <strong>0</strong></span>
+  </div>
+  <div class="grid">
+    
+    <div class="card pass">
+      <header>
+        <h2>Backend (JUnit 5: unit + integration)</h2>
+        <span class="badge pass">PASS</span>
+      </header>
+      <div class="bar"><div class="bar-fill" style="width:100%"></div></div>
+      <div class="row"><span>Total</span><strong>13</strong></div>
+      <div class="row pass-row"><span>Passed</span><strong>13</strong></div>
+      <div class="row fail-row"><span>Failed</span><strong>0</strong></div>
+      <div class="row skip-row"><span>Skipped</span><strong>0</strong></div>
+      <div class="row"><span>Duration</span><strong>1.66s</strong></div>
+      <div class="detail">2 suites · LoanServiceTest, LoanResolverIntegrationTest</div>
+      <div class="src">./backend/target/surefire-reports</div>
+    </div>
+  
+    <div class="card pass">
+      <header>
+        <h2>Frontend (Jest)</h2>
+        <span class="badge pass">PASS</span>
+      </header>
+      <div class="bar"><div class="bar-fill" style="width:100%"></div></div>
+      <div class="row"><span>Total</span><strong>6</strong></div>
+      <div class="row pass-row"><span>Passed</span><strong>6</strong></div>
+      <div class="row fail-row"><span>Failed</span><strong>0</strong></div>
+      <div class="row skip-row"><span>Skipped</span><strong>0</strong></div>
+      
+      <div class="detail">2 suites</div>
+      <div class="src">./frontend/test-results/jest.json</div>
+    </div>
+  
+    <div class="card pass">
+      <header>
+        <h2>E2E (Playwright)</h2>
+        <span class="badge pass">PASS</span>
+      </header>
+      <div class="bar"><div class="bar-fill" style="width:100%"></div></div>
+      <div class="row"><span>Total</span><strong>3</strong></div>
+      <div class="row pass-row"><span>Passed</span><strong>3</strong></div>
+      <div class="row fail-row"><span>Failed</span><strong>0</strong></div>
+      <div class="row skip-row"><span>Skipped</span><strong>0</strong></div>
+      <div class="row"><span>Duration</span><strong>1.42s</strong></div>
+      <div class="detail">flaky=0</div>
+      <div class="src">./e2e/test-results/playwright.json</div>
+    </div>
+  
+    <div class="card pass">
+      <header>
+        <h2>Stress (k6)</h2>
+        <span class="badge pass">PASS</span>
+      </header>
+      <div class="bar"><div class="bar-fill" style="width:100%"></div></div>
+      <div class="row"><span>Total</span><strong>1121146</strong></div>
+      <div class="row pass-row"><span>Passed</span><strong>1121146</strong></div>
+      <div class="row fail-row"><span>Failed</span><strong>0</strong></div>
+      <div class="row skip-row"><span>Skipped</span><strong>0</strong></div>
+      
+      <div class="detail">p95=911µs · avg=473µs · failRate=0.00% · checks=3363438/3363438</div>
+      <div class="src">./.run/k6-summary.json</div>
+    </div>
+  
+  </div>
+  <footer>
+    Sources aggregated: JUnit XML (Maven Surefire) · Jest JSON · Playwright JSON · k6 summary JSON.<br/>
+    Re-run via <code>./tests.sh</code>, then refresh this page via <code>./report.sh</code>.
+  </footer>
+</body>
+</html>
