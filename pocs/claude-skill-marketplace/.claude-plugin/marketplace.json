@@ -1,0 +1,15 @@
+{
+  "name": "claude-skill-marketplace",
+  "owner": {
+    "name": "diegopacheco"
+  },
+  "description": "Local marketplace POC for sharing Claude Code skills with semver",
+  "plugins": [
+    {
+      "name": "hello-world",
+      "source": "./plugins/hello-world",
+      "description": "A minimal placeholder skill that greets the user",
+      "version": "1.1.0"
+    }
+  ]
+}

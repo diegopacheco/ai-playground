@@ -1,0 +1,8 @@
+{
+  "name": "hello-world",
+  "version": "1.1.0",
+  "description": "A minimal placeholder skill that greets the user",
+  "author": {
+    "name": "diegopacheco"
+  }
+}
