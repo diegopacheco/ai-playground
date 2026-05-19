@@ -1,0 +1,17 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+# Lines below are suggestions — uncomment to activate.
+#
+# Built-in defaults (always excluded unless negated):
+#   node_modules/, .git/, dist/, build/, target/, obj/, *.lock, *.min.js, etc.
+#
+# --- Detected directories (uncomment to exclude) ---
+
+src/test/
+
+# --- Test file patterns (uncomment to exclude) ---
+
+# *.test.*
+# *.spec.*
+# *Test.java
+# *IT.java

@@ -13,10 +13,12 @@ claude
 ## Experience Notes
 
 ```
+* Using claude code and Opus 4.7
 * When I point neety - I got this: Netty has 3,511 Java files — far beyond the 100-file gate. How would you like to scope this?
 * I told him to just focus on the netty-buffer module.
 * Skill was running 4 agents in parallel to understand the codebase
-* 
+* Skill uses a lot of tokens (in minutos used 71% of my subscription)
+* It genererated a dashbaord but I did not found that useful
 ```
 
 ## Skill working
@@ -31,3 +33,7 @@ claude
   ◯ understand-anything:fil…  Analyze batch 2 (netty-buffer)                                                                   2m 25s · ↓ 35.6k tokens
   ◯ understand-anything:fil…  Analyze batch 3 (netty-buffer)                                                                   2m 20s · ↓ 34.3k tokens
 ```
+
+## Generated Dashbaord
+
+<img src="dashbaord.png" width="600" />
