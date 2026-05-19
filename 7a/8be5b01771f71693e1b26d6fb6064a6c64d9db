@@ -1,0 +1,14 @@
+pocs/understand-anything/README.md
+  h_8e2c3875396153 16,20-21,35-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.9",
+  "base_commit_sha": "7a8be5b01771f71693e1b26d6fb6064a6c64d9db",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
