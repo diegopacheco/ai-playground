@@ -25,3 +25,5 @@ Implement: build a load application with my design system diego-pacheco-design
 ## Result
 
 [loan-application.html](loan-application.html)
+
+![Loan Application rendered](loan-application.png)

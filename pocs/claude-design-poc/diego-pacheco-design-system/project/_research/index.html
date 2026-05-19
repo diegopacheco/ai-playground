@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diego Pacheco</title>
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg: #f5f7fb;
+            --text: #1a1f2b;
+            --muted: #5f6b81;
+            --primary: #5a67d8;
+            --card: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover { opacity: 0.85; }
+
+        h1, h2, h3 {
+            margin: 0 0 8px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        h1 { font-size: clamp(1.8rem, 3vw, 2.8rem); }
+        h2 { font-size: clamp(1.2rem, 2vw, 1.6rem); }
+        h3 { font-size: 1.1rem; }
+        p { margin: 0 0 12px; }
+        ul { margin: 0; padding-left: 20px; }
+
+        .site-shell {
+            max-width: none;
+            width: 100%;
+            margin: 0;
+            padding: 32px 32px 72px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+            padding: 24px;
+        }
+
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            background: linear-gradient(135deg, #373b44, #4286f4);
+            color: #fff;
+            padding: 38.8px;
+            min-height: 543px;
+        }
+        .hero h1, .hero h2, .hero h3, .hero p, .hero li, .hero a {
+            color: #fff;
+        }
+        .hero-left {
+            flex: 1 1 360px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .hero-left .eyebrow {
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+        .hero-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .hero-heading {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1 1 320px;
+        }
+        .hero-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .hero-title-row h1 {
+            margin: 0;
+        }
+        .hero-about {
+            font-size: 0.8rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+        .hero-heading ul {
+            list-style: square;
+            padding-left: 18px;
+            columns: 2;
+            margin: 0;
+        }
+        .hero-header .profile-image-container {
+            flex-shrink: 0;
+        }
+        .hero-description {
+            max-width: 520px;
+            opacity: 0.95;
+        }
+        .profile-image-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 140px;
+            height: 140px;
+            padding: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .profile-image-container img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+        }
+
+        .hero-right {
+            flex: 3 1 720px;
+            width: auto;
+            min-width: 0;
+            background: rgba(15, 23, 42, 0.3);
+            border-radius: 24px;
+            padding: 28px;
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+            align-items: flex-start;
+        }
+        .hero-right-main {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .side-projects-stack {
+            flex: 0 0 170px;
+            max-width: 170px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .side-projects-stack h3 {
+            margin: 0;
+            color: #fff;
+            font-size: 1rem;
+        }
+        .side-projects-list {
+            position: relative;
+            min-height: 160px;
+            padding-right: 6px;
+            overflow: hidden;
+        }
+        .side-project-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 106px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding: 9px 10px;
+            border-radius: 18px;
+            background: linear-gradient(165deg, rgba(22, 30, 78, 0.98), rgba(49, 66, 145, 0.98));
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            opacity: 1;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            text-decoration: none;
+            color: #fff;
+            transform: translateY(calc(var(--stack-index, 0) * 10px));
+            z-index: calc(30 - var(--stack-index, 0));
+            pointer-events: none;
+        }
+        .side-project-card.is-active {
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.6);
+            pointer-events: auto;
+        }
+        .side-project-card:hover {
+            box-shadow: 0 18px 32px rgba(15, 23, 42, 0.6);
+            transform: translateY(calc(var(--stack-index, 0) * 10px - 4px));
+        }
+        .side-project-card-header {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+        }
+        .side-project-emoji {
+            flex: 0 0 45%;
+            border-radius: 16px;
+            background: rgba(10, 15, 38, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            min-height: 88px;
+        }
+        .side-project-card-header > div {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            gap: 6px;
+        }
+        .side-project-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+            color: #fff;
+            width: 100%;
+        }
+        .side-project-desc {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.78rem;
+            text-align: center;
+        }
+        .side-project-link {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: rgba(255, 255, 255, 0.9);
+            text-transform: uppercase;
+            align-self: flex-end;
+        }
+        .side-project-link::after {
+            content: '↗';
+            font-size: 0.7rem;
+        }
+        .published-works {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .mini-carousel {
+            position: relative;
+            overflow: hidden;
+        }
+        .mini-carousel h3 {
+            margin: 0 0 8px;
+            color: #fff;
+        }
+        .mini-slider {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 6px;
+            cursor: grab;
+            user-select: none;
+        }
+        .mini-card {
+            flex: 0 0 calc(25% - 6px);
+            border-radius: 14px;
+            background: rgba(17, 25, 64, 0.75);
+            box-shadow: 0 10px 24px rgba(13, 20, 50, 0.45);
+            padding: 8px;
+            text-align: center;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+            opacity: 1;
+        }
+        .mini-card img {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            margin-bottom: 0;
+            border: none;
+            padding: 0;
+            background: transparent;
+            transition: transform 0.25s ease;
+        }
+        .mini-label {
+            display: block;
+            font-size: 0.74rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0.85;
+            transition: opacity 0.25s ease;
+        }
+        .mini-card:hover {
+            transform: translateY(-6px) scale(1.2);
+            box-shadow: 0 22px 40px rgba(13, 20, 50, 0.6);
+            background: rgba(17, 25, 64, 1);
+            opacity: 1;
+            z-index: 10;
+        }
+        .mini-card:hover img {
+            transform: scale(1.45);
+        }
+        .mini-card:hover .mini-label {
+            opacity: 1;
+        }
+        .books-carousel {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-left: 12px;
+        }
+        .books-slider {
+            display: flex;
+            gap: 0;
+            transition: transform 0.35s ease;
+            will-change: transform;
+            cursor: grab;
+            user-select: none;
+        }
+        .book-card {
+            flex: 0 0 190px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.25);
+            padding: 6px;
+            margin-right: 16px;
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+            opacity: 0.9;
+        }
+        .book-card + .book-card {
+            margin-left: -112px;
+            z-index: 1;
+        }
+        .book-card:hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.35);
+            opacity: 1;
+            z-index: 10;
+        }
+        .book-card img {
+            width: 100%;
+            height: 224px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .carousel-controls button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .carousel-controls button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+        .carousel-controls button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .bio-section {
+            display: grid;
+            gap: 12px;
+        }
+
+        .main-content-area {
+            display: grid;
+            grid-template-columns: 260px minmax(0, 1fr);
+            gap: 24px;
+            align-items: flex-start;
+        }
+        .socials-column.card,
+        .details-column.card,
+        .right-column.card {
+            padding: 24px;
+        }
+
+        .socials-column h2 { margin-bottom: 12px; }
+        .socials-widget {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .socials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 6px;
+        }
+        .social-card {
+            background: rgba(90, 103, 216, 0.08);
+            border: 1px solid rgba(90, 103, 216, 0.2);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: box-shadow 0.2s ease;
+        }
+        .social-card:hover {
+            box-shadow: 0 12px 22px rgba(15, 23, 42, 0.15);
+        }
+        .social-card img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            transition: transform 0.2s ease;
+        }
+        .social-card:hover img {
+            transform: scale(1.35);
+        }
+        .resources-list { list-style: none; padding-left: 0; }
+        .resources-list li { margin-bottom: 8px; }
+
+        .details-column { display: flex; flex-direction: column; gap: 16px; }
+        .skills-list, .certifications-list, .essays-list, .projects-list, .papers-list { list-style: none; padding-left: 0; }
+        .skills-list { list-style: disc; padding-left: 18px; }
+        .feature-pocs-list {
+            list-style: disc;
+            padding-left: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 6px 18px;
+        }
+        .feature-pocs-list li {
+            margin: 0;
+            display: list-item;
+        }
+        .feature-ai-pocs-list {
+            list-style: disc;
+            padding-left: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px 16px;
+        }
+        .feature-ai-pocs-list li {
+            margin: 0;
+            padding: 2px 0;
+            display: list-item;
+            font-size: 1rem;
+        }
+        @media (max-width: 900px) {
+            .feature-ai-pocs-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 600px) {
+            .feature-pocs-list { grid-template-columns: 1fr; }
+            .feature-ai-pocs-list { grid-template-columns: 1fr; }
+        }
+        .skills-lectures-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+        .lectures-column { display: flex; flex-direction: column; gap: 16px; }
+
+        .lectures-section table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .lectures-section th {
+            font-weight: 600;
+            padding: 4px 0;
+            text-align: left;
+            color: var(--muted);
+        }
+        .lectures-section td { padding: 4px 0; vertical-align: top; }
+        .lectures-section ul { margin: 0; padding-left: 16px; }
+
+        .right-column { display: flex; flex-direction: column; gap: 20px; }
+        .right-top-row { display: flex; flex-direction: column; gap: 16px; }
+        .right-top-row article { width: 100%; }
+        .right-column img.icon { width: 14px; height: 14px; margin-right: 6px; }
+        .projects-list li, .essays-list li, .certifications-list li { margin-bottom: 8px; }
+        body.single-column .site-shell {
+            padding: 20px 16px 56px;
+        }
+        body.single-column .hero {
+            flex-direction: column;
+            min-height: auto;
+        }
+        body.single-column .hero-header,
+        body.single-column .hero-left,
+        body.single-column .hero-right,
+        body.single-column .hero-right-main {
+            width: 100%;
+        }
+        body.single-column .hero-right {
+            align-items: stretch;
+        }
+        body.single-column .hero-heading ul {
+            columns: 1;
+        }
+        body.single-column .mini-carousel-and-stack {
+            width: 100%;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 20px !important;
+        }
+        body.single-column .mini-carousel {
+            order: 1;
+            width: 100%;
+        }
+        body.single-column .mini-slider {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        body.single-column .mini-card {
+            width: 100%;
+            flex: initial;
+        }
+        body.single-column .side-projects-stack {
+            max-width: none;
+            width: 100%;
+            order: 2;
+        }
+        body:not(.single-column) .side-projects-stack {
+            flex: 0 0 calc(160px * 1.2);
+            max-width: calc(160px * 1.2);
+            margin-left: calc(40px + 2%);
+        }
+        body:not(.single-column) #next-book {
+            margin-right: 112px;
+        }
+        body.single-column .published-works,
+        body.single-column .bio-section,
+        body.single-column .main-content-area,
+        body.single-column .right-column {
+            width: 100%;
+        }
+        body.single-column .main-content-area {
+            display: flex;
+            flex-direction: column;
+        }
+        body.single-column .main-content-area > * {
+            width: 100%;
+        }
+        body.single-column .skills-lectures-container {
+            grid-template-columns: 1fr;
+        }
+        body.single-column .right-top-row {
+            flex-direction: column;
+        }
+
+        @media (max-width: 1100px) {
+            .main-content-area { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .socials-column { grid-column: span 2; }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-right {
+                flex-direction: column;
+            }
+            .side-projects-stack {
+                flex: 1 1 auto;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .site-shell { padding: 24px 16px 48px; }
+            .hero { padding: 24px; }
+            .hero-heading ul { columns: 1; }
+            .main-content-area { grid-template-columns: minmax(0, 1fr); }
+        }
+
+        br { display: none; }
+
+    </style>
+</head>
+
+<body>
+    <div class="site-shell">
+        <header class="hero card">
+            <div class="hero-left">
+                <p class="eyebrow">Principal Software Architect • Author • Speaker • Mentor • Leader</p>
+                <div class="hero-header">
+                    <div class="profile-image-container">
+                        <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/image-profile.png" alt="Diego Pacheco Profile" />
+                    </div>
+                    <div class="hero-heading">
+                        <div class="hero-title-row">
+                            <h1>Diego Pacheco</h1>
+                            <span class="hero-about">About me</span>
+                        </div>
+                        <ul class="hero-roles">
+                            <li>Father</li>
+                            <li>Cat's Father</li>
+                            <li>Principal Software Architect</li>
+                            <li>SOA Expert</li>
+                            <li>DevOps Practitioner</li>
+                            <li>Author</li>
+                            <li>Mentor</li>
+                            <li>Speaker</li>
+                            <li>Leader</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="hero-description">Brazilian software architect, SOA expert, DevOps practitioner, author, mentor, and speaker.</p>
+            </div>
+            <div class="hero-right">
+                <div class="hero-right-main">
+                    <div class="mini-carousel-and-stack" style="display:flex;gap:16px;align-items:flex-start;">
+                        <div class="mini-carousel">
+                            <h3>📝 Tiny Essays</h3>
+                            <div class="books-slider mini-slider" id="essays-slider">
+                            <a class="mini-card" href="https://gist.github.com/diegopacheco/4b7dfeb781ad3455ae2a6b090d9deaa7" title="Rust essay" target="_blank" rel="noopener noreferrer">
+                                <img src="https://emojis.slackmojis.com/emojis/images/1643514229/1965/rust.png?1643514229" alt="Rust icon" />
+                                <span class="mini-label">Rust</span>
+                            </a>
+                        <a class="mini-card" href="https://gist.github.com/diegopacheco/1b5df4287dd1ce4276631fd630267311" title="Scala essay" target="_blank" rel="noopener noreferrer">
+                                <img src="https://slackmojis.com/emojis/1857-scala/download" alt="Scala icon" />
+                                <span class="mini-label">Scala</span>
+                            </a>
+                        <a class="mini-card" href="https://gist.github.com/diegopacheco/7d7c8110db68352d58a18b0e3e3c2bb0" title="Zig essay" target="_blank" rel="noopener noreferrer">
+                                <img src="https://slackmojis.com/emojis/57099-ziglang/download" alt="Zig icon" />
+                                <span class="mini-label">Zig</span>
+                            </a>
+                        <a class="mini-card" href="https://gist.github.com/diegopacheco/f6beabf1451cfe1ec2dc89a19a78fdc5" title="Kotlin essay" target="_blank" rel="noopener noreferrer">
+                                <img src="https://slackmojis.com/emojis/2351-kotlin/download" alt="Kotlin icon" />
+                                <span class="mini-label">Kotlin</span>
+                            </a>
+                        <a class="mini-card" href="https://gist.github.com/diegopacheco/9453877378f007e8903a359f298a0afa" title="Clojure essay" target="_blank" rel="noopener noreferrer">
+                                <img src="https://slackmojis.com/emojis/378-clojure/download" alt="Clojure icon" />
+                                <span class="mini-label">Clojure</span>
+                            </a>
+                        <a class="mini-card" href="https://gist.github.com/diegopacheco/057087dc7ae236bdd0700014a31c88ef" title="Haskell essay" target="_blank" rel="noopener noreferrer">
+                                <img src="https://slackmojis.com/emojis/22333-haskell/download" alt="Haskell icon" />
+                                <span class="mini-label">Haskell</span>
+                            </a>
+                        <a class="mini-card" href="https://gist.github.com/diegopacheco/0fb84d881e2423147d9cb6f8619bf473" title="Nim essay" target="_blank" rel="noopener noreferrer">
+                                <img src="https://slackmojis.com/emojis/63427-nim/download" alt="Nim icon" />
+                                <span class="mini-label">Nim</span>
+                            </a>
+                            <a class="mini-card" href="https://gist.github.com/diegopacheco/3d0b176eb83e569da582a0770209e22f" title="V essay" target="_blank" rel="noopener noreferrer">
+                                <img src="https://vlang.io/img/v-logo.png" alt="V icon" />
+                                <span class="mini-label">V</span>
+                            </a>
+                            </div>
+                        </div>
+                        <aside class="side-projects-stack">
+                            <h3>🥇 Tiny Side Projects</h3>
+                            <div class="side-projects-list">
+                                <a class="side-project-card" href="https://github.com/diegopacheco/tupilang" title="Tupi lang on GitHub" target="_blank" rel="noopener noreferrer">
+                                    <div class="side-project-card-header">
+                                        <span class="side-project-emoji" aria-hidden="true">🧝🏾‍♂️</span>
+                                        <div>
+                                            <p class="side-project-name">Tupi lang</p>
+                                            <p class="side-project-desc">Java 23 PL</p>
+                                        </div>
+                                    </div>
+                                    <span class="side-project-link">tupilang</span>
+                                </a>
+                                <a class="side-project-card" href="https://github.com/diegopacheco/jello" title="Jello on GitHub" target="_blank" rel="noopener noreferrer">
+                                    <div class="side-project-card-header">
+                                        <span class="side-project-emoji" aria-hidden="true">🥫</span>
+                                        <div>
+                                            <p class="side-project-name">Jello</p>
+                                            <p class="side-project-desc">Vanilla JS Trello</p>
+                                        </div>
+                                    </div>
+                                    <span class="side-project-link">jello</span>
+                                </a>
+                                <a class="side-project-card" href="https://github.com/diegopacheco/zim" title="Zim on GitHub" target="_blank" rel="noopener noreferrer">
+                                    <div class="side-project-card-header">
+                                        <span class="side-project-emoji" aria-hidden="true">📑</span>
+                                        <div>
+                                            <p class="side-project-name">Zim</p>
+                                            <p class="side-project-desc">Zig 0.13 vim-like</p>
+                                        </div>
+                                    </div>
+                                    <span class="side-project-link">zim</span>
+                                </a>
+                                <a class="side-project-card" href="https://github.com/diegopacheco/gorminator" title="Gorminator on GitHub" target="_blank" rel="noopener noreferrer">
+                                    <div class="side-project-card-header">
+                                        <span class="side-project-emoji" aria-hidden="true">💻</span>
+                                        <div>
+                                            <p class="side-project-name">Gorminator</p>
+                                            <p class="side-project-desc">Go Linux terminal</p>
+                                        </div>
+                                    </div>
+                                    <span class="side-project-link">gorminator</span>
+                                </a>
+                                <a class="side-project-card" href="https://github.com/diegopacheco/kit" title="kit on GitHub" target="_blank" rel="noopener noreferrer">
+                                    <div class="side-project-card-header">
+                                        <span class="side-project-emoji" aria-hidden="true">😸</span>
+                                        <div>
+                                            <p class="side-project-name">kit</p>
+                                            <p class="side-project-desc">Git-like in Kotlin</p>
+                                        </div>
+                                    </div>
+                                    <span class="side-project-link">kit</span>
+                                </a>
+                                <a class="side-project-card" href="https://github.com/diegopacheco/shrust" title="Shrust on GitHub" target="_blank" rel="noopener noreferrer">
+                                    <div class="side-project-card-header">
+                                        <span class="side-project-emoji" aria-hidden="true">🦀</span>
+                                        <div>
+                                            <p class="side-project-name">Shrust</p>
+                                            <p class="side-project-desc">Rust compression</p>
+                                        </div>
+                                    </div>
+                                    <span class="side-project-link">shrust</span>
+                                </a>
+                                <a class="side-project-card" href="https://github.com/diegopacheco/smith" title="Smith on GitHub" target="_blank" rel="noopener noreferrer">
+                                    <div class="side-project-card-header">
+                                        <span class="side-project-emoji" aria-hidden="true">🕵🏽</span>
+                                        <div>
+                                            <p class="side-project-name">Smith</p>
+                                            <p class="side-project-desc">Scala 3 security agent</p>
+                                        </div>
+                                    </div>
+                                    <span class="side-project-link">smith</span>
+                                </a>
+                                <a class="side-project-card" href="https://github.com/diegopacheco/zos" title="ZOS on GitHub" target="_blank" rel="noopener noreferrer">
+                                    <div class="side-project-card-header">
+                                        <span class="side-project-emoji" aria-hidden="true">📟</span>
+                                        <div>
+                                            <p class="side-project-name">ZOS</p>
+                                            <p class="side-project-desc">Tiny Zig OS</p>
+                                        </div>
+                                    </div>
+                                    <span class="side-project-link">zos</span>
+                                </a>
+                                <a class="side-project-card" href="https://gist.github.com/diegopacheco/d48104e8f584e3209ce7d5f5c0186e0e" title="Tiny Games Collection" target="_blank" rel="noopener noreferrer">
+                                    <div class="side-project-card-header">
+                                        <span class="side-project-emoji" aria-hidden="true">🎮</span>
+                                        <div>
+                                            <p class="side-project-name">Tiny Games</p>
+                                            <p class="side-project-desc">Collection of JS games</p>
+                                        </div>
+                                    </div>
+                                    <span class="side-project-link">Tiny Games</span>
+                                </a>
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="published-works">
+                        <h2>Published Books & Video Series</h2>
+                        <div class="books-carousel">
+                            <div class="books-slider" id="books-slider">
+                                <a class="book-card" href="https://diegopacheco.github.io/The-Art-of-Sense-A-Philosophy-of-Modern-AI/" target="_blank" rel="noopener noreferrer">
+                                    <img src="images/book-cover-AOS-2025-AI.png" alt="Diego Pacheco's The Art of Sense: A Philosophy of Modern AI" />
+                                </a>
+                                <a class="book-card" href="https://diegopacheco.github.io/diegopacheco-architecture-library/introduction.html" target="_blank" rel="noopener noreferrer">
+                                    <img src="images/book-4-2025-cover.png" alt="Diego Pacheco's Software Architecture Library Book" />
+                                </a>
+                                <a class="book-card" href="https://www.amazon.com/Continuous-Modernization-never-ending-microservices-distributed-ebook/dp/B0DHS63NQH/" target="_blank" rel="noopener noreferrer">
+                                    <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/book-cm-2024.png" alt="Continuous Modernization Book" />
+                                </a>
+                                <a class="book-card" href="https://bpbonline.com/products/principles-of-software-architecture-modernization" target="_blank" rel="noopener noreferrer">
+                                    <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/book-arch-monoliths-2023.png" alt="Principles of Software Architecture Modernization Book" />
+                                </a>
+                                <a class="book-card" href="https://diegopacheco.github.io/tech-resources/" target="_blank" rel="noopener noreferrer">
+                                    <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/Tech_Resources_logo.png" alt="Diego Pacheco's Tech Resources" />
+                                </a>
+                                <a class="book-card" href="https://books.apple.com/us/book/building-applications-with-scala/id1113861297" target="_blank" rel="noopener noreferrer">
+                                    <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/book-cover-scala-2016-2.png" alt="Building Applications with Scala Book" />
+                                </a>
+                                <a class="book-card" href="https://www.packtpub.com/application-development/building-effective-microservices-video" target="_blank" rel="noopener noreferrer">
+                                    <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/video-cover-microservices-2017.png" alt="Building Effective Microservices Video Series" />
+                                </a>
+                            </div>
+                            <div class="carousel-controls">
+                                <button id="prev-book">Prev</button>
+                                <button id="next-book">Next</button>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+        </header>
+
+        <section class="bio-section card">
+            <h3>👨‍💻 Diego Pacheco Bio</h3>
+            <div class="bio-text">
+                <p>Diego Pacheco is a seasoned, experienced 🇧🇷Brazilian software architect, author, speaker,technology mentor, and DevOps practitioner with more than 20+ years of solid experience. I've been building teams and mentoring people for more than a decade, teaching soft skills and technology daily. Selling projects, hiring, building solutions, running coding dojos, long retrospectives, weekly 1:1s, design sessions, code reviews, and my favorite debate club: architects community of practices and development groups for more than a decade. Live, breathe, and practice real Agile since 2005, coaching teams have helped many companies to discover better ways to work using Lean and Kanban, Agile principles, and methods like XP and DTA/TTA. I've led complex architecture teams and engineering teams at scale guided by SOA principles, using a variety of open-source languages like Java, Scala, Rust, Go, Python, Groovy, JavaScript and TypeScript, cloud providers like AWS Cloud and Google GCP, amazing solutions like Akka, ActiveMQ, Netty, Tomcat and Gatling, NoSQL databases like Cassandra, Redis, Elasticache Redis, Elasticsearch, Opensearch, RabbitMQ, libraries like Spring, Hibernate, and Spring Boot and also the NetflixOSS Stack: Simian Army, RxJava, Karyon, Dynomite, Eureka, and Ribbon. I've implemented complex security solutions at scale using AWS KMS, S3, Containers (ECS and EKs), Terraform, and Jenkins. Over a decade of experience as a consultant, coding, designing, and training people at big customers in Brazil, London, Barcelona, India, and the USA(Silicon Valley and Midwest). I have a passion for functional programming and distributed systems, NoSQL Databases, a mindset for Observability, and always learning new programming languages.</p>
+            </div>
+            <div class="currently-text">
+                <p>🌱Currently: Working as a principal Software Architect with AWS public cloud, Kubernetes/EKS, performing complex cloud migrations, library migrations, server and persistence migrations, and security at scale with multi-level envelope encryption solutions using KMS and S3. While still hiring, teaching, mentoring, and growing engineers and architects. During my free time, I love playing guitar, gaming, coding POCs, and blogging. Active blogger blog at http://diego-pacheco.blogspot.com.br/</p>
+            </div>
+        </section>
+
+        <div class="main-content-area">
+            <aside class="socials-column card">
+                <h2>Socials</h2>
+                <div class="socials-widget">
+                    <div class="socials-grid">
+                        <a class="social-card" href="https://github.com/diegopacheco/" title="diegopacheco on GitHub" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/github-logo.png" alt="GitHub" />
+                        </a>
+                        <a class="social-card" href="https://br.linkedin.com/in/diegopachecors" title="diegopachecors on LinkedIn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/linkedin-logo.png" alt="LinkedIn" />
+                        </a>
+                        <a class="social-card" href="http://diego-pacheco.blogspot.com.br/" title="Tech Blog on Blogger" target="_blank" rel="noopener noreferrer" aria-label="Tech Blog">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/Blogger_icon.svg.png" alt="Blogger" />
+                        </a>
+                        <a class="social-card" href="https://diegopachecotech.substack.com/" title="diegopachecotech on Substack" target="_blank" rel="noopener noreferrer" aria-label="Substack">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/substack_logo.png" alt="Substack" />
+                        </a>
+                        <a class="social-card" href="https://diego-pacheco.medium.com/" title="diego-pacheco on Medium" target="_blank" rel="noopener noreferrer" aria-label="Medium">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/medium.png" alt="Medium" />
+                        </a>
+                        <a class="social-card" href="https://tinyurl.com/diegopacheco" title="Diego Pacheco Youtube Channel" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/youtube.png" alt="YouTube" />
+                        </a>
+                        <a class="social-card" href="https://twitter.com/diego_pacheco" title="@diego_pacheco on Twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/X_icon.svg.png" alt="Twitter" />
+                        </a>
+                        <a class="social-card" href="https://bsky.app/profile/diegopacheco.bsky.social" title="diegopacheco.bsky.social on Bluesky" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/bluesky.png" alt="Bluesky" />
+                        </a>
+                        <a class="social-card" href="https://news.ycombinator.com/submitted?id=diegopacheco" title="diegopacheco on Hacker News" target="_blank" rel="noopener noreferrer" aria-label="Hacker News">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/HN.png" alt="Hacker News" />
+                        </a>
+                        <a class="social-card" href="http://www.slideshare.net/diego.pacheco/presentations" title="diego.pacheco on SlideShare" target="_blank" rel="noopener noreferrer" aria-label="SlideShare">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/slideshare.png" alt="SlideShare" />
+                        </a>
+                        <a class="social-card" href="https://hub.docker.com/u/diegopacheco/" title="diegopacheco on DockerHub" target="_blank" rel="noopener noreferrer" aria-label="DockerHub">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/docker.png" alt="DockerHub" />
+                        </a>
+                        <a class="social-card" href="https://vimeo.com/channels/pacheco" title="pacheco on Vimeo" target="_blank" rel="noopener noreferrer" aria-label="Vimeo">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/vimeo2.png" alt="Vimeo" />
+                        </a>
+                        <a class="social-card" href="https://amazon.com/author/diegopacheco" title="Diego Pacheco on Amazon" target="_blank" rel="noopener noreferrer" aria-label="Amazon Author">
+                            <img src="https://raw.githubusercontent.com/diegopacheco/diegopacheco.github.io/master/images/amazon-author.png" alt="Amazon Author" />
+                        </a>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="details-column card">
+                <div class="skills-lectures-container">
+                    <div class="skills-column">
+                        <article id="skills">
+                            <h3>💻 Core skills and expertise:</h3>
+                            <ul class="skills-list">
+                                <li>Architecture Design and architecture coding for highly scalable systems</li>
+                                <li>Delivering distributed systems using SOA and Microservices principles, tools, and techniques</li>
+                                <li>Driving and executing complex cloud migrations, library and server migrations at scale</li>
+                                <li>Performance tuning, troubleshooting & DevOps engineering</li>
+                                <li>Functional Programming and Scala</li>
+                                <li>Technology Mentor, agile coach & leader for architecture and engineering teams</li>
+                                <li>Consultant on development practices with XP / Kanban</li>
+                                <li>Hire, develop, retain, and truly grow talent at scale</li>
+                            </ul>
+                        </article>
+                        <article id="feature-pocs">
+                            <h3>🧪 Feature POCs:</h3>
+                            <ul class="feature-pocs-list">
+                                <li><a href="https://github.com/diegopacheco/ai-playground" target="_blank" rel="noopener noreferrer">AI Playground</a></li>
+                                <li><a href="https://github.com/diegopacheco/data-structures" target="_blank" rel="noopener noreferrer">Data Structures</a></li>
+                                <li><a href="https://github.com/diegopacheco/servers-benchmark" target="_blank" rel="noopener noreferrer">Servers Benchmark</a></li>
+                                <li><a href="https://github.com/diegopacheco/java-pocs/tree/master/pocs/if-alternatives-fun" target="_blank" rel="noopener noreferrer">IF Alternatives</a></li>
+                                <li><a href="https://github.com/diegopacheco/java-pocs/tree/master/pocs/if-killer-proper-oop" target="_blank" rel="noopener noreferrer">IF Killer Proper OOP</a></li>
+                                <li><a href="https://github.com/diegopacheco/java-pocs/tree/master/pocs/java-21-spring-boot-3-async-virtual-threads" target="_blank" rel="noopener noreferrer">Spring Boot Virtual Threads</a></li>
+                                <li><a href="https://github.com/diegopacheco/scala-playground/tree/master/scala-3.7-spring-boot-3.5-netty-multi-workers-metrics-grafana-k6" target="_blank" rel="noopener noreferrer">Netty K6</a></li>
+                                <li><a href="https://github.com/diegopacheco/scala-playground/tree/master/scala-3.5-patterns/src/main/scala/com/github/diegopacheco/scalapatterns" target="_blank" rel="noopener noreferrer">Scala 3x Patterns</a></li>
+                                <li><a href="https://github.com/diegopacheco/devops-playground/tree/master/postgres-partitions-playground" target="_blank" rel="noopener noreferrer">Postgres Partition Playground</a></li>
+                                <li><a href="https://github.com/diegopacheco/java-pocs/tree/master/pocs/oop-anti-patterns" target="_blank" rel="noopener noreferrer">OOP Anti-Patterns</a></li>
+                            </ul>
+                        </article>
+                    </div>
+
+                    <div class="lectures-column">
+                        <article id="lectures" class="lectures-section">
+                            <h2>🔉Recent Lectures</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>2018</th>
+                                        <th>2016</th>
+                                        <th>2015</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <ul>
+                                                <li><a href="https://www.slideshare.net/diego.pacheco/experiences-building-a-multi-region-cassandra-operations-orchestrator-on-aws" target="_blank" rel="noopener noreferrer">Meetup AWS POA</a></li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li><a href="https://www.youtube.com/watch?v=Z4_rzsZd70o&feature=youtu.be" target="_blank" rel="noopener noreferrer">Netflix</a></li>
+                                                <li><a href="https://www.infoq.com/br/presentations/microservices-reativos-usando-a-stack-do-netflix-na-aws" target="_blank" rel="noopener noreferrer">QCon SP</a></li>
+                                                <li><a href="http://www.meetup.com/Sao-Paulo-Amazon-Web-Services-AWS-Meetup/events/229283010" target="_blank" rel="noopener noreferrer">AWS SP Meetup</a></li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li><a href="https://www.infoq.com/br/presentations/vivenciando-devops" target="_blank" rel="noopener noreferrer">QCon SP</a></li>
+                                                <li><a href="https://agilebrazil2015.sched.com/event/4DE2" target="_blank" rel="noopener noreferrer">Agile Brazil</a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </article>
+
+                        <article id="papers">
+                            <h2>📜 Papers (2019)</h2>
+                            <ul class="papers-list">
+                                <li><a href="https://ilegra.com/wp-content/uploads/2019/10/Arquitetura-Valor-e-Negócio.pdf" target="_blank" rel="noopener noreferrer">Arch, Business & Value</a></li>
+                                <li><a href="https://ilegra.com/wp-content/uploads/2019/10/Paper-Multicloud.pdf" target="_blank" rel="noopener noreferrer">Multi/Poly Cloud</a></li>
+                                <li><a href="https://ilegra.com/wp-content/uploads/2019/10/Paper-Frontend.pdf" target="_blank" rel="noopener noreferrer">Micro Frontends & SRR</a></li>
+                            </ul>
+                        </article>
+
+                        <article id="certifications">
+                            <h3>💯 Certifications</h3>
+                            <ul class="certifications-list">
+                                <li>📐Google Cloud Architect</li>
+                                <li>☕ Sun Certified Web Component Developer</li>
+                                <li>☕ Sun Certified Java Programmer</li>
+                            </ul>
+                        </article>
+                    </div>
+                </div>
+                <article id="feature-ai-pocs">
+                    <h3>🤖 Feature AI POCs:</h3>
+                    <ul class="feature-ai-pocs-list">
+                        <li><a href="https://github.com/diegopacheco/code-city-viz" target="_blank" rel="noopener noreferrer">🏙️ Code City Viz</a></li>
+                        <li><a href="https://github.com/diegopacheco/ras" target="_blank" rel="noopener noreferrer">📄 Rust Arxiv Sumarizer</a></li>
+                        <li><a href="https://github.com/diegopacheco/claudio-coda-rust" target="_blank" rel="noopener noreferrer">🦀 Claudio Coda</a></li>
+                        <li><a href="https://github.com/diegopacheco/local-agent-orama" target="_blank" rel="noopener noreferrer">🔮 Local Agent Orama</a></li>
+                        <li><a href="https://github.com/diegopacheco/local-agent-rust-llama3" target="_blank" rel="noopener noreferrer">🦙 Local Agent llr3</a></li>
+                        <li><a href="https://github.com/diegopacheco/multi-agent-verse" target="_blank" rel="noopener noreferrer">🌐 Multi-Agent-Verse</a></li>
+                        <li><a href="https://github.com/diegopacheco/prompt-2-k8s-agent" target="_blank" rel="noopener noreferrer">☸️ prompt-2-k8s-agent</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-learner-prompt" target="_blank" rel="noopener noreferrer">📚 Agent Learner Prompt</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/prompt-score" target="_blank" rel="noopener noreferrer">📊 Prompt Score</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/self-training-machine" target="_blank" rel="noopener noreferrer">🤖 Self Training</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/connect-four-agent-vs-agent" target="_blank" rel="noopener noreferrer">🎮 Connect Four Agents</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-debate-club" target="_blank" rel="noopener noreferrer">💬 Agent Debate Club</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/agents-auction-hourse" target="_blank" rel="noopener noreferrer">🏛️ Agents Auction House</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/ai-rpg" target="_blank" rel="noopener noreferrer">🎲 AI RPG</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/skill-evaluator" target="_blank" rel="noopener noreferrer">📋 Skill Evaluator</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/leak-detector-skill" target="_blank" rel="noopener noreferrer">🔐 Leak Detector Skill</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/k8s-sre-agent-operator" target="_blank" rel="noopener noreferrer">☸️ K8s SRE Agent</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/autobench-skill-poc/sample-bench" target="_blank" rel="noopener noreferrer">⚡ AutoBench Skill</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/agents-auction-hourse" target="_blank" rel="noopener noreferrer">🏛️ Multi-Agent Auction</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-werewolf" target="_blank" rel="noopener noreferrer">🐺 Werewolf Agent Game</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-runbook" target="_blank" rel="noopener noreferrer">📖 Runbook Generator</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/cc-hook-tool-time-tracker" target="_blank" rel="noopener noreferrer">⏱️ Tool Time Tracker</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-infra-automation-generator" target="_blank" rel="noopener noreferrer">🏗️ Infra Automation Gen</a></li>
+                        <li><a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-bruno-skill" target="_blank" rel="noopener noreferrer">🔧 Bruno Collection Gen</a></li>
+                    </ul>
+                </article>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        (function(){
+            const body = document.body;
+            if (!body) return;
+
+            const uaRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+            const widthQuery = window.matchMedia('(max-width: 1024px)');
+
+            function isLikelyMobile() {
+                if (navigator.userAgentData && typeof navigator.userAgentData.mobile === 'boolean') {
+                    return navigator.userAgentData.mobile;
+                }
+                const ua = navigator.userAgent || '';
+                if (uaRegex.test(ua)) {
+                    return true;
+                }
+                if ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 1) {
+                    return widthQuery.matches;
+                }
+                return false;
+            }
+
+            function applySingleColumn() {
+                body.classList.toggle('single-column', isLikelyMobile());
+            }
+
+            applySingleColumn();
+            window.addEventListener('resize', applySingleColumn);
+            window.addEventListener('orientationchange', applySingleColumn);
+            if (typeof widthQuery.addEventListener === 'function') {
+                widthQuery.addEventListener('change', applySingleColumn);
+            } else if (typeof widthQuery.addListener === 'function') {
+                widthQuery.addListener(applySingleColumn);
+            }
+        })();
+
+        (function(){
+            const slider = document.getElementById('books-slider');
+            if(!slider) return;
+            const cards = Array.from(slider.querySelectorAll('.book-card'));
+            const OVERLAP = 140;
+            let index = 0;
+
+            function cardWidth() {
+                return cards[0].getBoundingClientRect().width;
+            }
+
+            function stepSize() {
+                return cardWidth() - OVERLAP;
+            }
+
+            function clampIndex() {
+                const maxStart = Math.max(0, cards.length - 1);
+                index = Math.min(maxStart, Math.max(0, index));
+            }
+
+            function update() {
+                slider.style.transform = `translateX(${-index * stepSize()}px)`;
+            }
+
+            function scroll(delta) {
+                index += delta;
+                clampIndex();
+                update();
+            }
+
+            const prevBtn = document.getElementById('prev-book');
+            const nextBtn = document.getElementById('next-book');
+            if (prevBtn) prevBtn.addEventListener('click', () => scroll(-1));
+            if (nextBtn) nextBtn.addEventListener('click', () => scroll(1));
+
+            let dragStart = null;
+            slider.addEventListener('dragstart', e => e.preventDefault());
+
+            slider.addEventListener('mousedown', e => dragStart = e.clientX);
+            window.addEventListener('mouseup', () => dragStart = null);
+            window.addEventListener('mousemove', e => {
+                if (dragStart == null) return;
+                const delta = e.clientX - dragStart;
+                if (Math.abs(delta) > 60) {
+                    scroll(delta < 0 ? 1 : -1);
+                    dragStart = e.clientX;
+                }
+            });
+
+            slider.addEventListener('touchstart', e => dragStart = e.touches[0].clientX, {passive: true});
+            slider.addEventListener('touchend', () => dragStart = null);
+            slider.addEventListener('touchmove', e => {
+                if (dragStart == null) return;
+                const delta = e.touches[0].clientX - dragStart;
+                if (Math.abs(delta) > 60) {
+                    scroll(delta < 0 ? 1 : -1);
+                    dragStart = e.touches[0].clientX;
+                }
+            }, {passive: true});
+
+            window.addEventListener('keydown', e => {
+                if (e.key === 'ArrowRight') {
+                    scroll(1);
+                } else if (e.key === 'ArrowLeft') {
+                    scroll(-1);
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                clampIndex();
+                update();
+            });
+
+            clampIndex();
+            update();
+        })();
+
+        (function(){
+            const list = document.querySelector('.side-projects-list');
+            if (!list) return;
+            let cards = Array.from(list.querySelectorAll('.side-project-card'));
+            if (cards.length <= 1) return;
+
+            function syncStack() {
+                cards.forEach((card, index) => {
+                    card.style.setProperty('--stack-index', index);
+                    card.classList.toggle('is-active', index === 0);
+                });
+            }
+
+            function rotateDown() {
+                const [first, ...rest] = cards;
+                cards = [...rest, first];
+                list.appendChild(first);
+                syncStack();
+            }
+
+            function rotateUp() {
+                const last = cards.pop();
+                if (!last) return;
+                cards = [last, ...cards];
+                list.insertBefore(last, list.firstChild);
+                syncStack();
+            }
+
+            function step(delta) {
+                if (delta > 0) {
+                    rotateDown();
+                } else if (delta < 0) {
+                    rotateUp();
+                }
+            }
+
+            syncStack();
+            let timer = null;
+            const INTERVAL = 3000;
+            let isHovering = false;
+
+            function startAuto() {
+                if (!timer && !isHovering) {
+                    timer = setInterval(() => step(1), INTERVAL);
+                }
+            }
+            function stopAuto() {
+                if (timer) {
+                    clearInterval(timer);
+                    timer = null;
+                }
+            }
+
+            let dragStart = null;
+            let hoverY = null;
+            list.addEventListener('touchstart', e => {
+                dragStart = e.touches[0].clientY;
+                stopAuto();
+            }, {passive: true});
+            list.addEventListener('touchend', () => {
+                dragStart = null;
+                if (isHovering) startAuto();
+            });
+            list.addEventListener('touchmove', e => {
+                if (dragStart == null) return;
+                const delta = e.touches[0].clientY - dragStart;
+                if (Math.abs(delta) > 18) {
+                    step(delta > 0 ? 1 : -1);
+                    dragStart = e.touches[0].clientY;
+                }
+            }, {passive: true});
+
+            list.addEventListener('mousedown', e => {
+                dragStart = e.clientY;
+                stopAuto();
+            });
+            list.addEventListener('mouseenter', e => {
+                hoverY = e.clientY;
+                isHovering = true;
+                stopAuto();
+            });
+            list.addEventListener('mouseleave', () => {
+                isHovering = false;
+                hoverY = null;
+                startAuto();
+            });
+            window.addEventListener('mouseup', () => {
+                if (dragStart != null) {
+                    dragStart = null;
+                    if (isHovering) startAuto();
+                    hoverY = null;
+                }
+            });
+            window.addEventListener('mousemove', e => {
+                if (dragStart == null) return;
+                const delta = e.clientY - dragStart;
+                if (Math.abs(delta) > 15) {
+                    step(delta > 0 ? 1 : -1);
+                    dragStart = e.clientY;
+                    hoverY = dragStart;
+                }
+            });
+            list.addEventListener('mousemove', e => {
+                if (dragStart != null) return;
+                if (!isHovering) return;
+                if (hoverY == null) hoverY = e.clientY;
+                const delta = e.clientY - hoverY;
+                if (Math.abs(delta) > 20) {
+                    step(delta > 0 ? 1 : -1);
+                    hoverY = e.clientY;
+                }
+            });
+            list.addEventListener('click', e => {
+                const card = e.target.closest('.side-project-card');
+                if (!card) return;
+                e.preventDefault();
+                stopAuto();
+                window.open(card.href, '_blank', 'noopener,noreferrer');
+            });
+            window.addEventListener('keydown', e => {
+                if (e.key === 'ArrowDown') {
+                    stopAuto();
+                    step(1);
+                    if (!isHovering) startAuto();
+                } else if (e.key === 'ArrowUp') {
+                    stopAuto();
+                    step(-1);
+                    if (!isHovering) startAuto();
+                }
+            });
+        })();
+
+        (function(){
+            const slider = document.getElementById('essays-slider');
+            if (!slider) return;
+            const cards = Array.from(slider.querySelectorAll('.mini-card'));
+            if (!cards.length) return;
+            let order = cards.slice();
+
+            function render() {
+                order.forEach(card => slider.appendChild(card));
+            }
+
+            render();
+
+            let dragStart = null;
+
+            slider.addEventListener('touchstart', e => {
+                dragStart = e.touches[0].clientY;
+            }, {passive: true});
+            slider.addEventListener('touchend', () => {
+                dragStart = null;
+            });
+            slider.addEventListener('touchmove', e => {
+                if (dragStart == null) return;
+                const delta = e.touches[0].clientY - dragStart;
+                if (Math.abs(delta) > 25) {
+                    if (delta > 0) {
+                        const first = order.shift();
+                        if (first) order.push(first);
+                    } else {
+                        const last = order.pop();
+                        if (last) order.unshift(last);
+                    }
+                    render();
+                    dragStart = e.touches[0].clientY;
+                }
+            }, {passive: true});
+
+            slider.addEventListener('mousedown', e => {
+                dragStart = e.clientY;
+                e.preventDefault();
+            });
+            window.addEventListener('mouseup', () => {
+                dragStart = null;
+            });
+            window.addEventListener('mousemove', e => {
+                if (dragStart == null) return;
+                const delta = e.clientY - dragStart;
+                if (Math.abs(delta) > 18) {
+                    if (delta > 0) {
+                        const first = order.shift();
+                        if (first) order.push(first);
+                    } else {
+                        const last = order.pop();
+                        if (last) order.unshift(last);
+                    }
+                    render();
+                    dragStart = e.clientY;
+                }
+            });
+        })();
+
+    </script>
+
+</body>
+
+</html>

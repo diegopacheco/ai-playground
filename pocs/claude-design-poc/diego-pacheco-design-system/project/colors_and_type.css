@@ -1,0 +1,273 @@
+/* ============================================================
+   Diego Pacheco Design System
+   Drop-in tokens + semantic CSS.
+
+   Import in any HTML doc:
+     <link rel="stylesheet" href="./colors_and_type.css" />
+
+   Or copy the :root block into your own stylesheet.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* -------- Color palette (raw) -------- */
+  --dp-bg: #f5f7fb;          /* page background — cool slate-off-white */
+  --dp-card: #ffffff;        /* card surface */
+  --dp-text: #1a1f2b;        /* near-black, blue-tinted */
+  --dp-muted: #5f6b81;       /* secondary text, table headers */
+  --dp-primary: #5a67d8;     /* link / accent indigo */
+
+  --dp-hero-grad-from: #373b44;  /* dark slate-graphite */
+  --dp-hero-grad-to:   #4286f4;  /* cobalt blue */
+
+  --dp-inner-grad-from: rgba(22, 30, 78, 0.98);
+  --dp-inner-grad-to:   rgba(49, 66, 145, 0.98);
+
+  --dp-overlay-navy: rgba(15, 23, 42, 0.30);
+  --dp-overlay-deep: rgba(13, 20, 50, 0.45);
+
+  --dp-tint-primary: rgba(90, 103, 216, 0.08);
+  --dp-tint-primary-border: rgba(90, 103, 216, 0.20);
+
+  --dp-white-08: rgba(255, 255, 255, 0.08);
+  --dp-white-12: rgba(255, 255, 255, 0.12);
+  --dp-white-20: rgba(255, 255, 255, 0.20);
+  --dp-white-30: rgba(255, 255, 255, 0.30);
+  --dp-white-35: rgba(255, 255, 255, 0.35);
+  --dp-white-40: rgba(255, 255, 255, 0.40);
+  --dp-white-60: rgba(255, 255, 255, 0.60);
+  --dp-white-80: rgba(255, 255, 255, 0.80);
+  --dp-white-90: rgba(255, 255, 255, 0.90);
+
+  /* -------- Semantic colors -------- */
+  --color-bg: var(--dp-bg);
+  --color-surface: var(--dp-card);
+  --color-fg-1: var(--dp-text);
+  --color-fg-2: var(--dp-muted);
+  --color-link: var(--dp-primary);
+  --color-link-hover-opacity: 0.85;
+
+  --color-on-hero: #ffffff;
+  --color-on-hero-soft: rgba(255, 255, 255, 0.85);
+
+  /* -------- Type -------- */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system,
+               'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --fs-h1: clamp(1.8rem, 3vw, 2.8rem);   /* 28.8 → 44.8 px */
+  --fs-h2: clamp(1.2rem, 2vw, 1.6rem);   /* 19.2 → 25.6 px */
+  --fs-h3: 1.1rem;                       /* 17.6 px */
+  --fs-body: 1rem;                       /* 16 px */
+  --fs-sm: 0.85rem;                      /* 13.6 px */
+  --fs-xs: 0.75rem;                      /* 12 px */
+  --fs-mini: 0.65rem;                    /* 10.4 px — only on dark mini-cards */
+  --fs-mini-label: 0.74rem;              /* 11.8 px — uppercase mini-card labels */
+
+  --lh-body: 1.6;
+  --lh-tight: 1.3;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --ls-eyebrow: 0.3em;
+  --ls-label: 0.25em;
+  --ls-tag: 0.08em;
+
+  /* -------- Radii -------- */
+  --r-pill: 999px;
+  --r-xl: 24px;   /* major cards, hero */
+  --r-lg: 18px;   /* inner nested cards */
+  --r-md: 16px;   /* image wells */
+  --r-sm: 14px;   /* mini cards */
+  --r-xs: 12px;   /* social cards, small chips */
+  --r-2xs: 10px;  /* mini-card images */
+
+  /* -------- Shadows -------- */
+  --shadow-card: 0 20px 60px rgba(15, 23, 42, 0.08);
+  --shadow-mini: 0 10px 24px rgba(13, 20, 50, 0.45);
+  --shadow-mini-hover: 0 22px 40px rgba(13, 20, 50, 0.60);
+  --shadow-stack: 0 14px 28px rgba(15, 23, 42, 0.45);
+  --shadow-stack-active: 0 20px 45px rgba(15, 23, 42, 0.60);
+  --shadow-book: 0 8px 24px rgba(15, 23, 42, 0.25);
+  --shadow-book-hover: 0 16px 32px rgba(15, 23, 42, 0.35);
+  --shadow-social-hover: 0 12px 22px rgba(15, 23, 42, 0.15);
+
+  /* -------- Spacing scale -------- */
+  --sp-1: 6px;
+  --sp-2: 8px;
+  --sp-3: 10px;
+  --sp-4: 12px;
+  --sp-5: 16px;
+  --sp-6: 20px;
+  --sp-7: 24px;
+  --sp-8: 28px;
+  --sp-9: 32px;
+  --sp-10: 38px;
+  --sp-12: 48px;
+  --sp-14: 56px;
+  --sp-16: 72px;
+
+  /* -------- Gradients (composed) -------- */
+  --gradient-hero: linear-gradient(135deg, var(--dp-hero-grad-from), var(--dp-hero-grad-to));
+  --gradient-inner: linear-gradient(165deg, var(--dp-inner-grad-from), var(--dp-inner-grad-to));
+
+  /* -------- Motion -------- */
+  --ease-default: ease;
+  --dur-fast: 0.2s;
+  --dur-med: 0.25s;
+  --dur-slow: 0.35s;
+  --lift-y: -6px;
+  --lift-scale-sm: 1.05;
+  --lift-scale-md: 1.20;
+  --lift-img-scale: 1.45;
+  --lift-img-scale-social: 1.35;
+}
+
+/* ============================================================
+   Base / semantic selectors
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  background: var(--color-bg);
+  color: var(--color-fg-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3 {
+  margin: 0 0 var(--sp-2);
+  font-weight: var(--fw-semibold);
+  color: var(--color-fg-1);
+  line-height: var(--lh-tight);
+}
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+
+p { margin: 0 0 var(--sp-4); }
+
+ul { margin: 0; padding-left: var(--sp-6); }
+li { margin: 0; }
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  font-weight: var(--fw-medium);
+  transition: opacity var(--dur-fast) var(--ease-default);
+}
+a:hover { opacity: var(--color-link-hover-opacity); }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ============================================================
+   Reusable component classes (optional)
+   ============================================================ */
+
+.dp-card {
+  background: var(--color-surface);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-card);
+  padding: var(--sp-7);
+}
+
+.dp-hero {
+  background: var(--gradient-hero);
+  color: var(--color-on-hero);
+  border-radius: var(--r-xl);
+  padding: var(--sp-10);
+}
+.dp-hero h1, .dp-hero h2, .dp-hero h3, .dp-hero p, .dp-hero li, .dp-hero a {
+  color: var(--color-on-hero);
+}
+
+.dp-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: var(--ls-eyebrow);
+  font-size: var(--fs-xs);
+  opacity: 0.8;
+}
+
+.dp-section-heading::before {
+  /* Section headings always carry an emoji prefix. Not encoded
+     here — write inline:  <h3>📝 Tiny Essays</h3> */
+}
+
+.dp-pill-btn {
+  background: var(--dp-white-20);
+  border: 1px solid var(--dp-white-40);
+  color: var(--color-on-hero);
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  transition: background var(--dur-fast) var(--ease-default);
+}
+.dp-pill-btn:hover { background: var(--dp-white-30); }
+
+.dp-social-card {
+  background: var(--dp-tint-primary);
+  border: 1px solid var(--dp-tint-primary-border);
+  border-radius: var(--r-xs);
+  padding: var(--sp-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow var(--dur-fast) var(--ease-default);
+}
+.dp-social-card:hover { box-shadow: var(--shadow-social-hover); }
+.dp-social-card img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  transition: transform var(--dur-fast) var(--ease-default);
+}
+.dp-social-card:hover img { transform: scale(var(--lift-img-scale-social)); }
+
+.dp-mini-card {
+  background: rgba(17, 25, 64, 0.75);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-mini);
+  padding: var(--sp-2);
+  text-align: center;
+  color: var(--color-on-hero);
+  font-size: var(--fs-mini);
+  font-weight: var(--fw-semibold);
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  align-items: center;
+  transition: transform var(--dur-med) var(--ease-default),
+              box-shadow var(--dur-med) var(--ease-default),
+              background var(--dur-med) var(--ease-default);
+}
+.dp-mini-card img {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-2xs);
+  transition: transform var(--dur-med) var(--ease-default);
+}
+.dp-mini-card .mini-label {
+  font-size: var(--fs-mini-label);
+  letter-spacing: var(--ls-tag);
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.dp-mini-card:hover {
+  transform: translateY(var(--lift-y)) scale(var(--lift-scale-md));
+  background: rgba(17, 25, 64, 1);
+  box-shadow: var(--shadow-mini-hover);
+}
+.dp-mini-card:hover img { transform: scale(var(--lift-img-scale)); }

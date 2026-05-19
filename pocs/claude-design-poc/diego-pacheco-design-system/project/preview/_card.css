@@ -1,0 +1,37 @@
+/* Shared card frame for preview cards.
+   Each preview card is a self-contained 700×??? HTML snippet that
+   imports this stylesheet + colors_and_type.css from the parent.
+*/
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  color: var(--dp-text);
+}
+
+.card-root {
+  width: 700px;
+  background: var(--dp-card);
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card-row {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.label-tiny {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dp-muted);
+  font-weight: 600;
+}
