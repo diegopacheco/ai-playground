@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>💰 Loan Application — Diego Pacheco Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ——————— Design Tokens (from colors_and_type.css) ——————— */
+:root {
+  --dp-bg: #f5f7fb;
+  --dp-card: #ffffff;
+  --dp-text: #1a1f2b;
+  --dp-muted: #5f6b81;
+  --dp-primary: #5a67d8;
+  --dp-hero-grad-from: #373b44;
+  --dp-hero-grad-to: #4286f4;
+  --dp-inner-grad-from: rgba(22, 30, 78, 0.98);
+  --dp-inner-grad-to: rgba(49, 66, 145, 0.98);
+  --dp-overlay-navy: rgba(15, 23, 42, 0.30);
+  --dp-tint-primary: rgba(90, 103, 216, 0.08);
+  --dp-tint-primary-border: rgba(90, 103, 216, 0.20);
+  --dp-white-20: rgba(255,255,255,0.20);
+  --dp-white-30: rgba(255,255,255,0.30);
+  --dp-white-40: rgba(255,255,255,0.40);
+  --dp-white-60: rgba(255,255,255,0.60);
+  --dp-white-80: rgba(255,255,255,0.80);
+  --dp-white-90: rgba(255,255,255,0.90);
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --fs-h1: clamp(1.8rem, 3vw, 2.8rem);
+  --fs-h2: clamp(1.2rem, 2vw, 1.6rem);
+  --fs-h3: 1.1rem;
+  --fs-body: 1rem;
+  --fs-sm: 0.85rem;
+  --fs-xs: 0.75rem;
+  --lh-body: 1.6;
+  --lh-tight: 1.3;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --ls-eyebrow: 0.3em;
+  --r-pill: 999px;
+  --r-xl: 24px;
+  --r-lg: 18px;
+  --r-md: 16px;
+  --r-sm: 14px;
+  --r-xs: 12px;
+  --shadow-card: 0 20px 60px rgba(15,23,42,0.08);
+  --shadow-mini: 0 10px 24px rgba(13,20,50,0.45);
+  --sp-1: 6px; --sp-2: 8px; --sp-3: 10px; --sp-4: 12px;
+  --sp-5: 16px; --sp-6: 20px; --sp-7: 24px; --sp-8: 28px;
+  --sp-9: 32px; --sp-10: 38px; --sp-12: 48px;
+  --gradient-hero: linear-gradient(135deg, var(--dp-hero-grad-from), var(--dp-hero-grad-to));
+  --gradient-inner: linear-gradient(165deg, var(--dp-inner-grad-from), var(--dp-inner-grad-to));
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  background: var(--dp-bg);
+  color: var(--dp-text);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ——————— Layout ——————— */
+.site-shell {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: var(--sp-9) var(--sp-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-7);
+}
+
+/* ——————— Hero ——————— */
+.hero {
+  background: var(--gradient-hero);
+  border-radius: var(--r-xl);
+  padding: var(--sp-10) var(--sp-10) var(--sp-8);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 50%, rgba(66,134,244,0.25), transparent 60%);
+  pointer-events: none;
+}
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: var(--ls-eyebrow);
+  font-size: var(--fs-xs);
+  opacity: 0.75;
+  font-weight: var(--fw-medium);
+  margin: 0 0 var(--sp-4);
+}
+.hero h1 {
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-bold);
+  color: #fff;
+  margin: 0 0 var(--sp-3);
+  line-height: var(--lh-tight);
+}
+.hero p {
+  color: var(--dp-white-80);
+  margin: 0 0 var(--sp-7);
+  max-width: 480px;
+  font-size: var(--fs-sm);
+}
+.hero-stats {
+  display: flex;
+  gap: var(--sp-5);
+  flex-wrap: wrap;
+}
+.hero-stat {
+  background: var(--dp-white-20);
+  border: 1px solid var(--dp-white-30);
+  border-radius: var(--r-xs);
+  padding: var(--sp-3) var(--sp-5);
+  text-align: center;
+}
+.hero-stat-value {
+  font-size: 1.4rem;
+  font-weight: var(--fw-bold);
+  color: #fff;
+  line-height: 1;
+}
+.hero-stat-label {
+  font-size: var(--fs-xs);
+  color: var(--dp-white-60);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-top: var(--sp-1);
+}
+
+/* ——————— Card ——————— */
+.card {
+  background: var(--dp-card);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-card);
+  padding: var(--sp-8);
+}
+
+/* ——————— Progress ——————— */
+.progress-wrap {
+  padding: var(--sp-6) var(--sp-8) 0;
+}
+.progress-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: 1;
+  position: relative;
+}
+.progress-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: #e0e4ef;
+  z-index: 0;
+  transition: background 0.35s ease;
+}
+.progress-step.done:not(:last-child)::after,
+.progress-step.active:not(:last-child)::after {
+  background: var(--dp-primary);
+}
+.progress-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #e0e4ef;
+  background: var(--dp-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: var(--fw-semibold);
+  color: var(--dp-muted);
+  z-index: 1;
+  transition: all 0.25s ease;
+  position: relative;
+}
+.progress-step.active .progress-dot {
+  border-color: var(--dp-primary);
+  background: var(--dp-primary);
+  color: #fff;
+  box-shadow: 0 0 0 4px var(--dp-tint-primary);
+}
+.progress-step.done .progress-dot {
+  border-color: var(--dp-primary);
+  background: var(--dp-primary);
+  color: #fff;
+}
+.progress-label {
+  font-size: var(--fs-xs);
+  color: var(--dp-muted);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+.progress-step.active .progress-label {
+  color: var(--dp-primary);
+  font-weight: var(--fw-semibold);
+}
+.progress-step.done .progress-label {
+  color: var(--dp-primary);
+}
+
+/* ——————— Form sections ——————— */
+.form-section { display: none; }
+.form-section.active { display: block; }
+
+.section-heading {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-semibold);
+  color: var(--dp-text);
+  margin: 0 0 var(--sp-6);
+  padding-bottom: var(--sp-4);
+  border-bottom: 1px solid #eef0f6;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-5);
+}
+.form-grid .full-width { grid-column: 1 / -1; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.field label {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--dp-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.field input,
+.field select,
+.field textarea {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  color: var(--dp-text);
+  background: #f9fafb;
+  border: 1.5px solid #e0e4ef;
+  border-radius: var(--r-sm);
+  padding: 10px var(--sp-5);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  width: 100%;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--dp-primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--dp-tint-primary);
+}
+.field input.error,
+.field select.error {
+  border-color: #e05252;
+  box-shadow: 0 0 0 3px rgba(224,82,82,0.1);
+}
+.field-error {
+  font-size: var(--fs-xs);
+  color: #c0392b;
+  display: none;
+}
+.field.has-error .field-error { display: block; }
+.field select { cursor: pointer; }
+.field input[type="range"] {
+  padding: 0;
+  accent-color: var(--dp-primary);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+.field input[type="range"]:focus { box-shadow: none; border: none; }
+
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+}
+.range-row input[type="range"] { flex: 1; }
+.range-value {
+  font-size: 1.2rem;
+  font-weight: var(--fw-bold);
+  color: var(--dp-primary);
+  min-width: 100px;
+  text-align: right;
+}
+
+/* ——————— Loan type chips ——————— */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+.chip {
+  padding: var(--sp-2) var(--sp-5);
+  border-radius: var(--r-pill);
+  border: 1.5px solid #e0e4ef;
+  background: #f9fafb;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--dp-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+.chip:hover {
+  border-color: var(--dp-primary);
+  color: var(--dp-primary);
+  background: var(--dp-tint-primary);
+}
+.chip.selected {
+  border-color: var(--dp-primary);
+  background: var(--dp-primary);
+  color: #fff;
+}
+
+/* ——————— Review section ——————— */
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-6);
+}
+.review-block {
+  background: var(--dp-bg);
+  border-radius: var(--r-lg);
+  padding: var(--sp-6);
+}
+.review-block h4 {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--dp-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0 0 var(--sp-5);
+}
+.review-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--sp-2) 0;
+  border-bottom: 1px solid #eef0f6;
+  gap: var(--sp-4);
+}
+.review-row:last-child { border-bottom: none; }
+.review-key {
+  font-size: var(--fs-sm);
+  color: var(--dp-muted);
+  flex-shrink: 0;
+}
+.review-val {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--dp-text);
+  text-align: right;
+}
+
+.loan-summary {
+  background: var(--gradient-inner);
+  border-radius: var(--r-lg);
+  padding: var(--sp-7);
+  color: #fff;
+  margin-top: var(--sp-6);
+}
+.loan-summary h4 {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0 0 var(--sp-5);
+}
+.loan-summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--sp-2) 0;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.loan-summary-row:last-child { border-bottom: none; }
+.loan-summary-row span:first-child {
+  color: rgba(255,255,255,0.7);
+  font-size: var(--fs-sm);
+}
+.loan-summary-row span:last-child {
+  color: #fff;
+  font-weight: var(--fw-semibold);
+}
+.loan-summary-row.highlight span:last-child {
+  font-size: 1.25rem;
+  font-weight: var(--fw-bold);
+  color: #fff;
+}
+
+/* ——————— Success ——————— */
+.success-view { display: none; }
+.success-view.active { display: flex; flex-direction: column; align-items: center; padding: var(--sp-12) var(--sp-7); text-align: center; }
+.success-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(90,103,216,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: var(--sp-7);
+  animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes pop {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+.success-view h2 {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-bold);
+  color: var(--dp-text);
+  margin: 0 0 var(--sp-4);
+}
+.success-view p { color: var(--dp-muted); margin: 0 0 var(--sp-3); max-width: 400px; }
+.ref-code {
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: var(--fw-bold);
+  color: var(--dp-primary);
+  background: var(--dp-tint-primary);
+  border: 1px solid var(--dp-tint-primary-border);
+  border-radius: var(--r-xs);
+  padding: var(--sp-3) var(--sp-6);
+  letter-spacing: 0.15em;
+  margin-top: var(--sp-5);
+}
+
+/* ——————— Navigation buttons ——————— */
+.form-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-7);
+  border-top: 1px solid #eef0f6;
+}
+.btn {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  border-radius: var(--r-pill);
+  padding: 10px 24px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--dp-muted);
+  border: 1.5px solid #e0e4ef;
+}
+.btn-ghost:hover {
+  border-color: var(--dp-primary);
+  color: var(--dp-primary);
+  background: var(--dp-tint-primary);
+}
+.btn-primary {
+  background: var(--dp-primary);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(90,103,216,0.35);
+}
+.btn-primary:hover {
+  background: #4c59c9;
+  box-shadow: 0 6px 20px rgba(90,103,216,0.45);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
+.btn-lg {
+  padding: 13px 32px;
+  font-size: var(--fs-body);
+}
+
+/* ——————— Disclaimer ——————— */
+.disclaimer {
+  font-size: var(--fs-xs);
+  color: var(--dp-muted);
+  text-align: center;
+  padding: 0 var(--sp-7) var(--sp-7);
+}
+
+/* ——————— Responsive ——————— */
+@media (max-width: 600px) {
+  .site-shell { padding: var(--sp-5); gap: var(--sp-5); }
+  .hero { padding: var(--sp-7); }
+  .form-grid { grid-template-columns: 1fr; }
+  .review-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: var(--sp-3); }
+  .card { padding: var(--sp-6); }
+  .progress-label { font-size: 9px; }
+}
+</style>
+</head>
+<body>
+<div class="site-shell">
+
+  <!-- ——— Hero ——— -->
+  <header class="hero">
+    <p class="eyebrow">💰 Loan Application Portal &nbsp;•&nbsp; Secure &nbsp;•&nbsp; Fast &nbsp;•&nbsp; Transparent</p>
+    <h1>Apply for a Loan</h1>
+    <p>Fast, secure, and transparent financing tailored to your needs. Complete the form below in under 5 minutes.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value">3.9%</div>
+        <div class="hero-stat-label">Starting APR</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">$50K</div>
+        <div class="hero-stat-label">Max Amount</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">24hr</div>
+        <div class="hero-stat-label">Decision</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">5min</div>
+        <div class="hero-stat-label">Application</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ——— Application Card ——— -->
+  <div class="card" style="padding: 0; overflow: hidden;">
+
+    <!-- Progress -->
+    <div class="progress-wrap" style="padding: 28px 32px 0;">
+      <div class="progress-steps">
+        <div class="progress-step active" id="step-ind-1">
+          <div class="progress-dot">1</div>
+          <div class="progress-label">🧑 Personal</div>
+        </div>
+        <div class="progress-step" id="step-ind-2">
+          <div class="progress-dot">2</div>
+          <div class="progress-label">💼 Employment</div>
+        </div>
+        <div class="progress-step" id="step-ind-3">
+          <div class="progress-dot">3</div>
+          <div class="progress-label">💰 Loan Details</div>
+        </div>
+        <div class="progress-step" id="step-ind-4">
+          <div class="progress-dot">4</div>
+          <div class="progress-label">✅ Review</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 28px 32px;">
+
+      <!-- ——— Step 1: Personal Info ——— -->
+      <div class="form-section active" id="step-1">
+        <h3 class="section-heading">🧑 Personal Information</h3>
+        <div class="form-grid">
+          <div class="field" id="f-first">
+            <label>First Name</label>
+            <input type="text" id="first-name" placeholder="e.g. Diego" autocomplete="given-name" />
+            <span class="field-error">Please enter your first name</span>
+          </div>
+          <div class="field" id="f-last">
+            <label>Last Name</label>
+            <input type="text" id="last-name" placeholder="e.g. Pacheco" autocomplete="family-name" />
+            <span class="field-error">Please enter your last name</span>
+          </div>
+          <div class="field" id="f-email">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="diego@example.com" autocomplete="email" />
+            <span class="field-error">Please enter a valid email</span>
+          </div>
+          <div class="field" id="f-phone">
+            <label>Phone Number</label>
+            <input type="tel" id="phone" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+            <span class="field-error">Please enter a phone number</span>
+          </div>
+          <div class="field" id="f-dob">
+            <label>Date of Birth</label>
+            <input type="date" id="dob" />
+            <span class="field-error">Please enter your date of birth</span>
+          </div>
+          <div class="field" id="f-ssn">
+            <label>SSN (last 4 digits)</label>
+            <input type="text" id="ssn" placeholder="XXXX" maxlength="4" pattern="[0-9]{4}" />
+            <span class="field-error">Please enter last 4 digits of SSN</span>
+          </div>
+          <div class="field full-width" id="f-address">
+            <label>Street Address</label>
+            <input type="text" id="address" placeholder="123 Main St, San Francisco, CA 94102" autocomplete="street-address" />
+            <span class="field-error">Please enter your address</span>
+          </div>
+        </div>
+        <div class="form-nav">
+          <span style="font-size: var(--fs-xs); color: var(--dp-muted);">Step 1 of 4</span>
+          <button class="btn btn-primary" onclick="goToStep(2)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ——— Step 2: Employment ——— -->
+      <div class="form-section" id="step-2">
+        <h3 class="section-heading">💼 Employment & Financial</h3>
+        <div class="form-grid">
+          <div class="field full-width">
+            <label>Employment Status</label>
+            <div class="chip-group" id="emp-status">
+              <div class="chip selected" data-val="full-time">Full-Time</div>
+              <div class="chip" data-val="part-time">Part-Time</div>
+              <div class="chip" data-val="self-employed">Self-Employed</div>
+              <div class="chip" data-val="contractor">Contractor</div>
+              <div class="chip" data-val="retired">Retired</div>
+            </div>
+          </div>
+          <div class="field" id="f-employer">
+            <label>Employer / Company Name</label>
+            <input type="text" id="employer" placeholder="e.g. Netflix" />
+            <span class="field-error">Please enter your employer</span>
+          </div>
+          <div class="field" id="f-jobtitle">
+            <label>Job Title</label>
+            <input type="text" id="job-title" placeholder="e.g. Principal Software Architect" />
+            <span class="field-error">Please enter your job title</span>
+          </div>
+          <div class="field" id="f-years">
+            <label>Years at Current Job</label>
+            <select id="years-job">
+              <option value="">Select…</option>
+              <option>Less than 1 year</option>
+              <option>1–2 years</option>
+              <option>3–5 years</option>
+              <option>6–10 years</option>
+              <option>10+ years</option>
+            </select>
+            <span class="field-error">Please select tenure</span>
+          </div>
+          <div class="field" id="f-income">
+            <label>Annual Gross Income</label>
+            <input type="number" id="income" placeholder="e.g. 120000" min="0" />
+            <span class="field-error">Please enter your income</span>
+          </div>
+          <div class="field full-width" id="f-other-income">
+            <label>Other Monthly Income (optional)</label>
+            <input type="number" id="other-income" placeholder="e.g. 500" min="0" />
+          </div>
+        </div>
+        <div class="form-nav">
+          <button class="btn btn-ghost" onclick="goToStep(1)">← Back</button>
+          <button class="btn btn-primary" onclick="goToStep(3)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ——— Step 3: Loan Details ——— -->
+      <div class="form-section" id="step-3">
+        <h3 class="section-heading">💰 Loan Details</h3>
+        <div class="form-grid">
+          <div class="field full-width">
+            <label>Loan Purpose</label>
+            <div class="chip-group" id="loan-purpose">
+              <div class="chip selected" data-val="personal">Personal</div>
+              <div class="chip" data-val="home-improvement">Home Improvement</div>
+              <div class="chip" data-val="debt-consolidation">Debt Consolidation</div>
+              <div class="chip" data-val="medical">Medical</div>
+              <div class="chip" data-val="vehicle">Vehicle</div>
+              <div class="chip" data-val="education">Education</div>
+              <div class="chip" data-val="business">Business</div>
+            </div>
+          </div>
+          <div class="field full-width">
+            <label>Loan Amount</label>
+            <div class="range-row">
+              <input type="range" id="loan-amount" min="1000" max="50000" step="500" value="15000" oninput="updateLoanCalc()" />
+              <span class="range-value" id="amount-display">$15,000</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:var(--fs-xs);color:var(--dp-muted);margin-top:4px;">
+              <span>$1,000</span><span>$50,000</span>
+            </div>
+          </div>
+          <div class="field full-width">
+            <label>Loan Term</label>
+            <div class="chip-group" id="loan-term">
+              <div class="chip" data-val="12">12 months</div>
+              <div class="chip selected" data-val="24">24 months</div>
+              <div class="chip" data-val="36">36 months</div>
+              <div class="chip" data-val="48">48 months</div>
+              <div class="chip" data-val="60">60 months</div>
+            </div>
+          </div>
+          <div class="field full-width">
+            <label>Estimated Credit Score</label>
+            <div class="chip-group" id="credit-score">
+              <div class="chip" data-val="poor">Poor (300–579)</div>
+              <div class="chip" data-val="fair">Fair (580–669)</div>
+              <div class="chip selected" data-val="good">Good (670–739)</div>
+              <div class="chip" data-val="very-good">Very Good (740–799)</div>
+              <div class="chip" data-val="exceptional">Exceptional (800+)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loan calculator preview -->
+        <div style="margin-top: var(--sp-7); background: var(--dp-bg); border-radius: var(--r-lg); padding: var(--sp-6);">
+          <h4 style="font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--dp-muted); text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 var(--sp-5);">📊 Estimated Payment Preview</h4>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-5);">
+            <div style="text-align: center;">
+              <div style="font-size: 1.4rem; font-weight: var(--fw-bold); color: var(--dp-primary);" id="monthly-payment">$689</div>
+              <div style="font-size: var(--fs-xs); color: var(--dp-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px;">Monthly Payment</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 1.4rem; font-weight: var(--fw-bold); color: var(--dp-text);" id="total-interest">$1,534</div>
+              <div style="font-size: var(--fs-xs); color: var(--dp-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px;">Total Interest</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 1.4rem; font-weight: var(--fw-bold); color: var(--dp-text);" id="total-cost">$16,534</div>
+              <div style="font-size: var(--fs-xs); color: var(--dp-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px;">Total Cost</div>
+            </div>
+          </div>
+          <p style="font-size: var(--fs-xs); color: var(--dp-muted); margin: var(--sp-5) 0 0; text-align: center;">
+            * Based on estimated APR. Final rate depends on creditworthiness.
+          </p>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn btn-ghost" onclick="goToStep(2)">← Back</button>
+          <button class="btn btn-primary" onclick="goToStep(4)">Review Application →</button>
+        </div>
+      </div>
+
+      <!-- ——— Step 4: Review ——— -->
+      <div class="form-section" id="step-4">
+        <h3 class="section-heading">✅ Review Your Application</h3>
+        <div class="review-grid">
+          <div class="review-block">
+            <h4>🧑 Personal</h4>
+            <div class="review-row"><span class="review-key">Full Name</span><span class="review-val" id="r-name">—</span></div>
+            <div class="review-row"><span class="review-key">Email</span><span class="review-val" id="r-email">—</span></div>
+            <div class="review-row"><span class="review-key">Phone</span><span class="review-val" id="r-phone">—</span></div>
+            <div class="review-row"><span class="review-key">Date of Birth</span><span class="review-val" id="r-dob">—</span></div>
+            <div class="review-row"><span class="review-key">Address</span><span class="review-val" id="r-addr">—</span></div>
+          </div>
+          <div class="review-block">
+            <h4>💼 Employment</h4>
+            <div class="review-row"><span class="review-key">Status</span><span class="review-val" id="r-emp-status">Full-Time</span></div>
+            <div class="review-row"><span class="review-key">Employer</span><span class="review-val" id="r-employer">—</span></div>
+            <div class="review-row"><span class="review-key">Job Title</span><span class="review-val" id="r-job-title">—</span></div>
+            <div class="review-row"><span class="review-key">Tenure</span><span class="review-val" id="r-years">—</span></div>
+            <div class="review-row"><span class="review-key">Annual Income</span><span class="review-val" id="r-income">—</span></div>
+          </div>
+        </div>
+
+        <div class="loan-summary">
+          <h4>💰 Loan Summary</h4>
+          <div class="loan-summary-row"><span>Loan Purpose</span><span id="r-purpose">Personal</span></div>
+          <div class="loan-summary-row"><span>Loan Amount</span><span id="r-amount">$15,000</span></div>
+          <div class="loan-summary-row"><span>Loan Term</span><span id="r-term">24 months</span></div>
+          <div class="loan-summary-row"><span>Estimated APR</span><span id="r-apr">—</span></div>
+          <div class="loan-summary-row highlight"><span>Monthly Payment</span><span id="r-monthly">—</span></div>
+        </div>
+
+        <div style="margin-top: var(--sp-7); padding: var(--sp-5); background: rgba(90,103,216,0.06); border: 1px solid var(--dp-tint-primary-border); border-radius: var(--r-md);">
+          <label style="display: flex; gap: var(--sp-4); align-items: flex-start; cursor: pointer; font-size: var(--fs-sm); color: var(--dp-muted); line-height: 1.5;">
+            <input type="checkbox" id="consent" style="margin-top: 3px; accent-color: var(--dp-primary); width: 16px; height: 16px; flex-shrink: 0;" />
+            I authorize a soft credit check and agree to the <a href="#" style="color: var(--dp-primary);">Terms of Service</a> and <a href="#" style="color: var(--dp-primary);">Privacy Policy</a>. This application does not affect my credit score.
+          </label>
+        </div>
+
+        <div class="form-nav">
+          <button class="btn btn-ghost" onclick="goToStep(3)">← Back</button>
+          <button class="btn btn-primary btn-lg" onclick="submitApplication()">🚀 Submit Application</button>
+        </div>
+      </div>
+
+      <!-- ——— Success ——— -->
+      <div class="success-view" id="step-success">
+        <div class="success-icon">✅</div>
+        <h2>Application Submitted!</h2>
+        <p>Your loan application has been received. Our team will review it and get back to you within 24 hours.</p>
+        <p style="font-size: var(--fs-sm);">A confirmation email has been sent to <strong id="s-email">—</strong></p>
+        <div class="ref-code" id="s-ref">REF-XXXXXXX</div>
+        <button class="btn btn-ghost" style="margin-top: var(--sp-8);" onclick="resetApp()">← Start New Application</button>
+      </div>
+
+    </div><!-- end inner padding -->
+  </div><!-- end card -->
+
+  <p class="disclaimer">
+    🔒 Your information is encrypted and never sold to third parties. &nbsp;•&nbsp;
+    This is a demonstration application built with the Diego Pacheco Design System.
+  </p>
+</div><!-- end site-shell -->
+
+<script>
+let currentStep = 1;
+
+const APR_MAP = {
+  'poor': 0.28, 'fair': 0.18, 'good': 0.099,
+  'very-good': 0.059, 'exceptional': 0.039
+};
+
+function getSelectedChip(groupId) {
+  const selected = document.querySelector(`#${groupId} .chip.selected`);
+  return selected ? selected.dataset.val : '';
+}
+
+function calcLoan(principal, months, creditKey) {
+  const annual = APR_MAP[creditKey] || 0.099;
+  const r = annual / 12;
+  if (r === 0) {
+    const monthly = principal / months;
+    return { monthly, interest: 0, total: principal, apr: 0 };
+  }
+  const monthly = principal * (r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
+  const total = monthly * months;
+  const interest = total - principal;
+  return { monthly, interest, total, apr: annual };
+}
+
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function updateLoanCalc() {
+  const amount = parseInt(document.getElementById('loan-amount').value);
+  const months = parseInt(getSelectedChip('loan-term') || '24');
+  const credit = getSelectedChip('credit-score') || 'good';
+  const { monthly, interest, total } = calcLoan(amount, months, credit);
+  document.getElementById('amount-display').textContent = fmt(amount);
+  document.getElementById('monthly-payment').textContent = fmt(monthly);
+  document.getElementById('total-interest').textContent = fmt(interest);
+  document.getElementById('total-cost').textContent = fmt(total);
+}
+
+// Init chip groups
+document.querySelectorAll('.chip-group').forEach(group => {
+  group.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      if (group.id === 'loan-term' || group.id === 'credit-score' || group.id === 'loan-amount') {
+        updateLoanCalc();
+      }
+    });
+  });
+});
+
+updateLoanCalc();
+
+function validateStep(n) {
+  if (n === 1) {
+    let ok = true;
+    const checks = [
+      ['f-first', 'first-name', v => v.trim().length > 0],
+      ['f-last', 'last-name', v => v.trim().length > 0],
+      ['f-email', 'email', v => /^[^@]+@[^@]+\.[^@]+$/.test(v)],
+      ['f-phone', 'phone', v => v.trim().length > 6],
+      ['f-dob', 'dob', v => v !== ''],
+      ['f-ssn', 'ssn', v => /^\d{4}$/.test(v)],
+      ['f-address', 'address', v => v.trim().length > 5],
+    ];
+    checks.forEach(([fid, iid, test]) => {
+      const field = document.getElementById(fid);
+      const input = document.getElementById(iid);
+      if (!test(input.value)) {
+        field.classList.add('has-error');
+        input.classList.add('error');
+        ok = false;
+      } else {
+        field.classList.remove('has-error');
+        input.classList.remove('error');
+      }
+    });
+    return ok;
+  }
+  if (n === 2) {
+    let ok = true;
+    [['f-employer','employer'], ['f-jobtitle','job-title']].forEach(([fid, iid]) => {
+      const field = document.getElementById(fid);
+      const input = document.getElementById(iid);
+      if (!input.value.trim()) {
+        field.classList.add('has-error');
+        input.classList.add('error');
+        ok = false;
+      } else {
+        field.classList.remove('has-error');
+        input.classList.remove('error');
+      }
+    });
+    const yf = document.getElementById('f-years');
+    const ys = document.getElementById('years-job');
+    if (!ys.value) {
+      yf.classList.add('has-error');
+      ys.classList.add('error');
+      ok = false;
+    } else {
+      yf.classList.remove('has-error');
+      ys.classList.remove('error');
+    }
+    const inf = document.getElementById('f-income');
+    const inc = document.getElementById('income');
+    if (!inc.value || inc.value <= 0) {
+      inf.classList.add('has-error');
+      inc.classList.add('error');
+      ok = false;
+    } else {
+      inf.classList.remove('has-error');
+      inc.classList.remove('error');
+    }
+    return ok;
+  }
+  return true;
+}
+
+function populateReview() {
+  const first = document.getElementById('first-name').value;
+  const last = document.getElementById('last-name').value;
+  document.getElementById('r-name').textContent = `${first} ${last}`;
+  document.getElementById('r-email').textContent = document.getElementById('email').value;
+  document.getElementById('r-phone').textContent = document.getElementById('phone').value;
+  document.getElementById('r-dob').textContent = document.getElementById('dob').value;
+  document.getElementById('r-addr').textContent = document.getElementById('address').value;
+  document.getElementById('r-emp-status').textContent = getSelectedChip('emp-status') || 'Full-Time';
+  document.getElementById('r-employer').textContent = document.getElementById('employer').value;
+  document.getElementById('r-job-title').textContent = document.getElementById('job-title').value;
+  document.getElementById('r-years').textContent = document.getElementById('years-job').value;
+  const inc = parseInt(document.getElementById('income').value) || 0;
+  document.getElementById('r-income').textContent = fmt(inc);
+  const purpose = getSelectedChip('loan-purpose') || 'Personal';
+  const amount = parseInt(document.getElementById('loan-amount').value);
+  const months = parseInt(getSelectedChip('loan-term') || '24');
+  const credit = getSelectedChip('credit-score') || 'good';
+  const { monthly, apr } = calcLoan(amount, months, credit);
+  document.getElementById('r-purpose').textContent = purpose.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  document.getElementById('r-amount').textContent = fmt(amount);
+  document.getElementById('r-term').textContent = months + ' months';
+  document.getElementById('r-apr').textContent = (apr * 100).toFixed(1) + '%';
+  document.getElementById('r-monthly').textContent = fmt(monthly) + '/mo';
+}
+
+function goToStep(n) {
+  if (n > currentStep && !validateStep(currentStep)) return;
+  document.getElementById(`step-${currentStep}`).classList.remove('active');
+  document.getElementById(`step-ind-${currentStep}`).classList.remove('active');
+  document.getElementById(`step-ind-${currentStep}`).classList.add('done');
+  if (n === 4) populateReview();
+  currentStep = n;
+  document.getElementById(`step-${n}`).classList.add('active');
+  const ind = document.getElementById(`step-ind-${n}`);
+  if (ind) { ind.classList.remove('done'); ind.classList.add('active'); }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function submitApplication() {
+  if (!document.getElementById('consent').checked) {
+    alert('Please agree to the terms to proceed.');
+    return;
+  }
+  document.getElementById('step-4').classList.remove('active');
+  document.getElementById('step-ind-4').classList.remove('active');
+  document.getElementById('step-ind-4').classList.add('done');
+  document.getElementById('s-email').textContent = document.getElementById('email').value;
+  document.getElementById('s-ref').textContent = 'REF-' + Math.random().toString(36).slice(2,9).toUpperCase();
+  document.getElementById('step-success').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetApp() {
+  document.getElementById('step-success').classList.remove('active');
+  currentStep = 1;
+  document.getElementById(`step-1`).classList.add('active');
+  [1,2,3,4].forEach(i => {
+    const ind = document.getElementById(`step-ind-${i}`);
+    ind.classList.remove('active','done');
+    if (i === 1) ind.classList.add('active');
+  });
+  document.querySelectorAll('input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date]').forEach(el => el.value='');
+  document.querySelectorAll('select').forEach(el => el.value='');
+  document.getElementById('consent').checked = false;
+  document.getElementById('loan-amount').value = 15000;
+  updateLoanCalc();
+}
+</script>
+</body>
+</html>
