@@ -11,5 +11,13 @@ https://claude.ai/design/
 * you can type prompt which I did
 * There is a different consumption bar on the subscription
 * Take a long time to generate the design system 5+ min
+* It used 15% of my claude-design subscription band to generate a design system
 * 
+```
+
+## Using on Claude code
+
+```
+Fetch this design file, read its readme, and implement the relevant aspects of the design. https://api.anthropic.com/v1/design/h/FEY7lFN18f2MLw8WAAyXDw
+Implement: build a load application with my design system diego-pacheco-design
 ```
