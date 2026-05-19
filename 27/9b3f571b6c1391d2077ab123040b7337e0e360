@@ -1,0 +1,19 @@
+pocs/claude-design-poc/README.md
+  s_c8370a283dfa71::t_715df6523ef319 27-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.10",
+  "base_commit_sha": "279b3f571b6c1391d2077ab123040b7337e0e360",
+  "prompts": {},
+  "sessions": {
+    "s_c8370a283dfa71": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd2caf8b-9d3d-4fec-a118-8249eb3c1184",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
