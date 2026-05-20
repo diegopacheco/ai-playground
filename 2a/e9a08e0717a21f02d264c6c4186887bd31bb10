@@ -1,0 +1,14 @@
+pocs/anti-gravity-cli-fun/README.md
+  h_8e2c3875396153 5-11,15-19,26-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.10",
+  "base_commit_sha": "2ae9a08e0717a21f02d264c6c4186887bd31bb10",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
