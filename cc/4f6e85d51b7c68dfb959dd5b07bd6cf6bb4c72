@@ -1,0 +1,404 @@
+pocs/bash-pipe-poc/java8-mvn-sb2/.start.env
+  s_6b23676fc9ef18::t_ec6536bb58609a 1-2
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/.hc.code
+  s_6b23676fc9ef18::t_c0191f7eeaf0fa 1
+pocs/bash-pipe-poc/scala3-sbt/result.fragment.json
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 1,6-7
+pocs/bash-pipe-poc/django-python3/clean.sh
+  s_6b23676fc9ef18::t_9ae52e05fe54e9 1-7
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/.hc.code
+  s_6b23676fc9ef18::t_9e7d2d9eba3c66 1
+pocs/bash-pipe-poc/django-python3/healthapp/views.py
+  s_6b23676fc9ef18::t_b3675b87bdb774 1-9
+pocs/bash-pipe-poc/scala2-bazel/.hc.env
+  s_6b23676fc9ef18::t_fa6060bfabae30 1-3
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/.hc.env
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 4
+  s_6b23676fc9ef18::t_c0191f7eeaf0fa 1-3
+pocs/bash-pipe-poc/java25-mvn-sb4/.stop.env
+  s_6b23676fc9ef18::t_512e08a1fa3e8f 1-3
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/src/main/kotlin/bp/App.kt
+  s_6b23676fc9ef18::t_41869749b882ec 1-17
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/hc.sh
+  s_6b23676fc9ef18::t_3b9dc60b98a3fe 1-19
+pocs/bash-pipe-poc/java25-mvn-sb4/.start.env
+  s_6b23676fc9ef18::t_512e08a1fa3e8f 1-2
+pocs/bash-pipe-poc/java8-mvn-sb2/.hc.code
+  s_6b23676fc9ef18::t_ec6536bb58609a 1
+pocs/bash-pipe-poc/python3-plain/start.sh
+  s_6b23676fc9ef18::t_f08d8c8a23f15c 1-14
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/src/main/resources/application.properties
+  s_6b23676fc9ef18::t_1970f6fd0de363 1-3
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/start.sh
+  s_6b23676fc9ef18::t_788f4c480a1f9f 1-15
+pocs/bash-pipe-poc/django-python3/result.fragment.json
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 1-2,5-7
+pocs/bash-pipe-poc/django-python3/start.sh
+  s_6b23676fc9ef18::t_e007e46d6f96a9 1-14
+pocs/bash-pipe-poc/django-python3/.start.env
+  s_6b23676fc9ef18::t_080b4421ab5ae4 1-2
+pocs/bash-pipe-poc/django-python3/stop.sh
+  s_6b23676fc9ef18::t_ff02fd5ce1dae3 1-13
+pocs/bash-pipe-poc/python3-plain/test_app.py
+  s_6b23676fc9ef18::t_f22fe7a22ad9be 1-57
+pocs/bash-pipe-poc/scala2-bazel/test.sh
+  s_6b23676fc9ef18::t_73583048f05b5d 1-26
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/.stop.env
+  s_6b23676fc9ef18::t_f3d029df439698 2
+  s_6b23676fc9ef18::t_c0191f7eeaf0fa 1,3
+pocs/bash-pipe-poc/python3-plain/.tests.env
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 6
+  s_6b23676fc9ef18::t_3cc4c42ce835e6 1-5
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/.stop.orphans
+  s_6b23676fc9ef18::t_9e7d2d9eba3c66 1
+pocs/bash-pipe-poc/python3-plain/app.py
+  s_6b23676fc9ef18::t_a7b62023110d82 1-36
+pocs/bash-pipe-poc/python3-plain/stop.sh
+  s_6b23676fc9ef18::t_a1fc9129e473e5 1-13
+pocs/bash-pipe-poc/java25-mvn-sb4/src/test/java/bp/AppTests.java
+  s_6b23676fc9ef18::t_e561e82c082498 1-45
+pocs/bash-pipe-poc/java8-mvn-sb2/stop.sh
+  s_6b23676fc9ef18::t_7b4028836d30bb 1-13
+pocs/bash-pipe-poc/java25-mvn-sb4/bash-pipe.env
+  s_6b23676fc9ef18::t_b65cf056f8fe7a 1-8
+pocs/bash-pipe-poc/scala2-bazel/result.fragment.json
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 1,7
+pocs/bash-pipe-poc/java8-mvn-sb2/.hc.env
+  s_6b23676fc9ef18::t_ec6536bb58609a 1-4
+pocs/bash-pipe-poc/java25-mvn-sb4/.hc.code
+  s_6b23676fc9ef18::t_512e08a1fa3e8f 1
+pocs/bash-pipe-poc/scala3-sbt/stop.sh
+  s_6b23676fc9ef18::t_8d1e7c53b1cfd1 1-13
+pocs/bash-pipe-poc/java8-mvn-sb2/build.sh
+  s_6b23676fc9ef18::t_8255dfbead8a85 1-20
+pocs/bash-pipe-poc/scala2-bazel/.hc.attempts
+  s_6b23676fc9ef18::t_fa6060bfabae30 1
+pocs/bash-pipe-poc/django-python3/hc.sh
+  s_6b23676fc9ef18::t_d1d4c0ba54b0cf 1-19
+pocs/bash-pipe-poc/django-python3/requirements.txt
+  s_6b23676fc9ef18::t_c201150b301636 1
+pocs/bash-pipe-poc/python3-plain/.start.env
+  s_6b23676fc9ef18::t_2a640a83795ae1 1-2
+pocs/bash-pipe-poc/scala3-sbt/bash-pipe.env
+  s_6b23676fc9ef18::t_499f987f3551de 1-9
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/hc.sh
+  s_6b23676fc9ef18::t_788f4c480a1f9f 1-19
+pocs/bash-pipe-poc/scala2-bazel/setup.sh
+  s_6b23676fc9ef18::t_ab08a798e9f765 1-7,9
+  s_6b23676fc9ef18::t_446d5fb2f6a874 8
+pocs/bash-pipe-poc/scala3-sbt/.hc.code
+  s_6b23676fc9ef18::t_c4ba7e7eb6eb9d 1
+pocs/bash-pipe-poc/python3-plain/clean.sh
+  s_6b23676fc9ef18::t_91210cb4c38bdd 1-7
+pocs/bash-pipe-poc/scala3-sbt/hc.sh
+  s_6b23676fc9ef18::t_8d1e7c53b1cfd1 1-19
+pocs/bash-pipe-poc/django-python3/.hc.attempts
+  s_6b23676fc9ef18::t_080b4421ab5ae4 1
+pocs/bash-pipe-poc/java8-mvn-sb2/.stop.orphans
+  s_6b23676fc9ef18::t_ec6536bb58609a 1
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/result.fragment.json
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 1-3,5,7
+pocs/bash-pipe-poc/judge.sh
+  s_6b23676fc9ef18::t_df7dd7d2675c72 38
+  s_6b23676fc9ef18::t_0f288de47d2f28 1-8,24-37,39-51,53-82,84-100
+  s_6b23676fc9ef18::t_1f83009437c471 9-23
+  s_6b23676fc9ef18::t_fc20d88a8bfbe6 83
+  s_6b23676fc9ef18::t_7bfabeb1bb4256 52
+pocs/bash-pipe-poc/scala2-bazel/clean.sh
+  s_6b23676fc9ef18::t_fe3d62694fe40b 1-9
+pocs/bash-pipe-poc/scala3-sbt/build.sh
+  s_6b23676fc9ef18::t_8d1e7c53b1cfd1 1-20
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/stop.sh
+  s_6b23676fc9ef18::t_3b9dc60b98a3fe 1-13
+pocs/bash-pipe-poc/scala3-sbt/.hc.env
+  s_6b23676fc9ef18::t_c4ba7e7eb6eb9d 1-3
+pocs/bash-pipe-poc/java8-mvn-sb2/src/main/java/bp/App.java
+  s_6b23676fc9ef18::t_a4f6fa9a54d553 1-19
+pocs/bash-pipe-poc/java8-mvn-sb2/.hc.attempts
+  s_6b23676fc9ef18::t_ec6536bb58609a 1
+pocs/bash-pipe-poc/java8-mvn-sb2/.stop.env
+  s_6b23676fc9ef18::t_ec6536bb58609a 1-3
+pocs/bash-pipe-poc/java8-mvn-sb2/hc.sh
+  s_6b23676fc9ef18::t_a38f6559522853 1-19
+pocs/bash-pipe-poc/scala3-sbt/.hc.attempts
+  s_6b23676fc9ef18::t_c4ba7e7eb6eb9d 1
+pocs/bash-pipe-poc/java25-mvn-sb4/pom.xml
+  s_6b23676fc9ef18::t_25e5710ab569c0 1-42
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/stop.sh
+  s_6b23676fc9ef18::t_788f4c480a1f9f 1-13
+pocs/bash-pipe-poc/scala2-bazel/src/test/scala/bp/AppTests.scala
+  s_6b23676fc9ef18::t_f43eae53ba2dbc 1-13,15-48
+  s_6b23676fc9ef18::t_2ea86fb35e4441 14
+pocs/bash-pipe-poc/java8-mvn-sb2/bash-pipe.env
+  s_6b23676fc9ef18::t_f7687879fae1f8 1-8
+pocs/bash-pipe-poc/java8-mvn-sb2/start.sh
+  s_6b23676fc9ef18::t_8d530acf20f176 1-15
+pocs/bash-pipe-poc/scala3-sbt/start.sh
+  s_6b23676fc9ef18::t_8d1e7c53b1cfd1 1-15
+pocs/bash-pipe-poc/run-all.sh
+  s_6b23676fc9ef18::t_b6bd762114503e 1-177
+pocs/bash-pipe-poc/scala3-sbt/.stop.orphans
+  s_6b23676fc9ef18::t_c4ba7e7eb6eb9d 1
+pocs/bash-pipe-poc/python3-plain/.hc.attempts
+  s_6b23676fc9ef18::t_2a640a83795ae1 1
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/runtime-classpath.txt
+  s_6b23676fc9ef18::t_fbae4a622bea5b 1
+pocs/bash-pipe-poc/python3-plain/.stop.orphans
+  s_6b23676fc9ef18::t_2a640a83795ae1 1
+pocs/bash-pipe-poc/python3-plain/build.sh
+  s_6b23676fc9ef18::t_050ba7460f5a93 1-21
+pocs/bash-pipe-poc/django-python3/.hc.env
+  s_6b23676fc9ef18::t_080b4421ab5ae4 1-4
+pocs/bash-pipe-poc/java25-mvn-sb4/result.fragment.json
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 1-3,6-7
+  s_6b23676fc9ef18::t_f3d029df439698 5
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/result.fragment.json
+  s_6b23676fc9ef18::t_f3d029df439698 6
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 1-2,5,7
+pocs/bash-pipe-poc/python3-plain/test.sh
+  s_6b23676fc9ef18::t_cd31f68c965339 13-16
+  s_6b23676fc9ef18::t_d2afcac22bcd74 1-12,17-34
+pocs/bash-pipe-poc/scala2-bazel/build.sh
+  s_6b23676fc9ef18::t_73583048f05b5d 1-20
+pocs/bash-pipe-poc/results.json
+  s_6b23676fc9ef18::t_f3d029df439698 31,46
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 1-2,5-8,10-14,17-21,24-29,32-36,38,40-42,45,47-48,53-55,61-70
+pocs/bash-pipe-poc/lib/common.sh
+  s_6b23676fc9ef18::t_96fbcdaa2b8f96 113-127,142-155
+  s_6b23676fc9ef18::t_0f2cb1c9b3015e 128-141
+  s_6b23676fc9ef18::t_e724e0397a6eda 72
+  s_6b23676fc9ef18::t_5243410415208b 1-71,73-112
+pocs/bash-pipe-poc/python3-plain/result.fragment.json
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 1-3,5-7
+pocs/bash-pipe-poc/skill/bash-pipe-skill.md
+  s_6b23676fc9ef18::t_9bde022b21adca 1
+pocs/bash-pipe-poc/scala3-sbt/clean.sh
+  s_6b23676fc9ef18::t_8d1e7c53b1cfd1 1-7
+pocs/bash-pipe-poc/django-python3/proj/settings.py
+  s_6b23676fc9ef18::t_e6a1ac4cf42bc7 1-9
+pocs/bash-pipe-poc/java25-mvn-sb4/src/main/java/bp/App.java
+  s_6b23676fc9ef18::t_78c1ee1b09225e 1-19
+pocs/bash-pipe-poc/django-python3/.stop.orphans
+  s_6b23676fc9ef18::t_080b4421ab5ae4 1
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/pom.xml
+  s_6b23676fc9ef18::t_38263d2fc0104a 15
+  s_6b23676fc9ef18::t_a2bd85cf85db60 1-14,16-61,63-90
+  s_6b23676fc9ef18::t_d50cff6df01a10 62
+pocs/bash-pipe-poc/scala3-sbt/test.sh
+  s_6b23676fc9ef18::t_8d1e7c53b1cfd1 1-26
+pocs/bash-pipe-poc/django-python3/bash-pipe.env
+  s_6b23676fc9ef18::t_c621030ad2344e 1-9
+pocs/bash-pipe-poc/django-python3/test.sh
+  s_6b23676fc9ef18::t_c71ec632d2103d 1-33
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/src/test/kotlin/bp/AppTests.kt
+  s_6b23676fc9ef18::t_f0f01e5c430610 1-41
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/.hc.attempts
+  s_6b23676fc9ef18::t_9e7d2d9eba3c66 1
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/clean.sh
+  s_6b23676fc9ef18::t_3b9dc60b98a3fe 1-7
+pocs/bash-pipe-poc/scala3-sbt/src/main/scala/bp/App.scala
+  s_6b23676fc9ef18::t_c51eda195a0468 6-9
+  s_6b23676fc9ef18::t_ecc37f53d4b007 1-5,10-19
+pocs/bash-pipe-poc/scala3-sbt/.build.env
+  s_6b23676fc9ef18::t_28be7e7f03c9c0 1,3
+pocs/bash-pipe-poc/scala2-bazel/bash-pipe.env
+  s_6b23676fc9ef18::t_e418d7a648628c 1-6,9
+  s_6b23676fc9ef18::t_e7db7795e61f1f 7-8
+pocs/bash-pipe-poc/python3-plain/.stop.env
+  s_6b23676fc9ef18::t_2a640a83795ae1 1-3
+pocs/bash-pipe-poc/java25-mvn-sb4/.hc.env
+  s_6b23676fc9ef18::t_512e08a1fa3e8f 1-3
+  s_6b23676fc9ef18::t_f3d029df439698 4
+pocs/bash-pipe-poc/python3-plain/bash-pipe.env
+  s_6b23676fc9ef18::t_6755f2b593173b 1-9
+pocs/bash-pipe-poc/java8-mvn-sb2/setup.sh
+  s_6b23676fc9ef18::t_d0a25383a17f8a 1-9
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/.tests.env
+  s_6b23676fc9ef18::t_9e7d2d9eba3c66 1-6
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/project/build.properties
+  s_6b23676fc9ef18::t_d3b33fb8e75df6 1
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/.start.env
+  s_6b23676fc9ef18::t_9e7d2d9eba3c66 1-2
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/start.sh
+  s_6b23676fc9ef18::t_3b9dc60b98a3fe 1-15
+pocs/bash-pipe-poc/django-python3/proj/urls.py
+  s_6b23676fc9ef18::t_d3eab496b62653 1-7
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/.build.env
+  s_6b23676fc9ef18::t_8161ac0abbf33a 1-3
+pocs/bash-pipe-poc/scala3-sbt/setup.sh
+  s_6b23676fc9ef18::t_8d1e7c53b1cfd1 1-11
+pocs/bash-pipe-poc/java25-mvn-sb4/.tests.env
+  s_6b23676fc9ef18::t_827b048207bc5e 1-6
+pocs/bash-pipe-poc/design-doc.md
+  s_6b23676fc9ef18::t_affda699033342 354,356-363
+  s_6b23676fc9ef18::t_de0c3e1e2146e2 290-299
+  s_6b23676fc9ef18::t_1f15013acf9400 367-407
+  s_6b23676fc9ef18::t_4c1638f638b5a9 498-504,506,508,535
+  s_6b23676fc9ef18::t_1c6c4beaa97bff 505,507,509-534,536-723
+  s_6b23676fc9ef18::t_73441533caa442 408-491
+  s_6b23676fc9ef18::t_402085943372cd 1-255,283-289,300-353,355,364-366,492-497
+  s_6b23676fc9ef18::t_b7e0b926c21730 256-282
+pocs/bash-pipe-poc/python3-plain/setup.sh
+  s_6b23676fc9ef18::t_7760475ebacd36 1-10
+pocs/bash-pipe-poc/scala3-sbt/build.sbt
+  s_6b23676fc9ef18::t_e9fe67aabdc501 1-15
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/clean.sh
+  s_6b23676fc9ef18::t_788f4c480a1f9f 1-7
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/bash-pipe.env
+  s_6b23676fc9ef18::t_f92482aa5f2098 1-8
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/setup.sh
+  s_6b23676fc9ef18::t_a5eb61af96ff85 1-11
+pocs/bash-pipe-poc/scala2-bazel/stop.sh
+  s_6b23676fc9ef18::t_fae526dabbd532 1-14
+pocs/bash-pipe-poc/django-python3/manage.py
+  s_6b23676fc9ef18::t_7e1e35661dbe35 1-13
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/src/main/scala/bp/App.scala
+  s_6b23676fc9ef18::t_7ebb8f58734b98 10
+  s_6b23676fc9ef18::t_7b13ba719867c1 1-9,11-18
+pocs/bash-pipe-poc/java25-mvn-sb4/src/main/resources/application.properties
+  s_6b23676fc9ef18::t_0f8147a9032031 1-3
+pocs/bash-pipe-poc/scala2-bazel/hc.sh
+  s_6b23676fc9ef18::t_73583048f05b5d 1-19
+pocs/bash-pipe-poc/scala2-bazel/start.sh
+  s_6b23676fc9ef18::t_73583048f05b5d 1-15
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/build.sh
+  s_6b23676fc9ef18::t_788f4c480a1f9f 1-20
+pocs/bash-pipe-poc/README.md
+  s_6b23676fc9ef18::t_be0a97dffa2203 173-174,176-177
+  s_6b23676fc9ef18::t_8213c0a64e5606 1-2,4,145-147,155,158,160-168,170-172,175,178-179,181,183,185-198,200-203,222-223
+  s_6b23676fc9ef18::t_238709163a0d1a 3,5-144,148-154,156-157,159,169,180,182,184,199,204-221,224
+pocs/bash-pipe-poc/java8-mvn-sb2/result.fragment.json
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 1-2,5-7
+pocs/bash-pipe-poc/java8-mvn-sb2/pom.xml
+  s_6b23676fc9ef18::t_11bde00fc1ccbf 1-42
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/build.sbt
+  s_6b23676fc9ef18::t_e0259feb138c35 1
+  s_6b23676fc9ef18::t_80e0ba6075b467 2-12,14-15,19
+  s_6b23676fc9ef18::t_c8acb1d0906c61 13,16-18
+pocs/bash-pipe-poc/scala2-bazel/.stop.orphans
+  s_6b23676fc9ef18::t_fa6060bfabae30 1
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/.start.env
+  s_6b23676fc9ef18::t_c0191f7eeaf0fa 1-2
+pocs/bash-pipe-poc/skill/bash-pipe-skill/SKILL.md
+  s_6b23676fc9ef18::t_395a0a871d6986 1-166
+pocs/bash-pipe-poc/django-python3/.tests.env
+  s_6b23676fc9ef18::t_29de248dfd070e 1-5
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/test.sh
+  s_6b23676fc9ef18::t_788f4c480a1f9f 1-26
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/bash-pipe.env
+  s_6b23676fc9ef18::t_a417d1a071bb1e 1-9
+pocs/bash-pipe-poc/scala3-sbt/.start.env
+  s_6b23676fc9ef18::t_c4ba7e7eb6eb9d 1-2
+pocs/bash-pipe-poc/scala3-sbt/.stop.env
+  s_6b23676fc9ef18::t_c4ba7e7eb6eb9d 1-3
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/src/test/scala/bp/AppTests.scala
+  s_6b23676fc9ef18::t_652ff57590c57e 1-44
+pocs/bash-pipe-poc/scala2-bazel/.hc.code
+  s_6b23676fc9ef18::t_fa6060bfabae30 1
+pocs/bash-pipe-poc/django-python3/setup.sh
+  s_6b23676fc9ef18::t_78d9eda3d897c1 1-10
+pocs/bash-pipe-poc/scala2-bazel/.start.env
+  s_6b23676fc9ef18::t_fa6060bfabae30 1-2
+pocs/bash-pipe-poc/scala2-bazel/BUILD.bazel
+  s_6b23676fc9ef18::t_7e9f9b0ed2ca9f 1-13
+pocs/bash-pipe-poc/django-python3/.hc.code
+  s_6b23676fc9ef18::t_080b4421ab5ae4 1
+pocs/bash-pipe-poc/java25-mvn-sb4/.stop.orphans
+  s_6b23676fc9ef18::t_512e08a1fa3e8f 1
+pocs/bash-pipe-poc/java8-mvn-sb2/.tests.env
+  s_6b23676fc9ef18::t_6fc54e956c2755 1-5
+pocs/bash-pipe-poc/java25-mvn-sb4/.hc.attempts
+  s_6b23676fc9ef18::t_512e08a1fa3e8f 1
+pocs/bash-pipe-poc/python3-plain/.hc.code
+  s_6b23676fc9ef18::t_2a640a83795ae1 1
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/.build.env
+  s_6b23676fc9ef18::t_5cf9f40299a8c4 1,3
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 2
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/.tests.env
+  s_6b23676fc9ef18::t_b2a471b3c3c64f 4-5
+  s_6b23676fc9ef18::t_572bb1db108c31 1-3
+pocs/bash-pipe-poc/django-python3/.stop.env
+  s_6b23676fc9ef18::t_080b4421ab5ae4 1-3
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/test.sh
+  s_6b23676fc9ef18::t_3b9dc60b98a3fe 1-13,15-26
+  s_6b23676fc9ef18::t_717920bf2ccc6c 14
+pocs/bash-pipe-poc/django-python3/build.sh
+  s_6b23676fc9ef18::t_d536a8a544d7dc 1-19
+pocs/bash-pipe-poc/scala3-sbt/.tests.env
+  s_6b23676fc9ef18::t_b2c6e3b9746f16 1-3
+  s_6b23676fc9ef18::t_bd05222ea4123d 4-5
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/.hc.env
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 4
+  s_6b23676fc9ef18::t_9e7d2d9eba3c66 1-3
+pocs/bash-pipe-poc/django-python3/.build.env
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 1-3
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/src/main/resources/application.properties
+  s_6b23676fc9ef18::t_724879cefbac6d 1-3
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/.stop.env
+  s_6b23676fc9ef18::t_9e7d2d9eba3c66 1,3
+pocs/bash-pipe-poc/scala3-sbt/src/test/scala/bp/AppTests.scala
+  s_6b23676fc9ef18::t_f3ebf7dffbadb1 1-13,15-53
+  s_6b23676fc9ef18::t_12720a4d92d382 14
+pocs/bash-pipe-poc/scala2-bazel/src/main/scala/bp/App.scala
+  s_6b23676fc9ef18::t_166e343937526b 12-16,22
+  s_6b23676fc9ef18::t_fd67ade67233b3 1-11,17-21,23-35
+pocs/bash-pipe-poc/java8-mvn-sb2/src/test/java/bp/AppTests.java
+  s_6b23676fc9ef18::t_9a24ff65dd7ff7 1-36
+pocs/bash-pipe-poc/scala2-bazel/MODULE.bazel
+  s_6b23676fc9ef18::t_c161cf9a3338b9 1-6,8-11
+  s_6b23676fc9ef18::t_75f04ae3dd8e59 7
+pocs/bash-pipe-poc/scala2-bazel/.stop.env
+  s_6b23676fc9ef18::t_fa6060bfabae30 1,3
+pocs/bash-pipe-poc/python3-plain/.hc.env
+  s_6b23676fc9ef18::t_2a640a83795ae1 1-4
+pocs/bash-pipe-poc/java25-mvn-sb4/.build.env
+  s_6b23676fc9ef18::t_9d5bc26e920862 1-3
+pocs/bash-pipe-poc/python3-plain/requirements.txt
+  s_6b23676fc9ef18::t_22fb5e38eb817f 1
+pocs/bash-pipe-poc/django-python3/healthapp/tests.py
+  s_6b23676fc9ef18::t_07e75535186e83 1,4
+  s_6b23676fc9ef18::t_8d0f8ff31a38ea 2-3,5-19
+pocs/bash-pipe-poc/java8-mvn-sb2/src/main/resources/application.properties
+  s_6b23676fc9ef18::t_9c3515a89b0e18 1-3
+pocs/bash-pipe-poc/scala3-sbt/project/build.properties
+  s_6b23676fc9ef18::t_038756fdf1fc17 1
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/.hc.attempts
+  s_6b23676fc9ef18::t_c0191f7eeaf0fa 1
+pocs/bash-pipe-poc/java8-mvn-sb2/.build.env
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 2
+  s_6b23676fc9ef18::t_1c594cd33865db 1,3
+pocs/bash-pipe-poc/scala2-bazel/.tests.env
+  s_6b23676fc9ef18::t_b18516c6c99e4e 1-5
+pocs/bash-pipe-poc/java8-mvn-sb2/test.sh
+  s_6b23676fc9ef18::t_e1220a401cb14e 1-26
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/.stop.orphans
+  s_6b23676fc9ef18::t_c0191f7eeaf0fa 1
+pocs/bash-pipe-poc/scala3-sbt/runtime-classpath.txt
+  s_6b23676fc9ef18::t_28be7e7f03c9c0 1
+pocs/bash-pipe-poc/java8-mvn-sb2/clean.sh
+  s_6b23676fc9ef18::t_e5b60aa3014ef2 1-7
+pocs/bash-pipe-poc/problems.md
+  s_6b23676fc9ef18::t_dd2fcbbba19d80 2-3
+pocs/bash-pipe-poc/python3-plain/hc.sh
+  s_6b23676fc9ef18::t_846f2e1d121ccd 1-19
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/build.sh
+  s_6b23676fc9ef18::t_3b9dc60b98a3fe 1-20
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/setup.sh
+  s_6b23676fc9ef18::t_788f4c480a1f9f 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "cc4f6e85d51b7c68dfb959dd5b07bd6cf6bb4c72",
+  "prompts": {},
+  "sessions": {
+    "s_6b23676fc9ef18": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1c50b3d0-3fe7-4ea7-8bc4-d3480599fd4c",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
