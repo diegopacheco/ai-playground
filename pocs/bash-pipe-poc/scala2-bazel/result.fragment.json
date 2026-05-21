@@ -1,7 +1,7 @@
 "scala2-bazel": {
-  "build":  { "pass": true, "duration_sec": 76, "exit_code": 0 },
+  "build":  { "pass": true, "duration_sec": 60, "exit_code": 0 },
   "tests":  { "pass": true, "total": 3, "passed": 3, "failed": 0, "skipped": 0, "duration_sec": 2 },
-  "start":  { "pass": true, "duration_sec": 0, "pid": 48765 },
+  "start":  { "pass": true, "duration_sec": 0, "pid": 66149 },
   "hc":     { "pass": true, "status_code": 200, "attempts": 2, "duration_sec": 1 },
   "stop":   { "pass": true, "duration_sec": 4, "orphans": 0 }
 }
