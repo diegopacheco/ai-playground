@@ -1,0 +1,9 @@
+SECRET_KEY = "bash-pipe-poc-secret-not-used-in-prod"
+DEBUG = False
+ALLOWED_HOSTS = ["*"]
+ROOT_URLCONF = "proj.urls"
+INSTALLED_APPS = ["healthapp"]
+MIDDLEWARE = []
+DATABASES = {}
+USE_TZ = True
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

@@ -1,0 +1,1 @@
+Read the skill file at skill/bash-pipe-skill/SKILL.md and follow every instruction in it exactly. This command regenerates the bash orchestration scripts for the POC tree under pocs/bash-pipe-poc/. After generation, run pocs/bash-pipe-poc/run-all.sh, then pocs/bash-pipe-poc/judge.sh, and report the judge verdict.

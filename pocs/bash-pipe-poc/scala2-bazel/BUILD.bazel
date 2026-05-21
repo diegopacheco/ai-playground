@@ -1,0 +1,13 @@
+load("@rules_scala//scala:scala.bzl", "scala_binary", "scala_test")
+
+scala_binary(
+    name = "app",
+    srcs = ["src/main/scala/bp/App.scala"],
+    main_class = "bp.App",
+)
+
+scala_test(
+    name = "app_tests",
+    srcs = ["src/test/scala/bp/AppTests.scala"],
+    deps = [":app"],
+)

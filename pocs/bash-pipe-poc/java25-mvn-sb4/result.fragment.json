@@ -1,0 +1,7 @@
+"java25-mvn-sb4": {
+  "build":  { "pass": true, "duration_sec": 2, "exit_code": 0 },
+  "tests":  { "pass": true, "total": 3, "passed": 3, "failed": 0, "skipped": 0, "duration_sec": 4 },
+  "start":  { "pass": true, "duration_sec": 0, "pid": 44438 },
+  "hc":     { "pass": true, "status_code": 200, "attempts": 3, "duration_sec": 2 },
+  "stop":   { "pass": true, "duration_sec": 3, "orphans": 0 }
+}
