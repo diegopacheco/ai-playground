@@ -1,0 +1,25 @@
+pocs/jit-testing-skill/lib/runners/kotlin.py
+  s_de93f5a3b2862f::t_71be90eaf1f71c 1-6,9-18,23,26-198
+pocs/jit-testing-skill/README.md
+  s_de93f5a3b2862f::t_99ad9ba3df7ad1 110-112,114
+pocs/jit-testing-skill/lib/runners/scala2_bazel.py
+  s_de93f5a3b2862f::t_d6621c281f5da3 1,4-6
+pocs/jit-testing-skill/lib/runners/scala3_sbt.py
+  s_de93f5a3b2862f::t_091b8597c0fa52 1-6,9-18,21,24,27-197
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "d0434767cce97231eed76f7cb351d95eedf116da",
+  "prompts": {},
+  "sessions": {
+    "s_de93f5a3b2862f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3025c2d9-4810-4f2b-9e23-105df049ad81",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
