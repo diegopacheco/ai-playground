@@ -107,11 +107,11 @@ The skill is **generic across stacks**. The orchestrator dispatches to a per-lan
 |---|---|---|---|
 | Java 8 | maven / gradle | JUnit 5 | working |
 | Java 25 | maven / gradle | JUnit 5 | working |
-| Scala 3 | sbt | MUnit / ScalaTest | detect-only stub |
-| Scala 2 | bazel | ScalaTest | detect-only stub |
-| Kotlin | gradle (kts) | JUnit 5 | detect-only stub |
+| Scala 3 | sbt | MUnit / ScalaTest | working (needs `scala-cli` on PATH) |
+| Scala 2 | bazel | ScalaTest | working (needs `scala-cli` on PATH) |
+| Kotlin | gradle (kts) | JUnit 5 | working (needs `kotlinc` + `java` on PATH) |
 | Python 3 | pip / venv | pytest | working |
-| Python 3 + Django | pip / venv | pytest-django | detect-only stub |
+| Python 3 + Django | pip / venv | pytest-django | working (inherits Python 3 probing) |
 | Node.js | npm / pnpm | node assert | working |
 
 ## Install
