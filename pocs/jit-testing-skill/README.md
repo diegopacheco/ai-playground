@@ -88,6 +88,30 @@ You'll get a ranked list of behavior changes, each with:
 
 Dismissing a false positive is one click. Real bugs surface fast.
 
+#### Sample output
+
+```
+⏺ The pipeline found 18 catches across both workflows. Collapsing duplicates, there are really two distinct behavior changes — one
+  matches the stated intent ("Add free shipping for store-pickup orders"), but the other is not covered by the intent and looks
+  suspicious.
+
+  Sense-check questions:
+
+  1. Pickup orders now always get free shipping. On the parent, free_shipping(0, True) returned False. On your change, it returns True
+  (same for 1, 100, 499, 500, 4999 when pickup=True). → This matches the stated intent. Expected?
+  2. Non-pickup threshold dropped from $50 → $5. On the parent, free_shipping(500, False) returned False (parent required ≥ 5000 cents).
+  On your change, it returns True (now requires ≥ 500 cents). → This is not mentioned in the intent ("Add free shipping for store-pickup
+  orders"). Was the threshold change deliberate?
+  3. Same threshold drop affects higher amounts too. On the parent, free_shipping(4999, False) returned False. On your change, it returns
+   True. → Same root cause as #2.
+
+  For each, pick: Confirm bug / Expected change / Show test code.
+
+  The threshold change (catches #7 and #16) is the one I'd flag — it's an off-intent change in pricing.py:4 (>= 500 vs parent's >= 5000).
+
+  You can open the dashboard with /jit-dashboard.
+```
+
 ### `/jit-dashboard` — visual UI
 
 ```
