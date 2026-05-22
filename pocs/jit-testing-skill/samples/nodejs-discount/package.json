@@ -1,0 +1,5 @@
+{
+  "name": "nodejs-discount",
+  "version": "0.1.0",
+  "main": "src/discount.js"
+}
