@@ -6,6 +6,74 @@ It reads your diff, generates **ephemeral catching tests** designed to fail when
 
 Inspired by Meta's *Just-in-Time Catching Test Generation* (Becker et al., FSE Companion 2026): [arxiv.org/pdf/2601.22832](https://arxiv.org/pdf/2601.22832).
 
+## Paper summary
+
+Becker et al. (FSE Companion '26, industry track) report on a Just-in-Time (JIT) catching test generation system deployed in production at Meta since September 2025, protecting backend systems totalling hundreds of millions of lines of code used by 3.5B people daily. The core idea is a flip of the usual contract for generated tests.
+
+### Hardening vs. catching tests
+
+- **Hardening tests** (the traditional output of LLM test generators like TestGen-LLM and ACH) are written to *pass* at generation time, on the parent revision, and land in the repo to guard against future regressions.
+- **Catching tests** are written to *fail*. They are generated against a specific code change and must pass on the parent revision and fail on the diff. They are ephemeral — they cannot land alongside the diff they catch, by construction.
+
+The paper formalizes three notions:
+- A **weak catch** is a test that fails on the diff and passes on the parent (the mechanical property).
+- A **strong catch** is a weak catch whose failure reflects a real bug according to the *general oracle* (the informal, often unstated specification of correct behavior).
+- A **strictly weak catch** is a false positive — a test that fails for reasons other than a real bug (oracle misalignment, brittle assertions, infrastructure flakiness, etc.).
+
+The central engineering problem is therefore: given many weak catches, decide which ones are strong, with high enough precision that the signal does not impede engineer velocity.
+
+### Two diff-aware workflows
+
+Both workflows are inspired by mutation testing and the *coupling hypothesis* — that real faults tend to be coupled to simple syntactic mutants.
+
+1. **Dodgy diff workflow.** Treat the diff itself as a mutant of its parent. Use a mutation-guided LLM test generator to produce tests that distinguish parent behavior from child behavior. No attempt to infer intent. Maximizes the pool of weak-catch candidates but generates more false positives.
+2. **Intent-aware workflow.** First ask an LLM to infer the *risks* of the diff (the ways an attempt to implement the diff's intent could go wrong) from the code plus the diff title and summary. Materialize those risks as concrete mutants of the parent. Generate tests that kill each mutant (pass on parent, fail on mutant). Run those tests against the actual diff and harvest the failures as weak catches.
+
+### Targeting
+
+Catch generation is computationally expensive, so it is only run on diffs flagged high-risk by a Diff Risk Score (DRS)-style targetter trained on prior code changes, executed overnight on spare west-coast capacity.
+
+### Two families of assessors (false-positive filtering)
+
+Each assessor maps a weak catch to a score in [-1, +1] (-1 = confidently false positive, +1 = confidently true positive). Assessors always see the diff, the inferred intent, the test code, and the failure trace.
+
+- **RubFake (Rule Based False-positive Killing Environment).** Deterministic pattern matcher. False-positive patterns include `broken_test_runner`, `reflection`, `type_mismatch`, `bad_mock_smell`, `should_be_private_smell`, `not_implemented_exception`, `key_value_pair_change`, `flakiness`, etc. True-positive patterns include `changed_bool` (a boolean asserted true now evaluates false with no defining expression touched), `null_value`, `empty_container`, `unexpected_key_change`, `monotonic_change` (existing behavior shifts when the stated intent was only to add new behavior), and RBAC-relevant changes.
+- **LLM-as-judge ensemble.** Llama 3.3-70B, Gemini 3 Pro, and Claude Sonnet 4. Each model outputs (a) a binary "is this an unexpected bug?" yes/no with a normalized first-token log-probability (TP Prob), (b) a categorical High/Med/Low likelihood mapped to {+1, 0, -1} and aggregated by median across the ensemble (Bucket Med), and (c) a textual rationale (surfaced individually rather than aggregated).
+
+The three assessors show only modest rank correlation with each other (Spearman ρ ≤ 0.535, mostly poor Cohen's κ), which the authors interpret as *complementary* rather than noisy: the rule-based and LLM-based approaches capture different facets of the decision.
+
+### Sense-check UX
+
+Crucially, engineers are never asked to read test code first. The signal is rendered as a plain-English sense-check question — e.g., *"this expression used to evaluate to `true`, but now evaluates to `false`; is that expected?"* Engineers can dismiss an intended change in seconds; only when they are *surprised* by the behavior change do they look at the generated test. This asymmetry (cheap dismissal, expensive only on real bugs) lets the system tolerate a relatively high false-positive rate without hurting developer velocity.
+
+### Key empirical results
+
+| Metric | Result |
+|---|---|
+| Total tests analyzed | 22,126 (across five approaches) |
+| Coincidental catch (byproduct of hardening) | 0.2% weak-catch rate |
+| TestGen-LLM hardening (parent-only) | ~2.0% — ~3.6% of diffs caught |
+| ACH mutation-guided hardening | 0.8% — 1.6% of diffs caught |
+| **Dodgy diff (diff-aware)** | 2.5% per test, **4.0% of diffs caught** |
+| **Intent-aware (diff + intent)** | **6.4% per test, 7.9% of diffs caught** |
+| Diff-aware vs. hardening | ~4× more weak catches |
+| Diff-aware vs. coincidental | ~20× more weak catches |
+| LLM-as-judge precision on filtering FPs | >98% (when TP Prob = -1 or Bucket Med = 0) |
+| Human-review-load reduction from assessors | ~70% (4× scale-up of evaluation capacity) |
+| Engineer reach-outs | 41 |
+| Strong catches confirmed | 8 (~19.5% engineer-experienced true-positive rate) |
+| Severe production failures averted | 4 (50% of strong catches — vs. industry baseline of 5–20% bugs being severe, evidence that targeting works) |
+
+A statistical analysis on human-labeled "Good" (accepted/landed) vs. "Bad" (abandoned/reverted/needs-revision) diffs confirmed that all three assessors assign significantly more true-positive scores to Bad diffs and significantly more false-positive scores to Good diffs, with effect sizes large enough (medium-to-large under Cohen's *h*) to be highly improbable under a permutation-based null.
+
+### Coincidental hardening as a byproduct
+
+A pleasant surprise from Section 7: while *coincidental catching* during hardening generation is rare (0.2%), the inverse — *coincidental hardening* during catching generation — is very common. Of 8,797 tests generated by the two catch workflows over one month, 7,987 passed on the diff and are therefore valid hardening candidates. The natural deployment recipe is "catch first, harvest hardening tests as a byproduct."
+
+### Takeaway
+
+JIT catching is scalable, industrially deployable, and prevents serious failures from landing — provided the pipeline (a) targets risky diffs only, (b) uses diff- and intent-awareness to generate weak catches efficiently, (c) filters aggressively with complementary rule-based and LLM-based assessors, and (d) communicates with engineers via cheap sense-check questions rather than raw test code. This skill is a small, open re-implementation of those ideas: the dodgy-diff and intent-aware workflows, ephemeral tests, RubFake-style rule-based scoring, an LLM-as-judge step, and the sense-check question UX.
+
 ## Why
 
 Most LLM test generators write *hardening* tests — tests that pass and stay in the repo to guard against future regressions. This skill writes the opposite: tests that **fail on your current change** if (and only if) the change accidentally broke something.
