@@ -1,0 +1,19 @@
+pocs/jit-testing-skill/README.md
+  s_c6fbd3eec6a114::t_e56a75e7fcbcfe 91-114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "7c096ba5aba59b9b41ace1fa033fdddc4272956e",
+  "prompts": {},
+  "sessions": {
+    "s_c6fbd3eec6a114": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "958f9dd8-096e-4b92-8b54-0b5ae6be0793",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
