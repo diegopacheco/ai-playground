@@ -1,0 +1,34 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]: qa2pw
+      - generic [ref=e5]: Plain English in. Real Playwright out.
+      - generic [ref=e6]: Step 4 — Typing "secret_sauce" into placeholder="Password"
+    - main [ref=e7]:
+      - region "Form" [ref=e8]:
+        - generic [ref=e9]:
+          - generic [ref=e10]: Test case
+          - textbox [disabled] [ref=e11]: Log in with standard_user / secret_sauce, see the inventory page
+        - generic [ref=e12]:
+          - generic [ref=e13]: URL
+          - generic [ref=e14]:
+            - textbox [disabled] [ref=e15]: https://www.saucedemo.com
+            - generic [ref=e16]: allowlisted
+        - button "Generating… (step 4 of 25) — Cancel" [active] [ref=e46] [cursor=pointer]
+        - paragraph [ref=e18]: Runs locally. Step counter caps at 25, wall clock at 20 min. The script is yours to keep.
+      - region "Screencast" [ref=e19]:
+        - generic [ref=e20]:
+          - text: Typing "secret_sauce" into placeholder="Password"
+          - generic [ref=e43]: input the password secret_sauce as specified in the test case
+        - img "live browser frame" [ref=e41]
+      - region "Generated script" [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e24]: Generated test
+          - generic [ref=e25]: test.spec.ts
+        - generic [ref=e26]: // Your generated Playwright test appears here, line by line.
+        - generic [ref=e27]:
+          - button "Download .spec.ts" [disabled] [ref=e28]
+          - button "Copy" [disabled] [ref=e29] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=e35] [cursor=pointer]:
+    - img [ref=e36]
+  - alert [ref=e39]

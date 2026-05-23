@@ -45,22 +45,26 @@ export function parseAction(raw: string): ParseResult {
 
   switch (action) {
     case "click": {
-      const selector = parseSelector(json.selector);
+      const selector = resolveSelector(json);
       if (selector.ok === false) return selector;
       return { ok: true, action: { tool: "click", selector: selector.value, reason } };
     }
     case "type": {
-      const selector = parseSelector(json.selector);
+      const selector = resolveSelector(json);
       if (selector.ok === false) return selector;
-      const text = json.text;
-      if (typeof text !== "string") return { ok: false, error: "'type' needs a 'text' string" };
+      const text = typeof json.text === "string"
+        ? json.text
+        : typeof json.value === "string"
+        ? json.value
+        : undefined;
+      if (text === undefined) return { ok: false, error: "'type' needs a 'text' string" };
       return {
         ok: true,
         action: { tool: "type", selector: selector.value, text, reason },
       };
     }
     case "wait_for": {
-      const selector = parseSelector(json.selector);
+      const selector = resolveSelector(json);
       if (selector.ok === false) return selector;
       return {
         ok: true,
@@ -68,9 +72,25 @@ export function parseAction(raw: string): ParseResult {
       };
     }
     case "assert_text": {
-      const text = json.text;
-      if (typeof text !== "string")
-        return { ok: false, error: "'assert_text' needs a 'text' string" };
+      let text: string | undefined =
+        typeof json.text === "string" ? json.text : undefined;
+      if (text === undefined && typeof json.expected === "string") {
+        text = json.expected;
+      }
+      if (text === undefined && typeof json.value === "string") {
+        text = json.value;
+      }
+      if (text === undefined && isRecord(json.selector)) {
+        const s = json.selector;
+        if (typeof s.text === "string") text = s.text;
+        else if (typeof s.name === "string") text = s.name;
+      }
+      if (text === undefined) {
+        return {
+          ok: false,
+          error: `'assert_text' needs a 'text' string — got: ${truncate(JSON.stringify(json), 200)}`,
+        };
+      }
       let selector: SelectorParse;
       if (json.selector === undefined || json.selector === null) {
         selector = { ok: true, value: { kind: "text", text } };
@@ -95,6 +115,46 @@ export function parseAction(raw: string): ParseResult {
 type SelectorParse =
   | { ok: true; value: Selector }
   | { ok: false; error: string };
+
+function resolveSelector(json: Record<string, unknown>): SelectorParse {
+  if (json.selector !== undefined && json.selector !== null) {
+    return parseSelector(json.selector);
+  }
+  const inferred = inferSelectorFromTopLevel(json);
+  if (inferred !== null) return { ok: true, value: inferred };
+  return {
+    ok: false,
+    error: `action is missing 'selector' and no fallback fields (text/name/placeholder/label/role) — got: ${truncate(JSON.stringify(json), 200)}`,
+  };
+}
+
+function inferSelectorFromTopLevel(json: Record<string, unknown>): Selector | null {
+  if (typeof json.placeholder === "string") {
+    return { kind: "placeholder", text: json.placeholder };
+  }
+  if (typeof json.label === "string") {
+    return { kind: "label", text: json.label };
+  }
+  if (typeof json.role === "string") {
+    const name = typeof json.name === "string" ? json.name : undefined;
+    return name !== undefined
+      ? { kind: "role", role: json.role, name }
+      : { kind: "role", role: json.role };
+  }
+  if (typeof json.name === "string") {
+    return { kind: "role", role: "button", name: json.name };
+  }
+  if (typeof json.testId === "string") {
+    return { kind: "test_id", id: json.testId };
+  }
+  if (typeof json.text === "string" && json.action !== "type" && json.action !== "assert_text") {
+    return { kind: "text", text: json.text };
+  }
+  if (json.action === "wait_for") {
+    return { kind: "role", role: "heading" };
+  }
+  return null;
+}
 
 function parseSelector(raw: unknown): SelectorParse {
   if (typeof raw === "string" && raw.length > 0) {

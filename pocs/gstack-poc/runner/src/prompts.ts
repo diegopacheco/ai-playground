@@ -53,6 +53,7 @@ Assert any visible text appears (selector omitted — we'll search the page for 
 {"action":"assert_text","text":"Products","reason":"verify inventory page loaded"}
 
 Pattern after submitting a form: assert the next page's visible text, then done.
+Do NOT emit wait_for as a "wait for the page to load" filler. Either skip straight to assert_text, or call done if the screenshot already proves success.
 
 Wait for a specific element to appear:
 {"action":"wait_for","selector":{"kind":"text","text":"Welcome"},"reason":"page transition after login"}
