@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  qa2pw:
+    build:
+      context: ..
+      dockerfile: infra/Containerfile
+    image: qa2pw:latest
+    container_name: qa2pw
+    network_mode: host
+    environment:
+      QA2PW_OLLAMA_URL: http://127.0.0.1:11434
+      QA2PW_MODEL: ${QA2PW_MODEL:-qwen2.5vl:32b}
+      PORT: 3000
+    restart: unless-stopped

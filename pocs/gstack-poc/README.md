@@ -159,15 +159,17 @@ Current state:
 | Task | What | Status |
 |---|---|---|
 | T1 | Scaffold `runner/` TypeScript package (bun + Playwright + types + tests) | **done** |
-| T2 | Ollama vision loop + LimitGuard (step counter + wall clock) + structured-output parsing | **done** (49 tests) |
+| T2 | Ollama vision loop + LimitGuard (step counter + wall clock) + structured-output parsing | **done** |
 | T3 | Flat `.spec.ts` templater — deterministic, semantic locators, partial-on-timeout annotation | **done** |
-| T4 | Podman container lifecycle wrapper (with guaranteed dispose) | pending |
+| T4 | Playwright session lifecycle (pivoted from podman per-session, see T10) with guaranteed dispose | **done** |
 | T5 | Allowlist + attestation + safety blocklist (server-side enforced) | **done** |
-| T6 | Next.js scaffold + `/api/generate` SSE endpoint | pending |
-| T7 | Three-pane UI matching `DESIGN-SYSTEM.md` | pending |
-| T9 | CDP `Page.screencastFrame` subscription + SSE frame relay | pending |
-| T10 | `Containerfile` + `podman-compose.yml` for the runner sandbox | pending |
-| T11 | Eval suite — 10 prompts × allowlisted demo apps, bar 8/10 pass | pending |
+| T6 | Next.js scaffold + `/api/generate` SSE endpoint | **done** |
+| T7 | Three-pane UI matching `DESIGN-SYSTEM.md` (idle/streaming/complete/partial/error states) | **done** |
+| T9 | CDP `Page.screencastFrame` subscription + SSE frame relay rendering live JPEG in center pane | **done** |
+| T10 | `Containerfile` + `podman-compose.yml` for the optional sandbox (Ollama stays on host) | **done** |
+| T11 | Eval suite — 10 prompts × allowlisted demo apps, `bun run eval` from runner/, bar 8/10 pass | **done** |
+
+**72 tests passing** across runner + web. `./test.sh` runs the full suite; `cd runner && bun run eval` runs the live evals against your local Ollama.
 
 Architecture pivot for local-only operation (decision in chat, 2026-05-23):
 the original plan used the Anthropic Claude API to drive the browser. The

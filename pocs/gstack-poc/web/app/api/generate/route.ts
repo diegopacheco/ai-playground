@@ -55,6 +55,18 @@ export async function POST(request: NextRequest): Promise<Response> {
         await withDisposable(
           () => PlaywrightSession.launch(chromiumLauncher, { headless: true }),
           async (browser) => {
+            await browser.startScreencast((frame) => {
+              controller.enqueue(
+                formatSse({
+                  event: "frame",
+                  data: {
+                    type: "frame",
+                    data: frame.data,
+                    timestamp: frame.timestamp,
+                  },
+                }),
+              );
+            });
             const result = await runGenerate(
               {
                 prompt: body.prompt,

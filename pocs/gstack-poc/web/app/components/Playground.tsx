@@ -11,8 +11,8 @@ type StreamEvent =
     }
   | { type: "step"; step: number; verb: string; reason: string; timestamp: number }
   | { type: "frame"; data: string; timestamp: number }
-  | { type: "result"; data: { script: string; stopReason: string; steps: number } }
-  | { type: "fatal"; data: { message: string } };
+  | { type: "result"; script: string; stopReason: string; steps: number }
+  | { type: "fatal"; message: string };
 
 type Phase = "idle" | "streaming" | "complete" | "partial" | "error";
 
@@ -30,6 +30,7 @@ export function Playground() {
   const [script, setScript] = useState<string>("");
   const [stopReason, setStopReason] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [frame, setFrame] = useState<string>("");
   const abortRef = useRef<AbortController | null>(null);
 
   const isAllowlisted = /(^|\.)(saucedemo\.com|the-internet\.herokuapp\.com|automationexercise\.com|demo\.playwright\.dev|todomvc\.com)$/i.test(
@@ -44,6 +45,7 @@ export function Playground() {
     setScript("");
     setStopReason("");
     setErrorMessage("");
+    setFrame("");
     const controller = new AbortController();
     abortRef.current = controller;
 
@@ -87,6 +89,7 @@ export function Playground() {
             setStopReason,
             setPhase,
             setErrorMessage,
+            setFrame,
           });
         }
       }
@@ -321,16 +324,26 @@ export function Playground() {
               marginTop: 16,
               color: "var(--text-faint)",
               fontSize: 14,
-              padding: 24,
+              padding: frame.length > 0 ? 0 : 24,
               textAlign: "center",
+              overflow: "hidden",
             }}
           >
-            {phase === "idle" && "Click Generate to watch Claude work."}
-            {phase === "streaming" &&
-              "Live frame relay lands in T9. For now this pane just narrates the steps above."}
-            {(phase === "complete" || phase === "partial") &&
-              "Run finished. Check the right pane for the script."}
-            {phase === "error" && "No frames captured."}
+            {frame.length > 0 ? (
+              <img
+                src={`data:image/jpeg;base64,${frame}`}
+                alt="live browser frame"
+                style={{ maxWidth: "100%", maxHeight: "100%", display: "block" }}
+              />
+            ) : phase === "idle" ? (
+              "Click Generate to watch Claude work."
+            ) : phase === "streaming" ? (
+              "Waiting for the first frame…"
+            ) : phase === "complete" || phase === "partial" ? (
+              "Run finished. Check the right pane for the script."
+            ) : (
+              "No frames captured."
+            )}
           </div>
         </section>
 
@@ -517,6 +530,7 @@ function handleEvent(
     setStopReason: (s: string) => void;
     setPhase: (p: Phase) => void;
     setErrorMessage: (s: string) => void;
+    setFrame: (b64: string) => void;
   },
 ): void {
   switch (evt.type) {
@@ -535,15 +549,15 @@ function handleEvent(
       setters.setStepCount(evt.step);
       break;
     case "result":
-      setters.setScript(evt.data.script);
-      setters.setStopReason(evt.data.stopReason);
+      setters.setScript(evt.script);
+      setters.setStopReason(evt.stopReason);
       break;
     case "fatal":
       setters.setPhase("error");
-      setters.setErrorMessage(evt.data.message);
+      setters.setErrorMessage(evt.message ?? "unknown error");
       break;
     case "frame":
-      // T9 will surface frames here
+      setters.setFrame(evt.data);
       break;
   }
 }

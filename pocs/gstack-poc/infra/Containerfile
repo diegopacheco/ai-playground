@@ -1,0 +1,24 @@
+FROM mcr.microsoft.com/playwright:v1.55.0-noble
+
+WORKDIR /app
+
+RUN curl -fsSL https://bun.sh/install | bash && \
+    ln -s /root/.bun/bin/bun /usr/local/bin/bun
+
+COPY package.json bun.lock ./
+COPY runner/package.json ./runner/
+COPY web/package.json ./web/
+
+RUN bun install --frozen-lockfile
+
+COPY runner ./runner
+COPY web ./web
+
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV QA2PW_OLLAMA_URL=http://host.containers.internal:11434
+ENV QA2PW_MODEL=qwen2.5vl:32b
+
+EXPOSE 3000
+
+CMD ["bun", "run", "--cwd", "web", "dev"]

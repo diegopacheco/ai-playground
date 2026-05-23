@@ -15,7 +15,8 @@
   "scripts": {
     "build": "tsc --noEmit",
     "test": "bun test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "eval": "bun run eval/runEvals.ts"
   },
   "dependencies": {
     "playwright": "1.55.0"

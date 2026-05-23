@@ -1,7 +1,12 @@
-import type { Browser, BrowserContext, Page } from "playwright";
+import type { Browser, BrowserContext, CDPSession, Page } from "playwright";
 import type { BrowserAdapter } from "./browser.ts";
 import type { Selector } from "./types.ts";
 import { withDisposable } from "./lifecycle.ts";
+
+export interface ScreencastFrame {
+  data: string;
+  timestamp: number;
+}
 
 export interface PlaywrightLaunchOptions {
   headless?: boolean;
@@ -20,6 +25,8 @@ const DEFAULT_OPTIONS: Required<PlaywrightLaunchOptions> = {
 };
 
 export class PlaywrightSession implements BrowserAdapter {
+  private cdp: CDPSession | undefined;
+  private screencastActive = false;
   private constructor(
     private readonly browser: Browser,
     private readonly context: BrowserContext,
@@ -83,6 +90,9 @@ export class PlaywrightSession implements BrowserAdapter {
   }
 
   async close(): Promise<void> {
+    if (this.screencastActive) {
+      await this.stopScreencast().catch(() => undefined);
+    }
     try {
       await this.page.close();
     } catch {
@@ -98,6 +108,32 @@ export class PlaywrightSession implements BrowserAdapter {
     } catch {
       // already closed
     }
+  }
+
+  async startScreencast(onFrame: (frame: ScreencastFrame) => void): Promise<void> {
+    if (this.screencastActive) return;
+    if (this.cdp === undefined) {
+      this.cdp = await this.context.newCDPSession(this.page);
+    }
+    const cdp = this.cdp;
+    cdp.on("Page.screencastFrame", (event: { data: string; sessionId: number }) => {
+      onFrame({ data: event.data, timestamp: Date.now() });
+      cdp.send("Page.screencastFrameAck", { sessionId: event.sessionId }).catch(
+        () => undefined,
+      );
+    });
+    await cdp.send("Page.startScreencast", {
+      format: "jpeg",
+      quality: 70,
+      everyNthFrame: 1,
+    });
+    this.screencastActive = true;
+  }
+
+  async stopScreencast(): Promise<void> {
+    if (!this.screencastActive || this.cdp === undefined) return;
+    await this.cdp.send("Page.stopScreencast").catch(() => undefined);
+    this.screencastActive = false;
   }
 
   pageHandle(): Page {
