@@ -110,8 +110,170 @@ pocs/gstack-poc/
 5. **Cost guardrails** — timeout, rate limit, domain blocklist, token budget. Do this BEFORE public launch, not after.
 6. **The demo video** — 60 seconds: paste a prompt, watch the agent work, download the file, run it locally, see the green checkmark. This is the launch asset.
 
+## Architecture Decisions (from /plan-eng-review on 2026-05-23)
+
+These supersede or refine any conflicting language earlier in the document.
+
+- **Browser pool:** self-hosted Playwright in podman containers, one container per session. No Browserbase, no third-party SaaS. All under `pocs/gstack-poc/`. Containerfile + podman-compose for local. Pre-warm pool of 2-3 idle containers to mask cold-start.
+- **LLM action loop limits:** hard cap of 25 tool-calls per run AND 90s wall clock. First to trip kills the run, disposes the container, returns the partial action log to the user as a salvageable partial script.
+- **Output format:** flat `.spec.ts` with semantic locators. No PageObject pattern in v1. Differentiator messaging: "clean, idiomatic Playwright" — drop the "PageObject pattern" claim.
+- **Global cost cap:** $20/day Anthropic spend ceiling. When hit, `/api/generate` returns a "playground sleeping until midnight UTC" page with a GitHub-star CTA.
+- **Domain policy:** allowlist of curated demo apps (saucedemo.com, the-internet.herokuapp.com, automationexercise.com, plus a small curated set). Any other URL requires an attestation checkbox: "I own or operate this site, or have permission to test it." Attestation is logged with the run. Server-side enforcement, not client-only.
+- **Runner shape:** standalone TypeScript package at `pocs/gstack-poc/runner/` with a clean exported API: `generateScript({english, url, onFrame, onStep}) → Promise<string>`. The Next.js API route is a thin HTTP+SSE wrapper. CLI in v2 imports the same package.
+- **Streaming protocol:** CDP `Page.screencastFrame` (compressed JPEG diff frames) over Server-Sent Events. Not WebSocket-of-full-PNGs.
+- **Anthropic API failure UX:** wrap orchestrator boundary in try/catch; on 5xx surface "Claude is having a moment, try again in a few minutes" instead of a generic 500.
+
+## NOT in scope (v1)
+
+Considered and explicitly deferred:
+
+- **Permalinks + replay system.** Listed in the doc as v1 but reclassified as v2. Demo videos can be recorded manually for launch. — Defer rationale: not on the core "paste → watch → download" path; demo virality can be served by a screen recording.
+- **Postgres + S3/R2 persistence.** Tied to permalinks; same defer. — V1 keeps zero server-side state about runs.
+- **Side-by-side competitor comparison view.** Marketing surface, not a product feature. — Build a static landing-page section instead, post-launch.
+- **PageObject-pattern output.** Replaced with flat `.spec.ts`. — Reduces v1 templater complexity; cleaner story too.
+- **Self-healing CLI / web flow.** Doc's chosen "magic moment" demo. Deferred to v2 in either form (upload-and-heal hosted, or healing inside the future CLI). — V1 demo moment reframes as "watch it build, download the script."
+- **CLI version of the runner.** Standalone-package architecture makes this cheap in v2, but not built in v1. — Web playground first per the chosen approach.
+- **Auth / user accounts.** Anonymous-with-attestation is the v1 model. — Email gate considered and rejected for first run.
+- **Multi-region deploy.** Single Fly region for v1. — Latency is dominated by LLM round-trip, not network geography.
+- **Browserbase fallback path.** If self-hosted pool can't keep up post-launch, Browserbase becomes a v2 capacity-relief option, not a v1 design constraint.
+
+## What already exists
+
+Outside this empty POC folder, the following are reusable substrates the implementation should lean on rather than rebuild:
+
+- **Playwright** itself — selector capture, browser drive, `Page.screencastFrame` via CDP. The "drive a page and remember what worked" loop is built-in; the LLM just decides the next step.
+- **Playwright codegen** — reference for what good captured-selector output looks like; the templater can target this output shape.
+- **Anthropic SDK + vision tool-calling** — `tools` API with screenshot input is the LLM-as-browser-driver pattern. Reference impls in the SDK examples folder.
+- **Server-Sent Events (native fetch/Response)** — no library needed for the streaming relay; `new ReadableStream` + `text/event-stream` works in Next.js route handlers.
+- **podman-compose** — declared in CLAUDE.md as the project convention; container lifecycle, network, and volume management are off-the-shelf.
+
+Nothing in this list is yet wired up in the POC folder.
+
+## Implementation Tasks
+
+Synthesized from this review's findings. Each task ties to a specific decision above.
+Run with Claude Code or Codex; checkbox as you ship.
+
+- [ ] **T1 (P1, human: ~6h / CC: ~30min)** — runner — Scaffold standalone TypeScript package
+  - Surfaced by: Code Quality D7 — standalone package decision
+  - Files: `pocs/gstack-poc/runner/package.json`, `pocs/gstack-poc/runner/src/index.ts`, `pocs/gstack-poc/runner/tsconfig.json`
+  - Verify: `cd pocs/gstack-poc/runner && bun run build` succeeds
+- [ ] **T2 (P1, human: ~1d / CC: ~1h)** — runner — Implement `generateScript()` core loop with Playwright + Anthropic vision
+  - Surfaced by: Architecture decisions D2, D3 — self-hosted Playwright + 25-call/90s caps
+  - Files: `pocs/gstack-poc/runner/src/generate.ts`, `pocs/gstack-poc/runner/src/tools.ts`, `pocs/gstack-poc/runner/src/limits.ts`
+  - Verify: unit test that step counter trips at 25, wall clock trips at 90s
+- [ ] **T3 (P1, human: ~4h / CC: ~30min)** — runner — Flat `.spec.ts` templater (deterministic, no LLM in this path)
+  - Surfaced by: Architecture D4 — flat output, drop PageObject claim
+  - Files: `pocs/gstack-poc/runner/src/templater.ts`
+  - Verify: unit test asserting same action log → identical output string
+- [ ] **T4 (P1, human: ~6h / CC: ~45min)** — runner — Podman container lifecycle wrapper (spawn/dispose with guaranteed cleanup)
+  - Surfaced by: Architecture D2 + Test Review critical gap (leaked Chromium on timeout)
+  - Files: `pocs/gstack-poc/runner/src/podman.ts`
+  - Verify: integration test that dispose runs even when the inner block throws
+- [ ] **T5 (P1, human: ~3h / CC: ~20min)** — runner — Allowlist + attestation check (server-side enforced)
+  - Surfaced by: Architecture D6 — allowlist + attestation
+  - Files: `pocs/gstack-poc/runner/src/allowlist.ts`, allowlist data inline
+  - Verify: unit tests for allowlisted, non-allowlisted-with-attest, non-allowlisted-without-attest
+- [ ] **T6 (P1, human: ~1d / CC: ~1h)** — web — Next.js app skeleton + `/api/generate` SSE endpoint
+  - Surfaced by: full-scope architecture
+  - Files: `pocs/gstack-poc/web/app/page.tsx`, `pocs/gstack-poc/web/app/api/generate/route.ts`
+  - Verify: `curl -N` against the endpoint returns SSE events; UI renders
+- [ ] **T7 (P1, human: ~6h / CC: ~30min)** — web — Three-pane UI: input / screencast / script-preview + download
+  - Surfaced by: full-scope architecture
+  - Files: `pocs/gstack-poc/web/app/components/*`
+  - Verify: E2E (Playwright dogfood) — fill form, watch frames, download triggers
+- [ ] **T8 (P1, human: ~4h / CC: ~30min)** — web — Per-IP rate limit (5/hr) + global $20/day token budget cap with "sleeping" page
+  - Surfaced by: Architecture D5
+  - Files: `pocs/gstack-poc/web/lib/limits.ts`, persistent counter (single SQLite file is enough at v1)
+  - Verify: integration tests for both fuses
+- [ ] **T9 (P1, human: ~3h / CC: ~20min)** — runner — CDP `Page.screencastFrame` subscription + frame relay
+  - Surfaced by: Architecture minor — streaming protocol
+  - Files: `pocs/gstack-poc/runner/src/screencast.ts`, types in `pocs/gstack-poc/protocol/`
+  - Verify: smoke test that frames arrive within 2s of run start
+- [ ] **T10 (P1, human: ~4h / CC: ~30min)** — infra — Containerfile + podman-compose for local dev
+  - Surfaced by: Architecture D2, CLAUDE.md convention
+  - Files: `pocs/gstack-poc/infra/Containerfile`, `pocs/gstack-poc/infra/podman-compose.yml`, `pocs/gstack-poc/start.sh`, `pocs/gstack-poc/stop.sh`, `pocs/gstack-poc/test.sh`
+  - Verify: `./start.sh` brings up the stack, `./test.sh` runs a smoke test
+- [ ] **T11 (P2, human: ~1d / CC: ~1h)** — runner — LLM eval suite (10 prompts × allowlisted apps, bar: 8/10 generated scripts pass)
+  - Surfaced by: Test Review — eval gap
+  - Files: `pocs/gstack-poc/runner/test/eval/*`
+  - Verify: eval runs in CI on every PR; failures block merge
+- [ ] **T12 (P2, human: ~4h / CC: ~30min)** — infra — GitHub Actions: podman build → GHCR push → Fly deploy on tag
+  - Surfaced by: Distribution Plan in design doc
+  - Files: `.github/workflows/deploy.yml` (project-root level, NOT pocs/gstack-poc — confirm with user before adding)
+  - Verify: pushing a tag deploys to staging
+- [ ] **T13 (P2, human: ~2h / CC: ~15min)** — web — Graceful Anthropic 5xx UX ("Claude is having a moment")
+  - Surfaced by: Architecture minor — Anthropic SPOF
+  - Files: `pocs/gstack-poc/web/app/api/generate/route.ts` error boundary
+  - Verify: integration test that simulated 5xx surfaces the friendly message
+- [ ] **T14 (P2, human: ~3h / CC: ~20min)** — runner — Pre-warm pool of 2-3 idle containers to mask 3-5s cold-start
+  - Surfaced by: Performance review
+  - Files: `pocs/gstack-poc/runner/src/pool.ts`
+  - Verify: time-to-first-frame stays under 2s with warm pool
+
+## Worktree Parallelization Strategy
+
+| Step | Modules touched | Depends on |
+|------|----------------|------------|
+| T1 — package scaffold | runner/ | — |
+| T2 — core loop | runner/src/generate, tools, limits | T1 |
+| T3 — templater | runner/src/templater | T1 |
+| T4 — podman lifecycle | runner/src/podman | T1 |
+| T5 — allowlist | runner/src/allowlist | T1 |
+| T6 — Next.js + API route | web/ | T1 (imports runner) |
+| T7 — three-pane UI | web/app/components | T6 |
+| T8 — rate limit + budget cap | web/lib | T6 |
+| T9 — screencast relay | runner/src/screencast, protocol/ | T2 |
+| T10 — Containerfile + compose | infra/ | T1-T4 (needs runner to package) |
+| T11 — eval suite | runner/test/eval | T2, T3 |
+| T12 — CI/CD | .github/workflows | T10 |
+| T13 — graceful 5xx | web/app/api | T6 |
+| T14 — pre-warm pool | runner/src/pool | T4 |
+
+**Lanes:**
+- **Lane A (sequential):** T1 → T2 → T9 → T14 (runner core + streaming + pool — share runner/src)
+- **Lane B (sequential, can run parallel to A after T1):** T1 → T3 → T11 (templater + eval — touches runner/src/templater + test/)
+- **Lane C (sequential, can run parallel to A after T1):** T1 → T4 → T10 (podman lifecycle + infra — touches runner/src/podman + infra/)
+- **Lane D (sequential, can run parallel to A after T1):** T1 → T5 (allowlist — isolated file)
+- **Lane E (sequential, depends on T1 only):** T6 → {T7, T8, T13} (web — share app/api/route.ts so T6 must land first)
+
+**Execution order:** Land T1 first (everyone depends on it). Then launch Lanes A, B, C, D, E in parallel worktrees. Merge in order: A, B, C, D, then E (E imports runner so it benefits from A's exports being stable). T12 last after T10 lands.
+
+**Conflict flags:** None — lanes touch disjoint module directories after T1.
+
+## Failure Modes (per critical codepath)
+
+| Codepath | Realistic failure | Test? | Error handling? | User sees clear error? |
+|---|---|---|---|---|
+| `generateScript()` happy path | LLM picks wrong selector, gets stuck in loop | Yes (T11 eval) | Step counter (T2) | Yes — "step budget exceeded" |
+| Wall clock timeout | LLM hangs on slow API response | Yes (unit T2) | Wall clock kills run | Yes — "run timed out" |
+| Anthropic 5xx | API outage mid-run | Yes (T13) | try/catch at boundary | Yes — friendly message |
+| Container spawn fails | podman OOM / host OOM | Should add | catch at podman.ts | Yes — "playground busy" |
+| **Container leak on timeout** | Timeout fires but dispose isn't called → leaked Chromium | **CRITICAL — T4 must test** | **finally block in podman.ts** | No (silent host degradation) |
+| Global budget hit | $20/day cap | Yes (T8) | Pre-flight check | Yes — "sleeping" page |
+| SSE connection drops | User closes tab mid-run | Add to T6 | Server detects close, kills run | N/A (user already gone) |
+| Allowlist bypass via direct API call | Attacker skips UI, posts attestation=true | Yes (T5) | Server-side enforcement | 400 with error |
+
+**Critical gap:** container leak on timeout. If T4 ships without the dispose-on-error test, every timed-out run leaks a Chromium until the host runs out of memory. **Test must exist in T4's verification.**
+
 ## What I noticed about how you think
 
 - You picked the *self-healing* demo as the magic moment over the side-by-side code comparison. That's a sophisticated read — you intuited that "tests that stay green" is a more emotional pitch than "look how clean the code is," even though clean code was your stated differentiator. Most builders would have picked the safer, more legible demo. You went for the bigger emotional swing.
 - You pushed back on the "learn my repo style" premise without articulating why. That's a signal you've thought about onboarding friction before — anything that requires setup before the first taste of magic loses 80% of trial users. Worth naming explicitly when you write the README.
 - You picked the hosted playground over the CLI even though I recommended the CLI as the faster path. You're optimizing for reach, not for shipping speed. That's a marketer's instinct, not a builder's instinct — unusual combo, and worth leaning into. Most open-source side projects die unfound; you're starting from the distribution problem and working backward, which is the right end to start from.
+
+## GSTACK REVIEW REPORT
+
+| Review | Trigger | Why | Runs | Status | Findings |
+|--------|---------|-----|------|--------|----------|
+| CEO Review | `/plan-ceo-review` | Scope & strategy | 0 | — | not run |
+| Codex Review | `/codex review` | Independent 2nd opinion | 0 | — | not run |
+| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | ISSUES_OPEN | 8 architecture decisions made, 40 test gaps catalogued (green-field), 1 critical leak risk (container dispose on timeout) flagged for T4 |
+| Design Review | `/plan-design-review` | UI/UX gaps | 0 | — | not run |
+| DX Review | `/plan-devex-review` | Developer experience gaps | 0 | — | not run |
+
+- **UNRESOLVED:** 0 decisions left open. Scope kept at full per user choice; all 7 architecture/code-quality decisions resolved via D1-D7.
+- **OUTSIDE VOICE:** skipped per user (D8).
+- **CRITICAL GAP:** container leak on timeout — T4 verification must include dispose-on-error test, otherwise every timed-out run leaks a Chromium process and the host OOMs under load.
+- **VERDICT:** ENG REVIEW COMPLETE with 1 critical gap to enforce during implementation. Plan is implementation-ready. /plan-design-review is the natural next step before coding the three-pane UI — recommended but not required.
+
