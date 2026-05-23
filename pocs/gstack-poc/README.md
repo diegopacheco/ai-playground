@@ -181,3 +181,48 @@ the original plan used the Anthropic Claude API to drive the browser. The
 current build uses **Ollama + Qwen2.5-VL** on the host machine — no cloud
 LLM, no per-run cost, no $20/day budget cap. The "playground sleeping" state
 in [`DESIGN-SYSTEM.md`](./DESIGN-SYSTEM.md) becomes documentation-only.
+
+## Result — running for real
+
+![qa2pw mid-run, Qwen2.5-VL driving Chromium past the saucedemo login](./result.png)
+
+This is the playground caught mid-flight on a real run against `qwen2.5vl:32b`
+locally. Three things to notice:
+
+1. **Left pane — form locked, step counter ticking.** The Generate button now
+   reads `Generating… (step 5 of 25) — Cancel`, the form is disabled, the
+   `allowlisted` badge is green because saucedemo.com is on the curated
+   allowlist (no attestation needed). The wall clock and step cap are visible
+   in the helper copy below the button.
+2. **Center pane — live screencast + action+reason microcopy.** The step
+   caption shows `Clicking role=button name="Login"` in amber, with the
+   reason on the second line: "click the login button to submit the
+   credentials and proceed to the inventory page". That's the **D5 format
+   from the plan-design-review** (action first, reason narrating the model's
+   intent) — and it's coming straight from Qwen via the runner's `step` SSE
+   event. Below it is a CDP `Page.screencastFrame` of the **real
+   saucedemo.com inventory page** (Swag Labs storefront, Sauce Labs Backpack,
+   Bike Light, Bolt T-Shirt, Fleece Jacket, Onesie) — meaning Qwen already
+   drove the username field, password field, and Login button successfully
+   before this screenshot.
+3. **Right pane — script preview waiting for the post-run flush.** The
+   placeholder `// Your generated Playwright test appears here` is still
+   showing because the script pane fills in **after** the run completes, not
+   incrementally during the run (lines render from the action log when the
+   `result` SSE event lands). That's why it looks empty even though five
+   real steps have already executed.
+
+**What this proves end-to-end:** local Ollama serving a vision model, the
+runner orchestrating tool calls with strict JSON, Playwright launching a
+real Chromium and being driven by the model's decisions, CDP frames relaying
+back to the SSE stream, the UI rendering live state with no Anthropic key,
+no SaaS, no cloud. Everything in the screenshot is your machine talking to
+your machine.
+
+**What's still imperfect:** Qwen2.5-VL at ~15–20s per LLM round trip on
+Apple Silicon means full multi-step flows can hit the wall clock (now 20
+minutes by default, configurable via `QA2PW_WALL_CLOCK_MS`). The first
+couple of runs needed prompt iteration — adding few-shot examples for the
+selector schema, accepting bare-string selectors, defaulting
+`assert_text`-without-selector to text-search. Each fix is captured in
+`runner/src/parseAction.ts` and `runner/src/prompts.ts`.
