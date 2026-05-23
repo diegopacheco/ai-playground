@@ -29,18 +29,8 @@ echo "model: $MODEL ready"
 
 (cd runner && bun install --silent)
 
-CACHE_DIRS=("$HOME/Library/Caches/ms-playwright" "$HOME/.cache/ms-playwright")
-CHROMIUM_PRESENT=0
-for d in "${CACHE_DIRS[@]}"; do
-  if [ -d "$d" ] && find "$d" -type f \( -name 'headless_shell' -o -name 'Chromium' -o -name 'chrome' \) 2>/dev/null | grep -q .; then
-    CHROMIUM_PRESENT=1
-    break
-  fi
-done
-if [ "$CHROMIUM_PRESENT" -eq 0 ]; then
-  echo "installing playwright chromium (one-time, ~150MB)"
-  (cd runner && bunx playwright install chromium)
-fi
+echo "ensuring playwright chromium is installed"
+(cd runner && bunx playwright install chromium)
 
 echo ""
 if [ -n "${EVAL_CASE_ID:-}" ]; then

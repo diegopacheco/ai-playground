@@ -28,6 +28,9 @@ fi
 echo "installing runner deps"
 (cd runner && bun install --silent)
 
+echo "ensuring playwright chromium is installed"
+(cd runner && bunx playwright install chromium)
+
 if [ -d web ]; then
   echo "installing web deps"
   (cd web && bun install --silent)
