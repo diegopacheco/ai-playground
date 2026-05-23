@@ -49,6 +49,11 @@ Click a visible link by its text:
 Assert a heading is on the page:
 {"action":"assert_text","selector":{"kind":"role","role":"heading","name":"Products"},"text":"Products","reason":"verify we reached the inventory page"}
 
+Assert any visible text appears (selector omitted — we'll search the page for the text):
+{"action":"assert_text","text":"Products","reason":"verify inventory page loaded"}
+
+Pattern after submitting a form: assert the next page's visible text, then done.
+
 Wait for a specific element to appear:
 {"action":"wait_for","selector":{"kind":"text","text":"Welcome"},"reason":"page transition after login"}
 

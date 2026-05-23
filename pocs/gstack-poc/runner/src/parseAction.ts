@@ -68,11 +68,16 @@ export function parseAction(raw: string): ParseResult {
       };
     }
     case "assert_text": {
-      const selector = parseSelector(json.selector);
-      if (selector.ok === false) return selector;
       const text = json.text;
       if (typeof text !== "string")
         return { ok: false, error: "'assert_text' needs a 'text' string" };
+      let selector: SelectorParse;
+      if (json.selector === undefined || json.selector === null) {
+        selector = { ok: true, value: { kind: "text", text } };
+      } else {
+        selector = parseSelector(json.selector);
+      }
+      if (selector.ok === false) return selector;
       return {
         ok: true,
         action: { tool: "assert_text", selector: selector.value, text, reason },
