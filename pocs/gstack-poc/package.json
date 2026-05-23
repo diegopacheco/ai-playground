@@ -1,0 +1,11 @@
+{
+  "name": "qa2pw-poc",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": ["runner", "web"],
+  "scripts": {
+    "test": "./test.sh",
+    "run": "./run.sh",
+    "stop": "./stop.sh"
+  }
+}

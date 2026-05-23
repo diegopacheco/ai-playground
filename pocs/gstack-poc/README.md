@@ -26,8 +26,12 @@ git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.cl
   (HTML/SVG/canvas), but I can't synthesize a PNG/JPEG from a prompt the way DALL-E / Imagen / gpt-image-1 do. Anthropic has no public
   image-generation API. The gstack designer wraps OpenAI's image API, which is why it needs an OpenAI key.
 ```
+* I asked claude to implement the idea but remove all external saas do it all in my machine and just using open source, them he asked me to install a ollama model
+```
+ollama pull qwen2.5vl:32b
+```
 
-# Design Preview
+## Design Preview
 
 After the design skills wrapped, Claude wrote a static HTML preview of the **qa2pw**
 playground at [`preview.html`](./preview.html) using the tokens locked into
@@ -111,3 +115,62 @@ the "preview.html — not in product" note on the right) is preview chrome,
 not part of the shipped playground. It exists so you can flip between states
 without scrolling. When the real Next.js app gets built (tasks T6–T7 in
 [`DESIGN.md`](./DESIGN.md)), this bar disappears.
+
+## Run / Stop / Test
+
+Three scripts at the POC root drive the whole stack:
+
+```
+./run.sh    starts Ollama (if not running) + runner + web
+./stop.sh   tears down anything run.sh started
+./test.sh   runs typecheck + tests across every package
+```
+
+Run them from `pocs/gstack-poc/`. Logs go to `/tmp/qa2pw-*.log`. PID files
+live in `/tmp/qa2pw-*.pid` so `stop.sh` only kills the Ollama instance
+that `run.sh` started — if Ollama was already running, it's left alone.
+
+### Prerequisites (one-time)
+
+| Tool | Install | Why |
+|---|---|---|
+| [bun](https://bun.sh) ≥1.3 | `curl -fsSL https://bun.sh/install \| bash` | Package manager + test runner for the TypeScript packages |
+| [Ollama](https://ollama.com) | `brew install ollama` | Local LLM server. Runs on the host so it can use Apple Metal |
+| [Podman](https://podman.io) | `brew install podman podman-compose` | Container runtime for the Playwright sandbox |
+| Qwen2.5-VL model | `ollama pull qwen2.5vl:32b` | The vision LLM that drives the browser. ~20GB on Apple Silicon with 32GB+ RAM |
+
+For lighter machines: `ollama pull qwen2.5vl:7b` and `export QA2PW_MODEL=qwen2.5vl:7b` before `./run.sh`.
+
+### Full local flow
+
+```
+./run.sh           # boots the stack
+open http://127.0.0.1:3000   # once T6 lands; until then run.sh just preps deps
+./stop.sh          # when done
+```
+
+No SaaS, no API keys, no cloud bill. Everything runs on your machine.
+
+## Implementation Status
+
+Built out of [`DESIGN.md`](./DESIGN.md) tasks T1–T14 (eng) and DT1–DT14 (design).
+Current state:
+
+| Task | What | Status |
+|---|---|---|
+| T1 | Scaffold `runner/` TypeScript package (bun + Playwright + types + tests) | **done** |
+| T2 | Ollama vision loop + LimitGuard (step counter + wall clock) + structured-output parsing | **done** (49 tests) |
+| T3 | Flat `.spec.ts` templater — deterministic, semantic locators, partial-on-timeout annotation | **done** |
+| T4 | Podman container lifecycle wrapper (with guaranteed dispose) | pending |
+| T5 | Allowlist + attestation + safety blocklist (server-side enforced) | **done** |
+| T6 | Next.js scaffold + `/api/generate` SSE endpoint | pending |
+| T7 | Three-pane UI matching `DESIGN-SYSTEM.md` | pending |
+| T9 | CDP `Page.screencastFrame` subscription + SSE frame relay | pending |
+| T10 | `Containerfile` + `podman-compose.yml` for the runner sandbox | pending |
+| T11 | Eval suite — 10 prompts × allowlisted demo apps, bar 8/10 pass | pending |
+
+Architecture pivot for local-only operation (decision in chat, 2026-05-23):
+the original plan used the Anthropic Claude API to drive the browser. The
+current build uses **Ollama + Qwen2.5-VL** on the host machine — no cloud
+LLM, no per-run cost, no $20/day budget cap. The "playground sleeping" state
+in [`DESIGN-SYSTEM.md`](./DESIGN-SYSTEM.md) becomes documentation-only.
