@@ -1,0 +1,25 @@
+pocs/gstack-poc/web/app/layout.tsx
+  s_f005f9687aa625::t_175759924ca644 3,13
+pocs/gstack-poc/web/app/components/Playground.tsx
+  s_f005f9687aa625::t_38b124aaa66344 1-557
+pocs/gstack-poc/web/app/page.tsx
+  s_f005f9687aa625::t_3c4c990b5aef12 1,3-4
+pocs/gstack-poc/web/tsconfig.tsbuildinfo
+  s_f005f9687aa625::t_1be49e76388017 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "c34169e73557a56efa644dad927d4a6ad6dea32c",
+  "prompts": {},
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
