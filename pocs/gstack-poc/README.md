@@ -34,6 +34,8 @@ ollama pull qwen2.5vl:32b
 * The most interesting thing here is the usage of Ollama and Qwem as local model to drive the navigation on the browser and generate the playwright script.
 * I decided to do a final experiment, I put 50 USD credits on claude and opus 4.7 and asked claude to use the Playright MCP and run my solution and dont stop until all bugs was fixed, claude decided to switch from qwem 32B to 7B and the speed was much fast did not loose quality, and end up making it work (look image). Costed 40$ on top of 30 USD + my full subscription. But when I asked the solution to goto google.com and search for a banana and click in the first link of corese it fail because the harness is too much hardoded into the first website.
 
+![qa2pw run complete with the full Playwright script generated from the saucedemo login flow](./working.png)
+
 ## Design Preview
 
 After the design skills wrapped, Claude wrote a static HTML preview of the **qa2pw**
