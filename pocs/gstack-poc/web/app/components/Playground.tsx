@@ -249,8 +249,8 @@ export function Playground() {
               margin: 0,
             }}
           >
-            Runs locally. Step counter caps at 25, wall clock at 90s. The script
-            is yours to keep.
+            Runs locally. Step counter caps at 25, wall clock at 20 min. The
+            script is yours to keep.
           </p>
         </section>
 

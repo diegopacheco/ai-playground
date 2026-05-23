@@ -30,6 +30,8 @@ git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.cl
 ```
 ollama pull qwen2.5vl:32b
 ```
+* Spent all my subscription + 30 USD far from perfect.
+* The most interesting thing here is the usage of Ollama and Qwem as local model to drive the navigation on the browser and generate the playwright script.
 
 ## Design Preview
 

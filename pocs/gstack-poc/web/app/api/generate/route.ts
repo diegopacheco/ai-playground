@@ -122,6 +122,12 @@ function jsonError(
   });
 }
 
+function parsePositiveInt(raw: string | undefined): number | undefined {
+  if (raw === undefined) return undefined;
+  const n = parseInt(raw, 10);
+  return Number.isFinite(n) && n > 0 ? n : undefined;
+}
+
 function urlVerdictMessage(
   reason: "malformed_url" | "blocked_by_safety" | "attestation_required",
 ): string {
