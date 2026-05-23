@@ -256,6 +256,92 @@ Run with Claude Code or Codex; checkbox as you ship.
 
 **Critical gap:** container leak on timeout. If T4 ships without the dispose-on-error test, every timed-out run leaks a Chromium until the host runs out of memory. **Test must exist in T4's verification.**
 
+## Design Decisions (from /plan-design-review on 2026-05-23)
+
+These bind the visual implementation. Supersede or refine prior language in this doc.
+
+### Identity
+- **Product name:** `qa2pw`. Domain: `qa2pw.dev`. Wordmark rendered in JetBrains Mono, lowercase, top-left of every page beside a one-line tagline.
+- **Tagline draft:** "Plain English in. Real Playwright out." (refine during implementation)
+
+### Typography
+- **UI face:** Inter Tight (Google Fonts or self-hosted). Body 16px minimum. Display sizes for headings: 32 / 24 / 20 / 16.
+- **Code face:** JetBrains Mono. Used in the script preview pane, the URL input, and any inline code.
+- **No `system-ui` anywhere as a primary face.** This is the single most important slop-defense rule.
+
+### Color & Theme
+- **Default theme:** Light mode. White-ish background (`#FAFAFA` or near-white), dark grey body text (`#171717` or zinc-900).
+- **Accent:** Amber. Bright amber (`#F59E0B` / tailwind amber-500) for solid button fills with white text. Darker amber (`#B45309` / amber-700 or darker) for any amber-colored type — required to hit WCAG AA 4.5:1 on white at small sizes.
+- **No dark mode in v1.** Add toggle in v2 if requested.
+- **No purple, no indigo, no violet, no Tailwind defaults for primary actions.**
+
+### Surfaces & Geometry
+- **Cardless.** Three panes separated by 1px dividers, not by rounded surfaces with shadows. Linear/IDE aesthetic, not Notion/Stripe.
+- **Border radius:** sharp — 4-6px max on buttons, inputs, code blocks. No `rounded-lg` or larger on layout elements.
+- **Shadows:** elevated overlays only (modals, dropdowns). No decorative shadows on the panes, buttons, or cards.
+- **Generate button:** the single highest-contrast element on the page below the wordmark. Solid amber fill, white text, ~48px height, JetBrains Mono "Generate" label. All other buttons (Download, Continue, Try again) are ghost/outline.
+
+### First-Paint Hierarchy
+- On first load, the form pre-populates with a working saucedemo example:
+  - English: `Log in with standard_user / secret_sauce, see the inventory page`
+  - URL: `https://www.saucedemo.com`
+  - Attestation: hidden (allowlisted)
+- Visitor can click Generate within 3 seconds without reading anything else. Hero-by-example. The wordmark + tagline sit above the panes; everything below is the playground.
+
+### State Matrix
+
+| Pane / Feature | Idle | Streaming | Complete | Error | Partial (timeout) |
+|---|---|---|---|---|---|
+| Form | Prefilled example | Disabled | Re-enabled | Re-enabled | Re-enabled |
+| Generate button | "Generate" | "Generating…" + spinner | "Generate again" | "Try again" | "Try again" |
+| Center pane | Faint browser-chrome outline + play icon + "Click Generate to watch Claude work." | Live JPEG frames | Last frame frozen + ✓ overlay | Red banner + last frame | Last frame |
+| Step caption (between center + right panes) | Hidden | "Clicking login button because the prompt says 'log in'" — action + reason format | "Run complete" | "Stopped: model error" | "Stopped: step budget (18/25)" |
+| Right pane | Single syntax-highlighted comment placeholder: `// Your generated Playwright test appears here, line by line.` | Lines fade in as actions complete | Full script + Download enabled | Partial script + Download enabled | Partial script + amber banner + **Continue from step N** button (resumes by priming a new run with the existing action log) |
+| Download button | Disabled | Disabled | Enabled (amber-bordered ghost) | Disabled | Enabled |
+| Attestation checkbox | Appears when URL is changed away from allowlist | Locked during run | — | — | — |
+| Rate limit hit | — | — | — | Red banner above form: "5 runs in the last hour. Try again at HH:MM." | — |
+| Sleeping page | — | — | — | Full-page takeover: wordmark, "Playground is sleeping until midnight UTC", GitHub star CTA | — |
+
+### Streaming Microcopy
+- The step caption updates with every LLM tool call. Format: `<verb-ing action> because <one-line reason from the model>`.
+- During run, an `aria-live="polite"` region announces: started, "Step N of 25", complete, error. Not every micro-step (would be unbearable for screen reader users).
+
+### Code Preview Theme
+- Custom Prism (or Shiki) light theme tuned to the amber palette:
+  - Keywords (`await`, `function`, `import`) — amber-700
+  - Strings — warm grey-700
+  - Identifiers — zinc-900
+  - Comments — zinc-500
+  - Punctuation — zinc-400
+- Defined as CSS variables; ~30 minutes to author. Distinguishes the pane from any GitHub-embed look.
+
+### Accessibility Baseline (v1)
+- Keyboard nav order: `textarea → URL → attestation (if visible) → Generate → (after run) Download → (if partial) Continue`.
+- Visible focus rings preserved on every interactive element. No `outline: none` shortcuts.
+- All amber-on-white type uses amber-700 or darker; amber-500 reserved for solid button fills with white text.
+- `aria-live` status region as described above.
+
+### Anti-Slop Rules (binding for the implementer)
+- No purple, no indigo, no violet anywhere.
+- No `system-ui` as primary font.
+- No `rounded-2xl` or larger on layout elements.
+- No 3-column feature grid sections.
+- No icons in colored circles as decoration.
+- No decorative blobs, SVG dividers, or floating shapes.
+- No emoji in headings or as bullet points.
+- No `text-align: center` as the default for blocks.
+- No hero copy in the form of "Welcome to qa2pw" or "Your all-in-one solution for…".
+
+## NOT in scope (design — v1)
+
+- **Mobile-responsive design.** Desktop web only. No special mobile layout, no "come back on laptop" page. Mobile visitors see the desktop layout in whatever state their browser collapses to.
+- **Dark mode toggle.** Light mode only in v1. Add toggle in v2.
+- **DESIGN.md (design-system file) formalization.** v1 captures decisions in this product doc; running `/design-consultation` to lock typography/color/spacing tokens into a proper design-system file is a v1.5 task.
+- **Custom logo / mark.** Text wordmark only in v1. A mark is a v2 polish item.
+- **Share button copy / behavior.** Permalinks are deferred to v2; the bottom-bar Share button originally mentioned in architecture sketch is removed from v1.
+- **Pre-warmed-pool "warming up" indicator in UI.** If the warm pool works, this is invisible. If it doesn't, address in implementation.
+- **Loading skeletons.** All idle states are spec'd above; no skeleton library needed.
+
 ## What I noticed about how you think
 
 - You picked the *self-healing* demo as the magic moment over the side-by-side code comparison. That's a sophisticated read — you intuited that "tests that stay green" is a more emotional pitch than "look how clean the code is," even though clean code was your stated differentiator. Most builders would have picked the safer, more legible demo. You went for the bigger emotional swing.
@@ -269,11 +355,12 @@ Run with Claude Code or Codex; checkbox as you ship.
 | CEO Review | `/plan-ceo-review` | Scope & strategy | 0 | — | not run |
 | Codex Review | `/codex review` | Independent 2nd opinion | 0 | — | not run |
 | Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | ISSUES_OPEN | 8 architecture decisions made, 40 test gaps catalogued (green-field), 1 critical leak risk (container dispose on timeout) flagged for T4 |
-| Design Review | `/plan-design-review` | UI/UX gaps | 0 | — | not run |
+| Design Review | `/plan-design-review` | UI/UX gaps | 1 | ISSUES_OPEN | score 3/10 → 8/10 after fixes; 9 design decisions added; 0 mockups generated (designer needs OpenAI key); 4 minor decisions deferred to implementation |
 | DX Review | `/plan-devex-review` | Developer experience gaps | 0 | — | not run |
 
-- **UNRESOLVED:** 0 decisions left open. Scope kept at full per user choice; all 7 architecture/code-quality decisions resolved via D1-D7.
-- **OUTSIDE VOICE:** skipped per user (D8).
+- **UNRESOLVED:** 4 minor design decisions deferred to implementation (logo treatment, exact amber hex, pre-warmed-pool indicator UX, removed Share button replacement).
+- **OUTSIDE VOICE:** skipped per user on both reviews (eng D8, design — not offered, side-project posture).
 - **CRITICAL GAP:** container leak on timeout — T4 verification must include dispose-on-error test, otherwise every timed-out run leaks a Chromium process and the host OOMs under load.
-- **VERDICT:** ENG REVIEW COMPLETE with 1 critical gap to enforce during implementation. Plan is implementation-ready. /plan-design-review is the natural next step before coding the three-pane UI — recommended but not required.
+- **DESIGN GAP:** No mockups were generated this run because the gstack designer has no OpenAI API key configured. Run `~/.claude/skills/gstack/design/dist/design setup` and re-invoke /plan-design-review if visual mockups are wanted before implementation.
+- **VERDICT:** ENG + DESIGN REVIEWS COMPLETE with 1 critical eng gap and 0 critical design gaps. Plan is implementation-ready. Start with T1 (scaffold runner package); reference the Design Decisions section before any visual code lands.
 
