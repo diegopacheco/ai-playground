@@ -44,6 +44,8 @@ export async function POST(request: NextRequest): Promise<Response> {
 
   const model = process.env.QA2PW_MODEL ?? DEFAULTS.model;
   const ollamaUrl = process.env.QA2PW_OLLAMA_URL ?? DEFAULTS.ollamaUrl;
+  const wallClockMs = parsePositiveInt(process.env.QA2PW_WALL_CLOCK_MS) ?? DEFAULTS.wallClockMs;
+  const maxSteps = parsePositiveInt(process.env.QA2PW_MAX_STEPS) ?? DEFAULTS.maxSteps;
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -75,6 +77,8 @@ export async function POST(request: NextRequest): Promise<Response> {
                 onEvent: enqueue,
                 model,
                 ollamaUrl,
+                wallClockMs,
+                maxSteps,
               },
               {
                 browser,

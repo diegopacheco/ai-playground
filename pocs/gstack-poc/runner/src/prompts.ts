@@ -30,7 +30,7 @@ Reason rules:
 
 Stop conditions you don't control:
 - A step counter caps how many actions you may take. Don't pad. Do the minimum number of steps that proves the test.
-- A wall clock fires after ~90s. Slow networks may eat into your budget.
+- A wall clock fires after ~20 minutes. Don't dawdle, but don't rush past required wait_for actions either.
 
 EXAMPLES — these are the ONLY allowed response shapes. Selector is ALWAYS an object with a "kind" field.
 

@@ -18,7 +18,7 @@ describe("public surface", () => {
 
   test("exposes the expected defaults", () => {
     expect(DEFAULTS.maxSteps).toBe(25);
-    expect(DEFAULTS.wallClockMs).toBe(90_000);
+    expect(DEFAULTS.wallClockMs).toBe(1_200_000);
     expect(DEFAULTS.ollamaUrl).toBe("http://127.0.0.1:11434");
     expect(DEFAULTS.model).toMatch(/^qwen2\.5vl:/);
   });
