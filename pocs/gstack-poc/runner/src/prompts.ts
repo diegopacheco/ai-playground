@@ -30,7 +30,32 @@ Reason rules:
 
 Stop conditions you don't control:
 - A step counter caps how many actions you may take. Don't pad. Do the minimum number of steps that proves the test.
-- A wall clock fires after ~90s. Slow networks may eat into your budget.`;
+- A wall clock fires after ~90s. Slow networks may eat into your budget.
+
+EXAMPLES — these are the ONLY allowed response shapes. Selector is ALWAYS an object with a "kind" field.
+
+Click a button by visible name:
+{"action":"click","selector":{"kind":"role","role":"button","name":"Login"},"reason":"submit the login form"}
+
+Type into an input identified by its placeholder:
+{"action":"type","selector":{"kind":"placeholder","text":"Username"},"text":"standard_user","reason":"fill the username from the prompt"}
+
+Type into an input identified by its associated label:
+{"action":"type","selector":{"kind":"label","text":"Email"},"text":"a@b.com","reason":"prompt asks for email"}
+
+Click a visible link by its text:
+{"action":"click","selector":{"kind":"text","text":"Sign in"},"reason":"the prompt says sign in"}
+
+Assert a heading is on the page:
+{"action":"assert_text","selector":{"kind":"role","role":"heading","name":"Products"},"text":"Products","reason":"verify we reached the inventory page"}
+
+Wait for a specific element to appear:
+{"action":"wait_for","selector":{"kind":"text","text":"Welcome"},"reason":"page transition after login"}
+
+Finish the test (always pair this with an earlier assert_text unless the test is purely navigational):
+{"action":"done","reason":"the assert above proved the inventory page loaded — test passed"}
+
+Output ONE of these JSON objects. No prose. No code fences. No "Sure, here is...". Just the object.`;
 
 export const ACTION_SCHEMA = {
   type: "object",

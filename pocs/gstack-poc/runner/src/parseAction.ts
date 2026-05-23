@@ -92,8 +92,14 @@ type SelectorParse =
   | { ok: false; error: string };
 
 function parseSelector(raw: unknown): SelectorParse {
+  if (typeof raw === "string" && raw.length > 0) {
+    return { ok: true, value: { kind: "text", text: raw } };
+  }
   if (!isRecord(raw)) {
-    return { ok: false, error: "selector must be an object" };
+    return {
+      ok: false,
+      error: `selector must be an object, got ${JSON.stringify(raw) ?? typeof raw}`,
+    };
   }
   const kind = raw.kind;
   switch (kind) {
@@ -123,6 +129,29 @@ function parseSelector(raw: unknown): SelectorParse {
       if (typeof raw.id !== "string")
         return { ok: false, error: "test_id selector needs 'id' string" };
       return { ok: true, value: { kind: "test_id", id: raw.id } };
+    case undefined: {
+      if (typeof raw.role === "string") {
+        const name = typeof raw.name === "string" ? raw.name : undefined;
+        return {
+          ok: true,
+          value: name !== undefined
+            ? { kind: "role", role: raw.role, name }
+            : { kind: "role", role: raw.role },
+        };
+      }
+      if (typeof raw.placeholder === "string")
+        return { ok: true, value: { kind: "placeholder", text: raw.placeholder } };
+      if (typeof raw.label === "string")
+        return { ok: true, value: { kind: "label", text: raw.label } };
+      if (typeof raw.text === "string")
+        return { ok: true, value: { kind: "text", text: raw.text } };
+      if (typeof raw.testId === "string")
+        return { ok: true, value: { kind: "test_id", id: raw.testId } };
+      return {
+        ok: false,
+        error: `selector missing 'kind' and no recognizable field — got ${JSON.stringify(raw)}`,
+      };
+    }
     default:
       return { ok: false, error: `unknown selector kind: ${String(kind)}` };
   }
