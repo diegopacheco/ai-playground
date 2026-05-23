@@ -57,6 +57,8 @@ Assert any visible text appears (selector omitted — we'll search the page for 
 Pattern after submitting a form: assert the next page's visible text, then done.
 Do NOT emit wait_for as a "wait for the page to load" filler. Either skip straight to assert_text, or call done if the screenshot already proves success.
 
+NEVER repeat the same action twice. If your previous action was wait_for and the page now shows what you wanted, the next action MUST be assert_text or done. Repeating actions wastes your step budget.
+
 Wait for a specific element to appear:
 {"action":"wait_for","selector":{"kind":"text","text":"Welcome"},"reason":"page transition after login"}
 

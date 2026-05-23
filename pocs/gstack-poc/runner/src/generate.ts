@@ -134,6 +134,18 @@ export async function runGenerate(
       break;
     }
 
+    let nextAction = parsed.action;
+    if (nextAction.tool === "wait_for") {
+      const lastTwo = log.slice(-2);
+      const allWaits = lastTwo.length === 2 && lastTwo.every((e) => e.action.tool === "wait_for");
+      if (allWaits) {
+        nextAction = {
+          tool: "done",
+          reason: `auto-converted from repeated wait_for to break loop — original reason: ${nextAction.reason}`,
+        };
+      }
+    }
+
     const verdict = guard.tick();
     if (verdict.kind === "trip") {
       stopReason = verdict.reason;
@@ -141,7 +153,7 @@ export async function runGenerate(
     }
 
     const stepStart = now();
-    const action = parsed.action;
+    const action = nextAction;
     emit({
       type: "step",
       step: guard.currentStep,
