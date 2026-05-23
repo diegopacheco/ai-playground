@@ -336,7 +336,7 @@ These bind the visual implementation. Supersede or refine prior language in this
 
 - **Mobile-responsive design.** Desktop web only. No special mobile layout, no "come back on laptop" page. Mobile visitors see the desktop layout in whatever state their browser collapses to.
 - **Dark mode toggle.** Light mode only in v1. Add toggle in v2.
-- **DESIGN.md (design-system file) formalization.** v1 captures decisions in this product doc; running `/design-consultation` to lock typography/color/spacing tokens into a proper design-system file is a v1.5 task.
+- ~~**DESIGN.md (design-system file) formalization.**~~ — **DONE 2026-05-23.** `DESIGN-SYSTEM.md` (separate file) now formalizes typography, color tokens, spacing, motion, syntax theme, and anti-slop rules. `CLAUDE.md` (POC-folder) references it. DT14 task is complete; remove from task list.
 - **Custom logo / mark.** Text wordmark only in v1. A mark is a v2 polish item.
 - **Share button copy / behavior.** Permalinks are deferred to v2; the bottom-bar Share button originally mentioned in architecture sketch is removed from v1.
 - **Pre-warmed-pool "warming up" indicator in UI.** If the warm pool works, this is invisible. If it doesn't, address in implementation.
