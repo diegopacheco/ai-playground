@@ -1,0 +1,23 @@
+pocs/gstack-poc/run.sh
+  s_f005f9687aa625::t_5ed3befd657d55 35
+pocs/gstack-poc/web/.next/trace
+  ai_agent 1-5
+pocs/gstack-poc/web/app/globals.css
+  s_f005f9687aa625::t_a1bf883b1b0a2c 1-146
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "b355abbbc6a4b6fc2a211bce116a2fb13555ece3",
+  "prompts": {},
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
