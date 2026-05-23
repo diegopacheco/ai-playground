@@ -1,0 +1,37 @@
+pocs/gstack-poc/.playwright-mcp/page-2026-05-23T21-09-06-424Z.yml
+  ai_agent 1-30
+pocs/gstack-poc/.playwright-mcp/page-2026-05-23T21-10-42-872Z.yml
+  ai_agent 1-29
+pocs/gstack-poc/web/.next/server/webpack-runtime.js
+  ai_agent 197
+pocs/gstack-poc/runner/src/prompts.ts
+  s_f005f9687aa625::t_af2c799910114b 43-44
+pocs/gstack-poc/web/tsconfig.tsbuildinfo
+  ai_agent 1
+pocs/gstack-poc/runner/src/parseAction.ts
+  s_f005f9687aa625::t_4b517f451e1be4 55-70
+pocs/gstack-poc/.playwright-mcp/page-2026-05-23T21-09-40-408Z.yml
+  ai_agent 1-34
+pocs/gstack-poc/web/.next/server/app/api/generate/route.js
+  ai_agent 142,164
+pocs/gstack-poc/.playwright-mcp/page-2026-05-23T21-08-50-581Z.yml
+  ai_agent 1-29
+pocs/gstack-poc/web/.next/trace
+  ai_agent 1-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "0ab9eda17c450802a6caee11b91c2940266759a3",
+  "prompts": {},
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
