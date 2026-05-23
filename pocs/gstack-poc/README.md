@@ -19,3 +19,5 @@ git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.cl
 * /plan-eng-review was also pushing to consider SaaS to be used (Fly.io or Railway) - this is really a startup mentality.
 * Skill sugest you run codex
 * /design-shotgun it's interesting - it give you multiple options to chose.
+* Skills are asking for open ai API KEY all the time - kind of anoying.
+* 
