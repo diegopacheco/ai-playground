@@ -1,0 +1,24 @@
+pocs/gstack-poc/runner/src/generate.ts
+  s_f005f9687aa625::t_82a205bd8f419c 138-143
+  s_f005f9687aa625::t_1428eaab9c7485 234-265
+pocs/gstack-poc/runner/test/generate.test.ts
+  s_f005f9687aa625::t_c95013fb465df7 112,114,116-119,133-152
+pocs/gstack-poc/runner/src/parseAction.ts
+  s_f005f9687aa625::t_16da3bb18289e7 160-162,166-169,176-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "39f748bb84c60f24d3692825c48ead051cb21e2a",
+  "prompts": {},
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
