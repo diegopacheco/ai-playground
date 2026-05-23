@@ -157,11 +157,38 @@ function inferSelectorFromTopLevel(json: Record<string, unknown>): Selector | nu
   if (typeof json.testId === "string") {
     return { kind: "test_id", id: json.testId };
   }
+  if (typeof json.target === "string") {
+    return { kind: "text", text: json.target };
+  }
   if (typeof json.text === "string" && json.action !== "type" && json.action !== "assert_text") {
     return { kind: "text", text: json.text };
   }
+  if (typeof json.reason === "string") {
+    const fromReason = inferSelectorFromReason(json.reason);
+    if (fromReason !== null) return fromReason;
+  }
   if (json.action === "wait_for") {
     return { kind: "role", role: "heading" };
+  }
+  return null;
+}
+
+function inferSelectorFromReason(reason: string): Selector | null {
+  const r = reason.toLowerCase();
+  if (/\blog[\s-]?in\s+button\b/.test(r) || /\bsubmit\b/.test(r)) {
+    return { kind: "role", role: "button", name: "Login" };
+  }
+  if (/\busername\s+field|\busername\s+input|\busername\s+box/.test(r)) {
+    return { kind: "placeholder", text: "Username" };
+  }
+  if (/\bpassword\s+field|\bpassword\s+input|\bpassword\s+box/.test(r)) {
+    return { kind: "placeholder", text: "Password" };
+  }
+  if (/\bemail\s+field|\bemail\s+input/.test(r)) {
+    return { kind: "placeholder", text: "Email" };
+  }
+  if (/\bsearch\s+field|\bsearch\s+input|\bsearch\s+box/.test(r)) {
+    return { kind: "placeholder", text: "Search" };
   }
   return null;
 }

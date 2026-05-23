@@ -109,14 +109,14 @@ describe("runGenerate", () => {
     expect(statusEvents[statusEvents.length - 1]).toMatchObject({ status: "complete" });
   });
 
-  test("trips on step_budget when LLM keeps clicking", async () => {
+  test("trips on step_budget when LLM keeps emitting different actions", async () => {
     const browser = new FakeBrowser();
-    const clickForever: Action = {
+    const responses: Action[] = Array.from({ length: 50 }, (_, i) => ({
       tool: "click",
-      selector: { kind: "role", role: "button", name: "Login" },
-      reason: "keep clicking forever",
-    };
-    const ollama = new ScriptedOllama(Array.from({ length: 50 }, () => clickForever));
+      selector: { kind: "role", role: "button", name: `Btn${i}` },
+      reason: `click button ${i}`,
+    }));
+    const ollama = new ScriptedOllama(responses);
     const result = await runGenerate(
       {
         prompt: "log in",
@@ -128,6 +128,28 @@ describe("runGenerate", () => {
     );
     expect(result.stopReason).toBe("step_budget");
     expect(result.log.length).toBe(3);
+  });
+
+  test("auto-converts repeated identical action to done", async () => {
+    const browser = new FakeBrowser();
+    const same: Action = {
+      tool: "wait_for",
+      selector: { kind: "role", role: "heading" },
+      reason: "wait for the heading",
+    };
+    const ollama = new ScriptedOllama([same, same, same]);
+    const result = await runGenerate(
+      {
+        prompt: "log in",
+        url: "https://www.saucedemo.com",
+        maxSteps: 10,
+        wallClockMs: 60_000,
+      },
+      { browser, ollama },
+    );
+    expect(result.stopReason).toBe("done");
+    expect(result.log.length).toBe(2);
+    expect(result.log[1]!.action.tool).toBe("done");
   });
 
   test("trips on wall_clock when controlled time exceeds budget", async () => {

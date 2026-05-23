@@ -135,15 +135,12 @@ export async function runGenerate(
     }
 
     let nextAction = parsed.action;
-    if (nextAction.tool === "wait_for") {
-      const lastTwo = log.slice(-2);
-      const allWaits = lastTwo.length === 2 && lastTwo.every((e) => e.action.tool === "wait_for");
-      if (allWaits) {
-        nextAction = {
-          tool: "done",
-          reason: `auto-converted from repeated wait_for to break loop — original reason: ${nextAction.reason}`,
-        };
-      }
+    const last = log[log.length - 1];
+    if (last !== undefined && actionsMatch(last.action, nextAction)) {
+      nextAction = {
+        tool: "done",
+        reason: `auto-converted from repeated ${nextAction.tool} to break loop — original reason: ${nextAction.reason}`,
+      };
     }
 
     const verdict = guard.tick();
@@ -231,6 +228,38 @@ async function executeAction(
       error: (e as Error).message,
       tookMs: now() - start,
     };
+  }
+}
+
+function actionsMatch(a: Action, b: Action): boolean {
+  if (a.tool !== b.tool) return false;
+  if (a.tool === "done" || a.tool === "screenshot") return true;
+  if (a.tool === "type" && b.tool === "type") {
+    return a.text === b.text && selectorsMatch(a.selector, b.selector);
+  }
+  if (a.tool === "assert_text" && b.tool === "assert_text") {
+    return a.text === b.text && selectorsMatch(a.selector, b.selector);
+  }
+  if (
+    (a.tool === "click" && b.tool === "click") ||
+    (a.tool === "wait_for" && b.tool === "wait_for")
+  ) {
+    return selectorsMatch(a.selector, b.selector);
+  }
+  return false;
+}
+
+function selectorsMatch(a: import("./types.ts").Selector, b: import("./types.ts").Selector): boolean {
+  if (a.kind !== b.kind) return false;
+  switch (a.kind) {
+    case "role":
+      return b.kind === "role" && a.role === b.role && (a.name ?? "") === (b.kind === "role" ? b.name ?? "" : "");
+    case "placeholder":
+    case "text":
+    case "label":
+      return (b as typeof a).text === a.text;
+    case "test_id":
+      return b.kind === "test_id" && a.id === b.id;
   }
 }
 
