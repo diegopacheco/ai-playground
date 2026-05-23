@@ -1,0 +1,194 @@
+pocs/gstack-poc/runner/test/allowlist.test.ts
+  s_f005f9687aa625::t_bd99c88adba621 1-92
+pocs/gstack-poc/web/.next/static/chunks/app/layout.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1-28
+pocs/gstack-poc/web/.next/react-loadable-manifest.json
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/web/.next/server/app/api/generate/route.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1-276
+pocs/gstack-poc/web/.next/static/chunks/app/page.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1-28
+pocs/gstack-poc/web/.next/static/chunks/app/api/generate/route.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1-28
+pocs/gstack-poc/runner/test/templater.test.ts
+  s_f005f9687aa625::t_e46e2fe7318214 1-213
+pocs/gstack-poc/runner/test/index.test.ts
+  s_f005f9687aa625::t_8114c43e4fab34 1,13,15-25,80-81
+  s_f005f9687aa625::t_99f0ed7f97d2ef 2-12,14,26-79
+pocs/gstack-poc/web/app/lib/sse.ts
+  s_f005f9687aa625::t_26465e8af200ff 1-25
+pocs/gstack-poc/web/.next/server/server-reference-manifest.json
+  s_f005f9687aa625::t_cb232af5cac191 1-5
+pocs/gstack-poc/web/.next/types/app/api/generate/route.ts
+  s_f005f9687aa625::t_4faccb13fab8d6 1-347
+pocs/gstack-poc/runner/package.json
+  s_f005f9687aa625::t_550b4c0e8a38b2 1-7,9,14-30
+  s_f005f9687aa625::t_6816c5cc81e425 8,10-13
+pocs/gstack-poc/web/.next/static/chunks/main-app.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1-2796
+pocs/gstack-poc/runner/src/allowlist.ts
+  s_f005f9687aa625::t_b64fd255e6cf67 1-51
+pocs/gstack-poc/web/.next/server/app/page_client-reference-manifest.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1
+pocs/gstack-poc/web/.next/server/middleware-manifest.json
+  s_f005f9687aa625::t_cb232af5cac191 1-6
+pocs/gstack-poc/web/package.json
+  s_f005f9687aa625::t_d8a51722110781 1-26
+pocs/gstack-poc/web/.next/static/chunks/polyfills.js
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/web/.next/static/development/_buildManifest.js
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/web/.next/static/webpack/webpack.39812003fbdb73a1.hot-update.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1-18
+pocs/gstack-poc/web/.next/server/next-font-manifest.json
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/web/.next/server/app/api/generate/route_client-reference-manifest.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1
+pocs/gstack-poc/web/.next/cache/.rscinfo
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/web/.next/server/vendor-chunks/bun.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1-3523
+pocs/gstack-poc/web/.next/types/app/layout.ts
+  s_f005f9687aa625::t_4faccb13fab8d6 1-84
+pocs/gstack-poc/runner/src/templater.ts
+  s_f005f9687aa625::t_becb16c95de0fa 1-73
+pocs/gstack-poc/web/.next/types/app/page.ts
+  s_f005f9687aa625::t_4faccb13fab8d6 1-84
+pocs/gstack-poc/runner/src/ollama.ts
+  s_f005f9687aa625::t_209388111994e5 1-62
+pocs/gstack-poc/web/.next/server/pages-manifest.json
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/web/.next/static/webpack/633457081244afec._.hot-update.json
+  s_f005f9687aa625::t_4faccb13fab8d6 1
+pocs/gstack-poc/web/.next/server/app/page.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1-164
+pocs/gstack-poc/web/test/sse.test.ts
+  s_f005f9687aa625::t_f57bfa31558f7f 1-38
+pocs/gstack-poc/runner/src/prompts.ts
+  s_f005f9687aa625::t_1299182ac5f3df 1-90
+pocs/gstack-poc/web/.next/server/middleware-build-manifest.js
+  s_f005f9687aa625::t_4faccb13fab8d6 8-11
+  s_f005f9687aa625::t_cb232af5cac191 1-7,12-22
+pocs/gstack-poc/stop.sh
+  s_f005f9687aa625::t_d3f89deb46cea8 1-41
+pocs/gstack-poc/runner/src/types.ts
+  s_f005f9687aa625::t_2d29e6de9a509e 1-90
+pocs/gstack-poc/web/.next/server/interception-route-rewrite-manifest.js
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/web/.next/static/chunks/app-pages-internals.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1-204
+pocs/gstack-poc/test.sh
+  s_f005f9687aa625::t_13cd5b0997e6d2 1-15,17,19-21
+  s_f005f9687aa625::t_97bedb43edc2bc 16,18
+pocs/gstack-poc/web/.next/build-manifest.json
+  s_f005f9687aa625::t_4faccb13fab8d6 11-14
+  s_f005f9687aa625::t_cb232af5cac191 1-10,15-20
+pocs/gstack-poc/runner/test/lifecycle.test.ts
+  s_f005f9687aa625::t_10e1150d3c59b6 1-85
+pocs/gstack-poc/runner/src/playwrightAdapter.ts
+  s_f005f9687aa625::t_5be837a58a7322 1-133
+pocs/gstack-poc/web/.next/static/chunks/webpack.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1-1399
+pocs/gstack-poc/web/tsconfig.tsbuildinfo
+  s_f005f9687aa625::t_3c5319312aa896 1
+pocs/gstack-poc/web/.next/package.json
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/web/.next/server/middleware-react-loadable-manifest.js
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/runner/src/generate.ts
+  s_f005f9687aa625::t_c65dd26baa096d 1-244
+pocs/gstack-poc/web/next-env.d.ts
+  s_f005f9687aa625::t_cb232af5cac191 1-5
+pocs/gstack-poc/web/.next/types/package.json
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/runner/src/chromium.ts
+  s_f005f9687aa625::t_e5645056286810 1-8
+pocs/gstack-poc/run.sh
+  s_f005f9687aa625::t_e3a8e9f60e2c1c 1-46
+pocs/gstack-poc/web/.next/server/app-paths-manifest.json
+  s_f005f9687aa625::t_4faccb13fab8d6 1-4
+pocs/gstack-poc/web/.next/app-build-manifest.json
+  s_f005f9687aa625::t_cb232af5cac191 1,19
+  s_f005f9687aa625::t_4faccb13fab8d6 2-18
+pocs/gstack-poc/runner/test/limits.test.ts
+  s_f005f9687aa625::t_443962b4957ae3 1-59
+pocs/gstack-poc/runner/src/lifecycle.ts
+  s_f005f9687aa625::t_adfbe5e176062d 1-21
+pocs/gstack-poc/web/.next/server/webpack-runtime.js
+  s_f005f9687aa625::t_4faccb13fab8d6 1-284
+pocs/gstack-poc/web/.next/types/cache-life.d.ts
+  s_f005f9687aa625::t_cb232af5cac191 1-141
+pocs/gstack-poc/runner/tsconfig.json
+  s_f005f9687aa625::t_e6f028c44a7f35 1-19,21-23
+  s_f005f9687aa625::t_2ea403e01d628a 20
+pocs/gstack-poc/runner/test/playwrightAdapter.test.ts
+  s_f005f9687aa625::t_a52ca30c8c50b6 1-175
+pocs/gstack-poc/package.json
+  s_f005f9687aa625::t_f9698926eef5b7 1-11
+pocs/gstack-poc/web/tsconfig.json
+  s_f005f9687aa625::t_a33e4bee7ed005 1-26
+pocs/gstack-poc/web/app/api/generate/route.ts
+  s_f005f9687aa625::t_2456a3ac93dd4d 1-120
+pocs/gstack-poc/runner/test/generate.test.ts
+  s_f005f9687aa625::t_f9cacbfd26b293 1-248
+pocs/gstack-poc/web/.next/static/development/_ssgManifest.js
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/web/.next/server/server-reference-manifest.js
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/runner/src/browser.ts
+  s_f005f9687aa625::t_3091178c4e0421 1-28
+pocs/gstack-poc/README.md
+  s_f005f9687aa625::t_ea260d4db50e58 162-163,165
+  s_f005f9687aa625::t_16cbcb6ad43362 118-161,164,166-176
+  s_f005f9687aa625::t_b01845824652db 34
+  s_f005f9687aa625::t_71ca086c43c858 117
+  h_8e2c3875396153 29-32
+pocs/gstack-poc/runner/src/parseAction.ts
+  s_f005f9687aa625::t_8f1c13ee9fc69f 1-121
+pocs/gstack-poc/runner/src/defaults.ts
+  s_f005f9687aa625::t_b8a92da7cf0801 1-6
+pocs/gstack-poc/runner/src/index.ts
+  s_f005f9687aa625::t_5445d7d82b1f0a 1-16,34,36,41,48
+  s_f005f9687aa625::t_2beb236b85f9e1 17-22,33,35
+  s_f005f9687aa625::t_f18b72f10f52c9 25-32
+  s_f005f9687aa625::t_afde9960c6272b 24
+  s_f005f9687aa625::t_ff57e9f05beea5 23,37-40,42-47
+pocs/gstack-poc/web/next.config.ts
+  s_f005f9687aa625::t_74df6cb379d9fc 1-11
+pocs/gstack-poc/web/app/page.tsx
+  s_f005f9687aa625::t_2ed8c56d0a0b9c 1-67
+pocs/gstack-poc/web/.next/trace
+  s_f005f9687aa625::t_4faccb13fab8d6 3-10
+  s_f005f9687aa625::t_cb232af5cac191 1-2
+pocs/gstack-poc/runner/src/limits.ts
+  s_f005f9687aa625::t_dbc634018571e0 1-68
+pocs/gstack-poc/web/app/layout.tsx
+  s_f005f9687aa625::t_06645d86273827 1-25
+pocs/gstack-poc/runner/test/parseAction.test.ts
+  s_f005f9687aa625::t_accee3d8c8f56c 1-116
+pocs/gstack-poc/web/.next/server/next-font-manifest.js
+  s_f005f9687aa625::t_cb232af5cac191 1
+pocs/gstack-poc/web/.next/static/webpack/39812003fbdb73a1.webpack.hot-update.json
+  s_f005f9687aa625::t_4faccb13fab8d6 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "e85493a3c162d2b3d6a4be479dbeb07cf8a26080",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
