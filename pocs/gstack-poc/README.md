@@ -226,3 +226,77 @@ couple of runs needed prompt iteration — adding few-shot examples for the
 selector schema, accepting bare-string selectors, defaulting
 `assert_text`-without-selector to text-search. Each fix is captured in
 `runner/src/parseAction.ts` and `runner/src/prompts.ts`.
+
+## Working — full successful run
+
+![qa2pw run complete with the full Playwright script generated from the saucedemo login flow](./working.png)
+
+This is the same playground at the moment the run actually finishes. The
+banner reads `Run complete`, the center pane shows `7 steps. Click Download
+to save the script.`, and crucially **the script pane on the right contains
+the full generated Playwright test**, not a `// stopped early` partial:
+
+```ts
+import { test, expect } from '@playwright/test';
+
+test('Log in with standard_user / secret_sauce, see the inventory page', async ({ page }) => {
+  await page.goto('https://www.saucedemo.com');
+  await page.getByPlaceholder('Username').click();
+  await page.getByPlaceholder('Username').fill('standard_user');
+  await page.getByPlaceholder('Password').fill('secret_sauce');
+  await page.getByRole('button', { name: 'Login' }).click();
+});
+```
+
+What to notice in [`working.png`](./working.png):
+
+1. **Frozen post-login frame in the center pane.** The screencast pane has
+   stopped streaming and is now showing the last frame Chromium captured:
+   the real saucedemo `/inventory.html` page with the Sauce Labs Backpack,
+   Bike Light, Bolt T-Shirt, Fleece Jacket, Onesie, and Test.allTheThings
+   products. That image is proof Qwen2.5-VL clicked through the form, hit
+   the Login button, and the page transition completed before the runner
+   called `done`.
+2. **`Generate again` button is back in primary amber.** The form has
+   re-enabled — textarea, URL field, and the amber action button are all
+   interactive again. The `allowlisted` badge is still showing because
+   saucedemo.com is on the curated allowlist.
+3. **`Download .spec.ts` button is now enabled** (outlined amber, no longer
+   greyed out). One click writes the generated file straight to your
+   `~/Downloads/`. The `Copy` button next to it copies the script to your
+   clipboard.
+4. **No `// stopped early` line in the script.** Every prior screenshot in
+   this README ended with a partial script trailing `// stopped early:
+   model_error` or `// stopped early: step_budget` — a sign the run aborted.
+   This one terminates with a clean closing `});` because the runner stopped
+   via the `done` action, which is the only stop reason that produces a
+   complete test.
+
+**How this run actually finished:** Qwen on the 7B model did 5 productive
+steps (click username → fill username → fill password → click Login → wait
+for heading), then the runner's anti-loop guard kicked in: when Qwen
+emitted a second consecutive `wait_for` instead of an `assert_text`, the
+runner auto-converted that action into `done` to break the loop. That
+mechanism is in [`runner/src/generate.ts`](./runner/src/generate.ts) under
+`actionsMatch` and is covered by the
+"auto-converts repeated identical action to done" test in
+`runner/test/generate.test.ts`.
+
+**Stop reason ladder, in order of preference:**
+
+- `done` — Qwen called it explicitly, OR runner auto-converted a repeated
+  action. Produces a complete `.spec.ts`. This is the only "happy path".
+- `step_budget` — 25 LLM tool-calls used up before `done`. Produces a
+  partial script with a `// stopped early: step_budget` annotation.
+- `wall_clock` — 20 minutes elapsed. Partial script with `// stopped early:
+  wall_clock`.
+- `model_error` — Qwen returned JSON the parser couldn't make sense of
+  (handled by the seven fallback layers documented above the screenshot, so
+  this should be rare now). Partial script with `// stopped early:
+  model_error`.
+- `browser_error` — Playwright couldn't even open the page (DNS, navigation
+  timeout, etc.). Empty script, error surfaced in the screencast pane.
+
+Every stop reason ends with a `withDisposable` `finally` that tears down
+the Chromium session, so the container-leak failure mode flagged in
+`/plan-eng-review` doesn't apply.
