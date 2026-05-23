@@ -541,7 +541,9 @@ function handleEvent(
         if (evt.detail !== undefined) setters.setStopReason(evt.detail);
       } else if (evt.status === "error") {
         setters.setPhase("error");
-        if (evt.detail !== undefined) setters.setErrorMessage(evt.detail);
+        if (evt.detail !== undefined && evt.detail !== "model_error") {
+          setters.setErrorMessage(evt.detail);
+        }
       }
       break;
     case "step":

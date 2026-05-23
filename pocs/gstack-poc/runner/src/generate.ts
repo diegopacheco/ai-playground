@@ -106,7 +106,7 @@ export async function runGenerate(
             images: [screenshot],
           },
         ],
-        options: { temperature: 0.2 },
+        options: { temperature: 0 },
       });
       raw = response.message.content;
     } catch (e) {

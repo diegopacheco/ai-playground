@@ -5,14 +5,32 @@ export type ParseResult =
   | { ok: false; error: string };
 
 export function parseAction(raw: string): ParseResult {
+  const candidate = stripCodeFences(raw);
   let json: unknown;
   try {
-    json = JSON.parse(stripCodeFences(raw));
-  } catch (e) {
-    return { ok: false, error: `not valid JSON: ${(e as Error).message}` };
+    json = JSON.parse(candidate);
+  } catch {
+    const extracted = extractFirstJsonObject(candidate);
+    if (extracted === null) {
+      return {
+        ok: false,
+        error: `not valid JSON and no embedded object found in: ${truncate(raw, 200)}`,
+      };
+    }
+    try {
+      json = JSON.parse(extracted);
+    } catch (e) {
+      return {
+        ok: false,
+        error: `embedded JSON failed to parse: ${(e as Error).message} — raw: ${truncate(raw, 200)}`,
+      };
+    }
   }
   if (!isRecord(json)) {
-    return { ok: false, error: "expected a JSON object" };
+    return {
+      ok: false,
+      error: `expected a JSON object — raw: ${truncate(raw, 200)}`,
+    };
   }
 
   const reason = json.reason;
@@ -118,4 +136,30 @@ function stripCodeFences(raw: string): string {
   const trimmed = raw.trim();
   const fenceMatch = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/);
   return fenceMatch && fenceMatch[1] !== undefined ? fenceMatch[1] : trimmed;
+}
+
+function extractFirstJsonObject(text: string): string | null {
+  const start = text.indexOf("{");
+  if (start === -1) return null;
+  let depth = 0;
+  let inString = false;
+  let escape = false;
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i];
+    if (escape) { escape = false; continue; }
+    if (ch === "\\") { escape = true; continue; }
+    if (ch === "\"") { inString = !inString; continue; }
+    if (inString) continue;
+    if (ch === "{") depth += 1;
+    else if (ch === "}") {
+      depth -= 1;
+      if (depth === 0) return text.slice(start, i + 1);
+    }
+  }
+  return null;
+}
+
+function truncate(s: string, max: number): string {
+  const collapsed = s.replace(/\s+/g, " ").trim();
+  return collapsed.length <= max ? collapsed : collapsed.slice(0, max - 3) + "...";
 }
