@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>qa2pw — playground preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:           #FAFAFA;
+    --surface:      #FFFFFF;
+    --surface-2:    #F4F4F5;
+    --divider:      #E4E4E7;
+    --text:         #18181B;
+    --text-muted:   #71717A;
+    --text-faint:   #A1A1AA;
+    --accent-fill:  #F59E0B;
+    --accent-text:  #B45309;
+    --accent-soft:  #FEF3C7;
+    --success:      #15803D;
+    --error:        #B91C1C;
+    --focus-ring:   #F59E0B;
+    --font-ui:      'Inter Tight', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--font-ui);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Preview chrome (this UI is NOT part of the product — it's so you can flip between states) */
+  .preview-chrome {
+    background: #18181B;
+    color: #FAFAFA;
+    padding: 12px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .preview-chrome .label { color: #A1A1AA; }
+  .preview-chrome button {
+    background: transparent;
+    border: 1px solid #3F3F46;
+    color: #FAFAFA;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .preview-chrome button.active {
+    background: var(--accent-fill);
+    border-color: var(--accent-fill);
+    color: #18181B;
+  }
+
+  /* Header bar */
+  .header {
+    height: 64px;
+    border-bottom: 1px solid var(--divider);
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    gap: 16px;
+  }
+  .wordmark {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .tagline {
+    font-size: 14px;
+    color: var(--text-muted);
+    border-left: 1px solid var(--divider);
+    padding-left: 16px;
+  }
+
+  /* 3-pane layout */
+  .playground {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1.2fr;
+    height: calc(100vh - 64px - 46px); /* minus header minus preview chrome */
+    min-height: 600px;
+  }
+  .pane {
+    padding: 24px;
+    overflow-y: auto;
+  }
+  .pane + .pane { border-left: 1px solid var(--divider); }
+
+  /* Form pane */
+  .pane-form { display: flex; flex-direction: column; gap: 16px; }
+  .field-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: none;
+  }
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  textarea, input[type="text"], input[type="url"] {
+    font-family: var(--font-ui);
+    font-size: 16px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--divider);
+    border-radius: 4px;
+    padding: 10px 12px;
+    width: 100%;
+    line-height: 1.5;
+  }
+  input[type="url"] { font-family: var(--font-mono); font-size: 14px; }
+  textarea { min-height: 140px; resize: vertical; }
+  textarea:focus, input:focus { outline: 2px solid var(--focus-ring); outline-offset: -1px; border-color: transparent; }
+  ::placeholder { color: var(--text-faint); }
+
+  .url-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: center;
+  }
+  .allowlist-badge {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--success);
+    padding: 4px 8px;
+    background: #DCFCE7;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .btn {
+    font-family: var(--font-ui);
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 100ms ease-in-out;
+    border: none;
+  }
+  .btn-primary {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    background: var(--accent-fill);
+    color: #FFFFFF;
+    height: 48px;
+    width: 100%;
+  }
+  .btn-primary:hover { background: var(--accent-text); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--text);
+    height: 40px;
+  }
+  .btn-outline:disabled { color: var(--text-faint); border-color: var(--divider); cursor: not-allowed; }
+  .btn-outline:not(:disabled):hover { background: var(--surface-2); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    height: 40px;
+    font-size: 14px;
+  }
+  .btn-ghost:hover { background: var(--surface-2); color: var(--text); }
+
+  .form-helper {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .form-helper code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent-text);
+  }
+
+  /* Screencast pane */
+  .pane-screencast {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+  }
+  .step-caption {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--text);
+    min-height: 64px;
+  }
+  .step-caption .verb { color: var(--accent-text); }
+  .step-caption .reason { color: var(--text-muted); font-size: 16px; font-weight: 400; display: block; margin-top: 4px; }
+  .screencast-frame {
+    flex: 1;
+    border: 1px solid var(--divider);
+    border-radius: 4px;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-height: 360px;
+    position: relative;
+  }
+
+  /* Empty-state browser chrome */
+  .browser-chrome-empty {
+    width: 80%;
+    max-width: 480px;
+    aspect-ratio: 16 / 10;
+    border: 1px dashed var(--text-faint);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+  }
+  .browser-chrome-empty .bar {
+    height: 28px;
+    border-bottom: 1px dashed var(--text-faint);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 10px;
+  }
+  .browser-chrome-empty .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    border: 1px solid var(--text-faint);
+  }
+  .browser-chrome-empty .addr {
+    flex: 1;
+    margin: 0 12px;
+    height: 14px;
+    border-radius: 2px;
+    border: 1px dashed var(--text-faint);
+  }
+  .browser-chrome-empty .stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--text-faint);
+  }
+  .browser-chrome-empty svg { display: block; }
+  .browser-chrome-empty .hint {
+    font-family: var(--font-ui);
+    font-size: 14px;
+  }
+
+  /* Live frame (faked) */
+  .screencast-live {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #F8F8FA 0%, #ECECEC 100%);
+    display: flex;
+    flex-direction: column;
+  }
+  .screencast-live .frame-bar {
+    height: 32px;
+    background: #F4F4F5;
+    border-bottom: 1px solid #E4E4E7;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 8px;
+  }
+  .screencast-live .frame-bar .dot { width: 10px; height: 10px; border-radius: 50%; background: #E4E4E7; }
+  .screencast-live .frame-bar .url {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: 8px;
+  }
+  .screencast-live .frame-body {
+    flex: 1;
+    background: #FFFFFF;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #555;
+  }
+  .screencast-live .mock-login {
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .screencast-live .mock-input {
+    height: 32px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0 8px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    color: var(--text);
+  }
+  .screencast-live .mock-input.filled { color: var(--text); }
+  .screencast-live .mock-button {
+    height: 32px;
+    background: #79C2EC;
+    color: white;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    position: relative;
+  }
+  .screencast-live .mock-button .pulse {
+    position: absolute;
+    inset: -4px;
+    border: 2px solid var(--accent-fill);
+    border-radius: 5px;
+  }
+
+  /* Complete state ✓ overlay */
+  .complete-overlay {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    background: var(--success);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  /* Script pane */
+  .pane-script {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+  }
+  .pane-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+  }
+  .pane-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: none;
+  }
+  .filename {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-faint);
+  }
+  .script-area {
+    flex: 1;
+    background: var(--surface-2);
+    border-radius: 4px;
+    padding: 16px 0;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .code-line {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    padding: 0 16px;
+  }
+  .code-line .ln {
+    color: var(--text-faint);
+    text-align: right;
+    padding-right: 16px;
+    user-select: none;
+  }
+  .tok-keyword   { color: var(--accent-text); font-weight: 500; }
+  .tok-string    { color: #92400E; }
+  .tok-comment   { color: var(--text-muted); font-style: italic; }
+  .tok-function  { color: var(--text); font-weight: 500; }
+  .tok-variable  { color: var(--text); }
+  .tok-punct     { color: var(--text-faint); }
+  .tok-number    { color: var(--text); }
+
+  .script-actions { display: flex; gap: 8px; }
+
+  /* Partial banner */
+  .partial-banner {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent-text);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .partial-banner .title {
+    font-weight: 500;
+    color: var(--accent-text);
+    font-size: 14px;
+  }
+  .partial-banner .body {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .partial-banner .btn-continue {
+    align-self: flex-start;
+    background: var(--accent-fill);
+    color: white;
+    border: none;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  /* State views */
+  .state-view { display: none; height: 100%; }
+  .state-view.active { display: flex; flex-direction: column; }
+  .app { height: calc(100vh - 46px); display: flex; flex-direction: column; }
+</style>
+</head>
+<body>
+
+<div class="preview-chrome">
+  <span class="label">qa2pw preview —</span>
+  <button class="state-btn active" data-state="idle">idle (first paint)</button>
+  <button class="state-btn" data-state="streaming">streaming</button>
+  <button class="state-btn" data-state="complete">complete</button>
+  <button class="state-btn" data-state="partial">partial (timeout)</button>
+  <button class="state-btn" data-state="sleeping">sleeping page</button>
+  <span style="margin-left: auto; color: #71717A;">preview.html — not in product</span>
+</div>
+
+<!-- IDLE STATE -->
+<div class="state-view active" data-state="idle">
+  <div class="app">
+    <header class="header">
+      <span class="wordmark">qa2pw</span>
+      <span class="tagline">Plain English in. Real Playwright out.</span>
+    </header>
+    <div class="playground">
+
+      <div class="pane pane-form">
+        <div class="field-group">
+          <label class="field-label">Test case</label>
+          <textarea>Log in with standard_user / secret_sauce, see the inventory page</textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">URL</label>
+          <div class="url-row">
+            <input type="url" value="https://www.saucedemo.com">
+            <span class="allowlist-badge">allowlisted</span>
+          </div>
+        </div>
+        <button class="btn btn-primary">Generate</button>
+        <p class="form-helper">
+          Press <code>⌘ Enter</code> to run. Costs ~$0.10 in Anthropic tokens.<br>
+          25-call cap, 90s wall clock.
+        </p>
+      </div>
+
+      <div class="pane pane-screencast">
+        <div class="step-caption" style="color: var(--text-faint); font-size: 18px; font-weight: 400;">
+          Press Generate to start.
+        </div>
+        <div class="screencast-frame">
+          <div class="browser-chrome-empty">
+            <div class="bar">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+              <div class="addr"></div>
+            </div>
+            <div class="stage">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="24" cy="24" r="22"></circle>
+                <polygon points="19,16 33,24 19,32" fill="currentColor"></polygon>
+              </svg>
+              <div class="hint">Click Generate to watch Claude work.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pane pane-script">
+        <div class="pane-title-row">
+          <span class="pane-title">Generated test</span>
+          <span class="filename">login.spec.ts</span>
+        </div>
+        <div class="script-area">
+          <div class="code-line"><span class="ln">1</span><span><span class="tok-comment">// Your generated Playwright test appears here, line by line.</span></span></div>
+        </div>
+        <div class="script-actions">
+          <button class="btn btn-outline" disabled>Download .spec.ts</button>
+          <button class="btn btn-ghost">Copy</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- STREAMING STATE -->
+<div class="state-view" data-state="streaming">
+  <div class="app">
+    <header class="header">
+      <span class="wordmark">qa2pw</span>
+      <span class="tagline">Plain English in. Real Playwright out.</span>
+    </header>
+    <div class="playground">
+
+      <div class="pane pane-form">
+        <div class="field-group">
+          <label class="field-label">Test case</label>
+          <textarea disabled>Log in with standard_user / secret_sauce, see the inventory page</textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">URL</label>
+          <div class="url-row">
+            <input type="url" value="https://www.saucedemo.com" disabled>
+            <span class="allowlist-badge">allowlisted</span>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="opacity: 0.85;">Generating… (step 8 of 25)</button>
+        <p class="form-helper">Form is locked during the run. Close the tab to cancel.</p>
+      </div>
+
+      <div class="pane pane-screencast">
+        <div class="step-caption">
+          <span class="verb">Clicking</span> the login button
+          <span class="reason">because the prompt says "log in with standard_user"</span>
+        </div>
+        <div class="screencast-frame">
+          <div class="screencast-live">
+            <div class="frame-bar">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+              <span class="url">www.saucedemo.com</span>
+            </div>
+            <div class="frame-body">
+              <div class="mock-login">
+                <div class="mock-input filled">standard_user</div>
+                <div class="mock-input filled">••••••••••</div>
+                <div class="mock-button">LOGIN<span class="pulse"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pane pane-script">
+        <div class="pane-title-row">
+          <span class="pane-title">Generated test</span>
+          <span class="filename">login.spec.ts</span>
+        </div>
+        <div class="script-area">
+<div class="code-line"><span class="ln">1</span><span><span class="tok-keyword">import</span> { test, expect } <span class="tok-keyword">from</span> <span class="tok-string">'@playwright/test'</span><span class="tok-punct">;</span></span></div>
+<div class="code-line"><span class="ln">2</span><span></span></div>
+<div class="code-line"><span class="ln">3</span><span><span class="tok-function">test</span><span class="tok-punct">(</span><span class="tok-string">'login with standard_user lands on inventory'</span><span class="tok-punct">,</span> <span class="tok-keyword">async</span> <span class="tok-punct">({</span> page <span class="tok-punct">})</span> =&gt; <span class="tok-punct">{</span></span></div>
+<div class="code-line"><span class="ln">4</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">goto</span><span class="tok-punct">(</span><span class="tok-string">'https://www.saucedemo.com'</span><span class="tok-punct">);</span></span></div>
+<div class="code-line"><span class="ln">5</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByPlaceholder</span><span class="tok-punct">(</span><span class="tok-string">'Username'</span><span class="tok-punct">).</span><span class="tok-function">fill</span><span class="tok-punct">(</span><span class="tok-string">'standard_user'</span><span class="tok-punct">);</span></span></div>
+<div class="code-line"><span class="ln">6</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByPlaceholder</span><span class="tok-punct">(</span><span class="tok-string">'Password'</span><span class="tok-punct">).</span><span class="tok-function">fill</span><span class="tok-punct">(</span><span class="tok-string">'secret_sauce'</span><span class="tok-punct">);</span></span></div>
+<div class="code-line"><span class="ln">7</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByRole</span><span class="tok-punct">(</span><span class="tok-string">'button'</span><span class="tok-punct">,</span> <span class="tok-punct">{</span> name<span class="tok-punct">:</span> <span class="tok-string">'Login'</span> <span class="tok-punct">}).</span><span class="tok-function">click</span><span class="tok-punct">();</span></span></div>
+<div class="code-line"><span class="ln">8</span><span style="opacity: 0.4;">  <span class="tok-comment">// next line streaming…</span></span></div>
+        </div>
+        <div class="script-actions">
+          <button class="btn btn-outline" disabled>Download .spec.ts</button>
+          <button class="btn btn-ghost">Copy</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- COMPLETE STATE -->
+<div class="state-view" data-state="complete">
+  <div class="app">
+    <header class="header">
+      <span class="wordmark">qa2pw</span>
+      <span class="tagline">Plain English in. Real Playwright out.</span>
+    </header>
+    <div class="playground">
+
+      <div class="pane pane-form">
+        <div class="field-group">
+          <label class="field-label">Test case</label>
+          <textarea>Log in with standard_user / secret_sauce, see the inventory page</textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">URL</label>
+          <div class="url-row">
+            <input type="url" value="https://www.saucedemo.com">
+            <span class="allowlist-badge">allowlisted</span>
+          </div>
+        </div>
+        <button class="btn btn-primary">Generate again</button>
+        <p class="form-helper">Run complete in 38s. 11 steps, ~$0.08 in tokens.</p>
+      </div>
+
+      <div class="pane pane-screencast">
+        <div class="step-caption">
+          <span style="color: var(--success); font-weight: 600;">Run complete.</span>
+          <span class="reason">Saved as login.spec.ts — ready to download.</span>
+        </div>
+        <div class="screencast-frame">
+          <div class="screencast-live">
+            <div class="frame-bar">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+              <span class="url">www.saucedemo.com/inventory.html</span>
+            </div>
+            <div class="frame-body" style="justify-content: flex-start; padding: 24px;">
+              <div style="font-family: var(--font-ui); font-size: 14px; color: #555; align-self: flex-start;">
+                <div style="font-weight: 600; color: #18181B; margin-bottom: 8px;">Products</div>
+                <div>Sauce Labs Backpack · Sauce Labs Bike Light · Sauce Labs Bolt T-Shirt · …</div>
+              </div>
+            </div>
+          </div>
+          <div class="complete-overlay">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3,8 7,12 13,4"></polyline></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="pane pane-script">
+        <div class="pane-title-row">
+          <span class="pane-title">Generated test</span>
+          <span class="filename">login.spec.ts</span>
+        </div>
+        <div class="script-area">
+<div class="code-line"><span class="ln">1</span><span><span class="tok-keyword">import</span> { test, expect } <span class="tok-keyword">from</span> <span class="tok-string">'@playwright/test'</span><span class="tok-punct">;</span></span></div>
+<div class="code-line"><span class="ln">2</span><span></span></div>
+<div class="code-line"><span class="ln">3</span><span><span class="tok-function">test</span><span class="tok-punct">(</span><span class="tok-string">'login with standard_user lands on inventory'</span><span class="tok-punct">,</span> <span class="tok-keyword">async</span> <span class="tok-punct">({</span> page <span class="tok-punct">})</span> =&gt; <span class="tok-punct">{</span></span></div>
+<div class="code-line"><span class="ln">4</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">goto</span><span class="tok-punct">(</span><span class="tok-string">'https://www.saucedemo.com'</span><span class="tok-punct">);</span></span></div>
+<div class="code-line"><span class="ln">5</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByPlaceholder</span><span class="tok-punct">(</span><span class="tok-string">'Username'</span><span class="tok-punct">).</span><span class="tok-function">fill</span><span class="tok-punct">(</span><span class="tok-string">'standard_user'</span><span class="tok-punct">);</span></span></div>
+<div class="code-line"><span class="ln">6</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByPlaceholder</span><span class="tok-punct">(</span><span class="tok-string">'Password'</span><span class="tok-punct">).</span><span class="tok-function">fill</span><span class="tok-punct">(</span><span class="tok-string">'secret_sauce'</span><span class="tok-punct">);</span></span></div>
+<div class="code-line"><span class="ln">7</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByRole</span><span class="tok-punct">(</span><span class="tok-string">'button'</span><span class="tok-punct">,</span> <span class="tok-punct">{</span> name<span class="tok-punct">:</span> <span class="tok-string">'Login'</span> <span class="tok-punct">}).</span><span class="tok-function">click</span><span class="tok-punct">();</span></span></div>
+<div class="code-line"><span class="ln">8</span><span>  <span class="tok-keyword">await</span> <span class="tok-function">expect</span><span class="tok-punct">(</span>page<span class="tok-punct">).</span><span class="tok-function">toHaveURL</span><span class="tok-punct">(</span><span class="tok-string">/.*inventory/</span><span class="tok-punct">);</span></span></div>
+<div class="code-line"><span class="ln">9</span><span>  <span class="tok-keyword">await</span> <span class="tok-function">expect</span><span class="tok-punct">(</span>page<span class="tok-punct">.</span><span class="tok-function">getByText</span><span class="tok-punct">(</span><span class="tok-string">'Products'</span><span class="tok-punct">)).</span><span class="tok-function">toBeVisible</span><span class="tok-punct">();</span></span></div>
+<div class="code-line"><span class="ln">10</span><span><span class="tok-punct">});</span></span></div>
+        </div>
+        <div class="script-actions">
+          <button class="btn btn-outline">Download .spec.ts</button>
+          <button class="btn btn-ghost">Copy</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- PARTIAL (TIMEOUT) STATE -->
+<div class="state-view" data-state="partial">
+  <div class="app">
+    <header class="header">
+      <span class="wordmark">qa2pw</span>
+      <span class="tagline">Plain English in. Real Playwright out.</span>
+    </header>
+    <div class="playground">
+
+      <div class="pane pane-form">
+        <div class="field-group">
+          <label class="field-label">Test case</label>
+          <textarea>Add 3 items to cart, check out as standard_user, verify confirmation page shows order summary with the right total</textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">URL</label>
+          <div class="url-row">
+            <input type="url" value="https://www.saucedemo.com">
+            <span class="allowlist-badge">allowlisted</span>
+          </div>
+        </div>
+        <button class="btn btn-primary">Try again</button>
+        <p class="form-helper">Hit the 25-call cap. The script you got covers the first 18 steps.</p>
+      </div>
+
+      <div class="pane pane-screencast">
+        <div class="step-caption">
+          <span style="color: var(--accent-text); font-weight: 600;">Stopped at step 18 of 25.</span>
+          <span class="reason">Step budget exhausted on checkout flow.</span>
+        </div>
+        <div class="screencast-frame">
+          <div class="screencast-live">
+            <div class="frame-bar">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+              <span class="url">www.saucedemo.com/checkout-step-two.html</span>
+            </div>
+            <div class="frame-body" style="justify-content: flex-start; padding: 24px;">
+              <div style="font-family: var(--font-ui); font-size: 14px; color: #555; align-self: flex-start;">
+                <div style="font-weight: 600; color: #18181B; margin-bottom: 8px;">Checkout: Overview</div>
+                <div>Sauce Labs Backpack · $29.99</div>
+                <div>Sauce Labs Bike Light · $9.99</div>
+                <div>Sauce Labs Bolt T-Shirt · $15.99</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pane pane-script">
+        <div class="pane-title-row">
+          <span class="pane-title">Generated test (partial)</span>
+          <span class="filename">checkout.spec.ts</span>
+        </div>
+
+        <div class="partial-banner">
+          <div class="title">Stopped at step 18 of 25</div>
+          <div class="body">
+            Step budget hit on the checkout flow. The script below covers what we got — it
+            may not pass yet. Continue from here and Claude will pick up where it left off.
+          </div>
+          <button class="btn-continue">Continue from step 18 →</button>
+        </div>
+
+        <div class="script-area">
+<div class="code-line"><span class="ln">1</span><span><span class="tok-keyword">import</span> { test, expect } <span class="tok-keyword">from</span> <span class="tok-string">'@playwright/test'</span><span class="tok-punct">;</span></span></div>
+<div class="code-line"><span class="ln">2</span><span></span></div>
+<div class="code-line"><span class="ln">3</span><span><span class="tok-function">test</span><span class="tok-punct">(</span><span class="tok-string">'checkout with 3 items'</span><span class="tok-punct">,</span> <span class="tok-keyword">async</span> <span class="tok-punct">({</span> page <span class="tok-punct">})</span> =&gt; <span class="tok-punct">{</span></span></div>
+<div class="code-line"><span class="ln">4</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">goto</span><span class="tok-punct">(</span><span class="tok-string">'https://www.saucedemo.com'</span><span class="tok-punct">);</span></span></div>
+<div class="code-line"><span class="ln">5</span><span>  <span class="tok-comment">// … login + add 3 items (lines 5-12) …</span></span></div>
+<div class="code-line"><span class="ln">13</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByRole</span><span class="tok-punct">(</span><span class="tok-string">'link'</span><span class="tok-punct">,</span> <span class="tok-punct">{</span> name<span class="tok-punct">:</span> <span class="tok-string">'shopping_cart'</span> <span class="tok-punct">}).</span><span class="tok-function">click</span><span class="tok-punct">();</span></span></div>
+<div class="code-line"><span class="ln">14</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByRole</span><span class="tok-punct">(</span><span class="tok-string">'button'</span><span class="tok-punct">,</span> <span class="tok-punct">{</span> name<span class="tok-punct">:</span> <span class="tok-string">'Checkout'</span> <span class="tok-punct">}).</span><span class="tok-function">click</span><span class="tok-punct">();</span></span></div>
+<div class="code-line"><span class="ln">15</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByPlaceholder</span><span class="tok-punct">(</span><span class="tok-string">'First Name'</span><span class="tok-punct">).</span><span class="tok-function">fill</span><span class="tok-punct">(</span><span class="tok-string">'Test'</span><span class="tok-punct">);</span></span></div>
+<div class="code-line"><span class="ln">16</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByPlaceholder</span><span class="tok-punct">(</span><span class="tok-string">'Last Name'</span><span class="tok-punct">).</span><span class="tok-function">fill</span><span class="tok-punct">(</span><span class="tok-string">'User'</span><span class="tok-punct">);</span></span></div>
+<div class="code-line"><span class="ln">17</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByPlaceholder</span><span class="tok-punct">(</span><span class="tok-string">'Zip/Postal Code'</span><span class="tok-punct">).</span><span class="tok-function">fill</span><span class="tok-punct">(</span><span class="tok-string">'94107'</span><span class="tok-punct">);</span></span></div>
+<div class="code-line"><span class="ln">18</span><span>  <span class="tok-keyword">await</span> page<span class="tok-punct">.</span><span class="tok-function">getByRole</span><span class="tok-punct">(</span><span class="tok-string">'button'</span><span class="tok-punct">,</span> <span class="tok-punct">{</span> name<span class="tok-punct">:</span> <span class="tok-string">'Continue'</span> <span class="tok-punct">}).</span><span class="tok-function">click</span><span class="tok-punct">();</span></span></div>
+<div class="code-line"><span class="ln">19</span><span>  <span class="tok-comment">// stopped — budget hit before total assertion</span></span></div>
+<div class="code-line"><span class="ln">20</span><span><span class="tok-punct">});</span></span></div>
+        </div>
+        <div class="script-actions">
+          <button class="btn btn-outline">Download partial</button>
+          <button class="btn btn-ghost">Copy</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SLEEPING PAGE STATE -->
+<div class="state-view" data-state="sleeping">
+  <div class="app" style="align-items: center; justify-content: center;">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 24px; max-width: 480px; text-align: center; padding: 48px 24px;">
+      <span class="wordmark" style="font-size: 32px;">qa2pw</span>
+      <div style="font-size: 24px; font-weight: 500; color: var(--text); line-height: 1.3;">
+        Playground's resting until midnight UTC.
+      </div>
+      <div style="font-size: 16px; color: var(--text-muted); line-height: 1.5;">
+        Daily budget hit. Star the repo to get notified when v2 lifts the cap.
+      </div>
+      <a href="#" class="btn btn-outline" style="text-decoration: none; padding: 0 20px; display: inline-flex; align-items: center;">
+        Star qa2pw on GitHub →
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const btns = document.querySelectorAll('.state-btn');
+  const views = document.querySelectorAll('.state-view');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const state = btn.dataset.state;
+      btns.forEach(b => b.classList.toggle('active', b === btn));
+      views.forEach(v => v.classList.toggle('active', v.dataset.state === state));
+    });
+  });
+</script>
+
+</body>
+</html>
