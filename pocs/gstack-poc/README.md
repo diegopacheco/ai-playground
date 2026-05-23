@@ -18,4 +18,4 @@ git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.cl
 * So the second command /plan-eng-review just keep trying to convince you to reduce scope
 * /plan-eng-review was also pushing to consider SaaS to be used (Fly.io or Railway) - this is really a startup mentality.
 * Skill sugest you run codex
-* 
+* /design-shotgun it's interesting - it give you multiple options to chose.
