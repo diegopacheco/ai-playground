@@ -124,7 +124,10 @@ Three scripts at the POC root drive the whole stack:
 ./run.sh    starts Ollama (if not running) + runner + web
 ./stop.sh   tears down anything run.sh started
 ./test.sh   runs typecheck + tests across every package
+./eval.sh   runs the 10-case eval suite against your local Qwen2.5-VL
 ```
+
+For a single case: `EVAL_CASE_ID=saucedemo-login-standard ./eval.sh`
 
 Run them from `pocs/gstack-poc/`. Logs go to `/tmp/qa2pw-*.log`. PID files
 live in `/tmp/qa2pw-*.pid` so `stop.sh` only kills the Ollama instance
