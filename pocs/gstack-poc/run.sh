@@ -32,8 +32,7 @@ if [ -d web ]; then
   echo "installing web deps"
   (cd web && bun install --silent)
   echo "starting web on http://127.0.0.1:3000"
-  (cd web && nohup bun run dev >/tmp/qa2pw-web.log 2>&1 &)
-  echo $! > /tmp/qa2pw-web.pid
+  (cd web && nohup bun run dev >/tmp/qa2pw-web.log 2>&1 & echo $! > /tmp/qa2pw-web.pid)
   for i in $(seq 1 30); do
     if curl -fsS http://127.0.0.1:3000 >/dev/null 2>&1; then break; fi
     sleep 1
