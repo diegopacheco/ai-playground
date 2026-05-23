@@ -52,12 +52,22 @@ export function parseAction(raw: string): ParseResult {
     case "type": {
       const selector = resolveSelector(json);
       if (selector.ok === false) return selector;
-      const text = typeof json.text === "string"
-        ? json.text
-        : typeof json.value === "string"
-        ? json.value
-        : undefined;
-      if (text === undefined) return { ok: false, error: "'type' needs a 'text' string" };
+      const text =
+        typeof json.text === "string"
+          ? json.text
+          : typeof json.value === "string"
+          ? json.value
+          : typeof json.input === "string"
+          ? json.input
+          : typeof json.content === "string"
+          ? json.content
+          : undefined;
+      if (text === undefined) {
+        return {
+          ok: false,
+          error: `'type' needs a 'text' string — got: ${truncate(JSON.stringify(json), 200)}`,
+        };
+      }
       return {
         ok: true,
         action: { tool: "type", selector: selector.value, text, reason },

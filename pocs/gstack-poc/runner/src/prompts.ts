@@ -40,6 +40,8 @@ Click a button by visible name:
 Type into an input identified by its placeholder:
 {"action":"type","selector":{"kind":"placeholder","text":"Username"},"text":"standard_user","reason":"fill the username from the prompt"}
 
+CRITICAL for "type": the top-level "text" field is what you TYPE INTO the field (e.g. "standard_user"). The "text" INSIDE selector is what IDENTIFIES the field (e.g. its placeholder). These are different. ALWAYS include both.
+
 Type into an input identified by its associated label:
 {"action":"type","selector":{"kind":"label","text":"Email"},"text":"a@b.com","reason":"prompt asks for email"}
 
