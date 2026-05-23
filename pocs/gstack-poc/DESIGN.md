@@ -90,7 +90,7 @@ The author's rationale (inferred from the open-source/side-project framing and t
 - **Hosted app** at a memorable domain (qa2pw.dev or similar). Self-explanatory landing page = the playground itself.
 - **GitHub repo** open from day one. Even though the product is hosted, the engine is open source — anyone can self-host or fork. This is the credibility move that earns HN trust.
 - **Launch surfaces:** HN Show, /r/QualityAssurance, /r/programming, Playwright community Discord. Cross-post the demo video. Hold one big-name Twitter share for launch day.
-- **CI/CD:** GitHub Actions builds the Docker image on tag, pushes to GHCR, deploys to Fly.io or Railway (both have generous free tiers; matters for a cost-bound side project).
+- **CI/CD:** GitHub Actions builds the container image with podman on tag, pushes to GHCR, deploys to Fly.io or Railway (both have generous free tiers; matters for a cost-bound side project).
 
 ## Next Steps
 
