@@ -20,4 +20,9 @@ git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.cl
 * Skill sugest you run codex
 * /design-shotgun it's interesting - it give you multiple options to chose.
 * Skills are asking for open ai API KEY all the time - kind of anoying.
-* 
+* Skill say why: 
+```
+⏺ Honest answer: Claude doesn't generate raster images. I can SEE images (vision), describe them, write code that renders images
+  (HTML/SVG/canvas), but I can't synthesize a PNG/JPEG from a prompt the way DALL-E / Imagen / gpt-image-1 do. Anthropic has no public
+  image-generation API. The gstack designer wraps OpenAI's image API, which is why it needs an OpenAI key.
+```
