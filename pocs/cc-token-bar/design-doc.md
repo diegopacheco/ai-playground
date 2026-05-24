@@ -133,7 +133,9 @@ The hook must finish in well under the default hook timeout (60 s). Worst case i
 
 **Session timestamps:** `started_at` is the minimum `timestamp` across all records in the transcript JSONL; `updated_at` is the maximum. Falls back to the transcript file's mtime if no record carries a timestamp. This matters for backfill — using `now` would attribute every historical session to today and the daily chart would collapse to a single bar.
 
-**Number formatting:** tokens use `B` / `M` / `k` suffixes (`537.1M`, `12k`). USD uses `NumberFormatter(.currency)` so it renders with the thousands separator (`$1,344.62`). Costs above 1M USD switch to `$N.NNM` to keep the column narrow.
+**Number formatting:** tokens use `B` / `M` / `k` suffixes (`537.1M`, `12k`). USD uses `NumberFormatter(.currency)` so it renders with the thousands separator (`$1,344.62`). Costs above 1M USD switch to `$N.NNM` to keep the column narrow. Session counts and tool invocation counts use `NumberFormatter(.decimal)` with grouping so `1204` renders as `1,204`.
+
+**Synthetic-model filter:** Claude Code attaches a placeholder model name like `<synthetic>` (and other angle-bracket-wrapped markers) to internal non-API events such as hook responses and context bookkeeping. These carry no billable usage and would pollute the "Cost by model" list, so any model name matching `hasPrefix("<")` or containing `"synthetic"` is skipped during aggregation.
 
 ### `sessions/<session_id>.json`
 
