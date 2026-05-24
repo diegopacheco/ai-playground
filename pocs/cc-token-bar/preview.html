@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>cc-token-bar — preview</title>
+<style>
+  :root {
+    --bg: #1e1e1f;
+    --panel: rgba(40, 40, 42, 0.92);
+    --panel-border: rgba(255, 255, 255, 0.08);
+    --text: #f5f5f7;
+    --muted: #a1a1a6;
+    --accent: #4aa3ff;
+    --accent-2: #ff8a4a;
+    --good: #58d35c;
+    --warn: #f0b952;
+    --row: rgba(255, 255, 255, 0.04);
+    --bar: rgba(255, 255, 255, 0.06);
+  }
+  html, body {
+    margin: 0;
+    height: 100%;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #2a3140 0, transparent 50%),
+      radial-gradient(900px 500px at 110% 110%, #3a2940 0, transparent 50%),
+      var(--bg);
+    color: var(--text);
+    font: 13px/1.4 -apple-system, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .stage {
+    min-height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+    padding: 28px 36px;
+    box-sizing: border-box;
+  }
+  .stage .left { display: flex; flex-direction: column; gap: 12px; }
+  .stage h1 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .stage p  { margin: 0; color: var(--muted); max-width: 50ch; }
+  .menubar {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,0,0,0.35); border: 1px solid var(--panel-border);
+    padding: 4px 10px; border-radius: 6px; width: max-content;
+    font-variant-numeric: tabular-nums;
+  }
+  .menubar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); }
+
+  .panel {
+    width: 360px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.4);
+    overflow: hidden;
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+  }
+  .panel header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; border-bottom: 1px solid var(--panel-border);
+  }
+  .panel header .title { font-weight: 600; }
+  .panel header .actions { color: var(--muted); display: flex; gap: 10px; font-size: 14px; }
+
+  .section { padding: 12px 14px; border-bottom: 1px solid var(--panel-border); }
+  .section:last-child { border-bottom: none; }
+  .section h2 { margin: 0 0 8px 0; font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .kpi { background: var(--row); border-radius: 8px; padding: 10px 12px; }
+  .kpi .label { color: var(--muted); font-size: 11px; }
+  .kpi .value { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .kpi .sub   { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; margin-top: 2px; }
+
+  .ratio { display: flex; align-items: baseline; gap: 8px; }
+  .ratio .big { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--good); }
+  .ratio .lbl { color: var(--muted); font-size: 11px; }
+
+  .chart { width: 100%; height: 110px; display: block; }
+  .x-labels { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 4px; color: var(--muted); font-size: 10px; text-align: center; }
+
+  .tool-row { display: grid; grid-template-columns: 70px 1fr 64px 52px; align-items: center; gap: 10px; padding: 6px 0; }
+  .tool-row .name { font-weight: 500; }
+  .tool-row .bar { height: 6px; background: var(--bar); border-radius: 999px; overflow: hidden; }
+  .tool-row .bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+  .tool-row .cost  { text-align: right; font-variant-numeric: tabular-nums; }
+  .tool-row .count { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  .model-row { display: flex; justify-content: space-between; padding: 4px 0; color: var(--text); }
+  .model-row .name { color: var(--muted); }
+  .model-row .val  { font-variant-numeric: tabular-nums; }
+
+  .footer { display: flex; justify-content: space-between; padding: 10px 14px; color: var(--muted); }
+  .footer a { color: var(--muted); text-decoration: none; }
+  .footer a:hover { color: var(--text); }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="left">
+      <h1>cc-token-bar — menu bar preview</h1>
+      <p>Mock of the dropdown panel that appears when the menu bar item is clicked. All numbers are fake. Layout matches macOS menu bar conventions (12px panel padding, 360px width, tabular numerals).</p>
+
+      <div>
+        <div style="color:var(--muted); font-size:11px; margin-bottom:4px;">Menu bar item</div>
+        <div class="menubar">
+          <span class="dot"></span>
+          <span>412.1k</span>
+          <span style="color:var(--muted)">$1.84</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <header>
+        <div class="title">cc-token-bar</div>
+        <div class="actions">
+          <span title="Settings">&#9881;</span>
+          <span title="Close">&#10005;</span>
+        </div>
+      </header>
+
+      <section class="section">
+        <div class="kpis">
+          <div class="kpi">
+            <div class="label">Today</div>
+            <div class="value">412,103</div>
+            <div class="sub">$1.84 &middot; 18 sessions</div>
+          </div>
+          <div class="kpi">
+            <div class="label">All time</div>
+            <div class="value">8,910,442</div>
+            <div class="sub">$42.17 &middot; 612 sessions</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Cache hit ratio</h2>
+        <div class="ratio">
+          <div class="big">87.4%</div>
+          <div class="lbl">cache reads vs total input</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Last 7 days &mdash; input / output</h2>
+        <svg class="chart" viewBox="0 0 280 110" preserveAspectRatio="none" aria-hidden="true">
+          <g>
+            <rect x="6"   y="56" width="28" height="46" rx="3" fill="#4aa3ff"/>
+            <rect x="6"   y="40" width="28" height="16" rx="3" fill="#ff8a4a"/>
+
+            <rect x="44"  y="80" width="28" height="22" rx="3" fill="#4aa3ff"/>
+            <rect x="44"  y="72" width="28" height="8"  rx="3" fill="#ff8a4a"/>
+
+            <rect x="82"  y="62" width="28" height="40" rx="3" fill="#4aa3ff"/>
+            <rect x="82"  y="50" width="28" height="12" rx="3" fill="#ff8a4a"/>
+
+            <rect x="120" y="30" width="28" height="72" rx="3" fill="#4aa3ff"/>
+            <rect x="120" y="14" width="28" height="16" rx="3" fill="#ff8a4a"/>
+
+            <rect x="158" y="84" width="28" height="18" rx="3" fill="#4aa3ff"/>
+            <rect x="158" y="78" width="28" height="6"  rx="3" fill="#ff8a4a"/>
+
+            <rect x="196" y="66" width="28" height="36" rx="3" fill="#4aa3ff"/>
+            <rect x="196" y="56" width="28" height="10" rx="3" fill="#ff8a4a"/>
+
+            <rect x="234" y="22" width="28" height="80" rx="3" fill="#4aa3ff"/>
+            <rect x="234" y="6"  width="28" height="16" rx="3" fill="#ff8a4a"/>
+          </g>
+          <line x1="0" y1="102" x2="280" y2="102" stroke="rgba(255,255,255,0.08)"/>
+        </svg>
+        <div class="x-labels">
+          <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Tools (by cost)</h2>
+        <div class="tool-row">
+          <div class="name">Read</div>
+          <div class="bar"><span style="width:92%"></span></div>
+          <div class="cost">$14.20</div>
+          <div class="count">1,204&times;</div>
+        </div>
+        <div class="tool-row">
+          <div class="name">Edit</div>
+          <div class="bar"><span style="width:58%"></span></div>
+          <div class="cost">$8.40</div>
+          <div class="count">311&times;</div>
+        </div>
+        <div class="tool-row">
+          <div class="name">Bash</div>
+          <div class="bar"><span style="width:34%"></span></div>
+          <div class="cost">$3.10</div>
+          <div class="count">192&times;</div>
+        </div>
+        <div class="tool-row">
+          <div class="name">Task</div>
+          <div class="bar"><span style="width:22%"></span></div>
+          <div class="cost">$1.90</div>
+          <div class="count">28&times;</div>
+        </div>
+        <div class="tool-row">
+          <div class="name">WebFetch</div>
+          <div class="bar"><span style="width:12%"></span></div>
+          <div class="cost">$0.74</div>
+          <div class="count">41&times;</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Cost by model</h2>
+        <div class="model-row"><span class="name">Opus 4.7</span>     <span class="val">$31.04 &middot; 73%</span></div>
+        <div class="model-row"><span class="name">Sonnet 4.6</span>   <span class="val">$9.21  &middot; 22%</span></div>
+        <div class="model-row"><span class="name">Haiku 4.5</span>    <span class="val">$1.92  &middot; 5%</span></div>
+      </section>
+
+      <div class="footer">
+        <a href="#">Open data folder</a>
+        <a href="#">Quit</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
