@@ -1,0 +1,23 @@
+pocs/cc-token-bar/app/Sources/cc-token-bar/Views.swift
+  s_8a00f4c5f5ca8b::t_0d36a29d50ba3d 72-74
+  s_8a00f4c5f5ca8b::t_8c23f53314f4df 34
+pocs/cc-token-bar/app/Sources/cc-token-bar/App.swift
+  s_8a00f4c5f5ca8b::t_fcd37a70d019b2 4,6,8-10,28,32-36,38-46,56,64-66,68,72-80,82,85-86,88-95,97-105
+  s_8a00f4c5f5ca8b::t_6de17056beea84 47-55,57-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "6d402431e2c761aa502f63849a84486cf5094642",
+  "prompts": {},
+  "sessions": {
+    "s_8a00f4c5f5ca8b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "170e9be1-f235-4e47-98cc-cb6bed0d77fa",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
