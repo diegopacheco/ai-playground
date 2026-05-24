@@ -8,7 +8,7 @@ final class DataStore: ObservableObject {
     private let sessionsDir: URL
     private let toolsDir: URL
     private var watcher: FSWatcher?
-    private var refreshTimer: Timer?
+    private var visibleTimer: Timer?
     private let queue = DispatchQueue(label: "cc-token-bar.scan", qos: .utility)
     private var pendingRefresh = false
 
@@ -26,10 +26,25 @@ final class DataStore: ObservableObject {
             self?.scheduleRefresh()
         }
         watcher?.start()
-        refreshTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
+        scheduleRefresh()
+    }
+
+    func refreshNow() {
+        scheduleRefresh()
+    }
+
+    func startVisibleRefresh() {
+        stopVisibleRefresh()
+        let t = Timer(timeInterval: 5, repeats: true) { [weak self] _ in
             self?.scheduleRefresh()
         }
-        scheduleRefresh()
+        RunLoop.main.add(t, forMode: .common)
+        visibleTimer = t
+    }
+
+    func stopVisibleRefresh() {
+        visibleTimer?.invalidate()
+        visibleTimer = nil
     }
 
     private func scheduleRefresh() {

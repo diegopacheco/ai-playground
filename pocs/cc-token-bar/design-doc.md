@@ -232,7 +232,15 @@ Beyond "total tokens" and "tools by cost", here's the broader set that's cheap t
 
 **Implementation:** `NSStatusItem` + `NSPopover` hosting a `SwiftUI` `PanelView` via `NSHostingController` (MenuBarExtra proved unreliable on macOS 26 when built via SwiftPM — see commit history). The status item is created in `AppDelegate.applicationDidFinishLaunching` after `NSApp.setActivationPolicy(.accessory)`.
 
-**Live updates:** the panel auto-refreshes within ~1 second of any change under `~/.cc-token-bar/`. Flow: hook writes a new aggregate via atomic rename → `FSEventStreamCreate` with `kFSEventStreamCreateFlagFileEvents` fires → `DataStore.scheduleRefresh()` debounces 250 ms → JSON reload off the main queue → `@Published agg` updates on main → SwiftUI re-renders the open popover. A 30 s polling timer is a fallback in case any event is missed.
+**Live updates:** the panel auto-refreshes within ~1 second of any change under `~/.cc-token-bar/`. Flow: hook writes a new aggregate via atomic rename → `FSEventStreamCreate` with `kFSEventStreamCreateFlagFileEvents` fires → `DataStore.scheduleRefresh()` debounces 250 ms → JSON reload off the main queue → `@Published agg` updates on main → SwiftUI re-renders the open popover.
+
+**Visibility-gated polling:** in addition to FSEvents, the app drives polling refreshes based on popover visibility:
+
+- **Popover open:** `AppDelegate` is the `NSPopoverDelegate`. On `popoverDidShow` it calls `store.startVisibleRefresh()`, which installs a 5 s repeating `Timer` on the main run loop in `.common` mode (so it keeps firing while the popover tracks the mouse). Every tick calls `scheduleRefresh()`, reusing the same 250 ms debounce / background-queue path as FSEvents — no duplicate work if a file event just fired.
+- **Popover closed:** `popoverDidClose` invalidates the timer via `store.stopVisibleRefresh()`. No background polling runs while the menu is hidden; FSEvents alone keeps the in-memory aggregates warm for the next open.
+- **On click-to-open:** `togglePopover` calls `store.refreshNow()` *before* showing the popover, so the user sees fresh numbers on frame one rather than the stale snapshot from the last close. This is what covers the "not visible → refresh when the user clicks" case.
+
+The previous 30 s fallback timer is removed: while the popover is closed there is no one to read the data, and FSEvents already covers the case where the popover is open and a file changes between 5 s ticks.
 
 Click opens this panel:
 
@@ -257,7 +265,7 @@ Click opens this panel:
 └──────────────────────────────────────────┘
 ```
 
-**Refresh:** FSEvents watcher on `~/.cc-token-bar/sessions/` and `tools/`. Recompute aggregates on change. Fallback: 30 s timer.
+**Refresh:** FSEvents watcher on `~/.cc-token-bar/sessions/` and `tools/`. Recompute aggregates on change. Plus a 5 s repeating timer that runs only while the popover is shown (started in `popoverDidShow`, invalidated in `popoverDidClose`). A one-shot refresh fires on every click-to-open so the panel never paints stale data.
 
 **Aggregation cost:** scanning hundreds of small JSON files is cheap; if it ever isn't, add a `rollup/daily/<YYYY-MM-DD>.json` cache.
 
