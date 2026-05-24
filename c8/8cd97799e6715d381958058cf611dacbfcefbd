@@ -1,0 +1,22 @@
+pocs/cc-token-bar/app/Sources/cc-token-bar/DataStore.swift
+  s_3f155310ba4c80::t_c9ccc4370db4e1 115-116
+  s_3f155310ba4c80::t_16b555437db90c 90-101
+pocs/cc-token-bar/design-doc.md
+  s_3f155310ba4c80::t_6ef5177c41c474 136-137
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "c88cd97799e6715d381958058cf611dacbfcefbd",
+  "prompts": {},
+  "sessions": {
+    "s_3f155310ba4c80": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5a44ca1e-94d6-455c-8f02-01364ce9fb59",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
