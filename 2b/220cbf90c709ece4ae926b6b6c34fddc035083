@@ -1,0 +1,19 @@
+pocs/cc-token-bar/design-doc.md
+  s_3f155310ba4c80::t_8b56d5486ee882 136-138
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "2b220cbf90c709ece4ae926b6b6c34fddc035083",
+  "prompts": {},
+  "sessions": {
+    "s_3f155310ba4c80": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5a44ca1e-94d6-455c-8f02-01364ce9fb59",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
