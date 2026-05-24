@@ -87,8 +87,19 @@ final class DataStore: ObservableObject {
         return out
     }
 
+    private static let isoFrac: ISO8601DateFormatter = {
+        let f = ISO8601DateFormatter()
+        f.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return f
+    }()
+    private static let isoBasic = ISO8601DateFormatter()
+
+    private static func parseISO(_ s: String) -> Date? {
+        if let d = isoFrac.date(from: s) { return d }
+        return isoBasic.date(from: s)
+    }
+
     private func aggregate(sessions: [SessionFile], tools: [ToolsFile], pricing: [String: PriceTier]) -> Aggregates {
-        let iso = ISO8601DateFormatter()
         let cal = Calendar(identifier: .gregorian)
         let todayKey = Self.dayKey(for: Date(), cal: cal)
         let oneDay: TimeInterval = 86_400
@@ -101,8 +112,8 @@ final class DataStore: ObservableObject {
         var sessionsTodaySet: Set<String> = []
 
         for s in sessions {
-            let when = s.updated_at.flatMap { iso.date(from: $0) }
-                ?? s.started_at.flatMap { iso.date(from: $0) }
+            let when = s.updated_at.flatMap { Self.parseISO($0) }
+                ?? s.started_at.flatMap { Self.parseISO($0) }
             let dayKey = when.map { Self.dayKey(for: $0, cal: cal) } ?? todayKey
             let isToday = dayKey == todayKey
             let inWeek = when.map { $0 >= sevenDaysAgo } ?? false
