@@ -21,7 +21,6 @@ struct PanelView: View {
         }
         .padding(.top, 12)
         .frame(width: 360)
-        .background(.regularMaterial)
     }
 
     private var header: some View {
@@ -32,7 +31,7 @@ struct PanelView: View {
                 Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
             }.buttonStyle(.plain)
         }
-        .padding(.horizontal, 14).padding(.vertical, 10)
+        .padding(.horizontal, 14).padding(.bottom, 10)
         .overlay(Divider(), alignment: .bottom)
     }
 
@@ -70,7 +69,9 @@ struct PanelView: View {
             HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Text(String(format: "%.1f%%", store.agg.cacheHitRatio * 100))
                     .font(.system(size: 22, weight: .bold))
-                    .foregroundStyle(store.agg.cacheHitRatio >= 0.6 ? .green : .orange)
+                    .foregroundStyle(store.agg.cacheHitRatio >= 0.6
+                        ? Color(red: 0.18, green: 0.62, blue: 0.45)
+                        : Color(red: 0.92, green: 0.55, blue: 0.20))
                     .monospacedDigit()
                 Text("cache reads vs total input").font(.system(size: 11)).foregroundStyle(.secondary)
             }

@@ -1,10 +1,13 @@
 import AppKit
 import SwiftUI
 
-final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var statusItem: NSStatusItem!
-    private var popover: NSPopover!
+    private var panelWindow: NSPanel!
     private let store = DataStore()
+    private var eventMonitor: Any?
+    private let panelSize = NSSize(width: 360, height: 640)
+    private let menuBarGap: CGFloat = 12
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
@@ -22,35 +25,82 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
             button.title = " cc"
             button.toolTip = "cc-token-bar — Claude Code usage"
             button.target = self
-            button.action = #selector(togglePopover(_:))
+            button.action = #selector(togglePanel(_:))
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
 
-        popover = NSPopover()
-        popover.behavior = .transient
-        popover.delegate = self
-        popover.contentSize = NSSize(width: 360, height: 640)
-        popover.contentViewController = NSHostingController(
-            rootView: PanelView(store: store)
+        panelWindow = NSPanel(
+            contentRect: NSRect(origin: .zero, size: panelSize),
+            styleMask: [.borderless, .nonactivatingPanel, .fullSizeContentView],
+            backing: .buffered,
+            defer: false
         )
+        panelWindow.isFloatingPanel = true
+        panelWindow.level = .statusBar
+        panelWindow.hasShadow = true
+        panelWindow.isOpaque = false
+        panelWindow.backgroundColor = .clear
+        panelWindow.hidesOnDeactivate = false
+        panelWindow.delegate = self
+        panelWindow.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+
+        let container = NSVisualEffectView(frame: NSRect(origin: .zero, size: panelSize))
+        container.material = .popover
+        container.blendingMode = .behindWindow
+        container.state = .active
+        container.wantsLayer = true
+        container.layer?.cornerRadius = 12
+        container.layer?.masksToBounds = true
+        container.autoresizingMask = [.width, .height]
+
+        let host = NSHostingController(rootView: PanelView(store: store))
+        host.view.frame = container.bounds
+        host.view.autoresizingMask = [.width, .height]
+        container.addSubview(host.view)
+
+        panelWindow.contentView = container
     }
 
-    @objc func togglePopover(_ sender: Any?) {
-        guard let button = statusItem.button else { return }
-        if popover.isShown {
-            popover.performClose(sender)
+    @objc func togglePanel(_ sender: Any?) {
+        if panelWindow.isVisible {
+            hidePanel()
         } else {
-            store.refreshNow()
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
-            popover.contentViewController?.view.window?.makeKey()
+            showPanel()
         }
     }
 
-    func popoverDidShow(_ notification: Notification) {
+    private func showPanel() {
+        guard let button = statusItem.button,
+              let buttonWindow = button.window else { return }
+        store.refreshNow()
+        let buttonFrameOnScreen = buttonWindow.convertToScreen(button.convert(button.bounds, to: nil))
+        let originX = buttonFrameOnScreen.midX - panelSize.width / 2
+        let originY = buttonFrameOnScreen.minY - menuBarGap - panelSize.height
+        panelWindow.setFrameOrigin(NSPoint(x: originX, y: originY))
+        panelWindow.orderFrontRegardless()
         store.startVisibleRefresh()
+        installDismissMonitor()
     }
 
-    func popoverDidClose(_ notification: Notification) {
+    private func hidePanel() {
+        panelWindow.orderOut(nil)
         store.stopVisibleRefresh()
+        removeDismissMonitor()
     }
+
+    private func installDismissMonitor() {
+        removeDismissMonitor()
+        eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
+            self?.hidePanel()
+        }
+    }
+
+    private func removeDismissMonitor() {
+        if let m = eventMonitor {
+            NSEvent.removeMonitor(m)
+            eventMonitor = nil
+        }
+    }
+
+    func windowDidResignKey(_ notification: Notification) {}
 }
