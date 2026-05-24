@@ -1,0 +1,29 @@
+pocs/cc-token-bar/app/Sources/cc-token-bar/DataStore.swift
+  s_35948ce2b3e8b8::t_0d9eb02d0e8262 14
+  s_35948ce2b3e8b8::t_161b853c4ae5e7 63,72-78
+pocs/cc-token-bar/app/Sources/cc-token-bar/App.swift
+  s_35948ce2b3e8b8::t_078d70226a186a 32
+pocs/cc-token-bar/app/Sources/cc-token-bar/Views.swift
+  s_35948ce2b3e8b8::t_5feec4ed4571e3 22
+pocs/cc-token-bar/app/Sources/cc-token-bar/TranscriptScanner.swift
+  s_35948ce2b3e8b8::t_aee323bd9867b2 1-117
+pocs/cc-token-bar/design-doc.md
+  s_35948ce2b3e8b8::t_cfca6893d5a6d1 82-84
+  s_35948ce2b3e8b8::t_121b0fa4b80e90 235-237,241,247
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "0eb049eeb030ebd448d509126b8772b6fa022286",
+  "prompts": {},
+  "sessions": {
+    "s_35948ce2b3e8b8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4da61498-ff20-43b8-8864-70156f3abafb",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
