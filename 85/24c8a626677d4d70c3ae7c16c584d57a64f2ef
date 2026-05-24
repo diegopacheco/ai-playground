@@ -1,0 +1,19 @@
+pocs/cc-token-bar/app/Sources/cc-token-bar/Views.swift
+  s_3f155310ba4c80::t_c18af4d4616b5b 121
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "8524c8a626677d4d70c3ae7c16c584d57a64f2ef",
+  "prompts": {},
+  "sessions": {
+    "s_3f155310ba4c80": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5a44ca1e-94d6-455c-8f02-01364ce9fb59",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
