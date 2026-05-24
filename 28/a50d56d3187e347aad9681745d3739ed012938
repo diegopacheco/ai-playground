@@ -1,0 +1,29 @@
+pocs/cc-token-bar/design-doc.md
+  s_773991f2ffbc47::t_a7f8e000dc9c84 248,250
+  s_773991f2ffbc47::t_d1290b731ee9ec 247,249,251-257
+pocs/cc-token-bar/app/Sources/cc-token-bar/App.swift
+  s_773991f2ffbc47::t_9fcc7144b7aa61 89-90,92-93
+  s_773991f2ffbc47::t_dc2e293ce6d741 7-8,11,13
+  s_773991f2ffbc47::t_74dccf6ac286ce 36,38,52-59,61-64,66-69
+  s_773991f2ffbc47::t_0cb9f54e606c99 12,14
+  s_773991f2ffbc47::t_64cc3c1be037fc 70-71
+  s_773991f2ffbc47::t_3ebdc1a4a3c9f4 87-88,91,94-96
+pocs/cc-token-bar/app/Sources/cc-token-bar/Views.swift
+  s_773991f2ffbc47::t_b9203dae69e68a 9-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "28a50d56d3187e347aad9681745d3739ed012938",
+  "prompts": {},
+  "sessions": {
+    "s_773991f2ffbc47": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b693c1e9-eef4-4d9f-b141-67a7c29b8c92",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
