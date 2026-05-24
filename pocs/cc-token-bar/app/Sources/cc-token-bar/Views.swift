@@ -6,20 +6,24 @@ struct PanelView: View {
     @ObservedObject var store: DataStore
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            header
-            kpiSection
-            divider
-            cacheSection
-            divider
-            chartSection
-            divider
-            toolsSection
-            divider
-            modelsSection
-            footer
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 0) {
+                header
+                kpiSection
+                divider
+                cacheSection
+                divider
+                chartSection
+                divider
+                toolsSection
+                divider
+                modelsSection
+                footer
+            }
+            .padding(.top, 12)
+            .padding(.bottom, 8)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(.top, 12)
         .frame(width: 360)
     }
 

@@ -244,7 +244,17 @@ Beyond "total tokens" and "tools by cost", here's the broader set that's cheap t
 
 The previous 30 s fallback timer is removed: while the popover is closed there is no one to read the data, and FSEvents already covers the case where the popover is open and a file changes between 5 s ticks.
 
-**Panel top inset.** The popover content stack has a 12-pt `.padding(.top)` and the hosting `contentSize` height is 640. Without the inset the header label sat flush against the popover's top edge / arrow on some Macs and was hard to read; the inset gives the title visible breathing room.
+**Panel sizing.** The popover content stack has a 12-pt `.padding(.top)` and 8-pt `.padding(.bottom)` so the header and footer don't touch the rounded corners. Width is fixed at 360 pt. Height is a fixed **preferred height of 720 pt**, capped each time the panel is shown by the screen's `visibleFrame.height − menuBarGap − screenBottomMargin` (gap = 8 pt, bottom margin = 12 pt) so the panel never grows past the visible screen.
+
+The content is wrapped in a `ScrollView(.vertical, showsIndicators: false)`. This matters because the v1 metric set fully populated (KPIs, cache ratio, 7-day chart, up to ~10 tool rows, multi-model cost split, footer) can easily exceed 640 pt and even 720 pt on shorter screens. Earlier revisions tried measuring `NSHostingController.sizeThatFits(in:)` to grow the panel to the content, but on macOS 26 with the current SwiftUI runtime that call under-reports intrinsic height for stacks containing `Chart` + many sized rows, leaving the rendered content taller than the window and clipping both the header and the footer. ScrollView side-steps the measurement entirely: the window is always tall enough to show the top of the panel, and any overflow is reachable by scroll wheel / trackpad.
+
+`AppDelegate.showPanel()` flow:
+
+1. Find the status item's button frame in screen coordinates.
+2. `topLimit = min(buttonFrame.minY − menuBarGap, visibleFrame.maxY − menuBarGap)` — the lower bound of the menu-bar area, clamped to the screen.
+3. `maxHeight = visibleFrame.height − menuBarGap − screenBottomMargin`; final height = `min(preferredPanelHeight, maxHeight)` with a 240 pt floor.
+4. Center horizontally under the status button, then clamp into `[visibleFrame.minX + 8, visibleFrame.maxX − width − 8]` so the panel can't slip off-screen for a status item that lives near the right notch.
+5. `setFrame(_:display:)` and `orderFrontRegardless()`.
 
 Click opens this panel:
 

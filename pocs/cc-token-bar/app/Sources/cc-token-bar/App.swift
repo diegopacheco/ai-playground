@@ -4,10 +4,14 @@ import SwiftUI
 final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var statusItem: NSStatusItem!
     private var panelWindow: NSPanel!
+    private var hostingController: NSHostingController<PanelView>!
+    private var visualEffect: NSVisualEffectView!
     private let store = DataStore()
     private var eventMonitor: Any?
-    private let panelSize = NSSize(width: 360, height: 640)
-    private let menuBarGap: CGFloat = 12
+    private let panelWidth: CGFloat = 360
+    private let preferredPanelHeight: CGFloat = 720
+    private let menuBarGap: CGFloat = 8
+    private let screenBottomMargin: CGFloat = 12
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
@@ -29,8 +33,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
 
+        let initial = NSRect(x: 0, y: 0, width: panelWidth, height: 480)
         panelWindow = NSPanel(
-            contentRect: NSRect(origin: .zero, size: panelSize),
+            contentRect: initial,
             styleMask: [.borderless, .nonactivatingPanel, .fullSizeContentView],
             backing: .buffered,
             defer: false
@@ -44,21 +49,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         panelWindow.delegate = self
         panelWindow.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
 
-        let container = NSVisualEffectView(frame: NSRect(origin: .zero, size: panelSize))
-        container.material = .popover
-        container.blendingMode = .behindWindow
-        container.state = .active
-        container.wantsLayer = true
-        container.layer?.cornerRadius = 12
-        container.layer?.masksToBounds = true
-        container.autoresizingMask = [.width, .height]
+        visualEffect = NSVisualEffectView(frame: initial)
+        visualEffect.material = .popover
+        visualEffect.blendingMode = .behindWindow
+        visualEffect.state = .active
+        visualEffect.wantsLayer = true
+        visualEffect.layer?.cornerRadius = 12
+        visualEffect.layer?.masksToBounds = true
+        visualEffect.autoresizingMask = [.width, .height]
 
-        let host = NSHostingController(rootView: PanelView(store: store))
-        host.view.frame = container.bounds
-        host.view.autoresizingMask = [.width, .height]
-        container.addSubview(host.view)
+        hostingController = NSHostingController(rootView: PanelView(store: store))
+        hostingController.view.frame = visualEffect.bounds
+        hostingController.view.autoresizingMask = [.width, .height]
+        visualEffect.addSubview(hostingController.view)
 
-        panelWindow.contentView = container
+        panelWindow.contentView = visualEffect
+    }
+
+    private func fittedPanelSize(maxHeight: CGFloat) -> NSSize {
+        let height = min(preferredPanelHeight, maxHeight)
+        return NSSize(width: panelWidth, height: max(240, height))
     }
 
     @objc func togglePanel(_ sender: Any?) {
@@ -74,9 +84,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
               let buttonWindow = button.window else { return }
         store.refreshNow()
         let buttonFrameOnScreen = buttonWindow.convertToScreen(button.convert(button.bounds, to: nil))
-        let originX = buttonFrameOnScreen.midX - panelSize.width / 2
-        let originY = buttonFrameOnScreen.minY - menuBarGap - panelSize.height
-        panelWindow.setFrameOrigin(NSPoint(x: originX, y: originY))
+        let screen = buttonWindow.screen ?? NSScreen.main
+        let visible = screen?.visibleFrame ?? .zero
+        let topLimit = min(buttonFrameOnScreen.minY - menuBarGap, visible.maxY - menuBarGap)
+        let maxHeight = max(240, topLimit - visible.minY - screenBottomMargin)
+        let size = fittedPanelSize(maxHeight: maxHeight)
+        var originX = buttonFrameOnScreen.midX - size.width / 2
+        originX = min(max(originX, visible.minX + 8), visible.maxX - size.width - 8)
+        let originY = topLimit - size.height
+        let frame = NSRect(x: originX, y: originY, width: size.width, height: size.height)
+        panelWindow.setFrame(frame, display: true)
         panelWindow.orderFrontRegardless()
         store.startVisibleRefresh()
         installDismissMonitor()
