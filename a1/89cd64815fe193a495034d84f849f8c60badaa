@@ -1,0 +1,26 @@
+pocs/cc-token-bar/design-doc.md
+  s_433df0ff506d7b::t_aad8e9dff3d456 268
+  s_433df0ff506d7b::t_44675e84689df0 235-243
+pocs/cc-token-bar/app/Sources/cc-token-bar/App.swift
+  s_433df0ff506d7b::t_5346afc01fcf17 4
+  s_433df0ff506d7b::t_e4fdf8bb66fe14 31,43,48-54
+pocs/cc-token-bar/app/Sources/cc-token-bar/DataStore.swift
+  s_433df0ff506d7b::t_11d482a9412c2b 29-38,41-47
+  s_433df0ff506d7b::t_b09e1e27294376 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "a189cd64815fe193a495034d84f849f8c60badaa",
+  "prompts": {},
+  "sessions": {
+    "s_433df0ff506d7b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6001d1bd-564b-4d3a-96fa-09bf7a15511f",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
