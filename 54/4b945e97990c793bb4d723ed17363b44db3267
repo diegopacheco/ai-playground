@@ -1,0 +1,66 @@
+pocs/cc-token-bar/uninstall.sh
+  s_3f155310ba4c80::t_0335686bbf934e 1-59
+pocs/cc-token-bar/app/Sources/cc-token-bar/DataStore.swift
+  s_3f155310ba4c80::t_52d43d56a08474 1-110,112-219,238,245-247,250,259
+  s_3f155310ba4c80::t_f9ee1c59baf2c4 111
+  s_3f155310ba4c80::t_cdf1467bd61b1c 220-237,239-244,248-249
+  s_3f155310ba4c80::t_aa35d10dcc211f 251-258
+pocs/cc-token-bar/.gitignore
+  s_3f155310ba4c80::t_a5402a07e9c065 1-22
+pocs/cc-token-bar/app/Sources/cc-token-bar/Views.swift
+  s_3f155310ba4c80::t_a0b779d7086ed5 1-45,47-48,50-120,122-188
+  s_3f155310ba4c80::t_c18af4d4616b5b 121
+  s_3f155310ba4c80::t_1a46548a994fb4 46,49
+pocs/cc-token-bar/app/Package.swift
+  s_3f155310ba4c80::t_9607000b4ad25a 1-13
+pocs/cc-token-bar/README.md
+  s_3f155310ba4c80::t_8c284c8c68b217 1-184
+pocs/cc-token-bar/app/Sources/cc-token-bar/App.swift
+  s_3f155310ba4c80::t_d074527c65147e 2,5-8,11,13-14,19-22,24-25,27,29-43
+  s_3f155310ba4c80::t_44b6ab6d9c7d7a 3,44-46
+  s_3f155310ba4c80::t_f14642c6bf5c46 1,4,9-10,12,28
+  s_3f155310ba4c80::t_e78e5525db1d3b 15-18,23,26
+pocs/cc-token-bar/app/Sources/cc-token-bar/FSWatcher.swift
+  s_3f155310ba4c80::t_9350c1c9f5dcdd 1-49
+pocs/cc-token-bar/preview.html
+  s_3f155310ba4c80::t_b4be4bb0a65297 1-228
+pocs/cc-token-bar/app/Sources/cc-token-bar/main.swift
+  s_3f155310ba4c80::t_82e8ac170af7ac 1-6
+pocs/cc-token-bar/hook/hook.sh
+  s_3f155310ba4c80::t_158897cbb8b1e2 23-25,27-28,32-33
+  s_3f155310ba4c80::t_591ba4024cb8a1 15-22,26,29-31,34-50,52-53,65-66,70-71,73-75,86-92
+  s_3f155310ba4c80::t_d7d239abad4721 1-14,51,54-64,67-69,72,76-85,93-96
+pocs/cc-token-bar/app/Sources/cc-token-bar/Models.swift
+  s_3f155310ba4c80::t_0871616d973f08 1-91
+pocs/cc-token-bar/app/Info.plist
+  s_3f155310ba4c80::t_639497c88a68be 1-26
+pocs/cc-token-bar/app/Sources/cc-token-bar/Pricing.swift
+  s_3f155310ba4c80::t_41cbe57ace2b8a 1-38
+pocs/cc-token-bar/install.sh
+  s_3f155310ba4c80::t_ea1e2a569665d9 1-140
+pocs/cc-token-bar/design-doc.md
+  s_3f155310ba4c80::t_39e687bd217bc9 32-47
+  s_3f155310ba4c80::t_1dc766978ed0e4 1-31,48-50,78-81,85-133,138-187,223-226,234-285,287
+  s_3f155310ba4c80::t_a7ce351e5516b9 299-311
+  s_3f155310ba4c80::t_3e225249f37356 51-77,82-84
+  s_3f155310ba4c80::t_0441457c264788 286,288-298
+  s_3f155310ba4c80::t_64a5b1efa3c29f 188-222
+  s_3f155310ba4c80::t_fa47e832f4f90e 227-233
+  s_3f155310ba4c80::t_76501e912e9e9f 134-137
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "544b945e97990c793bb4d723ed17363b44db3267",
+  "prompts": {},
+  "sessions": {
+    "s_3f155310ba4c80": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5a44ca1e-94d6-455c-8f02-01364ce9fb59",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
