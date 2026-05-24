@@ -19,6 +19,7 @@ struct PanelView: View {
             modelsSection
             footer
         }
+        .padding(.top, 12)
         .frame(width: 360)
         .background(.regularMaterial)
     }

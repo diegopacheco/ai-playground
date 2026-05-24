@@ -79,9 +79,9 @@ Before designing storage, here's what Claude Code already writes. Most of our wo
 
 Three pieces:
 
-1. **Hook shim** *(optional but recommended)* — invoked on `Stop` / `SessionEnd`. Reads only the *new* bytes of the active transcript (via saved offset) and updates `index.json`. Without it the app still works by scanning on its own; the hook just keeps things instant.
-2. **Storage** — only *derived* rollups live in `~/.cc-token-bar/`. Raw truth stays in `~/.claude/`.
-3. **Menu bar app** — SwiftUI `MenuBarExtra`, watches both trees with FSEvents, renders totals + chart + tool list.
+1. **Hook shim** *(optional but recommended)* — invoked on `Stop` / `SessionEnd` / `PostToolUse`. Writes `~/.cc-token-bar/sessions/<sid>.json` (session totals snapshot) and `~/.cc-token-bar/tools/<sid>.json` (per-tool counters). The session snapshot is only a cache: the app re-reads transcripts itself so live sessions still update between Stop events.
+2. **Storage** — only *derived* rollups live in `~/.cc-token-bar/`. Raw truth stays in `~/.claude/projects/<enc>/<sid>.jsonl` and is re-read on each refresh by `TranscriptScanner`.
+3. **Menu bar app** — SwiftUI panel, watches `~/.cc-token-bar/` with FSEvents, scans `~/.claude/projects/` for live transcript usage on every refresh, renders totals + chart + tool list.
 
 ## 5. Data capture (hooks)
 
@@ -232,15 +232,19 @@ Beyond "total tokens" and "tools by cost", here's the broader set that's cheap t
 
 **Implementation:** `NSStatusItem` + `NSPopover` hosting a `SwiftUI` `PanelView` via `NSHostingController` (MenuBarExtra proved unreliable on macOS 26 when built via SwiftPM — see commit history). The status item is created in `AppDelegate.applicationDidFinishLaunching` after `NSApp.setActivationPolicy(.accessory)`.
 
-**Live updates:** the panel auto-refreshes within ~1 second of any change under `~/.cc-token-bar/`. Flow: hook writes a new aggregate via atomic rename → `FSEventStreamCreate` with `kFSEventStreamCreateFlagFileEvents` fires → `DataStore.scheduleRefresh()` debounces 250 ms → JSON reload off the main queue → `@Published agg` updates on main → SwiftUI re-renders the open popover.
+**Live updates:** the panel auto-refreshes within ~1 second of any change under `~/.cc-token-bar/`. Flow: hook writes a new aggregate via atomic rename → `FSEventStreamCreate` with `kFSEventStreamCreateFlagFileEvents` fires → `DataStore.scheduleRefresh()` debounces 250 ms → reload off the main queue → `@Published agg` updates on main → SwiftUI re-renders the open popover.
+
+**Source of truth for token totals — read transcripts directly.** The hook only rewrites `~/.cc-token-bar/sessions/<sid>.json` on `Stop` / `SessionEnd`, so during a long-running session the cached session file is stale while `~/.cc-token-bar/tools/<sid>.json` keeps incrementing on every `PostToolUse`. That caused a visible bug: with the popover open, the Tools list updated every tick but Today / All-time / the 7-day chart sat frozen until the session ended. Fix: `TranscriptScanner` reads `~/.claude/projects/<encoded-path>/<sid>.jsonl` directly on every refresh and aggregates per-model usage and `started_at`/`updated_at` itself. Results are cached per file by mtime so unchanged transcripts cost one `stat` per tick. `DataStore.mergedSessions()` merges scanned sessions over hook-written sessions, keyed by `session_id`; transcripts win when present. Net effect: every visible-refresh tick recomputes Today, All-time, by-day bars, cache hit ratio, and by-model split from live transcript bytes — same cadence as the tools section.
 
 **Visibility-gated polling:** in addition to FSEvents, the app drives polling refreshes based on popover visibility:
 
-- **Popover open:** `AppDelegate` is the `NSPopoverDelegate`. On `popoverDidShow` it calls `store.startVisibleRefresh()`, which installs a 5 s repeating `Timer` on the main run loop in `.common` mode (so it keeps firing while the popover tracks the mouse). Every tick calls `scheduleRefresh()`, reusing the same 250 ms debounce / background-queue path as FSEvents — no duplicate work if a file event just fired.
+- **Popover open:** `AppDelegate` is the `NSPopoverDelegate`. On `popoverDidShow` it calls `store.startVisibleRefresh()`, which installs a 5 s repeating `Timer` on the main run loop in `.common` mode (so it keeps firing while the popover tracks the mouse). Every tick calls `scheduleRefresh()`, which runs `TranscriptScanner.scan()` + `loadTools()` + aggregate off the background queue. The 5 s cadence applies to **every** section of the panel — Today, All-time, by-day chart, cache ratio, tools, by-model — because the underlying refresh now re-reads transcripts and not just the hook-written cache.
 - **Popover closed:** `popoverDidClose` invalidates the timer via `store.stopVisibleRefresh()`. No background polling runs while the menu is hidden; FSEvents alone keeps the in-memory aggregates warm for the next open.
 - **On click-to-open:** `togglePopover` calls `store.refreshNow()` *before* showing the popover, so the user sees fresh numbers on frame one rather than the stale snapshot from the last close. This is what covers the "not visible → refresh when the user clicks" case.
 
 The previous 30 s fallback timer is removed: while the popover is closed there is no one to read the data, and FSEvents already covers the case where the popover is open and a file changes between 5 s ticks.
+
+**Panel top inset.** The popover content stack has a 12-pt `.padding(.top)` and the hosting `contentSize` height is 640. Without the inset the header label sat flush against the popover's top edge / arrow on some Macs and was hard to read; the inset gives the title visible breathing room.
 
 Click opens this panel:
 

@@ -11,6 +11,7 @@ final class DataStore: ObservableObject {
     private var visibleTimer: Timer?
     private let queue = DispatchQueue(label: "cc-token-bar.scan", qos: .utility)
     private var pendingRefresh = false
+    private let transcripts = TranscriptScanner()
 
     init() {
         let home = FileManager.default.homeDirectoryForCurrentUser
@@ -59,13 +60,22 @@ final class DataStore: ObservableObject {
     private func refresh() {
         let cfg = Pricing.loadConfig(from: dataDir)
         let pricing = cfg.pricing.isEmpty ? Pricing.fallback : cfg.pricing
-        let sessions = loadSessions()
+        let sessions = mergedSessions()
         let tools = loadTools()
         let next = aggregate(sessions: sessions, tools: tools, pricing: pricing)
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             if self.agg != next { self.agg = next }
         }
+    }
+
+    private func mergedSessions() -> [SessionFile] {
+        let live = transcripts.scan()
+        let cached = loadSessions()
+        var merged: [String: SessionFile] = [:]
+        for s in cached { merged[s.session_id] = s }
+        for s in live { merged[s.session_id] = s }
+        return Array(merged.values)
     }
 
     private func loadSessions() -> [SessionFile] {
