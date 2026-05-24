@@ -118,7 +118,7 @@ struct PanelView: View {
                         Text(DataStore.formatUSD(t.costUSD))
                             .font(.system(size: 11)).monospacedDigit()
                             .frame(width: 60, alignment: .trailing)
-                        Text("\(t.count)×")
+                        Text("\(DataStore.formatCount(t.count))×")
                             .font(.system(size: 11)).foregroundStyle(.secondary).monospacedDigit()
                             .frame(width: 48, alignment: .trailing)
                     }
