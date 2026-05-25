@@ -1,0 +1,59 @@
+pocs/agent-skill-rpg-learner/agents/openai.yaml
+  s_3d6e228d78b9c7::t_2150086656d085 2
+  s_3d6e228d78b9c7::t_acf29b56e13d21 1,3
+pocs/agent-skill-rpg-learner/scripts/rpg_learn.sh
+  s_3d6e228d78b9c7::t_91555f521a5067 368-373
+  s_3d6e228d78b9c7::t_acf29b56e13d21 1-21,24-140,142,144-146,148-174,181-298,301-322,324-325,327-367,374-390,393-396,398-501
+  s_3d6e228d78b9c7::t_5dbd0657664466 22,175-180,323,326,397
+  s_3d6e228d78b9c7::t_b4f2b431a88583 23,141,143,147,299-300,391-392
+pocs/agent-skill-rpg-learner/install.sh
+  s_3d6e228d78b9c7::t_e221561cdb3f5d 8,18-20,63
+  s_3d6e228d78b9c7::t_ca86cab655afb4 47,49-50,53-55
+  s_3d6e228d78b9c7::t_acf29b56e13d21 1-7,9-17,21-46,48,51-52,56-62,64-71
+pocs/agent-skill-rpg-learner/SKILL.md
+  s_3d6e228d78b9c7::t_ca86cab655afb4 3,8,12-13,17-33
+  s_3d6e228d78b9c7::t_acf29b56e13d21 1-2,4-7,9-11,14-16,34-73
+pocs/agent-skill-rpg-learner/web/index.html
+  s_3d6e228d78b9c7::t_2209879ad400a1 1-107
+pocs/agent-skill-rpg-learner/design-doc.md
+  s_3d6e228d78b9c7::t_0d0425a595ccde 5,9,58
+  s_3d6e228d78b9c7::t_f91027d764a647 212,280,294-297,308-310,318,327-331
+  s_3d6e228d78b9c7::t_b7904531a98177 303,311-315
+  s_3d6e228d78b9c7::t_a0c47733074503 43,45-46,209-210,214,230-242,245,260,400,452,454-457
+  s_3d6e228d78b9c7::t_65aaaa4ab4c636 1-4,6-8,10-42,44,47-57,59-208,211,213,215-229,243-244,246-259,261-279,281-293,298-302,304-307,316-317,319-326,332-399,401-451,453
+pocs/agent-skill-rpg-learner/web/game.js
+  s_3d6e228d78b9c7::t_2209879ad400a1 1-434
+pocs/agent-skill-rpg-learner/uninstall.sh
+  s_3d6e228d78b9c7::t_acf29b56e13d21 1-7,9-17,21-43,45-66
+  s_3d6e228d78b9c7::t_e221561cdb3f5d 8,18-20,44
+pocs/agent-skill-rpg-learner/README.md
+  s_3d6e228d78b9c7::t_2150086656d085 9,24,26-41,95-100,117-122,138-139,141
+  s_3d6e228d78b9c7::t_b7904531a98177 1-2,10-23,25,42-94,101-116,123-137,140,142-147
+  s_8e3b840cf1b95b::t_93903efe3095fb 3-8
+pocs/agent-skill-rpg-learner/web/styles.css
+  s_3d6e228d78b9c7::t_2209879ad400a1 1-471
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "a600d3fd80dba8c9badaa51ea316ce5dd05e9d6d",
+  "prompts": {},
+  "sessions": {
+    "s_3d6e228d78b9c7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e5d9f-cc03-7cb2-9976-5387c2a62ca9",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_8e3b840cf1b95b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e5dbc-2bb9-70a1-91c9-5dcb198b930c",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
