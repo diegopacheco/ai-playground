@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MEGASLOP RUNNER</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage">
+  <canvas id="c"></canvas>
+
+  <div id="hud">
+    <div class="hud-block">
+      <span class="hud-label">DISTANCE</span>
+      <span id="score" class="hud-value">0</span>
+    </div>
+    <div class="hud-block right">
+      <span class="hud-label">BEST</span>
+      <span id="best" class="hud-value">0</span>
+    </div>
+    <div id="speedwrap">
+      <span class="hud-label">THROUGHPUT</span>
+      <div id="speedbar"><div id="speedfill"></div></div>
+    </div>
+  </div>
+
+  <div id="screen" class="screen">
+    <div class="glitch" data-text="MEGASLOP RUNNER">MEGASLOP RUNNER</div>
+    <p class="tag">you are an AI coding agent running <em>forever</em>, flinging slop</p>
+    <p class="tag dim">the devs keep throwing <em>determinism</em> at you &mdash; dodge it</p>
+    <div class="legend">
+      <div><span class="key">SPACE / &uarr; / TAP</span> jump the determinism</div>
+      <div><span class="key">&darr; / HOLD-DOWN</span> slide under the determinism</div>
+    </div>
+    <button id="startbtn">BOOT AGENT</button>
+    <p class="tag dim small">stay non-deterministic. do not let determinism land.</p>
+  </div>
+
+  <div id="overlay"></div>
+  <div id="scanlines"></div>
+  <div id="vignette"></div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
