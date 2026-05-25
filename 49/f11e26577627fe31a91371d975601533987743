@@ -1,0 +1,50 @@
+pocs/cc-token-bar/app/Sources/cc-metrics-test/main.swift
+  s_94f6cb9519f656::t_8d7f5773fb4a05 1-70
+pocs/cc-token-bar/app/Sources/cc-token-bar/TranscriptScanner.swift
+  s_94f6cb9519f656::t_9c35bb0746d628 126,132-133,142-148
+  s_94f6cb9519f656::t_504ed24ed3e957 2
+  s_94f6cb9519f656::t_8bc31f94fafdfe 68,73,77,79-98
+pocs/cc-token-bar/app/Sources/CCMetrics/ToolMetrics.swift
+  s_94f6cb9519f656::t_59d83e7b2396f1 1-51
+pocs/cc-token-bar/app/Sources/cc-token-bar/Models.swift
+  s_94f6cb9519f656::t_be738c925e3e34 86
+  s_94f6cb9519f656::t_2469e0ae31b384 95
+  s_94f6cb9519f656::t_62276abe889787 20
+  s_94f6cb9519f656::t_699997b110feaa 72-79
+  s_94f6cb9519f656::t_f33242fe70598d 2
+pocs/cc-token-bar/design-doc.md
+  s_94f6cb9519f656::t_4c218ffc08f938 14-16
+  s_94f6cb9519f656::t_2573a43dee1216 217
+  s_94f6cb9519f656::t_36b6f931994ac2 349-351
+  s_94f6cb9519f656::t_c2ad6a0f127ae5 237-247
+  s_94f6cb9519f656::t_caccd20cb9f28b 278-280,282,290-292,297-304
+pocs/cc-token-bar/app/Sources/cc-token-bar/Views.swift
+  s_94f6cb9519f656::t_83e639b504a250 160-186
+  s_94f6cb9519f656::t_736b5bc61e30dc 143-144
+  s_94f6cb9519f656::t_362903a5fd78f9 5-9,12,18-31,41-48
+pocs/cc-token-bar/app/Sources/cc-token-bar/DataStore.swift
+  s_94f6cb9519f656::t_e82ebefa4445d9 245
+  s_94f6cb9519f656::t_62972d1f885375 197-198,201
+  s_94f6cb9519f656::t_5486422560ce69 3
+  s_94f6cb9519f656::t_31b4a438319cf1 211-228
+  s_94f6cb9519f656::t_7cf3bae1f4a81c 313-317
+pocs/cc-token-bar/app/Package.swift
+  s_94f6cb9519f656::t_f71da1c7fd5cd6 17-18,20
+  s_94f6cb9519f656::t_c3906992fbc406 8-11,14,16,19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "49f11e26577627fe31a91371d975601533987743",
+  "prompts": {},
+  "sessions": {
+    "s_94f6cb9519f656": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "749f0c07-8ad9-42bd-98bf-a1948ca35a3c",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
