@@ -1,0 +1,3 @@
+display_name: Terminal RPG Agent
+short_description: Run themed browser RPG quests with cards, XP, inventory, and boss fights.
+default_prompt: /rpg-learn algorithms

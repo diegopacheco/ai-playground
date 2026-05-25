@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>terminal-rpg-agent</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero" id="hero">
+        <div class="hero-copy">
+          <p class="kicker">terminal-rpg-agent</p>
+          <h1>Pick a realm. Clear quests. Fight the boss.</h1>
+          <p class="subhead">A fresh RPG run starts every time. Your browser saves only per-theme run history.</p>
+        </div>
+        <div class="theme-grid" id="themeGrid"></div>
+      </section>
+
+      <section class="game hidden" id="game">
+        <aside class="panel left-panel">
+          <div class="identity-card">
+            <p class="kicker" id="realmName">Realm</p>
+            <h2 id="playerTitle">New Adventurer</h2>
+            <p id="realmFlavor">Choose your path.</p>
+          </div>
+
+          <div class="stat-stack">
+            <div class="stat-row">
+              <span>HP</span>
+              <strong id="hpValue">100/100</strong>
+            </div>
+            <div class="meter">
+              <div id="hpBar"></div>
+            </div>
+            <div class="stat-row">
+              <span>XP</span>
+              <strong id="xpValue">0</strong>
+            </div>
+            <div class="meter xp">
+              <div id="xpBar"></div>
+            </div>
+            <div class="stat-row">
+              <span>Boss</span>
+              <strong id="bossValue">Locked</strong>
+            </div>
+            <div class="meter boss">
+              <div id="bossBar"></div>
+            </div>
+          </div>
+
+          <div class="mini-grid">
+            <div>
+              <span>Level</span>
+              <strong id="levelValue">1</strong>
+            </div>
+            <div>
+              <span>Score</span>
+              <strong id="scoreValue">0</strong>
+            </div>
+            <div>
+              <span>Streak</span>
+              <strong id="streakValue">0</strong>
+            </div>
+            <div>
+              <span>Runs</span>
+              <strong id="historyValue">0</strong>
+            </div>
+          </div>
+        </aside>
+
+        <section class="stage">
+          <div class="map-strip" id="mapStrip"></div>
+          <article class="quest-card" id="questCard">
+            <div class="quest-top">
+              <p class="kicker" id="questType">Quest</p>
+              <span id="questCounter">1/5</span>
+            </div>
+            <h2 id="questPrompt">Question</h2>
+            <div class="answers" id="answers"></div>
+            <div class="action-row">
+              <button id="hintButton" type="button">Use Hint</button>
+              <button id="restartButton" type="button">New Run</button>
+            </div>
+          </article>
+          <div class="log-card" id="logCard">Choose a realm to begin.</div>
+        </section>
+
+        <aside class="panel right-panel">
+          <h2>Inventory</h2>
+          <div class="inventory" id="inventory"></div>
+          <div class="boss-card" id="bossCard">
+            <p class="kicker">Boss Fight</p>
+            <h3 id="bossName">Locked</h3>
+            <p id="bossFlavor">Clear the realm quests to open the gate.</p>
+          </div>
+          <div class="history-card">
+            <h3>Theme History</h3>
+            <div id="historyList"></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
