@@ -1,0 +1,103 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  background: #0a0a14;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Courier New", monospace;
+  overflow: hidden;
+}
+
+#frame {
+  position: relative;
+  width: min(96vw, 155vh);
+  border: 4px solid #2b2b4a;
+  border-radius: 6px;
+  box-shadow: 0 0 0 4px #11111f, 0 0 60px #4d2bff66;
+  background: #000;
+  image-rendering: pixelated;
+}
+
+#hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9vh 1.4vw;
+  background: #11111f;
+  color: #6cff9e;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: clamp(12px, 1.7vw, 24px);
+  text-shadow: 0 0 6px #6cff9e88;
+}
+
+#title { color: #ffd23f; text-shadow: 0 0 8px #ffd23f88; }
+#lives { color: #ff5c8a; text-shadow: 0 0 6px #ff5c8a88; }
+
+#hpbar {
+  display: inline-block;
+  letter-spacing: 1px;
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 640 / 360;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: #1a1030;
+}
+
+#overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.8vh;
+  background: #0a0a14ee;
+  color: #fff;
+  text-align: center;
+}
+
+#overlay.hidden { display: none; }
+
+#big {
+  font-size: clamp(40px, 8vw, 110px);
+  font-weight: bold;
+  color: #ffd23f;
+  letter-spacing: 0.12em;
+  text-shadow: 4px 4px 0 #ff5c8a, 0 0 24px #ffd23f;
+}
+
+#sub { color: #6cff9e; font-size: clamp(16px, 2.4vw, 30px); letter-spacing: 2px; }
+#keys { color: #9aa0ff; font-size: clamp(12px, 1.7vw, 22px); letter-spacing: 2px; }
+
+#start {
+  margin-top: 1vh;
+  color: #fff;
+  font-size: clamp(18px, 2.8vw, 36px);
+  letter-spacing: 3px;
+  animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+#frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    #00000033 3px,
+    #00000033 4px
+  );
+  border-radius: 6px;
+}
