@@ -15,7 +15,7 @@ const markerWords = /\b(TODO|FIXME|HACK)\b/g;
 
 function git(args, fallback = "") {
   try {
-    return execFileSync("git", args, { cwd: repo, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    return execFileSync("git", args, { cwd: repo, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"], maxBuffer: 80 * 1024 * 1024 }).trim();
   } catch {
     return fallback;
   }
@@ -114,19 +114,35 @@ function functionCount(text) {
   return patterns.reduce((sum, rx) => sum + (text.match(rx) || []).length, 0);
 }
 
-function history(file) {
-  const raw = git(["log", "--follow", "--max-count=200", "--date=short", "--format=%H%x09%an%x09%ad%x09%s", "--", file], "");
-  const rows = raw ? raw.split(/\r?\n/).filter(Boolean) : [];
-  const authors = new Set();
-  let bugs = 0;
-  let lastDate = "";
-  for (const row of rows) {
-    const parts = row.split("\t");
-    if (parts[1]) authors.add(parts[1]);
-    if (!lastDate && parts[2]) lastDate = parts[2];
-    if (bugWords.test(parts.slice(3).join(" "))) bugs += 1;
+function historyMap(wantedFiles) {
+  const wanted = new Set(wantedFiles);
+  const map = new Map();
+  for (const file of wantedFiles) map.set(file, { commits: 0, authors: new Set(), bugs: 0, lastDate: "" });
+  const raw = git(["log", "--max-count=6000", "--date=short", "--format=__ROAST_COMMIT__%x09%H%x09%an%x09%ad%x09%s", "--name-only"], "");
+  if (!raw) return new Map(wantedFiles.map((file) => [file, { commits: 0, authors: 0, bugs: 0, lastDate: "" }]));
+  let current = null;
+  for (const line of raw.split(/\r?\n/)) {
+    if (!line) continue;
+    if (line.startsWith("__ROAST_COMMIT__\t")) {
+      const parts = line.split("\t");
+      current = {
+        author: parts[2] || "",
+        date: parts[3] || "",
+        bug: bugWords.test(parts.slice(4).join(" "))
+      };
+      continue;
+    }
+    if (!current || !wanted.has(line)) continue;
+    const item = map.get(line);
+    item.commits += 1;
+    if (current.author) item.authors.add(current.author);
+    if (!item.lastDate && current.date) item.lastDate = current.date;
+    if (current.bug) item.bugs += 1;
   }
-  return { commits: rows.length, authors: authors.size, bugs, lastDate };
+  for (const [file, item] of map.entries()) {
+    map.set(file, { commits: item.commits, authors: item.authors.size, bugs: item.bugs, lastDate: item.lastDate });
+  }
+  return map;
 }
 
 function daysSince(dateText) {
@@ -166,6 +182,7 @@ function analyze() {
     textByFile.set(file, text);
     if (isTest(file)) tests.push(file);
   }
+  const histories = historyMap(all);
   const analyzed = all.map((file) => {
     const text = textByFile.get(file) || "";
     const lines = text ? text.split(/\r?\n/) : [];
@@ -175,15 +192,15 @@ function analyze() {
     const markers = (text.match(markerWords) || []).length;
     const test = isTest(file);
     const nearTest = test || hasNearbyTest(file, tests);
-    const hist = history(file);
+    const hist = histories.get(file) || { commits: 0, authors: 0, bugs: 0, lastDate: "" };
     const age = daysSince(hist.lastDate);
     const complexity = clamp(loc / 30 + nested * 2 + funcs * 0.8 + markers * 3, 25);
-    const churn = clamp(hist.commits * 1.4, 20);
+    const churn = clamp(hist.commits * 0.45, 25);
     const size = clamp(loc / 45, 15);
     const stale = loc > 40 ? clamp(age / 60, 15) : 0;
-    const ownership = clamp(Math.max(0, hist.authors - 1) * 2.5, 10);
+    const ownership = clamp(Math.max(0, hist.authors - 1) * 1.6, 15);
     const testsScore = !test && !nearTest && loc > 20 ? 15 : 0;
-    const bugs = clamp(hist.bugs * 5, 20);
+    const bugs = clamp(hist.bugs * 4, 20);
     const overall = clamp(complexity + churn + size + stale + ownership + testsScore + bugs, 100);
     return {
       path: file,
@@ -370,6 +387,7 @@ button,input{font:inherit}
 <script>
 window.ROAST_DATA=${payload};
 const data=window.ROAST_DATA;
+const fileByPath=new Map(data.files.map(file=>[file.path,file]));
 let layer="overall";
 let scale=1;
 let tx=40;
@@ -479,7 +497,7 @@ function renderBase(){
 function renderLayers(){
   [...layers.children].forEach(b=>b.classList.toggle("active",b.textContent===layer));
   document.querySelectorAll(".file").forEach(el=>{
-    const file=data.files.find(f=>f.path===el.dataset.path);
+    const file=fileByPath.get(el.dataset.path);
     const score=file.scores[layer]||0;
     el.style.background=color(layer==="overall"?score:score*4);
     el.title=file.path+" "+score;
@@ -493,7 +511,12 @@ function renderList(){
   for(const file of matches.slice(0,18)){
     const item=document.createElement("div");
     item.className="item";
-    item.innerHTML="<b>"+file.path+"</b><span>"+file.scores.overall+" "+file.roast+"</span>";
+    const title=document.createElement("b");
+    title.textContent=file.path;
+    const meta=document.createElement("span");
+    meta.textContent=file.scores.overall+" "+file.roast;
+    item.appendChild(title);
+    item.appendChild(meta);
     item.onclick=()=>selectFile(file);
     hot.appendChild(item);
   }
@@ -501,8 +524,38 @@ function renderList(){
 }
 function selectFile(file){
   selected=file;
-  const badges=Object.entries(file.scores).map(([k,v])=>"<span class=\"badge\">"+k+": "+v+"</span>").join("");
-  detail.innerHTML="<h2>"+file.path+"</h2><div class=\"score\">"+file.scores.overall+"</div><div class=\"meter\"><span style=\"width:"+file.scores.overall+"%\"></span></div><p>"+file.roast+"</p><div>"+badges+"</div><div class=\"kv\"><div><b>"+file.loc+"</b>loc</div><div><b>"+file.commits+"</b>commits</div><div><b>"+file.authors+"</b>authors</div><div><b>"+file.bugs+"</b>bug hits</div><div><b>"+file.nesting+"</b>nesting</div><div><b>"+file.functions+"</b>blocks</div><div><b>"+(file.hasTest?"yes":"no")+"</b>nearby tests</div><div><b>"+file.lastDate+"</b>last touched</div></div>";
+  detail.textContent="";
+  const title=document.createElement("h2");
+  title.textContent=file.path;
+  const score=document.createElement("div");
+  score.className="score";
+  score.textContent=file.scores.overall;
+  const meter=document.createElement("div");
+  meter.className="meter";
+  const fill=document.createElement("span");
+  fill.style.width=file.scores.overall+"%";
+  meter.appendChild(fill);
+  const roast=document.createElement("p");
+  roast.textContent=file.roast;
+  const badges=document.createElement("div");
+  for(const [k,v] of Object.entries(file.scores)){
+    const badge=document.createElement("span");
+    badge.className="badge";
+    badge.textContent=k+": "+v;
+    badges.appendChild(badge);
+  }
+  const kv=document.createElement("div");
+  kv.className="kv";
+  const rows=[["loc",file.loc],["commits",file.commits],["authors",file.authors],["bug hits",file.bugs],["nesting",file.nesting],["blocks",file.functions],["nearby tests",file.hasTest?"yes":"no"],["last touched",file.lastDate]];
+  for(const [label,value] of rows){
+    const box=document.createElement("div");
+    const b=document.createElement("b");
+    b.textContent=value;
+    box.appendChild(b);
+    box.appendChild(document.createTextNode(label));
+    kv.appendChild(box);
+  }
+  detail.append(title,score,meter,roast,badges,kv);
 }
 let dragging=false;
 let sx=0;
