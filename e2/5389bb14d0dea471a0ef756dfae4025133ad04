@@ -1,0 +1,36 @@
+pocs/codebase-roast-map/uninstall.sh
+  s_9e52318d9bdef3::t_b08aa63595e720 1-6,8-33
+  s_9e52318d9bdef3::t_0ca6f1a945812c 7
+pocs/codebase-roast-map/README.md
+  s_9e52318d9bdef3::t_f0e0106b570db5 1-126
+pocs/codebase-roast-map/DESIGN.md
+  s_9e52318d9bdef3::t_b08aa63595e720 1-20,22-30,32-35,37,46-107
+  s_9e52318d9bdef3::t_0ca6f1a945812c 21,31,36,38-45
+pocs/codebase-roast-map/skill/SKILL.md
+  s_9e52318d9bdef3::t_0ca6f1a945812c 12,15-20,24,28-33,36,42
+  s_9e52318d9bdef3::t_b08aa63595e720 1-11,13-14,21-23,25-27,34-35,37-41,43-78
+pocs/codebase-roast-map/skill/scripts/roast-map.mjs
+  s_9e52318d9bdef3::t_0b1ecdbfc80e4d 66,72,167,176
+  s_9e52318d9bdef3::t_a2cf124839cbfc 1-65,67-71,73-166,168-175,177-432,434-446,448-484,486-495,497-503,506-552
+  s_9e52318d9bdef3::t_000ce2b8a100b5 433,447,485,496,504-505
+pocs/codebase-roast-map/install.sh
+  s_9e52318d9bdef3::t_b08aa63595e720 1-16,18,20-21,28,32-42,45-59
+  s_9e52318d9bdef3::t_0ca6f1a945812c 17,19,22-27,29-31
+  s_9e52318d9bdef3::t_67cef86baf0a17 43-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "e25389bb14d0dea471a0ef756dfae4025133ad04",
+  "prompts": {},
+  "sessions": {
+    "s_9e52318d9bdef3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e5d7e-8adf-73c2-8ab6-83c179e55464",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
