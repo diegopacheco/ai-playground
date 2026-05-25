@@ -1,4 +1,5 @@
 import Foundation
+import CCMetrics
 
 struct ModelUsage: Codable {
     var input_tokens: Int
@@ -16,6 +17,7 @@ struct SessionFile: Codable {
     var started_at: String?
     var updated_at: String?
     var by_model: [String: ModelUsage]
+    var tool_latency: [String: ToolLatencyAgg]?
 }
 
 struct ToolEntry: Codable {
@@ -67,12 +69,21 @@ struct ToolStat: Identifiable, Equatable {
     let costUSD: Double
 }
 
+struct ToolLatency: Identifiable, Equatable {
+    var id: String { name }
+    let name: String
+    let count: Int
+    let avgMs: Double
+    let totalMs: Double
+}
+
 struct Aggregates: Equatable {
     var today: TokenTotals = TokenTotals()
     var lifetime: TokenTotals = TokenTotals()
     var byModel: [(String, TokenTotals)] = []
     var byDay: [DayBucket] = []
     var tools: [ToolStat] = []
+    var toolLatencies: [ToolLatency] = []
     var cacheHitRatio: Double = 0
     var sessionsToday: Int = 0
     var sessionsLifetime: Int = 0
@@ -81,6 +92,7 @@ struct Aggregates: Equatable {
     static func == (lhs: Aggregates, rhs: Aggregates) -> Bool {
         lhs.today == rhs.today && lhs.lifetime == rhs.lifetime
             && lhs.byDay == rhs.byDay && lhs.tools == rhs.tools
+            && lhs.toolLatencies == rhs.toolLatencies
             && lhs.cacheHitRatio == rhs.cacheHitRatio
             && lhs.sessionsToday == rhs.sessionsToday
             && lhs.sessionsLifetime == rhs.sessionsLifetime

@@ -11,6 +11,9 @@ Give a Claude Code user a permanently visible, glanceable readout of:
 - Total tokens consumed (lifetime + today).
 - Token usage over time (week, all time) as a chart.
 - Cost per tool, listed and sorted.
+- Latency per tool call, listed and sorted.
+
+The dropdown is split into two tabs: **Cost** (default) and **Latency**.
 
 Data is captured locally via Claude Code hooks and stored as JSON under `~/.cc-token-bar/`. Nothing leaves the machine.
 
@@ -211,6 +214,7 @@ Beyond "total tokens" and "tools by cost", here's the broader set that's cheap t
 **Tools (from `.session-stats.json` + transcripts)**
 - Top tools by count.
 - Top tools by **estimated cost** (see Q3 in open questions for definitions).
+- Top tools by **average latency** — `tool_result.timestamp − tool_use.timestamp` per call, averaged per tool. Shown in the Latency tab.
 - Most-used skills (from `skill_listing` records in transcripts).
 - Subagent (Task) spawn count.
 - Ultrathink usage count (from `ultrathink_effort` records).
@@ -229,6 +233,17 @@ Beyond "total tokens" and "tools by cost", here's the broader set that's cheap t
 **Stack:** Swift + SwiftUI, `MenuBarExtra` (macOS 13+). No third-party libraries. Chart drawn with Swift Charts (system framework).
 
 **Menu bar item:** fixed-width identifier — a bar-chart SF Symbol followed by the literal text `cc`. The label is intentionally static to minimise menu bar real estate and survive crowded notch layouts on MacBooks. All dynamic numbers live inside the dropdown.
+
+**Tabs.** Directly under the header a segmented control switches the panel body between two tabs (`PanelView.tab`, a `@State PanelTab`):
+
+- **Cost** *(default, shown on every open)* — the full metric set: Today/All-time KPIs, cache hit ratio, 7-day chart, tools by cost, cost by model.
+- **Latency** — one row per tool, the average wall-clock latency of its calls, sorted slowest first, with a proportional bar and the call count.
+
+The header, tab control, and footer are shared; only the body between them swaps. The selected tab is local UI state and resets to **Cost** when the app relaunches.
+
+**Tool-name aggregation.** Playwright's MCP server exposes ~25 separate tools (`mcp__playwright__browser_click`, `mcp__playwright__browser_navigate`, …). Listed individually they bury the rest of the tool list and none is individually meaningful. `ToolMetrics.normalizeToolName(_:)` collapses every `mcp__playwright__*` name to a single `mcp_playwright` row. The collapse runs in both tabs — over the hook-written per-tool counters for the Cost tab, and over the transcript-derived latency samples for the Latency tab — so the two tabs always show the same tool identities.
+
+**Latency derivation — from transcripts, not hooks.** Per-call latency is read straight from `~/.claude/projects/<enc>/<sid>.jsonl`, consistent with "read transcripts directly" (see §8 source-of-truth note). Each assistant `tool_use` block carries an `id` and the record's `timestamp`; the following user `tool_result` block carries the matching `tool_use_id` and its own record `timestamp`. Latency for that call = `result.timestamp − use.timestamp`. `TranscriptScanner` emits an ordered list of `ToolEvent`s while it streams the transcript and `ToolMetrics.pairLatencies(_:)` matches uses to results by id, normalises the tool name, and accumulates `count` + `totalMs` per tool into `SessionFile.tool_latency`. Orphan results (no matching use in this transcript) and negative deltas are discarded. `DataStore` sums these across sessions and divides for the displayed average. No hook changes are needed — the existing `PostToolUse` counters carry no timing.
 
 **Implementation:** `NSStatusItem` + `NSPopover` hosting a `SwiftUI` `PanelView` via `NSHostingController` (MenuBarExtra proved unreliable on macOS 26 when built via SwiftPM — see commit history). The status item is created in `AppDelegate.applicationDidFinishLaunching` after `NSApp.setActivationPolicy(.accessory)`.
 
@@ -260,9 +275,11 @@ Click opens this panel:
 
 ```
 ┌──────────────────────────────────────────┐
-│  cc-token-bar                       ⚙ ✕  │
+│  cc-token-bar                          ✕  │
 ├──────────────────────────────────────────┤
-│  Today        412,103 tokens   $1.84     │
+│  [   Cost   ] [  Latency  ]              │  ← segmented tab control
+├──────────────────────────────────────────┤
+│  Today        412,103 tokens   $1.84     │   Cost tab (default)
 │  All-time   8,910,442 tokens  $42.17     │
 ├──────────────────────────────────────────┤
 │  Last 7 days                             │
@@ -270,13 +287,21 @@ Click opens this panel:
 │   M  T  W  T  F  S  S                    │
 ├──────────────────────────────────────────┤
 │  Tools (by cost)                         │
-│   Read   ████████░  $14.20   (1,204×)    │
-│   Edit   █████░░░░   $8.40   (  311×)    │
-│   Bash   ██░░░░░░░   $3.10   (  192×)    │
+│   Read           ████████░  $14.20  (1,204×)│
+│   mcp_playwright █████░░░░   $8.40  (  311×)│
+│   Bash           ██░░░░░░░   $3.10  (  192×)│
 │   ...                                    │
 ├──────────────────────────────────────────┤
 │  Open data folder    Quit                │
 └──────────────────────────────────────────┘
+
+Latency tab body:
+├──────────────────────────────────────────┤
+│  Tool latency (avg per call)             │
+│   mcp_playwright ████████░  2.40s  (  311×)│
+│   Bash           █████░░░░  1.60s  (  192×)│
+│   Read           ██░░░░░░░   240 ms (1,204×)│
+│   ...                                    │
 ```
 
 **Refresh:** FSEvents watcher on `~/.cc-token-bar/sessions/` and `tools/`. Recompute aggregates on change. Plus a 5 s repeating timer that runs only while the popover is shown (started in `popoverDidShow`, invalidated in `popoverDidClose`). A one-shot refresh fires on every click-to-open so the panel never paints stale data.
@@ -321,6 +346,9 @@ Both scripts: no comments, no `sleep > 1`, no emojis (per project conventions).
 | 4 | Hook                   | Ship the hook, mark optional in `install.sh`. App falls back to FSEvents-only if hook not installed       |
 | 5 | v1 metric set          | Today + lifetime header · 7-day stacked chart · tools by cost · cache hit ratio · cost by model split     |
 | 6 | Backfill on install    | Yes — scan all existing `~/.claude/projects/**/*.jsonl` and seed `index.json`                             |
+| 7 | Panel tabs             | Two tabs: **Cost** (default, the v1 metric set) and **Latency** (avg latency per tool). Shared header/footer |
+| 8 | Playwright tools       | Collapse all `mcp__playwright__*` to one `mcp_playwright` row in both tabs                                 |
+| 9 | Latency source         | Transcript `tool_use`→`tool_result` timestamp delta; no hook changes                                      |
 
 ### All locked (defaults accepted)
 

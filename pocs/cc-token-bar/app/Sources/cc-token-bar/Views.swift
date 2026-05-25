@@ -2,22 +2,33 @@ import SwiftUI
 import Charts
 import AppKit
 
+enum PanelTab: Hashable {
+    case cost
+    case latency
+}
+
 struct PanelView: View {
     @ObservedObject var store: DataStore
+    @State private var tab: PanelTab = .cost
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
                 header
-                kpiSection
-                divider
-                cacheSection
-                divider
-                chartSection
-                divider
-                toolsSection
-                divider
-                modelsSection
+                tabBar
+                if tab == .cost {
+                    kpiSection
+                    divider
+                    cacheSection
+                    divider
+                    chartSection
+                    divider
+                    toolsSection
+                    divider
+                    modelsSection
+                } else {
+                    latencySection
+                }
                 footer
             }
             .padding(.top, 12)
@@ -25,6 +36,16 @@ struct PanelView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(width: 360)
+    }
+
+    private var tabBar: some View {
+        Picker("", selection: $tab) {
+            Text("Cost").tag(PanelTab.cost)
+            Text("Latency").tag(PanelTab.latency)
+        }
+        .pickerStyle(.segmented)
+        .labelsHidden()
+        .padding(.horizontal, 14).padding(.vertical, 10)
     }
 
     private var header: some View {
@@ -119,9 +140,37 @@ struct PanelView: View {
                 ForEach(store.agg.tools) { t in
                     HStack(spacing: 10) {
                         Text(t.name).font(.system(size: 12, weight: .medium))
-                            .frame(width: 70, alignment: .leading)
+                            .lineLimit(1).truncationMode(.tail)
+                            .frame(width: 96, alignment: .leading)
                         bar(fraction: maxCost > 0 ? t.costUSD / maxCost : 0)
                         Text(DataStore.formatUSD(t.costUSD))
+                            .font(.system(size: 11)).monospacedDigit()
+                            .frame(width: 60, alignment: .trailing)
+                        Text("\(DataStore.formatCount(t.count))×")
+                            .font(.system(size: 11)).foregroundStyle(.secondary).monospacedDigit()
+                            .frame(width: 48, alignment: .trailing)
+                    }
+                    .padding(.vertical, 3)
+                }
+            }
+        }
+        .padding(.horizontal, 14).padding(.vertical, 10)
+    }
+
+    private var latencySection: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            sectionTitle("Tool latency (avg per call)")
+            if store.agg.toolLatencies.isEmpty {
+                Text("No latency data yet").font(.system(size: 11)).foregroundStyle(.secondary)
+            } else {
+                let maxMs = store.agg.toolLatencies.first?.avgMs ?? 1
+                ForEach(store.agg.toolLatencies) { t in
+                    HStack(spacing: 10) {
+                        Text(t.name).font(.system(size: 12, weight: .medium))
+                            .lineLimit(1).truncationMode(.tail)
+                            .frame(width: 96, alignment: .leading)
+                        bar(fraction: maxMs > 0 ? t.avgMs / maxMs : 0)
+                        Text(DataStore.formatMs(t.avgMs))
                             .font(.system(size: 11)).monospacedDigit()
                             .frame(width: 60, alignment: .trailing)
                         Text("\(DataStore.formatCount(t.count))×")

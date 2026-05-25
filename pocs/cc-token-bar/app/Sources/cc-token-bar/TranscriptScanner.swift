@@ -1,4 +1,5 @@
 import Foundation
+import CCMetrics
 
 final class TranscriptScanner {
     private let root: URL
@@ -64,15 +65,37 @@ final class TranscriptScanner {
         var byModel: [String: ModelUsage] = [:]
         var minTs: String?
         var maxTs: String?
+        var events: [ToolEvent] = []
 
         text.enumerateLines { line, _ in
             guard let lineData = line.data(using: .utf8),
                   let obj = try? JSONSerialization.jsonObject(with: lineData) as? [String: Any] else { return }
+            var when: Date?
             if let ts = obj["timestamp"] as? String {
                 if minTs == nil || ts < minTs! { minTs = ts }
                 if maxTs == nil || ts > maxTs! { maxTs = ts }
+                when = TranscriptScanner.parseDate(ts)
             }
-            guard let message = obj["message"] as? [String: Any],
+            let message = obj["message"] as? [String: Any]
+            if let message = message,
+               let content = message["content"] as? [[String: Any]],
+               let when = when {
+                for block in content {
+                    switch block["type"] as? String {
+                    case "tool_use":
+                        if let id = block["id"] as? String {
+                            let name = block["name"] as? String ?? "unknown"
+                            events.append(ToolEvent(kind: .use(id: id, name: name), timestamp: when))
+                        }
+                    case "tool_result":
+                        if let id = block["tool_use_id"] as? String {
+                            events.append(ToolEvent(kind: .result(id: id), timestamp: when))
+                        }
+                    default: break
+                    }
+                }
+            }
+            guard let message = message,
                   let usage = message["usage"] as? [String: Any] else { return }
             let model = (message["model"] as? String) ?? "unknown"
             let input = usage["input_tokens"] as? Int ?? 0
@@ -100,12 +123,14 @@ final class TranscriptScanner {
         }
 
         let fallback = TranscriptScanner.iso.string(from: fileMtime)
+        let latency = ToolMetrics.pairLatencies(events)
         return SessionFile(
             session_id: sessionId,
             project_path: projectPath,
             started_at: minTs ?? fallback,
             updated_at: maxTs ?? fallback,
-            by_model: byModel
+            by_model: byModel,
+            tool_latency: latency.isEmpty ? nil : latency
         )
     }
 
@@ -114,4 +139,11 @@ final class TranscriptScanner {
         f.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         return f
     }()
+
+    private static let isoBasic = ISO8601DateFormatter()
+
+    static func parseDate(_ s: String) -> Date? {
+        if let d = iso.date(from: s) { return d }
+        return isoBasic.date(from: s)
+    }
 }

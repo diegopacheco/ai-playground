@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import CCMetrics
 
 final class DataStore: ObservableObject {
     @Published private(set) var agg: Aggregates = Aggregates()
@@ -193,10 +194,11 @@ final class DataStore: ObservableObject {
         var toolAcc: [String: (count: Int, bytes: Int)] = [:]
         for tf in tools {
             for (name, e) in tf.tools {
-                var v = toolAcc[name] ?? (0, 0)
+                let key = ToolMetrics.normalizeToolName(name)
+                var v = toolAcc[key] ?? (0, 0)
                 v.count += e.count
                 v.bytes += e.input_bytes + e.output_bytes
-                toolAcc[name] = v
+                toolAcc[key] = v
             }
         }
         for (name, v) in toolAcc {
@@ -205,6 +207,24 @@ final class DataStore: ObservableObject {
             toolStats.append(ToolStat(name: name, count: v.count, approxTokens: approxTokens, costUSD: cost))
         }
         toolStats.sort { $0.costUSD > $1.costUSD }
+
+        var latAcc: [String: (count: Int, total: Double)] = [:]
+        for s in sessions {
+            guard let tl = s.tool_latency else { continue }
+            for (name, agg) in tl {
+                let key = ToolMetrics.normalizeToolName(name)
+                var v = latAcc[key] ?? (0, 0)
+                v.count += agg.count
+                v.total += agg.totalMs
+                latAcc[key] = v
+            }
+        }
+        var toolLatencies: [ToolLatency] = latAcc.map { (name, v) in
+            ToolLatency(name: name, count: v.count,
+                        avgMs: v.count > 0 ? v.total / Double(v.count) : 0,
+                        totalMs: v.total)
+        }
+        toolLatencies.sort { $0.avgMs > $1.avgMs }
 
         let cacheReads = byModelMap.values.reduce(0) { $0 + $1.cacheRead }
         let cacheDen = byModelMap.values.reduce(0) { $0 + $1.input + $1.cacheWrite + $1.cacheRead }
@@ -222,6 +242,7 @@ final class DataStore: ObservableObject {
             byModel: byModelSorted,
             byDay: byDay,
             tools: Array(toolStats.prefix(10)),
+            toolLatencies: Array(toolLatencies.prefix(10)),
             cacheHitRatio: cacheRatio,
             sessionsToday: sessionsTodaySet.count,
             sessionsLifetime: sessions.count,
@@ -287,6 +308,11 @@ final class DataStore: ObservableObject {
 
     static func formatCount(_ n: Int) -> String {
         return groupedIntFormatter.string(from: NSNumber(value: n)) ?? "\(n)"
+    }
+
+    static func formatMs(_ ms: Double) -> String {
+        if ms >= 1000 { return String(format: "%.2fs", ms / 1000) }
+        return String(format: "%.0f ms", ms)
     }
 
     static func isSyntheticModel(_ name: String) -> Bool {
