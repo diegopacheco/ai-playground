@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "AR Point & Tell",
+    "slug": "ar-point-and-tell",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Point the camera at an object to identify it."
+      }
+    },
+    "android": {
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Point the camera at an object to identify it."
+        }
+      ],
+      "expo-asset"
+    ]
+  }
+}
