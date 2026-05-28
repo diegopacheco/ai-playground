@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  replicas: 1
+
+database:
+  host: db
+  port: 5432
+  name: orders
+  max_open_conns: 5
+  max_idle_conns: 2
+
+payments:
+  url: https://payments.internal/charge
+
+worker:
+  buffer: 1000

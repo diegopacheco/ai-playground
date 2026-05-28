@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reverse Postmortem — orders (sample)</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2430; --border:#2a323d;
+    --text:#e6edf3; --muted:#8b949e; --accent:#58a6ff;
+    --p0:#f85149; --p1:#fb8500; --p2:#e3b341; --p3:#6e7681;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;line-height:1.55}
+  .wrap{max-width:1100px;margin:0 auto;padding:32px 20px 80px}
+  header h1{margin:0 0 4px;font-size:26px}
+  header .date{color:var(--muted);font-size:13px}
+  .tagline{margin:18px 0 28px;font-size:20px;color:var(--accent);
+    border-left:3px solid var(--accent);padding-left:14px}
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;
+    padding:16px;text-align:center}
+  .stat .n{font-size:30px;font-weight:700}
+  .stat .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .stat.p0 .n{color:var(--p0)} .stat.p1 .n{color:var(--p1)}
+  .stat.p2 .n{color:var(--p2)} .stat.p3 .n{color:var(--p3)}
+  h2.sec{font-size:15px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+    margin:36px 0 14px;border-bottom:1px solid var(--border);padding-bottom:8px}
+  .matrix{display:grid;grid-template-columns:auto repeat(5,1fr);gap:6px;align-items:stretch}
+  .matrix .axis-y{writing-mode:vertical-rl;transform:rotate(180deg);
+    color:var(--muted);font-size:11px;text-align:center;align-self:center;padding-right:4px}
+  .matrix .cell{background:var(--panel);border:1px solid var(--border);border-radius:6px;
+    min-height:56px;padding:5px;display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
+  .matrix .corner{background:transparent}
+  .matrix .head{color:var(--muted);font-size:11px;text-align:center;padding:4px 0}
+  .axis-x{display:grid;grid-template-columns:auto repeat(5,1fr);gap:6px;margin-top:6px}
+  .axis-x .lbl{grid-column:2 / span 5;text-align:center;color:var(--muted);font-size:11px}
+  .dot{font-size:10px;font-weight:700;color:#0d1117;border-radius:4px;padding:2px 5px;cursor:default}
+  .dot.p0{background:var(--p0)} .dot.p1{background:var(--p1)}
+  .dot.p2{background:var(--p2)} .dot.p3{background:var(--p3);color:#fff}
+  .filters{display:flex;gap:8px;margin:8px 0 20px;flex-wrap:wrap}
+  .filters button{background:var(--panel);color:var(--text);border:1px solid var(--border);
+    border-radius:20px;padding:6px 16px;font-family:inherit;font-size:13px;cursor:pointer}
+  .filters button.active{background:var(--accent);color:#0d1117;border-color:var(--accent);font-weight:700}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;
+    margin-bottom:14px;overflow:hidden}
+  .card.b-p0{border-left:4px solid var(--p0)} .card.b-p1{border-left:4px solid var(--p1)}
+  .card.b-p2{border-left:4px solid var(--p2)} .card.b-p3{border-left:4px solid var(--p3)}
+  .card .hd{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;user-select:none}
+  .card .hd .title{flex:1;font-size:16px;font-weight:700}
+  .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px;color:#0d1117}
+  .badge.p0{background:var(--p0)} .badge.p1{background:var(--p1)}
+  .badge.p2{background:var(--p2)} .badge.p3{background:var(--p3);color:#fff}
+  .chip{font-size:12px;color:var(--muted);background:var(--panel2);border:1px solid var(--border);
+    padding:3px 9px;border-radius:5px}
+  .arrow{color:var(--muted);transition:transform .15s}
+  .card.open .arrow{transform:rotate(90deg)}
+  .body{display:none;padding:0 18px 20px;border-top:1px solid var(--border)}
+  .card.open .body{display:block}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+  .meta .m{font-size:12px;color:var(--muted)}
+  .meta .m b{color:var(--text)}
+  .summary{margin:14px 0;color:var(--text)}
+  .chain{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin:18px 0}
+  .chain .node{flex:1;min-width:120px;background:var(--panel2);border:1px solid var(--border);
+    border-radius:8px;padding:10px;font-size:12px}
+  .chain .node .k{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+  .chain .sep{display:flex;align-items:center;color:var(--accent);font-size:20px;padding:0 8px}
+  .lbl-h{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:18px 0 8px}
+  ul.timeline{list-style:none;padding:0;margin:0;border-left:2px solid var(--border)}
+  ul.timeline li{padding:4px 0 4px 16px;font-size:13px;position:relative}
+  ul.timeline li::before{content:"";position:absolute;left:-5px;top:11px;width:8px;height:8px;
+    border-radius:50%;background:var(--accent)}
+  ul.timeline li .t{color:var(--accent);font-weight:700;margin-right:8px}
+  pre{background:#0a0e14;border:1px solid var(--border);border-radius:8px;padding:14px;
+    overflow-x:auto;font-size:12.5px;margin:6px 0}
+  .evidence{font-size:12px;color:var(--accent);margin-bottom:2px}
+  .callout{border-radius:8px;padding:12px 14px;font-size:13px;margin:8px 0;
+    background:var(--panel2);border:1px solid var(--border)}
+  .callout.red{border-color:var(--p0);background:rgba(248,81,73,.08)}
+  ul.plain{margin:6px 0;padding-left:18px;font-size:13px}
+  .actions{list-style:none;padding:0;margin:8px 0}
+  .actions li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+  .actions li:last-child{border-bottom:none}
+  .actions input{margin-top:3px}
+  .eff{font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--panel2);
+    border:1px solid var(--border);color:var(--muted)}
+  .actions .prev{color:var(--muted);font-size:12px}
+  .eip{background:rgba(88,166,255,.1);border:1px solid var(--accent);border-radius:8px;
+    padding:12px 14px;margin:16px 0 4px;font-size:13px}
+  .eip b{color:var(--accent)}
+  .sys{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px}
+  .sys p{font-size:13.5px;margin:0 0 12px}
+  footer{margin-top:40px;color:var(--muted);font-size:12px;text-align:center;
+    border-top:1px solid var(--border);padding-top:20px}
+  footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Reverse Postmortem — orders (sample)</h1>
+    <div class="date">Generated: 2026-05-27</div>
+  </header>
+  <div class="tagline">These incidents have not happened yet.</div>
+
+  <div class="stats">
+    <div class="stat p0"><div class="n">2</div><div class="l">P0</div></div>
+    <div class="stat p1"><div class="n">2</div><div class="l">P1</div></div>
+    <div class="stat p2"><div class="n">1</div><div class="l">P2</div></div>
+    <div class="stat p3"><div class="n">0</div><div class="l">P3</div></div>
+    <div class="stat"><div class="n">5</div><div class="l">Total</div></div>
+  </div>
+
+  <h2 class="sec">Risk Matrix &mdash; Likelihood &times; Blast Radius</h2>
+  <div class="matrix">
+    <div class="corner"></div>
+    <div class="head">B 1</div><div class="head">B 2</div><div class="head">B 3</div><div class="head">B 4</div><div class="head">B 5</div>
+
+    <div class="axis-y">Likelihood 5</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell"><span class="dot p0">INC-2</span></div>
+    <div class="cell"><span class="dot p0">INC-1</span></div>
+
+    <div class="axis-y">Likelihood 4</div>
+    <div class="cell"></div><div class="cell"></div>
+    <div class="cell"><span class="dot p1">INC-4</span></div>
+    <div class="cell"><span class="dot p1">INC-3</span></div>
+    <div class="cell"></div>
+
+    <div class="axis-y">Likelihood 3</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+    <div class="axis-y">Likelihood 2</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell"><span class="dot p2">INC-5</span></div>
+    <div class="cell"></div>
+
+    <div class="axis-y">Likelihood 1</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  </div>
+  <div class="axis-x"><div></div><div class="lbl">Blast Radius &rarr;</div></div>
+
+  <h2 class="sec">Predicted Incidents</h2>
+  <div class="filters">
+    <button data-f="all" class="active">All</button>
+    <button data-f="p0">P0</button>
+    <button data-f="p1">P1</button>
+    <button data-f="p2">P2</button>
+    <button data-f="p3">P3</button>
+  </div>
+
+  <div class="card b-p0 open" data-tier="p0">
+    <div class="hd">
+      <span class="badge p0">P0</span>
+      <span class="title">INC-1 &middot; Checkout thread hang from timeout-less payment calls</span>
+      <span class="chip">5 &times; 5 = 25</span>
+      <span class="arrow">&#9656;</span>
+    </div>
+    <div class="body">
+      <div class="meta">
+        <span class="m"><b>Trigger:</b> payments.internal slows or stops responding</span>
+        <span class="m"><b>Affected:</b> /orders/checkout, payments</span>
+      </div>
+      <div class="summary">The payment provider got slow for 6 minutes. Because every charge used the default HTTP client with no timeout and retried five times, each checkout request held its goroutine open indefinitely and multiplied load 5x against an already-struggling dependency. Checkout returned errors or hung for ~14 minutes and the provider's recovery was delayed by our own retry storm.</div>
+      <div class="chain">
+        <div class="node"><div class="k">Trigger</div>provider latency 80ms &rarr; 30s+</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Fragile code</div>http.Post, no timeout, 5x retry no backoff</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Propagation</div>goroutines pile up, 5x load on provider</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Impact</div>checkout outage ~14min</div>
+      </div>
+      <div class="lbl-h">Timeline (predicted)</div>
+      <ul class="timeline">
+        <li><span class="t">T+0:00</span>payments.internal latency rises 80ms &rarr; 30s+ (GC pause)</li>
+        <li><span class="t">T+0:30</span>http.Post blocks with no deadline; checkout goroutines pile up</li>
+        <li><span class="t">T+1:00</span>each stuck request retries 5x with no backoff, multiplying load</li>
+        <li><span class="t">T+2:00</span>no alert fires; discovered via customer reports</li>
+        <li><span class="t">T+8:00</span>provider recovers but our retry storm keeps it saturated</li>
+        <li><span class="t">T+14:00</span>traffic drains, checkout normalizes</li>
+        <li><span class="t">T+20:00</span>manual: payment client timeout added and deployed</li>
+      </ul>
+      <div class="lbl-h">Root Cause</div>
+      <div class="evidence">sample/payments.go:15</div>
+      <pre>	for attempt := 0; attempt &lt; 5; attempt++ {
+		resp, err := http.Post(paymentsURL, "application/json", bytes.NewReader(body))
+		if err != nil {
+			continue
+		}</pre>
+      <div class="summary">A timeout-less call can block forever; the tight retry loop turns one slow dependency into 5x self-inflicted load that prevents the dependency from recovering.</div>
+      <div class="lbl-h">Detection Gap</div>
+      <div class="callout red"><b>Existing signals:</b> none — no metrics, no latency histogram, no retry log.<br><b>Missing:</b> payment-latency metric + alert, and a request-level timeout that surfaces failures fast.</div>
+      <div class="lbl-h">Action Items</div>
+      <ul class="actions">
+        <li><input type="checkbox"><span><b>Use http.Client{Timeout: 3s}</b> <span class="eff">S</span> &middot; <span class="prev">sample/payments.go:15 — prevents the indefinite hang</span></span></li>
+        <li><input type="checkbox"><span><b>Add exponential backoff + jitter, cap attempts</b> <span class="eff">S</span> &middot; <span class="prev">sample/payments.go:14 — prevents the retry storm</span></span></li>
+        <li><input type="checkbox"><span><b>Wrap charge in a circuit breaker + fast-fail fallback</b> <span class="eff">M</span> &middot; <span class="prev">sample/payments.go:12 — prevents prolonged provider damage</span></span></li>
+        <li><input type="checkbox"><span><b>Emit a payment latency/error metric and alert</b> <span class="eff">M</span> &middot; <span class="prev">sample/payments.go — closes the detection gap</span></span></li>
+      </ul>
+      <div class="eip"><b>Earliest intervention point:</b> Set a 3-second client timeout on the payment call. One line removes the indefinite hang and turns a silent outage into a fast, observable failure.</div>
+    </div>
+  </div>
+
+  <div class="card b-p0" data-tier="p0">
+    <div class="hd">
+      <span class="badge p0">P0</span>
+      <span class="title">INC-2 &middot; Connection pool exhaustion under load (N+1)</span>
+      <span class="chip">5 &times; 4 = 20</span>
+      <span class="arrow">&#9656;</span>
+    </div>
+    <div class="body">
+      <div class="meta">
+        <span class="m"><b>Trigger:</b> modest traffic increase on /orders for heavy users</span>
+        <span class="m"><b>Affected:</b> /orders, /orders/checkout, Postgres</span>
+      </div>
+      <div class="summary">A marketing email drove traffic to order history. Each /orders call ran one query per order (N+1), and with the pool capped at 5 connections, the pool drained in seconds. Every endpoint that touches the database — including checkout — started timing out. The outage lasted 11 minutes until traffic subsided.</div>
+      <div class="chain">
+        <div class="node"><div class="k">Trigger</div>/orders traffic doubles, 50+ orders/user</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Fragile code</div>N+1 query + MaxOpenConns(5)</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Propagation</div>pool fully checked out, queries block</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Impact</div>full DB-path outage incl. checkout</div>
+      </div>
+      <div class="lbl-h">Timeline (predicted)</div>
+      <ul class="timeline">
+        <li><span class="t">T+0:00</span>/orders traffic doubles; power users have 50+ orders each</li>
+        <li><span class="t">T+0:10</span>each request issues 1 + N queries via fetchItems in a loop</li>
+        <li><span class="t">T+0:20</span>the 5-connection pool is fully checked out; new queries block</li>
+        <li><span class="t">T+0:40</span>checkout also blocks (cachedTotal &rarr; computeTotal &rarr; fetchOrdersWithItems)</li>
+        <li><span class="t">T+1:00</span>no alert; discovered when checkout error rate is noticed manually</li>
+        <li><span class="t">T+11:00</span>traffic subsides, pool recovers</li>
+      </ul>
+      <div class="lbl-h">Root Cause</div>
+      <div class="evidence">sample/db.go:41</div>
+      <pre>	for rows.Next() {
+		var o Order
+		rows.Scan(&amp;o.ID, &amp;o.UserID, &amp;o.Total)
+		o.Items = fetchItems(o.ID)
+		orders = append(orders, o)
+	}</pre>
+      <div class="summary">Combined with db.SetMaxOpenConns(5) (sample/db.go:30), a handful of heavy users saturate the pool and block the entire service, including the revenue path.</div>
+      <div class="lbl-h">Detection Gap</div>
+      <div class="callout red"><b>Existing signals:</b> none — no pool-usage metric, no slow-query log.<br><b>Missing:</b> a db.Stats().InUse gauge with an alert near max, and query timeouts.</div>
+      <div class="lbl-h">Action Items</div>
+      <ul class="actions">
+        <li><input type="checkbox"><span><b>Replace N+1 with a single JOIN or ANY($1) batch</b> <span class="eff">M</span> &middot; <span class="prev">sample/db.go:41 — stops pool drain at the source</span></span></li>
+        <li><input type="checkbox"><span><b>Raise MaxOpenConns to a load-tested value</b> <span class="eff">S</span> &middot; <span class="prev">sample/db.go:30 — prevents premature saturation</span></span></li>
+        <li><input type="checkbox"><span><b>Use QueryContext with a deadline on all queries</b> <span class="eff">M</span> &middot; <span class="prev">sample/db.go:37,49 — prevents blocked-forever checkouts</span></span></li>
+        <li><input type="checkbox"><span><b>Stop ignoring query errors; log and surface</b> <span class="eff">S</span> &middot; <span class="prev">sample/db.go:37 — prevents silent failures</span></span></li>
+      </ul>
+      <div class="eip"><b>Earliest intervention point:</b> Collapse the N+1 into a single query. It removes the multiplier that drains the pool, without touching connection limits.</div>
+    </div>
+  </div>
+
+  <div class="card b-p1" data-tier="p1">
+    <div class="hd">
+      <span class="badge p1">P1</span>
+      <span class="title">INC-3 &middot; Worker death on poison event stalls checkout</span>
+      <span class="chip">4 &times; 4 = 16</span>
+      <span class="arrow">&#9656;</span>
+    </div>
+    <div class="body">
+      <div class="meta">
+        <span class="m"><b>Trigger:</b> any event with a type other than "order.paid"</span>
+        <span class="m"><b>Affected:</b> background worker, checkout (enqueue channel)</span>
+      </div>
+      <div class="summary">A new code path enqueued an event type the worker didn't recognize. The worker panic-ed, its single goroutine died, and the buffered channel filled to 1000. Once full, enqueue blocked inside the checkout handler, so checkout hung even though payments were healthy.</div>
+      <div class="chain">
+        <div class="node"><div class="k">Trigger</div>unknown/malformed event enqueued</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Fragile code</div>panic on default, single goroutine, no recover</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Propagation</div>channel fills, enqueue blocks in checkout</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Impact</div>checkout hangs post-charge</div>
+      </div>
+      <div class="lbl-h">Timeline (predicted)</div>
+      <ul class="timeline">
+        <li><span class="t">T+0:00</span>an order.refunded (or malformed) event is enqueued</li>
+        <li><span class="t">T+0:01</span>process hits the default branch and panics; the only worker goroutine exits</li>
+        <li><span class="t">T+5:00</span>the buffered channel (cap 1000) fills as checkouts keep enqueuing</li>
+        <li><span class="t">T+5:30</span>enqueue(e) blocks; /orders/checkout hangs after a successful charge</li>
+        <li><span class="t">T+6:00</span>no alert; discovered via checkout latency</li>
+        <li><span class="t">T+15:00</span>manual restart clears it, but the poison event recurs on next deploy</li>
+      </ul>
+      <div class="lbl-h">Root Cause</div>
+      <div class="evidence">sample/worker.go:29</div>
+      <pre>	default:
+		panic("unknown event type: " + e.Type)</pre>
+      <div class="summary">One unexpected message kills the consumer permanently; the bounded channel then back-pressures into the synchronous checkout path.</div>
+      <div class="lbl-h">Detection Gap</div>
+      <div class="callout red"><b>Existing signals:</b> a single log.Printf on success only.<br><b>Missing:</b> a panic/restart counter and a queue-depth gauge with an alert.</div>
+      <div class="lbl-h">Action Items</div>
+      <ul class="actions">
+        <li><input type="checkbox"><span><b>Log-and-skip unknown event types instead of panicking</b> <span class="eff">S</span> &middot; <span class="prev">sample/worker.go:29 — prevents worker death</span></span></li>
+        <li><input type="checkbox"><span><b>Wrap process in recover() and keep the loop alive</b> <span class="eff">S</span> &middot; <span class="prev">sample/worker.go:18 — one bad message can't kill the consumer</span></span></li>
+        <li><input type="checkbox"><span><b>Make enqueue non-blocking or decouple from request path</b> <span class="eff">M</span> &middot; <span class="prev">sample/worker.go:12 — prevents checkout hang on back-pressure</span></span></li>
+        <li><input type="checkbox"><span><b>Add a queue-depth metric + alert</b> <span class="eff">M</span> &middot; <span class="prev">sample/worker.go — closes the detection gap</span></span></li>
+      </ul>
+      <div class="eip"><b>Earliest intervention point:</b> Replace the panic with a logged skip. The worker survives unknown messages and the back-pressure cascade never starts.</div>
+    </div>
+  </div>
+
+  <div class="card b-p1" data-tier="p1">
+    <div class="hd">
+      <span class="badge p1">P1</span>
+      <span class="title">INC-4 &middot; Unbounded totals cache OOM / concurrent-map crash</span>
+      <span class="chip">4 &times; 3 = 12</span>
+      <span class="arrow">&#9656;</span>
+    </div>
+    <div class="body">
+      <div class="meta">
+        <span class="m"><b>Trigger:</b> many distinct users over days; or concurrent checkout</span>
+        <span class="m"><b>Affected:</b> in-memory totals cache, whole process</span>
+      </div>
+      <div class="summary">totalsCache grew one entry per unique user forever, and was read/written from concurrent HTTP goroutines and the worker with no lock. Over four days memory climbed until the process was OOM-killed; separately, a concurrent map write triggered Go's fatal "concurrent map writes" crash under a traffic burst.</div>
+      <div class="chain">
+        <div class="node"><div class="k">Trigger</div>steady distinct-user traffic / concurrency</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Fragile code</div>unbounded map, no lock, no TTL</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Propagation</div>memory climbs / concurrent write</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Impact</div>OOM-kill or fatal crash</div>
+      </div>
+      <div class="lbl-h">Timeline (predicted)</div>
+      <ul class="timeline">
+        <li><span class="t">T+0:00</span>cache adds an entry per new user in cachedTotal, never evicting</li>
+        <li><span class="t">T+2d</span>resident memory grows steadily; no cap, no TTL</li>
+        <li><span class="t">T+4d</span>process OOM-killed and restarts, briefly dropping requests</li>
+        <li><span class="t">alt</span>under concurrent checkout + worker delete, Go aborts with "concurrent map writes"</li>
+      </ul>
+      <div class="lbl-h">Root Cause</div>
+      <div class="evidence">sample/cache.go:3</div>
+      <pre>var totalsCache = map[string]float64{}
+
+func cachedTotal(userID string) float64 {
+	if v, ok := totalsCache[userID]; ok {
+		return v
+	}
+	total := computeTotal(userID)
+	totalsCache[userID] = total
+	return total
+}</pre>
+      <div class="summary">No eviction means monotonic growth; no lock means concurrent access from request goroutines and the worker can crash the process.</div>
+      <div class="lbl-h">Detection Gap</div>
+      <div class="callout red"><b>Existing signals:</b> none.<br><b>Missing:</b> a process-memory alert and a cache-size gauge.</div>
+      <div class="lbl-h">Action Items</div>
+      <ul class="actions">
+        <li><input type="checkbox"><span><b>Replace with a bounded LRU + TTL cache</b> <span class="eff">M</span> &middot; <span class="prev">sample/cache.go:3 — prevents unbounded growth / OOM</span></span></li>
+        <li><input type="checkbox"><span><b>Guard with sync.RWMutex or use sync.Map</b> <span class="eff">S</span> &middot; <span class="prev">sample/cache.go:3 — prevents the concurrent-map crash</span></span></li>
+        <li><input type="checkbox"><span><b>Emit a memory + cache-size metric</b> <span class="eff">M</span> &middot; <span class="prev">sample/cache.go — closes the detection gap</span></span></li>
+      </ul>
+      <div class="eip"><b>Earliest intervention point:</b> Add a mutex around the map. It removes the immediate crash risk; bounded eviction can follow to address the slower OOM.</div>
+    </div>
+  </div>
+
+  <div class="card b-p2" data-tier="p2">
+    <div class="hd">
+      <span class="badge p2">P2</span>
+      <span class="title">INC-5 &middot; Single replica is a total outage on any crash</span>
+      <span class="chip">2 &times; 4 = 8</span>
+      <span class="arrow">&#9656;</span>
+    </div>
+    <div class="body">
+      <div class="meta">
+        <span class="m"><b>Trigger:</b> any process crash, deploy, or node failure</span>
+        <span class="m"><b>Affected:</b> the whole service</span>
+      </div>
+      <div class="summary">The service runs as a single replica. Any crash from the incidents above — or a routine deploy — produced a full outage with no instances left to serve traffic.</div>
+      <div class="chain">
+        <div class="node"><div class="k">Trigger</div>crash / deploy / node failure</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Fragile code</div>replicas: 1</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Propagation</div>no instance left to serve</div>
+        <div class="sep">&rarr;</div>
+        <div class="node"><div class="k">Impact</div>100% outage during restart</div>
+      </div>
+      <div class="lbl-h">Timeline (predicted)</div>
+      <ul class="timeline">
+        <li><span class="t">T+0:00</span>the single instance crashes (OOM from INC-4, or a deploy restart)</li>
+        <li><span class="t">T+0:01</span>100% of traffic fails — there is no second replica</li>
+        <li><span class="t">T+0:30</span>instance restarts; cold caches cause a latency spike</li>
+        <li><span class="t">T+1:00</span>service recovers</li>
+      </ul>
+      <div class="lbl-h">Root Cause</div>
+      <div class="evidence">sample/config.yaml:3</div>
+      <pre>  replicas: 1</pre>
+      <div class="summary">With a single instance there is no redundancy; every restart is a user-visible outage.</div>
+      <div class="lbl-h">Detection Gap</div>
+      <div class="callout red"><b>Existing signals:</b> none.<br><b>Missing:</b> an availability/uptime probe and alert.</div>
+      <div class="lbl-h">Action Items</div>
+      <ul class="actions">
+        <li><input type="checkbox"><span><b>Run &gt;= 2 replicas behind the load balancer</b> <span class="eff">S</span> &middot; <span class="prev">sample/config.yaml:3 — restart no longer equals outage</span></span></li>
+        <li><input type="checkbox"><span><b>Add readiness checks so traffic drains before restart</b> <span class="eff">M</span> &middot; <span class="prev">deploy config — prevents cold-restart errors</span></span></li>
+      </ul>
+      <div class="eip"><b>Earliest intervention point:</b> Set replicas: 2. Redundancy alone converts most single-instance crashes from outages into non-events.</div>
+    </div>
+  </div>
+
+  <h2 class="sec">Systemic Patterns</h2>
+  <div class="sys">
+    <p><b>Missing timeouts and guards on every external/IO call.</b> INC-1 (payments) and INC-2 (DB) both stem from calls that can block forever with no deadline. A shared HTTP client with a sane timeout plus QueryContext everywhere removes both root causes.</p>
+    <p><b>Total absence of observability.</b> Every incident has the same detection gap: no metrics, no alerts, only a single success log. The team would learn of every one of these from customers, not dashboards. A minimal metrics layer (latency, pool usage, queue depth, memory) is the highest-leverage cross-cutting fix.</p>
+    <p><b>Synchronous coupling of the request path to fragile subsystems.</b> Checkout is coupled to payments (INC-1), the DB pool (INC-2), and the worker channel (INC-3), so any one of them takes checkout down.</p>
+  </div>
+
+  <footer>
+    These incidents are predictions, not history. Source report:
+    <a href="../reverse-postmortem.md">reverse-postmortem.md</a>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.card .hd').forEach(function(hd){
+    hd.addEventListener('click', function(){ hd.parentElement.classList.toggle('open'); });
+  });
+  document.querySelectorAll('.filters button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.filters button').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var f = btn.dataset.f;
+      document.querySelectorAll('.card').forEach(function(c){
+        c.style.display = (f === 'all' || c.dataset.tier === f) ? '' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>
