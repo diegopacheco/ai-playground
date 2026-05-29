@@ -1,0 +1,6 @@
+node_modules/
+backend/videos/*.mp4
+*.log
+.backend.pid
+.frontend.pid
+dist/
