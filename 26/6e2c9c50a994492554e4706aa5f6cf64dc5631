@@ -1,0 +1,19 @@
+pocs/google-gemini-veo-video-poc/README.md
+  s_6852590dfc0aa1::t_18b66258c7f075 164-197
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "266e2c9c50a994492554e4706aa5f6cf64dc5631",
+  "prompts": {},
+  "sessions": {
+    "s_6852590dfc0aa1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "32fc387f-6669-40e4-9483-f5505c6b060a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
