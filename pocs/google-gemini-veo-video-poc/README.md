@@ -161,3 +161,37 @@ Resolution and length were kept as-is (1280×720, 8 s).
 | veo-whale.mp4 | 6.8 MB | 2.0 MB |
 | veo-cabin.mp4 | 11.7 MB | 3.0 MB |
 | **total** | **~30 MB** | **~7.8 MB** |
+
+## How the videos render on GitHub
+
+GitHub will **not** play a committed `.mp4` through an HTML `<video>` tag. Two things block it:
+
+1. GitHub serves raw repo files (`raw.githubusercontent.com/...mp4`) with `Content-Type: application/octet-stream`, not `video/mp4`, so the browser's `<video>` element refuses to play them.
+2. The Content-Security-Policy on the rendered README page blocks media loaded from `raw.githubusercontent.com`.
+
+So `<video src="https://raw.githubusercontent.com/.../clip.mp4">` shows nothing on the repo page. GitHub only renders real inline players for videos uploaded through its web editor (drag-and-drop), which it rehosts under an `assets` URL with the correct MIME type.
+
+To get inline motion **without** the manual drag-and-drop step, each clip is also exported to an optimized animated GIF, and the README embeds the GIF with standard image syntax linked to the full MP4:
+
+```markdown
+[![Neon Tokyo Rain](videos/tokyo-veo.gif)](videos/tokyo-veo.mp4)
+```
+
+GitHub serves committed `.gif` files as `image/gif`, which renders inline via a relative path — so the previews animate on the repo page, and clicking one opens the full-quality MP4 (with audio).
+
+The GIFs were generated with a two-pass palette for quality at small size (360 px wide, 10 fps):
+
+```bash
+for f in desert-veo tokyo-veo veo-whale veo-cabin; do
+  ffmpeg -y -i "$f.mp4" \
+    -vf "fps=10,scale=360:-1:flags=lanczos,palettegen=max_colors=96:stats_mode=diff" "/tmp/pal_$f.png"
+  ffmpeg -y -i "$f.mp4" -i "/tmp/pal_$f.png" \
+    -lavfi "fps=10,scale=360:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=4" "$f.gif"
+done
+```
+
+| Approach | Renders inline on GitHub | Audio | Needs manual step |
+| -------- | ------------------------ | ----- | ----------------- |
+| `<video>` + raw repo URL | No | — | — |
+| `<video>` + drag-and-drop asset URL | Yes | Yes | Yes (browser upload) |
+| Committed GIF via `![](…gif)` | Yes | No | No |
