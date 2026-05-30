@@ -1,0 +1,14 @@
+pocs/hermes-agent-poc/README.md
+  h_8e2c3875396153 14-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "dc666f442dd84c56d5797d78f2dae6556d6246ee",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
