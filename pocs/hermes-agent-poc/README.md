@@ -68,7 +68,7 @@ Optional: `PORT=9000 ./start.sh` to use a different port.
 │                   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                   creative: architecture-diagram, ascii-art, ascii-video, b...       │
 │                                                                    data-science: jupyter-live-kernel                                  │
 │                  claude-opus-4-7 · Nous Research                   devops: kanban-orchestrator, kanban-worker, webhook-sub...         │
-│  ~/git/diegopacheco/ai-playground/pocs/hermes-…  email: himalaya                                                    │
+│  pocs/hermes-…  email: himalaya                                                    │
 │                  Session: 20260530_131051_5a47a9                   gaming: minecraft-modpack-server, pokemon-player                   │
 │                                                                    general: dogfood, yuanbao                                          │
 │                                                                    github: codebase-inspection, github-auth, github-code-r...         │
@@ -98,9 +98,9 @@ Initializing agent...
 
 ────────────────────────────────────────
   ┊ ⚡ preparing mcp_search_files…
-  ┊ 🔎 find      *  0.5s [Path not found: ~/git/diego...]
+  ┊ 🔎 find      *  0.5s [Path not found: pocs/...]
   ┊ ⚡ preparing mcp_terminal…
-  ┊ 💻 $         mkdir -p ~/git/diegopacheco/ai-playground/pocs/claude-code-poc && cd ~/git/diegopacheco/ai-playground/pocs/claude-code-poc && ls -la  0.4s
+  ┊ 💻 $         mkdir -p pocs/claude-code-poc && cd pocs/claude-code-poc && ls -la  0.4s
 
 ╭─ ⚕ Hermes ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
     Directory was empty (no existing README to preserve). Building the game now.
@@ -110,9 +110,9 @@ Initializing agent...
   ┊ ⚡ preparing mcp_write_file…
   ┊ ⚡ preparing mcp_write_file…
   ┊ ⚡ preparing mcp_terminal…
-  ┊ ✍️  write     ~/git/diegopacheco/ai-playground/pocs/claude-code-poc/index.html  0.1s
+  ┊ ✍️  write     pocs/claude-code-poc/index.html  0.1s
   ┊ review diff
-a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/index.html → b/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/index.html
+a/pocs/claude-code-poc/index.html → b/pocs/claude-code-poc/index.html
 @@ -0,0 +1,107 @@
 +<!DOCTYPE html>
 +<html lang="en">
@@ -193,9 +193,9 @@ a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/index.html → b/~/git/d
 +  let p = 0, c = 0, t = 0;
 +
 … omitted 29 diff line(s) across 1 additional file(s)/section(s)
-  ┊ ✍️  write     ~/git/diegopacheco/ai-playground/pocs/claude-code-poc/start.sh  3.1s
+  ┊ ✍️  write     pocs/claude-code-poc/start.sh  3.1s
   ┊ review diff
-a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/start.sh → b/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/start.sh
+a/pocs/claude-code-poc/start.sh → b/pocs/claude-code-poc/start.sh
 @@ -0,0 +1,26 @@
 +#!/usr/bin/env bash
 +# Start the Rock Paper Scissors web server
@@ -223,9 +223,9 @@ a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/start.sh → b/~/git/die
 +if command -v open >/dev/null 2>&1; then
 +  open "http://localhost:$PORT"
 +fi
-  ┊ ✍️  write     ~/git/diegopacheco/ai-playground/pocs/claude-code-poc/stop.sh  0.1s
+  ┊ ✍️  write     pocs/claude-code-poc/stop.sh  0.1s
   ┊ review diff
-a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/stop.sh → b/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/stop.sh
+a/pocs/claude-code-poc/stop.sh → b/pocs/claude-code-poc/stop.sh
 @@ -0,0 +1,26 @@
 +#!/usr/bin/env bash
 +# Stop the Rock Paper Scissors web server
@@ -253,9 +253,9 @@ a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/stop.sh → b/~/git/dieg
 +  echo "Server not running (stale PID $PID)"
 +fi
 +rm -f "$PIDFILE"
-  ┊ ✍️  write     ~/git/diegopacheco/ai-playground/pocs/claude-code-poc/README.md  0.1s
+  ┊ ✍️  write     pocs/claude-code-poc/README.md  0.1s
   ┊ review diff
-a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/README.md → b/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/README.md
+a/pocs/claude-code-poc/README.md → b/pocs/claude-code-poc/README.md
 @@ -0,0 +1,18 @@
 +# Rock Paper Scissors - Web POC
 +
@@ -275,14 +275,14 @@ a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/README.md → b/~/git/di
 +- `index.html` - the game (HTML + CSS + JS, single file)
 +- `start.sh`   - start local web server
 +- `stop.sh`    - stop local web server
-  ┊ 💻 $         cd ~/git/diegopacheco/ai-playground/pocs/claude-code-poc && chmod +x start.sh stop.sh && ./start.sh && sleep 1 && curl -s -o /dev/null -w "HTTP %{http_code}\n" http://localhost:8000/ && ./stop.sh  23.9s
+  ┊ 💻 $         cd pocs/claude-code-poc && chmod +x start.sh stop.sh && ./start.sh && sleep 1 && curl -s -o /dev/null -w "HTTP %{http_code}\n" http://localhost:8000/ && ./stop.sh  23.9s
 
 ╭─ ⚕ Hermes ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
     Done. Verified: server starts, returns HTTP 200, stops cleanly.
 
     Note: there was no pre-existing README in that directory (it didn't exist yet), so nothing to preserve — I created a fresh one. If you meant a README somewhere else, point me at it and I'll merge instead.
 
-    Files at ~/git/diegopacheco/ai-playground/pocs/claude-code-poc:
+    Files at pocs/claude-code-poc:
       - index.html  (game: rock/paper/scissors, score, reset)
       - start.sh    (python3 -m http.server on :8000, auto-opens browser, writes .server.pid)
       - stop.sh     (kills the PID, with port-8000 fallback)
@@ -299,7 +299,7 @@ a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/README.md → b/~/git/di
 ────────────────────────────────────────
 
   ┊ ⚡ preparing mcp_terminal…
-  ┊ 💻 $         cd ~/git/diegopacheco/ai-playground/pocs/claude-code-poc && ./start.sh  0.9s
+  ┊ 💻 $         cd pocs/claude-code-poc && ./start.sh  0.9s
   ┊ ⚡ preparing mcp_browser_navigate…
   ┊ 🌐 navigate  localhost:8000  1.7s
   ┊ ⚡ preparing mcp_browser_click…
@@ -309,11 +309,11 @@ a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/README.md → b/~/git/di
   ┊ ⚡ preparing mcp_terminal…
   ┊ 💻 $         ls -t ~/.hermes/screenshots/ 2>/dev/null | head -5; ls -t ~/.hermes/browser_screenshots/ 2>/dev/null | head -5; find ~/.hermes -name "*.png" -mmin -2 2>/dev/null | head -5  0.9s
   ┊ ⚡ preparing mcp_terminal…
-  ┊ 💻 $         cp ~/.hermes/cache/screenshots/browser_screenshot_6418c0501abf472ca48cf3bb0d1495c7.png ~/git/diegopacheco/ai-playground/pocs/claude-code-poc/screenshot.png && ls -la ~/git/diegopacheco/ai-playground/pocs/claude-code-poc/screenshot.png && ~/git/diegopacheco/ai-playground/pocs/claude-code-poc/stop.sh  0.1s
+  ┊ 💻 $         cp ~/.hermes/cache/screenshots/browser_screenshot_6418c0501abf472ca48cf3bb0d1495c7.png pocs/claude-code-poc/screenshot.png && ls -la pocs/claude-code-poc/screenshot.png && pocs/claude-code-poc/stop.sh  0.1s
   ┊ ⚡ preparing mcp_patch…
-  ┊ 🔧 patch     ~/git/diegopacheco/ai-playground/pocs/claude-code-poc/README.md  0.1s
+  ┊ 🔧 patch     pocs/claude-code-poc/README.md  0.1s
   ┊ review diff
-a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/README.md → b/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/README.md
+a/pocs/claude-code-poc/README.md → b/pocs/claude-code-poc/README.md
 @@ -16,3 +16,7 @@
  - `index.html` - the game (HTML + CSS + JS, single file)
  - `start.sh`   - start local web server
@@ -327,7 +327,7 @@ a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/README.md → b/~/git/di
     Done.
 
     - Started the server, opened it in the (Playwright-backed) browser, played one round, captured the screenshot.
-    - Saved it to: ~/git/diegopacheco/ai-playground/pocs/claude-code-poc/screenshot.png
+    - Saved it to: pocs/claude-code-poc/screenshot.png
     - Appended a "## Screenshot" section to the existing README (all prior content preserved).
     - Server stopped.
 
@@ -335,28 +335,28 @@ a/~/git/diegopacheco/ai-playground/pocs/claude-code-poc/README.md → b/~/git/di
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 ────────────────────────────────────────
-● why the app code is not here? ~/git/diegopacheco/ai-playground/pocs/hermes-agent-poc
+● why the app code is not here? pocs/hermes-agent-poc
 ────────────────────────────────────────
 
   ┊ ⚡ preparing mcp_terminal…
-  ┊ 💻 $         ls -la ~/git/diegopacheco/ai-playground/pocs/hermes-agent-poc 2>/dev/null || echo "DOES NOT EXIST"  0.1s
+  ┊ 💻 $         ls -la pocs/hermes-agent-poc 2>/dev/null || echo "DOES NOT EXIST"  0.1s
   ┊ ⚡ preparing mcp_read_file…
-  ┊ 📖 read      ~/git/diegopacheco/ai-playground/pocs/hermes-agent-poc/README.md  0.1s
+  ┊ 📖 read      pocs/hermes-agent-poc/README.md  0.1s
 
 ╭─ ⚕ Hermes ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
     My mistake — I built in the CWD (claude-code-poc) instead of hermes-agent-poc. Moving everything over now and preserving your existing README.
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
   ┊ ⚡ preparing mcp_terminal…
-  ┊ 💻 $         SRC=~/git/diegopacheco/ai-playground/pocs/claude-code-poc
-DST=~/git/diegopacheco/ai-playground/pocs/hermes-agent-poc
+  ┊ 💻 $         SRC=pocs/claude-code-poc
+DST=pocs/hermes-agent-poc
 mv "$SRC/index.html" "$SRC/start.sh" "$SRC/stop.sh" "$SRC/screenshot.png" "$DST/"
 rm "$SRC/README.md"
 rmdir "$SRC"
 ls -la "$DST"  0.1s
   ┊ ⚡ preparing mcp_patch…
-  ┊ 🔧 patch     ~/git/diegopacheco/ai-playground/pocs/hermes-agent-poc/README.md  0.1s
+  ┊ 🔧 patch     pocs/hermes-agent-poc/README.md  0.1s
   ┊ review diff
-a/~/git/diegopacheco/ai-playground/pocs/hermes-agent-poc/README.md → b/~/git/diegopacheco/ai-playground/pocs/hermes-agent-poc/README.md
+a/pocs/hermes-agent-poc/README.md → b/pocs/hermes-agent-poc/README.md
 @@ -16,3 +16,23 @@
 
  ## Results
@@ -385,7 +385,7 @@ a/~/git/diegopacheco/ai-playground/pocs/hermes-agent-poc/README.md → b/~/git/d
 ╭─ ⚕ Hermes ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
     Fixed. The reason: my session's CWD was pocs/claude-code-poc, so when you said "build a web app", I built it there instead of in hermes-agent-poc. That was wrong — you clearly intended the hermes-agent-poc folder (it's the one with your README and Experience Notes).
 
-    Now in ~/git/diegopacheco/ai-playground/pocs/hermes-agent-poc:
+    Now in pocs/hermes-agent-poc:
       - index.html
       - start.sh
       - stop.sh
