@@ -13,6 +13,9 @@ hermes setup
 * Hermes has support for messaging like Slack
 * Pretty Fast
 * Goes directly to my api tokens on anthropic - try it with opus 4.7
+* It's not chatty at all - it's very direct.
+* It's way faster than claude code
+* It has a lot of skills / mcp integrations built in.
 
 ## Results
 
