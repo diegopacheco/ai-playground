@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rock Paper Scissors</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .game {
+    background: rgba(0,0,0,0.35);
+    padding: 32px 40px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    max-width: 480px;
+    width: 90%;
+  }
+  h1 { margin-top: 0; }
+  .choices { display: flex; justify-content: center; gap: 16px; margin: 24px 0; }
+  .choices button {
+    font-size: 42px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    background: rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .choices button:hover { transform: scale(1.1); background: rgba(255,255,255,0.25); }
+  .result { font-size: 20px; margin: 16px 0; min-height: 60px; }
+  .score { display: flex; justify-content: space-around; margin-top: 16px; font-size: 18px; }
+  .score div { background: rgba(255,255,255,0.1); padding: 10px 18px; border-radius: 10px; }
+  #resetBtn {
+    margin-top: 18px;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #ff6b6b;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  #resetBtn:hover { background: #ff4757; }
+</style>
+</head>
+<body>
+  <div class="game">
+    <h1>🪨📄✂️ Rock Paper Scissors</h1>
+    <p>Pick your move:</p>
+    <div class="choices">
+      <button data-choice="rock" title="Rock">🪨</button>
+      <button data-choice="paper" title="Paper">📄</button>
+      <button data-choice="scissors" title="Scissors">✂️</button>
+    </div>
+    <div class="result" id="result">Make your choice!</div>
+    <div class="score">
+      <div>You: <span id="playerScore">0</span></div>
+      <div>Ties: <span id="tieScore">0</span></div>
+      <div>CPU: <span id="cpuScore">0</span></div>
+    </div>
+    <button id="resetBtn">Reset Score</button>
+  </div>
+
+<script>
+  const emoji = { rock: '🪨', paper: '📄', scissors: '✂️' };
+  const beats = { rock: 'scissors', paper: 'rock', scissors: 'paper' };
+  const choices = ['rock', 'paper', 'scissors'];
+  let p = 0, c = 0, t = 0;
+
+  document.querySelectorAll('.choices button').forEach(btn => {
+    btn.addEventListener('click', () => play(btn.dataset.choice));
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    p = c = t = 0;
+    updateScore();
+    document.getElementById('result').textContent = 'Score reset. Make your choice!';
+  });
+
+  function play(player) {
+    const cpu = choices[Math.floor(Math.random() * 3)];
+    let outcome;
+    if (player === cpu) { outcome = "It's a tie!"; t++; }
+    else if (beats[player] === cpu) { outcome = 'You win! 🎉'; p++; }
+    else { outcome = 'CPU wins! 🤖'; c++; }
+    document.getElementById('result').innerHTML =
+      `You: ${emoji[player]} &nbsp; vs &nbsp; CPU: ${emoji[cpu]}<br>${outcome}`;
+    updateScore();
+  }
+
+  function updateScore() {
+    document.getElementById('playerScore').textContent = p;
+    document.getElementById('cpuScore').textContent = c;
+    document.getElementById('tieScore').textContent = t;
+  }
+</script>
+</body>
+</html>
