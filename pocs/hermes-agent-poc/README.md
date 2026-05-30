@@ -16,7 +16,7 @@ hermes setup
 * It's not chatty at all - it's very direct.
 * It's way faster than claude code
 * It has a lot of skills / mcp integrations built in.
-* I asked to read some print screens with playright and explain them on the readme, used 30+ USD
+* I asked to read some print screens with playright and explain them on the readme, used 30+ USD and was not able to do it - I stop because I was wasting money on something that should be simple
 
 ## Results
 
