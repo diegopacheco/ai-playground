@@ -1,0 +1,5 @@
+node_modules
+dist
+server.log
+server.pid
+.playwright-mcp
