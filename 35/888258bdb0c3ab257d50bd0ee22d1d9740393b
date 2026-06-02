@@ -1,0 +1,170 @@
+pocs/agent-skill-linter/skill/engine/assemble.mjs
+  s_cc556584461168::t_106cc5bee8531f 1-82
+pocs/agent-skill-linter/skill/site/frontend/package.json
+  s_cc556584461168::t_8e8a237707662b 1-19
+pocs/agent-skill-linter/skill/site/frontend/src/components/CodeViewer.jsx
+  s_cc556584461168::t_9b9b85bf8687f7 1-76
+pocs/agent-skill-linter/skill/site/stop.sh
+  s_cc556584461168::t_ba6bad22287598 1-6
+pocs/agent-skill-linter/install.sh
+  s_cc556584461168::t_66364120f72b02 1-21
+pocs/agent-skill-linter/samples/tax-service/src/main/java/com/taxservice/domain/FilingStatus.java
+  s_cc556584461168::t_ac99f08e0d3c53 1-7
+pocs/agent-skill-linter/samples/city-zoning/stop.sh
+  s_cc556584461168::t_2502cecff0e67d 1-12
+pocs/agent-skill-linter/skill/site/frontend/vite.config.js
+  s_cc556584461168::t_a818b834a60470 1-8
+pocs/agent-skill-linter/README.md
+  s_cc556584461168::t_8c8525f8db9c69 56,63
+  s_cc556584461168::t_a61a20f1addc8d 1-55,57-62,64-104,109-119
+  s_cc556584461168::t_f031e247739b68 105-108
+pocs/agent-skill-linter/samples/city-zoning/server/package.json
+  s_cc556584461168::t_9798ef66cb9bcb 1-9
+pocs/agent-skill-linter/samples/city-zoning/server/src/zoning/rules.js
+  s_cc556584461168::t_ffbd0a584dcf94 1-43
+pocs/agent-skill-linter/samples/city-zoning/web/src/main.jsx
+  s_cc556584461168::t_4b6aa304fdbf2a 1-6
+pocs/agent-skill-linter/skill/site/frontend/src/components/Tests.jsx
+  s_cc556584461168::t_a1277ca4ae9c8d 1-76
+pocs/agent-skill-linter/skill/site/frontend/Containerfile
+  s_cc556584461168::t_a4e059ed9d3463 1-4
+pocs/agent-skill-linter/skill/site/frontend/src/components/Rules.jsx
+  s_cc556584461168::t_447de471cb45c4 1-67
+pocs/agent-skill-linter/samples/tax-service/start.sh
+  s_cc556584461168::t_5c5994dff857dc 1-16
+pocs/agent-skill-linter/skill/commands/lint-site.md
+  s_cc556584461168::t_31bbee13cda22a 1-23
+pocs/agent-skill-linter/skill/site/frontend/index.html
+  s_cc556584461168::t_699ba25b57fbd8 1-12
+pocs/agent-skill-linter/skill/site/frontend/src/lib/format.js
+  s_cc556584461168::t_3bfc5efa60ef06 1-27
+pocs/agent-skill-linter/samples/city-zoning/web/src/styles.css
+  s_cc556584461168::t_f9ce5b0c02617f 1-81
+pocs/agent-skill-linter/samples/city-zoning/web/src/App.jsx
+  s_cc556584461168::t_ce36bfa6e8e120 1-79
+pocs/agent-skill-linter/skill/site/podman-compose.yml
+  s_cc556584461168::t_abdde958d9d194 1-24
+pocs/agent-skill-linter/skill/site/frontend/src/components/Charts.jsx
+  s_cc556584461168::t_76d90f90628b63 1-84
+pocs/agent-skill-linter/skill/site/frontend/src/styles.css
+  s_cc556584461168::t_031ab787370369 1-196
+pocs/agent-skill-linter/samples/tax-service/src/main/java/com/taxservice/domain/TaxBracket.java
+  s_cc556584461168::t_e219e534d2f86f 1-4
+pocs/agent-skill-linter/skill/site/frontend/src/lib/highlight.js
+  s_cc556584461168::t_65abbb42f4ba84 1-26
+pocs/agent-skill-linter/skill/site/frontend/nginx.conf
+  s_cc556584461168::t_9f13a885e9b1cc 1-8
+pocs/agent-skill-linter/samples/tax-service/src/test/java/com/taxservice/DeductionRulesTest.java
+  s_cc556584461168::t_0241c0036647d1 1-32
+pocs/agent-skill-linter/samples/city-zoning/start.sh
+  s_cc556584461168::t_f4e392c5869c75 1-3,13,15-19,21-23,26-31,34-39
+  s_cc556584461168::t_73485c794d727c 4-12,14,20,24-25,32-33
+pocs/agent-skill-linter/samples/city-zoning/.gitignore
+  s_cc556584461168::t_da58c05d5d7457 1-5
+pocs/agent-skill-linter/skill/site/backend/src/main/java/com/linter/site/ReportController.java
+  s_cc556584461168::t_126f8caaf42fe6 1-125
+pocs/agent-skill-linter/samples/tax-service/stop.sh
+  s_cc556584461168::t_fb3fc0a909d8e6 1-10
+pocs/agent-skill-linter/skill/engine/lint.mjs
+  s_cc556584461168::t_6d2e04228d1320 1-198,205-321
+  s_cc556584461168::t_07e30608405e53 199-204
+pocs/agent-skill-linter/skill/site/frontend/src/main.jsx
+  s_cc556584461168::t_e4a04be9ce976e 1-6
+pocs/agent-skill-linter/skill/site/backend/src/main/java/com/linter/site/LintPaths.java
+  s_cc556584461168::t_cf1deca519af17 1-37
+pocs/agent-skill-linter/skill/site/test.sh
+  s_cc556584461168::t_2a439ffb899536 1-4
+pocs/agent-skill-linter/skill/site/backend/src/main/java/com/linter/site/SiteApplication.java
+  s_cc556584461168::t_7e17397bfa6d63 1-12
+pocs/agent-skill-linter/samples/city-zoning/README.md
+  s_cc556584461168::t_7d234649ece837 1-27,33-38
+  s_cc556584461168::t_4b16762df82ce9 28-32
+pocs/agent-skill-linter/skill/site/frontend/src/components/Dashboard.jsx
+  s_cc556584461168::t_bf1af55257dee5 1-76
+pocs/agent-skill-linter/samples/tax-service/README.md
+  s_cc556584461168::t_a7ae268c6f4df3 1-30
+pocs/agent-skill-linter/samples/tax-service/.gitignore
+  s_cc556584461168::t_f4c034a6578401 1-4
+pocs/agent-skill-linter/samples/tax-service/src/main/java/com/taxservice/domain/TaxReturn.java
+  s_cc556584461168::t_09ccfae18bf125 1-8
+pocs/agent-skill-linter/samples/tax-service/src/main/java/com/taxservice/domain/TaxResult.java
+  s_cc556584461168::t_0c77f8efdfc12f 1-14
+pocs/agent-skill-linter/samples/tax-service/src/main/resources/application.properties
+  s_cc556584461168::t_4b241091434b10 1-2
+pocs/agent-skill-linter/samples/city-zoning/server/test/rules.test.js
+  s_cc556584461168::t_124de7968abf45 1-44
+pocs/agent-skill-linter/samples/city-zoning/web/src/api.js
+  s_cc556584461168::t_97815f42b55815 1-15
+pocs/agent-skill-linter/skill/commands/lint.md
+  s_cc556584461168::t_cec3a92ef3ca28 1-33
+pocs/agent-skill-linter/samples/tax-service/pom.xml
+  s_cc556584461168::t_77d99739f2fbe3 1-43
+pocs/agent-skill-linter/uninstall.sh
+  s_cc556584461168::t_9e788679eadcbf 1-6
+pocs/agent-skill-linter/skill/site/start.sh
+  s_cc556584461168::t_91a9a3e0908f46 1-27
+pocs/agent-skill-linter/samples/tax-service/src/main/java/com/taxservice/TaxServiceApplication.java
+  s_cc556584461168::t_f1b4252012a42e 1-12
+pocs/agent-skill-linter/samples/tax-service/src/test/java/com/taxservice/TaxCalculatorTest.java
+  s_cc556584461168::t_d52750490c8092 1-67
+pocs/agent-skill-linter/samples/city-zoning/server/src/zoning/permits.js
+  s_cc556584461168::t_9ed02defda8968 1-20
+pocs/agent-skill-linter/samples/city-zoning/server/test/slow.test.js
+  s_cc556584461168::t_90d17c9264cfe1 1-16
+pocs/agent-skill-linter/samples/tax-service/src/main/java/com/taxservice/web/TaxController.java
+  s_cc556584461168::t_5af665fcb4a0fa 1-31
+pocs/agent-skill-linter/samples/city-zoning/server/src/zoning/zones.js
+  s_cc556584461168::t_1398913c9f0b9f 1-57
+pocs/agent-skill-linter/samples/city-zoning/test.sh
+  s_cc556584461168::t_45a581f07d9328 1-5
+pocs/agent-skill-linter/samples/tax-service/test.sh
+  s_cc556584461168::t_dddbdd72af41cc 1-4
+  s_cc556584461168::t_39d4f53f8e495a 5
+pocs/agent-skill-linter/design-doc.md
+  s_cc556584461168::t_9b4d38ef966ba6 1-265
+pocs/agent-skill-linter/samples/city-zoning/web/package.json
+  s_cc556584461168::t_36e40af47ad4ca 1-19
+pocs/agent-skill-linter/skill/SKILL.md
+  s_cc556584461168::t_b35c7025350da0 1-34
+pocs/agent-skill-linter/skill/site/backend/pom.xml
+  s_cc556584461168::t_8b8b8ee278c428 1-43
+pocs/agent-skill-linter/skill/site/frontend/src/api.js
+  s_cc556584461168::t_3dc92022018b6f 1-17
+pocs/agent-skill-linter/skill/site/frontend/src/App.jsx
+  s_cc556584461168::t_d36d06e20929a6 1-83
+pocs/agent-skill-linter/samples/tax-service/src/main/java/com/taxservice/service/TaxCalculator.java
+  s_cc556584461168::t_aadd98ffc59653 1-110
+pocs/agent-skill-linter/skill/site/frontend/src/components/Gauge.jsx
+  s_cc556584461168::t_256ece2920cb73 1-34
+pocs/agent-skill-linter/samples/tax-service/src/test/java/com/taxservice/SlowReconciliationTest.java
+  s_cc556584461168::t_b62ccc14a165a9 1-24
+pocs/agent-skill-linter/skill/site/backend/Containerfile
+  s_cc556584461168::t_dece9cd1250e6c 1-5
+pocs/agent-skill-linter/samples/city-zoning/web/vite.config.js
+  s_cc556584461168::t_c48ac2db1103c8 1-5,7
+  s_cc556584461168::t_eba218a738b06f 6
+pocs/agent-skill-linter/samples/city-zoning/server/src/index.js
+  s_cc556584461168::t_c137d26bdb4450 1-52
+pocs/agent-skill-linter/samples/tax-service/src/main/java/com/taxservice/service/DeductionRules.java
+  s_cc556584461168::t_6011f2d56a4479 1-24
+pocs/agent-skill-linter/samples/city-zoning/web/index.html
+  s_cc556584461168::t_839c1a8684c29f 1-12
+pocs/agent-skill-linter/skill/site/backend/src/main/resources/application.properties
+  s_cc556584461168::t_d203d9ec1da0fa 1-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "35888258bdb0c3ab257d50bd0ee22d1d9740393b",
+  "prompts": {},
+  "sessions": {
+    "s_cc556584461168": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c21cab6e-b009-40ec-a555-8e438476f71d",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
