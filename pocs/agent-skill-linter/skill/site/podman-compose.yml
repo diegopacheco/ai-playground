@@ -1,0 +1,24 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Containerfile
+    image: lint-site-backend
+    ports:
+      - "8089:8089"
+    environment:
+      - LINT_REPO_DIR=/data/repo
+      - LINT_LINT_DIR=/data/lint
+    volumes:
+      - "${LINT_TARGET}:/data/repo:ro"
+      - "${LINT_TARGET}/.lint:/data/lint:ro"
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Containerfile
+    image: lint-site-frontend
+    ports:
+      - "8088:8088"
+    depends_on:
+      - backend

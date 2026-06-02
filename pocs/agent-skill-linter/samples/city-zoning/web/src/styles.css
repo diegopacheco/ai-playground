@@ -1,0 +1,81 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f7f8fa;
+  color: #1a1d21;
+}
+
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+h1 {
+  margin: 0 0 4px;
+}
+
+.subtitle {
+  margin: 0 0 24px;
+  color: #5b6571;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid #e3e7ec;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: #5b6571;
+  gap: 6px;
+}
+
+input, select {
+  padding: 8px 10px;
+  border: 1px solid #d6dbe1;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+button {
+  grid-column: 1 / -1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.result {
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e3e7ec;
+  background: #ffffff;
+}
+
+.result.ok h2 {
+  color: #047857;
+}
+
+.result.bad h2 {
+  color: #b91c1c;
+}

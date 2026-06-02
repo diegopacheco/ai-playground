@@ -1,0 +1,9 @@
+{
+  "name": "city-zoning-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test"
+  }
+}
