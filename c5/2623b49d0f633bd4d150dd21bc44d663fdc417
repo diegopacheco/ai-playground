@@ -1,0 +1,63 @@
+pocs/html-as-contract/sample/src/UserService.java
+  s_b3732a6ddc728b::t_4ec1654611cde7 1-19
+pocs/html-as-contract/sample/src/AccountService.java
+  s_b3732a6ddc728b::t_223b18ce3c8d71 1-13
+pocs/html-as-contract/install.sh
+  s_b3732a6ddc728b::t_74d97e36feb0e4 1-8
+pocs/html-as-contract/design-doc.md
+  s_b3732a6ddc728b::t_dd2725f3409cd7 1-118,120,122-269
+  s_fc80e23dc2209f::t_21ae355b6461e8 119,121
+pocs/html-as-contract/skill/SKILL.md
+  s_b3732a6ddc728b::t_ad960670508704 1-87
+pocs/html-as-contract/skill/template.html
+  s_b3732a6ddc728b::t_476556f4fbafa5 1-179
+pocs/html-as-contract/sample/src/User.java
+  s_b3732a6ddc728b::t_9d476dc6551043 1-19
+pocs/html-as-contract/sample/src/UserDao.java
+  s_b3732a6ddc728b::t_7bb40b22b59ae1 1-19
+pocs/html-as-contract/uninstall.sh
+  s_b3732a6ddc728b::t_41ab566fb3fe93 1-5
+pocs/html-as-contract/sample/src/UserServiceTest.java
+  s_b3732a6ddc728b::t_35e4b75f1e3dcf 1-19
+pocs/html-as-contract/sample/contract.html
+  s_b3732a6ddc728b::t_0d4f9b9e693ca0 1-203,205-208,211-232,234-247,249-276
+  s_fc80e23dc2209f::t_a343c0aee88064 204,209-210
+  s_d00cf366eaf1d8::t_dee94285f11b8b 233
+  s_fc80e23dc2209f::t_282402f408cf80 248
+pocs/html-as-contract/README.md
+  s_fc80e23dc2209f::t_941ff4d18fd260 52-78
+  s_b3732a6ddc728b::t_7ee508e2a92d77 1-10,12-51
+  s_fc80e23dc2209f::t_331beec77abe91 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "c52623b49d0f633bd4d150dd21bc44d663fdc417",
+  "prompts": {},
+  "sessions": {
+    "s_b3732a6ddc728b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "88ae0c33-26a1-46d4-bcd4-eb9e5fe0d0fc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_d00cf366eaf1d8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9d327338-486f-413a-a793-822763256831",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_fc80e23dc2209f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "70f7d944-72b3-433c-a883-b13b5818eafc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
