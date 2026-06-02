@@ -1,0 +1,123 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]: Resilience4j Auto-Tuning Control Panel
+    - navigation [ref=e7]:
+      - link "Circuit Breaker" [ref=e8] [cursor=pointer]:
+        - /url: /
+      - link "Retry" [ref=e9] [cursor=pointer]:
+        - /url: /retry
+      - link "Rate Limiter" [ref=e10] [cursor=pointer]:
+        - /url: /ratelimiter
+      - link "Bulkhead" [ref=e11] [cursor=pointer]:
+        - /url: /bulkhead
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - paragraph [ref=e14]: Drive real traffic through the Circuit Breaker, then ask the model for a better config. The proposal is clamped to safe bounds and applied only when you click Apply. Applying rebuilds the breaker (fresh sliding window), so compare by re-running the same scenario.
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - heading "Scenario & traffic" [level=3] [ref=e17]
+          - generic [ref=e18]:
+            - generic [ref=e19]:
+              - generic [ref=e20]: Downstream failure rate
+              - slider "Downstream failure rate 60%" [ref=e21]: "0.6"
+              - emphasis [ref=e22]: 60%
+            - generic [ref=e23]:
+              - generic [ref=e24]: Latency (ms)
+              - spinbutton "Latency (ms)" [ref=e25]: "300"
+            - generic [ref=e26]:
+              - generic [ref=e27]: Jitter (ms)
+              - spinbutton "Jitter (ms)" [ref=e28]: "120"
+            - generic [ref=e29]:
+              - generic [ref=e30]: Requests
+              - spinbutton "Requests" [ref=e31]: "80"
+            - generic [ref=e32]:
+              - generic [ref=e33]: Requests / sec
+              - spinbutton "Requests / sec" [ref=e34]: "25"
+          - button "Run traffic" [ref=e35] [cursor=pointer]
+        - generic [ref=e36]:
+          - generic [ref=e37]:
+            - heading "Live circuit breaker" [level=3] [ref=e38]
+            - generic [ref=e39]: CLOSED
+          - generic [ref=e40]:
+            - generic [ref=e41]:
+              - generic [ref=e42]: 0%
+              - generic [ref=e43]: Failure rate
+            - generic [ref=e44]:
+              - generic [ref=e45]: "0"
+              - generic [ref=e46]: Buffered
+            - generic [ref=e47]:
+              - generic [ref=e48]: "0"
+              - generic [ref=e49]: Failed
+            - generic [ref=e50]:
+              - generic [ref=e51]: "0"
+              - generic [ref=e52]: Successful
+            - generic [ref=e53]:
+              - generic [ref=e54]: "0"
+              - generic [ref=e55]: Not permitted
+          - generic [ref=e56]:
+            - img [ref=e57]:
+              - generic [ref=e59]: "0"
+              - generic [ref=e61]: "25"
+              - generic [ref=e63]: "50"
+              - generic [ref=e65]: "75"
+              - generic [ref=e67]: "100"
+              - generic [ref=e68]: "%"
+            - generic [ref=e70]: Measured failure rate
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - strong [ref=e74]: "28"
+              - text: Success
+            - generic [ref=e75]:
+              - strong [ref=e76]: "52"
+              - text: Failure
+      - generic [ref=e77]:
+        - generic [ref=e78]:
+          - generic [ref=e79]:
+            - heading "LLM self-tune (advisory)" [level=3] [ref=e80]
+            - generic [ref=e85]: "model: gpt-4o"
+          - paragraph [ref=e86]: OPENAI_API_KEY is not set on the backend. Export it and restart to enable tuning.
+          - button "Call LLM to self-tune" [disabled] [ref=e81]
+        - generic [ref=e82]:
+          - heading "Before / after comparison" [level=3] [ref=e98]
+          - generic [ref=e99]:
+            - img [ref=e100]:
+              - generic [ref=e102]: "0"
+              - generic [ref=e104]: "25"
+              - generic [ref=e106]: "50"
+              - generic [ref=e108]: "75"
+              - generic [ref=e110]: "100"
+              - generic [ref=e111]: failure %
+            - generic [ref=e124]: After · fail 70% · win 100 · wait 10s
+          - table [ref=e126]:
+            - rowgroup [ref=e127]:
+              - row "KPI Before After Δ" [ref=e128]:
+                - columnheader "KPI" [ref=e129]
+                - columnheader "Before" [ref=e130]
+                - columnheader "After" [ref=e131]
+                - columnheader "Δ" [ref=e132]
+            - rowgroup [ref=e133]:
+              - row "Success served (%) — 35 —" [ref=e134]:
+                - cell "Success served (%)" [ref=e135]
+                - cell "—" [ref=e136]
+                - cell "35" [ref=e137]
+                - cell "—" [ref=e138]
+              - row "Short-circuited calls — 0 —" [ref=e139]:
+                - cell "Short-circuited calls" [ref=e140]
+                - cell "—" [ref=e141]
+                - cell "0" [ref=e142]
+                - cell "—" [ref=e143]
+              - row "Failures hit downstream — 52 —" [ref=e144]:
+                - cell "Failures hit downstream" [ref=e145]
+                - cell "—" [ref=e146]
+                - cell "52" [ref=e147]
+                - cell "—" [ref=e148]
+              - row "Mean latency (ms) — 305 —" [ref=e149]:
+                - cell "Mean latency (ms)" [ref=e150]
+                - cell "—" [ref=e151]
+                - cell "305" [ref=e152]
+                - cell "—" [ref=e153]
+              - row "p95 latency (ms) — 408 —" [ref=e154]:
+                - cell "p95 latency (ms)" [ref=e155]
+                - cell "—" [ref=e156]
+                - cell "408" [ref=e157]
+                - cell "—" [ref=e158]

@@ -1,0 +1,14 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - heading "Veo Video Studio" [level=1] [ref=e5]
+    - paragraph [ref=e6]: Generate cinematic video from text with Google Veo 3.1
+  - generic [ref=e7]:
+    - generic [ref=e8]: Pick a prompt or write your own
+    - generic [ref=e9]:
+      - button "Neon Tokyo Rain" [ref=e10] [cursor=pointer]
+      - button "Underwater Whale" [ref=e11] [cursor=pointer]
+      - button "Desert Time-lapse" [ref=e12] [cursor=pointer]
+      - button "Cyberpunk Drone Chase" [ref=e13] [cursor=pointer]
+      - button "Cozy Forest Cabin" [ref=e14] [cursor=pointer]
+    - textbox "Describe the video you want to generate..." [ref=e15]
+    - button "Generate Video" [disabled] [ref=e16]
