@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HTML as Contract</title>
+<style>
+  :root {
+    --bg: #f6f8fa;
+    --surface: #ffffff;
+    --text: #1f2328;
+    --muted: #57606a;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --good: #1a7f37;
+    --good-bg: #e6f4ea;
+    --bad: #cf222e;
+    --bad-bg: #fbe9e9;
+    --warn: #9a6700;
+    --warn-bg: #fff4d6;
+    --unknown: #57606a;
+    --unknown-bg: #eaeef2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  header {
+    padding: 24px 32px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 { margin: 0; font-size: 20px; }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 0 32px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    border: none;
+    background: none;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  .tab[aria-selected="true"] {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+  main { padding: 24px 32px; max-width: 960px; }
+  .panel { display: none; }
+  .panel[data-active="true"] { display: block; }
+  .category { margin: 24px 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  .category:first-child { margin-top: 0; }
+  .rule {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 0 0 16px;
+  }
+  .rule h3 { margin: 0 0 6px; font-size: 16px; }
+  .rule .statement { margin: 0 0 4px; }
+  .rule .rationale { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 8px;
+    vertical-align: middle;
+    font-weight: 600;
+  }
+  .badge.error { background: var(--bad-bg); color: var(--bad); }
+  .badge.warning { background: var(--warn-bg); color: var(--warn); }
+  .badge.info { background: var(--unknown-bg); color: var(--unknown); }
+  .badge.check { background: var(--unknown-bg); color: var(--unknown); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  pre {
+    margin: 0;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 13px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  pre.good { background: var(--good-bg); border: 1px solid #b7dcc0; }
+  pre.bad { background: var(--bad-bg); border: 1px solid #f0c4c4; }
+  .pair .col .label { font-size: 12px; font-weight: 600; margin: 0 0 4px; }
+  .pair .good-label { color: var(--good); }
+  .pair .bad-label { color: var(--bad); }
+  .summary { display: flex; gap: 16px; margin: 0 0 20px; flex-wrap: wrap; }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    min-width: 96px;
+  }
+  .stat .num { font-size: 22px; font-weight: 700; }
+  .stat .lbl { font-size: 12px; color: var(--muted); }
+  .stat.pass .num { color: var(--good); }
+  .stat.fail .num { color: var(--bad); }
+  .stat.unknown .num { color: var(--unknown); }
+  .report-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left-width: 4px;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 0 0 12px;
+  }
+  .report-item[data-status="pass"] { border-left-color: var(--good); }
+  .report-item[data-status="fail"] { border-left-color: var(--bad); }
+  .report-item[data-status="unknown"] { border-left-color: var(--unknown); }
+  .report-item h4 { margin: 0 0 4px; font-size: 15px; }
+  .status-tag { font-size: 12px; font-weight: 700; text-transform: uppercase; }
+  .report-item[data-status="pass"] .status-tag { color: var(--good); }
+  .report-item[data-status="fail"] .status-tag { color: var(--bad); }
+  .report-item[data-status="unknown"] .status-tag { color: var(--unknown); }
+  .violation { font-size: 13px; margin: 8px 0 0; padding: 8px 12px; background: var(--bg); border-radius: 6px; }
+  .violation code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--accent); }
+  .meta { color: var(--muted); font-size: 13px; margin: 0 0 16px; }
+  .empty { color: var(--muted); font-style: italic; }
+</style>
+</head>
+<body>
+<header>
+  <h1>HTML as Contract</h1>
+  <p>Engineering rules and live compliance for this project.</p>
+</header>
+<nav class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-target="rules-panel">Rules</button>
+  <button class="tab" role="tab" aria-selected="false" data-target="report-panel">Compliance Report</button>
+</nav>
+<main>
+  <section class="panel" data-active="true" id="rules-panel">
+    <section id="rules">
+      <h2 class="category">Testing</h2>
+      <article class="rule" data-rule-id="testing-one-assert" data-category="testing" data-severity="warning" data-check="static">
+        <h3>One assert per test <span class="badge warning">warning</span> <span class="badge check">static</span></h3>
+        <p class="statement">A test method has exactly one assertion.</p>
+        <p class="rationale">One assert per test keeps failures specific and each test focused on a single behavior.</p>
+        <div class="pair">
+          <div class="col">
+            <p class="label good-label">good</p>
+            <pre class="good">@Test
+void registers() {
+    assertNotNull(service.register("1", "Ann"));
+}</pre>
+          </div>
+          <div class="col">
+            <p class="label bad-label">bad</p>
+            <pre class="bad">@Test
+void registers() {
+    User u = service.register("1", "Ann");
+    assertNotNull(u);
+    assertEquals("1", u.getId());
+}</pre>
+          </div>
+        </div>
+      </article>
+
+      <h2 class="category">Design</h2>
+      <article class="rule" data-rule-id="design-dao-one-service" data-category="design" data-severity="error" data-check="semantic">
+        <h3>A DAO is used by at most one service <span class="badge error">error</span> <span class="badge check">semantic</span></h3>
+        <p class="statement">No DAO is depended on by more than one service.</p>
+        <p class="rationale">Sharing a DAO across services couples them and blurs data ownership.</p>
+        <div class="pair">
+          <div class="col">
+            <p class="label good-label">good</p>
+            <pre class="good">class UserService {
+    UserService(UserDao dao) { ... }
+}
+class AccountService {
+    AccountService(AccountDao dao) { ... }
+}</pre>
+          </div>
+          <div class="col">
+            <p class="label bad-label">bad</p>
+            <pre class="bad">class UserService {
+    UserService(UserDao dao) { ... }
+}
+class AccountService {
+    AccountService(UserDao dao) { ... }
+}</pre>
+          </div>
+        </div>
+      </article>
+
+      <h2 class="category">Code</h2>
+      <article class="rule" data-rule-id="code-no-null" data-category="code" data-severity="error" data-check="static">
+        <h3>Never return null <span class="badge error">error</span> <span class="badge check">static</span></h3>
+        <p class="statement">Methods must not return null; return an empty object instead.</p>
+        <p class="rationale">Null returns push NullPointerException risk onto every caller.</p>
+        <div class="pair">
+          <div class="col">
+            <p class="label good-label">good</p>
+            <pre class="good">User findById(String id) {
+    return store.getOrDefault(id, User.empty());
+}</pre>
+          </div>
+          <div class="col">
+            <p class="label bad-label">bad</p>
+            <pre class="bad">User findById(String id) {
+    if (store.containsKey(id)) {
+        return store.get(id);
+    }
+    return null;
+}</pre>
+          </div>
+        </div>
+      </article>
+    </section>
+  </section>
+  <section class="panel" data-active="false" id="report-panel">
+    <section id="compliance-report" data-region="agent-owned">
+      <div class="summary">
+        <div class="stat pass"><div class="num">0</div><div class="lbl">passed</div></div>
+        <div class="stat fail"><div class="num">3</div><div class="lbl">failed</div></div>
+        <div class="stat unknown"><div class="num">0</div><div class="lbl">unknown</div></div>
+      </div>
+      <p class="meta">Generated 2026-06-02T07:04:55Z · scope sample/src</p>
+
+      <div class="report-item" data-rule-id="testing-one-assert" data-status="fail">
+        <h4>One assert per test <span class="status-tag">fail</span></h4>
+        <div class="violation"><code>sample/src/UserServiceTest.java:15-17</code> — registerStoresUser has 3 assertions (assertNotNull, assertEquals, assertEquals); split into separate tests.</div>
+      </div>
+
+      <div class="report-item" data-rule-id="design-dao-one-service" data-status="fail">
+        <h4>A DAO is used by at most one service <span class="status-tag">fail</span></h4>
+        <div class="violation"><code>sample/src/UserService.java:4</code> — UserService depends on UserDao.</div>
+        <div class="violation"><code>sample/src/AccountService.java:4</code> — AccountService also depends on the same UserDao; two services share one DAO. Confidence high.</div>
+      </div>
+
+      <div class="report-item" data-rule-id="code-no-null" data-status="fail">
+        <h4>Never return null <span class="status-tag">fail</span></h4>
+        <div class="violation"><code>sample/src/UserDao.java:17</code> — findById returns null when the id is absent; return an empty User instead.</div>
+      </div>
+    </section>
+  </section>
+</main>
+<script type="text/markdown" id="agent-protocol">
+Read every element with class "rule" inside #rules. For each rule use data-rule-id,
+data-category, data-severity and data-check. Scan the target scope (default: the
+project containing this file; for the sample, scan sample/src). Decide pass, fail
+or unknown per rule. Honor data-check: "static" means a deterministic pattern match,
+"semantic" means judgment and you must state confidence. Replace ONLY the contents
+of #compliance-report. Never edit #rules. For each rule emit a .report-item with
+data-rule-id and data-status. Cite every violation as file:line with a short reason.
+Update the summary stats and the generated-at meta line.
+</script>
+<script>
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      tabs.forEach(function (t) { t.setAttribute("aria-selected", "false"); });
+      tab.setAttribute("aria-selected", "true");
+      document.querySelectorAll(".panel").forEach(function (p) {
+        p.setAttribute("data-active", p.id === tab.dataset.target ? "true" : "false");
+      });
+    });
+  });
+</script>
+</body>
+</html>

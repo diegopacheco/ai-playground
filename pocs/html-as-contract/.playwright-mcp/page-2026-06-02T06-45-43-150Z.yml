@@ -1,0 +1,54 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "HTML as Contract" [level=1] [ref=e3]
+    - paragraph [ref=e4]: Engineering rules and live compliance for this project.
+  - tablist [ref=e5]:
+    - tab "Rules" [selected] [ref=e6] [cursor=pointer]
+    - tab "Compliance Report" [ref=e7] [cursor=pointer]
+  - main [ref=e8]:
+    - generic [ref=e10]:
+      - heading "Testing" [level=2] [ref=e11]
+      - article [ref=e12]:
+        - heading "One assert per test warning static" [level=3] [ref=e13]:
+          - text: One assert per test
+          - generic [ref=e14]: warning
+          - generic [ref=e15]: static
+        - paragraph [ref=e16]: A test method has exactly one assertion.
+        - paragraph [ref=e17]: One assert per test keeps failures specific and each test focused on a single behavior.
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - paragraph [ref=e20]: good
+            - generic [ref=e21]: "@Test void registers() { assertNotNull(service.register(\"1\", \"Ann\")); }"
+          - generic [ref=e22]:
+            - paragraph [ref=e23]: bad
+            - generic [ref=e24]: "@Test void registers() { User u = service.register(\"1\", \"Ann\"); assertNotNull(u); assertEquals(\"1\", u.getId()); }"
+      - heading "Design" [level=2] [ref=e25]
+      - article [ref=e26]:
+        - heading "A DAO is used by at most one service error semantic" [level=3] [ref=e27]:
+          - text: A DAO is used by at most one service
+          - generic [ref=e28]: error
+          - generic [ref=e29]: semantic
+        - paragraph [ref=e30]: No DAO is depended on by more than one service.
+        - paragraph [ref=e31]: Sharing a DAO across services couples them and blurs data ownership.
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - paragraph [ref=e34]: good
+            - generic [ref=e35]: "class UserService { UserService(UserDao dao) { ... } } class AccountService { AccountService(AccountDao dao) { ... } }"
+          - generic [ref=e36]:
+            - paragraph [ref=e37]: bad
+            - generic [ref=e38]: "class UserService { UserService(UserDao dao) { ... } } class AccountService { AccountService(UserDao dao) { ... } }"
+      - heading "Code" [level=2] [ref=e39]
+      - article [ref=e40]:
+        - heading "Never return null error static" [level=3] [ref=e41]:
+          - text: Never return null
+          - generic [ref=e42]: error
+          - generic [ref=e43]: static
+        - paragraph [ref=e44]: Methods must not return null; return an Optional or an empty value.
+        - paragraph [ref=e45]: Null returns push NullPointerException risk onto every caller.
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - paragraph [ref=e48]: good
+            - generic [ref=e49]: "Optional<User> findById(String id) { return Optional.ofNullable(store.get(id)); }"
+          - generic [ref=e50]:
+            - paragraph [ref=e51]: bad
+            - generic [ref=e52]: "User findById(String id) { if (store.containsKey(id)) { return store.get(id); } return null; }"

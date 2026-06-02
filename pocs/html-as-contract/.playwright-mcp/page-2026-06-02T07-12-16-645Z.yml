@@ -1,0 +1,38 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - heading "HTML as Contract" [level=1] [ref=e3]
+    - paragraph [ref=e4]: Engineering rules and live compliance for this project.
+  - tablist [ref=e5]:
+    - tab "Rules" [ref=e6] [cursor=pointer]
+    - tab "Compliance Report" [active] [selected] [ref=e7] [cursor=pointer]
+  - main [ref=e8]:
+    - generic [ref=e54]:
+      - generic [ref=e55]:
+        - generic [ref=e56]:
+          - generic [ref=e57]: "0"
+          - generic [ref=e58]: passed
+        - generic [ref=e59]:
+          - generic [ref=e60]: "3"
+          - generic [ref=e61]: failed
+        - generic [ref=e62]:
+          - generic [ref=e63]: "0"
+          - generic [ref=e64]: unknown
+      - paragraph [ref=e65]: Generated 2026-06-02T07:04:55Z · scope sample/src
+      - generic [ref=e66]:
+        - heading "One assert per test fail" [level=4] [ref=e67]
+        - generic [ref=e68]:
+          - code [ref=e69]: sample/src/UserServiceTest.java:15-17
+          - text: — registerStoresUser has 3 assertions (assertNotNull, assertEquals, assertEquals); split into separate tests.
+      - generic [ref=e70]:
+        - heading "A DAO is used by at most one service fail" [level=4] [ref=e71]
+        - generic [ref=e72]:
+          - code [ref=e73]: sample/src/UserService.java:4
+          - text: — UserService depends on UserDao.
+        - generic [ref=e74]:
+          - code [ref=e75]: sample/src/AccountService.java:4
+          - text: — AccountService also depends on the same UserDao; two services share one DAO. Confidence high.
+      - generic [ref=e76]:
+        - heading "Never return null fail" [level=4] [ref=e77]
+        - generic [ref=e78]:
+          - code [ref=e79]: sample/src/UserDao.java:17
+          - text: — findById returns null when the id is absent; return an empty User instead.
