@@ -1,0 +1,161 @@
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/dashboard/DashboardController.java
+  s_359ea6a183abc2::t_14869e0e5103b4 1-21
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/issues/IssueService.java
+  s_359ea6a183abc2::t_078d066c3cb862 1-78
+pocs/github-control-panel/test.sh
+  s_359ea6a183abc2::t_0daf90b168a680 1-26
+pocs/github-control-panel/README.md
+  s_359ea6a183abc2::t_ded8edd9d5b625 1-129
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/dashboard/DashboardService.java
+  s_359ea6a183abc2::t_b96e315ea96e0d 1-44,46-91
+  s_359ea6a183abc2::t_d18535842f9bd1 45
+pocs/github-control-panel/backend/Containerfile
+  s_359ea6a183abc2::t_96df0dc6c8751d 1-11
+pocs/github-control-panel/frontend/src/lib/api.ts
+  s_359ea6a183abc2::t_b7fb8041f424fd 1-52
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/sync/RepoWriter.java
+  s_359ea6a183abc2::t_12fbf1a9d5402e 1-4,6-22,24-28,32,34,36-37,39,41-47,49-50,52-57,60-64,66-71,75-86
+  s_359ea6a183abc2::t_029077c202b727 5,23,29-31,33,35,38,40,48,51,58-59,65,72-74
+pocs/github-control-panel/frontend/src/index.css
+  s_359ea6a183abc2::t_1dc22c614f881c 2-13,51,141,165,174,201,250,258,267-271,285,295-304,322,389,402,406,410,414,419,423,448,477
+  s_359ea6a183abc2::t_110668c1489686 1,14-50,52-66,68,80-140,142-164,166-173,175-200,202-249,251-257,259-266,272-284,286-294,305-321,323-388,390-401,403-405,407-409,411-413,415-418,420-422,424-447,449-476,478-584
+  s_359ea6a183abc2::t_713add290a7a0b 67,69-79
+pocs/github-control-panel/design-doc.md
+  s_359ea6a183abc2::t_e67d94ec6caa05 185-191
+  s_359ea6a183abc2::t_cf4b15df6262ca 1-6,8-12,15-18,20-28,30,32-40,42,44-53,57,59-61,77-79,81-94,98-102,104-113,115-122,124,127-128,130-136,140-141,144-146,149-152,155-156,192-195,197
+  s_359ea6a183abc2::t_ee0f9ab319ef1c 31
+  s_359ea6a183abc2::t_9973514783d287 7,13-14,19,29,41,43,54-56,58,65-76,80,95-97,103,114,123,125-126,129,137-139,142-143,147-148,153-154,157-184,196,198-201
+  s_359ea6a183abc2::t_042526701c1335 62-64
+pocs/github-control-panel/frontend/src/tabs/ReposTab.tsx
+  s_359ea6a183abc2::t_cd62c01d59e78d 1-82
+pocs/github-control-panel/backend/.containerignore
+  s_359ea6a183abc2::t_c6105a2de10cc1 1-3
+pocs/github-control-panel/frontend/tsconfig.json
+  s_359ea6a183abc2::t_36c7f7cef79092 20
+  s_359ea6a183abc2::t_121a6f19e7309d 1-19,21
+pocs/github-control-panel/frontend/src/lib/token.ts
+  s_359ea6a183abc2::t_e1dadc627e1b87 1-14
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/common/Encoding.java
+  s_359ea6a183abc2::t_aa23afc5ef727d 8-9,14-37,63-69
+  s_359ea6a183abc2::t_14a77cbf24c282 1-7,10-13,38-62,70-71
+pocs/github-control-panel/frontend/src/components/Badges.tsx
+  s_359ea6a183abc2::t_325d359289dc47 1-31
+pocs/github-control-panel/frontend/src/App.tsx
+  s_359ea6a183abc2::t_b5e5aa1c613817 1-70
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/GithubControlPanelApplication.java
+  s_359ea6a183abc2::t_8d4ee9721ceaf4 1-11
+pocs/github-control-panel/frontend/src/tabs/IssuesTab.tsx
+  s_359ea6a183abc2::t_c0f35cbeadc3aa 1-139
+pocs/github-control-panel/frontend/src/tabs/SettingsTab.tsx
+  s_359ea6a183abc2::t_f51eb9df57ce90 1-62
+pocs/github-control-panel/frontend/src/main.tsx
+  s_359ea6a183abc2::t_fdd6ddf2438c85 1-25
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/repo/RepoController.java
+  s_359ea6a183abc2::t_dbcc22d823caad 1-56
+pocs/github-control-panel/start.sh
+  s_359ea6a183abc2::t_5b3a4b225659c6 1-27
+pocs/github-control-panel/frontend/src/components/Card.tsx
+  s_359ea6a183abc2::t_cf436edb071ae6 1-24
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/insights/InsightsService.java
+  s_359ea6a183abc2::t_b40cdcee15601a 1-182
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/web/WebConfig.java
+  s_359ea6a183abc2::t_3fdc5272f2e2f3 1-17
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/sync/SyncService.java
+  s_359ea6a183abc2::t_2bfe58c6c09603 1-3,5-16,18,20-21,23-31,33-36,39-45
+  s_359ea6a183abc2::t_10a9848bd9f8bf 17,19,22,37
+  s_359ea6a183abc2::t_9ba9f2f18c4fc8 4,32,38
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/repo/RepoService.java
+  s_359ea6a183abc2::t_dd537c41257354 50
+  s_359ea6a183abc2::t_6634166daa17d7 1-49,51-67
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/common/Label.java
+  s_359ea6a183abc2::t_949b4976fc0962 1-4
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/repo/RepositoryRepository.java
+  s_359ea6a183abc2::t_7f783007687f82 1-9
+pocs/github-control-panel/printscreens/architecture.html
+  s_359ea6a183abc2::t_885cda11659fcf 32
+  s_359ea6a183abc2::t_7f17f16868e208 1-31,33-62
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/sync/SyncController.java
+  s_359ea6a183abc2::t_1519046825c8a9 1-28
+pocs/github-control-panel/frontend/src/tabs/ActionCenterTab.tsx
+  s_359ea6a183abc2::t_efee43cac3b5c1 1-78
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/actioncenter/ActionCenterController.java
+  s_359ea6a183abc2::t_af7b4ca6556a5c 1-21
+pocs/github-control-panel/backend/src/test/java/com/github/controlpanel/common/EncodingTest.java
+  s_359ea6a183abc2::t_dafdf4e53057e8 1-45
+pocs/github-control-panel/podman-compose.yml
+  s_359ea6a183abc2::t_ed965e9003803f 1-37
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/common/Times.java
+  s_359ea6a183abc2::t_12e4424fb7fef2 1-43
+pocs/github-control-panel/frontend/src/vite-env.d.ts
+  s_359ea6a183abc2::t_de9f55c769690f 1
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/github/GithubClient.java
+  s_359ea6a183abc2::t_865ec502c2135c 1-2,4,6-8,10,13-17,22,25-28,30-32,35,38,51,59-60,64-69,126,134,142,151,174-175
+  s_359ea6a183abc2::t_0e8d3b42ff1ab8 3,5,9,11-12,18-21,23-24,29,33-34,36-37,39-50,52-58,61-63,70-125,127-133,135-141,143-150,152-173
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/github/RepoData.java
+  s_359ea6a183abc2::t_00172c4886a2ce 1-26
+pocs/github-control-panel/frontend/.containerignore
+  s_359ea6a183abc2::t_1367724513f9a7 1-3
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/insights/InsightsController.java
+  s_359ea6a183abc2::t_6fa34481382058 1-21
+pocs/github-control-panel/frontend/src/lib/types.ts
+  s_359ea6a183abc2::t_180ac4f61e1c12 1-145
+pocs/github-control-panel/frontend/nginx.conf
+  s_359ea6a183abc2::t_271ec9a99d1d79 1-17
+pocs/github-control-panel/backend/pom.xml
+  s_359ea6a183abc2::t_74dbdeb27f8306 1-52
+pocs/github-control-panel/backend/src/main/resources/application.yml
+  s_359ea6a183abc2::t_0058222244252d 20
+  s_359ea6a183abc2::t_c57091d646992d 1-19,21-25
+pocs/github-control-panel/backend/src/main/resources/schema.sql
+  s_359ea6a183abc2::t_93511384290511 1-63
+pocs/github-control-panel/frontend/src/tabs/DashboardTab.tsx
+  s_359ea6a183abc2::t_9c2346b138aff0 1-69
+pocs/github-control-panel/frontend/src/components/Status.tsx
+  s_359ea6a183abc2::t_4cb253def26316 1-12
+pocs/github-control-panel/stop.sh
+  s_359ea6a183abc2::t_01314fb94616ac 1-4
+pocs/github-control-panel/frontend/src/components/DataTable.tsx
+  s_359ea6a183abc2::t_6c9a3a30cff42f 18
+  s_359ea6a183abc2::t_0459bb90413874 1-17,19-64
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/repo/RepositoryRow.java
+  s_359ea6a183abc2::t_ac125219219478 1-18
+pocs/github-control-panel/frontend/index.html
+  s_359ea6a183abc2::t_941cc59af05fae 1-12
+pocs/github-control-panel/frontend/package.json
+  s_359ea6a183abc2::t_43ea5ca38b179a 1-7,9-28
+  s_359ea6a183abc2::t_47bbe7ad96dd52 8
+pocs/github-control-panel/frontend/src/router.tsx
+  s_359ea6a183abc2::t_6576b569afe56a 1-34
+pocs/github-control-panel/frontend/Containerfile
+  s_359ea6a183abc2::t_762571d9b1e495 1-11
+pocs/github-control-panel/backend/src/test/java/com/github/controlpanel/repo/RepoServiceNormalizeTest.java
+  s_359ea6a183abc2::t_6c40f268a1640f 1-33
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/issues/IssueController.java
+  s_359ea6a183abc2::t_d389d8c487077b 1-31
+pocs/github-control-panel/frontend/src/tabs/InsightsTab.tsx
+  s_359ea6a183abc2::t_811ded5bf99c4f 48-51,60-63
+  s_359ea6a183abc2::t_c448787868b9df 74-77
+  s_359ea6a183abc2::t_75853bcb90e47b 90-94
+  s_359ea6a183abc2::t_783290886acc39 64-65
+  s_359ea6a183abc2::t_eae119484beee2 1-47,52-59,66-73,78-89,95-101
+pocs/github-control-panel/backend/src/main/java/com/github/controlpanel/actioncenter/ActionCenterService.java
+  s_359ea6a183abc2::t_dc33ecf1c31d2f 1-110
+pocs/github-control-panel/frontend/vite.config.ts
+  s_359ea6a183abc2::t_84e3378d70d4d5 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "90b4d2a467e11dbe1f7c85f5b17062df414914b4",
+  "prompts": {},
+  "sessions": {
+    "s_359ea6a183abc2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f9d3f02c-0b93-4fe6-ad02-18c6485ac410",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
