@@ -1,0 +1,11 @@
+FROM docker.io/library/maven:3.9-eclipse-temurin-25-alpine AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn -q -B -DskipTests package
+
+FROM docker.io/library/eclipse-temurin:25-jre-jammy
+WORKDIR /app
+COPY --from=build /app/target/github-control-panel-1.0.0.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["bash","-c","until (echo > /dev/tcp/${DB_HOST}/${DB_PORT}) 2>/dev/null; do sleep 1; done; exec java -jar app.jar"]

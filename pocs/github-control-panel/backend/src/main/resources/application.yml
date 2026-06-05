@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: github-control-panel
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:ghcp}?createDatabaseIfNotExist=true&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+    username: ${DB_USER:ghcp}
+    password: ${DB_PASSWORD:ghcp}
+    hikari:
+      maximum-pool-size: 10
+      pool-name: ghcp-pool
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+server:
+  port: ${SERVER_PORT:8080}
+
+github:
+  api-url: ${GITHUB_API_URL:https://api.github.com}
+  pr-page-size: 50
+  issue-page-size: 50
+
+app:
+  stale-days: 7
