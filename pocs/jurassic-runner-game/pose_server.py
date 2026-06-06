@@ -93,8 +93,14 @@ async def handle(ws):
         detector.close()
 
 
+class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        super().end_headers()
+
+
 def serve_http():
-    handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=WEB_DIR)
+    handler = functools.partial(NoCacheHandler, directory=WEB_DIR)
     socketserver.ThreadingTCPServer.allow_reuse_address = True
     with socketserver.ThreadingTCPServer(("", HTTP_PORT), handler) as httpd:
         httpd.serve_forever()

@@ -9,8 +9,9 @@ controller**. There is no keyboard in the intended experience:
 - **crouch / duck** → the runner ducks
 - **lean or step left / right** → the runner switches lanes
 
-The game has a **timer**, a **score**, and **obstacles**. At the start it **snaps a photo of
-your face onto the runner**. Your **live camera is shown on the right**. If you lose, the run
+The game has a **timer**, a **score**, and **obstacles** (many of them dinosaurs). At the start
+it **snaps a photo of your face onto the runner**. Your **live camera is shown on the right**.
+A **T-Rex chases you** the whole time, and if you hit something it lunges in and the run
 **auto-restarts after 3 seconds**.
 
 ## 2. Architecture
@@ -29,7 +30,8 @@ frames become a small control signal in a fast loop. This mirrors the sibling pr
 5. The game canvas turns that packet into lane / jump / duck and renders at 60 fps.
 
 The forward path (solid) is the capture pipeline; the dotted blue path is the control signal
-coming back.
+coming back. The static server sends `Cache-Control: no-store` so the browser always loads the
+latest game files — no hard-reload dance after an edit.
 
 ### Why no LLM in the control loop
 
@@ -60,7 +62,7 @@ All four controls come from two numbers plus a one-time calibration:
 
 | Control | Source | Rule |
 | --- | --- | --- |
-| Lane (left/right) | `x` | `lane = clamp((x − 0.5 − deadzone) · gain, −1, 1)` with `gain ≈ 7.5`, `deadzone ≈ 0.03` |
+| Lane (left/right) | `x` | `lane = clamp((x − 0.5 − deadzone) · gain, −1, 1)` with `gain = 7.5`, `deadzone = 0.03` |
 | Jump | `y` | grounded **and** `baseline − y > 0.05` → launch a jump (then physics) |
 | Duck | `y` | grounded **and** `y − baseline > 0.07` → duck (squash) while held |
 
@@ -68,28 +70,53 @@ All four controls come from two numbers plus a one-time calibration:
 into `baseline` and grabs the `face` box to snapshot your face. Jump/duck are measured relative
 to that baseline so the game adapts to your height and camera position.
 
-The horizontal `gain`/`deadzone` were tuned up after first playtest: a modest lean/step now
-reaches a side lane, instead of needing to move nearly across the frame.
+The horizontal `gain`/`deadzone` were tuned up after playtests so a modest lean/step reaches a
+side lane, instead of needing to move nearly across the frame.
 
 ## 5. Game design
 
 A pseudo-3D perspective trail with three lanes. Obstacles spawn at the horizon, grow as they
-approach, and resolve at the player line (`t = 0.9`).
+approach, and resolve at the player line (`t = 0.9`). Each obstacle maps to one of the four
+controls, so every gesture matters. A single obstacle spawns at a time, guaranteeing at least
+one safe lane.
 
-| Obstacle | Avoid by |
-| --- | --- |
-| Boulder (`rock`) | **jump** over it, or switch lane |
-| Pterodactyl (`ptero`) | **duck** under it, or switch lane |
-| Tree (`tree`) | **switch lane** (too tall to jump, too low to duck) |
-
-Each obstacle maps to one of the four controls, so every gesture matters. A single obstacle
-spawns at a time, guaranteeing at least one safe lane.
+| Obstacle | Type | Avoid by |
+| --- | --- | --- |
+| Boulder | rock | **jump** over it, or switch lane |
+| Raptor | dinosaur | **jump** over it, or switch lane |
+| Pterodactyl | flying dinosaur | **duck** under it, or switch lane |
+| Stegosaurus | dinosaur | **switch lane** (too wide to jump) |
+| Tree | scenery | **switch lane** (too tall to jump) |
 
 - **Score**: +1 each few frames of survival, +10 per obstacle cleared.
 - **Timer**: elapsed survival time, shown live.
-- **Difficulty**: forward speed and spawn rate ramp with elapsed time.
-- **Lose & restart**: any unavoided obstacle = crash. A T-Rex lunges in, and the run
-  **auto-restarts after 3 seconds** (face and baseline are kept).
+- **Difficulty**: forward speed and spawn rate ramp with elapsed time, multiplied by the speed
+  level (below).
+- **Lose & restart**: any unavoided obstacle = crash. The T-Rex lunges in to eat the runner,
+  and the run **auto-restarts after 3 seconds** (face and baseline are kept).
+
+### The chasing T-Rex
+
+A full T-Rex head looms at the bottom of the screen the entire run, **surging up toward the
+runner and falling back** in a lunge cycle. It is purely theatrical — it raises tension and
+sells "outrun the T-Rex", but it **never causes a loss by itself**. Only the on-track obstacles
+can end a run. On game over the same T-Rex lunges up and grows to fill the board.
+
+### More dinosaurs
+
+Beyond the on-track raptors, pterodactyls and stegosaurs, long-necked **sauropods** walk slowly
+along the horizon as living scenery.
+
+### Speed control
+
+A slider in the side panel sets the pace across four levels — **Slow / Normal / Fast / Insane** —
+applied as a multiplier (`[0.38, 0.62, 1.0, 1.55]`) on both forward speed and obstacle ramp.
+Default is Normal. Slow is genuinely gentle for first-timers.
+
+### Full screen
+
+A header button toggles full-screen on the board via the Fullscreen API; CSS scales the canvas
+to the viewport height.
 
 ### Theming
 
@@ -100,15 +127,21 @@ themed to match the game.
 ### Audio
 
 A dependency-free **procedural soundtrack** built on the Web Audio API (`audio.js`): a low
-detuned drone, a tribal kick/tom/shaker groove, and a pentatonic flute riff for a jungle feel,
-plus a synthesized T-Rex roar on game over. It starts on the first user gesture (browser
-autoplay rules) and has a `SOUND: ON/OFF` toggle. No audio files, no libraries.
+detuned drone, a tribal kick/tom/shaker groove, and a pentatonic flute riff for a jungle feel.
+Action sounds are deliberately **funny** — a cartoon **boing** on jump and a descending
+**whoop** on duck — plus a synthesized T-Rex **roar** on game over. It starts on the first user
+gesture (browser autoplay rules) and has a `SOUND: ON/OFF` toggle. No audio files, no libraries.
+
+> Implementation note: in a classic script, `const Jungle = …` is a global *binding* but not a
+> property of `window`, so `audio.js` ends with `window.Jungle = Jungle;` to make it callable
+> from `game.js`. Missing this is why the music was initially silent.
 
 ## 6. Keyboard fallback
 
 For machines without a camera (and for automated screenshots), arrow keys + space drive the
-runner. Keyboard input is **momentary**: the moment you stop pressing, body control resumes —
-so a stray key press can never silently disable the camera.
+runner: `←`/`→` lanes, `Space`/`↑` jump, `↓` duck, `R` restart. Keyboard input is **momentary**:
+the moment you stop pressing, body control resumes — so a stray key press can never silently
+disable the camera.
 
 ## 7. Stack
 
@@ -117,9 +150,9 @@ so a stray key press can never silently disable the camera.
 | Body tracking | MediaPipe `PoseLandmarker` (lite, float16) |
 | Frame decode | OpenCV (`opencv-python`) |
 | Transport | `websockets` |
-| Static server | Python stdlib `http.server` |
+| Static server | Python stdlib `http.server` (with no-store headers) |
 | Game | plain HTML canvas + vanilla JS |
-| Music | Web Audio API, procedural |
+| Music & SFX | Web Audio API, procedural |
 | Python | 3.9 |
 
 No game engine, no frontend framework, no build step, no audio assets.
@@ -129,17 +162,17 @@ No game engine, no frontend framework, no build step, no audio assets.
 - The webcam never leaves your machine: frames go browser → local Python over `ws://localhost`.
 - The browser owns the camera, so the Python side never opens a camera device — no OS camera
   prompt for the server.
-- In the README screenshots, the camera panel is deliberately pixelated for privacy; on your
-  machine it shows your sharp live feed with the lane dot.
+- The README screenshots were captured with the camera disabled (the runner falls back to a
+  caveman head), so no real face appears.
 
 ## 9. Files
 
 ```
-pose_server.py       WebSocket pose-tracking + static file server
+pose_server.py       WebSocket pose-tracking + static file server (no-store)
 web/index.html       layout
 web/style.css        jungle theme
-web/game.js          canvas game loop, camera capture, pose → control, face snapshot
-web/audio.js         procedural jungle soundtrack (Web Audio API)
+web/game.js          canvas game loop, camera capture, pose → control, face snapshot, dinos, T-Rex
+web/audio.js         procedural jungle soundtrack + jump/duck/roar SFX (Web Audio API)
 test_client.py       sends one frame through the pipeline
 requirements.txt     mediapipe, opencv-python, websockets, numpy
 start.sh stop.sh test.sh

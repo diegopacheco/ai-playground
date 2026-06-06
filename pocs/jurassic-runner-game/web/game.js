@@ -15,6 +15,11 @@ const overlayTitle = document.getElementById("overlay-title");
 const overlayText = document.getElementById("overlay-text");
 const startBtn = document.getElementById("start");
 const muteBtn = document.getElementById("mute");
+const fsBtn = document.getElementById("fs");
+const speedRange = document.getElementById("speed-range");
+const speedName = document.getElementById("speed-name");
+const board = document.querySelector(".board");
+const SPEED_NAMES = ["", "Slow", "Normal", "Fast", "Insane"];
 
 const W = game.width;
 const H = game.height;
@@ -23,6 +28,8 @@ const PLAYER_T = 0.9;
 const LANES = [-1, 0, 1];
 const JUMP_THRESH = 0.05;
 const DUCK_THRESH = 0.07;
+const SPEED_MUL = [0, 0.38, 0.62, 1.0, 1.55];
+let speedLevel = 2;
 
 let phase = "ready";
 let steer = 0.5;
@@ -230,18 +237,20 @@ function update(ts) {
   if (phase !== "playing") return;
 
   elapsed = (ts - startTime) / 1000;
-  speed = Math.min(0.016, 0.0058 + elapsed * 0.00009);
+  speed = Math.min(0.017, 0.0058 + elapsed * 0.00009) * SPEED_MUL[speedLevel];
   worldScroll += speed * 620;
 
   const c = readControls(ts);
   player.laneX = lerp(player.laneX, c.targetLane, 0.22);
-  if (c.wantJump && player.grounded) { player.vy = 9.6; player.grounded = false; }
+  if (c.wantJump && player.grounded) { player.vy = 13.0; player.grounded = false; if (window.Jungle) Jungle.jump(); }
   if (!player.grounded) {
     player.jumpY += player.vy;
-    player.vy -= 0.62;
+    player.vy -= 0.46;
     if (player.jumpY <= 0) { player.jumpY = 0; player.vy = 0; player.grounded = true; }
   }
+  const wasDucking = player.ducking;
   player.ducking = c.wantDuck && player.grounded;
+  if (player.ducking && !wasDucking && window.Jungle) Jungle.duck();
 
   action = !player.grounded ? "JUMP" : player.ducking ? "DUCK" : player.laneX < -0.4 ? "LEFT" : player.laneX > 0.4 ? "RIGHT" : "RUN";
 
@@ -257,8 +266,8 @@ function update(ts) {
       const sameCol = Math.abs(player.laneX - o.lane) < 0.6;
       let safe = !sameCol;
       if (!safe) {
-        if (o.type === "rock") safe = player.jumpY > 14;
-        else if (o.type === "ptero") safe = player.ducking;
+        if (o.avoid === "jump") safe = player.jumpY > 14;
+        else if (o.avoid === "duck") safe = player.ducking;
         else safe = false;
       }
       if (safe) { score += 10; o.cleared = true; }
@@ -504,13 +513,150 @@ function drawPtero(x, y, s, seed) {
   ctx.restore();
 }
 
+function drawRaptor(x, y, s, seed) {
+  const lsw = Math.sin(worldScroll * 0.06 + seed) * 7 * s;
+  const top = y - 60 * s;
+  ctx.save();
+  ctx.fillStyle = "rgba(0,0,0,0.3)";
+  ctx.beginPath(); ctx.ellipse(x, y + 2, 24 * s, 7 * s, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#5f8336";
+  ctx.beginPath();
+  ctx.moveTo(x - 6 * s, y - 34 * s);
+  ctx.quadraticCurveTo(x - 42 * s, y - 50 * s, x - 56 * s, y - 66 * s);
+  ctx.quadraticCurveTo(x - 30 * s, y - 40 * s, x + 2 * s, y - 28 * s);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = "#4d6b2b"; ctx.lineWidth = 6 * s; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(x - 5 * s, y - 30 * s); ctx.lineTo(x - 5 * s - lsw, y - 12 * s); ctx.lineTo(x - 9 * s - lsw, y); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x + 5 * s, y - 30 * s); ctx.lineTo(x + 5 * s + lsw, y - 12 * s); ctx.lineTo(x + 9 * s + lsw, y); ctx.stroke();
+  ctx.fillStyle = "#6b8f3a";
+  ctx.beginPath(); ctx.ellipse(x, y - 40 * s, 16 * s, 22 * s, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#cdbb7a";
+  ctx.beginPath(); ctx.ellipse(x, y - 34 * s, 9 * s, 14 * s, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = "#5f8336"; ctx.lineWidth = 3.5 * s;
+  ctx.beginPath(); ctx.moveTo(x - 8 * s, y - 46 * s); ctx.lineTo(x - 16 * s, y - 38 * s); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x + 8 * s, y - 46 * s); ctx.lineTo(x + 16 * s, y - 38 * s); ctx.stroke();
+  ctx.fillStyle = "#6b8f3a";
+  ctx.beginPath(); ctx.ellipse(x, top + 8 * s, 12 * s, 13 * s, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(x - 4 * s, top + 10 * s);
+  ctx.lineTo(x + 19 * s, top + 14 * s);
+  ctx.lineTo(x - 2 * s, top + 18 * s);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#fff";
+  for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.moveTo(x + (3 + i * 5) * s, top + 14 * s); ctx.lineTo(x + (5 + i * 5) * s, top + 17 * s); ctx.lineTo(x + (7 + i * 5) * s, top + 14 * s); ctx.closePath(); ctx.fill(); }
+  ctx.fillStyle = "#f4d03c"; ctx.beginPath(); ctx.arc(x + 2 * s, top + 6 * s, 3.2 * s, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#1a1a1a"; ctx.beginPath(); ctx.arc(x + 3 * s, top + 6 * s, 1.6 * s, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+function drawStego(x, y, s) {
+  ctx.save();
+  ctx.fillStyle = "rgba(0,0,0,0.3)";
+  ctx.beginPath(); ctx.ellipse(x, y + 2, 38 * s, 8 * s, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#7a6a45";
+  ctx.beginPath();
+  ctx.moveTo(x - 40 * s, y - 20 * s);
+  ctx.quadraticCurveTo(x - 20 * s, y - 48 * s, x + 6 * s, y - 46 * s);
+  ctx.quadraticCurveTo(x + 40 * s, y - 44 * s, x + 46 * s, y - 18 * s);
+  ctx.quadraticCurveTo(x + 20 * s, y - 8 * s, x - 20 * s, y - 10 * s);
+  ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(x + 50 * s, y - 16 * s, 10 * s, 8 * s, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#6a5a3a";
+  ctx.fillRect(x - 26 * s, y - 14 * s, 9 * s, 16 * s);
+  ctx.fillRect(x - 6 * s, y - 14 * s, 9 * s, 16 * s);
+  ctx.fillRect(x + 14 * s, y - 14 * s, 9 * s, 16 * s);
+  ctx.fillRect(x + 30 * s, y - 14 * s, 9 * s, 16 * s);
+  ctx.fillStyle = "#3f8a5a";
+  for (const p of [[-26, -38], [-12, -48], [2, -52], [16, -48], [30, -40]]) {
+    ctx.beginPath();
+    ctx.moveTo(x + (p[0] - 8) * s, y + (p[1] + 14) * s);
+    ctx.lineTo(x + p[0] * s, y + p[1] * s);
+    ctx.lineTo(x + (p[0] + 8) * s, y + (p[1] + 14) * s);
+    ctx.closePath(); ctx.fill();
+  }
+  ctx.fillStyle = "#cfcfcf";
+  for (const dx of [-50, -56]) { ctx.beginPath(); ctx.moveTo(x + dx * s, y - 22 * s); ctx.lineTo(x + (dx - 4) * s, y - 33 * s); ctx.lineTo(x + (dx + 3) * s, y - 25 * s); ctx.closePath(); ctx.fill(); }
+  ctx.restore();
+}
+
+function drawRex(cx, headTop, sc, open) {
+  const col = "#3c6630", colD = "#2c4f22", colL = "#4f7d3a";
+  ctx.save();
+  ctx.translate(cx, headTop);
+  ctx.scale(sc, sc);
+  const nb = (H + 60 - headTop) / sc;
+
+  ctx.fillStyle = colD;
+  ctx.beginPath();
+  ctx.moveTo(-150, nb);
+  ctx.quadraticCurveTo(-124, 80, -62, 40);
+  ctx.quadraticCurveTo(0, 8, 62, 40);
+  ctx.quadraticCurveTo(124, 80, 150, nb);
+  ctx.closePath(); ctx.fill();
+
+  ctx.strokeStyle = colL; ctx.lineWidth = 9; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.beginPath(); ctx.moveTo(-52, 104); ctx.lineTo(-30, 118); ctx.lineTo(-12, 110); ctx.stroke();
+  ctx.strokeStyle = "#e8e0c0"; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(-12, 110); ctx.lineTo(-3, 117); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-12, 110); ctx.lineTo(-6, 103); ctx.stroke();
+
+  ctx.fillStyle = col;
+  ctx.beginPath();
+  ctx.moveTo(-72, 50);
+  ctx.quadraticCurveTo(-84, 4, -40, 0);
+  ctx.quadraticCurveTo(30, -10, 80, 18);
+  ctx.lineTo(90, 34);
+  ctx.quadraticCurveTo(52, 40, 10, 44);
+  ctx.lineTo(-72, 50);
+  ctx.closePath(); ctx.fill();
+
+  ctx.fillStyle = "#f4efe0";
+  for (let i = 0; i < 8; i++) { const tx = -42 + i * 15, ty = 44 - i * 0.4; ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(tx + 5, ty + 13); ctx.lineTo(tx + 10, ty); ctx.closePath(); ctx.fill(); }
+
+  ctx.fillStyle = "#160808";
+  ctx.beginPath();
+  ctx.moveTo(-68, 52); ctx.lineTo(84, 38); ctx.lineTo(72, 52 + open); ctx.lineTo(-62, 56 + open); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#7a3b40";
+  ctx.beginPath(); ctx.ellipse(6, 58 + open * 0.6, 32, 10, 0, 0, Math.PI * 2); ctx.fill();
+
+  ctx.fillStyle = colD;
+  ctx.beginPath();
+  ctx.moveTo(-68, 52 + open);
+  ctx.quadraticCurveTo(30, 68 + open, 76, 52 + open);
+  ctx.lineTo(68, 76 + open);
+  ctx.quadraticCurveTo(-20, 88 + open, -62, 72 + open);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#f4efe0";
+  for (let i = 0; i < 7; i++) { const tx = -54 + i * 16, ty = 54 + open; ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(tx + 5, ty - 12); ctx.lineTo(tx + 10, ty); ctx.closePath(); ctx.fill(); }
+
+  ctx.fillStyle = "#f4d03c"; ctx.beginPath(); ctx.arc(-32, 20, 12, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#1a1a1a"; ctx.beginPath(); ctx.ellipse(-30, 20, 4, 8, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = colD;
+  ctx.beginPath(); ctx.moveTo(-50, 7); ctx.lineTo(-15, 11); ctx.lineTo(-21, 20); ctx.lineTo(-46, 18); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(70, 26, 4, 3, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+function drawChaser() {
+  const f = frameCount;
+  const surge = Math.max(0, Math.sin(f * 0.028));
+  const lunge = surge * surge;
+  const x = W / 2 - player.laneX * 26 + Math.sin(f * 0.045) * 24;
+  const bob = Math.sin(f * 0.22) * 5;
+  const headTop = H - 18 - lunge * 168 + bob;
+  const open = 24 + lunge * 36;
+  drawRex(x, headTop, 1.0, open);
+}
+
 function drawObstacle(o) {
   const x = laneToX(o.lane, o.t);
   const y = projY(o.t);
   const s = projHalf(o.t) / projHalf(PLAYER_T);
   if (s < 0.02) return;
-  if (o.type === "rock") drawRock(x, y, s, o.seed);
-  else if (o.type === "tree") drawTree(x, y, s);
+  if (o.kind === "rock") drawRock(x, y, s, o.seed);
+  else if (o.kind === "tree") drawTree(x, y, s);
+  else if (o.kind === "raptor") drawRaptor(x, y, s, o.seed);
+  else if (o.kind === "stego") drawStego(x, y, s);
   else drawPtero(x, y, s, o.seed);
 }
 
@@ -624,47 +770,11 @@ function drawRunner() {
 }
 
 function drawTrex() {
-  const t = clamp(trexT, 0.9, 1.5);
-  const x = W / 2 - player.laneX * 30;
-  const y = projY(Math.min(t, 1.0)) + (t > 1 ? (t - 1) * 600 : 0);
-  const s = projHalf(Math.min(t, 1)) / projHalf(1) * 2.4;
-  ctx.save();
-  ctx.fillStyle = "#3f6b2f";
-  ctx.beginPath();
-  ctx.ellipse(x, y - 70 * s, 70 * s, 60 * s, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(x - 30 * s, y - 80 * s);
-  ctx.lineTo(x + 120 * s, y - 96 * s);
-  ctx.lineTo(x + 122 * s, y - 50 * s);
-  ctx.lineTo(x - 20 * s, y - 40 * s);
-  ctx.closePath();
-  ctx.fill();
-  ctx.fillStyle = "#2c4f22";
-  ctx.beginPath();
-  ctx.moveTo(x + 60 * s, y - 64 * s);
-  ctx.lineTo(x + 118 * s, y - 86 * s);
-  ctx.lineTo(x + 120 * s, y - 64 * s);
-  ctx.closePath();
-  ctx.fill();
-  ctx.fillStyle = "#fff";
-  for (let i = 0; i < 6; i++) {
-    ctx.beginPath();
-    ctx.moveTo(x + (70 + i * 8) * s, y - 64 * s);
-    ctx.lineTo(x + (74 + i * 8) * s, y - 54 * s);
-    ctx.lineTo(x + (78 + i * 8) * s, y - 64 * s);
-    ctx.closePath();
-    ctx.fill();
-  }
-  ctx.fillStyle = "#f4d03c";
-  ctx.beginPath();
-  ctx.arc(x + 70 * s, y - 92 * s, 9 * s, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = "#1a1a1a";
-  ctx.beginPath();
-  ctx.arc(x + 72 * s, y - 92 * s, 4 * s, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
+  const p = clamp((1.36 - trexT) / 0.4, 0, 1);
+  const headTop = H - 30 - p * 330;
+  const sc = 1.3 + p * 1.0;
+  const open = 30 + p * 52 + Math.sin(frameCount * 0.3) * 6;
+  drawRex(W / 2 - player.laneX * 18, headTop, sc, open);
 }
 
 function drawCountdown(ts) {
@@ -694,6 +804,7 @@ function render(ts) {
   for (const o of ordered) if (o.t <= PLAYER_T) drawObstacle(o);
 
   if (phase === "dead") drawTrex();
+  if (phase === "playing") drawChaser();
   if (phase !== "calibrating") drawRunner();
 
   for (const o of ordered) if (o.t > PLAYER_T) drawObstacle(o);
@@ -777,6 +888,21 @@ muteBtn.addEventListener("click", () => {
   Jungle.start();
   const m = Jungle.toggle();
   muteBtn.textContent = m ? "SOUND: OFF" : "SOUND: ON";
+});
+
+fsBtn.addEventListener("click", () => {
+  if (document.fullscreenElement) document.exitFullscreen();
+  else if (board.requestFullscreen) board.requestFullscreen();
+  else if (board.webkitRequestFullscreen) board.webkitRequestFullscreen();
+});
+
+document.addEventListener("fullscreenchange", () => {
+  fsBtn.textContent = document.fullscreenElement ? "EXIT FULL SCREEN" : "FULL SCREEN";
+});
+
+speedRange.addEventListener("input", () => {
+  speedLevel = clamp(parseInt(speedRange.value, 10) || 2, 1, 4);
+  speedName.textContent = SPEED_NAMES[speedLevel];
 });
 
 window.addEventListener("keydown", (e) => {

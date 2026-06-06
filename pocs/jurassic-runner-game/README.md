@@ -6,25 +6,22 @@ lanes, and outrun the T-Rex.
 
 The webcam lives in the browser, and **Python + OpenCV + MediaPipe Pose** is the perception
 brain: live frames become a lane / jump / duck signal in a fast loop. At the start it snaps your
-face onto the runner, your live camera sits on the right, and if the T-Rex catches you the run
-restarts after 3 seconds.
+face onto the runner, your live camera sits on the right, a T-Rex chases you the whole way, and
+if it catches you the run restarts after 3 seconds.
 
 ## What it looks like
 
-**Title screen** — allow the camera, stand back so your whole body is in frame, and enter the jungle.
+**Title screen** — allow the camera, pick a speed, and enter the jungle. Long-necked sauropods
+roam the skyline.
 
 ![start screen](printscreens/start.png)
 
-**The trail** — a pseudo-3D jungle path with a smoking volcano, three lanes, score, and a live timer.
-
-![the trail](printscreens/trail.png)
-
-**Running** — dodge boulders, pterodactyls and trees. Here the camera panel is pixelated for
-privacy; on your machine it shows your sharp live feed with the green lane dot.
+**Running** — dodge boulders, raptors, pterodactyls and stegosaurs while the T-Rex lunges at
+your heels. (Captured with the camera off, so the runner uses the caveman fallback head.)
 
 ![gameplay](printscreens/gameplay.png)
 
-**Caught!** — miss one and the T-Rex lunges in. The run auto-restarts after 3 seconds.
+**Caught!** — miss one and the T-Rex fills the screen. The run auto-restarts after 3 seconds.
 
 ![game over](printscreens/gameover.png)
 
@@ -45,13 +42,13 @@ See [`design-doc.md`](design-doc.md) for the full design.
 
 ## Controls
 
-| Action | Body gesture |
-| --- | --- |
-| Switch lane left / right | Lean or step left / right in front of the camera |
-| Jump | Jump up (clears boulders) |
-| Duck | Crouch down (clears pterodactyls) |
-| Switch lane | The only way past a tree — it is too tall to jump |
-| Restart | Automatic 3s after a crash, or press `R` |
+| Action | Body gesture | Funny sound |
+| --- | --- | --- |
+| Switch lane left / right | Lean or step left / right | — |
+| Jump | Jump up (clears boulders & raptors) | cartoon **boing** |
+| Duck | Crouch down (clears pterodactyls) | descending **whoop** |
+| Switch lane | The only way past a stegosaurus or tree | — |
+| Restart | Automatic 3s after a crash, or press `R` | T-Rex **roar** |
 
 When a run starts there is a 3-second countdown: it captures a neutral pose as your baseline and
 snaps your face onto the runner. Jump and duck are measured relative to that baseline, so the
@@ -60,12 +57,32 @@ game adapts to your height and camera.
 **Keyboard fallback** (no camera, or for testing): `←` `→` to switch lane, `Space`/`↑` to jump,
 `↓` to duck. Body control resumes the instant you stop pressing keys.
 
+## The dinosaurs
+
+| On the track | Avoid by |
+| --- | --- |
+| Boulder | jump |
+| Raptor | jump |
+| Pterodactyl | duck |
+| Stegosaurus | switch lane |
+| Tree | switch lane |
+
+A **T-Rex** looms at the bottom the whole run, lunging toward you for tension — but it is
+theatrical and never ends the run by itself; only the on-track obstacles can. On game over it
+lunges up and eats the runner. Sauropods graze along the horizon as scenery.
+
+## Options
+
+- **GAME SPEED** slider — four levels, **Slow / Normal / Fast / Insane** (default Normal).
+- **FULL SCREEN** button — play the board full-screen.
+- **SOUND: ON/OFF** button — toggle the procedural soundtrack and effects.
+
 ## Sound
 
 A procedural Jurassic-jungle soundtrack plays in the background — a low drone, tribal drums, and
-a pentatonic flute riff, with a T-Rex roar on game over. It is synthesized live with the Web
-Audio API (no audio files, no libraries) and starts on your first click. Toggle it with the
-`SOUND: ON/OFF` button.
+a pentatonic flute riff — with a boing on jump, a whoop on duck, and a T-Rex roar on game over.
+It is synthesized live with the Web Audio API (no audio files, no libraries) and starts on your
+first click.
 
 ## Run it
 
@@ -77,7 +94,8 @@ context, so the browser will grant camera access.
 ```
 
 First run creates a virtualenv, installs the dependencies, downloads the MediaPipe pose model
-(~5.8 MB), and starts the server. Then open:
+(~5.8 MB), and starts the server. `start.sh` also stops any previous instance first, so you can
+re-run it freely. Then open:
 
 ```
 http://localhost:8000
@@ -115,9 +133,9 @@ ALL TESTS PASSED
 | Body tracking | MediaPipe `PoseLandmarker` (lite, float16) |
 | Frame decode | OpenCV (`opencv-python`) |
 | Transport | `websockets` |
-| Static server | Python stdlib `http.server` |
+| Static server | Python stdlib `http.server` (no-store headers) |
 | Game | plain HTML canvas + vanilla JS |
-| Music | Web Audio API, procedural |
+| Music & SFX | Web Audio API, procedural |
 | Python | 3.9 |
 
 No game engine, no frontend framework, no build step, no audio assets.
@@ -128,8 +146,8 @@ No game engine, no frontend framework, no build step, no audio assets.
 pose_server.py       WebSocket pose-tracking + static file server
 web/index.html       layout
 web/style.css        jungle theme
-web/game.js          canvas game loop, camera capture, pose → control, face snapshot
-web/audio.js         procedural jungle soundtrack (Web Audio API)
+web/game.js          canvas game loop, camera capture, pose → control, face snapshot, dinos, T-Rex
+web/audio.js         procedural jungle soundtrack + jump/duck/roar effects (Web Audio API)
 test_client.py       sends one frame through the pipeline
 requirements.txt     mediapipe, opencv-python, websockets, numpy
 start.sh stop.sh test.sh
@@ -143,3 +161,4 @@ design-doc.md        design document
 - Because the browser owns the camera, the Python side never opens a camera device — no OS
   camera permission prompt for the server.
 - The pose model and the virtualenv are git-ignored; `start.sh` recreates them.
+- The README screenshots were captured with the camera disabled, so no real face appears.

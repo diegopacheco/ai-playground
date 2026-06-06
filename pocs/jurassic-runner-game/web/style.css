@@ -43,14 +43,49 @@ header { position: relative; }
 header p { margin: 8px 0 22px; color: var(--muted); max-width: 620px; line-height: 1.5; }
 header b { color: var(--ink); }
 
+.topbtns { position: absolute; top: 6px; right: 0; display: flex; gap: 8px; }
 .mute {
-  position: absolute; top: 6px; right: 0;
   padding: 9px 16px; font-size: 12px; letter-spacing: 1px;
   color: var(--ink);
   background: var(--panel2);
   box-shadow: 0 4px 0 #0c1d12;
 }
 .mute:active { transform: translateY(3px); box-shadow: 0 1px 0 #0c1d12; }
+
+.speedpanel {
+  background: var(--panel);
+  border: 1px solid rgba(111, 224, 111, .12);
+  border-radius: 16px; padding: 14px;
+}
+#speed-range {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 8px; margin: 14px 0 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2f7d3f, var(--amber));
+  outline: none;
+}
+#speed-range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #eafbe9; border: 3px solid var(--accent); cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,.5);
+}
+#speed-range::-moz-range-thumb {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #eafbe9; border: 3px solid var(--accent); cursor: pointer;
+}
+.speed-labels { display: flex; justify-content: space-between; align-items: center; }
+.speed-labels span { color: var(--muted); font-size: 12px; letter-spacing: 1px; }
+.speed-labels b { color: var(--amber); font-size: 14px; letter-spacing: 1px; }
+
+.board:fullscreen, .board:-webkit-full-screen {
+  width: 100vw; height: 100vh; border-radius: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+}
+.board:fullscreen #game, .board:-webkit-full-screen #game {
+  width: auto; height: 100vh; max-width: 100vw;
+}
 
 .stage { display: flex; gap: 18px; align-items: flex-start; }
 

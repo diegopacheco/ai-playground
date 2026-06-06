@@ -12,7 +12,10 @@
   <header>
     <h1>JURASSIC RUNNER</h1>
     <p>No keyboard needed — <b>your body is the controller</b>. Jump to jump, crouch to duck, lean left and right to switch lanes. Outrun the T-Rex through the prehistoric jungle.</p>
-    <button id="mute" class="mute">SOUND: ON</button>
+    <div class="topbtns">
+      <button id="fs" class="mute">FULL SCREEN</button>
+      <button id="mute" class="mute">SOUND: ON</button>
+    </div>
   </header>
 
   <div class="stage">
@@ -33,6 +36,12 @@
         <div class="metric"><span class="label">TIME</span><span id="time" class="value">0.0</span></div>
         <div class="metric"><span class="label">ACTION</span><span id="action" class="value action">RUN</span></div>
         <div class="metric"><span class="label">BODY</span><span id="status" class="value status">--</span></div>
+      </div>
+
+      <div class="speedpanel">
+        <span class="campanel-title">GAME SPEED</span>
+        <input id="speed-range" type="range" min="1" max="4" step="1" value="2" />
+        <div class="speed-labels"><span>Slow</span><b id="speed-name">Normal</b><span>Fast</span></div>
       </div>
 
       <div class="campanel">
