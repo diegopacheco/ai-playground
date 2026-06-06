@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; background: #fbfbf7; }
+  #wrap { width: 1200px; height: 600px; }
+  svg { display: block; font-family: "Caveat", cursive; }
+  .box { stroke: #1f2937; stroke-width: 2.5; filter: url(#rough); }
+  .b-blue { fill: #cfe8ff; }
+  .b-green { fill: #d6f5dd; }
+  .b-yellow { fill: #fff1c2; }
+  .b-pink { fill: #ffd6e7; }
+  .b-purple { fill: #e7d9ff; }
+  .b-orange { fill: #ffe0c2; }
+  .lbl { font-size: 27px; fill: #1f2937; font-weight: 700; text-anchor: middle; }
+  .sub { font-size: 19px; fill: #374151; font-weight: 500; text-anchor: middle; }
+  .edge { stroke: #1f2937; stroke-width: 2.8; fill: none; stroke-linecap: round; }
+  .edgeback { stroke: #2563eb; stroke-width: 2.8; fill: none; stroke-linecap: round; stroke-dasharray: 1 9; }
+  .elbl { font-size: 21px; fill: #1f2937; font-weight: 700; text-anchor: middle; }
+  .elbl-b { font-size: 21px; fill: #2563eb; font-weight: 700; text-anchor: middle; }
+  .title { font-size: 40px; fill: #111827; font-weight: 700; }
+</style>
+</head>
+<body>
+<div id="wrap">
+<svg width="1200" height="600" viewBox="0 0 1200 600">
+  <defs>
+    <filter id="rough">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="11" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" />
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10" fill="none" stroke="#1f2937" stroke-width="2.4" />
+    </marker>
+    <marker id="arrowb" markerWidth="12" markerHeight="12" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10" fill="none" stroke="#2563eb" stroke-width="2.4" />
+    </marker>
+  </defs>
+
+  <text x="40" y="58" class="title">Jurassic Runner — pose perception loop</text>
+
+  <rect class="box b-blue" x="40" y="140" width="180" height="96" rx="14" />
+  <text x="130" y="182" class="lbl">Webcam</text>
+  <text x="130" y="210" class="sub">your whole body</text>
+
+  <rect class="box b-green" x="290" y="128" width="210" height="120" rx="14" />
+  <text x="395" y="168" class="lbl">Browser</text>
+  <text x="395" y="196" class="sub">getUserMedia</text>
+  <text x="395" y="220" class="sub">+ canvas grab</text>
+
+  <rect class="box b-yellow" x="575" y="128" width="200" height="120" rx="14" />
+  <text x="675" y="168" class="lbl">Python</text>
+  <text x="675" y="196" class="sub">OpenCV decode</text>
+  <text x="675" y="220" class="sub">cv2.imdecode</text>
+
+  <rect class="box b-pink" x="850" y="128" width="220" height="120" rx="14" />
+  <text x="960" y="168" class="lbl">MediaPipe</text>
+  <text x="960" y="196" class="sub">PoseLandmarker</text>
+  <text x="960" y="220" class="sub">33 body points</text>
+
+  <rect class="box b-purple" x="850" y="360" width="220" height="118" rx="14" />
+  <text x="960" y="398" class="lbl">derive control</text>
+  <text x="960" y="426" class="sub">x = lane  ·  y = jump/duck</text>
+  <text x="960" y="450" class="sub">face box for player</text>
+
+  <rect class="box b-orange" x="290" y="360" width="320" height="118" rx="14" />
+  <text x="450" y="400" class="lbl">Game canvas</text>
+  <text x="450" y="428" class="sub">run · jump · duck · steer</text>
+  <text x="450" y="452" class="sub">your face on the runner</text>
+
+  <path class="edge" d="M222 188 L286 188" marker-end="url(#arrow)" />
+
+  <path class="edge" d="M502 188 L571 188" marker-end="url(#arrow)" />
+  <text x="538" y="160" class="elbl">JPEG</text>
+  <text x="540" y="120" class="elbl">WebSocket</text>
+
+  <path class="edge" d="M777 188 L846 188" marker-end="url(#arrow)" />
+
+  <path class="edge" d="M960 250 L960 356" marker-end="url(#arrow)" />
+
+  <path class="edgeback" d="M848 419 Q730 500 612 419" marker-end="url(#arrowb)" />
+  <text x="730" y="398" class="elbl-b">x · y · face  (JSON)</text>
+  <text x="730" y="468" class="elbl-b">WebSocket back</text>
+
+  <path class="edgeback" d="M450 356 Q450 305 450 252" marker-end="url(#arrowb)" />
+  <text x="358" y="318" class="elbl-b">render 60 fps</text>
+</svg>
+</div>
+</body>
+</html>

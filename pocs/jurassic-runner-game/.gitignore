@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+server.pid
+server.log
+pose_landmarker.task
+.playwright-mcp/

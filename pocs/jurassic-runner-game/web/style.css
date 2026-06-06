@@ -1,0 +1,132 @@
+:root {
+  --bg: #0a140d;
+  --panel: #14271a;
+  --panel2: #1b3324;
+  --ink: #eafbe9;
+  --muted: #8fae93;
+  --accent: #6fe06f;
+  --amber: #f4b03c;
+  --danger: #ef5350;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 640px at 50% -12%, #1d4029 0%, var(--bg) 62%),
+    var(--bg);
+  display: flex;
+  justify-content: center;
+  padding: 26px 16px 48px;
+}
+
+.shell { width: min(900px, 100%); }
+
+header h1 {
+  margin: 0;
+  font-family: "Bangers", "Trebuchet MS", sans-serif;
+  letter-spacing: 4px;
+  font-size: 52px;
+  line-height: 1;
+  background: linear-gradient(92deg, #f4b03c, #6fe06f 55%, #38bdf8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 4px 0 rgba(0, 0, 0, .25);
+}
+
+header { position: relative; }
+header p { margin: 8px 0 22px; color: var(--muted); max-width: 620px; line-height: 1.5; }
+header b { color: var(--ink); }
+
+.mute {
+  position: absolute; top: 6px; right: 0;
+  padding: 9px 16px; font-size: 12px; letter-spacing: 1px;
+  color: var(--ink);
+  background: var(--panel2);
+  box-shadow: 0 4px 0 #0c1d12;
+}
+.mute:active { transform: translateY(3px); box-shadow: 0 1px 0 #0c1d12; }
+
+.stage { display: flex; gap: 18px; align-items: flex-start; }
+
+.board {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, .6), inset 0 0 0 2px rgba(111, 224, 111, .12);
+}
+
+#game { display: block; width: 520px; height: 680px; max-width: 100%; }
+
+.overlay {
+  position: absolute; inset: 0;
+  background: rgba(6, 14, 9, .78);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+.overlay.hidden { display: none; }
+
+.card { text-align: center; padding: 28px 32px; width: 84%; }
+.card h2 {
+  margin: 0 0 10px;
+  font-family: "Bangers", sans-serif;
+  font-size: 40px; letter-spacing: 2px;
+  color: var(--amber);
+}
+.card p { margin: 0 0 20px; color: var(--muted); line-height: 1.55; }
+
+button {
+  border: none; cursor: pointer;
+  padding: 14px 30px; border-radius: 999px;
+  font-weight: 700; letter-spacing: 2px; font-size: 15px;
+  color: #062b10;
+  background: linear-gradient(180deg, #8bf08b, var(--accent));
+  box-shadow: 0 8px 0 #2f7d3a, 0 14px 24px rgba(0, 0, 0, .4);
+  transition: transform .07s ease, box-shadow .07s ease, filter .15s ease;
+}
+button:hover { filter: brightness(1.06); }
+button:active { transform: translateY(5px); box-shadow: 0 3px 0 #2f7d3a, 0 6px 14px rgba(0, 0, 0, .4); }
+
+.side { display: flex; flex-direction: column; gap: 14px; flex: 1; min-width: 230px; }
+
+.hud {
+  background: var(--panel);
+  border: 1px solid rgba(111, 224, 111, .12);
+  border-radius: 16px; padding: 16px; display: grid; gap: 12px;
+}
+.metric { display: flex; justify-content: space-between; align-items: baseline; }
+.label { color: var(--muted); letter-spacing: 2px; font-size: 12px; }
+.value { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.status, .action { font-size: 16px; }
+.action { color: var(--amber); letter-spacing: 1px; }
+
+.campanel, .legend {
+  background: var(--panel);
+  border: 1px solid rgba(111, 224, 111, .12);
+  border-radius: 16px; padding: 14px;
+}
+.campanel-title { color: var(--muted); letter-spacing: 2px; font-size: 12px; }
+#pip {
+  display: block; width: 100%; height: auto; margin: 10px 0 6px;
+  border-radius: 12px; background: #05100a; aspect-ratio: 4 / 3;
+}
+.hint { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.4; }
+
+.legend ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
+.legend li { display: flex; justify-content: space-between; align-items: baseline; }
+.legend b { color: var(--accent); font-size: 15px; }
+.legend span { color: var(--muted); font-size: 13px; }
+
+#cam, #grab { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; left: -9999px; }
+
+@media (max-width: 760px) {
+  .stage { flex-direction: column; align-items: stretch; }
+  .board { align-self: center; }
+  header h1 { font-size: 40px; }
+}
