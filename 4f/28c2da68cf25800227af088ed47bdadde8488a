@@ -1,0 +1,22 @@
+pocs/jurassic-runner-game/web/game.js
+  s_e43ffde4d4a54a::t_c32698fd6fe681 816
+pocs/jurassic-runner-game/web/rextest.html
+  s_e43ffde4d4a54a::t_e5c13bb16c7c18 1-102,104
+  s_e43ffde4d4a54a::t_2666a9b7588d9d 103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "4f28c2da68cf25800227af088ed47bdadde8488a",
+  "prompts": {},
+  "sessions": {
+    "s_e43ffde4d4a54a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0d7c3bd6-6c3f-4976-b5fe-e6051a1eb54e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
