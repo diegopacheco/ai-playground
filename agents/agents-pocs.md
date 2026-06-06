@@ -129,6 +129,66 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/gastown-fun
 39 - Cook: Raph, Race, Review, Orchestrate loops over claude code <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/cook-cli-fun
 
+40 - Agentgateway: route all LLM traffic to OpenAI on local Kind cluster <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agentgateway-poc
+
+41 - Letta Code (coding agent CLI) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/letta-code-fun
+
+42 - Claude Code /loop command <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-code-loop
+
+43 - Claude Code /simplify command <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-code-simplify
+
+44 - Claude Context Manager (Rust TUI for Claude config) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-context-manager
+
+45 - Claude Context Mode <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-context-mode-fun
+
+46 - Claude Reflect <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-reflect-fun
+
+47 - Claude Skill Marketplace <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-skill-marketplace
+
+48 - cc-token-bar: macOS menu bar for Claude Code token usage <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/cc-token-bar
+
+49 - repo-mcp: local MCP server exposing GitHub repos to Claude Code <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/repo-mcp-poc
+
+50 - cc-hook-better-permissions (Claude Code permission hook) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/cc-hook-better-permissions
+
+51 - Better Auto-Approve Regex Hook for Claude Code <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-code-better-permissions-regex
+
+52 - Project Orchestrator <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/project-orchestrator
+
+53 - Mission Control <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/mission-control-fun
+
+54 - Claude Dispatch (remote Claude Cowork agents) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-dispatch
+
+55 - BTCA <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/btca-poc
+
+56 - gstack <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/gstack-poc
+
+57 - rtk <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/rtk-poc
+
+58 - Claude Design <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-design-poc
+
+59 - Anti-Gravity CLI <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/anti-gravity-cli-fun
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
@@ -333,3 +393,69 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/flight-agent-mcp
 
 67 - Multi-Agent System: Pixel Office Control Panel with Claude,Codex,Gemni and Copilot <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/pixel-office-agents-fun
+
+68 - Agent Buyer TAP: OpenAI buyer agent over Visa Trusted Agent Protocol (RFC 9421) + Playwright <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-buyer-tap
+
+69 - Agent Skill: Reverse Postmortem (predict incidents before they happen) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-reverse-postmortem
+
+70 - Agent Skill: Bug Recording -> Bug Report (Playwright UI bug videos) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-bug-video-recording
+
+71 - Agent Skill: Bus-Factor Map (git knowledge-risk heatmap) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-bus-factor
+
+72 - Agent Skill: Linter (hybrid deterministic + semantic, web report) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-linter
+
+73 - Agent Skill: Terminal RPG Learner <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-rpg-learner
+
+74 - Agent Skill: JIT Catching Test Generation <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/jit-testing-skill
+
+75 - Closed-Loop Auto-Tuning Agent for Resilience4j (OpenAI advises, human applies) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/closed-loop-auto-tunning-agent
+
+76 - Truth Detector: LLM classifies GitHub commit depth <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/truth-detector
+
+77 - uAgents (Fetch.ai framework) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/uagents-simple
+
+78 - Mesa Agents (agent-based modeling) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/mesa-agents
+
+79 - AWS Bedrock AgentCore <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agentcore-fun
+
+80 - Agent Safehouse: macOS sandboxing toolkit for LLM coding agents <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-safehouse-poc
+
+81 - Hermes Agent (Nous Research) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/hermes-agent-poc
+
+82 - CopilotKit: React + OpenAI assistant agent <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/copilotkit-fun
+
+83 - Tambo Generative UI agent <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/tambo-generative-ui-app-fun
+
+84 - Claude-Code-like coding agent (Rust + OpenAI tool calling) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-code-like-rust
+
+85 - Arxiv Summarizer Agent (Rust + OpenAI) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-opus-4.5-ai-summarizator
+
+86 - LangGraph <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/langgraph-mock-poc
+
+87 - Trailblaze: AI UI testing framework (iOS/Android/Web) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/trailblaze-test-poc
+
+88 - VLLora: trace / analyze / optimize LLM calls <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/vllora-fun
+
+89 - Codebase Roast Map <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/codebase-roast-map
