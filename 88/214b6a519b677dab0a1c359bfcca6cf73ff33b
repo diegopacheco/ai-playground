@@ -1,0 +1,69 @@
+pocs/jurassic-runner-game/pose_server.py
+  s_e43ffde4d4a54a::t_290ba46ef8b971 1-112
+pocs/jurassic-runner-game/web/style.css
+  s_e43ffde4d4a54a::t_d22f80bf1f38e1 42,45-53
+  s_e43ffde4d4a54a::t_357cd6bea7b294 1-41,43-44,54-132
+pocs/jurassic-runner-game/web/game.js
+  s_e43ffde4d4a54a::t_35dd4fa3e0a30d 170
+  s_e43ffde4d4a54a::t_332a536da01b4f 770,773-779
+  s_e43ffde4d4a54a::t_dfca92990f1e28 192-194,196,201-203
+  s_e43ffde4d4a54a::t_a5e4c8281979f3 784-787
+  s_e43ffde4d4a54a::t_572bb01d140734 173-180,182-183,185
+  s_e43ffde4d4a54a::t_295aadd211036a 789
+  s_e43ffde4d4a54a::t_0db27f93de295f 1-16,18-60,65-169,171-172,181,184,186-191,195,197-200,204-235,238-315,346-360,365-548,553-570,586-603,618-723,725-755,757-769,771-772,780-783,788,790-802
+  s_e43ffde4d4a54a::t_ab6abbd386ee82 236-237
+  s_e43ffde4d4a54a::t_7aee9b6d79df6c 61-62
+  s_e43ffde4d4a54a::t_2bc80aabcc0c9a 361-364
+  s_e43ffde4d4a54a::t_9f040a69c0fbdb 17
+  s_e43ffde4d4a54a::t_e668d70cf6c320 604-617
+  s_e43ffde4d4a54a::t_24914d69e7056a 63-64
+  s_e43ffde4d4a54a::t_74a31fffca1ad2 724
+  s_e43ffde4d4a54a::t_54aca8e168feca 549-552
+  s_e43ffde4d4a54a::t_f5cf9ef88e7518 571-585
+  s_e43ffde4d4a54a::t_f20ad05b05f728 316-345
+  s_e43ffde4d4a54a::t_c0618563fcbb43 756
+pocs/jurassic-runner-game/README.md
+  s_e43ffde4d4a54a::t_0dd2ca16d6a7eb 1-145
+pocs/jurassic-runner-game/start.sh
+  s_e43ffde4d4a54a::t_9e2ae3e40d7a37 1-4,11-32
+  s_e43ffde4d4a54a::t_8f2d7a249d4ec7 5-10
+pocs/jurassic-runner-game/test.sh
+  s_e43ffde4d4a54a::t_392720e6a73ea9 1-32
+pocs/jurassic-runner-game/diagram.html
+  s_e43ffde4d4a54a::t_455829624a6ab7 1-92
+pocs/jurassic-runner-game/web/audio.js
+  s_e43ffde4d4a54a::t_dc8fe0db34c86b 169-170
+  s_e43ffde4d4a54a::t_941d60ac738d34 167
+  s_e43ffde4d4a54a::t_688b600ec9a85e 117-159
+  s_e43ffde4d4a54a::t_b132c7cdcfe511 1-116,160-166,168
+pocs/jurassic-runner-game/web/index.html
+  s_e43ffde4d4a54a::t_1b760174ca4226 1-14,16-58,60-62
+  s_e43ffde4d4a54a::t_db717e01982b91 59
+  s_e43ffde4d4a54a::t_48cbf858316dd3 15
+pocs/jurassic-runner-game/.gitignore
+  s_e43ffde4d4a54a::t_50a8b7628a41f8 1-6
+pocs/jurassic-runner-game/design-doc.md
+  s_e43ffde4d4a54a::t_f74cd2f4250a4c 1-148
+pocs/jurassic-runner-game/requirements.txt
+  s_e43ffde4d4a54a::t_1cf0be4ef73a3a 1-4
+pocs/jurassic-runner-game/test_client.py
+  s_e43ffde4d4a54a::t_f1c349827748d2 1-26
+pocs/jurassic-runner-game/stop.sh
+  s_e43ffde4d4a54a::t_50f37b3b305cf7 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "88214b6a519b677dab0a1c359bfcca6cf73ff33b",
+  "prompts": {},
+  "sessions": {
+    "s_e43ffde4d4a54a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0d7c3bd6-6c3f-4976-b5fe-e6051a1eb54e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
