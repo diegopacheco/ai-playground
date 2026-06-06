@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="470" viewBox="0 0 1040 470" font-family="'Caveat','Comic Sans MS',cursive">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');</style>
+    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a4252"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1040" height="470" fill="#fbfbf7"/>
+  <text x="36" y="50" font-size="34" font-weight="700" fill="#2b3040">Bus-Factor Map — how /bus-factor works</text>
+
+  <g filter="url(#wobble)">
+    <rect x="36" y="96" width="190" height="92" rx="14" fill="#dbeafe" stroke="#3a4252" stroke-width="2.2"/>
+    <rect x="276" y="96" width="200" height="92" rx="14" fill="#e7e5ff" stroke="#3a4252" stroke-width="2.2"/>
+    <rect x="526" y="96" width="220" height="92" rx="14" fill="#fde6c8" stroke="#3a4252" stroke-width="2.2"/>
+    <rect x="796" y="96" width="208" height="92" rx="14" fill="#fcd5d5" stroke="#3a4252" stroke-width="2.2"/>
+
+    <rect x="276" y="300" width="200" height="84" rx="14" fill="#d9f3e4" stroke="#3a4252" stroke-width="2.2"/>
+    <rect x="526" y="300" width="220" height="84" rx="14" fill="#d9f3e4" stroke="#3a4252" stroke-width="2.2"/>
+    <rect x="796" y="300" width="208" height="84" rx="14" fill="#fff3bf" stroke="#3a4252" stroke-width="2.2"/>
+  </g>
+
+  <g fill="#2b3040" text-anchor="middle">
+    <text x="131" y="132" font-size="23" font-weight="700">git repo @ HEAD</text>
+    <text x="131" y="162" font-size="19">git ls-files</text>
+    <text x="376" y="130" font-size="23" font-weight="700">git blame</text>
+    <text x="376" y="158" font-size="18">--line-porcelain</text>
+    <text x="376" y="180" font-size="18">-w -M -C</text>
+    <text x="636" y="128" font-size="22" font-weight="700">bus_factor.py</text>
+    <text x="636" y="156" font-size="18">count lines / author</text>
+    <text x="636" y="178" font-size="18">risk + bus factor</text>
+    <text x="900" y="130" font-size="22" font-weight="700">render</text>
+    <text x="900" y="158" font-size="18">inject JSON into</text>
+    <text x="900" y="180" font-size="18">template.html</text>
+
+    <text x="376" y="332" font-size="20" font-weight="700">per-directory</text>
+    <text x="376" y="362" font-size="19">risk rollup</text>
+    <text x="636" y="332" font-size="20" font-weight="700">per-author</text>
+    <text x="636" y="362" font-size="19">"if they leave"</text>
+    <text x="900" y="332" font-size="21" font-weight="700">heatmap site</text>
+    <text x="900" y="362" font-size="18">treemap + tables</text>
+  </g>
+
+  <g stroke="#3a4252" stroke-width="2.4" fill="none" marker-end="url(#arrow)">
+    <path d="M226,142 C250,142 252,142 274,142"/>
+    <path d="M476,142 C500,142 502,142 524,142"/>
+    <path d="M746,142 C770,142 772,142 794,142"/>
+    <path d="M636,188 C636,230 466,250 386,298"/>
+    <path d="M636,188 L636,298"/>
+    <path d="M900,188 C900,240 900,260 900,298"/>
+  </g>
+
+  <text x="36" y="430" font-size="20" fill="#6b7280">git blame is the only source of truth — every number is reproducible from the same commit. Zero third-party dependencies.</text>
+</svg>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bus-Factor Map</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --panel:#ffffff;
+    --ink:#1d2433;
+    --muted:#6b7488;
+    --line:#e6e8ee;
+    --accent:#4c6ef5;
+    --accent-soft:#eef1ff;
+    --shadow:0 1px 2px rgba(20,28,48,.04),0 6px 22px rgba(20,28,48,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+  .title h1{font-size:26px;font-weight:700;margin:0;letter-spacing:-.02em}
+  .title .sub{color:var(--muted);font-size:13px;margin-top:6px}
+  .title .sub b{color:var(--ink);font-weight:600}
+  .grade{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    min-width:96px;padding:12px 18px;border-radius:16px;background:var(--panel);
+    box-shadow:var(--shadow);border:1px solid var(--line);
+  }
+  .grade .letter{font-size:40px;font-weight:800;line-height:1}
+  .grade .cap{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:26px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+  .card .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+  .card .v{font-size:30px;font-weight:750;margin-top:6px;letter-spacing:-.02em}
+  .card .note{font-size:12px;color:var(--muted);margin-top:4px}
+  section.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow);margin-bottom:24px}
+  .panel h2{font-size:16px;font-weight:700;margin:0 0 4px}
+  .panel .desc{color:var(--muted);font-size:13px;margin:0 0 18px}
+  .legend{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+  .legend .bar{height:10px;width:200px;border-radius:6px;background:linear-gradient(90deg,hsl(145,62%,48%),hsl(80,70%,48%),hsl(38,90%,52%),hsl(8,78%,52%))}
+  .legend .dot{display:inline-flex;align-items:center;gap:6px}
+  .legend .swatch{width:11px;height:11px;border-radius:3px;display:inline-block}
+  #treemap{position:relative;width:100%;height:540px;border-radius:12px;overflow:hidden;background:#fafbfc;border:1px solid var(--line)}
+  .cell{position:absolute;overflow:hidden;border:1px solid rgba(255,255,255,.65);cursor:default;transition:filter .12s ease}
+  .cell:hover{filter:brightness(1.07);z-index:5;outline:2px solid rgba(29,36,51,.55);outline-offset:-2px}
+  .cell .lbl{font-size:11px;font-weight:600;padding:4px 6px;display:block;color:rgba(15,20,32,.9);text-shadow:0 1px 0 rgba(255,255,255,.35)}
+  .cell.dark .lbl{color:rgba(255,255,255,.96);text-shadow:0 1px 1px rgba(0,0,0,.25)}
+  .cell .lbl small{font-weight:500;opacity:.8}
+  #tip{position:fixed;pointer-events:none;z-index:50;background:#1d2433;color:#fff;font-size:12px;line-height:1.45;padding:9px 11px;border-radius:9px;box-shadow:0 8px 28px rgba(0,0,0,.28);max-width:300px;opacity:0;transition:opacity .1s ease}
+  #tip b{font-weight:700}
+  #tip .row{display:flex;justify-content:space-between;gap:18px}
+  #tip .row span:last-child{font-variant-numeric:tabular-nums}
+  #tip .pill{display:inline-block;margin-top:6px;padding:1px 8px;border-radius:20px;font-size:11px;font-weight:700}
+  .tmnote{font-size:12px;color:var(--muted);margin-top:10px}
+  .leader{display:flex;flex-direction:column;gap:12px}
+  .leader .who{display:flex;align-items:center;gap:14px}
+  .leader .name{width:190px;flex-shrink:0;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .leader .track{flex:1;height:26px;background:#f0f1f5;border-radius:8px;position:relative;overflow:hidden}
+  .leader .fill{position:absolute;inset:0 auto 0 0;border-radius:8px;display:flex;align-items:center;padding-left:10px;color:#fff;font-size:12px;font-weight:700;white-space:nowrap;min-width:2px}
+  .leader .meta{width:150px;flex-shrink:0;text-align:right;font-size:12px;color:var(--muted)}
+  .leader .meta b{color:var(--ink)}
+  .healthy{padding:16px;border-radius:10px;background:#edf9f2;color:#1f7a4d;font-size:14px;font-weight:600}
+  .dirs{display:flex;flex-direction:column;gap:10px}
+  .dirs .drow{display:flex;align-items:center;gap:14px}
+  .dirs .dn{width:200px;flex-shrink:0;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dirs .dtrack{flex:1;height:18px;background:#f0f1f5;border-radius:6px;overflow:hidden}
+  .dirs .dfill{height:100%;border-radius:6px}
+  .dirs .dmeta{width:210px;flex-shrink:0;text-align:right;font-size:12px;color:var(--muted)}
+  .dirs .dmeta b{color:var(--ink)}
+  .tablebar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+  #filter{flex:1;min-width:220px;max-width:360px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;font-size:13px;background:#fafbfc;color:var(--ink)}
+  #filter:focus{outline:none;border-color:var(--accent);background:#fff}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead th{text-align:left;color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:8px 10px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;white-space:nowrap}
+  thead th:hover{color:var(--ink)}
+  thead th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+  tbody td{padding:9px 10px;border-bottom:1px solid #f1f2f6;vertical-align:middle}
+  tbody tr{border-left:3px solid transparent}
+  tbody tr:hover{background:#fafbff}
+  td.path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--ink)}
+  td.path .seg{color:var(--muted)}
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;color:#fff;min-width:38px;text-align:center}
+  .bf1{color:#c0392b;font-weight:700}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:34px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="title">
+      <h1>Bus-Factor Map</h1>
+      <div class="sub" id="subline"></div>
+    </div>
+    <div class="grade">
+      <div class="letter" id="gradeLetter">-</div>
+      <div class="cap">knowledge grade</div>
+    </div>
+  </header>
+
+  <div class="cards" id="cards"></div>
+
+  <section class="panel">
+    <h2>Knowledge-risk heatmap</h2>
+    <p class="desc">Every box is a file. Area is lines of code. Color is the chance that knowledge of it lives in a single head.</p>
+    <div class="legend">
+      <span>low risk</span><span class="bar"></span><span>high risk</span>
+      <span class="dot"><span class="swatch" style="background:hsl(145,62%,48%)"></span>shared</span>
+      <span class="dot"><span class="swatch" style="background:hsl(38,90%,52%)"></span>concentrated</span>
+      <span class="dot"><span class="swatch" style="background:hsl(8,78%,52%)"></span>single owner</span>
+    </div>
+    <div id="treemap"></div>
+    <div class="tmnote" id="tmnote"></div>
+  </section>
+
+  <section class="panel">
+    <h2>If they leave</h2>
+    <p class="desc">Code that one person solely owns (over 80% of lines, bus factor 1). The wider the bar, the more knowledge walks out the door with them.</p>
+    <div id="leader"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Risk by directory</h2>
+    <p class="desc">Lines-of-code weighted risk per top-level directory, worst first.</p>
+    <div class="dirs" id="dirs"></div>
+  </section>
+
+  <section class="panel">
+    <h2>All files</h2>
+    <div class="tablebar">
+      <input id="filter" type="text" placeholder="Filter by path or owner...">
+      <span class="desc" id="tablecount" style="margin:0"></span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th data-sort="path">File</th>
+          <th data-sort="top_author">Owner</th>
+          <th class="num" data-sort="top_share">Share</th>
+          <th class="num" data-sort="authors">Authors</th>
+          <th class="num" data-sort="bus_factor">Bus factor</th>
+          <th class="num" data-sort="loc">LOC</th>
+          <th data-sort="last_date">Last touch</th>
+          <th class="num" data-sort="risk">Risk</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </section>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<div id="tip"></div>
+
+<script>
+const DATA = __BUS_FACTOR_DATA__;
+
+function riskColor(r){
+  const hue = 145 * (1 - Math.min(r,100)/100);
+  const light = 50 - (r/100)*6;
+  return "hsl(" + hue.toFixed(0) + ",70%," + light.toFixed(0) + "%)";
+}
+function isDark(r){ return r >= 55; }
+function fmt(n){ return n.toLocaleString("en-US"); }
+function tierColor(t){
+  return {low:"hsl(145,62%,44%)",medium:"hsl(70,68%,42%)",high:"hsl(34,88%,48%)",critical:"hsl(6,76%,50%)"}[t];
+}
+
+function renderHeader(){
+  const s = DATA.summary;
+  document.getElementById("subline").innerHTML =
+    "<b>" + DATA.repo + "</b> &middot; scope: " + DATA.scope + " &middot; generated " + DATA.generated;
+  const g = document.getElementById("gradeLetter");
+  g.textContent = s.grade;
+  g.style.color = ({A:"#1f9d57",B:"#5fae3a",C:"#e0a800",D:"#e8791f",F:"#d23b34"})[s.grade] || "#1d2433";
+  document.title = "Bus-Factor Map - " + DATA.repo;
+}
+
+function renderCards(){
+  const s = DATA.summary;
+  const cards = [
+    {k:"Repo bus factor", v:s.repo_bus_factor, note:s.repo_bus_factor<=1?"one person holds the keys":s.repo_bus_factor<=2?"dangerously thin":"reasonable spread"},
+    {k:"Single-owner files", v:s.single_owner_files, note:s.single_owner_pct.toFixed(1)+"% of all code"},
+    {k:"Contributors", v:s.authors, note:fmt(s.loc)+" lines tracked"},
+    {k:"Files analyzed", v:fmt(s.files), note:"avg risk "+s.avg_risk},
+    {k:"Biggest exposure", v:s.risk_owner.sole_files, note:s.risk_owner.name+" - "+fmt(s.risk_owner.sole_loc)+" LOC"},
+  ];
+  document.getElementById("cards").innerHTML = cards.map(c =>
+    '<div class="card"><div class="k">'+c.k+'</div><div class="v">'+c.v+'</div><div class="note">'+c.note+'</div></div>'
+  ).join("");
+}
+
+function worst(row, side){
+  let max=-Infinity, min=Infinity, sum=0;
+  for(const r of row){ if(r.area>max)max=r.area; if(r.area<min)min=r.area; sum+=r.area; }
+  const s2=sum*sum, side2=side*side;
+  return Math.max((side2*max)/s2, s2/(side2*min));
+}
+
+function squarify(items, x, y, w, h){
+  const out=[];
+  const total=items.reduce((a,b)=>a+b.value,0);
+  if(total<=0||w<=0||h<=0) return out;
+  const scale=(w*h)/total;
+  const nodes=items.map(d=>({ref:d, area:d.value*scale}));
+  let rx=x, ry=y, rw=w, rh=h, i=0;
+  while(i<nodes.length){
+    const side=Math.min(rw,rh);
+    let row=[nodes[i]];
+    let cur=worst(row, side);
+    let j=i+1;
+    while(j<nodes.length){
+      const test=row.concat(nodes[j]);
+      const w2=worst(test, side);
+      if(w2<=cur){ row=test; cur=w2; j++; } else break;
+    }
+    const rowArea=row.reduce((a,b)=>a+b.area,0);
+    const thickness=rowArea/side;
+    if(rw>=rh){
+      let yy=ry;
+      for(const it of row){ const ih=it.area/thickness; out.push({ref:it.ref,x:rx,y:yy,w:thickness,h:ih}); yy+=ih; }
+      rx+=thickness; rw-=thickness;
+    }else{
+      let xx=rx;
+      for(const it of row){ const iw=it.area/thickness; out.push({ref:it.ref,x:xx,y:ry,w:iw,h:thickness}); xx+=iw; }
+      ry+=thickness; rh-=thickness;
+    }
+    i=j;
+  }
+  return out;
+}
+
+function baseName(p){ const parts=p.split("/"); return parts[parts.length-1]; }
+
+function renderTreemap(){
+  const host=document.getElementById("treemap");
+  const W=host.clientWidth, H=host.clientHeight;
+  const CAP=320;
+  const ranked=DATA.files.slice().sort((a,b)=>b.loc-a.loc);
+  const shown=ranked.slice(0,CAP);
+  const items=shown.map(f=>({value:f.loc, f:f}));
+  const rects=squarify(items, 0, 0, W, H);
+  host.innerHTML="";
+  for(const r of rects){
+    const f=r.ref.f;
+    const div=document.createElement("div");
+    div.className="cell"+(isDark(f.risk)?" dark":"");
+    div.style.left=r.x+"px"; div.style.top=r.y+"px";
+    div.style.width=Math.max(0,r.w-1)+"px"; div.style.height=Math.max(0,r.h-1)+"px";
+    div.style.background=riskColor(f.risk);
+    if(r.w>56 && r.h>24){
+      div.innerHTML='<span class="lbl">'+baseName(f.path)+'<br><small>'+fmt(f.loc)+' LOC</small></span>';
+    }
+    div.addEventListener("mousemove", e=>showTip(e, f));
+    div.addEventListener("mouseleave", hideTip);
+    host.appendChild(div);
+  }
+  const hidden=DATA.files.length-shown.length;
+  document.getElementById("tmnote").textContent =
+    "Showing the " + shown.length + " largest files by lines of code" +
+    (hidden>0 ? " (" + hidden + " smaller files in the table below)." : ".");
+}
+
+const tip=document.getElementById("tip");
+function showTip(e, f){
+  tip.innerHTML =
+    '<b>'+f.path+'</b>'+
+    '<div class="row"><span>Owner</span><span>'+f.top_author+'</span></div>'+
+    '<div class="row"><span>Top share</span><span>'+f.top_share+'%</span></div>'+
+    '<div class="row"><span>Authors</span><span>'+f.authors+'</span></div>'+
+    '<div class="row"><span>Bus factor</span><span>'+f.bus_factor+'</span></div>'+
+    '<div class="row"><span>Lines</span><span>'+fmt(f.loc)+'</span></div>'+
+    '<div class="row"><span>Last touch</span><span>'+f.last_date+'</span></div>'+
+    '<span class="pill" style="background:'+tierColor(f.tier)+';color:#fff">risk '+f.risk+' - '+f.tier+'</span>';
+  tip.style.opacity="1";
+  const pad=14;
+  let x=e.clientX+pad, y=e.clientY+pad;
+  const rect=tip.getBoundingClientRect();
+  if(x+rect.width>window.innerWidth) x=e.clientX-rect.width-pad;
+  if(y+rect.height>window.innerHeight) y=e.clientY-rect.height-pad;
+  tip.style.left=x+"px"; tip.style.top=y+"px";
+}
+function hideTip(){ tip.style.opacity="0"; }
+
+function renderLeader(){
+  const host=document.getElementById("leader");
+  const risky=DATA.authors.filter(a=>a.sole_files>0).sort((a,b)=>b.sole_loc-a.sole_loc).slice(0,12);
+  if(risky.length===0){
+    host.innerHTML='<div class="healthy">No single-owner hotspots found. Knowledge is shared across the team.</div>';
+    return;
+  }
+  const max=risky[0].sole_loc || 1;
+  host.innerHTML='<div class="leader">'+risky.map(a=>{
+    const pct=Math.max(2,(a.sole_loc/max)*100);
+    const color=riskColor(Math.min(100,40+(a.sole_loc/max)*55));
+    return '<div class="who"><div class="name" title="'+a.name+'">'+a.name+'</div>'+
+      '<div class="track"><div class="fill" style="width:'+pct+'%;background:'+color+'">'+fmt(a.sole_loc)+' LOC</div></div>'+
+      '<div class="meta"><b>'+a.sole_files+'</b> files solely owned</div></div>';
+  }).join("")+'</div>';
+}
+
+function renderDirs(){
+  const host=document.getElementById("dirs");
+  const dirs=DATA.directories.slice(0,16);
+  host.innerHTML=dirs.map(d=>{
+    const pct=Math.max(2,Math.min(100,d.risk));
+    return '<div class="drow"><div class="dn" title="'+d.path+'">'+d.path+'</div>'+
+      '<div class="dtrack"><div class="dfill" style="width:'+pct+'%;background:'+riskColor(d.risk)+'"></div></div>'+
+      '<div class="dmeta">risk <b>'+d.risk+'</b> &middot; '+fmt(d.loc)+' LOC &middot; <b>'+d.single_owner_files+'</b> solo</div></div>';
+  }).join("");
+}
+
+let sortKey="risk", sortDir=-1, filterText="";
+function pathCell(p){
+  const idx=p.lastIndexOf("/");
+  if(idx<0) return '<span>'+p+'</span>';
+  return '<span class="seg">'+p.slice(0,idx+1)+'</span><span>'+p.slice(idx+1)+'</span>';
+}
+function renderTable(){
+  const tbody=document.getElementById("tbody");
+  const ft=filterText.toLowerCase();
+  let rows=DATA.files.filter(f=>!ft || f.path.toLowerCase().includes(ft) || f.top_author.toLowerCase().includes(ft));
+  rows=rows.slice().sort((a,b)=>{
+    let av=a[sortKey], bv=b[sortKey];
+    if(typeof av==="string"){ return av.localeCompare(bv)*sortDir; }
+    return (av-bv)*sortDir;
+  });
+  const cap=rows.slice(0,500);
+  tbody.innerHTML=cap.map(f=>{
+    return '<tr style="border-left-color:'+tierColor(f.tier)+'">'+
+      '<td class="path">'+pathCell(f.path)+'</td>'+
+      '<td>'+f.top_author+'</td>'+
+      '<td class="num">'+f.top_share+'%</td>'+
+      '<td class="num">'+f.authors+'</td>'+
+      '<td class="num '+(f.bus_factor<=1?'bf1':'')+'">'+f.bus_factor+'</td>'+
+      '<td class="num">'+fmt(f.loc)+'</td>'+
+      '<td>'+f.last_date+'</td>'+
+      '<td class="num"><span class="badge" style="background:'+tierColor(f.tier)+'">'+f.risk+'</span></td>'+
+      '</tr>';
+  }).join("");
+  document.getElementById("tablecount").textContent =
+    rows.length + " files" + (rows.length>cap.length ? " (showing first "+cap.length+")" : "");
+}
+
+function wireTable(){
+  document.querySelectorAll("thead th").forEach(th=>{
+    th.addEventListener("click", ()=>{
+      const key=th.getAttribute("data-sort");
+      if(key===sortKey){ sortDir*=-1; } else { sortKey=key; sortDir=(key==="path"||key==="top_author"||key==="last_date")?1:-1; }
+      renderTable();
+    });
+  });
+  document.getElementById("filter").addEventListener("input", e=>{ filterText=e.target.value; renderTable(); });
+}
+
+renderHeader();
+renderCards();
+renderTreemap();
+renderLeader();
+renderDirs();
+renderTable();
+wireTable();
+document.getElementById("foot").textContent="Generated by the /bus-factor skill - "+DATA.summary.files+" files, "+fmt(DATA.summary.loc)+" lines analyzed from git blame.";
+window.addEventListener("resize", ()=>{ renderTreemap(); });
+</script>
+</body>
+</html>
