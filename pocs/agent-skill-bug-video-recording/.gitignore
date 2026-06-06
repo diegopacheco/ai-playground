@@ -1,0 +1,5 @@
+node_modules/
+.playwright-mcp/
+sample-app/dist/
+sample-app/bug-recording-output/
+sample-app/bug-report-site/

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap');
+html,body{margin:0}
+#stage{width:1240px;height:760px;background:#f7f8fc;font-family:'Caveat',cursive}
+text{font-family:'Caveat',cursive}
+</style>
+</head>
+<body>
+<div id="stage">
+<svg width="1240" height="760" viewBox="0 0 1240 760" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="w"><feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.4"/></filter>
+    <marker id="ah" markerWidth="14" markerHeight="14" refX="8" refY="6" orient="auto">
+      <path d="M1,1 L11,6 L1,11" fill="none" stroke="#2b2f3a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <text x="46" y="60" font-size="44" font-weight="700" fill="#1c2230">bug-recording → bug-report</text>
+  <text x="48" y="92" font-size="26" fill="#6b7280">find a UI bug · record it · report it</text>
+
+  <g filter="url(#w)">
+    <rect x="46" y="140" width="216" height="92" rx="16" fill="#cfe3ff" stroke="#2b2f3a" stroke-width="2.4"/>
+    <rect x="330" y="140" width="216" height="92" rx="16" fill="#e3d7ff" stroke="#2b2f3a" stroke-width="2.4"/>
+    <rect x="614" y="140" width="216" height="92" rx="16" fill="#d4f3dd" stroke="#2b2f3a" stroke-width="2.4"/>
+    <rect x="898" y="140" width="216" height="92" rx="16" fill="#ffd9e3" stroke="#2b2f3a" stroke-width="2.4"/>
+    <rect x="898" y="430" width="216" height="92" rx="16" fill="#ffe0ec" stroke="#2b2f3a" stroke-width="2.4"/>
+    <rect x="614" y="430" width="216" height="92" rx="16" fill="#ffe9c2" stroke="#2b2f3a" stroke-width="2.4"/>
+    <rect x="330" y="430" width="216" height="92" rx="16" fill="#cdeee8" stroke="#2b2f3a" stroke-width="2.4"/>
+    <rect x="46" y="430" width="216" height="92" rx="16" fill="#d9dcff" stroke="#2b2f3a" stroke-width="3"/>
+  </g>
+
+  <g filter="url(#w)" fill="none" stroke="#2b2f3a" stroke-width="2.6" stroke-linecap="round" marker-end="url(#ah)">
+    <path d="M262,186 L322,186"/>
+    <path d="M546,186 L606,186"/>
+    <path d="M830,186 L890,186"/>
+    <path d="M1006,232 L1006,422"/>
+    <path d="M898,476 L838,476"/>
+    <path d="M614,476 L554,476"/>
+    <path d="M330,476 L270,476"/>
+  </g>
+
+  <g fill="#1c2230">
+    <text x="154" y="182" font-size="28" font-weight="700" text-anchor="middle">Target App</text>
+    <text x="438" y="182" font-size="28" font-weight="700" text-anchor="middle">Detect Stack</text>
+    <text x="722" y="182" font-size="28" font-weight="700" text-anchor="middle">Run App</text>
+    <text x="1006" y="182" font-size="28" font-weight="700" text-anchor="middle">Hunt Bugs</text>
+    <text x="1006" y="472" font-size="28" font-weight="700" text-anchor="middle">Record Video</text>
+    <text x="722" y="472" font-size="28" font-weight="700" text-anchor="middle">ffmpeg</text>
+    <text x="438" y="472" font-size="28" font-weight="700" text-anchor="middle">findings.json</text>
+    <text x="154" y="472" font-size="28" font-weight="700" text-anchor="middle">Report Site</text>
+  </g>
+
+  <g fill="#4b5160">
+    <text x="154" y="210" font-size="20" text-anchor="middle">React on Node or Bun</text>
+    <text x="438" y="210" font-size="20" text-anchor="middle">package.json + lockfiles</text>
+    <text x="722" y="210" font-size="20" text-anchor="middle">dev server, wait for port</text>
+    <text x="1006" y="210" font-size="20" text-anchor="middle">css · functional · render</text>
+    <text x="1006" y="500" font-size="20" text-anchor="middle">recordVideo → .webm</text>
+    <text x="722" y="500" font-size="20" text-anchor="middle">mp4 + reduce-size.sh</text>
+    <text x="438" y="500" font-size="20" text-anchor="middle">bugs · evidence · steps</text>
+    <text x="154" y="500" font-size="20" text-anchor="middle">3 tabs, light theme</text>
+  </g>
+
+  <text x="46" y="610" font-size="26" fill="#7c4dff" font-weight="700">/bug-recording  ·  Detect · Run · Hunt · Record · ffmpeg · findings.json</text>
+  <text x="46" y="648" font-size="26" fill="#5b6cff" font-weight="700">/bug-report  ·  findings.json · Report Site (3 tabs)</text>
+</svg>
+</div>
+</body>
+</html>

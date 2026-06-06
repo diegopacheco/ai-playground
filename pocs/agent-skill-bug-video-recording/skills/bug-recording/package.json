@@ -1,0 +1,11 @@
+{
+  "name": "bug-recording",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "bug-recording": "record.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.49.1"
+  }
+}
