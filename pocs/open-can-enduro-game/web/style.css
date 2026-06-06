@@ -66,6 +66,22 @@ button:active { transform: scale(.96); }
 
 .side { display: flex; flex-direction: column; gap: 16px; flex: 1; min-width: 220px; }
 
+.controls { background: var(--panel); border-radius: 16px; padding: 16px; display: grid; gap: 10px; }
+.controls .label { margin-bottom: 2px; }
+select {
+  appearance: none; -webkit-appearance: none;
+  border: 1px solid #2b3354; cursor: pointer;
+  background: #0f1428; color: var(--ink);
+  padding: 10px 14px; border-radius: 12px;
+  font-family: inherit; font-weight: 700; letter-spacing: 1px; font-size: 15px;
+}
+select:focus { outline: none; border-color: var(--accent); }
+button.ghost {
+  color: var(--ink); background: #0f1428;
+  border: 1px solid #2b3354; padding: 11px 18px;
+}
+button.ghost:hover { filter: none; border-color: var(--accent); color: var(--accent); }
+
 .hud { background: var(--panel); border-radius: 16px; padding: 16px; display: grid; gap: 12px; }
 .metric { display: flex; justify-content: space-between; align-items: baseline; }
 .label { color: var(--muted); letter-spacing: 2px; font-size: 12px; }
@@ -81,6 +97,16 @@ button:active { transform: scale(.96); }
 .hint { margin: 0; color: var(--muted); font-size: 12px; }
 
 #cam, #grab { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; left: -9999px; }
+
+.stage.fs {
+  width: 100vw; height: 100vh;
+  padding: 20px; gap: 24px;
+  align-items: center; justify-content: center;
+  background: radial-gradient(1200px 700px at 50% -10%, #1b2347 0%, var(--bg) 60%);
+}
+.stage.fs .board { height: calc(100vh - 40px); }
+.stage.fs #game { height: calc(100vh - 40px); width: auto; max-width: none; }
+.stage.fs .side { flex: 0 0 280px; min-width: 280px; max-width: 320px; }
 
 @media (max-width: 720px) {
   .stage { flex-direction: column; align-items: stretch; }

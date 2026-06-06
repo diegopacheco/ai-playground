@@ -13,6 +13,16 @@ const overlay = document.getElementById("overlay");
 const overlayTitle = document.getElementById("overlay-title");
 const overlayText = document.getElementById("overlay-text");
 const startBtn = document.getElementById("start");
+const difficultyEl = document.getElementById("difficulty");
+const fsBtn = document.getElementById("fs");
+const stage = document.querySelector(".stage");
+
+const DIFFICULTIES = {
+  easy:   { speed: 3,   accel: 0.0012, spawnMin: 70, spawnRange: 50 },
+  medium: { speed: 4.5, accel: 0.0018, spawnMin: 52, spawnRange: 45 },
+  hard:   { speed: 6,   accel: 0.0024, spawnMin: 40, spawnRange: 40 },
+  insane: { speed: 8,   accel: 0.0032, spawnMin: 28, spawnRange: 34 },
+};
 
 const W = game.width;
 const H = game.height;
@@ -32,10 +42,15 @@ let wsReady = false;
 let enemies = [];
 let dash = 0;
 let speed = 4;
+let accel = 0.0016;
 let score = 0;
 let running = false;
 let crashed = false;
 let spawnTimer = 60;
+let spawnMin = 70;
+let spawnRange = 50;
+let restartTimer = null;
+let audioCtx = null;
 
 let ws = null;
 let awaiting = false;
@@ -91,6 +106,66 @@ function maybeSend(ts) {
   }, "image/jpeg", 0.5);
 }
 
+function ensureAudio() {
+  if (!audioCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) audioCtx = new AC();
+  }
+  if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+}
+
+function playCrash() {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = "square";
+  osc.frequency.setValueAtTime(180, t);
+  osc.frequency.exponentialRampToValueAtTime(45, t + 0.45);
+  gain.gain.setValueAtTime(0.35, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(t); osc.stop(t + 0.5);
+  const len = (audioCtx.sampleRate * 0.4) | 0;
+  const buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / len);
+  const noise = audioCtx.createBufferSource();
+  const ng = audioCtx.createGain();
+  noise.buffer = buf;
+  ng.gain.setValueAtTime(0.3, t);
+  ng.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+  noise.connect(ng); ng.connect(audioCtx.destination);
+  noise.start(t);
+}
+
+function playDodge() {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = "triangle";
+  osc.frequency.setValueAtTime(520, t);
+  osc.frequency.exponentialRampToValueAtTime(960, t + 0.12);
+  gain.gain.setValueAtTime(0.0001, t);
+  gain.gain.exponentialRampToValueAtTime(0.2, t + 0.03);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.2);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(t); osc.stop(t + 0.22);
+}
+
+function toggleFullscreen() {
+  const on = document.fullscreenElement || document.webkitFullscreenElement;
+  if (on) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+  else (stage.requestFullscreen || stage.webkitRequestFullscreen).call(stage);
+}
+
+function syncFullscreen() {
+  const on = !!(document.fullscreenElement || document.webkitFullscreenElement);
+  stage.classList.toggle("fs", on);
+  fsBtn.textContent = on ? "EXIT FULLSCREEN" : "FULLSCREEN";
+}
+
 function spawnEnemy() {
   const w = 46;
   const x = ROAD_L + Math.random() * (ROAD_W - w);
@@ -104,17 +179,25 @@ function hit(e) {
 function crash() {
   crashed = true;
   running = false;
+  playCrash();
   overlayTitle.textContent = "CRASH!";
-  overlayText.textContent = "You passed " + score + " cars. Raise your hand and race again.";
+  overlayText.textContent = "You passed " + score + " cars. Restarting…";
   startBtn.textContent = "RACE AGAIN";
   overlay.classList.remove("hidden");
+  if (restartTimer) clearTimeout(restartTimer);
+  restartTimer = setTimeout(startRun, 2000);
 }
 
 function startRun() {
+  if (restartTimer) { clearTimeout(restartTimer); restartTimer = null; }
+  const cfg = DIFFICULTIES[difficultyEl.value] || DIFFICULTIES.easy;
   enemies = [];
-  speed = 4;
+  speed = cfg.speed;
+  accel = cfg.accel;
+  spawnMin = cfg.spawnMin;
+  spawnRange = cfg.spawnRange;
   score = 0;
-  spawnTimer = 60;
+  spawnTimer = cfg.spawnMin;
   crashed = false;
   running = true;
   car.screenX = ROAD_L + (ROAD_W - car.w) / 2;
@@ -123,17 +206,17 @@ function startRun() {
 
 function update() {
   if (!running || crashed) return;
-  speed += 0.0016;
+  speed += accel;
   dash = (dash + speed) % 44;
   car.screenX += (targetScreenX() - car.screenX) * 0.2;
   spawnTimer -= 1;
   if (spawnTimer <= 0) {
     spawnEnemy();
-    spawnTimer = 50 + Math.random() * 45;
+    spawnTimer = spawnMin + Math.random() * spawnRange;
   }
   for (const e of enemies) {
     e.y += speed;
-    if (!e.passed && e.y > car.y + car.h) { e.passed = true; score += 1; }
+    if (!e.passed && e.y > car.y + car.h) { e.passed = true; score += 1; playDodge(); }
     if (hit(e)) { crash(); break; }
   }
   enemies = enemies.filter((e) => e.y < H + 120);
@@ -235,12 +318,17 @@ function frame(ts) {
 }
 
 startBtn.addEventListener("click", async () => {
+  ensureAudio();
   if (!camReady) await initCam();
   startRun();
 });
 
+fsBtn.addEventListener("click", toggleFullscreen);
+document.addEventListener("fullscreenchange", syncFullscreen);
+document.addEventListener("webkitfullscreenchange", syncFullscreen);
+
 window.addEventListener("keydown", (e) => {
-  if (e.key === "r" || e.key === "R") startRun();
+  if (e.key === "r" || e.key === "R") { ensureAudio(); startRun(); }
 });
 
 connectWS();
