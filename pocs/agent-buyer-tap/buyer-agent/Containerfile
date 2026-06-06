@@ -1,0 +1,7 @@
+FROM node:24
+WORKDIR /app
+COPY buyer-agent/package.json ./buyer-agent/package.json
+RUN cd buyer-agent && npm install --no-audit --no-fund && npx playwright install --with-deps chromium
+COPY shared ./shared
+COPY buyer-agent ./buyer-agent
+CMD ["node", "buyer-agent/agent.mjs"]

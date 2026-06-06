@@ -1,0 +1,10 @@
+**/node_modules
+storefront/dist
+merchant/public
+keys
+printscreens
+.git
+.gitignore
+_diagram.html
+_hostcheck.mjs
+.playwright-mcp

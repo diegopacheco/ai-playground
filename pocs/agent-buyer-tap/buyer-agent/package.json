@@ -1,0 +1,9 @@
+{
+  "name": "agent-buyer-tap-buyer-agent",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "openai": "^4.67.0",
+    "playwright": "^1.49.0"
+  }
+}

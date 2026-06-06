@@ -1,0 +1,8 @@
+[
+  { "sku": "sku-aurora-lamp", "name": "Aurora Desk Lamp", "priceCents": 4200, "currency": "USD", "stock": 12, "tagline": "warm dimmable light for late builds", "accent": "#ffd6a5" },
+  { "sku": "sku-cloud-mug", "name": "Cloud Ceramic Mug", "priceCents": 1800, "currency": "USD", "stock": 30, "tagline": "keeps coffee warm through a long review", "accent": "#bde0fe" },
+  { "sku": "sku-pebble-mouse", "name": "Pebble Wireless Mouse", "priceCents": 3500, "currency": "USD", "stock": 18, "tagline": "quiet clicks, all-day battery", "accent": "#caffbf" },
+  { "sku": "sku-fern-plant", "name": "Mini Fern Planter", "priceCents": 2400, "currency": "USD", "stock": 25, "tagline": "a small green desk companion", "accent": "#a0e8af" },
+  { "sku": "sku-linen-notebook", "name": "Linen Pocket Notebook", "priceCents": 1500, "currency": "USD", "stock": 40, "tagline": "dotted pages for quick diagrams", "accent": "#ffc6ff" },
+  { "sku": "sku-mesa-headphones", "name": "Mesa Studio Headphones", "priceCents": 8900, "currency": "USD", "stock": 8, "tagline": "deep focus, soft on the ears", "accent": "#ffadad" }
+]

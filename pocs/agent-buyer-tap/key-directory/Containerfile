@@ -1,0 +1,6 @@
+FROM node:24-alpine
+WORKDIR /app
+COPY shared ./shared
+COPY key-directory ./key-directory
+EXPOSE 8801
+CMD ["node", "key-directory/server.mjs"]

@@ -1,0 +1,40 @@
+version: "3"
+services:
+  key-directory:
+    build:
+      context: .
+      dockerfile: key-directory/Containerfile
+    environment:
+      PORT: "8801"
+      KEYS_DIR: /keys
+    volumes:
+      - ./keys:/keys
+    ports:
+      - "8801:8801"
+  merchant:
+    build:
+      context: .
+      dockerfile: merchant/Containerfile
+    environment:
+      PORT: "8802"
+      DIRECTORY_URL: http://key-directory:8801
+    ports:
+      - "8802:8802"
+    depends_on:
+      - key-directory
+  buyer-agent:
+    build:
+      context: .
+      dockerfile: buyer-agent/Containerfile
+    environment:
+      MERCHANT_URL: http://merchant:8802
+      KEYS_DIR: /keys
+      PRINTSCREENS_DIR: /printscreens
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+    volumes:
+      - ./keys:/keys
+      - ./printscreens:/printscreens
+    depends_on:
+      - key-directory
+      - merchant

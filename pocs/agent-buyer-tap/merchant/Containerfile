@@ -1,0 +1,13 @@
+FROM node:24-alpine AS build
+WORKDIR /sf
+COPY storefront/package.json ./
+RUN npm install --no-audit --no-fund
+COPY storefront ./
+RUN npm run build
+FROM node:24-alpine
+WORKDIR /app
+COPY shared ./shared
+COPY merchant ./merchant
+COPY --from=build /sf/dist ./merchant/public
+EXPOSE 8802
+CMD ["node", "merchant/server.mjs"]
