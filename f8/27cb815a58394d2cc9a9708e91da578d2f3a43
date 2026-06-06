@@ -1,0 +1,87 @@
+pocs/agent-skill-data-dict/uninstall.sh
+  s_db5d2e6310b4da::t_9475e64a0eab4e 1-11
+pocs/agent-skill-data-dict/printscreens/architecture.svg
+  s_db5d2e6310b4da::t_1ec2432df01b53 1-77,80
+  s_db5d2e6310b4da::t_73d2a29857d1fa 78-79
+pocs/agent-skill-data-dict/sample/src/main/java/com/petshop/PetshopApplication.java
+  s_db5d2e6310b4da::t_5287afa92c3be9 1-12
+pocs/agent-skill-data-dict/sample/pom.xml
+  s_db5d2e6310b4da::t_96d552e0af4474 34-35
+  s_db5d2e6310b4da::t_995a1b17d17832 1-33,36-52
+pocs/agent-skill-data-dict/sample/src/main/resources/db/changelog/changes/001-create-owner.xml
+  s_db5d2e6310b4da::t_900cf650b530dd 1-29
+pocs/agent-skill-data-dict/sample/src/main/resources/application.yml
+  s_db5d2e6310b4da::t_aa3da05b69d02b 1-17
+pocs/agent-skill-data-dict/SKILL.md
+  s_db5d2e6310b4da::t_68a7ca125e8fcd 1-70
+pocs/agent-skill-data-dict/data-dict-report/index.html
+  s_db5d2e6310b4da::t_ff6387ef932af4 1-156,158-393
+  s_8a899fd3feee7d::t_53148c54fdf369 157
+pocs/agent-skill-data-dict/design-doc.md
+  s_db5d2e6310b4da::t_c47a61528682a5 1-227
+pocs/agent-skill-data-dict/sample/src/main/java/com/petshop/web/SchemaController.java
+  s_db5d2e6310b4da::t_b5c40d09c992e1 1-26
+pocs/agent-skill-data-dict/sample/src/main/java/com/petshop/jdbc/JdbcSchemaInitializer.java
+  s_db5d2e6310b4da::t_cd74d66462d909 1-47
+pocs/agent-skill-data-dict/sample/src/main/java/com/petshop/entity/Appointment.java
+  s_db5d2e6310b4da::t_7bae64d2d5f45a 1-57
+pocs/agent-skill-data-dict/sample/src/main/java/com/petshop/jdbc/DataSeeder.java
+  s_db5d2e6310b4da::t_1c65b4df63f391 1-42
+pocs/agent-skill-data-dict/sample/test.sh
+  s_db5d2e6310b4da::t_2e4149938c79e4 1-45
+pocs/agent-skill-data-dict/scripts/datadict.py
+  s_db5d2e6310b4da::t_224a943da67b4d 1-893
+pocs/agent-skill-data-dict/sample/src/main/java/com/petshop/entity/Vaccination.java
+  s_db5d2e6310b4da::t_be2423f7336288 1-47
+pocs/agent-skill-data-dict/assets/template.html
+  s_db5d2e6310b4da::t_57a4547959a98c 1-393
+pocs/agent-skill-data-dict/sample/src/main/java/com/petshop/repo/AppointmentRepository.java
+  s_db5d2e6310b4da::t_9207d21dbd52df 1-7
+pocs/agent-skill-data-dict/sample/start.sh
+  s_db5d2e6310b4da::t_6a62ffd2a36e2c 1-15
+pocs/agent-skill-data-dict/sample/src/main/resources/db/changelog/db.changelog-master.xml
+  s_db5d2e6310b4da::t_009a888ce26a62 1-11
+pocs/agent-skill-data-dict/sample/src/main/resources/db/changelog/changes/002-create-pet.xml
+  s_db5d2e6310b4da::t_cdf500ec676a9b 1-27
+pocs/agent-skill-data-dict/sample/.gitignore
+  s_db5d2e6310b4da::t_3b33270c9a7af9 1-3
+pocs/agent-skill-data-dict/README.md
+  s_db5d2e6310b4da::t_50f01fd2be4ed4 1-126
+pocs/agent-skill-data-dict/.gitignore
+  s_db5d2e6310b4da::t_6b862d7281e52a 1
+pocs/agent-skill-data-dict/sample/src/main/java/com/petshop/repo/VaccinationRepository.java
+  s_db5d2e6310b4da::t_ab7f192ca7dbcc 1-7
+pocs/agent-skill-data-dict/sample/stop.sh
+  s_db5d2e6310b4da::t_9cbcfa4a6d59ad 1-10
+pocs/agent-skill-data-dict/data-dict-report/data.json
+  s_8a899fd3feee7d::t_53148c54fdf369 4
+  s_db5d2e6310b4da::t_ff6387ef932af4 1-3,5-831
+pocs/agent-skill-data-dict/install.sh
+  s_db5d2e6310b4da::t_08a67f06bee5d3 1-26
+pocs/agent-skill-data-dict/sample/src/main/resources/db/changelog/changes/003-create-visit.xml
+  s_db5d2e6310b4da::t_67ee9b31bacd58 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "f827cb815a58394d2cc9a9708e91da578d2f3a43",
+  "prompts": {},
+  "sessions": {
+    "s_8a899fd3feee7d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3f970d4f-112e-4386-b99b-20ea7f131295",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_db5d2e6310b4da": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "14d8e297-d2bb-4fdb-b525-3b8b08f3a160",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
