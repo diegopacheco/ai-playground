@@ -1,0 +1,24 @@
+pocs/.gitignore
+  s_d23b4d98d282d5::t_8d3b9386c4d943 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "8ee64374affb12451d3a931bb0e5ded0f30c3e02",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_d23b4d98d282d5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a3b93947-6efd-45b5-921c-99b1af8d4ee9",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
