@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Dictionary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f6f8; --panel:#ffffff; --ink:#1f2430; --muted:#6b7280; --line:#e6e8ec;
+  --accent:#2563eb; --accent-soft:#eaf1ff;
+  --liquibase-bg:#dbeafe; --liquibase-ink:#1d4ed8;
+  --jdbc-bg:#fef3c7; --jdbc-ink:#b45309;
+  --sql-bg:#dcfce7; --sql-ink:#15803d;
+  --hibernate-bg:#ede9fe; --hibernate-ink:#6d28d9;
+  --mixed-bg:#fce7f3; --mixed-ink:#be185d;
+  --unknown-bg:#eceef1; --unknown-ink:#4b5563;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+a{color:var(--accent);text-decoration:none}
+header.top{background:var(--panel);border-bottom:1px solid var(--line);padding:20px 28px}
+.top h1{margin:0;font-size:20px;font-weight:700;letter-spacing:-.01em}
+.top .sub{color:var(--muted);font-size:12.5px;margin-top:3px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:500}
+.chip b{font-weight:700}
+.dot{width:9px;height:9px;border-radius:50%}
+nav.tabs{display:flex;gap:4px;padding:0 24px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+nav.tabs button{appearance:none;background:none;border:none;border-bottom:2px solid transparent;padding:13px 16px;font:inherit;font-weight:600;color:var(--muted);cursor:pointer}
+nav.tabs button:hover{color:var(--ink)}
+nav.tabs button.active{color:var(--accent);border-bottom-color:var(--accent)}
+main{padding:24px 28px;max-width:1280px;margin:0 auto}
+.panel{display:none}
+.panel.active{display:block}
+.toolbar{display:flex;gap:12px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+.search{flex:1;min-width:220px;max-width:420px;display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.search input{border:none;outline:none;font:inherit;width:100%;background:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:18px;overflow:hidden;scroll-margin-top:70px}
+.card-head{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.card-head h2{margin:0;font-size:16px;font-weight:700;font-family:Inter}
+.badge{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:3px 9px;border-radius:6px}
+.b-liquibase{background:var(--liquibase-bg);color:var(--liquibase-ink)}
+.b-jdbc{background:var(--jdbc-bg);color:var(--jdbc-ink)}
+.b-sql{background:var(--sql-bg);color:var(--sql-ink)}
+.b-hibernate{background:var(--hibernate-bg);color:var(--hibernate-ink)}
+.b-mixed{background:var(--mixed-bg);color:var(--mixed-ink)}
+.b-unknown{background:var(--unknown-bg);color:var(--unknown-ink)}
+.origin{color:var(--muted);font-size:12px;margin-left:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.desc{padding:12px 18px 0;color:#374151}
+.meta{display:flex;gap:18px;flex-wrap:wrap;padding:10px 18px 16px;color:var(--muted);font-size:12.5px}
+.meta b{color:var(--ink)}
+table.cols{width:100%;border-collapse:collapse;font-size:13px}
+table.cols th{text-align:left;font-weight:600;color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;padding:8px 18px;border-top:1px solid var(--line);background:#fafbfc}
+table.cols td{padding:9px 18px;border-top:1px solid var(--line);vertical-align:top}
+table.cols tr:hover td{background:#fafbfc}
+.colname{font-weight:600}
+.type{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#0f766e}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 6px;border-radius:5px;margin-right:4px}
+.tag-pk{background:#fde68a;color:#92400e}
+.tag-fk{background:#bfdbfe;color:#1e40af}
+.tag-uq{background:#e9d5ff;color:#6b21a8}
+.tag-inf{background:#f3f4f6;color:#6b7280;border:1px dashed #cbd5e1}
+.muted{color:var(--muted)}
+.nullable-no{color:#b91c1c;font-weight:600}
+.nullable-yes{color:var(--muted)}
+.er-wrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:auto;max-height:78vh}
+.er-wrap svg{display:block}
+.er-box-title{font-family:Caveat,cursive;font-weight:700}
+.er-col{font-family:Caveat,cursive;font-weight:500}
+.q-grid{display:grid;grid-template-columns:240px 1fr;gap:18px;align-items:start}
+@media(max-width:820px){.q-grid{grid-template-columns:1fr}}
+.schema-list{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;max-height:70vh;overflow:auto;font-size:12.5px}
+.schema-list h3{margin:4px 6px 10px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.schema-t{margin-bottom:8px}
+.schema-t summary{cursor:pointer;font-weight:600;padding:4px 6px;border-radius:7px;list-style:none}
+.schema-t summary::-webkit-details-marker{display:none}
+.schema-t summary:hover{background:var(--bg)}
+.schema-c{padding:3px 6px 3px 20px;color:var(--muted);font-family:ui-monospace,Menlo,monospace;font-size:11.5px}
+.q-main{display:flex;flex-direction:column;gap:12px}
+.q-starters{display:flex;gap:8px;flex-wrap:wrap}
+.q-starters button{background:var(--accent-soft);color:var(--accent);border:1px solid #cfe0ff;border-radius:8px;padding:6px 11px;font:inherit;font-size:12px;font-weight:600;cursor:pointer}
+.q-starters button:hover{background:#dfeaff}
+textarea#sql{width:100%;min-height:120px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;border:1px solid var(--line);border-radius:12px;padding:14px;outline:none;background:var(--panel);color:var(--ink)}
+textarea#sql:focus{border-color:var(--accent)}
+.q-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.run{background:var(--accent);color:#fff;border:none;border-radius:9px;padding:9px 18px;font:inherit;font-weight:600;cursor:pointer}
+.run:hover{background:#1d4ed8}
+.run:disabled{opacity:.5;cursor:default}
+.q-status{font-size:12.5px;color:var(--muted)}
+.q-status.err{color:#b91c1c;font-weight:600}
+.result{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:60vh}
+.result table{border-collapse:collapse;width:100%;font-size:13px}
+.result th{position:sticky;top:0;background:#f3f4f6;text-align:left;padding:8px 12px;font-weight:600;border-bottom:1px solid var(--line);white-space:nowrap}
+.result td{padding:7px 12px;border-bottom:1px solid var(--line);font-family:ui-monospace,Menlo,monospace;font-size:12.5px;white-space:nowrap}
+.result tr:hover td{background:#fafbfc}
+.null-cell{color:#9ca3af;font-style:italic}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+.note{font-size:12px;color:var(--muted);margin-top:6px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1 id="title">Data Dictionary</h1>
+  <div class="sub" id="subtitle"></div>
+  <div class="chips" id="chips"></div>
+</header>
+<nav class="tabs">
+  <button data-tab="tables" class="active">Tables</button>
+  <button data-tab="er">ER Diagram</button>
+  <button data-tab="query">Query</button>
+</nav>
+<main>
+  <section class="panel active" id="panel-tables">
+    <div class="toolbar">
+      <label class="search"><span class="muted">search</span><input id="filter" placeholder="filter tables and columns..."></label>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div id="tables"></div>
+  </section>
+  <section class="panel" id="panel-er">
+    <div class="toolbar">
+      <div class="legend">
+        <span><span class="dot" style="background:var(--liquibase-ink)"></span>Liquibase</span>
+        <span><span class="dot" style="background:var(--jdbc-ink)"></span>JDBC</span>
+        <span><span class="dot" style="background:var(--sql-ink)"></span>SQL</span>
+        <span><span class="dot" style="background:var(--hibernate-ink)"></span>Hibernate</span>
+        <span><span class="dot" style="background:var(--mixed-ink)"></span>Mixed</span>
+        <span>&mdash; declared FK</span>
+        <span style="opacity:.7">- - inferred FK</span>
+      </div>
+    </div>
+    <div class="er-wrap"><svg id="er"></svg></div>
+  </section>
+  <section class="panel" id="panel-query">
+    <div class="q-grid">
+      <aside class="schema-list" id="schema-list"></aside>
+      <div class="q-main">
+        <div class="q-starters" id="starters"></div>
+        <textarea id="sql" spellcheck="false" placeholder="write SQL and press Run (Cmd/Ctrl+Enter)"></textarea>
+        <div class="q-bar">
+          <button class="run" id="run" disabled>Run</button>
+          <span class="q-status" id="qstatus">loading in-browser database...</span>
+        </div>
+        <div class="result" id="result"></div>
+        <div class="note">Runs entirely in your browser against an in-memory SQLite built from the discovered schema. It does not touch any live database.</div>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+const DATA = {"project": "sample", "scan_path": "/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/agent-skill-data-dict/sample", "generated": "2026-06-06 00:59:20", "table_count": 7, "column_count": 45, "tally": {"hibernate": 2, "liquibase": 3, "jdbc": 2}, "tables": [{"name": "appointment", "source": "hibernate", "sources": ["hibernate"], "origins": ["src/main/java/com/petshop/entity/Appointment.java (@Entity Appointment)"], "description": "Appointment", "remarks": "", "columns": [{"name": "id", "type": "BIGINT", "size": null, "nullable": false, "pk": true, "unique": false, "default": "generated", "fk": null, "fk_inferred": false, "source": "hibernate", "description": "Surrogate primary key"}, {"name": "pet_id", "type": "BIGINT", "size": null, "nullable": false, "pk": false, "unique": false, "default": null, "fk": {"table": "pet", "column": "id", "inferred": true}, "fk_inferred": true, "source": "hibernate", "description": "Reference to pet"}, {"name": "staff_name", "type": "VARCHAR(120)", "size": 120, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "hibernate", "description": "Staff name"}, {"name": "scheduled_at", "type": "TIMESTAMP", "size": null, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "hibernate", "description": "Scheduled at"}, {"name": "service", "type": "VARCHAR(80)", "size": 80, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "hibernate", "description": "Service"}, {"name": "status", "type": "VARCHAR(20)", "size": 20, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "hibernate", "description": "Status"}, {"name": "notes", "type": "VARCHAR(500)", "size": 500, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "hibernate", "description": "Notes"}], "column_count": 7, "pk": ["id"], "est_row_bytes": 744, "seed_rows": 2}, {"name": "owner", "source": "liquibase", "sources": ["liquibase"], "origins": ["src/main/resources/db/changelog/changes/001-create-owner.xml (changeSet 001-create-owner)"], "description": "A person who owns one or more pets and is billed for visits", "remarks": "A person who owns one or more pets and is billed for visits", "columns": [{"name": "id", "type": "BIGINT", "size": null, "nullable": false, "pk": true, "unique": false, "default": "auto-increment", "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Surrogate primary key"}, {"name": "first_name", "type": "VARCHAR(80)", "size": 80, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Owner given name"}, {"name": "last_name", "type": "VARCHAR(80)", "size": 80, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Owner family name"}, {"name": "email", "type": "VARCHAR(160)", "size": 160, "nullable": false, "pk": false, "unique": true, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Contact email, unique per owner"}, {"name": "phone", "type": "VARCHAR(40)", "size": 40, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Contact phone number"}, {"name": "address", "type": "VARCHAR(255)", "size": 255, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Postal address"}, {"name": "created_at", "type": "TIMESTAMP", "size": null, "nullable": false, "pk": false, "unique": false, "default": "CURRENT_TIMESTAMP", "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Row creation time"}], "column_count": 7, "pk": ["id"], "est_row_bytes": 631, "seed_rows": 2}, {"name": "pet", "source": "liquibase", "sources": ["liquibase"], "origins": ["src/main/resources/db/changelog/changes/002-create-pet.xml (changeSet 002-create-pet)"], "description": "An animal registered to an owner", "remarks": "An animal registered to an owner", "columns": [{"name": "id", "type": "BIGINT", "size": null, "nullable": false, "pk": true, "unique": false, "default": "auto-increment", "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Surrogate primary key"}, {"name": "name", "type": "VARCHAR(120)", "size": 120, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Pet name"}, {"name": "species", "type": "VARCHAR(60)", "size": 60, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Dog, cat, bird, etc."}, {"name": "breed", "type": "VARCHAR(120)", "size": 120, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Breed within the species"}, {"name": "birth_date", "type": "DATE", "size": null, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Date of birth, if known"}, {"name": "weight_kg", "type": "NUMERIC(6,2)", "size": null, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Most recent weight in kilograms"}, {"name": "owner_id", "type": "BIGINT", "size": null, "nullable": false, "pk": false, "unique": false, "default": null, "fk": {"table": "owner", "column": "id"}, "fk_inferred": false, "source": "liquibase", "description": "Owner who registered the pet"}], "column_count": 7, "pk": ["id"], "est_row_bytes": 324, "seed_rows": 3}, {"name": "product", "source": "jdbc", "sources": ["jdbc"], "origins": ["src/main/java/com/petshop/jdbc/JdbcSchemaInitializer.java (JdbcTemplate)"], "description": "Product", "remarks": "", "columns": [{"name": "id", "type": "BIGINT", "size": null, "nullable": false, "pk": true, "unique": false, "default": "auto-increment", "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Surrogate primary key"}, {"name": "sku", "type": "VARCHAR(40)", "size": 40, "nullable": false, "pk": false, "unique": true, "default": null, "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Sku"}, {"name": "name", "type": "VARCHAR(200)", "size": 200, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Name"}, {"name": "category", "type": "VARCHAR(80)", "size": 80, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Category"}, {"name": "price", "type": "NUMERIC(10,2)", "size": null, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Price"}, {"name": "stock_qty", "type": "INT", "size": null, "nullable": false, "pk": false, "unique": false, "default": "0", "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Stock qty"}, {"name": "supplier_id", "type": "BIGINT", "size": null, "nullable": false, "pk": false, "unique": false, "default": null, "fk": {"table": "supplier", "column": "id"}, "fk_inferred": false, "source": "jdbc", "description": "Reference to supplier"}], "column_count": 7, "pk": ["id"], "est_row_bytes": 346, "seed_rows": 2}, {"name": "supplier", "source": "jdbc", "sources": ["jdbc"], "origins": ["src/main/java/com/petshop/jdbc/JdbcSchemaInitializer.java (JdbcTemplate)"], "description": "Supplier", "remarks": "", "columns": [{"name": "id", "type": "BIGINT", "size": null, "nullable": false, "pk": true, "unique": false, "default": "auto-increment", "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Surrogate primary key"}, {"name": "name", "type": "VARCHAR(160)", "size": 160, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Name"}, {"name": "contact_email", "type": "VARCHAR(160)", "size": 160, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Contact email"}, {"name": "phone", "type": "VARCHAR(40)", "size": 40, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Phone"}, {"name": "country", "type": "VARCHAR(80)", "size": 80, "nullable": false, "pk": false, "unique": false, "default": "US", "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Country"}, {"name": "active", "type": "BOOLEAN", "size": null, "nullable": false, "pk": false, "unique": false, "default": "TRUE", "fk": null, "fk_inferred": false, "source": "jdbc", "description": "Active"}], "column_count": 6, "pk": ["id"], "est_row_bytes": 449, "seed_rows": 2}, {"name": "vaccination", "source": "hibernate", "sources": ["hibernate"], "origins": ["src/main/java/com/petshop/entity/Vaccination.java (@Entity Vaccination)"], "description": "Vaccination", "remarks": "", "columns": [{"name": "id", "type": "BIGINT", "size": null, "nullable": false, "pk": true, "unique": false, "default": "generated", "fk": null, "fk_inferred": false, "source": "hibernate", "description": "Surrogate primary key"}, {"name": "pet_id", "type": "BIGINT", "size": null, "nullable": false, "pk": false, "unique": false, "default": null, "fk": {"table": "pet", "column": "id", "inferred": true}, "fk_inferred": true, "source": "hibernate", "description": "Reference to pet"}, {"name": "vaccine_name", "type": "VARCHAR(120)", "size": 120, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "hibernate", "description": "Vaccine name"}, {"name": "administered_on", "type": "DATE", "size": null, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "hibernate", "description": "Administered on"}, {"name": "next_due_on", "type": "DATE", "size": null, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "hibernate", "description": "Next due on"}, {"name": "batch_number", "type": "VARCHAR(60)", "size": 60, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "hibernate", "description": "Batch number"}], "column_count": 6, "pk": ["id"], "est_row_bytes": 204, "seed_rows": 2}, {"name": "visit", "source": "liquibase", "sources": ["liquibase"], "origins": ["src/main/resources/db/changelog/changes/003-create-visit.xml (changeSet 003-create-visit)"], "description": "A clinical visit recorded against a pet", "remarks": "A clinical visit recorded against a pet", "columns": [{"name": "id", "type": "BIGINT", "size": null, "nullable": false, "pk": true, "unique": false, "default": "auto-increment", "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Surrogate primary key"}, {"name": "pet_id", "type": "BIGINT", "size": null, "nullable": false, "pk": false, "unique": false, "default": null, "fk": {"table": "pet", "column": "id"}, "fk_inferred": false, "source": "liquibase", "description": "Pet seen during the visit"}, {"name": "visit_date", "type": "DATE", "size": null, "nullable": false, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Day of the visit"}, {"name": "reason", "type": "VARCHAR(255)", "size": 255, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Why the pet was brought in"}, {"name": "cost", "type": "NUMERIC(10,2)", "size": null, "nullable": true, "pk": false, "unique": false, "default": null, "fk": null, "fk_inferred": false, "source": "liquibase", "description": "Amount billed for the visit"}], "column_count": 5, "pk": ["id"], "est_row_bytes": 281, "seed_rows": 2}], "relationships": [{"from": "appointment", "to": "pet", "from_cols": ["pet_id"], "to_cols": ["id"], "inferred": true}, {"from": "pet", "to": "owner", "from_cols": ["owner_id"], "to_cols": ["id"], "inferred": false}, {"from": "product", "to": "supplier", "from_cols": ["supplier_id"], "to_cols": ["id"], "inferred": false}, {"from": "vaccination", "to": "pet", "from_cols": ["pet_id"], "to_cols": ["id"], "inferred": true}, {"from": "visit", "to": "pet", "from_cols": ["pet_id"], "to_cols": ["id"], "inferred": false}], "sqlite_ddl": "CREATE TABLE \"appointment\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"pet_id\" INTEGER,\n  \"staff_name\" TEXT,\n  \"scheduled_at\" TEXT,\n  \"service\" TEXT,\n  \"status\" TEXT,\n  \"notes\" TEXT\n);\nCREATE TABLE \"owner\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"first_name\" TEXT,\n  \"last_name\" TEXT,\n  \"email\" TEXT,\n  \"phone\" TEXT,\n  \"address\" TEXT,\n  \"created_at\" TEXT DEFAULT CURRENT_TIMESTAMP\n);\nCREATE TABLE \"pet\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"name\" TEXT,\n  \"species\" TEXT,\n  \"breed\" TEXT,\n  \"birth_date\" TEXT,\n  \"weight_kg\" NUMERIC,\n  \"owner_id\" INTEGER\n);\nCREATE TABLE \"product\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"sku\" TEXT,\n  \"name\" TEXT,\n  \"category\" TEXT,\n  \"price\" NUMERIC,\n  \"stock_qty\" INTEGER DEFAULT 0,\n  \"supplier_id\" INTEGER\n);\nCREATE TABLE \"supplier\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"name\" TEXT,\n  \"contact_email\" TEXT,\n  \"phone\" TEXT,\n  \"country\" TEXT DEFAULT 'US',\n  \"active\" INTEGER DEFAULT 'TRUE'\n);\nCREATE TABLE \"vaccination\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"pet_id\" INTEGER,\n  \"vaccine_name\" TEXT,\n  \"administered_on\" TEXT,\n  \"next_due_on\" TEXT,\n  \"batch_number\" TEXT\n);\nCREATE TABLE \"visit\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"pet_id\" INTEGER,\n  \"visit_date\" TEXT,\n  \"reason\" TEXT,\n  \"cost\" NUMERIC\n);", "seeds": ["INSERT INTO owner (first_name, last_name, email, phone, address) VALUES ('Ada', 'Lovelace', 'ada@petshop.test', '555-0101', '12 Analytical Ave');", "INSERT INTO owner (first_name, last_name, email, phone, address) VALUES ('Alan', 'Turing', 'alan@petshop.test', '555-0102', '7 Enigma Road');", "INSERT INTO supplier (name, contact_email, phone, country) VALUES ('Acme Pet Foods', 'sales@acme.test', '555-0900', 'US');", "INSERT INTO supplier (name, contact_email, phone, country) VALUES ('Happy Tails Supplies', 'hello@happytails.test', '555-0901', 'CA');", "INSERT INTO pet (name, species, breed, birth_date, weight_kg, owner_id) VALUES ('Byron', 'Dog', 'Beagle', '2021-05-01', 11.40, 1);", "INSERT INTO pet (name, species, breed, birth_date, weight_kg, owner_id) VALUES ('Pixel', 'Cat', 'Tabby', '2020-11-12', 4.20, 1);", "INSERT INTO pet (name, species, breed, birth_date, weight_kg, owner_id) VALUES ('Bombe', 'Dog', 'Labrador', '2022-02-20', 27.10, 2);", "INSERT INTO product (sku, name, category, price, stock_qty, supplier_id) VALUES ('FD-001', 'Grain-Free Kibble 5kg', 'Food', 39.90, 120, 1);", "INSERT INTO product (sku, name, category, price, stock_qty, supplier_id) VALUES ('TY-014', 'Rope Chew Toy', 'Toys', 8.50, 300, 2);", "INSERT INTO visit (pet_id, visit_date, reason, cost) VALUES (1, '2024-03-10', 'Annual checkup', 60.00);", "INSERT INTO visit (pet_id, visit_date, reason, cost) VALUES (2, '2024-04-02', 'Vaccination follow-up', 45.00);", "INSERT INTO appointment (pet_id, staff_name, scheduled_at, service, status, notes) VALUES (1, 'Dr. Grace Hopper', '2024-06-01 09:30:00', 'Grooming', 'BOOKED', 'Nervous around clippers');", "INSERT INTO appointment (pet_id, staff_name, scheduled_at, service, status, notes) VALUES (3, 'Dr. Grace Hopper', '2024-06-03 14:00:00', 'Dental', 'COMPLETED', NULL);", "INSERT INTO vaccination (pet_id, vaccine_name, administered_on, next_due_on, batch_number) VALUES (1, 'Rabies', '2024-03-10', '2025-03-10', 'RB-7781');", "INSERT INTO vaccination (pet_id, vaccine_name, administered_on, next_due_on, batch_number) VALUES (2, 'Feline Distemper', '2024-04-02', '2025-04-02', 'FD-2210');"]};
+
+function el(tag, attrs, children){
+  const e = document.createElement(tag);
+  if(attrs) for(const k in attrs){ if(k==="class") e.className=attrs[k]; else if(k==="html") e.innerHTML=attrs[k]; else e.setAttribute(k, attrs[k]); }
+  (children||[]).forEach(c=>e.appendChild(typeof c==="string"?document.createTextNode(c):c));
+  return e;
+}
+function esc(s){ return (s==null?"":String(s)).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
+function known(s){ return ["liquibase","jdbc","sql","hibernate","mixed"].includes(s)?s:"unknown"; }
+function srcInk(s){ return getComputedStyle(document.documentElement).getPropertyValue("--"+known(s)+"-ink").trim(); }
+function srcBg(s){ return getComputedStyle(document.documentElement).getPropertyValue("--"+known(s)+"-bg").trim(); }
+function badgeClass(s){ return "badge b-"+known(s); }
+
+document.getElementById("title").textContent = "Data Dictionary — " + DATA.project;
+document.getElementById("subtitle").textContent = DATA.scan_path + "  ·  generated " + DATA.generated;
+
+(function header(){
+  const chips = document.getElementById("chips");
+  chips.appendChild(el("span",{class:"chip"},[el("b",{},[String(DATA.table_count)])," tables"]));
+  chips.appendChild(el("span",{class:"chip"},[el("b",{},[String(DATA.column_count)])," columns"]));
+  ["liquibase","jdbc","sql","hibernate","mixed","unknown"].forEach(s=>{
+    if(!DATA.tally[s]) return;
+    const c=el("span",{class:"chip"}); const d=el("span",{class:"dot"}); d.style.background=srcInk(s);
+    c.appendChild(d); c.appendChild(el("b",{},[String(DATA.tally[s])])); c.appendChild(document.createTextNode(" "+s)); chips.appendChild(c);
+  });
+  const rels = DATA.relationships.length, inf = DATA.relationships.filter(r=>r.inferred).length;
+  chips.appendChild(el("span",{class:"chip"},[el("b",{},[String(rels)])," relationships ("+inf+" inferred)"]));
+})();
+
+(function legend(){
+  const lg=document.getElementById("legend");
+  [["liquibase","Liquibase"],["jdbc","JDBC"],["sql","SQL"],["hibernate","Hibernate"],["mixed","Mixed"]].forEach(function(pair){
+    if(!DATA.tally[pair[0]]) return;
+    const s=el("span"); const d=el("span",{class:"dot"}); d.style.background=srcInk(pair[0]); s.appendChild(d); s.appendChild(document.createTextNode(pair[1])); lg.appendChild(s);
+  });
+})();
+
+function renderTables(q){
+  const root=document.getElementById("tables"); root.innerHTML="";
+  q=(q||"").toLowerCase();
+  let shown=0;
+  DATA.tables.forEach(t=>{
+    const hay=(t.name+" "+t.description+" "+t.columns.map(c=>c.name+" "+c.type).join(" ")).toLowerCase();
+    if(q && hay.indexOf(q)<0) return;
+    shown++;
+    const card=el("div",{class:"card"});
+    card.id="tbl-"+t.name;
+    const head=el("div",{class:"card-head"});
+    head.appendChild(el("h2",{},[t.name]));
+    head.appendChild(el("span",{class:badgeClass(t.source)},[t.source]));
+    if(t.origins[0]) head.appendChild(el("span",{class:"origin"},[t.origins[0]]));
+    card.appendChild(head);
+    if(t.description) card.appendChild(el("div",{class:"desc"},[t.description]));
+    const meta=el("div",{class:"meta"});
+    meta.appendChild(el("span",{html:"<b>"+t.column_count+"</b> columns"}));
+    meta.appendChild(el("span",{html:"primary key <b>"+esc(t.pk.join(", ")||"none")+"</b>"}));
+    meta.appendChild(el("span",{html:"~<b>"+t.est_row_bytes+"</b> bytes/row (estimated)"}));
+    if(t.seed_rows) meta.appendChild(el("span",{html:"<b>"+t.seed_rows+"</b> seed rows (from source)"}));
+    card.appendChild(meta);
+    const tbl=el("table",{class:"cols"});
+    tbl.appendChild(el("thead",{html:"<tr><th>Column</th><th>Type</th><th>Size</th><th>Nullable</th><th>Key</th><th>Default</th><th>Description</th></tr>"}));
+    const tb=el("tbody");
+    t.columns.forEach(c=>{
+      const tr=el("tr");
+      tr.appendChild(el("td",{class:"colname"},[c.name]));
+      tr.appendChild(el("td",{},[el("span",{class:"type"},[c.type||""])]));
+      tr.appendChild(el("td",{class:"muted"},[c.size!=null?String(c.size):"—"]));
+      tr.appendChild(el("td",{html:c.nullable?'<span class="nullable-yes">yes</span>':'<span class="nullable-no">no</span>'}));
+      const key=el("td");
+      if(c.pk) key.appendChild(el("span",{class:"tag tag-pk"},["PK"]));
+      if(c.unique && !c.pk) key.appendChild(el("span",{class:"tag tag-uq"},["UQ"]));
+      if(c.fk){ key.appendChild(el("a",{href:"#tbl-"+c.fk.table,class:"tag tag-fk"},["FK → "+c.fk.table])); if(c.fk_inferred) key.appendChild(el("span",{class:"tag tag-inf"},["inferred"])); }
+      tr.appendChild(key);
+      tr.appendChild(el("td",{class:"muted"},[c.default!=null?String(c.default):"—"]));
+      tr.appendChild(el("td",{class:"muted"},[c.description||""]));
+      tb.appendChild(tr);
+    });
+    tbl.appendChild(tb);
+    card.appendChild(tbl);
+    root.appendChild(card);
+  });
+  if(shown===0) root.appendChild(el("div",{class:"empty"},["No tables match “"+q+"”"]));
+}
+renderTables("");
+document.getElementById("filter").addEventListener("input",e=>renderTables(e.target.value));
+
+let erDrawn=false;
+function renderER(){
+  if(erDrawn) return; erDrawn=true;
+  const svg=document.getElementById("er");
+  const NS="http://www.w3.org/2000/svg";
+  const tables=DATA.tables, rels=DATA.relationships;
+  const byName={}; tables.forEach(t=>byName[t.name.toLowerCase()]=t);
+  const parents={}; tables.forEach(t=>parents[t.name.toLowerCase()]=[]);
+  rels.forEach(r=>{ const f=r.from.toLowerCase(), to=r.to.toLowerCase(); if(parents[f] && byName[to] && f!==to) parents[f].push(to); });
+  const depth={};
+  function dep(name,seen){ if(depth[name]!=null) return depth[name]; if(seen.has(name)) return 0; seen.add(name); let m=0; (parents[name]||[]).forEach(p=>{ if(byName[p]) m=Math.max(m,dep(p,seen)+1); }); seen.delete(name); depth[name]=m; return m; }
+  tables.forEach(t=>dep(t.name.toLowerCase(),new Set()));
+  const groups={}; tables.forEach(t=>{ const dd=depth[t.name.toLowerCase()]||0; (groups[dd]=groups[dd]||[]).push(t); });
+  const BOXW=210, ROWH=21, HEADH=30, PADY=10, GAPX=120, GAPY=40, MARGIN=40;
+  const layout={};
+  const keys=Object.keys(groups).map(Number).sort((a,b)=>a-b);
+  let maxBottom=0, x=MARGIN;
+  keys.forEach(k=>{
+    let y=MARGIN;
+    groups[k].forEach(t=>{
+      const h=HEADH+t.columns.length*ROWH+PADY;
+      layout[t.name.toLowerCase()]={x:x,y:y,w:BOXW,h:h,t:t};
+      y+=h+GAPY; maxBottom=Math.max(maxBottom,y);
+    });
+    x+=BOXW+GAPX;
+  });
+  const W=x-GAPX+MARGIN, H=maxBottom+MARGIN;
+  svg.setAttribute("width",W); svg.setAttribute("height",H); svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const defs=document.createElementNS(NS,"defs");
+  defs.innerHTML='<filter id="wobble" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="6" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>';
+  svg.appendChild(defs);
+  function pt(s,a){ const e=document.createElementNS(NS,s); for(const k in a) e.setAttribute(k,a[k]); return e; }
+
+  rels.forEach(r=>{
+    const c=layout[r.from.toLowerCase()], p=layout[r.to.toLowerCase()];
+    if(!c||!p) return;
+    const y1=c.y+Math.min(c.h-8, HEADH+8);
+    const y2=p.y+Math.min(p.h-8, HEADH+8);
+    let sx,ex;
+    if(p.x+p.w<=c.x){ sx=c.x; ex=p.x+p.w; }
+    else if(c.x+c.w<=p.x){ sx=c.x+c.w; ex=p.x; }
+    else { sx=c.x+c.w; ex=p.x+p.w; }
+    const mx=(sx+ex)/2;
+    const col=r.inferred?"#b6bdc9":"#94a3b8";
+    const path=pt("path",{d:"M "+sx+" "+y1+" C "+mx+" "+y1+" "+mx+" "+y2+" "+ex+" "+y2,fill:"none",stroke:col,"stroke-width":"1.8",filter:"url(#wobble)"});
+    if(r.inferred) path.setAttribute("stroke-dasharray","6 5");
+    svg.appendChild(path);
+    const dir=ex<sx?-1:1;
+    svg.appendChild(pt("path",{d:"M "+sx+" "+y1+" l "+(12*dir)+" -6 M "+sx+" "+y1+" l "+(13*dir)+" 0 M "+sx+" "+y1+" l "+(12*dir)+" 6",fill:"none",stroke:col,"stroke-width":"1.6",filter:"url(#wobble)"}));
+    svg.appendChild(pt("circle",{cx:ex-(8*dir),cy:y2,r:3.2,fill:"#fff",stroke:col,"stroke-width":"1.6"}));
+  });
+
+  tables.forEach(t=>{
+    const L=layout[t.name.toLowerCase()];
+    const g=document.createElementNS(NS,"g");
+    const ink=srcInk(t.source), bg=srcBg(t.source);
+    g.appendChild(pt("rect",{x:L.x,y:L.y,width:L.w,height:L.h,rx:10,fill:"#ffffff",stroke:ink,"stroke-width":"1.8",filter:"url(#wobble)"}));
+    g.appendChild(pt("rect",{x:L.x,y:L.y,width:L.w,height:HEADH,rx:10,fill:bg,filter:"url(#wobble)"}));
+    g.appendChild(pt("path",{d:"M "+L.x+" "+(L.y+HEADH)+" L "+(L.x+L.w)+" "+(L.y+HEADH),stroke:ink,"stroke-width":"1.4",filter:"url(#wobble)"}));
+    const title=pt("text",{x:L.x+12,y:L.y+20,"font-size":"19",fill:ink,class:"er-box-title"}); title.textContent=t.name; g.appendChild(title);
+    t.columns.forEach((c,i)=>{
+      const cy=L.y+HEADH+18+i*ROWH;
+      const tx=pt("text",{x:L.x+12,y:cy,"font-size":"15",fill:"#374151",class:"er-col"}); tx.textContent=c.name; g.appendChild(tx);
+      let mark=""; if(c.pk) mark="◈"; else if(c.fk) mark="→";
+      if(mark){ const km=pt("text",{x:L.x+L.w-12,y:cy,"font-size":"15",fill:c.pk?"#b45309":ink,"text-anchor":"end",class:"er-col"}); km.textContent=mark; g.appendChild(km); }
+    });
+    svg.appendChild(g);
+  });
+}
+
+(function querySchema(){
+  const list=document.getElementById("schema-list");
+  list.appendChild(el("h3",{},["Schema"]));
+  DATA.tables.forEach(t=>{
+    const det=el("details",{class:"schema-t"});
+    det.appendChild(el("summary",{},[t.name+" ("+t.column_count+")"]));
+    t.columns.forEach(c=>det.appendChild(el("div",{class:"schema-c"},[c.name+"  "+(c.type||"")])));
+    list.appendChild(det);
+  });
+})();
+
+(function starters(){
+  const box=document.getElementById("starters");
+  const qs=[];
+  if(DATA.tables[0]) qs.push(['SELECT * FROM "'+DATA.tables[0].name+'" LIMIT 25;', "browse "+DATA.tables[0].name]);
+  const r=DATA.relationships.find(x=>!x.inferred)||DATA.relationships[0];
+  if(r) qs.push(['SELECT * FROM "'+r.from+'" a JOIN "'+r.to+'" b ON a.'+r.from_cols[0]+' = b.'+r.to_cols[0]+' LIMIT 25;', r.from+" × "+r.to]);
+  if(DATA.tables[0]) qs.push(['SELECT COUNT(*) AS rows FROM "'+DATA.tables[0].name+'";', "count rows"]);
+  qs.forEach(function(pair){ const b=el("button",{},[pair[1]]); b.addEventListener("click",function(){ document.getElementById("sql").value=pair[0]; runQuery(); }); box.appendChild(b); });
+})();
+
+let db=null, sqlLoading=false;
+function ensureDb(){
+  if(db||sqlLoading) return; sqlLoading=true;
+  const s=document.createElement("script");
+  s.src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js";
+  s.onload=function(){
+    initSqlJs({locateFile:f=>"https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/"+f}).then(SQL=>{
+      db=new SQL.Database();
+      try{ db.run(DATA.sqlite_ddl); }catch(e){}
+      let seeded=0; (DATA.seeds||[]).forEach(q=>{ try{ db.run(q); seeded++; }catch(e){} });
+      document.getElementById("run").disabled=false;
+      setStatus("ready · "+DATA.table_count+" tables, "+seeded+" rows seeded", false);
+    }).catch(()=>setStatus("could not start the SQL engine", true));
+  };
+  s.onerror=function(){ setStatus("could not load the SQL engine (offline?)", true); };
+  document.head.appendChild(s);
+}
+function setStatus(msg,err){ const e=document.getElementById("qstatus"); e.textContent=msg; e.className="q-status"+(err?" err":""); }
+function runQuery(){
+  if(!db){ setStatus("database still loading...", false); return; }
+  const sql=document.getElementById("sql").value.trim();
+  if(!sql) return;
+  const out=document.getElementById("result");
+  const t0=performance.now();
+  let res;
+  try{ res=db.exec(sql); }
+  catch(e){ setStatus(String(e.message||e), true); out.innerHTML=""; return; }
+  const ms=(performance.now()-t0).toFixed(1);
+  if(!res.length){ setStatus("ok · no rows returned · "+ms+" ms", false); out.innerHTML='<div class="empty">Statement executed. No result set.</div>'; return; }
+  const r=res[0];
+  setStatus("ok · "+r.values.length+" row(s) · "+ms+" ms", false);
+  const tbl=el("table");
+  tbl.appendChild(el("thead",{html:"<tr>"+r.columns.map(c=>"<th>"+esc(c)+"</th>").join("")+"</tr>"}));
+  const tb=el("tbody");
+  r.values.slice(0,1000).forEach(row=>{
+    const tr=el("tr");
+    row.forEach(v=>{ const td=el("td"); if(v===null){ td.className="null-cell"; td.textContent="null"; } else td.textContent=String(v); tr.appendChild(td); });
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb);
+  out.innerHTML=""; out.appendChild(tbl);
+}
+document.getElementById("run").addEventListener("click",runQuery);
+document.getElementById("sql").addEventListener("keydown",e=>{ if((e.metaKey||e.ctrlKey)&&e.key==="Enter") runQuery(); });
+
+document.querySelectorAll("nav.tabs button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    document.querySelectorAll("nav.tabs button").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    const tab=b.getAttribute("data-tab");
+    document.getElementById("panel-"+tab).classList.add("active");
+    if(tab==="er") renderER();
+    if(tab==="query") ensureDb();
+  });
+});
+</script>
+</body>
+</html>

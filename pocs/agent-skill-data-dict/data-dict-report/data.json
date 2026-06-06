@@ -1,0 +1,831 @@
+{
+  "project": "sample",
+  "scan_path": "/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/agent-skill-data-dict/sample",
+  "generated": "2026-06-06 00:59:20",
+  "table_count": 7,
+  "column_count": 45,
+  "tally": {
+    "hibernate": 2,
+    "liquibase": 3,
+    "jdbc": 2
+  },
+  "tables": [
+    {
+      "name": "appointment",
+      "source": "hibernate",
+      "sources": [
+        "hibernate"
+      ],
+      "origins": [
+        "src/main/java/com/petshop/entity/Appointment.java (@Entity Appointment)"
+      ],
+      "description": "Appointment",
+      "remarks": "",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "default": "generated",
+          "fk": null,
+          "fk_inferred": false,
+          "source": "hibernate",
+          "description": "Surrogate primary key"
+        },
+        {
+          "name": "pet_id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": {
+            "table": "pet",
+            "column": "id",
+            "inferred": true
+          },
+          "fk_inferred": true,
+          "source": "hibernate",
+          "description": "Reference to pet"
+        },
+        {
+          "name": "staff_name",
+          "type": "VARCHAR(120)",
+          "size": 120,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "hibernate",
+          "description": "Staff name"
+        },
+        {
+          "name": "scheduled_at",
+          "type": "TIMESTAMP",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "hibernate",
+          "description": "Scheduled at"
+        },
+        {
+          "name": "service",
+          "type": "VARCHAR(80)",
+          "size": 80,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "hibernate",
+          "description": "Service"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)",
+          "size": 20,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "hibernate",
+          "description": "Status"
+        },
+        {
+          "name": "notes",
+          "type": "VARCHAR(500)",
+          "size": 500,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "hibernate",
+          "description": "Notes"
+        }
+      ],
+      "column_count": 7,
+      "pk": [
+        "id"
+      ],
+      "est_row_bytes": 744,
+      "seed_rows": 2
+    },
+    {
+      "name": "owner",
+      "source": "liquibase",
+      "sources": [
+        "liquibase"
+      ],
+      "origins": [
+        "src/main/resources/db/changelog/changes/001-create-owner.xml (changeSet 001-create-owner)"
+      ],
+      "description": "A person who owns one or more pets and is billed for visits",
+      "remarks": "A person who owns one or more pets and is billed for visits",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "default": "auto-increment",
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Surrogate primary key"
+        },
+        {
+          "name": "first_name",
+          "type": "VARCHAR(80)",
+          "size": 80,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Owner given name"
+        },
+        {
+          "name": "last_name",
+          "type": "VARCHAR(80)",
+          "size": 80,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Owner family name"
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR(160)",
+          "size": 160,
+          "nullable": false,
+          "pk": false,
+          "unique": true,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Contact email, unique per owner"
+        },
+        {
+          "name": "phone",
+          "type": "VARCHAR(40)",
+          "size": 40,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Contact phone number"
+        },
+        {
+          "name": "address",
+          "type": "VARCHAR(255)",
+          "size": 255,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Postal address"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": "CURRENT_TIMESTAMP",
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Row creation time"
+        }
+      ],
+      "column_count": 7,
+      "pk": [
+        "id"
+      ],
+      "est_row_bytes": 631,
+      "seed_rows": 2
+    },
+    {
+      "name": "pet",
+      "source": "liquibase",
+      "sources": [
+        "liquibase"
+      ],
+      "origins": [
+        "src/main/resources/db/changelog/changes/002-create-pet.xml (changeSet 002-create-pet)"
+      ],
+      "description": "An animal registered to an owner",
+      "remarks": "An animal registered to an owner",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "default": "auto-increment",
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Surrogate primary key"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(120)",
+          "size": 120,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Pet name"
+        },
+        {
+          "name": "species",
+          "type": "VARCHAR(60)",
+          "size": 60,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Dog, cat, bird, etc."
+        },
+        {
+          "name": "breed",
+          "type": "VARCHAR(120)",
+          "size": 120,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Breed within the species"
+        },
+        {
+          "name": "birth_date",
+          "type": "DATE",
+          "size": null,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Date of birth, if known"
+        },
+        {
+          "name": "weight_kg",
+          "type": "NUMERIC(6,2)",
+          "size": null,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Most recent weight in kilograms"
+        },
+        {
+          "name": "owner_id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": {
+            "table": "owner",
+            "column": "id"
+          },
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Owner who registered the pet"
+        }
+      ],
+      "column_count": 7,
+      "pk": [
+        "id"
+      ],
+      "est_row_bytes": 324,
+      "seed_rows": 3
+    },
+    {
+      "name": "product",
+      "source": "jdbc",
+      "sources": [
+        "jdbc"
+      ],
+      "origins": [
+        "src/main/java/com/petshop/jdbc/JdbcSchemaInitializer.java (JdbcTemplate)"
+      ],
+      "description": "Product",
+      "remarks": "",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "default": "auto-increment",
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Surrogate primary key"
+        },
+        {
+          "name": "sku",
+          "type": "VARCHAR(40)",
+          "size": 40,
+          "nullable": false,
+          "pk": false,
+          "unique": true,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Sku"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(200)",
+          "size": 200,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Name"
+        },
+        {
+          "name": "category",
+          "type": "VARCHAR(80)",
+          "size": 80,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Category"
+        },
+        {
+          "name": "price",
+          "type": "NUMERIC(10,2)",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Price"
+        },
+        {
+          "name": "stock_qty",
+          "type": "INT",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": "0",
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Stock qty"
+        },
+        {
+          "name": "supplier_id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": {
+            "table": "supplier",
+            "column": "id"
+          },
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Reference to supplier"
+        }
+      ],
+      "column_count": 7,
+      "pk": [
+        "id"
+      ],
+      "est_row_bytes": 346,
+      "seed_rows": 2
+    },
+    {
+      "name": "supplier",
+      "source": "jdbc",
+      "sources": [
+        "jdbc"
+      ],
+      "origins": [
+        "src/main/java/com/petshop/jdbc/JdbcSchemaInitializer.java (JdbcTemplate)"
+      ],
+      "description": "Supplier",
+      "remarks": "",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "default": "auto-increment",
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Surrogate primary key"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(160)",
+          "size": 160,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Name"
+        },
+        {
+          "name": "contact_email",
+          "type": "VARCHAR(160)",
+          "size": 160,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Contact email"
+        },
+        {
+          "name": "phone",
+          "type": "VARCHAR(40)",
+          "size": 40,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Phone"
+        },
+        {
+          "name": "country",
+          "type": "VARCHAR(80)",
+          "size": 80,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": "US",
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Country"
+        },
+        {
+          "name": "active",
+          "type": "BOOLEAN",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": "TRUE",
+          "fk": null,
+          "fk_inferred": false,
+          "source": "jdbc",
+          "description": "Active"
+        }
+      ],
+      "column_count": 6,
+      "pk": [
+        "id"
+      ],
+      "est_row_bytes": 449,
+      "seed_rows": 2
+    },
+    {
+      "name": "vaccination",
+      "source": "hibernate",
+      "sources": [
+        "hibernate"
+      ],
+      "origins": [
+        "src/main/java/com/petshop/entity/Vaccination.java (@Entity Vaccination)"
+      ],
+      "description": "Vaccination",
+      "remarks": "",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "default": "generated",
+          "fk": null,
+          "fk_inferred": false,
+          "source": "hibernate",
+          "description": "Surrogate primary key"
+        },
+        {
+          "name": "pet_id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": {
+            "table": "pet",
+            "column": "id",
+            "inferred": true
+          },
+          "fk_inferred": true,
+          "source": "hibernate",
+          "description": "Reference to pet"
+        },
+        {
+          "name": "vaccine_name",
+          "type": "VARCHAR(120)",
+          "size": 120,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "hibernate",
+          "description": "Vaccine name"
+        },
+        {
+          "name": "administered_on",
+          "type": "DATE",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "hibernate",
+          "description": "Administered on"
+        },
+        {
+          "name": "next_due_on",
+          "type": "DATE",
+          "size": null,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "hibernate",
+          "description": "Next due on"
+        },
+        {
+          "name": "batch_number",
+          "type": "VARCHAR(60)",
+          "size": 60,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "hibernate",
+          "description": "Batch number"
+        }
+      ],
+      "column_count": 6,
+      "pk": [
+        "id"
+      ],
+      "est_row_bytes": 204,
+      "seed_rows": 2
+    },
+    {
+      "name": "visit",
+      "source": "liquibase",
+      "sources": [
+        "liquibase"
+      ],
+      "origins": [
+        "src/main/resources/db/changelog/changes/003-create-visit.xml (changeSet 003-create-visit)"
+      ],
+      "description": "A clinical visit recorded against a pet",
+      "remarks": "A clinical visit recorded against a pet",
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": true,
+          "unique": false,
+          "default": "auto-increment",
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Surrogate primary key"
+        },
+        {
+          "name": "pet_id",
+          "type": "BIGINT",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": {
+            "table": "pet",
+            "column": "id"
+          },
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Pet seen during the visit"
+        },
+        {
+          "name": "visit_date",
+          "type": "DATE",
+          "size": null,
+          "nullable": false,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Day of the visit"
+        },
+        {
+          "name": "reason",
+          "type": "VARCHAR(255)",
+          "size": 255,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Why the pet was brought in"
+        },
+        {
+          "name": "cost",
+          "type": "NUMERIC(10,2)",
+          "size": null,
+          "nullable": true,
+          "pk": false,
+          "unique": false,
+          "default": null,
+          "fk": null,
+          "fk_inferred": false,
+          "source": "liquibase",
+          "description": "Amount billed for the visit"
+        }
+      ],
+      "column_count": 5,
+      "pk": [
+        "id"
+      ],
+      "est_row_bytes": 281,
+      "seed_rows": 2
+    }
+  ],
+  "relationships": [
+    {
+      "from": "appointment",
+      "to": "pet",
+      "from_cols": [
+        "pet_id"
+      ],
+      "to_cols": [
+        "id"
+      ],
+      "inferred": true
+    },
+    {
+      "from": "pet",
+      "to": "owner",
+      "from_cols": [
+        "owner_id"
+      ],
+      "to_cols": [
+        "id"
+      ],
+      "inferred": false
+    },
+    {
+      "from": "product",
+      "to": "supplier",
+      "from_cols": [
+        "supplier_id"
+      ],
+      "to_cols": [
+        "id"
+      ],
+      "inferred": false
+    },
+    {
+      "from": "vaccination",
+      "to": "pet",
+      "from_cols": [
+        "pet_id"
+      ],
+      "to_cols": [
+        "id"
+      ],
+      "inferred": true
+    },
+    {
+      "from": "visit",
+      "to": "pet",
+      "from_cols": [
+        "pet_id"
+      ],
+      "to_cols": [
+        "id"
+      ],
+      "inferred": false
+    }
+  ],
+  "sqlite_ddl": "CREATE TABLE \"appointment\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"pet_id\" INTEGER,\n  \"staff_name\" TEXT,\n  \"scheduled_at\" TEXT,\n  \"service\" TEXT,\n  \"status\" TEXT,\n  \"notes\" TEXT\n);\nCREATE TABLE \"owner\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"first_name\" TEXT,\n  \"last_name\" TEXT,\n  \"email\" TEXT,\n  \"phone\" TEXT,\n  \"address\" TEXT,\n  \"created_at\" TEXT DEFAULT CURRENT_TIMESTAMP\n);\nCREATE TABLE \"pet\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"name\" TEXT,\n  \"species\" TEXT,\n  \"breed\" TEXT,\n  \"birth_date\" TEXT,\n  \"weight_kg\" NUMERIC,\n  \"owner_id\" INTEGER\n);\nCREATE TABLE \"product\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"sku\" TEXT,\n  \"name\" TEXT,\n  \"category\" TEXT,\n  \"price\" NUMERIC,\n  \"stock_qty\" INTEGER DEFAULT 0,\n  \"supplier_id\" INTEGER\n);\nCREATE TABLE \"supplier\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"name\" TEXT,\n  \"contact_email\" TEXT,\n  \"phone\" TEXT,\n  \"country\" TEXT DEFAULT 'US',\n  \"active\" INTEGER DEFAULT 'TRUE'\n);\nCREATE TABLE \"vaccination\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"pet_id\" INTEGER,\n  \"vaccine_name\" TEXT,\n  \"administered_on\" TEXT,\n  \"next_due_on\" TEXT,\n  \"batch_number\" TEXT\n);\nCREATE TABLE \"visit\" (\n  \"id\" INTEGER PRIMARY KEY,\n  \"pet_id\" INTEGER,\n  \"visit_date\" TEXT,\n  \"reason\" TEXT,\n  \"cost\" NUMERIC\n);",
+  "seeds": [
+    "INSERT INTO owner (first_name, last_name, email, phone, address) VALUES ('Ada', 'Lovelace', 'ada@petshop.test', '555-0101', '12 Analytical Ave');",
+    "INSERT INTO owner (first_name, last_name, email, phone, address) VALUES ('Alan', 'Turing', 'alan@petshop.test', '555-0102', '7 Enigma Road');",
+    "INSERT INTO supplier (name, contact_email, phone, country) VALUES ('Acme Pet Foods', 'sales@acme.test', '555-0900', 'US');",
+    "INSERT INTO supplier (name, contact_email, phone, country) VALUES ('Happy Tails Supplies', 'hello@happytails.test', '555-0901', 'CA');",
+    "INSERT INTO pet (name, species, breed, birth_date, weight_kg, owner_id) VALUES ('Byron', 'Dog', 'Beagle', '2021-05-01', 11.40, 1);",
+    "INSERT INTO pet (name, species, breed, birth_date, weight_kg, owner_id) VALUES ('Pixel', 'Cat', 'Tabby', '2020-11-12', 4.20, 1);",
+    "INSERT INTO pet (name, species, breed, birth_date, weight_kg, owner_id) VALUES ('Bombe', 'Dog', 'Labrador', '2022-02-20', 27.10, 2);",
+    "INSERT INTO product (sku, name, category, price, stock_qty, supplier_id) VALUES ('FD-001', 'Grain-Free Kibble 5kg', 'Food', 39.90, 120, 1);",
+    "INSERT INTO product (sku, name, category, price, stock_qty, supplier_id) VALUES ('TY-014', 'Rope Chew Toy', 'Toys', 8.50, 300, 2);",
+    "INSERT INTO visit (pet_id, visit_date, reason, cost) VALUES (1, '2024-03-10', 'Annual checkup', 60.00);",
+    "INSERT INTO visit (pet_id, visit_date, reason, cost) VALUES (2, '2024-04-02', 'Vaccination follow-up', 45.00);",
+    "INSERT INTO appointment (pet_id, staff_name, scheduled_at, service, status, notes) VALUES (1, 'Dr. Grace Hopper', '2024-06-01 09:30:00', 'Grooming', 'BOOKED', 'Nervous around clippers');",
+    "INSERT INTO appointment (pet_id, staff_name, scheduled_at, service, status, notes) VALUES (3, 'Dr. Grace Hopper', '2024-06-03 14:00:00', 'Dental', 'COMPLETED', NULL);",
+    "INSERT INTO vaccination (pet_id, vaccine_name, administered_on, next_due_on, batch_number) VALUES (1, 'Rabies', '2024-03-10', '2025-03-10', 'RB-7781');",
+    "INSERT INTO vaccination (pet_id, vaccine_name, administered_on, next_due_on, batch_number) VALUES (2, 'Feline Distemper', '2024-04-02', '2025-04-02', 'FD-2210');"
+  ]
+}

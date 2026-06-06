@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="002-create-pet" author="petshop">
+        <createTable tableName="pet" remarks="An animal registered to an owner">
+            <column name="id" type="BIGINT" autoIncrement="true" remarks="Surrogate primary key">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(120)" remarks="Pet name">
+                <constraints nullable="false"/>
+            </column>
+            <column name="species" type="VARCHAR(60)" remarks="Dog, cat, bird, etc.">
+                <constraints nullable="false"/>
+            </column>
+            <column name="breed" type="VARCHAR(120)" remarks="Breed within the species"/>
+            <column name="birth_date" type="DATE" remarks="Date of birth, if known"/>
+            <column name="weight_kg" type="NUMERIC(6,2)" remarks="Most recent weight in kilograms"/>
+            <column name="owner_id" type="BIGINT" remarks="Owner who registered the pet">
+                <constraints nullable="false" foreignKeyName="fk_pet_owner" references="owner(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

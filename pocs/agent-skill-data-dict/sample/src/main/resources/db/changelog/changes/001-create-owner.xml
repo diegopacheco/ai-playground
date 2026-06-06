@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001-create-owner" author="petshop">
+        <createTable tableName="owner" remarks="A person who owns one or more pets and is billed for visits">
+            <column name="id" type="BIGINT" autoIncrement="true" remarks="Surrogate primary key">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(80)" remarks="Owner given name">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(80)" remarks="Owner family name">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(160)" remarks="Contact email, unique per owner">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="phone" type="VARCHAR(40)" remarks="Contact phone number"/>
+            <column name="address" type="VARCHAR(255)" remarks="Postal address"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" remarks="Row creation time">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

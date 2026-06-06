@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 560" font-family="'Caveat','Comic Sans MS',cursive">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');</style>
+    <filter id="w" x="-3%" y="-3%" width="106%" height="106%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="5" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="a" markerWidth="12" markerHeight="12" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L9,5 L0,10" fill="none" stroke="#8b93a3" stroke-width="1.6" filter="url(#w)"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1220" height="560" fill="#fbfbfc"/>
+  <text x="40" y="46" font-size="34" font-weight="700" fill="#1f2430">/data-dict — how the schema is discovered and rendered</text>
+
+  <g stroke="#8b93a3" stroke-width="2" fill="none" marker-end="url(#a)" filter="url(#w)">
+    <path d="M250 120 L300 120"/>
+    <path d="M520 100 L600 150"/>
+    <path d="M520 160 L600 160"/>
+    <path d="M520 220 L600 170"/>
+    <path d="M300 150 C 360 200, 360 150, 300 150"/>
+    <path d="M820 160 L880 160"/>
+    <path d="M1010 160 L1010 230"/>
+  </g>
+  <g stroke="#8b93a3" stroke-width="2" fill="none" marker-end="url(#a)" filter="url(#w)">
+    <path d="M170 150 L170 110 L300 110"/>
+  </g>
+
+  <g filter="url(#w)">
+    <rect x="40" y="90" width="210" height="64" rx="12" fill="#eef2f7" stroke="#64748b" stroke-width="2"/>
+    <rect x="300" y="86" width="220" height="150" rx="14" fill="#eef2f7" stroke="#64748b" stroke-width="2"/>
+    <rect x="600" y="120" width="220" height="80" rx="14" fill="#fff7ed" stroke="#b45309" stroke-width="2"/>
+    <rect x="880" y="120" width="130" height="80" rx="14" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+
+    <rect x="585" y="250" width="250" height="44" rx="10" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+    <rect x="585" y="304" width="250" height="44" rx="10" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+    <rect x="585" y="358" width="250" height="44" rx="10" fill="#ede9fe" stroke="#6d28d9" stroke-width="2"/>
+
+    <rect x="880" y="230" width="300" height="200" rx="16" fill="#ffffff" stroke="#2563eb" stroke-width="2.4"/>
+    <rect x="900" y="258" width="80" height="40" rx="9" fill="#eaf1ff" stroke="#2563eb" stroke-width="1.8"/>
+    <rect x="990" y="258" width="80" height="40" rx="9" fill="#eaf1ff" stroke="#2563eb" stroke-width="1.8"/>
+    <rect x="1080" y="258" width="80" height="40" rx="9" fill="#eaf1ff" stroke="#2563eb" stroke-width="1.8"/>
+  </g>
+
+  <g font-size="23" fill="#1f2430">
+    <text x="62" y="128">Codebase / repo</text>
+    <text x="320" y="120" font-size="25" font-weight="700">datadict.py</text>
+    <text x="320" y="150" font-size="20" fill="#475569">walks files,</text>
+    <text x="320" y="176" font-size="20" fill="#475569">parses 3 sources,</text>
+    <text x="320" y="202" font-size="20" fill="#475569">merges + resolves</text>
+    <text x="618" y="150" font-size="22" font-weight="700" fill="#b45309">parsers</text>
+    <text x="618" y="184" font-size="19" fill="#7c5310">XML · SQL · Java</text>
+    <text x="898" y="152" font-size="20" font-weight="700">data.json</text>
+    <text x="898" y="178" font-size="17" fill="#475569">+ SQLite DDL</text>
+  </g>
+
+  <g font-size="21" fill="#1f2430">
+    <text x="600" y="278">Liquibase changelogs</text>
+    <text x="600" y="332">raw SQL &amp; JDBC strings</text>
+    <text x="600" y="386">Hibernate @Entity</text>
+  </g>
+
+  <g font-size="22" fill="#1f2430">
+    <text x="900" y="252" font-weight="700">Website (light theme)</text>
+    <text x="940" y="284" font-size="18">Tables</text>
+    <text x="1015" y="284" font-size="18">ER</text>
+    <text x="1098" y="284" font-size="18">Query</text>
+    <text x="900" y="345" font-size="18" fill="#475569">· source badges + sizes</text>
+    <text x="900" y="372" font-size="18" fill="#475569">· hand-drawn ER (declared/inferred)</text>
+    <text x="900" y="399" font-size="18" fill="#475569">· in-browser SQL (sql.js)</text>
+  </g>
+
+  <g stroke="#8b93a3" stroke-width="2" fill="none" marker-end="url(#a)" filter="url(#w)">
+    <path d="M835 272 L880 290"/>
+    <path d="M835 326 L880 320"/>
+    <path d="M835 380 L880 350"/>
+  </g>
+
+  <text x="40" y="508" font-size="19" fill="#64748b">Liquibase = blue · SQL/JDBC = amber · Hibernate = purple — all merged into one model</text>
+  <text x="40" y="534" font-size="19" fill="#64748b">declared foreign keys are drawn solid, name-inferred ones dashed</text>
+</svg>

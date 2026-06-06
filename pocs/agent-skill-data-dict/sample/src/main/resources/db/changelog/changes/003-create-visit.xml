@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-create-visit" author="petshop">
+        <createTable tableName="visit" remarks="A clinical visit recorded against a pet">
+            <column name="id" type="BIGINT" autoIncrement="true" remarks="Surrogate primary key">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="pet_id" type="BIGINT" remarks="Pet seen during the visit">
+                <constraints nullable="false" foreignKeyName="fk_visit_pet" references="pet(id)"/>
+            </column>
+            <column name="visit_date" type="DATE" remarks="Day of the visit">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reason" type="VARCHAR(255)" remarks="Why the pet was brought in"/>
+            <column name="cost" type="NUMERIC(10,2)" remarks="Amount billed for the visit"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
