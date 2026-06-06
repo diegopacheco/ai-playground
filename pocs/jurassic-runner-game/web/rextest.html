@@ -1,0 +1,104 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>html,body{margin:0}canvas{display:block;background:#163021}</style></head><body>
+<canvas id="a" width="520" height="680"></canvas><script>
+const H=680, W=520; const ctx=document.getElementById("a").getContext("2d");
+ctx.fillStyle="#5c4730";ctx.fillRect(0,400,W,H-400);
+function drawRex(cx, groundY, sc, open, runP) {
+  const col = "#5a8a3a", colD = "#3f6b2a", colDk = "#2c4f22", belly = "#cdbb84";
+  const ns = Math.sin(runP), fs = Math.sin(runP + Math.PI);
+  ctx.save();
+  ctx.translate(cx, groundY);
+  ctx.scale(sc, sc);
+
+  ctx.fillStyle = colD;
+  ctx.beginPath();
+  ctx.moveTo(-20, -150);
+  ctx.quadraticCurveTo(-150, -158, -215, -92);
+  ctx.quadraticCurveTo(-150, -118, -18, -120);
+  ctx.closePath(); ctx.fill();
+
+  ctx.fillStyle = colDk;
+  ctx.beginPath(); ctx.ellipse(15, -118, 33, 47, -0.2, 0, Math.PI * 2); ctx.fill();
+  ctx.lineWidth = 17; ctx.strokeStyle = colDk; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.beginPath(); ctx.moveTo(14, -92); ctx.lineTo(-4 + fs * 10, -42); ctx.lineTo(24 + fs * 16, -8); ctx.stroke();
+
+  ctx.fillStyle = col;
+  ctx.beginPath();
+  ctx.moveTo(-22, -150);
+  ctx.quadraticCurveTo(30, -218, 120, -196);
+  ctx.quadraticCurveTo(158, -186, 156, -150);
+  ctx.quadraticCurveTo(146, -110, 95, -96);
+  ctx.quadraticCurveTo(35, -84, -6, -112);
+  ctx.quadraticCurveTo(-32, -126, -22, -150);
+  ctx.closePath(); ctx.fill();
+
+  ctx.fillStyle = belly;
+  ctx.beginPath();
+  ctx.moveTo(100, -100); ctx.quadraticCurveTo(40, -86, 2, -110);
+  ctx.quadraticCurveTo(60, -104, 118, -118); ctx.closePath(); ctx.fill();
+
+  ctx.fillStyle = col;
+  ctx.beginPath(); ctx.ellipse(62, -112, 42, 58, -0.12, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = colD; ctx.lineWidth = 22; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.beginPath(); ctx.moveTo(64, -76); ctx.lineTo(48 + ns * 10, -30); ctx.lineTo(92 + ns * 18, -4); ctx.stroke();
+  ctx.fillStyle = colDk;
+  ctx.beginPath(); ctx.moveTo(74 + ns * 18, -6); ctx.lineTo(118 + ns * 18, -6); ctx.lineTo(114 + ns * 18, 7); ctx.lineTo(78 + ns * 18, 7); ctx.closePath(); ctx.fill();
+
+  ctx.strokeStyle = colD; ctx.lineWidth = 9;
+  ctx.beginPath(); ctx.moveTo(126, -150); ctx.lineTo(140, -128); ctx.lineTo(136, -110); ctx.stroke();
+  ctx.strokeStyle = "#e8e0c0"; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(136, -110); ctx.lineTo(132, -101); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(136, -110); ctx.lineTo(142, -103); ctx.stroke();
+
+  ctx.fillStyle = col;
+  ctx.beginPath();
+  ctx.moveTo(120, -190); ctx.quadraticCurveTo(150, -210, 188, -208);
+  ctx.lineTo(188, -168); ctx.quadraticCurveTo(150, -162, 128, -162); ctx.closePath(); ctx.fill();
+
+  const hx = 196, hy = -212;
+  ctx.fillStyle = col;
+  ctx.beginPath();
+  ctx.moveTo(hx - 18, hy + 44);
+  ctx.quadraticCurveTo(hx - 26, hy - 6, hx + 26, hy - 8);
+  ctx.quadraticCurveTo(hx + 86, hy - 12, hx + 128, hy + 16);
+  ctx.lineTo(hx + 134, hy + 32);
+  ctx.quadraticCurveTo(hx + 96, hy + 40, hx + 40, hy + 44);
+  ctx.lineTo(hx - 18, hy + 44);
+  ctx.closePath(); ctx.fill();
+
+  ctx.fillStyle = "#3a1820";
+  ctx.beginPath();
+  ctx.moveTo(hx - 12, hy + 46);
+  ctx.lineTo(hx + 130, hy + 33);
+  ctx.lineTo(hx + 122, hy + 36 + open);
+  ctx.lineTo(hx - 12, hy + 50);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#9c4a50";
+  ctx.beginPath(); ctx.ellipse(hx + 66, hy + 44 + open * 0.62, 30, 9, -0.08, 0, Math.PI * 2); ctx.fill();
+
+  ctx.fillStyle = colD;
+  ctx.beginPath();
+  ctx.moveTo(hx - 16, hy + 48);
+  ctx.lineTo(hx + 122, hy + 36 + open);
+  ctx.lineTo(hx + 114, hy + 56 + open);
+  ctx.quadraticCurveTo(hx + 30, hy + 70 + open, hx - 14, hy + 60 + open);
+  ctx.closePath(); ctx.fill();
+
+  ctx.fillStyle = "#f4efe0";
+  for (let i = 0; i < 8; i++) {
+    const t = 0.18 + i * 0.1, tx = hx - 12 + t * 142, ty = hy + 45 - 12 * t;
+    ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(tx + 4, ty + 11); ctx.lineTo(tx + 8, ty); ctx.closePath(); ctx.fill();
+  }
+  for (let i = 0; i < 7; i++) {
+    const t = 0.28 + i * 0.1, tx = hx - 16 + t * 138, ty = hy + 48 + (open - 12) * t;
+    ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(tx + 4, ty - 10); ctx.lineTo(tx + 8, ty); ctx.closePath(); ctx.fill();
+  }
+
+  ctx.fillStyle = "#f4d03c"; ctx.beginPath(); ctx.arc(hx + 60, hy + 10, 11, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#1a1a1a"; ctx.beginPath(); ctx.ellipse(hx + 62, hy + 10, 4, 7, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = colDk; ctx.beginPath(); ctx.moveTo(hx + 44, hy - 2); ctx.lineTo(hx + 78, hy + 2); ctx.lineTo(hx + 72, hy + 10); ctx.lineTo(hx + 48, hy + 8); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(hx + 120, hy + 22, 4, 3, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+const sc=1.4, groundY=H+120-360, open=78; drawRex(W/2 - 285*sc, groundY, sc, open, 2.0);
+</script></body></html>

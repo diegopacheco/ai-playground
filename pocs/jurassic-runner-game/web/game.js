@@ -813,7 +813,7 @@ function drawTrex() {
   const groundY = H + 120 - p * 360;
   const sc = 0.85 + p * 0.55;
   const open = 30 + p * 48 + Math.sin(frameCount * 0.3) * 6;
-  drawRex(W / 2 - player.laneX * 20, groundY, sc, open, frameCount * 0.4);
+  drawRex(W / 2 - 285 * sc + player.laneX * 14, groundY, sc, open, frameCount * 0.4);
 }
 
 function drawCountdown(ts) {
