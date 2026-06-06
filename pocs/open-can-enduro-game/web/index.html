@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hand Enduro</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="shell">
+  <header>
+    <h1>HAND ENDURO</h1>
+    <p>Steer the car with your open hand. Move it left and right in front of the camera.</p>
+  </header>
+
+  <div class="stage">
+    <div class="board">
+      <canvas id="game" width="480" height="640"></canvas>
+      <div id="overlay" class="overlay">
+        <div class="card">
+          <h2 id="overlay-title">READY</h2>
+          <p id="overlay-text">Allow the camera, then raise your hand and press start.</p>
+          <button id="start">START</button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="hud">
+        <div class="metric"><span class="label">SCORE</span><span id="score" class="value">0</span></div>
+        <div class="metric"><span class="label">SPEED</span><span id="speed" class="value">0</span></div>
+        <div class="metric"><span class="label">HAND</span><span id="status" class="value status">--</span></div>
+      </div>
+      <div class="campanel">
+        <span class="campanel-title">YOUR CAMERA</span>
+        <canvas id="pip" width="240" height="180"></canvas>
+        <p class="hint">The green dot follows your hand.</p>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<video id="cam" playsinline muted></video>
+<canvas id="grab" width="240" height="180"></canvas>
+<script src="game.js"></script>
+</body>
+</html>
