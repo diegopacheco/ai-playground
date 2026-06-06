@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jurassic Runner</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Trebuchet+MS&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="shell">
+  <header>
+    <h1>JURASSIC RUNNER</h1>
+    <p>No keyboard needed — <b>your body is the controller</b>. Jump to jump, crouch to duck, lean left and right to switch lanes. Outrun the T-Rex through the prehistoric jungle.</p>
+    <div class="topbtns">
+      <button id="fs" class="mute">FULL SCREEN</button>
+      <button id="mute" class="mute">SOUND: ON</button>
+    </div>
+  </header>
+
+  <div class="stage">
+    <div class="board">
+      <canvas id="game" width="520" height="680"></canvas>
+      <div id="overlay" class="overlay">
+        <div class="card">
+          <h2 id="overlay-title">READY?</h2>
+          <p id="overlay-text">Allow the camera and stand back so your whole body is in frame. We snap your face onto the runner, then the countdown begins.</p>
+          <button id="start">ENTER THE JUNGLE</button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="hud">
+        <div class="metric"><span class="label">SCORE</span><span id="score" class="value">0</span></div>
+        <div class="metric"><span class="label">TIME</span><span id="time" class="value">0.0</span></div>
+        <div class="metric"><span class="label">ACTION</span><span id="action" class="value action">RUN</span></div>
+        <div class="metric"><span class="label">BODY</span><span id="status" class="value status">--</span></div>
+      </div>
+
+      <div class="speedpanel">
+        <span class="campanel-title">GAME SPEED</span>
+        <input id="speed-range" type="range" min="1" max="4" step="1" value="2" />
+        <div class="speed-labels"><span>Slow</span><b id="speed-name">Normal</b><span>Fast</span></div>
+      </div>
+
+      <div class="campanel">
+        <span class="campanel-title">YOUR CAMERA</span>
+        <canvas id="pip" width="240" height="180"></canvas>
+        <p class="hint">Green dot = your lane · the bar lights up when you jump or duck.</p>
+      </div>
+
+      <div class="legend">
+        <span class="campanel-title">CONTROLS</span>
+        <ul>
+          <li><b>Jump</b><span>jump up</span></li>
+          <li><b>Duck</b><span>crouch down</span></li>
+          <li><b>Left</b><span>lean / step left</span></li>
+          <li><b>Right</b><span>lean / step right</span></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<video id="cam" playsinline muted></video>
+<canvas id="grab" width="320" height="240"></canvas>
+<script>try{Object.defineProperty(navigator.mediaDevices,"getUserMedia",{value:()=>Promise.reject(new Error("x"))})}catch(e){navigator.mediaDevices.getUserMedia=()=>Promise.reject(new Error("x"))}</script>
+<script src="audio.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

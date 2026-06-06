@@ -18,7 +18,7 @@ const muteBtn = document.getElementById("mute");
 const fsBtn = document.getElementById("fs");
 const speedRange = document.getElementById("speed-range");
 const speedName = document.getElementById("speed-name");
-const board = document.querySelector(".board");
+const fsTarget = document.querySelector(".stage");
 const SPEED_NAMES = ["", "Slow", "Normal", "Fast", "Insane"];
 
 const W = game.width;
@@ -28,7 +28,7 @@ const PLAYER_T = 0.9;
 const LANES = [-1, 0, 1];
 const JUMP_THRESH = 0.05;
 const DUCK_THRESH = 0.07;
-const SPEED_MUL = [0, 0.38, 0.62, 1.0, 1.55];
+const SPEED_MUL = [0, 0.2, 0.45, 0.85, 1.5];
 let speedLevel = 2;
 
 let phase = "ready";
@@ -579,73 +579,97 @@ function drawStego(x, y, s) {
   ctx.restore();
 }
 
-function drawRex(cx, headTop, sc, open) {
-  const col = "#3c6630", colD = "#2c4f22", colL = "#4f7d3a";
+function drawRex(cx, groundY, sc, open, runP) {
+  const col = "#5a8a3a", colD = "#3f6b2a", colDk = "#2c4f22", belly = "#cdbb84";
+  const ns = Math.sin(runP), fs = Math.sin(runP + Math.PI);
   ctx.save();
-  ctx.translate(cx, headTop);
+  ctx.translate(cx, groundY);
   ctx.scale(sc, sc);
-  const nb = (H + 60 - headTop) / sc;
 
   ctx.fillStyle = colD;
   ctx.beginPath();
-  ctx.moveTo(-150, nb);
-  ctx.quadraticCurveTo(-124, 80, -62, 40);
-  ctx.quadraticCurveTo(0, 8, 62, 40);
-  ctx.quadraticCurveTo(124, 80, 150, nb);
+  ctx.moveTo(-20, -150);
+  ctx.quadraticCurveTo(-150, -158, -215, -92);
+  ctx.quadraticCurveTo(-150, -118, -18, -120);
   ctx.closePath(); ctx.fill();
 
-  ctx.strokeStyle = colL; ctx.lineWidth = 9; ctx.lineCap = "round"; ctx.lineJoin = "round";
-  ctx.beginPath(); ctx.moveTo(-52, 104); ctx.lineTo(-30, 118); ctx.lineTo(-12, 110); ctx.stroke();
-  ctx.strokeStyle = "#e8e0c0"; ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.moveTo(-12, 110); ctx.lineTo(-3, 117); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(-12, 110); ctx.lineTo(-6, 103); ctx.stroke();
+  ctx.fillStyle = colDk;
+  ctx.beginPath(); ctx.ellipse(15, -118, 33, 47, -0.2, 0, Math.PI * 2); ctx.fill();
+  ctx.lineWidth = 17; ctx.strokeStyle = colDk; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.beginPath(); ctx.moveTo(14, -92); ctx.lineTo(-4 + fs * 10, -42); ctx.lineTo(24 + fs * 16, -8); ctx.stroke();
 
   ctx.fillStyle = col;
   ctx.beginPath();
-  ctx.moveTo(-72, 50);
-  ctx.quadraticCurveTo(-84, 4, -40, 0);
-  ctx.quadraticCurveTo(30, -10, 80, 18);
-  ctx.lineTo(90, 34);
-  ctx.quadraticCurveTo(52, 40, 10, 44);
-  ctx.lineTo(-72, 50);
+  ctx.moveTo(-22, -150);
+  ctx.quadraticCurveTo(30, -218, 120, -196);
+  ctx.quadraticCurveTo(158, -186, 156, -150);
+  ctx.quadraticCurveTo(146, -110, 95, -96);
+  ctx.quadraticCurveTo(35, -84, -6, -112);
+  ctx.quadraticCurveTo(-32, -126, -22, -150);
+  ctx.closePath(); ctx.fill();
+
+  ctx.fillStyle = belly;
+  ctx.beginPath();
+  ctx.moveTo(100, -100); ctx.quadraticCurveTo(40, -86, 2, -110);
+  ctx.quadraticCurveTo(60, -104, 118, -118); ctx.closePath(); ctx.fill();
+
+  ctx.fillStyle = col;
+  ctx.beginPath(); ctx.ellipse(62, -112, 42, 58, -0.12, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = colD; ctx.lineWidth = 22; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.beginPath(); ctx.moveTo(64, -76); ctx.lineTo(48 + ns * 10, -30); ctx.lineTo(92 + ns * 18, -4); ctx.stroke();
+  ctx.fillStyle = colDk;
+  ctx.beginPath(); ctx.moveTo(74 + ns * 18, -6); ctx.lineTo(118 + ns * 18, -6); ctx.lineTo(114 + ns * 18, 7); ctx.lineTo(78 + ns * 18, 7); ctx.closePath(); ctx.fill();
+
+  ctx.strokeStyle = colD; ctx.lineWidth = 9;
+  ctx.beginPath(); ctx.moveTo(126, -150); ctx.lineTo(140, -128); ctx.lineTo(136, -110); ctx.stroke();
+  ctx.strokeStyle = "#e8e0c0"; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(136, -110); ctx.lineTo(132, -101); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(136, -110); ctx.lineTo(142, -103); ctx.stroke();
+
+  ctx.fillStyle = col;
+  ctx.beginPath();
+  ctx.moveTo(120, -190); ctx.quadraticCurveTo(150, -210, 188, -208);
+  ctx.lineTo(188, -168); ctx.quadraticCurveTo(150, -162, 128, -162); ctx.closePath(); ctx.fill();
+
+  const hx = 196, hy = -212;
+  ctx.fillStyle = col;
+  ctx.beginPath();
+  ctx.moveTo(hx - 18, hy + 42);
+  ctx.quadraticCurveTo(hx - 26, hy - 6, hx + 26, hy - 8);
+  ctx.quadraticCurveTo(hx + 82, hy - 12, hx + 122, hy + 18);
+  ctx.lineTo(hx + 130, hy + 34);
+  ctx.quadraticCurveTo(hx + 92, hy + 40, hx + 50, hy + 44);
+  ctx.lineTo(hx - 18, hy + 42);
   ctx.closePath(); ctx.fill();
 
   ctx.fillStyle = "#f4efe0";
-  for (let i = 0; i < 8; i++) { const tx = -42 + i * 15, ty = 44 - i * 0.4; ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(tx + 5, ty + 13); ctx.lineTo(tx + 10, ty); ctx.closePath(); ctx.fill(); }
+  for (let i = 0; i < 9; i++) { const tx = hx + 42 + i * 10, ty = hy + 44 - i * 0.3; ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(tx + 4, ty + 12); ctx.lineTo(tx + 8, ty); ctx.closePath(); ctx.fill(); }
 
   ctx.fillStyle = "#160808";
-  ctx.beginPath();
-  ctx.moveTo(-68, 52); ctx.lineTo(84, 38); ctx.lineTo(72, 52 + open); ctx.lineTo(-62, 56 + open); ctx.closePath(); ctx.fill();
-  ctx.fillStyle = "#7a3b40";
-  ctx.beginPath(); ctx.ellipse(6, 58 + open * 0.6, 32, 10, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(hx - 14, hy + 44); ctx.lineTo(hx + 126, hy + 34); ctx.lineTo(hx + 114, hy + 44 + open); ctx.lineTo(hx - 10, hy + 50 + open); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#7a3b40"; ctx.beginPath(); ctx.ellipse(hx + 52, hy + 50 + open * 0.6, 34, 10, 0, 0, Math.PI * 2); ctx.fill();
 
   ctx.fillStyle = colD;
-  ctx.beginPath();
-  ctx.moveTo(-68, 52 + open);
-  ctx.quadraticCurveTo(30, 68 + open, 76, 52 + open);
-  ctx.lineTo(68, 76 + open);
-  ctx.quadraticCurveTo(-20, 88 + open, -62, 72 + open);
-  ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(hx - 14, hy + 44 + open); ctx.quadraticCurveTo(hx + 60, hy + 60 + open, hx + 118, hy + 44 + open);
+  ctx.lineTo(hx + 110, hy + 68 + open); ctx.quadraticCurveTo(hx + 30, hy + 80 + open, hx - 12, hy + 64 + open); ctx.closePath(); ctx.fill();
   ctx.fillStyle = "#f4efe0";
-  for (let i = 0; i < 7; i++) { const tx = -54 + i * 16, ty = 54 + open; ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(tx + 5, ty - 12); ctx.lineTo(tx + 10, ty); ctx.closePath(); ctx.fill(); }
+  for (let i = 0; i < 8; i++) { const tx = hx + 38 + i * 11, ty = hy + 46 + open; ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(tx + 4, ty - 10); ctx.lineTo(tx + 8, ty); ctx.closePath(); ctx.fill(); }
 
-  ctx.fillStyle = "#f4d03c"; ctx.beginPath(); ctx.arc(-32, 20, 12, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = "#1a1a1a"; ctx.beginPath(); ctx.ellipse(-30, 20, 4, 8, 0, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = colD;
-  ctx.beginPath(); ctx.moveTo(-50, 7); ctx.lineTo(-15, 11); ctx.lineTo(-21, 20); ctx.lineTo(-46, 18); ctx.closePath(); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(70, 26, 4, 3, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#f4d03c"; ctx.beginPath(); ctx.arc(hx + 58, hy + 12, 11, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#1a1a1a"; ctx.beginPath(); ctx.ellipse(hx + 60, hy + 12, 4, 7, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = colDk; ctx.beginPath(); ctx.moveTo(hx + 42, hy); ctx.lineTo(hx + 76, hy + 4); ctx.lineTo(hx + 70, hy + 12); ctx.lineTo(hx + 46, hy + 10); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(hx + 114, hy + 22, 4, 3, 0, 0, Math.PI * 2); ctx.fill();
   ctx.restore();
 }
 
 function drawChaser() {
   const f = frameCount;
-  const surge = Math.max(0, Math.sin(f * 0.028));
+  const surge = Math.max(0, Math.sin(f * 0.025));
   const lunge = surge * surge;
-  const x = W / 2 - player.laneX * 26 + Math.sin(f * 0.045) * 24;
-  const bob = Math.sin(f * 0.22) * 5;
-  const headTop = H - 18 - lunge * 168 + bob;
-  const open = 24 + lunge * 36;
-  drawRex(x, headTop, 1.0, open);
+  const x = W / 2 - player.laneX * 30 + Math.sin(f * 0.04) * 26;
+  const groundY = H + 98 - lunge * 150 + Math.sin(f * 0.3) * 4;
+  const open = 26 + lunge * 40;
+  drawRex(x, groundY, 0.66, open, f * 0.3);
 }
 
 function drawObstacle(o) {
@@ -771,10 +795,10 @@ function drawRunner() {
 
 function drawTrex() {
   const p = clamp((1.36 - trexT) / 0.4, 0, 1);
-  const headTop = H - 30 - p * 330;
-  const sc = 1.3 + p * 1.0;
-  const open = 30 + p * 52 + Math.sin(frameCount * 0.3) * 6;
-  drawRex(W / 2 - player.laneX * 18, headTop, sc, open);
+  const groundY = H + 120 - p * 360;
+  const sc = 0.85 + p * 0.55;
+  const open = 30 + p * 48 + Math.sin(frameCount * 0.3) * 6;
+  drawRex(W / 2 - player.laneX * 20, groundY, sc, open, frameCount * 0.4);
 }
 
 function drawCountdown(ts) {
@@ -892,8 +916,8 @@ muteBtn.addEventListener("click", () => {
 
 fsBtn.addEventListener("click", () => {
   if (document.fullscreenElement) document.exitFullscreen();
-  else if (board.requestFullscreen) board.requestFullscreen();
-  else if (board.webkitRequestFullscreen) board.webkitRequestFullscreen();
+  else if (fsTarget.requestFullscreen) fsTarget.requestFullscreen();
+  else if (fsTarget.webkitRequestFullscreen) fsTarget.webkitRequestFullscreen();
 });
 
 document.addEventListener("fullscreenchange", () => {
