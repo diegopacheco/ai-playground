@@ -1,0 +1,132 @@
+pocs/agent-skill-bug-video-recording/sample-app/src/css.d.ts
+  s_e8c9b257b9d184::t_9f25a64dc46b15 1
+pocs/agent-skill-bug-video-recording/sample-app/src/features/cart/components/QtyStepper.tsx
+  s_e8c9b257b9d184::t_14eeb86fe49d31 1-8,10-14,16-21
+  s_369ed83173137b::t_0ce37926af835e 9,15
+pocs/agent-skill-bug-video-recording/sample-app/src/features/dashboard/api/dashboard.ts
+  s_e8c9b257b9d184::t_4359b88b9323db 1-10
+pocs/agent-skill-bug-video-recording/sample-app/src/router.tsx
+  s_e8c9b257b9d184::t_eb1297d16ca04b 1-23
+pocs/agent-skill-bug-video-recording/skills/bug-recording/package.json
+  s_e8c9b257b9d184::t_c86eaf56c0cf26 1-11
+pocs/agent-skill-bug-video-recording/sample-app/index.html
+  s_e8c9b257b9d184::t_b38361e21ff5ca 1-12
+pocs/agent-skill-bug-video-recording/install.sh
+  s_e8c9b257b9d184::t_c931951fcc6832 1-29
+pocs/agent-skill-bug-video-recording/skills/bug-recording/SKILL.md
+  s_61eda34b112979::t_53f8ecd5e437fc 43-48
+  s_e8c9b257b9d184::t_4d263a823a091b 1-42,49-62
+pocs/agent-skill-bug-video-recording/sample-app/vite.config.ts
+  s_e8c9b257b9d184::t_01eb1181f81d3e 1-7
+pocs/agent-skill-bug-video-recording/sample-app/src/components/Layout.tsx
+  s_e8c9b257b9d184::t_882832a981eace 1-23
+pocs/agent-skill-bug-video-recording/skills/bug-report/report.mjs
+  s_e8c9b257b9d184::t_60c69afa0a4c7b 29-32
+  s_e8c9b257b9d184::t_b515a4220cf468 84
+  s_e8c9b257b9d184::t_6fb03004a2a520 1,5,14-28,33-83,85-209
+  s_10fd7a116fbdf7::t_d96ba28fe1829f 2-4,6-13
+  s_10fd7a116fbdf7::t_b4ed475e66c615 210-236
+pocs/agent-skill-bug-video-recording/sample-app/src/features/cart/routes/cart.tsx
+  s_e8c9b257b9d184::t_2c55c44948d713 1-13
+pocs/agent-skill-bug-video-recording/skills/bug-report/SKILL.md
+  s_10fd7a116fbdf7::t_17a41f9f3c4c81 45-58
+  s_10fd7a116fbdf7::t_fffe4fa13936fd 24,28-29
+  s_e8c9b257b9d184::t_0dc4ca0c40a496 1-23,25-27,30-44,59-60
+pocs/agent-skill-bug-video-recording/sample-app/package.json
+  s_e8c9b257b9d184::t_41dc64ed9fbf16 1-23
+pocs/agent-skill-bug-video-recording/sample-app/src/components/ErrorBoundary.tsx
+  s_e8c9b257b9d184::t_839767d2538e18 1-25
+pocs/agent-skill-bug-video-recording/sample-app/src/queryClient.ts
+  s_e8c9b257b9d184::t_f5f593ba99f757 1-5
+pocs/agent-skill-bug-video-recording/sample-app/src/features/dashboard/components/Stats.tsx
+  s_e8c9b257b9d184::t_17026fb0d2f8ef 1-14
+pocs/agent-skill-bug-video-recording/skills/bug-recording/reduce-size.sh
+  s_e8c9b257b9d184::t_9aa56bc5f945b8 1-20
+pocs/agent-skill-bug-video-recording/design-doc.md
+  s_e8c9b257b9d184::t_7776559ac26812 261-269
+  s_e8c9b257b9d184::t_92ca4b6376ea28 1-60,64-148,152-201,208-260,270-278
+  s_e8c9b257b9d184::t_fbde8470bf1487 202-207
+  s_e8c9b257b9d184::t_35657176358fef 61-63
+  s_e8c9b257b9d184::t_7376902f860f78 149-151
+pocs/agent-skill-bug-video-recording/printscreens/architecture.html
+  s_e8c9b257b9d184::t_a5388b5c5a0d51 69-70
+  s_e8c9b257b9d184::t_f119f38ed1801b 1-68,71-74
+pocs/agent-skill-bug-video-recording/README.md
+  s_e8c9b257b9d184::t_21a7ae74b2f707 1-42,77-98,104-147,233-256
+  s_ad17055993fde8::t_80fe18b13aa124 148-232
+  s_10fd7a116fbdf7::t_5ed88ffd8b9f1f 99-103
+  s_ad17055993fde8::t_9f3af44cc10d0a 43-76
+pocs/agent-skill-bug-video-recording/sample-app/src/features/dashboard/routes/dashboard.tsx
+  s_369ed83173137b::t_1351a768d0b4c5 11
+  s_e8c9b257b9d184::t_77df8497cdd806 1-10,12-14
+pocs/agent-skill-bug-video-recording/sample-app/tsconfig.json
+  s_e8c9b257b9d184::t_5bce09e8ebf5e7 1-18
+pocs/agent-skill-bug-video-recording/sample-app/src/styles.css
+  s_e8c9b257b9d184::t_e1e617175d58e8 1-240
+pocs/agent-skill-bug-video-recording/sample-app/src/features/catalog/components/ProductCard.tsx
+  s_e8c9b257b9d184::t_3d4d86fb8f0564 1-14
+pocs/agent-skill-bug-video-recording/sample-app/src/main.tsx
+  s_e8c9b257b9d184::t_bf54ecb84c03dc 1-15
+pocs/agent-skill-bug-video-recording/sample-app/src/features/catalog/routes/catalog.tsx
+  s_e8c9b257b9d184::t_4af581f080ebc3 1-18
+pocs/agent-skill-bug-video-recording/skills/bug-recording/record.mjs
+  s_61eda34b112979::t_16e6c59c9c2e4d 150-226,232,234-242
+  s_e8c9b257b9d184::t_5bd852147b02ee 1-149,227-231,233,243-290,295-299,302-377
+  s_e8c9b257b9d184::t_b0035a1a8cfbd6 291-294,300-301
+pocs/agent-skill-bug-video-recording/.gitignore
+  s_e8c9b257b9d184::t_f1849c561e33a3 1-5
+pocs/agent-skill-bug-video-recording/uninstall.sh
+  s_e8c9b257b9d184::t_c4de716ae85ba4 1-6
+pocs/agent-skill-bug-video-recording/sample-app/src/features/home/routes/home.tsx
+  s_e8c9b257b9d184::t_a3c22c335bdae2 1-22
+pocs/agent-skill-bug-video-recording/sample-app/src/features/catalog/api/products.ts
+  s_e8c9b257b9d184::t_c457bc583e445e 1-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "7c0c4e1b77b12232872de7823113a2b1a1cdeea2",
+  "prompts": {},
+  "sessions": {
+    "s_10fd7a116fbdf7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e9f41461-cc7d-4a99-bb6e-1845eb69dfe4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_369ed83173137b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "241af7c5-dadc-45c7-ae5e-132213078eb1",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_61eda34b112979": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2c06ae21-89c5-4676-8605-4496d4e74b76",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_ad17055993fde8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8f8ec544-d842-4a3e-a1b7-abd193e9c2cc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_e8c9b257b9d184": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e90e1cc9-c931-4c57-af1d-116503c9e87b",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
