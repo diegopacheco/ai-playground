@@ -1,0 +1,20 @@
+pocs/open-can-enduro-game/README.md
+  s_462ae83bf49730::t_72852b1c91eeae 31-32
+  s_462ae83bf49730::t_c216fde25a3ac6 44,48-49,53-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "f5f27a3d7fb6c9683bca9631c13bac05f05793f5",
+  "prompts": {},
+  "sessions": {
+    "s_462ae83bf49730": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "def1d291-2f2f-495a-84ef-643ab00de8b7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
