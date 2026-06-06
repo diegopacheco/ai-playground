@@ -28,7 +28,8 @@ seconds, so routing every steer through a model would make the car undriveable. 
 
 ## What it looks like
 
-**Start screen** — allow the camera, raise a hand, press start. The right panel shows your live feed.
+**Start screen** — pick a difficulty (Easy by default), allow the camera, raise a hand, press start. The
+right panel holds the difficulty spinner, a fullscreen button, and your live feed.
 
 ![start screen](printscreens/ready.png)
 
@@ -40,12 +41,24 @@ shows your sharp live feed with the tracking dot.
 
 ## Controls
 
-| Action | Gesture |
+| Action | Control |
 | --- | --- |
 | Steer left / right | Move your open hand left / right in front of the camera |
 | Start / restart | `START` button, or press `R` |
+| Difficulty | The spinner in the right panel — Easy (default), Medium, Hard, Insane |
+| Fullscreen | The `FULLSCREEN` button — the game fills the screen and the camera panel stays visible |
 
 The car accelerates on its own and speeds up over time. Pass cars without touching them; each pass is a point.
+
+## Difficulty, sound, and restart
+
+- **Difficulty** (spinner, Easy by default) sets the starting speed, how fast it ramps up, and how
+  often cars appear — from a relaxed Easy to a frantic Insane.
+- A short rising tone plays each time you slip past a car; a low crash burst plays when you hit one.
+  The sound is synthesized in the browser with the Web Audio API — no audio files.
+- When you crash, the game **restarts on its own after 2 seconds**, using the difficulty still selected.
+- **Fullscreen** scales the track to fill the screen while the camera panel stays on the right, so you
+  can keep steering with your hand.
 
 ## Run it
 
