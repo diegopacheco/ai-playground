@@ -1,0 +1,20 @@
+agents/agents-pocs.md
+  s_92272502e583e7::t_fcd6120482b9ff 395-461
+  s_92272502e583e7::t_abd5fd5f34aeaf 132-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "30b1d0380e8b0a7e5ac4649f75be599203997521",
+  "prompts": {},
+  "sessions": {
+    "s_92272502e583e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe82b9a9-c2d7-4496-8659-fbf025441e1e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
