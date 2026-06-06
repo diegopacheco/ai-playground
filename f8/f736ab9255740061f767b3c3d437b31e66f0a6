@@ -1,0 +1,27 @@
+pocs/open-can-enduro-game/web/index.html
+  s_462ae83bf49730::t_54d409cdba2988 29-38
+pocs/open-can-enduro-game/diagram.html
+  s_462ae83bf49730::t_732c5b29a7f0b2 8,28,72-90,107-112
+pocs/open-can-enduro-game/web/style.css
+  s_462ae83bf49730::t_b8ea7c89f675ae 69-84
+  s_462ae83bf49730::t_a59ecefcf095f5 101-110
+pocs/open-can-enduro-game/web/game.js
+  s_462ae83bf49730::t_fedae5fd2c9984 45,50-53,109-168,182,184,187-188,192-193,195-198,200,209,215,219,321,326-329,331
+  s_462ae83bf49730::t_8e7879888d0bfc 16-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "f8f736ab9255740061f767b3c3d437b31e66f0a6",
+  "prompts": {},
+  "sessions": {
+    "s_462ae83bf49730": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "def1d291-2f2f-495a-84ef-643ab00de8b7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
