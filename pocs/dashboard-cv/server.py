@@ -38,7 +38,7 @@ def classify(lm):
     thumb_up = lm[4].y < lm[2].y and lm[4].y < lm[6].y
     if index_up and middle_up and ring_up and pinky_up:
         mode = "erase"
-    elif index_up and not middle_up and not ring_up and not pinky_up:
+    elif index_up and not middle_up:
         mode = "draw"
     elif thumb_up and not index_up and not middle_up and not ring_up and not pinky_up:
         mode = "color"
