@@ -8,11 +8,11 @@ intended experience — your webcam is the input device:
 - **point** (index finger) → the pen is down and follows your fingertip
 - **thumbs up** → cycle to the next colour
 - **open hand** (five fingers, a "stop") → erase where your hand is
-- **two fingers** → the pen lifts and you move over the top toolbar to pick a size / undo / clear
 - **fist** → the pen is up (rest position)
 
-The board has a **colour / size / eraser / undo / clear toolbar**, and your **live camera sits in a
-square on the right** with a dot tracking each fingertip so you can see exactly where the pen is.
+The board has a **colour / size / eraser / undo / clear toolbar** (clicked with the mouse), and your
+**live camera sits in a square on the right** with a dot tracking each fingertip so you can see
+exactly where the pen is.
 It **tracks up to two hands**, so a second person can draw on the same board at the same time. The
 whole UI is a **light theme** around a light paper board.
 
@@ -62,42 +62,44 @@ async *watcher* on the resulting image, never on the per-frame path. That watche
 | `hands` | array of detected hands this frame, at most two |
 | `x` | fingertip horizontal position, `0..1`, mirrored so moving right moves the pen right |
 | `y` | fingertip vertical position, `0..1` |
-| `mode` | `"draw"`, `"erase"`, `"color"`, `"select"`, or `"idle"` — from which fingers are up |
+| `mode` | `"draw"`, `"erase"`, `"color"`, or `"idle"` — from which fingers are up |
 
 - `x` is `1 − index_tip.x` so the on-screen pen moves the same way your hand does.
 - `x`/`y` are landmark **8** (the index fingertip) for every mode.
 - The array is unordered (MediaPipe does not guarantee a stable hand order), so the **client**
   matches hands to pens across frames (section 4.1).
 
-Everything else — gain, smoothing, the toolbar, dwell-to-pick, colour cycling, undo — lives in the
-browser. The server stays a thin, stateless perception function, one two-hand detector per
-connection.
+Everything else — gain, smoothing, the toolbar, colour cycling, undo — lives in the browser. The
+server stays a thin, stateless perception function, one two-hand detector per connection.
 
 ## 4. Gesture → pen
 
-A finger is **up** when its tip landmark is higher on screen (smaller `y`) than its PIP joint; the
-thumb is up when its tip is above its MCP joint. Each hand is classified independently:
+A finger is **up** when its tip landmark is higher on screen (smaller `y`) than its PIP joint. The
+thumb counts as up only when its tip is **both** above its own MCP joint **and** above the index PIP
+— i.e. it is clearly sticking up out of a closed fist, not just resting at the side. Each hand is
+classified independently:
 
 | Gesture | Fingers up | `mode` | Effect |
 | --- | --- | --- | --- |
 | **Point** | index only | `draw` | pen **down**, ink follows the fingertip |
 | **Open hand** | index + middle + ring + pinky | `erase` | erase under the fingertip |
-| **Thumbs up** | thumb only | `color` | cycle to the next colour (once per gesture) |
-| **Two fingers** | index + middle | `select` | pen **up**, hover the top bar, hold to pick |
+| **Thumbs up** | thumb only (clearly raised) | `color` | cycle to the next colour (once per gesture) |
 | **Fist / other** | — | `idle` | pen **up**, rest |
 
 ```
 index_up  = lm[8].y  < lm[6].y      ring_up  = lm[16].y < lm[14].y
 middle_up = lm[12].y < lm[10].y     pinky_up = lm[20].y < lm[18].y
-thumb_up  = lm[4].y  < lm[2].y
+thumb_up  = lm[4].y  < lm[2].y and lm[4].y < lm[6].y
 ```
 
-`erase` is checked before `draw`/`select` so a fully open hand always wins. **Pen vs eraser is
-decided live by the gesture**, not by a sticky toggle: pointing always draws with the current
-colour, opening your hand always erases — which is exactly "open your hand to rub it out, point to
-draw again". `color` is **edge-triggered**: the colour advances once when a hand *enters* the
-thumbs-up pose and not again until it leaves, so the palette steps one swatch per thumbs-up instead
-of racing through six colours per second.
+`erase` is checked before `draw` so a fully open hand always wins. **Pen vs eraser is decided live by
+the gesture**, not by a sticky toggle: pointing always draws with the current colour, opening your
+hand always erases — which is exactly "open your hand to rub it out, point to draw again". `color` is
+**edge-triggered**: the colour advances once when a hand *enters* the thumbs-up pose and not again
+until it leaves, so the palette steps one swatch per thumbs-up instead of racing through six colours
+per second. The stricter `thumb_up` test (tip above the index PIP, not just the thumb MCP) is what
+keeps a **plain fist** from being misread as a thumbs-up: a fist now reliably reads as `idle` (pen
+up) and no longer churns through colours on its own.
 
 ### 4.1 Tracking two hands
 
@@ -122,12 +124,13 @@ gx = clamp(0.5 + (x − 0.5) · 1.35, 0, 1)
 The on-screen cursor **lerps** toward that target each frame (factor `0.55`) to absorb landmark
 jitter, which is what keeps lines smooth rather than shaky.
 
-### Dwell-to-pick (hands-free toolbar)
+### Toolbar input
 
-There is no click in bare-hand mode, so the toolbar is driven by **dwell**: in `select` mode, hold
-the fingertip over a toolbar cell and a blue ring fills over `650 ms`; when it completes, the tool
-activates. A cell stays **locked** until the finger leaves it, so one dwell never fires twice. This
-is the only natural way to "press a button" with nothing but a hand in the air.
+Bare hands cover the two changes you make mid-stroke: **thumbs-up cycles the colour** and an **open
+hand switches to the eraser**, both without leaving the drawing surface. The remaining toolbar cells
+— brush size, undo, clear — are picked by **clicking** them with the mouse, and undo / clear /
+eraser / colour also have keyboard shortcuts (section 8). The board does not steer the cursor into
+the top bar from a gesture, so moving a hand near the top edge never accidentally triggers a tool.
 
 ## 5. The ink model
 
@@ -155,8 +158,8 @@ leaves stray ink.
 | Right panel | HAND status (hands tracked), current tool, the **camera square**, a gesture legend, action buttons |
 
 The camera square mirrors your video and draws a dot on each tracked fingertip — green for `draw`,
-grey for `erase`, purple for `color`, blue for `select` — so you always know what the board thinks
-each hand is doing. With two hands live the dots switch to the `#1`/`#2` tints to match the board
+grey for `erase`, purple for `color`, and a neutral dot at rest (`idle`) — so you always know what
+the board thinks each hand is doing. With two hands live the dots switch to the `#1`/`#2` tints to match the board
 cursors.
 
 ## 7. The vision-reactive agent (slow watcher)

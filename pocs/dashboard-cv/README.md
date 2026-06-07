@@ -12,8 +12,8 @@ concrete — perception turned into a continuous action (ink on a canvas) — an
 
 ## What it looks like
 
-The board, its toolbar, and your live camera square on the right. Point one finger to draw, hold up
-two fingers to reach the top bar, thumbs up to change colour, open your hand to erase.
+The board, its toolbar, and your live camera square on the right. Point one finger to draw, thumbs up
+to change colour, open your hand to erase, make a fist to lift the pen.
 
 ![the board](printscreens/board.png)
 
@@ -44,7 +44,6 @@ design only as a slow, async *watcher* on the finished image — see
 | **Point** (index finger) | Draw — ink follows your fingertip |
 | **Thumbs up** | Change colour (cycles to the next swatch, once per gesture) |
 | **Open hand** (5 fingers) | Eraser — rub out under your hand |
-| **Two fingers** (index + middle) | Lift the pen and hover the top bar; **hold** over a cell to pick size / undo / clear |
 | **Fist** | Pen up (rest) |
 
 Pen vs eraser is decided **live by your hand** — point to draw, open your hand to erase, point again
@@ -60,9 +59,9 @@ pick a tool. `z` undo, `c` clear, `e` toggle eraser, `x` cycle colour, `f` full-
 ## Toolbar
 
 A strip across the top of the board: **6 colours**, an **eraser**, **3 brush sizes**, **undo**, and
-**clear**. Reach it with two fingers and dwell to pick (a blue ring fills as you hold), or click it
-with the mouse. The side panel also has `UNDO`, `CLEAR`, `SAVE PNG`, `FULLSCREEN`, and an
-`ENABLE CAMERA` button.
+**clear**. Click a cell with the mouse to pick it. Bare hands change colour with a thumbs-up and
+switch to the eraser with an open hand; the side panel has `UNDO`, `CLEAR`, `SAVE PNG`, `FULLSCREEN`,
+and an `ENABLE CAMERA` button, with keyboard shortcuts for undo / clear / eraser / colour.
 
 ## Run it
 

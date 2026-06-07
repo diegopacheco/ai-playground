@@ -13,7 +13,6 @@ const stage = document.querySelector(".stage");
 const W = board.width;
 const H = board.height;
 const TOOLBAR_H = 66;
-const DWELL = 650;
 const NUM_PENS = 2;
 
 const COLORS = ["#111827", "#ef4444", "#f59e0b", "#22c55e", "#3b82f6", "#a855f7"];
@@ -47,12 +46,6 @@ const pens = [makePen(), makePen()];
 
 let camReady = false;
 let wsReady = false;
-
-let hoverItem = -1;
-let lockedItem = -1;
-let dwellStart = 0;
-let dwellProgress = 0;
-let selectingThisFrame = false;
 
 const mouseHolder = { current: null };
 let mouseDrawing = false;
@@ -144,18 +137,6 @@ function itemIndexAt(x, y) {
   return idx;
 }
 
-function clearDwell() { hoverItem = -1; lockedItem = -1; dwellProgress = 0; }
-
-function doDwell(x, y) {
-  const idx = itemIndexAt(x, y);
-  if (idx < 0) { hoverItem = -1; lockedItem = -1; dwellProgress = 0; return; }
-  if (idx === lockedItem) { dwellProgress = 0; return; }
-  lockedItem = -1;
-  if (idx !== hoverItem) { hoverItem = idx; dwellStart = performance.now(); }
-  dwellProgress = clamp01((performance.now() - dwellStart) / DWELL);
-  if (dwellProgress >= 1) { activateItem(idx); lockedItem = idx; hoverItem = -1; dwellProgress = 0; }
-}
-
 function applyPen(pen) {
   if (!pen.present) { commitStroke(pen); pen.prevMode = "idle"; return; }
   const x = pen.cursor.x, y = pen.cursor.y;
@@ -168,10 +149,6 @@ function applyPen(pen) {
   } else if (pen.mode === "color") {
     if (pen.prevMode !== "color") cycleColor();
     commitStroke(pen);
-  } else if (pen.mode === "select") {
-    commitStroke(pen);
-    selectingThisFrame = true;
-    doDwell(x, y);
   } else {
     commitStroke(pen);
   }
@@ -322,13 +299,6 @@ function drawToolbar() {
       roundRect(ctx, i * CELL + 4, 5, CELL - 8, TOOLBAR_H - 10, 10);
       ctx.stroke();
     }
-    if (i === hoverItem && dwellProgress > 0) {
-      ctx.strokeStyle = "#3b82f6";
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 24, -Math.PI / 2, -Math.PI / 2 + dwellProgress * Math.PI * 2);
-      ctx.stroke();
-    }
   }
 }
 
@@ -347,8 +317,7 @@ function drawCursor(x, y, mode, drawing, tint, label) {
     ctx.fill();
   }
   let tag = "";
-  if (mode === "select") tag = "pick";
-  else if (mode === "color") tag = "color";
+  if (mode === "color") tag = "color";
   else if (mode === "erase") tag = "erase";
   if (tag || label) {
     ctx.fillStyle = tint || "#3b82f6";
@@ -398,7 +367,7 @@ function drawPip() {
       if (!pen.present) return;
       const mx = pen.rx * pip.width;
       const my = pen.ry * pip.height;
-      const col = pen.mode === "draw" ? "#10b981" : pen.mode === "erase" ? "#9aa3c0" : pen.mode === "color" ? "#a855f7" : pen.mode === "select" ? "#3b82f6" : "#cbd5e1";
+      const col = pen.mode === "draw" ? "#10b981" : pen.mode === "erase" ? "#9aa3c0" : pen.mode === "color" ? "#a855f7" : "#cbd5e1";
       pctx.fillStyle = many ? PEN_TINT[i] : col;
       pctx.beginPath();
       pctx.arc(mx, my, 9, 0, Math.PI * 2);
@@ -420,14 +389,12 @@ function drawPip() {
 
 function frame(ts) {
   maybeSend(ts);
-  selectingThisFrame = false;
   if (lastInput !== "mouse") {
     for (const pen of pens) {
       pen.cursor.x += (pen.target.x - pen.cursor.x) * 0.55;
       pen.cursor.y += (pen.target.y - pen.cursor.y) * 0.55;
       applyPen(pen);
     }
-    if (!selectingThisFrame) clearDwell();
   } else {
     for (const pen of pens) commitStroke(pen);
   }
