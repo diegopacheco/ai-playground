@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Air Board</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="shell">
+  <header>
+    <h1>AIR BOARD</h1>
+    <p>A whiteboard you draw with your bare hands. Point to draw, thumbs up to change colour, open your hand to erase. Tracks up to two people at once.</p>
+  </header>
+
+  <div class="stage">
+    <div class="board">
+      <canvas id="board" width="840" height="560"></canvas>
+    </div>
+
+    <aside class="side">
+      <div class="panel hud">
+        <div class="metric"><span class="label">HAND</span><span id="status" class="value status">--</span></div>
+        <div class="metric"><span class="label">TOOL</span><span id="tool" class="value tool">pen</span></div>
+      </div>
+
+      <div class="panel campanel">
+        <span class="panel-title">YOUR CAMERA</span>
+        <canvas id="pip" width="240" height="180"></canvas>
+        <p class="hint" id="pip-hint">Show your hand to the camera.</p>
+      </div>
+
+      <div class="panel legend">
+        <span class="panel-title">GESTURES</span>
+        <ul>
+          <li><b>Point</b> (index) &mdash; draw</li>
+          <li><b>Thumbs up</b> &mdash; change colour</li>
+          <li><b>Open hand</b> (5 fingers) &mdash; eraser</li>
+          <li><b>Two fingers</b> &mdash; top bar, hold to pick size / undo / clear</li>
+          <li><b>Fist</b> &mdash; pen up</li>
+        </ul>
+        <p class="hint">Up to two hands are tracked &mdash; a second person can draw alongside you.</p>
+      </div>
+
+      <div class="panel actions">
+        <button id="enable" class="ghost">ENABLE CAMERA</button>
+        <button id="undo" class="ghost">UNDO</button>
+        <button id="clear" class="ghost">CLEAR</button>
+        <button id="save" class="ghost">SAVE PNG</button>
+        <button id="fs" class="ghost">FULLSCREEN</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<video id="cam" playsinline muted></video>
+<canvas id="grab" width="240" height="180"></canvas>
+<script src="board.js"></script>
+</body>
+</html>
