@@ -1,0 +1,57 @@
+pocs/data-schema-explainer/app.py
+  s_ef9ea5a12e6bd1::t_cbc1aaed983621 1-69
+pocs/data-schema-explainer/.gitignore
+  s_ef9ea5a12e6bd1::t_f98508c6afcbcc 1-4
+pocs/data-schema-explainer/test.sh
+  s_ef9ea5a12e6bd1::t_cfe6dd30ee9fe0 1-10
+pocs/data-schema-explainer/start.sh
+  s_ef9ea5a12e6bd1::t_8d5ce39ec0d85a 1-3,5-14
+  s_ef9ea5a12e6bd1::t_2e20d94ba9353b 4
+pocs/data-schema-explainer/requirements.txt
+  s_ef9ea5a12e6bd1::t_1bee642d66eb02 1-3
+pocs/data-schema-explainer/stop.sh
+  s_ef9ea5a12e6bd1::t_34120d60d1be50 1-5
+pocs/data-schema-explainer/static/index.html
+  s_ef9ea5a12e6bd1::t_818a079f0b184d 1-97
+pocs/data-schema-explainer/static/style.css
+  s_ef9ea5a12e6bd1::t_50d90cec9dff78 1,14-20,24-33,36-46,48-49,51-59,61-77,79,81-83,85-90,92-103,105,108-120,122,124-134,137-143,145,147-148,152-160,162-175,177-181,183-197,199-200,202-203,205-208,210-216,218-220,224-232
+  s_ef9ea5a12e6bd1::t_f79d23d80c89d6 2-13,21-23,34-35,47,50,60,78,80,84,91,104,106-107,121,123,135-136,144,146,149-151,161,176,182,198,201,204,209,217,221-223
+pocs/data-schema-explainer/printscreens/diagram.html
+  s_ef9ea5a12e6bd1::t_3dff291899d350 1-86
+pocs/data-schema-explainer/generate_samples.py
+  s_ef9ea5a12e6bd1::t_4cc7e81467f3d2 1-134,136-157,159-175,179-184,186,190-208,210-215,218-219,226,228-239,246-249
+  s_ef9ea5a12e6bd1::t_29c611edfee44b 135,158,176-178,185,187-189,209,216-217,220-225,227,240-245
+pocs/data-schema-explainer/sample/order.proto
+  s_ef9ea5a12e6bd1::t_7a28d3caaaa3d9 1-27
+pocs/data-schema-explainer/sample/delta_table.log.json
+  s_ef9ea5a12e6bd1::t_7a28d3caaaa3d9 1-6
+pocs/data-schema-explainer/explain.py
+  s_ef9ea5a12e6bd1::t_63e32a536bfeb1 15-21
+  s_ef9ea5a12e6bd1::t_27a0ebc9096f21 1-14,22-465
+pocs/data-schema-explainer/Containerfile
+  s_ef9ea5a12e6bd1::t_7fa44bc3abadc3 1-7
+pocs/data-schema-explainer/static/app.js
+  s_ef9ea5a12e6bd1::t_ef41764ea4440d 1-98
+pocs/data-schema-explainer/sample/iceberg_table.metadata.json
+  s_ef9ea5a12e6bd1::t_7a28d3caaaa3d9 1-131
+pocs/data-schema-explainer/podman-compose.yml
+  s_ef9ea5a12e6bd1::t_bbbe05a74e3a00 1-10
+pocs/data-schema-explainer/README.md
+  s_ef9ea5a12e6bd1::t_a50dcf106060d4 1-160
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "fb1ed6d59b83fee3c66a16fa3274dd0e0a58e341",
+  "prompts": {},
+  "sessions": {
+    "s_ef9ea5a12e6bd1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "461f1ccb-478a-4d38-94d5-3016a62fa96f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
