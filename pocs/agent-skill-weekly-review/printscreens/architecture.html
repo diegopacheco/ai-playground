@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;background:#fbfcff}
+  #card{width:1140px;padding:24px;background:#fbfcff;font-family:'Caveat',cursive}
+  text{font-family:'Caveat',cursive;fill:#1f2937}
+  .t{font-size:30px;font-weight:700}
+  .s{font-size:21px;fill:#475569}
+  .title{font-size:40px;font-weight:700;fill:#4f46e5}
+  .tag{font-size:22px;font-weight:700;fill:#7c3aed}
+  .note{font-size:22px;fill:#64748b}
+  .shape{stroke:#334155;stroke-width:2.4;fill:none}
+  .arrow{stroke:#334155;stroke-width:2.6;fill:none}
+</style>
+</head>
+<body>
+<div id="card">
+<svg id="diagram" width="1140" height="560" viewBox="0 0 1140 560">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="8" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.6"/>
+    </filter>
+    <marker id="ah" markerWidth="14" markerHeight="14" refX="8" refY="6" orient="auto">
+      <path d="M1 1 L11 6 L1 11" class="arrow" fill="none"/>
+    </marker>
+  </defs>
+
+  <text class="title" x="40" y="56">weekly-review skill</text>
+  <text class="tag" x="382" y="120">/weekly-review</text>
+
+  <g filter="url(#wobble)">
+    <rect class="shape" x="40" y="150" width="250" height="92" rx="16" fill="#dbeafe"/>
+    <rect class="shape" x="40" y="282" width="250" height="92" rx="16" fill="#dcfce7"/>
+    <rect class="shape" x="380" y="200" width="250" height="118" rx="18" fill="#ede9fe"/>
+    <rect class="shape" x="700" y="200" width="200" height="118" rx="18" fill="#fce7f3"/>
+    <rect class="shape" x="952" y="200" width="160" height="118" rx="18" fill="#fef9c3"/>
+    <rect class="shape" x="40" y="430" width="1072" height="76" rx="16" fill="#f1f5f9" stroke-dasharray="2 9"/>
+
+    <path class="arrow" d="M292 188 C 330 188, 344 236, 378 250" marker-end="url(#ah)"/>
+    <path class="arrow" d="M292 332 C 332 332, 346 290, 378 272" marker-end="url(#ah)"/>
+    <path class="arrow" d="M632 259 L 698 259" marker-end="url(#ah)"/>
+    <path class="arrow" d="M902 259 L 950 259" marker-end="url(#ah)"/>
+  </g>
+
+  <text class="t" x="62" y="190">Google Calendar</text>
+  <text class="s" x="62" y="218">secret iCal .ics</text>
+
+  <text class="t" x="62" y="322">git history</text>
+  <text class="s" x="62" y="350">current repo</text>
+
+  <text class="t" x="404" y="252">weekly_review.py</text>
+  <text class="s" x="404" y="280">collect</text>
+  <text class="s" x="492" y="280">parse</text>
+  <text class="s" x="404" y="304">merge timeline</text>
+
+  <text class="t" x="724" y="252">render</text>
+  <text class="s" x="724" y="282">light-theme</text>
+  <text class="s" x="724" y="306">single page</text>
+
+  <text class="t" x="970" y="252">index.html</text>
+  <text class="s" x="970" y="284">open in</text>
+  <text class="s" x="970" y="308">browser</text>
+
+  <text class="note" x="62" y="478">install.sh  copies  weekly-review/  -&gt;  ~/.claude/skills/weekly-review</text>
+  <text class="note" x="62" y="500">uninstall.sh  removes it  -  pure Python stdlib, no dependencies</text>
+</svg>
+</div>
+</body>
+</html>
