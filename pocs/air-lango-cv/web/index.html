@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Air Lango</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="brand">
+      <h1>AIR LANGO</h1>
+      <span id="modelabel" class="mode">&mdash;</span>
+    </div>
+    <div class="center">
+      <span class="rlabel">ROUND</span>
+      <span id="roundno">1</span>
+      <div class="scores">
+        <div class="pset" id="pipsP1"></div>
+        <span class="vs">vs</span>
+        <div class="pset" id="pipsP2"></div>
+      </div>
+    </div>
+    <div class="ctrl">
+      <button id="sound" class="ghost">SOUND: ON</button>
+      <button id="fs" class="ghost">FULLSCREEN</button>
+    </div>
+  </header>
+
+  <div class="lifebars">
+    <div class="lb left"><span class="nm" id="nameP1">PLAYER 1</span><div class="segs" id="lifeP1"></div></div>
+    <div class="lb right"><div class="segs" id="lifeP2"></div><span class="nm" id="nameP2">CPU</span></div>
+  </div>
+
+  <div class="stage">
+    <div class="ringwrap"><canvas id="ring" width="900" height="540"></canvas></div>
+    <aside class="campanel">
+      <span class="panel-title">CAMERA</span>
+      <canvas id="pip" width="260" height="195"></canvas>
+      <p class="hint" id="status">connecting&hellip;</p>
+      <ul class="legend">
+        <li><b class="d red"></b> punch</li>
+        <li><b class="d blue"></b> block</li>
+        <li><b class="d grey"></b> idle</li>
+      </ul>
+    </aside>
+  </div>
+
+  <div id="menu" class="overlay">
+    <div class="card">
+      <h2>AIR LANGO</h2>
+      <p>Box with your bare hands. <b>Fist + thrust</b> at the camera throws a punch. <b>Open palm raised</b> guards.</p>
+      <div class="modes">
+        <button id="mode-cpu" class="big">1P vs CPU</button>
+        <button id="mode-pvp" class="big">P1 vs P2</button>
+      </div>
+      <p class="small">No camera? Keys &mdash; P1: <b>F</b>/<b>G</b> punch, <b>Space</b> block. P2: <b>J</b>/<b>K</b> punch, <b>Enter</b> block. <b>R</b> rematch.</p>
+    </div>
+  </div>
+</div>
+
+<video id="cam" playsinline muted></video>
+<canvas id="grab" width="320" height="240"></canvas>
+<script src="audio.js"></script>
+<script src="fight.js"></script>
+</body>
+</html>
