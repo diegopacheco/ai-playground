@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Cohort / Funnel Analysis Agent</title>
+<style>
+  :root{
+    --bg:#f4f1ea; --card:#fffdf8; --ink:#23201b; --muted:#736b5e;
+    --line:#e3ddcf; --terra:#c2613f; --teal:#2f6f6a; --amber:#d99a2b;
+    --good:#3f8f6b; --bad:#cf5b43;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.5;}
+  .wrap{max-width:1060px;margin:0 auto;padding:32px 24px 80px;}
+  h1{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+    font-size:40px;line-height:1.05;margin:0 0 6px;letter-spacing:-.5px;}
+  h2{font-family:Georgia,serif;font-size:24px;margin:0 0 4px;}
+  .lede{color:var(--muted);font-size:17px;max-width:680px;margin:0 0 4px;}
+  .meta{color:var(--muted);font-size:13px;margin-top:14px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+  .meta b{color:var(--ink);font-weight:600;}
+  section{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:24px 26px;margin-top:22px;box-shadow:0 1px 0 rgba(0,0,0,.02),0 14px 30px -24px rgba(60,50,30,.45);}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 18px;}
+  .diagram{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:10px;margin-top:22px;text-align:center;}
+  .diagram img{max-width:100%;height:auto;}
+
+  /* funnel */
+  .funnel{display:flex;flex-direction:column;gap:12px;}
+  .frow{display:grid;grid-template-columns:170px 1fr 150px;align-items:center;gap:14px;}
+  .fname{font-weight:600;font-size:15px;}
+  .fname small{display:block;color:var(--muted);font-weight:400;font-size:12px;
+    font-family:ui-monospace,monospace;}
+  .ftrack{background:#efe9db;border-radius:9px;height:34px;position:relative;overflow:hidden;}
+  .fbar{height:100%;border-radius:9px;display:flex;align-items:center;padding:0 12px;
+    color:#fff;font-weight:700;font-size:14px;font-family:ui-monospace,monospace;
+    white-space:nowrap;}
+  .fside{text-align:right;font-family:ui-monospace,monospace;font-size:13px;}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;}
+  .pill.drop{background:#fae3dc;color:#b14529;}
+  .pill.conv{background:#dceee6;color:#27674e;}
+
+  /* heatmap */
+  table{border-collapse:separate;border-spacing:4px;width:100%;}
+  th{font-size:12px;color:var(--muted);font-weight:600;text-align:center;padding:4px;
+    font-family:ui-monospace,monospace;}
+  th.rowlbl,td.rowlbl{text-align:left;font-weight:700;font-size:13px;white-space:nowrap;}
+  td.cell{text-align:center;border-radius:8px;font-family:ui-monospace,monospace;
+    font-size:14px;font-weight:600;padding:10px 6px;color:#2a2018;}
+  td.flag{outline:2px solid var(--bad);outline-offset:-2px;}
+
+  /* anomalies */
+  .anoms{display:flex;flex-direction:column;gap:12px;}
+  .anom{display:grid;grid-template-columns:8px 1fr auto;gap:14px;align-items:center;
+    border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fffefb;}
+  .anom .sev{align-self:stretch;border-radius:6px;}
+  .anom .who b{font-size:15px;}
+  .anom .who span{color:var(--muted);font-size:13px;font-family:ui-monospace,monospace;}
+  .anom .num{text-align:right;font-family:ui-monospace,monospace;font-size:13px;}
+  .anom .num b{font-size:18px;color:var(--bad);}
+  .ok{color:var(--good);font-weight:600;}
+
+  /* agent */
+  .agent{font-size:15.5px;}
+  .agent h3{font-family:Georgia,serif;font-size:18px;margin:18px 0 6px;color:var(--terra);}
+  .agent ul{margin:6px 0 6px 2px;padding-left:20px;}
+  .agent li{margin:4px 0;}
+  .agent p{margin:8px 0;}
+  .notice{border:1px dashed var(--terra);background:#fbeee7;border-radius:12px;
+    padding:16px 18px;color:#7a3c25;font-size:14px;}
+  .notice code{background:#f3ddd1;padding:1px 6px;border-radius:5px;}
+  .tag{display:inline-block;background:#eee7d8;color:var(--muted);font-size:11px;
+    font-family:ui-monospace,monospace;padding:2px 8px;border-radius:6px;margin-left:8px;
+    vertical-align:middle;}
+  footer{color:var(--muted);font-size:13px;text-align:center;margin-top:36px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Cohort / Funnel Analysis Agent</h1>
+    <p class="lede">A raw event log becomes an ordered funnel, sliced by cohort and
+      platform &mdash; then an OpenAI agent explains where and why users fall out.</p>
+    <p class="meta" id="meta"></p>
+  </header>
+
+  <div class="diagram"><img src="architecture.svg" alt="architecture diagram"/></div>
+
+  <section>
+    <h2>Overall funnel</h2>
+    <p class="sub">Ordered: a step counts only if the earlier steps happened before it in time.</p>
+    <div class="funnel" id="funnel"></div>
+  </section>
+
+  <section>
+    <h2>By cohort <span class="tag">signup week</span></h2>
+    <p class="sub">Conversion from the top of the funnel (%). Red outline = flagged by the anomaly check.</p>
+    <div id="cohortmap"></div>
+  </section>
+
+  <section>
+    <h2>By platform</h2>
+    <p class="sub">Same funnel, segmented by device.</p>
+    <div id="platformmap"></div>
+  </section>
+
+  <section>
+    <h2>Detected anomalies <span class="tag">deterministic</span></h2>
+    <p class="sub">Segments whose step-over-step conversion is &gt;20% below the overall rate. Computed in code, no LLM.</p>
+    <div class="anoms" id="anoms"></div>
+  </section>
+
+  <section>
+    <h2>Agent explanation <span class="tag" id="modeltag"></span></h2>
+    <p class="sub">An OpenAI agent reasons over the numbers above &mdash; it never recomputes them.</p>
+    <div class="agent" id="agent"></div>
+  </section>
+
+  <footer>Numbers computed by a Python stdlib funnel engine &middot; narrative by OpenAI.</footer>
+</div>
+
+<script>
+const DATA = __DATA_JSON__;
+
+function heatColor(v){
+  if(v===null||v===undefined) return "#efe9db";
+  const h = 8 + (Math.max(0,Math.min(100,v))/100)*142;
+  return "hsl("+h.toFixed(0)+",58%,80%)";
+}
+
+function renderMeta(){
+  const m = DATA.metrics;
+  document.getElementById("meta").innerHTML =
+    "<b>"+m.total_users.toLocaleString()+"</b> users &middot; <b>"+
+    DATA.event_count.toLocaleString()+"</b> events &middot; steps: "+
+    m.funnel_steps.join(" &rarr; ")+" &middot; built "+DATA.generated_at;
+  document.getElementById("modeltag").textContent = DATA.model;
+}
+
+function renderFunnel(){
+  const rows = DATA.metrics.overall;
+  const el = document.getElementById("funnel");
+  const palette = ["#2f6f6a","#3a7d6a","#5a8b54","#8a8a3f","#c2613f"];
+  rows.forEach((r,i)=>{
+    const w = Math.max(r.conversion_from_top_pct,6);
+    const side = r.conversion_from_prev_pct===null
+      ? '<span class="pill conv">start</span>'
+      : '<span class="pill conv">'+r.conversion_from_prev_pct+'% step</span>'+
+        ' <span class="pill drop">-'+r.dropoff_from_prev+'</span>';
+    el.insertAdjacentHTML("beforeend",
+      '<div class="frow">'+
+        '<div class="fname">'+r.step+'<small>'+r.users.toLocaleString()+' users</small></div>'+
+        '<div class="ftrack"><div class="fbar" style="width:'+w+'%;background:'+palette[i]+'">'+
+           r.conversion_from_top_pct+'%</div></div>'+
+        '<div class="fside">'+side+'</div>'+
+      '</div>');
+  });
+}
+
+function isFlagged(scope,label,step){
+  return DATA.anomalies.some(a=>a.scope===scope && a.label===label && a.step===step);
+}
+
+function renderHeatmap(elId, scopeKey, scopeName){
+  const groups = DATA.metrics[scopeKey];
+  const steps = DATA.metrics.funnel_steps;
+  let html = '<table><thead><tr><th class="rowlbl"></th>';
+  steps.forEach(s=> html += '<th>'+s.replace(/_/g," ")+'</th>');
+  html += '</tr></thead><tbody>';
+  Object.keys(groups).forEach(label=>{
+    html += '<tr><td class="rowlbl">'+label+'</td>';
+    groups[label].forEach(r=>{
+      const v = r.conversion_from_top_pct;
+      const flag = isFlagged(scopeName,label,r.step) ? ' flag' : '';
+      html += '<td class="cell'+flag+'" style="background:'+heatColor(v)+'">'+v+'</td>';
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById(elId).innerHTML = html;
+}
+
+function renderAnoms(){
+  const el = document.getElementById("anoms");
+  if(!DATA.anomalies.length){ el.innerHTML='<p class="ok">No segment falls materially below the overall funnel.</p>'; return; }
+  DATA.anomalies.forEach(a=>{
+    const sev = Math.min(100, a.rel_drop_pct);
+    const col = sev>40? "#cf5b43" : "#d99a2b";
+    el.insertAdjacentHTML("beforeend",
+      '<div class="anom">'+
+        '<div class="sev" style="background:'+col+'"></div>'+
+        '<div class="who"><b>'+a.label+'</b> <span>('+a.scope+')</span><br>'+
+          'leaks at <b>'+a.step.replace(/_/g," ")+'</b></div>'+
+        '<div class="num"><b>-'+a.rel_drop_pct+'%</b><br>'+
+          a.segment_conv+'% vs '+a.overall_conv+'% overall</div>'+
+      '</div>');
+  });
+}
+
+function mdLite(text){
+  const lines = text.replace(/\r/g,"").split("\n");
+  let out="", inList=false;
+  const inline = s => s
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+  for(let raw of lines){
+    const t = raw.trim();
+    if(!t){ if(inList){out+="</ul>";inList=false;} continue; }
+    if(/^\d+\.\s+/.test(t) || /^#{1,4}\s+/.test(t)){
+      if(inList){out+="</ul>";inList=false;}
+      out += "<h3>"+inline(t.replace(/^#{1,4}\s+/,"").replace(/^\d+\.\s+/,m=>m))+"</h3>";
+    } else if(/^[-*]\s+/.test(t)){
+      if(!inList){out+="<ul>";inList=true;}
+      out += "<li>"+inline(t.replace(/^[-*]\s+/,""))+"</li>";
+    } else {
+      if(inList){out+="</ul>";inList=false;}
+      out += "<p>"+inline(t)+"</p>";
+    }
+  }
+  if(inList) out+="</ul>";
+  return out;
+}
+
+function renderAgent(){
+  const el = document.getElementById("agent");
+  if(DATA.agent_text){ el.innerHTML = mdLite(DATA.agent_text); return; }
+  el.innerHTML =
+    '<div class="notice"><b>Agent step skipped.</b> Set '+
+    '<code>OPENAI_API_KEY</code> and rebuild to fill this panel. The agent '+
+    'returns: <b>1.</b> biggest drop-offs &middot; <b>2.</b> who falls out (cohort/platform) '+
+    '&middot; <b>3.</b> a likely why per drop &middot; <b>4.</b> what to investigate next &mdash; '+
+    'all grounded in the metrics above.</div>';
+}
+
+renderMeta();
+renderFunnel();
+renderHeatmap("cohortmap","by_cohort","cohort");
+renderHeatmap("platformmap","by_platform","platform");
+renderAnoms();
+renderAgent();
+</script>
+</body>
+</html>

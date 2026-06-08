@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="660" viewBox="0 0 920 660" font-family="'Caveat','Comic Sans MS',cursive">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&amp;display=swap');
+      .title { font-size: 27px; font-weight: 700; fill: #2b2b2b; }
+      .sub   { font-size: 18px; fill: #4a4a4a; }
+      .lbl   { font-size: 19px; fill: #6b5b3e; }
+      .head  { font-size: 34px; font-weight: 700; fill: #2b2b2b; }
+    </style>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="920" height="660" fill="#fbf8f1"/>
+  <text x="460" y="52" text-anchor="middle" class="head">Cohort / Funnel Analysis Agent</text>
+
+  <g filter="url(#wobble)" fill="none" stroke="#3a3a3a" stroke-width="2.4" stroke-linecap="round">
+    <rect x="250" y="80"  width="420" height="78" rx="14" fill="#cfe8ff"/>
+    <rect x="250" y="206" width="420" height="78" rx="14" fill="#d6f5d6"/>
+    <rect x="250" y="332" width="420" height="78" rx="14" fill="#fdf0c4"/>
+    <rect x="250" y="458" width="420" height="78" rx="14" fill="#e7d9ff"/>
+    <rect x="250" y="584" width="420" height="62" rx="14" fill="#ffd9e6"/>
+
+    <path d="M460 158 L461 204"/>
+    <path d="M455 196 L460 206 L466 196"/>
+    <path d="M461 284 L460 330"/>
+    <path d="M455 322 L460 332 L466 322"/>
+    <path d="M460 410 L461 456"/>
+    <path d="M455 448 L460 458 L466 448"/>
+    <path d="M461 536 L460 582"/>
+    <path d="M455 574 L460 584 L466 574"/>
+  </g>
+
+  <text x="460" y="112" text-anchor="middle" class="title">Event Log &#8212; events.jsonl</text>
+  <text x="460" y="140" text-anchor="middle" class="sub">3,700 events &#183; 1,280 users &#183; signup &#8594; subscribed</text>
+
+  <text x="460" y="238" text-anchor="middle" class="title">Funnel Engine &#183; Python stdlib</text>
+  <text x="460" y="266" text-anchor="middle" class="sub">ordered funnel &#183; cohorts by signup week &#183; platform segments</text>
+
+  <text x="460" y="364" text-anchor="middle" class="title">Metrics (JSON)</text>
+  <text x="460" y="392" text-anchor="middle" class="sub">per-step conversion + drop-off, sliced by cohort &amp; segment</text>
+
+  <text x="460" y="490" text-anchor="middle" class="title">Claude Agent &#183; claude-opus-4-8</text>
+  <text x="460" y="518" text-anchor="middle" class="sub">adaptive thinking &#183; reasons over the numbers, never recomputes</text>
+
+  <text x="460" y="623" text-anchor="middle" class="title">Where users fall out &#183; why &#183; what to investigate</text>
+
+  <text x="40" y="250" class="lbl">deterministic</text>
+  <text x="40" y="274" class="lbl">facts (code)</text>
+  <text x="700" y="502" class="lbl">narrative</text>
+  <text x="700" y="526" class="lbl">reasoning (LLM)</text>
+</svg>
