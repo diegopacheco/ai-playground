@@ -1,0 +1,131 @@
+{
+  "format-version": 2,
+  "table-uuid": "d5c65bb4-4995-4ce9-8b49-96152f711ed5",
+  "location": "s3://warehouse/shop/orders",
+  "last-updated-ms": 1772000000000,
+  "last-column-id": 12,
+  "current-schema-id": 0,
+  "schemas": [
+    {
+      "type": "struct",
+      "schema-id": 0,
+      "fields": [
+        {
+          "id": 1,
+          "name": "order_id",
+          "required": true,
+          "type": "long"
+        },
+        {
+          "id": 2,
+          "name": "customer",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 3,
+          "name": "total",
+          "required": false,
+          "type": "decimal(10, 2)"
+        },
+        {
+          "id": 4,
+          "name": "currency",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "id": 5,
+          "name": "paid",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "id": 6,
+          "name": "created_at",
+          "required": false,
+          "type": "timestamptz"
+        },
+        {
+          "id": 7,
+          "name": "items",
+          "required": false,
+          "type": {
+            "type": "list",
+            "element-id": 10,
+            "element": "string",
+            "element-required": false
+          }
+        },
+        {
+          "id": 8,
+          "name": "shipping",
+          "required": false,
+          "type": {
+            "type": "struct",
+            "fields": [
+              {
+                "id": 11,
+                "name": "city",
+                "required": false,
+                "type": "string"
+              },
+              {
+                "id": 12,
+                "name": "zip",
+                "required": false,
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "default-spec-id": 0,
+  "partition-specs": [
+    {
+      "spec-id": 0,
+      "fields": [
+        {
+          "name": "created_at_day",
+          "transform": "day",
+          "source-id": 6,
+          "field-id": 1000
+        }
+      ]
+    }
+  ],
+  "default-sort-order-id": 0,
+  "sort-orders": [
+    {
+      "order-id": 0,
+      "fields": []
+    }
+  ],
+  "properties": {
+    "write.format.default": "parquet",
+    "owner": "data-platform"
+  },
+  "current-snapshot-id": 3055729675574597004,
+  "snapshots": [
+    {
+      "snapshot-id": 3055729675574597004,
+      "timestamp-ms": 1772000000000,
+      "summary": {
+        "operation": "append",
+        "added-data-files": "4",
+        "added-records": "4"
+      },
+      "manifest-list": "s3://warehouse/shop/orders/metadata/snap-3055.avro",
+      "schema-id": 0
+    }
+  ],
+  "snapshot-log": [
+    {
+      "snapshot-id": 3055729675574597004,
+      "timestamp-ms": 1772000000000
+    }
+  ],
+  "metadata-log": []
+}

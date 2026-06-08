@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Schema Explainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">{ }</div>
+    <div>
+      <h1>Data Schema Explainer</h1>
+      <p>Upload a data file and understand its schema in plain language</p>
+    </div>
+  </div>
+  <div class="formats">
+    <span class="chip">Parquet</span>
+    <span class="chip">Arrow</span>
+    <span class="chip">ORC</span>
+    <span class="chip">Avro</span>
+    <span class="chip">Protobuf</span>
+    <span class="chip">Iceberg</span>
+    <span class="chip">Delta</span>
+  </div>
+</header>
+
+<main>
+  <aside class="sidebar">
+    <section class="card">
+      <h2>Upload a file</h2>
+      <div id="drop" class="dropzone">
+        <div class="drop-icon">&#8682;</div>
+        <p class="drop-main">Drop a file here</p>
+        <p class="drop-sub">or click to browse</p>
+        <input id="file" type="file" hidden>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Sample files</h2>
+      <p class="hint">Loaded from the sample/ folder</p>
+      <ul id="samples" class="samples"></ul>
+    </section>
+  </aside>
+
+  <section class="content">
+    <div id="empty" class="empty">
+      <div class="empty-art">&#9678;</div>
+      <h2>No file loaded yet</h2>
+      <p>Pick a sample on the left or drop your own Parquet, Arrow, ORC, Avro, Protobuf, Iceberg or Delta file.</p>
+    </div>
+
+    <div id="result" class="result hidden">
+      <div id="format-head" class="format-head"></div>
+      <div class="grid">
+        <div class="panel">
+          <h3>File details</h3>
+          <div id="file-info" class="info-grid"></div>
+        </div>
+        <div class="panel">
+          <h3>How this format works</h3>
+          <ul id="notes" class="notes"></ul>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Schema</h3>
+          <span id="field-count" class="badge"></span>
+        </div>
+        <div class="table-wrap">
+          <table class="schema">
+            <thead>
+              <tr><th>Field</th><th>Type</th><th>Meaning</th><th>Nullable</th><th>Notes</th></tr>
+            </thead>
+            <tbody id="fields"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel">
+        <details>
+          <summary>Raw schema</summary>
+          <pre id="raw"></pre>
+        </details>
+      </div>
+    </div>
+
+    <div id="error" class="error hidden"></div>
+  </section>
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

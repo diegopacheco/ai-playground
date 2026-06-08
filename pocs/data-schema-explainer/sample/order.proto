@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package shop.orders;
+
+enum Currency {
+  CURRENCY_UNSPECIFIED = 0;
+  USD = 1;
+  EUR = 2;
+  BRL = 3;
+}
+
+message Address {
+  string city = 1;
+  string zip = 2;
+}
+
+message Order {
+  int64 order_id = 1;
+  string customer = 2;
+  double total = 3;
+  Currency currency = 4;
+  bool paid = 5;
+  int64 created_at = 6;
+  repeated string items = 7;
+  Address shipping = 8;
+  optional string coupon = 9;
+}

@@ -1,0 +1,10 @@
+version: "3"
+services:
+  explainer:
+    build:
+      context: .
+      dockerfile: Containerfile
+    image: data-schema-explainer
+    container_name: data-schema-explainer
+    ports:
+      - "8080:8080"

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #fbfaf7; }
+  #stage { width: 1220px; height: 660px; }
+  text { font-family: "Caveat", cursive; }
+</style>
+</head>
+<body>
+<svg id="stage" viewBox="0 0 1220 660" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4.5"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5b5b5b"/>
+    </marker>
+  </defs>
+
+  <text x="40" y="56" font-size="40" font-weight="700" fill="#2d2d2d">Data Schema Explainer — flow</text>
+
+  <g filter="url(#wobble)">
+    <g stroke="#5b5b5b" stroke-width="2.4" fill="none" stroke-linecap="round" marker-end="url(#arrow)">
+      <path d="M270 150 L330 150"/>
+      <path d="M560 150 L620 150"/>
+      <path d="M852 150 L900 95"/>
+      <path d="M852 165 L900 210"/>
+      <path d="M852 180 L900 330"/>
+      <path d="M1010 130 L1010 175"/>
+      <path d="M1010 250 L1010 295"/>
+      <path d="M1010 365 L1010 470"/>
+      <path d="M900 510 L760 470"/>
+      <path d="M610 470 L470 470"/>
+      <path d="M160 420 L160 200"/>
+    </g>
+
+    <g stroke-width="2.4" font-size="25" fill="#2d2d2d">
+      <rect x="50" y="100" width="220" height="100" rx="16" fill="#cfe3ff" stroke="#5b7fb0"/>
+      <rect x="330" y="100" width="230" height="100" rx="16" fill="#e6d9ff" stroke="#8a72bf"/>
+      <rect x="620" y="100" width="232" height="100" rx="16" fill="#fff1c2" stroke="#c9a93f"/>
+
+      <rect x="900" y="55"  width="270" height="80" rx="16" fill="#d6f5e0" stroke="#5fa978"/>
+      <rect x="900" y="175" width="270" height="80" rx="16" fill="#d6f5e0" stroke="#5fa978"/>
+      <rect x="900" y="290" width="270" height="80" rx="16" fill="#d6f5e0" stroke="#5fa978"/>
+
+      <rect x="900" y="470" width="270" height="80" rx="16" fill="#ffe0c7" stroke="#cf8b50"/>
+      <rect x="330" y="430" width="280" height="80" rx="16" fill="#ffd9e6" stroke="#c96f97"/>
+      <rect x="50"  y="430" width="280" height="80" rx="16" fill="#cfe3ff" stroke="#5b7fb0"/>
+    </g>
+  </g>
+
+  <g font-size="26" fill="#222" text-anchor="middle">
+    <text x="160" y="142">Browser UI</text>
+    <text x="160" y="172" font-size="21" fill="#4a4a4a">drop file / pick sample</text>
+
+    <text x="445" y="142">Flask app.py</text>
+    <text x="445" y="172" font-size="21" fill="#4a4a4a">POST /api/explain</text>
+
+    <text x="736" y="142">Format detector</text>
+    <text x="736" y="172" font-size="21" fill="#4a4a4a">magic bytes + name</text>
+
+    <text x="1035" y="92">pyarrow</text>
+    <text x="1035" y="118" font-size="19" fill="#4a4a4a">Parquet · Arrow · ORC</text>
+
+    <text x="1035" y="212">fastavro</text>
+    <text x="1035" y="238" font-size="19" fill="#4a4a4a">Avro</text>
+
+    <text x="1035" y="327">stdlib parsers</text>
+    <text x="1035" y="353" font-size="19" fill="#4a4a4a">Proto · Iceberg · Delta</text>
+
+    <text x="1035" y="505">sample/ files</text>
+    <text x="1035" y="531" font-size="19" fill="#4a4a4a">seven formats on disk</text>
+
+    <text x="470" y="465">Schema JSON</text>
+    <text x="470" y="491" font-size="20" fill="#4a4a4a">fields · types · file info</text>
+
+    <text x="190" y="465">Renders schema table</text>
+    <text x="190" y="491" font-size="20" fill="#4a4a4a">plain language</text>
+  </g>
+</svg>
+</body>
+</html>
