@@ -1,0 +1,91 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: ✦
+      - text: Synthetica
+    - generic [ref=e7]: all systems operational
+  - banner [ref=e9]:
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - text: now with frontier reasoning
+        - generic [ref=e15]: ✦
+      - heading "The agent that ships while you sleep" [level=1] [ref=e16]:
+        - text: The agent that ships
+        - emphasis [ref=e17]: while you sleep
+        - generic [ref=e18]: ✦
+      - paragraph [ref=e19]: Describe the outcome. Synthetica plans, writes, and deploys it. One prompt, zero standups, infinite leverage.
+      - generic [ref=e20]:
+        - generic [ref=e22]: ✦
+        - textbox "Build me a realtime analytics dashboard…" [ref=e23]
+        - button "Generate" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: Generate
+          - generic [ref=e26]: ✦
+      - paragraph [ref=e27]: Wired to the OpenAI API — set OPENAI_API_KEY and ask anything.
+  - generic [ref=e28]:
+    - paragraph [ref=e29]: Trusted by teams shipping at the frontier
+    - generic "Trusted by" [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: NEXUS
+        - generic [ref=e33]: Quantal
+        - generic [ref=e34]: HYPERLOOP
+        - generic [ref=e35]: Vectyr
+        - generic [ref=e36]: Onyx
+        - generic [ref=e37]: Parallax
+        - generic [ref=e38]: COGNITA
+        - generic [ref=e39]: Mistraal
+        - generic [ref=e40]: NEXUS
+        - generic [ref=e41]: Quantal
+        - generic [ref=e42]: HYPERLOOP
+        - generic [ref=e43]: Vectyr
+        - generic [ref=e44]: Onyx
+        - generic [ref=e45]: Parallax
+        - generic [ref=e46]: COGNITA
+        - generic [ref=e47]: Mistraal
+  - generic [ref=e51]:
+    - heading "One model, every layer" [level=2] [ref=e52]:
+      - generic [ref=e53]: ✦
+      - text: One model, every layer
+    - generic [ref=e54]:
+      - article [ref=e55]:
+        - heading "Plans" [level=3] [ref=e56]
+        - paragraph [ref=e57]: Turns a one-line goal into a dependency-ordered task graph in milliseconds.
+      - article [ref=e58]:
+        - heading "Writes" [level=3] [ref=e59]
+        - paragraph [ref=e60]: Generates production code with tests, types, and a tidy commit message.
+      - article [ref=e61]:
+        - heading "Ships" [level=3] [ref=e62]
+        - paragraph [ref=e63]: Opens the PR, watches CI, and rolls forward the moment it goes green.
+  - generic [ref=e64]:
+    - generic [ref=e65]:
+      - heading "Watch it think in real time" [level=2] [ref=e66]:
+        - text: Watch it think in real time
+        - generic [ref=e67]: ✦
+      - paragraph [ref=e68]: Every token is streamed. No hidden steps, no smoke — just the agent writing the same code you would have, faster.
+    - generic [ref=e69]:
+      - generic [ref=e70]:
+        - generic [ref=e74]: agent.ts
+        - generic [ref=e77]: Synthetica is writing…
+      - generic [ref=e78]: c
+  - generic [ref=e80]:
+    - heading "Try the playground" [level=2] [ref=e81]:
+      - generic [ref=e82]: ✦
+      - text: Try the playground
+    - paragraph [ref=e83]: Pick a model, send a prompt. The answer streams back token by token below.
+    - generic [ref=e84]:
+      - textbox "Ask Synthetica anything…" [ref=e85]
+      - generic [ref=e86]:
+        - button "Add context" [ref=e87] [cursor=pointer]:
+          - img [ref=e88]
+        - button "gpt-4o-mini" [ref=e91] [cursor=pointer]:
+          - generic [ref=e92]: gpt-4o-mini
+          - img [ref=e93]
+        - button "Voice mode" [ref=e95] [cursor=pointer]:
+          - img [ref=e96]
+        - button "Send" [ref=e99] [cursor=pointer]:
+          - img [ref=e100]
+    - paragraph [ref=e103]: Your conversation will appear here.
+  - contentinfo [ref=e104]:
+    - generic [ref=e105]:
+      - generic [ref=e106]: ✦
+      - text: Synthetica
+    - generic [ref=e107]: Built with React 19 · Vite · performative-ui · OpenAI

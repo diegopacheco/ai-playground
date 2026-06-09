@@ -1,0 +1,162 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+.app {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+.panel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+  padding: 16px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.panel-title h1 {
+  margin: 0;
+  font-size: 18px;
+  color: #111827;
+}
+
+.hint {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.mic {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #3b82f6;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.mic:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.mic:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.mic-on {
+  background: #ef4444;
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.typed {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.typed input {
+  flex: 1;
+  padding: 9px 11px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.typed button {
+  padding: 9px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #111827;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.typed button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.transcript {
+  margin-top: 12px;
+  font-size: 15px;
+  color: #111827;
+  font-weight: 500;
+}
+
+.status {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.status-listening {
+  color: #ef4444;
+}
+
+.answer {
+  margin-top: 12px;
+  padding: 11px 12px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #111827;
+  line-height: 1.4;
+}
+
+.error {
+  margin-top: 12px;
+  padding: 11px 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #b91c1c;
+}
