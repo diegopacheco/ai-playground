@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sound Guesser</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<main class="card">
+  <header>
+    <h1><span class="wave">🔊</span> Sound Guesser</h1>
+    <p class="tagline">Make a sound &mdash; a clap, a knock, a chicken &mdash; and the AI guesses it.</p>
+  </header>
+
+  <section class="stage">
+    <div class="halo" id="halo">
+      <div class="guess-emoji" id="emoji">🎤</div>
+    </div>
+    <div class="guess-label" id="label">Press start and make a sound</div>
+    <div class="meter"><div class="meter-fill" id="meter"></div></div>
+    <div class="confidence" id="confidence"></div>
+  </section>
+
+  <div class="bars" id="bars" data-active="false">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <ul class="top-list" id="topList"></ul>
+
+  <button id="toggle" class="btn" disabled>Loading model&hellip;</button>
+  <p class="status" id="status">Loading the YAMNet sound model&hellip;</p>
+  <p class="hint">Built with MediaPipe Tasks Audio (YAMNet) &middot; runs fully in your browser</p>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
