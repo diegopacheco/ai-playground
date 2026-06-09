@@ -46,6 +46,58 @@ search fell back to the map center.
 5. The model returns a concise answer; the backend returns `{ answer, center, places, route }`.
 6. The frontend renders markers, the route polyline, and the answer.
 
+## What the AI does — and what it doesn't
+
+The split is deliberate: **the AI is the brain that understands language and decides
+what to do; everything else is deterministic code and public data services that do
+the literal work.** The OpenAI model never fetches a map, never measures a distance,
+and never draws anything. It reads your words, chooses which tools to call, fills in
+their arguments, judges "open now", picks the best place, and writes the final
+sentence. The coordinates, streets, and distances all come from real OpenStreetMap
+services, so the map shows facts — not model guesses.
+
+| Step | Handled by | AI? |
+|---|---|---|
+| Speech → text | Browser Web Speech API | No — runs in the browser |
+| Your coordinates | Browser Geolocation API | No |
+| Understand the request | `gpt-5.4-mini` | **Yes** |
+| Choose which tools to call, and the order | `gpt-5.4-mini` | **Yes** |
+| Fill tool arguments (brand, amenity, radius, mode) | `gpt-5.4-mini` | **Yes** |
+| Named place → coordinates | Nominatim | No — lookup |
+| Find places by tag within a radius | Overpass | No — query |
+| Distance between two points | haversine, pure math | No |
+| Route geometry + walking time | OSRM | No |
+| Judge whether a place is "open now" | `gpt-5.4-mini` reads `opening_hours` vs local time | **Yes** |
+| Pick the best place to route to | `gpt-5.4-mini` | **Yes** |
+| Write the spoken-style answer | `gpt-5.4-mini` | **Yes** |
+| Draw markers, route line, fit the map | Leaflet | No |
+| Tool dispatch, loop control, HTTP | Go backend | No |
+
+A trace of *"find a pharmacy near me, open now, walkable"*, each line marked AI or code:
+
+```
+[AI]   reads "pharmacy" + "open now" + "walkable" -> nearby pharmacy, filter open, prefer a short walk
+[AI]   calls find_pois(amenity="pharmacy", lat, lon, radius_m=2000)
+[code] Overpass returns pharmacies with name, address, opening_hours, distance
+[AI]   compares each opening_hours against the local time -> keeps the ones open now
+[AI]   picks the closest open one, calls get_route(from=you, to=that pharmacy, mode="foot")
+[code] OSRM returns distance, walking duration, and the line geometry
+[AI]   writes "Closest open pharmacy is Duane Reade, 79 m away, about a 1 minute walk."
+[code] backend returns {answer, places, route}; Leaflet drops the markers and draws the route
+```
+
+Why divide it this way:
+
+- **The AI owns the ambiguous, human part** — free-form language and judgment ("walkable",
+  "open now", which result is best). That is what language models are good at.
+- **The services own the exact, verifiable part** — real coordinates, real streets, real
+  distances. A lookup cannot hallucinate a location.
+
+Accuracy note: the model only authors wording and choices. It is handed the raw
+`opening_hours` and can occasionally misjudge an unusual schedule, and if it skips
+`get_route` it estimates the walking time instead of measuring it. The places and the
+drawn route always come from the real services.
+
 ## Tools the agent can call
 
 | Tool | Service | Purpose |
