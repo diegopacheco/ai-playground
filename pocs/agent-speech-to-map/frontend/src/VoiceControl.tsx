@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react'
 import { sendQuery } from './api'
-import type { QueryResponse } from './types'
+import type { Coord, QueryResponse } from './types'
 
 type Status = 'idle' | 'listening' | 'thinking' | 'done' | 'error'
 
 interface Props {
+  fallbackCenter: Coord
   onResult: (resp: QueryResponse) => void
 }
 
@@ -14,16 +15,17 @@ function createRecognition(): any {
   return Ctor ? new Ctor() : null
 }
 
-function getLocation(): Promise<GeolocationPosition> {
-  return new Promise((resolve, reject) => {
+function getLocation(): Promise<Coord | null> {
+  return new Promise((resolve) => {
     if (!navigator.geolocation) {
-      reject(new Error('Geolocation is not supported by this browser'))
+      resolve(null)
       return
     }
-    navigator.geolocation.getCurrentPosition(resolve, reject, {
-      enableHighAccuracy: true,
-      timeout: 10000,
-    })
+    navigator.geolocation.getCurrentPosition(
+      (p) => resolve({ lat: p.coords.latitude, lon: p.coords.longitude }),
+      () => resolve(null),
+      { enableHighAccuracy: true, timeout: 8000 },
+    )
   })
 }
 
@@ -47,11 +49,12 @@ const statusLabel: Record<Status, string> = {
   error: '',
 }
 
-export default function VoiceControl({ onResult }: Props) {
+export default function VoiceControl({ fallbackCenter, onResult }: Props) {
   const [status, setStatus] = useState<Status>('idle')
   const [transcript, setTranscript] = useState('')
   const [answer, setAnswer] = useState('')
   const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
   const [typed, setTyped] = useState('')
   const finalRef = useRef('')
   const speechSupported = typeof window !== 'undefined' && !!(
@@ -67,12 +70,17 @@ export default function VoiceControl({ onResult }: Props) {
     setStatus('thinking')
     setAnswer('')
     setError('')
+    setNotice('')
+    let loc = await getLocation()
+    if (!loc) {
+      loc = fallbackCenter
+      setNotice('Location unavailable — searching around the map center. Allow location access for "near me" accuracy.')
+    }
     try {
-      const pos = await getLocation()
       const resp = await sendQuery({
         text: cleaned,
-        lat: pos.coords.latitude,
-        lon: pos.coords.longitude,
+        lat: loc.lat,
+        lon: loc.lon,
         now: localISO(),
       })
       onResult(resp)
@@ -95,6 +103,7 @@ export default function VoiceControl({ onResult }: Props) {
     setTranscript('')
     setAnswer('')
     setError('')
+    setNotice('')
     rec.lang = 'en-US'
     rec.interimResults = true
     rec.continuous = false
@@ -159,6 +168,8 @@ export default function VoiceControl({ onResult }: Props) {
       {transcript && <div className="transcript">{transcript}</div>}
 
       {statusLabel[status] && <div className={`status status-${status}`}>{statusLabel[status]}</div>}
+
+      {notice && <div className="notice">{notice}</div>}
 
       {answer && <div className="answer">{answer}</div>}
 

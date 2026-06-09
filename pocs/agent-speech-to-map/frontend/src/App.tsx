@@ -19,7 +19,7 @@ export default function App() {
   return (
     <div className="app">
       <MapView center={center} places={places} route={route} />
-      <VoiceControl onResult={handleResult} />
+      <VoiceControl fallbackCenter={center} onResult={handleResult} />
     </div>
   )
 }
