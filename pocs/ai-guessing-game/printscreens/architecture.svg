@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 800" font-family="Caveat, 'Bradley Hand', 'Chalkboard SE', 'Comic Sans MS', cursive">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/>
+    </filter>
+    <marker id="ah" markerWidth="12" markerHeight="12" refX="8.5" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5b6172"/>
+    </marker>
+  </defs>
+
+  <rect width="1080" height="800" fill="#f6f7fb"/>
+  <text x="540" y="56" text-anchor="middle" font-size="42" fill="#1f2430">Mind Reader · how a round flows</text>
+
+  <g filter="url(#wobble)">
+    <rect x="70" y="110" width="250" height="110" rx="20" fill="#ffe1e2" stroke="#ff8a8f" stroke-width="3"/>
+    <rect x="400" y="110" width="270" height="110" rx="20" fill="#dcecff" stroke="#5aa9ff" stroke-width="3"/>
+    <rect x="790" y="110" width="250" height="110" rx="20" fill="#fff3cf" stroke="#e6b800" stroke-width="3"/>
+    <rect x="790" y="300" width="250" height="110" rx="20" fill="#d8f3e6" stroke="#3cba84" stroke-width="3"/>
+    <rect x="790" y="480" width="250" height="110" rx="20" fill="#fff3cf" stroke="#e6b800" stroke-width="3"/>
+    <rect x="790" y="650" width="250" height="110" rx="20" fill="#ece7ff" stroke="#7c5cff" stroke-width="3"/>
+    <rect x="400" y="650" width="270" height="110" rx="20" fill="#ece7ff" stroke="#7c5cff" stroke-width="3"/>
+
+    <path d="M322,165 L396,165" fill="none" stroke="#5b6172" stroke-width="2.6" marker-end="url(#ah)"/>
+    <path d="M672,148 L786,148" fill="none" stroke="#5b6172" stroke-width="2.6" marker-end="url(#ah)"/>
+    <path d="M786,192 L674,192" fill="none" stroke="#5b6172" stroke-width="2.6" marker-end="url(#ah)"/>
+    <path d="M905,222 L905,296" fill="none" stroke="#5b6172" stroke-width="2.6" marker-end="url(#ah)"/>
+    <path d="M965,298 L965,224" fill="none" stroke="#5b6172" stroke-width="2.6" marker-end="url(#ah)"/>
+    <path d="M540,222 C575,400 660,470 786,512" fill="none" stroke="#5b6172" stroke-width="2.6" marker-end="url(#ah)"/>
+    <path d="M915,592 L915,646" fill="none" stroke="#5b6172" stroke-width="2.6" marker-end="url(#ah)"/>
+    <path d="M788,706 L674,706" fill="none" stroke="#5b6172" stroke-width="2.6" marker-end="url(#ah)"/>
+  </g>
+
+  <g text-anchor="middle" fill="#1f2430">
+    <text x="195" y="158" font-size="30">🧠 Human</text>
+    <text x="195" y="190" font-size="22" fill="#6b7280">pictures a thing</text>
+
+    <text x="535" y="158" font-size="30">🎮 Play UI · /</text>
+    <text x="535" y="190" font-size="22" fill="#6b7280">ask · react · guess</text>
+
+    <text x="915" y="158" font-size="30">🧩 /api/move</text>
+    <text x="915" y="190" font-size="22" fill="#6b7280">Next.js route</text>
+
+    <text x="915" y="348" font-size="30">🤖 OpenAI</text>
+    <text x="915" y="380" font-size="22" fill="#6b7280">model: gpt-4o</text>
+
+    <text x="915" y="528" font-size="30">💾 /api/history</text>
+    <text x="915" y="560" font-size="22" fill="#6b7280">GET · POST</text>
+
+    <text x="915" y="712" font-size="28">🗂 data/history.json</text>
+
+    <text x="535" y="698" font-size="30">📜 History UI</text>
+    <text x="535" y="730" font-size="22" fill="#6b7280">/history</text>
+  </g>
+
+  <g text-anchor="middle" fill="#7c5cff" font-size="21">
+    <text x="359" y="150">a secret</text>
+    <text x="729" y="138">POST {turns}</text>
+    <text x="726" y="214">next move</text>
+    <text x="838" y="266">gpt-4o</text>
+    <text x="1012" y="266">Q / guess</text>
+    <text x="700" y="400">game over → save</text>
+    <text x="957" y="624">append</text>
+    <text x="731" y="690">read</text>
+  </g>
+
+  <g text-anchor="middle" fill="#ff5a5f" font-size="22">
+    <text x="535" y="250">🔥 HOT  ·  🧊 COLD  feedback loop</text>
+    <text x="535" y="278" font-size="18" fill="#6b7280">10 questions, then forced to guess · 5 guesses to win</text>
+  </g>
+</svg>

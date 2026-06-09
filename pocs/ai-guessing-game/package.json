@@ -1,0 +1,23 @@
+{
+  "name": "ai-guessing-game",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack -p 3434",
+    "build": "next build --turbopack",
+    "start": "next start -p 3434",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "16.2.7",
+    "openai": "6.42.0",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  },
+  "devDependencies": {
+    "@types/node": "25.9.2",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "typescript": "6.0.3"
+  }
+}
