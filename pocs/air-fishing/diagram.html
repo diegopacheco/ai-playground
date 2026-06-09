@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; background: #f3fbff; }
+  #wrap { width: 1200px; height: 700px; }
+  svg { display: block; font-family: "Caveat", cursive; }
+  .box { stroke: #143b53; stroke-width: 2.5; filter: url(#rough); }
+  .b-blue { fill: #cfe8ff; }
+  .b-green { fill: #d6f5dd; }
+  .b-yellow { fill: #fff1c2; }
+  .b-pink { fill: #ffd6e7; }
+  .b-aqua { fill: #cdeffb; }
+  .b-orange { fill: #ffe0c2; }
+  .lbl { font-size: 27px; fill: #143b53; font-weight: 700; text-anchor: middle; }
+  .sub { font-size: 20px; fill: #2f5b72; font-weight: 500; text-anchor: middle; }
+  .edge { stroke: #143b53; stroke-width: 2.8; fill: none; stroke-linecap: round; }
+  .edgeback { stroke: #2563eb; stroke-width: 2.8; fill: none; stroke-linecap: round; stroke-dasharray: 1 9; }
+  .elbl { font-size: 21px; fill: #143b53; font-weight: 700; text-anchor: middle; }
+  .elbl-b { font-size: 21px; fill: #2563eb; font-weight: 700; text-anchor: middle; }
+  .title { font-size: 40px; fill: #0e4d6e; font-weight: 700; }
+</style>
+</head>
+<body>
+<div id="wrap">
+<svg width="1200" height="700" viewBox="0 0 1200 700">
+  <defs>
+    <filter id="rough">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="7" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" />
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10" fill="none" stroke="#143b53" stroke-width="2.4" />
+    </marker>
+    <marker id="arrowb" markerWidth="12" markerHeight="12" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10" fill="none" stroke="#2563eb" stroke-width="2.4" />
+    </marker>
+  </defs>
+
+  <text x="40" y="56" class="title">Air Fishing — index-finger catch loop</text>
+
+  <rect class="box b-blue" x="40" y="120" width="180" height="92" rx="14" />
+  <text x="130" y="158" class="lbl">Webcam</text>
+  <text x="130" y="186" class="sub">two index fingers</text>
+
+  <rect class="box b-green" x="290" y="110" width="205" height="112" rx="14" />
+  <text x="392" y="150" class="lbl">Browser</text>
+  <text x="392" y="178" class="sub">getUserMedia</text>
+  <text x="392" y="202" class="sub">+ canvas grab</text>
+
+  <rect class="box b-yellow" x="565" y="110" width="195" height="112" rx="14" />
+  <text x="662" y="150" class="lbl">Python</text>
+  <text x="662" y="178" class="sub">OpenCV decode</text>
+  <text x="662" y="202" class="sub">cv2.imdecode</text>
+
+  <rect class="box b-pink" x="835" y="110" width="205" height="112" rx="14" />
+  <text x="937" y="150" class="lbl">MediaPipe</text>
+  <text x="937" y="178" class="sub">HandLandmarker · 2</text>
+  <text x="937" y="202" class="sub">index tip + pinch</text>
+
+  <rect class="box b-aqua" x="835" y="312" width="205" height="120" rx="14" />
+  <text x="937" y="352" class="lbl">control packet</text>
+  <text x="937" y="380" class="sub">x, y, side,</text>
+  <text x="937" y="404" class="sub">pinch, scale</text>
+
+  <rect class="box b-orange" x="270" y="300" width="335" height="144" rx="14" />
+  <text x="437" y="338" class="lbl">Sea canvas · 60 fps</text>
+  <text x="437" y="366" class="sub">finger = hook, pinch = grab</text>
+  <text x="437" y="390" class="sub">fish · score · 60s clock</text>
+  <text x="437" y="414" class="sub">L/R side → player · CPU AI</text>
+
+  <rect class="box b-green" x="40" y="300" width="195" height="144" rx="14" />
+  <text x="137" y="344" class="lbl">Keys</text>
+  <text x="137" y="372" class="sub">WASD + Space</text>
+  <text x="137" y="396" class="sub">Arrows + Enter</text>
+  <text x="137" y="420" class="sub">fallback</text>
+
+  <path class="edge" d="M222 166 L286 166" marker-end="url(#arrow)" />
+  <path class="edge" d="M497 166 L561 166" marker-end="url(#arrow)" />
+  <text x="528" y="140" class="elbl">JPEG</text>
+  <text x="530" y="100" class="elbl">WebSocket</text>
+  <path class="edge" d="M762 166 L831 166" marker-end="url(#arrow)" />
+  <path class="edge" d="M937 224 L937 308" marker-end="url(#arrow)" />
+
+  <path class="edgeback" d="M833 374 Q705 458 607 374" marker-end="url(#arrowb)" />
+  <text x="712" y="354" class="elbl-b">{ hands:[…] } JSON</text>
+  <text x="712" y="438" class="elbl-b">WebSocket back · ~16 fps</text>
+
+  <path class="edge" d="M237 372 L266 372" marker-end="url(#arrow)" />
+</svg>
+</div>
+</body>
+</html>

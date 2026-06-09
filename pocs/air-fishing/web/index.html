@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Air Fishing</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="brand">
+      <h1>AIR FISHING</h1>
+      <span id="modelabel" class="mode">&mdash;</span>
+    </div>
+    <div class="center">
+      <div class="score sP1">
+        <span class="nm" id="nameP1">PLAYER 1</span>
+        <span class="pts" id="scoreP1">0</span>
+      </div>
+      <div class="clock">
+        <span class="clabel">TIME</span>
+        <span id="clock">60</span>
+      </div>
+      <div class="score sP2">
+        <span class="nm" id="nameP2">CPU</span>
+        <span class="pts" id="scoreP2">0</span>
+      </div>
+    </div>
+    <div class="ctrl">
+      <button id="sound" class="ghost">SOUND: ON</button>
+      <button id="fs" class="ghost">FULLSCREEN</button>
+    </div>
+  </header>
+
+  <div class="stage">
+    <div class="seawrap"><canvas id="sea" width="900" height="560"></canvas></div>
+    <aside class="campanel">
+      <span class="panel-title">CAMERA</span>
+      <canvas id="pip" width="260" height="195"></canvas>
+      <p class="hint" id="status">connecting&hellip;</p>
+      <ul class="legend">
+        <li><b class="d p1"></b> player 1 hook</li>
+        <li><b class="d p2"></b> player 2 hook</li>
+        <li><b class="d pinch"></b> pinch = grab</li>
+      </ul>
+    </aside>
+  </div>
+
+  <div id="menu" class="overlay">
+    <div class="card">
+      <h2>AIR FISHING</h2>
+      <p>Point your <b>index finger</b> to steer a hook through the sea. <b>Pinch</b> thumb and index over a fish to catch it. Most points before the clock runs out wins.</p>
+      <div class="modes">
+        <button id="mode-cpu" class="big">1P vs CPU</button>
+        <button id="mode-pvp" class="big">P1 vs P2</button>
+      </div>
+      <p class="small">No camera? Keys &mdash; P1: <b>WASD</b> move, <b>Space</b> grab. P2: <b>Arrows</b> move, <b>Enter</b> grab. <b>R</b> restart.</p>
+    </div>
+  </div>
+</div>
+
+<video id="cam" playsinline muted></video>
+<canvas id="grab" width="320" height="240"></canvas>
+<script src="audio.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
