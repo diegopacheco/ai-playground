@@ -1,0 +1,80 @@
+pocs/agent-speech-to-map/frontend/src/MapView.tsx
+  s_71acb24160770a::t_fb276932069e11 1-74
+pocs/agent-speech-to-map/start.sh
+  s_71acb24160770a::t_ec44ce9ee612b9 1-38
+pocs/agent-speech-to-map/backend/osm/overpass.go
+  s_71acb24160770a::t_0ad2ce951f445b 1-131
+pocs/agent-speech-to-map/backend/go.mod
+  s_71acb24160770a::t_f092a3819e106a 5-6
+  s_71acb24160770a::t_a6b1c0af9e4528 1-4,7-12
+pocs/agent-speech-to-map/frontend/src/types.ts
+  s_71acb24160770a::t_382d20e552e157 1-35
+pocs/agent-speech-to-map/backend/tools_test.go
+  s_71acb24160770a::t_c6c81520f3d792 1-24
+pocs/agent-speech-to-map/frontend/tsconfig.json
+  s_71acb24160770a::t_5c6aa7d53f7020 1-18
+pocs/agent-speech-to-map/.gitignore
+  s_71acb24160770a::t_71e347c742a20f 1-5
+pocs/agent-speech-to-map/backend/osm/osrm.go
+  s_71acb24160770a::t_fd9ea14c0aadc0 1-73
+pocs/agent-speech-to-map/design-doc.md
+  s_a17c5a96c884a6::t_06de411235057e 1-328
+pocs/agent-speech-to-map/frontend/package.json
+  s_71acb24160770a::t_7d64b9ad4725e0 1-26
+pocs/agent-speech-to-map/frontend/src/main.tsx
+  s_71acb24160770a::t_b5bef10c9e6b49 1-10
+pocs/agent-speech-to-map/frontend/src/VoiceControl.tsx
+  s_71acb24160770a::t_45d2781c2af2b6 1-79,81-168
+  s_71acb24160770a::t_43f763bd5d6099 80
+pocs/agent-speech-to-map/frontend/vite.config.ts
+  s_71acb24160770a::t_0cd6e9a6aaceba 1-7
+pocs/agent-speech-to-map/frontend/index.html
+  s_71acb24160770a::t_56b51e4b60cab2 1-12
+pocs/agent-speech-to-map/backend/tools.go
+  s_71acb24160770a::t_f4c95d289b5535 1-124
+pocs/agent-speech-to-map/backend/main.go
+  s_71acb24160770a::t_279784914c567b 1-116
+pocs/agent-speech-to-map/backend/osm/osm_test.go
+  s_71acb24160770a::t_3ccd3c1f317082 1-71
+pocs/agent-speech-to-map/stop.sh
+  s_71acb24160770a::t_3d93329e451a34 1-14
+pocs/agent-speech-to-map/backend/agent.go
+  s_71acb24160770a::t_e7c57bdd27146d 1-40,42-83
+  s_71acb24160770a::t_f8a13aab608a3f 41
+pocs/agent-speech-to-map/frontend/src/api.ts
+  s_71acb24160770a::t_0d04bccae1f4e4 1-22
+pocs/agent-speech-to-map/backend/osm/osm.go
+  s_71acb24160770a::t_28646c91d3fde7 1-57
+pocs/agent-speech-to-map/backend/osm/nominatim.go
+  s_71acb24160770a::t_3ed3145443c061 1-50
+pocs/agent-speech-to-map/test.sh
+  s_71acb24160770a::t_56774bebd277b0 1-25
+pocs/agent-speech-to-map/frontend/src/App.tsx
+  s_71acb24160770a::t_34d7472a9806c0 1-25
+pocs/agent-speech-to-map/frontend/src/index.css
+  s_71acb24160770a::t_7d4530d3062b53 1-162
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "fb13e8c75efe93933697809bd9e7ca246e6475ed",
+  "prompts": {},
+  "sessions": {
+    "s_71acb24160770a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c4ff2244-9168-4ec8-8d85-5ecd4685d66a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_a17c5a96c884a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "98d99a9a-47bb-4b5a-9133-74f5d6dc3078",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
