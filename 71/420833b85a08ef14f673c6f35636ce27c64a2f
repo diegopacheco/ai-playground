@@ -1,0 +1,35 @@
+pocs/sound-to-guess-cv/test.sh
+  s_207549096fb25d::t_53ebcc046feebd 1-41
+pocs/sound-to-guess-cv/stop.sh
+  s_207549096fb25d::t_7964a465d9d228 1-9
+pocs/sound-to-guess-cv/index.html
+  s_207549096fb25d::t_edb542f972a41d 1-38
+pocs/sound-to-guess-cv/start.sh
+  s_207549096fb25d::t_abeba38ab6051b 1-20
+pocs/sound-to-guess-cv/diagram.html
+  s_207549096fb25d::t_17cbcdc39763a0 1-95
+pocs/sound-to-guess-cv/app.js
+  s_207549096fb25d::t_6462dc2abdc0e4 170
+  s_207549096fb25d::t_c03f8a5dd0665a 1-169,171-201
+pocs/sound-to-guess-cv/style.css
+  s_207549096fb25d::t_d37c0a93ed5b6c 1-173,178-191
+  s_207549096fb25d::t_fd181afccb050f 174-177
+pocs/sound-to-guess-cv/README.md
+  s_207549096fb25d::t_6939294d9688da 1-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "71420833b85a08ef14f673c6f35636ce27c64a2f",
+  "prompts": {},
+  "sessions": {
+    "s_207549096fb25d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3ec4abbe-65c3-40d7-8a03-dd813160d548",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
