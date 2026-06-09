@@ -1,0 +1,19 @@
+pocs/air-fishing/README.md
+  s_add457de18d61a::t_e22f41f4fbf340 1-128
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "ef5f114eafb5b854840f4979e5c4493d3a2200af",
+  "prompts": {},
+  "sessions": {
+    "s_add457de18d61a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5b0eb7d6-7b65-46f0-8cfb-877927fce60f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
