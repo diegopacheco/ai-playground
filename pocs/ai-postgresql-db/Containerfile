@@ -1,0 +1,2 @@
+FROM postgres:19beta1
+RUN apt-get update && apt-get install -y --no-install-recommends postgresql-plpython3-19 python3 ca-certificates && rm -rf /var/lib/apt/lists/*

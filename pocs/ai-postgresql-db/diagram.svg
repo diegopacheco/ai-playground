@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1240" viewBox="0 0 1240 1240" font-family="'Caveat', 'Chalkboard SE', 'Comic Sans MS', cursive">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1240" height="1240" fill="#fdfcf7"/>
+
+  <g transform="translate(0,255)">
+    <text x="620" y="60" font-size="44" font-weight="700" text-anchor="middle" fill="#1f2937">AI in the Database — LLM as a SQL primitive</text>
+    <text x="620" y="96" font-size="26" text-anchor="middle" fill="#6b7280">the model runs inside the query engine, one call per row — not in app code</text>
+
+    <g filter="url(#wobble)">
+      <rect x="40" y="300" width="230" height="120" rx="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="2.5"/>
+      <rect x="330" y="150" width="520" height="430" rx="18" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="10 8"/>
+      <rect x="370" y="250" width="200" height="110" rx="14" fill="#dcfce7" stroke="#10b981" stroke-width="2.5"/>
+      <rect x="610" y="250" width="200" height="110" rx="14" fill="#fef9c3" stroke="#eab308" stroke-width="2.5"/>
+      <rect x="980" y="300" width="220" height="120" rx="14" fill="#fce7f3" stroke="#ec4899" stroke-width="2.5"/>
+      <rect x="370" y="430" width="440" height="110" rx="14" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2.5"/>
+    </g>
+
+    <text x="155" y="345" font-size="27" font-weight="700" text-anchor="middle" fill="#1e3a8a">SQL Query</text>
+    <text x="155" y="378" font-size="21" text-anchor="middle" fill="#1e40af">SELECT llm_classify(review)</text>
+    <text x="155" y="404" font-size="21" text-anchor="middle" fill="#1e40af">FROM reviews;</text>
+
+    <text x="590" y="195" font-size="28" font-weight="700" text-anchor="middle" fill="#047857">PostgreSQL 19  ·  podman</text>
+    <text x="590" y="225" font-size="22" text-anchor="middle" fill="#059669">everything below runs inside the database</text>
+
+    <text x="470" y="295" font-size="26" font-weight="700" text-anchor="middle" fill="#065f46">reviews table</text>
+    <text x="470" y="328" font-size="21" text-anchor="middle" fill="#047857">5 rows of raw text</text>
+
+    <text x="710" y="290" font-size="25" font-weight="700" text-anchor="middle" fill="#854d0e">llm_classify()</text>
+    <text x="710" y="320" font-size="21" text-anchor="middle" fill="#a16207">plpython3u UDF</text>
+    <text x="710" y="346" font-size="20" text-anchor="middle" fill="#a16207">runs per row</text>
+
+    <text x="1090" y="345" font-size="27" font-weight="700" text-anchor="middle" fill="#9d174d">OpenAI API</text>
+    <text x="1090" y="380" font-size="22" text-anchor="middle" fill="#be185d">gpt-4o-mini</text>
+    <text x="1090" y="406" font-size="20" text-anchor="middle" fill="#be185d">chat/completions</text>
+
+    <text x="590" y="475" font-size="26" font-weight="700" text-anchor="middle" fill="#5b21b6">result column: sentiment</text>
+    <text x="590" y="512" font-size="23" text-anchor="middle" fill="#6d28d9">POSITIVE  ·  NEGATIVE  ·  NEUTRAL</text>
+
+    <g stroke="#4b5563" stroke-width="2.5" fill="none" filter="url(#wobble)">
+      <path d="M270,360 L362,322" marker-end="url(#arrow)"/>
+      <path d="M570,305 L602,305" marker-end="url(#arrow)"/>
+      <path d="M810,300 L975,330" marker-end="url(#arrow)"/>
+      <path d="M975,392 L812,338" marker-end="url(#arrow)"/>
+      <path d="M710,362 L640,428" marker-end="url(#arrow)"/>
+    </g>
+
+    <text x="300" y="318" font-size="19" fill="#4b5563">submit</text>
+    <text x="880" y="300" font-size="19" fill="#be185d">HTTPS + Bearer key</text>
+    <text x="855" y="392" font-size="19" fill="#be185d">sentiment</text>
+  </g>
+</svg>
