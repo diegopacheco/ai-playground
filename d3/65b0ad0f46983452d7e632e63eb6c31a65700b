@@ -1,0 +1,49 @@
+pocs/react-performativeUI-poc/src/styles.css
+  s_fa7831d3f78456::t_ff522565e08d73 1-279
+pocs/react-performativeUI-poc/start.sh
+  s_fa7831d3f78456::t_e5dcc48a692ff3 1-29
+pocs/react-performativeUI-poc/src/api.js
+  s_fa7831d3f78456::t_d07a117daeaafc 1-10
+pocs/react-performativeUI-poc/src/App.jsx
+  s_fa7831d3f78456::t_1a63a8fcf54c23 1-210
+pocs/react-performativeUI-poc/vite.config.js
+  s_fa7831d3f78456::t_1b423afb822ca7 1-79
+pocs/react-performativeUI-poc/README.md
+  s_fa7831d3f78456::t_b6584f23bec221 1-124
+pocs/react-performativeUI-poc/design-doc.md
+  s_fa7831d3f78456::t_5f38191ea9910f 1-115
+pocs/react-performativeUI-poc/src/main.jsx
+  s_fa7831d3f78456::t_e0a74de6c8cfa8 1-11
+pocs/react-performativeUI-poc/package.json
+  s_fa7831d3f78456::t_c6f28392951b59 1-20
+pocs/react-performativeUI-poc/index.html
+  s_fa7831d3f78456::t_bee14a0a40fa5f 7-10
+  s_fa7831d3f78456::t_1c1fd03f21de28 1-6,11-22
+pocs/react-performativeUI-poc/test.sh
+  s_fa7831d3f78456::t_23afc003215442 1-30
+pocs/react-performativeUI-poc/stop.sh
+  s_fa7831d3f78456::t_08489bc9ed6d62 1-15
+pocs/react-performativeUI-poc/.gitignore
+  s_fa7831d3f78456::t_8ad0e5792b2644 1-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "d365b0ad0f46983452d7e632e63eb6c31a65700b",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_fa7831d3f78456": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fb917cfe-e5c6-4491-ac29-640337c4269d",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
