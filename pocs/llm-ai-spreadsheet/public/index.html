@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LLM AI Spreadsheet</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>LLM AI Spreadsheet</h1>
+      <div class="toolbar">
+        <button id="help">Help</button>
+        <button id="save">Save</button>
+        <button id="load">Load</button>
+      </div>
+    </header>
+    <div class="formula-bar">
+      <span id="addr" class="addr">A1</span>
+      <input id="formula" type="text" autocomplete="off" spellcheck="false" placeholder='=A1+B1   or   =AI("Summarize {A1}")' />
+    </div>
+    <div class="grid-wrap">
+      <table id="grid"></table>
+    </div>
+
+    <div id="help-overlay" class="overlay hidden">
+      <div class="modal">
+        <div class="modal-head">
+          <h2>Help</h2>
+          <button id="help-close" class="close" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h3>Cell types</h3>
+          <ul>
+            <li>Type a number or text for a plain value.</li>
+            <li>Start with <code>=</code> for a formula.</li>
+            <li>Start with <code>=AI(</code> for an AI cell.</li>
+          </ul>
+
+          <h3>Formula building blocks</h3>
+          <ul>
+            <li>Cell refs <code>A1</code> and ranges <code>A1:A10</code>.</li>
+            <li>Math <code>+ - * /</code>, parentheses, unary minus.</li>
+            <li>Compare <code>=</code> <code>&lt;&gt;</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code>.</li>
+            <li>Join text with <code>&amp;</code>, such as <code>="Hi " &amp; A1</code>.</li>
+          </ul>
+
+          <h3>Functions</h3>
+          <table class="ref">
+            <tr><td><code>SUM</code></td><td><code>=SUM(A1:A3)</code> or <code>=SUM(A1,A2)</code></td></tr>
+            <tr><td><code>AVERAGE</code></td><td><code>=AVERAGE(A1:A3)</code></td></tr>
+            <tr><td><code>MIN</code></td><td><code>=MIN(A1:A3)</code></td></tr>
+            <tr><td><code>MAX</code></td><td><code>=MAX(A1:A3)</code></td></tr>
+            <tr><td><code>COUNT</code></td><td><code>=COUNT(A1:A3)</code></td></tr>
+            <tr><td><code>CONCAT</code></td><td><code>=CONCAT(A1," ",B1)</code></td></tr>
+            <tr><td><code>IF</code></td><td><code>=IF(A1&gt;10,"big","small")</code></td></tr>
+            <tr><td><code>ROUND</code></td><td><code>=ROUND(A1/3,2)</code></td></tr>
+          </table>
+
+          <h3>AI cells</h3>
+          <p>Whatever is inside <code>=AI(...)</code> is the prompt. Quotes are optional.
+          Any cell reference in the text — bare <code>a1</code> or braced <code>{B4}</code>
+          — is read, substituted with that cell's value, and becomes a dependency, so the
+          AI cell recomputes when its inputs change.</p>
+          <table class="ref">
+            <tr><td><code>=ai(sum a1 and a2)</code></td><td>sends <code>sum 110 and 220</code></td></tr>
+            <tr><td><code>=AI("Summarize {A1} in one line")</code></td><td>one-line summary of A1</td></tr>
+            <tr><td><code>=AI("Sentiment of {B2}: positive, negative or neutral")</code></td><td>label from B2</td></tr>
+          </table>
+          <p class="note">AI cells call OpenAI, so the server needs a valid
+          <code>OPENAI_API_KEY</code>. If a cell shows <code>#AI_ERROR!</code>, hover it
+          to see why. Make sure the refs point at cells that actually hold values.</p>
+
+          <h3>Errors</h3>
+          <table class="ref">
+            <tr><td><code>#ERROR!</code></td><td>formula could not be parsed or evaluated</td></tr>
+            <tr><td><code>#CYCLE!</code></td><td>cells depend on each other in a loop</td></tr>
+            <tr><td><code>#AI_ERROR!</code></td><td>the AI call failed (hover for details)</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
