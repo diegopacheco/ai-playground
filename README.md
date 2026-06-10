@@ -1,6 +1,13 @@
 # ai-playground
 
-Over 2 years (summer-24 - summer-26) 500+ pocs. 100+ agents. 
+Over 2 years (summer-24 - summer-26) 500+ pocs. 100+ agents. <br/><br/>
+<img src="500-ai-pocs.png" width="500" height="300">
+
+Summary of Agentic Pocs [100+ Agent Pocs](https://github.com/diegopacheco/ai-playground/blob/main/agents/agents-pocs.md)
+
+Cool MCP's I've build [MCP POCs](https://github.com/diegopacheco/ai-playground/blob/main/mcp/README.md)
+
+Browse Pocs here: [AI POCS](https://github.com/diegopacheco/ai-playground/tree/main/pocs)
 
 AI POCS: ML, NLP, KAN, Reinforcement Learning, audio, translation, object-detection, GAN, LLM, Vision, Stable Diffusion, Classification, Clustering, XGBoost, NM, RNN, CNN, Pytorch, DJL, DeepLearning4J, ONNX, Keras, Tensorflow, OpenCV, nltk, transformers, transformers.js, sentense-transformers, gradio, chroma, langchain, langchain4j, spring-ai, sklearn, gensim, BERTopic, gymnasium, seaborn, matplotlib, pandas, numpy, scipy, scikit-learn, stable-difussion, anthropic, aws bedrock, cohere, flax, superlinked, hmmlearn, gluonnlp, LM Studio, LocalAI, streamlit, Pinecone, claude-code, MCP, FastMCP, codex, copilot, gemini, grok, openai, GPT, agents, crewai, DSPy, ollama, openrouter, mastra, langgraph, langflow, litellm, portkey, jax, tinygrad, micrograd, diffusers, deepface, faiss, pgvector, pyspark, brain.js, SHAP, XAI, strands, dapr-agents, google-adk, A2A, spring-boot, swarms, klaw, beeai, mesa, n8n. And more... All things AI POCS.
 
