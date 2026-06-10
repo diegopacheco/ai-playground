@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Branch Graveyard &mdash; install</title>
+<style>
+  :root{
+    --bg:#f4f6f5;
+    --panel:#ffffff;
+    --ink:#202a2e;
+    --muted:#69767b;
+    --line:#e4e9e7;
+    --accent:#3f7d5e;
+    --accent-ink:#2c5c44;
+    --stone:#e9ecec;
+    --grass:#9cc6a3;
+    --danger:#c4413a;
+    --shadow:0 1px 2px rgba(20,30,28,.05),0 10px 30px rgba(20,30,28,.08);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1200px 360px at 50% -160px,#e7efe9 0,rgba(231,239,233,0) 70%),
+      var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:54px 22px 90px}
+  .hero{text-align:center;margin-bottom:40px}
+  .hero .stone{
+    display:inline-flex;align-items:center;justify-content:center;flex-direction:column;
+    width:118px;height:140px;margin:0 auto 20px;
+    background:linear-gradient(180deg,#fbfcfc 0,var(--stone) 100%);
+    border:1px solid #d2d8d7;border-radius:60px 60px 12px 12px;
+    box-shadow:0 2px 0 #d2d8d7,0 16px 28px rgba(20,30,28,.14);
+  }
+  .hero .stone .rip{font-size:11px;letter-spacing:.32em;color:var(--muted);font-weight:700;margin-top:24px}
+  .hero .stone .skull{font-size:34px;margin-top:6px}
+  .hero h1{font-size:38px;font-weight:850;letter-spacing:-.025em;margin:0}
+  .hero p.tag{color:var(--muted);font-size:16px;margin:12px auto 0;max-width:560px}
+  .cmdtag{display:inline-block;margin-top:18px;padding:7px 16px;border-radius:24px;background:#eaf2ec;color:var(--accent-ink);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;font-weight:700;border:1px solid #d4e6db}
+
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:36px}
+  @media(max-width:680px){.duo{grid-template-columns:1fr}}
+  .act{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .act h2{margin:0 0 4px;font-size:17px;font-weight:750;display:flex;align-items:center;gap:8px}
+  .act .lead{color:var(--muted);font-size:13px;margin:0 0 16px}
+  .act.up{border-top:4px solid var(--accent)}
+  .act.down{border-top:4px solid var(--danger)}
+  .term{background:#0f1a16;border-radius:11px;padding:13px 14px;display:flex;align-items:flex-start;gap:10px}
+  .term .code{flex:1;color:#dcefe2;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.7;overflow-x:auto;white-space:pre}
+  .term .code .pr{color:#5f8f78}
+  .term .copy{flex-shrink:0;cursor:pointer;border:none;background:#274338;color:#cdeedd;border-radius:7px;
+    padding:6px 12px;font-size:11px;font-weight:700;font-family:inherit}
+  .term .copy:hover{background:#315546}
+  .term .copy.done{background:#2f7a52;color:#fff}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px 26px;box-shadow:var(--shadow);margin-bottom:22px}
+  .panel h3{margin:0 0 16px;font-size:15px;font-weight:750}
+  .feats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:680px){.feats{grid-template-columns:1fr}}
+  .feat{display:flex;gap:12px;align-items:flex-start}
+  .feat .ic{flex-shrink:0;width:34px;height:34px;border-radius:9px;background:#eef4f0;display:flex;align-items:center;justify-content:center;font-size:17px}
+  .feat .ft{font-weight:700;font-size:14px}
+  .feat .fd{color:var(--muted);font-size:13px;margin-top:2px}
+
+  .usage{display:flex;flex-direction:column;gap:10px}
+  .urow{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .urow code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;background:#eef2f0;color:var(--accent-ink);
+    padding:3px 10px;border-radius:7px;font-weight:700;white-space:nowrap}
+  .urow span{color:var(--muted);font-size:13.5px}
+  .note{margin-top:16px;font-size:13px;color:var(--muted)}
+  .note b{color:var(--ink)}
+  .foot{text-align:center;color:var(--muted);font-size:12.5px;margin-top:36px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="stone"><div class="rip">R . I . P</div><div class="skull">&#9760;</div></div>
+    <h1>Branch Graveyard</h1>
+    <p class="tag">A Claude Code skill that hunts down the branches your repo stopped touching, marks each with a headstone showing its last-touch date and author, and tells you which ones are safe to bury.</p>
+    <div class="cmdtag">/branch-tombs</div>
+  </div>
+
+  <div class="duo">
+    <div class="act up">
+      <h2>&#11015; Install</h2>
+      <p class="lead">Copies the skill into <code>~/.claude/skills/branch-tombs</code>.</p>
+      <div class="term">
+        <div class="code" id="installCode">git clone &lt;this repo&gt;
+cd agent-skill-branch-tombs
+<span class="pr">$</span> ./install.sh</div>
+        <button class="copy" data-target="installCode">copy</button>
+      </div>
+    </div>
+    <div class="act down">
+      <h2>&#9760; Uninstall</h2>
+      <p class="lead">Removes the skill. Your reports are never touched.</p>
+      <div class="term">
+        <div class="code" id="uninstallCode"><span class="pr">$</span> ./uninstall.sh</div>
+        <button class="copy" data-target="uninstallCode">copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>What it digs up</h3>
+    <div class="feats">
+      <div class="feat"><div class="ic">&#129482;</div><div><div class="ft">Last touch &amp; author</div><div class="fd">For every branch: the date of its last commit and who made it &mdash; straight from git refs, never guessed.</div></div></div>
+      <div class="feat"><div class="ic">&#9201;</div><div><div class="ft">Age tiers</div><div class="fd">active, stale, abandoned, ancient &mdash; each headstone colored by how cold the branch has gone.</div></div></div>
+      <div class="feat"><div class="ic">&#10003;</div><div><div class="ft">Safe to bury</div><div class="fd">Stale branches already merged into the trunk, with the exact delete command and a copy-all button.</div></div></div>
+      <div class="feat"><div class="ic">&#9888;</div><div><div class="ft">Unmerged graves</div><div class="fd">Old branches still holding commits not in the trunk &mdash; the ones to review before you delete.</div></div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Usage</h3>
+    <div class="usage">
+      <div class="urow"><code>/branch-tombs</code><span>bury branches stale for more than 30 days (default)</span></div>
+      <div class="urow"><code>/branch-tombs 60</code><span>use a 60-day staleness threshold</span></div>
+      <div class="urow"><code>/branch-tombs owner/repo</code><span>clone a GitHub repo and build its graveyard</span></div>
+    </div>
+    <p class="note">The skill writes a self-contained light-theme report to <b>branch-graveyard-report/index.html</b> in the current directory and opens it. It is <b>read-only</b> &mdash; it never deletes a branch; it only shows you the commands.</p>
+  </div>
+
+  <div class="foot">Branch Graveyard &middot; a Claude Code agent skill &middot; Python stdlib only, zero dependencies</div>
+</div>
+
+<script>
+document.querySelectorAll(".copy").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const el = document.getElementById(btn.getAttribute("data-target"));
+    const text = el.innerText.replace(/^\$ /gm, "").trim();
+    navigator.clipboard.writeText(text);
+    btn.textContent = "copied"; btn.classList.add("done");
+    setTimeout(() => { btn.textContent = "copy"; btn.classList.remove("done"); }, 1200);
+  });
+});
+</script>
+</body>
+</html>

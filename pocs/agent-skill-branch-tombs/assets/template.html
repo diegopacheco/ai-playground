@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Branch Graveyard</title>
+<style>
+  :root{
+    --bg:#f4f6f5;
+    --panel:#ffffff;
+    --ink:#202a2e;
+    --muted:#69767b;
+    --line:#e4e9e7;
+    --accent:#3f7d5e;
+    --stone:#e9ecec;
+    --stone-edge:#d2d8d7;
+    --grass:#9cc6a3;
+    --shadow:0 1px 2px rgba(20,30,28,.05),0 8px 26px rgba(20,30,28,.07);
+    --active:#3f9d6b;
+    --stale:#d9a521;
+    --abandoned:#e3781f;
+    --ancient:#c4413a;
+    --trunk:#3f6dd6;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1100px 320px at 50% -120px,#eaf1ec 0,rgba(234,241,236,0) 70%),
+      var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:30px 22px 90px}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+  .title h1{font-size:27px;font-weight:800;margin:0;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+  .title h1 .skull{font-size:24px}
+  .title .sub{color:var(--muted);font-size:13px;margin-top:7px}
+  .title .sub b{color:var(--ink);font-weight:600}
+  .count{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    min-width:104px;padding:12px 18px;border-radius:16px;background:var(--panel);
+    box-shadow:var(--shadow);border:1px solid var(--line);
+  }
+  .count .num{font-size:42px;font-weight:850;line-height:1;color:var(--ancient)}
+  .count .cap{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:14px;margin-bottom:26px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+  .card .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+  .card .v{font-size:29px;font-weight:800;margin-top:6px;letter-spacing:-.02em}
+  .card .note{font-size:12px;color:var(--muted);margin-top:4px}
+  section.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow);margin-bottom:24px}
+  .panel h2{font-size:16px;font-weight:750;margin:0 0 4px;display:flex;align-items:center;gap:8px}
+  .panel .desc{color:var(--muted);font-size:13px;margin:0 0 18px}
+
+  .yard{
+    position:relative;border-radius:14px;padding:30px 18px 10px;
+    background:linear-gradient(180deg,#f7faf8 0,#eef4ef 100%);
+    border:1px solid var(--line);overflow:hidden;
+  }
+  .yard .ground{position:absolute;left:0;right:0;bottom:0;height:46px;
+    background:linear-gradient(180deg,var(--grass) 0,#7fb588 100%);opacity:.55}
+  .graves{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:20px 18px;position:relative;z-index:2}
+  .tomb{
+    position:relative;background:linear-gradient(180deg,#fbfcfc 0,var(--stone) 100%);
+    border:1px solid var(--stone-edge);border-top:none;
+    border-radius:96px 96px 12px 12px;
+    padding:30px 16px 18px;text-align:center;
+    box-shadow:0 2px 0 var(--stone-edge),0 12px 22px rgba(20,30,28,.10);
+    border-top:5px solid var(--ancient);
+    transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .tomb:hover{transform:translateY(-3px);box-shadow:0 2px 0 var(--stone-edge),0 18px 30px rgba(20,30,28,.16)}
+  .tomb.t-active{border-top-color:var(--active)}
+  .tomb.t-stale{border-top-color:var(--stale)}
+  .tomb.t-abandoned{border-top-color:var(--abandoned)}
+  .tomb.t-ancient{border-top-color:var(--ancient)}
+  .tomb .rip{font-size:11px;letter-spacing:.34em;color:var(--muted);font-weight:700;margin-bottom:6px}
+  .tomb .cross{font-size:15px;color:#9aa6a4;margin-bottom:6px}
+  .tomb .bn{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;font-weight:700;color:var(--ink);word-break:break-all;line-height:1.35}
+  .tomb .age{font-size:23px;font-weight:850;margin-top:8px;letter-spacing:-.02em}
+  .tomb .age small{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+  .tomb .meta{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5}
+  .tomb .meta b{color:var(--ink);font-weight:600}
+  .tomb .pill{display:inline-block;margin-top:10px;padding:2px 10px;border-radius:20px;font-size:10.5px;font-weight:700;letter-spacing:.02em}
+  .pill.merged{background:#e7f4ec;color:#1f7a4d}
+  .pill.unmerged{background:#fbe9e6;color:#bb3a31}
+  .empty{padding:26px;border-radius:12px;background:#edf7f0;color:#1f7a4d;font-size:14px;font-weight:600;text-align:center}
+
+  .prune .pdesc{margin-bottom:12px}
+  .pcmd{display:flex;align-items:center;gap:10px;background:#0f1a16;color:#dcefe2;border-radius:10px;
+    padding:11px 12px;margin-bottom:9px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+  .pcmd .ptext{flex:1;overflow-x:auto;white-space:nowrap}
+  .pcmd .copy{flex-shrink:0;cursor:pointer;border:none;background:#274338;color:#cdeedd;
+    border-radius:7px;padding:5px 11px;font-size:11px;font-weight:700;font-family:inherit}
+  .pcmd .copy:hover{background:#315546}
+  .pcmd .copy.done{background:#2f7a52;color:#fff}
+  .copyall{cursor:pointer;border:1px solid var(--line);background:#fafbfa;color:var(--ink);
+    border-radius:9px;padding:8px 14px;font-size:12.5px;font-weight:700;margin-bottom:14px}
+  .copyall:hover{border-color:var(--accent);color:var(--accent)}
+
+  .tablebar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+  #filter{flex:1;min-width:220px;max-width:360px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;font-size:13px;background:#fafbfa;color:var(--ink)}
+  #filter:focus{outline:none;border-color:var(--accent);background:#fff}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead th{text-align:left;color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:8px 10px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;white-space:nowrap}
+  thead th:hover{color:var(--ink)}
+  thead th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+  tbody td{padding:9px 10px;border-bottom:1px solid #f1f3f2;vertical-align:middle}
+  tbody tr{border-left:3px solid transparent}
+  tbody tr:hover{background:#f8faf9}
+  td.bn{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--ink)}
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;color:#fff;text-align:center;white-space:nowrap}
+  .tag{display:inline-block;padding:1px 8px;border-radius:6px;font-size:11px;font-weight:600;background:#eef1f0;color:var(--muted)}
+  .yes{color:#1f7a4d;font-weight:700}
+  .no{color:#bb3a31;font-weight:700}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:34px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="title">
+      <h1><span class="skull">&#9760;</span> Branch Graveyard</h1>
+      <div class="sub" id="subline"></div>
+    </div>
+    <div class="count">
+      <div class="num" id="graveCount">0</div>
+      <div class="cap">graves</div>
+    </div>
+  </header>
+
+  <div class="cards" id="cards"></div>
+
+  <section class="panel">
+    <h2>The graveyard</h2>
+    <p class="desc">Every branch left untouched past the staleness threshold gets a headstone, oldest first. The stone shows who last touched it and when.</p>
+    <div class="yard">
+      <div class="ground"></div>
+      <div class="graves" id="graves"></div>
+    </div>
+  </section>
+
+  <section class="panel prune">
+    <h2>&#10003; Safe to bury</h2>
+    <p class="desc pdesc">Stale branches whose work is already merged into the trunk. Nothing unique is lost by deleting them. Copy and run.</p>
+    <div id="pruneWrap"></div>
+  </section>
+
+  <section class="panel">
+    <h2>All branches</h2>
+    <div class="tablebar">
+      <input id="filter" type="text" placeholder="Filter by branch or author...">
+      <span class="desc" id="tablecount" style="margin:0"></span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th data-sort="name">Branch</th>
+          <th data-sort="author">Author</th>
+          <th data-sort="last_date">Last touch</th>
+          <th class="num" data-sort="age_days">Age</th>
+          <th class="num" data-sort="ahead">Ahead</th>
+          <th class="num" data-sort="behind">Behind</th>
+          <th data-sort="location">Where</th>
+          <th data-sort="merged">Merged</th>
+          <th data-sort="tier">Status</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </section>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+const DATA = __GRAVEYARD_DATA__;
+
+const TIER_COLOR = {active:"#3f9d6b",stale:"#d9a521",abandoned:"#e3781f",ancient:"#c4413a",trunk:"#3f6dd6"};
+const TIER_LABEL = {active:"active",stale:"stale",abandoned:"abandoned",ancient:"ancient",trunk:"trunk"};
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function fmt(n){ return Number(n).toLocaleString("en-US"); }
+function ageText(d){
+  if(d>=365){ const y=(d/365); return y.toFixed(y>=10?0:1)+" yr"; }
+  return d+"d";
+}
+
+function renderHeader(){
+  const s = DATA.summary;
+  document.getElementById("graveCount").textContent = s.stale;
+  document.getElementById("subline").innerHTML =
+    "<b>" + esc(DATA.repo) + "</b> &middot; trunk: <b>" + esc(s.default) + "</b> &middot; stale after " +
+    s.threshold + " days &middot; generated " + esc(DATA.generated);
+  document.title = "Branch Graveyard - " + DATA.repo;
+}
+
+function renderCards(){
+  const s = DATA.summary;
+  const cards = [
+    {k:"Branches", v:s.branches, note:s.authors+" contributors"},
+    {k:"Stale graves", v:s.stale, note:"older than "+s.threshold+" days"},
+    {k:"Safe to bury", v:s.safe, note:"merged &amp; can be deleted"},
+    {k:"Unmerged graves", v:s.risky, note:"hold work not in trunk"},
+    {k:"Oldest grave", v:s.oldest.name==="none"?"&mdash;":ageText(s.oldest.age_days), note:s.oldest.name==="none"?"none":esc(s.oldest.name)},
+    {k:"Gravekeeper", v:s.gravekeeper.graves, note:s.gravekeeper.graves?esc(s.gravekeeper.name):"nobody"},
+  ];
+  document.getElementById("cards").innerHTML = cards.map(c =>
+    '<div class="card"><div class="k">'+c.k+'</div><div class="v">'+c.v+'</div><div class="note">'+c.note+'</div></div>'
+  ).join("");
+}
+
+function renderGraveyard(){
+  const host = document.getElementById("graves");
+  const graves = DATA.graves;
+  if(!graves.length){
+    document.querySelector(".yard").innerHTML =
+      '<div class="empty">No stale branches. The graveyard is empty &mdash; this repo keeps its branches tidy.</div>';
+    return;
+  }
+  host.innerHTML = graves.map(b => {
+    const merged = b.merged
+      ? '<span class="pill merged">&#10003; merged</span>'
+      : '<span class="pill unmerged">&#9888; +'+b.ahead+' unmerged</span>';
+    return '<div class="tomb t-'+b.tier+'">'+
+      '<div class="rip">R . I . P</div>'+
+      '<div class="cross">&#10013;</div>'+
+      '<div class="bn">'+esc(b.name)+'</div>'+
+      '<div class="age">'+fmt(b.age_days)+'<small> days cold</small></div>'+
+      '<div class="meta">last seen <b>'+esc(b.last_date)+'</b><br>tended by <b>'+esc(b.author)+'</b><br>'+esc(b.location)+'</div>'+
+      merged+
+    '</div>';
+  }).join("");
+}
+
+function renderPrune(){
+  const host = document.getElementById("pruneWrap");
+  const cmds = [];
+  DATA.prune.forEach(b => b.prune.forEach(c => cmds.push(c)));
+  if(!cmds.length){
+    host.innerHTML = '<div class="empty">Nothing safe to auto-delete. Every stale branch still holds unmerged work &mdash; review before pruning.</div>';
+    return;
+  }
+  let html = '<button class="copyall" id="copyAll">Copy all '+cmds.length+' commands</button>';
+  html += cmds.map((c,i) =>
+    '<div class="pcmd"><span class="ptext">'+esc(c)+'</span>'+
+    '<button class="copy" data-cmd="'+esc(c)+'">copy</button></div>'
+  ).join("");
+  host.innerHTML = html;
+  host.querySelectorAll(".copy").forEach(btn => {
+    btn.addEventListener("click", () => {
+      navigator.clipboard.writeText(btn.getAttribute("data-cmd"));
+      btn.textContent = "copied"; btn.classList.add("done");
+      setTimeout(()=>{ btn.textContent="copy"; btn.classList.remove("done"); }, 1200);
+    });
+  });
+  document.getElementById("copyAll").addEventListener("click", e => {
+    navigator.clipboard.writeText(cmds.join("\n"));
+    e.target.textContent = "copied " + cmds.length + " commands";
+    setTimeout(()=>{ e.target.textContent = "Copy all " + cmds.length + " commands"; }, 1400);
+  });
+}
+
+let sortKey="age_days", sortDir=-1, filterText="";
+function renderTable(){
+  const tbody = document.getElementById("tbody");
+  const ft = filterText.toLowerCase();
+  let rows = DATA.branches.filter(b => !ft || b.name.toLowerCase().includes(ft) || b.author.toLowerCase().includes(ft));
+  rows = rows.slice().sort((a,b) => {
+    let av=a[sortKey], bv=b[sortKey];
+    if(typeof av==="boolean"){ av=av?1:0; bv=bv?1:0; }
+    if(typeof av==="string"){ return av.localeCompare(bv)*sortDir; }
+    return (av-bv)*sortDir;
+  });
+  tbody.innerHTML = rows.map(b => {
+    const status = b.is_default ? "trunk" : b.tier;
+    const color = TIER_COLOR[status] || "#888";
+    const tname = b.is_default ? "trunk" : (b.stale ? TIER_LABEL[b.tier] : "active");
+    return '<tr style="border-left-color:'+color+'">'+
+      '<td class="bn">'+esc(b.name)+(b.is_default?' <span class="tag">trunk</span>':'')+'</td>'+
+      '<td>'+esc(b.author)+'</td>'+
+      '<td>'+esc(b.last_date)+'</td>'+
+      '<td class="num">'+fmt(b.age_days)+'d</td>'+
+      '<td class="num">'+b.ahead+'</td>'+
+      '<td class="num">'+b.behind+'</td>'+
+      '<td><span class="tag">'+esc(b.location)+'</span></td>'+
+      '<td>'+(b.merged?'<span class="yes">yes</span>':'<span class="no">no</span>')+'</td>'+
+      '<td><span class="badge" style="background:'+color+'">'+tname+'</span></td>'+
+      '</tr>';
+  }).join("");
+  document.getElementById("tablecount").textContent = rows.length + " branches";
+}
+
+function wireTable(){
+  document.querySelectorAll("thead th").forEach(th => {
+    th.addEventListener("click", () => {
+      const key = th.getAttribute("data-sort");
+      if(key===sortKey){ sortDir*=-1; }
+      else { sortKey=key; sortDir=(key==="name"||key==="author"||key==="last_date"||key==="location")?1:-1; }
+      renderTable();
+    });
+  });
+  document.getElementById("filter").addEventListener("input", e => { filterText=e.target.value; renderTable(); });
+}
+
+renderHeader();
+renderCards();
+renderGraveyard();
+renderPrune();
+renderTable();
+wireTable();
+document.getElementById("foot").textContent =
+  "Generated by the /branch-tombs skill - " + DATA.summary.branches + " branches read from git refs, " +
+  DATA.summary.stale + " past the " + DATA.summary.threshold + "-day line.";
+</script>
+</body>
+</html>

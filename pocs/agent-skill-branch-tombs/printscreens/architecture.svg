@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000" font-family="'Caveat','Comic Sans MS',cursive">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');</style>
+    <filter id="wob" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="ar" markerWidth="12" markerHeight="12" refX="8" refY="5" orient="auto">
+      <path d="M1,1 L9,5 L1,9" fill="none" stroke="#5b6770" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="1000" fill="#f4f6f5"/>
+
+  <text x="500" y="70" font-size="46" font-weight="700" text-anchor="middle" fill="#202a2e">&#9760; Branch Graveyard</text>
+  <text x="500" y="108" font-size="27" text-anchor="middle" fill="#69767b">a Claude Code skill &#183;  /branch-tombs</text>
+
+  <g filter="url(#wob)">
+    <rect x="330" y="150" width="340" height="86" rx="16" fill="#e9f0fb" stroke="#3f6dd6" stroke-width="2.4"/>
+    <rect x="360" y="610" width="280" height="86" rx="16" fill="#fff3cf" stroke="#d9a521" stroke-width="2.4"/>
+    <rect x="690" y="610" width="250" height="86" rx="16" fill="#fbe4ec" stroke="#d65a86" stroke-width="2.4"/>
+    <rect x="60"  y="610" width="240" height="86" rx="16" fill="#e9ecec" stroke="#9aa6a4" stroke-width="2.4"/>
+    <rect x="300" y="370" width="400" height="120" rx="18" fill="#e6f4ec" stroke="#3f9d6b" stroke-width="2.8"/>
+    <rect x="300" y="790" width="400" height="120" rx="18" fill="#efe7f8" stroke="#7a5bd6" stroke-width="2.8"/>
+  </g>
+
+  <text x="500" y="186" font-size="29" font-weight="700" text-anchor="middle" fill="#27406e">git refs</text>
+  <text x="500" y="218" font-size="22" text-anchor="middle" fill="#4a5e86">for-each-ref &#183; rev-list &#183; merge-base</text>
+
+  <text x="180" y="650" font-size="26" font-weight="700" text-anchor="middle" fill="#4a514f">SKILL.md</text>
+  <text x="180" y="680" font-size="21" text-anchor="middle" fill="#69767b">orchestration</text>
+
+  <text x="500" y="418" font-size="31" font-weight="700" text-anchor="middle" fill="#1f6e49">branch_tombs.py</text>
+  <text x="500" y="450" font-size="22" text-anchor="middle" fill="#2f7a52">age &#183; last-touch &#183; author</text>
+  <text x="500" y="478" font-size="22" text-anchor="middle" fill="#2f7a52">ahead/behind &#183; merged?</text>
+
+  <text x="500" y="648" font-size="27" font-weight="700" text-anchor="middle" fill="#8a6a10">data.json</text>
+  <text x="500" y="678" font-size="21" text-anchor="middle" fill="#a07c1a">the facts</text>
+
+  <text x="815" y="648" font-size="27" font-weight="700" text-anchor="middle" fill="#a23a64">template.html</text>
+  <text x="815" y="678" font-size="21" text-anchor="middle" fill="#bd5481">light theme</text>
+
+  <text x="500" y="838" font-size="29" font-weight="700" text-anchor="middle" fill="#523b8c">branch-graveyard-report/</text>
+  <text x="500" y="870" font-size="23" text-anchor="middle" fill="#6b51a8">index.html  &#8212;  the graveyard</text>
+  <text x="500" y="897" font-size="20" text-anchor="middle" fill="#8a73c0">headstones + safe-to-bury commands</text>
+
+  <g fill="none" stroke="#5b6770" stroke-width="2.4" marker-end="url(#ar)" filter="url(#wob)">
+    <path d="M500,236 C500,300 500,320 500,366"/>
+    <path d="M430,490 C420,540 400,565 395,606"/>
+    <path d="M570,490 C600,545 680,575 760,606"/>
+    <path d="M455,696 C470,740 480,755 492,786"/>
+    <path d="M770,696 C700,742 620,760 560,788"/>
+    <path d="M300,650 C330,650 360,500 380,492"/>
+  </g>
+
+  <text x="700" y="540" font-size="20" text-anchor="middle" fill="#69767b" transform="rotate(20 700 540)">render</text>
+</svg>
