@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900" font-family="Caveat, 'Comic Sans MS', cursive">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a4252"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="900" fill="#fbfbfd"/>
+  <text x="450" y="62" font-size="40" fill="#1d2330" text-anchor="middle" font-weight="700">Permission-Prompt Heatmap</text>
+  <text x="450" y="98" font-size="23" fill="#6b7382" text-anchor="middle">read-only pipeline over your Claude Code installation</text>
+
+  <g filter="url(#wobble)">
+    <rect x="250" y="130" width="400" height="92" rx="16" fill="#dbeafe" stroke="#3a4252" stroke-width="2.5"/>
+    <rect x="250" y="300" width="400" height="100" rx="16" fill="#fef3c7" stroke="#3a4252" stroke-width="2.5"/>
+    <rect x="285" y="478" width="330" height="84" rx="16" fill="#dcfce7" stroke="#3a4252" stroke-width="2.5"/>
+    <rect x="250" y="640" width="400" height="92" rx="16" fill="#ffe4d6" stroke="#3a4252" stroke-width="2.5"/>
+    <rect x="230" y="790" width="440" height="92" rx="16" fill="#fde2e7" stroke="#3a4252" stroke-width="2.5"/>
+
+    <path d="M450,222 L450,298" stroke="#3a4252" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+    <path d="M450,400 L450,476" stroke="#3a4252" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+    <path d="M450,562 L450,638" stroke="#3a4252" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+    <path d="M450,732 L450,788" stroke="#3a4252" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+  </g>
+
+  <text x="450" y="170" font-size="29" fill="#1d2330" text-anchor="middle" font-weight="700">~/.claude/projects/*.jsonl</text>
+  <text x="450" y="202" font-size="21" fill="#475569" text-anchor="middle">every recorded tool call + session mode</text>
+
+  <text x="450" y="338" font-size="29" fill="#1d2330" text-anchor="middle" font-weight="700">scan.js</text>
+  <text x="450" y="368" font-size="21" fill="#475569" text-anchor="middle">replay each call vs allow-rules + mode</text>
+  <text x="450" y="392" font-size="21" fill="#475569" text-anchor="middle">would it prompt? tally per tool</text>
+
+  <text x="450" y="516" font-size="29" fill="#1d2330" text-anchor="middle" font-weight="700">web/data.json</text>
+  <text x="450" y="546" font-size="21" fill="#475569" text-anchor="middle">aggregated heat counts</text>
+
+  <text x="450" y="678" font-size="29" fill="#1d2330" text-anchor="middle" font-weight="700">server.js</text>
+  <text x="450" y="708" font-size="21" fill="#475569" text-anchor="middle">zero-dependency static server</text>
+
+  <text x="450" y="828" font-size="29" fill="#1d2330" text-anchor="middle" font-weight="700">light-theme heatmap in the browser</text>
+  <text x="450" y="858" font-size="21" fill="#475569" text-anchor="middle">tools · bash · calendar · tool x project</text>
+</svg>

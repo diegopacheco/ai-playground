@@ -1,0 +1,4 @@
+.server.pid
+server.log
+server.test.log
+.playwright-mcp/

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Permission-Prompt Heatmap · Claude Code</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="dot"></span>
+    <div>
+      <h1>Permission-Prompt Heatmap</h1>
+      <p class="sub">Which tools trigger the most permission prompts in your Claude Code installation</p>
+    </div>
+  </div>
+  <div class="scaninfo" id="scaninfo"></div>
+</header>
+
+<main id="app">
+  <section class="cards" id="cards"></section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Prompts by tool</h2>
+      <span class="hint">Hotter = more prompts. A prompt is a tool call not covered by an allow-rule, given the session's recorded permission mode.</span>
+    </div>
+    <div id="toolHeat" class="heatbars"></div>
+  </section>
+
+  <div class="grid2">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Bash commands that prompt</h2>
+        <span class="hint">Bash is one tool, but each command prefix prompts on its own.</span>
+      </div>
+      <div id="bashHeat" class="heatbars"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Recorded friction</h2>
+        <span class="hint">Tool calls actually rejected or interrupted in your transcripts.</span>
+      </div>
+      <div id="denials" class="denials"></div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Prompts over time</h2>
+      <span class="hint">Daily prompt volume across all sessions.</span>
+    </div>
+    <div id="calendar" class="calendar"></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Tool × Project heatmap</h2>
+      <span class="hint">Where each tool generates the most prompts.</span>
+    </div>
+    <div id="matrix" class="matrix-wrap"></div>
+  </section>
+
+  <section class="panel methodology" id="methodology"></section>
+</main>
+
+<footer class="foot">
+  <span>Read-only from <code id="dirpath"></code> · regenerate with <code>node scan.js</code></span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

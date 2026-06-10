@@ -1,0 +1,2028 @@
+{
+  "meta": {
+    "scannedAt": "2026-06-10T06:16:45.420Z",
+    "claudeDir": "/Users/diegopacheco/.claude",
+    "filesScanned": 163,
+    "sessions": 163,
+    "projects": 129,
+    "totalToolCalls": 7185,
+    "totalPrompts": 4356,
+    "totalAutoAllowed": 11,
+    "totalNoPrompt": 2818,
+    "recordedDenials": 13,
+    "modeCounts": {
+      "auto": 1414,
+      "default": 919,
+      "plan": 0,
+      "bypassPermissions": 0,
+      "acceptEdits": 0
+    },
+    "allowRules": [
+      "Bash(tmux list-keys:*)",
+      "Bash(tmux source-file:*)",
+      "Bash(tmux run-shell:*)",
+      "Bash(tmux display-message:*)",
+      "Bash(tmux list-sessions:*)",
+      "Bash(~/.local/share/nvim/mason/bin/jdtls --version)",
+      "Bash(mvn:*)",
+      "WebFetch(domain:docs.ollama.com)",
+      "Bash(env)",
+      "WebFetch(domain:raw.githubusercontent.com)"
+    ]
+  },
+  "tools": [
+    {
+      "name": "Bash",
+      "group": "Bash",
+      "total": 1842,
+      "prompts": 1832,
+      "allowed": 10
+    },
+    {
+      "name": "Write",
+      "group": "Write",
+      "total": 1576,
+      "prompts": 655,
+      "allowed": 0
+    },
+    {
+      "name": "Edit",
+      "group": "Edit",
+      "total": 1001,
+      "prompts": 564,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_navigate",
+      "group": "mcp:playwright",
+      "total": 240,
+      "prompts": 240,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_take_screenshot",
+      "group": "mcp:playwright",
+      "total": 225,
+      "prompts": 225,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__plugin_context-mode_context-mode__execute",
+      "group": "mcp:plugin_context-mode_context-mode",
+      "total": 225,
+      "prompts": 225,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_evaluate",
+      "group": "mcp:playwright",
+      "total": 131,
+      "prompts": 131,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_click",
+      "group": "mcp:playwright",
+      "total": 82,
+      "prompts": 82,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_wait_for",
+      "group": "mcp:playwright",
+      "total": 67,
+      "prompts": 67,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_press_key",
+      "group": "mcp:playwright",
+      "total": 66,
+      "prompts": 66,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_resize",
+      "group": "mcp:playwright",
+      "total": 59,
+      "prompts": 59,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_snapshot",
+      "group": "mcp:playwright",
+      "total": 58,
+      "prompts": 58,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__plugin_context-mode_context-mode__fetch_and_index",
+      "group": "mcp:plugin_context-mode_context-mode",
+      "total": 29,
+      "prompts": 29,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_close",
+      "group": "mcp:playwright",
+      "total": 25,
+      "prompts": 25,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__plugin_context-mode_context-mode__search",
+      "group": "mcp:plugin_context-mode_context-mode",
+      "total": 24,
+      "prompts": 24,
+      "allowed": 0
+    },
+    {
+      "name": "WebFetch",
+      "group": "WebFetch",
+      "total": 20,
+      "prompts": 19,
+      "allowed": 1
+    },
+    {
+      "name": "mcp__playwright__browser_console_messages",
+      "group": "mcp:playwright",
+      "total": 16,
+      "prompts": 16,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_type",
+      "group": "mcp:playwright",
+      "total": 12,
+      "prompts": 12,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__repo-mcp__read_file",
+      "group": "mcp:repo-mcp",
+      "total": 9,
+      "prompts": 9,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__repo-mcp__list_repos",
+      "group": "mcp:repo-mcp",
+      "total": 4,
+      "prompts": 4,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__repo-mcp__list_files",
+      "group": "mcp:repo-mcp",
+      "total": 4,
+      "prompts": 4,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__repo-mcp__grep",
+      "group": "mcp:repo-mcp",
+      "total": 3,
+      "prompts": 3,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__repo-mcp__tree",
+      "group": "mcp:repo-mcp",
+      "total": 3,
+      "prompts": 3,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_run_code_unsafe",
+      "group": "mcp:playwright",
+      "total": 2,
+      "prompts": 2,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__playwright__browser_fill_form",
+      "group": "mcp:playwright",
+      "total": 1,
+      "prompts": 1,
+      "allowed": 0
+    },
+    {
+      "name": "mcp__repo-mcp__repo_info",
+      "group": "mcp:repo-mcp",
+      "total": 1,
+      "prompts": 1,
+      "allowed": 0
+    },
+    {
+      "name": "Read",
+      "group": "Read",
+      "total": 839,
+      "prompts": 0,
+      "allowed": 0
+    },
+    {
+      "name": "TaskUpdate",
+      "group": "TaskUpdate",
+      "total": 207,
+      "prompts": 0,
+      "allowed": 0
+    },
+    {
+      "name": "ToolSearch",
+      "group": "ToolSearch",
+      "total": 125,
+      "prompts": 0,
+      "allowed": 0
+    },
+    {
+      "name": "TaskCreate",
+      "group": "TaskCreate",
+      "total": 113,
+      "prompts": 0,
+      "allowed": 0
+    },
+    {
+      "name": "WebSearch",
+      "group": "WebSearch",
+      "total": 100,
+      "prompts": 0,
+      "allowed": 0
+    },
+    {
+      "name": "AskUserQuestion",
+      "group": "AskUserQuestion",
+      "total": 63,
+      "prompts": 0,
+      "allowed": 0
+    },
+    {
+      "name": "Agent",
+      "group": "Agent",
+      "total": 8,
+      "prompts": 0,
+      "allowed": 0
+    },
+    {
+      "name": "Skill",
+      "group": "Skill",
+      "total": 2,
+      "prompts": 0,
+      "allowed": 0
+    },
+    {
+      "name": "TaskList",
+      "group": "TaskList",
+      "total": 1,
+      "prompts": 0,
+      "allowed": 0
+    },
+    {
+      "name": "ScheduleWakeup",
+      "group": "ScheduleWakeup",
+      "total": 1,
+      "prompts": 0,
+      "allowed": 0
+    },
+    {
+      "name": "TaskOutput",
+      "group": "TaskOutput",
+      "total": 1,
+      "prompts": 0,
+      "allowed": 0
+    }
+  ],
+  "groups": [
+    {
+      "group": "Bash",
+      "prompts": 1832,
+      "total": 1842
+    },
+    {
+      "group": "mcp:playwright",
+      "prompts": 984,
+      "total": 984
+    },
+    {
+      "group": "Write",
+      "prompts": 655,
+      "total": 1576
+    },
+    {
+      "group": "Edit",
+      "prompts": 564,
+      "total": 1001
+    },
+    {
+      "group": "mcp:plugin_context-mode_context-mode",
+      "prompts": 278,
+      "total": 278
+    },
+    {
+      "group": "mcp:repo-mcp",
+      "prompts": 24,
+      "total": 24
+    },
+    {
+      "group": "WebFetch",
+      "prompts": 19,
+      "total": 20
+    },
+    {
+      "group": "Read",
+      "prompts": 0,
+      "total": 839
+    },
+    {
+      "group": "TaskUpdate",
+      "prompts": 0,
+      "total": 207
+    },
+    {
+      "group": "ToolSearch",
+      "prompts": 0,
+      "total": 125
+    },
+    {
+      "group": "TaskCreate",
+      "prompts": 0,
+      "total": 113
+    },
+    {
+      "group": "WebSearch",
+      "prompts": 0,
+      "total": 100
+    },
+    {
+      "group": "AskUserQuestion",
+      "prompts": 0,
+      "total": 63
+    },
+    {
+      "group": "Agent",
+      "prompts": 0,
+      "total": 8
+    },
+    {
+      "group": "Skill",
+      "prompts": 0,
+      "total": 2
+    },
+    {
+      "group": "TaskList",
+      "prompts": 0,
+      "total": 1
+    },
+    {
+      "group": "ScheduleWakeup",
+      "prompts": 0,
+      "total": 1
+    },
+    {
+      "group": "TaskOutput",
+      "prompts": 0,
+      "total": 1
+    }
+  ],
+  "bash": [
+    {
+      "cmd": "ls",
+      "total": 208,
+      "prompts": 208
+    },
+    {
+      "cmd": "cd",
+      "total": 179,
+      "prompts": 179
+    },
+    {
+      "cmd": "echo",
+      "total": 145,
+      "prompts": 145
+    },
+    {
+      "cmd": "find",
+      "total": 79,
+      "prompts": 79
+    },
+    {
+      "cmd": "chmod",
+      "total": 75,
+      "prompts": 75
+    },
+    {
+      "cmd": "node",
+      "total": 68,
+      "prompts": 68
+    },
+    {
+      "cmd": "mkdir",
+      "total": 62,
+      "prompts": 62
+    },
+    {
+      "cmd": "grep",
+      "total": 61,
+      "prompts": 61
+    },
+    {
+      "cmd": "rm",
+      "total": 60,
+      "prompts": 60
+    },
+    {
+      "cmd": "bash",
+      "total": 57,
+      "prompts": 57
+    },
+    {
+      "cmd": "python3",
+      "total": 51,
+      "prompts": 51
+    },
+    {
+      "cmd": "for",
+      "total": 49,
+      "prompts": 49
+    },
+    {
+      "cmd": "(empty)",
+      "total": 49,
+      "prompts": 49
+    },
+    {
+      "cmd": "cat",
+      "total": 41,
+      "prompts": 41
+    },
+    {
+      "cmd": "swift",
+      "total": 34,
+      "prompts": 34
+    },
+    {
+      "cmd": "./stop.sh",
+      "total": 29,
+      "prompts": 29
+    },
+    {
+      "cmd": "pkill",
+      "total": 25,
+      "prompts": 25
+    },
+    {
+      "cmd": "./test.sh",
+      "total": 23,
+      "prompts": 23
+    },
+    {
+      "cmd": "mv",
+      "total": 21,
+      "prompts": 21
+    },
+    {
+      "cmd": "./start.sh",
+      "total": 21,
+      "prompts": 21
+    },
+    {
+      "cmd": "bun run",
+      "total": 20,
+      "prompts": 20
+    },
+    {
+      "cmd": "cp",
+      "total": 20,
+      "prompts": 20
+    },
+    {
+      "cmd": "lsof",
+      "total": 19,
+      "prompts": 19
+    },
+    {
+      "cmd": "kill",
+      "total": 18,
+      "prompts": 18
+    },
+    {
+      "cmd": "curl",
+      "total": 18,
+      "prompts": 18
+    },
+    {
+      "cmd": "~/.claude/jit/bin/jit",
+      "total": 15,
+      "prompts": 15
+    },
+    {
+      "cmd": "sleep",
+      "total": 12,
+      "prompts": 12
+    },
+    {
+      "cmd": "osascript",
+      "total": 12,
+      "prompts": 12
+    },
+    {
+      "cmd": "/opt/homebrew/bin/python3.13",
+      "total": 12,
+      "prompts": 12
+    },
+    {
+      "cmd": "npm run",
+      "total": 11,
+      "prompts": 11
+    },
+    {
+      "cmd": "bun test",
+      "total": 11,
+      "prompts": 11
+    },
+    {
+      "cmd": "until",
+      "total": 10,
+      "prompts": 10
+    },
+    {
+      "cmd": "which",
+      "total": 9,
+      "prompts": 9
+    },
+    {
+      "cmd": "git log",
+      "total": 9,
+      "prompts": 9
+    },
+    {
+      "cmd": "git add",
+      "total": 9,
+      "prompts": 9
+    },
+    {
+      "cmd": "git status",
+      "total": 8,
+      "prompts": 8
+    },
+    {
+      "cmd": "npm install",
+      "total": 8,
+      "prompts": 8
+    },
+    {
+      "cmd": "npx tsc",
+      "total": 7,
+      "prompts": 7
+    },
+    {
+      "cmd": "open",
+      "total": 7,
+      "prompts": 7
+    },
+    {
+      "cmd": "java",
+      "total": 7,
+      "prompts": 7
+    },
+    {
+      "cmd": "tail",
+      "total": 7,
+      "prompts": 7
+    },
+    {
+      "cmd": "./run.sh",
+      "total": 7,
+      "prompts": 7
+    },
+    {
+      "cmd": "ps",
+      "total": 7,
+      "prompts": 7
+    },
+    {
+      "cmd": "podman machine",
+      "total": 6,
+      "prompts": 6
+    },
+    {
+      "cmd": "pwd",
+      "total": 6,
+      "prompts": 6
+    },
+    {
+      "cmd": "test",
+      "total": 6,
+      "prompts": 6
+    },
+    {
+      "cmd": "bunx tsc",
+      "total": 6,
+      "prompts": 6
+    },
+    {
+      "cmd": "claude",
+      "total": 6,
+      "prompts": 6
+    },
+    {
+      "cmd": ".venv/bin/python",
+      "total": 6,
+      "prompts": 6
+    },
+    {
+      "cmd": "cargo build",
+      "total": 6,
+      "prompts": 6
+    },
+    {
+      "cmd": "cargo test",
+      "total": 6,
+      "prompts": 6
+    },
+    {
+      "cmd": "sed",
+      "total": 5,
+      "prompts": 5
+    },
+    {
+      "cmd": "./.venv/bin/python",
+      "total": 5,
+      "prompts": 5
+    },
+    {
+      "cmd": "date",
+      "total": 5,
+      "prompts": 5
+    },
+    {
+      "cmd": "kubectl",
+      "total": 5,
+      "prompts": 5
+    },
+    {
+      "cmd": "(python3",
+      "total": 4,
+      "prompts": 4
+    },
+    {
+      "cmd": "qlmanage",
+      "total": 4,
+      "prompts": 4
+    },
+    {
+      "cmd": "podman-compose up",
+      "total": 4,
+      "prompts": 4
+    },
+    {
+      "cmd": "git push",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "printf",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "if",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "./install.sh",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "wc",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "git",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "podman search",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "awk",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "*.jsonl",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "-t",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "nohup",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "command",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "bun install",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "npm view",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "deno",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "./target/debug/crabby-search",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "timeout",
+      "total": 3,
+      "prompts": 3
+    },
+    {
+      "cmd": "git ls-files",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "(npm",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "-d)",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "go test",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "pgrep",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "bun add",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "podman ps",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "bun",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "ollama",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "npx eslint",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": ".build/debug/cc-token-bar",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "app/.build/debug/cc-token-bar",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "podman-compose",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "gh pr",
+      "total": 2,
+      "prompts": 2
+    },
+    {
+      "cmd": "readlink",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "brew list",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "brew uninstall",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "git filter-branch",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "git for-each-ref",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "while",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "rmdir",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "git check-ignore",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "podman-compose build",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "podman-compose run",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "npx playwright",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "time",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "git rev-parse",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "set",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "~/.m2/repository/org/springframework/boot/spring-boot-dependencies",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "./skill/site/start.sh",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "./skill/site/stop.sh",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "-tiTCP:5174",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "free_port()",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "export",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "podman exec",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "-i",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "Chrome.app/Contents/MacOS/Google",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "unzip",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "bazel",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "-td",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "launchctl",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "-dt",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "jq",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "pip3 install",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/copilotkit-fun/stop.sh",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "-ti",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/data-schema-explainer/.venv/bin/python",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "npm",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "podman",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "podman-compose version",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "podman rm",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "git remote",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "brew install",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "du",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "git fetch",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "2>/dev/null",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "setopt",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "branch",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "rev-parse",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "+%Y%m%d)\"",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "page",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "[",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "bunx playwright",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/open-can-enduro-game/server.pid",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "tar",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "(echo",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "~/.claude/projects",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "cargo init",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "./target/release/agentop",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "(pnpm",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": ".build/release/cc-metrics-test",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "/Applications/cc-token-bar.app/Contents/MacOS/cc-token-bar",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "rustc",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "./release.sh",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "./run-web.sh",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "./stop-web.sh",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "./gradlew clean",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "(bun",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "./mvnw",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "podman system",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "gradle",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "gradle wrapper",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "git rm",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "julia",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "podman-compose down",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "npm test",
+      "total": 1,
+      "prompts": 1
+    },
+    {
+      "cmd": "-e",
+      "total": 1,
+      "prompts": 1
+    }
+  ],
+  "byDay": [
+    {
+      "date": "2026-05-11",
+      "prompts": 5
+    },
+    {
+      "date": "2026-05-14",
+      "prompts": 101
+    },
+    {
+      "date": "2026-05-15",
+      "prompts": 129
+    },
+    {
+      "date": "2026-05-16",
+      "prompts": 105
+    },
+    {
+      "date": "2026-05-17",
+      "prompts": 149
+    },
+    {
+      "date": "2026-05-18",
+      "prompts": 150
+    },
+    {
+      "date": "2026-05-19",
+      "prompts": 62
+    },
+    {
+      "date": "2026-05-21",
+      "prompts": 208
+    },
+    {
+      "date": "2026-05-22",
+      "prompts": 209
+    },
+    {
+      "date": "2026-05-23",
+      "prompts": 304
+    },
+    {
+      "date": "2026-05-24",
+      "prompts": 160
+    },
+    {
+      "date": "2026-05-25",
+      "prompts": 356
+    },
+    {
+      "date": "2026-05-26",
+      "prompts": 163
+    },
+    {
+      "date": "2026-05-27",
+      "prompts": 167
+    },
+    {
+      "date": "2026-05-28",
+      "prompts": 74
+    },
+    {
+      "date": "2026-05-29",
+      "prompts": 63
+    },
+    {
+      "date": "2026-06-01",
+      "prompts": 76
+    },
+    {
+      "date": "2026-06-02",
+      "prompts": 203
+    },
+    {
+      "date": "2026-06-03",
+      "prompts": 94
+    },
+    {
+      "date": "2026-06-04",
+      "prompts": 88
+    },
+    {
+      "date": "2026-06-05",
+      "prompts": 386
+    },
+    {
+      "date": "2026-06-06",
+      "prompts": 280
+    },
+    {
+      "date": "2026-06-07",
+      "prompts": 86
+    },
+    {
+      "date": "2026-06-08",
+      "prompts": 339
+    },
+    {
+      "date": "2026-06-09",
+      "prompts": 279
+    },
+    {
+      "date": "2026-06-10",
+      "prompts": 120
+    }
+  ],
+  "matrix": {
+    "tools": [
+      "Bash",
+      "mcp:playwright",
+      "Write",
+      "Edit",
+      "mcp:plugin_context-mode_context-mode",
+      "mcp:repo-mcp",
+      "WebFetch"
+    ],
+    "projects": [
+      "pocs/gstack-poc",
+      "cc-token-bar/app",
+      "pocs/jit-testing-skill",
+      "diegopacheco/prowser",
+      "pocs/jurassic-runner-game",
+      "diegopacheco/cc-token-bar",
+      "pocs/llm-ai-spreadsheet",
+      "pocs/agentgateway-poc",
+      "pocs/cc-token-bar",
+      "pocs/closed-loop-auto-tunning-agent",
+      "pocs/open-can-enduro-game",
+      "pocs/repo-mcp-poc"
+    ],
+    "cells": [
+      [
+        64,
+        87,
+        20,
+        62,
+        50,
+        42,
+        46,
+        17,
+        33,
+        14,
+        44,
+        13
+      ],
+      [
+        52,
+        0,
+        0,
+        0,
+        77,
+        0,
+        56,
+        24,
+        0,
+        48,
+        43,
+        0
+      ],
+      [
+        40,
+        14,
+        78,
+        4,
+        0,
+        2,
+        0,
+        18,
+        18,
+        0,
+        0,
+        24
+      ],
+      [
+        41,
+        80,
+        38,
+        74,
+        0,
+        66,
+        0,
+        14,
+        38,
+        0,
+        0,
+        26
+      ],
+      [
+        0,
+        0,
+        8,
+        0,
+        0,
+        0,
+        0,
+        21,
+        0,
+        26,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        21
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "topProjects": [
+    {
+      "project": "pocs/gstack-poc",
+      "prompts": 197
+    },
+    {
+      "project": "cc-token-bar/app",
+      "prompts": 181
+    },
+    {
+      "project": "pocs/jit-testing-skill",
+      "prompts": 145
+    },
+    {
+      "project": "diegopacheco/prowser",
+      "prompts": 140
+    },
+    {
+      "project": "pocs/jurassic-runner-game",
+      "prompts": 127
+    },
+    {
+      "project": "diegopacheco/cc-token-bar",
+      "prompts": 110
+    },
+    {
+      "project": "pocs/llm-ai-spreadsheet",
+      "prompts": 102
+    },
+    {
+      "project": "pocs/agentgateway-poc",
+      "prompts": 97
+    },
+    {
+      "project": "pocs/cc-token-bar",
+      "prompts": 89
+    },
+    {
+      "project": "pocs/closed-loop-auto-tunning-agent",
+      "prompts": 88
+    },
+    {
+      "project": "pocs/open-can-enduro-game",
+      "prompts": 87
+    },
+    {
+      "project": "pocs/repo-mcp-poc",
+      "prompts": 84
+    },
+    {
+      "project": "pocs/bash-pipe-poc",
+      "prompts": 82
+    },
+    {
+      "project": "pocs/12-rules-template-poc",
+      "prompts": 80
+    },
+    {
+      "project": "pocs/github-control-panel",
+      "prompts": 80
+    },
+    {
+      "project": "nodejs-playground/visual-ds-fun",
+      "prompts": 78
+    },
+    {
+      "project": "pocs/copilotkit-fun",
+      "prompts": 77
+    },
+    {
+      "project": "diegopacheco/javadb",
+      "prompts": 75
+    },
+    {
+      "project": "gstack-poc/runner",
+      "prompts": 72
+    },
+    {
+      "project": "pocs/air-lango-cv",
+      "prompts": 71
+    },
+    {
+      "project": "ai-playground/pocs",
+      "prompts": 70
+    },
+    {
+      "project": "pocs/dashboard-cv",
+      "prompts": 68
+    },
+    {
+      "project": "pocs/claude-opus-4.8-poc",
+      "prompts": 67
+    },
+    {
+      "project": "pocs/java-25-replay-traffic-poc",
+      "prompts": 67
+    },
+    {
+      "project": "pocs/ai-guessing-game",
+      "prompts": 66
+    },
+    {
+      "project": "diegopacheco/crabby-search",
+      "prompts": 64
+    },
+    {
+      "project": "pocs/agent-buyer-tap",
+      "prompts": 63
+    },
+    {
+      "project": "pocs/air-fishing",
+      "prompts": 61
+    },
+    {
+      "project": "pocs/agent-skill-linter",
+      "prompts": 52
+    },
+    {
+      "project": "pocs/java-25-slack-clone",
+      "prompts": 52
+    },
+    {
+      "project": "pocs/megaslop-runner",
+      "prompts": 51
+    },
+    {
+      "project": "pocs/data-schema-explainer",
+      "prompts": 50
+    },
+    {
+      "project": "pocs/rtk-poc",
+      "prompts": 50
+    },
+    {
+      "project": "pocs/understand-anything",
+      "prompts": 50
+    },
+    {
+      "project": "pocs/react-performativeUI-poc",
+      "prompts": 47
+    },
+    {
+      "project": "agent-skill-bug-video-recording/sample-app",
+      "prompts": 44
+    },
+    {
+      "project": "crabby-search/engine",
+      "prompts": 42
+    },
+    {
+      "project": "devops-playground/argocd-k8s-canary",
+      "prompts": 42
+    },
+    {
+      "project": "nodejs-playground/apicurio-poc",
+      "prompts": 42
+    },
+    {
+      "project": "pocs/agent-skill-bus-factor",
+      "prompts": 41
+    },
+    {
+      "project": "pocs/megaslop",
+      "prompts": 41
+    },
+    {
+      "project": "pocs/java-25-hibernate-8-poc",
+      "prompts": 41
+    },
+    {
+      "project": "pocs/cohort-funnel-analytics",
+      "prompts": 36
+    },
+    {
+      "project": "pocs/sound-to-guess-cv",
+      "prompts": 36
+    },
+    {
+      "project": "pocs/agent-speech-to-map",
+      "prompts": 35
+    },
+    {
+      "project": "pocs/agent-skill-data-dict",
+      "prompts": 33
+    },
+    {
+      "project": "diegopacheco/julia-playground",
+      "prompts": 32
+    },
+    {
+      "project": "pocs/cc-permissions-heatmap",
+      "prompts": 31
+    },
+    {
+      "project": "ai-playground/agents",
+      "prompts": 29
+    },
+    {
+      "project": "pocs/agent-skill-branch-tombs",
+      "prompts": 29
+    },
+    {
+      "project": "bash-pipe-poc/python3-plain",
+      "prompts": 29
+    },
+    {
+      "project": "pocs/google-gemini-veo-video-poc",
+      "prompts": 29
+    },
+    {
+      "project": "pocs/html-as-contract",
+      "prompts": 29
+    },
+    {
+      "project": "pocs/claude-skill-marketplace",
+      "prompts": 28
+    },
+    {
+      "project": "tech-notes/agents",
+      "prompts": 28
+    },
+    {
+      "project": "pocs/ai-postgresql-db",
+      "prompts": 27
+    },
+    {
+      "project": "crabby-search/web",
+      "prompts": 27
+    },
+    {
+      "project": "pocs/agent-skill-bug-video-recording",
+      "prompts": 25
+    },
+    {
+      "project": "agent-speech-to-map/frontend",
+      "prompts": 25
+    },
+    {
+      "project": "bash-pipe-poc/java25-scala3-sbt-sb4",
+      "prompts": 25
+    },
+    {
+      "project": "pocs/agent-skill-bundle-size",
+      "prompts": 23
+    },
+    {
+      "project": "gstack-poc/web",
+      "prompts": 23
+    },
+    {
+      "project": "sample-app/bug-recording-output",
+      "prompts": 22
+    },
+    {
+      "project": "sample-app/bug-report-site",
+      "prompts": 22
+    },
+    {
+      "project": "bash-pipe-poc/scala3-sbt",
+      "prompts": 21
+    },
+    {
+      "project": "pocs/java-25-archunit-testing",
+      "prompts": 20
+    },
+    {
+      "project": "pocs/cc-auto-mode-poc",
+      "prompts": 19
+    },
+    {
+      "project": "html-as-contract/sample",
+      "prompts": 19
+    },
+    {
+      "project": "bash-pipe-poc/django-python3",
+      "prompts": 17
+    },
+    {
+      "project": "tech-notes/ai-transformation",
+      "prompts": 16
+    },
+    {
+      "project": "bash-pipe-poc/java25-mvn-sb4",
+      "prompts": 15
+    },
+    {
+      "project": "cc-auto-mode-poc/app",
+      "prompts": 15
+    },
+    {
+      "project": "rtk-poc/backend",
+      "prompts": 15
+    },
+    {
+      "project": "nodejs-playground/pa11y-acessebility-testing-poc",
+      "prompts": 15
+    },
+    {
+      "project": "agent-reverse-postmortem/reverse-postmortem-site",
+      "prompts": 14
+    },
+    {
+      "project": "agent-skill-data-dict/data-dict-report",
+      "prompts": 14
+    },
+    {
+      "project": "bash-pipe-poc/java8-mvn-sb2",
+      "prompts": 14
+    },
+    {
+      "project": "bash-pipe-poc/bash-anti-patterns",
+      "prompts": 14
+    },
+    {
+      "project": "pocs/agent-reverse-postmortem",
+      "prompts": 13
+    },
+    {
+      "project": "agent-skill-bundle-size/sample-app",
+      "prompts": 13
+    },
+    {
+      "project": "samples/java-shipping",
+      "prompts": 13
+    },
+    {
+      "project": "pvt/ideas",
+      "prompts": 13
+    },
+    {
+      "project": "agent-speech-to-map/backend",
+      "prompts": 12
+    },
+    {
+      "project": "bash-pipe-poc/java25-kotlin-mvn-sb4",
+      "prompts": 12
+    },
+    {
+      "project": "pocs/claude-design-poc",
+      "prompts": 12
+    },
+    {
+      "project": "pocs/top-4-agents",
+      "prompts": 12
+    },
+    {
+      "project": "agent-skill-bus-factor/bus-factor-report",
+      "prompts": 11
+    },
+    {
+      "project": "bash-pipe-poc/scala2-bazel",
+      "prompts": 11
+    },
+    {
+      "project": "pocs/java-25-testing-custom-matchers-hamcrest",
+      "prompts": 10
+    },
+    {
+      "project": "skills/gstack",
+      "prompts": 9
+    },
+    {
+      "project": "agent-skill-bug-video-recording/printscreens",
+      "prompts": 9
+    },
+    {
+      "project": "diegopacheco/ai-playground",
+      "prompts": 8
+    },
+    {
+      "project": "samples/city-zoning",
+      "prompts": 8
+    },
+    {
+      "project": "google-gemini-veo-video-poc/frontend",
+      "prompts": 8
+    },
+    {
+      "project": "agent-skill-data-dict/sample",
+      "prompts": 7
+    },
+    {
+      "project": "skills/bug-recording",
+      "prompts": 6
+    },
+    {
+      "project": "sample-app/bundle-size-report",
+      "prompts": 5
+    },
+    {
+      "project": "samples/tax-service",
+      "prompts": 5
+    },
+    {
+      "project": "github-control-panel/printscreens",
+      "prompts": 5
+    },
+    {
+      "project": "12-rules-template-poc/loan-app",
+      "prompts": 4
+    },
+    {
+      "project": "copilotkit-fun/backend",
+      "prompts": 4
+    },
+    {
+      "project": "data-schema-explainer/printscreens",
+      "prompts": 4
+    },
+    {
+      "project": "google-gemini-veo-video-poc/videos",
+      "prompts": 4
+    },
+    {
+      "project": "samples/kotlin-discount",
+      "prompts": 4
+    },
+    {
+      "project": "samples/nodejs-discount",
+      "prompts": 4
+    },
+    {
+      "project": "samples/python-pricing",
+      "prompts": 4
+    },
+    {
+      "project": "samples/scala-discount",
+      "prompts": 4
+    },
+    {
+      "project": "Users/diegopacheco",
+      "prompts": 3
+    },
+    {
+      "project": "ai-playground/mcp",
+      "prompts": 3
+    },
+    {
+      "project": "ai-guessing-game/printscreens",
+      "prompts": 3
+    },
+    {
+      "project": "google-gemini-veo-video-poc/backend",
+      "prompts": 3
+    },
+    {
+      "project": "apicurio-poc/backend",
+      "prompts": 3
+    },
+    {
+      "project": "diegopacheco/tech-recipies",
+      "prompts": 3
+    },
+    {
+      "project": "tech-notes/distributed-systems",
+      "prompts": 3
+    },
+    {
+      "project": "pocs/agent-skill-weekly-review",
+      "prompts": 2
+    },
+    {
+      "project": "bug-recording-output/videos",
+      "prompts": 2
+    },
+    {
+      "project": "skills/bundle-size",
+      "prompts": 2
+    },
+    {
+      "project": "github-control-panel/backend",
+      "prompts": 2
+    },
+    {
+      "project": "sample/src",
+      "prompts": 2
+    },
+    {
+      "project": "agent-reverse-postmortem/sample",
+      "prompts": 1
+    },
+    {
+      "project": "bug-report-site/assets",
+      "prompts": 1
+    },
+    {
+      "project": "pocs/air-lamgo-cv",
+      "prompts": 1
+    },
+    {
+      "project": "cc-permissions-heatmap/printscreens",
+      "prompts": 1
+    },
+    {
+      "project": "backend/videos",
+      "prompts": 1
+    },
+    {
+      "project": "java-25-replay-traffic-poc/ui",
+      "prompts": 1
+    },
+    {
+      "project": "diegopacheco/typelang",
+      "prompts": 1
+    }
+  ],
+  "denials": [
+    {
+      "tool": "AskUserQuestion",
+      "cmd": "",
+      "project": "pocs/air-lamgo-cv",
+      "date": "2026-06-07",
+      "reason": "rejected"
+    },
+    {
+      "tool": "AskUserQuestion",
+      "cmd": "",
+      "project": "ai-playground/pocs",
+      "date": "2026-06-06",
+      "reason": "rejected"
+    },
+    {
+      "tool": "AskUserQuestion",
+      "cmd": "",
+      "project": "pocs/agent-buyer-tap",
+      "date": "2026-06-05",
+      "reason": "rejected"
+    },
+    {
+      "tool": "AskUserQuestion",
+      "cmd": "",
+      "project": "pocs/cc-token-bar",
+      "date": "2026-05-24",
+      "reason": "rejected"
+    },
+    {
+      "tool": "AskUserQuestion",
+      "cmd": "",
+      "project": "pocs/gstack-poc",
+      "date": "2026-05-23",
+      "reason": "rejected"
+    },
+    {
+      "tool": "Bash",
+      "cmd": "~/.claude/jit/bin/jit",
+      "project": "samples/scala-discount",
+      "date": "2026-05-22",
+      "reason": "rejected"
+    },
+    {
+      "tool": "Bash",
+      "cmd": "~/.claude/jit/bin/jit",
+      "project": "samples/python-pricing",
+      "date": "2026-05-22",
+      "reason": "rejected"
+    },
+    {
+      "tool": "Bash",
+      "cmd": "~/.claude/jit/bin/jit",
+      "project": "samples/nodejs-discount",
+      "date": "2026-05-22",
+      "reason": "rejected"
+    },
+    {
+      "tool": "Bash",
+      "cmd": "~/.claude/jit/bin/jit",
+      "project": "samples/kotlin-discount",
+      "date": "2026-05-22",
+      "reason": "rejected"
+    },
+    {
+      "tool": "AskUserQuestion",
+      "cmd": "",
+      "project": "pocs/claude-skill-marketplace",
+      "date": "2026-05-18",
+      "reason": "rejected"
+    },
+    {
+      "tool": "mcp__repo-mcp__grep",
+      "cmd": "",
+      "project": "pocs/repo-mcp-poc",
+      "date": "2026-05-14",
+      "reason": "rejected"
+    },
+    {
+      "tool": "mcp__repo-mcp__grep",
+      "cmd": "",
+      "project": "pocs/repo-mcp-poc",
+      "date": "2026-05-14",
+      "reason": "rejected"
+    },
+    {
+      "tool": "AskUserQuestion",
+      "cmd": "",
+      "project": "pocs/repo-mcp-poc",
+      "date": "2026-05-14",
+      "reason": "rejected"
+    }
+  ]
+}
