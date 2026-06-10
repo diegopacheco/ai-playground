@@ -1,0 +1,14 @@
+[package]
+name = "port-doctor"
+version = "0.1.0"
+edition = "2021"
+description = "See who's on which port, alias it, and kill it for good"
+
+[[bin]]
+name = "port-doctor"
+path = "src/main.rs"
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true

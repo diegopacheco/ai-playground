@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <defs>
+    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M1,1 L11,6 L1,11" fill="none" stroke="#343a40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: "Caveat","Bradley Hand","Comic Sans MS",cursive; fill:#343a40; }
+    .title { font-size: 48px; }
+    .lbl { font-size: 27px; }
+    .sub { font-size: 19px; fill:#495057; }
+    .mono { font-family: "Bradley Hand","Comic Sans MS",cursive; font-size: 20px; fill:#495057; }
+  </style>
+
+  <rect x="0" y="0" width="1000" height="1000" fill="#fdfdfb"/>
+  <text class="title" x="500" y="74" text-anchor="middle">port-doctor</text>
+  <text class="sub" x="500" y="104" text-anchor="middle">who's on which port — alias it, kill it for good</text>
+
+  <g filter="url(#wobble)" fill="none" stroke="#343a40" stroke-width="2.6">
+    <path d="M255,180 L375,180" marker-end="url(#arrow)"/>
+    <path d="M470,250 L255,335" marker-end="url(#arrow)"/>
+    <path d="M560,250 L735,335" marker-end="url(#arrow)"/>
+    <path d="M250,455 L420,540" marker-end="url(#arrow)"/>
+    <path d="M730,455 L590,540" marker-end="url(#arrow)"/>
+    <path d="M420,665 L300,755" marker-end="url(#arrow)"/>
+    <path d="M590,665 L700,755" marker-end="url(#arrow)"/>
+  </g>
+
+  <g filter="url(#wobble)">
+    <rect x="60" y="135" width="195" height="92" rx="14" fill="#cfe8ff" stroke="#343a40" stroke-width="2.6"/>
+    <rect x="380" y="130" width="280" height="120" rx="16" fill="#fff3bf" stroke="#343a40" stroke-width="3"/>
+    <rect x="80" y="340" width="340" height="115" rx="14" fill="#d3f9d8" stroke="#343a40" stroke-width="2.6"/>
+    <rect x="560" y="340" width="340" height="115" rx="14" fill="#ffd6e7" stroke="#343a40" stroke-width="2.6"/>
+    <rect x="230" y="540" width="540" height="125" rx="16" fill="#e5dbff" stroke="#343a40" stroke-width="3"/>
+    <rect x="100" y="755" width="340" height="120" rx="14" fill="#ffc9c9" stroke="#343a40" stroke-width="2.6"/>
+    <rect x="560" y="755" width="340" height="120" rx="14" fill="#ffe8cc" stroke="#343a40" stroke-width="2.6"/>
+  </g>
+
+  <text class="lbl" x="157" y="178" text-anchor="middle">you</text>
+  <text class="sub" x="157" y="206" text-anchor="middle">in the terminal</text>
+
+  <text class="lbl" x="520" y="180" text-anchor="middle">port-doctor</text>
+  <text class="sub" x="520" y="212" text-anchor="middle">single Rust binary, zero deps</text>
+
+  <text class="lbl" x="250" y="384" text-anchor="middle">lsof</text>
+  <text class="mono" x="250" y="416" text-anchor="middle">-iTCP -sTCP:LISTEN</text>
+  <text class="sub" x="250" y="442" text-anchor="middle">→ port + pid</text>
+
+  <text class="lbl" x="730" y="384" text-anchor="middle">ps -o comm</text>
+  <text class="sub" x="730" y="416" text-anchor="middle">resolves the pid</text>
+  <text class="sub" x="730" y="442" text-anchor="middle">→ name + full path</text>
+
+  <text class="lbl" x="500" y="588" text-anchor="middle">the table</text>
+  <text class="mono" x="500" y="624" text-anchor="middle">PORT · ALIAS · PID · NAME · PATH</text>
+  <text class="sub" x="500" y="652" text-anchor="middle">pick a row, then choose an action</text>
+
+  <text class="lbl" x="270" y="800" text-anchor="middle">kill -9</text>
+  <text class="sub" x="270" y="832" text-anchor="middle">gone for good</text>
+  <text class="sub" x="270" y="858" text-anchor="middle">port is freed</text>
+
+  <text class="lbl" x="730" y="800" text-anchor="middle">rename</text>
+  <text class="sub" x="730" y="832" text-anchor="middle">friendly alias saved to</text>
+  <text class="mono" x="730" y="858" text-anchor="middle">aliases.conf</text>
+</svg>
