@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bundle Size Attribution</title>
+<style>
+  :root{
+    --bg:#f4f6fb;
+    --panel:#ffffff;
+    --ink:#1b2230;
+    --muted:#6b7488;
+    --line:#e7eaf1;
+    --accent:#4c6ef5;
+    --accent-soft:#eef1ff;
+    --app:#3aa0ff;
+    --vendor:#f0883e;
+    --shadow:0 1px 2px rgba(20,28,48,.04),0 8px 26px rgba(20,28,48,.07);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1200px;margin:0 auto;padding:28px 22px 90px}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+  .title h1{font-size:26px;font-weight:780;margin:0;letter-spacing:-.02em}
+  .title .sub{color:var(--muted);font-size:13px;margin-top:6px}
+  .title .sub b{color:var(--ink);font-weight:600}
+  .stamp{font-size:11px;color:var(--muted);text-align:right;line-height:1.7}
+  .stamp code{background:var(--accent-soft);color:var(--accent);padding:1px 7px;border-radius:6px;font-size:11px}
+  .hero{display:flex;align-items:center;gap:22px;background:linear-gradient(120deg,#fff,#fbfcff);border:1px solid var(--line);border-radius:18px;padding:22px 26px;box-shadow:var(--shadow);margin-bottom:22px}
+  .hero .ring{flex-shrink:0}
+  .hero .htxt .lab{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+  .hero .htxt .name{font-size:30px;font-weight:800;letter-spacing:-.02em;margin:4px 0 2px}
+  .hero .htxt .name .v{font-size:14px;color:var(--muted);font-weight:600}
+  .hero .htxt .meta{font-size:13px;color:var(--muted)}
+  .hero .htxt .meta b{color:var(--ink)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:24px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px 18px;box-shadow:var(--shadow)}
+  .card .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+  .card .v{font-size:27px;font-weight:760;margin-top:6px;letter-spacing:-.02em}
+  .card .note{font-size:12px;color:var(--muted);margin-top:4px}
+  section.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow);margin-bottom:22px}
+  .panel h2{font-size:16px;font-weight:740;margin:0 0 4px}
+  .panel .desc{color:var(--muted);font-size:13px;margin:0 0 18px}
+  .legend{display:flex;align-items:center;gap:14px;font-size:12px;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+  .legend .bar{height:10px;width:180px;border-radius:6px;background:linear-gradient(90deg,hsl(145,62%,48%),hsl(80,70%,48%),hsl(38,90%,52%),hsl(8,78%,52%))}
+  .legend .dot{display:inline-flex;align-items:center;gap:6px}
+  .legend .swatch{width:11px;height:11px;border-radius:3px;display:inline-block}
+  #treemap{position:relative;width:100%;height:520px;border-radius:12px;overflow:hidden;background:#fafbfc;border:1px solid var(--line)}
+  .cell{position:absolute;overflow:hidden;border:1px solid rgba(255,255,255,.7);cursor:default;transition:filter .12s ease}
+  .cell:hover{filter:brightness(1.07);z-index:5;outline:2px solid rgba(27,34,48,.55);outline-offset:-2px}
+  .cell .lbl{font-size:11px;font-weight:600;padding:4px 6px;display:block;color:rgba(13,18,30,.92);text-shadow:0 1px 0 rgba(255,255,255,.35)}
+  .cell.dark .lbl{color:rgba(255,255,255,.97);text-shadow:0 1px 1px rgba(0,0,0,.25)}
+  .cell .lbl small{font-weight:500;opacity:.85}
+  #tip{position:fixed;pointer-events:none;z-index:50;background:#1b2230;color:#fff;font-size:12px;line-height:1.5;padding:9px 11px;border-radius:9px;box-shadow:0 8px 28px rgba(0,0,0,.28);max-width:320px;opacity:0;transition:opacity .1s ease}
+  #tip b{font-weight:700}
+  #tip .row{display:flex;justify-content:space-between;gap:18px}
+  #tip .row span:last-child{font-variant-numeric:tabular-nums}
+  .tmnote{font-size:12px;color:var(--muted);margin-top:10px}
+  .split{display:grid;grid-template-columns:1.6fr 1fr;gap:22px}
+  @media(max-width:820px){.split{grid-template-columns:1fr}}
+  .bars{display:flex;flex-direction:column;gap:11px}
+  .bars .row{display:flex;align-items:center;gap:13px}
+  .bars .nm{width:170px;flex-shrink:0;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bars .track{flex:1;height:24px;background:#f1f2f6;border-radius:7px;position:relative;overflow:hidden}
+  .bars .fill{position:absolute;inset:0 auto 0 0;border-radius:7px;display:flex;align-items:center;padding-left:9px;color:#fff;font-size:12px;font-weight:700;white-space:nowrap;min-width:3px}
+  .bars .amt{width:118px;flex-shrink:0;text-align:right;font-size:12px;color:var(--muted)}
+  .bars .amt b{color:var(--ink);font-variant-numeric:tabular-nums}
+  .donut{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%}
+  .donut .leg{display:flex;gap:18px;margin-top:14px;font-size:13px}
+  .donut .leg .it{display:flex;align-items:center;gap:7px}
+  .donut .leg .sw{width:12px;height:12px;border-radius:4px}
+  .donut .leg b{font-variant-numeric:tabular-nums}
+  .tablebar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+  #filter{flex:1;min-width:220px;max-width:380px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;font-size:13px;background:#fafbfc;color:var(--ink)}
+  #filter:focus{outline:none;border-color:var(--accent);background:#fff}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;cursor:pointer;user-select:none;white-space:nowrap}
+  th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+  th .ar{opacity:.45;font-size:10px}
+  tr.app-row{border-left:3px solid var(--app)}
+  tr.vendor-row{border-left:3px solid var(--vendor)}
+  td .badge{font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
+  td .badge.app{background:#e8f3ff;color:#1b6fc4}
+  td .badge.vendor{background:#fdeede;color:#c1641b}
+  td.path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#39414f}
+  .micro{height:7px;width:100%;background:#f1f2f6;border-radius:4px;overflow:hidden;margin-top:5px}
+  .micro i{display:block;height:100%;border-radius:4px}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="title">
+      <h1>Bundle Size Attribution</h1>
+      <div class="sub" id="subline"></div>
+    </div>
+    <div class="stamp" id="stamp"></div>
+  </header>
+
+  <div class="hero" id="hero"></div>
+  <div class="cards" id="cards"></div>
+
+  <section class="panel">
+    <h2>Where the bytes live</h2>
+    <p class="desc">Every box is one import. Area is the minified bytes it contributed to the bundle; warmer means a bigger share.</p>
+    <div class="legend">
+      <span>small</span><span class="bar"></span><span>large</span>
+      <span class="dot"><span class="swatch" style="background:var(--app)"></span>application code</span>
+      <span class="dot"><span class="swatch" style="background:var(--vendor)"></span>node_modules</span>
+    </div>
+    <div id="treemap"></div>
+    <div class="tmnote" id="tmnote"></div>
+  </section>
+
+  <section class="panel">
+    <div class="split">
+      <div>
+        <h2>Heaviest imports</h2>
+        <p class="desc">Minified bytes each import added to the bundle.</p>
+        <div class="bars" id="bars"></div>
+      </div>
+      <div>
+        <h2>App vs vendor</h2>
+        <p class="desc">Your code against everything pulled from node_modules.</p>
+        <div class="donut" id="donut"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="tablebar">
+      <div><h2 style="margin:0">Every import</h2><p class="desc" style="margin:2px 0 0">Click a column to sort. Filter by name.</p></div>
+      <input id="filter" type="text" placeholder="Filter by package name...">
+    </div>
+    <table id="pkgTable">
+      <thead><tr>
+        <th data-k="name">Import <span class="ar"></span></th>
+        <th data-k="kind">Kind <span class="ar"></span></th>
+        <th data-k="version">Version <span class="ar"></span></th>
+        <th class="num" data-k="minifiedBytes">Minified <span class="ar">&#9660;</span></th>
+        <th class="num" data-k="pct">Share <span class="ar"></span></th>
+        <th class="num" data-k="rawBytes">Raw <span class="ar"></span></th>
+        <th class="num" data-k="fileCount">Modules <span class="ar"></span></th>
+      </tr></thead>
+      <tbody id="pkgBody"></tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2>Module explorer</h2>
+    <p class="desc" id="modnote">The individual files that made it into the bundle, heaviest first.</p>
+    <table>
+      <thead><tr>
+        <th>Module</th><th>Import</th><th class="num">Minified</th><th class="num">Raw</th>
+      </tr></thead>
+      <tbody id="modBody"></tbody>
+    </table>
+  </section>
+
+  <div class="foot">Measured with esbuild's metafile &middot; minified byte attribution, never estimated.</div>
+</div>
+<div id="tip"></div>
+
+<script>
+const DATA = __BUNDLE_DATA__;
+
+function fmt(n){ return Math.round(n).toLocaleString("en-US"); }
+function kb(n){
+  if(n>=1048576) return (n/1048576).toFixed(2)+" MB";
+  if(n>=1024) return (n/1024).toFixed(1)+" KB";
+  return n+" B";
+}
+function heat(scale){
+  const s=Math.max(0,Math.min(1,scale));
+  const hue=145*(1-s);
+  const light=50-s*7;
+  return "hsl("+hue.toFixed(0)+",68%,"+light.toFixed(0)+"%)";
+}
+function isDark(scale){ return scale>=0.5; }
+const MAXV = Math.max(1, ...DATA.treemap.map(t=>t.value));
+
+function renderHeader(){
+  const m=DATA.meta;
+  document.getElementById("subline").innerHTML =
+    "<b>"+m.project+"</b> &middot; entry <b>"+m.entry+"</b> &middot; "+m.totalModules+" modules &middot; "+m.totalPackages+" imports";
+  document.getElementById("stamp").innerHTML =
+    new Date(m.generatedAt).toLocaleString()+"<br>esbuild <code>"+m.esbuildVersion+"</code>";
+  document.title = "Bundle Size - "+m.project;
+}
+
+function ringSvg(pct, color){
+  const r=34, c=2*Math.PI*r, off=c*(1-Math.min(pct,100)/100);
+  return '<svg width="92" height="92" viewBox="0 0 92 92">'+
+    '<circle cx="46" cy="46" r="'+r+'" fill="none" stroke="#eef0f5" stroke-width="11"/>'+
+    '<circle cx="46" cy="46" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="11" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'" transform="rotate(-90 46 46)"/>'+
+    '<text x="46" y="50" text-anchor="middle" font-size="17" font-weight="800" fill="#1b2230">'+pct.toFixed(0)+'%</text></svg>';
+}
+
+function renderHero(){
+  const h=DATA.headline;
+  const host=document.getElementById("hero");
+  if(!h){ host.innerHTML='<div class="htxt"><div class="name">Empty bundle</div></div>'; return; }
+  const color=heat(h.minifiedBytes/MAXV);
+  host.innerHTML =
+    '<div class="ring">'+ringSvg(h.pct,color)+'</div>'+
+    '<div class="htxt">'+
+      '<div class="lab">Heaviest import</div>'+
+      '<div class="name">'+h.name+(h.version?' <span class="v">v'+h.version+'</span>':'')+'</div>'+
+      '<div class="meta">added <b>'+kb(h.minifiedBytes)+'</b> minified &mdash; <b>'+h.pct.toFixed(1)+'%</b> of the bundle, across <b>'+h.fileCount+'</b> module'+(h.fileCount===1?'':'s')+'</div>'+
+    '</div>';
+}
+
+function renderCards(){
+  const t=DATA.totals;
+  const cards=[
+    {k:"Minified", v:kb(t.minifiedBytes), note:fmt(t.minifiedBytes)+" bytes"},
+    {k:"Gzipped", v:kb(t.gzipBytes), note:(t.minifiedBytes?((t.gzipBytes/t.minifiedBytes)*100).toFixed(0):0)+"% of minified"},
+    {k:"Raw source", v:kb(t.rawBytes), note:"before minify"},
+    {k:"Imports", v:DATA.meta.totalPackages, note:t.vendorModules+" vendor modules"},
+    {k:"Vendor share", v:(t.minifiedBytes?((t.vendorBytes/t.minifiedBytes)*100).toFixed(0):0)+"%", note:kb(t.vendorBytes)+" from node_modules"},
+    {k:"Your code", v:kb(t.appBytes), note:t.appModules+" app modules"},
+  ];
+  document.getElementById("cards").innerHTML = cards.map(c=>
+    '<div class="card"><div class="k">'+c.k+'</div><div class="v">'+c.v+'</div><div class="note">'+c.note+'</div></div>'
+  ).join("");
+}
+
+function worst(row, side){
+  let max=-Infinity,min=Infinity,sum=0;
+  for(const r of row){ if(r.area>max)max=r.area; if(r.area<min)min=r.area; sum+=r.area; }
+  const s2=sum*sum, side2=side*side;
+  return Math.max((side2*max)/s2, s2/(side2*min));
+}
+function squarify(items, x, y, w, h){
+  const out=[]; const total=items.reduce((a,b)=>a+b.value,0);
+  if(total<=0||w<=0||h<=0) return out;
+  const scale=(w*h)/total;
+  const nodes=items.map(d=>({ref:d, area:d.value*scale}));
+  let rx=x,ry=y,rw=w,rh=h,i=0;
+  while(i<nodes.length){
+    const side=Math.min(rw,rh);
+    let row=[nodes[i]]; let cur=worst(row,side); let j=i+1;
+    while(j<nodes.length){
+      const test=row.concat(nodes[j]); const w2=worst(test,side);
+      if(w2<=cur){ row=test; cur=w2; j++; } else break;
+    }
+    const rowArea=row.reduce((a,b)=>a+b.area,0); const thickness=rowArea/side;
+    if(rw>=rh){ let yy=ry; for(const it of row){ const ih=it.area/thickness; out.push({ref:it.ref,x:rx,y:yy,w:thickness,h:ih}); yy+=ih; } rx+=thickness; rw-=thickness; }
+    else { let xx=rx; for(const it of row){ const iw=it.area/thickness; out.push({ref:it.ref,x:xx,y:ry,w:iw,h:thickness}); xx+=iw; } ry+=thickness; rh-=thickness; }
+    i=j;
+  }
+  return out;
+}
+
+function renderTreemap(){
+  const host=document.getElementById("treemap");
+  const W=host.clientWidth, H=host.clientHeight, CAP=160;
+  const ranked=DATA.treemap.slice().sort((a,b)=>b.value-a.value);
+  const shown=ranked.slice(0,CAP);
+  const rects=squarify(shown.map(t=>({value:t.value,t:t})),0,0,W,H);
+  host.innerHTML="";
+  for(const r of rects){
+    const t=r.ref.t; const scale=t.value/MAXV;
+    const div=document.createElement("div");
+    div.className="cell"+(isDark(scale)?" dark":"");
+    div.style.left=r.x+"px"; div.style.top=r.y+"px";
+    div.style.width=Math.max(0,r.w-1)+"px"; div.style.height=Math.max(0,r.h-1)+"px";
+    div.style.background=t.kind==="app"?"var(--app)":heat(scale);
+    if(r.w>62 && r.h>26){
+      div.innerHTML='<span class="lbl">'+t.name+'<br><small>'+kb(t.value)+' &middot; '+t.pct.toFixed(1)+'%</small></span>';
+    }
+    div.addEventListener("mousemove", e=>showTip(e,t));
+    div.addEventListener("mouseleave", hideTip);
+    host.appendChild(div);
+  }
+  const hidden=DATA.treemap.length-shown.length;
+  document.getElementById("tmnote").textContent =
+    "Showing the "+shown.length+" largest imports"+(hidden>0?" ("+hidden+" smaller ones are in the table below).":".");
+}
+
+const tip=document.getElementById("tip");
+function showTip(e,t){
+  tip.innerHTML='<b>'+t.name+'</b>'+
+    '<div class="row"><span>Minified</span><span>'+kb(t.value)+'</span></div>'+
+    '<div class="row"><span>Share</span><span>'+t.pct.toFixed(1)+'%</span></div>'+
+    '<div class="row"><span>Kind</span><span>'+(t.kind==="app"?"app code":"node_modules")+'</span></div>';
+  const pad=14; let x=e.clientX+pad, y=e.clientY+pad;
+  if(x+330>window.innerWidth) x=e.clientX-330;
+  if(y+90>window.innerHeight) y=e.clientY-90;
+  tip.style.left=x+"px"; tip.style.top=y+"px"; tip.style.opacity="1";
+}
+function hideTip(){ tip.style.opacity="0"; }
+
+function renderBars(){
+  const top=DATA.packages.slice(0,12);
+  const max=Math.max(1, ...top.map(p=>p.minifiedBytes));
+  document.getElementById("bars").innerHTML = top.map(p=>{
+    const w=(p.minifiedBytes/max)*100;
+    const color=p.kind==="app"?"var(--app)":heat(p.minifiedBytes/MAXV);
+    return '<div class="row"><div class="nm" title="'+p.name+'">'+p.name+'</div>'+
+      '<div class="track"><div class="fill" style="width:'+Math.max(w,3)+'%;background:'+color+'">'+p.pct.toFixed(1)+'%</div></div>'+
+      '<div class="amt"><b>'+kb(p.minifiedBytes)+'</b></div></div>';
+  }).join("");
+}
+
+function renderDonut(){
+  const t=DATA.totals; const tot=t.appBytes+t.vendorBytes || 1;
+  const appPct=(t.appBytes/tot)*100;
+  const r=52, c=2*Math.PI*r, appLen=c*appPct/100;
+  const svg='<svg width="150" height="150" viewBox="0 0 150 150">'+
+    '<circle cx="75" cy="75" r="'+r+'" fill="none" stroke="var(--vendor)" stroke-width="20"/>'+
+    '<circle cx="75" cy="75" r="'+r+'" fill="none" stroke="var(--app)" stroke-width="20" stroke-dasharray="'+appLen+' '+c+'" transform="rotate(-90 75 75)"/>'+
+    '<text x="75" y="70" text-anchor="middle" font-size="13" fill="#6b7488">vendor</text>'+
+    '<text x="75" y="90" text-anchor="middle" font-size="20" font-weight="800" fill="#1b2230">'+(100-appPct).toFixed(0)+'%</text></svg>';
+  document.getElementById("donut").innerHTML = svg+
+    '<div class="leg">'+
+      '<div class="it"><span class="sw" style="background:var(--app)"></span>app <b>'+kb(t.appBytes)+'</b></div>'+
+      '<div class="it"><span class="sw" style="background:var(--vendor)"></span>vendor <b>'+kb(t.vendorBytes)+'</b></div>'+
+    '</div>';
+}
+
+let sortKey="minifiedBytes", sortDir=-1, filterText="";
+function renderTable(){
+  const rows=DATA.packages.filter(p=>p.name.toLowerCase().includes(filterText.toLowerCase()));
+  rows.sort((a,b)=>{
+    let av=a[sortKey], bv=b[sortKey];
+    if(typeof av==="string"||av===null){ av=(av||"").toString(); bv=(bv||"").toString(); return sortDir*av.localeCompare(bv); }
+    return sortDir*((av||0)-(bv||0));
+  });
+  document.getElementById("pkgBody").innerHTML = rows.map(p=>{
+    const w=(p.minifiedBytes/MAXV)*100;
+    const color=p.kind==="app"?"var(--app)":heat(p.minifiedBytes/MAXV);
+    return '<tr class="'+(p.kind==="app"?"app-row":"vendor-row")+'">'+
+      '<td>'+p.name+'<div class="micro"><i style="width:'+Math.max(w,2)+'%;background:'+color+'"></i></div></td>'+
+      '<td><span class="badge '+p.kind+'">'+(p.kind==="app"?"app":"vendor")+'</span></td>'+
+      '<td>'+(p.version?p.version:'&mdash;')+'</td>'+
+      '<td class="num">'+kb(p.minifiedBytes)+'</td>'+
+      '<td class="num">'+p.pct.toFixed(1)+'%</td>'+
+      '<td class="num">'+kb(p.rawBytes)+'</td>'+
+      '<td class="num">'+p.fileCount+'</td></tr>';
+  }).join("");
+}
+function wireTable(){
+  document.querySelectorAll("#pkgTable th").forEach(th=>{
+    th.addEventListener("click", ()=>{
+      const k=th.dataset.k;
+      if(sortKey===k) sortDir*=-1; else { sortKey=k; sortDir=(k==="name"||k==="kind"||k==="version")?1:-1; }
+      document.querySelectorAll("#pkgTable th .ar").forEach(a=>a.innerHTML="");
+      th.querySelector(".ar").innerHTML = sortDir<0?"&#9660;":"&#9650;";
+      renderTable();
+    });
+  });
+  document.getElementById("filter").addEventListener("input", e=>{ filterText=e.target.value; renderTable(); });
+}
+
+function renderModules(){
+  const mods=DATA.modules;
+  const max=Math.max(1, ...mods.map(m=>m.minifiedBytes));
+  document.getElementById("modBody").innerHTML = mods.map(m=>{
+    const w=(m.minifiedBytes/max)*100;
+    const color=m.kind==="app"?"var(--app)":heat(m.minifiedBytes/MAXV);
+    return '<tr class="'+(m.kind==="app"?"app-row":"vendor-row")+'">'+
+      '<td class="path">'+m.path+'</td>'+
+      '<td>'+m.package+'</td>'+
+      '<td class="num">'+kb(m.minifiedBytes)+'<div class="micro"><i style="width:'+Math.max(w,2)+'%;background:'+color+'"></i></div></td>'+
+      '<td class="num">'+kb(m.rawBytes)+'</td></tr>';
+  }).join("");
+  document.getElementById("modnote").textContent =
+    "The individual files that made it into the bundle, heaviest first ("+mods.length+" shown).";
+}
+
+renderHeader();
+renderHero();
+renderCards();
+renderTreemap();
+renderBars();
+renderDonut();
+renderTable();
+wireTable();
+renderModules();
+window.addEventListener("resize", ()=>{ renderTreemap(); });
+</script>
+</body>
+</html>
