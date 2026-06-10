@@ -1,0 +1,14 @@
+README.md
+  h_8e2c3875396153 3-4,6-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "817400e64753f662cd375f56be95f8e3e6bc5b9d",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
