@@ -1,0 +1,45 @@
+pocs/top-4-agents/src/term.rs
+  s_effa132678ae7c::t_1290f9f8b5ca55 1-100
+pocs/top-4-agents/README.md
+  s_effa132678ae7c::t_cf8c2b6e316c3c 1-97
+pocs/top-4-agents/Cargo.lock
+  s_effa132678ae7c::t_bbf66490b8855a 1-7
+pocs/top-4-agents/.gitignore
+  s_effa132678ae7c::t_1a3fdb79ab2ecb 1
+pocs/top-4-agents/src/json.rs
+  s_effa132678ae7c::t_d49cbb3ed0e159 1-59
+pocs/top-4-agents/Cargo.toml
+  s_effa132678ae7c::t_f939f8cacfb4cc 1-3,5
+  s_effa132678ae7c::t_6be63ce06b9647 4,6-13
+pocs/top-4-agents/src/main.rs
+  s_effa132678ae7c::t_4d8f7a714a0e4a 1-53,55-115
+  s_effa132678ae7c::t_20d151bfa3dc6b 54
+pocs/top-4-agents/architecture.svg
+  s_effa132678ae7c::t_be0b97e8341cc3 1-70
+pocs/top-4-agents/build.sh
+  s_effa132678ae7c::t_4ff3e1a8742fe5 1-4
+pocs/top-4-agents/src/render.rs
+  s_effa132678ae7c::t_a852c8c90b835c 243,257-258
+  s_effa132678ae7c::t_76e1f9f01f52ce 1-242,244-256,259-298,300-450
+  s_effa132678ae7c::t_e3e945bce50f4c 299
+pocs/top-4-agents/src/agent.rs
+  s_effa132678ae7c::t_250534c733f228 1-57,59-71,73-79,82-198
+  s_effa132678ae7c::t_37b2c6debdcce9 81
+  s_effa132678ae7c::t_3a18cc1b1791b7 58,72,80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "ba34787ba173b91a8ad1a9003675e17c0b04c6c6",
+  "prompts": {},
+  "sessions": {
+    "s_effa132678ae7c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ebabbf24-9e34-44fe-b7ed-cad656a7eff1",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
