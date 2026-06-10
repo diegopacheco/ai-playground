@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      .hand { font-family: 'Caveat','Bradley Hand','Chalkboard SE',cursive; }
+      .title { font-family: 'Caveat','Bradley Hand','Chalkboard SE',cursive; fill:#3a3d52; }
+      .lbl { font-family: 'Caveat','Bradley Hand','Chalkboard SE',cursive; fill:#4c4f69; }
+      .mut { font-family: 'Caveat','Bradley Hand','Chalkboard SE',cursive; fill:#7a7f99; }
+    </style>
+    <filter id="wob" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="turbulence" baseFrequency="0.013" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/>
+    </filter>
+    <marker id="arr" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M1,1 L10,6 L1,11" fill="none" stroke="#4c4f69" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="1000" fill="#fdfcf9"/>
+
+  <text x="500" y="70" text-anchor="middle" class="title" font-size="52" font-weight="700">agentop</text>
+  <text x="500" y="108" text-anchor="middle" class="mut" font-size="28">top for your running claude code agents</text>
+  <path d="M360,120 C480,128 560,128 640,120" fill="none" stroke="#cba6f7" stroke-width="3" stroke-linecap="round" filter="url(#wob)"/>
+
+  <g filter="url(#wob)">
+    <rect x="30" y="175" width="290" height="150" rx="16" fill="#bfd7ff" stroke="#4c4f69" stroke-width="2.5"/>
+    <rect x="355" y="175" width="290" height="150" rx="16" fill="#e6d2ff" stroke="#4c4f69" stroke-width="2.5"/>
+    <rect x="680" y="175" width="290" height="150" rx="16" fill="#c9efc4" stroke="#4c4f69" stroke-width="2.5"/>
+    <rect x="250" y="470" width="500" height="155" rx="18" fill="#fff1b8" stroke="#4c4f69" stroke-width="3.5"/>
+    <rect x="120" y="705" width="380" height="175" rx="16" fill="#c2efe9" stroke="#4c4f69" stroke-width="2.5"/>
+    <rect x="500" y="705" width="380" height="175" rx="16" fill="#ffd6ec" stroke="#4c4f69" stroke-width="2.5"/>
+  </g>
+
+  <g filter="url(#wob)" stroke="#4c4f69" stroke-width="2.5" fill="none" marker-end="url(#arr)">
+    <path d="M175,325 C220,380 300,420 375,468"/>
+    <path d="M500,325 L500,466"/>
+    <path d="M825,325 C780,380 700,420 627,468"/>
+    <path d="M410,627 C370,660 340,675 320,702"/>
+    <path d="M590,627 C630,660 660,675 682,702"/>
+  </g>
+
+  <text x="175" y="210" text-anchor="middle" class="lbl" font-size="26" font-weight="700">sessions/*.json</text>
+  <text x="175" y="244" text-anchor="middle" class="mut" font-size="22">PID-keyed files</text>
+  <text x="175" y="272" text-anchor="middle" class="lbl" font-size="22">status busy / idle</text>
+  <text x="175" y="298" text-anchor="middle" class="lbl" font-size="22">cwd · started · version</text>
+
+  <text x="500" y="210" text-anchor="middle" class="lbl" font-size="26" font-weight="700">projects/&lt;id&gt;.jsonl</text>
+  <text x="500" y="244" text-anchor="middle" class="mut" font-size="22">session transcript</text>
+  <text x="500" y="272" text-anchor="middle" class="lbl" font-size="22">model · git branch</text>
+  <text x="500" y="298" text-anchor="middle" class="lbl" font-size="22">context tokens · msgs</text>
+
+  <text x="825" y="210" text-anchor="middle" class="lbl" font-size="26" font-weight="700">ps -p &lt;pids&gt;</text>
+  <text x="825" y="244" text-anchor="middle" class="mut" font-size="22">live process probe</text>
+  <text x="825" y="272" text-anchor="middle" class="lbl" font-size="22">CPU % · MEM %</text>
+  <text x="825" y="298" text-anchor="middle" class="lbl" font-size="22">liveness gate</text>
+
+  <text x="500" y="525" text-anchor="middle" class="title" font-size="46" font-weight="700">agentop engine</text>
+  <text x="500" y="562" text-anchor="middle" class="mut" font-size="24">Rust · std only · zero dependencies</text>
+  <text x="500" y="600" text-anchor="middle" class="lbl" font-size="26" font-weight="700">collect → enrich → sort → render</text>
+
+  <text x="310" y="752" text-anchor="middle" class="lbl" font-size="28" font-weight="700">live TUI monitor</text>
+  <text x="310" y="792" text-anchor="middle" class="mut" font-size="22">btop-style, auto refresh</text>
+  <text x="310" y="826" text-anchor="middle" class="lbl" font-size="22">gauges · colors · sorting</text>
+  <text x="310" y="858" text-anchor="middle" class="lbl" font-size="22">keys: q · s · + / -</text>
+
+  <text x="690" y="752" text-anchor="middle" class="lbl" font-size="28" font-weight="700">snapshot modes</text>
+  <text x="690" y="792" text-anchor="middle" class="mut" font-size="22">scriptable, no raw tty</text>
+  <text x="690" y="826" text-anchor="middle" class="lbl" font-size="22">--once  ANSI frame</text>
+  <text x="690" y="858" text-anchor="middle" class="lbl" font-size="22">--html  HTML snapshot</text>
+</svg>
