@@ -1,0 +1,29 @@
+pocs/fable5-poc/diagram.svg
+  s_9df8c32ccc6152::t_2ef8790ea2e40f 1-47
+pocs/fable5-poc/.server.pid
+  s_9df8c32ccc6152::t_714cd7b6258731 1
+pocs/fable5-poc/start.sh
+  s_9df8c32ccc6152::t_36809af95085b8 1-18
+pocs/fable5-poc/index.html
+  s_9df8c32ccc6152::t_6875f963f848b9 1-788
+pocs/fable5-poc/stop.sh
+  s_9df8c32ccc6152::t_863d0d4cf9ee3f 1-11
+pocs/fable5-poc/README.md
+  s_9df8c32ccc6152::t_dbed65e83f19cd 1-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "fb0a25c4ed5c254b2ca8516e5fe0b808c3e3da8c",
+  "prompts": {},
+  "sessions": {
+    "s_9df8c32ccc6152": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1813316c-8c56-4b53-8a52-10ab9b10a05f",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
