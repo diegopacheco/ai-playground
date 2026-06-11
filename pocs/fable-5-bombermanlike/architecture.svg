@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="660" viewBox="0 0 1240 660">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M1 1 L11 6 L1 11" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round"/>
+    </marker>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      text { font-family: 'Caveat', cursive; fill: #1e1e1e; }
+      .box { stroke: #1e1e1e; stroke-width: 2.2; filter: url(#wobble); }
+      .line { stroke: #1e1e1e; stroke-width: 2.2; fill: none; filter: url(#wobble); marker-end: url(#arrow); }
+      .title { font-size: 40px; font-weight: 700; }
+      .label { font-size: 27px; font-weight: 700; text-anchor: middle; }
+      .small { font-size: 21px; text-anchor: middle; fill: #444; }
+      .note { font-size: 22px; fill: #555; }
+    </style>
+  </defs>
+  <rect width="1240" height="660" fill="#fffdf7"/>
+  <text class="title" x="40" y="58">BLASTGRID - how it runs</text>
+
+  <rect class="box" x="40" y="120" width="190" height="90" rx="14" fill="#d3f8e2"/>
+  <text class="label" x="135" y="158">start.sh</text>
+  <text class="small" x="135" y="188">spawns server</text>
+
+  <rect class="box" x="320" y="105" width="250" height="120" rx="14" fill="#fde2cf"/>
+  <text class="label" x="445" y="148">python3 http.server</text>
+  <text class="small" x="445" y="180">port 8377</text>
+  <text class="small" x="445" y="206">static files only</text>
+
+  <rect class="box" x="40" y="280" width="190" height="90" rx="14" fill="#ffd6d6"/>
+  <text class="label" x="135" y="318">stop.sh</text>
+  <text class="small" x="135" y="348">kills server.pid</text>
+
+  <rect class="box" x="680" y="80" width="510" height="540" rx="18" fill="#e8e3ff"/>
+  <text class="label" x="935" y="125">Browser</text>
+
+  <rect class="box" x="720" y="150" width="200" height="80" rx="12" fill="#fff3bf"/>
+  <text class="label" x="820" y="184">index.html</text>
+  <text class="small" x="820" y="212">cabinet + HUD</text>
+
+  <rect class="box" x="960" y="150" width="200" height="80" rx="12" fill="#fff3bf"/>
+  <text class="label" x="1060" y="184">style.css</text>
+  <text class="small" x="1060" y="212">CRT scanlines</text>
+
+  <rect class="box" x="720" y="270" width="440" height="200" rx="12" fill="#d0ebff"/>
+  <text class="label" x="940" y="306">game.js loop (60 fps)</text>
+  <rect class="box" x="745" y="330" width="120" height="62" rx="10" fill="#fffdf7"/>
+  <text class="small" x="805" y="368">keys in</text>
+  <rect class="box" x="905" y="330" width="120" height="62" rx="10" fill="#fffdf7"/>
+  <text class="small" x="965" y="368">update</text>
+  <rect class="box" x="1015" y="400" width="120" height="56" rx="10" fill="#fffdf7"/>
+  <text class="small" x="1075" y="435">render</text>
+  <path class="line" d="M865 361 Q882 356 900 361"/>
+  <path class="line" d="M1025 361 Q1075 365 1075 396"/>
+  <text class="small" x="805" y="445">bombs, blasts,</text>
+  <text class="small" x="805" y="467">foes, loot, score</text>
+
+  <rect class="box" x="720" y="510" width="440" height="80" rx="12" fill="#c5f6fa"/>
+  <text class="label" x="940" y="545">canvas 720x624</text>
+  <text class="small" x="940" y="573">15 x 13 grid, 48px tiles</text>
+
+  <path class="line" d="M230 165 Q272 158 315 165"/>
+  <path class="line" d="M570 165 Q622 158 675 165"/>
+  <path class="line" d="M135 280 Q135 245 230 230 Q300 220 330 228"/>
+  <path class="line" d="M820 230 Q820 250 870 265"/>
+  <path class="line" d="M1060 230 Q1060 250 1010 265"/>
+  <path class="line" d="M940 470 Q934 487 940 505"/>
+
+  <text class="note" x="595" y="140">GET /</text>
+  <text class="note" x="250" y="265">kill</text>
+  <text class="note" x="955" y="495">draw</text>
+</svg>

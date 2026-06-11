@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLASTGRID</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="cabinet">
+  <header class="marquee">
+    <span class="bolt"></span>
+    <h1>BLAST<em>GRID</em></h1>
+    <span class="bolt"></span>
+  </header>
+  <div class="hud">
+    <div class="hud-item"><span class="hud-label">SCORE</span><span id="score" class="hud-value">0</span></div>
+    <div class="hud-item"><span class="hud-label">LIVES</span><span id="lives" class="hud-value">3</span></div>
+    <div class="hud-item"><span class="hud-label">BOMBS</span><span id="bombs" class="hud-value">1</span></div>
+    <div class="hud-item"><span class="hud-label">FIRE</span><span id="fire" class="hud-value">1</span></div>
+    <div class="hud-item"><span class="hud-label">FOES</span><span id="foes" class="hud-value">0</span></div>
+  </div>
+  <div class="screen">
+    <canvas id="game" width="720" height="624"></canvas>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+  </div>
+  <footer class="panel">
+    <span>ARROWS / WASD MOVE</span>
+    <span class="dot">&#9679;</span>
+    <span>SPACE BOMB</span>
+    <span class="dot">&#9679;</span>
+    <span>ENTER START</span>
+  </footer>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
