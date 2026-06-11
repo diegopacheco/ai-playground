@@ -1,0 +1,40 @@
+pocs/fable-5-bombermanlike/stop.sh
+  s_dc92b3d9bef3b1::t_dc65dc5a237073 1-14
+pocs/fable-5-bombermanlike/architecture.svg
+  s_dc92b3d9bef3b1::t_c192ff1fbb483e 70
+  s_dc92b3d9bef3b1::t_371635593f7ec8 56
+  s_dc92b3d9bef3b1::t_cd5be49fcc4081 65-66
+  s_dc92b3d9bef3b1::t_e33fdbaac73ac9 1-55,57-64,67-69,71-75
+pocs/fable-5-bombermanlike/style.css
+  s_dc92b3d9bef3b1::t_4e52754f6e5788 1-149
+pocs/fable-5-bombermanlike/game.js
+  s_dc92b3d9bef3b1::t_caed4b0205ab30 224
+  s_dc92b3d9bef3b1::t_bbe9d75bb4827e 1-34,36-108,110-209,211-223,225-241,246-437,439-555
+  s_dc92b3d9bef3b1::t_584812727645d5 242-245
+  s_dc92b3d9bef3b1::t_aa6227829151fe 109
+  s_dc92b3d9bef3b1::t_b209a7ea513ed4 438
+  s_dc92b3d9bef3b1::t_7fffbf26d30a78 35
+  s_dc92b3d9bef3b1::t_99e255d3003675 210
+pocs/fable-5-bombermanlike/index.html
+  s_dc92b3d9bef3b1::t_dada28769606a8 1-41
+pocs/fable-5-bombermanlike/start.sh
+  s_dc92b3d9bef3b1::t_56573a6e86d84f 1-19
+pocs/fable-5-bombermanlike/README.md
+  s_dc92b3d9bef3b1::t_66d018df55646c 1-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "9008b8b86cbd0af0adfc74f3f268b88a9ecbaeef",
+  "prompts": {},
+  "sessions": {
+    "s_dc92b3d9bef3b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "548b404a-6419-4363-9cf7-15255a75fd11",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
