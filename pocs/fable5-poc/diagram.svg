@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="380" viewBox="0 0 860 380">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3"/>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&amp;display=swap');
+      text { font-family: 'Caveat', cursive; fill: #1e1e1e; }
+      .box { filter: url(#wobble); stroke: #1e1e1e; stroke-width: 2; }
+      .arrow { filter: url(#wobble); stroke: #1e1e1e; stroke-width: 2; fill: none; }
+    </style>
+    <marker id="head" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L9,4 L0,8" fill="none" stroke="#1e1e1e" stroke-width="1.6"/>
+    </marker>
+  </defs>
+  <rect width="860" height="380" fill="#fffefb"/>
+  <text x="430" y="40" font-size="30" text-anchor="middle">TOP SPEED GP - game loop (single index.html, zero deps)</text>
+
+  <rect class="box" x="40" y="80" width="170" height="80" rx="10" fill="#ffd8cc"/>
+  <text x="125" y="113" font-size="22" text-anchor="middle">Keyboard input</text>
+  <text x="125" y="140" font-size="17" text-anchor="middle">steer / gas / brake / nitro</text>
+
+  <rect class="box" x="300" y="80" width="200" height="80" rx="10" fill="#d3f1df"/>
+  <text x="400" y="113" font-size="22" text-anchor="middle">update(dt)</text>
+  <text x="400" y="140" font-size="17" text-anchor="middle">physics, laps, rival AI, rank</text>
+
+  <rect class="box" x="590" y="80" width="220" height="80" rx="10" fill="#d6e6ff"/>
+  <text x="700" y="113" font-size="22" text-anchor="middle">render() to canvas</text>
+  <text x="700" y="140" font-size="17" text-anchor="middle">sky, sun, hills, road, sprites</text>
+
+  <rect class="box" x="300" y="230" width="200" height="80" rx="10" fill="#fff3c4"/>
+  <text x="400" y="263" font-size="22" text-anchor="middle">Track segments</text>
+  <text x="400" y="290" font-size="17" text-anchor="middle">curves, hills, fog, rumble</text>
+
+  <rect class="box" x="590" y="230" width="220" height="80" rx="10" fill="#f3ddff"/>
+  <text x="700" y="263" font-size="22" text-anchor="middle">DOM HUD + WebAudio</text>
+  <text x="700" y="290" font-size="17" text-anchor="middle">time, pos, gear, engine hum</text>
+
+  <line class="arrow" x1="210" y1="120" x2="293" y2="120" marker-end="url(#head)"/>
+  <line class="arrow" x1="500" y1="120" x2="583" y2="120" marker-end="url(#head)"/>
+  <line class="arrow" x1="400" y1="230" x2="400" y2="167" marker-end="url(#head)"/>
+  <line class="arrow" x1="700" y1="167" x2="700" y2="223" marker-end="url(#head)"/>
+  <path class="arrow" d="M 590 250 C 540 210 520 190 505 165" marker-end="url(#head)"/>
+  <text x="250" y="200" font-size="17" text-anchor="middle">pseudo-3D projection</text>
+  <text x="540" y="215" font-size="17" text-anchor="middle">per frame</text>
+</svg>
