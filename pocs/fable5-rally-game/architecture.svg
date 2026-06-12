@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="640" viewBox="0 0 940 640">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 1 1 Q 6 5 1 9 L 9 5 Z" fill="#495057"/>
+    </marker>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      text { font-family: 'Caveat', cursive; fill: #343a40; }
+      .box { stroke-width: 2.2; filter: url(#wobble); }
+      .edge { stroke: #495057; stroke-width: 2.2; fill: none; filter: url(#wobble); marker-end: url(#arrow); }
+      .title { font-size: 30px; font-weight: 700; }
+      .label { font-size: 24px; font-weight: 700; }
+      .small { font-size: 18px; }
+      .edgetext { font-size: 19px; fill: #5c636a; }
+    </style>
+  </defs>
+  <rect width="940" height="640" fill="#fffdf7"/>
+  <text x="470" y="44" text-anchor="middle" class="title">Fable Rally - how it runs</text>
+
+  <rect x="40" y="90" width="170" height="64" rx="10" class="box" fill="#fff3bf" stroke="#e6a817"/>
+  <text x="125" y="118" text-anchor="middle" class="label">start.sh</text>
+  <text x="125" y="142" text-anchor="middle" class="small">spawns + pid file</text>
+
+  <rect x="40" y="300" width="170" height="64" rx="10" class="box" fill="#ffe3e3" stroke="#e03131"/>
+  <text x="125" y="328" text-anchor="middle" class="label">stop.sh</text>
+  <text x="125" y="352" text-anchor="middle" class="small">kills the pid</text>
+
+  <rect x="300" y="170" width="210" height="80" rx="10" class="box" fill="#ffe8cc" stroke="#e8590c"/>
+  <text x="405" y="203" text-anchor="middle" class="label">python http.server</text>
+  <text x="405" y="231" text-anchor="middle" class="small">port 8123 - serves index.html</text>
+
+  <rect x="600" y="160" width="300" height="100" rx="10" class="box" fill="#d0ebff" stroke="#1971c2"/>
+  <text x="750" y="196" text-anchor="middle" class="label">Browser - index.html</text>
+  <text x="750" y="222" text-anchor="middle" class="small">Three.js 0.170 from CDN</text>
+  <text x="750" y="244" text-anchor="middle" class="small">one file, no build step</text>
+
+  <rect x="270" y="330" width="640" height="280" rx="12" class="box" fill="#f1f5ef" stroke="#868e96"/>
+  <text x="590" y="362" text-anchor="middle" class="label">game loop - every frame</text>
+
+  <rect x="295" y="385" width="185" height="86" rx="10" class="box" fill="#d3f9d8" stroke="#2f9e44"/>
+  <text x="387" y="415" text-anchor="middle" class="label">track ribbon</text>
+  <text x="387" y="440" text-anchor="middle" class="small">Catmull-Rom loop</text>
+  <text x="387" y="460" text-anchor="middle" class="small">700 samples + poles</text>
+
+  <rect x="510" y="385" width="185" height="86" rx="10" class="box" fill="#e5dbff" stroke="#7048e8"/>
+  <text x="602" y="415" text-anchor="middle" class="label">car physics</text>
+  <text x="602" y="440" text-anchor="middle" class="small">grip vs slide, drift</text>
+  <text x="602" y="460" text-anchor="middle" class="small">gravel / grass surface</text>
+
+  <rect x="725" y="385" width="160" height="86" rx="10" class="box" fill="#ffdeeb" stroke="#d6336c"/>
+  <text x="805" y="415" text-anchor="middle" class="label">AI rivals x3</text>
+  <text x="805" y="440" text-anchor="middle" class="small">follow racing line</text>
+  <text x="805" y="460" text-anchor="middle" class="small">brake in corners</text>
+
+  <rect x="295" y="500" width="185" height="86" rx="10" class="box" fill="#fff9db" stroke="#f08c00"/>
+  <text x="387" y="530" text-anchor="middle" class="label">dust particles</text>
+  <text x="387" y="555" text-anchor="middle" class="small">spawn on slip</text>
+  <text x="387" y="575" text-anchor="middle" class="small">and off-road</text>
+
+  <rect x="510" y="500" width="185" height="86" rx="10" class="box" fill="#c5f6fa" stroke="#0c8599"/>
+  <text x="602" y="530" text-anchor="middle" class="label">chase camera</text>
+  <text x="602" y="555" text-anchor="middle" class="small">lerp behind car</text>
+  <text x="602" y="575" text-anchor="middle" class="small">pulls back w/ speed</text>
+
+  <rect x="725" y="500" width="160" height="86" rx="10" class="box" fill="#ffec99" stroke="#e6a817"/>
+  <text x="805" y="530" text-anchor="middle" class="label">HUD + laps</text>
+  <text x="805" y="555" text-anchor="middle" class="small">checkpoint quarters</text>
+  <text x="805" y="575" text-anchor="middle" class="small">best lap time</text>
+
+  <path d="M 210 122 Q 260 130 300 185" class="edge"/>
+  <text x="240" y="120" class="edgetext">launch</text>
+  <path d="M 210 332 Q 250 300 305 250" class="edge"/>
+  <text x="218" y="298" class="edgetext">SIGTERM</text>
+  <path d="M 510 205 Q 555 200 600 207" class="edge"/>
+  <text x="528" y="190" class="edgetext">GET /</text>
+  <path d="M 750 260 Q 740 295 700 330" class="edge"/>
+  <text x="752" y="300" class="edgetext">render</text>
+</svg>
