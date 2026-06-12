@@ -1,0 +1,4 @@
+out/
+server.log
+server.pid
+.playwright-mcp/

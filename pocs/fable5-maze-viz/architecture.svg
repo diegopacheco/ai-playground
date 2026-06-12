@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" font-family="Caveat, 'Comic Sans MS', cursive">
+  <defs>
+    <filter id="wob">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/>
+    </filter>
+    <marker id="arr" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M2 2 L10 6 L2 10" fill="none" stroke="#444" stroke-width="2"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="1000" fill="#fdfaf3"/>
+  <text x="500" y="245" text-anchor="middle" font-size="44" fill="#25221a">Maze Race - BFS vs DFS</text>
+
+  <g filter="url(#wob)">
+    <rect x="55" y="330" width="300" height="330" rx="14" fill="#d8ecf4" stroke="#3a3a3a" stroke-width="2.5"/>
+    <rect x="85" y="400" width="240" height="100" rx="10" fill="#fffdf7" stroke="#3a3a3a" stroke-width="2"/>
+    <rect x="85" y="530" width="240" height="100" rx="10" fill="#fffdf7" stroke="#3a3a3a" stroke-width="2"/>
+    <rect x="430" y="410" width="220" height="150" rx="14" fill="#fae3cd" stroke="#3a3a3a" stroke-width="2.5"/>
+    <rect x="730" y="290" width="230" height="110" rx="14" fill="#e3ecd2" stroke="#3a3a3a" stroke-width="2.5"/>
+    <rect x="730" y="450" width="230" height="110" rx="14" fill="#d2eceb" stroke="#3a3a3a" stroke-width="2.5"/>
+    <rect x="730" y="610" width="230" height="110" rx="14" fill="#e8def1" stroke="#3a3a3a" stroke-width="2.5"/>
+  </g>
+
+  <g filter="url(#wob)" fill="none" stroke="#444" stroke-width="2.5" marker-end="url(#arr)">
+    <path d="M355 430 Q 395 400 428 450"/>
+    <path d="M430 530 Q 395 580 358 545"/>
+    <path d="M650 440 Q 690 390 728 350"/>
+    <path d="M650 490 Q 690 495 728 500"/>
+    <path d="M845 562 Q 845 580 845 608"/>
+    <path d="M730 660 Q 540 700 540 562"/>
+  </g>
+
+  <g fill="#25221a">
+    <text x="205" y="372" text-anchor="middle" font-size="30">Browser - zero libraries</text>
+    <text x="205" y="440" text-anchor="middle" font-size="24">3D isometric canvas</text>
+    <text x="205" y="472" text-anchor="middle" font-size="24">rotating maze + effects</text>
+    <text x="205" y="570" text-anchor="middle" font-size="24">Java code panes</text>
+    <text x="205" y="602" text-anchor="middle" font-size="24">live line highlight</text>
+    <text x="540" y="465" text-anchor="middle" font-size="28">Server.java</text>
+    <text x="540" y="500" text-anchor="middle" font-size="23">JDK HttpServer</text>
+    <text x="540" y="532" text-anchor="middle" font-size="23">port 8013</text>
+    <text x="845" y="335" text-anchor="middle" font-size="26">Maze.java</text>
+    <text x="845" y="370" text-anchor="middle" font-size="22">recursive backtracker</text>
+    <text x="845" y="495" text-anchor="middle" font-size="26">Bfs.java / Dfs.java</text>
+    <text x="845" y="530" text-anchor="middle" font-size="22">solvers run on the JVM</text>
+    <text x="845" y="655" text-anchor="middle" font-size="26">Trace.java</text>
+    <text x="845" y="690" text-anchor="middle" font-size="22">cell + stack line number</text>
+  </g>
+
+  <g fill="#7a5e2f" font-size="22">
+    <text x="390" y="385" text-anchor="middle">GET /api/race</text>
+    <text x="392" y="612" text-anchor="middle">maze + traces JSON</text>
+    <text x="676" y="372" text-anchor="middle">generate</text>
+    <text x="690" y="528" text-anchor="middle">solve</text>
+    <text x="630" y="700" text-anchor="middle">steps with real line numbers</text>
+  </g>
+</svg>

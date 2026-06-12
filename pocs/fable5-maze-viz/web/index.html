@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maze Race — BFS vs DFS</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2325221a'/%3E%3Cpath d='M7 25V7h18v12H13v6z' fill='none' stroke='%23e3b023' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Schibsted+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <h1>Maze&nbsp;Race</h1>
+    <p>breadth vs depth, traced live from the JVM</p>
+  </div>
+  <div class="controls">
+    <div class="control">
+      <span class="label">Solver</span>
+      <div class="seg" id="algoSeg">
+        <button data-algo="bfs" class="seg-bfs">BFS</button>
+        <button data-algo="dfs" class="seg-dfs">DFS</button>
+        <button data-algo="race" class="seg-race active">Race</button>
+      </div>
+    </div>
+    <div class="control">
+      <span class="label">Maze</span>
+      <div class="seg" id="sizeSeg">
+        <button data-size="15">S</button>
+        <button data-size="25" class="active">M</button>
+        <button data-size="35">L</button>
+      </div>
+    </div>
+    <div class="control">
+      <span class="label">Speed</span>
+      <input type="range" id="speed" min="10" max="400" value="90">
+    </div>
+    <div class="control buttons">
+      <button id="newMaze" class="btn ghost">New Maze</button>
+      <button id="runBtn" class="btn solid">Run</button>
+    </div>
+  </div>
+</header>
+<main>
+  <section class="viz">
+    <div class="stage">
+      <canvas id="scene"></canvas>
+      <div id="banner" class="banner hidden"></div>
+      <div class="legend">
+        <span class="chip"><i class="sw sw-bfs"></i>BFS visited</span>
+        <span class="chip"><i class="sw sw-dfs"></i>DFS visited</span>
+        <span class="chip"><i class="sw sw-both"></i>both</span>
+        <span class="chip"><i class="sw sw-path"></i>path</span>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat stat-bfs" id="statBfs">
+        <span class="stat-name">BFS</span>
+        <span class="stat-num" id="bfsVisits">0</span>
+        <span class="stat-sub">cells visited</span>
+        <div class="bar"><div class="fill" id="bfsBar"></div></div>
+      </div>
+      <div class="stat stat-dfs" id="statDfs">
+        <span class="stat-name">DFS</span>
+        <span class="stat-num" id="dfsVisits">0</span>
+        <span class="stat-sub">cells visited</span>
+        <div class="bar"><div class="fill" id="dfsBar"></div></div>
+      </div>
+      <div class="stat stat-path">
+        <span class="stat-name">Path</span>
+        <span class="stat-num" id="pathLen">—</span>
+        <span class="stat-sub" id="pathSub">length</span>
+      </div>
+    </div>
+  </section>
+  <section class="code">
+    <div class="pane pane-bfs" id="paneBfs">
+      <div class="pane-head">
+        <i class="dot dot-bfs"></i>
+        <span class="pane-title">Bfs.java</span>
+        <span class="pane-status" id="bfsStatus">idle</span>
+      </div>
+      <div class="pane-body" id="codeBfs"></div>
+    </div>
+    <div class="pane pane-dfs" id="paneDfs">
+      <div class="pane-head">
+        <i class="dot dot-dfs"></i>
+        <span class="pane-title">Dfs.java</span>
+        <span class="pane-status" id="dfsStatus">idle</span>
+      </div>
+      <div class="pane-body" id="codeDfs"></div>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
