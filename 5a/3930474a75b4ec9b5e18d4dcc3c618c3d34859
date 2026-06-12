@@ -1,0 +1,37 @@
+pocs/fable5-puppet-shadows-cv/shapes.py
+  s_7ba216a0e7c958::t_9541386df8646f 80-85,89
+  s_7ba216a0e7c958::t_a83aa8cf450b4d 1-42,46-53,56-78,86-88,91
+  s_7ba216a0e7c958::t_2a6b6f83e44e12 54-55
+  s_7ba216a0e7c958::t_7d7aef1b244b96 43-45
+  s_7ba216a0e7c958::t_c2ea7a828b242d 79,90
+pocs/fable5-puppet-shadows-cv/architecture.svg
+  s_7ba216a0e7c958::t_14f27d11aff3b9 1-59
+pocs/fable5-puppet-shadows-cv/README.md
+  s_7ba216a0e7c958::t_c9e79d879f9089 1-65
+pocs/fable5-puppet-shadows-cv/stop.sh
+  s_7ba216a0e7c958::t_1d349dd3d803ea 1-17
+pocs/fable5-puppet-shadows-cv/app.py
+  s_7ba216a0e7c958::t_67a6f8d1647b22 1-3,5-20,22,24,26-86
+  s_7ba216a0e7c958::t_d7bae1825d6486 4
+  s_7ba216a0e7c958::t_c656ce0c3e1302 21,23,25
+pocs/fable5-puppet-shadows-cv/start.sh
+  s_7ba216a0e7c958::t_85642251d24aa3 1-14
+pocs/fable5-puppet-shadows-cv/.gitignore
+  s_7ba216a0e7c958::t_d566b3615340cd 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "5a3930474a75b4ec9b5e18d4dcc3c618c3d34859",
+  "prompts": {},
+  "sessions": {
+    "s_7ba216a0e7c958": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "924a2827-1998-4f64-b3be-9b6cef3437cf",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
