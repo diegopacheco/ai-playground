@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="600" viewBox="0 0 1180 600">
+  <defs>
+    <filter id="wob" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="5"/>
+    </filter>
+    <marker id="arr" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M1 1 Q7 4 11 6 Q7 8 1 11" fill="none" stroke="#33312e" stroke-width="2" stroke-linecap="round"/>
+    </marker>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      text{font-family:'Caveat',cursive;fill:#33312e}
+      .t{font-size:27px;font-weight:700}
+      .s{font-size:20px;fill:#6b665c}
+      .box{stroke:#33312e;stroke-width:2.4;stroke-linejoin:round}
+      .flow{fill:none;stroke:#33312e;stroke-width:2.6;stroke-linecap:round;marker-end:url(#arr)}
+      .lbl{font-size:21px;fill:#e8633a;font-weight:700}
+    </style>
+  </defs>
+  <rect width="1180" height="600" fill="#fdfbf6"/>
+  <text x="60" y="56" style="font-size:40px;font-weight:700">flamegraph skill <tspan fill="#e8633a">— how it flows</tspan></text>
+  <g filter="url(#wob)">
+    <rect class="box" x="60" y="110" width="200" height="100" rx="14" fill="#f9c8c0"/>
+    <text class="t" x="160" y="152" text-anchor="middle">install.sh</text>
+    <text class="s" x="160" y="184" text-anchor="middle">copies the skill</text>
+
+    <rect class="box" x="360" y="100" width="300" height="120" rx="14" fill="#fbe2b8"/>
+    <text class="t" x="510" y="140" text-anchor="middle">~/.claude/skills/flamegraph</text>
+    <text class="s" x="510" y="172" text-anchor="middle">SKILL.md</text>
+    <text class="s" x="510" y="198" text-anchor="middle">build_flamegraph.py</text>
+
+    <rect class="box" x="780" y="110" width="220" height="100" rx="14" fill="#cfcdf2"/>
+    <text class="t" x="890" y="152" text-anchor="middle">Claude Code</text>
+    <text class="s" x="890" y="184" text-anchor="middle">user runs /flamegraph</text>
+
+    <rect class="box" x="760" y="360" width="260" height="110" rx="14" fill="#c2dff5"/>
+    <text class="t" x="890" y="402" text-anchor="middle">parse .java sources</text>
+    <text class="s" x="890" y="434" text-anchor="middle">methods + call edges</text>
+
+    <rect class="box" x="420" y="360" width="240" height="110" rx="14" fill="#d7ecc0"/>
+    <text class="t" x="540" y="402" text-anchor="middle">index.html</text>
+    <text class="s" x="540" y="434" text-anchor="middle">one self-contained file</text>
+
+    <rect class="box" x="60" y="345" width="280" height="140" rx="14" fill="#bfe5d8"/>
+    <text class="t" x="200" y="388" text-anchor="middle">browser</text>
+    <text class="s" x="200" y="418" text-anchor="middle">pick any class / method</text>
+    <text class="s" x="200" y="444" text-anchor="middle">hand-drawn SVG flamegraph</text>
+
+    <path class="flow" d="M262 160 Q310 150 356 160"/>
+    <path class="flow" d="M662 158 Q720 148 776 158"/>
+    <path class="flow" d="M890 213 Q905 285 892 356"/>
+    <path class="flow" d="M757 416 Q710 406 665 414"/>
+    <path class="flow" d="M417 416 Q380 406 344 414"/>
+
+    <text class="lbl" x="282" y="136">1</text>
+    <text class="lbl" x="700" y="134">2</text>
+    <text class="lbl" x="912" y="290">3</text>
+    <text class="lbl" x="700" y="396">4</text>
+    <text class="lbl" x="370" y="396">5</text>
+  </g>
+</svg>
