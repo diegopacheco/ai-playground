@@ -1,0 +1,39 @@
+pocs/fable5-rally-game/start.sh
+  s_46a5792e6d5c88::t_fd8cc8387dd27d 1-18
+pocs/fable5-rally-game/architecture.svg
+  s_46a5792e6d5c88::t_31bee6050791c4 1-82
+pocs/fable5-rally-game/README.md
+  s_46a5792e6d5c88::t_8d1bc70c427d8e 1-57
+pocs/fable5-rally-game/.gitignore
+  s_46a5792e6d5c88::t_8490886fb04cad 1
+pocs/fable5-rally-game/index.html
+  s_46a5792e6d5c88::t_e04eda8cb6b1a5 568-575
+  s_46a5792e6d5c88::t_99e90cc9891fc4 550
+  s_46a5792e6d5c88::t_6cda30fb57042a 267,271-297,299-322,324-329,331-343
+  s_46a5792e6d5c88::t_2f20f697cf3ac3 262
+  s_46a5792e6d5c88::t_98d97c814074d1 518-546
+  s_46a5792e6d5c88::t_5fc545812e737b 373
+  s_46a5792e6d5c88::t_e872516d6cc302 149
+  s_46a5792e6d5c88::t_a6b3b20f3f1bfa 63
+  s_46a5792e6d5c88::t_6d88e370a8ce2d 360-361
+  s_46a5792e6d5c88::t_15a6fa9c834c78 1-62,64-148,150-261,263-266,268-270,298,323,330,344-359,362-372,374-482,487-517,547-549,551-567,576-626
+  s_46a5792e6d5c88::t_f9a75d2b5b56bc 483-486
+pocs/fable5-rally-game/stop.sh
+  s_46a5792e6d5c88::t_9b24e99d0ecf19 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "943faf6dac5faa2c3bbc20f35867608fbc4e054e",
+  "prompts": {},
+  "sessions": {
+    "s_46a5792e6d5c88": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "09a61bc8-3b6c-49af-8a0a-0dd0ec3529d9",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
