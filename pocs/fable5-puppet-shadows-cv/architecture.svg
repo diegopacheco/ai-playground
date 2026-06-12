@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1240" viewBox="0 0 1240 1240">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="5"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 1 Q 6 5 0 9 L 10 5 Z" fill="#444"/>
+    </marker>
+  </defs>
+  <rect width="1240" height="1240" fill="#fffdf7"/>
+  <g filter="url(#wobble)" font-family="Caveat, 'Comic Sans MS', cursive" text-anchor="middle">
+    <text x="620" y="385" font-size="52" fill="#333">Puppet Shadows - contour matching pipeline</text>
+
+    <rect x="50" y="450" width="200" height="110" rx="14" fill="#d6e8fb" stroke="#5b8dc9" stroke-width="3"/>
+    <text x="150" y="498" font-size="34" fill="#2c4a6e">webcam</text>
+    <text x="150" y="535" font-size="26" fill="#2c4a6e">BGR frame</text>
+
+    <rect x="320" y="450" width="200" height="110" rx="14" fill="#fdf3c7" stroke="#c9a73b" stroke-width="3"/>
+    <text x="420" y="498" font-size="34" fill="#6e5a14">grayscale</text>
+    <text x="420" y="535" font-size="26" fill="#6e5a14">+ gaussian blur</text>
+
+    <rect x="590" y="450" width="200" height="110" rx="14" fill="#fde3cf" stroke="#d18a4a" stroke-width="3"/>
+    <text x="690" y="498" font-size="34" fill="#7a4515">Otsu threshold</text>
+    <text x="690" y="535" font-size="26" fill="#7a4515">inverted: shadow=white</text>
+
+    <rect x="860" y="450" width="200" height="110" rx="14" fill="#f9d8e8" stroke="#c46a9a" stroke-width="3"/>
+    <text x="960" y="498" font-size="34" fill="#6e2b4e">morphology</text>
+    <text x="960" y="535" font-size="26" fill="#6e2b4e">open + close</text>
+
+    <path d="M 250 505 Q 285 495 320 505" fill="none" stroke="#444" stroke-width="3.5" marker-end="url(#arrow)"/>
+    <path d="M 520 505 Q 555 515 590 505" fill="none" stroke="#444" stroke-width="3.5" marker-end="url(#arrow)"/>
+    <path d="M 790 505 Q 825 495 860 505" fill="none" stroke="#444" stroke-width="3.5" marker-end="url(#arrow)"/>
+
+    <path d="M 960 560 Q 990 640 850 690 Q 760 720 700 720" fill="none" stroke="#444" stroke-width="3.5" marker-end="url(#arrow)"/>
+
+    <rect x="440" y="670" width="260" height="110" rx="14" fill="#d9f2d9" stroke="#5da25d" stroke-width="3"/>
+    <text x="570" y="718" font-size="34" fill="#2a5c2a">largest contour</text>
+    <text x="570" y="755" font-size="26" fill="#2a5c2a">findContours + max area</text>
+
+    <rect x="90" y="850" width="290" height="130" rx="14" fill="#e7dcf7" stroke="#8b6cc1" stroke-width="3"/>
+    <text x="235" y="900" font-size="34" fill="#46306e">5 reference shapes</text>
+    <text x="235" y="938" font-size="26" fill="#46306e">rabbit dog bird swan snail</text>
+    <text x="235" y="968" font-size="26" fill="#46306e">drawn in shapes.py</text>
+
+    <rect x="470" y="860" width="300" height="120" rx="14" fill="#cdeef2" stroke="#4a9aa8" stroke-width="3"/>
+    <text x="620" y="908" font-size="34" fill="#1f5660">matchShapes</text>
+    <text x="620" y="945" font-size="26" fill="#1f5660">Hu moments + solidity</text>
+
+    <path d="M 570 780 Q 590 815 610 860" fill="none" stroke="#444" stroke-width="3.5" marker-end="url(#arrow)"/>
+    <path d="M 380 915 Q 425 910 470 918" fill="none" stroke="#444" stroke-width="3.5" marker-end="url(#arrow)"/>
+
+    <rect x="860" y="860" width="290" height="120" rx="14" fill="#fbe2d6" stroke="#cf7a52" stroke-width="3"/>
+    <text x="1005" y="908" font-size="34" fill="#73381c">best match label</text>
+    <text x="1005" y="945" font-size="26" fill="#73381c">drawn on the live frame</text>
+
+    <path d="M 770 918 Q 815 925 860 918" fill="none" stroke="#444" stroke-width="3.5" marker-end="url(#arrow)"/>
+  </g>
+</svg>
