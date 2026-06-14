@@ -1,0 +1,41 @@
+groups:
+  - name: sample-alerts
+    rules:
+      - alert: HighErrorRate
+        expr: app_error_rate > 0.5
+        for: 10s
+        labels:
+          severity: critical
+          team: payments
+        annotations:
+          summary: "High error rate on {{ $labels.instance }}"
+          description: "Error ratio is {{ $value }} (threshold 0.5)."
+
+      - alert: HighMemoryUsage
+        expr: app_memory_usage_ratio > 0.8
+        for: 10s
+        labels:
+          severity: warning
+          team: payments
+        annotations:
+          summary: "Memory usage high on {{ $labels.instance }}"
+          description: "Memory usage ratio is {{ $value }} (threshold 0.8)."
+
+      - alert: HighLatency
+        expr: app_request_latency_seconds > 1
+        for: 10s
+        labels:
+          severity: warning
+          team: payments
+        annotations:
+          summary: "Request latency high on {{ $labels.instance }}"
+          description: "Latency is {{ $value }}s (threshold 1s)."
+
+      - alert: InstanceDown
+        expr: up == 0
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Target {{ $labels.instance }} ({{ $labels.job }}) is down"
+          description: "Prometheus cannot scrape {{ $labels.instance }}."
