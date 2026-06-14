@@ -1,0 +1,7 @@
+node_modules/
+dist/
+rerender-report/
+.rerender-tmp/
+.playwright-mcp/
+*.log
+.DS_Store

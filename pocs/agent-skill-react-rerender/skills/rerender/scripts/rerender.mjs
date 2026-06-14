@@ -6,6 +6,7 @@ import { spawnSync } from "node:child_process";
 const here = dirname(fileURLToPath(import.meta.url));
 const skillRoot = resolve(here, "..");
 const STRESS_UPDATES = 40;
+const NOISE_FLOOR_MS = 0.05;
 const COMPONENT_EXT = new Set([".jsx", ".tsx", ".js", ".ts"]);
 const SKIP_DIRS = new Set(["node_modules", "dist", "build", ".next", "out", "coverage", ".rerender-tmp", ".git", ".cache", "public"]);
 const ENTRY_RE = /(createRoot|hydrateRoot|ReactDOM\.render|ReactDOM\.hydrate)\s*\(/;
@@ -194,7 +195,6 @@ ${imports}
 
 const K = ${STRESS_UPDATES};
 const act = React.act || ((cb) => { const r = cb(); return Promise.resolve(r); });
-const origError = console.error; const origWarn = console.warn;
 console.error = () => {}; console.warn = () => {};
 
 const SPECS = [
@@ -251,7 +251,6 @@ async function main() {
     try { res = await measure(spec); } catch (e) { res = { error: String((e && e.message) || e) }; }
     out.push({ id: spec.id, file: spec.file, ...res });
   }
-  origError; origWarn;
   process.stdout.write("RERENDER_JSON_START" + JSON.stringify(out) + "RERENDER_JSON_END\\n");
   process.exit(0);
 }
@@ -350,7 +349,7 @@ async function main() {
       const samples = r.samples || [];
       const mount = samples[0] || { ms: 0 };
       const updates = samples.slice(1);
-      const effective = updates.filter((s) => s.ms > 0.01);
+      const effective = updates.filter((s) => s.ms > NOISE_FLOOR_MS);
       const durs = effective.map((s) => s.ms);
       const sum = durs.reduce((a, b) => a + b, 0);
       c.runtime = {

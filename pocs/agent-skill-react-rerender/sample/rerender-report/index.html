@@ -1,1 +1,364 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>placeholder</title></head><body><pre id="o"></pre><script>const D={"meta":{"project":"rerender-sample-app","generatedAt":"2026-06-14T19:24:06.720Z","reactVersion":"19.2.7","esbuildVersion":"0.28.1","stressUpdates":40,"componentCount":7,"measuredCount":7,"scanRoot":"src"},"summary":{"avgScore":79,"totalWasted":81,"totalStress":240,"totalRenderMs":175.08,"issueCount":3,"slowest":{"id":"ActivityFeed","ms":7.6828},"worst":{"id":"ActivityFeed","score":27},"good":5,"warn":0,"poor":2},"components":[{"id":"ActivityFeed","name":"ActivityFeed","file":"src/components/ActivityFeed.jsx","isRoot":false,"static":{"hasMemo":false,"hooks":{"useState":0,"useEffect":0,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":3,"memoizedComputations":0,"loc":34},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":14.0281,"wastedRenders":40,"avgUpdateMs":2.4876,"maxUpdateMs":7.6828,"totalUpdateMs":99.5027,"series":[7.6828,6.5588,6.825,7.018,7.0716,4.8562,1.9441,1.951,1.7668,1.7125,1.6257,1.779,1.8187,1.7415,1.7246,1.8249,2.012,1.8257,2.14,1.7059,1.6489,1.6736,1.6392,1.6801,1.7604,1.7744,1.8089,1.6594,1.6989,1.6299,1.6653,1.7134,1.5642,1.5714,1.6408,1.7608,1.8201,1.5644,2.0059,1.6378]},"score":27,"grade":"poor","issues":[{"code":"WASTED_RENDERS","severity":"high","title":"40 of 40 re-renders were wasted","detail":"Under 40 parent updates with unchanged props the component re-rendered 40 times.","fix":"Wrap the export in React.memo so it skips renders when its props are unchanged."}]},{"id":"MetricsTable","name":"MetricsTable","file":"src/components/MetricsTable.jsx","isRoot":false,"static":{"hasMemo":false,"hooks":{"useState":0,"useEffect":0,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":4,"memoizedComputations":0,"loc":56},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":2.5997,"wastedRenders":40,"avgUpdateMs":0.4403,"maxUpdateMs":0.5393,"totalUpdateMs":17.612,"series":[0.4976,0.4426,0.4651,0.4406,0.5023,0.486,0.5393,0.4453,0.4251,0.4659,0.4803,0.45,0.4274,0.496,0.4805,0.4269,0.4026,0.4043,0.4018,0.3999,0.4328,0.4,0.4055,0.477,0.4749,0.4623,0.4243,0.4066,0.4217,0.4203,0.4242,0.4243,0.4432,0.4052,0.4497,0.4115,0.4089,0.4221,0.4114,0.4066]},"score":38,"grade":"poor","issues":[{"code":"WASTED_RENDERS","severity":"high","title":"40 of 40 re-renders were wasted","detail":"Under 40 parent updates with unchanged props the component re-rendered 40 times.","fix":"Wrap the export in React.memo so it skips renders when its props are unchanged."}]},{"id":"App","name":"App","file":"src/App.jsx","isRoot":true,"static":{"hasMemo":false,"hooks":{"useState":2,"useEffect":1,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":2,"memoizedComputations":0,"loc":50},"runtime":{"stress":false,"stressUpdates":0,"isRoot":true,"commits":1,"mountMs":40.7903,"wastedRenders":0,"avgUpdateMs":0,"maxUpdateMs":0,"totalUpdateMs":0,"series":[]},"score":90,"grade":"good","issues":[]},{"id":"PriceTag","name":"PriceTag","file":"src/components/PriceTag.jsx","isRoot":false,"static":{"hasMemo":true,"hooks":{"useState":0,"useEffect":0,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":0,"memoizedComputations":0,"loc":11},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":0.0676,"wastedRenders":1,"avgUpdateMs":0.0145,"maxUpdateMs":0.0145,"totalUpdateMs":0.0145,"series":[0.0145]},"score":98,"grade":"good","issues":[{"code":"WASTED_RENDERS","severity":"medium","title":"1 of 40 re-renders were wasted","detail":"Under 40 parent updates with unchanged props the component re-rendered 1 times.","fix":"memo() is present but defeated — a prop changes identity each render. Memoize objects/arrays/callbacks passed in with useMemo / useCallback."}]},{"id":"ProductCard","name":"ProductCard","file":"src/components/ProductCard.jsx","isRoot":false,"static":{"hasMemo":true,"hooks":{"useState":0,"useEffect":0,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":0,"memoizedComputations":0,"loc":20},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":0.1737,"wastedRenders":0,"avgUpdateMs":0,"maxUpdateMs":0,"totalUpdateMs":0,"series":[]},"score":100,"grade":"good","issues":[]},{"id":"SearchBar","name":"SearchBar","file":"src/components/SearchBar.jsx","isRoot":false,"static":{"hasMemo":true,"hooks":{"useState":1,"useEffect":0,"useMemo":0,"useCallback":1,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":2,"memoizedComputations":1,"loc":36},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":0.242,"wastedRenders":0,"avgUpdateMs":0,"maxUpdateMs":0,"totalUpdateMs":0,"series":[]},"score":100,"grade":"good","issues":[]},{"id":"StatBadge","name":"StatBadge","file":"src/components/StatBadge.jsx","isRoot":false,"static":{"hasMemo":true,"hooks":{"useState":0,"useEffect":0,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":0,"memoizedComputations":0,"loc":18},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":0.0531,"wastedRenders":0,"avgUpdateMs":0,"maxUpdateMs":0,"totalUpdateMs":0,"series":[]},"score":100,"grade":"good","issues":[]}]};document.getElementById("o").textContent=JSON.stringify(D,null,2);</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>React Re-render Performance</title>
+<style>
+  :root{
+    --bg:#f4f6fb; --panel:#ffffff; --ink:#1b2230; --muted:#6b7488; --line:#e7eaf1;
+    --accent:#4c6ef5; --accent-soft:#eef1ff;
+    --good:#0cce6b; --good-soft:#e7f9f0; --warn:#ffa400; --warn-soft:#fff4e0; --poor:#ff4e42; --poor-soft:#ffe9e7;
+    --shadow:0 1px 2px rgba(20,28,48,.04),0 8px 26px rgba(20,28,48,.07);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1200px;margin:0 auto;padding:28px 22px 90px}
+  a{color:var(--accent)}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+  .title h1{font-size:26px;font-weight:800;margin:0;letter-spacing:-.02em}
+  .title .sub{color:var(--muted);font-size:13px;margin-top:6px}
+  .title .sub b{color:var(--ink);font-weight:600}
+  .stamp{font-size:11px;color:var(--muted);text-align:right;line-height:1.8}
+  .stamp code{background:var(--accent-soft);color:var(--accent);padding:1px 7px;border-radius:6px;font-size:11px}
+
+  .hero{display:flex;align-items:center;gap:30px;background:linear-gradient(120deg,#fff,#fbfcff);border:1px solid var(--line);border-radius:20px;padding:26px 30px;box-shadow:var(--shadow);margin-bottom:22px;flex-wrap:wrap}
+  .hero .htxt{flex:1;min-width:260px}
+  .hero .htxt .lab{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+  .hero .htxt .head{font-size:24px;font-weight:800;letter-spacing:-.02em;margin:6px 0 8px}
+  .hero .htxt .desc{font-size:14px;color:var(--muted);max-width:560px}
+  .gradechips{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:5px 11px;border-radius:30px;border:1px solid var(--line)}
+  .chip .sw{width:10px;height:10px;border-radius:50%}
+  .chip.good{background:var(--good-soft)} .chip.good .sw{background:var(--good)}
+  .chip.warn{background:var(--warn-soft)} .chip.warn .sw{background:var(--warn)}
+  .chip.poor{background:var(--poor-soft)} .chip.poor .sw{background:var(--poor)}
+
+  .gaugewrap{position:relative;width:172px;height:172px;flex-shrink:0}
+  .gaugewrap .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .gaugewrap .num b{font-size:46px;font-weight:800;letter-spacing:-.03em;line-height:1}
+  .gaugewrap .num span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-top:4px}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .card .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+  .card .v{font-size:30px;font-weight:800;margin-top:7px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .card .note{font-size:12px;color:var(--muted);margin-top:3px}
+  .card .stripe{position:absolute;left:0;top:0;bottom:0;width:4px}
+
+  section.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px 24px;box-shadow:var(--shadow);margin-bottom:22px}
+  .panel h2{font-size:16px;font-weight:780;margin:0 0 4px}
+  .panel .desc{color:var(--muted);font-size:13px;margin:0 0 18px;max-width:680px}
+
+  .bars{display:flex;flex-direction:column;gap:12px}
+  .bars .row{display:flex;align-items:center;gap:13px}
+  .bars .nm{width:150px;flex-shrink:0;font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:7px}
+  .bars .nm .d{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+  .bars .track{flex:1;height:26px;background:#f1f2f6;border-radius:8px;position:relative;overflow:hidden}
+  .bars .fill{position:absolute;inset:0 auto 0 0;border-radius:8px;width:0;transition:width 1s cubic-bezier(.2,.7,.2,1)}
+  .bars .amt{width:128px;flex-shrink:0;text-align:right;font-size:12px;color:var(--muted)}
+  .bars .amt b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+  .split{display:grid;grid-template-columns:1.55fr 1fr;gap:22px}
+  @media(max-width:860px){.split{grid-template-columns:1fr}}
+  .dist{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;height:100%}
+  .distbar{display:flex;width:100%;height:30px;border-radius:9px;overflow:hidden;border:1px solid var(--line)}
+  .distbar i{display:block;height:100%}
+  .distleg{display:flex;flex-direction:column;gap:9px;width:100%}
+  .distleg .it{display:flex;align-items:center;gap:9px;font-size:13px}
+  .distleg .sw{width:12px;height:12px;border-radius:4px}
+  .distleg .it b{margin-left:auto;font-variant-numeric:tabular-nums}
+
+  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  .seg{display:inline-flex;background:#f1f2f6;border-radius:10px;padding:3px}
+  .seg button{border:0;background:transparent;color:var(--muted);font-size:12px;font-weight:700;padding:7px 13px;border-radius:8px;cursor:pointer}
+  .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(20,28,48,.12)}
+  #filter{flex:1;min-width:200px;max-width:320px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-size:13px;background:#fafbfc;color:var(--ink)}
+  #filter:focus{outline:none;border-color:var(--accent);background:#fff}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .comp{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;border-top:4px solid var(--line)}
+  .comp.good{border-top-color:var(--good)} .comp.warn{border-top-color:var(--warn)} .comp.poor{border-top-color:var(--poor)}
+  .comp .chead{display:flex;align-items:center;gap:14px}
+  .comp .cg{width:62px;height:62px;flex-shrink:0;position:relative}
+  .comp .cg .n{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+  .comp .cname{font-size:16px;font-weight:780;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .comp .cfile{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:var(--muted);margin-top:3px;word-break:break-all}
+  .tag{font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
+  .tag.memo{background:var(--good-soft);color:#08a85a}
+  .tag.nomemo{background:var(--poor-soft);color:#d6322a}
+  .tag.root{background:var(--accent-soft);color:var(--accent)}
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .metrics .m{background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:9px 8px;text-align:center}
+  .metrics .m .mv{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .metrics .m .mk{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-top:2px}
+  .metrics .m.bad .mv{color:var(--poor)}
+  .spark{height:36px;width:100%;background:#fafbfc;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .sparknote{font-size:11px;color:var(--muted);margin-top:-8px}
+  .issues{display:flex;flex-direction:column;gap:9px}
+  .issue{border-left:3px solid var(--line);background:#fafbfc;border-radius:0 9px 9px 0;padding:9px 12px}
+  .issue.high{border-left-color:var(--poor)} .issue.medium{border-left-color:var(--warn)} .issue.low{border-left-color:var(--accent)}
+  .issue .it{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .issue .sev{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:1px 6px;border-radius:5px}
+  .issue.high .sev{background:var(--poor-soft);color:#d6322a}
+  .issue.medium .sev{background:var(--warn-soft);color:#c47f00}
+  .issue.low .sev{background:var(--accent-soft);color:var(--accent)}
+  .issue .de{font-size:12px;color:var(--muted);margin-top:4px}
+  .issue .fx{font-size:12px;margin-top:6px}
+  .issue .fx b{color:#08a85a}
+  .clean{font-size:13px;color:#08a85a;font-weight:700;display:flex;align-items:center;gap:8px}
+  .hooks{display:flex;gap:6px;flex-wrap:wrap}
+  .hook{font-size:10.5px;font-weight:700;background:#f1f2f6;color:#4a5163;padding:2px 8px;border-radius:6px}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:34px;line-height:1.8}
+  .method{font-size:12.5px;color:var(--muted);line-height:1.7}
+  .method b{color:var(--ink)}
+  .method code{background:#f1f2f6;padding:1px 6px;border-radius:5px;font-size:11.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="title">
+      <h1>React Re-render Performance</h1>
+      <div class="sub" id="subline"></div>
+    </div>
+    <div class="stamp" id="stamp"></div>
+  </header>
+
+  <div class="hero">
+    <div class="gaugewrap" id="heroGauge"></div>
+    <div class="htxt">
+      <div class="lab">Overall rerender score</div>
+      <div class="head" id="heroHead"></div>
+      <div class="desc" id="heroDesc"></div>
+      <div class="gradechips" id="heroChips"></div>
+    </div>
+  </div>
+
+  <div class="cards" id="cards"></div>
+
+  <section class="panel">
+    <div class="split">
+      <div>
+        <h2>Wasted re-renders per component</h2>
+        <p class="desc">Each component was mounted, then its parent was re-rendered <b id="stressN"></b> times with <b>identical props</b>. A bar shows how many of those re-renders did real work — renders that React could have skipped. Memoized components stay at zero.</p>
+        <div class="bars" id="wastedBars"></div>
+      </div>
+      <div>
+        <h2>Score distribution</h2>
+        <p class="desc">Lighthouse-style grading.</p>
+        <div class="dist">
+          <div class="distbar" id="distBar"></div>
+          <div class="distleg" id="distLeg"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Average render cost</h2>
+    <p class="desc">Average time each component spent in a single re-render under churn (measured by React's Profiler in a development build). Components that bail out of re-rendering cost nothing.</p>
+    <div class="bars" id="costBars"></div>
+  </section>
+
+  <section class="panel">
+    <div class="toolbar">
+      <div>
+        <h2 style="margin:0">Components</h2>
+        <p class="desc" style="margin:4px 0 0" id="compDesc"></p>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <input id="filter" placeholder="Filter components…">
+        <div class="seg" id="sortSeg">
+          <button data-sort="score" class="on">Score</button>
+          <button data-sort="wasted">Wasted</button>
+          <button data-sort="cost">Cost</button>
+          <button data-sort="name">Name</button>
+        </div>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="panel">
+    <h2>How these numbers were measured</h2>
+    <p class="method" id="method"></p>
+  </section>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+const DATA = {"meta":{"project":"rerender-sample-app","generatedAt":"2026-06-14T20:01:33.085Z","reactVersion":"19.2.7","esbuildVersion":"0.28.1","stressUpdates":40,"componentCount":7,"measuredCount":7,"scanRoot":"src"},"summary":{"avgScore":79,"totalWasted":80,"totalStress":240,"totalRenderMs":164.24,"issueCount":2,"slowest":{"id":"ActivityFeed","ms":7.0647},"worst":{"id":"ActivityFeed","score":27},"good":5,"warn":0,"poor":2},"components":[{"id":"ActivityFeed","name":"ActivityFeed","file":"src/components/ActivityFeed.jsx","isRoot":false,"static":{"hasMemo":false,"hooks":{"useState":0,"useEffect":0,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":3,"memoizedComputations":0,"loc":34},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":11.7143,"wastedRenders":40,"avgUpdateMs":2.4024,"maxUpdateMs":7.0647,"totalUpdateMs":96.0945,"series":[7.0647,6.4302,6.4133,6.9521,6.4472,4.7857,1.8438,1.7629,1.837,1.6766,1.7817,1.8939,1.6817,1.6904,1.9216,1.9456,1.8434,1.9032,1.5031,1.589,1.6103,1.5505,1.6566,1.6172,1.8355,1.7447,1.6858,1.5064,1.7664,1.8993,1.8659,1.7352,1.6964,1.7359,1.55,1.6079,1.5471,1.5379,1.5228,1.4556]},"score":27,"grade":"poor","issues":[{"code":"WASTED_RENDERS","severity":"high","title":"40 of 40 re-renders were wasted","detail":"Under 40 parent updates with unchanged props the component re-rendered 40 times.","fix":"Wrap the export in React.memo so it skips renders when its props are unchanged."}]},{"id":"MetricsTable","name":"MetricsTable","file":"src/components/MetricsTable.jsx","isRoot":false,"static":{"hasMemo":false,"hooks":{"useState":0,"useEffect":0,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":4,"memoizedComputations":0,"loc":56},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":2.234,"wastedRenders":40,"avgUpdateMs":0.4609,"maxUpdateMs":0.5615,"totalUpdateMs":18.4373,"series":[0.4572,0.4579,0.4925,0.4619,0.4395,0.4566,0.43,0.4297,0.4404,0.5188,0.4517,0.3984,0.4043,0.4553,0.4028,0.3834,0.4268,0.451,0.4092,0.5074,0.531,0.4409,0.4451,0.4383,0.4583,0.5007,0.5082,0.4899,0.4445,0.4703,0.4539,0.4961,0.5428,0.5615,0.442,0.4315,0.4862,0.5282,0.4712,0.4218]},"score":38,"grade":"poor","issues":[{"code":"WASTED_RENDERS","severity":"high","title":"40 of 40 re-renders were wasted","detail":"Under 40 parent updates with unchanged props the component re-rendered 40 times.","fix":"Wrap the export in React.memo so it skips renders when its props are unchanged."}]},{"id":"App","name":"App","file":"src/App.jsx","isRoot":true,"static":{"hasMemo":false,"hooks":{"useState":2,"useEffect":1,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":2,"memoizedComputations":0,"loc":50},"runtime":{"stress":false,"stressUpdates":0,"isRoot":true,"commits":1,"mountMs":35.197,"wastedRenders":0,"avgUpdateMs":0,"maxUpdateMs":0,"totalUpdateMs":0,"series":[]},"score":91,"grade":"good","issues":[]},{"id":"PriceTag","name":"PriceTag","file":"src/components/PriceTag.jsx","isRoot":false,"static":{"hasMemo":true,"hooks":{"useState":0,"useEffect":0,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":0,"memoizedComputations":0,"loc":11},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":0.0543,"wastedRenders":0,"avgUpdateMs":0,"maxUpdateMs":0,"totalUpdateMs":0,"series":[]},"score":100,"grade":"good","issues":[]},{"id":"ProductCard","name":"ProductCard","file":"src/components/ProductCard.jsx","isRoot":false,"static":{"hasMemo":true,"hooks":{"useState":0,"useEffect":0,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":0,"memoizedComputations":0,"loc":20},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":0.2288,"wastedRenders":0,"avgUpdateMs":0,"maxUpdateMs":0,"totalUpdateMs":0,"series":[]},"score":100,"grade":"good","issues":[]},{"id":"SearchBar","name":"SearchBar","file":"src/components/SearchBar.jsx","isRoot":false,"static":{"hasMemo":true,"hooks":{"useState":1,"useEffect":0,"useMemo":0,"useCallback":1,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":2,"memoizedComputations":1,"loc":36},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":0.2346,"wastedRenders":0,"avgUpdateMs":0,"maxUpdateMs":0,"totalUpdateMs":0,"series":[]},"score":100,"grade":"good","issues":[]},{"id":"StatBadge","name":"StatBadge","file":"src/components/StatBadge.jsx","isRoot":false,"static":{"hasMemo":true,"hooks":{"useState":0,"useEffect":0,"useMemo":0,"useCallback":0,"useRef":0,"useContext":0,"useReducer":0},"inlineProps":0,"arrayOps":0,"memoizedComputations":0,"loc":18},"runtime":{"stress":true,"stressUpdates":40,"isRoot":false,"commits":41,"mountMs":0.0487,"wastedRenders":0,"avgUpdateMs":0,"maxUpdateMs":0,"totalUpdateMs":0,"series":[]},"score":100,"grade":"good","issues":[]}]};
+const C = { good:getCSS('--good'), warn:getCSS('--warn'), poor:getCSS('--poor') };
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+function gradeColor(g){return g==='good'?C.good:g==='warn'?C.warn:C.poor;}
+function fmt(n){return n.toLocaleString();}
+function ms(n){return n>=1?n.toFixed(2):n.toFixed(3);}
+
+function ring(score,size,stroke){
+  const r=(size-stroke)/2, c=2*Math.PI*r, col=gradeColor(score>=90?'good':score>=50?'warn':'poor');
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#eef0f5" stroke-width="${stroke}"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${col}" stroke-width="${stroke}"
+      stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c}"
+      transform="rotate(-90 ${size/2} ${size/2})" class="ringval" data-c="${c}" data-score="${score}"/>
+  </svg>`;
+}
+function animateRings(){
+  document.querySelectorAll('.ringval').forEach(el=>{
+    const c=+el.dataset.c, s=+el.dataset.score;
+    requestAnimationFrame(()=>{ el.style.transition='stroke-dashoffset 1.1s cubic-bezier(.2,.7,.2,1)'; el.style.strokeDashoffset=c*(1-s/100); });
+  });
+}
+function countUp(el,to,suffix,dec){
+  const dur=900,start=performance.now();
+  function step(t){const p=Math.min(1,(t-start)/dur);const e=1-Math.pow(1-p,3);
+    el.textContent=(dec?(to*e).toFixed(dec):Math.round(to*e).toLocaleString())+(suffix||'');
+    if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+function sparkline(series,color){
+  if(!series||series.length===0)return '<svg width="100%" height="36"></svg>';
+  const w=300,h=36,pad=3,max=Math.max(...series,0.0001),n=series.length;
+  const pts=series.map((v,i)=>{const x=n>1?pad+(i/(n-1))*(w-2*pad):w/2;const y=h-pad-(v/max)*(h-2*pad);return x.toFixed(1)+','+y.toFixed(1);}).join(' ');
+  const area=`${pad},${h-pad} `+pts+` ${w-pad},${h-pad}`;
+  return `<svg width="100%" height="36" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <polygon points="${area}" fill="${color}" opacity="0.12"/>
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.6"/>
+  </svg>`;
+}
+
+const m=DATA.meta,s=DATA.summary,comps=DATA.components;
+
+document.getElementById('subline').innerHTML='Project <b>'+m.project+'</b> · scanned <b>'+m.scanRoot+'</b> · <b>'+m.componentCount+'</b> components';
+document.getElementById('stamp').innerHTML='React <code>'+m.reactVersion+'</code> · esbuild <code>'+m.esbuildVersion+'</code><br>'+m.stressUpdates+' stress updates/component<br>'+new Date(m.generatedAt).toLocaleString();
+document.getElementById('stressN').textContent=m.stressUpdates;
+
+document.getElementById('heroGauge').innerHTML=ring(s.avgScore,172,13)+'<div class="num"><b id="heroScore">0</b><span>/ 100</span></div>';
+const verdict=s.avgScore>=90?'Your components are render-efficient.':s.avgScore>=50?'Some components are leaking renders.':'Render waste is hurting this app.';
+document.getElementById('heroHead').textContent=verdict;
+document.getElementById('heroDesc').innerHTML=s.good+' of '+m.measuredCount+' measured components are clean. '+
+  (s.poor>0?'<b>'+s.poor+'</b> '+(s.poor===1?'component is':'components are')+' wasting renders and '+(s.poor===1?'needs':'need')+' attention.':'No components scored in the danger zone.');
+document.getElementById('heroChips').innerHTML=
+  '<span class="chip good"><span class="sw"></span>'+s.good+' good (90+)</span>'+
+  '<span class="chip warn"><span class="sw"></span>'+s.warn+' needs work (50-89)</span>'+
+  '<span class="chip poor"><span class="sw"></span>'+s.poor+' poor (<50)</span>';
+
+const cards=[
+  {k:'Components',v:m.componentCount,note:m.measuredCount+' measured at runtime',col:'var(--accent)',dec:0},
+  {k:'Wasted renders',v:s.totalWasted,note:'of '+s.totalStress+' stressed updates',col:s.totalWasted>0?'var(--poor)':'var(--good)',dec:0},
+  {k:'Total render time',v:s.totalRenderMs,note:'ms across all components',col:'var(--warn)',dec:1,suf:' ms'},
+  {k:'With issues',v:s.issueCount,note:'components flagged',col:s.issueCount>0?'var(--warn)':'var(--good)',dec:0},
+  {k:'Slowest render',v:s.slowest?s.slowest.ms:0,note:s.slowest?s.slowest.id:'—',col:'var(--poor)',dec:2,suf:' ms'},
+];
+document.getElementById('cards').innerHTML=cards.map((c,i)=>
+  '<div class="card"><div class="stripe" style="background:'+c.col+'"></div><div class="k">'+c.k+'</div><div class="v" id="cv'+i+'">0</div><div class="note">'+c.note+'</div></div>').join('');
+cards.forEach((c,i)=>countUp(document.getElementById('cv'+i),c.v,c.suf||'',c.dec));
+
+const stressed=comps.filter(c=>c.runtime&&c.runtime.stress);
+const maxWasted=Math.max(1,...stressed.map(c=>c.runtime.stressUpdates));
+document.getElementById('wastedBars').innerHTML=stressed.slice().sort((a,b)=>b.runtime.wastedRenders-a.runtime.wastedRenders).map(c=>{
+  const col=gradeColor(c.grade),w=c.runtime.wastedRenders;
+  return '<div class="row"><div class="nm"><span class="d" style="background:'+col+'"></span>'+c.id+'</div>'+
+    '<div class="track"><div class="fill" data-w="'+(w/maxWasted*100)+'" style="background:'+col+'"></div></div>'+
+    '<div class="amt"><b>'+w+'</b> / '+c.runtime.stressUpdates+'</div></div>';
+}).join('');
+
+const costed=comps.filter(c=>c.runtime).slice().sort((a,b)=>b.runtime.avgUpdateMs-a.runtime.avgUpdateMs);
+const maxCost=Math.max(0.0001,...costed.map(c=>c.runtime.avgUpdateMs));
+document.getElementById('costBars').innerHTML=costed.map(c=>{
+  const col=gradeColor(c.grade),v=c.runtime.avgUpdateMs;
+  return '<div class="row"><div class="nm"><span class="d" style="background:'+col+'"></span>'+c.id+'</div>'+
+    '<div class="track"><div class="fill" data-w="'+(v/maxCost*100)+'" style="background:'+col+'"></div></div>'+
+    '<div class="amt"><b>'+ms(v)+'</b> ms avg</div></div>';
+}).join('');
+
+const total=Math.max(1,s.good+s.warn+s.poor);
+document.getElementById('distBar').innerHTML=
+  '<i style="width:'+(s.good/total*100)+'%;background:var(--good)"></i>'+
+  '<i style="width:'+(s.warn/total*100)+'%;background:var(--warn)"></i>'+
+  '<i style="width:'+(s.poor/total*100)+'%;background:var(--poor)"></i>';
+document.getElementById('distLeg').innerHTML=
+  '<div class="it"><span class="sw" style="background:var(--good)"></span>Good · 90 and up<b>'+s.good+'</b></div>'+
+  '<div class="it"><span class="sw" style="background:var(--warn)"></span>Needs work · 50-89<b>'+s.warn+'</b></div>'+
+  '<div class="it"><span class="sw" style="background:var(--poor)"></span>Poor · under 50<b>'+s.poor+'</b></div>';
+
+document.getElementById('compDesc').textContent=m.componentCount+' components, sorted worst-first. Click a sort to reorder.';
+
+function hooksRow(h){
+  const order=['useState','useEffect','useMemo','useCallback','useRef','useContext','useReducer'];
+  const items=order.filter(k=>h[k]>0).map(k=>'<span class="hook">'+k+' ×'+h[k]+'</span>');
+  return items.length?'<div class="hooks">'+items.join('')+'</div>':'';
+}
+function compCard(c){
+  const col=gradeColor(c.grade),r=c.runtime;
+  const tags=[];
+  tags.push(c.static.hasMemo?'<span class="tag memo">memo</span>':'<span class="tag nomemo">no memo</span>');
+  if(c.isRoot)tags.push('<span class="tag root">root</span>');
+  let metrics='';
+  if(r){
+    const wb=r.stress&&r.wastedRenders>0?' bad':'';
+    metrics='<div class="metrics">'+
+      '<div class="m"><div class="mv">'+r.commits+'</div><div class="mk">Commits</div></div>'+
+      '<div class="m'+wb+'"><div class="mv">'+(r.stress?r.wastedRenders:'—')+'</div><div class="mk">Wasted</div></div>'+
+      '<div class="m"><div class="mv">'+ms(r.avgUpdateMs)+'</div><div class="mk">Avg ms</div></div>'+
+      '<div class="m"><div class="mv">'+ms(Math.max(r.mountMs,r.maxUpdateMs))+'</div><div class="mk">Peak ms</div></div>'+
+    '</div>';
+  } else {
+    metrics='<div class="issue medium"><div class="it">Not measured at runtime</div><div class="de">'+(c.runtimeError||'')+'</div></div>';
+  }
+  let spark='';
+  if(r&&r.series&&r.series.length){
+    spark='<div class="spark">'+sparkline(r.series,col)+'</div><div class="sparknote">per-render cost across '+r.series.length+' wasted renders</div>';
+  }
+  let issues='';
+  if(c.issues.length){
+    issues='<div class="issues">'+c.issues.map(i=>
+      '<div class="issue '+i.severity+'"><div class="it"><span class="sev">'+i.severity+'</span>'+i.title+'</div>'+
+      '<div class="de">'+i.detail+'</div><div class="fx"><b>Fix:</b> '+i.fix+'</div></div>').join('')+'</div>';
+  } else if(r){
+    issues='<div class="clean">✓ No render issues detected</div>';
+  }
+  return '<div class="comp '+c.grade+'" data-name="'+c.id.toLowerCase()+'">'+
+    '<div class="chead"><div class="cg">'+ring(c.score,62,6)+'<div class="n" style="color:'+col+'">'+c.score+'</div></div>'+
+    '<div><div class="cname">'+c.id+' '+tags.join(' ')+'</div><div class="cfile">'+c.file+'</div>'+hooksRow(c.static.hooks)+'</div></div>'+
+    metrics+spark+issues+'</div>';
+}
+
+let sortKey='score';
+function sortComps(list){
+  const a=list.slice();
+  if(sortKey==='score')a.sort((x,y)=>x.score-y.score);
+  else if(sortKey==='wasted')a.sort((x,y)=>(y.runtime?y.runtime.wastedRenders:-1)-(x.runtime?x.runtime.wastedRenders:-1));
+  else if(sortKey==='cost')a.sort((x,y)=>(y.runtime?y.runtime.avgUpdateMs:-1)-(x.runtime?x.runtime.avgUpdateMs:-1));
+  else a.sort((x,y)=>x.id.localeCompare(y.id));
+  return a;
+}
+function renderGrid(){
+  const q=document.getElementById('filter').value.toLowerCase();
+  const list=sortComps(comps).filter(c=>c.id.toLowerCase().includes(q)||c.file.toLowerCase().includes(q));
+  document.getElementById('grid').innerHTML=list.map(compCard).join('');
+  animateRings();
+}
+document.getElementById('filter').addEventListener('input',renderGrid);
+document.querySelectorAll('#sortSeg button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#sortSeg button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');sortKey=b.dataset.sort;renderGrid();
+}));
+
+document.getElementById('method').innerHTML=
+  'Every number is <b>measured at runtime</b>, never estimated. For each component the engine bundles a harness with the project’s own <b>React '+m.reactVersion+'</b> (via esbuild) and mounts it in <b>jsdom</b> inside a <code>&lt;Profiler&gt;</code>. '+
+  'A parent component then re-renders the subtree <b>'+m.stressUpdates+' times</b> while passing <b>referentially-stable props</b>. '+
+  'React’s <code>onRender</code> callback reports each commit’s <code>actualDuration</code>; a re-render that did measurable work despite unchanged props is counted as <b>wasted</b> — exactly the work <code>React.memo</code> would skip. '+
+  'A correctly memoized component bails out and records zero. The root component (rendered by <code>createRoot</code>) has no real parent, so it is measured for mount cost only and exempt from the churn test. '+
+  'Durations come from a React <b>development profiling build</b>, so absolute values run a little high, but they are honest and comparable across components.';
+document.getElementById('foot').innerHTML='Generated by the <b>/rerender</b> agent skill · React Re-render Performance · self-contained, no network calls';
+
+countUp(document.getElementById('heroScore'),s.avgScore,'',0);
+renderGrid();
+requestAnimationFrame(()=>{document.querySelectorAll('.fill').forEach(f=>f.style.width=f.dataset.w+'%');animateRings();});
+</script>
+</body>
+</html>

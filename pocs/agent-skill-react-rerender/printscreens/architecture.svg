@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 580" width="1180" height="580" font-family="'Caveat','Comic Sans MS',cursive">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');</style>
+    <filter id="wob" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5a6071"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1180" height="580" fill="#f7f8fc"/>
+  <text x="48" y="50" font-size="34" font-weight="700" fill="#1b2230">React Re-render Performance — how /rerender works</text>
+
+  <g filter="url(#wob)" stroke-linejoin="round">
+    <g>
+      <rect x="40" y="96" width="220" height="92" rx="16" fill="#e7edff" stroke="#4c6ef5" stroke-width="2.5"/>
+      <text x="150" y="132" font-size="26" font-weight="700" text-anchor="middle" fill="#2540b8">/rerender</text>
+      <text x="150" y="162" font-size="19" text-anchor="middle" fill="#42506b">on a React project</text>
+    </g>
+    <g>
+      <rect x="320" y="96" width="220" height="92" rx="16" fill="#e6f8ef" stroke="#0cce6b" stroke-width="2.5"/>
+      <text x="430" y="130" font-size="23" font-weight="700" text-anchor="middle" fill="#0a8f4d">Discover components</text>
+      <text x="430" y="160" font-size="19" text-anchor="middle" fill="#42506b">scan src/ for .jsx/.tsx</text>
+    </g>
+    <g>
+      <rect x="600" y="96" width="220" height="92" rx="16" fill="#e6f8ef" stroke="#0cce6b" stroke-width="2.5"/>
+      <text x="710" y="128" font-size="23" font-weight="700" text-anchor="middle" fill="#0a8f4d">Static scan</text>
+      <text x="710" y="156" font-size="18" text-anchor="middle" fill="#42506b">memo · hooks · inline props</text>
+    </g>
+    <g>
+      <rect x="900" y="96" width="240" height="92" rx="16" fill="#efe7ff" stroke="#8b5cf6" stroke-width="2.5"/>
+      <text x="1020" y="128" font-size="22" font-weight="700" text-anchor="middle" fill="#6d3fd6">esbuild bundles harness</text>
+      <text x="1020" y="156" font-size="18" text-anchor="middle" fill="#42506b">with the project's React</text>
+    </g>
+
+    <g>
+      <rect x="900" y="372" width="240" height="92" rx="16" fill="#efe7ff" stroke="#8b5cf6" stroke-width="2.5"/>
+      <text x="1020" y="404" font-size="22" font-weight="700" text-anchor="middle" fill="#6d3fd6">Mount in jsdom</text>
+      <text x="1020" y="432" font-size="18" text-anchor="middle" fill="#42506b">inside &lt;Profiler&gt;</text>
+    </g>
+    <g>
+      <rect x="600" y="372" width="220" height="92" rx="16" fill="#fff1de" stroke="#ffa400" stroke-width="2.5"/>
+      <text x="710" y="404" font-size="21" font-weight="700" text-anchor="middle" fill="#c47f00">Stress: 40 re-renders</text>
+      <text x="710" y="432" font-size="18" text-anchor="middle" fill="#42506b">parent churn, stable props</text>
+    </g>
+    <g>
+      <rect x="320" y="372" width="220" height="92" rx="16" fill="#fff1de" stroke="#ffa400" stroke-width="2.5"/>
+      <text x="430" y="402" font-size="21" font-weight="700" text-anchor="middle" fill="#c47f00">Count wasted renders</text>
+      <text x="430" y="430" font-size="18" text-anchor="middle" fill="#42506b">+ durations · score 0-100</text>
+    </g>
+    <g>
+      <rect x="40" y="372" width="220" height="92" rx="16" fill="#e6f8ef" stroke="#0cce6b" stroke-width="2.5"/>
+      <text x="150" y="404" font-size="22" font-weight="700" text-anchor="middle" fill="#0a8f4d">Light-theme report</text>
+      <text x="150" y="432" font-size="17" text-anchor="middle" fill="#42506b">rerender-report/index.html</text>
+    </g>
+  </g>
+
+  <g filter="url(#wob)" fill="none" stroke="#5a6071" stroke-width="2.4" marker-end="url(#arrow)">
+    <path d="M262,142 Q292,134 318,142"/>
+    <path d="M542,142 Q572,150 598,142"/>
+    <path d="M822,142 Q852,134 898,142"/>
+    <path d="M1020,190 Q1032,280 1020,370"/>
+    <path d="M898,418 Q852,410 822,418"/>
+    <path d="M598,418 Q572,426 542,418"/>
+    <path d="M318,418 Q292,410 262,418"/>
+  </g>
+
+  <text x="48" y="540" font-size="20" fill="#6b7488">Measured at runtime with React's Profiler — wasted renders are the ones React.memo would skip. Never estimated.</text>
+</svg>
