@@ -1,0 +1,43 @@
+pocs/agent-skill-react-rerender/install.sh
+  s_7c72a7fbbf3083::t_d973fe69baf1c3 1-40
+pocs/agent-skill-react-rerender/uninstall.sh
+  s_7c72a7fbbf3083::t_d9ea81f2387b18 1-21
+pocs/agent-skill-react-rerender/sample/rerender-report/data.json
+  s_7c72a7fbbf3083::t_c4a1b97ad86669 165
+  s_7c72a7fbbf3083::t_26c69095dd2206 14,17,267-271,273,275
+pocs/agent-skill-react-rerender/skills/rerender/SKILL.md
+  s_7c72a7fbbf3083::t_f3f8d5e19f30ae 1-65
+pocs/agent-skill-react-rerender/design-doc.md
+  s_7c72a7fbbf3083::t_262304702c6e9f 1-47
+pocs/agent-skill-react-rerender/.gitignore
+  s_7c72a7fbbf3083::t_5f6a4990b3992e 1-7
+pocs/agent-skill-react-rerender/README.md
+  s_7c72a7fbbf3083::t_2634b0621f6c81 1-60,62-146
+  s_7c72a7fbbf3083::t_7e27ae49fa5a72 61
+pocs/agent-skill-react-rerender/skills/rerender/scripts/rerender.mjs
+  s_7c72a7fbbf3083::t_01af2279bf54e3 9
+  s_7c72a7fbbf3083::t_fe8d2c70023657 352
+pocs/agent-skill-react-rerender/printscreens/architecture.svg
+  s_7c72a7fbbf3083::t_7ac26b4a3edf0a 1-69,71
+  s_7c72a7fbbf3083::t_a57d956264eeea 70
+pocs/agent-skill-react-rerender/skills/rerender/assets/template.html
+  s_7c72a7fbbf3083::t_bd61557f9769cd 1-364
+pocs/agent-skill-react-rerender/sample/rerender-report/index.html
+  s_7c72a7fbbf3083::t_ce52d860aa84b8 1-192,194-364
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "c471fbd936ac596aad10246e2bdab4b09f20635e",
+  "prompts": {},
+  "sessions": {
+    "s_7c72a7fbbf3083": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "81fe48f1-a218-44ff-8ca9-0b008fff530f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
