@@ -1,0 +1,21 @@
+pocs/agent-skill-dead-code-finder/printscreens/architecture.html
+  s_6b7679572578fa::t_fd8469c27efbd3 1-68
+pocs/agent-skill-dead-code-finder/README.md
+  s_6b7679572578fa::t_b9dd65427ac6e0 1-96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.7",
+  "base_commit_sha": "8864b1788406073361e9075151a9d0678a8e565d",
+  "prompts": {},
+  "sessions": {
+    "s_6b7679572578fa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4bfa9dec-5eab-4c00-afc1-b32e82475540",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
