@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#fbfaf6}
+  svg{display:block}
+  .t{font-family:'Caveat',cursive;font-weight:700;fill:#33312e}
+  .s{font-family:'Patrick Hand',cursive;fill:#6c675e}
+  .h{font-family:'Caveat',cursive;font-weight:700;fill:#33312e}
+  .ha{fill:#d6492f}
+</style>
+</head>
+<body>
+<svg width="1190" height="430" viewBox="0 0 1190 430" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="wob" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.6"/>
+    </filter>
+    <marker id="ar" markerWidth="11" markerHeight="11" refX="8" refY="5" orient="auto">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#33312e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <text x="28" y="44" class="h" font-size="34">dead-code <tspan class="ha">static reachability pipeline</tspan></text>
+
+  <g fill="none" stroke="#33312e" stroke-width="2.2" stroke-linecap="round" marker-end="url(#ar)">
+    <path d="M188 223 Q200 219 210 223"/>
+    <path d="M376 223 Q388 227 398 223"/>
+    <path d="M564 223 Q576 219 586 223"/>
+    <path d="M752 211 Q784 150 790 121"/>
+    <path d="M752 235 Q784 296 790 325"/>
+    <path d="M956 121 Q982 152 990 209"/>
+    <path d="M956 325 Q982 294 990 237"/>
+  </g>
+
+  <g filter="url(#wob)" stroke="#33312e" stroke-width="2.4" stroke-linejoin="round">
+    <rect x="24"  y="190" width="164" height="66" rx="13" fill="#fdfbf6"/>
+    <rect x="212" y="190" width="164" height="66" rx="13" fill="#fdfbf6"/>
+    <rect x="400" y="190" width="164" height="66" rx="13" fill="#fdfbf6"/>
+    <rect x="588" y="190" width="164" height="66" rx="13" fill="#fef0c8"/>
+    <rect x="792" y="86"  width="164" height="66" rx="13" fill="#cdeacf"/>
+    <rect x="792" y="294" width="164" height="66" rx="13" fill="#f6cabf"/>
+    <rect x="992" y="190" width="164" height="66" rx="13" fill="#cfe0f3"/>
+  </g>
+
+  <g text-anchor="middle">
+    <text x="106"  y="219" class="t" font-size="25">Java sources</text>
+    <text x="106"  y="241" class="s" font-size="15">src/main/java</text>
+    <text x="294"  y="219" class="t" font-size="25">Parse methods</text>
+    <text x="294"  y="241" class="s" font-size="15">&amp; classes</text>
+    <text x="482"  y="219" class="t" font-size="25">Build call graph</text>
+    <text x="482"  y="241" class="s" font-size="15">resolve calls</text>
+    <text x="670"  y="219" class="t" font-size="25">Walk reachability</text>
+    <text x="670"  y="241" class="s" font-size="15">from entry points</text>
+    <text x="874"  y="115" class="t" font-size="25">Reachable</text>
+    <text x="874"  y="137" class="s" font-size="15">live</text>
+    <text x="874"  y="323" class="t" font-size="25">Dead methods</text>
+    <text x="874"  y="345" class="s" font-size="15">&amp; classes</text>
+    <text x="1074" y="219" class="t" font-size="25">Light-theme</text>
+    <text x="1074" y="241" class="s" font-size="15">report site</text>
+    <text x="670"  y="290" class="s" font-size="15">main · @Mapping · @Scheduled · @Test</text>
+  </g>
+</svg>
+</body>
+</html>
