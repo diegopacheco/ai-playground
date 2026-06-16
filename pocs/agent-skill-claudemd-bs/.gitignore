@@ -1,0 +1,5 @@
+bs-report/
+bs-report-diff/
+__pycache__/
+.DS_Store
+.playwright-mcp/

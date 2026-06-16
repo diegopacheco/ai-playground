@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="940" viewBox="0 0 940 940" font-family="Caveat, 'Chalkboard', 'Comic Sans MS', cursive">
+  <defs>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.4"/>
+    </filter>
+    <marker id="ah" markerWidth="12" markerHeight="12" refX="7" refY="5" orient="auto">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="940" height="940" fill="#f5f6fb"/>
+  <text x="470" y="78" text-anchor="middle" font-size="52" fill="#6d5cf0">CLAUDE.md BS Detector</text>
+  <text x="470" y="120" text-anchor="middle" font-size="27" fill="#6b7280" font-family="Inter, sans-serif">/bs-claudemd  ·  audits your rules, scores the cruft</text>
+
+  <g filter="url(#w)">
+    <rect x="330" y="160" width="280" height="86" rx="20" fill="#efeaff" stroke="#6d5cf0" stroke-width="2.5"/>
+    <rect x="150" y="320" width="290" height="96" rx="20" fill="#e7f0ff" stroke="#3b82f6" stroke-width="2.5"/>
+    <rect x="500" y="320" width="290" height="96" rx="20" fill="#e7f0ff" stroke="#3b82f6" stroke-width="2.5"/>
+    <rect x="225" y="500" width="490" height="150" rx="22" fill="#fff3df" stroke="#dd8b1e" stroke-width="2.5"/>
+    <rect x="180" y="730" width="580" height="150" rx="22" fill="#e6f6ee" stroke="#1f9d63" stroke-width="2.5"/>
+
+    <path d="M470 246 Q462 286 470 318" fill="none" stroke="#6b7280" stroke-width="2.5" marker-end="url(#ah)"/>
+    <path d="M610 246 Q650 286 640 318" fill="none" stroke="#6b7280" stroke-width="2.5" marker-end="url(#ah)"/>
+    <path d="M295 416 Q330 458 420 498" fill="none" stroke="#6b7280" stroke-width="2.5" marker-end="url(#ah)"/>
+    <path d="M645 416 Q612 458 520 498" fill="none" stroke="#6b7280" stroke-width="2.5" marker-end="url(#ah)"/>
+    <path d="M470 650 Q462 690 470 728" fill="none" stroke="#6b7280" stroke-width="2.5" marker-end="url(#ah)"/>
+  </g>
+
+  <text x="470" y="214" text-anchor="middle" font-size="34" fill="#4b3fd1">/bs-claudemd</text>
+
+  <text x="295" y="362" text-anchor="middle" font-size="30" fill="#2563c4">~/.claude/CLAUDE.md</text>
+  <text x="295" y="394" text-anchor="middle" font-size="22" fill="#6b7280" font-family="Inter, sans-serif">the global file</text>
+  <text x="645" y="362" text-anchor="middle" font-size="30" fill="#2563c4">two CLAUDE.md files</text>
+  <text x="645" y="394" text-anchor="middle" font-size="22" fill="#6b7280" font-family="Inter, sans-serif">diff mode</text>
+
+  <text x="470" y="552" text-anchor="middle" font-size="34" fill="#b9741a">bs_claudemd.py</text>
+  <text x="470" y="592" text-anchor="middle" font-size="24" fill="#6b7280" font-family="Inter, sans-serif">parse every line  ·  flag  ·  score the BS</text>
+  <text x="470" y="626" text-anchor="middle" font-size="23" fill="#9a6a16">vague · low-signal · overlap · contradiction</text>
+
+  <text x="470" y="784" text-anchor="middle" font-size="34" fill="#14794a">bs-report / index.html</text>
+  <text x="470" y="822" text-anchor="middle" font-size="23" fill="#6b7280" font-family="Inter, sans-serif">light-theme site, every line commented</text>
+  <text x="470" y="858" text-anchor="middle" font-size="23" fill="#14794a">Overview · Line-by-line · Overlaps · Contradictions</text>
+</svg>
