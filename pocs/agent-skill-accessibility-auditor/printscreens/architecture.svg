@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="640" viewBox="0 0 1040 640" font-family="Caveat, cursive">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');</style>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/>
+    </filter>
+    <marker id="ar" markerWidth="11" markerHeight="11" refX="8" refY="5" orient="auto">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#5b6675" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1040" height="640" fill="#fbfcfe"/>
+  <text x="520" y="54" font-size="40" font-weight="700" text-anchor="middle" fill="#1b2330">accessibility-auditor — how it works</text>
+
+  <g filter="url(#w)" stroke-linejoin="round">
+    <g>
+      <rect x="60" y="110" width="240" height="92" rx="14" fill="#d0ebff" stroke="#3b6ef0" stroke-width="2.5"/>
+      <text x="180" y="150" font-size="27" font-weight="700" text-anchor="middle" fill="#15324f">1. Target page</text>
+      <text x="180" y="180" font-size="21" text-anchor="middle" fill="#2a4a66">a URL or local dev server</text>
+    </g>
+    <g>
+      <rect x="400" y="110" width="240" height="92" rx="14" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2.5"/>
+      <text x="520" y="150" font-size="27" font-weight="700" text-anchor="middle" fill="#13491f">2. Headless Chromium</text>
+      <text x="520" y="180" font-size="21" text-anchor="middle" fill="#235c30">puppeteer loads the page</text>
+    </g>
+    <g>
+      <rect x="740" y="110" width="240" height="92" rx="14" fill="#fff3bf" stroke="#d9a400" stroke-width="2.5"/>
+      <text x="860" y="148" font-size="27" font-weight="700" text-anchor="middle" fill="#5a4500">3. WCAG checks</text>
+      <text x="860" y="177" font-size="21" text-anchor="middle" fill="#6b5300">live DOM + computed styles</text>
+    </g>
+
+    <g>
+      <rect x="740" y="320" width="240" height="92" rx="14" fill="#f3d9fa" stroke="#ae3ec9" stroke-width="2.5"/>
+      <text x="860" y="358" font-size="27" font-weight="700" text-anchor="middle" fill="#5c1a6b">4. Full-page shot</text>
+      <text x="860" y="387" font-size="21" text-anchor="middle" fill="#6f2480">+ each issue bounding box</text>
+    </g>
+    <g>
+      <rect x="400" y="320" width="240" height="92" rx="14" fill="#ffe8cc" stroke="#f0701f" stroke-width="2.5"/>
+      <text x="520" y="358" font-size="27" font-weight="700" text-anchor="middle" fill="#6b3300">5. Score + annotate</text>
+      <text x="520" y="387" font-size="21" text-anchor="middle" fill="#7a3c00">boxes as % of image</text>
+    </g>
+    <g>
+      <rect x="60" y="320" width="240" height="92" rx="14" fill="#ffe3e3" stroke="#e0354b" stroke-width="2.5"/>
+      <text x="180" y="358" font-size="27" font-weight="700" text-anchor="middle" fill="#6b101e">6. Light report</text>
+      <text x="180" y="387" font-size="21" text-anchor="middle" fill="#7a1322">a11y-report/index.html</text>
+    </g>
+  </g>
+
+  <g filter="url(#w)" fill="none" stroke="#5b6675" stroke-width="2.2" marker-end="url(#ar)">
+    <path d="M300 156 Q350 156 398 156"/>
+    <path d="M640 156 Q690 156 738 156"/>
+    <path d="M860 202 Q860 261 860 318"/>
+    <path d="M740 366 Q690 366 642 366"/>
+    <path d="M400 366 Q350 366 302 366"/>
+  </g>
+
+  <text x="520" y="470" font-size="22" text-anchor="middle" fill="#5b6675" font-weight="500">images without alt · unlabeled inputs · low contrast · heading skips · missing landmarks · positive tabindex · vague links</text>
+</svg>

@@ -1,0 +1,9 @@
+{
+  "name": "accessibility-auditor-skill",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "puppeteer": "^25.1.0"
+  }
+}

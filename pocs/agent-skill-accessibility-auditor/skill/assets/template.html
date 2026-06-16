@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Accessibility Audit</title>
+<style>
+  :root {
+    --bg: #f6f8fb;
+    --card: #ffffff;
+    --ink: #1b2330;
+    --muted: #5b6675;
+    --line: #e6ebf2;
+    --brand: #3b6ef0;
+    --critical: #e0354b;
+    --serious: #f0701f;
+    --moderate: #d9a400;
+    --minor: #6b7280;
+    --good: #16a34a;
+    --shadow: 0 1px 2px rgba(20,30,50,.06), 0 8px 24px rgba(20,30,50,.06);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  a { color: var(--brand); }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 24px 80px; }
+  header.top { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .gauge { width: 116px; height: 116px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto; position: relative; }
+  .gauge .inner { width: 92px; height: 92px; background: var(--card); border-radius: 50%; display: grid; place-items: center; box-shadow: var(--shadow); }
+  .gauge .num { font-size: 30px; font-weight: 800; }
+  .gauge .lbl { font-size: 11px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+  .htitle h1 { margin: 0 0 4px; font-size: 26px; }
+  .htitle .sub { color: var(--muted); font-size: 14px; word-break: break-all; }
+  .grade { margin-left: auto; text-align: center; }
+  .grade .g { font-size: 52px; font-weight: 800; line-height: 1; }
+  .grade .gl { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+  .cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 26px 0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; box-shadow: var(--shadow); }
+  .card .k { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .card .v { font-size: 30px; font-weight: 800; margin-top: 6px; }
+  .card.crit .v { color: var(--critical); }
+  .card.ser .v { color: var(--serious); }
+  .card.mod .v { color: var(--moderate); }
+  .card.min .v { color: var(--minor); }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); padding: 20px; margin-bottom: 26px; }
+  .panel h2 { margin: 0 0 14px; font-size: 18px; }
+  .panel .hint { color: var(--muted); font-size: 13px; margin: -8px 0 16px; }
+  .principles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; }
+  .pr { }
+  .pr .prtop { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+  .pr .bar { height: 9px; background: #eef2f7; border-radius: 99px; overflow: hidden; }
+  .pr .bar span { display: block; height: 100%; background: var(--brand); border-radius: 99px; }
+  .shotwrap { position: relative; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fafbfd; }
+  .shotwrap img { display: block; width: 100%; }
+  .mark { position: absolute; border: 2px solid; border-radius: 4px; cursor: pointer; transition: background .12s; }
+  .mark:hover, .mark.active { background: rgba(59,110,240,.12); }
+  .mark .badge { position: absolute; top: -11px; left: -11px; width: 22px; height: 22px; border-radius: 50%; color: #fff; font-size: 12px; font-weight: 700; display: grid; place-items: center; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-top: 14px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .filters button { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 99px; padding: 7px 14px; font-size: 13px; cursor: pointer; }
+  .filters button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .issue { border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 12px; display: grid; grid-template-columns: 34px 1fr; gap: 14px; scroll-margin-top: 20px; }
+  .issue.flash { box-shadow: 0 0 0 3px rgba(59,110,240,.35); }
+  .issue .no { width: 28px; height: 28px; border-radius: 50%; color: #fff; font-weight: 700; display: grid; place-items: center; font-size: 13px; }
+  .issue .head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .pill { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 3px 9px; border-radius: 99px; color: #fff; }
+  .wtag { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .issue .crit { font-weight: 700; }
+  .issue .msg { margin: 8px 0; }
+  .issue .fix { background: #f0f6ff; border-left: 3px solid var(--brand); padding: 8px 12px; border-radius: 0 8px 8px 0; font-size: 14px; }
+  .issue code { background: #f3f5f9; border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+  .issue .sel { margin-top: 8px; font-size: 12px; color: var(--muted); }
+  .issue .snip { margin-top: 8px; display: block; white-space: pre-wrap; }
+  .swatch { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
+  .swatch i { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0,0,0,.15); display: inline-block; }
+  .foot { color: var(--muted); font-size: 12px; text-align: center; margin-top: 30px; }
+  @media (max-width: 760px) { .cards { grid-template-columns: repeat(2, 1fr); } .principles { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="gauge" id="gauge"><div class="inner"><div class="num" id="score">0</div><div class="lbl">score</div></div></div>
+    <div class="htitle">
+      <h1 id="title">Accessibility Audit</h1>
+      <div class="sub" id="url"></div>
+    </div>
+    <div class="grade"><div class="g" id="grade">-</div><div class="gl">grade</div></div>
+  </header>
+
+  <section class="cards">
+    <div class="card"><div class="k">Issues</div><div class="v" id="t-all">0</div></div>
+    <div class="card crit"><div class="k">Critical</div><div class="v" id="t-crit">0</div></div>
+    <div class="card ser"><div class="k">Serious</div><div class="v" id="t-ser">0</div></div>
+    <div class="card mod"><div class="k">Moderate</div><div class="v" id="t-mod">0</div></div>
+    <div class="card min"><div class="k">Minor</div><div class="v" id="t-min">0</div></div>
+  </section>
+
+  <section class="panel">
+    <h2>Annotated screenshot</h2>
+    <div class="hint">Every numbered box marks a WCAG issue found on the page. Click a box to jump to its detail.</div>
+    <div class="shotwrap" id="shotwrap"><img src="__SHOT__" alt="Captured page screenshot with accessibility issues marked" /></div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--critical)"></i>Critical</span>
+      <span><i class="dot" style="background:var(--serious)"></i>Serious</span>
+      <span><i class="dot" style="background:var(--moderate)"></i>Moderate</span>
+      <span><i class="dot" style="background:var(--minor)"></i>Minor</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Issues by WCAG principle</h2>
+    <div class="principles" id="principles"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Findings</h2>
+    <div class="filters" id="filters"></div>
+    <div id="issues"></div>
+  </section>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+/*__DATA__*/
+(function () {
+  var d = window.__A11Y__;
+  var color = { critical: getCss("--critical"), serious: getCss("--serious"), moderate: getCss("--moderate"), minor: getCss("--minor") };
+  function getCss(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+
+  document.getElementById("title").textContent = d.title || "Accessibility Audit";
+  document.getElementById("url").textContent = d.url;
+  document.getElementById("grade").textContent = d.grade;
+  var sc = d.score >= 90 ? getCss("--good") : d.score >= 60 ? getCss("--moderate") : getCss("--critical");
+  document.getElementById("grade").style.color = sc;
+  document.getElementById("gauge").style.background = "conic-gradient(" + sc + " " + (d.score * 3.6) + "deg, #e9eef6 0deg)";
+
+  countUp("score", d.score);
+  countUp("t-all", d.totals.all);
+  countUp("t-crit", d.totals.critical);
+  countUp("t-ser", d.totals.serious);
+  countUp("t-mod", d.totals.moderate);
+  countUp("t-min", d.totals.minor);
+
+  var maxP = Math.max(1, Math.max.apply(null, d.principles.map(function (p) { return p.count; })));
+  document.getElementById("principles").innerHTML = d.principles.map(function (p) {
+    return '<div class="pr"><div class="prtop"><strong>' + p.name + "</strong><span>" + p.count + "</span></div>" +
+      '<div class="bar"><span style="width:' + (p.count / maxP * 100) + '%"></span></div></div>';
+  }).join("");
+
+  var wrap = document.getElementById("shotwrap");
+  d.issues.forEach(function (it) {
+    if (!it.box) return;
+    var m = document.createElement("div");
+    m.className = "mark";
+    m.style.left = it.box.left + "%";
+    m.style.top = it.box.top + "%";
+    m.style.width = Math.max(it.box.width, 1.2) + "%";
+    m.style.height = Math.max(it.box.height, 1.2) + "%";
+    m.style.borderColor = color[it.impact];
+    m.dataset.id = it.id;
+    var b = document.createElement("div");
+    b.className = "badge";
+    b.style.background = color[it.impact];
+    b.textContent = it.id;
+    m.appendChild(b);
+    m.addEventListener("click", function () { jumpTo(it.id); });
+    wrap.appendChild(m);
+  });
+
+  var levels = ["all", "critical", "serious", "moderate", "minor"];
+  var active = "all";
+  var fbox = document.getElementById("filters");
+  levels.forEach(function (lv) {
+    var n = lv === "all" ? d.totals.all : d.totals[lv];
+    var btn = document.createElement("button");
+    btn.textContent = (lv === "all" ? "All" : lv[0].toUpperCase() + lv.slice(1)) + " (" + n + ")";
+    if (lv === "all") btn.className = "on";
+    btn.addEventListener("click", function () {
+      active = lv;
+      [].forEach.call(fbox.children, function (c) { c.className = ""; });
+      btn.className = "on";
+      render();
+    });
+    fbox.appendChild(btn);
+  });
+
+  function render() {
+    var host = document.getElementById("issues");
+    host.innerHTML = "";
+    d.issues.filter(function (it) { return active === "all" || it.impact === active; }).forEach(function (it) {
+      var el = document.createElement("div");
+      el.className = "issue";
+      el.id = "issue-" + it.id;
+      var meta = "";
+      if (it.meta) {
+        meta = '<div class="sel"><span class="swatch"><i style="background:' + it.meta.fg + '"></i>text ' + it.meta.fg +
+          '</span> &nbsp; <span class="swatch"><i style="background:' + it.meta.bg + '"></i>bg ' + it.meta.bg +
+          "</span> &nbsp; ratio " + it.meta.ratio + ":1 (needs " + it.meta.required + ":1)</div>";
+      }
+      el.innerHTML =
+        '<div class="no" style="background:' + color[it.impact] + '">' + it.id + "</div>" +
+        '<div><div class="head"><span class="pill" style="background:' + color[it.impact] + '">' + it.impact + "</span>" +
+        '<span class="wtag">WCAG ' + it.wcag + "</span><span class=\"crit\">" + it.criterion + "</span>" +
+        (it.box ? "" : '<span class="wtag">page level</span>') + "</div>" +
+        '<div class="msg">' + it.message + "</div>" +
+        meta +
+        '<div class="sel">selector <code>' + esc(it.selector) + "</code></div>" +
+        '<code class="snip">' + esc(it.snippet) + "</code>" +
+        '<div class="fix"><strong>Fix:</strong> ' + it.fix + "</div></div>";
+      host.appendChild(el);
+    });
+  }
+  render();
+
+  function jumpTo(id) {
+    active = "all";
+    [].forEach.call(fbox.children, function (c) { c.className = ""; });
+    fbox.children[0].className = "on";
+    render();
+    var el = document.getElementById("issue-" + id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("flash");
+      setTimeout(function () { el.classList.remove("flash"); }, 1600);
+    }
+  }
+
+  document.getElementById("foot").textContent = "Generated " + new Date(d.generatedAt).toLocaleString() + " · captured at " + d.image.w + "×" + d.image.h + "px";
+
+  function countUp(id, target) {
+    var node = document.getElementById(id), start = performance.now(), dur = 700;
+    function step(t) {
+      var p = Math.min(1, (t - start) / dur);
+      node.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+})();
+</script>
+</body>
+</html>

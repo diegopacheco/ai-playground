@@ -1,0 +1,5 @@
+node_modules/
+dist/
+a11y-report/
+*.log
+.DS_Store
