@@ -1,0 +1,59 @@
+pocs/agent-skill-accessibility-auditor/sample/start.sh
+  s_b8bb6c55afdf2c::t_8c971b37fa9e15 1-11
+pocs/agent-skill-accessibility-auditor/sample/stop.sh
+  s_b8bb6c55afdf2c::t_e73dd76cf3721e 1-10
+pocs/agent-skill-accessibility-auditor/.gitignore
+  s_b8bb6c55afdf2c::t_6d090cc28def17 1-5
+pocs/agent-skill-accessibility-auditor/README.md
+  s_b8bb6c55afdf2c::t_6da6277462f2a7 1-147
+pocs/agent-skill-accessibility-auditor/skill/assets/template.html
+  s_b8bb6c55afdf2c::t_6e38da324214e4 1-246
+pocs/agent-skill-accessibility-auditor/sample/index.html
+  s_b8bb6c55afdf2c::t_22e6fef6667296 1-12
+pocs/agent-skill-accessibility-auditor/sample/src/router.jsx
+  s_b8bb6c55afdf2c::t_eb70ccf5a2b305 1-12
+pocs/agent-skill-accessibility-auditor/sample/src/routes/about.jsx
+  s_b8bb6c55afdf2c::t_240c2dcccccf60 1-12
+pocs/agent-skill-accessibility-auditor/sample/package.json
+  s_b8bb6c55afdf2c::t_67fca0b9a40f1a 1-20
+pocs/agent-skill-accessibility-auditor/printscreens/architecture.svg
+  s_b8bb6c55afdf2c::t_aa7aa6faed0897 1-59
+pocs/agent-skill-accessibility-auditor/uninstall.sh
+  s_b8bb6c55afdf2c::t_09442cc2b156c3 1-21
+pocs/agent-skill-accessibility-auditor/sample/src/routes/root.jsx
+  s_b8bb6c55afdf2c::t_608f78150b1603 1-27
+pocs/agent-skill-accessibility-auditor/sample/vite.config.js
+  s_b8bb6c55afdf2c::t_115a90dbc1390c 1-7
+pocs/agent-skill-accessibility-auditor/test.sh
+  s_b8bb6c55afdf2c::t_4c9ba9054f8c93 1-41
+pocs/agent-skill-accessibility-auditor/skill/SKILL.md
+  s_b8bb6c55afdf2c::t_0e7c99e63bdf19 1-60
+pocs/agent-skill-accessibility-auditor/install.sh
+  s_b8bb6c55afdf2c::t_b6120dc290932d 1-40
+pocs/agent-skill-accessibility-auditor/sample/src/main.jsx
+  s_b8bb6c55afdf2c::t_7ef58592ca6d50 1-11
+pocs/agent-skill-accessibility-auditor/skill/scripts/audit.mjs
+  s_b8bb6c55afdf2c::t_4dc12148890ff4 1-246
+pocs/agent-skill-accessibility-auditor/sample/src/routes/home.jsx
+  s_b8bb6c55afdf2c::t_946e426385d36d 1-62
+pocs/agent-skill-accessibility-auditor/sample/src/styles.css
+  s_b8bb6c55afdf2c::t_3b78078a253e5a 1-48
+pocs/agent-skill-accessibility-auditor/skill/package.json
+  s_b8bb6c55afdf2c::t_7e91e92a62d76e 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.7",
+  "base_commit_sha": "68ca0b82708d3d2e8430e43fe4b32ddc0db61b76",
+  "prompts": {},
+  "sessions": {
+    "s_b8bb6c55afdf2c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "198c6018-1805-4a9d-a88a-6e275911489a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
