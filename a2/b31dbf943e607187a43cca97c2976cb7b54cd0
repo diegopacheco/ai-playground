@@ -1,0 +1,25 @@
+pocs/agent-skill-git-history-fixer/uninstall.sh
+  s_04a9879c121682::t_5813254bb5b520 1-11
+pocs/agent-skill-git-history-fixer/sample/make-bad-history.sh
+  s_04a9879c121682::t_a8d2d6ae190590 1-20
+pocs/agent-skill-git-history-fixer/install.sh
+  s_04a9879c121682::t_53aba6c403756b 1-27
+pocs/agent-skill-git-history-fixer/sample/generate_history.py
+  s_04a9879c121682::t_9b4479eef93454 1-821
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.8",
+  "base_commit_sha": "a2b31dbf943e607187a43cca97c2976cb7b54cd0",
+  "prompts": {},
+  "sessions": {
+    "s_04a9879c121682": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cf255d45-6765-4794-a79b-966006b0a431",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
