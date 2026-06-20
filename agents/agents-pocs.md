@@ -189,6 +189,30 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-design-poc
 59 - Anti-Gravity CLI <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/anti-gravity-cli-fun
 
+60 - New Models Nov 2025 Benchmark (Opus 4.5, GPT-5.1-Codex, Gemini 3 Pro, Grok Fast 1) - Rock Paper Scissors <br/>
+https://github.com/diegopacheco/ai-playground/blob/main/agents/new-models-nov-2025.md
+
+61 - Cursor v3 - Tetris Game <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/cursor-v3-poc
+
+62 - AWS Kiro SDD - Rock Paper Scissors <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/kiro-sdd-game-poc
+
+63 - Mistral CLI - Rock Paper Scissors <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/mistral-cli-vibe-poc
+
+64 - OpenAI Codex 5.3 - Rock Paper Scissors <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/openai-codex-5.3-poc-fun
+
+65 - Permission-Prompt Heatmap (Claude Code) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/cc-permissions-heatmap
+
+66 - Claude Code Voice <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-code-voice-poc
+
+67 - agentop - top/btop for running Claude Code agents <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/top-4-agents
+
 ### POCs: AI Agents
 
 This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
@@ -459,3 +483,51 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/vllora-fun
 
 89 - Codebase Roast Map <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/codebase-roast-map
+
+90 - Geospatial Reasoning Agent: Speech to Map <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-speech-to-map
+
+91 - Apache Burr: state-machine chatbot agent <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/apache-burr-poc
+
+92 - Mind Reader: AI Guessing Game (gpt-4o) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/ai-guessing-game
+
+93 - Agent Skill: Accessibility Auditor (WCAG) with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-accessibility-auditor
+
+94 - Agent Skill: Branch Graveyard (stale branches) with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-branch-tombs
+
+95 - Agent Skill: Bundle Size (import-cost attribution) with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-bundle-size
+
+96 - Agent Skill: CLAUDE.md BS Detector with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-claudemd-bs
+
+97 - Agent Skill: Data Dictionary with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-data-dict
+
+98 - Agent Skill: Dead Code Finder with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-dead-code-finder
+
+99 - Agent Skill: Git History Fixer with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-git-history-fixer
+
+100 - Agent Skill: Habit Tracker with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-habit-tracker
+
+101 - Agent Skill: Prometheus Runbooks with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-prometheus-runbooks
+
+102 - Agent Skill: React Re-render Performance with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-react-rerender
+
+103 - Agent Skill: Weekly Review with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-weekly-review
+
+104 - Agent Skill: HTML as Contract with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/html-as-contract
+
+105 - Agent Skill: Flamegraph (Fable 5) with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-agent-skill-flamegraph
