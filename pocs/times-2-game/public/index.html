@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Times 2 — Age of Empires style RTS vs Claude Sonnet</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="game-shell">
+    <header>
+      <h1>Times&nbsp;2</h1>
+      <p class="tagline">A real-time strategy duel &mdash; your BLUE empire versus Claude Sonnet's RED empire</p>
+    </header>
+
+    <div class="hud">
+      <div class="hud-side blue">
+        <span class="crest">&#9818;</span>
+        <span class="hud-label" id="me-label">You</span>
+        <span class="stat" title="Gold"><span class="ic">&#127894;</span><b id="gold">0</b></span>
+        <span class="stat" title="Villagers"><span class="ic">&#9935;</span><b id="villagers">0</b></span>
+        <span class="stat" title="Soldiers"><span class="ic">&#9876;</span><b id="soldiers">0</b></span>
+      </div>
+      <div class="hud-clock"><span id="clock">0:00</span></div>
+      <div class="hud-side red">
+        <span class="hud-label" id="ai-label">Sonnet</span>
+        <span class="stat" title="Villagers"><span class="ic">&#9935;</span><b id="e-villagers">0</b></span>
+        <span class="stat" title="Soldiers"><span class="ic">&#9876;</span><b id="e-soldiers">0</b></span>
+        <span class="crest">&#9819;</span>
+      </div>
+    </div>
+
+    <div class="play-area">
+      <canvas id="board" width="960" height="540"></canvas>
+      <div class="overlay" id="overlay">
+        <div class="overlay-card">
+          <h2 id="overlay-title">Times&nbsp;2</h2>
+          <p id="overlay-text">Choose your battle</p>
+          <div class="overlay-buttons" id="overlay-buttons"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="commands">
+      <button class="cmd" id="train-villager">
+        <span class="cmd-ic">&#9935;</span>
+        <span class="cmd-name">Train Villager</span>
+        <span class="cmd-cost">50 gold</span>
+      </button>
+      <button class="cmd" id="train-soldier">
+        <span class="cmd-ic">&#9876;</span>
+        <span class="cmd-name">Train Soldier</span>
+        <span class="cmd-cost">80 gold</span>
+      </button>
+      <button class="cmd attack" id="attack">
+        <span class="cmd-ic">&#128293;</span>
+        <span class="cmd-name">Attack!</span>
+        <span class="cmd-cost">march on red base</span>
+      </button>
+      <button class="cmd" id="recall">
+        <span class="cmd-ic">&#127981;</span>
+        <span class="cmd-name">Defend</span>
+        <span class="cmd-cost">recall home</span>
+      </button>
+      <label class="sound-toggle"><input type="checkbox" id="sound" checked /> Sound</label>
+    </div>
+
+    <div class="council">
+      <span class="council-title">Sonnet's war council</span>
+      <ul id="council-log"></ul>
+    </div>
+  </div>
+  <script src="sounds.js"></script>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
