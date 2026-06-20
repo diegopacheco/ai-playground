@@ -1,0 +1,338 @@
+{
+  "generatedAt": "2026-06-20T19:24:27.089Z",
+  "span": {
+    "first": "2026-05-21T04:38:57.125Z",
+    "days": 32
+  },
+  "totals": {
+    "events": 23434,
+    "sessions": 249,
+    "activeDays": 28,
+    "toolCalls": 7574,
+    "projects": 114,
+    "userPrompts": 608,
+    "assistantTurns": 15195
+  },
+  "streak": {
+    "current": 7,
+    "longest": 10
+  },
+  "days": {
+    "2026-05-23": 1414,
+    "2026-05-22": 712,
+    "2026-06-05": 2473,
+    "2026-06-07": 1655,
+    "2026-06-08": 1756,
+    "2026-06-01": 1233,
+    "2026-05-27": 455,
+    "2026-06-09": 1434,
+    "2026-06-14": 447,
+    "2026-05-24": 771,
+    "2026-06-04": 601,
+    "2026-05-25": 1655,
+    "2026-05-29": 292,
+    "2026-06-03": 949,
+    "2026-05-28": 326,
+    "2026-06-16": 408,
+    "2026-06-06": 1556,
+    "2026-06-15": 182,
+    "2026-06-17": 184,
+    "2026-06-20": 192,
+    "2026-06-10": 592,
+    "2026-05-20": 613,
+    "2026-05-21": 102,
+    "2026-06-02": 903,
+    "2026-06-12": 628,
+    "2026-06-19": 941,
+    "2026-05-26": 749,
+    "2026-06-18": 211
+  },
+  "hours": [
+    2177,
+    1766,
+    207,
+    0,
+    0,
+    0,
+    0,
+    0,
+    172,
+    141,
+    2215,
+    2078,
+    1252,
+    953,
+    1263,
+    301,
+    730,
+    2050,
+    773,
+    26,
+    612,
+    908,
+    2269,
+    3541
+  ],
+  "weekdays": [
+    2873,
+    4826,
+    3494,
+    2793,
+    1240,
+    5046,
+    3162
+  ],
+  "tools": [
+    [
+      "Bash",
+      1899
+    ],
+    [
+      "Write",
+      1570
+    ],
+    [
+      "Edit",
+      991
+    ],
+    [
+      "Read",
+      955
+    ],
+    [
+      "mcp__playwright__browser_navigate",
+      286
+    ],
+    [
+      "mcp__playwright__browser_take_screenshot",
+      281
+    ],
+    [
+      "mcp__plugin_context-mode_context-mode__execute",
+      256
+    ],
+    [
+      "TaskUpdate",
+      181
+    ],
+    [
+      "mcp__playwright__browser_evaluate",
+      163
+    ],
+    [
+      "ToolSearch",
+      142
+    ],
+    [
+      "WebSearch",
+      122
+    ],
+    [
+      "TaskCreate",
+      99
+    ]
+  ],
+  "projects": [
+    {
+      "name": "cc-token-bar",
+      "events": 872,
+      "sessions": 8,
+      "branches": 1,
+      "last": "2026-05-27T06:12:54.584Z"
+    },
+    {
+      "name": "app",
+      "events": 804,
+      "sessions": 8,
+      "branches": 1,
+      "last": "2026-05-28T05:05:11.641Z"
+    },
+    {
+      "name": "jurassic-runner-game",
+      "events": 799,
+      "sessions": 1,
+      "branches": 1,
+      "last": "2026-06-06T21:28:53.824Z"
+    },
+    {
+      "name": "gstack-poc",
+      "events": 785,
+      "sessions": 1,
+      "branches": 1,
+      "last": "2026-05-23T21:27:39.922Z"
+    },
+    {
+      "name": "java-25-slack-clone",
+      "events": 749,
+      "sessions": 1,
+      "branches": 1,
+      "last": "2026-06-05T08:44:10.342Z"
+    },
+    {
+      "name": "times-2-game",
+      "events": 654,
+      "sessions": 95,
+      "branches": 1,
+      "last": "2026-06-20T00:52:21.165Z"
+    },
+    {
+      "name": "prowser",
+      "events": 607,
+      "sessions": 1,
+      "branches": 1,
+      "last": "2026-05-25T18:30:26.246Z"
+    },
+    {
+      "name": "ai-transformation",
+      "events": 574,
+      "sessions": 10,
+      "branches": 1,
+      "last": "2026-06-19T23:03:48.373Z"
+    },
+    {
+      "name": "agents",
+      "events": 558,
+      "sessions": 9,
+      "branches": 1,
+      "last": "2026-06-19T23:03:24.789Z"
+    },
+    {
+      "name": "closed-loop-auto-tunning-agent",
+      "events": 542,
+      "sessions": 1,
+      "branches": 1,
+      "last": "2026-06-02T07:33:09.699Z"
+    },
+    {
+      "name": "github-control-panel",
+      "events": 524,
+      "sessions": 1,
+      "branches": 1,
+      "last": "2026-06-05T06:54:43.278Z"
+    },
+    {
+      "name": "dashboard-cv",
+      "events": 521,
+      "sessions": 3,
+      "branches": 1,
+      "last": "2026-06-07T19:13:58.979Z"
+    }
+  ],
+  "themes": [
+    [
+      "game",
+      2394
+    ],
+    [
+      "java",
+      1926
+    ],
+    [
+      "runner",
+      1210
+    ],
+    [
+      "token",
+      872
+    ],
+    [
+      "bar",
+      872
+    ],
+    [
+      "testing",
+      839
+    ]
+  ],
+  "intent": {
+    "build": 163,
+    "fix": 53,
+    "refactor": 3,
+    "test": 40,
+    "explore": 56
+  },
+  "models": [
+    [
+      "claude-opus-4-8",
+      10064
+    ],
+    [
+      "claude-opus-4-7",
+      4485
+    ],
+    [
+      "claude-fable-5",
+      540
+    ],
+    [
+      "claude-sonnet-4-6",
+      101
+    ],
+    [
+      "<synthetic>",
+      5
+    ]
+  ],
+  "insights": [
+    {
+      "emoji": "🔥",
+      "title": "On a roll",
+      "text": "You're on a 7-day coding streak right now. Your all-time record is 10 days, set around May 29, 2026.",
+      "priority": 95
+    },
+    {
+      "emoji": "🛠️",
+      "title": "What you build",
+      "text": "Your work centers on game, java, runner. Your most active project is \"cc-token-bar\" with 872 interactions.",
+      "priority": 92
+    },
+    {
+      "emoji": "🦉",
+      "title": "Night owl",
+      "text": "49% of your activity happens late at night or before dawn. Your single busiest hour is 11pm.",
+      "priority": 90
+    },
+    {
+      "emoji": "🧰",
+      "title": "Tool fingerprint",
+      "text": "Bash is your most-used tool (25% of all tool calls). You make 2.7 edits for every read — you write fast and iterate.",
+      "priority": 85
+    },
+    {
+      "emoji": "🏗️",
+      "title": "Builder mindset",
+      "text": "52% of your prompts start new work versus 17% fixing bugs — you spend more time creating than repairing.",
+      "priority": 82
+    },
+    {
+      "emoji": "🪁",
+      "title": "Breadth",
+      "text": "You've worked across 114 distinct projects in the last 32 days — about 25 per week. You context-switch a lot.",
+      "priority": 76
+    },
+    {
+      "emoji": "📆",
+      "title": "Power day",
+      "text": "Friday is your most active day, carrying 22% of all your activity.",
+      "priority": 75
+    },
+    {
+      "emoji": "🎯",
+      "title": "Consistency",
+      "text": "You showed up to code on 28 of the last 32 days (88%), averaging 8.9 sessions per active day.",
+      "priority": 74
+    },
+    {
+      "emoji": "⚡",
+      "title": "Session intensity",
+      "text": "A typical session runs 94 messages and 30 tool calls. Your longest single session lasted 10h 37m on \"bash-pipe-poc\".",
+      "priority": 72
+    },
+    {
+      "emoji": "🤖",
+      "title": "Model of choice",
+      "text": "66% of your assistant turns run on claude-opus-4-8.",
+      "priority": 55
+    }
+  ]
+}

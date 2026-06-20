@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap');
+html, body { margin: 0; background: #ffffff; }
+#card { width: 1160px; padding: 8px 0 18px; }
+text { font-family: 'Caveat', cursive; }
+</style>
+</head>
+<body>
+<div id="card">
+<svg id="diagram" width="1160" height="330" viewBox="0 0 1160 330" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/>
+    </filter>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#3a3f45"/>
+    </marker>
+  </defs>
+
+  <text x="40" y="56" font-size="40" font-weight="700" fill="#1f2328">How /habit-tracker works</text>
+
+  <g filter="url(#wobble)" fill="none" stroke-width="2.4">
+    <rect x="30" y="120" width="250" height="150" rx="16" fill="#dbeafe" stroke="#3b82f6"/>
+    <rect x="310" y="120" width="250" height="150" rx="16" fill="#fef9c3" stroke="#eab308"/>
+    <rect x="590" y="120" width="250" height="150" rx="16" fill="#dcfce7" stroke="#22c55e"/>
+    <rect x="870" y="120" width="260" height="150" rx="16" fill="#fce7f3" stroke="#ec4899"/>
+  </g>
+
+  <g fill="none" stroke="#3a3f45" stroke-width="2.6">
+    <path d="M284 195 Q297 191 306 195" marker-end="url(#ah)"/>
+    <path d="M564 195 Q577 199 586 195" marker-end="url(#ah)"/>
+    <path d="M844 195 Q857 191 866 195" marker-end="url(#ah)"/>
+  </g>
+
+  <g font-size="25" fill="#1f2328" text-anchor="middle">
+    <text x="155" y="178" font-weight="700">~/.claude/projects</text>
+    <text x="155" y="208" font-size="21">**/*.jsonl</text>
+    <text x="155" y="234" font-size="21">every past session</text>
+
+    <text x="435" y="178" font-weight="700">/habit-tracker</text>
+    <text x="435" y="208" font-size="21">SKILL.md</text>
+    <text x="435" y="234" font-size="21">runs the engine</text>
+
+    <text x="715" y="178" font-weight="700">analyze.mjs</text>
+    <text x="715" y="208" font-size="21">Node, zero deps</text>
+    <text x="715" y="234" font-size="21">aggregates + template.html</text>
+
+    <text x="1000" y="178" font-weight="700">habit-report/index.html</text>
+    <text x="1000" y="208" font-size="21">contribution grid + metrics</text>
+    <text x="1000" y="234" font-size="21">+ 10 written insights</text>
+  </g>
+</svg>
+</div>
+</body>
+</html>
