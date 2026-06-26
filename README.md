@@ -24,7 +24,7 @@ https://github.com/diegopacheco/ai-playground/blob/main/AI.Explained.DiegoPachec
 
 ## Diego's AI POCs
 
-More than 440+ AI POCs covering ML, NLP, LLMs, Vision, Reinforcement Learning, RAG, Embeddings, and more.
+More than 500+ AI POCs covering ML, NLP, LLMs, Vision, Reinforcement Learning, RAG, Embeddings, and more.
 https://github.com/diegopacheco/ai-playground/tree/main/pocs
 
 ## Diego's AI Agents
