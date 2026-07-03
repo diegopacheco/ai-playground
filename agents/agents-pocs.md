@@ -531,3 +531,18 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/html-as-contract
 
 105 - Agent Skill: Flamegraph (Fable 5) with Claude/Codex <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-agent-skill-flamegraph
+
+106 - My Custom Skill (ADWF) - Twitter Like App <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-twitter-like
+
+107 - My Custom Skill (ADWF) - Codex - Twitter Like App <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-twitter-like-codex
+
+108 - My Custom Skill (ADWF) V3 - Opus 4.6 - Twitter Like App <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-twitter-like-opus-4-6-v3-skill
+
+109 - My Custom Skill (ADWF) V4 - Opus 4.6 - Twitter Like App <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-twitter-like-opus-4-6-v4-skill
+
+110 - My Custom Skill (ADWF) V5 - Opus 4.6 - Memory Game (final) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-memory-game-opus-4.6-v5-final
