@@ -1,0 +1,27 @@
+pocs/claude-window-starter/claude-window-starter.sh
+  s_82ff3bc9a4a595::t_5fee4d86f029d4 1-25
+pocs/claude-window-starter/install.sh
+  s_82ff3bc9a4a595::t_22d657352c61d3 1-57
+pocs/claude-window-starter/printscreens/flow.svg
+  s_82ff3bc9a4a595::t_e5fbad57e270b1 1-41
+pocs/claude-window-starter/README.md
+  s_82ff3bc9a4a595::t_871e6e0b6f7eb3 1-92
+pocs/claude-window-starter/uninstall.sh
+  s_82ff3bc9a4a595::t_b75aeab7d410f9 1-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9cb687b6ec24cc0ac0c88763beecff3953229bba",
+  "prompts": {},
+  "sessions": {
+    "s_82ff3bc9a4a595": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "aa4fe601-86ae-4bce-ad51-8ca90f829382",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
