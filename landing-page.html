@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Diego Pacheco is an AI systems architect and engineering leader building intelligent systems, agent platforms, and AI infrastructure.">
+<title>Diego Pacheco — AI Systems Architect &amp; Engineering Leader</title>
+<style>
+:root{--paper:#f4f3ee;--white:#fff;--ink:#101512;--blue:#164cff;--red:#f4512c;--muted:#68706a;--line:rgba(16,21,18,.2);--display:"Bodoni 72","Bodoni MT",Didot,Georgia,serif;--sans:"Avenir Next",Avenir,"Gill Sans",sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.progress{position:fixed;inset:0 auto auto 0;width:0;height:3px;background:var(--red);z-index:100}
+.shell{width:min(1460px,calc(100% - 96px));margin:auto}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:relative;z-index:10}
+.brand{display:flex;align-items:center;gap:13px;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.brand-mark{width:32px;height:32px;display:grid;place-items:center;background:var(--blue);color:#fff;font-family:var(--display);font-size:19px}
+.nav-links{display:flex;gap:28px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.nav-links a{padding:8px 0;border-bottom:1px solid transparent}
+.nav-links a:hover{color:var(--blue);border-color:var(--blue)}
+.hero{min-height:calc(100vh - 78px);padding:38px 0 46px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto 1fr auto;column-gap:24px;position:relative}
+.hero-meta{grid-column:1/-1;display:flex;justify-content:space-between;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.17em;text-transform:uppercase}
+.hero-title{grid-column:1/10;align-self:center;margin:5vh 0;font-size:clamp(76px,11.5vw,174px);font-weight:800;line-height:.73;letter-spacing:-.075em;text-transform:uppercase;position:relative;z-index:2}
+.hero-title span{display:block}
+.hero-title span:nth-child(2){color:var(--blue);margin-left:8%}
+.hero-title span:nth-child(3){margin-left:17%}
+.hero-title i{display:inline-block;margin-left:16px;color:var(--red);font-family:var(--display);font-size:.22em;font-weight:400;letter-spacing:0;text-transform:none;vertical-align:top}
+.hero-side{grid-column:10/-1;align-self:center;border-top:4px solid var(--blue);padding-top:24px;position:relative;z-index:2}
+.hero-side .role{color:var(--blue);font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+.hero-side p{font-family:var(--display);font-size:clamp(28px,2.6vw,42px);line-height:1.02;letter-spacing:-.035em;margin:26px 0 34px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:9px}
+.button{min-height:50px;padding:0 19px;display:inline-flex;align-items:center;justify-content:space-between;gap:28px;border:1px solid var(--ink);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;transition:background .2s ease,color .2s ease,border-color .2s ease}
+.button-primary{background:var(--ink);color:#fff}
+.button:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.hero-foot{grid-column:1/-1;display:flex;justify-content:space-between;align-items:end;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.hero-foot strong{color:var(--ink)}
+.proof{background:var(--white);border-block:1px solid var(--line)}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr)}
+.metric{min-width:0;padding:34px 24px;border-right:1px solid var(--line)}
+.metric:first-child{padding-left:0}
+.metric:last-child{border-right:0;padding-right:0}
+.metric-value{display:block;color:var(--blue);font-size:clamp(42px,4.2vw,66px);font-weight:800;letter-spacing:-.07em;line-height:.85;white-space:nowrap}
+.metric-name{display:block;margin-top:15px;font-size:10px;font-weight:800;letter-spacing:.13em;line-height:1.35;text-transform:uppercase}
+.section{padding:130px 0}
+.section-head{display:grid;grid-template-columns:180px 1fr;gap:5vw;margin-bottom:65px}
+.index{color:var(--red);font-size:10px;font-weight:800;letter-spacing:.17em;text-transform:uppercase;padding-top:10px}
+.section-head h2{font-family:var(--display);font-size:clamp(55px,7vw,104px);font-weight:400;letter-spacing:-.06em;line-height:.86;margin:0;max-width:980px}
+.cap-list{border-top:1px solid var(--ink)}
+.cap-row{display:grid;grid-template-columns:65px 1fr auto;gap:28px;align-items:center;padding:28px 0;border-bottom:1px solid var(--ink);transition:padding .2s ease,background .2s ease,color .2s ease}
+.cap-row:hover{padding-left:22px;padding-right:22px;background:var(--blue);color:#fff}
+.cap-row b{font-size:10px;letter-spacing:.14em}
+.cap-row h3{font-family:var(--display);font-size:clamp(31px,3.5vw,53px);font-weight:400;letter-spacing:-.04em;margin:0}
+.cap-row span{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.cap-row:hover span{color:#fff}
+.work{background:#e7e6e0}
+.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.work-link{min-height:230px;background:var(--paper);padding:28px;display:flex;flex-direction:column;transition:background .2s ease,color .2s ease}
+.work-link:hover{background:var(--ink);color:#fff}
+.work-link span{font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--red)}
+.work-link h3{font-family:var(--display);font-size:clamp(34px,4vw,58px);font-weight:400;letter-spacing:-.045em;line-height:.95;margin:auto 0 0}
+.work-link b{align-self:flex-end;font-size:20px;font-weight:400}
+.lead{padding:140px 0 150px;overflow:hidden}
+.lead .index{margin-bottom:40px}
+.lead-line{margin:0;font-size:clamp(62px,10vw,150px);font-weight:800;letter-spacing:-.075em;line-height:.78;text-transform:uppercase}
+.lead-line span{display:block}
+.lead-line span:nth-child(2){color:transparent;-webkit-text-stroke:1px var(--ink);margin-left:10%}
+.lead-line span:nth-child(3){color:var(--blue);margin-left:20%}
+.closing{padding-bottom:90px}
+.closing-card{background:var(--blue);color:#fff;padding:clamp(40px,7vw,96px);display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end}
+.closing-card h2{font-family:var(--display);font-size:clamp(60px,8vw,116px);font-weight:400;letter-spacing:-.065em;line-height:.82;margin:0;max-width:900px}
+.closing-card .button{border-color:#fff;color:#fff}
+.closing-card .button:hover{background:#fff;color:var(--blue)}
+.footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.footer-links{display:flex;gap:24px}
+.footer a:hover{color:var(--blue)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}.reveal.visible{opacity:1;transform:none}
+@media(max-width:1000px){.shell{width:min(100% - 40px,800px)}.hero{display:flex;flex-direction:column;min-height:auto}.hero-title{margin:90px 0 55px}.hero-side{max-width:520px;margin-left:auto}.hero-foot{margin-top:75px}.metrics{grid-template-columns:repeat(3,1fr)}.metric{border-bottom:1px solid var(--line)}.metric:nth-child(3){border-right:0}.metric:nth-child(4),.metric:nth-child(5){border-bottom:0}.section{padding:100px 0}.section-head{grid-template-columns:1fr;gap:18px}.closing-card{grid-template-columns:1fr}.closing-card .button{width:max-content}}
+@media(max-width:620px){.shell{width:calc(100% - 24px)}.nav{height:68px}.brand span:last-child{display:none}.nav-links a:not(:last-child){display:none}.hero{padding-top:28px}.hero-meta span:last-child{display:none}.hero-title{font-size:clamp(59px,22vw,100px);margin:75px 0 45px}.hero-title span:nth-child(2),.hero-title span:nth-child(3){margin-left:0}.hero-title i{margin-left:7px}.hero-side{width:100%}.hero-foot{margin-top:60px;align-items:start;gap:20px}.hero-foot span:last-child{text-align:right}.metrics{grid-template-columns:repeat(2,1fr)}.metric,.metric:first-child,.metric:last-child{padding:25px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.metric:nth-child(2),.metric:nth-child(4){border-right:0}.metric:last-child{border-bottom:0}.metric-value{font-size:45px}.section{padding:80px 0}.section-head{margin-bottom:45px}.cap-row{grid-template-columns:34px 1fr;gap:12px}.cap-row span{display:none}.work-grid{grid-template-columns:1fr}.work-link{min-height:190px}.lead{padding:95px 0}.lead-line{font-size:clamp(52px,18vw,86px)}.lead-line span:nth-child(2),.lead-line span:nth-child(3){margin-left:0}.closing{padding-bottom:70px}.closing-card .button{width:100%}.footer{align-items:flex-start;flex-direction:column;gap:18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="shell nav">
+<a class="brand" href="#top"><span class="brand-mark">D</span><span>Diego Pacheco</span></a>
+<nav class="nav-links" aria-label="Primary navigation"><a href="#capabilities">Capabilities</a><a href="#proof">Proof</a><a href="#work">Work</a><a href="https://github.com/diegopacheco" target="_blank" rel="noreferrer">GitHub ↗</a></nav>
+</header>
+<main id="top">
+<section class="shell hero">
+<div class="hero-meta reveal"><span>AI systems architect · engineering leader</span><span>Los Angeles / 2026</span></div>
+<h1 class="hero-title reveal"><span>Architect.</span><span>Leader.<i>with AI</i></span><span>Builder.</span></h1>
+<div class="hero-side reveal"><div class="role">Strategy to production</div><p>I turn AI uncertainty into systems that ship.</p><div class="hero-actions"><a class="button button-primary" href="https://github.com/diegopacheco/ai-playground" target="_blank" rel="noreferrer">View the work <span>↗</span></a><a class="button" href="#capabilities">Explore <span>↓</span></a></div></div>
+<div class="hero-foot reveal"><strong>Architecture grounded in code.</strong><span>Scroll to inspect ↓</span></div>
+</section>
+<section class="proof" id="proof">
+<div class="shell metrics reveal">
+<div class="metric"><strong class="metric-value count" data-target="513">0</strong><span class="metric-name">Applied AI projects</span></div>
+<div class="metric"><strong class="metric-value count" data-target="177">0</strong><span class="metric-name">Agent projects</span></div>
+<div class="metric"><strong class="metric-value count" data-target="150" data-suffix="+">0</strong><span class="metric-name">Agents built</span></div>
+<div class="metric"><strong class="metric-value count" data-target="67">0</strong><span class="metric-name">Agentic tooling and ecosystem</span></div>
+<div class="metric"><strong class="metric-value count" data-target="7">0</strong><span class="metric-name">MCP systems</span></div>
+</div>
+</section>
+<section class="shell section" id="capabilities">
+<div class="section-head reveal"><div class="index">01 / Capabilities</div><h2>Systems, end to end.</h2></div>
+<div class="cap-list reveal">
+<div class="cap-row"><b>01</b><h3>Direction</h3><span>Strategy and boundaries</span></div>
+<div class="cap-row"><b>02</b><h3>Intelligence</h3><span>Agents, tools, context</span></div>
+<div class="cap-row"><b>03</b><h3>Trust</h3><span>Evaluation and safety</span></div>
+<div class="cap-row"><b>04</b><h3>Platform</h3><span>Reusable foundations</span></div>
+<div class="cap-row"><b>05</b><h3>Delivery</h3><span>Production feedback</span></div>
+</div>
+</section>
+<section class="work section" id="work">
+<div class="shell">
+<div class="section-head reveal"><div class="index">02 / Selected work</div><h2>Built to be inspected.</h2></div>
+<div class="work-grid reveal">
+<a class="work-link" href="agents/agents-pocs.md"><span>01 / Agents</span><b>↗</b><h3>Agent architecture</h3></a>
+<a class="work-link" href="mcp/README.md"><span>02 / Interfaces</span><b>↗</b><h3>AI platform systems</h3></a>
+<a class="work-link" href="local-models/README.md"><span>03 / Inference</span><b>↗</b><h3>Local intelligence</h3></a>
+<a class="work-link" href="https://github.com/diegopacheco/ai-playground" target="_blank" rel="noreferrer"><span>04 / Engineering</span><b>↗</b><h3>Full technical range</h3></a>
+</div>
+</div>
+</section>
+<section class="shell lead reveal">
+<div class="index">03 / Leadership</div>
+<p class="lead-line"><span>Clear decisions.</span><span>Strong systems.</span><span>Better teams.</span></p>
+</section>
+<section class="shell closing">
+<div class="closing-card reveal"><h2>Build AI that lasts.</h2><a class="button" href="https://github.com/diegopacheco" target="_blank" rel="noreferrer">Start with the code <span>↗</span></a></div>
+</section>
+</main>
+<footer class="shell footer"><span>Diego Pacheco · AI Systems Architect</span><div class="footer-links"><a href="https://github.com/diegopacheco/ai-playground" target="_blank" rel="noreferrer">Repository ↗</a><a href="#top">Top ↑</a></div></footer>
+<script>
+const progress=document.getElementById("progress")
+const updateProgress=()=>{const height=document.documentElement.scrollHeight-innerHeight;progress.style.width=`${height?scrollY/height*100:0}%`}
+addEventListener("scroll",updateProgress,{passive:true})
+updateProgress()
+const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("visible");revealObserver.unobserve(entry.target)}}),{threshold:.1})
+document.querySelectorAll(".reveal").forEach(element=>revealObserver.observe(element))
+const countObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;const element=entry.target;const target=Number(element.dataset.target);const suffix=element.dataset.suffix||"";const start=performance.now();const tick=now=>{const ratio=Math.min((now-start)/1100,1);element.textContent=Math.round(target*(1-Math.pow(1-ratio,4))).toLocaleString()+suffix;if(ratio<1)requestAnimationFrame(tick)};requestAnimationFrame(tick);countObserver.unobserve(element)}),{threshold:.4})
+document.querySelectorAll(".count").forEach(element=>countObserver.observe(element))
+</script>
+</body>
+</html>
