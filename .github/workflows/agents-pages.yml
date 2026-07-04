@@ -31,6 +31,7 @@ jobs:
         run: |
           mkdir _site
           cp agents/landing-page.html _site/index.html
+          cp -R agents/logos _site/logos
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
