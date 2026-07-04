@@ -1,0 +1,25 @@
+pocs/fable-5-fight-game/stop.sh
+  s_103f9c232f7b9f::t_c76586c59a27b7 1-9
+pocs/fable-5-fight-game/start.sh
+  s_103f9c232f7b9f::t_06813cb159ef6f 1-9
+pocs/fable-5-fight-game/index.html
+  s_103f9c232f7b9f::t_f497b55e98a8cb 1-419
+pocs/fable-5-fight-game/README.md
+  s_103f9c232f7b9f::t_93e34f316fc92e 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8867c074fd706d532e5b070e8973ba50471b3758",
+  "prompts": {},
+  "sessions": {
+    "s_103f9c232f7b9f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ef08ef99-89cd-4d4f-8848-906cfa77df71",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
