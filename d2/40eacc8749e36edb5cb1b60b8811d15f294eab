@@ -1,0 +1,19 @@
+pocs/agent-skill-6-hats/assess-loop-engineering.html
+  s_00054665c0ebc6::t_7b999d8eeba1e6 1-329
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d240eacc8749e36edb5cb1b60b8811d15f294eab",
+  "prompts": {},
+  "sessions": {
+    "s_00054665c0ebc6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3174-f2bb-7e31-bd23-ce67168a2075",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
