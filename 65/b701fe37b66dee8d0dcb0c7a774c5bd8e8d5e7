@@ -1,0 +1,30 @@
+pocs/agent-skill-6-hats/hats/SKILL.md
+  s_0d271325b0e559::t_1c9297da20b351 3,6,8,10,12-19,21,23,25-30,32,34,36,38,40-47,49
+  s_0d271325b0e559::t_c4361ee0cb5b8c 1-2,4-5,7,9,11,20,22,24,31,33,35,37,39,48
+pocs/agent-skill-6-hats/README.md
+  s_0d271325b0e559::t_1c9297da20b351 1-55
+pocs/agent-skill-6-hats/uninstall.sh
+  s_0d271325b0e559::t_1c9297da20b351 1-25
+pocs/agent-skill-6-hats/install.sh
+  s_0d271325b0e559::t_1c9297da20b351 1-33
+pocs/agent-skill-6-hats/hats/agents/openai.yaml
+  s_0d271325b0e559::t_c4361ee0cb5b8c 1-4
+pocs/agent-skill-6-hats/hats/assets/report-template.html
+  s_0d271325b0e559::t_7dec75475e9c69 1-442
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "65b701fe37b66dee8d0dcb0c7a774c5bd8e8d5e7",
+  "prompts": {},
+  "sessions": {
+    "s_0d271325b0e559": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f316e-1fb6-7783-9023-86de6e6139ec",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
