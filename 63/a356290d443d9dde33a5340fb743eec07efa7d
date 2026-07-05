@@ -1,0 +1,19 @@
+pocs/tv-time-like/README.md
+  s_a09a44c87ab6f9::t_519acd44be1d00 33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "63a356290d443d9dde33a5340fb743eec07efa7d",
+  "prompts": {},
+  "sessions": {
+    "s_a09a44c87ab6f9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f345f-6933-7fd1-8897-5b77ff67deda",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
