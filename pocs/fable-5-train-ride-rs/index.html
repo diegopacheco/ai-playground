@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trem do Rio Grande</title>
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#0b1026;font-family:"Avenir Next","Segoe UI",Helvetica,Arial,sans-serif;color:#f4ead6}
+  canvas{display:block}
+  .panel{position:fixed;background:rgba(10,14,22,.58);border:1px solid rgba(244,234,214,.18);border-radius:12px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:10px 16px}
+  #loc{top:22px;left:50%;transform:translateX(-50%);max-width:580px;text-align:center;opacity:0;transition:opacity .8s;pointer-events:none}
+  #loc.show{opacity:1}
+  #loc h1{margin:0;font:italic 700 26px Georgia,"Times New Roman",serif;color:#ffd27d;letter-spacing:.5px}
+  #loc p{margin:6px 0 2px;font-size:13.5px;line-height:1.45;color:#e9ddc4}
+  #status{top:22px;right:22px;text-align:right;font-size:12.5px}
+  #clock{font:700 22px Georgia,serif;color:#ffd27d;display:block}
+  #weather{color:#bcd0dd}
+  #next{right:22px;bottom:22px;font-size:13px;color:#e9ddc4}
+  #next b{color:#ffd27d;font-weight:600}
+  #hint{bottom:22px;left:50%;transform:translateX(-50%);font-size:12.5px;color:#cbd6c9;letter-spacing:.4px;white-space:nowrap}
+  #hint b{color:#ffd27d;font-weight:600}
+  #overlay{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at center,rgba(11,16,38,.5),rgba(7,10,24,.92));cursor:pointer;z-index:5}
+  #overlay h1{font:italic 700 56px Georgia,"Times New Roman",serif;color:#ffd27d;margin:0 0 10px;text-shadow:0 2px 24px rgba(0,0,0,.6)}
+  #overlay p{max-width:660px;margin:6px 24px;font-size:15px;line-height:1.65;color:#e9ddc4}
+  #overlay span{margin-top:28px;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:#dfe6da;border:1px solid rgba(244,234,214,.4);border-radius:999px;padding:11px 30px}
+</style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="loc" class="panel"><h1 id="cityName"></h1><p id="cityInfo"></p></div>
+<div id="status" class="panel"><span id="clock"></span><span id="weather"></span></div>
+<div id="next" class="panel"></div>
+<div id="hint" class="panel"></div>
+<div id="overlay">
+  <h1>Trem do Rio Grande</h1>
+  <p>A steam ride across Rio Grande do Sul, Brazil: Porto Alegre, Gramado, Canela, the Jesuit Missões, and the borders with Argentina and Uruguay. Days turn into nights, rain sweeps the pampa. Stop the train at any station, step off and walk the towns.</p>
+  <span>Click to board</span>
+</div>
+<script type="importmap">{"imports":{"three":"./three.module.js"}}</script>
+<script type="module" src="main.js"></script>
+</body>
+</html>
