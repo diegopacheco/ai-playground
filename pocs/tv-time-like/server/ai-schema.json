@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "type": { "type": "string", "enum": ["movie", "show"] },
+          "year": { "type": "integer" },
+          "summary": { "type": "string" },
+          "genres": { "type": "array", "items": { "type": "string" } },
+          "runtime": { "type": "integer" },
+          "sourceUrl": { "type": "string" },
+          "sourceName": { "type": "string" },
+          "reason": { "type": "string" }
+        },
+        "required": ["title", "type", "year", "summary", "genres", "runtime", "sourceUrl", "sourceName", "reason"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["items"],
+  "additionalProperties": false
+}

@@ -1,0 +1,27 @@
+{
+  "name": "reelmark",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "server": "bun --watch server/index.ts",
+    "build": "tsc -b && vite build",
+    "test": "bun test",
+    "check": "tsc -b"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "latest",
+    "@tanstack/react-router": "latest",
+    "@tanstack/react-table": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  }
+}
