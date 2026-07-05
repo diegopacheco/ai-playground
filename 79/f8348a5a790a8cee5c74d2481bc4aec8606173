@@ -1,0 +1,21 @@
+pocs/agent-skill-6-hats/improve-deployment-reliability.html
+  s_0d271325b0e559::t_471c7d80a29c3e 1-442
+pocs/agent-skill-6-hats/README.md
+  s_0d271325b0e559::t_4804805b28c31f 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "79f8348a5a790a8cee5c74d2481bc4aec8606173",
+  "prompts": {},
+  "sessions": {
+    "s_0d271325b0e559": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f316e-1fb6-7783-9023-86de6e6139ec",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
