@@ -1,0 +1,33 @@
+pocs/fable-5-train-ride-rs/index.html
+  s_a9d4b32afd3759::t_43088cf81447d7 17-18,21-24
+  s_a9d4b32afd3759::t_f0b855d13db074 34,36
+  s_a9d4b32afd3759::t_f847cff4e5af83 39
+pocs/fable-5-train-ride-rs/main.js
+  s_a9d4b32afd3759::t_f6520b9b7bd756 707
+  s_a9d4b32afd3759::t_efbd49e0df2e95 1134-1135,1138-1139
+  s_a9d4b32afd3759::t_21259daaf5b904 1023
+  s_a9d4b32afd3759::t_74897903d43ff1 161,171-177,232-285,293-343,345,347,349-350,354-366,368-408,413-453,457-498,504-583,586-591,594-595,598-599,602-603,606-607,610-611,667,671-675,678,687-701,703-706,708-721,730,796-797,809-810,941-1018,1024,1037-1038,1040,1050,1057,1060-1063,1066-1077,1085-1086,1090-1095,1097,1132-1133,1149,1151,1161-1189,1207,1223,1229-1230,1251
+  s_a9d4b32afd3759::t_a168afd36d7377 661-666,668-670,676-677,679-686,702
+  s_a9d4b32afd3759::t_f17abdd679c53d 1087
+  s_a9d4b32afd3759::t_f0e22577feb216 1019
+pocs/fable-5-train-ride-rs/README.md
+  s_a9d4b32afd3759::t_4508195bc5f1d6 21-24,26,28,32-44
+  s_a9d4b32afd3759::t_a035084367eb0b 52
+  s_a9d4b32afd3759::t_1911a1bc86978c 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "022bbcde77b665c4f2ef8aa0990b0b1ae1807cd0",
+  "prompts": {},
+  "sessions": {
+    "s_a9d4b32afd3759": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "968b6e74-5192-40e2-86b6-77c66dc126f2",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
