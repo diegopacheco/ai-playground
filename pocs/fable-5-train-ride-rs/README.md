@@ -1,3 +1,5 @@
+![Fable 5 Train Ride RS logo](fable-5-train-ride-rs-logo.png)
+
 # Trem do Rio Grande
 
 A 3D web train ride across Rio Grande do Sul, Brazil. You ride a steam train on a loop through six stops, each with landmarks of the real place. Time passes, day turns into night, rain comes and goes. You can stop the train anywhere, step off and walk the towns on foot.
