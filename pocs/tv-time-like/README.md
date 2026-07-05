@@ -30,7 +30,7 @@ TV Time is scheduled to close on July 15, 2026. Request the official GDPR archiv
 
 The importer matches shows and episodes against the local catalog and TVmaze. Unmatched rows are reported and can be retried later. Community posts and reactions are not part of the tracking import.
 
-Refresh artwork sends media titles only to Wikipedia and Wikidata. Returned image paths and genre labels are stored in SQLite; account identifiers and watch status are never sent.
+Refresh artwork sends media titles to Wikipedia and Wikidata, plus titles and release years to IMDb. Returned image paths and genre labels are stored in SQLite; account identifiers and watch status are never sent.
 
 ## AI catalog
 
