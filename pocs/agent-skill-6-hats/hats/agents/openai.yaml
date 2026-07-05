@@ -1,0 +1,4 @@
+interface:
+  display_name: "Six Thinking Hats"
+  short_description: "Analyze decisions through six distinct lenses"
+  default_prompt: "Use $hats to analyze this decision and create a self-contained HTML report."
