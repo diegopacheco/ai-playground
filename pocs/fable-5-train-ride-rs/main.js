@@ -158,7 +158,7 @@ function textPanel(text) {
   x.fillStyle = "#f4ead6";
   let size = 58;
   x.font = "bold " + size + "px Georgia";
-  while (x.measureText(text).width > 455 && size > 22) {
+  while (x.measureText(text).width > 455 && size > 20) {
     size -= 2;
     x.font = "bold " + size + "px Georgia";
   }
@@ -166,6 +166,13 @@ function textPanel(text) {
   x.textBaseline = "middle";
   x.fillText(text, 256, 66);
   return new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), side: THREE.DoubleSide });
+}
+
+function label(g, text, x, z) {
+  cyl(g, 0.12, 6.6, 0x4a4038, x, 3.3, z);
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(11.5, 2.9), textPanel(text));
+  m.position.set(x, 7.6, z);
+  g.add(m);
 }
 
 function drawBrazil(x, w, h) {
@@ -222,21 +229,60 @@ function flag(g, px, pz, draw) {
 }
 
 function buildPortoAlegre(g) {
-  box(g, 34, 11, 11, 0xe6e0d1, 0, 5.5, -8);
-  box(g, 35, 1.2, 12, 0xb9b2a2, 0, 11.6, -8);
-  box(g, 34.2, 2.4, 11.1, 0x2f3a42, 0, 6.4, -8);
-  cyl(g, 2.1, 46, 0xa14b32, 14, 23, -8);
-  cyl(g, 2.4, 2, 0x7c3423, 14, 45, -8);
-  box(g, 8, 30, 8, 0x8e99a5, -28, 15, -34);
-  box(g, 7, 24, 7, 0x9fa8b2, -16, 12, -38);
-  box(g, 9, 38, 9, 0x7d8794, -40, 19, -24);
-  box(g, 6, 20, 6, 0xa8b0b8, 28, 10, -34);
-  box(g, 16, 6, 10, 0xdfc06a, 32, 3, -8);
-  box(g, 17, 1, 11, 0xf0e7d4, 32, 6.7, -8);
-  cyl(g, 1.3, 2.4, 0x8b8b85, -10, 1.2, 6);
-  cyl(g, 0.45, 3.2, 0x74572e, -10, 4, 6);
-  sph(g, 0.55, 0x74572e, -10, 6.1, 6);
-  flat(g, 540, 320, 0x3e6e8c, 0, 0.04, -210);
+  flat(g, 560, 300, 0x3e6e8c, 0, 0.04, -260);
+  box(g, 48, 16, 15, 0xe6e0d1, 0, 8, -28);
+  box(g, 50, 1.6, 16.5, 0xb9b2a2, 0, 16.8, -28);
+  box(g, 48.3, 3, 15.2, 0x2f3a42, 0, 9.5, -28);
+  for (const x of [-18, -6, 6, 18]) box(g, 3.4, 7, 0.5, 0x21313c, x, 8, -20.4);
+  cyl(g, 2.8, 62, 0xa14b32, 19, 31, -28);
+  cyl(g, 3.2, 2.6, 0x7c3423, 19, 62.3, -28);
+  label(g, "Usina do Gasômetro", 0, -14);
+  box(g, 34, 11, 20, 0xf0e3c8, -62, 5.5, -30);
+  box(g, 35, 1.4, 21, 0xd9c9a4, -62, 11.9, -30);
+  for (const x of [-77, -47]) for (const z of [-39, -21]) box(g, 4.5, 14, 4.5, 0xe6d5ae, x, 7, z);
+  box(g, 7, 15, 7, 0xe6d5ae, -62, 7.5, -30);
+  cone(g, 4.8, 3.6, 0x8a4a32, -62, 16.8, -30, 4, Math.PI / 4);
+  for (const x of [-72, -67, -57, -52]) box(g, 3, 5.6, 0.5, 0x5c4630, x, 3.4, -19.7);
+  label(g, "Mercado Público", -62, -14);
+  box(g, 20, 24, 14, 0xf2f0ea, 58, 12, -34);
+  for (const [y, rz] of [[7, 0.12], [13.5, -0.1], [20, 0.13]]) {
+    const r = box(g, 25, 2.4, 3, 0xe9e7e0, 58, y, -26.6);
+    r.rotation.z = rz;
+  }
+  label(g, "Fundação Iberê Camargo", 58, -18);
+  flat(g, 74, 44, 0x5c8a4a, -58, 0.05, -70);
+  flat(g, 4, 44, 0xc9b189, -58, 0.07, -70);
+  flat(g, 60, 4, 0xc9b189, -58, 0.07, -66);
+  cyl(g, 3.6, 1.4, 0x8b8b85, -58, 0.7, -60);
+  cyl(g, 2.8, 0.5, 0x69a3c0, -58, 1.6, -60);
+  cyl(g, 0.5, 4.6, 0x74572e, -58, 3.4, -60);
+  sph(g, 0.8, 0x74572e, -58, 6.2, -60);
+  box(g, 1.7, 11, 1.7, 0xd8d3c4, -76, 5.5, -82);
+  box(g, 1.7, 11, 1.7, 0xd8d3c4, -69, 5.5, -82);
+  box(g, 9, 1.7, 2.2, 0xd8d3c4, -72.5, 11.6, -82);
+  tree(g, -84, -60, 1.1);
+  tree(g, -34, -58, 1);
+  tree(g, -82, -84, 0.9);
+  tree(g, -36, -84, 1.2);
+  label(g, "Parque Farroupilha", -58, -46);
+  box(g, 10, 46, 10, 0x8e99a5, 18, 23, -72);
+  box(g, 9, 58, 9, 0x7d8794, 34, 29, -80);
+  box(g, 8, 36, 8, 0x9fa8b2, 48, 18, -68);
+  box(g, 7, 28, 7, 0xa8b0b8, 6, 14, -80);
+  box(g, 8, 40, 8, 0x97a1ac, 62, 20, -78);
+  flat(g, 170, 10, 0xc9b189, 0, 0.06, -104);
+  for (let i = 0; i < 7; i++) {
+    const x = -66 + i * 22;
+    cyl(g, 0.14, 3.2, 0x6d5b43, x, 1.6, -101);
+    cone(g, 2.7, 1.5, [0xd96b43, 0xe0b13e, 0x5b8fb0][i % 3], x, 3.6, -101, 8);
+  }
+  for (const x of [-55, -33, -11, 11, 33, 55]) box(g, 3, 0.5, 1, 0x6d5b43, x, 0.6, -99);
+  flat(g, 16, 9, 0x3e7e58, 78, 0.07, -102);
+  box(g, 0.2, 1, 9, 0xe8e8e2, 78, 1, -102);
+  label(g, "Orla do Guaíba", 0, -94);
+  cyl(g, 1.3, 2.4, 0x8b8b85, -20, 1.2, 4);
+  cyl(g, 0.45, 3.2, 0x74572e, -20, 4, 4);
+  sph(g, 0.55, 0x74572e, -20, 6.1, 4);
 }
 
 function buildGramado(g) {
@@ -244,118 +290,325 @@ function buildGramado(g) {
     box(g, 6 * s, 3 * s, 5 * s, wall, x, 1.5 * s, z);
     cone(g, 4.4 * s, 2.8 * s, roof, x, 4.4 * s, z, 4, Math.PI / 4);
   }
-  chalet(-16, -8, 1, 0x7a5236, 0x6e2f22);
-  chalet(-7, -14, 1.1, 0xe9dcc3, 0x74362a);
-  chalet(14, -10, 0.9, 0x8a5f3a, 0x5f2a20);
-  chalet(22, -4, 0.8, 0xdbc9a6, 0x6e2f22);
-  box(g, 12, 5.5, 9, 0xe8ddc4, 2, 2.75, -4);
-  cone(g, 8.6, 4.2, 0x77402c, 2, 7.8, -4, 4, Math.PI / 4);
-  flat(g, 3, 12, 0x9c2430, 2, 0.06, 6);
-  box(g, 1, 1, 1, 0x6d6a63, -1.5, 0.5, 10);
-  cone(g, 0.45, 1.6, 0xc9a437, -1.5, 1.8, 10, 10);
-  box(g, 1, 1, 1, 0x6d6a63, 5.5, 0.5, 10);
-  cone(g, 0.45, 1.6, 0xc9a437, 5.5, 1.8, 10, 10);
-  const hues = [0x7c86c9, 0x8f7cc9, 0x6c9ac9];
-  for (let i = 0; i < 9; i++) {
-    const r = 0.8 + rnd() * 0.9;
-    sph(g, r, hues[i % 3], -22 + rnd() * 48, r * 0.7, 2 + rnd() * 8);
+  box(g, 13, 12, 26, 0x8f8b82, 0, 6, -32);
+  box(g, 7.5, 26, 7.5, 0x95918a, 0, 13, -16);
+  cone(g, 5.4, 17, 0x6e6a62, 0, 34.5, -16, 8);
+  box(g, 0.4, 3, 0.4, 0xd9d9d2, 0, 44, -16);
+  box(g, 1.8, 0.4, 0.4, 0xd9d9d2, 0, 44.5, -16);
+  box(g, 3.2, 6.5, 0.7, 0x3a3630, 0, 3.2, -12.1);
+  for (const z of [-26, -32, -38]) for (const x of [-6.8, 6.8]) box(g, 0.5, 4.5, 2, 0x3f6f9f, x, 7, z);
+  label(g, "Igreja Matriz São Pedro", 0, -6);
+  box(g, 26, 13, 15, 0x9c3a2c, -48, 6.5, -24);
+  box(g, 27, 2.6, 4, 0xefe6d0, -48, 10.5, -16.2);
+  flat(g, 5, 14, 0x9c2430, -48, 0.06, -9);
+  cyl(g, 1, 1, 0x6d6a63, -54, 0.5, -12);
+  cone(g, 0.5, 1.9, 0xc9a437, -54, 1.9, -12, 10);
+  cyl(g, 1, 1, 0x6d6a63, -42, 0.5, -12);
+  cone(g, 0.5, 1.9, 0xc9a437, -42, 1.9, -12, 10);
+  label(g, "Palácio dos Festivais", -48, -4);
+  flat(g, 42, 32, 0x69945a, -56, 0.05, -66);
+  for (let i = 0; i < 7; i++) {
+    const x = -70 + (i % 4) * 9, z = -60 - Math.floor(i / 4) * 12;
+    box(g, 2.6, 2, 2.2, [0xe9dcc3, 0xc9a98a, 0xb0b6c9][i % 3], x, 1, z);
+    cone(g, 2, 1.6, 0x6e2f22, x, 2.8, z, 4, Math.PI / 4);
   }
-  tree(g, -26, -18, 0.9);
-  tree(g, 28, -16, 1);
+  box(g, 1.4, 3.4, 1.4, 0xd8d3c4, -46, 1.7, -72);
+  cone(g, 1.2, 1.6, 0x5b6b9c, -46, 4.2, -72, 8);
+  label(g, "Mini Mundo", -56, -48);
+  const lake = new THREE.Mesh(new THREE.CircleGeometry(24, 26), lam(0x14333c));
+  lake.rotation.x = -Math.PI / 2;
+  lake.position.set(56, 0.05, -74);
+  g.add(lake);
+  box(g, 2.6, 1, 1.4, 0xf4f4f0, 50, 0.8, -68);
+  cyl(g, 0.28, 1.6, 0xf4f4f0, 49.2, 1.8, -68);
+  sph(g, 0.42, 0xf4f4f0, 49.2, 2.7, -68);
+  tree(g, 38, -60, 1);
+  tree(g, 74, -62, 1.1);
+  tree(g, 78, -84, 0.9);
+  tree(g, 36, -88, 1.2);
+  tree(g, 58, -98, 1);
+  label(g, "Lago Negro", 56, -46);
+  for (let i = 0; i < 5; i++) {
+    const s = flat(g, 6, 17, 0x8b8880, 16 + (i % 2 ? 3.6 : -3.6), 0.06, -48 - i * 13);
+    s.rotation.z = i % 2 ? 0.42 : -0.42;
+  }
+  for (let i = 0; i < 12; i++) {
+    const r = 0.7 + rnd() * 0.6;
+    sph(g, r, [0xc96b8e, 0x7c86c9, 0xd88ab0][i % 3], 9 + rnd() * 14, r * 0.7, -46 - rnd() * 62);
+  }
+  label(g, "Rua Torta", 16, -40);
+  chalet(28, -16, 1.1, 0x7a5236, 0x6e2f22);
+  chalet(38, -8, 0.9, 0xe9dcc3, 0x74362a);
+  chalet(-20, -10, 1, 0x8a5f3a, 0x5f2a20);
+  chalet(-30, -16, 0.9, 0xdbc9a6, 0x6e2f22);
+  const hues = [0x7c86c9, 0x8f7cc9, 0x6c9ac9];
+  for (let i = 0; i < 14; i++) {
+    const r = 0.8 + rnd() * 0.9;
+    sph(g, r, hues[i % 3], -34 + rnd() * 70, r * 0.7, rnd() * 8);
+  }
+  tree(g, -70, -20, 1);
+  tree(g, 70, -20, 1.1);
 }
 
 function buildCanela(g) {
-  box(g, 9, 9, 16, 0x92928a, 0, 4.5, -10);
-  box(g, 5.5, 16, 5.5, 0x9a9a92, 0, 8, 0);
-  cone(g, 3.9, 15, 0x83837b, 0, 23.5, 0, 8);
-  box(g, 0.35, 3, 0.35, 0xd9d9d2, 0, 32.5, 0);
-  box(g, 1.7, 0.35, 0.35, 0xd9d9d2, 0, 32.9, 0);
-  box(g, 2.6, 5, 0.6, 0x3a3630, 0, 2.5, 2.85);
-  cone(g, 0.7, 3, 0x83837b, -3.2, 17.5, 3.2, 6);
-  cone(g, 0.7, 3, 0x83837b, 3.2, 17.5, 3.2, 6);
-  box(g, 22, 16, 8, 0x6e6a60, -32, 8, -28);
-  const fall = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 15), new THREE.MeshBasicMaterial({ color: 0xeef7fb }));
-  fall.position.set(-32, 8, -23.9);
+  box(g, 12, 13, 24, 0x8a8a82, 0, 6.5, -30);
+  box(g, 8, 24, 8, 0x92928a, 0, 12, -13);
+  cone(g, 5.6, 22, 0x7b7b73, 0, 35, -13, 8);
+  box(g, 0.4, 3.4, 0.4, 0xd9d9d2, 0, 47.5, -13);
+  box(g, 1.9, 0.4, 0.4, 0xd9d9d2, 0, 48, -13);
+  box(g, 3, 6.5, 0.7, 0x3a3630, 0, 3.2, -8.9);
+  for (const x of [-4.5, 4.5]) cone(g, 1, 4.5, 0x7b7b73, x, 26, -13, 6);
+  for (const z of [-22, -30, -38]) for (const x of [-6.5, 6.5]) cone(g, 0.8, 3.4, 0x7b7b73, x, 14.5, z, 6);
+  label(g, "Catedral de Pedra", 0, -4);
+  box(g, 28, 28, 12, 0x6e6a60, -74, 14, -64);
+  box(g, 20, 28, 12, 0x6e6a60, -46, 14, -64);
+  const fall = new THREE.Mesh(new THREE.PlaneGeometry(5, 27), new THREE.MeshBasicMaterial({ color: 0xeef7fb }));
+  fall.position.set(-58, 13.5, -57.9);
   g.add(fall);
-  flat(g, 12, 9, 0x4f86a0, -32, 0.05, -16);
-  tree(g, -14, -20, 1.1);
-  tree(g, 12, -18, 1.2);
-  tree(g, 20, -8, 0.9);
+  flat(g, 14, 12, 0x4f86a0, -58, 0.06, -50);
+  flat(g, 6, 22, 0x4f86a0, -58, 0.05, -34);
+  tree(g, -78, -46, 1.1);
+  tree(g, -38, -44, 1.2);
+  label(g, "Cascata do Caracol", -58, -26);
+  box(g, 26, 24, 14, 0x6e6a60, 52, 12, -78);
+  const deck = new THREE.Mesh(new THREE.BoxGeometry(7, 0.7, 20), new THREE.MeshLambertMaterial({ color: 0xbfe3ee, transparent: true, opacity: 0.5 }));
+  deck.position.set(52, 24.3, -61);
+  g.add(deck);
+  for (const x of [48.8, 55.2]) box(g, 0.25, 1.3, 20, 0x9db8c2, x, 25.2, -61);
+  box(g, 7, 1.3, 0.25, 0x9db8c2, 52, 25.2, -51.1);
+  label(g, "Skyglass Canela", 52, -44);
+  const hill = new THREE.Mesh(new THREE.ConeGeometry(24, 20, 8), lam(0x5e7f52));
+  hill.position.set(92, 8, -80);
+  g.add(hill);
+  for (let i = 0; i < 6; i++) {
+    const a = -0.6 + i * 0.5;
+    const rr = 26 - i * 1.5;
+    const px = 92 + Math.sin(a) * rr, pz = -80 + Math.cos(a) * rr;
+    const py = 13 - i * 2.1;
+    box(g, 2.4, 0.4, 3.4, 0x8a5a3a, px, py, pz, a);
+    cyl(g, 0.16, py, 0x6b5a48, px, py / 2, pz);
+  }
+  box(g, 1.6, 0.9, 2.4, 0xc23b2e, 92 + Math.sin(0.4) * 24.5, 9.4, -80 + Math.cos(0.4) * 24.5);
+  cyl(g, 0.2, 16, 0x6b5a48, 70, 8, -58);
+  cyl(g, 0.2, 7, 0x6b5a48, 96, 3.5, -50);
+  const zip = box(g, 27, 0.12, 0.12, 0x2c2c2c, 83, 12, -54, 0.3);
+  zip.rotation.z = -0.33;
+  label(g, "Alpen Park", 88, -50);
+  flat(g, 60, 44, 0x557a48, -12, 0.04, -110);
+  const horse = new THREE.Mesh(new THREE.RingGeometry(10, 17, 26, 1, 0.5, 4.2), new THREE.MeshLambertMaterial({ color: 0x4f86a0, side: THREE.DoubleSide }));
+  horse.rotation.x = -Math.PI / 2;
+  horse.position.set(-12, 0.07, -112);
+  g.add(horse);
+  box(g, 5, 0.5, 4, 0x8a6b4a, -12, 1.6, -92);
+  for (const x of [-14.2, -9.8]) box(g, 0.18, 1.4, 4, 0x6b5a48, x, 2.5, -92);
+  tree(g, -34, -100, 1);
+  tree(g, 8, -104, 1.1);
+  label(g, "Parque da Ferradura", -12, -84);
+  tree(g, -20, -18, 1.1);
+  tree(g, 24, -20, 1.2);
 }
 
 function buildMissoes(g) {
   const red = 0x94502f, red2 = 0x8a4629;
-  for (const x of [-12, -4, 4, 12]) box(g, 3, 10, 2.4, red, x, 5, 0);
-  box(g, 28, 2.4, 2.4, red2, 0, 11.2, 0);
-  for (const x of [-8, 0, 8]) box(g, 2.6, 5, 2.2, red, x, 14.9, 0);
-  box(g, 20, 2, 2.2, red2, 0, 18.4, 0);
-  box(g, 10, 2.2, 2.2, red, 0, 20.5, 0);
-  box(g, 0.4, 3.2, 0.4, red2, 0, 23.2, 0);
-  box(g, 1.8, 0.4, 0.4, red2, 0, 23.6, 0);
-  box(g, 2, 6, 20, red2, -15.5, 3, -11);
-  box(g, 2, 5, 16, red, 15.5, 2.5, -9);
-  for (let i = 0; i < 10; i++) {
-    const h = 2 + rnd() * 5;
-    cyl(g, 0.9, h, red, -9 + (i % 5) * 4.5, h / 2, -8 - Math.floor(i / 5) * 6);
+  flat(g, 90, 64, 0x9b8a66, 0, 0.03, -40);
+  for (const x of [-21, -7, 7, 21]) box(g, 5, 18, 4, red, x, 9, -26);
+  box(g, 50, 4, 4, red2, 0, 20, -26);
+  for (const x of [-14, 0, 14]) box(g, 4.6, 9, 3.6, red, x, 26.5, -26);
+  box(g, 36, 3.4, 3.6, red2, 0, 33.2, -26);
+  box(g, 18, 3.8, 3.6, red, 0, 36.8, -26);
+  box(g, 0.6, 5, 0.6, red2, 0, 41.2, -26);
+  box(g, 2.8, 0.6, 0.6, red2, 0, 42, -26);
+  box(g, 3, 10, 34, red2, -27, 5, -45);
+  box(g, 3, 8, 28, red, 27, 4, -42);
+  for (let i = 0; i < 12; i++) {
+    const h = 2.5 + rnd() * 6;
+    cyl(g, 1.2, h, red, -15 + (i % 6) * 6, h / 2, -36 - Math.floor(i / 6) * 9);
   }
-  flat(g, 44, 30, 0x9b8a66, 0, 0.03, -12);
-}
-
-function buildLivramento(g) {
-  flat(g, 52, 44, 0xcfc4ae, 0, 0.05, -10);
-  box(g, 3.4, 2, 3.4, 0xd8d8d2, 0, 1, -10);
-  box(g, 1.7, 13, 1.7, 0xe8e8e2, 0, 8.5, -10);
-  cone(g, 1.35, 2.2, 0xe8e8e2, 0, 16.1, -10, 4, Math.PI / 4);
-  flag(g, -10, -10, drawBrazil);
-  flag(g, 10, -10, drawUruguay);
-  for (const x of [-16, 16]) box(g, 3, 0.5, 1, 0x6d5b43, x, 0.6, -2);
-  box(g, 10, 4, 6, 0xd9c9a8, -26, 2, -30);
-  box(g, 8, 5, 6, 0xc9b498, 26, 2.5, -30);
-  box(g, 7, 3.5, 6, 0xbfae90, 14, 1.75, -32);
+  label(g, "Ruínas de São Miguel Arcanjo", 0, -10);
+  for (const x of [-16, 16]) {
+    cyl(g, 0.2, 9, 0x3a3f45, x, 4.5, -14);
+    sph(g, 0.5, 0xffd9a0, x, 9.2, -14);
+  }
+  for (const z of [-8, -4]) for (const x of [-8, 0, 8]) box(g, 6, 0.5, 1, 0x6d5b43, x, 0.6, z);
+  label(g, "Espetáculo Som e Luz", 26, -6);
+  box(g, 26, 1.2, 13, 0xf2efe6, -58, 6.6, -30);
+  for (const x of [-69, -61, -55, -47]) box(g, 1.2, 6, 1.2, 0xe8e4da, x, 3, -30);
+  const glass = new THREE.Mesh(new THREE.BoxGeometry(22, 4.6, 9), new THREE.MeshLambertMaterial({ color: 0xa8c6cf, transparent: true, opacity: 0.55 }));
+  glass.position.set(-58, 3.4, -30);
+  g.add(glass);
+  label(g, "Museu das Missões", -58, -18);
+  cyl(g, 4.2, 1, 0x8f8577, 52, 0.5, -30);
+  cyl(g, 3.2, 0.5, 0x69a3c0, 52, 1.15, -30);
+  box(g, 7, 4.5, 1.4, 0x8f8577, 52, 2.25, -34);
+  cone(g, 1.1, 2, 0x8f8577, 52, 5.5, -34, 4, Math.PI / 4);
+  label(g, "Fonte Missioneira", 52, -20);
+  box(g, 11, 6.5, 15, 0xf0ead8, 74, 3.25, -68);
+  cone(g, 8.4, 4.2, 0x8a3626, 74, 8.6, -68, 4, Math.PI / 4);
+  box(g, 0.4, 3, 0.4, 0xf0ead8, 74, 12.4, -68);
+  box(g, 1.7, 0.4, 0.4, 0xf0ead8, 74, 13, -68);
+  box(g, 2.4, 4.5, 0.6, 0x4a3a2c, 74, 2.25, -60.4);
+  label(g, "Santuário do Caaró", 74, -52);
+  tree(g, -80, -60, 1);
+  tree(g, 40, -70, 1.1);
+  tree(g, -40, -76, 0.9);
 }
 
 function buildUruguaiana(g) {
-  flat(g, 540, 110, 0x3e6e8c, 0, 0.04, -90);
-  box(g, 7, 1.6, 132, 0xb5b0a6, 22, 10, -90);
-  box(g, 0.5, 1.4, 132, 0x8b867c, 19, 11.4, -90);
-  box(g, 0.5, 1.4, 132, 0x8b867c, 25, 11.4, -90);
-  for (const z of [-140, -115, -90, -65, -40]) box(g, 5, 10, 3, 0x9d988e, 22, 5, z);
-  box(g, 8, 24, 4, 0xa8a398, 22, 12, -42);
-  box(g, 8, 24, 4, 0xa8a398, 22, 12, -138);
-  flag(g, 8, -22, drawBrazil);
-  flag(g, 34, -160, drawArgentina);
-  box(g, 12, 5, 7, 0xd8cdb4, -30, 2.5, -20);
-  for (let i = 0; i < 5; i++) {
-    const cx = -34 + rnd() * 20, cz = -12 - rnd() * 26;
+  flat(g, 560, 130, 0x3e6e8c, 0, 0.08, -110);
+  box(g, 8, 1.8, 150, 0xb5b0a6, 28, 11, -110);
+  box(g, 0.5, 1.5, 150, 0x8b867c, 24.5, 12.4, -110);
+  box(g, 0.5, 1.5, 150, 0x8b867c, 31.5, 12.4, -110);
+  for (const z of [-170, -140, -110, -80, -50]) box(g, 6, 11, 3.4, 0x9d988e, 28, 5.5, z);
+  box(g, 9, 26, 4.5, 0xa8a398, 28, 13, -48);
+  box(g, 9, 26, 4.5, 0xa8a398, 28, 13, -172);
+  flag(g, 12, -28, drawBrazil);
+  flag(g, 42, -30, drawArgentina);
+  label(g, "Ponte Getúlio Vargas", 28, -14);
+  cyl(g, 1.4, 36, 0xd9d9d2, -64, 18, -110);
+  box(g, 7, 1.6, 150, 0xc9c4ba, -64, 10, -110);
+  for (const dz of [14, 30, 48, 66]) for (const sgn of [1, -1]) {
+    const len = Math.hypot(25, dz);
+    const cb = box(g, 0.16, len, 0.16, 0xd9d9d2, -64, 23, -110 + sgn * dz / 2);
+    cb.rotation.x = sgn * Math.atan2(dz, 25);
+  }
+  label(g, "Ponte da Integração", -64, -16);
+  box(g, 16, 9, 12, 0xefe6d0, 66, 4.5, -24);
+  for (const x of [60, 72]) {
+    box(g, 4.5, 16, 4.5, 0xe8ddc4, x, 8, -19);
+    cone(g, 3, 4.5, 0x8a3626, x, 18.2, -19, 4, Math.PI / 4);
+  }
+  sph(g, 3.4, 0xc9b498, 66, 10.5, -27);
+  box(g, 2.6, 5.5, 0.7, 0x4a3a2c, 66, 2.75, -17.6);
+  label(g, "Catedral de Sant'Ana", 66, -6);
+  flat(g, 30, 22, 0x5c8a4a, -24, 0.05, -22);
+  flat(g, 3, 22, 0xc9b189, -24, 0.07, -22);
+  box(g, 2.2, 1.6, 2.2, 0xd8d3c4, -24, 0.8, -22);
+  cyl(g, 0.5, 5.5, 0xd8d3c4, -24, 4.35, -22);
+  sph(g, 0.7, 0x74572e, -24, 7.5, -22);
+  for (const x of [-34, -14]) box(g, 3, 0.5, 1, 0x6d5b43, x, 0.6, -16);
+  tree(g, -36, -28, 0.9);
+  tree(g, -12, -28, 1);
+  label(g, "Praça Barão do Rio Branco", -24, -6);
+  cyl(g, 13, 1.4, 0x69945a, -10, 0.7, -110);
+  tree(g, -14, -108, 0.9);
+  tree(g, -6, -114, 0.8);
+  label(g, "Ilha Brasileira", -10, -38);
+  box(g, 12, 5, 7, 0xd8cdb4, -88, 2.5, -24);
+  for (let i = 0; i < 6; i++) {
+    const cx = -96 + rnd() * 22, cz = -10 - rnd() * 18;
     box(g, 2.4, 1.4, 1.2, 0x5b3d28, cx, 1, cz);
     box(g, 0.8, 0.8, 0.8, 0x4e3322, cx + 1.5, 1.3, cz);
   }
 }
 
+function buildChui(g) {
+  flat(g, 9, 120, 0x7d7a72, -2.5, 0.05, -58);
+  flat(g, 9, 120, 0x8a867c, 6.5, 0.05, -58);
+  for (let z = -6; z > -112; z -= 9) flat(g, 0.5, 4, 0xf4f4f0, 2, 0.07, z);
+  flag(g, -12, -34, drawBrazil);
+  flag(g, 16, -34, drawUruguay);
+  label(g, "Avenida Internacional", 2, -8);
+  for (let i = 0; i < 4; i++) {
+    box(g, 10, 5.5 + (i % 2), 8, [0xd9c9a8, 0xc9b498, 0xd4c4b0, 0xbfae90][i], -22, 3, -20 - i * 14);
+  }
+  for (let i = 0; i < 3; i++) {
+    box(g, 14, 8, 10, [0xdfe3e8, 0xc9d6e0, 0xe8e2d4][i], 26, 4, -22 - i * 16);
+    box(g, 10, 2.2, 0.6, [0xc23b2e, 0x2e6d94, 0xc9a437][i], 26, 9.4, -17.6 - i * 16);
+  }
+  label(g, "Duty Free Shops", 26, -8);
+  cyl(g, 2, 7, 0xf2f0ea, -52, 3.5, -66);
+  cyl(g, 2, 3.4, 0xc23b2e, -52, 8.7, -66);
+  cyl(g, 2, 3.4, 0xf2f0ea, -52, 12.1, -66);
+  sph(g, 1.2, 0xfff3cf, -52, 14.6, -66);
+  cyl(g, 2.5, 0.5, 0x3a3630, -52, 15.6, -66);
+  label(g, "Farol do Chuí", -52, -50);
+  box(g, 26, 5, 2.2, 0x8f8577, 58, 2.5, -74);
+  box(g, 26, 5, 2.2, 0x8f8577, 58, 2.5, -98);
+  box(g, 2.2, 5, 26, 0x8f8577, 46, 2.5, -86);
+  box(g, 2.2, 5, 26, 0x8f8577, 70, 2.5, -86);
+  for (const [bx, bz] of [[46, -74], [70, -74], [46, -98], [70, -98]]) box(g, 5, 7, 5, 0x857b6d, bx, 3.5, bz);
+  box(g, 9, 6, 7, 0x9a8f80, 58, 3, -86);
+  label(g, "Forte de São Miguel", 58, -58);
+  for (let i = 0; i < 5; i++) {
+    const a = i * Math.PI * 2 / 5;
+    const m = a + Math.PI / 5;
+    box(g, 21, 5.5, 3, 0x8f8577, -68 + Math.sin(m) * 14, 2.75, -100 + Math.cos(m) * 14, m);
+    cone(g, 2.6, 4, 0x857b6d, -68 + Math.sin(a) * 17, 4.5, -100 + Math.cos(a) * 17, 4, a);
+  }
+  box(g, 8, 7, 6, 0x9a8f80, -68, 3.5, -100);
+  label(g, "Fortaleza de Santa Teresa", -68, -80);
+  tree(g, -34, -66, 1);
+  tree(g, 40, -52, 1.1);
+}
+
+function buildTorres(g) {
+  flat(g, 560, 300, 0x2e6d94, 0, 0.12, -250);
+  flat(g, 230, 34, 0xe8d7a8, -10, 0.16, -88);
+  label(g, "Praia da Cal", 0, -66);
+  for (let i = 0; i < 5; i++) {
+    const bx = -62 - i * 9, bh = 30 + (i % 3) * 9, bz = -98 - (i % 2) * 8;
+    box(g, 10, bh, 12 + (i % 2) * 4, 0x3e3a36, bx, bh / 2, bz);
+    box(g, 9, 0.8, 11, 0x4a6b40, bx, bh + 0.4, bz);
+  }
+  label(g, "Parque da Guarita", -62, -66);
+  const hill = new THREE.Mesh(new THREE.ConeGeometry(26, 24, 9), lam(0x5e7f52));
+  hill.position.set(64, 10, -84);
+  g.add(hill);
+  cyl(g, 1.7, 5, 0xf2f0ea, 64, 24.5, -84);
+  cyl(g, 1.7, 2.4, 0xc23b2e, 64, 28.2, -84);
+  cyl(g, 1.7, 2.4, 0xf2f0ea, 64, 30.6, -84);
+  sph(g, 1.1, 0xfff3cf, 64, 32.6, -84);
+  cyl(g, 2.2, 0.5, 0x3a3630, 64, 33.6, -84);
+  label(g, "Morro do Farol", 64, -56);
+  cyl(g, 11, 2.4, 0x5a544c, 18, 1.2, -190);
+  for (let i = 0; i < 6; i++) sph(g, 0.9, 0x5c4331, 13 + rnd() * 10, 2.7, -194 + rnd() * 8);
+  label(g, "Ilha dos Lobos", 24, -70);
+  flat(g, 14, 130, 0x4f86a0, -108, 0.14, -55);
+  cyl(g, 0.5, 11, 0x8a6b4a, -116.5, 5.5, -30);
+  cyl(g, 0.5, 11, 0x8a6b4a, -99.5, 5.5, -30);
+  box(g, 22, 0.5, 2.8, 0x8a6b4a, -108, 3.4, -30);
+  const cab1 = box(g, 20, 0.14, 0.14, 0x2c2c2c, -112.8, 7.4, -30);
+  cab1.rotation.z = 0.32;
+  const cab2 = box(g, 20, 0.14, 0.14, 0x2c2c2c, -103.2, 7.4, -30);
+  cab2.rotation.z = -0.32;
+  label(g, "Ponte Pênsil do Mampituba", -108, -14);
+  for (let i = 0; i < 4; i++) {
+    const hx = -34 + i * 18, hz = -22 - (i % 2) * 8;
+    box(g, 7, 4, 6, [0xf0e3c8, 0xd9c9a4, 0xe6d5ae, 0xc9d6e0][i], hx, 2, hz);
+    cone(g, 5.2, 2.8, 0x8a3626, hx, 5.4, hz, 4, Math.PI / 4);
+  }
+  tree(g, -52, -30, 1);
+  tree(g, 44, -26, 1.1);
+}
+
 const cities = [
   {
-    name: "Porto Alegre", stop: "Porto Alegre", sign: "Porto Alegre", wp: 0, build: buildPortoAlegre,
-    info: "Capital of Rio Grande do Sul on the shore of the Guaíba. The 1928 Gasômetro powerhouse, now a cultural center, anchors the waterfront where the whole city gathers to watch the sunset."
+    name: "Porto Alegre", stop: "Porto Alegre", sign: "Porto Alegre", wp: 0, clear: 500, build: buildPortoAlegre,
+    info: "Capital of Rio Grande do Sul on the Guaíba. The 1928 Usina do Gasômetro, the Mercado Público open since 1869, the revitalized Orla do Guaíba, the green Parque Farroupilha and the white Fundação Iberê Camargo by Álvaro Siza."
   },
   {
-    name: "Gramado", stop: "Gramado", sign: "Gramado", wp: 2, build: buildGramado,
-    info: "Serra Gaúcha mountain town settled by German and Italian immigrants, famous for its chalets, hydrangeas, the Gramado Film Festival at the Palácio dos Festivais, and the Natal Luz."
+    name: "Gramado", stop: "Gramado", sign: "Gramado", wp: 2, clear: 300, build: buildGramado,
+    info: "Serra Gaúcha town of chalets and hydrangeas. Lago Negro framed by Black Forest pines, the Mini Mundo miniature park, the winding Rua Torta, the basalt Igreja Matriz São Pedro and the Palácio dos Festivais of the film festival."
   },
   {
-    name: "Canela", stop: "Canela", sign: "Canela", wp: 3, build: buildCanela,
-    info: "Home of the stone Cathedral of Our Lady of Lourdes and the Caracol Falls, a 131 meter free-falling cascade hidden among araucaria pine forests."
+    name: "Canela", stop: "Canela", sign: "Canela", wp: 3, clear: 320, build: buildCanela,
+    info: "The Gothic Catedral de Pedra rises over town. Around it, the 131 meter Cascata do Caracol, the glass Skyglass platform over the Vale da Ferradura, the alpine slides of Alpen Park and the horseshoe canyon of Parque da Ferradura."
   },
   {
-    name: "São Miguel das Missões", stop: "São Miguel das Missões", sign: "São Miguel", wp: 5, build: buildMissoes,
-    info: "UNESCO World Heritage ruins of São Miguel Arcanjo, a Jesuit-Guarani mission raised in red sandstone in the 17th century, heart of the old Sete Povos das Missões."
+    name: "São Miguel das Missões", stop: "São Miguel das Missões", sign: "São Miguel", wp: 5, clear: 300, build: buildMissoes,
+    info: "UNESCO ruins of São Miguel Arcanjo, red sandstone heart of the Jesuit-Guarani missions. The nightly Som e Luz show, the Museu das Missões by Lúcio Costa, the original Fonte Missioneira and the pilgrimage Santuário do Caaró."
   },
   {
-    name: "Uruguaiana · Fronteira Argentina", stop: "Uruguaiana (Argentina)", sign: "Uruguaiana", wp: 7, build: buildUruguaiana,
-    info: "Gaucho cattle country on the Uruguay River, tied to Paso de los Libres, Argentina by the 1945 international bridge, one of the busiest land border crossings in South America."
+    name: "Uruguaiana · Fronteira Argentina", stop: "Uruguaiana (Argentina)", sign: "Uruguaiana", wp: 7, clear: 500, build: buildUruguaiana,
+    info: "Border hub on the Uruguay River: the 1945 Ponte Getúlio Vargas to Paso de los Libres, the Ponte da Integração, the Catedral de Sant'Ana, the Praça Barão do Rio Branco and the tri-border Ilha Brasileira."
   },
   {
-    name: "Sant'Ana do Livramento · Fronteira Uruguai", stop: "Livramento (Uruguay)", sign: "Livramento", wp: 9, build: buildLivramento,
-    info: "Twin city with Rivera, Uruguay. A single open square, the Parque Internacional, joins the two countries with no fence at all, the friendliest border in the world."
+    name: "Chuí · Fronteira Uruguai", stop: "Chuí (Uruguay)", sign: "Chuí", wp: 9, clear: 320, build: buildChui,
+    info: "Southernmost city of Brazil, split down the Avenida Internacional with Chuy, Uruguay. The Farol do Chuí, the Spanish Forte de São Miguel, the star-shaped Fortaleza de Santa Teresa and the duty free corridor."
+  },
+  {
+    name: "Torres", stop: "Torres", sign: "Torres", wp: 11, clear: 500, build: buildTorres,
+    info: "Where basalt cliffs meet the Atlantic: the towers of Parque da Guarita, the lighthouse on Morro do Farol, the sea lion refuge of Ilha dos Lobos, Praia da Cal between the cliffs and the Ponte Pênsil over the Mampituba."
   }
 ];
 
@@ -405,21 +658,67 @@ for (const c of cities) {
   lampLights.push(light);
 }
 
-let planted = 0, tries = 0;
-while (planted < 170 && tries < 4000) {
-  tries++;
-  const serra = planted < 100;
-  const x = serra ? 60 + rnd() * 950 : -1500 + rnd() * 3000;
-  const z = serra ? -1350 + rnd() * 950 : -1500 + rnd() * 3000;
-  if (Math.hypot(x, z) > 2900) continue;
-  if (trackDist(x, z) < 30) continue;
-  if (cities.some(c => Math.hypot(c.origin.x - x, c.origin.z - z) < 110)) continue;
-  tree(scene, x, z, 0.8 + rnd() * 0.7);
-  planted++;
+function vegOk(x, z, margin) {
+  if (Math.hypot(x, z) > 2880) return false;
+  if (trackDist(x, z) < margin) return false;
+  return !cities.some(c => Math.hypot(c.origin.x - x, c.origin.z - z) < c.clear);
 }
 
-let made = 0;
-tries = 0;
+const VEG = [
+  [new THREE.CylinderGeometry(0.32, 0.46, 8.6, 7), 4.3, new THREE.ConeGeometry(4.3, 2.9, 9), 9.5, 0x2f5b34, 1000],
+  [new THREE.CylinderGeometry(0.28, 0.4, 4.4, 7), 2.2, new THREE.ConeGeometry(3.1, 9.5, 8), 8.4, 0x39633a, 800],
+  [new THREE.CylinderGeometry(0.34, 0.5, 5, 7), 2.5, new THREE.SphereGeometry(3.3, 10, 8), 7.6, 0x4a7440, 700]
+];
+for (const [tg, ty, cg, cy, cc, n] of VEG) {
+  const trunks = new THREE.InstancedMesh(tg, lam(0x6b4a33), n);
+  const tops = new THREE.InstancedMesh(cg, lam(cc), n);
+  let count = 0;
+  const spots = [];
+  for (let tr = 0; tr < n * 8 && spots.length < n; tr++) {
+    const x = -2900 + rnd() * 5800, z = -2900 + rnd() * 5800;
+    if (!vegOk(x, z, 26)) continue;
+    spots.push([x, z]);
+    for (let e = 0; e < 3 && spots.length < n; e++) {
+      const ex = x + (rnd() - 0.5) * 44, ez = z + (rnd() - 0.5) * 44;
+      if (vegOk(ex, ez, 26)) spots.push([ex, ez]);
+    }
+  }
+  for (const [x, z] of spots) {
+    const sc = 0.7 + rnd() * 0.9;
+    dummy.rotation.set(0, rnd() * Math.PI * 2, 0);
+    dummy.scale.setScalar(sc);
+    dummy.position.set(x, ty * sc, z);
+    dummy.updateMatrix();
+    trunks.setMatrixAt(count, dummy.matrix);
+    dummy.position.y = cy * sc;
+    dummy.updateMatrix();
+    tops.setMatrixAt(count, dummy.matrix);
+    count++;
+  }
+  trunks.count = count;
+  tops.count = count;
+  scene.add(trunks, tops);
+}
+const BUSHES = 900;
+const bushes = new THREE.InstancedMesh(new THREE.SphereGeometry(1.5, 8, 6), lam(0x557f3f), BUSHES);
+let bushCount = 0;
+for (let tr = 0; tr < BUSHES * 8 && bushCount < BUSHES; tr++) {
+  const x = -2900 + rnd() * 5800, z = -2900 + rnd() * 5800;
+  if (!vegOk(x, z, 14)) continue;
+  const sc = 0.6 + rnd() * 1.1;
+  dummy.rotation.set(0, rnd() * Math.PI * 2, 0);
+  dummy.scale.set(sc, sc * 0.62, sc);
+  dummy.position.set(x, 0.55 * sc, z);
+  dummy.updateMatrix();
+  bushes.setMatrixAt(bushCount, dummy.matrix);
+  bushCount++;
+}
+bushes.count = bushCount;
+scene.add(bushes);
+dummy.rotation.set(0, 0, 0);
+dummy.scale.setScalar(1);
+
+let made = 0, tries = 0;
 while (made < 12 && tries < 500) {
   tries++;
   const serra = made < 8;
@@ -428,7 +727,7 @@ while (made < 12 && tries < 500) {
   const r = 110 + rnd() * 150, h = 55 + rnd() * 90;
   if (Math.hypot(x, z) > 2800) continue;
   if (trackDist(x, z) < r + 60) continue;
-  if (cities.some(c => Math.hypot(c.origin.x - x, c.origin.z - z) < r + 130)) continue;
+  if (cities.some(c => Math.hypot(c.origin.x - x, c.origin.z - z) < r + c.clear)) continue;
   const m = new THREE.Mesh(new THREE.ConeGeometry(r, h, 7), lam(0x5e7f52));
   m.position.set(x, h / 2 - 2, z);
   scene.add(m);
@@ -494,7 +793,8 @@ headTarget.position.set(0, 1.2, 90);
 loco.add(head, headTarget);
 head.target = headTarget;
 
-const CRUISE = 26, SPACING = 10.5;
+const SPACING = 10.5;
+let cruise = 26;
 let dist = cities[0].u * trackLen - 200;
 let speed = 0, moving = true;
 
@@ -506,8 +806,8 @@ function placeCar(obj, d) {
 }
 
 function updateTrain(dt) {
-  const target = moving && mode === "ride" ? CRUISE : 0;
-  speed += (target - speed) * Math.min(1, dt * 0.6);
+  const target = moving && mode === "ride" ? cruise : 0;
+  speed += (target - speed) * Math.min(1, dt * (target > speed ? 0.6 : 1.8));
   dist += speed * dt;
   placeCar(loco, dist);
   placeCar(cars[1], dist - SPACING);
@@ -638,9 +938,90 @@ function updateSky() {
   head.intensity = Math.min(1, night + rainLevel * 0.5) * 950;
 }
 
+let audioCtx = null, masterGain = null, chugGain = null, chugFilter = null, rainGain = null;
+let muted = false, chugPhase = 0;
+
+function noiseBuffer(ctx) {
+  const b = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+  const d = b.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  return b;
+}
+
+function initAudio() {
+  if (audioCtx) {
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return;
+  }
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return;
+  audioCtx = new AC();
+  masterGain = audioCtx.createGain();
+  masterGain.gain.value = muted ? 0 : 1;
+  masterGain.connect(audioCtx.destination);
+  const nb = noiseBuffer(audioCtx);
+  const chugSrc = audioCtx.createBufferSource();
+  chugSrc.buffer = nb;
+  chugSrc.loop = true;
+  chugFilter = audioCtx.createBiquadFilter();
+  chugFilter.type = "bandpass";
+  chugFilter.frequency.value = 320;
+  chugFilter.Q.value = 0.9;
+  chugGain = audioCtx.createGain();
+  chugGain.gain.value = 0;
+  chugSrc.connect(chugFilter);
+  chugFilter.connect(chugGain);
+  chugGain.connect(masterGain);
+  chugSrc.start();
+  const rainSrc = audioCtx.createBufferSource();
+  rainSrc.buffer = nb;
+  rainSrc.loop = true;
+  rainSrc.playbackRate.value = 1.7;
+  const rainFilter = audioCtx.createBiquadFilter();
+  rainFilter.type = "highpass";
+  rainFilter.frequency.value = 1400;
+  rainGain = audioCtx.createGain();
+  rainGain.gain.value = 0;
+  rainSrc.connect(rainFilter);
+  rainFilter.connect(rainGain);
+  rainGain.connect(masterGain);
+  rainSrc.start();
+}
+
+function whistle() {
+  if (!audioCtx || muted) return;
+  const t = audioCtx.currentTime;
+  for (const f of [524, 660]) {
+    const o = audioCtx.createOscillator();
+    o.type = "triangle";
+    o.frequency.value = f;
+    const gn = audioCtx.createGain();
+    gn.gain.setValueAtTime(0, t);
+    gn.gain.linearRampToValueAtTime(0.14, t + 0.06);
+    gn.gain.setValueAtTime(0.14, t + 0.7);
+    gn.gain.linearRampToValueAtTime(0, t + 1.0);
+    o.connect(gn);
+    gn.connect(masterGain);
+    o.start(t);
+    o.stop(t + 1.05);
+  }
+}
+
+function updateAudio(dt) {
+  if (!audioCtx) return;
+  chugPhase += speed * dt * 0.55;
+  const pulse = Math.max(0, Math.sin(chugPhase * Math.PI * 2)) ** 3;
+  const level = Math.min(1, speed / 40);
+  chugGain.gain.value = level * (0.05 + 0.3 * pulse);
+  chugFilter.frequency.value = 250 + speed * 6;
+  rainGain.gain.value = rainLevel * 0.12;
+}
+
 const keys = new Set();
 let mode = "ride";
 const walker = { pos: new THREE.Vector3(), yaw: 0, pitch: 0 };
+const orbit = { yaw: 0, pitch: 0.3 };
+let dragging = false;
 
 function lockPointer() {
   try {
@@ -653,8 +1034,10 @@ function lockPointer() {
 
 function toggleWalk() {
   if (mode === "ride") {
-    if (Math.abs(speed) > 0.5) return;
+    if (Math.abs(speed) > 3) return;
+    speed = 0;
     moving = false;
+    dragging = false;
     const u = ((dist % trackLen) + trackLen) % trackLen / trackLen;
     const t = curve.getTangentAt(u);
     const n = new THREE.Vector3(t.z, 0, -t.x);
@@ -664,18 +1047,34 @@ function toggleWalk() {
     walker.pitch = 0;
     mode = "walk";
     lockPointer();
-  } else if (walker.pos.distanceTo(loco.position) < 15) {
+  } else if (walker.pos.distanceTo(loco.position) < 18) {
     mode = "ride";
     document.exitPointerLock();
   }
 }
 
 addEventListener("keydown", e => {
+  initAudio();
   if (e.code === "Space") {
     e.preventDefault();
-    if (mode === "ride") moving = !moving;
+    if (mode === "ride") {
+      moving = !moving;
+      if (moving) whistle();
+    }
   }
   if (e.code === "KeyE") toggleWalk();
+  if (e.code === "KeyM") {
+    muted = !muted;
+    if (masterGain) masterGain.gain.value = muted ? 0 : 1;
+  }
+  if (mode === "ride" && e.code === "ArrowUp") {
+    e.preventDefault();
+    cruise = Math.min(55, cruise + 7);
+  }
+  if (mode === "ride" && e.code === "ArrowDown") {
+    e.preventDefault();
+    cruise = Math.max(8, cruise - 7);
+  }
   keys.add(e.code);
 });
 addEventListener("keyup", e => keys.delete(e.code));
@@ -683,9 +1082,19 @@ addEventListener("mousemove", e => {
   if (mode === "walk" && document.pointerLockElement === canvas) {
     walker.yaw -= e.movementX * 0.0022;
     walker.pitch = THREE.MathUtils.clamp(walker.pitch - e.movementY * 0.0022, -1.35, 1.35);
+  } else if (mode === "ride" && dragging) {
+    orbit.yaw -= e.movementX * 0.005;
+    orbit.pitch = THREE.MathUtils.clamp(orbit.pitch + e.movementY * 0.004, 0.06, 1.3);
   }
 });
+canvas.addEventListener("mousedown", () => {
+  if (mode === "ride") dragging = true;
+});
+addEventListener("mouseup", () => {
+  dragging = false;
+});
 canvas.addEventListener("click", () => {
+  initAudio();
   if (mode === "walk" && !document.pointerLockElement) lockPointer();
 });
 
@@ -720,14 +1129,14 @@ function updateCamera(dt) {
   }
   const u = ((dist % trackLen) + trackLen) % trackLen / trackLen;
   const p = curve.getPointAt(u), t = curve.getTangentAt(u);
-  const desired = p.clone().addScaledVector(t, -17);
-  desired.x += t.z * 5.5;
-  desired.z -= t.x * 5.5;
-  desired.y = 8.2;
+  const heading = Math.atan2(t.x, t.z);
+  const a = heading + Math.PI + orbit.yaw;
+  const r = 27 * Math.cos(orbit.pitch);
+  const desired = new THREE.Vector3(p.x + Math.sin(a) * r, 3 + 27 * Math.sin(orbit.pitch), p.z + Math.cos(a) * r);
   const k = 1 - Math.exp(-3.2 * dt);
   camera.position.lerp(desired, k);
-  const look = p.clone().addScaledVector(t, 26);
-  look.y = 3.4;
+  const look = p.clone().addScaledVector(t, 12);
+  look.y = 3;
   camLook.lerp(look, k);
   camera.lookAt(camLook);
 }
@@ -737,8 +1146,9 @@ const cityInfo = document.getElementById("cityInfo");
 const locPanel = document.getElementById("loc");
 const clockEl = document.getElementById("clock");
 const weatherEl = document.getElementById("weather");
+const speedEl = document.getElementById("speed");
 const nextEl = document.getElementById("next");
-const hintEl = document.getElementById("hint");
+const controlsEl = document.getElementById("controls");
 let currentCity = null;
 
 function setHtml(el, s) {
@@ -746,6 +1156,35 @@ function setHtml(el, s) {
     el.dataset.s = s;
     el.innerHTML = s;
   }
+}
+
+function cmdRows(list) {
+  let s = "";
+  for (const r of list) s += '<div class="' + (r[2] ? "dim" : "") + '"><b>' + r[0] + "</b>" + r[1] + "</div>";
+  return s;
+}
+
+function updateControls() {
+  let list;
+  if (mode === "ride") {
+    list = [
+      ["SPACE", moving ? "stop the train" : "depart", false],
+      ["&#8593; &#8595;", "faster · slower", false],
+      ["E", "step off the train", Math.abs(speed) > 3],
+      ["DRAG", "rotate the camera", false],
+      ["M", muted ? "sound on" : "sound off", false]
+    ];
+  } else {
+    const near = walker.pos.distanceTo(loco.position) < 18;
+    list = [
+      ["W A S D", "walk", false],
+      ["SHIFT", "run", false],
+      ["MOUSE", "look around", false],
+      ["E", "board the train", !near],
+      ["M", muted ? "sound on" : "sound off", false]
+    ];
+  }
+  setHtml(controlsEl, '<div class="ttl">Commands</div>' + cmdRows(list));
 }
 
 function updateHud() {
@@ -765,6 +1204,7 @@ function updateHud() {
   const hh = Math.floor(dayFrac * 24), mm = Math.floor((dayFrac * 24 % 1) * 60);
   setHtml(clockEl, String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0"));
   setHtml(weatherEl, raining ? "Rain over the pampa" : "Clear skies");
+  setHtml(speedEl, mode === "ride" ? Math.round(speed * 2.2) + " km/h" : "on foot");
   if (mode === "ride") {
     const dNow = ((dist % trackLen) + trackLen) % trackLen;
     let bestD = Infinity, bestC = cities[0];
@@ -777,20 +1217,17 @@ function updateHud() {
       }
     }
     setHtml(nextEl, "Next stop <b>" + bestC.stop + "</b> · " + (bestD * 0.15).toFixed(1) + " km");
-    setHtml(hintEl, moving
-      ? "<b>SPACE</b> stop the train"
-      : "<b>SPACE</b> depart · <b>E</b> step off and walk");
   } else {
     setHtml(nextEl, currentCity ? "Walking in <b>" + currentCity.stop + "</b>" : "Walking the pampa");
-    setHtml(hintEl, walker.pos.distanceTo(loco.position) < 15
-      ? "<b>E</b> board the train · <b>WASD</b> walk"
-      : "<b>WASD</b> walk · <b>SHIFT</b> run · click to look · press <b>E</b> back at the train");
   }
+  updateControls();
 }
 
 const overlay = document.getElementById("overlay");
 overlay.addEventListener("click", () => {
   overlay.style.display = "none";
+  initAudio();
+  whistle();
 });
 if (params.has("auto")) overlay.style.display = "none";
 
@@ -811,6 +1248,7 @@ function animate() {
   updateWeather(dt);
   updateSky();
   updateSmoke(dt);
+  updateAudio(dt);
   updateHud();
   renderer.render(scene, camera);
 }

@@ -14,11 +14,14 @@
   #loc p{margin:6px 0 2px;font-size:13.5px;line-height:1.45;color:#e9ddc4}
   #status{top:22px;right:22px;text-align:right;font-size:12.5px}
   #clock{font:700 22px Georgia,serif;color:#ffd27d;display:block}
-  #weather{color:#bcd0dd}
+  #weather{color:#bcd0dd;display:block}
+  #speed{color:#9fc1a8;display:block}
   #next{right:22px;bottom:22px;font-size:13px;color:#e9ddc4}
   #next b{color:#ffd27d;font-weight:600}
-  #hint{bottom:22px;left:50%;transform:translateX(-50%);font-size:12.5px;color:#cbd6c9;letter-spacing:.4px;white-space:nowrap}
-  #hint b{color:#ffd27d;font-weight:600}
+  #controls{top:22px;left:22px;font-size:12.5px;color:#cbd6c9;line-height:2;letter-spacing:.3px}
+  #controls .ttl{font:italic 700 15px Georgia,"Times New Roman",serif;color:#ffd27d;margin-bottom:2px}
+  #controls b{color:#ffd27d;font-weight:600;display:inline-block;min-width:58px}
+  #controls .dim{opacity:.35}
   #overlay{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at center,rgba(11,16,38,.5),rgba(7,10,24,.92));cursor:pointer;z-index:5}
   #overlay h1{font:italic 700 56px Georgia,"Times New Roman",serif;color:#ffd27d;margin:0 0 10px;text-shadow:0 2px 24px rgba(0,0,0,.6)}
   #overlay p{max-width:660px;margin:6px 24px;font-size:15px;line-height:1.65;color:#e9ddc4}
@@ -28,12 +31,12 @@
 <body>
 <canvas id="scene"></canvas>
 <div id="loc" class="panel"><h1 id="cityName"></h1><p id="cityInfo"></p></div>
-<div id="status" class="panel"><span id="clock"></span><span id="weather"></span></div>
+<div id="status" class="panel"><span id="clock"></span><span id="weather"></span><span id="speed"></span></div>
 <div id="next" class="panel"></div>
-<div id="hint" class="panel"></div>
+<div id="controls" class="panel"></div>
 <div id="overlay">
   <h1>Trem do Rio Grande</h1>
-  <p>A steam ride across Rio Grande do Sul, Brazil: Porto Alegre, Gramado, Canela, the Jesuit Missões, and the borders with Argentina and Uruguay. Days turn into nights, rain sweeps the pampa. Stop the train at any station, step off and walk the towns.</p>
+  <p>A steam ride across Rio Grande do Sul, Brazil: Porto Alegre, Gramado, Canela, the Jesuit Missões, the borders with Argentina and Uruguay, and the cliffs of Torres. Every stop has its real landmarks, signed by name. Days turn into nights, rain sweeps the pampa. Stop the train, step off and walk among them. The engine chugs and whistles, arrows change the speed, drag the mouse to look around, M silences it all.</p>
   <span>Click to board</span>
 </div>
 <script type="importmap">{"imports":{"three":"./three.module.js"}}</script>
