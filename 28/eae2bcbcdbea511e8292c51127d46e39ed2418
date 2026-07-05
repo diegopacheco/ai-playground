@@ -1,0 +1,171 @@
+pocs/tv-time-like/vite.config.ts
+  s_a09a44c87ab6f9::t_35521604428cf1 1-13
+pocs/tv-time-like/tsconfig.app.json
+  s_a09a44c87ab6f9::t_35521604428cf1 1-4,6-17,19-21
+  s_a09a44c87ab6f9::t_14649ce0471406 5
+  s_a09a44c87ab6f9::t_314f898737724e 18
+pocs/tv-time-like/src/api/client.ts
+  s_a09a44c87ab6f9::t_18be7e84a93f00 20
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 2-15,21
+  s_a09a44c87ab6f9::t_1cfe5061901ef8 16-18
+  s_a09a44c87ab6f9::t_e178e78565c5f8 19
+  s_a09a44c87ab6f9::t_772d4d87aee680 1
+pocs/tv-time-like/src/components/MetricCard.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-7
+pocs/tv-time-like/src/components/AiCatalog.tsx
+  s_a09a44c87ab6f9::t_772d4d87aee680 1-22
+pocs/tv-time-like/tsconfig.server.json
+  s_a09a44c87ab6f9::t_35521604428cf1 1-2,5-14
+  s_a09a44c87ab6f9::t_14649ce0471406 3-4
+pocs/tv-time-like/src/components/Poster.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-13
+pocs/tv-time-like/server/importer.ts
+  s_a09a44c87ab6f9::t_35521604428cf1 3-38,45-49,108,113-114
+  s_a09a44c87ab6f9::t_f53ead879b7436 57
+  s_a09a44c87ab6f9::t_088adf95ff4a4c 2,50,53-56,58-59,65-66,68,70-71,84-92,94-104,106-107,109-110
+  s_a09a44c87ab6f9::t_962a7be3eff863 39-44,79,93,105
+  s_a09a44c87ab6f9::t_e6f402291d30ec 1
+  s_a09a44c87ab6f9::t_7db0fc73081aa7 51-52,61-62
+  s_a09a44c87ab6f9::t_82a82eb67e6443 60,63-64,67,69,72-78,80-83,111-112
+pocs/tv-time-like/server/db.ts
+  s_a09a44c87ab6f9::t_7db0fc73081aa7 29-30,54-58,77,109,164-165
+  s_a09a44c87ab6f9::t_f53ead879b7436 63,67,71,73,167-168
+  s_a09a44c87ab6f9::t_14649ce0471406 93
+  s_a09a44c87ab6f9::t_2b39917ab03d8d 137-140,148-150
+  s_a09a44c87ab6f9::t_772d4d87aee680 3,43-52,59,169-187
+  s_a09a44c87ab6f9::t_35521604428cf1 1-2,4-28,31-42,53,60-62,64-66,68-70,72,74-76,78-92,94-108,110-136,141-147,151-163,166,188
+pocs/tv-time-like/tests/importer.test.ts
+  s_a09a44c87ab6f9::t_998a52aa899cce 1-15
+pocs/tv-time-like/tests/metrics.test.ts
+  s_a09a44c87ab6f9::t_998a52aa899cce 1-33
+pocs/tv-time-like/src/pages/LibraryPage.tsx
+  s_a09a44c87ab6f9::t_f7768a484edf67 17,19,33-34
+  s_a09a44c87ab6f9::t_293ba54b438157 37
+  s_a09a44c87ab6f9::t_e178e78565c5f8 4-5,20,32,39,41
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-3,6-8,10,13-16,21,35-36,40,42-43
+  s_a09a44c87ab6f9::t_7db0fc73081aa7 9,11-12,18,22-31,38
+pocs/tv-time-like/server/index.ts
+  s_a09a44c87ab6f9::t_35521604428cf1 1-3,9-14,16-18,46-66,68-98
+  s_a09a44c87ab6f9::t_2245204f3bb4fa 8,34-42
+  s_a09a44c87ab6f9::t_eab0c740bf9c08 15
+  s_a09a44c87ab6f9::t_01053e3ac7f5d9 7,67
+  s_a09a44c87ab6f9::t_772d4d87aee680 4-6,19-33,43-45
+pocs/tv-time-like/src/pages/MetricsPage.tsx
+  s_a09a44c87ab6f9::t_e178e78565c5f8 6-10,19
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-5,11-18,20,22,25-32
+  s_a09a44c87ab6f9::t_5bef77d5fd4ac6 21,23
+  s_a09a44c87ab6f9::t_2b39917ab03d8d 24
+pocs/tv-time-like/shared/types.ts
+  s_a09a44c87ab6f9::t_35521604428cf1 1-31,33-42,45-59
+  s_a09a44c87ab6f9::t_2b39917ab03d8d 43-44
+  s_a09a44c87ab6f9::t_7db0fc73081aa7 32
+  s_a09a44c87ab6f9::t_772d4d87aee680 60-79
+pocs/tv-time-like/.env.template
+  s_a09a44c87ab6f9::t_35521604428cf1 1-2
+pocs/tv-time-like/src/components/LibraryItem.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-35
+pocs/tv-time-like/server/ai.ts
+  s_a09a44c87ab6f9::t_ceaa8121e5a24e 19
+  s_a09a44c87ab6f9::t_14649ce0471406 30,32
+  s_a09a44c87ab6f9::t_1cfe5061901ef8 2,20,24
+  s_a09a44c87ab6f9::t_ffdb0289322298 31
+  s_a09a44c87ab6f9::t_a823aa6ec44690 18
+  s_a09a44c87ab6f9::t_772d4d87aee680 1,3-17,21-23,25-29,33-88
+pocs/tv-time-like/server/media.ts
+  s_a09a44c87ab6f9::t_1e53d9e0f15f35 33
+  s_a09a44c87ab6f9::t_35521604428cf1 1-32,34-100
+pocs/tv-time-like/src/styles.css
+  s_a09a44c87ab6f9::t_1cfe5061901ef8 1-3,6-7,15-20,22-28,30-35,37-92,94,101-108,111-118,120-122,125
+  s_a09a44c87ab6f9::t_838d143a206ce2 97,110
+  s_a09a44c87ab6f9::t_cb82da4e292fee 4-5,8-14,21,29,36,95-96,109,119,124
+  s_a09a44c87ab6f9::t_f7768a484edf67 98,100
+  s_a09a44c87ab6f9::t_293ba54b438157 93,123
+  s_a09a44c87ab6f9::t_7db0fc73081aa7 99
+pocs/tv-time-like/tsconfig.json
+  s_a09a44c87ab6f9::t_35521604428cf1 1-7
+pocs/tv-time-like/src/components/LibraryGridCard.tsx
+  s_a09a44c87ab6f9::t_e178e78565c5f8 1-7,9-12
+  s_a09a44c87ab6f9::t_838d143a206ce2 8
+pocs/tv-time-like/README.md
+  s_a09a44c87ab6f9::t_293ba54b438157 33-34
+  s_a09a44c87ab6f9::t_ffdb0289322298 45
+  s_a09a44c87ab6f9::t_998a52aa899cce 1-32,35-44,46-73
+pocs/tv-time-like/index.html
+  s_a09a44c87ab6f9::t_35521604428cf1 1-13
+pocs/tv-time-like/package.json
+  s_a09a44c87ab6f9::t_35521604428cf1 1-27
+pocs/tv-time-like/src/components/ProgressRing.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-5
+pocs/tv-time-like/src/components/ImportDialog.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-31
+pocs/tv-time-like/tsconfig.server.tsbuildinfo
+  s_a09a44c87ab6f9::t_d44af194b07330 1
+pocs/tv-time-like/test.sh
+  s_a09a44c87ab6f9::t_998a52aa899cce 1-12
+pocs/tv-time-like/start.sh
+  s_a09a44c87ab6f9::t_6d3c69c9994999 21
+  s_a09a44c87ab6f9::t_1ba22c260386cd 15-19
+  s_a09a44c87ab6f9::t_998a52aa899cce 1-2,4-5,9-14,20,22-25,28
+  s_a09a44c87ab6f9::t_d59f772ca0ad94 26-27
+  s_a09a44c87ab6f9::t_ffdb0289322298 3,6-8
+pocs/tv-time-like/src/components/LibraryDetailDialog.tsx
+  s_a09a44c87ab6f9::t_838d143a206ce2 6,9-12,17-18,22-23
+  s_a09a44c87ab6f9::t_e178e78565c5f8 1-5,7-8,13-16,19-21,24-26
+pocs/tv-time-like/.gitignore
+  s_a09a44c87ab6f9::t_35521604428cf1 1-6
+pocs/tv-time-like/server/metadata.ts
+  s_a09a44c87ab6f9::t_9e35107b8ed1f3 65,75-82
+  s_a09a44c87ab6f9::t_4656799f3fe9e2 28,61-64,66-74,83-85,88,135,141
+  s_a09a44c87ab6f9::t_2245204f3bb4fa 1-27,29-33,35-59,87,89-99,101-114,116-134,136-140,142-149,151
+  s_a09a44c87ab6f9::t_18be7e84a93f00 34,60,86,100,115,150
+pocs/tv-time-like/src/router.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-19
+pocs/tv-time-like/src/components/Icon.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-22
+pocs/tv-time-like/src/pages/SearchPage.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-5,7-30,32-33
+  s_a09a44c87ab6f9::t_772d4d87aee680 6,31
+pocs/tv-time-like/src/main.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-10
+pocs/tv-time-like/tsconfig.app.tsbuildinfo
+  s_a09a44c87ab6f9::t_d44af194b07330 1
+pocs/tv-time-like/server/ai-schema.json
+  s_a09a44c87ab6f9::t_772d4d87aee680 1-28
+pocs/tv-time-like/stop.sh
+  s_a09a44c87ab6f9::t_998a52aa899cce 1-12
+pocs/tv-time-like/server/catalog.ts
+  s_a09a44c87ab6f9::t_35521604428cf1 1-147
+pocs/tv-time-like/src/components/MediaCard.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-20
+pocs/tv-time-like/src/hooks/useLibrary.ts
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-14,17-18
+  s_a09a44c87ab6f9::t_293ba54b438157 15-16
+pocs/tv-time-like/src/components/EpisodeList.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-23
+pocs/tv-time-like/src/components/AppShell.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-26
+pocs/tv-time-like/prompts/catalog.md
+  s_a09a44c87ab6f9::t_a823aa6ec44690 1-7
+pocs/tv-time-like/src/components/Brand.tsx
+  s_a09a44c87ab6f9::t_2ac9b0314297c1 1-6
+pocs/tv-time-like/.reelmark-web.pid
+  s_a09a44c87ab6f9::t_a7af0ff371441d 1
+pocs/tv-time-like/bun.lock
+  s_a09a44c87ab6f9::t_e6262d2b7f2361 1-169
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "28eae2bcbcdbea511e8292c51127d46e39ed2418",
+  "prompts": {},
+  "sessions": {
+    "s_a09a44c87ab6f9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f345f-6933-7fd1-8897-5b77ff67deda",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
