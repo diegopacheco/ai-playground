@@ -1,3 +1,5 @@
+![Hats logo](hats-logo.png)
+
 # Hats
 
 Hats is a Claude Code and Codex skill that applies Edward de Bono's Six Thinking Hats to a prompt and writes a polished, self-contained HTML report.
