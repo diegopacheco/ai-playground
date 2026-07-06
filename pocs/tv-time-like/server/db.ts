@@ -122,6 +122,20 @@ export const libraryTitleKey = (type: string, title: string) => `${type}:${title
 
 export const libraryTitleKeys = (): Set<string> => new Set(getMedia(true).map(item => libraryTitleKey(item.type, item.title)))
 
+export const watchedTitleKeys = (): Set<string> => {
+  const keys = new Set<string>()
+  for (const item of getMedia(true)) {
+    const watched = item.type === "movie" ? item.watched : item.episodes.length > 0 && item.episodes.every(episode => episode.watched)
+    if (watched) keys.add(libraryTitleKey(item.type, item.title))
+  }
+  return keys
+}
+
+export const saveDiscovered = (media: Media) => {
+  addMedia.run(media.id, media.providerId, media.provider, media.type, media.title, media.year, media.overview, JSON.stringify(media.genres), media.runtime, media.poster, media.backdrop, media.color, media.status, media.rating)
+  for (const episode of media.episodes) addEpisode.run(episode.id, media.id, episode.season, episode.number, episode.title, episode.runtime)
+}
+
 export const getMetrics = (media: Media[]): Metrics => {
   const movies = media.filter(item => item.type === "movie" && item.watched)
   const shows = media.filter(item => item.type === "show")

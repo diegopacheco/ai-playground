@@ -1,5 +1,5 @@
 import type { Media } from "../shared/types.ts"
-import { getMedia, libraryTitleKey, libraryTitleKeys } from "./db.ts"
+import { getMedia, libraryTitleKey, watchedTitleKeys } from "./db.ts"
 
 const palette = ["#e86d52", "#2f6d64", "#d9947c", "#3f7890", "#a55f35", "#496c4f"]
 
@@ -64,8 +64,60 @@ const buildShow = async (show: TvMazeShow, index: number): Promise<Media> => {
   }
 }
 
+const searchMovies = async (query: string, index: number): Promise<Media[]> => {
+  const token = process.env.TMDB_ACCESS_TOKEN
+  if (token) {
+    type TmdbMovie = { id: number; title: string; release_date: string; overview: string; genre_ids: number[]; poster_path: string | null; backdrop_path: string | null; vote_average: number }
+    const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&include_adult=false`, { headers: { Authorization: `Bearer ${token}` } }).catch(() => null)
+    const data = response?.ok ? await response.json() as { results: TmdbMovie[] } : { results: [] }
+    return data.results.slice(0, 6).map((movie, offset) => ({
+      id: `tmdb-${movie.id}`,
+      providerId: String(movie.id),
+      provider: "tmdb",
+      type: "movie",
+      title: movie.title,
+      year: Number(movie.release_date?.slice(0, 4)) || 0,
+      overview: movie.overview || "No synopsis is available yet.",
+      genres: [],
+      runtime: 0,
+      poster: movie.poster_path ? `https://image.tmdb.org/t/p/w780${movie.poster_path}` : null,
+      backdrop: movie.backdrop_path ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}` : null,
+      color: palette[(index + offset) % palette.length],
+      status: "Released",
+      rating: movie.vote_average,
+      inLibrary: false,
+      watched: false,
+      watchedAt: null,
+      episodes: []
+    }))
+  }
+  type ItunesMovie = { trackId: number; trackName: string; releaseDate: string; longDescription?: string; shortDescription?: string; primaryGenreName?: string; trackTimeMillis?: number; artworkUrl100?: string; trackViewUrl?: string }
+  const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=movie&entity=movie&limit=8&country=US`).catch(() => null)
+  const data = response?.ok ? await response.json() as { results: ItunesMovie[] } : { results: [] }
+  return data.results.slice(0, 6).map((movie, offset) => ({
+    id: `itunes-${movie.trackId}`,
+    providerId: String(movie.trackId),
+    provider: "itunes",
+    type: "movie",
+    title: movie.trackName,
+    year: Number(movie.releaseDate?.slice(0, 4)) || 0,
+    overview: movie.longDescription || movie.shortDescription || "No synopsis is available yet.",
+    genres: movie.primaryGenreName ? [movie.primaryGenreName] : [],
+    runtime: movie.trackTimeMillis ? Math.round(movie.trackTimeMillis / 60000) : 0,
+    poster: movie.artworkUrl100 ? movie.artworkUrl100.replace("100x100bb", "600x600bb") : null,
+    backdrop: null,
+    color: palette[(index + offset) % palette.length],
+    status: "Released",
+    rating: 0,
+    inLibrary: false,
+    watched: false,
+    watchedAt: null,
+    episodes: []
+  }))
+}
+
 export const searchMedia = async (query: string): Promise<Media[]> => {
-  const owned = libraryTitleKeys()
+  const owned = watchedTitleKeys()
   const available = (item: { type: string; title: string }) => !owned.has(libraryTitleKey(item.type, item.title))
   const local = getMedia().filter(item => item.title.toLowerCase().includes(query.toLowerCase()))
   if (!query.trim()) {
@@ -87,33 +139,7 @@ export const searchMedia = async (query: string): Promise<Media[]> => {
     .then(response => response.ok ? response.json() as Promise<TvMazeResult[]> : [])
     .catch(() => [])
   const remoteShows = await Promise.all(shows.slice(0, 6).map(({ show }, index) => buildShow(show, index)))
-  const token = process.env.TMDB_ACCESS_TOKEN
-  let movies: Media[] = []
-  if (token) {
-    type TmdbMovie = { id: number; title: string; release_date: string; overview: string; genre_ids: number[]; poster_path: string | null; backdrop_path: string | null; vote_average: number }
-    const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&include_adult=false`, { headers: { Authorization: `Bearer ${token}` } }).catch(() => null)
-    const data = response?.ok ? await response.json() as { results: TmdbMovie[] } : { results: [] }
-    movies = data.results.slice(0, 6).map((movie, index) => ({
-      id: `tmdb-${movie.id}`,
-      providerId: String(movie.id),
-      provider: "tmdb",
-      type: "movie",
-      title: movie.title,
-      year: Number(movie.release_date?.slice(0, 4)) || 0,
-      overview: movie.overview || "No synopsis is available yet.",
-      genres: [],
-      runtime: 0,
-      poster: movie.poster_path ? `https://image.tmdb.org/t/p/w780${movie.poster_path}` : null,
-      backdrop: movie.backdrop_path ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}` : null,
-      color: palette[(index + 2) % palette.length],
-      status: "Released",
-      rating: movie.vote_average,
-      inLibrary: false,
-      watched: false,
-      watchedAt: null,
-      episodes: []
-    }))
-  }
+  const movies = await searchMovies(query, 2)
   const known = new Set(local.map(item => item.id))
   return [...local, ...remoteShows.filter(item => !known.has(item.id)), ...movies].filter(available).slice(0, 14)
 }

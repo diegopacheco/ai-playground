@@ -10,7 +10,7 @@ import { api } from "../api/client"
 export function LibraryDetailDialog({ media, onClose, onMediaToggle, onEpisodeToggle, onRemove, busy }: { media: Media | null; onClose: () => void; onMediaToggle: (id: string) => void; onEpisodeToggle: (id: string) => void; onRemove: (id: string) => void; busy: boolean }) {
   const [selectedSeason, setSelectedSeason] = useState(1)
   useEffect(() => {
-    if (media?.episodes.length) setSelectedSeason(Math.min(...media.episodes.map(episode => episode.season)))
+    if (media?.episodes.length) setSelectedSeason(Math.max(...media.episodes.map(episode => episode.season)))
   }, [media?.id])
   useEffect(() => {
     if (!media) return
@@ -23,7 +23,7 @@ export function LibraryDetailDialog({ media, onClose, onMediaToggle, onEpisodeTo
   if (!media) return null
   const watched = media.episodes.filter(item => item.watched).length
   const progress = media.type === "movie" ? Number(media.watched) * 100 : Math.round(watched / Math.max(media.episodes.length, 1) * 100)
-  const seasons = Map.groupBy(media.episodes, episode => episode.season)
+  const seasons = new Map([...Map.groupBy(media.episodes, episode => episode.season)].sort((a, b) => b[0] - a[0]))
   const selectedEpisodes = seasons.get(selectedSeason) || []
   const trailerUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchTerms)}`
   return <div className="dialog-backdrop detail-backdrop" role="presentation" onMouseDown={event => event.target === event.currentTarget && onClose()}>

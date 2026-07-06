@@ -1,6 +1,6 @@
 import type { AiProvider, CatalogItem, CatalogResponse, Media } from "../shared/types.ts"
 import { readFileSync } from "node:fs"
-import { getCatalogCache, libraryTitleKey, libraryTitleKeys, saveCatalogCache } from "./db.ts"
+import { getCatalogCache, libraryTitleKey, saveCatalogCache, saveDiscovered, watchedTitleKeys } from "./db.ts"
 import { searchMedia } from "./media.ts"
 
 type AiItem = {
@@ -76,14 +76,15 @@ const enrich = async (item: AiItem): Promise<CatalogItem> => {
 
 export const buildAiCatalog = async (provider: AiProvider, topic: string, refresh: boolean): Promise<CatalogResponse> => {
   const cacheKey = `${provider}:${topic.trim().toLowerCase() || "all"}`
-  const owned = libraryTitleKeys()
-  const available = (response: CatalogResponse): CatalogResponse => ({ ...response, items: response.items.filter(item => !owned.has(libraryTitleKey(item.media.type, item.media.title))) })
+  const watched = watchedTitleKeys()
+  const available = (response: CatalogResponse): CatalogResponse => ({ ...response, items: response.items.filter(item => !watched.has(libraryTitleKey(item.media.type, item.media.title))) })
   if (!refresh) {
     const cached = getCatalogCache(cacheKey)
     if (cached) return available(cached)
   }
   const data = await run(provider, prompt(topic)) as { items: AiItem[] }
   const items = await Promise.all(data.items.map(enrich))
+  for (const item of items) saveDiscovered(item.media)
   const response: CatalogResponse = { provider, cached: false, generatedAt: new Date().toISOString(), items }
   saveCatalogCache(cacheKey, response)
   return available(response)

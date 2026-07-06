@@ -3,8 +3,8 @@
   "properties": {
     "items": {
       "type": "array",
-      "minItems": 6,
-      "maxItems": 8,
+      "minItems": 20,
+      "maxItems": 20,
       "items": {
         "type": "object",
         "properties": {
