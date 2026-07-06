@@ -1,0 +1,19 @@
+games/index.html
+  s_ecd9a43f9c4f73::t_cabddf15edf090 9,12,14-41,43-46,49-59,63-69,71,73,76,78-79,87-89,91,94,96-101,104,110,173-174,207,214-218,254
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "1458ddfe11962b531827d6ad5222d4eb44905dd9",
+  "prompts": {},
+  "sessions": {
+    "s_ecd9a43f9c4f73": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "994c4b6a-6dbb-4f5c-8de3-a3d7bd3fb6d7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
