@@ -69,15 +69,15 @@
       "id": "qf-2",
       "team1": "Norway",
       "team2": "England",
-      "winner": null,
-      "loser": null
+      "winner": "Norway",
+      "loser": "England"
     },
     {
       "id": "qf-3",
       "team1": "Spain",
       "team2": "USA",
-      "winner": null,
-      "loser": null
+      "winner": "Spain",
+      "loser": "USA"
     },
     {
       "id": "qf-4",
@@ -91,13 +91,13 @@
     {
       "id": "sf-1",
       "team1": "Morocco",
-      "team2": "",
+      "team2": "Norway",
       "winner": null,
       "loser": null
     },
     {
       "id": "sf-2",
-      "team1": "",
+      "team1": "Spain",
       "team2": "",
       "winner": null,
       "loser": null

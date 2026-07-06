@@ -73,6 +73,79 @@ const teamSearch = document.getElementById('team-search');
 const teamsListContainer = document.getElementById('teams-list-container');
 const teamDetailsContainer = document.getElementById('team-details-container');
 
+const teamMetadata = {
+  canada: { color1: '#ef4444', color2: '#ffffff', nickname: 'Les Rouges', years: '', runnerUp: 0, stats: { appearances: 3, finals: 0, semifinals: 0, wins: 0 } },
+  mexico: { color1: '#15803d', color2: '#ef4444', nickname: 'El Tri', years: '', runnerUp: 0, stats: { appearances: 17, finals: 0, semifinals: 0, wins: 16 } },
+  usa: { color1: '#1e3a8a', color2: '#ef4444', nickname: 'The Stars & Stripes', years: '', runnerUp: 0, stats: { appearances: 11, finals: 0, semifinals: 1, wins: 8 } },
+  austria: { color1: '#dc2626', color2: '#ffffff', nickname: 'Das Team', years: '', runnerUp: 0, stats: { appearances: 7, finals: 0, semifinals: 1, wins: 12 } },
+  belgium: { color1: '#facc15', color2: '#dc2626', nickname: 'The Red Devils', years: '', runnerUp: 0, stats: { appearances: 14, finals: 0, semifinals: 2, wins: 20 } },
+  bosnia: { color1: '#1d4ed8', color2: '#facc15', nickname: 'Zmajevi', years: '', runnerUp: 0, stats: { appearances: 1, finals: 0, semifinals: 0, wins: 1 } },
+  croatia: { color1: '#dc2626', color2: '#ffffff', nickname: 'Vatreni', years: '', runnerUp: 1, stats: { appearances: 6, finals: 1, semifinals: 3, wins: 13 } },
+  czechia: { color1: '#1e3a8a', color2: '#dc2626', nickname: 'Naši', years: '', runnerUp: 2, stats: { appearances: 9, finals: 2, semifinals: 2, wins: 12 } },
+  england: { color1: '#ffffff', color2: '#dc2626', nickname: 'The Three Lions', years: '1966', runnerUp: 0, stats: { appearances: 16, finals: 1, semifinals: 3, wins: 32 } },
+  france: { color1: '#1d4ed8', color2: '#dc2626', nickname: 'Les Bleus', years: '1998, 2018', runnerUp: 2, stats: { appearances: 16, finals: 4, semifinals: 6, wins: 39 } },
+  germany: { color1: '#111827', color2: '#dc2626', nickname: 'Nationalelf', years: '1954, 1974, 1990, 2014', runnerUp: 4, stats: { appearances: 20, finals: 8, semifinals: 13, wins: 68 } },
+  netherlands: { color1: '#f97316', color2: '#ffffff', nickname: 'Oranje', years: '', runnerUp: 3, stats: { appearances: 11, finals: 3, semifinals: 5, wins: 30 } },
+  norway: { color1: '#dc2626', color2: '#1d4ed8', nickname: 'Løvene', years: '', runnerUp: 0, stats: { appearances: 3, finals: 0, semifinals: 0, wins: 2 } },
+  portugal: { color1: '#16a34a', color2: '#dc2626', nickname: 'Seleção das Quinas', years: '', runnerUp: 0, stats: { appearances: 8, finals: 0, semifinals: 2, wins: 15 } },
+  scotland: { color1: '#1d4ed8', color2: '#ffffff', nickname: 'The Tartan Army', years: '', runnerUp: 0, stats: { appearances: 8, finals: 0, semifinals: 0, wins: 4 } },
+  spain: { color1: '#dc2626', color2: '#eab308', nickname: 'La Roja', years: '2010', runnerUp: 0, stats: { appearances: 16, finals: 1, semifinals: 2, wins: 31 } },
+  sweden: { color1: '#1d4ed8', color2: '#eab308', nickname: 'Blågult', years: '', runnerUp: 1, stats: { appearances: 12, finals: 1, semifinals: 4, wins: 19 } },
+  switzerland: { color1: '#dc2626', color2: '#ffffff', nickname: 'Nati', years: '', runnerUp: 0, stats: { appearances: 12, finals: 0, semifinals: 0, wins: 12 } },
+  turkiye: { color1: '#dc2626', color2: '#ffffff', nickname: 'Bizim Çocuklar', years: '', runnerUp: 0, stats: { appearances: 2, finals: 0, semifinals: 1, wins: 5 } },
+  argentina: { color1: '#38bdf8', color2: '#ffffff', nickname: 'La Albiceleste', years: '1978, 1986, 2022', runnerUp: 3, stats: { appearances: 18, finals: 6, semifinals: 6, wins: 47 } },
+  brazil: { color1: '#eab308', color2: '#16a34a', nickname: 'Canarinha', years: '1958, 1962, 1970, 1994, 2002', runnerUp: 2, stats: { appearances: 22, finals: 7, semifinals: 11, wins: 76 } },
+  colombia: { color1: '#eab308', color2: '#1d4ed8', nickname: 'Los Cafeteros', years: '', runnerUp: 0, stats: { appearances: 6, finals: 0, semifinals: 0, wins: 9 } },
+  ecuador: { color1: '#eab308', color2: '#1d4ed8', nickname: 'La Tri', years: '', runnerUp: 0, stats: { appearances: 4, finals: 0, semifinals: 0, wins: 5 } },
+  paraguay: { color1: '#dc2626', color2: '#1e3a8a', nickname: 'La Albirroja', years: '', runnerUp: 0, stats: { appearances: 8, finals: 0, semifinals: 0, wins: 7 } },
+  uruguay: { color1: '#38bdf8', color2: '#ffffff', nickname: 'La Celeste', years: '1930, 1950', runnerUp: 0, stats: { appearances: 14, finals: 2, semifinals: 5, wins: 24 } },
+  australia: { color1: '#1e3a8a', color2: '#eab308', nickname: 'Socceroos', years: '', runnerUp: 0, stats: { appearances: 6, finals: 0, semifinals: 0, wins: 4 } },
+  iran: { color1: '#16a34a', color2: '#dc2626', nickname: 'Team Melli', years: '', runnerUp: 0, stats: { appearances: 6, finals: 0, semifinals: 0, wins: 3 } },
+  iraq: { color1: '#ffffff', color2: '#16a34a', nickname: 'Lions of Mesopotamia', years: '', runnerUp: 0, stats: { appearances: 1, finals: 0, semifinals: 0, wins: 0 } },
+  japan: { color1: '#1e3a8a', color2: '#ffffff', nickname: 'Samurai Blue', years: '', runnerUp: 0, stats: { appearances: 7, finals: 0, semifinals: 0, wins: 7 } },
+  jordan: { color1: '#dc2626', color2: '#ffffff', nickname: 'The Chivalrous', years: '', runnerUp: 0, stats: { appearances: 0, finals: 0, semifinals: 0, wins: 0 } },
+  qatar: { color1: '#881337', color2: '#ffffff', nickname: 'The Maroon', years: '', runnerUp: 0, stats: { appearances: 1, finals: 0, semifinals: 0, wins: 0 } },
+  'saudi-arabia': { color1: '#16a34a', color2: '#ffffff', nickname: 'Green Falcons', years: '', runnerUp: 0, stats: { appearances: 6, finals: 0, semifinals: 0, wins: 4 } },
+  'south-korea': { color1: '#dc2626', color2: '#1e3a8a', nickname: 'Taegeuk Warriors', years: '', runnerUp: 0, stats: { appearances: 11, finals: 0, semifinals: 1, wins: 7 } },
+  uzbekistan: { color1: '#0ea5e9', color2: '#ffffff', nickname: 'White Wolves', years: '', runnerUp: 0, stats: { appearances: 0, finals: 0, semifinals: 0, wins: 0 } },
+  algeria: { color1: '#16a34a', color2: '#ffffff', nickname: 'Les Fennecs', years: '', runnerUp: 0, stats: { appearances: 4, finals: 0, semifinals: 0, wins: 3 } },
+  caboverde: { color1: '#1e3a8a', color2: '#dc2626', nickname: 'Tubarões Azuis', years: '', runnerUp: 0, stats: { appearances: 0, finals: 0, semifinals: 0, wins: 0 } },
+  'cote-divoire': { color1: '#f97316', color2: '#16a34a', nickname: 'Les Éléphants', years: '', runnerUp: 0, stats: { appearances: 3, finals: 0, semifinals: 0, wins: 3 } },
+  'dr-congo': { color1: '#0ea5e9', color2: '#dc2626', nickname: 'Les Léopards', years: '', runnerUp: 0, stats: { appearances: 1, finals: 0, semifinals: 0, wins: 0 } },
+  egypt: { color1: '#dc2626', color2: '#ffffff', nickname: 'The Pharaohs', years: '', runnerUp: 0, stats: { appearances: 3, finals: 0, semifinals: 0, wins: 0 } },
+  ghana: { color1: '#dc2626', color2: '#eab308', nickname: 'Black Stars', years: '', runnerUp: 0, stats: { appearances: 4, finals: 0, semifinals: 0, wins: 5 } },
+  morocco: { color1: '#dc2626', color2: '#16a34a', nickname: 'Atlas Lions', years: '', runnerUp: 0, stats: { appearances: 6, finals: 0, semifinals: 1, wins: 5 } },
+  senegal: { color1: '#16a34a', color2: '#eab308', nickname: 'Lions of Teranga', years: '', runnerUp: 0, stats: { appearances: 3, finals: 0, semifinals: 0, wins: 5 } },
+  'south-africa': { color1: '#16a34a', color2: '#eab308', nickname: 'Bafana Bafana', years: '', runnerUp: 0, stats: { appearances: 3, finals: 0, semifinals: 0, wins: 2 } },
+  tunisia: { color1: '#dc2626', stop2: '#ffffff', nickname: 'Eagles of Carthage', years: '', runnerUp: 0, stats: { appearances: 6, finals: 0, semifinals: 0, wins: 3 } },
+  curacao: { color1: '#1e3a8a', color2: '#eab308', nickname: 'La Familia Azul', years: '', runnerUp: 0, stats: { appearances: 0, finals: 0, semifinals: 0, wins: 0 } },
+  haiti: { color1: '#1e3a8a', color2: '#dc2626', nickname: 'Les Grenadiers', years: '', runnerUp: 0, stats: { appearances: 1, finals: 0, semifinals: 0, wins: 0 } },
+  panama: { color1: '#dc2626', color2: '#1e3a8a', nickname: 'Los Canaleros', years: '', runnerUp: 0, stats: { appearances: 1, finals: 0, semifinals: 0, wins: 0 } },
+  'new-zealand': { color1: '#ffffff', color2: '#111827', nickname: 'All Whites', years: '', runnerUp: 0, stats: { appearances: 2, finals: 0, semifinals: 0, wins: 0 } }
+};
+
+teamsData.forEach(t => {
+  const meta = teamMetadata[t.id] || { color1: '#0f172a', color2: '#1e293b', nickname: '', years: '', runnerUp: 0, stats: { appearances: 0, finals: 0, semifinals: 0, wins: 0 } };
+  t.color1 = meta.color1;
+  t.color2 = meta.color2 || meta.color1;
+  t.nickname = meta.nickname;
+  t.years = meta.years;
+  t.runnerUp = meta.runnerUp;
+  t.stats = meta.stats;
+});
+
+function getTextColor(hex) {
+  if (!hex) return '#ffffff';
+  const c = hex.substring(1);
+  if (c === 'ffffff') return '#0f172a';
+  const rgb = parseInt(c, 16);
+  const r = (rgb >> 16) & 0xff;
+  const g = (rgb >> 8) & 0xff;
+  const b = (rgb >> 0) & 0xff;
+  const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return luma > 180 ? '#0f172a' : '#ffffff';
+}
+
 function getSortedTeams() {
   return [...teamsData].sort((a, b) => b.titles - a.titles || a.name.localeCompare(b.name));
 }
@@ -88,9 +161,11 @@ function renderTeams(filter = '') {
     item.innerHTML = `
       <div class="team-meta">
         <span class="team-flag">${team.flag}</span>
-        <span class="team-name">${team.name}</span>
+        <div class="team-info-block">
+          <span class="team-name">${team.name}</span>
+          <span class="team-titles-sub">${team.titles} ${team.titles === 1 ? 'Title' : 'Titles'}</span>
+        </div>
       </div>
-      <div class="team-titles-badge">🏆 ${team.titles}</div>
     `;
     item.addEventListener('click', () => {
       document.querySelectorAll('.team-item').forEach(i => i.classList.remove('active'));
@@ -101,7 +176,59 @@ function renderTeams(filter = '') {
   });
 }
 
+const teamDishes = {
+  canada: ['Poutine', 'Butter Tarts', 'Tourtière'],
+  mexico: ['Tacos', 'Mole Poblano', 'Chiles en Nogada'],
+  usa: ['Hamburger', 'Apple Pie', 'Clam Chowder'],
+  austria: ['Wiener Schnitzel', 'Sachertorte', 'Apfelstrudel'],
+  belgium: ['Moules-Frites', 'Belgian Waffles', 'Carbonnade Flamande'],
+  bosnia: ['Ćevapi', 'Burek', 'Klepe'],
+  croatia: ['Peka', 'Crni Rižot', 'Fritule'],
+  czechia: ['Vepřo Knedlo Zelo', 'Svíčková', 'Trdelník'],
+  england: ['Fish and Chips', 'Sunday Roast', 'Shepherd\'s Pie'],
+  france: ['Coq au Vin', 'Ratatouille', 'Crème Brûlée'],
+  germany: ['Bratwurst', 'Sauerkraut', 'Pretzel'],
+  netherlands: ['Stroopwafel', 'Bitterballen', 'Stamppot'],
+  norway: ['Fårikål', 'Gravlaks', 'Lutefisk'],
+  portugal: ['Bacalhau à Brás', 'Pastel de Nata', 'Caldo Verde'],
+  scotland: ['Haggis', 'Scotch Pie', 'Cranachan'],
+  spain: ['Paella', 'Tortilla Española', 'Gazpacho'],
+  sweden: ['Köttbullar', 'Gravlax', 'Smörgåstårta'],
+  switzerland: ['Fondue', 'Raclette', 'Rösti'],
+  turkiye: ['Kebab', 'Baklava', 'Pide'],
+  argentina: ['Asado', 'Empanadas', 'Dulce de Leche'],
+  brazil: ['Feijoada', 'Pão de Queijo', 'Brigadeiro'],
+  colombia: ['Bandeja Paisa', 'Arepas', 'Ajiaco'],
+  ecuador: ['Ceviche', 'Llapingachos', 'Locro de Papa'],
+  paraguay: ['Sopa Paraguaya', 'Chipa', 'Mbejú'],
+  uruguay: ['Chivito', 'Asado', 'Martín Fierro'],
+  australia: ['Meat Pie', 'Vegemite Toast', 'Pavlova'],
+  iran: ['Chelo Kebab', 'Ghormeh Sabzi', 'Fesenjan'],
+  iraq: ['Masgouf', 'Biryani', 'Kleicha'],
+  japan: ['Sushi', 'Ramen', 'Tempura'],
+  jordan: ['Mansaf', 'Falafel', 'Kanafeh'],
+  qatar: ['Machboos', 'Luqaimat', 'Harees'],
+  'saudi-arabia': ['Kabsa', 'Jareesh', 'Mutabbaq'],
+  'south-korea': ['Kimchi', 'Bulgogi', 'Bibimbap'],
+  uzbekistan: ['Plov', 'Somsa', 'Lagman'],
+  algeria: ['Couscous', 'Shakshouka', 'Tajine'],
+  caboverde: ['Cachupa', 'Pastel', 'Pudim de Leite'],
+  'cote-divoire': ['Garba', 'Aloko', 'Kedjenou'],
+  'dr-congo': ['Moambé Chicken', 'Fufu', 'Chikwangue'],
+  egypt: ['Koshary', 'Ful Medames', 'Mulukhiyah'],
+  ghana: ['Jollof Rice', 'Fufu', 'Kelewele'],
+  morocco: ['Tagine', 'Couscous', 'Harira'],
+  senegal: ['Thiéboudienne', 'Yassa Poulet', 'Maafe'],
+  'south-africa': ['Biltong', 'Bobotie', 'Bunny Chow'],
+  tunisia: ['Couscous', 'Brik', 'Lablabi'],
+  curacao: ['Keshi Yena', 'Stobá', 'Sopito'],
+  haiti: ['Griot', 'Soup Joumou', 'Akasan'],
+  panama: ['Sancocho', 'Ropa Vieja', 'Carimañolas'],
+  'new-zealand': ['Hāngī', 'Pavlova', 'Whitebait Fritter']
+};
+
 function showTeamDetails(team) {
+  const dishes = teamDishes[team.id] || [];
   teamDetailsContainer.innerHTML = `
     <div class="team-details-header">
       <div class="details-identity">
@@ -111,17 +238,6 @@ function showTeamDetails(team) {
       <div class="details-titles">🏆 ${team.titles} World Cup Titles</div>
     </div>
     <div class="details-grid">
-      <div class="details-section">
-        <h3>Legendary Players</h3>
-        <div class="historical-players-list">
-          ${team.players.map(p => `
-            <div class="player-card">
-              <div class="player-name">${p}</div>
-              <div class="player-desc">Top historical player for ${team.name}.</div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
       <div class="details-section">
         <h3>World Cup 2026 Info</h3>
         <div class="stats-grid">
@@ -141,6 +257,34 @@ function showTeamDetails(team) {
             <span class="stat-label">Win Probability</span>
             <span class="stat-value">${team.chance}%</span>
           </div>
+        </div>
+      </div>
+      <div class="players-section">
+        <h3>Squad Stars & Legends</h3>
+        <div class="players-deck">
+          <div class="player-card-visual">
+            <img src="/assets/players/${team.id}-star.svg" alt="${team.star}">
+            <div class="player-name">${team.star}</div>
+            <div class="player-desc">Star Player</div>
+          </div>
+          ${team.players.map((p, idx) => `
+            <div class="player-card-visual">
+              <img src="/assets/players/${team.id}-legend-${idx}.svg" alt="${p}">
+              <div class="player-name">${p}</div>
+              <div class="player-desc">Legend</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="dishes-section">
+        <h3>Taste of the Nation (Popular Dishes)</h3>
+        <div class="dishes-grid">
+          ${dishes.map((dish, idx) => `
+            <div class="dish-card-visual">
+              <img src="/assets/dishes/${team.id}-dish-${idx}.svg" alt="${dish}">
+              <div class="dish-name-label">${dish}</div>
+            </div>
+          `).join('')}
         </div>
       </div>
     </div>
