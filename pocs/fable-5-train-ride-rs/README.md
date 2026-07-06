@@ -53,6 +53,12 @@ The engine chugs in rhythm with the wheels, a whistle blows on every departure a
 
 A full day passes every 4 minutes: sunrise, noon, sunset with an orange sky, then stars, lit station lamps and the locomotive headlight at night. Rain showers roll in and out on their own.
 
+## Ride
+
+![Riding into Porto Alegre](printscreens/train-ride.gif)
+
+Riding the train into Porto Alegre and watching the city video play on the station billboard, then rolling on through the pampa toward Gramado.
+
 ## Screenshot
 
 ![Arriving at Porto Alegre](printscreens/train-ride.png)

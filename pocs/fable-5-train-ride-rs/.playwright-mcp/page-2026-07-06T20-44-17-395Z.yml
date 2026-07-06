@@ -1,0 +1,43 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - heading "Porto Alegre" [level=1]
+    - paragraph: Capital of Rio Grande do Sul on the Guaíba. The 1928 Usina do Gasômetro, the Mercado Público open since 1869, the revitalized Orla do Guaíba, the green Parque Farroupilha and the white Fundação Iberê Camargo by Álvaro Siza.
+  - generic [ref=e3]:
+    - generic [ref=e4]: 08:45
+    - generic [ref=e5]: Sunny skies
+    - generic [ref=e6]: 57 km/h
+  - generic [ref=e7]: Next stop Porto Alegre · 3.8 km
+  - generic [ref=e8]:
+    - generic [ref=e34]: Commands
+    - generic [ref=e35]:
+      - generic [ref=e36]: SPACE
+      - text: stop the train
+    - generic [ref=e37]:
+      - generic [ref=e38]: ↑ ↓
+      - text: faster · slower
+    - generic [ref=e39]:
+      - generic [ref=e40]: E
+      - text: step off the train
+    - generic [ref=e41]:
+      - generic [ref=e42]: DRAG
+      - text: rotate the camera
+    - generic [ref=e43]:
+      - generic [ref=e44]: M
+      - text: sound off
+  - generic [ref=e20]:
+    - button "Time Day" [ref=e21] [cursor=pointer]:
+      - generic [ref=e22]: Time
+      - strong [ref=e23]: Day
+    - button "Weather Rain" [ref=e24] [cursor=pointer]:
+      - generic [ref=e25]: Weather
+      - strong [ref=e26]: Rain
+    - button "Sky Sunny" [ref=e27] [cursor=pointer]:
+      - generic [ref=e28]: Sky
+      - strong [ref=e29]: Sunny
+  - generic:
+    - generic:
+      - iframe [ref=e45]:
+        - generic [active] [ref=f1e1]:
+          - generic "YouTube Video Player" [ref=f1e3]
+          - button "Show player controls" [ref=f1e7] [cursor=pointer]
+      - generic: Porto Alegre · YouTube

@@ -1,0 +1,40 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - heading [level=1]
+    - paragraph
+  - generic [ref=e3]:
+    - generic [ref=e4]: 07:56
+    - generic [ref=e5]: Sunny skies
+    - generic [ref=e6]: 6 km/h
+  - generic [ref=e7]: Next stop Porto Alegre · 30.0 km
+  - generic [ref=e8]:
+    - generic [ref=e9]: Commands
+    - generic [ref=e10]:
+      - generic [ref=e11]: SPACE
+      - text: stop the train
+    - generic [ref=e12]:
+      - generic [ref=e13]: ↑ ↓
+      - text: faster · slower
+    - generic [ref=e14]:
+      - generic [ref=e15]: E
+      - text: step off the train
+    - generic [ref=e16]:
+      - generic [ref=e17]: DRAG
+      - text: rotate the camera
+    - generic [ref=e18]:
+      - generic [ref=e19]: M
+      - text: sound off
+  - generic [ref=e20]:
+    - button "Time Day" [ref=e21] [cursor=pointer]:
+      - generic [ref=e22]: Time
+      - strong [ref=e23]: Day
+    - button "Weather Rain" [ref=e24] [cursor=pointer]:
+      - generic [ref=e25]: Weather
+      - strong [ref=e26]: Rain
+    - button "Sky Sunny" [ref=e27] [cursor=pointer]:
+      - generic [ref=e28]: Sky
+      - strong [ref=e29]: Sunny
+  - generic [ref=e30] [cursor=pointer]:
+    - heading "Trem do Rio Grande" [level=1] [ref=e31]
+    - paragraph [ref=e32]: "A steam ride across Rio Grande do Sul, Brazil: Porto Alegre, Gramado, Canela, the Jesuit Missões, the borders with Argentina and Uruguay, and the cliffs of Torres. Every stop has its real landmarks, signed by name. Days turn into nights, rain sweeps the pampa. Stop the train, step off and walk among them. The engine chugs and whistles, arrows change the speed, drag the mouse to look around, M silences it all."
+    - generic [ref=e33]: Click to board
