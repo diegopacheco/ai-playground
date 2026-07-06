@@ -107,7 +107,7 @@
     "id": "f-1",
     "team1": "France",
     "team2": "Argentina",
-    "winner": null,
-    "loser": null
+    "winner": "Argentina",
+    "loser": "France"
   }
 }
