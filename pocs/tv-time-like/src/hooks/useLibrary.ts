@@ -7,8 +7,12 @@ export const useLibrary = () => useQuery({ queryKey: ["library"], queryFn: api.l
 export const useLibraryActions = () => {
   const client = useQueryClient()
   const refresh = () => client.invalidateQueries({ queryKey: ["library"] })
+  const refreshDiscover = () => {
+    client.invalidateQueries({ queryKey: ["library"] })
+    client.invalidateQueries({ queryKey: ["search"] })
+  }
   return {
-    add: useMutation({ mutationFn: (media: Media) => api.add(media), onSuccess: refresh }),
+    add: useMutation({ mutationFn: (media: Media) => api.add(media), onSuccess: refreshDiscover }),
     remove: useMutation({ mutationFn: api.remove, onSuccess: refresh }),
     toggleMedia: useMutation({ mutationFn: api.toggleMedia, onSuccess: refresh }),
     toggleEpisode: useMutation({ mutationFn: api.toggleEpisode, onSuccess: refresh }),

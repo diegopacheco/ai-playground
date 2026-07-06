@@ -2,6 +2,7 @@ import { getLibrary, getMedia, saveMedia, db } from "./db.ts"
 import { importTvTime } from "./importer.ts"
 import { searchMedia } from "./media.ts"
 import { buildAiCatalog } from "./ai.ts"
+import { findTrailer } from "./trailer.ts"
 import { getSettings, saveSettings } from "./db.ts"
 import type { AiProvider } from "../shared/types.ts"
 import type { Media } from "../shared/types.ts"
@@ -46,6 +47,10 @@ const server = Bun.serve({
     "/api/search": async request => {
       const query = new URL(request.url).searchParams.get("q") || ""
       return json(await searchMedia(query))
+    },
+    "/api/trailer": async request => {
+      const query = new URL(request.url).searchParams.get("q") || ""
+      return json({ videoId: await findTrailer(query) })
     },
     "/api/media/:id": request => {
       const media = getMedia().find(item => item.id === request.params.id)

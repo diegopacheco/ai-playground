@@ -1,1 +1,1 @@
-{"root":["./server/ai.ts","./server/catalog.ts","./server/db.ts","./server/importer.ts","./server/index.ts","./server/media.ts","./server/metadata.ts","./shared/types.ts","./vite.config.ts"],"version":"6.0.3"}
+{"root":["./server/ai.ts","./server/catalog.ts","./server/db.ts","./server/importer.ts","./server/index.ts","./server/media.ts","./server/metadata.ts","./server/trailer.ts","./shared/types.ts","./vite.config.ts"],"version":"6.0.3"}

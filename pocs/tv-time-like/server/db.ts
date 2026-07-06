@@ -118,6 +118,10 @@ export const getMedia = (libraryOnly = false): Media[] => {
   return media.map(item => ({ ...item, episodes: byMedia.get(item.id) || [] }))
 }
 
+export const libraryTitleKey = (type: string, title: string) => `${type}:${title.trim().toLowerCase()}`
+
+export const libraryTitleKeys = (): Set<string> => new Set(getMedia(true).map(item => libraryTitleKey(item.type, item.title)))
+
 export const getMetrics = (media: Media[]): Metrics => {
   const movies = media.filter(item => item.type === "movie" && item.watched)
   const shows = media.filter(item => item.type === "show")

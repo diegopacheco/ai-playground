@@ -1,22 +1,23 @@
 import type { Media } from "../shared/types.ts"
-import { getMedia } from "./db.ts"
+import { getMedia, libraryTitleKey, libraryTitleKeys } from "./db.ts"
 
 const palette = ["#e86d52", "#2f6d64", "#d9947c", "#3f7890", "#a55f35", "#496c4f"]
 
-type TvMazeResult = {
-  show: {
-    id: number
-    name: string
-    premiered: string | null
-    summary: string | null
-    genres: string[]
-    runtime: number | null
-    averageRuntime: number | null
-    image: { medium: string; original: string } | null
-    status: string
-    rating: { average: number | null }
-  }
+type TvMazeShow = {
+  id: number
+  name: string
+  premiered: string | null
+  summary: string | null
+  genres: string[]
+  runtime: number | null
+  averageRuntime: number | null
+  image: { medium: string; original: string } | null
+  status: string
+  rating: { average: number | null }
+  weight?: number
 }
+
+type TvMazeResult = { show: TvMazeShow }
 
 type TvMazeEpisode = {
   id: number
@@ -28,46 +29,64 @@ type TvMazeEpisode = {
 
 const stripTags = (value: string | null) => value?.replace(/<[^>]+>/g, "") || "No synopsis is available yet."
 
+const buildShow = async (show: TvMazeShow, index: number): Promise<Media> => {
+  const episodes = await fetch(`https://api.tvmaze.com/shows/${show.id}/episodes`)
+    .then(response => response.ok ? response.json() as Promise<TvMazeEpisode[]> : [])
+    .catch(() => [])
+  return {
+    id: `tvmaze-${show.id}`,
+    providerId: String(show.id),
+    provider: "tvmaze",
+    type: "show",
+    title: show.name,
+    year: Number(show.premiered?.slice(0, 4)) || 0,
+    overview: stripTags(show.summary),
+    genres: show.genres,
+    runtime: show.averageRuntime || show.runtime || 45,
+    poster: show.image?.original || show.image?.medium || null,
+    backdrop: null,
+    color: palette[index % palette.length],
+    status: show.status,
+    rating: show.rating.average || 0,
+    inLibrary: false,
+    watched: false,
+    watchedAt: null,
+    episodes: episodes.map(episode => ({
+      id: `tvmaze-episode-${episode.id}`,
+      mediaId: `tvmaze-${show.id}`,
+      season: episode.season,
+      number: episode.number,
+      title: episode.name,
+      runtime: episode.runtime || show.averageRuntime || 45,
+      watched: false,
+      watchedAt: null
+    }))
+  }
+}
+
 export const searchMedia = async (query: string): Promise<Media[]> => {
+  const owned = libraryTitleKeys()
+  const available = (item: { type: string; title: string }) => !owned.has(libraryTitleKey(item.type, item.title))
   const local = getMedia().filter(item => item.title.toLowerCase().includes(query.toLowerCase()))
-  if (!query.trim()) return local.filter(item => item.provider === "local").slice(0, 8)
+  if (!query.trim()) {
+    const movies = local.filter(item => item.provider === "local" && item.type === "movie" && available(item)).slice(0, 6)
+    const date = new Date().toISOString().slice(0, 10)
+    const schedule = await fetch(`https://api.tvmaze.com/schedule/web?date=${date}`)
+      .then(response => response.ok ? response.json() as Promise<{ _embedded?: { show?: TvMazeShow } }[]> : [])
+      .catch(() => [])
+    const unique = new Map<number, TvMazeShow>()
+    for (const entry of schedule) {
+      const show = entry._embedded?.show
+      if (show?.name && available({ type: "show", title: show.name })) unique.set(show.id, show)
+    }
+    const ranked = [...unique.values()].sort((a, b) => (b.weight || 0) - (a.weight || 0)).slice(0, 6)
+    const shows = await Promise.all(ranked.map((show, index) => buildShow(show, index)))
+    return [...shows, ...movies]
+  }
   const shows = await fetch(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(query)}`)
     .then(response => response.ok ? response.json() as Promise<TvMazeResult[]> : [])
     .catch(() => [])
-  const remoteShows: Media[] = await Promise.all(shows.slice(0, 6).map(async ({ show }, index) => {
-    const episodes = await fetch(`https://api.tvmaze.com/shows/${show.id}/episodes`)
-      .then(response => response.ok ? response.json() as Promise<TvMazeEpisode[]> : [])
-      .catch(() => [])
-    return {
-      id: `tvmaze-${show.id}`,
-      providerId: String(show.id),
-      provider: "tvmaze",
-      type: "show",
-      title: show.name,
-      year: Number(show.premiered?.slice(0, 4)) || 0,
-      overview: stripTags(show.summary),
-      genres: show.genres,
-      runtime: show.averageRuntime || show.runtime || 45,
-      poster: show.image?.original || show.image?.medium || null,
-      backdrop: null,
-      color: palette[index % palette.length],
-      status: show.status,
-      rating: show.rating.average || 0,
-      inLibrary: false,
-      watched: false,
-      watchedAt: null,
-      episodes: episodes.map(episode => ({
-        id: `tvmaze-episode-${episode.id}`,
-        mediaId: `tvmaze-${show.id}`,
-        season: episode.season,
-        number: episode.number,
-        title: episode.name,
-        runtime: episode.runtime || show.averageRuntime || 45,
-        watched: false,
-        watchedAt: null
-      }))
-    }
-  }))
+  const remoteShows = await Promise.all(shows.slice(0, 6).map(({ show }, index) => buildShow(show, index)))
   const token = process.env.TMDB_ACCESS_TOKEN
   let movies: Media[] = []
   if (token) {
@@ -96,5 +115,5 @@ export const searchMedia = async (query: string): Promise<Media[]> => {
     }))
   }
   const known = new Set(local.map(item => item.id))
-  return [...local, ...remoteShows.filter(item => !known.has(item.id)), ...movies].slice(0, 14)
+  return [...local, ...remoteShows.filter(item => !known.has(item.id)), ...movies].filter(available).slice(0, 14)
 }

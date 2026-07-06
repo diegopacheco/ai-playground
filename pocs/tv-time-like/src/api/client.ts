@@ -9,6 +9,7 @@ const request = async <T>(url: string, init?: RequestInit): Promise<T> => {
 export const api = {
   library: () => request<LibraryResponse>("/api/library"),
   search: (query: string) => request<Media[]>(`/api/search?q=${encodeURIComponent(query)}`),
+  trailer: (query: string) => request<{ videoId: string | null }>(`/api/trailer?q=${encodeURIComponent(query)}`),
   add: (media: Media) => request<Media>("/api/media", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(media) }),
   remove: (id: string) => request<{ removed: boolean }>(`/api/library/${id}`, { method: "DELETE" }),
   toggleMedia: (id: string) => request<{ watched: boolean }>(`/api/media/${id}/watched`, { method: "PATCH" }),

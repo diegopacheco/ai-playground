@@ -1,6 +1,6 @@
 import type { AiProvider, CatalogItem, CatalogResponse, Media } from "../shared/types.ts"
 import { readFileSync } from "node:fs"
-import { getCatalogCache, saveCatalogCache } from "./db.ts"
+import { getCatalogCache, libraryTitleKey, libraryTitleKeys, saveCatalogCache } from "./db.ts"
 import { searchMedia } from "./media.ts"
 
 type AiItem = {
@@ -21,7 +21,7 @@ const schema = readFileSync("server/ai-schema.json", "utf8")
 
 const commands: Record<AiProvider, (value: string) => string[]> = {
   codex: value => ["codex", "--search", "exec", "--ephemeral", "--sandbox", "read-only", "--output-schema", "server/ai-schema.json", value],
-  claude: value => ["claude", "-p", "--no-session-persistence", "--permission-mode", "dontAsk", "--tools", "WebSearch,WebFetch", "--json-schema", schema, value],
+  claude: value => ["claude", "-p", "--output-format", "json", "--no-session-persistence", "--permission-mode", "bypassPermissions", "--allowed-tools", "WebSearch", "WebFetch", "--disallowed-tools", "Bash", "Write", "Edit", "--json-schema", schema, value],
   gemini: value => ["gemini", "-p", value, "--output-format", "json", "--approval-mode", "plan"]
 }
 
@@ -76,13 +76,15 @@ const enrich = async (item: AiItem): Promise<CatalogItem> => {
 
 export const buildAiCatalog = async (provider: AiProvider, topic: string, refresh: boolean): Promise<CatalogResponse> => {
   const cacheKey = `${provider}:${topic.trim().toLowerCase() || "all"}`
+  const owned = libraryTitleKeys()
+  const available = (response: CatalogResponse): CatalogResponse => ({ ...response, items: response.items.filter(item => !owned.has(libraryTitleKey(item.media.type, item.media.title))) })
   if (!refresh) {
     const cached = getCatalogCache(cacheKey)
-    if (cached) return cached
+    if (cached) return available(cached)
   }
   const data = await run(provider, prompt(topic)) as { items: AiItem[] }
   const items = await Promise.all(data.items.map(enrich))
   const response: CatalogResponse = { provider, cached: false, generatedAt: new Date().toISOString(), items }
   saveCatalogCache(cacheKey, response)
-  return response
+  return available(response)
 }
