@@ -229,53 +229,97 @@ const teamDishes = {
 
 function showTeamDetails(team) {
   const dishes = teamDishes[team.id] || [];
+  const textColor = getTextColor(team.color1);
+  const secondaryStyle = team.nickname ? ` | ${team.nickname}` : '';
+
   teamDetailsContainer.innerHTML = `
-    <div class="team-details-header">
+    <div class="team-details-header" style="background: linear-gradient(135deg, ${team.color1}, ${team.color2}); color: ${textColor};">
       <div class="details-identity">
         <span class="details-flag">${team.flag}</span>
-        <h2>${team.name}</h2>
+        <div>
+          <h2 style="color: inherit; margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px;">${team.name.toUpperCase()}</h2>
+          <span style="opacity: 0.85; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">
+            ${team.titles} ${team.titles === 1 ? 'Title' : 'Titles'}${secondaryStyle}
+          </span>
+        </div>
       </div>
-      <div class="details-titles">🏆 ${team.titles} World Cup Titles</div>
+      <div class="selected-team-badge">Selected Team</div>
     </div>
+
+    <div class="historical-achievements-banner">
+      <div class="achievements-title">Historical Achievements</div>
+      <div class="achievements-content">
+        <strong>${team.titles} ${team.titles === 1 ? 'Title' : 'Titles'}${team.years ? `: ${team.years}` : ''}</strong>
+        <span class="divider">|</span>
+        <span>Runner-up: ${team.runnerUp || 0}</span>
+      </div>
+    </div>
+
     <div class="details-grid">
-      <div class="details-section">
-        <h3>World Cup 2026 Info</h3>
-        <div class="stats-grid">
-          <div class="stat-item">
-            <span class="stat-label">Group Placement</span>
-            <span class="stat-value">${team.group}</span>
+      <div class="details-stats-row">
+        <div class="details-section-card">
+          <h3>World Cup 2026 Info</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">Group Placement</span>
+              <span class="stat-value">${team.group}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Manager / Coach</span>
+              <span class="stat-value">${team.coach}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Star Player</span>
+              <span class="stat-value">${team.star}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Win Probability</span>
+              <span class="stat-value">${team.chance}%</span>
+            </div>
           </div>
-          <div class="stat-item">
-            <span class="stat-label">Manager / Coach</span>
-            <span class="stat-value">${team.coach}</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Star Player</span>
-            <span class="stat-value">${team.star}</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Win Probability</span>
-            <span class="stat-value">${team.chance}%</span>
+        </div>
+        
+        <div class="details-section-card">
+          <h3>All-Time Team Stats</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">World Cups</span>
+              <span class="stat-value">${team.stats.appearances} (2026)</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Finals Played</span>
+              <span class="stat-value">${team.stats.finals}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Semi-Finals</span>
+              <span class="stat-value">${team.stats.semifinals}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">All-Time Wins</span>
+              <span class="stat-value">${team.stats.wins}</span>
+            </div>
           </div>
         </div>
       </div>
+
       <div class="players-section">
         <h3>Squad Stars & Legends</h3>
         <div class="players-deck">
           <div class="player-card-visual">
             <img src="/assets/players/${team.id}-star.svg" alt="${team.star}">
-            <div class="player-name">${team.star}</div>
-            <div class="player-desc">Star Player</div>
+            <div class="player-name" style="margin-top: 8px; font-weight: 700; color: var(--text-dark);">${team.star}</div>
+            <div class="player-desc" style="font-size: 12px; color: var(--text-muted);">Star Player</div>
           </div>
           ${team.players.map((p, idx) => `
             <div class="player-card-visual">
               <img src="/assets/players/${team.id}-legend-${idx}.svg" alt="${p}">
-              <div class="player-name">${p}</div>
-              <div class="player-desc">Legend</div>
+              <div class="player-name" style="margin-top: 8px; font-weight: 700; color: var(--text-dark);">${p}</div>
+              <div class="player-desc" style="font-size: 12px; color: var(--text-muted);">Legend</div>
             </div>
           `).join('')}
         </div>
       </div>
+
       <div class="dishes-section">
         <h3>Taste of the Nation (Popular Dishes)</h3>
         <div class="dishes-grid">
@@ -347,16 +391,18 @@ function renderBracket(data) {
   
   if (data.final.winner) {
     champCard.innerHTML = `
-      <h3>Winner</h3>
       <div class="champion-display">
+        <div class="champion-trophy-badge">🏆</div>
+        <h3 style="margin-top: 8px;">Winner</h3>
         <span class="champion-flag">${getTeamFlag(data.final.winner)}</span>
         <span class="champion-name">${data.final.winner}</span>
       </div>
     `;
   } else {
     champCard.innerHTML = `
-      <h3>Winner</h3>
       <div class="champion-display">
+        <div class="champion-trophy-badge grayscale">🏆</div>
+        <h3 style="margin-top: 8px;">Winner</h3>
         <span class="champion-flag">❓</span>
         <span class="champion-name">TBD</span>
       </div>
@@ -373,12 +419,26 @@ function createBracketColumn(title) {
   return col;
 }
 
+function getMatchDate(id) {
+  const dates = {
+    'r16-1': 'Jun 28', 'r16-2': 'Jun 28', 'r16-3': 'Jun 29', 'r16-4': 'Jun 29',
+    'r16-5': 'Jun 30', 'r16-6': 'Jun 30', 'r16-7': 'Jul 01', 'r16-8': 'Jul 01',
+    'qf-1': 'Jul 04', 'qf-2': 'Jul 04', 'qf-3': 'Jul 05', 'qf-4': 'Jul 05',
+    'sf-1': 'Jul 09', 'sf-2': 'Jul 10',
+    'f-1': 'Jul 19'
+  };
+  return dates[id] || 'TBD';
+}
+
 function createMatchCard(match, stage) {
   const card = document.createElement('div');
   card.className = 'matchup-container';
   
   const team1Class = match.winner === match.team1 ? 'winner' : (match.winner ? 'loser' : '');
   const team2Class = match.winner === match.team2 ? 'winner' : (match.winner ? 'loser' : '');
+
+  const score1 = match.winner ? (match.winner === match.team1 ? '2' : '1') : '-';
+  const score2 = match.winner ? (match.winner === match.team2 ? '2' : '1') : '-';
 
   const team1Content = match.team1 
     ? `<span class="matchup-flag">${getTeamFlag(match.team1)}</span> <span class="matchup-team-name">${match.team1}</span>` 
@@ -387,14 +447,21 @@ function createMatchCard(match, stage) {
     ? `<span class="matchup-flag">${getTeamFlag(match.team2)}</span> <span class="matchup-team-name">${match.team2}</span>` 
     : `<span class="matchup-team-name text-muted">TBD</span>`;
 
+  const matchLabel = match.id.toUpperCase().replace('-', ' ');
+  const matchDate = getMatchDate(match.id);
+
   card.innerHTML = `
+    <div class="matchup-header">
+      <span class="matchup-title">${matchLabel}</span>
+      <span class="matchup-date">${matchDate}</span>
+    </div>
     <div class="matchup-slot ${team1Class}" data-team="1">
       <div class="matchup-slot-team">${team1Content}</div>
-      <div class="matchup-status-dot"></div>
+      <div class="matchup-score-box">${score1}</div>
     </div>
     <div class="matchup-slot ${team2Class}" data-team="2">
       <div class="matchup-slot-team">${team2Content}</div>
-      <div class="matchup-status-dot"></div>
+      <div class="matchup-score-box">${score2}</div>
     </div>
   `;
 
@@ -602,21 +669,19 @@ predictBtn.addEventListener('click', () => {
   const winner = pct1 > pct2 ? team1 : (pct2 > pct1 ? team2 : null);
 
   predictionResults.innerHTML = `
-    <div class="results-grid">
-      <div class="result-team-card ${winner === team1 ? 'winner-prediction' : ''}">
-        <span class="result-flag">${team1.flag}</span>
-        <span class="result-name">${team1.name}</span>
-        <span class="result-percent">${pct1}%</span>
-      </div>
-      <div class="predictor-vs-middle">VS</div>
-      <div class="result-team-card ${winner === team2 ? 'winner-prediction' : ''}">
-        <span class="result-flag">${team2.flag}</span>
-        <span class="result-name">${team2.name}</span>
-        <span class="result-percent">${pct2}%</span>
+    <div class="predictor-results-card">
+      <div class="predictor-result-header">
+        <span class="result-team-info">${team1.flag} ${team1.name} (${pct1}%)</span>
+        <span class="vs-label">VS</span>
+        <span class="result-team-info">${team2.name} ${team2.flag} (${pct2}%)</span>
       </div>
       <div class="comparison-odds-bar">
         <div class="odds-team-a" style="width: ${pct1}%"></div>
         <div class="odds-team-b" style="width: ${pct2}%"></div>
+      </div>
+      <div class="predictor-result-percentages">
+        <span>${pct1}%</span>
+        <span>${pct2}%</span>
       </div>
     </div>
   `;
