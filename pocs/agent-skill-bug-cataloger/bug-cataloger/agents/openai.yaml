@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bug Cataloger"
+  short_description: "Find solved bugs in prior coding sessions"
+  default_prompt: "Use $bug-cataloger to build a searchable bug report for this project."
