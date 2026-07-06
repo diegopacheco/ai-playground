@@ -1,5 +1,7 @@
 # Reelmark
 
+<img src="reelmark-logo.png" alt="Reelmark logo" width="420" />
+
 Reelmark is a private watch journal for movies and television. It tracks films, seasons, episodes, time watched, completion, and genre patterns in a light editorial interface.
 
 ## Run
