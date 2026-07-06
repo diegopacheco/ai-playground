@@ -1,5 +1,7 @@
 # Bug Cataloger
 
+[![Bug Cataloger logo](assets/bug-cataloger-logo.png)](assets/bug-cataloger-logo.png)
+
 The report below shows the generated Bug Cataloger output for `tv-time-like`. It summarizes four resolved engineering issues as paired Bug and Solution entries, identifies the source agent and report date, and provides search across the findings.
 
 ![Bug Cataloger report for tv-time-like](tv-time-like-bug-report-05_07_2026.png)
