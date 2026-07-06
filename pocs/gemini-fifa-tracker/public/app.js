@@ -703,4 +703,34 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     })
     .catch(() => {});
+  
+  renderNonQualifiers();
 });
+
+const nonQualifiersData = [
+  { id: 'italy', name: 'Italy', flag: '🇮🇹', titles: 4, rank: 12, reason: 'Failed in UEFA playoffs', star: 'Gianluigi Donnarumma' },
+  { id: 'nigeria', name: 'Nigeria', flag: '🇳🇬', titles: 0, rank: 26, reason: 'Failed in CAF qualification', star: 'Victor Osimhen' },
+  { id: 'denmark', name: 'Denmark', flag: '🇩🇰', titles: 0, rank: 20, reason: 'Missed UEFA qualification', star: 'Christian Eriksen' },
+  { id: 'poland', name: 'Poland', flag: '🇵🇱', titles: 0, rank: 35, reason: 'Eliminated in qualifiers', star: 'Robert Lewandowski' },
+  { id: 'russia', name: 'Russia', flag: '🇷🇺', titles: 0, rank: 38, reason: 'Suspended by FIFA/UEFA', star: 'Aleksandr Golovin' }
+];
+
+function renderNonQualifiers() {
+  const container = document.getElementById('non-qualifiers-container');
+  if (!container) return;
+  
+  container.innerHTML = nonQualifiersData.map(team => `
+    <div class="nq-card">
+      <div class="nq-header">
+        <span class="nq-flag">${team.flag}</span>
+        <h3 class="nq-name">${team.name}</h3>
+      </div>
+      <div class="nq-stats">
+        <div class="nq-stat"><span>World Rank:</span> <strong>#${team.rank}</strong></div>
+        <div class="nq-stat"><span>World Cups:</span> <strong>${team.titles} 🏆</strong></div>
+        <div class="nq-stat"><span>Top Star:</span> <strong>${team.star}</strong></div>
+        <div class="nq-reason">${team.reason}</div>
+      </div>
+    </div>
+  `).join('');
+}
