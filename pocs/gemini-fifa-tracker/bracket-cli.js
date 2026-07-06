@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,6 +44,23 @@ function writeBracket(data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
 }
 
+function getAIWinner(team1, team2) {
+  try {
+    const prompt = `Which team wins realistically in a football match between ${team1} and ${team2} in the FIFA World Cup 2026? Reply with exactly and only the name of the winning team with no explanation.`;
+    const command = `agy --print "${prompt}"`;
+    const result = execSync(command, { encoding: 'utf8' }).trim();
+    if (result.toLowerCase().includes(team1.toLowerCase())) {
+      return team1;
+    }
+    if (result.toLowerCase().includes(team2.toLowerCase())) {
+      return team2;
+    }
+    return Math.random() < 0.5 ? team1 : team2;
+  } catch (error) {
+    return Math.random() < 0.5 ? team1 : team2;
+  }
+}
+
 function resetBracket() {
   writeBracket(initialData);
   console.log('Bracket has been reset to the initial state.');
@@ -54,7 +72,7 @@ function updateBracket() {
   for (let i = 0; i < data.roundOf16.length; i++) {
     const match = data.roundOf16[i];
     if (match.winner === null) {
-      const winner = Math.random() < 0.5 ? match.team1 : match.team2;
+      const winner = getAIWinner(match.team1, match.team2);
       match.winner = winner;
       match.loser = winner === match.team1 ? match.team2 : match.team1;
 
@@ -74,7 +92,7 @@ function updateBracket() {
   for (let i = 0; i < data.quarterfinals.length; i++) {
     const match = data.quarterfinals[i];
     if (match.team1 && match.team2 && match.winner === null) {
-      const winner = Math.random() < 0.5 ? match.team1 : match.team2;
+      const winner = getAIWinner(match.team1, match.team2);
       match.winner = winner;
       match.loser = winner === match.team1 ? match.team2 : match.team1;
 
@@ -94,7 +112,7 @@ function updateBracket() {
   for (let i = 0; i < data.semifinals.length; i++) {
     const match = data.semifinals[i];
     if (match.team1 && match.team2 && match.winner === null) {
-      const winner = Math.random() < 0.5 ? match.team1 : match.team2;
+      const winner = getAIWinner(match.team1, match.team2);
       match.winner = winner;
       match.loser = winner === match.team1 ? match.team2 : match.team1;
 
@@ -111,7 +129,7 @@ function updateBracket() {
 
   const match = data.final;
   if (match.team1 && match.team2 && match.winner === null) {
-    const winner = Math.random() < 0.5 ? match.team1 : match.team2;
+    const winner = getAIWinner(match.team1, match.team2);
     match.winner = winner;
     match.loser = winner === match.team1 ? match.team2 : match.team1;
     writeBracket(data);
