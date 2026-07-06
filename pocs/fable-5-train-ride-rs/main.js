@@ -395,6 +395,122 @@ function picture(g, w, h, x, y, z, draw, ry = 0) {
   g.add(m);
 }
 
+const COLLISION_CELL = 32;
+const collisionGrid = new Map();
+
+function collisionCells(minX, maxX, minZ, maxZ, fn) {
+  const x0 = Math.floor(minX / COLLISION_CELL), x1 = Math.floor(maxX / COLLISION_CELL);
+  const z0 = Math.floor(minZ / COLLISION_CELL), z1 = Math.floor(maxZ / COLLISION_CELL);
+  for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) fn(x + ":" + z);
+}
+
+function registerCollider(c) {
+  collisionCells(c.minX, c.maxX, c.minZ, c.maxZ, key => {
+    if (!collisionGrid.has(key)) collisionGrid.set(key, []);
+    collisionGrid.get(key).push(c);
+  });
+}
+
+function registerCircleCollider(x, z, radius) {
+  registerCollider({ type: "circle", x, z, radius, minX: x - radius, maxX: x + radius, minZ: z - radius, maxZ: z + radius });
+}
+
+function registerGroupColliders(g) {
+  g.updateMatrixWorld(true);
+  g.traverse(o => {
+    if (!o.isMesh || o.userData.walkThrough || !o.geometry) return;
+    if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+    const b = o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld);
+    if (b.max.y < 1.05 || b.max.x - b.min.x > 190 || b.max.z - b.min.z > 190) return;
+    registerCollider({ type: "box", minX: b.min.x, maxX: b.max.x, minZ: b.min.z, maxZ: b.max.z });
+  });
+}
+
+function blockedAt(v, radius = 0.72) {
+  const found = new Set();
+  let blocked = false;
+  collisionCells(v.x - radius, v.x + radius, v.z - radius, v.z + radius, key => {
+    if (blocked) return;
+    for (const c of collisionGrid.get(key) || []) {
+      if (found.has(c)) continue;
+      found.add(c);
+      if (c.type === "circle") {
+        const rr = radius + c.radius;
+        if ((v.x - c.x) ** 2 + (v.z - c.z) ** 2 < rr * rr) blocked = true;
+      } else if (v.x + radius > c.minX && v.x - radius < c.maxX && v.z + radius > c.minZ && v.z - radius < c.maxZ) {
+        blocked = true;
+      }
+      if (blocked) break;
+    }
+  });
+  return blocked;
+}
+
+function mediaCaption(text) {
+  const c = document.createElement("canvas");
+  c.width = 1024;
+  c.height = 72;
+  const x = c.getContext("2d");
+  x.fillStyle = "#101c26";
+  x.fillRect(0, 0, c.width, c.height);
+  x.fillStyle = "#f4ead6";
+  x.font = "bold 25px Georgia";
+  x.textAlign = "center";
+  x.textBaseline = "middle";
+  x.fillText(text, c.width / 2, c.height / 2, 960);
+  return new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), side: THREE.DoubleSide });
+}
+
+const textureLoader = new THREE.TextureLoader();
+const videoBoards = [];
+const videoLayer = document.getElementById("videoLayer");
+
+function addPhotoBillboard(c, p, t, n) {
+  const g = new THREE.Group();
+  g.position.copy(p).addScaledVector(n, 28).addScaledVector(t, c.wp % 2 ? 24 : -24);
+  g.lookAt(p.x, 6, p.z);
+  scene.add(g);
+  for (const x of [-7.1, 7.1]) cyl(g, 0.22, 7, 0x4a4038, x, 3.5, 0);
+  box(g, 16, 10, 0.45, 0x4a3728, 0, 8.7, 0);
+  const photo = new THREE.Mesh(new THREE.PlaneGeometry(15, 8.5), new THREE.MeshBasicMaterial({ color: 0x182127, side: THREE.DoubleSide }));
+  photo.position.set(0, 9, 0.24);
+  g.add(photo);
+  textureLoader.load(c.photo, texture => {
+    if ("colorSpace" in texture && THREE.SRGBColorSpace) texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    photo.material.map = texture;
+    photo.material.color.setHex(0xffffff);
+    photo.material.needsUpdate = true;
+  });
+  const credit = new THREE.Mesh(new THREE.PlaneGeometry(15, 1.05), mediaCaption(c.photoCredit));
+  credit.position.set(0, 4.2, 0.25);
+  g.add(credit);
+  registerGroupColliders(g);
+}
+
+function addVideoBillboard(c, p, t, n) {
+  const g = new THREE.Group();
+  g.position.copy(p).addScaledVector(n, -38).addScaledVector(t, c.wp % 2 ? -24 : 24);
+  g.lookAt(p.x, 6, p.z);
+  scene.add(g);
+  for (const x of [-8.6, 8.6]) cyl(g, 0.24, 8, 0x3a3f45, x, 4, 0);
+  box(g, 19, 11, 0.5, 0x20272b, 0, 9.5, 0);
+  const screen = new THREE.Mesh(new THREE.PlaneGeometry(18, 10.1), new THREE.MeshBasicMaterial({ color: 0x080b0d, side: THREE.DoubleSide }));
+  screen.position.set(0, 9.7, 0.28);
+  g.add(screen);
+  const el = document.createElement("div");
+  el.className = "videoBillboard";
+  const iframe = document.createElement("iframe");
+  iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+  iframe.title = c.stop + " video";
+  const title = document.createElement("div");
+  title.textContent = c.stop + " · YouTube";
+  el.append(iframe, title);
+  videoLayer.append(el);
+  videoBoards.push({ c, screen, el, iframe, loaded: false });
+  registerGroupColliders(g);
+}
+
 function buildPortoAlegre(g) {
   flat(g, 560, 300, 0x3e6e8c, 0, 0.04, -260);
   box(g, 48, 16, 15, 0xe6e0d1, 0, 8, -28);
@@ -758,30 +874,37 @@ function buildTorres(g) {
 const cities = [
   {
     name: "Porto Alegre", stop: "Porto Alegre", sign: "Porto Alegre", wp: 0, clear: 500, build: buildPortoAlegre,
+    photo: "assets/places/porto-alegre.jpg", photoCredit: "Lechatjaune · CC BY-SA 3.0", video: "MTrPJ4YgBSo",
     info: "Capital of Rio Grande do Sul on the Guaíba. The 1928 Usina do Gasômetro, the Mercado Público open since 1869, the revitalized Orla do Guaíba, the green Parque Farroupilha and the white Fundação Iberê Camargo by Álvaro Siza."
   },
   {
     name: "Gramado", stop: "Gramado", sign: "Gramado", wp: 2, clear: 300, build: buildGramado,
+    photo: "assets/places/gramado.jpg", photoCredit: "Jrbresolin · CC BY-SA 3.0", video: "78H0z4N8cVc",
     info: "Serra Gaúcha town of chalets and hydrangeas. Lago Negro framed by Black Forest pines, the Mini Mundo miniature park, the winding Rua Torta, the basalt Igreja Matriz São Pedro and the Palácio dos Festivais of the film festival."
   },
   {
     name: "Canela", stop: "Canela", sign: "Canela", wp: 3, clear: 320, build: buildCanela,
+    photo: "assets/places/canela.jpg", photoCredit: "Adelano Lázaro · Public domain", video: "fg8vpO3Ki64",
     info: "The Gothic Catedral de Pedra rises over town. Around it, the 131 meter Cascata do Caracol, the glass Skyglass platform over the Vale da Ferradura, the alpine slides of Alpen Park and the horseshoe canyon of Parque da Ferradura."
   },
   {
     name: "São Miguel das Missões", stop: "São Miguel das Missões", sign: "São Miguel", wp: 5, clear: 300, build: buildMissoes,
+    photo: "assets/places/missoes.jpg", photoCredit: "Goldemberg Fonseca · CC BY 2.0", video: "-kGXT0Trv0E",
     info: "UNESCO ruins of São Miguel Arcanjo, red sandstone heart of the Jesuit-Guarani missions. The nightly Som e Luz show, the Museu das Missões by Lúcio Costa, the original Fonte Missioneira and the pilgrimage Santuário do Caaró."
   },
   {
     name: "Uruguaiana · Fronteira Argentina", stop: "Uruguaiana (Argentina)", sign: "Uruguaiana", wp: 7, clear: 500, build: buildUruguaiana,
+    photo: "assets/places/uruguaiana.jpg", photoCredit: "Mauricio V. Genta · CC BY-SA 4.0", video: "lCOszhoc0rg",
     info: "Border hub on the Uruguay River: the 1945 Ponte Getúlio Vargas to Paso de los Libres, the Ponte da Integração, the Catedral de Sant'Ana, the Praça Barão do Rio Branco and the tri-border Ilha Brasileira."
   },
   {
     name: "Chuí · Fronteira Uruguai", stop: "Chuí (Uruguay)", sign: "Chuí", wp: 9, clear: 320, build: buildChui,
+    photo: "assets/places/chui.jpg", photoCredit: "Aranha Márcio Eliese · CC BY-SA 3.0", video: "yPeQsBZgqCg",
     info: "Southernmost city of Brazil, split down the Avenida Internacional with Chuy, Uruguay. The Farol do Chuí, the Spanish Forte de São Miguel, the star-shaped Fortaleza de Santa Teresa and the duty free corridor."
   },
   {
     name: "Torres", stop: "Torres", sign: "Torres", wp: 11, clear: 500, build: buildTorres,
+    photo: "assets/places/torres.jpg", photoCredit: "Paulo Hopper · CC BY-SA 4.0", video: "ge5WusKgA40",
     info: "Where basalt cliffs meet the Atlantic: the towers of Parque da Guarita, the lighthouse on Morro do Farol, the sea lion refuge of Ilha dos Lobos, Praia da Cal between the cliffs and the Ponte Pênsil over the Mampituba."
   }
 ];
@@ -798,6 +921,7 @@ for (const c of cities) {
   scene.add(g);
   c.build(g);
   c.origin = g.position;
+  registerGroupColliders(g);
   const plat = new THREE.Mesh(new THREE.BoxGeometry(5, 0.8, 46), lam(0xb7ac97));
   plat.position.copy(p).addScaledVector(n, 6.8);
   plat.position.y = 0.4;
@@ -813,12 +937,14 @@ for (const c of cities) {
     post.position.copy(sign.position).addScaledVector(t, s);
     post.position.y = 2.2;
     scene.add(post);
+    registerCircleCollider(post.position.x, post.position.z, 0.3);
   }
   for (const s of [-16, 16]) {
     const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 6.4, 8), lam(0x3a3f45));
     pole.position.copy(p).addScaledVector(n, 9).addScaledVector(t, s);
     pole.position.y = 3.2;
     scene.add(pole);
+    registerCircleCollider(pole.position.x, pole.position.z, 0.3);
     const head = new THREE.Mesh(new THREE.SphereGeometry(0.42, 10, 8), new THREE.MeshBasicMaterial({ color: 0x4a4238 }));
     head.position.copy(pole.position);
     head.position.y = 6.6;
@@ -830,6 +956,8 @@ for (const c of cities) {
   light.position.y = 6.2;
   scene.add(light);
   lampLights.push(light);
+  addPhotoBillboard(c, p, t, n);
+  addVideoBillboard(c, p, t, n);
 }
 
 function vegOk(x, z, margin) {
@@ -842,7 +970,8 @@ const VEG = [
   [new THREE.CylinderGeometry(0.32, 0.46, 8.6, 7), 4.3, new THREE.ConeGeometry(4.3, 2.9, 9), 9.5, 0x2f5b34, 1000],
   [new THREE.CylinderGeometry(0.28, 0.4, 4.4, 7), 2.2, new THREE.ConeGeometry(3.1, 9.5, 8), 8.4, 0x39633a, 800],
   [new THREE.CylinderGeometry(0.34, 0.5, 5, 7), 2.5, new THREE.SphereGeometry(3.3, 10, 8), 7.6, 0x4a7440, 700],
-  [new THREE.CylinderGeometry(0.42, 0.62, 17, 7), 8.5, new THREE.ConeGeometry(6.2, 3.2, 9), 17.4, 0x244d2b, 340]
+  [new THREE.CylinderGeometry(0.42, 0.62, 17, 7), 8.5, new THREE.ConeGeometry(6.2, 3.2, 9), 17.4, 0x244d2b, 340],
+  [new THREE.CylinderGeometry(0.24, 0.38, 7.4, 7), 3.7, new THREE.SphereGeometry(2.3, 9, 7), 8.1, 0x3d7345, 420]
 ];
 for (const [tg, ty, cg, cy, cc, n] of VEG) {
   const trunks = new THREE.InstancedMesh(tg, lam(0x6b4a33), n);
@@ -868,13 +997,14 @@ for (const [tg, ty, cg, cy, cc, n] of VEG) {
     dummy.position.y = cy * sc;
     dummy.updateMatrix();
     tops.setMatrixAt(count, dummy.matrix);
+    registerCircleCollider(x, z, Math.max(0.65, sc * 0.55));
     count++;
   }
   trunks.count = count;
   tops.count = count;
   scene.add(trunks, tops);
 }
-const BUSHES = 900;
+const BUSHES = 1200;
 const bushes = new THREE.InstancedMesh(new THREE.SphereGeometry(1.5, 8, 6), lam(0x557f3f), BUSHES);
 let bushCount = 0;
 for (let tr = 0; tr < BUSHES * 8 && bushCount < BUSHES; tr++) {
@@ -906,10 +1036,11 @@ while (made < 12 && tries < 500) {
   const m = new THREE.Mesh(new THREE.ConeGeometry(r, h, 7), lam(0x5e7f52));
   m.position.set(x, h / 2 - 2, z);
   scene.add(m);
+  registerCircleCollider(x, z, r * 0.72);
   made++;
 }
 
-const GRASS = 1100;
+const GRASS = 1500;
 const grass = new THREE.InstancedMesh(new THREE.ConeGeometry(0.45, 3.4, 5), lam(0xcabb86), GRASS);
 let grassCount = 0;
 for (let tr = 0; tr < GRASS * 8 && grassCount < GRASS; tr++) {
@@ -988,6 +1119,31 @@ function makeLapwing() {
   return g;
 }
 
+function makeDeer() {
+  const g = new THREE.Group();
+  box(g, 0.8, 1.0, 2.0, 0x7a5030, 0, 1.65, 0);
+  const neck = box(g, 0.45, 1.35, 0.45, 0x805534, 0, 2.35, 0.8);
+  neck.rotation.x = -0.34;
+  box(g, 0.5, 0.48, 0.75, 0x805534, 0, 3.0, 1.25);
+  for (const sx of [-0.34, 0.34]) for (const sz of [-0.7, 0.7]) box(g, 0.16, 1.3, 0.16, 0x4a3020, sx, 0.65, sz);
+  for (const sx of [-0.2, 0.2]) {
+    const antler = box(g, 0.06, 0.75, 0.06, 0x5a4029, sx, 3.6, 1.35);
+    antler.rotation.z = sx * 1.8;
+  }
+  return g;
+}
+
+function makeArmadillo() {
+  const g = new THREE.Group();
+  const shell = sph(g, 0.72, 0x766b59, 0, 0.7, 0);
+  shell.scale.set(0.8, 0.65, 1.35);
+  const head = cone(g, 0.42, 0.8, 0x827561, 0, 0.62, 0.95, 7);
+  head.rotation.x = Math.PI / 2;
+  const tail = cone(g, 0.16, 1.0, 0x6d6252, 0, 0.55, -1.0, 7);
+  tail.rotation.x = -Math.PI / 2;
+  return g;
+}
+
 function scatterAnimals(templates, total, margin, clump, jitter) {
   let placed = 0, guard = 0;
   while (placed < total && guard < total * 60) {
@@ -1000,10 +1156,12 @@ function scatterAnimals(templates, total, margin, clump, jitter) {
       const z = k === 0 ? az : az + (rnd() - 0.5) * jitter;
       if (!vegOk(x, z, margin)) continue;
       const a = templates[(rnd() * templates.length) | 0].clone();
-      a.scale.setScalar(0.85 + rnd() * 0.4);
+      const sc = 0.85 + rnd() * 0.4;
+      a.scale.setScalar(sc);
       a.position.set(x, 0, z);
       a.rotation.y = rnd() * Math.PI * 2;
       scene.add(a);
+      registerCircleCollider(x, z, 1.1 * sc);
       placed++;
     }
   }
@@ -1015,6 +1173,8 @@ scatterAnimals([makeHorse(0x5a3a22), makeHorse(0x2e2018)], 16, 22, 3, 22);
 scatterAnimals([makeRhea()], 12, 20, 2, 20);
 scatterAnimals([makeCapybara()], 12, 20, 4, 16);
 scatterAnimals([makeLapwing()], 24, 8, 2, 26);
+scatterAnimals([makeDeer()], 14, 18, 3, 22);
+scatterAnimals([makeArmadillo()], 18, 12, 2, 18);
 
 const windmillRotors = [];
 function makeWindmill() {
@@ -1045,6 +1205,7 @@ while (wmPlaced < 9 && wmGuard < 400) {
   g.position.set(x, 0, z);
   g.rotation.y = rnd() * Math.PI * 2;
   scene.add(g);
+  registerCircleCollider(x, z, 1.2);
   wmPlaced++;
 }
 
@@ -1059,6 +1220,7 @@ function fenceLine(x, z, ang, segs) {
     g.add(rail);
   }
   scene.add(g);
+  for (let d = 0; d <= len; d += 1.25) registerCircleCollider(x + dx * d, z + dz * d, 0.45);
 }
 let fnPlaced = 0, fnGuard = 0;
 while (fnPlaced < 12 && fnGuard < 500) {
@@ -1209,22 +1371,27 @@ const rain = new THREE.LineSegments(rainGeo, new THREE.LineBasicMaterial({ color
 rain.frustumCulled = false;
 scene.add(rain);
 
-let raining = false, rainLevel = 0, weatherTimer = 26;
+let weatherMode = "rain", weatherActive = false, weatherManual = false;
+let rainLevel = 0, fogLevel = 0, weatherTimer = 26;
 
 function updateWeather(dt) {
-  weatherTimer -= dt;
-  if (weatherTimer <= 0) {
-    if (raining) {
-      raining = false;
+  if (!weatherManual) weatherTimer -= dt;
+  if (!weatherManual && weatherTimer <= 0) {
+    if (weatherActive) {
+      weatherActive = false;
       weatherTimer = 35 + Math.random() * 40;
     } else if (Math.random() < 0.6) {
-      raining = true;
+      weatherActive = true;
+      weatherMode = Math.random() < 0.72 ? "rain" : "fog";
       weatherTimer = 22 + Math.random() * 25;
     } else {
       weatherTimer = 12;
     }
   }
-  rainLevel += ((raining ? 1 : 0) - rainLevel) * Math.min(1, dt * 0.5);
+  const rainTarget = weatherActive && weatherMode === "rain" ? 1 : 0;
+  const fogTarget = weatherActive && weatherMode === "fog" ? 1 : 0;
+  rainLevel += (rainTarget - rainLevel) * Math.min(1, dt * 0.7);
+  fogLevel += (fogTarget - fogLevel) * Math.min(1, dt * 0.55);
   rain.material.opacity = 0.55 * rainLevel;
   rain.visible = rainLevel > 0.02;
   if (!rain.visible) return;
@@ -1253,6 +1420,30 @@ const duskSun = new THREE.Color(0xff9a5a);
 const sky = new THREE.Color();
 scene.background = sky;
 
+const switchButtons = [...document.querySelectorAll("[data-switch]")];
+for (const button of switchButtons) button.addEventListener("click", () => {
+  const kind = button.dataset.switch;
+  if (kind === "time") {
+    const target = daylight > 0.4 ? 0 : 0.5;
+    elapsed = ((target - tod0 + 1) % 1) * DAY;
+  } else if (kind === "weather") {
+    weatherMode = weatherMode === "rain" ? "fog" : "rain";
+    weatherManual = true;
+  } else {
+    weatherActive = !weatherActive;
+    weatherManual = true;
+  }
+});
+
+function updateEnvironmentControls() {
+  for (const button of switchButtons) {
+    const value = button.querySelector("strong");
+    if (button.dataset.switch === "time") value.textContent = daylight > 0.4 ? "Day" : "Night";
+    if (button.dataset.switch === "weather") value.textContent = weatherMode === "rain" ? "Rain" : "Fog";
+    if (button.dataset.switch === "sky") value.textContent = weatherActive ? "Rainy" : "Sunny";
+  }
+}
+
 function updateSky() {
   dayFrac = (tod0 + elapsed / DAY) % 1;
   const s = Math.sin((dayFrac - 0.25) * Math.PI * 2);
@@ -1260,19 +1451,21 @@ function updateSky() {
   const duskAmt = Math.max(0, 1 - Math.abs(s) / 0.32);
   sky.copy(colNight).lerp(colDay, daylight);
   sky.lerp(colDusk, duskAmt * 0.55);
-  sky.lerp(colRain, rainLevel * (0.15 + 0.6 * daylight));
+  const weatherLevel = Math.max(rainLevel, fogLevel);
+  sky.lerp(colRain, weatherLevel * (0.15 + 0.6 * daylight));
   scene.fog.color.copy(sky);
-  scene.fog.far = 1900 - rainLevel * 900;
+  scene.fog.near = 220 - fogLevel * 180;
+  scene.fog.far = 1900 - rainLevel * 900 - fogLevel * 1380;
   const ang = (dayFrac - 0.25) * Math.PI * 2;
   sun.position.set(Math.cos(ang) * 900, Math.sin(ang) * 900, 350);
-  sun.intensity = daylight * 2.4 * (1 - 0.55 * rainLevel);
+  sun.intensity = daylight * 2.4 * (1 - 0.55 * weatherLevel);
   sun.color.setHex(0xffffff).lerp(duskSun, duskAmt * 0.8);
-  hemi.intensity = 0.18 + daylight * (1 - 0.4 * rainLevel);
-  starMat.opacity = (1 - daylight) ** 2 * (1 - rainLevel) * 0.9;
+  hemi.intensity = 0.18 + daylight * (1 - 0.4 * weatherLevel);
+  starMat.opacity = (1 - daylight) ** 2 * (1 - weatherLevel) * 0.9;
   const night = 1 - daylight;
   for (const l of lampLights) l.intensity = night * 60;
   for (const h of lampHeads) h.material.color.setHex(night > 0.4 ? 0xffd9a0 : 0x4a4238);
-  head.intensity = Math.min(1, night + rainLevel * 0.5) * 950;
+  head.intensity = Math.min(1, night + weatherLevel * 0.5) * 950;
 }
 
 let audioCtx = null, masterGain = null, chugGain = null, chugFilter = null, rainGain = null;
@@ -1436,6 +1629,28 @@ canvas.addEventListener("click", () => {
 });
 
 const euler = new THREE.Euler(0, 0, 0, "YXZ");
+const localWalker = new THREE.Vector3();
+
+function trainBlocks(v) {
+  for (const car of cars) {
+    car.updateMatrixWorld(true);
+    localWalker.copy(v);
+    car.worldToLocal(localWalker);
+    if (Math.abs(localWalker.x) < 2.1 && Math.abs(localWalker.z) < 5.2) return true;
+  }
+  return false;
+}
+
+function moveWalker(delta) {
+  const next = walker.pos.clone();
+  next.x += delta.x;
+  if (!blockedAt(next) && !trainBlocks(next)) walker.pos.x = next.x;
+  next.copy(walker.pos);
+  next.z += delta.z;
+  if (!blockedAt(next) && !trainBlocks(next)) walker.pos.z = next.z;
+  if (walker.pos.length() > 3100) walker.pos.setLength(3100);
+  walker.pos.y = 2;
+}
 
 function updateWalk(dt) {
   const run = keys.has("ShiftLeft") || keys.has("ShiftRight");
@@ -1448,9 +1663,7 @@ function updateWalk(dt) {
   if (keys.has("KeyA")) mv.sub(r);
   if (mv.lengthSq() > 0) {
     mv.normalize();
-    walker.pos.addScaledVector(mv, (run ? 26 : 12) * dt);
-    if (walker.pos.length() > 3100) walker.pos.setLength(3100);
-    walker.pos.y = 2;
+    moveWalker(mv.multiplyScalar((run ? 26 : 12) * dt));
   }
   camera.position.copy(walker.pos);
   euler.set(walker.pitch, walker.yaw, 0);
@@ -1476,6 +1689,69 @@ function updateCamera(dt) {
   look.y = 3;
   camLook.lerp(look, k);
   camera.lookAt(camLook);
+}
+
+const boardCenter = new THREE.Vector3();
+const boardTopLeft = new THREE.Vector3();
+const boardTopRight = new THREE.Vector3();
+const boardBottomLeft = new THREE.Vector3();
+const cameraDirection = new THREE.Vector3();
+
+function projectBoardPoint(v) {
+  v.project(camera);
+  v.x = (v.x * 0.5 + 0.5) * innerWidth;
+  v.y = (-v.y * 0.5 + 0.5) * innerHeight;
+}
+
+function updateVideoBoards() {
+  camera.getWorldDirection(cameraDirection);
+  let active = null, activeDistance = Infinity;
+  for (const board of videoBoards) {
+    board.screen.updateWorldMatrix(true, false);
+    board.screen.getWorldPosition(boardCenter);
+    const distance = boardCenter.distanceTo(camera.position);
+    const facing = boardCenter.clone().sub(camera.position).dot(cameraDirection) > 0;
+    if (distance < 330 && distance < activeDistance && facing) {
+      active = board;
+      activeDistance = distance;
+    }
+  }
+  for (const board of videoBoards) {
+    if (board !== active) {
+      board.el.style.display = "none";
+      if (board.loaded) {
+        board.iframe.removeAttribute("src");
+        board.loaded = false;
+      }
+      continue;
+    }
+    boardTopLeft.set(-9, 5.05, 0);
+    boardTopRight.set(9, 5.05, 0);
+    boardBottomLeft.set(-9, -5.05, 0);
+    board.screen.localToWorld(boardTopLeft);
+    board.screen.localToWorld(boardTopRight);
+    board.screen.localToWorld(boardBottomLeft);
+    projectBoardPoint(boardTopLeft);
+    projectBoardPoint(boardTopRight);
+    projectBoardPoint(boardBottomLeft);
+    const width = boardTopLeft.distanceTo(boardTopRight);
+    const height = boardTopLeft.distanceTo(boardBottomLeft);
+    const angle = Math.atan2(boardTopRight.y - boardTopLeft.y, boardTopRight.x - boardTopLeft.x);
+    if (width < 34 || boardTopLeft.x > innerWidth || boardTopRight.x < 0 || boardTopLeft.y > innerHeight || boardBottomLeft.y < 0) {
+      board.el.style.display = "none";
+      continue;
+    }
+    board.el.style.display = "block";
+    board.el.style.left = boardTopLeft.x + "px";
+    board.el.style.top = boardTopLeft.y + "px";
+    board.el.style.width = width + "px";
+    board.el.style.height = height + "px";
+    board.el.style.transform = "rotate(" + angle + "rad)";
+    if (!board.loaded) {
+      board.iframe.src = "https://www.youtube-nocookie.com/embed/" + board.c.video + "?autoplay=1&mute=1&loop=1&playlist=" + board.c.video + "&controls=0&rel=0&playsinline=1";
+      board.loaded = true;
+    }
+  }
 }
 
 const cityName = document.getElementById("cityName");
@@ -1540,7 +1816,7 @@ function updateHud() {
   }
   const hh = Math.floor(dayFrac * 24), mm = Math.floor((dayFrac * 24 % 1) * 60);
   setHtml(clockEl, String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0"));
-  setHtml(weatherEl, raining ? "Rain over the pampa" : "Clear skies");
+  setHtml(weatherEl, weatherActive ? (weatherMode === "rain" ? "Rain over the pampa" : "Fog over the pampa") : "Sunny skies");
   setHtml(speedEl, mode === "ride" ? Math.round(speed * 2.2) + " km/h" : "on foot");
   if (mode === "ride") {
     const dNow = ((dist % trackLen) + trackLen) % trackLen;
@@ -1558,6 +1834,7 @@ function updateHud() {
     setHtml(nextEl, currentCity ? "Walking in <b>" + currentCity.stop + "</b>" : "Walking the pampa");
   }
   updateControls();
+  updateEnvironmentControls();
 }
 
 const overlay = document.getElementById("overlay");
@@ -1582,6 +1859,7 @@ function animate() {
   elapsed += dt;
   updateTrain(dt);
   updateCamera(dt);
+  updateVideoBoards();
   updateWeather(dt);
   updateSky();
   updateSmoke(dt);

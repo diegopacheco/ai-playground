@@ -7,7 +7,7 @@
 <style>
   html,body{margin:0;height:100%;overflow:hidden;background:#0b1026;font-family:"Avenir Next","Segoe UI",Helvetica,Arial,sans-serif;color:#f4ead6}
   canvas{display:block}
-  .panel{position:fixed;background:rgba(10,14,22,.58);border:1px solid rgba(244,234,214,.18);border-radius:12px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:10px 16px}
+  .panel{position:fixed;z-index:3;background:rgba(10,14,22,.58);border:1px solid rgba(244,234,214,.18);border-radius:12px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:10px 16px}
   #loc{top:22px;left:50%;transform:translateX(-50%);max-width:580px;text-align:center;opacity:0;transition:opacity .8s;pointer-events:none}
   #loc.show{opacity:1}
   #loc h1{margin:0;font:italic 700 26px Georgia,"Times New Roman",serif;color:#ffd27d;letter-spacing:.5px}
@@ -22,10 +22,20 @@
   #controls .ttl{font:italic 700 15px Georgia,"Times New Roman",serif;color:#ffd27d;margin-bottom:2px}
   #controls b{color:#ffd27d;font-weight:600;display:inline-block;min-width:58px}
   #controls .dim{opacity:.35}
+  #sceneControls{left:22px;bottom:22px;padding:10px;display:grid;grid-template-columns:repeat(3,minmax(88px,1fr));gap:7px}
+  #sceneControls button{appearance:none;border:1px solid rgba(255,210,125,.3);border-radius:8px;background:rgba(21,28,35,.78);color:#f4ead6;padding:8px 10px;min-width:88px;text-align:left;cursor:pointer;transition:border-color .2s,background .2s,transform .2s}
+  #sceneControls button:hover,#sceneControls button:focus-visible{border-color:#ffd27d;background:rgba(43,51,54,.9);outline:none;transform:translateY(-1px)}
+  #sceneControls span{display:block;color:#aebdb7;font-size:9px;letter-spacing:1.4px;text-transform:uppercase}
+  #sceneControls strong{display:block;margin-top:2px;color:#ffd27d;font:700 14px Georgia,"Times New Roman",serif}
+  #videoLayer{position:fixed;z-index:1;inset:0;pointer-events:none;overflow:hidden}
+  .videoBillboard{position:absolute;display:none;background:#080b0d;border:5px solid #4a3728;box-shadow:0 8px 30px rgba(0,0,0,.5);transform-origin:center;overflow:hidden}
+  .videoBillboard iframe{display:block;width:100%;height:100%;border:0;pointer-events:none}
+  .videoBillboard div{position:absolute;left:0;right:0;bottom:0;padding:4px 7px;background:rgba(4,7,8,.82);color:#f4ead6;font-size:9px;letter-spacing:.8px;text-transform:uppercase}
   #overlay{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at center,rgba(11,16,38,.5),rgba(7,10,24,.92));cursor:pointer;z-index:5}
   #overlay h1{font:italic 700 56px Georgia,"Times New Roman",serif;color:#ffd27d;margin:0 0 10px;text-shadow:0 2px 24px rgba(0,0,0,.6)}
   #overlay p{max-width:660px;margin:6px 24px;font-size:15px;line-height:1.65;color:#e9ddc4}
   #overlay span{margin-top:28px;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:#dfe6da;border:1px solid rgba(244,234,214,.4);border-radius:999px;padding:11px 30px}
+  @media(max-width:760px){#sceneControls{left:12px;right:12px;bottom:12px}#controls{display:none}#status{top:12px;right:12px}#next{right:12px;bottom:92px}#loc{top:12px;width:calc(100% - 210px)}#loc h1{font-size:19px}}
 </style>
 </head>
 <body>
@@ -34,6 +44,12 @@
 <div id="status" class="panel"><span id="clock"></span><span id="weather"></span><span id="speed"></span></div>
 <div id="next" class="panel"></div>
 <div id="controls" class="panel"></div>
+<div id="sceneControls" class="panel">
+  <button type="button" data-switch="time"><span>Time</span><strong>Day</strong></button>
+  <button type="button" data-switch="weather"><span>Weather</span><strong>Rain</strong></button>
+  <button type="button" data-switch="sky"><span>Sky</span><strong>Sunny</strong></button>
+</div>
+<div id="videoLayer"></div>
 <div id="overlay">
   <h1>Trem do Rio Grande</h1>
   <p>A steam ride across Rio Grande do Sul, Brazil: Porto Alegre, Gramado, Canela, the Jesuit Missões, the borders with Argentina and Uruguay, and the cliffs of Torres. Every stop has its real landmarks, signed by name. Days turn into nights, rain sweeps the pampa. Stop the train, step off and walk among them. The engine chugs and whistles, arrows change the speed, drag the mouse to look around, M silences it all.</p>
