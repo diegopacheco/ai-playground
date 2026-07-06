@@ -1,0 +1,19 @@
+agents/.playwright-mcp/page-2026-07-06T21-56-23-652Z.yml
+  s_ecd9a43f9c4f73::t_91a7e0e367cc87 1-655
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "25d1a0c7f901c9f06801bc3e8fcbc35a88963860",
+  "prompts": {},
+  "sessions": {
+    "s_ecd9a43f9c4f73": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "994c4b6a-6dbb-4f5c-8de3-a3d7bd3fb6d7",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
