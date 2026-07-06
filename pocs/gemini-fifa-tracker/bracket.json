@@ -62,51 +62,51 @@
       "id": "qf-1",
       "team1": "Morocco",
       "team2": "France",
-      "winner": null,
-      "loser": null
+      "winner": "France",
+      "loser": "Morocco"
     },
     {
       "id": "qf-2",
       "team1": "Norway",
       "team2": "England",
-      "winner": null,
-      "loser": null
+      "winner": "England",
+      "loser": "Norway"
     },
     {
       "id": "qf-3",
       "team1": "Spain",
       "team2": "USA",
-      "winner": null,
-      "loser": null
+      "winner": "Spain",
+      "loser": "USA"
     },
     {
       "id": "qf-4",
       "team1": "Argentina",
       "team2": "Colombia",
-      "winner": null,
-      "loser": null
+      "winner": "Argentina",
+      "loser": "Colombia"
     }
   ],
   "semifinals": [
     {
       "id": "sf-1",
-      "team1": "",
-      "team2": "",
-      "winner": null,
-      "loser": null
+      "team1": "France",
+      "team2": "England",
+      "winner": "France",
+      "loser": "England"
     },
     {
       "id": "sf-2",
-      "team1": "",
-      "team2": "",
-      "winner": null,
-      "loser": null
+      "team1": "Spain",
+      "team2": "Argentina",
+      "winner": "Argentina",
+      "loser": "Spain"
     }
   ],
   "final": {
     "id": "f-1",
-    "team1": "",
-    "team2": "",
+    "team1": "France",
+    "team2": "Argentina",
     "winner": null,
     "loser": null
   }
