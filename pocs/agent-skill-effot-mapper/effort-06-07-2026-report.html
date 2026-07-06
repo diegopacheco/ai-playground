@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Effort Map — fable-5-train-ride-rs</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f6f7fb; color:#1e2230; line-height:1.55; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 40px 24px 72px; }
+  header { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:32px; }
+  h1 { font-size: 2rem; margin:0; letter-spacing:-.02em; }
+  h1 span { color:#6366f1; }
+  .meta { color:#6b7280; font-size:.9rem; }
+  .badge { display:inline-block; background:#eef2ff; color:#4338ca; border-radius:999px;
+    padding:4px 12px; font-size:.78rem; font-weight:600; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-bottom:36px; }
+  .stat { background:#fff; border:1px solid #e7e9f2; border-radius:16px; padding:20px 22px;
+    box-shadow:0 1px 2px rgba(20,24,50,.04); }
+  .stat .k { font-size:.76rem; text-transform:uppercase; letter-spacing:.06em; color:#8a90a6; font-weight:600; }
+  .stat .v { font-size:1.9rem; font-weight:700; margin-top:6px; letter-spacing:-.02em; }
+  .stat .sub { font-size:.8rem; color:#9aa0b4; margin-top:2px; }
+  .timebar { height:10px; background:#eef0f7; border-radius:999px; overflow:hidden; margin-top:10px; }
+  .timebar-fill { height:100%; background:linear-gradient(90deg,#10b981,#059669); border-radius:999px; }
+  .timebar-label { font-size:.8rem; color:#6b7280; }
+  h2 { font-size:1.15rem; margin:8px 0 18px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; }
+  .card { display:flex; gap:18px; align-items:center; background:#fff; border:1px solid #e7e9f2;
+    border-radius:18px; padding:20px; box-shadow:0 1px 2px rgba(20,24,50,.04); }
+  .card-ring { flex:0 0 96px; }
+  .ring { width:96px; height:96px; }
+  .ring-bg { fill:none; stroke:#eef0f7; stroke-width:12; }
+  .ring-num { font-size:34px; font-weight:700; text-anchor:middle; fill:#1e2230; }
+  .ring-pct { font-size:14px; text-anchor:middle; fill:#9aa0b4; }
+  .card-head { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .card h3 { margin:0; font-size:1.05rem; }
+  .stars { font-size:.95rem; letter-spacing:1px; }
+  .score5 { margin:2px 0 6px; font-size:.8rem; color:#9aa0b4; font-weight:600; }
+  .why { margin:0; font-size:.9rem; color:#4b5165; }
+  section { margin-top:40px; }
+  .prompts { background:#fff; border:1px solid #e7e9f2; border-radius:16px; padding:16px 16px 16px 40px;
+    margin:0; max-height:420px; overflow:auto; }
+  .prompts li { padding:8px 4px; border-bottom:1px dashed #edeff3; font-size:.9rem; }
+  .prompts li:last-child { border-bottom:none; }
+  .empty { color:#9aa0b4; }
+  footer { margin-top:48px; text-align:center; color:#9aa0b4; font-size:.8rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Effort <span>Map</span></h1>
+      <p class="meta">fable-5-train-ride-rs · scored from Claude sessions · 2026-07-06</p>
+    </div>
+    <span class="badge">4 sessions analyzed</span>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Prompts</div><div class="v">3</div><div class="sub">captured across sessions</div></div>
+    <div class="stat"><div class="k">Avg tokens / session</div><div class="v">5.9M</div><div class="sub">23.5M total</div></div>
+    <div class="stat"><div class="k">Avg time / session</div><div class="v">14.5m</div><div class="timebar"><div class="timebar-fill" style="width:24%"></div></div>
+      <span class="timebar-label">14.5 min / session</span></div>
+    <div class="stat"><div class="k">Agent</div><div class="v" style="font-size:1.4rem">Claude</div><div class="sub">fable-5-train-ride-rs</div></div>
+  </div>
+
+  <h2>Effort scorecard</h2>
+  <div class="grid"><article class="card">
+      <div class="card-ring" style="--accent:#6366f1"><svg viewBox="0 0 128 128" class="ring" role="img" aria-label="83 percent">
+      <circle cx="64" cy="64" r="52" class="ring-bg"/>
+      <circle cx="64" cy="64" r="52" stroke="#6366f1" stroke-width="12" fill="none"
+        stroke-linecap="round" stroke-dasharray="326.73" stroke-dashoffset="55.54"
+        transform="rotate(-90 64 64)"/>
+      <text x="64" y="60" class="ring-num">83</text>
+      <text x="64" y="82" class="ring-pct">%</text>
+    </svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Effort</h3><span class="stars" style="color:#6366f1">★★★★☆</span></div>
+        <p class="score5">4/5</p>
+        <p class="why">Four sessions and 58 minutes across three feature rounds, driven by a Playwright verify loop that re-checked day/night at multiple tod values, walking off the train, and rain before each fix landed.</p>
+      </div>
+    </article><article class="card">
+      <div class="card-ring" style="--accent:#ef4444"><svg viewBox="0 0 128 128" class="ring" role="img" aria-label="38 percent">
+      <circle cx="64" cy="64" r="52" class="ring-bg"/>
+      <circle cx="64" cy="64" r="52" stroke="#ef4444" stroke-width="12" fill="none"
+        stroke-linecap="round" stroke-dasharray="326.73" stroke-dashoffset="202.57"
+        transform="rotate(-90 64 64)"/>
+      <text x="64" y="60" class="ring-num">38</text>
+      <text x="64" y="82" class="ring-pct">%</text>
+    </svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Bugs</h3><span class="stars" style="color:#ef4444">★★☆☆☆</span></div>
+        <p class="score5">2/5</p>
+        <p class="why">A handful of real defects surfaced and were fixed quickly - pointer-lock rejected on the wrong root document, a null innerText TypeError in an eval, and a favicon 404 - but none dominated the sessions.</p>
+      </div>
+    </article><article class="card">
+      <div class="card-ring" style="--accent:#10b981"><svg viewBox="0 0 128 128" class="ring" role="img" aria-label="86 percent">
+      <circle cx="64" cy="64" r="52" class="ring-bg"/>
+      <circle cx="64" cy="64" r="52" stroke="#10b981" stroke-width="12" fill="none"
+        stroke-linecap="round" stroke-dasharray="326.73" stroke-dashoffset="45.74"
+        transform="rotate(-90 64 64)"/>
+      <text x="64" y="60" class="ring-num">86</text>
+      <text x="64" y="82" class="ring-pct">%</text>
+    </svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Experience</h3><span class="stars" style="color:#10b981">★★★★☆</span></div>
+        <p class="score5">4/5</p>
+        <p class="why">The user pushed hard on feel - HUD commands pinned to the left corner, walk-off-train, day/night/rain, engine chug and whistle audio, and dozens of named real landmarks - and each was tuned against screenshots.</p>
+      </div>
+    </article><article class="card">
+      <div class="card-ring" style="--accent:#f59e0b"><svg viewBox="0 0 128 128" class="ring" role="img" aria-label="57 percent">
+      <circle cx="64" cy="64" r="52" class="ring-bg"/>
+      <circle cx="64" cy="64" r="52" stroke="#f59e0b" stroke-width="12" fill="none"
+        stroke-linecap="round" stroke-dasharray="326.73" stroke-dashoffset="140.49"
+        transform="rotate(-90 64 64)"/>
+      <text x="64" y="60" class="ring-num">57</text>
+      <text x="64" y="82" class="ring-pct">%</text>
+    </svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Architecture</h3><span class="stars" style="color:#f59e0b">★★★☆☆</span></div>
+        <p class="score5">3/5</p>
+        <p class="why">Deliberate zero-framework vanilla three.js with a seeded RNG and no build step, but the whole world lives in one 1256-line procedural main.js with little modular separation.</p>
+      </div>
+    </article><article class="card">
+      <div class="card-ring" style="--accent:#8b5cf6"><svg viewBox="0 0 128 128" class="ring" role="img" aria-label="12 percent">
+      <circle cx="64" cy="64" r="52" class="ring-bg"/>
+      <circle cx="64" cy="64" r="52" stroke="#8b5cf6" stroke-width="12" fill="none"
+        stroke-linecap="round" stroke-dasharray="326.73" stroke-dashoffset="287.52"
+        transform="rotate(-90 64 64)"/>
+      <text x="64" y="60" class="ring-num">12</text>
+      <text x="64" y="82" class="ring-pct">%</text>
+    </svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Copy Slop</h3><span class="stars" style="color:#8b5cf6">★☆☆☆☆</span></div>
+        <p class="score5">1/5</p>
+        <p class="why">Everything is hand-built for the real Rio Grande do Sul geography - custom WebAudio synthesis, signed 3D landmarks, seeded procedural terrain - with no template or copied scene reused.</p>
+      </div>
+    </article></div>
+
+  <section>
+    <h2>Prompts (3)</h2>
+    <ol class='prompts'><li>you will build a 3D web train ride game, where you will ride a train on the state of rio grande do sul brazil, you should ride through gramado, canela, porto alegre, missoes, fronteira with uruguay, fronteira with argentina. must have a start/stop script. make the readme simple, no ascii art, no diagrams, only 1 print screen with explanations. make the ride memorable and relatable to history landmarks of the cities I mentioned. after time make day and night happen, rain. allow the user stop/start the train and walk on the cities.</li><li>its all working good - but I need way more landmarks per city - also need to be able to get out of the train when stopped and all commands should be displayed on left corner - more vegetation - more landmarks (and bigger) like: [detailed real landmark list per city - Porto Alegre, Gramado, Canela, Missoes, Torres, Fronteira Uruguay-Chui, Fronteira Argentina]</li><li>can you add pictures of rio grande do sul in some buildings (related to the landmark of same city), also could you add more vegetation, animals (from rio grande do sul) and more details. dont loose content, dont retake print screens.</li></ol>
+  </section>
+
+  <footer>Generated by the effort-map skill · 2026-07-06</footer>
+</div>
+</body>
+</html>
