@@ -1,0 +1,19 @@
+pocs/agent-skill-effot-mapper/effort-06-07-2026-report.html
+  s_4bb58163e4b9bf::t_bc930d1ca6fdc4 1-150
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "bf4a9f73dbeb47f7075f30ad803f1f97de0ca6c7",
+  "prompts": {},
+  "sessions": {
+    "s_4bb58163e4b9bf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f38df-eda7-7251-8a00-6ed978bec7e1",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
