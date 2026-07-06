@@ -16,7 +16,7 @@ type WikiPage = {
   title: string
   missing?: boolean
   thumbnail?: { source: string }
-  pageprops?: { wikibase_item?: string }
+  pageprops?: { wikibase_item?: string; disambiguation?: string }
   extract?: string
 }
 
@@ -61,7 +61,7 @@ const resolvePages = async (targets: Target[], fallback: boolean) => {
     const redirected = aliases.get(title.toLowerCase())
     if (redirected) title = redirected
     const page = pages.get(title.toLowerCase())
-    if (page && !page.missing) result.set(target.id, page)
+    if (page && !page.missing && page.pageprops?.disambiguation === undefined) result.set(target.id, page)
   })
   return result
 }
@@ -149,6 +149,7 @@ const needsArtwork = (poster: string | null) => !poster || !poster.includes("med
 
 const summarize = (extract: string | undefined) => {
   const text = extract?.trim().replace(/\s+/g, " ") || ""
+  if (/\bmay refer to:?/i.test(text.slice(0, 150))) return ""
   if (text.length <= 360) return text
   const sentences = text.match(/[^.!?]+[.!?]+/g) || []
   let result = ""

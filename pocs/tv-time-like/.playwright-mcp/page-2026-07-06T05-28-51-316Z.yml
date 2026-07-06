@@ -1,0 +1,339 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "Reelmark home" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - generic "Reelmark home" [ref=e6]:
+        - generic [ref=e11]: reelmark
+    - navigation "Main navigation" [ref=e12]:
+      - link "Discover" [ref=e13] [cursor=pointer]:
+        - /url: /
+        - img [ref=e14]
+        - generic [ref=e17]: Discover
+      - link "My library" [ref=e18] [cursor=pointer]:
+        - /url: /library
+        - img [ref=e19]
+        - generic [ref=e22]: My library
+      - link "Metrics" [ref=e23] [cursor=pointer]:
+        - /url: /metrics
+        - img [ref=e24]
+        - generic [ref=e26]: Metrics
+    - generic [ref=e27]:
+      - generic [ref=e28]: DP
+      - generic [ref=e29]:
+        - strong [ref=e30]: Your journal
+        - generic [ref=e31]: Private collection
+  - main [ref=e32]:
+    - generic [ref=e294]:
+      - generic [ref=e295]:
+        - generic [ref=e296]:
+          - text: Collected & remembered
+          - heading "My library" [level=1] [ref=e297]
+          - paragraph [ref=e298]: Every title you are watching, finished or saving for later.
+        - generic [ref=e299]:
+          - button "Refresh artwork" [ref=e300] [cursor=pointer]:
+            - img [ref=e301]
+            - text: Refresh artwork
+          - button "Import TV Time" [ref=e304] [cursor=pointer]:
+            - img [ref=e305]
+            - text: Import TV Time
+      - generic [ref=e308]:
+        - generic [ref=e309]:
+          - button "Everything" [ref=e310] [cursor=pointer]
+          - button "Movies" [ref=e311] [cursor=pointer]
+          - button "TV shows" [ref=e312] [cursor=pointer]
+          - button "W.I.P" [ref=e313] [cursor=pointer]
+        - generic [ref=e314]:
+          - img [ref=e315]
+          - textbox [ref=e318]:
+            - /placeholder: Filter your library
+        - generic [ref=e319]:
+          - generic [ref=e320]: Sort
+          - combobox "Sort" [ref=e321]:
+            - option "Alphabetical"
+            - option "Reverse alphabetical"
+            - option "Recently added"
+            - option "Oldest added"
+            - option "Release date" [selected]
+            - option "Highest progress"
+        - generic [ref=e322]: 1475 titles
+      - generic [ref=e323]:
+        - article [ref=e324]:
+          - button "Open Anne Rice's The Vampire Lestat" [ref=e325] [cursor=pointer]:
+            - img "Anne Rice's The Vampire Lestat poster" [ref=e327]
+            - generic [ref=e328]: The Vampire Lestat goes on tour while being haunted by "muses" from his past. As the band's popularity grows, so does Lestat's influence over vampires &amp; humans alike, leaving others to contend with Lestat's power in the face of the Great Conversion.
+            - generic [ref=e329]: 7 episodes
+          - button "Anne Rice's The Vampire Lestat 2026" [ref=e330] [cursor=pointer]:
+            - strong [ref=e331]: Anne Rice's The Vampire Lestat
+            - generic [ref=e332]: "2026"
+          - generic [ref=e336]: 71%
+        - article [ref=e337]:
+          - button "Open Mortal Kombat II" [ref=e338] [cursor=pointer]:
+            - img "Mortal Kombat II poster" [ref=e340]
+            - generic [ref=e341]: Mortal Kombat II is a 1993 fighting game developed and published by Midway for arcades.
+            - generic [ref=e342]: Movie
+          - button "Mortal Kombat II 2026" [ref=e343] [cursor=pointer]:
+            - strong [ref=e344]: Mortal Kombat II
+            - generic [ref=e345]: "2026"
+          - generic [ref=e349]: 100%
+        - article [ref=e350]:
+          - button "Open Project Hail Mary" [active] [ref=e351] [cursor=pointer]:
+            - img "Project Hail Mary poster" [ref=e353]
+            - generic [ref=e354]: Project Hail Mary is a 2021 hard science fiction novel by American writer Andy Weir. It centers on science teacher and former biologist Ryland Grace, who wakes up aboard a spacecraft, afflicted with amnesia. Project Hail Mary received generally positive reviews and was a finalist for the 2022 Hugo Award for Best Novel.
+            - generic [ref=e355]: Movie
+          - button "Project Hail Mary 2026" [ref=e356] [cursor=pointer]:
+            - strong [ref=e357]: Project Hail Mary
+            - generic [ref=e358]: "2026"
+          - generic [ref=e362]: 100%
+        - article [ref=e363]:
+          - 'button "Open Star Wars: The Mandalorian and Grogu" [ref=e364] [cursor=pointer]':
+            - 'img "Star Wars: The Mandalorian and Grogu poster" [ref=e366]'
+            - generic [ref=e367]: "Star Wars: The Mandalorian and Grogu (titled The Mandalorian and Grogu on-screen) is a 2026 American science fiction film directed by Jon Favreau, who co-wrote the film with Dave Filoni and Noah Kloor."
+            - generic [ref=e368]: Movie
+          - 'button "Star Wars: The Mandalorian and Grogu 2026" [ref=e369] [cursor=pointer]':
+            - strong [ref=e370]: "Star Wars: The Mandalorian and Grogu"
+            - generic [ref=e371]: "2026"
+          - generic [ref=e375]: 100%
+        - article [ref=e376]:
+          - 'button "Open The Groove Under the Groove: Os Sons de Paulinho da Costa" [ref=e377] [cursor=pointer]':
+            - 'img "The Groove Under the Groove: Os Sons de Paulinho da Costa poster" [ref=e379]'
+            - generic [ref=e380]: Imported from TV Time
+            - generic [ref=e381]: Movie
+          - 'button "The Groove Under the Groove: Os Sons de Paulinho da Costa 2026" [ref=e382] [cursor=pointer]':
+            - strong [ref=e383]: "The Groove Under the Groove: Os Sons de Paulinho da Costa"
+            - generic [ref=e384]: "2026"
+          - generic [ref=e388]: 100%
+        - article [ref=e389]:
+          - button "Open The Roast of Kevin Hart" [ref=e390] [cursor=pointer]:
+            - img "The Roast of Kevin Hart poster" [ref=e392]
+            - generic [ref=e393]: Netflix Is a Joke Fest is a biennial comedy festival produced by Netflix that takes place in Los Angeles, California. Having taken place in 2022 and 2024, the festival hosts conventional standup shows, showcase shows, live podcast recordings, and table reads.
+            - generic [ref=e394]: Movie
+          - button "The Roast of Kevin Hart 2026" [ref=e395] [cursor=pointer]:
+            - strong [ref=e396]: The Roast of Kevin Hart
+            - generic [ref=e397]: "2026"
+          - generic [ref=e401]: 100%
+        - article [ref=e402]:
+          - button "Open Ainda Estou Aqui" [ref=e403] [cursor=pointer]:
+            - img "Ainda Estou Aqui poster" [ref=e405]
+            - generic [ref=e406]: Ainda Estou Aqui is a memoir by Marcelo Rubens Paiva. It was published on 4 August 2015 by Alfaguara, a subsidiary of the Brazilian publisher Companhia das Letras.
+            - generic [ref=e407]: Movie
+          - button "Ainda Estou Aqui 2025" [ref=e408] [cursor=pointer]:
+            - strong [ref=e409]: Ainda Estou Aqui
+            - generic [ref=e410]: "2025"
+          - generic [ref=e414]: 100%
+        - article [ref=e415]:
+          - 'button "Open Alien: Earth" [ref=e416] [cursor=pointer]':
+            - 'img "Alien: Earth poster" [ref=e418]'
+            - generic [ref=e419]: When the mysterious deep space research vessel USCSS Maginot crash-lands on Earth, Wendy and a ragtag group of tactical soldiers make a fateful discovery that puts them face-to-face with the planet's greatest threat.
+            - generic [ref=e420]: 8 episodes
+          - 'button "Alien: Earth 2025" [ref=e421] [cursor=pointer]':
+            - strong [ref=e422]: "Alien: Earth"
+            - generic [ref=e423]: "2025"
+          - generic [ref=e427]: 100%
+        - article [ref=e428]:
+          - button "Open Anaconda" [ref=e429] [cursor=pointer]:
+            - img "Anaconda poster" [ref=e431]
+            - generic [ref=e432]: Anacondas or water boas are a group of large boas of the genus Eunectes. They are a semiaquatic group of snakes found in tropical South America. Two to four extant and one extinct species are currently recognized, including one of the largest snakes in the world, E. murinus, the green anaconda.
+            - generic [ref=e433]: Movie
+          - button "Anaconda 2025" [ref=e434] [cursor=pointer]:
+            - strong [ref=e435]: Anaconda
+            - generic [ref=e436]: "2025"
+          - generic [ref=e440]: 100%
+        - article [ref=e441]:
+          - 'button "Open Avengers: Doomsday" [ref=e442] [cursor=pointer]':
+            - 'img "Avengers: Doomsday poster" [ref=e444]'
+            - generic [ref=e445]: "Avengers: Doomsday is an upcoming American superhero film based on the Marvel Comics superhero team the Avengers. Produced by Marvel Studios and AGBO, and distributed by Walt Disney Studios Motion Pictures, it is intended to be the sequel to Avengers: Endgame (2019) and the 39th film in the Marvel Cinematic Universe (MCU)."
+            - generic [ref=e446]: Movie
+          - 'button "Avengers: Doomsday 2025" [ref=e447] [cursor=pointer]':
+            - strong [ref=e448]: "Avengers: Doomsday"
+            - generic [ref=e449]: "2025"
+          - generic [ref=e452]: 0%
+        - article [ref=e453]:
+          - 'button "Open Avengers: Secret Wars" [ref=e454] [cursor=pointer]':
+            - 'img "Avengers: Secret Wars poster" [ref=e456]'
+            - generic [ref=e457]: Phase Six of the Marvel Cinematic Universe (MCU) is a group of American superhero films and television series produced by Marvel Studios based on characters that appear in publications by Marvel Comics. The MCU is the shared universe in which all of the films and series are set.
+            - generic [ref=e458]: Movie
+          - 'button "Avengers: Secret Wars 2025" [ref=e459] [cursor=pointer]':
+            - strong [ref=e460]: "Avengers: Secret Wars"
+            - generic [ref=e461]: "2025"
+          - generic [ref=e464]: 0%
+        - article [ref=e465]:
+          - button "Open Baila, Vini" [ref=e466] [cursor=pointer]:
+            - img "Baila, Vini poster" [ref=e468]
+            - generic [ref=e469]: Imported from TV Time
+            - generic [ref=e470]: Movie
+          - button "Baila, Vini 2025" [ref=e471] [cursor=pointer]:
+            - strong [ref=e472]: Baila, Vini
+            - generic [ref=e473]: "2025"
+          - generic [ref=e477]: 100%
+        - article [ref=e478]:
+          - button "Open Ballerina" [ref=e479] [cursor=pointer]:
+            - img "Ballerina poster" [ref=e481]
+            - generic [ref=e482]: A ballet dancer is a person who practices the art of classical ballet. Both females and males can practice ballet. They rely on years of extensive training and proper technique to become a part of a professional ballet company. Ballet dancers are at a high risk of injury due to the demanding technique of ballet dancing.
+            - generic [ref=e483]: Movie
+          - button "Ballerina 2025" [ref=e484] [cursor=pointer]:
+            - strong [ref=e485]: Ballerina
+            - generic [ref=e486]: "2025"
+          - generic [ref=e490]: 100%
+        - article [ref=e491]:
+          - button "Open Becoming Led Zeppelin" [ref=e492] [cursor=pointer]:
+            - img "Becoming Led Zeppelin poster" [ref=e494]
+            - generic [ref=e495]: Becoming Led Zeppelin is a 2025 musical documentary film directed and written by Bernard MacMahon and written and produced by Allison McGourty, about the formation and first year of Led Zeppelin.
+            - generic [ref=e496]: Movie
+          - button "Becoming Led Zeppelin 2025" [ref=e497] [cursor=pointer]:
+            - strong [ref=e498]: Becoming Led Zeppelin
+            - generic [ref=e499]: "2025"
+          - generic [ref=e503]: 100%
+        - article [ref=e504]:
+          - 'button "Open Captain America: Brave New World" [ref=e505] [cursor=pointer]':
+            - 'img "Captain America: Brave New World poster" [ref=e507]'
+            - generic [ref=e508]: "Captain America: Brave New World is a 2025 American superhero film based on Marvel Comics featuring the character Sam Wilson / Captain America."
+            - generic [ref=e509]: Movie
+          - 'button "Captain America: Brave New World 2025" [ref=e510] [cursor=pointer]':
+            - strong [ref=e511]: "Captain America: Brave New World"
+            - generic [ref=e512]: "2025"
+          - generic [ref=e516]: 100%
+        - article [ref=e517]:
+          - 'button "Open Den of Thieves 2: Pantera" [ref=e518] [cursor=pointer]':
+            - 'img "Den of Thieves 2: Pantera poster" [ref=e520]'
+            - generic [ref=e521]: "Den of Thieves 2: Pantera is a 2025 American heist film and the sequel to the 2018 film Den of Thieves. Gerard Butler and O'Shea Jackson Jr. reprise their roles from the first film, while Christian Gudegast returns to write and direct."
+            - generic [ref=e522]: Movie
+          - 'button "Den of Thieves 2: Pantera 2025" [ref=e523] [cursor=pointer]':
+            - strong [ref=e524]: "Den of Thieves 2: Pantera"
+            - generic [ref=e525]: "2025"
+          - generic [ref=e529]: 100%
+        - article [ref=e530]:
+          - button "Open Eddington" [ref=e531] [cursor=pointer]:
+            - img "Eddington poster" [ref=e533]
+            - generic [ref=e534]: "Eddington or Edington may refer to:"
+            - generic [ref=e535]: Movie
+          - button "Eddington 2025" [ref=e536] [cursor=pointer]:
+            - strong [ref=e537]: Eddington
+            - generic [ref=e538]: "2025"
+          - generic [ref=e542]: 100%
+        - article [ref=e543]:
+          - button "Open F1" [ref=e544] [cursor=pointer]:
+            - img "F1 poster" [ref=e546]
+            - generic [ref=e547]: Formula One (F1) is the highest class of worldwide racing for open-wheel, single-seater formula racing cars run by the Formula One Group and sanctioned by the Fédération Internationale de l'Automobile (FIA).
+            - generic [ref=e548]: Movie
+          - button "F1 2025" [ref=e549] [cursor=pointer]:
+            - strong [ref=e550]: F1
+            - generic [ref=e551]: "2025"
+          - generic [ref=e555]: 100%
+        - article [ref=e556]:
+          - button "Open G20" [ref=e557] [cursor=pointer]:
+            - img "G20 poster" [ref=e559]
+            - generic [ref=e560]: The Group of 20 (G20) is an intergovernmental forum comprising 19 sovereign countries, the European Union (EU), and the African Union (AU).
+            - generic [ref=e561]: Movie
+          - button "G20 2025" [ref=e562] [cursor=pointer]:
+            - strong [ref=e563]: G20
+            - generic [ref=e564]: "2025"
+          - generic [ref=e568]: 100%
+        - article [ref=e569]:
+          - button "Open George A. Romero's Resident Evil" [ref=e570] [cursor=pointer]:
+            - img "George A. Romero's Resident Evil poster" [ref=e572]
+            - generic [ref=e573]: George A. Romero's Resident Evil is an American documentary film directed and co-written by Brandon Salisbury. The documentary is about the unrealized film adaptation of the horror video game series Resident Evil, for which filmmaker George A.
+            - generic [ref=e574]: Movie
+          - button "George A. Romero's Resident Evil 2025" [ref=e575] [cursor=pointer]:
+            - strong [ref=e576]: George A. Romero's Resident Evil
+            - generic [ref=e577]: "2025"
+          - generic [ref=e581]: 100%
+        - article [ref=e582]:
+          - button "Open Homem com H" [ref=e583] [cursor=pointer]:
+            - img "Homem com H poster" [ref=e585]
+            - generic [ref=e586]: "Latin Blood: The Ballad of Ney Matogrosso (Portuguese: Homem com H, lit. 'Man with an M') is a 2025 Brazilian biographical musical drama film. It was written for the screen and directed by Esmir Filho, produced and distributed by Paris Filmes, and based on the book Ney Matogrosso: A Biografia by Julio Maria."
+            - generic [ref=e587]: Movie
+          - button "Homem com H 2025" [ref=e588] [cursor=pointer]:
+            - strong [ref=e589]: Homem com H
+            - generic [ref=e590]: "2025"
+          - generic [ref=e594]: 100%
+        - article [ref=e595]:
+          - 'button "Open Jurassic World: Rebirth" [ref=e596] [cursor=pointer]':
+            - 'img "Jurassic World: Rebirth poster" [ref=e598]'
+            - generic [ref=e599]: Jurassic World Rebirth is a 2025 American science fiction action film directed by Gareth Edwards and written by David Koepp. It is the fourth Jurassic World film, as well as the seventh installment overall in the Jurassic Park franchise. The film features Scarlett Johansson, Mahershala Ali, Jonathan Bailey, Rupert Friend, Manuel Garcia-Rulfo, and Ed Skrein.
+            - generic [ref=e600]: Movie
+          - 'button "Jurassic World: Rebirth 2025" [ref=e601] [cursor=pointer]':
+            - strong [ref=e602]: "Jurassic World: Rebirth"
+            - generic [ref=e603]: "2025"
+          - generic [ref=e607]: 100%
+        - article [ref=e608]:
+          - 'button "Open Karate Kid: Legends" [ref=e609] [cursor=pointer]':
+            - 'img "Karate Kid: Legends poster" [ref=e611]'
+            - generic [ref=e612]: "Karate Kid: Legends is a 2025 American martial arts drama film starring Jackie Chan and Ralph Macchio, while introducing Ben Wang as the main lead. It is the sixth film in The Karate Kid franchise, serving as a follow-up to The Karate Kid (2010) and the television series Cobra Kai (2018–2025)."
+            - generic [ref=e613]: Movie
+          - 'button "Karate Kid: Legends 2025" [ref=e614] [cursor=pointer]':
+            - strong [ref=e615]: "Karate Kid: Legends"
+            - generic [ref=e616]: "2025"
+          - generic [ref=e620]: 100%
+        - article [ref=e621]:
+          - button "Open Last Breath" [ref=e622] [cursor=pointer]:
+            - img "Last Breath poster" [ref=e624]
+            - generic [ref=e625]: "Last Breath or The Last Breath may refer to:"
+            - generic [ref=e626]: Movie
+          - button "Last Breath 2025" [ref=e627] [cursor=pointer]:
+            - strong [ref=e628]: Last Breath
+            - generic [ref=e629]: "2025"
+          - generic [ref=e633]: 100%
+      - generic [ref=e634]:
+        - button "Previous" [disabled] [ref=e635]
+        - generic [ref=e636]: Page 1 of 62
+        - button "Next" [ref=e637] [cursor=pointer]
+      - dialog "Project Hail Mary" [ref=e638]:
+        - button "Close" [ref=e639] [cursor=pointer]:
+          - img [ref=e640]
+        - generic [ref=e642]:
+          - img "Project Hail Mary poster" [ref=e644]
+          - generic [ref=e645]:
+            - generic [ref=e646]: movie · 2026
+            - heading "Project Hail Mary" [level=2] [ref=e647]
+            - generic [ref=e648]: Imported from TV Time
+            - paragraph [ref=e649]: Project Hail Mary is a 2021 hard science fiction novel by American writer Andy Weir. It centers on science teacher and former biologist Ryland Grace, who wakes up aboard a spacecraft, afflicted with amnesia. Project Hail Mary received generally positive reviews and was a finalist for the 2022 Hugo Award for Best Novel.
+            - generic [ref=e651]: science fiction
+            - generic [ref=e652]:
+              - button "Watched" [ref=e653] [cursor=pointer]:
+                - img [ref=e654]
+                - text: Watched
+              - button "Remove" [ref=e656] [cursor=pointer]:
+                - img [ref=e657]
+                - text: Remove
+          - generic [ref=e661]:
+            - strong [ref=e662]: 100%
+            - generic [ref=e663]: complete
+        - iframe [ref=e665]:
+          - generic [active] [ref=f1e1]:
+            - generic "YouTube Video Player" [ref=f1e3]
+            - generic [ref=f1e5]:
+              - generic:
+                - generic:
+                  - button "Play video" [ref=f1e10] [cursor=pointer]:
+                    - generic [ref=f1e13]:
+                      - img
+                  - button "Hide player controls" [ref=f1e14] [cursor=pointer]
+                  - generic [ref=f1e16]:
+                    - generic [ref=f1e21]:
+                      - generic [ref=f1e22]:
+                        - link "Project Hail Mary - Official Trailer" [ref=f1e23] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=m08TxIsFTRI
+                        - link "Amazon MGM Studios" [ref=f1e24] [cursor=pointer]:
+                          - /url: /channel/UCf5CjDJvsFvtVIhkfmKAwAA
+                          - generic [ref=f1e25]: Amazon MGM Studios
+                      - generic [ref=f1e26]:
+                        - button [ref=f1e27] [cursor=pointer]
+                        - generic [ref=f1e29]:
+                          - generic: Amazon MGM Studios
+                          - generic: 1.79M subscribers
+                    - generic [ref=f1e30]:
+                      - button "Share" [ref=f1e33] [cursor=pointer]:
+                        - generic [ref=f1e37]:
+                          - img
+                      - link "Watch on YouTube" [ref=f1e44] [cursor=pointer]:
+                        - /url: https://www.youtube.com/watch?v=m08TxIsFTRI
+                        - generic [ref=f1e47]:
+                          - text: Watch on
+                          - img [ref=f1e49]:
+                            - generic [ref=f1e51]:
+                              - img
+  - contentinfo [ref=e82]:
+    - generic "Reelmark home" [ref=e83]:
+      - generic [ref=e88]: reelmark
+    - generic [ref=e89]: Your viewing history, kept local.
+    - generic [ref=e90]: TV data by TVmaze · Movie data by TMDB

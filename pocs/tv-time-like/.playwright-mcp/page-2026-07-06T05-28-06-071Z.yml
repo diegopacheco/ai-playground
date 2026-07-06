@@ -1,0 +1,76 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "Reelmark home" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - generic "Reelmark home" [ref=e6]:
+        - generic [ref=e11]: reelmark
+    - navigation "Main navigation" [ref=e12]:
+      - link "Discover" [ref=e13] [cursor=pointer]:
+        - /url: /
+        - img [ref=e14]
+        - generic [ref=e17]: Discover
+      - link "My library" [ref=e18] [cursor=pointer]:
+        - /url: /library
+        - img [ref=e19]
+        - generic [ref=e22]: My library
+      - link "Metrics" [ref=e23] [cursor=pointer]:
+        - /url: /metrics
+        - img [ref=e24]
+        - generic [ref=e26]: Metrics
+    - generic [ref=e27]:
+      - generic [ref=e28]: DP
+      - generic [ref=e29]:
+        - strong [ref=e30]: Your journal
+        - generic [ref=e31]: Private collection
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - text: Your personal watch journal
+          - heading "Find it. Watch it. Remember it." [level=1] [ref=e36]:
+            - text: Find it. Watch it.
+            - emphasis [ref=e37]: Remember it.
+          - paragraph [ref=e38]: A quiet place for every film, every season and every late-night episode.
+        - generic [ref=e39]:
+          - generic [ref=e40]: Since
+          - strong [ref=e41]: "2026"
+          - generic [ref=e42]: Locally kept
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - img [ref=e45]
+          - textbox "⌘ K" [active] [ref=e48]:
+            - /placeholder: Search for a movie or television show…
+          - generic [ref=e49]: ⌘ K
+        - generic [ref=e50]:
+          - generic "Filter results" [ref=e51]:
+            - button "All titles" [ref=e52] [cursor=pointer]
+            - button "Movies" [ref=e53] [cursor=pointer]
+            - button "TV shows" [ref=e54] [cursor=pointer]
+          - generic [ref=e55]: 0 titles
+      - generic [ref=e57]:
+        - generic [ref=e58]:
+          - text: Start your collection
+          - heading "A few worthy first picks" [level=2] [ref=e59]
+        - generic [ref=e60]: Live show data from TVmaze
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - text: Agent-curated catalog
+            - heading "Let an AI scout the web." [level=2] [ref=e71]
+            - paragraph [ref=e72]: Fresh finds and older essentials, researched live and cached for six hours.
+          - generic [ref=e73]:
+            - generic [ref=e74]: Research with
+            - combobox "Research with" [ref=e75]:
+              - option "Codex CLI"
+              - option "Claude CLI" [selected]
+              - option "Gemini CLI"
+        - generic [ref=e76]:
+          - textbox "A mood, genre, era or anything at all…" [ref=e77]
+          - button "Build catalog" [ref=e78] [cursor=pointer]:
+            - img [ref=e79]
+            - text: Build catalog
+  - contentinfo [ref=e82]:
+    - generic "Reelmark home" [ref=e83]:
+      - generic [ref=e88]: reelmark
+    - generic [ref=e89]: Your viewing history, kept local.
+    - generic [ref=e90]: TV data by TVmaze · Movie data by TMDB
