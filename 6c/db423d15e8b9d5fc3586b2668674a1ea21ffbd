@@ -1,0 +1,39 @@
+pocs/tv-time-like/src/pages/LibraryPage.tsx
+  s_14c66247f6f0c2::t_24a0e742c8c7f5 9
+  s_14c66247f6f0c2::t_3fd798c3a9467b 32
+  s_14c66247f6f0c2::t_7c2c027a738f29 42
+pocs/tv-time-like/server/ai-schema.json
+  s_14c66247f6f0c2::t_5b12e23190ee52 6-7
+pocs/tv-time-like/server/media.ts
+  s_14c66247f6f0c2::t_4abb9857fe6eec 2
+  s_14c66247f6f0c2::t_eaeb649c188572 142
+  s_14c66247f6f0c2::t_51f02edaebe965 67,73,85,94-120
+  s_14c66247f6f0c2::t_8b4247cc1edeeb 121-123,139-141
+  s_14c66247f6f0c2::t_0092178db42718 124-138
+pocs/tv-time-like/src/components/LibraryDetailDialog.tsx
+  s_14c66247f6f0c2::t_7b44175efa0a2f 13
+  s_14c66247f6f0c2::t_cddb480a36b536 26
+pocs/tv-time-like/server/ai.ts
+  s_14c66247f6f0c2::t_126dd316c91bec 79-80,87
+  s_14c66247f6f0c2::t_3441b34569b16e 3
+pocs/tv-time-like/server/db.ts
+  s_14c66247f6f0c2::t_c612f429460aad 125-138
+pocs/tv-time-like/prompts/catalog.md
+  s_14c66247f6f0c2::t_f69405c30c07f5 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6cdb423d15e8b9d5fc3586b2668674a1ea21ffbd",
+  "prompts": {},
+  "sessions": {
+    "s_14c66247f6f0c2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f5c906db-6dfa-4b33-a20f-761a78ec0655",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
