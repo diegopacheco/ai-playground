@@ -47,39 +47,39 @@ Website (Games Catalog): [games/index.html](https://diegopacheco.github.io/ai-pl
 13. **AI Debate Club** — AI agents debate a topic while a judge agent picks the winner, then reads the debate aloud in different voices.
     [pocs/agent-debate-club](https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-debate-club)
 
+14. **Connect Four** — A Connect Four game where AI agents compete against each other in real time.
+    [pocs/connect-four-agent-vs-agent](https://github.com/diegopacheco/ai-playground/tree/main/pocs/connect-four-agent-vs-agent)
+
 ## Arcade & Action Games
 
-14. **Train Ride** — A 3D web train ride across Rio Grande do Sul, Brazil: seven stops with real landmarks, day/night, rain and a chugging steam engine.
+15. **Train Ride** — A 3D web train ride across Rio Grande do Sul, Brazil: seven stops with real landmarks, day/night, rain and a chugging steam engine.
     [pocs/fable-5-train-ride-rs](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable-5-train-ride-rs)
 
-15. **Rally Game** — A 3D rally racing game in the browser (Three.js, no build step) where you race a gravel loop against three AI rivals.
+16. **Rally Game** — A 3D rally racing game in the browser (Three.js, no build step) where you race a gravel loop against three AI rivals.
     [pocs/fable5-rally-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-rally-game)
 
-16. **Fight Game** — A 2-player cartoon fighting game in the browser, pure HTML5 canvas, drain the other player's health before the timer runs out.
+17. **Fight Game** — A 2-player cartoon fighting game in the browser, pure HTML5 canvas, drain the other player's health before the timer runs out.
     [pocs/fable-5-fight-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable-5-fight-game)
 
-17. **Bomberman-like** — A Bomberman-style arcade game on a canvas: drop bombs, blast bricks, collect power-ups and clear all four foes.
+18. **Bomberman-like** — A Bomberman-style arcade game on a canvas: drop bombs, blast bricks, collect power-ups and clear all four foes.
     [pocs/fable-5-bombermanlike](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable-5-bombermanlike)
 
-18. **Cyber Jungle DoomLike** — A small browser FPS using classic raycasting for a fast retro corridor-shooter feel.
+19. **Cyber Jungle DoomLike** — A small browser FPS using classic raycasting for a fast retro corridor-shooter feel.
     [pocs/codex-gpt-5.4-doom-like-experiment](https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-gpt-5.4-doom-like-experiment)
 
-19. **Megaslop Runner** — A cyberpunk endless runner where you are an AI coding agent that runs forever, flinging slop while devs hurl determinism at you.
+20. **Megaslop Runner** — A cyberpunk endless runner where you are an AI coding agent that runs forever, flinging slop while devs hurl determinism at you.
     [pocs/megaslop-runner](https://github.com/diegopacheco/ai-playground/tree/main/pocs/megaslop-runner)
 
-20. **Mega Slop** — An 8-bit, CRT-flavored platform shooter where you play a green slop-bot.
+21. **Mega Slop** — An 8-bit, CRT-flavored platform shooter where you play a green slop-bot.
     [pocs/megaslop](https://github.com/diegopacheco/ai-playground/tree/main/pocs/megaslop)
 
 ## Puzzle, Strategy & Board Games
 
-21. **Memory Game** — A full-stack card-matching memory game built with Rust (Axum), React and SQLite.
+22. **Memory Game** — A full-stack card-matching memory game built with Rust (Axum), React and SQLite.
     [pocs/adwf-memory-game-opus-4.6-v5-final](https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-memory-game-opus-4.6-v5-final)
 
-22. **Times 2** — A real-time strategy game in the spirit of Age of Empires II, where the enemy RED empire's strategy is decided live by Claude Sonnet.
+23. **Times 2** — A real-time strategy game in the spirit of Age of Empires II, where the enemy RED empire's strategy is decided live by Claude Sonnet.
     [pocs/times-2-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/times-2-game)
-
-23. **Connect Four** — A Connect Four game where AI agents compete against each other in real time.
-    [pocs/connect-four-agent-vs-agent](https://github.com/diegopacheco/ai-playground/tree/main/pocs/connect-four-agent-vs-agent)
 
 24. **Maze Race** — A maze generator and solver race (pure Java) that replays BFS vs DFS side by side against the live solver source.
     [pocs/fable5-maze-viz](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-maze-viz)
