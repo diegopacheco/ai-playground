@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - agents/**
+      - games/**
       - .github/workflows/agents-pages.yml
   workflow_dispatch:
 
@@ -32,6 +33,13 @@ jobs:
           mkdir _site
           cp agents/landing-page.html _site/index.html
           cp -R agents/logos _site/logos
+          mkdir -p _site/games
+          cp games/index.html _site/games/index.html
+          cp games/README.md _site/games/README.md
+          grep -oE '\.\./pocs/[^"]+\.(png|jpg|jpeg|gif|mp4|webm)' games/index.html | sort -u | sed 's#^\.\./##' | while read -r f; do
+            mkdir -p "_site/$(dirname "$f")"
+            cp "$f" "_site/$f"
+          done
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
