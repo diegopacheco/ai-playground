@@ -1,0 +1,19 @@
+games/index.html
+  s_c71345b21a12b7::t_681c77addb829a 183-184
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "325effa01e6859b262f7c1d96cc8e8a73ef3c0f1",
+  "prompts": {},
+  "sessions": {
+    "s_c71345b21a12b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f42a3a6d-ccb7-468d-b1ec-b266bc11c64e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
