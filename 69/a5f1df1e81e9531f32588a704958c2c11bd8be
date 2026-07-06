@@ -1,0 +1,14 @@
+pocs/gemini-fifa-tracker/README.md
+  h_8e2c3875396153 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "69a5f1df1e81e9531f32588a704958c2c11bd8be",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
