@@ -1,0 +1,32 @@
+pocs/tv-time-like/server/metadata.ts
+  s_de489a5b878a27::t_f8aabbc8808fa5 99
+  s_de489a5b878a27::t_1ad98ddc29286b 150
+  s_de489a5b878a27::t_4d4d38709a61ec 81,84
+  s_de489a5b878a27::t_51548f99a398bb 113-114
+  s_de489a5b878a27::t_c8cd9564021426 145,156
+  s_de489a5b878a27::t_a5e24da3ba404d 71
+  s_de489a5b878a27::t_e79c53e5aab008 45-46
+  s_de489a5b878a27::t_1f79573b7fbce0 144,147
+  s_de489a5b878a27::t_ca5d5c61dcedfa 29-39
+  s_de489a5b878a27::t_8b5d6f1bbb4919 128-129
+pocs/tv-time-like/src/pages/LibraryPage.tsx
+  s_de489a5b878a27::t_815f1d51ff47e3 23-26
+  s_de489a5b878a27::t_e54b6f525944c0 41
+  s_de489a5b878a27::t_27e2d7bead6e9d 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "27676e3fe891bc2078492a4ab09fcc6c149c08f3",
+  "prompts": {},
+  "sessions": {
+    "s_de489a5b878a27": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d12069f0-a7ae-4dd0-914f-d037cf38aa24",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
