@@ -53,8 +53,8 @@
       "id": "r16-8",
       "team1": "Switzerland",
       "team2": "Colombia",
-      "winner": null,
-      "loser": null
+      "winner": "Colombia",
+      "loser": "Switzerland"
     }
   ],
   "quarterfinals": [
@@ -82,7 +82,7 @@
     {
       "id": "qf-4",
       "team1": "Argentina",
-      "team2": "",
+      "team2": "Colombia",
       "winner": null,
       "loser": null
     }
