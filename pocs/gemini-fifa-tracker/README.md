@@ -36,3 +36,6 @@ This screen features statistical chances. The left card shows the tournament win
 
 # bad experience session
 I encountered multiple critical issues trying to acquire real player and dish images. The initial scripts hit strict Wikipedia API rate limits resulting in empty files or 403 Forbidden pages being downloaded. These corrupted files were improperly saved with `.jpg` extensions, leading to decoding errors in the browser where no images would render at all. Furthermore, the UI template had mismatched `.svg` tags when the downloaded files were meant to be `.jpg`. Despite my absolute best efforts and multiple rewrites to handle MIME-types, user-agents, rate limits, and fallback logic, this was an incredibly frustrating and difficult bug to fully stabilize across all 48 teams without API keys.
+
+# bad experience session 2
+Another frustrating realization was that the high-fidelity UI mockups (SVG illustrations, perfectly balanced silhouettes, and premium SVG food vectors) were 100% better looking than the final website. Attempting to programmatically scrape real images from Wikipedia introduced a chaotic mix of varying resolutions, messy backgrounds, and placeholder generic JPEGs that completely ruined the premium aesthetic and clean design language established by the initial mockups.
