@@ -83,8 +83,8 @@
       "id": "qf-4",
       "team1": "Germany",
       "team2": "Italy",
-      "winner": null,
-      "loser": null
+      "winner": "Germany",
+      "loser": "Italy"
     }
   ],
   "semifinals": [
@@ -92,20 +92,20 @@
       "id": "sf-1",
       "team1": "Argentina",
       "team2": "France",
-      "winner": null,
-      "loser": null
+      "winner": "Argentina",
+      "loser": "France"
     },
     {
       "id": "sf-2",
       "team1": "Spain",
-      "team2": "",
+      "team2": "Germany",
       "winner": null,
       "loser": null
     }
   ],
   "final": {
     "id": "f-1",
-    "team1": "",
+    "team1": "Argentina",
     "team2": "",
     "winner": null,
     "loser": null

@@ -559,20 +559,20 @@ document.getElementById('cli-reset-btn').addEventListener('click', () => {
 
   const emptyData = {
     roundOf16: [
-      { id: 'r16-1', team1: 'Argentina', team2: 'Mexico', winner: null, loser: null },
-      { id: 'r16-2', team1: 'Brazil', team2: 'USA', winner: null, loser: null },
-      { id: 'r16-3', team1: 'France', team2: 'Canada', winner: null, loser: null },
-      { id: 'r16-4', team1: 'England', team2: 'Morocco', winner: null, loser: null },
-      { id: 'r16-5', team1: 'Spain', team2: 'Japan', winner: null, loser: null },
-      { id: 'r16-6', team1: 'Portugal', team2: 'South Korea', winner: null, loser: null },
-      { id: 'r16-7', team1: 'Germany', team2: 'Australia', winner: null, loser: null },
-      { id: 'r16-8', team1: 'Italy', team2: 'Saudi Arabia', winner: null, loser: null }
+      { id: 'r16-1', team1: 'Argentina', team2: 'Mexico', winner: 'Argentina', loser: 'Mexico' },
+      { id: 'r16-2', team1: 'Brazil', team2: 'USA', winner: 'Brazil', loser: 'USA' },
+      { id: 'r16-3', team1: 'France', team2: 'Canada', winner: 'France', loser: 'Canada' },
+      { id: 'r16-4', team1: 'England', team2: 'Morocco', winner: 'England', loser: 'Morocco' },
+      { id: 'r16-5', team1: 'Spain', team2: 'Japan', winner: 'Spain', loser: 'Japan' },
+      { id: 'r16-6', team1: 'Portugal', team2: 'South Korea', winner: 'Portugal', loser: 'South Korea' },
+      { id: 'r16-7', team1: 'Germany', team2: 'Australia', winner: 'Germany', loser: 'Australia' },
+      { id: 'r16-8', team1: 'Italy', team2: 'Saudi Arabia', winner: 'Italy', loser: 'Saudi Arabia' }
     ],
     quarterfinals: [
-      { id: 'qf-1', team1: '', team2: '', winner: null, loser: null },
-      { id: 'qf-2', team1: '', team2: '', winner: null, loser: null },
-      { id: 'qf-3', team1: '', team2: '', winner: null, loser: null },
-      { id: 'qf-4', team1: '', team2: '', winner: null, loser: null },
+      { id: 'qf-1', team1: 'Argentina', team2: 'Brazil', winner: null, loser: null },
+      { id: 'qf-2', team1: 'France', team2: 'England', winner: null, loser: null },
+      { id: 'qf-3', team1: 'Spain', team2: 'Portugal', winner: null, loser: null },
+      { id: 'qf-4', team1: 'Germany', team2: 'Italy', winner: null, loser: null }
     ],
     semifinals: [
       { id: 'sf-1', team1: '', team2: '', winner: null, loser: null },

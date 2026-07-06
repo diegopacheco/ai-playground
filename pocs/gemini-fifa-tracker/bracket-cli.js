@@ -9,20 +9,20 @@ const filePath = path.join(__dirname, 'bracket.json');
 
 const initialData = {
   roundOf16: [
-    { id: 'r16-1', team1: 'Canada', team2: 'Morocco', winner: 'Morocco', loser: 'Canada' },
-    { id: 'r16-2', team1: 'Paraguay', team2: 'France', winner: 'France', loser: 'Paraguay' },
-    { id: 'r16-3', team1: 'Brazil', team2: 'Norway', winner: 'Norway', loser: 'Brazil' },
-    { id: 'r16-4', team1: 'Mexico', team2: 'England', winner: 'England', loser: 'Mexico' },
-    { id: 'r16-5', team1: 'Portugal', team2: 'Spain', winner: 'Spain', loser: 'Portugal' },
-    { id: 'r16-6', team1: 'Belgium', team2: 'USA', winner: null, loser: null },
-    { id: 'r16-7', team1: 'Argentina', team2: 'Egypt', winner: null, loser: null },
-    { id: 'r16-8', team1: 'Colombia', team2: 'Switzerland', winner: null, loser: null }
+    { id: 'r16-1', team1: 'Argentina', team2: 'Mexico', winner: 'Argentina', loser: 'Mexico' },
+    { id: 'r16-2', team1: 'Brazil', team2: 'USA', winner: 'Brazil', loser: 'USA' },
+    { id: 'r16-3', team1: 'France', team2: 'Canada', winner: 'France', loser: 'Canada' },
+    { id: 'r16-4', team1: 'England', team2: 'Morocco', winner: 'England', loser: 'Morocco' },
+    { id: 'r16-5', team1: 'Spain', team2: 'Japan', winner: 'Spain', loser: 'Japan' },
+    { id: 'r16-6', team1: 'Portugal', team2: 'South Korea', winner: 'Portugal', loser: 'South Korea' },
+    { id: 'r16-7', team1: 'Germany', team2: 'Australia', winner: 'Germany', loser: 'Australia' },
+    { id: 'r16-8', team1: 'Italy', team2: 'Saudi Arabia', winner: 'Italy', loser: 'Saudi Arabia' }
   ],
   quarterfinals: [
-    { id: 'qf-1', team1: 'Morocco', team2: 'France', winner: null, loser: null },
-    { id: 'qf-2', team1: 'Norway', team2: 'England', winner: null, loser: null },
-    { id: 'qf-3', team1: 'Spain', team2: '', winner: null, loser: null },
-    { id: 'qf-4', team1: '', team2: '', winner: null, loser: null }
+    { id: 'qf-1', team1: 'Argentina', team2: 'Brazil', winner: null, loser: null },
+    { id: 'qf-2', team1: 'France', team2: 'England', winner: null, loser: null },
+    { id: 'qf-3', team1: 'Spain', team2: 'Portugal', winner: null, loser: null },
+    { id: 'qf-4', team1: 'Germany', team2: 'Italy', winner: null, loser: null }
   ],
   semifinals: [
     { id: 'sf-1', team1: '', team2: '', winner: null, loser: null },
@@ -47,7 +47,7 @@ function writeBracket(data) {
 function getAIWinner(team1, team2) {
   try {
     const prompt = `Which team wins realistically in a football match between ${team1} and ${team2} in the FIFA World Cup 2026? Reply with exactly and only the name of the winning team with no explanation.`;
-    const command = `agy --print "${prompt}"`;
+    const command = `agy --dangerously-skip-permissions --print "${prompt}"`;
     const result = execSync(command, { encoding: 'utf8' }).trim();
     if (result.toLowerCase().includes(team1.toLowerCase())) {
       return team1;

@@ -1,0 +1,158 @@
+{
+  "canada": {
+    "playerImg": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Alphonso_Davies_Canada_v_Qatar_18_June_2026-007_%28cropped%29.jpg/500px-Alphonso_Davies_Canada_v_Qatar_18_June_2026-007_%28cropped%29.jpg",
+    "dishImg": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Food_at_WIkimanian_2017_02.jpg/500px-Food_at_WIkimanian_2017_02.jpg"
+  },
+  "mexico": {
+    "playerImg": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Edson_%C3%81lvarez.png/500px-Edson_%C3%81lvarez.png",
+    "dishImg": null
+  },
+  "usa": {
+    "playerImg": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Christian_Pulisic_USMNT_v_Belgium_Mar_28_2026-73_%28cropped%29.jpg/500px-Christian_Pulisic_USMNT_v_Belgium_Mar_28_2026-73_%28cropped%29.jpg",
+    "dishImg": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/500px-RedDot_Burger.jpg"
+  },
+  "austria": {
+    "playerImg": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_David_Alaba_850_1632.jpg/500px-20180610_FIFA_Friendly_Match_Austria_vs._Brazil_David_Alaba_850_1632.jpg",
+    "dishImg": null
+  },
+  "belgium": {
+    "playerImg": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Kevin_De_Bruyne_USMNT_v_Belgium_Mar_28_2026-64_%28cropped%29.jpg/500px-Kevin_De_Bruyne_USMNT_v_Belgium_Mar_28_2026-64_%28cropped%29.jpg",
+    "dishImg": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Moules-frites_at_Chez_Leon_in_Brussels.jpg/500px-Moules-frites_at_Chez_Leon_in_Brussels.jpg"
+  },
+  "bosnia": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "croatia": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "czechia": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "england": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "france": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "germany": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "greece": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "hungary": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "israel": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "italy": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "netherlands": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "poland": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "portugal": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "romania": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "scotland": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "serbia": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "slovakia": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "slovenia": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "spain": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "switzerland": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "turkey": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "ukraine": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "wales": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "egypt": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "brazil": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "argentina": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "colombia": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "paraguay": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "norway": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "morocco": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "japan": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "southkorea": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "australia": {
+    "playerImg": null,
+    "dishImg": null
+  },
+  "saudiarabia": {
+    "playerImg": null,
+    "dishImg": null
+  }
+}
