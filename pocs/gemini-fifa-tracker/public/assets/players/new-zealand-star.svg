@@ -17,19 +17,26 @@
   
   <text x="25" y="32" font-family="'Outfit', sans-serif" font-size="18" text-anchor="middle">🇳🇿</text>
   <rect x="135" y="18" width="45" height="18" rx="4" fill="#fbbf24" />
-  <text x="157.5" y="30" font-family="'Outfit', sans-serif" font-size="8" font-weight="800" fill="#0f172a" text-anchor="middle">STAR PLAYER</text>
+  <text x="157.5" y="30" font-family="'Outfit', sans-serif" font-size="8" font-weight="800" fill="#0f172a" text-anchor="middle">FWD</text>
+  
+  <text x="25" y="52" font-family="'Outfit', sans-serif" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle">89</text>
   
   <g transform="translate(0, 20)">
     <circle cx="100" cy="90" r="14" fill="#ffffff" fill-opacity="0.9" />
-    <path d="M 85,110 Q 100,105 115,110 L 112,160 L 88,160 Z" fill="url(#jerseyGrad-ChrisWood)" />
-    <path d="M 88,160 L 80,205 L 94,208 L 98,160" fill="#ffffff" />
-    <path d="M 112,160 L 120,205 L 106,208 L 102,160" fill="#ffffff" />
-    <path d="M 85,110 L 70,135 L 78,140 L 90,118" fill="url(#jerseyGrad-ChrisWood)" />
-    <path d="M 115,110 L 130,135 L 122,140 L 110,118" fill="url(#jerseyGrad-ChrisWood)" />
-    <circle cx="135" cy="205" r="7" fill="#ffffff" stroke="#000000" stroke-width="1" />
+    <path d="M 85,110 L 70,110 L 45,135 L 58,145 L 75,130 L 75,175 L 125,175 L 125,130 L 142,145 L 155,135 L 130,110 L 115,110 Z" fill="url(#jerseyGrad-ChrisWood)" />
+    <text x="100" y="162" font-family="'Outfit', sans-serif" font-size="7" font-weight="800" fill="#0f172a" text-anchor="middle">WOOD</text>
+    <text x="100" y="150" font-family="'Outfit', sans-serif" font-size="18" font-weight="900" fill="#0f172a" text-anchor="middle">9</text>
   </g>
   
   <rect x="15" y="220" width="170" height="45" rx="8" fill="#000000" fill-opacity="0.5" stroke="#fbbf24" stroke-opacity="0.3" />
-  <text x="100" y="240" font-family="'Outfit', sans-serif" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle">Chris Wood</text>
-  <text x="100" y="254" font-family="'Outfit', sans-serif" font-size="8" font-weight="600" fill="#fbbf24" text-anchor="middle" letter-spacing="1">STAR PLAYER</text>
+  <text x="100" y="238" font-family="'Outfit', sans-serif" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle">Chris Wood</text>
+  
+  <g transform="translate(20, 245)" font-family="'Outfit', sans-serif" font-size="7" font-weight="700" fill="#cbd5e1" text-anchor="middle">
+    <text x="10" y="5">PAC</text><text x="10" y="13" fill="#ffffff">92</text>
+    <text x="38" y="5">SHO</text><text x="38" y="13" fill="#ffffff">93</text>
+    <text x="66" y="5">PAS</text><text x="66" y="13" fill="#ffffff">77</text>
+    <text x="94" y="5">DRI</text><text x="94" y="13" fill="#ffffff">90</text>
+    <text x="122" y="5">DEF</text><text x="122" y="13" fill="#ffffff">44</text>
+    <text x="150" y="5">PHY</text><text x="150" y="13" fill="#ffffff">79</text>
+  </g>
 </svg>

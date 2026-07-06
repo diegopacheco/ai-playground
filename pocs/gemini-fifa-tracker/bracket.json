@@ -39,22 +39,22 @@
       "id": "r16-6",
       "team1": "Portugal",
       "team2": "South Korea",
-      "winner": null,
-      "loser": null
+      "winner": "Portugal",
+      "loser": "South Korea"
     },
     {
       "id": "r16-7",
       "team1": "Germany",
       "team2": "Australia",
-      "winner": null,
-      "loser": null
+      "winner": "Germany",
+      "loser": "Australia"
     },
     {
       "id": "r16-8",
       "team1": "Italy",
       "team2": "Saudi Arabia",
-      "winner": null,
-      "loser": null
+      "winner": "Italy",
+      "loser": "Saudi Arabia"
     }
   ],
   "quarterfinals": [
@@ -62,27 +62,27 @@
       "id": "qf-1",
       "team1": "Argentina",
       "team2": "Brazil",
-      "winner": null,
-      "loser": null
+      "winner": "Argentina",
+      "loser": "Brazil"
     },
     {
       "id": "qf-2",
       "team1": "France",
       "team2": "England",
-      "winner": null,
-      "loser": null
+      "winner": "France",
+      "loser": "England"
     },
     {
       "id": "qf-3",
       "team1": "Spain",
-      "team2": "",
-      "winner": null,
-      "loser": null
+      "team2": "Portugal",
+      "winner": "Spain",
+      "loser": "Portugal"
     },
     {
       "id": "qf-4",
-      "team1": "",
-      "team2": "",
+      "team1": "Germany",
+      "team2": "Italy",
       "winner": null,
       "loser": null
     }
@@ -90,14 +90,14 @@
   "semifinals": [
     {
       "id": "sf-1",
-      "team1": "",
-      "team2": "",
+      "team1": "Argentina",
+      "team2": "France",
       "winner": null,
       "loser": null
     },
     {
       "id": "sf-2",
-      "team1": "",
+      "team1": "Spain",
       "team2": "",
       "winner": null,
       "loser": null

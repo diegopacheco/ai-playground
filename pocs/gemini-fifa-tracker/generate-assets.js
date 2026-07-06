@@ -52,6 +52,203 @@ const teams = [
   { id: 'new-zealand', name: 'New Zealand', flag: '🇳🇿', color1: '#ffffff', color2: '#111827', players: ['Wynton Rufer', 'Ryan Nelsen', 'Ivan Vicelich'], star: 'Chris Wood', dishes: ['Hāngī', 'Pavlova', 'Whitebait Fritter'] }
 ];
 
+const dishDescriptions = {
+  'Poutine': 'Crispy fries with cheese curds & rich brown gravy.',
+  'Butter Tarts': 'Pastry shells filled with sweet butter & sugar.',
+  'Tourtière': 'French-Canadian meat pie with spiced pork & beef.',
+  'Tacos': 'Corn tortillas folded with seasoned meats & cilantro.',
+  'Mole Poblano': 'Chicken in a rich chocolate & chili pepper sauce.',
+  'Chiles en Nogada': 'Stuffed chilies topped with walnut sauce & pome.',
+  'Hamburger': 'Beef patty in a bun with fresh cheese & toppings.',
+  'Apple Pie': 'Sweet double-crust pie with spiced apple filling.',
+  'Clam Chowder': 'Creamy New England soup with clams & potatoes.',
+  'Wiener Schnitzel': 'Pan-fried breaded veal cutlet served with lemon.',
+  'Sachertorte': 'Decadent Austrian double-layer chocolate cake.',
+  'Apfelstrudel': 'Warm pastry filled with spiced sliced apples.',
+  'Moules-Frites': 'Steamed mussels served with gold crispy fries.',
+  'Belgian Waffles': 'Fluffy sweet waffles topped with sugar crystals.',
+  'Carbonnade Flamande': 'Sweet-sour beef & onion stew cooked in beer.',
+  'Ćevapi': 'Grilled minced meat sausages with flatbread.',
+  'Burek': 'Flaky pastry sheets filled with meat or cheese.',
+  'Klepe': 'Traditional minced meat dumplings boiled & sauced.',
+  'Peka': 'Slow-cooked meat & vegetables baked under a dome.',
+  'Crni Rižot': 'Rich black risotto cooked with cuttlefish ink.',
+  'Fritule': 'Mini sweet donuts flavoured with brandy & raisins.',
+  'Vepřo Knedlo Zelo': 'Roasted pork loin served with dumplings & cabbage.',
+  'Svíčková': 'Beef tenderloin in vegetable cream sauce with cran.',
+  'Trdelník': 'Spit-roasted sweet dough rolled in cinnamon sugar.',
+  'Fish and Chips': 'Crispy battered fish fillets served with hot fries.',
+  'Sunday Roast': 'Roasted meat served with Yorkshire pudding & gravy.',
+  'Shepherd\'s Pie': 'Minced lamb cooked in gravy topped with mashed pot.',
+  'Coq au Vin': 'Chicken braised in red wine, bacon & mushrooms.',
+  'Ratatouille': 'Stewed summer vegetables with zucchini & eggplant.',
+  'Crème Brûlée': 'Rich custard dessert topped with caramelized sugar.',
+  'Bratwurst': 'German grilled sausage served with mustard & kraut.',
+  'Sauerkraut': 'Fermented finely cut cabbage with a sour flavor.',
+  'Pretzel': 'Baked knot-shaped pastry sprinkled with coarse salt.',
+  'Stroopwafel': 'Thin waffle cookies joined by caramel syrup filling.',
+  'Bitterballen': 'Deep-fried ragout balls served with mustard.',
+  'Stamppot': 'Mashed potatoes mixed with kale & smoked sausage.',
+  'Fårikål': 'Traditional mutton & cabbage stew with black pepper.',
+  'Gravlaks': 'Dry-cured salmon seasoned with dill & salt.',
+  'Lutefisk': 'Traditional dried whitefish treated with lye.',
+  'Bacalhau à Brás': 'Shredded salt cod cooked with onions & fries.',
+  'Pastel de Nata': 'Portuguese custard tart dusted with cinnamon.',
+  'Caldo Verde': 'Green soup made of potatoes, collards & chorizo.',
+  'Haggis': 'Savoury pudding with sheep\'s pluck, oats & spices.',
+  'Scotch Pie': 'Double-crust meat pie filled with minced mutton.',
+  'Cranachan': 'Raspberry, toasted oats, cream & whisky dessert.',
+  'Paella': 'Saffron rice cooked with seafood & fresh vegetables.',
+  'Tortilla Española': 'Thick Spanish omelette cooked with sliced potatoes.',
+  'Gazpacho': 'Chilled tomato soup blended with cucumber & olive oil.',
+  'Köttbullar': 'Swedish meatballs served with gravy & lingonberries.',
+  'Gravlax': 'Cured raw salmon infused with fresh dill & sugars.',
+  'Smörgåstårta': 'Savoury sandwich cake layered with seafood fillings.',
+  'Fondue': 'Melted cheese blend served hot in a communal pot.',
+  'Raclette': 'Melted cheese scraped over potatoes & cured meats.',
+  'Rösti': 'Crispy pan-fried shredded potato pancake.',
+  'Kebab': 'Skewered grilled meat seasoned with Middle East spices.',
+  'Baklava': 'Layered phyllo pastry filled with chopped nuts & honey.',
+  'Pide': 'Flatbread baked with minced meat, spinach & cheese.',
+  'Asado': 'Traditional grilled beef ribs cooked over wood fire.',
+  'Empanadas': 'Baked pastry turnovers stuffed with savory beef filling.',
+  'Dulce de Leche': 'Sweet caramelized milk spread used in desserts.',
+  'Feijoada': 'Rich black bean stew simmered with pork & beef cuts.',
+  'Pão de Queijo': 'Chewy cheese rolls made of tapioca flour.',
+  'Brigadeiro': 'Sweet chocolate truffles coated in sprinkles.',
+  'Bandeja Paisa': 'Platter of beans, rice, pork belly, egg & plantain.',
+  'Arepas': 'Round cornmeal patties grilled and stuffed with fillings.',
+  'Ajiaco': 'Thick chicken potato soup cooked with guascas herb.',
+  'Ceviche': 'Fresh raw fish cured in citrus juices with red onions.',
+  'Llapingachos': 'Pan-fried potato cakes stuffed with cheese.',
+  'Locro de Papa': 'Creamy potato & cheese soup flavoured with annatto.',
+  'Sopa Paraguaya': 'Savory cornbread baked with cheese & onion.',
+  'Chipa': 'Baked cheese bread rings made of cassava flour.',
+  'Mbejú': 'Starchy pan-baked flatbread made of starch & cheese.',
+  'Chivito': 'Steak sandwich layered with ham, cheese, egg & bacon.',
+  'Martín Fierro': 'Sweet dessert slice of quince paste & cheese.',
+  'Meat Pie': 'Shortcrust pastry pie filled with minced meat gravy.',
+  'Vegemite Toast': 'Toasted bread spread with savory yeast paste.',
+  'Pavlova': 'Crisp meringue dessert topped with whipped cream.',
+  'Chelo Kebab': 'Skewered minced meat served over saffron basmati rice.',
+  'Ghormeh Sabzi': 'Herb stew cooked with kidney beans, lamb & lime.',
+  'Fesenjan': 'Sweet-tart stew made of pomegranate & walnuts.',
+  'Masgouf': 'Seasoned carp fish slow-grilled over open wood fire.',
+  'Biryani': 'Fragrant spiced long-grain rice layered with chicken.',
+  'Kleicha': 'Traditional Iraqi date cookies scented with cardamom.',
+  'Sushi': 'Vinegared rice rolled with seaweed & fresh raw fish.',
+  'Ramen': 'Noodle soup served in savory broth with sliced pork.',
+  'Tempura': 'Deep-fried seafood & vegetables in light crispy batter.',
+  'Mansaf': 'Lamb cooked in dried yogurt sauce, served with rice.',
+  'Falafel': 'Deep-fried spiced ground chickpea herb balls.',
+  'Kanafeh': 'Sweet spun pastry layered with cheese and rose syrup.',
+  'Machboos': 'Spiced mixed rice dish cooked with chicken or mutton.',
+  'Luqaimat': 'Sweet crunchy dumpling balls glazed in syrup.',
+  'Harees': 'Slow-cooked wheat & meat porridge topped with butter.',
+  'Kabsa': 'Mixed rice dish cooked with meat, vegetables & cardamom.',
+  'Jareesh': 'Crushed wheat cooked with yogurt & chicken.',
+  'Mutabbaq': 'Folded pan-fried thin pancake stuffed with beef.',
+  'Kimchi': 'Spiced fermented cabbage seasoned with chili & garlic.',
+  'Bulgogi': 'Thinly sliced beef marinated in soy & pear juice.',
+  'Bibimbap': 'Warm rice bowl topped with seasoned vegetables & egg.',
+  'Plov': 'Uzbek rice pilaf simmered with lamb, carrots & cumin.',
+  'Somsa': 'Baked flaky pastry pocket stuffed with minced lamb.',
+  'Lagman': 'Hand-pulled noodles served in lamb vegetable broth.',
+  'Couscous': 'Steamed semolina granules served with vegetable stew.',
+  'Shakshouka': 'Poached eggs cooked in a spicy tomato pepper sauce.',
+  'Tajine': 'Slow-cooked meat & fruit stew prepared in clay pot.',
+  'Cachupa': 'Slow-cooked stew of corn, beans, cassava & sausage.',
+  'Pastel': 'Deep-fried savory pastry pocket filled with fish.',
+  'Pudim de Leite': 'Creamy baked condensed milk caramel flan.',
+  'Garba': 'Fried plantains served with cassava semolina & tuna.',
+  'Aloko': 'Fried ripe plantains seasoned with pepper onion sauce.',
+  'Kedjenou': 'Chicken stew slow-cooked in sealed clay pot.',
+  'Moambé Chicken': 'Chicken cooked in rich palm butter sauce & spices.',
+  'Fufu': 'Thick cassava dough used to scoop stews.',
+  'Chikwangue': 'Cassava dough wrapped in banana leaves & steamed.',
+  'Koshary': 'Mixed rice, macaroni, lentils, topped with tomato sauce.',
+  'Ful Medames': 'Warm fava beans cooked with garlic, lemon & oil.',
+  'Mulukhiyah': 'Jute leaves soup cooked with garlic, coriander & chicken.',
+  'Jollof Rice': 'One-pot rice dish simmered in spicy tomato stew.',
+  'Kelewele': 'Spicy fried plantain cubes seasoned with ginger.',
+  'Tagine': 'Slow-cooked meat stew with prunes and almonds.',
+  'Harira': 'Hearty tomato, lentil, chickpea, & herb soup.',
+  'Thiéboudienne': 'Senegalese rice simmered in tomato paste with fish.',
+  'Yassa Poulet': 'Chicken marinated in caramelized onions, lemon & mustard.',
+  'Maafe': 'Rich peanut butter sauce stew cooked with beef & carrots.',
+  'Biltong': 'Air-dried cured spiced meat strips.',
+  'Bobotie': 'Spiced minced meat bake topped with savory egg custard.',
+  'Bunny Chow': 'Hollowed loaf of bread filled with spicy mutton curry.',
+  'Brik': 'Crispy deep-fried pastry sheet enclosing a whole egg.',
+  'Lablabi': 'Garlicky chickpea soup served over stale crusty bread.',
+  'Keshi Yena': 'Steamed cheese shell stuffed with chicken & raisins.',
+  'Stobá': 'Hearty beef stew cooked with potatoes and vegetables.',
+  'Sopito': 'Creamy coconut milk fish soup with fresh lime.',
+  'Griot': 'Crispy marinated fried pork chunks served with pikliz.',
+  'Soup Joumou': 'Traditional squash soup celebrating Haiti independence.',
+  'Akasan': 'Sweet warm cornmeal shake flavored with cinnamon & milk.',
+  'Sancocho': 'Thick root vegetable & chicken soup flavored with cilantro.',
+  'Ropa Vieja': 'Shredded beef braised in sweet tomato pepper sauce.',
+  'Carimañolas': 'Fried cassava fritters stuffed with seasoned ground beef.',
+  'Hāngī': 'Traditional Maori underground steam-cooked feast platter.',
+  'Pavlova': 'Crisp baked meringue dessert topped with fresh berries.',
+  'Whitebait Fritter': 'Delicate pan-fried egg patties with tiny whitebait fish.'
+};
+
+const goalkeepers = ['Petr Čech', 'Craig Forrest', 'Jose Luis Chilavert', 'Essam El-Hadary', 'Rüştü Reçber', 'Iker Casillas', 'Erik Thorstvedt', 'Robert Kidiaba', 'Johnny Placide'];
+const defenders = ['Franz Beckenbauer', 'Virgil van Dijk', 'Andrew Robertson', 'Lucas Radebe', 'Ryan Nelsen', 'Cuco Martina', 'Vincent Kompany', 'Rafael Márquez', 'Bobby Moore', 'Noureddine Naybet', 'Radhi Jaïdi', 'Ivan Vicelich'];
+const forwards = [
+  'Hugo Sánchez', 'Javier Hernández', 'Landon Donovan', 'Gary Lineker', 'Zinedine Zidane', 'Michel Platini',
+  'Thierry Henry', 'Gerd Müller', 'Miroslav Klose', 'Johan Cruyff', 'Marco van Basten', 'Cristiano Ronaldo',
+  'Eusébio', 'Kenny Dalglish', 'Diego Maradona', 'Lionel Messi', 'Pelé', 'Ronaldo', 'Ronaldinho', 'Radamel Falcao',
+  'Luis Suárez', 'Diego Forlán', 'Tim Cahill', 'Ali Daei', 'Kaoru Mitoma', 'Chris Wood', 'Riyad Mahrez',
+  'Didier Drogba', 'Sébastien Haller', 'Mohamed Salah', 'Sadio Mané', 'Benni McCarthy', 'Julio Dely Valdés',
+  'Blas Pérez', 'Luis Tejada', 'Wynton Rufer', 'Alphonso Davies', 'Santiago Giménez', 'Christian Pulisic',
+  'Konrad Laimer', 'Patrik Schick', 'Erling Haaland', 'Alexander Isak', 'Luis Díaz', 'Moisés Caicedo',
+  'Julio Enciso', 'Federico Valverde', 'Nestory Irankunda', 'Mehdi Taremi', 'Aymen Hussein', 'Mousa Al-Tamari',
+  'Akram Afif', 'Salem Al-Dawsari', 'Son Heung-min', 'Eldor Shomurodov', 'Ryan Mendes', 'Chancel Mbemba',
+  'Mohammed Kudus', 'Percy Tau', 'Ellyes Skhiri', 'Juninho Bacuna', 'Frantzdy Pierrot', 'Adalberto Carrasquilla'
+];
+
+function getPlayerStats(name, isStar) {
+  const cleanName = name.trim();
+  let pos = 'MID';
+  if (goalkeepers.includes(cleanName)) pos = 'GK';
+  else if (defenders.includes(cleanName)) pos = 'DEF';
+  else if (forwards.includes(cleanName)) pos = 'FWD';
+
+  const baseRating = isStar ? 91 : 88;
+  const ratingOffset = (cleanName.length % 5) - 2;
+  const rating = baseRating + ratingOffset;
+  const number = (cleanName.length * 3) % 22 + 1;
+
+  if (pos === 'GK') {
+    return {
+      pos, rating, number,
+      labels: ['DIV', 'HAN', 'KIC', 'REF', 'SPD', 'POS'],
+      values: [rating + 2, rating - 1, rating - 3, rating + 4, rating - 5, rating + 1]
+    };
+  } else if (pos === 'DEF') {
+    return {
+      pos, rating, number,
+      labels: ['PAC', 'SHO', 'PAS', 'DRI', 'DEF', 'PHY'],
+      values: [rating - 8, rating - 35, rating - 10, rating - 12, rating + 4, rating + 3]
+    };
+  } else if (pos === 'FWD') {
+    return {
+      pos, rating, number,
+      labels: ['PAC', 'SHO', 'PAS', 'DRI', 'DEF', 'PHY'],
+      values: [rating + 3, rating + 4, rating - 12, rating + 1, rating - 45, rating - 10]
+    };
+  } else {
+    return {
+      pos, rating, number,
+      labels: ['PAC', 'SHO', 'PAS', 'DRI', 'DEF', 'PHY'],
+      values: [rating - 2, rating - 10, rating + 4, rating + 3, rating - 25, rating - 15]
+    };
+  }
+}
+
 const publicDir = path.join(process.cwd(), 'public');
 const assetsDir = path.join(publicDir, 'assets');
 const playersDir = path.join(assetsDir, 'players');
@@ -63,11 +260,13 @@ if (!fs.existsSync(dishesDir)) fs.mkdirSync(dishesDir, { recursive: true });
 
 function getPlayerCardSVG(name, type, flag, color1, color2) {
   const isStar = type === 'star';
-  const role = isStar ? 'STAR PLAYER' : 'LEGEND';
+  const stats = getPlayerStats(name, isStar);
   const cardGradStart = isStar ? '#f59e0b' : '#cbd5e1';
   const cardGradEnd = isStar ? '#0f172a' : '#1e293b';
   const borderColor = isStar ? '#fbbf24' : '#94a3b8';
   const safeName = name.replace(/'/g, "\\'");
+  
+  const textColor = (color1 === '#ffffff' || color1 === '#fff') ? '#0f172a' : '#ffffff';
   
   return `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="280" viewBox="0 0 200 280">
   <defs>
@@ -88,26 +287,95 @@ function getPlayerCardSVG(name, type, flag, color1, color2) {
   
   <text x="25" y="32" font-family="'Outfit', sans-serif" font-size="18" text-anchor="middle">${flag}</text>
   <rect x="135" y="18" width="45" height="18" rx="4" fill="${isStar ? '#fbbf24' : '#94a3b8'}" />
-  <text x="157.5" y="30" font-family="'Outfit', sans-serif" font-size="8" font-weight="800" fill="#0f172a" text-anchor="middle">${role}</text>
+  <text x="157.5" y="30" font-family="'Outfit', sans-serif" font-size="8" font-weight="800" fill="#0f172a" text-anchor="middle">${stats.pos}</text>
+  
+  <text x="25" y="52" font-family="'Outfit', sans-serif" font-size="16" font-weight="800" fill="#ffffff" text-anchor="middle">${stats.rating}</text>
   
   <g transform="translate(0, 20)">
     <circle cx="100" cy="90" r="14" fill="#ffffff" fill-opacity="0.9" />
-    <path d="M 85,110 Q 100,105 115,110 L 112,160 L 88,160 Z" fill="url(#jerseyGrad-${name.replace(/[^a-zA-Z0-9]/g, '')})" />
-    <path d="M 88,160 L 80,205 L 94,208 L 98,160" fill="${color1}" />
-    <path d="M 112,160 L 120,205 L 106,208 L 102,160" fill="${color1}" />
-    <path d="M 85,110 L 70,135 L 78,140 L 90,118" fill="url(#jerseyGrad-${name.replace(/[^a-zA-Z0-9]/g, '')})" />
-    <path d="M 115,110 L 130,135 L 122,140 L 110,118" fill="url(#jerseyGrad-${name.replace(/[^a-zA-Z0-9]/g, '')})" />
-    <circle cx="135" cy="205" r="7" fill="#ffffff" stroke="#000000" stroke-width="1" />
+    <path d="M 85,110 L 70,110 L 45,135 L 58,145 L 75,130 L 75,175 L 125,175 L 125,130 L 142,145 L 155,135 L 130,110 L 115,110 Z" fill="url(#jerseyGrad-${name.replace(/[^a-zA-Z0-9]/g, '')})" />
+    <text x="100" y="162" font-family="'Outfit', sans-serif" font-size="7" font-weight="800" fill="${textColor}" text-anchor="middle">${name.split(' ').pop().toUpperCase()}</text>
+    <text x="100" y="150" font-family="'Outfit', sans-serif" font-size="18" font-weight="900" fill="${textColor}" text-anchor="middle">${stats.number}</text>
   </g>
   
   <rect x="15" y="220" width="170" height="45" rx="8" fill="#000000" fill-opacity="0.5" stroke="${borderColor}" stroke-opacity="0.3" />
-  <text x="100" y="240" font-family="'Outfit', sans-serif" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle">${safeName}</text>
-  <text x="100" y="254" font-family="'Outfit', sans-serif" font-size="8" font-weight="600" fill="${isStar ? '#fbbf24' : '#cbd5e1'}" text-anchor="middle" letter-spacing="1">${role}</text>
+  <text x="100" y="238" font-family="'Outfit', sans-serif" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle">${safeName}</text>
+  
+  <g transform="translate(20, 245)" font-family="'Outfit', sans-serif" font-size="7" font-weight="700" fill="#cbd5e1" text-anchor="middle">
+    <text x="10" y="5">${stats.labels[0]}</text><text x="10" y="13" fill="#ffffff">${stats.values[0]}</text>
+    <text x="38" y="5">${stats.labels[1]}</text><text x="38" y="13" fill="#ffffff">${stats.values[1]}</text>
+    <text x="66" y="5">${stats.labels[2]}</text><text x="66" y="13" fill="#ffffff">${stats.values[2]}</text>
+    <text x="94" y="5">${stats.labels[3]}</text><text x="94" y="13" fill="#ffffff">${stats.values[3]}</text>
+    <text x="122" y="5">${stats.labels[4]}</text><text x="122" y="13" fill="#ffffff">${stats.values[4]}</text>
+    <text x="150" y="5">${stats.labels[5]}</text><text x="150" y="13" fill="#ffffff">${stats.values[5]}</text>
+  </g>
 </svg>`;
 }
 
 function getDishCardSVG(name, flag) {
   const safeName = name.replace(/'/g, "\\'");
+  const desc = dishDescriptions[name] || 'A traditional local dish from this region.';
+  
+  let dishGraphics = '';
+  if (name.includes('Tacos') || name.includes('Empanadas') || name.includes('Somsa') || name.includes('Burek') || name.includes('Mutabbaq')) {
+    dishGraphics = `
+      <ellipse cx="0" cy="20" rx="60" ry="15" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2" />
+      <path d="M -45,10 Q 0,-25 45,10 Z" fill="#eab308" stroke="#ca8a04" stroke-width="2" />
+      <circle cx="-15" cy="5" r="5" fill="#ef4444" />
+      <circle cx="15" cy="8" r="4" fill="#22c55e" />
+      <circle cx="0" cy="0" r="6" fill="#ca8a04" />
+    `;
+  } else if (name.includes('Hamburger') || name.includes('Burger') || name.includes('Chivito')) {
+    dishGraphics = `
+      <ellipse cx="0" cy="22" rx="55" ry="12" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2" />
+      <path d="M -35,5 Q 0,-30 35,5 Z" fill="#f59e0b" />
+      <rect x="-38" y="5" width="76" height="8" rx="2" fill="#7c2d12" />
+      <path d="M -40,13 L 40,13 L 30,19 L -30,19 Z" fill="#eab308" />
+      <path d="M -35,19 Q 0,30 35,19 Z" fill="#f59e0b" />
+    `;
+  } else if (name.includes('Poutine') || name.includes('Frites') || name.includes('Chips')) {
+    dishGraphics = `
+      <ellipse cx="0" cy="20" rx="60" ry="15" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2" />
+      <rect x="-35" y="8" width="10" height="20" rx="2" fill="#fbbf24" transform="rotate(15)" />
+      <rect x="-15" y="5" width="8" height="24" rx="2" fill="#fbbf24" transform="rotate(-5)" />
+      <rect x="5" y="8" width="9" height="22" rx="2" fill="#fbbf24" transform="rotate(30)" />
+      <rect x="25" y="6" width="8" height="20" rx="2" fill="#fbbf24" transform="rotate(-15)" />
+      <path d="M -45,15 Q 0,-5 45,15" fill="none" stroke="#78350f" stroke-width="6" stroke-linecap="round" opacity="0.8" />
+      <circle cx="-10" cy="12" r="5" fill="#f8fafc" stroke="#cbd5e1" />
+      <circle cx="15" cy="14" r="5" fill="#f8fafc" stroke="#cbd5e1" />
+    `;
+  } else if (name.includes('Soup') || name.includes('Chowder') || name.includes('Stew') || name.includes('Koshary') || name.includes('Ramen') || name.includes('Tajine') || name.includes('Cachupa') || name.includes('Harira') || name.includes('Ghormeh') || name.includes('Ajiaco') || name.includes('Lablabi')) {
+    dishGraphics = `
+      <ellipse cx="0" cy="25" rx="55" ry="10" fill="#e2e8f0" stroke="#cbd5e1" />
+      <path d="M -40,15 C -40,45 40,45 40,15 Z" fill="#be123c" stroke="#9f1239" stroke-width="2" />
+      <ellipse cx="0" cy="15" rx="40" ry="10" fill="#f59e0b" />
+      <circle cx="-10" cy="15" r="4" fill="#ef4444" />
+      <circle cx="15" cy="17" r="5" fill="#22c55e" />
+      <path d="M -15,5 Q -10,-10 -15,-20" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.5" />
+      <path d="M 0,5 Q 5,-15 0,-25" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.7" />
+      <path d="M 15,5 Q 20,-10 15,-20" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.5" />
+    `;
+  } else if (name.includes('Pie') || name.includes('Sachertorte') || name.includes('Strudel') || name.includes('Waffles') || name.includes('Baklava') || name.includes('Pavlova') || name.includes('Tarts') || name.includes('Brigadeiro') || name.includes('Nata')) {
+    dishGraphics = `
+      <ellipse cx="0" cy="22" rx="55" ry="12" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2" />
+      <ellipse cx="0" cy="15" rx="45" ry="12" fill="#db2777" />
+      <path d="M -45,15 Q 0,-20 45,15 Z" fill="#f472b6" opacity="0.9" />
+      <circle cx="0" cy="-5" r="6" fill="#dc2626" />
+      <path d="M 0,-5 Q 10,-15 20,-10" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" />
+    `;
+  } else {
+    dishGraphics = `
+      <ellipse cx="0" cy="24" rx="65" ry="12" fill="#334155" opacity="0.5" />
+      <ellipse cx="0" cy="18" rx="60" ry="15" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" />
+      <path d="M -45,10 C -30,35 30,35 45,10 Z" fill="#d97706" opacity="0.9" />
+      <ellipse cx="0" cy="8" rx="35" ry="8" fill="#eab308" />
+      <circle cx="-10" cy="8" r="4" fill="#22c55e" />
+      <circle cx="10" cy="10" r="4" fill="#ef4444" />
+      <path d="M -10,-5 Q -5,-15 -10,-25" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.5" />
+      <path d="M 10,-5 Q 15,-15 10,-25" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.5" />
+    `;
+  }
+
   return `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
   <defs>
     <linearGradient id="dishGrad-${name.replace(/[^a-zA-Z0-9]/g, '')}" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -118,22 +386,14 @@ function getDishCardSVG(name, flag) {
   
   <rect x="5" y="5" width="290" height="190" rx="16" fill="url(#dishGrad-${name.replace(/[^a-zA-Z0-9]/g, '')})" stroke="#475569" stroke-width="2" />
   
-  <g transform="translate(150, 85)">
-    <ellipse cx="0" cy="25" rx="65" ry="12" fill="#1e293b" opacity="0.6" />
-    <ellipse cx="0" cy="20" rx="60" ry="15" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2" />
-    <path d="M -50,15 C -30,45 30,45 50,15 Z" fill="#f59e0b" opacity="0.85" />
-    <circle cx="-15" cy="18" r="8" fill="#10b981" />
-    <circle cx="15" cy="22" r="7" fill="#ef4444" />
-    <circle cx="0" cy="12" r="10" fill="#f59e0b" />
-    <path d="M -40,15 C -40,-25 40,-25 40,15 Z" fill="none" stroke="#f1f5f9" stroke-width="2" opacity="0.15" />
-    <path d="M -20,-10 Q -15,-20 -20,-30 T -20,-45" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.4" />
-    <path d="M 0,-10 Q 5,-20 0,-30 T 0,-45" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.6" />
-    <path d="M 20,-10 Q 25,-20 20,-30 T 20,-45" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.4" />
+  <g transform="translate(150, 80)">
+    ${dishGraphics}
   </g>
   
-  <rect x="15" y="145" width="270" height="40" rx="8" fill="#000000" fill-opacity="0.6" stroke="#475569" stroke-opacity="0.5" />
-  <text x="150" y="169" font-family="'Outfit', sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">${safeName}</text>
-  <text x="35" y="170" font-family="'Outfit', sans-serif" font-size="16" text-anchor="middle">${flag}</text>
+  <rect x="15" y="140" width="270" height="48" rx="8" fill="#000000" fill-opacity="0.65" stroke="#475569" stroke-opacity="0.5" />
+  <text x="150" y="157" font-family="'Outfit', sans-serif" font-size="12" font-weight="800" fill="#ffffff" text-anchor="middle">${safeName}</text>
+  <text x="150" y="172" font-family="'Outfit', sans-serif" font-size="8" font-weight="500" fill="#cbd5e1" text-anchor="middle">${desc}</text>
+  <text x="35" y="169" font-family="'Outfit', sans-serif" font-size="18" text-anchor="middle">${flag}</text>
 </svg>`;
 }
 
