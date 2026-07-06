@@ -135,6 +135,12 @@
     .band-track span:after{color:var(--blue);margin-left:30px}
     .section{padding:76px 0}
     .section-head{align-items:end;margin-bottom:28px}
+    .section-head-left{display:flex;align-items:end;gap:16px}
+    .section-toggle{flex:0 0 auto;width:40px;height:40px;margin-bottom:5px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--blue);cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 18px rgba(15,23,42,.06);transition:background .2s ease,color .2s ease,box-shadow .2s ease}
+    .section-toggle:hover{background:var(--blue);color:#fff;box-shadow:0 10px 24px rgba(90,103,216,.28)}
+    .section-toggle .chevron{font-size:15px;line-height:1;transition:transform .25s ease}
+    .section-toggle[aria-expanded="false"] .chevron{transform:rotate(-90deg)}
+    #topGrid.collapsed{display:none}
     .section-kicker{color:var(--blue);font-size:10px;font-weight:800}
     h2{font:700 clamp(38px,5vw,66px)/.98 Avenir,"Avenir Next",Segoe UI,sans-serif;letter-spacing:-.05em}
     .section-note{font-size:13px;line-height:1.6}
@@ -187,7 +193,7 @@
     </section>
     <div class="band" aria-hidden="true"><div class="band-track"><span>Agent skills</span><span>MCP</span><span>Harnesses</span><span>Multi-agent systems</span><span>A2A</span><span>Evaluations</span><span>Rust agents</span><span>Scala agents</span><span>Agent skills</span><span>MCP</span><span>Harnesses</span><span>Multi-agent systems</span><span>A2A</span><span>Evaluations</span><span>Rust agents</span><span>Scala agents</span></div></div>
     <section class="shell section" id="selected">
-      <div class="section-head"><h2><span class="section-kicker">Selected work</span>Top project highlights</h2><p class="section-note">Fifty selected builds spanning local agents, multi-agent systems, Rust, Kubernetes, skills, safety, and evaluation.</p></div>
+      <div class="section-head"><div class="section-head-left"><button class="section-toggle" id="highlightToggle" type="button" aria-expanded="true" aria-controls="topGrid" title="Collapse or expand highlights"><span class="chevron" aria-hidden="true">▾</span><span hidden>Toggle highlights</span></button><h2><span class="section-kicker">Selected work</span>Top project highlights</h2></div><p class="section-note">Fifty selected builds spanning local agents, multi-agent systems, Rust, Kubernetes, skills, safety, and evaluation.</p></div>
       <div class="top-grid" id="topGrid"></div>
     </section>
     <div class="archive-wrap" id="archive">
@@ -218,6 +224,8 @@
     const archiveGrid=document.querySelector("#archiveGrid");
     archiveGrid.innerHTML=projects.map(project=>`<article class="archive-card" data-category="${project.category}" data-search="${searchText(project)}"><div class="mini-art">${logo(project)}</div><div class="archive-body"><span class="archive-id">${String(project.id).padStart(3,"0")} · ${project.category}</span><h3>${project.name}</h3><p>${project.description}</p></div><a class="archive-open" href="${safeLink(project)}" target="_blank" rel="noreferrer" aria-label="Open ${project.name}">↗</a></article>`).join("")+`<div class="empty" id="empty"><strong>No projects found.</strong><span>Try a broader term or clear the current category.</span></div>`;
     document.querySelector("#projectTotal").textContent="170+";
+    const highlightToggle=document.getElementById("highlightToggle");
+    if(highlightToggle){highlightToggle.addEventListener("click",()=>{const grid=document.getElementById("topGrid");const open=highlightToggle.getAttribute("aria-expanded")==="true";highlightToggle.setAttribute("aria-expanded",String(!open));grid.classList.toggle("collapsed",open);});}
     const filters=document.querySelector("#filters");
     const search=document.querySelector("#search");
     const resultCount=document.querySelector("#resultCount");
