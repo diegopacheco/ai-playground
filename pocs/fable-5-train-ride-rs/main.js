@@ -465,27 +465,40 @@ const textureLoader = new THREE.TextureLoader();
 const videoBoards = [];
 const videoLayer = document.getElementById("videoLayer");
 
-function addPhotoBillboard(c, p, t, n) {
-  const g = new THREE.Group();
-  g.position.copy(p).addScaledVector(n, 28).addScaledVector(t, c.wp % 2 ? 24 : -24);
-  g.lookAt(p.x, 6, p.z);
-  scene.add(g);
-  for (const x of [-7.1, 7.1]) cyl(g, 0.22, 7, 0x4a4038, x, 3.5, 0);
-  box(g, 16, 10, 0.45, 0x4a3728, 0, 8.7, 0);
-  const photo = new THREE.Mesh(new THREE.PlaneGeometry(15, 8.5), new THREE.MeshBasicMaterial({ color: 0x182127, side: THREE.DoubleSide }));
-  photo.position.set(0, 9, 0.24);
-  g.add(photo);
-  textureLoader.load(c.photo, texture => {
-    if ("colorSpace" in texture && THREE.SRGBColorSpace) texture.colorSpace = THREE.SRGBColorSpace;
-    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    photo.material.map = texture;
-    photo.material.color.setHex(0xffffff);
-    photo.material.needsUpdate = true;
-  });
-  const credit = new THREE.Mesh(new THREE.PlaneGeometry(15, 1.05), mediaCaption(c.photoCredit));
-  credit.position.set(0, 4.2, 0.25);
-  g.add(credit);
-  registerGroupColliders(g);
+function addPhotoBillboards(c, p, t, n) {
+  const photos = [{ name: c.stop, photo: c.photo, credit: c.photoCredit }, ...c.landmarks];
+  for (let i = 0; i < photos.length; i++) {
+    const entry = photos[i];
+    const g = new THREE.Group();
+    const offset = (i - (photos.length - 1) / 2) * 27;
+    g.position.copy(p).addScaledVector(n, 23 + i % 2 * 9).addScaledVector(t, offset);
+    g.lookAt(p.x, 6, p.z);
+    scene.add(g);
+    for (const x of [-6.1, 6.1]) cyl(g, 0.2, 6.4, 0x4a4038, x, 3.2, 0);
+    box(g, 14, 9, 0.45, 0x4a3728, 0, 8, 0);
+    const photoMaterial = new THREE.MeshBasicMaterial({ color: 0x182127, side: THREE.DoubleSide });
+    const photo = new THREE.Mesh(new THREE.PlaneGeometry(13, 7.4), photoMaterial);
+    photo.position.set(0, 8.4, 0.24);
+    const photoBack = new THREE.Mesh(new THREE.PlaneGeometry(13, 7.4), photoMaterial);
+    photoBack.position.set(0, 8.4, -0.24);
+    photoBack.rotation.y = Math.PI;
+    g.add(photo, photoBack);
+    textureLoader.load(entry.photo, texture => {
+      if ("colorSpace" in texture && THREE.SRGBColorSpace) texture.colorSpace = THREE.SRGBColorSpace;
+      texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      photo.material.map = texture;
+      photo.material.color.setHex(0xffffff);
+      photo.material.needsUpdate = true;
+    });
+    const creditMaterial = mediaCaption(entry.name + " · " + entry.credit);
+    const credit = new THREE.Mesh(new THREE.PlaneGeometry(13, 1.05), creditMaterial);
+    credit.position.set(0, 4.2, 0.25);
+    const creditBack = new THREE.Mesh(new THREE.PlaneGeometry(13, 1.05), creditMaterial);
+    creditBack.position.set(0, 4.2, -0.25);
+    creditBack.rotation.y = Math.PI;
+    g.add(credit, creditBack);
+    registerGroupColliders(g);
+  }
 }
 
 function addVideoBillboard(c, p, t, n) {
@@ -875,36 +888,85 @@ const cities = [
   {
     name: "Porto Alegre", stop: "Porto Alegre", sign: "Porto Alegre", wp: 0, clear: 500, build: buildPortoAlegre,
     photo: "assets/places/porto-alegre.jpg", photoCredit: "Lechatjaune · CC BY-SA 3.0", video: "MTrPJ4YgBSo",
+    landmarks: [
+      { name: "Usina do Gasômetro", photo: "assets/places/porto-alegre.jpg", credit: "Wikimedia Commons" },
+      { name: "Mercado Público", photo: "assets/landmarks/mercado.jpg", credit: "Wikimedia Commons" },
+      { name: "Fundação Iberê Camargo", photo: "assets/landmarks/ibere.jpg", credit: "Wikimedia Commons" },
+      { name: "Parque Farroupilha", photo: "assets/landmarks/farroupilha.jpg", credit: "Wikimedia Commons" },
+      { name: "Orla do Guaíba", photo: "assets/landmarks/orla.jpg", credit: "Wikimedia Commons" }
+    ],
     info: "Capital of Rio Grande do Sul on the Guaíba. The 1928 Usina do Gasômetro, the Mercado Público open since 1869, the revitalized Orla do Guaíba, the green Parque Farroupilha and the white Fundação Iberê Camargo by Álvaro Siza."
   },
   {
     name: "Gramado", stop: "Gramado", sign: "Gramado", wp: 2, clear: 300, build: buildGramado,
     photo: "assets/places/gramado.jpg", photoCredit: "Jrbresolin · CC BY-SA 3.0", video: "78H0z4N8cVc",
+    landmarks: [
+      { name: "Igreja Matriz São Pedro", photo: "assets/landmarks/igreja-sao-pedro.jpg", credit: "Wikimedia Commons" },
+      { name: "Palácio dos Festivais", photo: "assets/landmarks/palacio-festivais.jpg", credit: "Wikimedia Commons" },
+      { name: "Mini Mundo", photo: "assets/landmarks/mini-mundo.jpg", credit: "Wikimedia Commons" },
+      { name: "Lago Negro", photo: "assets/landmarks/lago-negro.jpg", credit: "Wikimedia Commons" },
+      { name: "Rua Torta", photo: "assets/landmarks/rua-torta.jpg", credit: "Wikimedia Commons" }
+    ],
     info: "Serra Gaúcha town of chalets and hydrangeas. Lago Negro framed by Black Forest pines, the Mini Mundo miniature park, the winding Rua Torta, the basalt Igreja Matriz São Pedro and the Palácio dos Festivais of the film festival."
   },
   {
     name: "Canela", stop: "Canela", sign: "Canela", wp: 3, clear: 320, build: buildCanela,
     photo: "assets/places/canela.jpg", photoCredit: "Adelano Lázaro · Public domain", video: "fg8vpO3Ki64",
+    landmarks: [
+      { name: "Catedral de Pedra", photo: "assets/landmarks/catedral-pedra.jpg", credit: "Wikimedia Commons" },
+      { name: "Cascata do Caracol", photo: "assets/places/canela.jpg", credit: "Wikimedia Commons" },
+      { name: "Skyglass Canela", photo: "assets/landmarks/skyglass.jpg", credit: "Wikimedia Commons" },
+      { name: "Alpen Park", photo: "assets/landmarks/alpen.png", credit: "Portal Canela" },
+      { name: "Parque da Ferradura", photo: "assets/landmarks/ferradura.jpg", credit: "Wikimedia Commons" }
+    ],
     info: "The Gothic Catedral de Pedra rises over town. Around it, the 131 meter Cascata do Caracol, the glass Skyglass platform over the Vale da Ferradura, the alpine slides of Alpen Park and the horseshoe canyon of Parque da Ferradura."
   },
   {
     name: "São Miguel das Missões", stop: "São Miguel das Missões", sign: "São Miguel", wp: 5, clear: 300, build: buildMissoes,
     photo: "assets/places/missoes.jpg", photoCredit: "Goldemberg Fonseca · CC BY 2.0", video: "-kGXT0Trv0E",
+    landmarks: [
+      { name: "Ruínas de São Miguel Arcanjo", photo: "assets/places/missoes.jpg", credit: "Wikimedia Commons" },
+      { name: "Espetáculo Som e Luz", photo: "assets/landmarks/som-luz.jpg", credit: "Wikimedia Commons" },
+      { name: "Museu das Missões", photo: "assets/landmarks/museu-missoes.jpg", credit: "Wikimedia Commons" },
+      { name: "Fonte Missioneira", photo: "assets/landmarks/fonte-missioneira.jpg", credit: "Wikimedia Commons" },
+      { name: "Santuário do Caaró", photo: "assets/landmarks/santuario-caaro.jpg", credit: "Wikimedia Commons" }
+    ],
     info: "UNESCO ruins of São Miguel Arcanjo, red sandstone heart of the Jesuit-Guarani missions. The nightly Som e Luz show, the Museu das Missões by Lúcio Costa, the original Fonte Missioneira and the pilgrimage Santuário do Caaró."
   },
   {
     name: "Uruguaiana · Fronteira Argentina", stop: "Uruguaiana (Argentina)", sign: "Uruguaiana", wp: 7, clear: 500, build: buildUruguaiana,
     photo: "assets/places/uruguaiana.jpg", photoCredit: "Mauricio V. Genta · CC BY-SA 4.0", video: "lCOszhoc0rg",
+    landmarks: [
+      { name: "Ponte Getúlio Vargas", photo: "assets/landmarks/ponte-getulio.jpg", credit: "Wikimedia Commons" },
+      { name: "Ponte da Integração", photo: "assets/places/uruguaiana.jpg", credit: "Wikimedia Commons" },
+      { name: "Catedral de Sant'Ana", photo: "assets/landmarks/catedral-santana.jpg", credit: "Bem-Te-Vi Uruguaiana" },
+      { name: "Praça Barão do Rio Branco", photo: "assets/landmarks/praca-barao.jpg", credit: "Prefeitura de Uruguaiana" },
+      { name: "Ilha Brasileira", photo: "assets/places/uruguaiana.jpg", credit: "Wikimedia Commons" }
+    ],
     info: "Border hub on the Uruguay River: the 1945 Ponte Getúlio Vargas to Paso de los Libres, the Ponte da Integração, the Catedral de Sant'Ana, the Praça Barão do Rio Branco and the tri-border Ilha Brasileira."
   },
   {
     name: "Chuí · Fronteira Uruguai", stop: "Chuí (Uruguay)", sign: "Chuí", wp: 9, clear: 320, build: buildChui,
     photo: "assets/places/chui.jpg", photoCredit: "Aranha Márcio Eliese · CC BY-SA 3.0", video: "yPeQsBZgqCg",
+    landmarks: [
+      { name: "Avenida Internacional", photo: "assets/landmarks/avenida-internacional.jpg", credit: "Wikimedia Commons" },
+      { name: "Duty Free Shops", photo: "assets/landmarks/avenida-internacional.jpg", credit: "Wikimedia Commons" },
+      { name: "Farol do Chuí", photo: "assets/places/chui.jpg", credit: "Wikimedia Commons" },
+      { name: "Forte de São Miguel", photo: "assets/landmarks/forte-sao-miguel.jpg", credit: "Wikimedia Commons" },
+      { name: "Fortaleza de Santa Teresa", photo: "assets/landmarks/fortaleza-santa-teresa.jpg", credit: "Wikimedia Commons" }
+    ],
     info: "Southernmost city of Brazil, split down the Avenida Internacional with Chuy, Uruguay. The Farol do Chuí, the Spanish Forte de São Miguel, the star-shaped Fortaleza de Santa Teresa and the duty free corridor."
   },
   {
     name: "Torres", stop: "Torres", sign: "Torres", wp: 11, clear: 500, build: buildTorres,
     photo: "assets/places/torres.jpg", photoCredit: "Paulo Hopper · CC BY-SA 4.0", video: "ge5WusKgA40",
+    landmarks: [
+      { name: "Praia da Cal", photo: "assets/landmarks/praia-cal.jpg", credit: "Wikimedia Commons" },
+      { name: "Parque da Guarita", photo: "assets/places/torres.jpg", credit: "Wikimedia Commons" },
+      { name: "Morro do Farol", photo: "assets/landmarks/morro-farol.jpg", credit: "Wikimedia Commons" },
+      { name: "Ilha dos Lobos", photo: "assets/landmarks/ilha-lobos.jpg", credit: "Wikimedia Commons" },
+      { name: "Ponte Pênsil do Mampituba", photo: "assets/landmarks/ponte-mampituba.jpg", credit: "Rede Cultura Torres" }
+    ],
     info: "Where basalt cliffs meet the Atlantic: the towers of Parque da Guarita, the lighthouse on Morro do Farol, the sea lion refuge of Ilha dos Lobos, Praia da Cal between the cliffs and the Ponte Pênsil over the Mampituba."
   }
 ];
@@ -956,7 +1018,7 @@ for (const c of cities) {
   light.position.y = 6.2;
   scene.add(light);
   lampLights.push(light);
-  addPhotoBillboard(c, p, t, n);
+  addPhotoBillboards(c, p, t, n);
   addVideoBillboard(c, p, t, n);
 }
 
@@ -967,11 +1029,11 @@ function vegOk(x, z, margin) {
 }
 
 const VEG = [
-  [new THREE.CylinderGeometry(0.32, 0.46, 8.6, 7), 4.3, new THREE.ConeGeometry(4.3, 2.9, 9), 9.5, 0x2f5b34, 1000],
-  [new THREE.CylinderGeometry(0.28, 0.4, 4.4, 7), 2.2, new THREE.ConeGeometry(3.1, 9.5, 8), 8.4, 0x39633a, 800],
-  [new THREE.CylinderGeometry(0.34, 0.5, 5, 7), 2.5, new THREE.SphereGeometry(3.3, 10, 8), 7.6, 0x4a7440, 700],
-  [new THREE.CylinderGeometry(0.42, 0.62, 17, 7), 8.5, new THREE.ConeGeometry(6.2, 3.2, 9), 17.4, 0x244d2b, 340],
-  [new THREE.CylinderGeometry(0.24, 0.38, 7.4, 7), 3.7, new THREE.SphereGeometry(2.3, 9, 7), 8.1, 0x3d7345, 420]
+  [new THREE.CylinderGeometry(0.32, 0.46, 8.6, 7), 4.3, new THREE.ConeGeometry(4.3, 2.9, 9), 9.5, 0x2f5b34, 5000],
+  [new THREE.CylinderGeometry(0.28, 0.4, 4.4, 7), 2.2, new THREE.ConeGeometry(3.1, 9.5, 8), 8.4, 0x39633a, 4000],
+  [new THREE.CylinderGeometry(0.34, 0.5, 5, 7), 2.5, new THREE.SphereGeometry(3.3, 10, 8), 7.6, 0x4a7440, 3500],
+  [new THREE.CylinderGeometry(0.42, 0.62, 17, 7), 8.5, new THREE.ConeGeometry(6.2, 3.2, 9), 17.4, 0x244d2b, 1700],
+  [new THREE.CylinderGeometry(0.24, 0.38, 7.4, 7), 3.7, new THREE.SphereGeometry(2.3, 9, 7), 8.1, 0x3d7345, 2100]
 ];
 for (const [tg, ty, cg, cy, cc, n] of VEG) {
   const trunks = new THREE.InstancedMesh(tg, lam(0x6b4a33), n);
@@ -1004,7 +1066,7 @@ for (const [tg, ty, cg, cy, cc, n] of VEG) {
   tops.count = count;
   scene.add(trunks, tops);
 }
-const BUSHES = 1200;
+const BUSHES = 6000;
 const bushes = new THREE.InstancedMesh(new THREE.SphereGeometry(1.5, 8, 6), lam(0x557f3f), BUSHES);
 let bushCount = 0;
 for (let tr = 0; tr < BUSHES * 8 && bushCount < BUSHES; tr++) {
@@ -1040,7 +1102,7 @@ while (made < 12 && tries < 500) {
   made++;
 }
 
-const GRASS = 1500;
+const GRASS = 7500;
 const grass = new THREE.InstancedMesh(new THREE.ConeGeometry(0.45, 3.4, 5), lam(0xcabb86), GRASS);
 let grassCount = 0;
 for (let tr = 0; tr < GRASS * 8 && grassCount < GRASS; tr++) {
@@ -1148,7 +1210,18 @@ function scatterAnimals(templates, total, margin, clump, jitter) {
   let placed = 0, guard = 0;
   while (placed < total && guard < total * 60) {
     guard++;
-    const ax = -2700 + rnd() * 5400, az = -2700 + rnd() * 5400;
+    let ax, az;
+    if (rnd() < 0.78) {
+      const u = rnd();
+      const p = curve.getPointAt(u), t = curve.getTangentAt(u);
+      const side = rnd() < 0.5 ? -1 : 1;
+      const offset = margin + 12 + rnd() * 58;
+      ax = p.x + t.z * offset * side;
+      az = p.z - t.x * offset * side;
+    } else {
+      ax = -2700 + rnd() * 5400;
+      az = -2700 + rnd() * 5400;
+    }
     if (!vegOk(ax, az, margin)) continue;
     const n = Math.min(clump, total - placed);
     for (let k = 0; k < n; k++) {
@@ -1167,14 +1240,14 @@ function scatterAnimals(templates, total, margin, clump, jitter) {
   }
 }
 
-scatterAnimals([makeCow(0x4a3324, 0x3a271b), makeCow(0x2c241f, 0x201a15), makeCow(0xcfc4b0, 0x8a5a3a)], 32, 22, 5, 26);
-scatterAnimals([makeSheep()], 42, 16, 7, 22);
-scatterAnimals([makeHorse(0x5a3a22), makeHorse(0x2e2018)], 16, 22, 3, 22);
-scatterAnimals([makeRhea()], 12, 20, 2, 20);
-scatterAnimals([makeCapybara()], 12, 20, 4, 16);
-scatterAnimals([makeLapwing()], 24, 8, 2, 26);
-scatterAnimals([makeDeer()], 14, 18, 3, 22);
-scatterAnimals([makeArmadillo()], 18, 12, 2, 18);
+scatterAnimals([makeCow(0x4a3324, 0x3a271b), makeCow(0x2c241f, 0x201a15), makeCow(0xcfc4b0, 0x8a5a3a)], 64, 22, 5, 26);
+scatterAnimals([makeSheep()], 84, 16, 7, 22);
+scatterAnimals([makeHorse(0x5a3a22), makeHorse(0x2e2018)], 32, 22, 3, 22);
+scatterAnimals([makeRhea()], 24, 20, 2, 20);
+scatterAnimals([makeCapybara()], 24, 20, 4, 16);
+scatterAnimals([makeLapwing()], 48, 8, 2, 26);
+scatterAnimals([makeDeer()], 28, 18, 3, 22);
+scatterAnimals([makeArmadillo()], 36, 12, 2, 18);
 
 const windmillRotors = [];
 function makeWindmill() {
