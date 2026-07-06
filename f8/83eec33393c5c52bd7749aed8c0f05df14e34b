@@ -1,0 +1,19 @@
+pocs/agent-skill-bug-cataloger/tv-time-like-bug-report-05_07_2026.html
+  s_93d212ad56c089::t_6d8ce77271146a 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f883eec33393c5c52bd7749aed8c0f05df14e34b",
+  "prompts": {},
+  "sessions": {
+    "s_93d212ad56c089": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0d5d5620-80e1-4293-834b-d9e03a463ecb",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
