@@ -1,0 +1,29 @@
+pocs/agent-skill-effot-mapper/install.sh
+  s_495b4b8fff5a1d::t_a0d2aabc05a2c3 1-39
+pocs/agent-skill-effot-mapper/effort-map/scripts/render_report.py
+  s_495b4b8fff5a1d::t_5f5ec8ec12aaf0 1-187
+pocs/agent-skill-effot-mapper/effort-map/SKILL.md
+  s_495b4b8fff5a1d::t_a46378039a04d5 1-57
+pocs/agent-skill-effot-mapper/README.md
+  s_495b4b8fff5a1d::t_af955876c55b39 1-81
+pocs/agent-skill-effot-mapper/effort-map/scripts/collect_sessions.py
+  s_495b4b8fff5a1d::t_5e38618ec23820 1-216
+pocs/agent-skill-effot-mapper/uninstall.sh
+  s_495b4b8fff5a1d::t_622f3d6c7996ec 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2a1f2427706c5292ec9ddd4a49df89d5fd60a1fc",
+  "prompts": {},
+  "sessions": {
+    "s_495b4b8fff5a1d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "939fb746-c01e-4369-ba1e-34a6b1de8ecc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
