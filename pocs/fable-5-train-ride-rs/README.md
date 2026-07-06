@@ -57,7 +57,7 @@ A full day passes every 4 minutes: sunrise, noon, sunset with an orange sky, the
 
 ![Arriving at Porto Alegre](printscreens/train-ride.png)
 
-The train arriving at Porto Alegre in the early afternoon. On the left, the white Gasômetro building with its brick chimney, the downtown towers and the blue Guaíba. The top panel tells the story of the place you are passing, the top right shows the in-game clock, the weather and the train speed, the bottom right shows the next stop and the distance left, and the top left corner lists every command you can use right now. Ahead of the locomotive, the green hills of the Serra Gaúcha on the way to Gramado.
+The train approaching Porto Alegre in the morning. On the left, the Gasômetro, downtown towers, the Guaíba waterfront and landmark photo boards fill the city. The command panel lists every available action, the top right shows the in-game clock, weather and train speed, the bottom right shows the next stop and distance, and the bottom left controls the time, weather and sky. Animals cross the pampa beside the track while the locomotive headlight and smoke lead the train into the city.
 
 ## Stack
 
