@@ -4,5 +4,13 @@
   "type": "module",
   "scripts": {
     "start": "node server.js"
+  },
+  "description": "This project tracks the progression, stats, and win probabilities of the FIFA 2026 World Cup. Using anti-gravity cli and google gemini flash and pro models.",
+  "main": "bracket-cli.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "playwright": "^1.61.1"
   }
 }
