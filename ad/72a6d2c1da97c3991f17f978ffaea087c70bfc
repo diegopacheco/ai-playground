@@ -1,0 +1,21 @@
+agents/agents-pocs.md
+  s_0bca4cff1a7e99::t_5ea62423a6d9f6 554-557
+agents/landing-page.html
+  s_0bca4cff1a7e99::t_5ea62423a6d9f6 214
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ad72a6d2c1da97c3991f17f978ffaea087c70bfc",
+  "prompts": {},
+  "sessions": {
+    "s_0bca4cff1a7e99": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f35eb-4aee-7721-9d83-f125d12d7457",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
