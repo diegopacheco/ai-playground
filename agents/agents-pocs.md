@@ -552,3 +552,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-6-hats
 
 112 - Reelmark: TV Time like watch journal with AI catalog research (Codex/Claude/Gemini CLI) <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/tv-time-like
+
+113 - Agent Skill: Bug Cataloger with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-bug-cataloger
