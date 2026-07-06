@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Games built by Diego Pacheco — AI games, browser games and computer-vision games.">
+  <title>Diego Pacheco Games Catalog</title>
+  <style>
+    :root{--paper:#f5f1e7;--paper-deep:#ebe5d8;--white:#fffdf8;--ink:#18243a;--muted:#6e7480;--line:#c9c3b7;--red:#d7472f;--blue:#2459b8;--green:#28766a;--yellow:#e7b94a;--purple:#7b3fb5}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:Menlo,Monaco,Consolas,monospace}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:30;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    a{color:inherit}
+    .shell{width:min(1500px,calc(100% - 64px));margin:0 auto}
+    .topbar{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:25px}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;font:600 18px Georgia,"Times New Roman",serif;letter-spacing:.04em}
+    .brand-mark{width:32px;height:32px;background:var(--red);color:white;display:grid;place-items:center;font:700 12px Menlo,monospace;transform:rotate(-4deg)}
+    .nav{display:flex;gap:24px;align-items:center}
+    .nav a{text-decoration:none;text-transform:uppercase;font-size:8px;letter-spacing:.16em;color:var(--muted)}
+    .nav a:hover{color:var(--red)}
+    .hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:8vw;align-items:end;padding:48px 0 70px}
+    .eyebrow{color:var(--red);text-transform:uppercase;font-size:9px;letter-spacing:.22em;margin-bottom:24px}
+    h1{font:400 clamp(58px,9vw,138px)/.79 Georgia,"Times New Roman",serif;letter-spacing:-.075em;margin:0}
+    h1 em{display:block;font-weight:400;color:var(--blue);margin-left:6vw}
+    .hero-side{padding-bottom:8px}
+    .hero-side p{font:400 16px/1.65 Georgia,"Times New Roman",serif;color:#4c5668;margin:0 0 32px;max-width:520px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);border-block:1px solid var(--line)}
+    .stat{padding:22px 12px 20px 0}
+    .stat+.stat{padding-left:16px;border-left:1px solid var(--line)}
+    .stat strong{display:block;font:400 clamp(40px,5vw,66px)/.85 Georgia,"Times New Roman",serif;letter-spacing:-.06em;color:var(--blue)}
+    .stat span{display:block;color:var(--muted);font-size:8px;text-transform:uppercase;letter-spacing:.14em;margin-top:10px}
+    .band{border-block:1px solid var(--ink);background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap}
+    .band-track{display:inline-flex;gap:36px;padding:12px 0;font-size:8px;text-transform:uppercase;letter-spacing:.18em;animation:scroll 42s linear infinite}
+    .band-track span:after{content:"✦";color:var(--yellow);margin-left:36px}
+    @keyframes scroll{to{transform:translateX(-50%)}}
+    .section{padding:70px 0}
+    .section-head{margin-bottom:30px;position:relative;cursor:pointer;user-select:none;padding-right:44px}
+    .chev{position:absolute;right:0;top:2px;width:34px;height:34px;border:1px solid var(--line);background:var(--white);color:var(--red);display:grid;place-items:center;font-size:16px;transition:transform .25s ease}
+    .section-head:hover .chev{border-color:var(--red)}
+    .section.collapsed .chev{transform:rotate(-90deg)}
+    .section.collapsed .grid{display:none}
+    .section-kicker{display:block;color:var(--red);text-transform:uppercase;font-size:9px;letter-spacing:.2em;margin-bottom:12px}
+    h2{font:400 clamp(34px,4.6vw,60px)/.95 Georgia,"Times New Roman",serif;letter-spacing:-.055em;margin:0 0 10px}
+    .section-note{max-width:560px;color:var(--muted);font-size:10px;line-height:1.7}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    @media(max-width:1200px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{grid-template-columns:1fr;gap:32px}}
+    @media(max-width:560px){.grid{grid-template-columns:1fr}.shell{width:calc(100% - 32px)}}
+    .card{background:var(--white);border:1px solid var(--line);display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:transform .2s ease,box-shadow .2s ease}
+    .card:hover{transform:translateY(-5px);box-shadow:0 16px 35px rgba(24,36,58,.13)}
+    .art{height:180px;border-bottom:1px solid var(--line);background:#0d1526;overflow:hidden;position:relative}
+    .art img,.art video{display:block;width:100%;height:100%;object-fit:cover}
+    .art.ph{display:grid;place-items:center;color:#fff}
+    .art.ph .ph-emoji{font-size:52px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
+    .rank{position:absolute;top:10px;left:10px;z-index:2;background:var(--red);color:#fff;font:700 11px Menlo,monospace;padding:4px 8px;letter-spacing:.05em}
+    .body{padding:16px 16px 18px;display:flex;flex-direction:column;flex:1}
+    .category{font-size:7px;text-transform:uppercase;letter-spacing:.15em;color:var(--blue);margin-bottom:10px}
+    .card h3{font:400 21px/1.05 Georgia,"Times New Roman",serif;letter-spacing:-.03em;margin:0 0 11px}
+    .card p{font-size:9.5px;line-height:1.65;color:var(--muted);margin:0 0 16px;flex:1}
+    .open{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:12px;text-transform:uppercase;font-size:7px;letter-spacing:.16em;color:var(--muted)}
+    .open .arr{color:var(--red);font-size:15px;transition:transform .2s ease}
+    .card:hover .arr{transform:translateX(4px)}
+    footer{border-top:1px solid var(--line);padding:34px 0 60px;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.14em;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    footer a{color:var(--blue);text-decoration:none}
+    footer a:hover{color:var(--red)}
+  </style>
+</head>
+<div class="shell">
+  <div class="topbar">
+    <a class="brand" href="../"><span class="brand-mark">GG</span> Diego Pacheco · Games</a>
+    <nav class="nav">
+      <a href="#cv">CV Games</a>
+      <a href="#agents">AI Agents</a>
+      <a href="#arcade">Arcade</a>
+      <a href="#puzzle">Puzzle</a>
+      <a href="#rl">RL</a>
+      <a href="#simple">Simple</a>
+      <a href="https://github.com/diegopacheco/ai-playground/tree/main/games">GitHub</a>
+    </nav>
+  </div>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">AI · Browser · Computer Vision</div>
+      <h1>Games<em>Catalog</em></h1>
+    </div>
+    <div class="hero-side">
+      <p>Games built across the AI Playground — some you play with your bare hands and voice, some run agents against each other, some teach a neural network to play for you.</p>
+      <div class="stats">
+        <div class="stat"><strong>35</strong><span>Games</span></div>
+        <div class="stat"><strong>6</strong><span>Categories</span></div>
+        <div class="stat"><strong>7</strong><span>CV Games</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="band"><div class="band-track" id="band"></div></div>
+
+<div class="shell">
+  <section class="section" id="cv">
+    <div class="section-head">
+      <span class="section-kicker">No keyboard required</span>
+      <h2>Computer Vision Games</h2>
+      <p class="section-note">Played with your hands, face and voice, tracked live from the webcam and microphone straight in the browser.</p>
+    </div>
+    <div class="grid" data-cat="cv"></div>
+  </section>
+
+  <section class="section" id="agents">
+    <div class="section-head">
+      <span class="section-kicker">The AI plays</span>
+      <h2>AI Agent Games</h2>
+      <p class="section-note">Games where LLM agents compete, deduce, bid and read your mind.</p>
+    </div>
+    <div class="grid" data-cat="agent"></div>
+  </section>
+
+  <section class="section" id="arcade">
+    <div class="section-head">
+      <span class="section-kicker">Reflex & speed</span>
+      <h2>Arcade & Action</h2>
+      <p class="section-note">Runners, racers, shooters and brawlers — mostly single HTML files with zero build step.</p>
+    </div>
+    <div class="grid" data-cat="arcade"></div>
+  </section>
+
+  <section class="section" id="puzzle">
+    <div class="section-head">
+      <span class="section-kicker">Think it through</span>
+      <h2>Puzzle, Strategy & Board</h2>
+      <p class="section-note">Memory, real-time strategy, mazes, board classics and card collecting.</p>
+    </div>
+    <div class="grid" data-cat="puzzle"></div>
+  </section>
+
+  <section class="section" id="rl">
+    <div class="section-head">
+      <span class="section-kicker">The AI learns</span>
+      <h2>Reinforcement Learning</h2>
+      <p class="section-note">Agents that train themselves to play classic games from raw pixels and rewards.</p>
+    </div>
+    <div class="grid" data-cat="rl"></div>
+  </section>
+
+  <section class="section" id="simple">
+    <div class="section-head">
+      <span class="section-kicker">Quick builds</span>
+      <h2>Simple POCs</h2>
+      <p class="section-note">Small single-purpose game POCs — quick Rock-Paper-Scissors builds across different stacks.</p>
+    </div>
+    <div class="grid" data-cat="simple"></div>
+  </section>
+
+  <footer>
+    <span>Diego Pacheco · AI Playground · Games</span>
+    <span><a href="https://github.com/diegopacheco/ai-playground/tree/main/games">github.com/diegopacheco/ai-playground</a></span>
+  </footer>
+</div>
+
+<script>
+const base="https://github.com/diegopacheco/ai-playground/tree/main/pocs/";
+const games=[
+{n:1,cat:"cv",t:"Air Fishing",c:"Computer Vision",d:"A browser fishing game you play with your bare hands — your index finger is the rod, tracked live from the webcam.",img:"../pocs/air-fishing/printscreens/gameplay.png",r:"air-fishing"},
+{n:2,cat:"cv",t:"Air Lango",c:"Computer Vision",d:"A 2-D boxing game you fight with your bare hands, no keyboard, driven by webcam hand tracking.",img:"../pocs/air-lango-cv/printscreens/gameplay.png",r:"air-lango-cv"},
+{n:3,cat:"cv",t:"Air Board",c:"Computer Vision",d:"A browser whiteboard you draw on with your bare hands — no pen, no mouse, the webcam is the input.",img:"../pocs/dashboard-cv/printscreens/board.png",r:"dashboard-cv"},
+{n:4,cat:"cv",t:"Puppet Shadows",c:"Computer Vision · OpenCV",d:"Hand-shadow puppet recognition with contour matching: make a shadow puppet and it names the animal in real time.",img:"../pocs/fable5-puppet-shadows-cv/printscreens/dog.png",r:"fable5-puppet-shadows-cv"},
+{n:5,cat:"cv",t:"Sound Guesser",c:"Audio · Browser",d:"Make a sound into your microphone — a clap, a knock, a whistle — and the AI guesses what it is, live.",img:"../pocs/sound-to-guess-cv/printscreens/02-listening.png",r:"sound-to-guess-cv"},
+{n:6,cat:"cv",t:"Jurassic Runner",c:"Computer Vision · Runner",d:"An endless runner set in an old jungle of the Jurassic age — no keyboard, played with the webcam.",img:"../pocs/jurassic-runner-game/printscreens/gameplay.png",r:"jurassic-runner-game"},
+{n:7,cat:"cv",t:"Open Can Enduro",c:"Computer Vision · Racing",d:"A tiny browser racer in the spirit of Atari's Enduro — no keyboard, played with the webcam.",img:"../pocs/open-can-enduro-game/printscreens/gameplay.png",r:"open-can-enduro-game"},
+
+{n:8,cat:"agent",t:"Terminator vs Mosquitos",c:"Grid Simulation",d:"A Terminator hunts mosquitos on a 20x20 battlefield, each side controlled by a chosen AI agent.",img:"../pocs/agent-terminator-game/game-going.png",r:"agent-terminator-game"},
+{n:9,cat:"agent",t:"Werewolf",c:"Social Deduction",d:"A multi-agent social deduction game where AI agents play Werewolf.",img:"../pocs/agent-werewolf/werewolf-going.png",r:"agent-werewolf"},
+{n:10,cat:"agent",t:"Auction House",c:"Multi-Agent",d:"Claude, Gemini, Copilot and Codex bid strategically to become the Savviest Bidder.",img:"../pocs/agents-auction-hourse/auction.png",r:"agents-auction-hourse"},
+{n:11,cat:"agent",t:"AI Guessing Game",c:"Mind Reading",d:"You think of something and the AI reads your mind; the only words you may say back are HOT and COLD.",img:"../pocs/ai-guessing-game/printscreens/02-play-question.png",r:"ai-guessing-game"},
+{n:12,cat:"agent",t:"AI RPG",c:"LLM Dungeon Master",d:"A text-based RPG where an LLM acts as the Dungeon Master, generating the world in real time.",img:"../pocs/ai-rpg/ai-screen.png",r:"ai-rpg"},
+{n:13,cat:"agent",t:"AI Debate Club",c:"Multi-Agent · Judge",d:"AI agents debate a topic while a judge agent picks the winner, then reads the debate aloud in different voices.",img:"../pocs/agent-debate-club/2.debate.png",r:"agent-debate-club"},
+
+{n:13,cat:"arcade",t:"Train Ride",c:"3D · Exploration",d:"A 3D web train ride across Rio Grande do Sul with real landmarks, day/night, rain and a steam engine.",gif:"../pocs/fable-5-train-ride-rs/printscreens/train-ride.gif",r:"fable-5-train-ride-rs"},
+{n:14,cat:"arcade",t:"Rally Game",c:"3D Racing · Three.js",d:"A 3D rally racer over a gravel loop against three AI rivals, one HTML file, no build step.",img:"../pocs/fable5-rally-game/printscreens/chasing.png",r:"fable5-rally-game"},
+{n:15,cat:"arcade",t:"Fight Game",c:"2-Player Fighting",d:"A 2-player cartoon fighting game, pure HTML5 canvas — drain the other's health before the timer runs out.",img:"../pocs/fable-5-fight-game/printscreens/fight.png",r:"fable-5-fight-game"},
+{n:16,cat:"arcade",t:"Bomberman-like",c:"Arcade",d:"Drop bombs, blast bricks, collect power-ups and clear all four foes on a canvas, zero libraries.",img:"../pocs/fable-5-bombermanlike/printscreens/gameplay.png",r:"fable-5-bombermanlike"},
+{n:17,cat:"arcade",t:"Cyber Jungle DoomLike",c:"FPS · Raycasting",d:"A small browser FPS using classic raycasting for a fast retro corridor-shooter feel.",img:"../pocs/codex-gpt-5.4-doom-like-experiment/result.png",r:"codex-gpt-5.4-doom-like-experiment"},
+{n:18,cat:"arcade",t:"Megaslop Runner",c:"Cyberpunk Runner",d:"You are an AI coding agent that runs forever, flinging slop while devs hurl determinism at you.",img:"../pocs/megaslop-runner/screenshot-play.png",r:"megaslop-runner"},
+{n:19,cat:"arcade",t:"Mega Slop",c:"8-bit Shooter",d:"An 8-bit, CRT-flavored platform shooter where you play a green slop-bot.",img:"../pocs/megaslop/megaslop-play.png",r:"megaslop"},
+
+{n:20,cat:"puzzle",t:"Memory Game",c:"Rust · React · SQLite",d:"A full-stack card-matching memory game built with Rust (Axum), React and SQLite.",ph:"🃏",bg:"linear-gradient(135deg,#2459b8,#7b3fb5)",r:"adwf-memory-game-opus-4.6-v5-final"},
+{n:21,cat:"puzzle",t:"Times 2",c:"Real-Time Strategy",d:"An Age of Empires II-style RTS where the enemy empire's strategy is decided live by Claude Sonnet.",img:"../pocs/times-2-game/printscreens/05-victory.png",r:"times-2-game"},
+{n:22,cat:"puzzle",t:"Connect Four",c:"Board · Agent vs Agent",d:"A Connect Four game where AI agents compete against each other in real time.",img:"../pocs/connect-four-agent-vs-agent/2.match-1.png",r:"connect-four-agent-vs-agent"},
+{n:23,cat:"puzzle",t:"Maze Race",c:"Java · Visualization",d:"A maze race replaying BFS vs DFS side by side against the live Java solver source.",img:"../pocs/fable5-maze-viz/printscreens/race-mid.png",r:"fable5-maze-viz"},
+{n:24,cat:"puzzle",t:"Pokemon Collector",c:"Cards · Opus 4.5",d:"A Pokemon trading-card collector built with Claude Opus 4.5.",img:"../pocs/claude-opus-4.5-pokemon-poc/opus-4.5-polemon-cards-1.png",r:"claude-opus-4.5-pokemon-poc"},
+
+{n:25,cat:"rl",t:"Flappy Bird RL",c:"Reinforcement Learning",d:"A reinforcement-learning agent trained to play Flappy Bird.",vid:"../pocs/reinforcement-learning-FlappyBird/fb.mp4",r:"reinforcement-learning-FlappyBird"},
+{n:26,cat:"rl",t:"Pacman RL",c:"Reinforcement Learning",d:"A reinforcement-learning agent trained to play Pacman.",vid:"../pocs/reinforcement-learning-Pacman/pacman.mp4",r:"reinforcement-learning-Pacman"},
+{n:27,cat:"rl",t:"Boxing RL",c:"Reinforcement Learning",d:"A reinforcement-learning agent trained to play Atari Boxing.",ph:"🥊",bg:"linear-gradient(135deg,#d7472f,#7b3fb5)",r:"reinforcement-learning-Boxing"},
+{n:28,cat:"rl",t:"Car Racing RL",c:"Reinforcement Learning",d:"A reinforcement-learning agent trained to drive in Car Racing.",ph:"🏎️",bg:"linear-gradient(135deg,#28766a,#2459b8)",r:"reinforcement-learning-CarRacing"},
+{n:29,cat:"rl",t:"CartPole RL",c:"Reinforcement Learning",d:"A reinforcement-learning agent trained to balance the CartPole.",ph:"🤸",bg:"linear-gradient(135deg,#e7b94a,#d7472f)",r:"reinforcement-learning-CartPole"},
+{n:30,cat:"rl",t:"Lunar Lander RL",c:"Reinforcement Learning",d:"A reinforcement-learning agent trained to land in Lunar Lander.",ph:"🚀",bg:"linear-gradient(135deg,#18243a,#2459b8)",r:"reinforcement-learning-LunarLander"},
+{n:31,cat:"rl",t:"Mario Double DQN",c:"PyTorch · Double DQN",d:"A Double Deep Q-Network PyTorch agent trained to play Super Mario Bros.",ph:"🍄",bg:"linear-gradient(135deg,#d7472f,#e7b94a)",r:"pytorch-double-deep-q-networks-mario-rl-agent"},
+
+{n:32,cat:"simple",t:"Rock Paper Scissors",c:"React 19 · Bun",d:"A web rock paper scissors game with animations and persistent score tracking.",img:"../pocs/kiro-sdd-game-poc/kiro-dez-2025-results.png",r:"kiro-sdd-game-poc"},
+{n:33,cat:"simple",t:"Paper Cizer Rock",c:"React",d:"A React web game for quick Paper, Cizer, Rock rounds against the house.",img:"../pocs/codex-gpt-5.5-high-paper-game/docs/screenshots/game-round.png",r:"codex-gpt-5.5-high-paper-game"},
+{n:34,cat:"simple",t:"Rock · Paper · Scissors",c:"React · CDN",d:"A single-file React Rock-Paper-Scissors game running via CDN, no build step.",img:"../pocs/opus-4.7-high-paper-game/screenshots/01-draw.png",r:"opus-4.7-high-paper-game"}
+];
+games.forEach((g,i)=>g.n=i+1);
+
+function media(g){
+  const rank='<span class="rank">'+String(g.n).padStart(2,'0')+'</span>';
+  if(g.vid) return '<div class="art">'+rank+'<video autoplay muted loop playsinline src="'+g.vid+'"></video></div>';
+  if(g.gif) return '<div class="art">'+rank+'<img loading="lazy" src="'+g.gif+'" alt="'+g.t+'"></div>';
+  if(g.img) return '<div class="art">'+rank+'<img loading="lazy" src="'+g.img+'" alt="'+g.t+'"></div>';
+  return '<div class="art ph" style="background:'+g.bg+'">'+rank+'<span class="ph-emoji">'+g.ph+'</span></div>';
+}
+function card(g){
+  return '<a class="card" href="'+base+g.r+'">'+media(g)+
+    '<div class="body"><div class="category">'+g.c+'</div><h3>'+g.t+'</h3><p>'+g.d+'</p>'+
+    '<div class="open"><span>Open POC</span><span class="arr">&rarr;</span></div></div></a>';
+}
+document.querySelectorAll('.grid[data-cat]').forEach(el=>{
+  el.innerHTML=games.filter(g=>g.cat===el.dataset.cat).map(card).join('');
+});
+document.querySelectorAll('.section').forEach(sec=>{
+  const head=sec.querySelector('.section-head');
+  const chev=document.createElement('span');
+  chev.className='chev';chev.textContent='▾';
+  head.appendChild(chev);
+  head.addEventListener('click',()=>sec.classList.toggle('collapsed'));
+});
+const names=games.map(g=>g.t);
+document.getElementById('band').innerHTML='<span>'+names.concat(names).join('</span><span>')+'</span>';
+</script>
+</html>
