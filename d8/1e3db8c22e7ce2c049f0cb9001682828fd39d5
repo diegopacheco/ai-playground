@@ -1,0 +1,19 @@
+pocs/tv-time-like/README.md
+  s_e6206071b388cf::t_26fb588f58d946 3-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d81e3db8c22e7ce2c049f0cb9001682828fd39d5",
+  "prompts": {},
+  "sessions": {
+    "s_e6206071b388cf": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ab30bb63-2ccc-4813-8b49-9de12e58048b",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
