@@ -1,3 +1,5 @@
+<img src="effort-mapping-logo.png" alt="effort-map logo" width="320" />
+
 # effort-map
 
 A skill for **Claude Code** and **Codex** that reads the current project's agent sessions and scores how much real effort went into it. Run it with `/effort-map` inside any project and it produces a self-contained, light-theme HTML report.
