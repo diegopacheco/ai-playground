@@ -91,20 +91,25 @@ const searchMovies = async (query: string, index: number): Promise<Media[]> => {
       episodes: []
     }))
   }
-  type ItunesMovie = { trackId: number; trackName: string; releaseDate: string; longDescription?: string; shortDescription?: string; primaryGenreName?: string; trackTimeMillis?: number; artworkUrl100?: string; trackViewUrl?: string }
-  const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=movie&entity=movie&limit=8&country=US`).catch(() => null)
-  const data = response?.ok ? await response.json() as { results: ItunesMovie[] } : { results: [] }
-  return data.results.slice(0, 6).map((movie, offset) => ({
-    id: `itunes-${movie.trackId}`,
-    providerId: String(movie.trackId),
-    provider: "itunes",
+  type ImdbSuggestion = { id: string; l: string; q?: string; qid?: string; y?: number; s?: string; i?: { imageUrl: string } }
+  const slug = encodeURIComponent(query.toLowerCase())
+  const response = await fetch(`https://v2.sg.media-imdb.com/suggestion/x/${slug}.json`, { headers: { "User-Agent": "Reelmark/1.0 local-media-metadata" } }).catch(() => null)
+  const data = response?.ok ? await response.json() as { d?: ImdbSuggestion[] } : { d: [] }
+  const movies = (data.d || []).filter(item => {
+    const format = item.q?.toLowerCase() || ""
+    return item.i?.imageUrl && (item.qid === "movie" || (format.includes("feature") || (!format.includes("series") && !format.includes("tv "))))
+  })
+  return movies.slice(0, 6).map((movie, offset) => ({
+    id: `imdb-${movie.id}`,
+    providerId: movie.id,
+    provider: "imdb",
     type: "movie",
-    title: movie.trackName,
-    year: Number(movie.releaseDate?.slice(0, 4)) || 0,
-    overview: movie.longDescription || movie.shortDescription || "No synopsis is available yet.",
-    genres: movie.primaryGenreName ? [movie.primaryGenreName] : [],
-    runtime: movie.trackTimeMillis ? Math.round(movie.trackTimeMillis / 60000) : 0,
-    poster: movie.artworkUrl100 ? movie.artworkUrl100.replace("100x100bb", "600x600bb") : null,
+    title: movie.l,
+    year: movie.y || 0,
+    overview: movie.s ? `Featuring ${movie.s}.` : "No synopsis is available yet.",
+    genres: [],
+    runtime: 0,
+    poster: movie.i?.imageUrl || null,
     backdrop: null,
     color: palette[(index + offset) % palette.length],
     status: "Released",
@@ -141,5 +146,9 @@ export const searchMedia = async (query: string): Promise<Media[]> => {
   const remoteShows = await Promise.all(shows.slice(0, 6).map(({ show }, index) => buildShow(show, index)))
   const movies = await searchMovies(query, 2)
   const known = new Set(local.map(item => item.id))
-  return [...local, ...remoteShows.filter(item => !known.has(item.id)), ...movies].filter(available).slice(0, 14)
+  const seen = new Set<string>()
+  return [...local, ...remoteShows.filter(item => !known.has(item.id)), ...movies]
+    .filter(available)
+    .filter(item => { const key = libraryTitleKey(item.type, item.title); return seen.has(key) ? false : (seen.add(key), true) })
+    .slice(0, 14)
 }
