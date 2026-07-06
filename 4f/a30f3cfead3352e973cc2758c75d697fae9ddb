@@ -1,0 +1,19 @@
+pocs/agent-skill-effot-mapper/README.md
+  s_2a3fa2ebada5b7::t_7be4a344985698 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "4fa30f3cfead3352e973cc2758c75d697fae9ddb",
+  "prompts": {},
+  "sessions": {
+    "s_2a3fa2ebada5b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "804af34a-12c2-4762-b021-c79dcc24a19f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
