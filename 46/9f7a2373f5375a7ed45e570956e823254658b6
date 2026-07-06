@@ -1,0 +1,20 @@
+.github/workflows/agents-pages.yml
+  s_c71345b21a12b7::t_2f205a9d3b9ee4 36-42
+  s_c71345b21a12b7::t_5483bda55c56c8 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "469f7a2373f5375a7ed45e570956e823254658b6",
+  "prompts": {},
+  "sessions": {
+    "s_c71345b21a12b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f42a3a6d-ccb7-468d-b1ec-b266bc11c64e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
