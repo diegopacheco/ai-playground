@@ -1,5 +1,9 @@
 # Bug Cataloger
 
+The report below shows the generated Bug Cataloger output for `tv-time-like`. It summarizes four resolved engineering issues as paired Bug and Solution entries, identifies the source agent and report date, and provides search across the findings.
+
+![Bug Cataloger report for tv-time-like](tv-time-like-bug-report-05_07_2026.png)
+
 Bug Cataloger reads prior Claude Code or Codex sessions for the current Git repository and creates a searchable record of bugs that were solved. It requires evidence of both the failure and the resolution before adding an item.
 
 The generated file follows this format:
