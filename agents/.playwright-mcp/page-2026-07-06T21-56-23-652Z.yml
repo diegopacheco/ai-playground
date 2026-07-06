@@ -1,0 +1,655 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - link "GG Diego Pacheco · Games" [ref=e4] [cursor=pointer]:
+        - /url: ../
+        - generic [ref=e5]: GG
+        - text: Diego Pacheco · Games
+      - navigation [ref=e6]:
+        - link "CV Games" [ref=e7] [cursor=pointer]:
+          - /url: "#cv"
+        - link "AI Agents" [ref=e8] [cursor=pointer]:
+          - /url: "#agents"
+        - link "Arcade" [ref=e9] [cursor=pointer]:
+          - /url: "#arcade"
+        - link "Puzzle" [ref=e10] [cursor=pointer]:
+          - /url: "#puzzle"
+        - link "RL" [ref=e11] [cursor=pointer]:
+          - /url: "#rl"
+        - link "Simple" [ref=e12] [cursor=pointer]:
+          - /url: "#simple"
+        - link "AI Playground ↗" [ref=e13] [cursor=pointer]:
+          - /url: https://diegopacheco.github.io/ai-playground/
+        - link "Main site ↗" [ref=e14] [cursor=pointer]:
+          - /url: https://diegopacheco.github.io/
+        - link "GitHub ↗" [ref=e15] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/games
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic [ref=e18]: AI · Browser · Computer Vision
+        - heading "Games Catalog" [level=1] [ref=e19]:
+          - text: Games
+          - emphasis [ref=e20]: Catalog
+        - paragraph [ref=e21]: Games built across the AI Playground — some you play with your bare hands and voice, some run agents against each other, some teach a neural network to play for you.
+        - generic [ref=e22]:
+          - link "Explore games ↓" [ref=e23] [cursor=pointer]:
+            - /url: "#cv"
+          - link "Open GitHub ↗" [ref=e24] [cursor=pointer]:
+            - /url: https://github.com/diegopacheco/ai-playground/tree/main/games
+      - generic [ref=e25]:
+        - generic [ref=e26]: Catalog index
+        - generic [ref=e27]:
+          - generic [ref=e28]:
+            - strong [ref=e29]: "40"
+            - generic [ref=e30]: Games
+          - generic [ref=e31]:
+            - strong [ref=e32]: "6"
+            - generic [ref=e33]: Categories
+          - generic [ref=e34]:
+            - strong [ref=e35]: "7"
+            - generic [ref=e36]: CV Games
+        - paragraph [ref=e37]: Play in the browser, watch agents compete, or train a network to play for you.
+  - generic [ref=e39]:
+    - generic [ref=e40]: Air Fishing✳
+    - generic [ref=e41]: Air Lango✳
+    - generic [ref=e42]: Air Board✳
+    - generic [ref=e43]: Puppet Shadows✳
+    - generic [ref=e44]: Sound Guesser✳
+    - generic [ref=e45]: Jurassic Runner✳
+    - generic [ref=e46]: Open Can Enduro✳
+    - generic [ref=e47]: Terminator vs Mosquitos✳
+    - generic [ref=e48]: Werewolf✳
+    - generic [ref=e49]: Auction House✳
+    - generic [ref=e50]: AI Guessing Game✳
+    - generic [ref=e51]: AI RPG✳
+    - generic [ref=e52]: AI Debate Club✳
+    - generic [ref=e53]: Connect Four✳
+    - generic [ref=e54]: Train Ride✳
+    - generic [ref=e55]: Rally Game✳
+    - generic [ref=e56]: Top Speed GP✳
+    - generic [ref=e57]: 3D Tetris✳
+    - generic [ref=e58]: Fight Game✳
+    - generic [ref=e59]: Bomberman-like✳
+    - generic [ref=e60]: Cyber Jungle DoomLike✳
+    - generic [ref=e61]: Megaslop Runner✳
+    - generic [ref=e62]: Mega Slop✳
+    - generic [ref=e63]: Memory Game✳
+    - generic [ref=e64]: Times 2✳
+    - generic [ref=e65]: Maze Race✳
+    - generic [ref=e66]: Pokemon Collector✳
+    - generic [ref=e67]: Flappy Bird RL✳
+    - generic [ref=e68]: Pacman RL✳
+    - generic [ref=e69]: Boxing RL✳
+    - generic [ref=e70]: Car Racing RL✳
+    - generic [ref=e71]: CartPole RL✳
+    - generic [ref=e72]: Lunar Lander RL✳
+    - generic [ref=e73]: Mario Double DQN✳
+    - generic [ref=e74]: Rock Paper Scissors✳
+    - generic [ref=e75]: Paper Cizer Rock✳
+    - generic [ref=e76]: Rock · Paper · Scissors✳
+    - generic [ref=e77]: Rock Paper Sizer✳
+    - generic [ref=e78]: Codex Tetris✳
+    - generic [ref=e79]: Cursor Tetris✳
+    - generic [ref=e80]: Air Fishing✳
+    - generic [ref=e81]: Air Lango✳
+    - generic [ref=e82]: Air Board✳
+    - generic [ref=e83]: Puppet Shadows✳
+    - generic [ref=e84]: Sound Guesser✳
+    - generic [ref=e85]: Jurassic Runner✳
+    - generic [ref=e86]: Open Can Enduro✳
+    - generic [ref=e87]: Terminator vs Mosquitos✳
+    - generic [ref=e88]: Werewolf✳
+    - generic [ref=e89]: Auction House✳
+    - generic [ref=e90]: AI Guessing Game✳
+    - generic [ref=e91]: AI RPG✳
+    - generic [ref=e92]: AI Debate Club✳
+    - generic [ref=e93]: Connect Four✳
+    - generic [ref=e94]: Train Ride✳
+    - generic [ref=e95]: Rally Game✳
+    - generic [ref=e96]: Top Speed GP✳
+    - generic [ref=e97]: 3D Tetris✳
+    - generic [ref=e98]: Fight Game✳
+    - generic [ref=e99]: Bomberman-like✳
+    - generic [ref=e100]: Cyber Jungle DoomLike✳
+    - generic [ref=e101]: Megaslop Runner✳
+    - generic [ref=e102]: Mega Slop✳
+    - generic [ref=e103]: Memory Game✳
+    - generic [ref=e104]: Times 2✳
+    - generic [ref=e105]: Maze Race✳
+    - generic [ref=e106]: Pokemon Collector✳
+    - generic [ref=e107]: Flappy Bird RL✳
+    - generic [ref=e108]: Pacman RL✳
+    - generic [ref=e109]: Boxing RL✳
+    - generic [ref=e110]: Car Racing RL✳
+    - generic [ref=e111]: CartPole RL✳
+    - generic [ref=e112]: Lunar Lander RL✳
+    - generic [ref=e113]: Mario Double DQN✳
+    - generic [ref=e114]: Rock Paper Scissors✳
+    - generic [ref=e115]: Paper Cizer Rock✳
+    - generic [ref=e116]: Rock · Paper · Scissors✳
+    - generic [ref=e117]: Rock Paper Sizer✳
+    - generic [ref=e118]: Codex Tetris✳
+    - generic [ref=e119]: Cursor Tetris✳
+  - generic [ref=e120]:
+    - generic [ref=e121]:
+      - generic [ref=e122] [cursor=pointer]:
+        - generic [ref=e123]: No keyboard required
+        - heading "Computer Vision Games" [level=2] [ref=e124]
+        - paragraph [ref=e125]: Played with your hands, face and voice, tracked live from the webcam and microphone straight in the browser.
+        - generic [ref=e126]: ▾
+      - generic [ref=e127]:
+        - link "01 Air Fishing Computer Vision Air Fishing A browser fishing game you play with your bare hands — your index finger is the rod, tracked live from the webcam. Open POC →" [ref=e128] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/air-fishing
+          - generic [ref=e129]:
+            - generic [ref=e130]: "01"
+            - img "Air Fishing" [ref=e131]
+          - generic [ref=e132]:
+            - generic [ref=e133]: Computer Vision
+            - heading "Air Fishing" [level=3] [ref=e134]
+            - paragraph [ref=e135]: A browser fishing game you play with your bare hands — your index finger is the rod, tracked live from the webcam.
+            - generic [ref=e136]:
+              - generic [ref=e137]: Open POC
+              - generic [ref=e138]: →
+        - link "02 Air Lango Computer Vision Air Lango A 2-D boxing game you fight with your bare hands, no keyboard, driven by webcam hand tracking. Open POC →" [ref=e139] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/air-lango-cv
+          - generic [ref=e140]:
+            - generic [ref=e141]: "02"
+            - img "Air Lango" [ref=e142]
+          - generic [ref=e143]:
+            - generic [ref=e144]: Computer Vision
+            - heading "Air Lango" [level=3] [ref=e145]
+            - paragraph [ref=e146]: A 2-D boxing game you fight with your bare hands, no keyboard, driven by webcam hand tracking.
+            - generic [ref=e147]:
+              - generic [ref=e148]: Open POC
+              - generic [ref=e149]: →
+        - link "03 Air Board Computer Vision Air Board A browser whiteboard you draw on with your bare hands — no pen, no mouse, the webcam is the input. Open POC →" [ref=e150] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/dashboard-cv
+          - generic [ref=e151]:
+            - generic [ref=e152]: "03"
+            - img "Air Board" [ref=e153]
+          - generic [ref=e154]:
+            - generic [ref=e155]: Computer Vision
+            - heading "Air Board" [level=3] [ref=e156]
+            - paragraph [ref=e157]: A browser whiteboard you draw on with your bare hands — no pen, no mouse, the webcam is the input.
+            - generic [ref=e158]:
+              - generic [ref=e159]: Open POC
+              - generic [ref=e160]: →
+        - 'link "04 Puppet Shadows Computer Vision · OpenCV Puppet Shadows Hand-shadow puppet recognition with contour matching: make a shadow puppet and it names the animal in real time. Open POC →" [ref=e161] [cursor=pointer]':
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-puppet-shadows-cv
+          - generic [ref=e162]:
+            - generic [ref=e163]: "04"
+            - img "Puppet Shadows" [ref=e164]
+          - generic [ref=e165]:
+            - generic [ref=e166]: Computer Vision · OpenCV
+            - heading "Puppet Shadows" [level=3] [ref=e167]
+            - paragraph [ref=e168]: "Hand-shadow puppet recognition with contour matching: make a shadow puppet and it names the animal in real time."
+            - generic [ref=e169]:
+              - generic [ref=e170]: Open POC
+              - generic [ref=e171]: →
+        - link "05 Sound Guesser Audio · Browser Sound Guesser Make a sound into your microphone — a clap, a knock, a whistle — and the AI guesses what it is, live. Open POC →" [ref=e172] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/sound-to-guess-cv
+          - generic [ref=e173]:
+            - generic [ref=e174]: "05"
+            - img "Sound Guesser" [ref=e175]
+          - generic [ref=e176]:
+            - generic [ref=e177]: Audio · Browser
+            - heading "Sound Guesser" [level=3] [ref=e178]
+            - paragraph [ref=e179]: Make a sound into your microphone — a clap, a knock, a whistle — and the AI guesses what it is, live.
+            - generic [ref=e180]:
+              - generic [ref=e181]: Open POC
+              - generic [ref=e182]: →
+        - link "06 Jurassic Runner Computer Vision · Runner Jurassic Runner An endless runner set in an old jungle of the Jurassic age — no keyboard, played with the webcam. Open POC →" [ref=e183] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/jurassic-runner-game
+          - generic [ref=e184]:
+            - generic [ref=e185]: "06"
+            - img "Jurassic Runner" [ref=e186]
+          - generic [ref=e187]:
+            - generic [ref=e188]: Computer Vision · Runner
+            - heading "Jurassic Runner" [level=3] [ref=e189]
+            - paragraph [ref=e190]: An endless runner set in an old jungle of the Jurassic age — no keyboard, played with the webcam.
+            - generic [ref=e191]:
+              - generic [ref=e192]: Open POC
+              - generic [ref=e193]: →
+        - link "07 Open Can Enduro Computer Vision · Racing Open Can Enduro A tiny browser racer in the spirit of Atari's Enduro — no keyboard, played with the webcam. Open POC →" [ref=e194] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/open-can-enduro-game
+          - generic [ref=e195]:
+            - generic [ref=e196]: "07"
+            - img "Open Can Enduro" [ref=e197]
+          - generic [ref=e198]:
+            - generic [ref=e199]: Computer Vision · Racing
+            - heading "Open Can Enduro" [level=3] [ref=e200]
+            - paragraph [ref=e201]: A tiny browser racer in the spirit of Atari's Enduro — no keyboard, played with the webcam.
+            - generic [ref=e202]:
+              - generic [ref=e203]: Open POC
+              - generic [ref=e204]: →
+    - generic [ref=e205]:
+      - generic [ref=e206] [cursor=pointer]:
+        - generic [ref=e207]: The AI plays
+        - heading "AI Agent Games" [level=2] [ref=e208]
+        - paragraph [ref=e209]: Games where LLM agents compete, deduce, bid and read your mind.
+        - generic [ref=e210]: ▾
+      - generic [ref=e211]:
+        - link "08 Terminator vs Mosquitos Grid Simulation Terminator vs Mosquitos A Terminator hunts mosquitos on a 20x20 battlefield, each side controlled by a chosen AI agent. Open POC →" [ref=e212] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-terminator-game
+          - generic [ref=e213]:
+            - generic [ref=e214]: "08"
+            - img "Terminator vs Mosquitos" [ref=e215]
+          - generic [ref=e216]:
+            - generic [ref=e217]: Grid Simulation
+            - heading "Terminator vs Mosquitos" [level=3] [ref=e218]
+            - paragraph [ref=e219]: A Terminator hunts mosquitos on a 20x20 battlefield, each side controlled by a chosen AI agent.
+            - generic [ref=e220]:
+              - generic [ref=e221]: Open POC
+              - generic [ref=e222]: →
+        - link "09 Werewolf Social Deduction Werewolf A multi-agent social deduction game where AI agents play Werewolf. Open POC →" [ref=e223] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-werewolf
+          - generic [ref=e224]:
+            - generic [ref=e225]: "09"
+            - img "Werewolf" [ref=e226]
+          - generic [ref=e227]:
+            - generic [ref=e228]: Social Deduction
+            - heading "Werewolf" [level=3] [ref=e229]
+            - paragraph [ref=e230]: A multi-agent social deduction game where AI agents play Werewolf.
+            - generic [ref=e231]:
+              - generic [ref=e232]: Open POC
+              - generic [ref=e233]: →
+        - link "10 Auction House Multi-Agent Auction House Claude, Gemini, Copilot and Codex bid strategically to become the Savviest Bidder. Open POC →" [ref=e234] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/agents-auction-hourse
+          - generic [ref=e235]:
+            - generic [ref=e236]: "10"
+            - img "Auction House" [ref=e237]
+          - generic [ref=e238]:
+            - generic [ref=e239]: Multi-Agent
+            - heading "Auction House" [level=3] [ref=e240]
+            - paragraph [ref=e241]: Claude, Gemini, Copilot and Codex bid strategically to become the Savviest Bidder.
+            - generic [ref=e242]:
+              - generic [ref=e243]: Open POC
+              - generic [ref=e244]: →
+        - link "11 AI Guessing Game Mind Reading AI Guessing Game You think of something and the AI reads your mind; the only words you may say back are HOT and COLD. Open POC →" [ref=e245] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/ai-guessing-game
+          - generic [ref=e246]:
+            - generic [ref=e247]: "11"
+            - img "AI Guessing Game" [ref=e248]
+          - generic [ref=e249]:
+            - generic [ref=e250]: Mind Reading
+            - heading "AI Guessing Game" [level=3] [ref=e251]
+            - paragraph [ref=e252]: You think of something and the AI reads your mind; the only words you may say back are HOT and COLD.
+            - generic [ref=e253]:
+              - generic [ref=e254]: Open POC
+              - generic [ref=e255]: →
+        - link "12 AI RPG LLM Dungeon Master AI RPG A text-based RPG where an LLM acts as the Dungeon Master, generating the world in real time. Open POC →" [ref=e256] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/ai-rpg
+          - generic [ref=e257]:
+            - generic [ref=e258]: "12"
+            - img "AI RPG" [ref=e259]
+          - generic [ref=e260]:
+            - generic [ref=e261]: LLM Dungeon Master
+            - heading "AI RPG" [level=3] [ref=e262]
+            - paragraph [ref=e263]: A text-based RPG where an LLM acts as the Dungeon Master, generating the world in real time.
+            - generic [ref=e264]:
+              - generic [ref=e265]: Open POC
+              - generic [ref=e266]: →
+        - link "13 AI Debate Club Multi-Agent · Judge AI Debate Club AI agents debate a topic while a judge agent picks the winner, then reads the debate aloud in different voices. Open POC →" [ref=e267] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-debate-club
+          - generic [ref=e268]:
+            - generic [ref=e269]: "13"
+            - img "AI Debate Club" [ref=e270]
+          - generic [ref=e271]:
+            - generic [ref=e272]: Multi-Agent · Judge
+            - heading "AI Debate Club" [level=3] [ref=e273]
+            - paragraph [ref=e274]: AI agents debate a topic while a judge agent picks the winner, then reads the debate aloud in different voices.
+            - generic [ref=e275]:
+              - generic [ref=e276]: Open POC
+              - generic [ref=e277]: →
+        - link "14 Connect Four Board · Agent vs Agent Connect Four A Connect Four game where AI agents compete against each other in real time. Open POC →" [ref=e278] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/connect-four-agent-vs-agent
+          - generic [ref=e279]:
+            - generic [ref=e280]: "14"
+            - img "Connect Four" [ref=e281]
+          - generic [ref=e282]:
+            - generic [ref=e283]: Board · Agent vs Agent
+            - heading "Connect Four" [level=3] [ref=e284]
+            - paragraph [ref=e285]: A Connect Four game where AI agents compete against each other in real time.
+            - generic [ref=e286]:
+              - generic [ref=e287]: Open POC
+              - generic [ref=e288]: →
+    - generic [ref=e289]:
+      - generic [ref=e290] [cursor=pointer]:
+        - generic [ref=e291]: Reflex & speed
+        - heading "Arcade & Action" [level=2] [ref=e292]
+        - paragraph [ref=e293]: Runners, racers, shooters and brawlers — mostly single HTML files with zero build step.
+        - generic [ref=e294]: ▾
+      - generic [ref=e295]:
+        - link "15 Train Ride 3D · Exploration Train Ride A 3D web train ride across Rio Grande do Sul with real landmarks, day/night, rain and a steam engine. Open POC →" [ref=e296] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable-5-train-ride-rs
+          - generic [ref=e297]:
+            - generic [ref=e298]: "15"
+            - img "Train Ride" [ref=e299]
+          - generic [ref=e300]:
+            - generic [ref=e301]: 3D · Exploration
+            - heading "Train Ride" [level=3] [ref=e302]
+            - paragraph [ref=e303]: A 3D web train ride across Rio Grande do Sul with real landmarks, day/night, rain and a steam engine.
+            - generic [ref=e304]:
+              - generic [ref=e305]: Open POC
+              - generic [ref=e306]: →
+        - link "16 Rally Game 3D Racing · Three.js Rally Game A 3D rally racer over a gravel loop against three AI rivals, one HTML file, no build step. Open POC →" [ref=e307] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-rally-game
+          - generic [ref=e308]:
+            - generic [ref=e309]: "16"
+            - img "Rally Game" [ref=e310]
+          - generic [ref=e311]:
+            - generic [ref=e312]: 3D Racing · Three.js
+            - heading "Rally Game" [level=3] [ref=e313]
+            - paragraph [ref=e314]: A 3D rally racer over a gravel loop against three AI rivals, one HTML file, no build step.
+            - generic [ref=e315]:
+              - generic [ref=e316]: Open POC
+              - generic [ref=e317]: →
+        - link "17 Top Speed GP Pseudo-3D Racing Top Speed GP A Top Gear-style pseudo-3D arcade racer over a sunset circuit with 19 rivals, nitro boosts and a CRT bezel, one HTML file. Open POC →" [ref=e318] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-poc
+          - generic [ref=e319]:
+            - generic [ref=e320]: "17"
+            - img "Top Speed GP" [ref=e321]
+          - generic [ref=e322]:
+            - generic [ref=e323]: Pseudo-3D Racing
+            - heading "Top Speed GP" [level=3] [ref=e324]
+            - paragraph [ref=e325]: A Top Gear-style pseudo-3D arcade racer over a sunset circuit with 19 rivals, nitro boosts and a CRT bezel, one HTML file.
+            - generic [ref=e326]:
+              - generic [ref=e327]: Open POC
+              - generic [ref=e328]: →
+        - link "18 3D Tetris 3D · Three.js 3D Tetris A playable Blockout-style 3D Tetris where polycubes fall down a pit and you slide and rotate them across all three axes. Open POC →" [ref=e329] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-opus-4.8-poc
+          - generic [ref=e330]:
+            - generic [ref=e331]: "18"
+            - img "3D Tetris" [ref=e332]
+          - generic [ref=e333]:
+            - generic [ref=e334]: 3D · Three.js
+            - heading "3D Tetris" [level=3] [ref=e335]
+            - paragraph [ref=e336]: A playable Blockout-style 3D Tetris where polycubes fall down a pit and you slide and rotate them across all three axes.
+            - generic [ref=e337]:
+              - generic [ref=e338]: Open POC
+              - generic [ref=e339]: →
+        - link "19 Fight Game 2-Player Fighting Fight Game A 2-player cartoon fighting game, pure HTML5 canvas — drain the other's health before the timer runs out. Open POC →" [ref=e340] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable-5-fight-game
+          - generic [ref=e341]:
+            - generic [ref=e342]: "19"
+            - img "Fight Game" [ref=e343]
+          - generic [ref=e344]:
+            - generic [ref=e345]: 2-Player Fighting
+            - heading "Fight Game" [level=3] [ref=e346]
+            - paragraph [ref=e347]: A 2-player cartoon fighting game, pure HTML5 canvas — drain the other's health before the timer runs out.
+            - generic [ref=e348]:
+              - generic [ref=e349]: Open POC
+              - generic [ref=e350]: →
+        - link "20 Bomberman-like Arcade Bomberman-like Drop bombs, blast bricks, collect power-ups and clear all four foes on a canvas, zero libraries. Open POC →" [ref=e351] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable-5-bombermanlike
+          - generic [ref=e352]:
+            - generic [ref=e353]: "20"
+            - img "Bomberman-like" [ref=e354]
+          - generic [ref=e355]:
+            - generic [ref=e356]: Arcade
+            - heading "Bomberman-like" [level=3] [ref=e357]
+            - paragraph [ref=e358]: Drop bombs, blast bricks, collect power-ups and clear all four foes on a canvas, zero libraries.
+            - generic [ref=e359]:
+              - generic [ref=e360]: Open POC
+              - generic [ref=e361]: →
+        - link "21 Cyber Jungle DoomLike FPS · Raycasting Cyber Jungle DoomLike A small browser FPS using classic raycasting for a fast retro corridor-shooter feel. Open POC →" [ref=e362] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-gpt-5.4-doom-like-experiment
+          - generic [ref=e363]:
+            - generic [ref=e364]: "21"
+            - img "Cyber Jungle DoomLike" [ref=e365]
+          - generic [ref=e366]:
+            - generic [ref=e367]: FPS · Raycasting
+            - heading "Cyber Jungle DoomLike" [level=3] [ref=e368]
+            - paragraph [ref=e369]: A small browser FPS using classic raycasting for a fast retro corridor-shooter feel.
+            - generic [ref=e370]:
+              - generic [ref=e371]: Open POC
+              - generic [ref=e372]: →
+        - link "22 Megaslop Runner Cyberpunk Runner Megaslop Runner You are an AI coding agent that runs forever, flinging slop while devs hurl determinism at you. Open POC →" [ref=e373] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/megaslop-runner
+          - generic [ref=e374]:
+            - generic [ref=e375]: "22"
+            - img "Megaslop Runner" [ref=e376]
+          - generic [ref=e377]:
+            - generic [ref=e378]: Cyberpunk Runner
+            - heading "Megaslop Runner" [level=3] [ref=e379]
+            - paragraph [ref=e380]: You are an AI coding agent that runs forever, flinging slop while devs hurl determinism at you.
+            - generic [ref=e381]:
+              - generic [ref=e382]: Open POC
+              - generic [ref=e383]: →
+        - link "23 Mega Slop 8-bit Shooter Mega Slop An 8-bit, CRT-flavored platform shooter where you play a green slop-bot. Open POC →" [ref=e384] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/megaslop
+          - generic [ref=e385]:
+            - generic [ref=e386]: "23"
+            - img "Mega Slop" [ref=e387]
+          - generic [ref=e388]:
+            - generic [ref=e389]: 8-bit Shooter
+            - heading "Mega Slop" [level=3] [ref=e390]
+            - paragraph [ref=e391]: An 8-bit, CRT-flavored platform shooter where you play a green slop-bot.
+            - generic [ref=e392]:
+              - generic [ref=e393]: Open POC
+              - generic [ref=e394]: →
+    - generic [ref=e395]:
+      - generic [ref=e396] [cursor=pointer]:
+        - generic [ref=e397]: Think it through
+        - heading "Puzzle, Strategy & Board" [level=2] [ref=e398]
+        - paragraph [ref=e399]: Memory, real-time strategy, mazes, board classics and card collecting.
+        - generic [ref=e400]: ▾
+      - generic [ref=e401]:
+        - link "24 🃏 Rust · React · SQLite Memory Game A full-stack card-matching memory game built with Rust (Axum), React and SQLite. Open POC →" [ref=e402] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-memory-game-opus-4.6-v5-final
+          - generic [ref=e403]:
+            - generic [ref=e404]: "24"
+            - generic [ref=e405]: 🃏
+          - generic [ref=e406]:
+            - generic [ref=e407]: Rust · React · SQLite
+            - heading "Memory Game" [level=3] [ref=e408]
+            - paragraph [ref=e409]: A full-stack card-matching memory game built with Rust (Axum), React and SQLite.
+            - generic [ref=e410]:
+              - generic [ref=e411]: Open POC
+              - generic [ref=e412]: →
+        - link "25 Times 2 Real-Time Strategy Times 2 An Age of Empires II-style RTS where the enemy empire's strategy is decided live by Claude Sonnet. Open POC →" [ref=e413] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/times-2-game
+          - generic [ref=e414]:
+            - generic [ref=e415]: "25"
+            - img "Times 2" [ref=e416]
+          - generic [ref=e417]:
+            - generic [ref=e418]: Real-Time Strategy
+            - heading "Times 2" [level=3] [ref=e419]
+            - paragraph [ref=e420]: An Age of Empires II-style RTS where the enemy empire's strategy is decided live by Claude Sonnet.
+            - generic [ref=e421]:
+              - generic [ref=e422]: Open POC
+              - generic [ref=e423]: →
+        - link "26 Maze Race Java · Visualization Maze Race A maze race replaying BFS vs DFS side by side against the live Java solver source. Open POC →" [ref=e424] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-maze-viz
+          - generic [ref=e425]:
+            - generic [ref=e426]: "26"
+            - img "Maze Race" [ref=e427]
+          - generic [ref=e428]:
+            - generic [ref=e429]: Java · Visualization
+            - heading "Maze Race" [level=3] [ref=e430]
+            - paragraph [ref=e431]: A maze race replaying BFS vs DFS side by side against the live Java solver source.
+            - generic [ref=e432]:
+              - generic [ref=e433]: Open POC
+              - generic [ref=e434]: →
+        - link "27 Pokemon Collector Cards · Opus 4.5 Pokemon Collector A Pokemon trading-card collector built with Claude Opus 4.5. Open POC →" [ref=e435] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-opus-4.5-pokemon-poc
+          - generic [ref=e436]:
+            - generic [ref=e437]: "27"
+            - img "Pokemon Collector" [ref=e438]
+          - generic [ref=e439]:
+            - generic [ref=e440]: Cards · Opus 4.5
+            - heading "Pokemon Collector" [level=3] [ref=e441]
+            - paragraph [ref=e442]: A Pokemon trading-card collector built with Claude Opus 4.5.
+            - generic [ref=e443]:
+              - generic [ref=e444]: Open POC
+              - generic [ref=e445]: →
+    - generic [ref=e446]:
+      - generic [ref=e447] [cursor=pointer]:
+        - generic [ref=e448]: The AI learns
+        - heading "Reinforcement Learning" [level=2] [ref=e449]
+        - paragraph [ref=e450]: Agents that train themselves to play classic games from raw pixels and rewards.
+        - generic [ref=e451]: ▾
+      - generic [ref=e452]:
+        - link "28 Reinforcement Learning Flappy Bird RL A reinforcement-learning agent trained to play Flappy Bird. Open POC →" [ref=e453] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-FlappyBird
+          - generic [ref=e455]: "28"
+          - generic [ref=e457]:
+            - generic [ref=e458]: Reinforcement Learning
+            - heading "Flappy Bird RL" [level=3] [ref=e459]
+            - paragraph [ref=e460]: A reinforcement-learning agent trained to play Flappy Bird.
+            - generic [ref=e461]:
+              - generic [ref=e462]: Open POC
+              - generic [ref=e463]: →
+        - link "29 Reinforcement Learning Pacman RL A reinforcement-learning agent trained to play Pacman. Open POC →" [ref=e464] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-Pacman
+          - generic [ref=e466]: "29"
+          - generic [ref=e468]:
+            - generic [ref=e469]: Reinforcement Learning
+            - heading "Pacman RL" [level=3] [ref=e470]
+            - paragraph [ref=e471]: A reinforcement-learning agent trained to play Pacman.
+            - generic [ref=e472]:
+              - generic [ref=e473]: Open POC
+              - generic [ref=e474]: →
+        - link "30 🥊 Reinforcement Learning Boxing RL A reinforcement-learning agent trained to play Atari Boxing. Open POC →" [ref=e475] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-Boxing
+          - generic [ref=e476]:
+            - generic [ref=e477]: "30"
+            - generic [ref=e478]: 🥊
+          - generic [ref=e479]:
+            - generic [ref=e480]: Reinforcement Learning
+            - heading "Boxing RL" [level=3] [ref=e481]
+            - paragraph [ref=e482]: A reinforcement-learning agent trained to play Atari Boxing.
+            - generic [ref=e483]:
+              - generic [ref=e484]: Open POC
+              - generic [ref=e485]: →
+        - link "31 🏎️ Reinforcement Learning Car Racing RL A reinforcement-learning agent trained to drive in Car Racing. Open POC →" [ref=e486] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-CarRacing
+          - generic [ref=e487]:
+            - generic [ref=e488]: "31"
+            - generic [ref=e489]: 🏎️
+          - generic [ref=e490]:
+            - generic [ref=e491]: Reinforcement Learning
+            - heading "Car Racing RL" [level=3] [ref=e492]
+            - paragraph [ref=e493]: A reinforcement-learning agent trained to drive in Car Racing.
+            - generic [ref=e494]:
+              - generic [ref=e495]: Open POC
+              - generic [ref=e496]: →
+        - link "32 🤸 Reinforcement Learning CartPole RL A reinforcement-learning agent trained to balance the CartPole. Open POC →" [ref=e497] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-CartPole
+          - generic [ref=e498]:
+            - generic [ref=e499]: "32"
+            - generic [ref=e500]: 🤸
+          - generic [ref=e501]:
+            - generic [ref=e502]: Reinforcement Learning
+            - heading "CartPole RL" [level=3] [ref=e503]
+            - paragraph [ref=e504]: A reinforcement-learning agent trained to balance the CartPole.
+            - generic [ref=e505]:
+              - generic [ref=e506]: Open POC
+              - generic [ref=e507]: →
+        - link "33 🚀 Reinforcement Learning Lunar Lander RL A reinforcement-learning agent trained to land in Lunar Lander. Open POC →" [ref=e508] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-LunarLander
+          - generic [ref=e509]:
+            - generic [ref=e510]: "33"
+            - generic [ref=e511]: 🚀
+          - generic [ref=e512]:
+            - generic [ref=e513]: Reinforcement Learning
+            - heading "Lunar Lander RL" [level=3] [ref=e514]
+            - paragraph [ref=e515]: A reinforcement-learning agent trained to land in Lunar Lander.
+            - generic [ref=e516]:
+              - generic [ref=e517]: Open POC
+              - generic [ref=e518]: →
+        - link "34 🍄 PyTorch · Double DQN Mario Double DQN A Double Deep Q-Network PyTorch agent trained to play Super Mario Bros. Open POC →" [ref=e519] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/pytorch-double-deep-q-networks-mario-rl-agent
+          - generic [ref=e520]:
+            - generic [ref=e521]: "34"
+            - generic [ref=e522]: 🍄
+          - generic [ref=e523]:
+            - generic [ref=e524]: PyTorch · Double DQN
+            - heading "Mario Double DQN" [level=3] [ref=e525]
+            - paragraph [ref=e526]: A Double Deep Q-Network PyTorch agent trained to play Super Mario Bros.
+            - generic [ref=e527]:
+              - generic [ref=e528]: Open POC
+              - generic [ref=e529]: →
+    - generic [ref=e530]:
+      - generic [ref=e531] [cursor=pointer]:
+        - generic [ref=e532]: Quick builds
+        - heading "Simple POCs" [level=2] [ref=e533]
+        - paragraph [ref=e534]: Small single-purpose game POCs — quick Rock-Paper-Scissors builds across different stacks.
+        - generic [ref=e535]: ▾
+      - generic [ref=e536]:
+        - link "35 Rock Paper Scissors React 19 · Bun Rock Paper Scissors A web rock paper scissors game with animations and persistent score tracking. Open POC →" [ref=e537] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/kiro-sdd-game-poc
+          - generic [ref=e538]:
+            - generic [ref=e539]: "35"
+            - img "Rock Paper Scissors" [ref=e540]
+          - generic [ref=e541]:
+            - generic [ref=e542]: React 19 · Bun
+            - heading "Rock Paper Scissors" [level=3] [ref=e543]
+            - paragraph [ref=e544]: A web rock paper scissors game with animations and persistent score tracking.
+            - generic [ref=e545]:
+              - generic [ref=e546]: Open POC
+              - generic [ref=e547]: →
+        - link "36 Paper Cizer Rock React Paper Cizer Rock A React web game for quick Paper, Cizer, Rock rounds against the house. Open POC →" [ref=e548] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-gpt-5.5-high-paper-game
+          - generic [ref=e549]:
+            - generic [ref=e550]: "36"
+            - img "Paper Cizer Rock" [ref=e551]
+          - generic [ref=e552]:
+            - generic [ref=e553]: React
+            - heading "Paper Cizer Rock" [level=3] [ref=e554]
+            - paragraph [ref=e555]: A React web game for quick Paper, Cizer, Rock rounds against the house.
+            - generic [ref=e556]:
+              - generic [ref=e557]: Open POC
+              - generic [ref=e558]: →
+        - link "37 Rock · Paper · Scissors React · CDN Rock · Paper · Scissors A single-file React Rock-Paper-Scissors game running via CDN, no build step. Open POC →" [ref=e559] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/opus-4.7-high-paper-game
+          - generic [ref=e560]:
+            - generic [ref=e561]: "37"
+            - img "Rock · Paper · Scissors" [ref=e562]
+          - generic [ref=e563]:
+            - generic [ref=e564]: React · CDN
+            - heading "Rock · Paper · Scissors" [level=3] [ref=e565]
+            - paragraph [ref=e566]: A single-file React Rock-Paper-Scissors game running via CDN, no build step.
+            - generic [ref=e567]:
+              - generic [ref=e568]: Open POC
+              - generic [ref=e569]: →
+        - link "38 Rock Paper Sizer React · GPT-5 Codex Rock Paper Sizer A React Rock-Paper-Scissors game with round results, score tracking and win rate against the CPU. Open POC →" [ref=e570] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/openai-codex-5.3-poc-fun
+          - generic [ref=e571]:
+            - generic [ref=e572]: "38"
+            - img "Rock Paper Sizer" [ref=e573]
+          - generic [ref=e574]:
+            - generic [ref=e575]: React · GPT-5 Codex
+            - heading "Rock Paper Sizer" [level=3] [ref=e576]
+            - paragraph [ref=e577]: A React Rock-Paper-Scissors game with round results, score tracking and win rate against the CPU.
+            - generic [ref=e578]:
+              - generic [ref=e579]: Open POC
+              - generic [ref=e580]: →
+        - link "39 Codex Tetris React 19 · Codex App Codex Tetris A classic Tetris with a configurable admin panel for themes, difficulty and timeouts, built with the Codex Mac app. Open POC →" [ref=e581] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-app-agent-fun
+          - generic [ref=e582]:
+            - generic [ref=e583]: "39"
+            - img "Codex Tetris" [ref=e584]
+          - generic [ref=e585]:
+            - generic [ref=e586]: React 19 · Codex App
+            - heading "Codex Tetris" [level=3] [ref=e587]
+            - paragraph [ref=e588]: A classic Tetris with a configurable admin panel for themes, difficulty and timeouts, built with the Codex Mac app.
+            - generic [ref=e589]:
+              - generic [ref=e590]: Open POC
+              - generic [ref=e591]: →
+        - link "40 Cursor Tetris React · Rust · Cursor v3 Cursor Tetris A full-stack Tetris with a React + Vite frontend and a Rust + Actix backend, built with Cursor v3. Open POC →" [ref=e592] [cursor=pointer]:
+          - /url: https://github.com/diegopacheco/ai-playground/tree/main/pocs/cursor-v3-poc
+          - generic [ref=e593]:
+            - generic [ref=e594]: "40"
+            - img "Cursor Tetris" [ref=e595]
+          - generic [ref=e596]:
+            - generic [ref=e597]: React · Rust · Cursor v3
+            - heading "Cursor Tetris" [level=3] [ref=e598]
+            - paragraph [ref=e599]: A full-stack Tetris with a React + Vite frontend and a Rust + Actix backend, built with Cursor v3.
+            - generic [ref=e600]:
+              - generic [ref=e601]: Open POC
+              - generic [ref=e602]: →
+    - contentinfo [ref=e603]:
+      - generic [ref=e604]: Diego Pacheco · AI Playground · Games · 2026
+      - link "github.com/diegopacheco/ai-playground ↗" [ref=e606] [cursor=pointer]:
+        - /url: https://github.com/diegopacheco/ai-playground/tree/main/games
