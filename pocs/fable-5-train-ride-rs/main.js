@@ -1206,6 +1206,11 @@ function makeArmadillo() {
   return g;
 }
 
+function animalOk(x, z, margin) {
+  if (Math.hypot(x, z) > 2880 || trackDist(x, z) < margin) return false;
+  return !cities.some(c => Math.hypot(c.origin.x - x, c.origin.z - z) < 125);
+}
+
 function scatterAnimals(templates, total, margin, clump, jitter) {
   let placed = 0, guard = 0;
   while (placed < total && guard < total * 60) {
@@ -1222,12 +1227,12 @@ function scatterAnimals(templates, total, margin, clump, jitter) {
       ax = -2700 + rnd() * 5400;
       az = -2700 + rnd() * 5400;
     }
-    if (!vegOk(ax, az, margin)) continue;
+    if (!animalOk(ax, az, margin)) continue;
     const n = Math.min(clump, total - placed);
     for (let k = 0; k < n; k++) {
       const x = k === 0 ? ax : ax + (rnd() - 0.5) * jitter;
       const z = k === 0 ? az : az + (rnd() - 0.5) * jitter;
-      if (!vegOk(x, z, margin)) continue;
+      if (!animalOk(x, z, margin)) continue;
       const a = templates[(rnd() * templates.length) | 0].clone();
       const sc = 0.85 + rnd() * 0.4;
       a.scale.setScalar(sc);
