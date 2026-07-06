@@ -312,7 +312,7 @@ function showTeamDetails(team) {
           </div>
           ${team.players.map((p, idx) => `
             <div class="player-card-visual">
-              <img src="/assets/players/${team.id}-legend-${idx}.svg" alt="${p}">
+              <img src="/assets/players/${team.id}-legend-${idx}.jpg" alt="${p}">
               <div class="player-name" style="margin-top: 8px; font-weight: 700; color: var(--text-dark);">${p}</div>
               <div class="player-desc" style="font-size: 12px; color: var(--text-muted);">Legend</div>
             </div>
@@ -325,7 +325,7 @@ function showTeamDetails(team) {
         <div class="dishes-grid">
           ${dishes.map((dish, idx) => `
             <div class="dish-card-visual">
-              <img src="/assets/dishes/${team.id}-dish-${idx}.svg" alt="${dish}">
+              <img src="/assets/dishes/${team.id}-dish-${idx}.jpg" alt="${dish}">
               <div class="dish-name-label">${dish}</div>
             </div>
           `).join('')}

@@ -39,15 +39,15 @@
       "id": "r16-6",
       "team1": "USA",
       "team2": "Belgium",
-      "winner": null,
-      "loser": null
+      "winner": "USA",
+      "loser": "Belgium"
     },
     {
       "id": "r16-7",
       "team1": "Argentina",
       "team2": "Egypt",
-      "winner": null,
-      "loser": null
+      "winner": "Argentina",
+      "loser": "Egypt"
     },
     {
       "id": "r16-8",
@@ -75,13 +75,13 @@
     {
       "id": "qf-3",
       "team1": "Spain",
-      "team2": "",
+      "team2": "USA",
       "winner": null,
       "loser": null
     },
     {
       "id": "qf-4",
-      "team1": "",
+      "team1": "Argentina",
       "team2": "",
       "winner": null,
       "loser": null

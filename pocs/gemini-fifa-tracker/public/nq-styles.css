@@ -2,19 +2,20 @@
 .non-qualifiers-section {
   margin-top: 2rem;
   padding: 1.5rem;
-  background: var(--surface);
-  border-radius: var(--radius);
-  box-shadow: 0 4px 6px var(--shadow);
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
 .non-qualifiers-section h2 {
   font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text);
+  font-weight: 700;
+  color: var(--text-dark);
   margin-bottom: 0.25rem;
 }
 .non-qualifiers-section .subtitle {
   font-size: 0.875rem;
-  color: var(--text-light);
+  color: var(--text-muted);
   margin-bottom: 1.5rem;
 }
 .non-qualifiers-grid {
@@ -23,15 +24,17 @@
   gap: 1rem;
 }
 .nq-card {
-  background: var(--surface-hover);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
   padding: 1rem;
-  transition: transform 0.2s;
+  transition: var(--transition-smooth);
+  overflow: hidden;
 }
 .nq-card:hover {
   transform: translateY(-2px);
-  border-color: var(--primary);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
 }
 .nq-header {
   display: flex;
@@ -39,14 +42,18 @@
   gap: 0.75rem;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-color);
 }
 .nq-flag {
   font-size: 1.5rem;
+  flex-shrink: 0;
 }
 .nq-name {
-  font-weight: 600;
-  color: var(--text);
+  font-weight: 700;
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .nq-stats {
   display: flex;
@@ -57,19 +64,26 @@
 .nq-stat {
   display: flex;
   justify-content: space-between;
-  color: var(--text-light);
+  color: var(--text-muted);
+  align-items: center;
 }
 .nq-stat strong {
-  color: var(--text);
-  font-weight: 500;
+  color: var(--text-dark);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+  max-width: 60%;
 }
 .nq-reason {
   margin-top: 0.5rem;
   padding: 0.5rem;
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border-radius: 4px;
+  background: rgba(225, 29, 72, 0.1);
+  color: var(--color-danger);
+  border-radius: var(--radius-sm);
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
+  word-break: break-word;
 }
