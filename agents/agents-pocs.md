@@ -546,3 +546,9 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-twitter-like-o
 
 110 - My Custom Skill (ADWF) V5 - Opus 4.6 - Memory Game (final) <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-memory-game-opus-4.6-v5-final
+
+111 - Agent Skill: Hats (Six Thinking Hats) with Claude/Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-6-hats
+
+112 - Reelmark: TV Time like watch journal with AI catalog research (Codex/Claude/Gemini CLI) <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/tv-time-like
