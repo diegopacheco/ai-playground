@@ -39,6 +39,14 @@ Every landmark stands in the scenery with its own signpost, so you can walk up a
 - Chuí: the Avenida Internacional split between Brazil and Uruguay with both flags, the duty free shops, the Farol do Chuí, the Forte de São Miguel and the star-shaped Fortaleza de Santa Teresa
 - Torres: the basalt cliffs of Parque da Guarita, the lighthouse on Morro do Farol, the sea lions of Ilha dos Lobos, Praia da Cal and the Ponte Pênsil over the Mampituba river into the Atlantic
 
+## Pictures on the walls
+
+Each stop has a framed picture mounted on one of its buildings, painted with the landmark of that same city: the Guaíba sunset behind the Gasômetro in Porto Alegre, a Serra chalet with hydrangeas in Gramado, the Cascata do Caracol in Canela, the red sandstone arches of the Missões, the pampa with cattle and a wire fence in Uruguaiana, the Farol do Chuí, and the basalt towers of Torres. They are drawn on canvas in the browser, no image files.
+
+## The pampa
+
+Between the stops the land is alive. Flat-topped araucária pines rise over the Serra, tufts of pampas grass sway across the campo, and the fields are worked with wire fences and slowly turning farm windmills. Riding through it you pass herds of cattle, flocks of sheep, crioulo horses, rheas (emas), capybaras and the quero-quero birds of Rio Grande do Sul, scattered across the pampa and kept clear of the track and the towns.
+
 ## Sound
 
 The engine chugs in rhythm with the wheels, a whistle blows on every departure and rain hisses when a shower rolls in. Everything is synthesized in the browser with WebAudio, no audio files, and M silences it all.

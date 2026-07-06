@@ -228,6 +228,173 @@ function flag(g, px, pz, draw) {
   g.add(m);
 }
 
+function skyGrad(x, w, h, top, bot) {
+  const gr = x.createLinearGradient(0, 0, 0, h);
+  gr.addColorStop(0, top);
+  gr.addColorStop(1, bot);
+  x.fillStyle = gr;
+  x.fillRect(0, 0, w, h);
+}
+
+function paintGuaiba(x, w, h) {
+  skyGrad(x, w, h, "#ffd688", "#ff7a44");
+  x.fillStyle = "#fff2c8";
+  x.beginPath();
+  x.arc(w * 0.72, h * 0.4, h * 0.13, 0, 7);
+  x.fill();
+  x.fillStyle = "#6a4f92";
+  x.fillRect(0, h * 0.64, w, h * 0.36);
+  x.fillStyle = "rgba(255,214,140,.45)";
+  x.fillRect(w * 0.5, h * 0.64, w * 0.35, h * 0.36);
+  x.fillStyle = "#33283a";
+  x.fillRect(w * 0.16, h * 0.4, w * 0.18, h * 0.26);
+  x.fillRect(w * 0.31, h * 0.16, w * 0.035, h * 0.5);
+}
+
+function paintGramado(x, w, h) {
+  skyGrad(x, w, h, "#c4e6f4", "#eaf6ea");
+  x.fillStyle = "#5c8a4a";
+  x.beginPath();
+  x.moveTo(0, h * 0.7);
+  x.quadraticCurveTo(w * 0.5, h * 0.5, w, h * 0.72);
+  x.lineTo(w, h);
+  x.lineTo(0, h);
+  x.fill();
+  x.fillStyle = "#2f5b34";
+  for (const cx of [w * 0.12, w * 0.85, w * 0.7]) {
+    x.beginPath();
+    x.moveTo(cx, h * 0.4);
+    x.lineTo(cx - h * 0.09, h * 0.72);
+    x.lineTo(cx + h * 0.09, h * 0.72);
+    x.fill();
+  }
+  x.fillStyle = "#efe6d0";
+  x.fillRect(w * 0.36, h * 0.5, w * 0.28, h * 0.24);
+  x.fillStyle = "#8a3626";
+  x.beginPath();
+  x.moveTo(w * 0.34, h * 0.5);
+  x.lineTo(w * 0.5, h * 0.34);
+  x.lineTo(w * 0.66, h * 0.5);
+  x.fill();
+  for (const c of ["#7c86c9", "#c96b8e", "#8f7cc9"]) {
+    x.fillStyle = c;
+    for (let i = 0; i < 4; i++) {
+      x.beginPath();
+      x.arc(w * 0.08 + Math.random() * w * 0.84, h * 0.8 + Math.random() * h * 0.16, h * 0.028, 0, 7);
+      x.fill();
+    }
+  }
+}
+
+function paintCaracol(x, w, h) {
+  skyGrad(x, w, h, "#bcd8ec", "#dfeee4");
+  x.fillStyle = "#3f5f3a";
+  x.fillRect(0, h * 0.18, w * 0.34, h * 0.82);
+  x.fillStyle = "#4a6b40";
+  x.fillRect(w * 0.66, h * 0.18, w * 0.34, h * 0.82);
+  x.fillStyle = "#eef7fb";
+  x.fillRect(w * 0.42, h * 0.14, w * 0.16, h * 0.64);
+  x.fillStyle = "rgba(255,255,255,.6)";
+  x.fillRect(w * 0.37, h * 0.7, w * 0.26, h * 0.14);
+  x.fillStyle = "#4f86a0";
+  x.fillRect(0, h * 0.82, w, h * 0.18);
+}
+
+function paintMissoes(x, w, h) {
+  skyGrad(x, w, h, "#e88a4a", "#7a3a52");
+  x.fillStyle = "#94502f";
+  x.fillRect(w * 0.1, h * 0.26, w * 0.8, h * 0.52);
+  x.fillStyle = "#e88a4a";
+  for (const cx of [w * 0.28, w * 0.5, w * 0.72]) {
+    x.beginPath();
+    x.moveTo(cx - w * 0.07, h * 0.78);
+    x.lineTo(cx - w * 0.07, h * 0.46);
+    x.arc(cx, h * 0.46, w * 0.07, Math.PI, 0);
+    x.lineTo(cx + w * 0.07, h * 0.78);
+    x.fill();
+  }
+  x.fillStyle = "#6b3a22";
+  x.fillRect(0, h * 0.78, w, h * 0.22);
+}
+
+function paintPampa(x, w, h) {
+  skyGrad(x, w, h, "#8fc6ea", "#cfe6f0");
+  x.fillStyle = "rgba(255,255,255,.85)";
+  for (const cx of [w * 0.2, w * 0.55, w * 0.8]) {
+    x.beginPath();
+    x.arc(cx, h * 0.22, h * 0.08, 0, 7);
+    x.fill();
+  }
+  x.fillStyle = "#6f9450";
+  x.fillRect(0, h * 0.6, w, h * 0.4);
+  x.strokeStyle = "#6b5335";
+  x.lineWidth = h * 0.012;
+  x.beginPath();
+  x.moveTo(0, h * 0.68);
+  x.lineTo(w, h * 0.66);
+  x.stroke();
+  for (let i = 0; i < 7; i++) {
+    const px = w * 0.05 + i * w * 0.15;
+    x.beginPath();
+    x.moveTo(px, h * 0.6);
+    x.lineTo(px, h * 0.72);
+    x.stroke();
+  }
+  x.fillStyle = "#3a2b22";
+  for (const cx of [w * 0.3, w * 0.55, w * 0.75]) {
+    x.fillRect(cx, h * 0.74, w * 0.09, h * 0.08);
+    x.fillRect(cx + w * 0.06, h * 0.72, w * 0.035, h * 0.05);
+  }
+}
+
+function paintFarol(x, w, h) {
+  skyGrad(x, w, h, "#bcd8ec", "#eef2ea");
+  x.fillStyle = "#4f86a0";
+  x.fillRect(0, h * 0.72, w, h * 0.28);
+  x.fillStyle = "#f2f0ea";
+  x.fillRect(w * 0.44, h * 0.2, w * 0.12, h * 0.55);
+  x.fillStyle = "#c23b2e";
+  x.fillRect(w * 0.44, h * 0.32, w * 0.12, h * 0.09);
+  x.fillRect(w * 0.44, h * 0.5, w * 0.12, h * 0.09);
+  x.fillStyle = "#fff3cf";
+  x.fillRect(w * 0.46, h * 0.12, w * 0.08, h * 0.08);
+  x.fillStyle = "#3a3630";
+  x.fillRect(w * 0.43, h * 0.1, w * 0.14, h * 0.03);
+}
+
+function paintTorres(x, w, h) {
+  skyGrad(x, w, h, "#9ecdec", "#dfeef0");
+  x.fillStyle = "#2e6d94";
+  x.fillRect(0, h * 0.6, w, h * 0.4);
+  x.fillStyle = "#3e3a36";
+  x.fillRect(w * 0.05, h * 0.34, w * 0.28, h * 0.4);
+  x.fillRect(w * 0.68, h * 0.4, w * 0.27, h * 0.34);
+  x.fillStyle = "#4a6b40";
+  x.fillRect(w * 0.05, h * 0.31, w * 0.28, h * 0.05);
+  x.fillRect(w * 0.68, h * 0.37, w * 0.27, h * 0.05);
+  x.fillStyle = "#f2f0ea";
+  x.fillRect(w * 0.14, h * 0.16, w * 0.06, h * 0.18);
+  x.fillStyle = "#c23b2e";
+  x.fillRect(w * 0.14, h * 0.22, w * 0.06, h * 0.05);
+  x.fillStyle = "#fff3cf";
+  x.beginPath();
+  x.arc(w * 0.17, h * 0.14, h * 0.03, 0, 7);
+  x.fill();
+}
+
+function picture(g, w, h, x, y, z, draw, ry = 0) {
+  const nx = Math.sin(ry), nz = Math.cos(ry);
+  const c = document.createElement("canvas");
+  c.width = 256;
+  c.height = Math.round(256 * h / w);
+  draw(c.getContext("2d"), c.width, c.height);
+  box(g, w + 0.7, h + 0.7, 0.3, 0x4a3728, x - nx * 0.18, y, z - nz * 0.18, ry);
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c) }));
+  m.position.set(x, y, z);
+  m.rotation.y = ry;
+  g.add(m);
+}
+
 function buildPortoAlegre(g) {
   flat(g, 560, 300, 0x3e6e8c, 0, 0.04, -260);
   box(g, 48, 16, 15, 0xe6e0d1, 0, 8, -28);
@@ -283,6 +450,7 @@ function buildPortoAlegre(g) {
   cyl(g, 1.3, 2.4, 0x8b8b85, -20, 1.2, 4);
   cyl(g, 0.45, 3.2, 0x74572e, -20, 4, 4);
   sph(g, 0.55, 0x74572e, -20, 6.1, 4);
+  picture(g, 15, 8, 0, 9.5, -20.1, paintGuaiba);
 }
 
 function buildGramado(g) {
@@ -348,6 +516,7 @@ function buildGramado(g) {
   }
   tree(g, -70, -20, 1);
   tree(g, 70, -20, 1.1);
+  picture(g, 12, 7, -48, 8, -16.2, paintGramado);
 }
 
 function buildCanela(g) {
@@ -406,6 +575,7 @@ function buildCanela(g) {
   label(g, "Parque da Ferradura", -12, -84);
   tree(g, -20, -18, 1.1);
   tree(g, 24, -20, 1.2);
+  picture(g, 12, 7, 52, 11, -70.8, paintCaracol);
 }
 
 function buildMissoes(g) {
@@ -451,6 +621,7 @@ function buildMissoes(g) {
   tree(g, -80, -60, 1);
   tree(g, 40, -70, 1.1);
   tree(g, -40, -76, 0.9);
+  picture(g, 13, 6.5, -58, 7.4, -23.2, paintMissoes);
 }
 
 function buildUruguaiana(g) {
@@ -499,6 +670,7 @@ function buildUruguaiana(g) {
     box(g, 2.4, 1.4, 1.2, 0x5b3d28, cx, 1, cz);
     box(g, 0.8, 0.8, 0.8, 0x4e3322, cx + 1.5, 1.3, cz);
   }
+  picture(g, 11, 6, 66, 6.8, -17.6, paintPampa);
 }
 
 function buildChui(g) {
@@ -539,6 +711,7 @@ function buildChui(g) {
   label(g, "Fortaleza de Santa Teresa", -68, -80);
   tree(g, -34, -66, 1);
   tree(g, 40, -52, 1.1);
+  picture(g, 10, 6, 26, 6.8, -16.8, paintFarol);
 }
 
 function buildTorres(g) {
@@ -579,6 +752,7 @@ function buildTorres(g) {
   }
   tree(g, -52, -30, 1);
   tree(g, 44, -26, 1.1);
+  picture(g, 12, 7, -62, 13, -91.6, paintTorres);
 }
 
 const cities = [
@@ -667,7 +841,8 @@ function vegOk(x, z, margin) {
 const VEG = [
   [new THREE.CylinderGeometry(0.32, 0.46, 8.6, 7), 4.3, new THREE.ConeGeometry(4.3, 2.9, 9), 9.5, 0x2f5b34, 1000],
   [new THREE.CylinderGeometry(0.28, 0.4, 4.4, 7), 2.2, new THREE.ConeGeometry(3.1, 9.5, 8), 8.4, 0x39633a, 800],
-  [new THREE.CylinderGeometry(0.34, 0.5, 5, 7), 2.5, new THREE.SphereGeometry(3.3, 10, 8), 7.6, 0x4a7440, 700]
+  [new THREE.CylinderGeometry(0.34, 0.5, 5, 7), 2.5, new THREE.SphereGeometry(3.3, 10, 8), 7.6, 0x4a7440, 700],
+  [new THREE.CylinderGeometry(0.42, 0.62, 17, 7), 8.5, new THREE.ConeGeometry(6.2, 3.2, 9), 17.4, 0x244d2b, 340]
 ];
 for (const [tg, ty, cg, cy, cc, n] of VEG) {
   const trunks = new THREE.InstancedMesh(tg, lam(0x6b4a33), n);
@@ -732,6 +907,168 @@ while (made < 12 && tries < 500) {
   m.position.set(x, h / 2 - 2, z);
   scene.add(m);
   made++;
+}
+
+const GRASS = 1100;
+const grass = new THREE.InstancedMesh(new THREE.ConeGeometry(0.45, 3.4, 5), lam(0xcabb86), GRASS);
+let grassCount = 0;
+for (let tr = 0; tr < GRASS * 8 && grassCount < GRASS; tr++) {
+  const x = -2900 + rnd() * 5800, z = -2900 + rnd() * 5800;
+  if (!vegOk(x, z, 10)) continue;
+  const sc = 0.7 + rnd() * 1.2;
+  dummy.rotation.set(0, rnd() * Math.PI * 2, 0);
+  dummy.scale.set(sc * 0.5, sc, sc * 0.5);
+  dummy.position.set(x, 1.7 * sc, z);
+  dummy.updateMatrix();
+  grass.setMatrixAt(grassCount, dummy.matrix);
+  grassCount++;
+}
+grass.count = grassCount;
+scene.add(grass);
+dummy.rotation.set(0, 0, 0);
+dummy.scale.setScalar(1);
+
+function makeCow(bodyCol, headCol) {
+  const g = new THREE.Group();
+  box(g, 1.5, 1.15, 2.7, bodyCol, 0, 1.5, 0);
+  box(g, 0.9, 0.85, 0.95, headCol, 0, 1.75, 1.7);
+  for (const sx of [-0.28, 0.28]) box(g, 0.2, 0.5, 0.2, headCol, sx, 2.15, 1.95);
+  for (const sx of [-0.5, 0.5]) for (const sz of [-0.95, 0.95]) box(g, 0.25, 1.0, 0.25, 0x2a1f18, sx, 0.5, sz);
+  const tail = box(g, 0.1, 0.9, 0.1, bodyCol, 0, 1.2, -1.4);
+  tail.rotation.x = 0.4;
+  return g;
+}
+
+function makeSheep() {
+  const g = new THREE.Group();
+  sph(g, 0.95, 0xe9e4d8, 0, 1.15, 0);
+  box(g, 0.55, 0.5, 0.5, 0x2e2822, 0, 1.3, 1.05);
+  for (const sx of [-0.4, 0.4]) for (const sz of [-0.55, 0.55]) box(g, 0.16, 0.8, 0.16, 0x3a332b, sx, 0.4, sz);
+  return g;
+}
+
+function makeHorse(col) {
+  const g = new THREE.Group();
+  box(g, 0.85, 1.05, 2.5, col, 0, 2.0, 0);
+  const neck = box(g, 0.5, 1.3, 0.55, col, 0, 2.75, 1.15);
+  neck.rotation.x = -0.5;
+  box(g, 0.42, 0.5, 1.0, col, 0, 3.35, 1.8);
+  for (const sx of [-0.5, 0.5]) for (const sz of [-1.0, 1.0]) box(g, 0.22, 1.7, 0.22, 0x2a1c12, sx, 0.85, sz);
+  const tail = box(g, 0.12, 1.2, 0.12, 0x2a1c12, 0, 1.6, -1.35);
+  tail.rotation.x = 0.5;
+  return g;
+}
+
+function makeRhea() {
+  const g = new THREE.Group();
+  sph(g, 1.0, 0x9a927f, 0, 2.1, 0);
+  const neck = cyl(g, 0.17, 1.7, 0x8a8270, 0, 3.1, 0.5);
+  neck.rotation.x = -0.35;
+  sph(g, 0.32, 0x8a8270, 0, 3.95, 0.85);
+  for (const sx of [-0.35, 0.35]) cyl(g, 0.13, 2.0, 0x6f5b48, sx, 1.0, -0.1);
+  return g;
+}
+
+function makeCapybara() {
+  const g = new THREE.Group();
+  box(g, 1.05, 0.85, 1.9, 0x6f4d30, 0, 0.85, 0);
+  box(g, 0.65, 0.62, 0.75, 0x5f4028, 0, 0.95, 1.15);
+  for (const sx of [-0.38, 0.38]) for (const sz of [-0.6, 0.6]) box(g, 0.22, 0.5, 0.22, 0x4a3220, sx, 0.25, sz);
+  return g;
+}
+
+function makeLapwing() {
+  const g = new THREE.Group();
+  box(g, 0.5, 0.4, 0.85, 0x9a8f7a, 0, 0.55, 0);
+  box(g, 0.32, 0.34, 0.34, 0x2b2b2b, 0, 0.72, 0.5);
+  const crest = box(g, 0.05, 0.4, 0.05, 0x2b2b2b, 0, 0.98, 0.35);
+  crest.rotation.x = 0.7;
+  box(g, 0.12, 0.24, 0.55, 0xf2efe6, 0, 0.5, 0.05);
+  for (const sx of [-0.16, 0.16]) cyl(g, 0.04, 0.5, 0xc98a3a, sx, 0.25, 0);
+  return g;
+}
+
+function scatterAnimals(templates, total, margin, clump, jitter) {
+  let placed = 0, guard = 0;
+  while (placed < total && guard < total * 60) {
+    guard++;
+    const ax = -2700 + rnd() * 5400, az = -2700 + rnd() * 5400;
+    if (!vegOk(ax, az, margin)) continue;
+    const n = Math.min(clump, total - placed);
+    for (let k = 0; k < n; k++) {
+      const x = k === 0 ? ax : ax + (rnd() - 0.5) * jitter;
+      const z = k === 0 ? az : az + (rnd() - 0.5) * jitter;
+      if (!vegOk(x, z, margin)) continue;
+      const a = templates[(rnd() * templates.length) | 0].clone();
+      a.scale.setScalar(0.85 + rnd() * 0.4);
+      a.position.set(x, 0, z);
+      a.rotation.y = rnd() * Math.PI * 2;
+      scene.add(a);
+      placed++;
+    }
+  }
+}
+
+scatterAnimals([makeCow(0x4a3324, 0x3a271b), makeCow(0x2c241f, 0x201a15), makeCow(0xcfc4b0, 0x8a5a3a)], 32, 22, 5, 26);
+scatterAnimals([makeSheep()], 42, 16, 7, 22);
+scatterAnimals([makeHorse(0x5a3a22), makeHorse(0x2e2018)], 16, 22, 3, 22);
+scatterAnimals([makeRhea()], 12, 20, 2, 20);
+scatterAnimals([makeCapybara()], 12, 20, 4, 16);
+scatterAnimals([makeLapwing()], 24, 8, 2, 26);
+
+const windmillRotors = [];
+function makeWindmill() {
+  const g = new THREE.Group();
+  cyl(g, 0.5, 13, 0x9a9f9c, 0, 6.5, 0);
+  cyl(g, 0.34, 13.4, 0x8a8f8c, 0, 6.7, 0);
+  cyl(g, 0.75, 0.7, 0x7a7f7c, 0, 13.2, 0);
+  const rotor = new THREE.Group();
+  rotor.position.set(0, 13.4, 0.7);
+  for (let i = 0; i < 12; i++) {
+    const a = i * Math.PI / 6;
+    const b = new THREE.Mesh(new THREE.BoxGeometry(0.45, 2.6, 0.05), lam(0xd0d4d1));
+    b.position.set(Math.sin(a) * 1.4, Math.cos(a) * 1.4, 0);
+    b.rotation.z = a;
+    rotor.add(b);
+  }
+  g.add(rotor);
+  box(g, 0.08, 1.6, 2.4, 0xb5b0a6, 0, 13.2, -1.7);
+  windmillRotors.push(rotor);
+  return g;
+}
+let wmPlaced = 0, wmGuard = 0;
+while (wmPlaced < 9 && wmGuard < 400) {
+  wmGuard++;
+  const x = -2600 + rnd() * 5200, z = -2600 + rnd() * 5200;
+  if (!vegOk(x, z, 60)) continue;
+  const g = makeWindmill();
+  g.position.set(x, 0, z);
+  g.rotation.y = rnd() * Math.PI * 2;
+  scene.add(g);
+  wmPlaced++;
+}
+
+function fenceLine(x, z, ang, segs) {
+  const g = new THREE.Group();
+  const dx = Math.sin(ang), dz = Math.cos(ang), gap = 4.2, len = segs * gap;
+  for (let i = 0; i <= segs; i++) cyl(g, 0.11, 2.2, 0x6b5335, x + dx * i * gap, 1.1, z + dz * i * gap);
+  for (const y of [0.85, 1.65]) {
+    const rail = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.05, len), lam(0x8a6b4a));
+    rail.position.set(x + dx * len / 2, y, z + dz * len / 2);
+    rail.rotation.y = ang;
+    g.add(rail);
+  }
+  scene.add(g);
+}
+let fnPlaced = 0, fnGuard = 0;
+while (fnPlaced < 12 && fnGuard < 500) {
+  fnGuard++;
+  const x = -2500 + rnd() * 5000, z = -2500 + rnd() * 5000;
+  const ang = rnd() * Math.PI, segs = 6 + (rnd() * 6 | 0);
+  const dx = Math.sin(ang), dz = Math.cos(ang);
+  if (!vegOk(x, z, 30) || !vegOk(x + dx * segs * 4.2, z + dz * segs * 4.2, 30)) continue;
+  fenceLine(x, z, ang, segs);
+  fnPlaced++;
 }
 
 function wheel(g, x, y, z, r) {
@@ -1248,6 +1585,7 @@ function animate() {
   updateWeather(dt);
   updateSky();
   updateSmoke(dt);
+  for (const r of windmillRotors) r.rotation.z += dt * 1.1;
   updateAudio(dt);
   updateHud();
   renderer.render(scene, camera);
