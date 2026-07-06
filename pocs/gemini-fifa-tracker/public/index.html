@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIFA 2026 World Cup Tracker</title>
+  <meta name="description" content="Track matches, teams, knockout brackets, and win probability predictions for the FIFA 2026 World Cup.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-logo">
+        <span class="trophy-icon">🏆</span>
+        <h1>FIFA 2026 World Cup Tracker</h1>
+      </div>
+      <div class="header-decor"></div>
+    </header>
+
+    <nav class="tab-navigation">
+      <button class="tab-btn active" id="tab-teams-btn">Teams & History</button>
+      <button class="tab-btn" id="tab-bracket-btn">Knockout Bracket</button>
+      <button class="tab-btn" id="tab-prediction-btn">Chances & Guess</button>
+    </nav>
+
+    <main class="app-content">
+      <section class="tab-panel active" id="panel-teams">
+        <div class="teams-layout">
+          <div class="teams-sidebar">
+            <div class="search-bar">
+              <input type="text" id="team-search" placeholder="Search team...">
+            </div>
+            <div class="teams-list" id="teams-list-container"></div>
+          </div>
+          <div class="team-details" id="team-details-container">
+            <div class="details-empty-state">
+              <span class="decor-icon">✨</span>
+              <p>Select a team from the list to view historical achievements, legendary players, and World Cup 2026 details.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-bracket">
+        <div class="bracket-controls">
+          <button id="cli-update-btn" class="action-btn">
+            <span class="btn-icon">⚡</span> Run CLI Bracket Step
+          </button>
+          <button id="cli-reset-btn" class="action-btn secondary-btn">Reset Bracket</button>
+          <div id="cli-log-display" class="log-banner">Ready to process matches.</div>
+        </div>
+        <div class="bracket-scroll-wrapper">
+          <div class="bracket-grid" id="bracket-grid-container"></div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="panel-prediction">
+        <div class="prediction-layout">
+          <div class="prediction-card">
+            <h2>Chances of Winning</h2>
+            <p class="subtitle">Statistical probability for each team to win the tournament.</p>
+            <div class="chances-list" id="chances-list-container"></div>
+          </div>
+          <div class="prediction-card calculator-card">
+            <h2>Match Predictor</h2>
+            <p class="subtitle">Select two teams to simulate a head-to-head matchup.</p>
+            <div class="predictor-controls">
+              <div class="selector-group">
+                <label for="predictor-team1">Team A</label>
+                <select id="predictor-team1" class="custom-select"></select>
+              </div>
+              <div class="vs-divider">VS</div>
+              <div class="selector-group">
+                <label for="predictor-team2">Team B</label>
+                <select id="predictor-team2" class="custom-select"></select>
+              </div>
+            </div>
+            <button id="predict-btn" class="action-btn wide-btn">Calculate Probabilities</button>
+            <div class="prediction-results" id="prediction-results-container"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

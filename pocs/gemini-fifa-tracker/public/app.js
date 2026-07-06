@@ -1,0 +1,497 @@
+const teamsData = [
+  { id: 'canada', name: 'Canada', flag: '🇨🇦', titles: 0, players: ['Atiba Hutchinson', 'Craig Forrest', 'Dwayne De Rosario'], group: 'Group A', star: 'Alphonso Davies', coach: 'Jesse Marsch', chance: 3 },
+  { id: 'mexico', name: 'Mexico', flag: '🇲🇽', titles: 0, players: ['Hugo Sánchez', 'Rafael Márquez', 'Javier Hernández'], group: 'Group B', star: 'Santiago Giménez', coach: 'Javier Aguirre', chance: 4 },
+  { id: 'usa', name: 'USA', flag: '🇺🇸', titles: 0, players: ['Landon Donovan', 'Clint Dempsey', 'Cobi Jones'], group: 'Group A', star: 'Christian Pulisic', coach: 'Mauricio Pochettino', chance: 5 },
+  { id: 'austria', name: 'Austria', flag: '🇦🇹', titles: 0, players: ['David Alaba', 'Toni Polster', 'Hans Krankl'], group: 'Group H', star: 'Konrad Laimer', coach: 'Ralf Rangnick', chance: 2 },
+  { id: 'belgium', name: 'Belgium', flag: '🇧🇪', titles: 0, players: ['Eden Hazard', 'Vincent Kompany', 'Paul Van Himst'], group: 'Group G', star: 'Kevin De Bruyne', coach: 'Domenico Tedesco', chance: 7 },
+  { id: 'bosnia', name: 'Bosnia and Herzegovina', flag: '🇧🇦', titles: 0, players: ['Edin Džeko', 'Miralem Pjanić', 'Sergej Barbarez'], group: 'Group L', star: 'Edin Džeko', coach: 'Sergej Barbarez', chance: 1 },
+  { id: 'croatia', name: 'Croatia', flag: '🇭🇷', titles: 0, players: ['Luka Modrić', 'Davor Šuker', 'Zvonimir Boban'], group: 'Group K', star: 'Luka Modrić', coach: 'Zlatko Dalić', chance: 5 },
+  { id: 'czechia', name: 'Czechia', flag: '🇨🇿', titles: 0, players: ['Pavel Nedvěd', 'Petr Čech', 'Josef Masopust'], group: 'Group J', star: 'Patrik Schick', coach: 'Ivan Hašek', chance: 2 },
+  { id: 'england', name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', titles: 1, players: ['Bobby Charlton', 'Gary Lineker', 'Bobby Moore'], group: 'Group F', star: 'Jude Bellingham', coach: 'Thomas Tuchel', chance: 11 },
+  { id: 'france', name: 'France', flag: '🇫🇷', titles: 2, players: ['Zinedine Zidane', 'Michel Platini', 'Thierry Henry'], group: 'Group D', star: 'Kylian Mbappé', coach: 'Didier Deschamps', chance: 16 },
+  { id: 'germany', name: 'Germany', flag: '🇩🇪', titles: 4, players: ['Franz Beckenbauer', 'Gerd Müller', 'Miroslav Klose'], group: 'Group C', star: 'Florian Wirtz', coach: 'Julian Nagelsmann', chance: 12 },
+  { id: 'netherlands', name: 'Netherlands', flag: '🇳🇱', titles: 0, players: ['Johan Cruyff', 'Marco van Basten', 'Ruud Gullit'], group: 'Group J', star: 'Virgil van Dijk', coach: 'Ronald Koeman', chance: 8 },
+  { id: 'norway', name: 'Norway', flag: '🇳🇴', titles: 0, players: ['Erik Thorstvedt', 'John Carew', 'Tore André Flo'], group: 'Group F', star: 'Erling Haaland', coach: 'Ståle Solbakken', chance: 6 },
+  { id: 'portugal', name: 'Portugal', flag: '🇵🇹', titles: 0, players: ['Cristiano Ronaldo', 'Eusébio', 'Luís Figo'], group: 'Group I', star: 'Bruno Fernandes', coach: 'Roberto Martínez', chance: 9 },
+  { id: 'scotland', name: 'Scotland', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', titles: 0, players: ['Kenny Dalglish', 'Denis Law', 'Graeme Souness'], group: 'Group I', star: 'Andrew Robertson', coach: 'Steve Clarke', chance: 1 },
+  { id: 'spain', name: 'Spain', flag: '🇪🇸', titles: 1, players: ['Andres Iniesta', 'Xavi Hernandez', 'Iker Casillas'], group: 'Group H', star: 'Lamine Yamal', coach: 'Luis de la Fuente', chance: 13 },
+  { id: 'sweden', name: 'Sweden', flag: '🇸🇪', titles: 0, players: ['Zlatan Ibrahimović', 'Henrik Larsson', 'Gunnar Nordahl'], group: 'Group D', star: 'Alexander Isak', coach: 'Jon Dahl Tomasson', chance: 3 },
+  { id: 'switzerland', name: 'Switzerland', flag: '🇨🇭', titles: 0, players: ['Stephane Chapuisat', 'Alexander Frei', 'Xherdan Shaqiri'], group: 'Group L', star: 'Granit Xhaka', coach: 'Murat Yakin', chance: 4 },
+  { id: 'turkiye', name: 'Türkiye', flag: '🇹🇷', titles: 0, players: ['Hakan Şükür', 'Rüştü Reçber', 'Tugay Kerimoğlu'], group: 'Group K', star: 'Hakan Çalhanoğlu', coach: 'Vincenzo Montella', chance: 3 },
+  { id: 'argentina', name: 'Argentina', flag: '🇦🇷', titles: 3, players: ['Diego Maradona', 'Lionel Messi', 'Mario Kempes'], group: 'Group B', star: 'Lionel Messi', coach: 'Lionel Scaloni', chance: 14 },
+  { id: 'brazil', name: 'Brazil', flag: '🇧🇷', titles: 5, players: ['Pelé', 'Ronaldo', 'Ronaldinho'], group: 'Group A', star: 'Vinícius Júnior', coach: 'Carlo Ancelotti', chance: 15 },
+  { id: 'colombia', name: 'Colombia', flag: '🇨🇴', titles: 0, players: ['Carlos Valderrama', 'Radamel Falcao', 'Faustino Asprilla'], group: 'Group E', star: 'Luis Díaz', coach: 'Néstor Lorenzo', chance: 7 },
+  { id: 'ecuador', name: 'Ecuador', flag: '🇪🇨', titles: 0, players: ['Alex Aguinaga', 'Antonio Valencia', 'Enner Valencia'], group: 'Group B', star: 'Moisés Caicedo', coach: 'Sebastián Beccacece', chance: 4 },
+  { id: 'paraguay', name: 'Paraguay', flag: '🇵🇾', titles: 0, players: ['Jose Luis Chilavert', 'Roque Santa Cruz', 'Julio Cesar Romero'], group: 'Group D', star: 'Julio Enciso', coach: 'Gustavo Alfaro', chance: 3 },
+  { id: 'uruguay', name: 'Uruguay', flag: '🇺🇾', titles: 2, players: ['Luis Suárez', 'Diego Forlán', 'Enzo Francescoli'], group: 'Group E', star: 'Federico Valverde', coach: 'Marcelo Bielsa', chance: 8 },
+  { id: 'australia', name: 'Australia', flag: '🇦🇺', titles: 0, players: ['Tim Cahill', 'Harry Kewell', 'Mark Viduka'], group: 'Group G', star: 'Nestory Irankunda', coach: 'Tony Popovic', chance: 2 },
+  { id: 'iran', name: 'Iran', flag: '🇮🇷', titles: 0, players: ['Ali Daei', 'Ali Karimi', 'Mehdi Mahdavikia'], group: 'Group I', star: 'Mehdi Taremi', coach: 'Amir Ghalenoei', chance: 2 },
+  { id: 'iraq', name: 'Iraq', flag: '🇮🇶', titles: 0, players: ['Younis Mahmoud', 'Ahmed Radhi', 'Nashat Akram'], group: 'Group J', star: 'Aymen Hussein', coach: 'Jesús Casas', chance: 1 },
+  { id: 'japan', name: 'Japan', flag: '🇯🇵', titles: 0, players: ['Hidetoshi Nakata', 'Shunsuke Nakamura', 'Keisuke Honda'], group: 'Group E', star: 'Kaoru Mitoma', coach: 'Hajime Moriyasu', chance: 5 },
+  { id: 'jordan', name: 'Jordan', flag: '🇯🇴', titles: 0, players: ['Amer Deeb', 'Baha Abdel-Rahman', 'Odai Al-Saify'], group: 'Group K', star: 'Mousa Al-Tamari', coach: 'Jamal Sellami', chance: 1 },
+  { id: 'qatar', name: 'Qatar', flag: '🇶🇦', titles: 0, players: ['Mansour Muftah', 'Sebastián Soria', 'Hassan Al-Haydos'], group: 'Group G', star: 'Akram Afif', coach: 'Tintín Márquez', chance: 1 },
+  { id: 'saudi-arabia', name: 'Saudi Arabia', flag: '🇸🇦', titles: 0, players: ['Majed Abdullah', 'Sami Al-Jaber', 'Saeed Al-Owairan'], group: 'Group H', star: 'Salem Al-Dawsari', coach: 'Roberto Mancini', chance: 1 },
+  { id: 'south-korea', name: 'South Korea', flag: '🇰🇷', titles: 0, players: ['Park Ji-sung', 'Cha Bum-kun', 'Ahn Jung-hwan'], group: 'Group F', star: 'Son Heung-min', coach: 'Hong Myung-bo', chance: 3 },
+  { id: 'uzbekistan', name: 'Uzbekistan', flag: '🇺🇿', titles: 0, players: ['Maksim Shatskikh', 'Server Djeparov', 'Odil Ahmedov'], group: 'Group L', star: 'Eldor Shomurodov', coach: 'Srečko Katanec', chance: 1 },
+  { id: 'algeria', name: 'Algeria', flag: '🇩🇿', titles: 0, players: ['Rabah Madjer', 'Lakhdar Belloumi', 'Rachid Mekhloufi'], group: 'Group L', star: 'Riyad Mahrez', coach: 'Vladimir Petković', chance: 3 },
+  { id: 'caboverde', name: 'Cabo Verde', flag: '🇨🇻', titles: 0, players: ['Ryan Mendes', 'Heldon Ramos', 'Babanco'], group: 'Group B', star: 'Ryan Mendes', coach: 'Bubista', chance: 1 },
+  { id: 'cote-divoire', name: 'Côte d’Ivoire', flag: '🇨🇮', titles: 0, players: ['Didier Drogba', 'Yaya Touré', 'Laurent Pokou'], group: 'Group F', star: 'Sébastien Haller', coach: 'Emerse Faé', chance: 4 },
+  { id: 'dr-congo', name: 'DR Congo', flag: '🇨🇩', titles: 0, players: ['Shabani Nonda', 'Dieumerci Mbokani', 'Robert Kidiaba'], group: 'Group F', star: 'Chancel Mbemba', coach: 'Sébastien Desabre', chance: 2 },
+  { id: 'egypt', name: 'Egypt', flag: '🇪🇬', titles: 0, players: ['Mohamed Aboutrika', 'Hossam Hassan', 'Essam El-Hadary'], group: 'Group G', star: 'Mohamed Salah', coach: 'Hossam Hassan', chance: 5 },
+  { id: 'ghana', name: 'Ghana', flag: '🇬🇭', titles: 0, players: ['Abedi Pele', 'Asamoah Gyan', 'Tony Yeboah'], group: 'Group E', star: 'Mohammed Kudus', coach: 'Otto Addo', chance: 3 },
+  { id: 'morocco', name: 'Morocco', flag: '🇲🇦', titles: 0, players: ['Mustapha Hadji', 'Noureddine Naybet', 'Larbi Benbarek'], group: 'Group C', star: 'Achraf Hakimi', coach: 'Walid Regragui', chance: 6 },
+  { id: 'senegal', name: 'Senegal', flag: '🇸🇳', titles: 0, players: ['Sadio Mané', 'El Hadji Diouf', 'Henri Camara'], group: 'Group J', star: 'Sadio Mané', coach: 'Pape Thiaw', chance: 5 },
+  { id: 'south-africa', name: 'South Africa', flag: '🇿🇦', titles: 0, players: ['Benni McCarthy', 'Lucas Radebe', 'Doctor Khumalo'], group: 'Group A', star: 'Percy Tau', coach: 'Hugo Broos', chance: 2 },
+  { id: 'tunisia', name: 'Tunisia', flag: '🇹🇳', titles: 0, players: ['Radhi Jaïdi', 'Wahbi Khazri', 'Tarek Dhiab'], group: 'Group I', star: 'Ellyes Skhiri', coach: 'Faouzi Benzarti', chance: 2 },
+  { id: 'curacao', name: 'Curaçao', flag: '🇨🇼', titles: 0, players: ['Cuco Martina', 'Leandro Bacuna', 'Charlison Benschop'], group: 'Group C', star: 'Juninho Bacuna', coach: 'Dick Advocaat', chance: 1 },
+  { id: 'haiti', name: 'Haiti', flag: '🇭🇹', titles: 0, players: ['Emmanuel Sanon', 'Wagneau Eloi', 'Johnny Placide'], group: 'Group D', star: 'Frantzdy Pierrot', coach: 'Sébastien Migné', chance: 1 },
+  { id: 'panama', name: 'Panama', flag: '🇵🇦', titles: 0, players: ['Julio Dely Valdés', 'Blas Pérez', 'Luis Tejada'], group: 'Group C', star: 'Adalberto Carrasquilla', coach: 'Thomas Christiansen', chance: 2 },
+  { id: 'new-zealand', name: 'New Zealand', flag: '🇳🇿', titles: 0, players: ['Wynton Rufer', 'Ryan Nelsen', 'Ivan Vicelich'], group: 'Group K', star: 'Chris Wood', coach: 'Darren Bazeley', chance: 1 }
+];
+
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabPanels = document.querySelectorAll('.tab-panel');
+
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    tabButtons.forEach(b => b.classList.remove('active'));
+    tabPanels.forEach(p => p.classList.remove('active'));
+    
+    btn.classList.add('active');
+    const panelId = btn.id.replace('-btn', '').replace('tab-', 'panel-');
+    document.getElementById(panelId).classList.add('active');
+
+    if (panelId === 'panel-bracket') {
+      loadBracketData();
+    } else if (panelId === 'panel-prediction') {
+      renderWinningChances();
+    }
+  });
+});
+
+const teamSearch = document.getElementById('team-search');
+const teamsListContainer = document.getElementById('teams-list-container');
+const teamDetailsContainer = document.getElementById('team-details-container');
+
+function getSortedTeams() {
+  return [...teamsData].sort((a, b) => b.titles - a.titles || a.name.localeCompare(b.name));
+}
+
+function renderTeams(filter = '') {
+  teamsListContainer.innerHTML = '';
+  const sorted = getSortedTeams();
+  const filtered = sorted.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()));
+
+  filtered.forEach(team => {
+    const item = document.createElement('div');
+    item.className = 'team-item';
+    item.innerHTML = `
+      <div class="team-meta">
+        <span class="team-flag">${team.flag}</span>
+        <span class="team-name">${team.name}</span>
+      </div>
+      <div class="team-titles-badge">🏆 ${team.titles}</div>
+    `;
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.team-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      showTeamDetails(team);
+    });
+    teamsListContainer.appendChild(item);
+  });
+}
+
+function showTeamDetails(team) {
+  teamDetailsContainer.innerHTML = `
+    <div class="team-details-header">
+      <div class="details-identity">
+        <span class="details-flag">${team.flag}</span>
+        <h2>${team.name}</h2>
+      </div>
+      <div class="details-titles">🏆 ${team.titles} World Cup Titles</div>
+    </div>
+    <div class="details-grid">
+      <div class="details-section">
+        <h3>Legendary Players</h3>
+        <div class="historical-players-list">
+          ${team.players.map(p => `
+            <div class="player-card">
+              <div class="player-name">${p}</div>
+              <div class="player-desc">Top historical player for ${team.name}.</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="details-section">
+        <h3>World Cup 2026 Info</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Group Placement</span>
+            <span class="stat-value">${team.group}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Manager / Coach</span>
+            <span class="stat-value">${team.coach}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Star Player</span>
+            <span class="stat-value">${team.star}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Win Probability</span>
+            <span class="stat-value">${team.chance}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+teamSearch.addEventListener('input', (e) => {
+  renderTeams(e.target.value);
+});
+
+let currentBracket = null;
+
+function loadBracketData() {
+  fetch('/bracket.json')
+    .then(res => res.json())
+    .then(data => {
+      currentBracket = data;
+      renderBracket(data);
+    });
+}
+
+function getTeamFlag(name) {
+  if (!name) return '';
+  const team = teamsData.find(t => t.name.toLowerCase() === name.toLowerCase());
+  return team ? team.flag : '🏳️';
+}
+
+function renderBracket(data) {
+  const container = document.getElementById('bracket-grid-container');
+  container.innerHTML = '';
+
+  const r16Col = createBracketColumn('Round of 16');
+  data.roundOf16.forEach(m => {
+    r16Col.appendChild(createMatchCard(m, 'roundOf16'));
+  });
+  container.appendChild(r16Col);
+
+  const qfCol = createBracketColumn('Quarterfinals');
+  data.quarterfinals.forEach(m => {
+    qfCol.appendChild(createMatchCard(m, 'quarterfinals'));
+  });
+  container.appendChild(qfCol);
+
+  const sfCol = createBracketColumn('Semifinals');
+  data.semifinals.forEach(m => {
+    sfCol.appendChild(createMatchCard(m, 'semifinals'));
+  });
+  container.appendChild(sfCol);
+
+  const finalCol = createBracketColumn('Final');
+  finalCol.appendChild(createMatchCard(data.final, 'final'));
+  container.appendChild(finalCol);
+
+  const champCol = document.createElement('div');
+  champCol.className = 'bracket-column champion-column';
+  champCol.innerHTML = `<div class="bracket-column-title">Champion</div>`;
+
+  const champCard = document.createElement('div');
+  champCard.className = 'champion-card';
+  
+  if (data.final.winner) {
+    champCard.innerHTML = `
+      <h3>Winner</h3>
+      <div class="champion-display">
+        <span class="champion-flag">${getTeamFlag(data.final.winner)}</span>
+        <span class="champion-name">${data.final.winner}</span>
+      </div>
+    `;
+  } else {
+    champCard.innerHTML = `
+      <h3>Winner</h3>
+      <div class="champion-display">
+        <span class="champion-flag">❓</span>
+        <span class="champion-name">TBD</span>
+      </div>
+    `;
+  }
+  champCol.appendChild(champCard);
+  container.appendChild(champCol);
+}
+
+function createBracketColumn(title) {
+  const col = document.createElement('div');
+  col.className = 'bracket-column';
+  col.innerHTML = `<div class="bracket-column-title">${title}</div>`;
+  return col;
+}
+
+function createMatchCard(match, stage) {
+  const card = document.createElement('div');
+  card.className = 'matchup-container';
+  
+  const team1Class = match.winner === match.team1 ? 'winner' : (match.winner ? 'loser' : '');
+  const team2Class = match.winner === match.team2 ? 'winner' : (match.winner ? 'loser' : '');
+
+  const team1Content = match.team1 
+    ? `<span class="matchup-flag">${getTeamFlag(match.team1)}</span> <span class="matchup-team-name">${match.team1}</span>` 
+    : `<span class="matchup-team-name text-muted">TBD</span>`;
+  const team2Content = match.team2 
+    ? `<span class="matchup-flag">${getTeamFlag(match.team2)}</span> <span class="matchup-team-name">${match.team2}</span>` 
+    : `<span class="matchup-team-name text-muted">TBD</span>`;
+
+  card.innerHTML = `
+    <div class="matchup-slot ${team1Class}" data-team="1">
+      <div class="matchup-slot-team">${team1Content}</div>
+      <div class="matchup-status-dot"></div>
+    </div>
+    <div class="matchup-slot ${team2Class}" data-team="2">
+      <div class="matchup-slot-team">${team2Content}</div>
+      <div class="matchup-status-dot"></div>
+    </div>
+  `;
+
+  card.querySelectorAll('.matchup-slot').forEach(slot => {
+    slot.addEventListener('click', () => {
+      const selectedNum = slot.dataset.team;
+      const winner = selectedNum === '1' ? match.team1 : match.team2;
+      if (!winner) return;
+      setWinner(stage, match.id, winner);
+    });
+  });
+
+  return card;
+}
+
+function setWinner(stage, matchId, winner) {
+  if (!currentBracket) return;
+
+  let loser = '';
+  if (stage === 'roundOf16') {
+    const match = currentBracket.roundOf16.find(m => m.id === matchId);
+    match.winner = winner;
+    match.loser = winner === match.team1 ? match.team2 : match.team1;
+    loser = match.loser;
+    const matchIndex = currentBracket.roundOf16.indexOf(match);
+    const nextMatchIndex = Math.floor(matchIndex / 2);
+    if (matchIndex % 2 === 0) {
+      currentBracket.quarterfinals[nextMatchIndex].team1 = winner;
+    } else {
+      currentBracket.quarterfinals[nextMatchIndex].team2 = winner;
+    }
+  } else if (stage === 'quarterfinals') {
+    const match = currentBracket.quarterfinals.find(m => m.id === matchId);
+    match.winner = winner;
+    match.loser = winner === match.team1 ? match.team2 : match.team1;
+    loser = match.loser;
+    const matchIndex = currentBracket.quarterfinals.indexOf(match);
+    const nextMatchIndex = Math.floor(matchIndex / 2);
+    if (matchIndex % 2 === 0) {
+      currentBracket.semifinals[nextMatchIndex].team1 = winner;
+    } else {
+      currentBracket.semifinals[nextMatchIndex].team2 = winner;
+    }
+  } else if (stage === 'semifinals') {
+    const match = currentBracket.semifinals.find(m => m.id === matchId);
+    match.winner = winner;
+    match.loser = winner === match.team1 ? match.team2 : match.team1;
+    loser = match.loser;
+    const matchIndex = currentBracket.semifinals.indexOf(match);
+    if (matchIndex === 0) {
+      currentBracket.final.team1 = winner;
+    } else {
+      currentBracket.final.team2 = winner;
+    }
+  } else if (stage === 'final') {
+    currentBracket.final.winner = winner;
+    currentBracket.final.loser = winner === currentBracket.final.team1 ? currentBracket.final.team2 : currentBracket.final.team1;
+    loser = currentBracket.final.loser;
+  }
+
+  fetch('/api/bracket', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(currentBracket)
+  })
+  .then(res => res.json())
+  .then(() => {
+    renderBracket(currentBracket);
+  });
+}
+
+document.getElementById('cli-update-btn').addEventListener('click', () => {
+  const logDisplay = document.getElementById('cli-log-display');
+  logDisplay.textContent = 'Executing CLI Call...';
+  
+  fetch('/api/bracket/update', { method: 'POST' })
+    .then(res => res.json())
+    .then(result => {
+      if (result.status === 'success') {
+        logDisplay.textContent = `CLI output: ${result.log}`;
+        currentBracket = result.data;
+        renderBracket(result.data);
+      } else {
+        logDisplay.textContent = `CLI error: ${result.message}`;
+      }
+    })
+    .catch(err => {
+      logDisplay.textContent = `Request failed: ${err.message}`;
+    });
+});
+
+document.getElementById('cli-reset-btn').addEventListener('click', () => {
+  const logDisplay = document.getElementById('cli-log-display');
+  logDisplay.textContent = 'Resetting...';
+
+  const emptyData = {
+    roundOf16: [
+      { id: 'r16-1', team1: 'Argentina', team2: 'Mexico', winner: null, loser: null },
+      { id: 'r16-2', team1: 'Brazil', team2: 'USA', winner: null, loser: null },
+      { id: 'r16-3', team1: 'France', team2: 'Canada', winner: null, loser: null },
+      { id: 'r16-4', team1: 'England', team2: 'Morocco', winner: null, loser: null },
+      { id: 'r16-5', team1: 'Spain', team2: 'Japan', winner: null, loser: null },
+      { id: 'r16-6', team1: 'Portugal', team2: 'South Korea', winner: null, loser: null },
+      { id: 'r16-7', team1: 'Germany', team2: 'Australia', winner: null, loser: null },
+      { id: 'r16-8', team1: 'Italy', team2: 'Saudi Arabia', winner: null, loser: null }
+    ],
+    quarterfinals: [
+      { id: 'qf-1', team1: '', team2: '', winner: null, loser: null },
+      { id: 'qf-2', team1: '', team2: '', winner: null, loser: null },
+      { id: 'qf-3', team1: '', team2: '', winner: null, loser: null },
+      { id: 'qf-4', team1: '', team2: '', winner: null, loser: null },
+    ],
+    semifinals: [
+      { id: 'sf-1', team1: '', team2: '', winner: null, loser: null },
+      { id: 'sf-2', team1: '', team2: '', winner: null, loser: null }
+    ],
+    final: { id: 'f-1', team1: '', team2: '', winner: null, loser: null }
+  };
+
+  fetch('/api/bracket', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(emptyData)
+  })
+  .then(res => res.json())
+  .then(() => {
+    currentBracket = emptyData;
+    renderBracket(emptyData);
+    logDisplay.textContent = 'Bracket has been reset.';
+  });
+});
+
+const chancesContainer = document.getElementById('chances-list-container');
+const predictorTeam1 = document.getElementById('predictor-team1');
+const predictorTeam2 = document.getElementById('predictor-team2');
+const predictBtn = document.getElementById('predict-btn');
+const predictionResults = document.getElementById('prediction-results-container');
+
+function renderWinningChances() {
+  chancesContainer.innerHTML = '';
+  const sorted = [...teamsData].sort((a, b) => b.chance - a.chance);
+  
+  sorted.forEach(team => {
+    const item = document.createElement('div');
+    item.className = 'chance-item';
+    item.innerHTML = `
+      <div class="chance-info">
+        <span class="chance-team">${team.flag} ${team.name}</span>
+        <span class="chance-val">${team.chance}%</span>
+      </div>
+      <div class="chance-bar-container">
+        <div class="chance-bar" style="width: ${team.chance * 5}%"></div>
+      </div>
+    `;
+    chancesContainer.appendChild(item);
+  });
+
+  populatePredictorSelects();
+}
+
+function populatePredictorSelects() {
+  if (predictorTeam1.children.length > 0) return;
+
+  const sorted = [...teamsData].sort((a, b) => a.name.localeCompare(b.name));
+  sorted.forEach(team => {
+    const opt1 = document.createElement('option');
+    opt1.value = team.id;
+    opt1.textContent = `${team.flag} ${team.name}`;
+    predictorTeam1.appendChild(opt1);
+
+    const opt2 = document.createElement('option');
+    opt2.value = team.id;
+    opt2.textContent = `${team.flag} ${team.name}`;
+    predictorTeam2.appendChild(opt2);
+  });
+
+  if (predictorTeam2.children.length > 1) {
+    predictorTeam2.selectedIndex = 1;
+  }
+}
+
+predictBtn.addEventListener('click', () => {
+  const team1Id = predictorTeam1.value;
+  const team2Id = predictorTeam2.value;
+
+  if (team1Id === team2Id) {
+    predictionResults.innerHTML = `
+      <div class="results-grid" style="grid-template-columns: 1fr; text-align: center; color: var(--color-danger); font-weight: 700;">
+        Please select two different teams.
+      </div>
+    `;
+    return;
+  }
+
+  const team1 = teamsData.find(t => t.id === team1Id);
+  const team2 = teamsData.find(t => t.id === team2Id);
+
+  const baseChance1 = team1.chance + (team1.titles * 2);
+  const baseChance2 = team2.chance + (team2.titles * 2);
+  const total = baseChance1 + baseChance2;
+
+  const pct1 = Math.round((baseChance1 / total) * 100);
+  const pct2 = 100 - pct1;
+
+  const winner = pct1 > pct2 ? team1 : (pct2 > pct1 ? team2 : null);
+
+  predictionResults.innerHTML = `
+    <div class="results-grid">
+      <div class="result-team-card ${winner === team1 ? 'winner-prediction' : ''}">
+        <span class="result-flag">${team1.flag}</span>
+        <span class="result-name">${team1.name}</span>
+        <span class="result-percent">${pct1}%</span>
+      </div>
+      <div class="predictor-vs-middle">VS</div>
+      <div class="result-team-card ${winner === team2 ? 'winner-prediction' : ''}">
+        <span class="result-flag">${team2.flag}</span>
+        <span class="result-name">${team2.name}</span>
+        <span class="result-percent">${pct2}%</span>
+      </div>
+      <div class="comparison-odds-bar">
+        <div class="odds-team-a" style="width: ${pct1}%"></div>
+        <div class="odds-team-b" style="width: ${pct2}%"></div>
+      </div>
+    </div>
+  `;
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  renderTeams();
+  if (teamsData.length > 0) {
+    showTeamDetails(getSortedTeams()[0]);
+    const firstItem = teamsListContainer.querySelector('.team-item');
+    if (firstItem) firstItem.classList.add('active');
+  }
+
+  fetch('/api/bracket/update', { method: 'POST' })
+    .then(res => res.json())
+    .then(result => {
+      if (result.status === 'success') {
+        currentBracket = result.data;
+      }
+    })
+    .catch(() => {});
+});
