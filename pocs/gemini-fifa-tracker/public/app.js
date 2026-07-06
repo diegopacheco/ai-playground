@@ -342,7 +342,7 @@ teamSearch.addEventListener('input', (e) => {
 let currentBracket = null;
 
 function loadBracketData() {
-  fetch('/bracket.json')
+  fetch('http://localhost:3000/bracket.json')
     .then(res => res.json())
     .then(data => {
       currentBracket = data;
@@ -522,7 +522,7 @@ function setWinner(stage, matchId, winner) {
     loser = currentBracket.final.loser;
   }
 
-  fetch('/api/bracket', {
+  fetch('http://localhost:3000/api/bracket', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(currentBracket)
@@ -537,7 +537,7 @@ document.getElementById('cli-update-btn').addEventListener('click', () => {
   const logDisplay = document.getElementById('cli-log-display');
   logDisplay.textContent = 'Executing CLI Call...';
   
-  fetch('/api/bracket/update', { method: 'POST' })
+  fetch('http://localhost:3000/api/bracket/update', { method: 'POST' })
     .then(res => res.json())
     .then(result => {
       if (result.status === 'success') {
@@ -581,7 +581,7 @@ document.getElementById('cli-reset-btn').addEventListener('click', () => {
     final: { id: 'f-1', team1: '', team2: '', winner: null, loser: null }
   };
 
-  fetch('/api/bracket', {
+  fetch('http://localhost:3000/api/bracket', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(emptyData)
@@ -695,7 +695,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (firstItem) firstItem.classList.add('active');
   }
 
-  fetch('/api/bracket/update', { method: 'POST' })
+  fetch('http://localhost:3000/api/bracket/update', { method: 'POST' })
     .then(res => res.json())
     .then(result => {
       if (result.status === 'success') {

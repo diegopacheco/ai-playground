@@ -9,20 +9,20 @@ const filePath = path.join(__dirname, 'bracket.json');
 
 const initialData = {
   roundOf16: [
-    { id: 'r16-1', team1: 'Argentina', team2: 'Mexico', winner: 'Argentina', loser: 'Mexico' },
-    { id: 'r16-2', team1: 'Brazil', team2: 'USA', winner: 'Brazil', loser: 'USA' },
-    { id: 'r16-3', team1: 'France', team2: 'Canada', winner: 'France', loser: 'Canada' },
-    { id: 'r16-4', team1: 'England', team2: 'Morocco', winner: 'England', loser: 'Morocco' },
-    { id: 'r16-5', team1: 'Spain', team2: 'Japan', winner: 'Spain', loser: 'Japan' },
-    { id: 'r16-6', team1: 'Portugal', team2: 'South Korea', winner: 'Portugal', loser: 'South Korea' },
-    { id: 'r16-7', team1: 'Germany', team2: 'Australia', winner: 'Germany', loser: 'Australia' },
-    { id: 'r16-8', team1: 'Italy', team2: 'Saudi Arabia', winner: 'Italy', loser: 'Saudi Arabia' }
+    { id: 'r16-1', team1: 'Morocco', team2: 'Canada', winner: 'Morocco', loser: 'Canada' },
+    { id: 'r16-2', team1: 'France', team2: 'Paraguay', winner: 'France', loser: 'Paraguay' },
+    { id: 'r16-3', team1: 'Norway', team2: 'Brazil', winner: 'Norway', loser: 'Brazil' },
+    { id: 'r16-4', team1: 'England', team2: 'Mexico', winner: 'England', loser: 'Mexico' },
+    { id: 'r16-5', team1: 'Portugal', team2: 'Spain', winner: null, loser: null },
+    { id: 'r16-6', team1: 'USA', team2: 'Belgium', winner: null, loser: null },
+    { id: 'r16-7', team1: 'Argentina', team2: 'Egypt', winner: null, loser: null },
+    { id: 'r16-8', team1: 'Switzerland', team2: 'Colombia', winner: null, loser: null }
   ],
   quarterfinals: [
-    { id: 'qf-1', team1: 'Argentina', team2: 'Brazil', winner: null, loser: null },
-    { id: 'qf-2', team1: 'France', team2: 'England', winner: null, loser: null },
-    { id: 'qf-3', team1: 'Spain', team2: 'Portugal', winner: null, loser: null },
-    { id: 'qf-4', team1: 'Germany', team2: 'Italy', winner: null, loser: null }
+    { id: 'qf-1', team1: 'Morocco', team2: 'France', winner: null, loser: null },
+    { id: 'qf-2', team1: 'Norway', team2: 'England', winner: null, loser: null },
+    { id: 'qf-3', team1: '', team2: '', winner: null, loser: null },
+    { id: 'qf-4', team1: '', team2: '', winner: null, loser: null }
   ],
   semifinals: [
     { id: 'sf-1', team1: '', team2: '', winner: null, loser: null },

@@ -99,14 +99,14 @@
       "id": "sf-2",
       "team1": "Spain",
       "team2": "Germany",
-      "winner": null,
-      "loser": null
+      "winner": "Spain",
+      "loser": "Germany"
     }
   ],
   "final": {
     "id": "f-1",
     "team1": "Argentina",
-    "team2": "",
+    "team2": "Spain",
     "winner": null,
     "loser": null
   }
