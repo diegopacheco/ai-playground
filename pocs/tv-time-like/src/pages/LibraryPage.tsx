@@ -15,7 +15,7 @@ export function LibraryPage() {
   const actions = useLibraryActions()
   const [filter, setFilter] = useState<Filter>("all")
   const [query, setQuery] = useState("")
-  const [sort, setSort] = useState<Sort>("alpha")
+  const [sort, setSort] = useState<Sort>("release")
   const [page, setPage] = useState(0)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [importOpen, setImportOpen] = useState(false)

@@ -1,5 +1,7 @@
 import { db } from "./db.ts"
 
+export const importedOverview = "Imported from TV Time"
+
 type Target = {
   id: string
   title: string
@@ -7,6 +9,7 @@ type Target = {
   type: "movie" | "show"
   poster: string | null
   genres: string
+  overview: string
 }
 
 type WikiPage = {
@@ -14,6 +17,7 @@ type WikiPage = {
   missing?: boolean
   thumbnail?: { source: string }
   pageprops?: { wikibase_item?: string }
+  extract?: string
 }
 
 type WikiResponse = {
@@ -41,7 +45,7 @@ const fetchRetry = async (url: string | URL, attempts = 4) => {
 const resolvePages = async (targets: Target[], fallback: boolean) => {
   const titles = targets.map(target => fallback ? target.title : candidate(target))
   const url = new URL("https://en.wikipedia.org/w/api.php")
-  url.search = new URLSearchParams({ action: "query", format: "json", formatversion: "2", redirects: "1", prop: "pageimages|pageprops", piprop: "thumbnail", pithumbsize: "700", titles: titles.join("|") }).toString()
+  url.search = new URLSearchParams({ action: "query", format: "json", formatversion: "2", redirects: "1", prop: "pageimages|pageprops|extracts", piprop: "thumbnail", pithumbsize: "700", exintro: "1", explaintext: "1", exlimit: "max", titles: titles.join("|") }).toString()
   const response = await fetchRetry(url)
   if (!response?.ok) return new Map<string, WikiPage>()
   const data = await response.json() as WikiResponse
@@ -65,7 +69,7 @@ const resolvePages = async (targets: Target[], fallback: boolean) => {
 const wikipediaMetadata = async (targets: Target[]) => {
   const resolved = new Map<string, WikiPage>()
   for (const batchGroup of chunks(targets, 200)) {
-    const batches = chunks(batchGroup, 40)
+    const batches = chunks(batchGroup, 20)
     const first = await Promise.all(batches.map(batch => resolvePages(batch, false)))
     first.forEach(result => result.forEach((page, id) => resolved.set(id, page)))
     await delay(300)
@@ -143,24 +147,39 @@ const wikidataGenres = async (pages: Map<string, WikiPage>) => {
 
 const needsArtwork = (poster: string | null) => !poster || !poster.includes("media-amazon.com")
 
+const summarize = (extract: string | undefined) => {
+  const text = extract?.trim().replace(/\s+/g, " ") || ""
+  if (text.length <= 360) return text
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || []
+  let result = ""
+  for (const sentence of sentences) {
+    if (result.length + sentence.length > 360 && result) break
+    result += sentence
+  }
+  return (result || text.slice(0, 360)).trim()
+}
+
 export const syncMetadata = async () => {
-  const targets = db.query("SELECT id, title, year, type, poster, genres FROM media WHERE poster IS NULL OR poster NOT LIKE '%media-amazon.com%' OR genres = '[]'").all() as Target[]
+  const targets = db.query("SELECT id, title, year, type, poster, genres, overview FROM media WHERE poster IS NULL OR poster NOT LIKE '%media-amazon.com%' OR genres = '[]' OR overview = ?").all(importedOverview) as Target[]
   const pages = await wikipediaMetadata(targets)
   const genres = await wikidataGenres(pages)
   const imdbImages = await imdbArtwork(targets.filter(target => needsArtwork(target.poster)))
-  const update = db.prepare("UPDATE media SET poster = COALESCE(?, poster), genres = CASE WHEN genres = '[]' AND ? != '[]' THEN ? ELSE genres END WHERE id = ?")
+  const update = db.prepare("UPDATE media SET poster = COALESCE(?, poster), genres = CASE WHEN genres = '[]' AND ? != '[]' THEN ? ELSE genres END, overview = CASE WHEN overview = ? AND ? != '' THEN ? ELSE overview END WHERE id = ?")
   let imagesUpdated = 0
   let genresUpdated = 0
+  let overviewsUpdated = 0
   const write = db.transaction(() => {
     for (const target of targets) {
       const image = imdbImages.get(target.id) || (needsArtwork(target.poster) ? pages.get(target.id)?.thumbnail?.source : null) || null
       const values = genres.get(target.id) || []
+      const overview = summarize(pages.get(target.id)?.extract)
       if (image) imagesUpdated++
       if (values.length) genresUpdated++
+      if (target.overview === importedOverview && overview) overviewsUpdated++
       const encoded = JSON.stringify(values)
-      update.run(image, encoded, encoded, target.id)
+      update.run(image, encoded, encoded, importedOverview, overview, overview, target.id)
     }
   })
   write()
-  return { scanned: targets.length, imagesUpdated, genresUpdated, missingImages: targets.length - imagesUpdated, pagesResolved: pages.size }
+  return { scanned: targets.length, imagesUpdated, genresUpdated, overviewsUpdated, missingImages: targets.length - imagesUpdated, pagesResolved: pages.size }
 }
