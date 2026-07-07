@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Split or Steal</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(circle at 50% -10%,#3b2d63,#151027 60%);min-height:100vh;color:#fff;font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:28px 20px 80px}
+header{text-align:center;margin-bottom:26px}
+h1{font-size:clamp(40px,7vw,64px);font-weight:900;letter-spacing:-.03em}
+h1 .split{color:#7ef29a}
+h1 .steal{color:#ff6b6b}
+.tag{color:rgba(255,255,255,.65);font-size:15px;margin-top:6px}
+.board{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;margin:24px 0}
+.player{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:18px;text-align:center}
+.player .avatar{font-size:46px}
+.player h3{font-size:22px;font-weight:800;margin-top:6px}
+.player .model{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.55)}
+.player .bank{font-size:30px;font-weight:900;margin-top:10px;color:#ffd85e}
+.potbox{display:flex;flex-direction:column;justify-content:center;align-items:center;background:linear-gradient(160deg,#5d4a15,#2d240a);border:1px solid #a8892f;border-radius:20px;padding:18px 26px;min-width:170px}
+.potbox .label{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:#e8cf8a}
+.potbox .amount{font-size:44px;font-weight:900;color:#ffd85e;text-shadow:0 0 24px rgba(255,216,94,.4)}
+.potbox .roundlbl{font-size:13px;font-weight:700;color:#e8cf8a;margin-top:4px}
+#controls{display:flex;gap:12px;justify-content:center;align-items:center;margin:18px 0 8px}
+select,button{font:800 16px "Avenir Next",Avenir,sans-serif;border-radius:999px;border:0;padding:14px 22px;cursor:pointer}
+select{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25)}
+select option{color:#1a1f2b}
+#startbtn{background:linear-gradient(135deg,#7ef29a,#38bdf8);color:#10231a;padding:14px 38px;letter-spacing:.04em;box-shadow:0 10px 34px rgba(126,242,154,.3)}
+#startbtn:disabled{opacity:.45;cursor:default}
+#feed{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.roundhead{text-align:center;margin:18px 0 4px;font-size:13px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#e8cf8a}
+.roundhead b{color:#ffd85e}
+.bubble{max-width:74%;padding:13px 17px;border-radius:18px;font-size:15px;line-height:1.5;position:relative}
+.bubble .who{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;opacity:.75;margin-bottom:4px}
+.left{align-self:flex-start;background:rgba(90,141,238,.2);border:1px solid rgba(90,141,238,.5);border-bottom-left-radius:4px}
+.right{align-self:flex-end;background:rgba(240,128,60,.18);border:1px solid rgba(240,128,60,.5);border-bottom-right-radius:4px}
+.reveal{background:rgba(255,255,255,.05);border:1px solid rgba(255,216,94,.35);border-radius:20px;padding:18px;text-align:center}
+.reveal .outcome{font-size:19px;font-weight:900;margin-bottom:12px}
+.balls{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.ball{border-radius:16px;padding:14px 18px;min-width:230px}
+.ball.SPLIT{background:rgba(126,242,154,.12);border:1px solid rgba(126,242,154,.55)}
+.ball.STEAL{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.6)}
+.ball .name{font-weight:800;font-size:15px}
+.ball .dec{font-size:26px;font-weight:900;margin:4px 0}
+.ball.SPLIT .dec{color:#7ef29a}
+.ball.STEAL .dec{color:#ff6b6b}
+.ball .why{font-size:12.5px;color:rgba(255,255,255,.7);line-height:1.45}
+.ball .cash{margin-top:8px;font-size:17px;font-weight:900;color:#ffd85e}
+.verdict{text-align:center;background:linear-gradient(135deg,rgba(255,216,94,.16),rgba(126,242,154,.12));border:1px solid #ffd85e;border-radius:20px;padding:22px;font-size:24px;font-weight:900;color:#ffd85e}
+#status{text-align:center;color:rgba(255,255,255,.6);font-size:14px;min-height:22px;margin-top:14px;font-style:italic}
+.dots:after{content:"";animation:dots 1.2s steps(4) infinite}
+@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><span class="split">SPLIT</span> or <span class="steal">STEAL</span></h1>
+    <div class="tag">Two AI agents, one pot. They negotiate, promise, lie — then commit in secret. Reputation carries across rounds.</div>
+  </header>
+  <div class="board">
+    <div class="player" id="p0"></div>
+    <div class="potbox">
+      <span class="label">The Pot</span>
+      <span class="amount" id="pot">$0</span>
+      <span class="roundlbl" id="roundlbl">—</span>
+    </div>
+    <div class="player" id="p1"></div>
+  </div>
+  <div id="controls">
+    <select id="rounds">
+      <option value="3">3 rounds</option>
+      <option value="5" selected>5 rounds</option>
+      <option value="7">7 rounds</option>
+    </select>
+    <button id="startbtn">START THE GAME</button>
+  </div>
+  <div id="status"></div>
+  <div id="feed"></div>
+</div>
+<script>
+const feed=document.getElementById("feed");
+const statusEl=document.getElementById("status");
+const startBtn=document.getElementById("startbtn");
+let agents=[],rendered=0;
+
+function esc(s){const d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+function playerCard(a,total){
+  return '<div class="avatar">'+a.emoji+'</div><h3 style="color:'+a.color+'">'+a.name+'</h3>'+
+    '<div class="model">claude '+a.model+'</div><div class="bank">$'+total+'</div>';
+}
+function render(s){
+  agents=s.agents;
+  document.getElementById("p0").innerHTML=playerCard(agents[0],s.totals[agents[0].name]??0);
+  document.getElementById("p1").innerHTML=playerCard(agents[1],s.totals[agents[1].name]??0);
+  document.getElementById("pot").textContent="$"+s.pot;
+  document.getElementById("roundlbl").textContent=s.round?("Round "+s.round+" / "+s.total_rounds):"—";
+  startBtn.disabled=s.status==="running";
+  const solid=s.log.filter(e=>e.type!=="thinking");
+  if(rendered>solid.length){feed.innerHTML="";rendered=0;}
+  for(let i=rendered;i<solid.length;i++)feed.insertAdjacentHTML("beforeend",html(solid[i]));
+  if(rendered!==solid.length){rendered=solid.length;window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});}
+  const last=s.log[s.log.length-1];
+  if(s.status==="running"&&last&&last.type==="thinking"){
+    statusEl.innerHTML=esc(last.agent)+' is thinking<span class="dots"></span>';
+  }else if(s.status==="running"){
+    statusEl.innerHTML='the table goes quiet<span class="dots"></span>';
+  }else{
+    statusEl.textContent="";
+  }
+}
+function html(e){
+  if(e.type==="round")
+    return '<div class="roundhead">— Round '+e.round+' · pot <b>$'+e.pot+'</b> —</div>';
+  if(e.type==="msg"){
+    const side=e.agent===agents[0].name?"left":"right";
+    return '<div class="bubble '+side+'"><div class="who">'+esc(e.agent)+'</div>'+esc(e.text)+'</div>';
+  }
+  if(e.type==="reveal"){
+    const balls=agents.map(a=>{
+      const d=e.decisions[a.name],w=e.reasons[a.name]||"",c=e.payout[a.name];
+      return '<div class="ball '+d+'"><div class="name">'+a.emoji+' '+esc(a.name)+'</div>'+
+        '<div class="dec">'+d+'</div><div class="why">'+esc(w)+'</div>'+
+        '<div class="cash">+$'+c+'</div></div>';
+    }).join("");
+    return '<div class="reveal"><div class="outcome">'+esc(e.outcome)+'</div><div class="balls">'+balls+'</div></div>';
+  }
+  if(e.type==="end")
+    return '<div class="verdict">🏆 '+esc(e.verdict)+'</div>';
+  return "";
+}
+async function poll(){
+  try{
+    const s=await (await fetch("/state")).json();
+    render(s);
+  }catch(err){}
+  setTimeout(poll,800);
+}
+startBtn.addEventListener("click",async()=>{
+  startBtn.disabled=true;
+  await fetch("/start?rounds="+document.getElementById("rounds").value,{method:"POST"});
+});
+poll();
+</script>
+</body>
+</html>
