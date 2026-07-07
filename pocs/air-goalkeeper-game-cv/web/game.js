@@ -217,10 +217,6 @@ function drawPitch() {
   ctx.beginPath();
   ctx.arc(W / 2, 428, 86, Math.PI, 0);
   ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(spot.x, spot.y, 6, 0, Math.PI * 2);
-  ctx.fillStyle = "#f6f2d8";
-  ctx.fill();
 }
 
 function drawGoal() {
@@ -273,6 +269,8 @@ function drawShooter() {
   ctx.beginPath();
   ctx.moveTo(28, 24);
   ctx.lineTo(52, 20);
+  ctx.moveTo(-32, 38);
+  ctx.lineTo(-56, 34);
   ctx.stroke();
   ctx.restore();
 }
