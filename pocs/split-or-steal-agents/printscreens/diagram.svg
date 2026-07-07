@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="11" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="5" orient="auto">
+      <path d="M1,1 Q6,3 10,5 Q6,7 1,9" fill="none" stroke="#846358" stroke-width="1.6"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="1000" fill="#fffdf7"/>
+  <g font-family="Caveat, 'Comic Sans MS', cursive" filter="url(#wobble)">
+    <text x="500" y="70" font-size="46" fill="#37322e" text-anchor="middle" font-weight="bold">Split or Steal - how it works</text>
+
+    <rect x="80" y="120" width="260" height="110" rx="14" fill="#d3ecf2" stroke="#4f8a99" stroke-width="2.5"/>
+    <text x="210" y="165" font-size="30" fill="#28505c" text-anchor="middle">Browser UI</text>
+    <text x="210" y="200" font-size="22" fill="#3e6b77" text-anchor="middle">polls /state, renders chat</text>
+
+    <rect x="660" y="120" width="260" height="110" rx="14" fill="#ffe6c9" stroke="#b5854f" stroke-width="2.5"/>
+    <text x="790" y="165" font-size="30" fill="#5d4324" text-anchor="middle">Python stdlib server</text>
+    <text x="790" y="200" font-size="22" fill="#7a5c38" text-anchor="middle">no dependencies, port 8017</text>
+
+    <rect x="330" y="380" width="340" height="130" rx="16" fill="#dbe4ff" stroke="#5a67a8" stroke-width="2.5"/>
+    <text x="500" y="428" font-size="32" fill="#2e3763" text-anchor="middle">Round loop</text>
+    <text x="500" y="462" font-size="23" fill="#48538a" text-anchor="middle">4 negotiation turns, then</text>
+    <text x="500" y="490" font-size="23" fill="#48538a" text-anchor="middle">2 secret simultaneous commits</text>
+
+    <rect x="60" y="660" width="270" height="130" rx="14" fill="#d3f2e0" stroke="#5b8a6f" stroke-width="2.5"/>
+    <text x="195" y="705" font-size="30" fill="#2f4a3c" text-anchor="middle">Atlas 🤖</text>
+    <text x="195" y="738" font-size="22" fill="#4a6b58" text-anchor="middle">claude -p (sonnet)</text>
+    <text x="195" y="766" font-size="22" fill="#4a6b58" text-anchor="middle">CLI subprocess</text>
+
+    <rect x="670" y="660" width="270" height="130" rx="14" fill="#fbd3d8" stroke="#a85560" stroke-width="2.5"/>
+    <text x="805" y="705" font-size="30" fill="#5e2f36" text-anchor="middle">Nova 🦊</text>
+    <text x="805" y="738" font-size="22" fill="#7d4a52" text-anchor="middle">claude -p (haiku)</text>
+    <text x="805" y="766" font-size="22" fill="#7d4a52" text-anchor="middle">CLI subprocess</text>
+
+    <rect x="360" y="840" width="280" height="120" rx="14" fill="#fff3b8" stroke="#a89a3f" stroke-width="2.5"/>
+    <text x="500" y="885" font-size="28" fill="#5c531f" text-anchor="middle">Track record</text>
+    <text x="500" y="915" font-size="21" fill="#78702f" text-anchor="middle">every past decision goes into</text>
+    <text x="500" y="941" font-size="21" fill="#78702f" text-anchor="middle">the next prompt: reputation</text>
+
+    <path d="M340,175 Q490,150 658,175" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M770,230 Q680,310 610,378" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M400,510 Q290,580 220,658" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M600,510 Q710,580 780,658" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M330,760 Q380,810 420,838" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M670,760 Q620,810 580,838" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M360,890 Q180,760 320,480" fill="none" stroke="#846358" stroke-width="2.5" stroke-dasharray="7 7" marker-end="url(#arrow)"/>
+
+    <text x="430" y="140" font-size="22" fill="#846358">GET /state, POST /start</text>
+    <text x="700" y="320" font-size="22" fill="#846358">runs game thread</text>
+    <text x="220" y="590" font-size="22" fill="#846358">talk + decide prompts</text>
+    <text x="660" y="590" font-size="22" fill="#846358">talk + decide prompts</text>
+    <text x="130" y="500" font-size="22" fill="#846358">feeds next round</text>
+  </g>
+</svg>
