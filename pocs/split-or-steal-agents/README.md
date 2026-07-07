@@ -11,11 +11,13 @@ Yes — the agents are real. Every negotiation line and every decision is produc
 `claude` CLI subprocess, exactly like the Auction House and Werewolf games:
 
 ```
-claude -p "<prompt>" --model sonnet --dangerously-skip-permissions
+claude -p "<prompt>" --model claude-sonnet-5 --dangerously-skip-permissions
 ```
 
-- **Atlas 🤖** runs on `claude` with the **sonnet** model
-- **Nova 🦊** runs on `claude` with the **haiku** model
+- **Atlas 🤖** runs on **Claude Sonnet 5** (`claude-sonnet-5`)
+- **Nova 🦊** runs on **Claude Haiku 4.5** (`claude-haiku-4-5-20251001`)
+
+The exact model version is shown in the UI right below each agent's name.
 
 Nothing is scripted: the prompts carry the rules, the standings, the full negotiation and the
 track record of past betrayals, and the models decide alone what to say and whether to steal.
