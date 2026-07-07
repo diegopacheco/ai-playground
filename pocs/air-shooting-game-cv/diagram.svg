@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="7"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M1 1 Q7 4 11 6 Q7 8 1 11" fill="none" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="1200" fill="#fffdf5"/>
+  <g font-family="Caveat, 'Comic Sans MS', cursive" text-anchor="middle">
+    <text x="600" y="90" font-size="58" fill="#343a40">AIR SHOOTOUT - how it works</text>
+
+    <g filter="url(#wobble)">
+      <rect x="440" y="140" width="320" height="120" rx="18" fill="#fff3bf" stroke="#f08c00" stroke-width="4"/>
+    </g>
+    <text x="600" y="192" font-size="40" fill="#343a40">Webcam</text>
+    <text x="600" y="234" font-size="28" fill="#666">320x240 video</text>
+
+    <g filter="url(#wobble)">
+      <rect x="150" y="400" width="420" height="300" rx="18" fill="#ffe8cc" stroke="#e8590c" stroke-width="4"/>
+    </g>
+    <text x="360" y="455" font-size="40" fill="#343a40">Browser</text>
+    <text x="360" y="500" font-size="28" fill="#666">canvas game: bandits, waves,</text>
+    <text x="360" y="535" font-size="28" fill="#666">crosshair, hearts, score</text>
+    <text x="360" y="580" font-size="28" fill="#666">grabs frames as JPEG</text>
+    <text x="360" y="625" font-size="28" fill="#666">smooths aim + hammer</text>
+    <text x="360" y="660" font-size="28" fill="#666">hysteresis to fire</text>
+
+    <g filter="url(#wobble)">
+      <rect x="650" y="400" width="420" height="300" rx="18" fill="#d0ebff" stroke="#1971c2" stroke-width="4"/>
+    </g>
+    <text x="860" y="455" font-size="40" fill="#343a40">Python server</text>
+    <text x="860" y="500" font-size="28" fill="#666">http :8000 serves web/</text>
+    <text x="860" y="540" font-size="28" fill="#666">websocket :8765</text>
+    <text x="860" y="585" font-size="28" fill="#666">OpenCV decodes the frame</text>
+    <text x="860" y="625" font-size="28" fill="#666">MediaPipe HandLandmarker</text>
+    <text x="860" y="660" font-size="28" fill="#666">21 hand landmarks</text>
+
+    <g filter="url(#wobble)">
+      <rect x="390" y="850" width="420" height="240" rx="18" fill="#d3f9d8" stroke="#2f9e44" stroke-width="4"/>
+    </g>
+    <text x="600" y="905" font-size="40" fill="#343a40">Gun gesture classifier</text>
+    <text x="600" y="950" font-size="28" fill="#666">index extended + fingers curled = gun</text>
+    <text x="600" y="990" font-size="28" fill="#666">index tip = crosshair x,y</text>
+    <text x="600" y="1030" font-size="28" fill="#666">thumb drop below 0.55 = BANG</text>
+    <text x="600" y="1065" font-size="28" fill="#666">thumb up above 0.78 = re-cock</text>
+
+    <g fill="none" stroke="#495057" stroke-width="4" stroke-linecap="round" filter="url(#wobble)">
+      <path d="M560 265 Q480 330 400 395" marker-end="url(#arrow)"/>
+      <path d="M575 520 Q610 505 645 490" marker-end="url(#arrow)"/>
+      <path d="M645 620 Q610 635 575 650" marker-end="url(#arrow)"/>
+      <path d="M880 705 Q860 780 740 860" marker-end="url(#arrow)"/>
+      <path d="M420 845 Q340 790 350 710" marker-end="url(#arrow)"/>
+    </g>
+    <text x="430" y="330" font-size="28" fill="#e8590c">getUserMedia</text>
+    <text x="610" y="470" font-size="26" fill="#1971c2">JPEG frame (ws)</text>
+    <text x="610" y="680" font-size="26" fill="#1971c2">hands JSON</text>
+    <text x="850" y="800" font-size="26" fill="#2f9e44">landmarks</text>
+    <text x="290" y="770" font-size="26" fill="#2f9e44">x, y, gun, thumb</text>
+  </g>
+</svg>

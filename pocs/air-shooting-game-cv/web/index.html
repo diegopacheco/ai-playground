@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AIR SHOOTOUT</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>AIR SHOOTOUT</h1>
+  <div id="frame">
+    <canvas id="game" width="960" height="540"></canvas>
+    <canvas id="pip" width="160" height="120"></canvas>
+  </div>
+  <p id="status">connecting...</p>
+</main>
+<video id="cam" autoplay playsinline muted hidden></video>
+<canvas id="grab" width="320" height="240" hidden></canvas>
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+.venv/
+server.pid
+hand_landmarker.task
+__pycache__/
+*.pyc

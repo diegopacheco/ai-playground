@@ -1,0 +1,44 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 20%, #3b2a3d, #1c1522 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Marker Felt", "Comic Sans MS", "Chalkboard SE", cursive;
+  color: #ffe8c2;
+}
+
+main { text-align: center; padding: 18px; }
+
+h1 {
+  font-size: 44px;
+  letter-spacing: 10px;
+  color: #ffb347;
+  text-shadow: 3px 3px 0 #7a2e2e, 6px 6px 0 rgba(0,0,0,.4);
+  margin-bottom: 14px;
+}
+
+#frame {
+  position: relative;
+  display: inline-block;
+  border: 10px solid #6b4226;
+  border-radius: 14px;
+  box-shadow: 0 0 0 4px #3d2415, 0 18px 40px rgba(0,0,0,.6);
+  background: #000;
+}
+
+#game { display: block; border-radius: 4px; }
+
+#pip {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  border: 4px solid #ffb347;
+  border-radius: 10px;
+  background: #111;
+  transform: scaleX(-1);
+}
+
+#status { margin-top: 12px; font-size: 18px; color: #d8b98c; letter-spacing: 2px; }
