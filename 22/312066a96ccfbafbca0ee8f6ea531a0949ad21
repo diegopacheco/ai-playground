@@ -1,0 +1,75 @@
+pocs/gemini-fifa-tracker/bracket-cli.js
+  s_a974122cd85276::t_7eb924faac48c7 10-19,22-34,37,39,47-101,103,106-132,135-141,143-150,153-159,162-164,167,173-174,177-182,187-196,198,200,202,204,208-209
+  s_a974122cd85276::t_296432d84905b5 168-172
+pocs/gemini-fifa-tracker/fix-suspect-images.js
+  s_a974122cd85276::t_de58a2a1d82942 17-18
+pocs/gemini-fifa-tracker/public/app.js
+  s_a974122cd85276::t_24aec714ecd6ba 230-235
+  s_a974122cd85276::t_3eea5035717d5e 419-420,428,451
+  s_a974122cd85276::t_d5238c4ed0eb16 635,648-656
+  s_a974122cd85276::t_0261231c7825ef 371-376,378-381,383-384,388,393,401-402,404,408,415
+  s_a974122cd85276::t_aac49b77312039 501,506
+  s_a974122cd85276::t_84222d2e75c6be 438-441
+  s_a974122cd85276::t_8eb2c342a96e6c 458,462
+  s_a974122cd85276::t_3f9fbd895a5d63 605-609,612-628
+  s_a974122cd85276::t_674fee33f2c2ad 629
+pocs/gemini-fifa-tracker/public/index.html
+  s_a974122cd85276::t_50710c35ab3082 66,68
+pocs/gemini-fifa-tracker/start.sh
+  s_a974122cd85276::t_15f0533506f25e 2
+pocs/gemini-fifa-tracker/public/real-images.js
+  s_a974122cd85276::t_66fe115cb41e26 324-355
+  s_a974122cd85276::t_e1fbe53e28e500 359
+  s_a974122cd85276::t_5457e3c0d71da9 356-357,360
+pocs/gemini-fifa-tracker/bracket.json
+  s_a974122cd85276::t_e07bd3a038e536 4-13,16-25,28-37,40-49,52-61,64-73,76-85,88-97,103-107,109-111,115-119,121-123,126-143,145-147,152,154-157,159-161,166-169,171-173,179-182,184-188
+  s_a974122cd85276::t_f1e7de77f10002 189
+pocs/gemini-fifa-tracker/public/style.css
+  s_a974122cd85276::t_20c7cc7fdc4087 883
+  s_a974122cd85276::t_22ba2a216cd058 693,709-712
+  s_a974122cd85276::t_54b0ba1688cdb3 596-606
+  s_a974122cd85276::t_41528f85c98636 620
+  s_a974122cd85276::t_783dce3de0409f 566-572
+  s_a974122cd85276::t_0a4d95ac529fdc 665
+  s_a974122cd85276::t_e133423435372d 713,804-811,814-816
+  s_a974122cd85276::t_20b77cad3a292e 714
+pocs/gemini-fifa-tracker/.server.pid
+  s_a974122cd85276::t_355a63775aa1de 1
+pocs/gemini-fifa-tracker/server.js
+  s_a974122cd85276::t_ba0c8a6ba2ec3d 12-16
+  s_a974122cd85276::t_218cd6c30b371e 53,55,57,59-60,62-64,66-67
+  s_a974122cd85276::t_a0f2f75b656c12 65
+  s_a974122cd85276::t_44b96062701f09 10-11
+  s_a974122cd85276::t_f6b0442244c1bf 52
+pocs/gemini-fifa-tracker/public/nq-styles.css
+  s_a974122cd85276::t_2d827d601beaef 33
+pocs/gemini-fifa-tracker/retry-missing-images.js
+  s_a974122cd85276::t_5457e3c0d71da9 9-10
+pocs/gemini-fifa-tracker/README.md
+  s_a974122cd85276::t_83b0a0dc2ee142 72-100
+  s_a974122cd85276::t_efc3a07797d141 12
+  s_a974122cd85276::t_2e831a4577f8ad 16,18-20
+  s_a974122cd85276::t_1680813049320b 30
+pocs/gemini-fifa-tracker/public/assets/real-images.json
+  s_a974122cd85276::t_66fe115cb41e26 324-355
+  s_a974122cd85276::t_e1fbe53e28e500 359
+  s_a974122cd85276::t_5457e3c0d71da9 356-357,360
+pocs/gemini-fifa-tracker/fetch-wikipedia-images.js
+  s_a974122cd85276::t_6c2e38a45c4be6 9-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "22312066a96ccfbafbca0ee8f6ea531a0949ad21",
+  "prompts": {},
+  "sessions": {
+    "s_a974122cd85276": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "08550bcc-c09f-451b-95d8-e32818d8b205",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
