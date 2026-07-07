@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Statue!</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0b0714;color:#fff;font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;overflow:hidden;height:100vh}
+#stage{position:fixed;inset:0}
+#cam{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);filter:saturate(1.15) contrast(1.05)}
+#tint{position:absolute;inset:0;pointer-events:none;transition:background .25s}
+#tint.dance{background:radial-gradient(circle at 50% 110%,rgba(124,58,237,.35),transparent 60%)}
+#tint.freeze{background:radial-gradient(circle at 50% 50%,transparent 40%,rgba(56,189,248,.28))}
+#tint.busted{background:rgba(239,68,68,.45)}
+#hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:18px 24px;text-shadow:0 2px 8px rgba(0,0,0,.8)}
+.pill{background:rgba(11,7,20,.62);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:10px 18px;font-size:18px;font-weight:800;letter-spacing:.04em;backdrop-filter:blur(6px)}
+#lives{font-size:22px}
+#banner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;text-align:center}
+#phase{font-size:clamp(56px,14vw,160px);font-weight:900;letter-spacing:-.04em;text-shadow:0 6px 30px rgba(0,0,0,.7);opacity:0;transform:scale(.8);transition:opacity .18s,transform .18s}
+#phase.show{opacity:1;transform:scale(1)}
+#phase.dance{color:#a3ff6b;animation:bop .42s infinite alternate ease-in-out}
+#phase.freeze{color:#e0f2fe}
+#phase.busted{color:#ff5a5a}
+@keyframes bop{from{transform:scale(1) rotate(-2deg)}to{transform:scale(1.12) rotate(2deg)}}
+#sub{font-size:clamp(16px,3vw,28px);font-weight:700;color:rgba(255,255,255,.85);margin-top:14px;text-shadow:0 2px 10px rgba(0,0,0,.8)}
+#meterwrap{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);width:min(520px,80vw);background:rgba(11,7,20,.62);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:12px 16px;backdrop-filter:blur(6px)}
+#meterlabel{display:flex;justify-content:space-between;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:8px}
+#meter{position:relative;height:14px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden}
+#meterfill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#34d399,#a3ff6b);transition:width .08s linear}
+#meterfill.hot{background:linear-gradient(90deg,#f59e0b,#ef4444)}
+#limit{position:absolute;top:-3px;bottom:-3px;width:3px;background:#ff5a5a;border-radius:2px}
+#overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:rgba(11,7,20,.88);text-align:center;padding:24px}
+#overlay h1{font-size:clamp(64px,12vw,150px);font-weight:900;letter-spacing:-.05em;background:linear-gradient(135deg,#a3ff6b,#38bdf8 55%,#c084fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+#overlay p{max-width:560px;font-size:18px;line-height:1.6;color:rgba(255,255,255,.8)}
+#overlay .final{font-size:30px;font-weight:900;color:#a3ff6b}
+#overlay button{margin-top:6px;font:900 20px "Avenir Next",Avenir,sans-serif;letter-spacing:.06em;padding:18px 44px;border:0;border-radius:999px;cursor:pointer;color:#0b0714;background:linear-gradient(135deg,#a3ff6b,#38bdf8);box-shadow:0 12px 40px rgba(56,189,248,.35);transition:transform .15s}
+#overlay button:hover{transform:translateY(-3px) scale(1.03)}
+#err{color:#ff8a8a;font-weight:700}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div id="stage">
+  <video id="cam" autoplay playsinline muted></video>
+  <div id="tint"></div>
+  <div id="hud" class="hidden">
+    <span class="pill" id="lives"></span>
+    <span class="pill" id="round"></span>
+    <span class="pill" id="score"></span>
+  </div>
+  <div id="banner"><div id="phase"></div><div id="sub"></div></div>
+  <div id="meterwrap" class="hidden">
+    <div id="meterlabel"><span>Motion</span><span>Freeze limit</span></div>
+    <div id="meter"><div id="meterfill"></div><div id="limit"></div></div>
+  </div>
+  <div id="overlay">
+    <h1>STATUE!</h1>
+    <p>When the music plays, <b>dance</b> — the wilder you move, the more groove points you earn.
+    The moment it stops, <b>freeze like a statue</b>. Any movement the camera catches costs a heart.
+    Three hearts, rounds get faster. No keyboard, no mouse — your body is the controller.</p>
+    <p id="finalline" class="final hidden"></p>
+    <p id="err" class="hidden"></p>
+    <button id="startbtn">START DANCING</button>
+  </div>
+</div>
+<script>
+const cam=document.getElementById("cam");
+const tint=document.getElementById("tint");
+const hud=document.getElementById("hud");
+const livesEl=document.getElementById("lives");
+const roundEl=document.getElementById("round");
+const scoreEl=document.getElementById("score");
+const phaseEl=document.getElementById("phase");
+const subEl=document.getElementById("sub");
+const meterWrap=document.getElementById("meterwrap");
+const meterFill=document.getElementById("meterfill");
+const limitEl=document.getElementById("limit");
+const overlay=document.getElementById("overlay");
+const finalLine=document.getElementById("finalline");
+const errEl=document.getElementById("err");
+const startBtn=document.getElementById("startbtn");
+
+const W=96,H=72,BUST=0.028,PIXEL_DIFF=26,GRACE_MS=600;
+const probe=document.createElement("canvas");
+probe.width=W;probe.height=H;
+const pctx=probe.getContext("2d",{willReadFrequently:true});
+let prev=null,motion=0;
+
+let actx=null,musicTimer=null,noteIx=0,nextNoteTime=0,bpm=118;
+const MELODY=[523,659,784,659,880,784,659,587,523,659,784,1047,880,784,659,587];
+const BASS=[131,131,165,165,196,196,165,147];
+
+function tone(freq,at,dur,type,vol){
+  const o=actx.createOscillator(),g=actx.createGain();
+  o.type=type;o.frequency.value=freq;
+  g.gain.setValueAtTime(0,at);
+  g.gain.linearRampToValueAtTime(vol,at+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001,at+dur);
+  o.connect(g).connect(actx.destination);
+  o.start(at);o.stop(at+dur+0.05);
+}
+function scheduleNotes(){
+  const step=60/(bpm*2);
+  while(nextNoteTime<actx.currentTime+0.12){
+    tone(MELODY[noteIx%MELODY.length],nextNoteTime,step*0.9,"square",0.05);
+    if(noteIx%2===0)tone(BASS[(noteIx>>1)%BASS.length],nextNoteTime,step*1.6,"triangle",0.11);
+    noteIx++;nextNoteTime+=step;
+  }
+}
+function startMusic(){
+  noteIx=0;nextNoteTime=actx.currentTime+0.06;
+  musicTimer=setInterval(scheduleNotes,40);
+}
+function stopMusic(){clearInterval(musicTimer);musicTimer=null;}
+function sadHorn(){
+  const t=actx.currentTime;
+  [392,370,349,311].forEach((f,i)=>tone(f,t+i*0.24,0.3,"sawtooth",0.09));
+}
+function winChime(){
+  const t=actx.currentTime;
+  [523,659,784,1047].forEach((f,i)=>tone(f,t+i*0.09,0.22,"square",0.06));
+}
+
+const game={phase:"menu",lives:3,score:0,round:1,busted:false,grooveSum:0,grooveN:0,freezeStart:0};
+
+function setHud(){
+  livesEl.textContent="❤️".repeat(game.lives)+"🖤".repeat(3-game.lives);
+  roundEl.textContent="ROUND "+game.round;
+  scoreEl.textContent="SCORE "+game.score;
+}
+function setPhaseBanner(text,cls,sub){
+  phaseEl.className=cls;phaseEl.textContent=text;
+  void phaseEl.offsetWidth;
+  phaseEl.classList.add("show");
+  subEl.textContent=sub||"";
+}
+function readMotion(){
+  if(cam.videoWidth===0)return;
+  pctx.drawImage(cam,0,0,W,H);
+  const d=pctx.getImageData(0,0,W,H).data;
+  const gray=new Uint8ClampedArray(W*H);
+  for(let i=0,p=0;i<gray.length;i++,p+=4)gray[i]=(d[p]*3+d[p+1]*4+d[p+2])>>3;
+  if(prev){
+    let moved=0;
+    for(let i=0;i<gray.length;i++)if(Math.abs(gray[i]-prev[i])>PIXEL_DIFF)moved++;
+    motion=moved/gray.length;
+  }
+  prev=gray;
+}
+function loop(){
+  readMotion();
+  const pct=Math.min(100,(motion/BUST)*50);
+  meterFill.style.width=pct+"%";
+  meterFill.className=motion>BUST?"hot":"";
+  if(game.phase==="dance"){
+    game.grooveSum+=motion;game.grooveN++;
+    if(motion>0.01){game.score+=1;setHud();}
+  }
+  if(game.phase==="freeze"&&!game.busted&&performance.now()-game.freezeStart>GRACE_MS&&motion>BUST){
+    game.busted=true;game.lives--;
+    setHud();
+    tint.className="busted";
+    setPhaseBanner("MOVED!","busted","the camera saw you 💔");
+    sadHorn();
+  }
+  requestAnimationFrame(loop);
+}
+function danceMs(){return Math.max(2600,4800+Math.random()*2400-game.round*180);}
+function freezeMs(){return 2200+Math.random()*1400;}
+
+function startRound(){
+  game.phase="dance";game.busted=false;game.grooveSum=0;game.grooveN=0;
+  bpm=Math.min(190,112+game.round*7);
+  tint.className="dance";
+  setPhaseBanner("DANCE!","dance","keep moving while the music plays");
+  startMusic();
+  setTimeout(startFreeze,danceMs());
+}
+function startFreeze(){
+  stopMusic();
+  const groove=Math.min(150,Math.round((game.grooveSum/Math.max(1,game.grooveN))*2500));
+  game.score+=groove;setHud();
+  game.phase="freeze";game.freezeStart=performance.now();
+  tint.className="freeze";
+  setPhaseBanner("STATUE!","freeze","don't move a muscle");
+  setTimeout(endFreeze,freezeMs());
+}
+function endFreeze(){
+  if(game.lives<=0){gameOver();return;}
+  if(!game.busted){
+    game.score+=100*game.round;
+    winChime();
+    setPhaseBanner("SAFE","dance","+"+(100*game.round));
+  }
+  setHud();
+  game.round++;
+  setTimeout(startRound,900);
+}
+function gameOver(){
+  game.phase="over";
+  tint.className="";
+  phaseEl.classList.remove("show");subEl.textContent="";
+  finalLine.textContent="Final score: "+game.score+" · survived "+(game.round-1)+" rounds";
+  finalLine.classList.remove("hidden");
+  startBtn.textContent="DANCE AGAIN";
+  overlay.classList.remove("hidden");
+}
+async function start(){
+  errEl.classList.add("hidden");
+  try{
+    if(!cam.srcObject){
+      cam.srcObject=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480},audio:false});
+      await cam.play();
+    }
+  }catch(e){
+    errEl.textContent="Camera access is required to play: "+e.message;
+    errEl.classList.remove("hidden");
+    return;
+  }
+  if(!actx)actx=new (window.AudioContext||window.webkitAudioContext)();
+  if(actx.state==="suspended")await actx.resume();
+  game.lives=3;game.score=0;game.round=1;prev=null;
+  overlay.classList.add("hidden");
+  hud.classList.remove("hidden");
+  meterWrap.classList.remove("hidden");
+  limitEl.style.left="50%";
+  setHud();
+  if(!start.looping){start.looping=true;requestAnimationFrame(loop);}
+  setPhaseBanner("GET READY","freeze","music starts in a moment");
+  setTimeout(startRound,1500);
+}
+startBtn.addEventListener("click",start);
+</script>
+</body>
+</html>

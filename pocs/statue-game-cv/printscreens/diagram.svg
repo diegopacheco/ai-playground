@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="5" orient="auto">
+      <path d="M1,1 Q6,3 10,5 Q6,7 1,9" fill="none" stroke="#846358" stroke-width="1.6"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="1000" fill="#fffdf7"/>
+  <g font-family="Caveat, 'Comic Sans MS', cursive" filter="url(#wobble)">
+    <text x="500" y="70" font-size="46" fill="#37322e" text-anchor="middle" font-weight="bold">Statue! - how it works</text>
+
+    <rect x="70" y="130" width="240" height="110" rx="14" fill="#d3f2e0" stroke="#5b8a6f" stroke-width="2.5"/>
+    <text x="190" y="178" font-size="30" fill="#2f4a3c" text-anchor="middle">Webcam</text>
+    <text x="190" y="212" font-size="22" fill="#4a6b58" text-anchor="middle">getUserMedia 640x480</text>
+
+    <rect x="380" y="130" width="250" height="110" rx="14" fill="#ffe6c9" stroke="#b5854f" stroke-width="2.5"/>
+    <text x="505" y="178" font-size="30" fill="#5d4324" text-anchor="middle">Tiny gray probe</text>
+    <text x="505" y="212" font-size="22" fill="#7a5c38" text-anchor="middle">96 x 72 canvas, every frame</text>
+
+    <rect x="700" y="130" width="240" height="110" rx="14" fill="#fbd3d8" stroke="#a85560" stroke-width="2.5"/>
+    <text x="820" y="172" font-size="30" fill="#5e2f36" text-anchor="middle">Frame diff</text>
+    <text x="820" y="202" font-size="22" fill="#7d4a52" text-anchor="middle">|gray - previous| &gt; 26</text>
+    <text x="820" y="228" font-size="22" fill="#7d4a52" text-anchor="middle">motion = moved / total</text>
+
+    <rect x="330" y="420" width="340" height="130" rx="16" fill="#dbe4ff" stroke="#5a67a8" stroke-width="2.5"/>
+    <text x="500" y="468" font-size="32" fill="#2e3763" text-anchor="middle">Game state machine</text>
+    <text x="500" y="502" font-size="24" fill="#48538a" text-anchor="middle">DANCE -&gt; STATUE -&gt; repeat</text>
+    <text x="500" y="530" font-size="22" fill="#48538a" text-anchor="middle">rounds get faster</text>
+
+    <rect x="70" y="700" width="250" height="130" rx="14" fill="#e8dbff" stroke="#7a5fa8" stroke-width="2.5"/>
+    <text x="195" y="748" font-size="30" fill="#43306b" text-anchor="middle">WebAudio chiptune</text>
+    <text x="195" y="782" font-size="22" fill="#5d4a85" text-anchor="middle">square + triangle notes</text>
+    <text x="195" y="808" font-size="22" fill="#5d4a85" text-anchor="middle">stops without warning</text>
+
+    <rect x="380" y="700" width="240" height="130" rx="14" fill="#fff3b8" stroke="#a89a3f" stroke-width="2.5"/>
+    <text x="500" y="748" font-size="30" fill="#5c531f" text-anchor="middle">Freeze check</text>
+    <text x="500" y="782" font-size="22" fill="#78702f" text-anchor="middle">motion &gt; 2.8% while</text>
+    <text x="500" y="808" font-size="22" fill="#78702f" text-anchor="middle">frozen = lose a heart</text>
+
+    <rect x="690" y="700" width="240" height="130" rx="14" fill="#d3ecf2" stroke="#4f8a99" stroke-width="2.5"/>
+    <text x="810" y="748" font-size="30" fill="#28505c" text-anchor="middle">HUD</text>
+    <text x="810" y="782" font-size="22" fill="#3e6b77" text-anchor="middle">hearts, score, round,</text>
+    <text x="810" y="808" font-size="22" fill="#3e6b77" text-anchor="middle">live motion meter</text>
+
+    <path d="M310,185 Q345,175 378,185" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M630,185 Q665,175 698,185" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M810,240 Q740,340 600,430" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M420,550 Q290,610 220,698" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M500,550 Q490,620 500,698" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M580,550 Q710,610 790,698" fill="none" stroke="#846358" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+    <text x="720" y="330" font-size="22" fill="#846358">motion ratio</text>
+    <text x="240" y="620" font-size="22" fill="#846358">DANCE phase</text>
+    <text x="520" y="640" font-size="22" fill="#846358">STATUE phase</text>
+    <text x="700" y="620" font-size="22" fill="#846358">every frame</text>
+  </g>
+</svg>
