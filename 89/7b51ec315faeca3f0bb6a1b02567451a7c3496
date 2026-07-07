@@ -1,0 +1,19 @@
+pocs/auth0lab-openfga-agent-poc/index.html
+  s_b66a2fe0e7015c::t_3f2faeb40a96a4 1-1378
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "897b51ec315faeca3f0bb6a1b02567451a7c3496",
+  "prompts": {},
+  "sessions": {
+    "s_b66a2fe0e7015c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3a34-8c56-7311-95ae-8fbf4010c803",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
