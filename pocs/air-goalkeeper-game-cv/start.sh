@@ -17,8 +17,8 @@ fi
 ./.venv/bin/python server.py & echo $! > server.pid
 
 for i in $(seq 1 60); do
-  if curl -s -o /dev/null "http://localhost:8000/"; then
-    echo "open http://localhost:8000 in your browser"
+  if curl -s -o /dev/null "http://localhost:18080/"; then
+    echo "open http://localhost:18080 in your browser"
     exit 0
   fi
   sleep 1

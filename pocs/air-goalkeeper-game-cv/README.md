@@ -16,7 +16,7 @@ Block penalty shots with your hand. The webcam tracks your hand position and tur
 ./start.sh
 ```
 
-Open http://localhost:8000 and allow camera access.
+Open http://localhost:18080 and allow camera access.
 
 ```bash
 ./stop.sh

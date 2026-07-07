@@ -17,12 +17,12 @@ trap "kill $SRV 2>/dev/null" EXIT
 
 UP=0
 for i in $(seq 1 60); do
-  if curl -s -o /dev/null "http://localhost:8000/"; then UP=1; break; fi
+  if curl -s -o /dev/null "http://localhost:18080/"; then UP=1; break; fi
   sleep 1
 done
 if [ "$UP" != "1" ]; then echo "FAIL: http not up"; exit 1; fi
 
-PAGE=$(curl -s "http://localhost:8000/")
+PAGE=$(curl -s "http://localhost:18080/")
 case "$PAGE" in
   *"GESTURE GOALKEEPER"*) echo "http page ok";;
   *) echo "FAIL: page content missing"; exit 1;;

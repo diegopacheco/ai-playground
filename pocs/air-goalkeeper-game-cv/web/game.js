@@ -404,7 +404,7 @@ function start() {
 }
 
 function connectWs() {
-  ws = new WebSocket("ws://" + location.hostname + ":8765");
+  ws = new WebSocket("ws://" + location.hostname + ":18765");
   ws.binaryType = "arraybuffer";
   ws.onopen = () => { wsReady = true; setStatus(); };
   ws.onclose = () => { wsReady = false; setStatus(); setTimeout(connectWs, 1000); };

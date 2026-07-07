@@ -16,8 +16,8 @@ from mediapipe.tasks.python import vision
 HERE = os.path.dirname(os.path.abspath(__file__))
 WEB_DIR = os.path.join(HERE, "web")
 MODEL = os.path.join(HERE, "hand_landmarker.task")
-HTTP_PORT = 8000
-WS_PORT = 8765
+HTTP_PORT = 18080
+WS_PORT = 18765
 
 
 def new_detector():

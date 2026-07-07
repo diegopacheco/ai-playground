@@ -13,7 +13,7 @@ async def main():
     if not ok:
         print("encode failed")
         sys.exit(1)
-    async with websockets.connect("ws://localhost:8765", max_size=2 ** 22) as ws:
+    async with websockets.connect("ws://localhost:18765", max_size=2 ** 22) as ws:
         await ws.send(buf.tobytes())
         resp = await asyncio.wait_for(ws.recv(), timeout=15)
         obj = json.loads(resp)
