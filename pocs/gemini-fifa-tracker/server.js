@@ -7,6 +7,13 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PORT = 3000;
+let syncInFlight = false;
+let lastSyncAt = 0;
+try {
+  lastSyncAt = new Date(JSON.parse(fs.readFileSync(path.join(__dirname, 'bracket.json'), 'utf8')).syncedAt).getTime() || 0;
+} catch (err) {
+  lastSyncAt = 0;
+}
 
 const MIME_TYPES = {
   '.html': 'text/html',
@@ -42,24 +49,22 @@ const server = http.createServer((req, res) => {
         res.end(content);
       }
     });
-  } else if (req.method === 'POST' && url === '/api/bracket') {
-    let body = '';
-    req.on('data', chunk => {
-      body += chunk.toString();
-    });
-    req.on('end', () => {
-      try {
-        const data = JSON.parse(body);
-        fs.writeFileSync(path.join(__dirname, 'bracket.json'), JSON.stringify(data, null, 2), 'utf8');
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'success' }));
-      } catch (err) {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'error', message: 'Invalid JSON' }));
-      }
-    });
   } else if (req.method === 'POST' && url === '/api/bracket/update') {
-    exec('node bracket-cli.js --update', (error, stdout, stderr) => {
+    if (syncInFlight || Date.now() - lastSyncAt < 5 * 60 * 1000) {
+      try {
+        const content = fs.readFileSync(path.join(__dirname, 'bracket.json'), 'utf8');
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'success', log: 'Bracket already synced recently. Serving current real results.', data: JSON.parse(content) }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'error', message: 'No bracket data yet' }));
+      }
+      return;
+    }
+    syncInFlight = true;
+    exec('node bracket-cli.js --sync', { timeout: 240000 }, (error, stdout, stderr) => {
+      syncInFlight = false;
+      lastSyncAt = Date.now();
       if (error) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ status: 'error', message: error.message }));

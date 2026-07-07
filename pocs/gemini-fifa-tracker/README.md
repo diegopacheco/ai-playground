@@ -9,16 +9,15 @@ This project tracks the progression, stats, and win probabilities of the FIFA 20
 The application is structured as a light-themed, single-page application with a Node.js backend.
 
 1. **Teams & History Tab**: A list of qualified national teams sorted by their historical World Cup titles. Selecting a team loads details such as legendary players, coach, star player, and 2026 statistical probabilities.
-2. **Knockout Bracket Tab**: An interactive tournament tree (Round of 16 to Final). You can manually select winners by clicking on a team in a matchup. There is an option to run the CLI tool which auto-simulates the next pending match. Bracket data is saved to `bracket.json`.
+2. **Knockout Bracket Tab**: The real FIFA 2026 tournament tree (Round of 16 to Final) with actual scores. The bracket is read-only: results are synced from the internet by the agy CLI and verified against Wikipedia's live knockout page. Bracket data is saved to `bracket.json`.
 3. **Win Predictor Tab**: Displays tournament win probabilities and provides a match prediction calculator for any two selected teams.
 
 ## Scripts & CLI
-- **Start Service**: Run `./start.sh`. This executes the CLI updater to advance the bracket by one match, then launches the server.
+- **Start Service**: Run `./start.sh`. This syncs the bracket with the real results from the web, then launches the server.
 - **Stop Service**: Run `./stop.sh`. This stops the backend server.
-- **Manual CLI Updates**: 
-  - `node bracket-cli.js --update` to simulate and advance the next match.
-  - `node bracket-cli.js --reset` to clear the bracket progress.
-  - `node bracket-cli.js` to view current matches from the command line.
+- **Manual CLI Usage**: 
+  - `node bracket-cli.js --sync` runs agy to fetch the current FIFA 2026 knockout results from the web, verifies them against Wikipedia, and updates `bracket.json`.
+  - `node bracket-cli.js` to view current matches and scores from the command line.
 
 ## Screen Explanations
 
@@ -28,7 +27,7 @@ This screen contains a split-pane layout. The left column lists the qualified na
 
 ### 2. Knockout Bracket Screen
 ![Knockout Bracket](print_screens/bracket_view.png)
-This screen visualizes the path to the championship. It contains columns for the Round of 16, Quarterfinals, Semifinals, and Final. Clicking a team determines the winner of that matchup, automatically moving them forward in the tree. The "Run CLI Bracket Step" button invokes the CLI tool to auto-simulate matches.
+This screen visualizes the real path to the championship. It contains columns for the Round of 16, Quarterfinals, Semifinals, Final, and Champion, connected by bracket lines. Every match shows the actual FIFA 2026 result with real scores and dates. The bracket cannot be edited by hand; the "Sync Real Results (agy CLI)" button re-fetches the latest results from the internet.
 
 ### 3. Win Predictor Screen
 ![Win Predictor](print_screens/prediction_view.png)
@@ -70,3 +69,32 @@ Gemini concluded this was impossible without an API key and blamed Wikipedia bac
 ## Verification
 
 A Playwright sweep clicked through all 48 teams and counted `naturalWidth === 0` on every player and dish image: 0 broken, 0 console errors. The 12 images still on SVG fallback are retired legends whose Wikipedia pages have no freely licensed photo.
+
+# fixes by Fable
+
+Three more fixes on top of the real-images work, all verified in the running app with Playwright.
+
+## Fix 1: The 5 non-qualified teams are now clickable
+
+The "Top 5 Teams That Missed the World Cup" cards (Italy, Nigeria, Denmark, Poland, Russia) previously showed only four static stats. They now open the exact same detail panel as any qualified team: national colors header, historical achievements, coach, legends, star player, and popular dishes, all with real photographs fetched from Wikipedia (35 of 35 images real, zero SVG fallbacks needed). Clicking a card renders the panel and scrolls to it. Verified: all 5 teams open with 7/7 real images and 0 broken.
+
+## Fix 2: The knockout bracket is real internet data, not imagination
+
+Before, `bracket-cli.js` asked the AI "who would realistically win?" and fell back to a coin flip, and the UI let you click any team to crown it winner. The bracket also had a Reset button that loaded a completely fictional Round of 16. All of that is gone:
+
+- `node bracket-cli.js --sync` runs **agy with parameters**: a prompt instructing it to search the web for the current FIFA 2026 knockout results and reply with strict JSON.
+- The CLI then independently fetches Wikipedia's live "2026 FIFA World Cup knockout stage" page and parses the bracket template (teams, goals, penalty shoot-outs, dates). Wikipedia is authoritative: any disagreement with agy is logged and resolved in Wikipedia's favor.
+- `bracket.json` now stores real scores (`score1/score2`, penalties, match date) plus `source` and `syncedAt`.
+- The UI bracket is **read-only**: no click-to-pick-winner, no reset button, no manual write endpoint on the server. It shows real scores and real dates (France 1-0 Paraguay, Morocco 3-0 Canada, Spain 1-0 Portugal, Norway 2-1 Brazil, England 3-2 Mexico as of July 6, 2026; unplayed matches stay TBD).
+- `./start.sh` syncs before serving, so the app always opens with the most accurate data. Opening the app triggers a sync too, throttled server-side to at most once every 5 minutes.
+
+## Fix 3: Layout aligned to the original mockups
+
+The original design mockups are preserved as [mockup_bracket_view.png](print_screens/mockup_bracket_view.png) and [mockup_prediction_view.png](print_screens/mockup_prediction_view.png). The live site was adjusted to match them:
+
+- Bracket: all round titles now sit on a single top row, match cards distribute vertically next to their feeder matches, connector lines join the rounds, and the Champion column shows the gold trophy badge card from the mockup.
+- Chances tab: ranked list with position numbers, thicker two-tone progress bars (blue fill over a gold track) as in the mockup, and the gold-ringed Calculate Probabilities button.
+
+## Verification of the fixes
+
+A full Playwright sweep after the changes: 48 qualified teams x 7 images = 336 images with 0 broken, 5 non-qualified teams open their detail panel with 7/7 real images each, clicking bracket teams changes nothing (read-only confirmed), the sync button returns real synced data, the match predictor still calculates, and the console shows 0 errors.

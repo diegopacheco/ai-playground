@@ -14,7 +14,8 @@ const suspects = {
   'players/ghana-legend-2': ['Tony Yeboah'],
   'players/senegal-legend-2': ['Henri Camara'],
   'dishes/curacao-dish-2': ['Sopito'],
-  'players/haiti-legend-0': ['Emmanuel Sanon']
+  'players/haiti-legend-0': ['Emmanuel Sanon'],
+  'players/nigeria-legend-2': ['Rashidi Yekini']
 };
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));

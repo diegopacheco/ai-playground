@@ -1,113 +1,190 @@
 {
   "roundOf16": [
     {
-      "id": "r16-1",
-      "team1": "Argentina",
-      "team2": "Mexico",
-      "winner": "Argentina",
-      "loser": "Mexico"
-    },
-    {
-      "id": "r16-2",
-      "team1": "Brazil",
-      "team2": "USA",
-      "winner": "Brazil",
-      "loser": "USA"
-    },
-    {
-      "id": "r16-3",
-      "team1": "France",
-      "team2": "Canada",
+      "team1": "Paraguay",
+      "team2": "France",
+      "score1": 0,
+      "score2": 1,
+      "pens1": null,
+      "pens2": null,
       "winner": "France",
-      "loser": "Canada"
+      "loser": "Paraguay",
+      "date": "July 4",
+      "id": "r16-1"
     },
     {
-      "id": "r16-4",
-      "team1": "England",
+      "team1": "Canada",
       "team2": "Morocco",
-      "winner": "England",
-      "loser": "Morocco"
+      "score1": 0,
+      "score2": 3,
+      "pens1": null,
+      "pens2": null,
+      "winner": "Morocco",
+      "loser": "Canada",
+      "date": "July 4",
+      "id": "r16-2"
     },
     {
-      "id": "r16-5",
-      "team1": "Spain",
-      "team2": "Japan",
-      "winner": "Spain",
-      "loser": "Japan"
-    },
-    {
-      "id": "r16-6",
       "team1": "Portugal",
-      "team2": "South Korea",
-      "winner": "Portugal",
-      "loser": "South Korea"
+      "team2": "Spain",
+      "score1": 0,
+      "score2": 1,
+      "pens1": null,
+      "pens2": null,
+      "winner": "Spain",
+      "loser": "Portugal",
+      "date": "July 6",
+      "id": "r16-3"
     },
     {
-      "id": "r16-7",
-      "team1": "Germany",
-      "team2": "Australia",
-      "winner": "Germany",
-      "loser": "Australia"
+      "team1": "USA",
+      "team2": "Belgium",
+      "score1": null,
+      "score2": null,
+      "pens1": null,
+      "pens2": null,
+      "winner": null,
+      "loser": null,
+      "date": "July 6",
+      "id": "r16-4"
     },
     {
-      "id": "r16-8",
-      "team1": "Italy",
-      "team2": "Saudi Arabia",
-      "winner": "Italy",
-      "loser": "Saudi Arabia"
+      "team1": "Brazil",
+      "team2": "Norway",
+      "score1": 1,
+      "score2": 2,
+      "pens1": null,
+      "pens2": null,
+      "winner": "Norway",
+      "loser": "Brazil",
+      "date": "July 5",
+      "id": "r16-5"
+    },
+    {
+      "team1": "Mexico",
+      "team2": "England",
+      "score1": 2,
+      "score2": 3,
+      "pens1": null,
+      "pens2": null,
+      "winner": "England",
+      "loser": "Mexico",
+      "date": "July 5",
+      "id": "r16-6"
+    },
+    {
+      "team1": "Argentina",
+      "team2": "Egypt",
+      "score1": null,
+      "score2": null,
+      "pens1": null,
+      "pens2": null,
+      "winner": null,
+      "loser": null,
+      "date": "July 7",
+      "id": "r16-7"
+    },
+    {
+      "team1": "Switzerland",
+      "team2": "Colombia",
+      "score1": null,
+      "score2": null,
+      "pens1": null,
+      "pens2": null,
+      "winner": null,
+      "loser": null,
+      "date": "July 7",
+      "id": "r16-8"
     }
   ],
   "quarterfinals": [
     {
-      "id": "qf-1",
-      "team1": "Argentina",
-      "team2": "Brazil",
-      "winner": "Argentina",
-      "loser": "Brazil"
-    },
-    {
-      "id": "qf-2",
       "team1": "France",
-      "team2": "England",
+      "team2": "Morocco",
+      "score1": null,
+      "score2": null,
+      "pens1": null,
+      "pens2": null,
       "winner": null,
-      "loser": null
+      "loser": null,
+      "date": "July 9",
+      "id": "qf-1"
     },
     {
-      "id": "qf-3",
       "team1": "Spain",
-      "team2": "Portugal",
+      "team2": "",
+      "score1": null,
+      "score2": null,
+      "pens1": null,
+      "pens2": null,
       "winner": null,
-      "loser": null
+      "loser": null,
+      "date": "July 10",
+      "id": "qf-2"
     },
     {
-      "id": "qf-4",
-      "team1": "Germany",
-      "team2": "Italy",
+      "team1": "Norway",
+      "team2": "England",
+      "score1": null,
+      "score2": null,
+      "pens1": null,
+      "pens2": null,
       "winner": null,
-      "loser": null
+      "loser": null,
+      "date": "July 11",
+      "id": "qf-3"
+    },
+    {
+      "team1": "",
+      "team2": "",
+      "score1": null,
+      "score2": null,
+      "pens1": null,
+      "pens2": null,
+      "winner": null,
+      "loser": null,
+      "date": "July 11",
+      "id": "qf-4"
     }
   ],
   "semifinals": [
     {
-      "id": "sf-1",
-      "team1": "Argentina",
-      "team2": "",
-      "winner": null,
-      "loser": null
-    },
-    {
-      "id": "sf-2",
       "team1": "",
       "team2": "",
+      "score1": null,
+      "score2": null,
+      "pens1": null,
+      "pens2": null,
       "winner": null,
-      "loser": null
+      "loser": null,
+      "date": "July 14",
+      "id": "sf-1"
+    },
+    {
+      "team1": "",
+      "team2": "",
+      "score1": null,
+      "score2": null,
+      "pens1": null,
+      "pens2": null,
+      "winner": null,
+      "loser": null,
+      "date": "July 15",
+      "id": "sf-2"
     }
   ],
   "final": {
-    "id": "f-1",
     "team1": "",
     "team2": "",
+    "score1": null,
+    "score2": null,
+    "pens1": null,
+    "pens2": null,
     "winner": null,
-    "loser": null
-  }
+    "loser": null,
+    "date": "July 19",
+    "id": "f-1"
+  },
+  "source": "wikipedia (agy cross-checked)",
+  "syncedAt": "2026-07-07T00:48:53.950Z"
 }

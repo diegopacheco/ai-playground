@@ -6,6 +6,8 @@ const API = 'https://en.wikipedia.org/w/api.php';
 const code = fs.readFileSync('public/app.js', 'utf8');
 const teamsData = eval(code.match(/const teamsData = (\[[\s\S]*?\]);/)[1]);
 const teamDishes = eval('(' + code.match(/const teamDishes = (\{[\s\S]*?\});/)[1] + ')');
+const nonQualifiers = eval(code.match(/const nonQualifiersData = (\[[\s\S]*?\]);/)[1]);
+teamsData.push(...nonQualifiers);
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 

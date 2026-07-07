@@ -227,7 +227,12 @@ const teamDishes = {
   curacao: ['Keshi Yena', 'Stobá', 'Sopito'],
   haiti: ['Griot', 'Soup Joumou', 'Akasan'],
   panama: ['Sancocho', 'Ropa Vieja', 'Carimañolas'],
-  'new-zealand': ['Hāngī', 'Pavlova', 'Whitebait Fritter']
+  'new-zealand': ['Hāngī', 'Pavlova', 'Whitebait Fritter'],
+  italy: ['Pizza Margherita', 'Pasta Carbonara', 'Risotto alla Milanese'],
+  nigeria: ['Jollof Rice', 'Egusi Soup', 'Suya'],
+  denmark: ['Smørrebrød', 'Frikadeller', 'Stegt Flæsk'],
+  poland: ['Pierogi', 'Bigos', 'Żurek'],
+  russia: ['Borscht', 'Pelmeni', 'Blini']
 };
 
 function showTeamDetails(team) {
@@ -363,40 +368,29 @@ function renderBracket(data) {
   const container = document.getElementById('bracket-grid-container');
   container.innerHTML = '';
 
-  const r16Col = createBracketColumn('Round of 16');
-  data.roundOf16.forEach(m => {
-    r16Col.appendChild(createMatchCard(m, 'roundOf16'));
-  });
-  container.appendChild(r16Col);
+  const addColumn = (title, matches, stage) => {
+    const col = createBracketColumn(title);
+    const slot = col.querySelector('.bracket-column-matches');
+    matches.forEach(m => slot.appendChild(createMatchCard(m, stage)));
+    container.appendChild(col);
+  };
 
-  const qfCol = createBracketColumn('Quarterfinals');
-  data.quarterfinals.forEach(m => {
-    qfCol.appendChild(createMatchCard(m, 'quarterfinals'));
-  });
-  container.appendChild(qfCol);
+  addColumn('Round of 16', data.roundOf16, 'roundOf16');
+  addColumn('Quarterfinals', data.quarterfinals, 'quarterfinals');
+  addColumn('Semifinals', data.semifinals, 'semifinals');
+  addColumn('Final', [data.final], 'final');
 
-  const sfCol = createBracketColumn('Semifinals');
-  data.semifinals.forEach(m => {
-    sfCol.appendChild(createMatchCard(m, 'semifinals'));
-  });
-  container.appendChild(sfCol);
-
-  const finalCol = createBracketColumn('Final');
-  finalCol.appendChild(createMatchCard(data.final, 'final'));
-  container.appendChild(finalCol);
-
-  const champCol = document.createElement('div');
-  champCol.className = 'bracket-column champion-column';
-  champCol.innerHTML = `<div class="bracket-column-title">Champion</div>`;
+  const champCol = createBracketColumn('Champion');
+  champCol.classList.add('champion-column');
 
   const champCard = document.createElement('div');
   champCard.className = 'champion-card';
-  
+
   if (data.final.winner) {
     champCard.innerHTML = `
       <div class="champion-display">
         <div class="champion-trophy-badge">🏆</div>
-        <h3 style="margin-top: 8px;">Winner</h3>
+        <h3 style="margin-top: 8px;">World Cup Champion</h3>
         <span class="champion-flag">${getTeamFlag(data.final.winner)}</span>
         <span class="champion-name">${data.final.winner}</span>
       </div>
@@ -404,25 +398,26 @@ function renderBracket(data) {
   } else {
     champCard.innerHTML = `
       <div class="champion-display">
-        <div class="champion-trophy-badge grayscale">🏆</div>
-        <h3 style="margin-top: 8px;">Winner</h3>
-        <span class="champion-flag">❓</span>
+        <div class="champion-trophy-badge">🏆</div>
+        <h3 style="margin-top: 8px;">World Cup Champion</h3>
         <span class="champion-name">TBD</span>
+        <span class="champion-subtitle">Final · Jul 19 · MetLife Stadium</span>
       </div>
     `;
   }
-  champCol.appendChild(champCard);
+  champCol.querySelector('.bracket-column-matches').appendChild(champCard);
   container.appendChild(champCol);
 }
 
 function createBracketColumn(title) {
   const col = document.createElement('div');
   col.className = 'bracket-column';
-  col.innerHTML = `<div class="bracket-column-title">${title}</div>`;
+  col.innerHTML = `<div class="bracket-column-title">${title}</div><div class="bracket-column-matches"></div>`;
   return col;
 }
 
-function getMatchDate(id) {
+function getMatchDate(match) {
+  if (match.date) return match.date.replace(/^(\w{3})\w* /, '$1 ');
   const dates = {
     'r16-1': 'Jun 28', 'r16-2': 'Jun 28', 'r16-3': 'Jun 29', 'r16-4': 'Jun 29',
     'r16-5': 'Jun 30', 'r16-6': 'Jun 30', 'r16-7': 'Jul 01', 'r16-8': 'Jul 01',
@@ -430,7 +425,7 @@ function getMatchDate(id) {
     'sf-1': 'Jul 09', 'sf-2': 'Jul 10',
     'f-1': 'Jul 19'
   };
-  return dates[id] || 'TBD';
+  return dates[match.id] || 'TBD';
 }
 
 function createMatchCard(match, stage) {
@@ -440,8 +435,10 @@ function createMatchCard(match, stage) {
   const team1Class = match.winner === match.team1 ? 'winner' : (match.winner ? 'loser' : '');
   const team2Class = match.winner === match.team2 ? 'winner' : (match.winner ? 'loser' : '');
 
-  const score1 = match.winner ? (match.winner === match.team1 ? '2' : '1') : '-';
-  const score2 = match.winner ? (match.winner === match.team2 ? '2' : '1') : '-';
+  const fmtScore = (goals, pens) =>
+    goals === null || goals === undefined ? '-' : `${goals}${pens !== null && pens !== undefined ? ` (${pens})` : ''}`;
+  const score1 = fmtScore(match.score1, match.pens1);
+  const score2 = fmtScore(match.score2, match.pens2);
 
   const team1Content = match.team1 
     ? `<span class="matchup-flag">${getTeamFlag(match.team1)}</span> <span class="matchup-team-name">${match.team1}</span>` 
@@ -451,89 +448,24 @@ function createMatchCard(match, stage) {
     : `<span class="matchup-team-name text-muted">TBD</span>`;
 
   const matchLabel = match.id.toUpperCase().replace('-', ' ');
-  const matchDate = getMatchDate(match.id);
+  const matchDate = getMatchDate(match);
 
   card.innerHTML = `
     <div class="matchup-header">
       <span class="matchup-title">${matchLabel}</span>
       <span class="matchup-date">${matchDate}</span>
     </div>
-    <div class="matchup-slot ${team1Class}" data-team="1">
+    <div class="matchup-slot readonly ${team1Class}">
       <div class="matchup-slot-team">${team1Content}</div>
       <div class="matchup-score-box">${score1}</div>
     </div>
-    <div class="matchup-slot ${team2Class}" data-team="2">
+    <div class="matchup-slot readonly ${team2Class}">
       <div class="matchup-slot-team">${team2Content}</div>
       <div class="matchup-score-box">${score2}</div>
     </div>
   `;
 
-  card.querySelectorAll('.matchup-slot').forEach(slot => {
-    slot.addEventListener('click', () => {
-      const selectedNum = slot.dataset.team;
-      const winner = selectedNum === '1' ? match.team1 : match.team2;
-      if (!winner) return;
-      setWinner(stage, match.id, winner);
-    });
-  });
-
   return card;
-}
-
-function setWinner(stage, matchId, winner) {
-  if (!currentBracket) return;
-
-  let loser = '';
-  if (stage === 'roundOf16') {
-    const match = currentBracket.roundOf16.find(m => m.id === matchId);
-    match.winner = winner;
-    match.loser = winner === match.team1 ? match.team2 : match.team1;
-    loser = match.loser;
-    const matchIndex = currentBracket.roundOf16.indexOf(match);
-    const nextMatchIndex = Math.floor(matchIndex / 2);
-    if (matchIndex % 2 === 0) {
-      currentBracket.quarterfinals[nextMatchIndex].team1 = winner;
-    } else {
-      currentBracket.quarterfinals[nextMatchIndex].team2 = winner;
-    }
-  } else if (stage === 'quarterfinals') {
-    const match = currentBracket.quarterfinals.find(m => m.id === matchId);
-    match.winner = winner;
-    match.loser = winner === match.team1 ? match.team2 : match.team1;
-    loser = match.loser;
-    const matchIndex = currentBracket.quarterfinals.indexOf(match);
-    const nextMatchIndex = Math.floor(matchIndex / 2);
-    if (matchIndex % 2 === 0) {
-      currentBracket.semifinals[nextMatchIndex].team1 = winner;
-    } else {
-      currentBracket.semifinals[nextMatchIndex].team2 = winner;
-    }
-  } else if (stage === 'semifinals') {
-    const match = currentBracket.semifinals.find(m => m.id === matchId);
-    match.winner = winner;
-    match.loser = winner === match.team1 ? match.team2 : match.team1;
-    loser = match.loser;
-    const matchIndex = currentBracket.semifinals.indexOf(match);
-    if (matchIndex === 0) {
-      currentBracket.final.team1 = winner;
-    } else {
-      currentBracket.final.team2 = winner;
-    }
-  } else if (stage === 'final') {
-    currentBracket.final.winner = winner;
-    currentBracket.final.loser = winner === currentBracket.final.team1 ? currentBracket.final.team2 : currentBracket.final.team1;
-    loser = currentBracket.final.loser;
-  }
-
-  fetch('http://localhost:3000/api/bracket', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(currentBracket)
-  })
-  .then(res => res.json())
-  .then(() => {
-    renderBracket(currentBracket);
-  });
 }
 
 document.getElementById('cli-update-btn').addEventListener('click', () => {
@@ -556,47 +488,6 @@ document.getElementById('cli-update-btn').addEventListener('click', () => {
     });
 });
 
-document.getElementById('cli-reset-btn').addEventListener('click', () => {
-  const logDisplay = document.getElementById('cli-log-display');
-  logDisplay.textContent = 'Resetting...';
-
-  const emptyData = {
-    roundOf16: [
-      { id: 'r16-1', team1: 'Argentina', team2: 'Mexico', winner: 'Argentina', loser: 'Mexico' },
-      { id: 'r16-2', team1: 'Brazil', team2: 'USA', winner: 'Brazil', loser: 'USA' },
-      { id: 'r16-3', team1: 'France', team2: 'Canada', winner: 'France', loser: 'Canada' },
-      { id: 'r16-4', team1: 'England', team2: 'Morocco', winner: 'England', loser: 'Morocco' },
-      { id: 'r16-5', team1: 'Spain', team2: 'Japan', winner: 'Spain', loser: 'Japan' },
-      { id: 'r16-6', team1: 'Portugal', team2: 'South Korea', winner: 'Portugal', loser: 'South Korea' },
-      { id: 'r16-7', team1: 'Germany', team2: 'Australia', winner: 'Germany', loser: 'Australia' },
-      { id: 'r16-8', team1: 'Italy', team2: 'Saudi Arabia', winner: 'Italy', loser: 'Saudi Arabia' }
-    ],
-    quarterfinals: [
-      { id: 'qf-1', team1: 'Argentina', team2: 'Brazil', winner: null, loser: null },
-      { id: 'qf-2', team1: 'France', team2: 'England', winner: null, loser: null },
-      { id: 'qf-3', team1: 'Spain', team2: 'Portugal', winner: null, loser: null },
-      { id: 'qf-4', team1: 'Germany', team2: 'Italy', winner: null, loser: null }
-    ],
-    semifinals: [
-      { id: 'sf-1', team1: '', team2: '', winner: null, loser: null },
-      { id: 'sf-2', team1: '', team2: '', winner: null, loser: null }
-    ],
-    final: { id: 'f-1', team1: '', team2: '', winner: null, loser: null }
-  };
-
-  fetch('http://localhost:3000/api/bracket', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(emptyData)
-  })
-  .then(res => res.json())
-  .then(() => {
-    currentBracket = emptyData;
-    renderBracket(emptyData);
-    logDisplay.textContent = 'Bracket has been reset.';
-  });
-});
-
 const chancesContainer = document.getElementById('chances-list-container');
 const predictorTeam1 = document.getElementById('predictor-team1');
 const predictorTeam2 = document.getElementById('predictor-team2');
@@ -607,12 +498,12 @@ function renderWinningChances() {
   chancesContainer.innerHTML = '';
   const sorted = [...teamsData].sort((a, b) => b.chance - a.chance);
   
-  sorted.forEach(team => {
+  sorted.forEach((team, idx) => {
     const item = document.createElement('div');
     item.className = 'chance-item';
     item.innerHTML = `
       <div class="chance-info">
-        <span class="chance-team">${team.flag} ${team.name}</span>
+        <span class="chance-team"><span class="chance-rank">${idx + 1}</span> ${team.flag} ${team.name}</span>
         <span class="chance-val">${team.chance}%</span>
       </div>
       <div class="chance-bar-container">
@@ -711,19 +602,37 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 const nonQualifiersData = [
-  { id: 'italy', name: 'Italy', flag: '🇮🇹', titles: 4, rank: 12, reason: 'Failed in UEFA playoffs', star: 'Gianluigi Donnarumma' },
-  { id: 'nigeria', name: 'Nigeria', flag: '🇳🇬', titles: 0, rank: 26, reason: 'Failed in CAF qualification', star: 'Victor Osimhen' },
-  { id: 'denmark', name: 'Denmark', flag: '🇩🇰', titles: 0, rank: 20, reason: 'Missed UEFA qualification', star: 'Christian Eriksen' },
-  { id: 'poland', name: 'Poland', flag: '🇵🇱', titles: 0, rank: 35, reason: 'Eliminated in qualifiers', star: 'Robert Lewandowski' },
-  { id: 'russia', name: 'Russia', flag: '🇷🇺', titles: 0, rank: 38, reason: 'Suspended by FIFA/UEFA', star: 'Aleksandr Golovin' }
+  { id: 'italy', name: 'Italy', flag: '🇮🇹', titles: 4, rank: 12, reason: 'Failed in UEFA playoffs', star: 'Gianluigi Donnarumma', players: ['Paolo Rossi', 'Roberto Baggio', 'Paolo Maldini'], coach: 'Gennaro Gattuso', group: 'Did not qualify', chance: 0 },
+  { id: 'nigeria', name: 'Nigeria', flag: '🇳🇬', titles: 0, rank: 26, reason: 'Failed in CAF qualification', star: 'Victor Osimhen', players: ['Jay-Jay Okocha', 'Nwankwo Kanu', 'Rashidi Yekini'], coach: 'Éric Chelle', group: 'Did not qualify', chance: 0 },
+  { id: 'denmark', name: 'Denmark', flag: '🇩🇰', titles: 0, rank: 20, reason: 'Missed UEFA qualification', star: 'Christian Eriksen', players: ['Michael Laudrup', 'Peter Schmeichel', 'Brian Laudrup'], coach: 'Brian Riemer', group: 'Did not qualify', chance: 0 },
+  { id: 'poland', name: 'Poland', flag: '🇵🇱', titles: 0, rank: 35, reason: 'Eliminated in qualifiers', star: 'Robert Lewandowski', players: ['Zbigniew Boniek', 'Grzegorz Lato', 'Kazimierz Deyna'], coach: 'Jan Urban', group: 'Did not qualify', chance: 0 },
+  { id: 'russia', name: 'Russia', flag: '🇷🇺', titles: 0, rank: 38, reason: 'Suspended by FIFA/UEFA', star: 'Aleksandr Golovin', players: ['Lev Yashin', 'Andrey Arshavin', 'Igor Netto'], coach: 'Valeri Karpin', group: 'Did not qualify', chance: 0 }
 ];
+
+const nonQualifierMetadata = {
+  italy: { color1: '#1d4ed8', color2: '#ffffff', nickname: 'Gli Azzurri', years: '1934, 1938, 1982, 2006', runnerUp: 2, stats: { appearances: 18, finals: 6, semifinals: 8, wins: 45 } },
+  nigeria: { color1: '#15803d', color2: '#ffffff', nickname: 'Super Eagles', years: '', runnerUp: 0, stats: { appearances: 6, finals: 0, semifinals: 0, wins: 6 } },
+  denmark: { color1: '#dc2626', color2: '#ffffff', nickname: 'Danish Dynamite', years: '', runnerUp: 0, stats: { appearances: 6, finals: 0, semifinals: 0, wins: 9 } },
+  poland: { color1: '#ffffff', color2: '#dc2626', nickname: 'Biało-czerwoni', years: '', runnerUp: 0, stats: { appearances: 9, finals: 0, semifinals: 2, wins: 17 } },
+  russia: { color1: '#dc2626', color2: '#1e3a8a', nickname: 'Sbornaya', years: '', runnerUp: 0, stats: { appearances: 11, finals: 0, semifinals: 1, wins: 17 } }
+};
+
+nonQualifiersData.forEach(t => {
+  const meta = nonQualifierMetadata[t.id];
+  t.color1 = meta.color1;
+  t.color2 = meta.color2;
+  t.nickname = meta.nickname;
+  t.years = meta.years;
+  t.runnerUp = meta.runnerUp;
+  t.stats = meta.stats;
+});
 
 function renderNonQualifiers() {
   const container = document.getElementById('non-qualifiers-container');
   if (!container) return;
   
   container.innerHTML = nonQualifiersData.map(team => `
-    <div class="nq-card">
+    <div class="nq-card" data-nq-id="${team.id}">
       <div class="nq-header">
         <span class="nq-flag">${team.flag}</span>
         <h3 class="nq-name">${team.name}</h3>
@@ -736,4 +645,13 @@ function renderNonQualifiers() {
       </div>
     </div>
   `).join('');
+
+  container.querySelectorAll('.nq-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const team = nonQualifiersData.find(t => t.id === card.dataset.nqId);
+      document.querySelectorAll('.team-item').forEach(i => i.classList.remove('active'));
+      showTeamDetails(team);
+      teamDetailsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 }
