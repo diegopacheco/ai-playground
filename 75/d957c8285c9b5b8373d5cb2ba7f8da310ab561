@@ -1,0 +1,21 @@
+sec/landing-page.html
+  s_168cbbf784a7cf::t_14a8392d67c730 1-226
+sec/index.html
+  s_168cbbf784a7cf::t_14a8392d67c730 1-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "75d957c8285c9b5b8373d5cb2ba7f8da310ab561",
+  "prompts": {},
+  "sessions": {
+    "s_168cbbf784a7cf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3eb3-9b10-76f1-83a3-4e73238f6642",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
