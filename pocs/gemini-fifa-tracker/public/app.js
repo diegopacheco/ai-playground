@@ -1,3 +1,6 @@
+const assetImg = key =>
+  (typeof REAL_IMAGES !== 'undefined' && REAL_IMAGES[key]) || `/assets/${key}.svg`;
+
 const teamsData = [
   { id: 'canada', name: 'Canada', flag: '🇨🇦', titles: 0, players: ['Atiba Hutchinson', 'Craig Forrest', 'Dwayne De Rosario'], group: 'Group A', star: 'Alphonso Davies', coach: 'Jesse Marsch', chance: 3 },
   { id: 'mexico', name: 'Mexico', flag: '🇲🇽', titles: 0, players: ['Hugo Sánchez', 'Rafael Márquez', 'Javier Hernández'], group: 'Group B', star: 'Santiago Giménez', coach: 'Javier Aguirre', chance: 4 },
@@ -306,13 +309,13 @@ function showTeamDetails(team) {
         <h3>Squad Stars & Legends</h3>
         <div class="players-deck">
           <div class="player-card-visual">
-            <img src="/assets/players/${team.id}-star.svg" alt="${team.star}">
+            <img src="${assetImg(`players/${team.id}-star`)}" alt="${team.star}">
             <div class="player-name" style="margin-top: 8px; font-weight: 700; color: var(--text-dark);">${team.star}</div>
             <div class="player-desc" style="font-size: 12px; color: var(--text-muted);">Star Player</div>
           </div>
           ${team.players.map((p, idx) => `
             <div class="player-card-visual">
-              <img src="/assets/players/${team.id}-legend-${idx}.svg" alt="${p}">
+              <img src="${assetImg(`players/${team.id}-legend-${idx}`)}" alt="${p}">
               <div class="player-name" style="margin-top: 8px; font-weight: 700; color: var(--text-dark);">${p}</div>
               <div class="player-desc" style="font-size: 12px; color: var(--text-muted);">Legend</div>
             </div>
@@ -325,7 +328,7 @@ function showTeamDetails(team) {
         <div class="dishes-grid">
           ${dishes.map((dish, idx) => `
             <div class="dish-card-visual">
-              <img src="/assets/dishes/${team.id}-dish-${idx}.svg" alt="${dish}">
+              <img src="${assetImg(`dishes/${team.id}-dish-${idx}`)}" alt="${dish}">
               <div class="dish-name-label">${dish}</div>
             </div>
           `).join('')}
