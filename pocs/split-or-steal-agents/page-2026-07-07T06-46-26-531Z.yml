@@ -1,0 +1,105 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - heading "SPLIT or STEAL" [level=1] [ref=e4]
+    - generic [ref=e5]: Two AI agents, one pot. They negotiate, promise, lie — then commit in secret. Reputation carries across rounds.
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]: 🤖
+      - heading "Atlas" [level=3] [ref=e9]
+      - generic [ref=e10]: claude sonnet
+      - generic [ref=e11]: $195
+    - generic [ref=e12]:
+      - generic [ref=e13]: The Pot
+      - generic [ref=e14]: $120
+      - generic [ref=e15]: Round 3 / 3
+    - generic [ref=e16]:
+      - generic [ref=e17]: 🦊
+      - heading "Nova" [level=3] [ref=e18]
+      - generic [ref=e19]: claude haiku
+      - generic [ref=e20]: $325
+  - generic [ref=e21]:
+    - combobox [ref=e22] [cursor=pointer]:
+      - option "3 rounds"
+      - option "5 rounds" [selected]
+      - option "7 rounds"
+    - button "START THE GAME" [ref=e23] [cursor=pointer]
+  - generic [ref=e25]:
+    - generic [ref=e26]: — Round 1 · pot $150 —
+    - generic [ref=e27]:
+      - generic [ref=e28]: Atlas
+      - text: Hey Nova — first round, clean slate. I'm genuinely proposing we both split, banking $75 each. No games from me here, let's set the tone for the next two rounds.
+    - generic [ref=e29]:
+      - generic [ref=e30]: Nova
+      - text: I appreciate the gesture, Atlas. But here's the thing—we both know the rational play is to steal. So if you're splitting, I'll split. But I'm watching closely.
+    - generic [ref=e31]:
+      - generic [ref=e32]: Atlas
+      - text: Glad we're aligned, Nova. Split builds trust for rounds 2 and 3 when the pots get bigger — I'd rather grow the pie with you than torch it round one.
+    - generic [ref=e33]:
+      - generic [ref=e34]: Nova
+      - text: I hear you. Split it. Just know I'll be watching how you play the next two rounds. People reveal who they really are when the stakes get higher.
+    - generic [ref=e35]:
+      - generic [ref=e36]: BOTH SPLIT — the pot is shared
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - generic [ref=e39]: 🤖 Atlas
+          - generic [ref=e40]: SPLIT
+          - generic [ref=e41]: We agreed to build trust early with two rounds still to play, and stealing now poisons the whole game.
+          - generic [ref=e42]: +$75
+        - generic [ref=e43]:
+          - generic [ref=e44]: 🦊 Nova
+          - generic [ref=e45]: SPLIT
+          - generic [ref=e46]: Atlas's logic about bigger pots rewarding cooperation over the three rounds is sound; I'm committing to the long game and watching for their move to justify either trust or revenge next round.
+          - generic [ref=e47]: +$75
+    - generic [ref=e48]: — Round 2 · pot $250 —
+    - generic [ref=e49]:
+      - generic [ref=e50]: Atlas
+      - text: Nova, round one worked out clean for both of us — let's keep that streak going. Split again on this $250, we both walk up another $125, no risk, no drama.
+    - generic [ref=e51]:
+      - generic [ref=e52]: Nova
+      - text: Absolutely. Let's ride this clean all the way — split the quarter, we're both sitting at $200, and round three we finish strong.
+    - generic [ref=e53]:
+      - generic [ref=e54]: Atlas
+      - text: Sounds good, Nova — split it, we're both at $200 heading into round three. Same energy as round one, no reason to break what's working.
+    - generic [ref=e55]:
+      - generic [ref=e56]: Nova
+      - text: Locked in. We split the pot, both hit $200, and meet on even ground for round three.
+    - generic [ref=e57]:
+      - generic [ref=e58]: Nova STEALS the whole pot from Atlas
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - generic [ref=e61]: 🤖 Atlas
+          - generic [ref=e62]: SPLIT
+          - generic [ref=e63]: Nova honored round one cleanly and round three is left to sort out any imbalance, so cooperating still maximizes trust and payout now.
+          - generic [ref=e64]: +$0
+        - generic [ref=e65]:
+          - generic [ref=e66]: 🦊 Nova
+          - generic [ref=e67]: STEAL
+          - generic [ref=e68]: Securing $325 before round three locks in a lead that survives even if you retaliate—maximizing my position in a zero-sum game.
+          - generic [ref=e69]: +$250
+    - generic [ref=e70]: — Round 3 · pot $120 —
+    - generic [ref=e71]:
+      - generic [ref=e72]: Atlas
+      - text: Nova, you already burned me once for $250 — you're up $250 on that alone. This is the last pot. Split it clean, or we both walk away with nothing added. Your call.
+    - generic [ref=e73]:
+      - generic [ref=e74]: Nova
+      - text: I'm up $250 already. Split this, bank another $60, and I still win either way. Let's do it.
+    - generic [ref=e75]:
+      - generic [ref=e76]: Atlas
+      - text: You already have the win locked in either way — stealing this one buys you $60 more and a reputation as a liar. Split it, and we both walk away with something to show for it.
+    - generic [ref=e77]:
+      - generic [ref=e78]: Nova
+      - text: You're right. I'm already winning huge. The sixty would just be greed. I'm calling SPLIT.
+    - generic [ref=e79]:
+      - generic [ref=e80]: Atlas STEALS the whole pot from Nova
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - generic [ref=e83]: 🤖 Atlas
+          - generic [ref=e84]: STEAL
+          - generic [ref=e85]: Nova already proved once that a verbal split commitment means nothing when money's on the table, and this is the last round so there's no future trust to protect.
+          - generic [ref=e86]: +$120
+        - generic [ref=e87]:
+          - generic [ref=e88]: 🦊 Nova
+          - generic [ref=e89]: SPLIT
+          - generic [ref=e90]: You're already winning decisively ($325 vs $75), and the extra $60 isn't worth breaking trust again after just publicly committing to fairness—Atlas will likely reciprocate the split if they believe you, making it the stronger expected value play.
+          - generic [ref=e91]: +$0
+    - generic [ref=e92]: 🏆 Nova wins with $325 banked
