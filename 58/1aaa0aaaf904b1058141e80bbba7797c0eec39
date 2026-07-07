@@ -1,0 +1,52 @@
+pocs/air-shooting-game-cv/start.sh
+  s_85db769a0b9fac::t_552e7e552e7234 1-28
+pocs/air-shooting-game-cv/server.py
+  s_85db769a0b9fac::t_22b89f1097de98 1-101
+pocs/air-shooting-game-cv/web/index.html
+  s_85db769a0b9fac::t_7261a21b006491 1-5,7-22
+  s_85db769a0b9fac::t_66b30a145938a6 6
+pocs/air-shooting-game-cv/diagram.svg
+  s_85db769a0b9fac::t_a5c2bb9e0a18b5 1-63
+pocs/air-shooting-game-cv/stop.sh
+  s_85db769a0b9fac::t_cf698bcea31eca 1-9
+pocs/air-shooting-game-cv/.gitignore
+  s_26a095442867d2::t_7a90c43ef7ce50 1-5
+pocs/air-shooting-game-cv/README.md
+  s_85db769a0b9fac::t_659308d04f7512 1-69
+pocs/air-shooting-game-cv/test.sh
+  s_85db769a0b9fac::t_757ca52a12efe0 1-32
+pocs/air-shooting-game-cv/web/game.js
+  s_85db769a0b9fac::t_2e15957fcb52e6 1-682,689-754
+  s_85db769a0b9fac::t_5db03142e3e864 683-688
+  s_85db769a0b9fac::t_957b32833232fa 755
+pocs/air-shooting-game-cv/requirements.txt
+  s_85db769a0b9fac::t_886b581227c6e7 1-4
+pocs/air-shooting-game-cv/web/style.css
+  s_85db769a0b9fac::t_6c99d375444c68 1-44
+pocs/air-shooting-game-cv/test_client.py
+  s_85db769a0b9fac::t_a6a8932561ed4c 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "581aaa0aaaf904b1058141e80bbba7797c0eec39",
+  "prompts": {},
+  "sessions": {
+    "s_26a095442867d2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0f532c08-789a-4a23-954e-5f8fde4bd2fc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_85db769a0b9fac": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b18e7db0-2a28-4881-aa6f-ed21e5d498f4",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
