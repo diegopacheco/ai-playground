@@ -1,0 +1,22 @@
+[
+  {
+    "id": "document:api_design",
+    "title": "MCP API Design",
+    "text": "MCP resource servers validate scoped tokens instead of receiving token passthrough from an agent."
+  },
+  {
+    "id": "document:architecture",
+    "title": "Agent Identity Architecture",
+    "text": "Agent calls are bound to a human principal, an agent id, a requested tool, and a least-privilege authorization check."
+  },
+  {
+    "id": "document:roadmap",
+    "title": "Auth0Lab Roadmap",
+    "text": "Roadmap work includes token vault patterns, async human approval, MCP authorization, and A2A identity flows."
+  },
+  {
+    "id": "document:payroll",
+    "title": "Finance Payroll Runbook",
+    "text": "Payroll workflows require finance folder access and cannot be used as retrieval context for engineering-only users."
+  }
+]

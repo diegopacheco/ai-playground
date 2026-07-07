@@ -1,0 +1,24 @@
+model
+  schema 1.1
+
+type user
+
+type agent
+  relations
+    define owner: [user]
+    define delegate: [user] or owner
+
+type folder
+  relations
+    define owner: [user]
+    define viewer: [user] or owner
+
+type document
+  relations
+    define parent: [folder]
+    define owner: [user]
+    define editor: [user] or owner
+    define viewer: [user] or owner or viewer from parent
+    define can_cite: viewer
+    define can_summarize: viewer
+    define can_write: editor

@@ -1,0 +1,52 @@
+[
+  {
+    "user": "user:beth",
+    "relation": "delegate",
+    "object": "agent:secprep"
+  },
+  {
+    "user": "user:carl",
+    "relation": "delegate",
+    "object": "agent:secprep"
+  },
+  {
+    "user": "user:anne",
+    "relation": "owner",
+    "object": "folder:engineering"
+  },
+  {
+    "user": "user:beth",
+    "relation": "viewer",
+    "object": "folder:engineering"
+  },
+  {
+    "user": "user:dana",
+    "relation": "owner",
+    "object": "folder:finance"
+  },
+  {
+    "user": "folder:engineering",
+    "relation": "parent",
+    "object": "document:api_design"
+  },
+  {
+    "user": "folder:engineering",
+    "relation": "parent",
+    "object": "document:architecture"
+  },
+  {
+    "user": "folder:engineering",
+    "relation": "parent",
+    "object": "document:roadmap"
+  },
+  {
+    "user": "folder:finance",
+    "relation": "parent",
+    "object": "document:payroll"
+  },
+  {
+    "user": "user:carl",
+    "relation": "viewer",
+    "object": "document:roadmap"
+  }
+]
