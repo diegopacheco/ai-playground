@@ -1,0 +1,90 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { min-height: 100%; }
+
+body {
+  background:
+    radial-gradient(circle at 24% 12%, rgba(255,214,96,.2), transparent 24%),
+    linear-gradient(135deg, #07170f 0%, #102c1f 42%, #0b1418 100%);
+  color: #f7f2df;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Avenir, "Avenir Next", Verdana, sans-serif;
+  overflow-x: hidden;
+}
+
+main {
+  width: min(1120px, calc(100vw - 28px));
+  padding: 22px 0;
+}
+
+#panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+  margin-bottom: 14px;
+}
+
+#kicker {
+  color: #ffd660;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+h1 {
+  font-size: clamp(38px, 7vw, 86px);
+  line-height: .86;
+  letter-spacing: .02em;
+  text-shadow: 0 8px 0 rgba(0,0,0,.28);
+}
+
+#status {
+  min-width: 240px;
+  color: #d5e8d0;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+#frame {
+  position: relative;
+  background: #07130d;
+  border: 8px solid #eadfbd;
+  border-radius: 8px;
+  box-shadow: 0 30px 70px rgba(0,0,0,.48), 0 0 0 2px #5b4522 inset;
+  overflow: hidden;
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+#pip {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 176px;
+  height: 132px;
+  border: 4px solid #ffd660;
+  border-radius: 8px;
+  background: #050807;
+  transform: scaleX(-1);
+  box-shadow: 0 12px 28px rgba(0,0,0,.38);
+}
+
+@media (max-width: 720px) {
+  body { align-items: start; }
+  #panel { display: block; }
+  #status { min-width: 0; text-align: left; margin-top: 10px; }
+  #pip { width: 112px; height: 84px; }
+}

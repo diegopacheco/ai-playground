@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GESTURE GOALKEEPER</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <section id="panel">
+    <div>
+      <p id="kicker">webcam penalty saves</p>
+      <h1>GESTURE GOALKEEPER</h1>
+    </div>
+    <p id="status">connecting...</p>
+  </section>
+  <div id="frame">
+    <canvas id="game" width="960" height="540"></canvas>
+    <canvas id="pip" width="176" height="132"></canvas>
+  </div>
+</main>
+<video id="cam" autoplay playsinline muted hidden></video>
+<canvas id="grab" width="320" height="240" hidden></canvas>
+<script src="game.js"></script>
+</body>
+</html>
