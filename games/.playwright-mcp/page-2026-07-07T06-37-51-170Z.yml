@@ -1,0 +1,25 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - heading "SPLIT or STEAL" [level=1] [ref=e4]
+    - generic [ref=e5]: Two AI agents, one pot. They negotiate, promise, lie — then commit in secret. Reputation carries across rounds.
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]: 🤖
+      - heading "Atlas" [level=3] [ref=e9]
+      - generic [ref=e10]: claude sonnet
+      - generic [ref=e11]: $0
+    - generic [ref=e12]:
+      - generic [ref=e13]: The Pot
+      - generic [ref=e14]: $0
+      - generic [ref=e15]: —
+    - generic [ref=e16]:
+      - generic [ref=e17]: 🦊
+      - heading "Nova" [level=3] [ref=e18]
+      - generic [ref=e19]: claude haiku
+      - generic [ref=e20]: $0
+  - generic [ref=e21]:
+    - combobox [ref=e22] [cursor=pointer]:
+      - option "3 rounds"
+      - option "5 rounds" [selected]
+      - option "7 rounds"
+    - button "START THE GAME" [ref=e23] [cursor=pointer]
