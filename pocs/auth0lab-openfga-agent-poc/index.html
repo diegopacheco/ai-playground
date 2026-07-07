@@ -1,0 +1,1378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auth0Lab OpenFGA Agent POC</title>
+  <style>
+    :root {
+      --paper: #fbf8ef;
+      --paper-soft: #f4efe2;
+      --ink: #1f2a24;
+      --muted: #677168;
+      --line: #d8cfbd;
+      --green: #276749;
+      --green-soft: #e0f0e7;
+      --blue: #235a7a;
+      --blue-soft: #dcecf4;
+      --gold: #9b6b13;
+      --gold-soft: #f6e7c7;
+      --red: #9b2c2c;
+      --red-soft: #f7dddd;
+      --white: #fffefa;
+      --shadow: 0 18px 42px rgba(54, 46, 31, .12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Avenir Next", "Trebuchet MS", Verdana, sans-serif;
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+    }
+
+    .shell {
+      min-height: 100vh;
+      background:
+        linear-gradient(90deg, rgba(31, 42, 36, .055) 1px, transparent 1px),
+        linear-gradient(rgba(31, 42, 36, .045) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .hero {
+      min-height: 86vh;
+      display: grid;
+      align-items: center;
+      padding: 34px clamp(18px, 4vw, 64px) 26px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 22%, rgba(35, 90, 122, .14), transparent 34%),
+        radial-gradient(circle at 78% 18%, rgba(155, 107, 19, .16), transparent 30%),
+        linear-gradient(135deg, rgba(255, 254, 250, .88), rgba(244, 239, 226, .76));
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(320px, .98fr);
+      gap: clamp(24px, 5vw, 74px);
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      margin: 0 0 16px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 740px;
+      font-size: clamp(48px, 7.2vw, 96px);
+    }
+
+    h2 {
+      font-size: clamp(32px, 4.6vw, 58px);
+    }
+
+    h3 {
+      font-size: 26px;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .lead {
+      max-width: 690px;
+      margin-top: 22px;
+      color: #33443b;
+      font-size: clamp(18px, 2vw, 24px);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .button {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 11px 17px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--white);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 18px rgba(31, 42, 36, .13);
+      transition: transform .18s ease, background .18s ease, color .18s ease;
+    }
+
+    .button.secondary {
+      background: var(--white);
+      color: var(--ink);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .overview-board {
+      background: rgba(255, 254, 250, .83);
+      border: 1px solid rgba(216, 207, 189, .9);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 28px);
+      min-height: 460px;
+      backdrop-filter: blur(10px);
+    }
+
+    .board-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .board-title {
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .board-pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: var(--green);
+      background: var(--green-soft);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .flow-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .flow-node {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      position: relative;
+    }
+
+    .flow-node:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 35px;
+      bottom: -13px;
+      width: 2px;
+      height: 13px;
+      background: var(--line);
+    }
+
+    .node-index {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--white);
+      font-weight: 900;
+    }
+
+    .node-text strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .node-text span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .section {
+      padding: clamp(52px, 8vw, 96px) clamp(18px, 4vw, 64px);
+    }
+
+    .section-inner {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .76fr) minmax(280px, .44fr);
+      gap: clamp(22px, 5vw, 70px);
+      align-items: end;
+      margin-bottom: 30px;
+    }
+
+    .section-copy {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .band {
+      background: var(--paper-soft);
+      border-block: 1px solid var(--line);
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .concept {
+      min-height: 230px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 10px 24px rgba(54, 46, 31, .07);
+    }
+
+    .concept-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .concept:nth-child(2) .concept-mark {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .concept:nth-child(3) .concept-mark {
+      background: var(--gold-soft);
+      color: var(--gold);
+    }
+
+    .concept:nth-child(4) .concept-mark {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .concept h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .concept p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .lab {
+      display: grid;
+      grid-template-columns: minmax(280px, .39fr) minmax(0, .61fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 12px 28px rgba(54, 46, 31, .08);
+    }
+
+    .panel-pad {
+      padding: 20px;
+    }
+
+    .control-title {
+      margin-bottom: 12px;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .segment {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .segment.active {
+      background: var(--ink);
+      color: var(--white);
+      border-color: var(--ink);
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .field input {
+      min-height: 48px;
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      color: var(--ink);
+      padding: 10px 12px;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(35, 90, 122, .16);
+    }
+
+    .status-line {
+      display: grid;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .status-item strong {
+      color: var(--muted);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .tag.ok {
+      color: var(--green);
+      background: var(--green-soft);
+    }
+
+    .tag.no {
+      color: var(--red);
+      background: var(--red-soft);
+    }
+
+    .result {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+    }
+
+    .result-head {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(224, 240, 231, .88), rgba(220, 236, 244, .72));
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .result-title {
+      font-weight: 900;
+    }
+
+    .decision-list {
+      display: grid;
+      gap: 10px;
+      padding: 20px;
+    }
+
+    .decision {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: var(--white);
+    }
+
+    .decision-title {
+      font-weight: 900;
+      margin-bottom: 3px;
+    }
+
+    .decision-id {
+      color: var(--muted);
+      font-size: 13px;
+      word-break: break-word;
+    }
+
+    .answer-box {
+      margin: 0 20px 20px;
+      padding: 16px;
+      border-radius: 8px;
+      background: #1f2a24;
+      color: #fffefa;
+      white-space: pre-wrap;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      overflow-x: auto;
+    }
+
+    .diagram-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .98fr) minmax(0, 1.02fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .diagram {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 12px 28px rgba(54, 46, 31, .08);
+      overflow: hidden;
+    }
+
+    .diagram h3 {
+      padding: 20px 20px 0;
+      font-size: 24px;
+    }
+
+    .diagram p {
+      color: var(--muted);
+      padding: 8px 20px 0;
+      font-size: 15px;
+    }
+
+    .diagram svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .code-grid {
+      display: grid;
+      grid-template-columns: minmax(260px, .36fr) minmax(0, .64fr);
+      gap: 18px;
+    }
+
+    .file-tabs {
+      display: grid;
+      gap: 8px;
+    }
+
+    .file-tab {
+      min-height: 52px;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      color: var(--ink);
+      padding: 12px 14px;
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .file-tab.active {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .file-view {
+      overflow: hidden;
+    }
+
+    .file-summary {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .file-summary h3 {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .file-summary p {
+      color: var(--muted);
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow: auto;
+      max-height: 500px;
+      background: #1f2a24;
+      color: #fffefa;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      line-height: 1.58;
+    }
+
+    .truth-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .truth {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      padding: 20px;
+    }
+
+    .truth strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .truth p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 12px 28px rgba(54, 46, 31, .08);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    th,
+    td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      background: var(--paper-soft);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .footer {
+      padding: 28px clamp(18px, 4vw, 64px);
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      background: var(--paper-soft);
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .hero-inner,
+      .section-head,
+      .lab,
+      .diagram-grid,
+      .code-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .concept-grid,
+      .truth-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .overview-board {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        min-height: auto;
+        padding-top: 28px;
+      }
+
+      .concept-grid,
+      .truth-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .segmented {
+        grid-template-columns: 1fr;
+      }
+
+      .result-head,
+      .decision {
+        grid-template-columns: 1fr;
+      }
+
+      .result-head {
+        align-items: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">Auth0Lab inspired agent authorization</p>
+          <h1>OpenFGA rules before agent context</h1>
+          <p class="lead">This proof of concept teaches a local agentic RAG authorization pattern: a human principal delegates to an agent, retrieval finds candidate documents, and relationship checks decide which documents can cross into the answer.</p>
+          <div class="hero-actions">
+            <a class="button" href="#walkthrough">Run the walkthrough</a>
+            <a class="button secondary" href="#code">Read the code</a>
+          </div>
+        </div>
+        <div class="overview-board" aria-label="Authorization flow overview">
+          <div class="board-top">
+            <div class="board-title">Request path</div>
+            <div class="board-pill">Local evaluator</div>
+          </div>
+          <div class="flow-stack">
+            <div class="flow-node">
+              <div class="node-index">1</div>
+              <div class="node-text">
+                <strong>Principal asks a question</strong>
+                <span>`user:beth`, `user:carl`, or `user:dana` sends a query.</span>
+              </div>
+            </div>
+            <div class="flow-node">
+              <div class="node-index">2</div>
+              <div class="node-text">
+                <strong>Delegation check runs first</strong>
+                <span>The agent must be allowed to act for that principal.</span>
+              </div>
+            </div>
+            <div class="flow-node">
+              <div class="node-index">3</div>
+              <div class="node-text">
+                <strong>Keyword retrieval ranks candidates</strong>
+                <span>The corpus is small and local, stored in `documents.json`.</span>
+              </div>
+            </div>
+            <div class="flow-node">
+              <div class="node-index">4</div>
+              <div class="node-text">
+                <strong>`can_cite` filters context</strong>
+                <span>Only authorized documents are composed into the answer.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="concepts">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <h2>What this is</h2>
+          <p class="section-copy">A small Python teaching project for relationship-based access control in an agent workflow. It does not call Auth0, an OpenFGA server, a vector database, or a language model. Its value is the authorization shape.</p>
+        </div>
+        <div class="concept-grid">
+          <article class="concept reveal">
+            <div class="concept-mark">ID</div>
+            <h3>Principal</h3>
+            <p>The user is the human identity behind the request. The agent does not get free access just because it can retrieve text.</p>
+          </article>
+          <article class="concept reveal">
+            <div class="concept-mark">AG</div>
+            <h3>Delegation</h3>
+            <p>`agent:secprep` must have `delegate` for the user before retrieval is allowed to proceed.</p>
+          </article>
+          <article class="concept reveal">
+            <div class="concept-mark">RB</div>
+            <h3>ReBAC</h3>
+            <p>Access comes from relationship tuples: users own folders, view folders, view documents, and documents inherit folder viewers.</p>
+          </article>
+          <article class="concept reveal">
+            <div class="concept-mark">AI</div>
+            <h3>RAG boundary</h3>
+            <p>Candidate documents are checked with `can_cite` before they are included in the final text.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section band" id="walkthrough">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <h2>Walkthrough</h2>
+          <p class="section-copy">Choose a principal and query. The browser repeats the same decision logic as the Python project so the authorization result is visible.</p>
+        </div>
+        <div class="lab reveal">
+          <div class="panel panel-pad">
+            <div class="control-title">Principal</div>
+            <div class="segmented" role="tablist" aria-label="Principal selector">
+              <button class="segment active" type="button" data-user="user:beth">Beth</button>
+              <button class="segment" type="button" data-user="user:carl">Carl</button>
+              <button class="segment" type="button" data-user="user:dana">Dana</button>
+            </div>
+            <div class="field">
+              <label for="query">Query</label>
+              <input id="query" value="token roadmap approval architecture">
+            </div>
+            <button class="button" type="button" id="run">Check access</button>
+            <div class="status-line" aria-live="polite">
+              <div class="status-item">
+                <strong>User</strong>
+                <span id="current-user">user:beth</span>
+              </div>
+              <div class="status-item">
+                <strong>Agent</strong>
+                <span>agent:secprep</span>
+              </div>
+              <div class="status-item">
+                <strong>Delegation</strong>
+                <span id="delegation" class="tag ok">allowed</span>
+              </div>
+            </div>
+          </div>
+          <div class="panel result">
+            <div class="result-head">
+              <div>
+                <div class="result-title">Candidate checks</div>
+                <p id="result-subtitle">Every retrieved document gets an authorization decision.</p>
+              </div>
+              <span id="allowed-count" class="tag ok">3 allowed</span>
+            </div>
+            <div>
+              <div class="decision-list" id="decisions"></div>
+              <pre class="answer-box" id="answer"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="diagrams">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <h2>Diagrams</h2>
+          <p class="section-copy">The key idea is separation: delegation says whether an agent may act for a user, while document relationships say what context may be cited.</p>
+        </div>
+        <div class="diagram-grid">
+          <article class="diagram reveal">
+            <h3>Decision pipeline</h3>
+            <p>The app stops early when delegation is missing, then checks every retrieved document before composing text.</p>
+            <svg viewBox="0 0 760 430" role="img" aria-label="Decision pipeline from user to answer">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f2a24"></path>
+                </marker>
+              </defs>
+              <rect x="34" y="54" width="154" height="74" rx="8" fill="#dcecf4" stroke="#235a7a"></rect>
+              <text x="111" y="87" text-anchor="middle" fill="#1f2a24" font-size="18" font-weight="700">Human</text>
+              <text x="111" y="111" text-anchor="middle" fill="#677168" font-size="14">user identity</text>
+              <rect x="304" y="54" width="154" height="74" rx="8" fill="#e0f0e7" stroke="#276749"></rect>
+              <text x="381" y="87" text-anchor="middle" fill="#1f2a24" font-size="18" font-weight="700">Agent</text>
+              <text x="381" y="111" text-anchor="middle" fill="#677168" font-size="14">agent:secprep</text>
+              <rect x="572" y="54" width="154" height="74" rx="8" fill="#f6e7c7" stroke="#9b6b13"></rect>
+              <text x="649" y="87" text-anchor="middle" fill="#1f2a24" font-size="18" font-weight="700">Delegation</text>
+              <text x="649" y="111" text-anchor="middle" fill="#677168" font-size="14">delegate</text>
+              <line x1="188" y1="91" x2="300" y2="91" stroke="#1f2a24" stroke-width="2" marker-end="url(#arrow)"></line>
+              <line x1="458" y1="91" x2="568" y2="91" stroke="#1f2a24" stroke-width="2" marker-end="url(#arrow)"></line>
+              <rect x="88" y="226" width="180" height="82" rx="8" fill="#fffefa" stroke="#d8cfbd"></rect>
+              <text x="178" y="260" text-anchor="middle" fill="#1f2a24" font-size="18" font-weight="700">Retrieve</text>
+              <text x="178" y="284" text-anchor="middle" fill="#677168" font-size="14">keyword match</text>
+              <rect x="312" y="226" width="180" height="82" rx="8" fill="#fffefa" stroke="#d8cfbd"></rect>
+              <text x="402" y="260" text-anchor="middle" fill="#1f2a24" font-size="18" font-weight="700">Check</text>
+              <text x="402" y="284" text-anchor="middle" fill="#677168" font-size="14">can_cite</text>
+              <rect x="536" y="226" width="180" height="82" rx="8" fill="#fffefa" stroke="#d8cfbd"></rect>
+              <text x="626" y="260" text-anchor="middle" fill="#1f2a24" font-size="18" font-weight="700">Answer</text>
+              <text x="626" y="284" text-anchor="middle" fill="#677168" font-size="14">authorized context</text>
+              <path d="M649 128 C649 174 178 172 178 222" fill="none" stroke="#1f2a24" stroke-width="2" marker-end="url(#arrow)"></path>
+              <line x1="268" y1="267" x2="308" y2="267" stroke="#1f2a24" stroke-width="2" marker-end="url(#arrow)"></line>
+              <line x1="492" y1="267" x2="532" y2="267" stroke="#1f2a24" stroke-width="2" marker-end="url(#arrow)"></line>
+              <path d="M649 128 C708 170 720 198 690 225" fill="none" stroke="#9b2c2c" stroke-width="2" stroke-dasharray="7 6"></path>
+              <text x="629" y="184" fill="#9b2c2c" font-size="14" font-weight="700">deny stops</text>
+              <text x="380" y="374" text-anchor="middle" fill="#677168" font-size="15">Authorization happens before retrieved content becomes answer text.</text>
+            </svg>
+          </article>
+          <article class="diagram reveal">
+            <h3>Relationship graph</h3>
+            <p>Folder access flows into documents through the `parent` relation. Direct document access still works for a single document.</p>
+            <svg viewBox="0 0 760 430" role="img" aria-label="Relationship graph for users folders and documents">
+              <defs>
+                <marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f2a24"></path>
+                </marker>
+              </defs>
+              <rect x="42" y="52" width="130" height="60" rx="8" fill="#dcecf4" stroke="#235a7a"></rect>
+              <text x="107" y="87" text-anchor="middle" fill="#1f2a24" font-size="16" font-weight="700">user:beth</text>
+              <rect x="42" y="158" width="130" height="60" rx="8" fill="#dcecf4" stroke="#235a7a"></rect>
+              <text x="107" y="193" text-anchor="middle" fill="#1f2a24" font-size="16" font-weight="700">user:carl</text>
+              <rect x="42" y="264" width="130" height="60" rx="8" fill="#dcecf4" stroke="#235a7a"></rect>
+              <text x="107" y="299" text-anchor="middle" fill="#1f2a24" font-size="16" font-weight="700">user:dana</text>
+              <rect x="296" y="84" width="174" height="70" rx="8" fill="#e0f0e7" stroke="#276749"></rect>
+              <text x="383" y="116" text-anchor="middle" fill="#1f2a24" font-size="17" font-weight="700">folder:engineering</text>
+              <text x="383" y="139" text-anchor="middle" fill="#677168" font-size="13">viewer inheritance</text>
+              <rect x="296" y="252" width="174" height="70" rx="8" fill="#f7dddd" stroke="#9b2c2c"></rect>
+              <text x="383" y="284" text-anchor="middle" fill="#1f2a24" font-size="17" font-weight="700">folder:finance</text>
+              <text x="383" y="307" text-anchor="middle" fill="#677168" font-size="13">separate access</text>
+              <rect x="578" y="38" width="138" height="54" rx="8" fill="#fffefa" stroke="#d8cfbd"></rect>
+              <text x="647" y="70" text-anchor="middle" fill="#1f2a24" font-size="14" font-weight="700">api_design</text>
+              <rect x="578" y="114" width="138" height="54" rx="8" fill="#fffefa" stroke="#d8cfbd"></rect>
+              <text x="647" y="146" text-anchor="middle" fill="#1f2a24" font-size="14" font-weight="700">architecture</text>
+              <rect x="578" y="190" width="138" height="54" rx="8" fill="#fffefa" stroke="#d8cfbd"></rect>
+              <text x="647" y="222" text-anchor="middle" fill="#1f2a24" font-size="14" font-weight="700">roadmap</text>
+              <rect x="578" y="296" width="138" height="54" rx="8" fill="#fffefa" stroke="#d8cfbd"></rect>
+              <text x="647" y="328" text-anchor="middle" fill="#1f2a24" font-size="14" font-weight="700">payroll</text>
+              <line x1="172" y1="82" x2="292" y2="110" stroke="#1f2a24" stroke-width="2" marker-end="url(#arrow2)"></line>
+              <text x="224" y="81" fill="#276749" font-size="13" font-weight="700">viewer</text>
+              <line x1="172" y1="188" x2="574" y2="217" stroke="#1f2a24" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#arrow2)"></line>
+              <text x="335" y="200" fill="#235a7a" font-size="13" font-weight="700">direct viewer</text>
+              <line x1="172" y1="294" x2="292" y2="287" stroke="#1f2a24" stroke-width="2" marker-end="url(#arrow2)"></line>
+              <text x="220" y="281" fill="#9b2c2c" font-size="13" font-weight="700">owner</text>
+              <line x1="470" y1="112" x2="574" y2="65" stroke="#1f2a24" stroke-width="2" marker-end="url(#arrow2)"></line>
+              <line x1="470" y1="119" x2="574" y2="141" stroke="#1f2a24" stroke-width="2" marker-end="url(#arrow2)"></line>
+              <line x1="470" y1="127" x2="574" y2="217" stroke="#1f2a24" stroke-width="2" marker-end="url(#arrow2)"></line>
+              <line x1="470" y1="288" x2="574" y2="323" stroke="#1f2a24" stroke-width="2" marker-end="url(#arrow2)"></line>
+              <text x="508" y="101" fill="#677168" font-size="13" font-weight="700">parent</text>
+            </svg>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section band" id="code">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <h2>Code explained</h2>
+          <p class="section-copy">The project keeps the authorization model, tuples, corpus, evaluator, and behavior checks small enough to read in one sitting.</p>
+        </div>
+        <div class="code-grid reveal">
+          <div class="file-tabs" role="tablist" aria-label="File selector">
+            <button class="file-tab active" type="button" data-file="app">app.py</button>
+            <button class="file-tab" type="button" data-file="model">model.fga</button>
+            <button class="file-tab" type="button" data-file="tuples">tuples.json</button>
+            <button class="file-tab" type="button" data-file="tests">tests.py</button>
+          </div>
+          <div class="panel file-view">
+            <div class="file-summary">
+              <h3 id="file-title">app.py</h3>
+              <p id="file-copy"></p>
+            </div>
+            <pre id="file-code"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <h2>Why it matters</h2>
+          <p class="section-copy">Agentic systems can retrieve more than a user should see unless authorization is treated as part of the retrieval boundary.</p>
+        </div>
+        <div class="truth-grid">
+          <article class="truth reveal">
+            <strong>Least privilege survives retrieval</strong>
+            <p>The retriever can find candidates broadly, but `can_cite` narrows the answer to what the principal may use.</p>
+          </article>
+          <article class="truth reveal">
+            <strong>Delegation is separate</strong>
+            <p>A user may have document access and still not allow this agent to act. Dana owns finance content but cannot delegate to `agent:secprep`.</p>
+          </article>
+          <article class="truth reveal">
+            <strong>Model drift is visible</strong>
+            <p>The Python evaluator mirrors `model.fga`; the README calls out that production code should execute a real authorization service.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section band">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <h2>Expected outcomes</h2>
+          <p class="section-copy">These are the core behavior checks captured by `tests.py` and `run.sh`.</p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr>
+                <th>Principal</th>
+                <th>Delegation</th>
+                <th>Authorized context</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>`user:beth`</td>
+                <td>Allowed</td>
+                <td>Engineering documents and roadmap</td>
+                <td>Beth can delegate and views `folder:engineering`, so document viewers inherit from that folder.</td>
+              </tr>
+              <tr>
+                <td>`user:carl`</td>
+                <td>Allowed</td>
+                <td>`document:roadmap` only</td>
+                <td>Carl can delegate and has direct viewer access to roadmap, but not the full engineering folder.</td>
+              </tr>
+              <tr>
+                <td>`user:dana`</td>
+                <td>Denied</td>
+                <td>None</td>
+                <td>Dana owns finance content, but has no `delegate` tuple for `agent:secprep`, so retrieval never starts.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>Files: `app.py`, `model.fga`, `tuples.json`, `documents.json`, `tests.py`</span>
+      <span>Run: `./run.sh` and `./test.sh`</span>
+    </div>
+  </footer>
+  <script>
+    const documents = [
+      {
+        id: "document:api_design",
+        title: "MCP API Design",
+        text: "MCP resource servers validate scoped tokens instead of receiving token passthrough from an agent."
+      },
+      {
+        id: "document:architecture",
+        title: "Agent Identity Architecture",
+        text: "Agent calls are bound to a human principal, an agent id, a requested tool, and a least-privilege authorization check."
+      },
+      {
+        id: "document:roadmap",
+        title: "Auth0Lab Roadmap",
+        text: "Roadmap work includes token vault patterns, async human approval, MCP authorization, and A2A identity flows."
+      },
+      {
+        id: "document:payroll",
+        title: "Finance Payroll Runbook",
+        text: "Payroll workflows require finance folder access and cannot be used as retrieval context for engineering-only users."
+      }
+    ];
+
+    const tuples = [
+      { user: "user:beth", relation: "delegate", object: "agent:secprep" },
+      { user: "user:carl", relation: "delegate", object: "agent:secprep" },
+      { user: "user:anne", relation: "owner", object: "folder:engineering" },
+      { user: "user:beth", relation: "viewer", object: "folder:engineering" },
+      { user: "user:dana", relation: "owner", object: "folder:finance" },
+      { user: "folder:engineering", relation: "parent", object: "document:api_design" },
+      { user: "folder:engineering", relation: "parent", object: "document:architecture" },
+      { user: "folder:engineering", relation: "parent", object: "document:roadmap" },
+      { user: "folder:finance", relation: "parent", object: "document:payroll" },
+      { user: "user:carl", relation: "viewer", object: "document:roadmap" }
+    ];
+
+    const files = {
+      app: {
+        title: "app.py",
+        copy: "Defines the local tuple evaluator, runs delegation before retrieval, checks `can_cite`, and composes only authorized documents.",
+        code: `class LocalFga:
+    def check(self, user, relation, object):
+        if self.direct(user, relation, object):
+            return True
+        object_type = object.split(":", 1)[0]
+        if object_type == "folder":
+            return self.check_folder(user, relation, object)
+        if object_type == "document":
+            return self.check_document(user, relation, object)
+        return False
+
+class IdentityAgent:
+    def answer(self, user, query):
+        delegated = self.fga.check(user, "delegate", self.agent_id)
+        if not delegated:
+            return {
+                "delegated": False,
+                "decisions": [],
+                "answer": "Authorization stopped before retrieval.",
+            }
+        candidates = self.retrieve(query)
+        allowed = []
+        for document in candidates:
+            can_cite = self.fga.check(user, "can_cite", document["id"])
+            if can_cite:
+                allowed.append(document)
+        return {
+            "delegated": True,
+            "answer": self.compose_answer(allowed),
+        }`
+      },
+      model: {
+        title: "model.fga",
+        copy: "Documents inherit viewers from their parent folder. `can_cite` and `can_summarize` derive from viewer, while write access derives from editor.",
+        code: `model
+  schema 1.1
+
+type user
+
+type agent
+  relations
+    define owner: [user]
+    define delegate: [user] or owner
+
+type folder
+  relations
+    define owner: [user]
+    define viewer: [user] or owner
+
+type document
+  relations
+    define parent: [folder]
+    define owner: [user]
+    define editor: [user] or owner
+    define viewer: [user] or owner or viewer from parent
+    define can_cite: viewer
+    define can_summarize: viewer
+    define can_write: editor`
+      },
+      tuples: {
+        title: "tuples.json",
+        copy: "The tuple data grants delegation to Beth and Carl, folder access to Beth, finance ownership to Dana, and direct roadmap viewing to Carl.",
+        code: `[
+  { "user": "user:beth", "relation": "delegate", "object": "agent:secprep" },
+  { "user": "user:carl", "relation": "delegate", "object": "agent:secprep" },
+  { "user": "user:beth", "relation": "viewer", "object": "folder:engineering" },
+  { "user": "user:dana", "relation": "owner", "object": "folder:finance" },
+  { "user": "folder:engineering", "relation": "parent", "object": "document:api_design" },
+  { "user": "folder:engineering", "relation": "parent", "object": "document:architecture" },
+  { "user": "folder:engineering", "relation": "parent", "object": "document:roadmap" },
+  { "user": "folder:finance", "relation": "parent", "object": "document:payroll" },
+  { "user": "user:carl", "relation": "viewer", "object": "document:roadmap" }
+]`
+      },
+      tests: {
+        title: "tests.py",
+        copy: "The checks lock in the expected outcomes: Beth gets engineering context, Carl gets only roadmap, and Dana stops before retrieval.",
+        code: `def test_beth_gets_engineering_context():
+    result = build_agent().answer("user:beth", "token roadmap approval architecture")
+    assert result["delegated"]
+    assert "document:api_design" in ids(result)
+    assert "document:architecture" in ids(result)
+    assert "document:roadmap" in ids(result)
+    assert "document:payroll" not in ids(result)
+
+def test_carl_gets_only_direct_roadmap_access():
+    result = build_agent().answer("user:carl", "roadmap architecture")
+    assert result["delegated"]
+    assert ids(result) == {"document:roadmap"}
+
+def test_dana_stops_without_delegation():
+    result = build_agent().answer("user:dana", "payroll")
+    assert not result["delegated"]
+    assert result["decisions"] == []`
+      }
+    };
+
+    let selectedUser = "user:beth";
+
+    function tupleExists(user, relation, object) {
+      return tuples.some(item => item.user === user && item.relation === relation && item.object === object);
+    }
+
+    function check(user, relation, object) {
+      if (tupleExists(user, relation, object)) {
+        return true;
+      }
+      const type = object.split(":")[0];
+      if (type === "folder") {
+        return relation === "viewer" && check(user, "owner", object);
+      }
+      if (type === "document") {
+        if (relation === "editor") {
+          return check(user, "owner", object);
+        }
+        if (relation === "viewer") {
+          return check(user, "owner", object) || inheritedFolderView(user, object);
+        }
+        if (relation === "can_cite" || relation === "can_summarize") {
+          return check(user, "viewer", object);
+        }
+        if (relation === "can_write") {
+          return check(user, "editor", object);
+        }
+      }
+      return false;
+    }
+
+    function inheritedFolderView(user, documentId) {
+      return tuples.some(item => item.object === documentId && item.relation === "parent" && check(user, "viewer", item.user));
+    }
+
+    function terms(value) {
+      return new Set(value.toLowerCase().match(/[a-z0-9_]+/g) || []);
+    }
+
+    function retrieve(query) {
+      const queryTerms = terms(query);
+      return documents
+        .map(document => {
+          const haystack = terms(`${document.title} ${document.text}`);
+          let score = 0;
+          queryTerms.forEach(term => {
+            if (haystack.has(term)) {
+              score += 1;
+            }
+          });
+          return { score, document };
+        })
+        .filter(item => item.score > 0)
+        .sort((a, b) => b.score - a.score || b.document.id.localeCompare(a.document.id))
+        .map(item => item.document);
+    }
+
+    function answer(user, query) {
+      const delegated = check(user, "delegate", "agent:secprep");
+      if (!delegated) {
+        return {
+          delegated,
+          decisions: [],
+          answer: "Authorization stopped before retrieval."
+        };
+      }
+      const decisions = retrieve(query).map(document => ({
+        id: document.id,
+        title: document.title,
+        text: document.text,
+        allowed: check(user, "can_cite", document.id)
+      }));
+      const allowed = decisions.filter(item => item.allowed);
+      return {
+        delegated,
+        decisions,
+        answer: allowed.length
+          ? allowed.map(item => `${item.title}: ${item.text} [${item.id}]`).join("\\n")
+          : "No authorized context matched the query."
+      };
+    }
+
+    function renderWalkthrough() {
+      const query = document.getElementById("query").value;
+      const result = answer(selectedUser, query);
+      const currentUser = document.getElementById("current-user");
+      const delegation = document.getElementById("delegation");
+      const decisions = document.getElementById("decisions");
+      const allowedCount = document.getElementById("allowed-count");
+      const subtitle = document.getElementById("result-subtitle");
+      const answerBox = document.getElementById("answer");
+      currentUser.textContent = selectedUser;
+      delegation.textContent = result.delegated ? "allowed" : "denied";
+      delegation.className = `tag ${result.delegated ? "ok" : "no"}`;
+      decisions.innerHTML = "";
+      if (!result.delegated) {
+        subtitle.textContent = "The request stops before document retrieval.";
+        allowedCount.textContent = "0 allowed";
+        allowedCount.className = "tag no";
+      } else {
+        subtitle.textContent = "Every retrieved document gets an authorization decision.";
+        const count = result.decisions.filter(item => item.allowed).length;
+        allowedCount.textContent = `${count} allowed`;
+        allowedCount.className = `tag ${count ? "ok" : "no"}`;
+      }
+      result.decisions.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "decision";
+        const left = document.createElement("div");
+        const title = document.createElement("div");
+        title.className = "decision-title";
+        title.textContent = item.title;
+        const id = document.createElement("div");
+        id.className = "decision-id";
+        id.textContent = item.id;
+        left.append(title, id);
+        const tag = document.createElement("span");
+        tag.className = `tag ${item.allowed ? "ok" : "no"}`;
+        tag.textContent = item.allowed ? "can cite" : "blocked";
+        row.append(left, tag);
+        decisions.append(row);
+      });
+      if (!result.decisions.length) {
+        const row = document.createElement("div");
+        row.className = "decision";
+        const left = document.createElement("div");
+        const title = document.createElement("div");
+        title.className = "decision-title";
+        title.textContent = "No candidate checks";
+        const id = document.createElement("div");
+        id.className = "decision-id";
+        id.textContent = result.delegated ? "No document matched the query." : "Delegation denied.";
+        left.append(title, id);
+        const tag = document.createElement("span");
+        tag.className = "tag no";
+        tag.textContent = "none";
+        row.append(left, tag);
+        decisions.append(row);
+      }
+      answerBox.textContent = result.answer;
+    }
+
+    function renderFile(key) {
+      const file = files[key];
+      document.getElementById("file-title").textContent = file.title;
+      document.getElementById("file-copy").textContent = file.copy;
+      document.getElementById("file-code").textContent = file.code;
+      document.querySelectorAll(".file-tab").forEach(button => {
+        button.classList.toggle("active", button.dataset.file === key);
+      });
+    }
+
+    document.querySelectorAll(".segment").forEach(button => {
+      button.addEventListener("click", () => {
+        selectedUser = button.dataset.user;
+        document.querySelectorAll(".segment").forEach(item => item.classList.toggle("active", item === button));
+        if (selectedUser === "user:beth") {
+          document.getElementById("query").value = "token roadmap approval architecture";
+        }
+        if (selectedUser === "user:carl") {
+          document.getElementById("query").value = "roadmap architecture";
+        }
+        if (selectedUser === "user:dana") {
+          document.getElementById("query").value = "payroll";
+        }
+        renderWalkthrough();
+      });
+    });
+
+    document.getElementById("run").addEventListener("click", renderWalkthrough);
+    document.getElementById("query").addEventListener("input", renderWalkthrough);
+
+    document.querySelectorAll(".file-tab").forEach(button => {
+      button.addEventListener("click", () => renderFile(button.dataset.file));
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: .12 });
+
+    document.querySelectorAll(".reveal").forEach(item => observer.observe(item));
+    renderWalkthrough();
+    renderFile("app");
+  </script>
+</body>
+</html>
