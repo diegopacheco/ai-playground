@@ -11,6 +11,7 @@ const statusEl = document.getElementById("status");
 
 const goal = { x: 190, y: 64, w: 580, h: 142 };
 const spot = { x: 480, y: 502 };
+const kickPoint = { x: 526, y: 528 };
 const gloves = [];
 const fx = [];
 
@@ -76,10 +77,10 @@ function spawnBall() {
   const frames = Math.max(32, 62 - saves * 1.35);
   const bend = (Math.random() * 2 - 1) * (1.2 + saves * .025);
   ball = {
-    x: spot.x,
-    y: spot.y,
-    vx: (targetX - spot.x) / frames,
-    vy: (targetY - spot.y) / frames,
+    x: kickPoint.x,
+    y: kickPoint.y,
+    vx: (targetX - kickPoint.x) / frames,
+    vy: (targetY - kickPoint.y) / frames,
     r: 14,
     t: 0,
     bend,
@@ -88,7 +89,7 @@ function spawnBall() {
     done: false
   };
   kickSound();
-  addBurst(spot.x, spot.y, "#d8f1c1", 10, 1.2);
+  addBurst(kickPoint.x, kickPoint.y, "#d8f1c1", 10, 1.2);
 }
 
 function addText(x, y, text, color) {
@@ -251,6 +252,7 @@ function drawGoal() {
 function drawShooter() {
   ctx.save();
   ctx.translate(spot.x, spot.y + 6);
+  ctx.lineCap = "round";
   ctx.fillStyle = "#1c2530";
   rect(-18, -72, 36, 58, 15);
   ctx.fill();
@@ -264,7 +266,13 @@ function drawShooter() {
   ctx.moveTo(-10, -16);
   ctx.lineTo(-42, 34);
   ctx.moveTo(10, -16);
-  ctx.lineTo(38, 30);
+  ctx.lineTo(38, 20);
+  ctx.stroke();
+  ctx.strokeStyle = "#f7f2df";
+  ctx.lineWidth = 11;
+  ctx.beginPath();
+  ctx.moveTo(28, 24);
+  ctx.lineTo(52, 20);
   ctx.stroke();
   ctx.restore();
 }
