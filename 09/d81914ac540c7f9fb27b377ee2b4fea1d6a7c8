@@ -1,0 +1,19 @@
+pocs/air-goalkeeper-game-cv/web/game.js
+  s_a5e6eb4b44063e::t_688d7b7719a483 14,80-83,92,255,269-275
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "09d81914ac540c7f9fb27b377ee2b4fea1d6a7c8",
+  "prompts": {},
+  "sessions": {
+    "s_a5e6eb4b44063e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3b40-1024-75a2-bc09-0c9e98569b6b",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
