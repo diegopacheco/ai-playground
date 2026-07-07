@@ -1,0 +1,19 @@
+games/.playwright-mcp/page-2026-07-07T06-37-51-170Z.yml
+  s_d71ffd81335ba6::t_b50183fe0f9f02 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "06607a6e3bfe175657cff61ddd7dd34b08782376",
+  "prompts": {},
+  "sessions": {
+    "s_d71ffd81335ba6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3d4216cd-7b60-4637-8d8c-b20c9267068a",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
