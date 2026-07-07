@@ -89,7 +89,7 @@ let agents=[],rendered=0;
 function esc(s){const d=document.createElement("div");d.textContent=s;return d.innerHTML;}
 function playerCard(a,total){
   return '<div class="avatar">'+a.emoji+'</div><h3 style="color:'+a.color+'">'+a.name+'</h3>'+
-    '<div class="model">claude '+a.model+'</div><div class="bank">$'+total+'</div>';
+    '<div class="model">'+a.label+'</div><div class="bank">$'+total+'</div>';
 }
 function render(s){
   agents=s.agents;

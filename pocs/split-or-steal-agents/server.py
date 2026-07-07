@@ -9,8 +9,8 @@ import threading
 PORT = 8017
 FAKE = os.environ.get("SPLIT_OR_STEAL_FAKE") == "1"
 AGENTS = [
-    {"name": "Atlas", "model": "sonnet", "emoji": "🤖", "color": "#5a8dee"},
-    {"name": "Nova", "model": "haiku", "emoji": "🦊", "color": "#f0803c"},
+    {"name": "Atlas", "model": "claude-sonnet-5", "label": "Claude Sonnet 5", "emoji": "🤖", "color": "#5a8dee"},
+    {"name": "Nova", "model": "claude-haiku-4-5-20251001", "label": "Claude Haiku 4.5", "emoji": "🦊", "color": "#f0803c"},
 ]
 
 state = {"status": "idle", "round": 0, "total_rounds": 0, "pot": 0, "totals": {}, "log": [], "agents": AGENTS}
