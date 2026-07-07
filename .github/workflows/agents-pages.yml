@@ -8,6 +8,7 @@ on:
       - agents/**
       - games/**
       - mcp/**
+      - sec/**
       - .github/workflows/agents-pages.yml
   workflow_dispatch:
 
@@ -47,6 +48,16 @@ jobs:
             mkdir -p "_site/mcp/$(dirname "$f")"
             cp "mcp/$f" "_site/mcp/$f"
           done
+          mkdir -p _site/sec
+          cp sec/index.html _site/sec/index.html
+          cp sec/landing-page.html _site/sec/landing-page.html
+          mkdir -p _site/agents/logos _site/agents/open-claw
+          cp agents/logos/068-smith-scala-security-agent.png _site/agents/logos/
+          cp agents/logos/112-agent-skill-leak-detector-with-claude-coidex.png _site/agents/logos/
+          cp agents/logos/126-agent-skill-security-threat-analyst-with-claude-codex.png _site/agents/logos/
+          cp agents/logos/147-agent-safehouse-macos-sandboxing-toolkit-for-llm-coding-agents.png _site/agents/logos/
+          cp agents/logos/160-agent-skill-accessibility-auditor-wcag-with-claude-codex.png _site/agents/logos/
+          cp agents/open-claw/sebastian-sec.png _site/agents/open-claw/
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
