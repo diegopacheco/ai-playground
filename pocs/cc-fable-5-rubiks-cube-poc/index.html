@@ -1,0 +1,316 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rubik's Cube</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0e16;
+  --white:#f8f9fb;
+  --yellow:#ffd23f;
+  --green:#21c063;
+  --blue:#2e86ff;
+  --red:#ff4658;
+  --orange:#ff9f1c;
+  --inner:#191922;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:"Nunito",sans-serif;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:34px;
+  position:relative;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(520px 420px at 18% 12%, rgba(255,70,88,.16), transparent 70%),
+    radial-gradient(560px 460px at 84% 20%, rgba(46,134,255,.16), transparent 70%),
+    radial-gradient(620px 520px at 50% 108%, rgba(33,192,99,.14), transparent 70%);
+  pointer-events:none;
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+h1{
+  font-family:"Bungee",cursive;
+  font-size:clamp(28px,5vw,52px);
+  letter-spacing:.04em;
+  text-shadow:0 4px 0 rgba(0,0,0,.45);
+  z-index:1;
+}
+h1 span:nth-child(6n+1){color:var(--red)}
+h1 span:nth-child(6n+2){color:var(--orange)}
+h1 span:nth-child(6n+3){color:var(--yellow)}
+h1 span:nth-child(6n+4){color:var(--green)}
+h1 span:nth-child(6n+5){color:var(--blue)}
+h1 span:nth-child(6n+6){color:var(--white)}
+.scene{
+  width:440px;
+  height:440px;
+  perspective:1300px;
+  z-index:1;
+}
+.cube{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:0;
+  height:0;
+  transform-style:preserve-3d;
+  animation:sway 7s ease-in-out infinite alternate;
+}
+@keyframes sway{
+  from{transform:rotateX(-26deg) rotateY(-34deg)}
+  to{transform:rotateX(-19deg) rotateY(-27deg)}
+}
+.cubie{
+  position:absolute;
+  left:-42px;
+  top:-42px;
+  width:84px;
+  height:84px;
+  transform-style:preserve-3d;
+}
+.face{
+  position:absolute;
+  width:84px;
+  height:84px;
+  background:#0b0b12;
+  border-radius:9px;
+  transform-style:preserve-3d;
+}
+.face.front{transform:translateZ(42px)}
+.face.back{transform:rotateY(180deg) translateZ(42px)}
+.face.right{transform:rotateY(90deg) translateZ(42px)}
+.face.left{transform:rotateY(-90deg) translateZ(42px)}
+.face.up{transform:rotateX(90deg) translateZ(42px)}
+.face.down{transform:rotateX(-90deg) translateZ(42px)}
+.sticker{
+  position:absolute;
+  inset:5px;
+  border-radius:8px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.32), rgba(255,255,255,0) 46%),
+    var(--c, var(--inner));
+  box-shadow:inset 0 -3px 6px rgba(0,0,0,.22);
+}
+.sticker.blank{background:var(--inner);box-shadow:none}
+.shadow{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:340px;
+  height:90px;
+  transform:translate(-50%, 190px);
+  background:radial-gradient(ellipse at center, rgba(0,0,0,.55), transparent 68%);
+  filter:blur(6px);
+}
+.controls{
+  display:flex;
+  gap:22px;
+  z-index:1;
+}
+button{
+  font-family:"Bungee",cursive;
+  font-size:18px;
+  letter-spacing:.05em;
+  color:#0e0e16;
+  border:none;
+  border-radius:16px;
+  padding:16px 34px;
+  cursor:pointer;
+  transition:transform .08s ease, box-shadow .08s ease, filter .2s ease;
+}
+#scramble{background:var(--red);box-shadow:0 7px 0 #a81f2f}
+#solve{background:var(--green);box-shadow:0 7px 0 #12703c}
+button:hover:not(:disabled){filter:brightness(1.1)}
+button:active:not(:disabled){transform:translateY(7px);box-shadow:0 0 0 transparent}
+button:disabled{filter:grayscale(.7) brightness(.6);cursor:default}
+#status{
+  font-weight:800;
+  font-size:13px;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:rgba(248,249,251,.55);
+  z-index:1;
+}
+</style>
+<h1></h1>
+<div class="scene">
+  <div class="shadow"></div>
+  <div class="cube" id="cube"></div>
+</div>
+<div class="controls">
+  <button id="scramble">Scramble</button>
+  <button id="solve" disabled>Solve</button>
+</div>
+<div id="status">Ready</div>
+<script>
+const title = document.querySelector("h1");
+for (const ch of "RUBIK'S CUBE") {
+  const s = document.createElement("span");
+  s.textContent = ch;
+  title.appendChild(s);
+}
+
+const STEP = 88;
+const COLORS = {
+  up: "var(--white)",
+  down: "var(--yellow)",
+  front: "var(--green)",
+  back: "var(--blue)",
+  right: "var(--red)",
+  left: "var(--orange)"
+};
+
+function identity() {
+  return [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
+}
+function multiply(a, b) {
+  const r = new Array(16);
+  for (let i = 0; i < 4; i++)
+    for (let j = 0; j < 4; j++) {
+      let s = 0;
+      for (let k = 0; k < 4; k++) s += a[i * 4 + k] * b[k * 4 + j];
+      r[i * 4 + j] = s;
+    }
+  return r;
+}
+function rotation(axis, rad) {
+  const c = Math.cos(rad), s = Math.sin(rad);
+  if (axis === "x") return [1,0,0,0, 0,c,-s,0, 0,s,c,0, 0,0,0,1];
+  if (axis === "y") return [c,0,s,0, 0,1,0,0, -s,0,c,0, 0,0,0,1];
+  return [c,-s,0,0, s,c,0,0, 0,0,1,0, 0,0,0,1];
+}
+function translation(x, y, z) {
+  return [1,0,0,x, 0,1,0,y, 0,0,1,z, 0,0,0,1];
+}
+function toCss(m) {
+  const v = [];
+  for (let c = 0; c < 4; c++)
+    for (let r = 0; r < 4; r++) v.push(+m[r * 4 + c].toFixed(5));
+  return `matrix3d(${v.join(",")})`;
+}
+function rotateVec(axis, dir, p) {
+  const R = rotation(axis, dir * Math.PI / 2);
+  return [
+    Math.round(R[0] * p[0] + R[1] * p[1] + R[2] * p[2]),
+    Math.round(R[4] * p[0] + R[5] * p[1] + R[6] * p[2]),
+    Math.round(R[8] * p[0] + R[9] * p[1] + R[10] * p[2])
+  ];
+}
+
+const cube = document.getElementById("cube");
+const cubies = [];
+for (let x = -1; x <= 1; x++)
+  for (let y = -1; y <= 1; y++)
+    for (let z = -1; z <= 1; z++) {
+      if (x === 0 && y === 0 && z === 0) continue;
+      const el = document.createElement("div");
+      el.className = "cubie";
+      const visible = {
+        up: y === -1, down: y === 1,
+        front: z === 1, back: z === -1,
+        right: x === 1, left: x === -1
+      };
+      for (const side of Object.keys(visible)) {
+        const face = document.createElement("div");
+        face.className = `face ${side}`;
+        const sticker = document.createElement("div");
+        sticker.className = "sticker" + (visible[side] ? "" : " blank");
+        if (visible[side]) sticker.style.setProperty("--c", COLORS[side]);
+        face.appendChild(sticker);
+        el.appendChild(face);
+      }
+      const m = translation(x * STEP, y * STEP, z * STEP);
+      el.style.transform = toCss(m);
+      cube.appendChild(el);
+      cubies.push({ el, m, p: [x, y, z] });
+    }
+
+function ease(t) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+function turn(move, duration) {
+  return new Promise(resolve => {
+    const idx = move.axis === "x" ? 0 : move.axis === "y" ? 1 : 2;
+    const layer = cubies.filter(c => c.p[idx] === move.layer);
+    const start = performance.now();
+    function frame(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const R = rotation(move.axis, move.dir * Math.PI / 2 * ease(t));
+      for (const c of layer) c.el.style.transform = toCss(multiply(R, c.m));
+      if (t < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        const F = rotation(move.axis, move.dir * Math.PI / 2);
+        for (const c of layer) {
+          c.m = multiply(F, c.m);
+          c.el.style.transform = toCss(c.m);
+          c.p = rotateVec(move.axis, move.dir, c.p);
+        }
+        resolve();
+      }
+    }
+    requestAnimationFrame(frame);
+  });
+}
+
+const scrambleBtn = document.getElementById("scramble");
+const solveBtn = document.getElementById("solve");
+const status = document.getElementById("status");
+const history = [];
+let busy = false;
+
+function refresh() {
+  scrambleBtn.disabled = busy;
+  solveBtn.disabled = busy || history.length === 0;
+}
+
+async function play(moves, duration, label, done) {
+  busy = true;
+  refresh();
+  status.textContent = label;
+  for (const move of moves) await turn(move, duration);
+  busy = false;
+  status.textContent = done;
+  refresh();
+}
+
+scrambleBtn.addEventListener("click", async () => {
+  if (busy) return;
+  const axes = ["x", "y", "z"];
+  const moves = [];
+  for (let i = 0; i < 18; i++) {
+    moves.push({
+      axis: axes[Math.floor(Math.random() * 3)],
+      layer: Math.floor(Math.random() * 3) - 1,
+      dir: Math.random() < 0.5 ? 1 : -1
+    });
+  }
+  history.push(...moves);
+  await play(moves, 170, "Scrambling", "Scrambled");
+});
+
+solveBtn.addEventListener("click", async () => {
+  if (busy || history.length === 0) return;
+  const moves = history.slice().reverse().map(m => ({ ...m, dir: -m.dir }));
+  history.length = 0;
+  await play(moves, 150, "Solving", "Solved");
+});
+</script>

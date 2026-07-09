@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="440" viewBox="0 0 880 440" font-family="Caveat, 'Comic Sans MS', cursive">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+      <path d="M0,0 Q4,1.5 7,3 Q4,4.5 0,6" fill="none" stroke="#495057" stroke-width="1.6"/>
+    </marker>
+  </defs>
+  <text x="440" y="42" text-anchor="middle" font-size="34" fill="#343a40" filter="url(#wobble)">Rubik's Cube POC</text>
+
+  <g filter="url(#wobble)">
+    <rect x="40" y="90" width="200" height="90" rx="12" fill="#d0ebff" stroke="#1c7ed6" stroke-width="2.2"/>
+    <text x="140" y="128" text-anchor="middle" font-size="24" fill="#1864ab">start.sh</text>
+    <text x="140" y="158" text-anchor="middle" font-size="18" fill="#1864ab">python http.server :8093</text>
+
+    <rect x="340" y="90" width="200" height="90" rx="12" fill="#fff3bf" stroke="#f08c00" stroke-width="2.2"/>
+    <text x="440" y="128" text-anchor="middle" font-size="24" fill="#e8590c">Browser</text>
+    <text x="440" y="158" text-anchor="middle" font-size="18" fill="#e8590c">index.html (no libraries)</text>
+
+    <rect x="640" y="90" width="200" height="90" rx="12" fill="#d3f9d8" stroke="#2f9e44" stroke-width="2.2"/>
+    <text x="740" y="122" text-anchor="middle" font-size="24" fill="#2b8a3e">CSS 3D Scene</text>
+    <text x="740" y="150" text-anchor="middle" font-size="18" fill="#2b8a3e">26 cubies x 6 faces</text>
+    <text x="740" y="172" text-anchor="middle" font-size="18" fill="#2b8a3e">perspective + preserve-3d</text>
+
+    <rect x="120" y="290" width="200" height="90" rx="12" fill="#ffd8e4" stroke="#d6336c" stroke-width="2.2"/>
+    <text x="220" y="328" text-anchor="middle" font-size="24" fill="#a61e4d">Scramble / Solve</text>
+    <text x="220" y="358" text-anchor="middle" font-size="18" fill="#a61e4d">buttons + move history</text>
+
+    <rect x="400" y="290" width="180" height="90" rx="12" fill="#e5dbff" stroke="#7048e8" stroke-width="2.2"/>
+    <text x="490" y="328" text-anchor="middle" font-size="24" fill="#5f3dc4">Move Queue</text>
+    <text x="490" y="358" text-anchor="middle" font-size="18" fill="#5f3dc4">90 deg layer turns</text>
+
+    <rect x="650" y="290" width="190" height="90" rx="12" fill="#c3fae8" stroke="#0ca678" stroke-width="2.2"/>
+    <text x="745" y="322" text-anchor="middle" font-size="24" fill="#087f5b">Matrix Engine</text>
+    <text x="745" y="350" text-anchor="middle" font-size="18" fill="#087f5b">rAF eased rotation</text>
+    <text x="745" y="372" text-anchor="middle" font-size="18" fill="#087f5b">matrix3d per cubie</text>
+
+    <path d="M240,135 Q290,120 340,135" fill="none" stroke="#495057" stroke-width="2.2" marker-end="url(#arrow)"/>
+    <path d="M540,135 Q590,120 640,135" fill="none" stroke="#495057" stroke-width="2.2" marker-end="url(#arrow)"/>
+    <path d="M320,335 Q360,320 400,335" fill="none" stroke="#495057" stroke-width="2.2" marker-end="url(#arrow)"/>
+    <path d="M580,335 Q615,320 650,335" fill="none" stroke="#495057" stroke-width="2.2" marker-end="url(#arrow)"/>
+    <path d="M745,290 Q750,235 742,182" fill="none" stroke="#495057" stroke-width="2.2" marker-end="url(#arrow)"/>
+  </g>
+
+  <text x="290" y="118" text-anchor="middle" font-size="17" fill="#868e96" filter="url(#wobble)">serves</text>
+  <text x="590" y="118" text-anchor="middle" font-size="17" fill="#868e96" filter="url(#wobble)">renders</text>
+  <text x="360" y="318" text-anchor="middle" font-size="17" fill="#868e96" filter="url(#wobble)">enqueue</text>
+  <text x="615" y="318" text-anchor="middle" font-size="17" fill="#868e96" filter="url(#wobble)">animate</text>
+  <text x="775" y="240" text-anchor="middle" font-size="17" fill="#868e96" filter="url(#wobble)">updates transforms</text>
+</svg>
