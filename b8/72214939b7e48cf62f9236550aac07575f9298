@@ -1,0 +1,34 @@
+pocs/codex-5.5-medium-rubrik/README.md
+  s_95ad5dc75ade26::t_cedd00b92e8a42 11-13
+  s_95ad5dc75ade26::t_1775bfb3d96154 1-10,14-27
+pocs/codex-5.5-medium-rubrik/index.html
+  s_95ad5dc75ade26::t_1775bfb3d96154 1-28
+pocs/codex-5.5-medium-rubrik/app.js
+  s_95ad5dc75ade26::t_1775bfb3d96154 1-217
+pocs/codex-5.5-medium-rubrik/.server.pid
+  s_95ad5dc75ade26::t_d8333362c4e4a9 1
+pocs/codex-5.5-medium-rubrik/start.sh
+  s_95ad5dc75ade26::t_cedd00b92e8a42 3,9-10,13-35
+  s_95ad5dc75ade26::t_1775bfb3d96154 1-2,4-8,12
+  s_95ad5dc75ade26::t_53318c37dcdf9f 11
+pocs/codex-5.5-medium-rubrik/stop.sh
+  s_95ad5dc75ade26::t_1775bfb3d96154 1-13
+pocs/codex-5.5-medium-rubrik/styles.css
+  s_95ad5dc75ade26::t_1775bfb3d96154 1-226
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b872214939b7e48cf62f9236550aac07575f9298",
+  "prompts": {},
+  "sessions": {
+    "s_95ad5dc75ade26": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f446d-043e-73f0-a37a-898054d20177",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
