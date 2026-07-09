@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Containerfile
+    ports:
+      - "8094:8080"

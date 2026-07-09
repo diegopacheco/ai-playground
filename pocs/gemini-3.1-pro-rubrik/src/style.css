@@ -1,0 +1,75 @@
+body {
+  margin: 0;
+  background: #111;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+.scene {
+  width: 300px;
+  height: 300px;
+  perspective: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cube-container {
+  position: relative;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(-30deg) rotateY(45deg);
+}
+.group {
+  position: absolute;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+.piece {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  margin-left: -25px;
+  margin-top: -25px;
+  transform-style: preserve-3d;
+}
+.face {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border: 4px solid #000;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+.f-top    { transform: rotateX(90deg) translateZ(25px); background: #ffffff; }
+.f-bottom { transform: rotateX(-90deg) translateZ(25px); background: #ffd500; }
+.f-front  { transform: translateZ(25px); background: #009e60; }
+.f-back   { transform: rotateY(180deg) translateZ(25px); background: #0051ba; }
+.f-right  { transform: rotateY(90deg) translateZ(25px); background: #c41e3a; }
+.f-left   { transform: rotateY(-90deg) translateZ(25px); background: #ff5800; }
+
+.controls {
+  margin-top: 50px;
+  display: flex;
+  gap: 20px;
+}
+button {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+  transition: background 0.2s;
+}
+button:hover {
+  background: #444;
+}
