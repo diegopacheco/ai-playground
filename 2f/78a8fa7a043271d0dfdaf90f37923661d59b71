@@ -1,0 +1,47 @@
+pocs/temporal-ai-poc/src/shared.ts
+  s_25b201472cca35::t_fbe7f10f8554e6 1-13
+pocs/temporal-ai-poc/tsconfig.json
+  s_25b201472cca35::t_0eaf32695a7a29 1-16
+pocs/temporal-ai-poc/src/worker.ts
+  s_25b201472cca35::t_74a87677f54473 1-24
+pocs/temporal-ai-poc/src/activities.ts
+  s_25b201472cca35::t_28dd0fd5a84964 1-52
+pocs/temporal-ai-poc/start.sh
+  s_25b201472cca35::t_9b7ac6937b2ff3 1-33
+pocs/temporal-ai-poc/package.json
+  s_25b201472cca35::t_28686f1899b6bd 1-21
+pocs/temporal-ai-poc/src/workflows.ts
+  s_25b201472cca35::t_1d74bed7a26433 1-26
+pocs/temporal-ai-poc/src/client.ts
+  s_25b201472cca35::t_f3ecec95001ad7 1-34
+pocs/temporal-ai-poc/.gitignore
+  s_25b201472cca35::t_0ef6196bfebb04 1-3
+pocs/temporal-ai-poc/printscreens/architecture.svg
+  s_25b201472cca35::t_59bb1fe6a4d222 1-67
+pocs/temporal-ai-poc/README.md
+  s_25b201472cca35::t_312e9a3946aac9 1-110
+pocs/temporal-ai-poc/stop.sh
+  s_25b201472cca35::t_badcb5a7ea84d5 1-12
+pocs/temporal-ai-poc/test.sh
+  s_25b201472cca35::t_f24256b7c411a8 1-6
+pocs/temporal-ai-poc/podman-compose.yml
+  s_25b201472cca35::t_eff9de2d99f039 1-8
+pocs/temporal-ai-poc/package-lock.json
+  s_25b201472cca35::t_164b2e5fc622c9 1-2572
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2f78a8fa7a043271d0dfdaf90f37923661d59b71",
+  "prompts": {},
+  "sessions": {
+    "s_25b201472cca35": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "12577cdd-3e07-46db-b82c-7c0a883f6577",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
