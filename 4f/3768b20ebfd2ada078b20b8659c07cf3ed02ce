@@ -1,0 +1,14 @@
+pocs/gemini-3.1-pro-rubrik/README.md
+  h_8e2c3875396153 1-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "4f3768b20ebfd2ada078b20b8659c07cf3ed02ce",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
