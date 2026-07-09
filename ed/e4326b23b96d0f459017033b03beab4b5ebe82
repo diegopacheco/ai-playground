@@ -1,0 +1,25 @@
+pocs/cc-fable-5-rubiks-cube-poc/start.sh
+  s_4a8f8124f784d9::t_7500e58cbbe6a2 1-17
+pocs/cc-fable-5-rubiks-cube-poc/stop.sh
+  s_4a8f8124f784d9::t_2c4e29671a5b79 1-9
+pocs/cc-fable-5-rubiks-cube-poc/architecture.svg
+  s_4a8f8124f784d9::t_c99494e56ca492 1-52
+pocs/cc-fable-5-rubiks-cube-poc/index.html
+  s_4a8f8124f784d9::t_1455bf9e07bf5d 1-316
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ede4326b23b96d0f459017033b03beab4b5ebe82",
+  "prompts": {},
+  "sessions": {
+    "s_4a8f8124f784d9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8aae8914-2ac9-4863-a14a-d387a380a915",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
