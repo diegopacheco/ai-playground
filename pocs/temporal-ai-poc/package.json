@@ -1,0 +1,21 @@
+{
+  "name": "temporal-ai-poc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "worker": "node src/worker.ts",
+    "client": "node src/client.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@temporalio/client": "1.20.2",
+    "@temporalio/worker": "1.20.2",
+    "@temporalio/workflow": "1.20.2",
+    "@temporalio/activity": "1.20.2"
+  },
+  "devDependencies": {
+    "@types/node": "24.7.0",
+    "typescript": "7.0.2"
+  }
+}

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="720" viewBox="0 0 1080 720" font-family="Caveat, 'Comic Sans MS', cursive">
+  <defs>
+    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#495057"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1080" height="720" fill="#fbfaf7"/>
+  <text x="540" y="52" font-size="42" fill="#212529" text-anchor="middle">Temporal AI POC - Durable Multi-Agent Pipeline</text>
+
+  <g filter="url(#wobble)">
+    <rect x="60" y="110" width="200" height="90" rx="14" fill="#a5d8ff" stroke="#1971c2" stroke-width="2.5"/>
+    <rect x="410" y="95" width="360" height="120" rx="14" fill="#ffec99" stroke="#f08c00" stroke-width="2.5"/>
+    <rect x="410" y="300" width="360" height="90" rx="14" fill="#b2f2bb" stroke="#2f9e44" stroke-width="2.5"/>
+    <rect x="60" y="440" width="960" height="240" rx="18" fill="#f8f0fc" stroke="#9c36b5" stroke-width="2.5"/>
+
+    <rect x="90" y="520" width="200" height="130" rx="12" fill="#ffd8a8" stroke="#e8590c" stroke-width="2.5"/>
+    <rect x="330" y="520" width="200" height="130" rx="12" fill="#d0bfff" stroke="#6741d9" stroke-width="2.5"/>
+    <rect x="570" y="520" width="200" height="130" rx="12" fill="#ffc9c9" stroke="#e03131" stroke-width="2.5"/>
+    <rect x="810" y="520" width="200" height="130" rx="12" fill="#96f2d7" stroke="#0ca678" stroke-width="2.5"/>
+  </g>
+
+  <text x="160" y="150" font-size="28" fill="#0b3d70" text-anchor="middle">Client</text>
+  <text x="160" y="180" font-size="20" fill="#0b3d70" text-anchor="middle">start workflow</text>
+
+  <text x="590" y="135" font-size="28" fill="#7a4300" text-anchor="middle">Temporal Server + Web UI</text>
+  <text x="590" y="165" font-size="20" fill="#7a4300" text-anchor="middle">:7233 gRPC   :8233 UI</text>
+  <text x="590" y="193" font-size="20" fill="#7a4300" text-anchor="middle">durable event history (replay on crash)</text>
+
+  <text x="590" y="335" font-size="26" fill="#1b5e2f" text-anchor="middle">Worker (host, Node 24 + TS 7)</text>
+  <text x="590" y="365" font-size="20" fill="#1b5e2f" text-anchor="middle">polls task queue: agent-pipeline</text>
+
+  <text x="100" y="480" font-size="24" fill="#7a2a86">Workflow: multiAgentPipeline  (deterministic orchestration)</text>
+
+  <text x="190" y="560" font-size="23" fill="#7a2a06" text-anchor="middle">researchTopic</text>
+  <text x="190" y="588" font-size="19" fill="#7a2a06" text-anchor="middle">research agent</text>
+  <text x="190" y="628" font-size="20" fill="#7a2a06" text-anchor="middle">claude -p</text>
+
+  <text x="430" y="560" font-size="23" fill="#3b2a86" text-anchor="middle">writeDraft</text>
+  <text x="430" y="588" font-size="19" fill="#3b2a86" text-anchor="middle">writing agent</text>
+  <text x="430" y="628" font-size="20" fill="#3b2a86" text-anchor="middle">claude -p</text>
+
+  <text x="670" y="560" font-size="23" fill="#8a1010" text-anchor="middle">critiqueDraft</text>
+  <text x="670" y="588" font-size="19" fill="#8a1010" text-anchor="middle">critique agent</text>
+  <text x="670" y="628" font-size="20" fill="#8a1010" text-anchor="middle">claude -p</text>
+
+  <text x="910" y="560" font-size="23" fill="#065f46" text-anchor="middle">editDraft</text>
+  <text x="910" y="588" font-size="19" fill="#065f46" text-anchor="middle">editor agent</text>
+  <text x="910" y="628" font-size="20" fill="#065f46" text-anchor="middle">claude -p</text>
+
+  <g stroke="#495057" stroke-width="2.5" fill="none">
+    <path d="M262,150 Q340,150 408,150" marker-end="url(#arrow)"/>
+    <path d="M590,217 Q590,258 590,298" marker-end="url(#arrow)"/>
+    <path d="M590,392 Q590,415 550,438" marker-end="url(#arrow)"/>
+    <path d="M292,585 Q311,585 328,585" marker-end="url(#arrow)"/>
+    <path d="M532,585 Q551,585 568,585" marker-end="url(#arrow)"/>
+    <path d="M772,585 Q791,585 808,585" marker-end="url(#arrow)"/>
+  </g>
+
+  <text x="335" y="140" font-size="19" fill="#495057" text-anchor="middle">1. start</text>
+  <text x="600" y="278" font-size="19" fill="#495057" text-anchor="start">2. dispatch task</text>
+  <text x="455" y="425" font-size="19" fill="#495057" text-anchor="middle">3. execute steps</text>
+</svg>
