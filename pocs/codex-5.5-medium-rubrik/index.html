@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rubik's Cube</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="stage">
+    <section class="panel" aria-label="Rubik's Cube controls">
+      <div>
+        <p class="eyebrow">3D puzzle</p>
+        <h1>Rubik's Cube</h1>
+      </div>
+      <div class="actions">
+        <button id="scramble" type="button">Scramble</button>
+        <button id="solve" type="button">Solve</button>
+      </div>
+      <p id="status" class="status" aria-live="polite">Ready</p>
+    </section>
+    <section class="cube-wrap" aria-label="Animated Rubik's Cube">
+      <div id="cube" class="cube"></div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
