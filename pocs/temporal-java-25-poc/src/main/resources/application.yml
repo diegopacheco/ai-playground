@@ -19,7 +19,8 @@ temporal:
 codex:
   command: ${CODEX_COMMAND:codex}
   enabled: ${CODEX_ENABLED:true}
-  timeout-seconds: ${CODEX_TIMEOUT_SECONDS:30}
+  timeout-seconds: ${CODEX_TIMEOUT_SECONDS:120}
+  reasoning-effort: ${CODEX_REASONING_EFFORT:low}
 springdoc:
   swagger-ui:
     path: /swagger-ui

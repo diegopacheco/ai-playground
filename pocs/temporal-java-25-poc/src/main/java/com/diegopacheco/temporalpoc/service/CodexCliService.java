@@ -20,11 +20,13 @@ public class CodexCliService {
     private final String command;
     private final boolean enabled;
     private final int timeoutSeconds;
+    private final String reasoningEffort;
 
-    public CodexCliService(@Value("${codex.command}") String command, @Value("${codex.enabled}") boolean enabled, @Value("${codex.timeout-seconds}") int timeoutSeconds) {
+    public CodexCliService(@Value("${codex.command}") String command, @Value("${codex.enabled}") boolean enabled, @Value("${codex.timeout-seconds}") int timeoutSeconds, @Value("${codex.reasoning-effort}") String reasoningEffort) {
         this.command = command;
         this.enabled = enabled;
         this.timeoutSeconds = timeoutSeconds;
+        this.reasoningEffort = reasoningEffort;
     }
 
     public String ask(String prompt) {
@@ -43,6 +45,8 @@ public class CodexCliService {
             Process process = new ProcessBuilder(List.of(
                     command,
                     "exec",
+                    "-c",
+                    "model_reasoning_effort=" + reasoningEffort,
                     "--skip-git-repo-check",
                     "--ephemeral",
                     "--ignore-rules",
@@ -58,6 +62,21 @@ public class CodexCliService {
             ))
                     .redirectErrorStream(true)
                     .start();
+            StringBuilder captured = new StringBuilder();
+            Thread drain = new Thread(() -> {
+                try (var in = process.getInputStream()) {
+                    byte[] buf = new byte[8192];
+                    int n;
+                    while ((n = in.read(buf)) != -1) {
+                        synchronized (captured) {
+                            captured.append(new String(buf, 0, n, StandardCharsets.UTF_8));
+                        }
+                    }
+                } catch (Exception ignored) {
+                }
+            });
+            drain.setDaemon(true);
+            drain.start();
             log.info("codex step=wait timeoutSeconds={}", timeoutSeconds);
             boolean completed = process.waitFor(Duration.ofSeconds(timeoutSeconds));
             long elapsedMs = Duration.between(start, Instant.now()).toMillis();
@@ -67,7 +86,11 @@ public class CodexCliService {
                 log.error("codex step=timeout result=throwing elapsedMs={} timeoutSeconds={} killed={} promptLength={}", elapsedMs, timeoutSeconds, killed, content.length());
                 throw new CodexCliException("Codex CLI timed out. killed=" + killed);
             }
-            String stdout = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim();
+            drain.join(Duration.ofSeconds(2));
+            String stdout;
+            synchronized (captured) {
+                stdout = captured.toString().trim();
+            }
             if (process.exitValue() != 0) {
                 log.error("codex step=failed result=throwing exitCode={} elapsedMs={} stdoutLength={}", process.exitValue(), elapsedMs, stdout.length());
                 throw new CodexCliException("Codex CLI failed: " + stdout);

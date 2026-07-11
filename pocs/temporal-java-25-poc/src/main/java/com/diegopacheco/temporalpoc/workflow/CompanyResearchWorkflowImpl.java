@@ -11,7 +11,7 @@ import java.time.Duration;
 public class CompanyResearchWorkflowImpl implements CompanyResearchWorkflow {
     private static final Logger log = Workflow.getLogger(CompanyResearchWorkflowImpl.class);
     private final ActivityOptions options = ActivityOptions.newBuilder()
-            .setStartToCloseTimeout(Duration.ofSeconds(40))
+            .setStartToCloseTimeout(Duration.ofSeconds(150))
             .setRetryOptions(RetryOptions.newBuilder()
                     .setInitialInterval(Duration.ofSeconds(1))
                     .setMaximumInterval(Duration.ofSeconds(5))

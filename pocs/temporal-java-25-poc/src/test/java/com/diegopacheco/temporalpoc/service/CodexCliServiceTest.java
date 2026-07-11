@@ -20,7 +20,7 @@ class CodexCliServiceTest {
                 sleep 5
                 """);
         script.toFile().setExecutable(true);
-        CodexCliService service = new CodexCliService(script.toString(), true, 1);
+        CodexCliService service = new CodexCliService(script.toString(), true, 1, "low");
         Instant start = Instant.now();
         assertThatThrownBy(() -> service.ask("research AAPL"))
                 .isInstanceOf(CodexCliException.class)
