@@ -20,7 +20,7 @@ public class StockAgentActivityImpl implements StockAgentActivity {
     public String researchStock(String symbol, String company) {
         ActivityInfo info = Activity.getExecutionContext().getInfo();
         log.info("stock activity started workflowId={} runId={} activityId={} attempt={} symbol={} company={}", info.getWorkflowId(), info.getRunId(), info.getActivityId(), info.getAttempt(), symbol, company);
-        String result = codex.ask("Research current stock fundamentals, valuation, recent price movement, and analyst sentiment for " + company + " stock symbol " + symbol + ". Return concise bullets.");
+        String result = codex.ask("You are the stock research agent for a Java Temporal workflow. Do not inspect files. Do not run commands. Do not ask questions. For " + company + " stock symbol " + symbol + ", provide a concise stock summary with fundamentals, valuation, recent price movement, and analyst sentiment. If live market data is unavailable, say that clearly. Return at most 8 bullets.");
         log.info("stock activity completed workflowId={} activityId={} attempt={} resultLength={}", info.getWorkflowId(), info.getActivityId(), info.getAttempt(), result.length());
         return result;
     }

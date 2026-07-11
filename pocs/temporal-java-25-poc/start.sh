@@ -37,5 +37,5 @@ if nc -z 127.0.0.1 8082 >/dev/null 2>&1; then
   printf '%s\n' 'Port 8082 is already in use'
   exit 1
 fi
-mvn -q -DskipTests package
+mvn -q clean package -DskipTests
 java -jar target/temporal-java-25-poc-1.0.0.jar

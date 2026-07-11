@@ -20,7 +20,7 @@ public class NewsAgentActivityImpl implements NewsAgentActivity {
     public String researchNews(String symbol, String company) {
         ActivityInfo info = Activity.getExecutionContext().getInfo();
         log.info("news activity started workflowId={} runId={} activityId={} attempt={} symbol={} company={}", info.getWorkflowId(), info.getRunId(), info.getActivityId(), info.getAttempt(), symbol, company);
-        String result = codex.ask("Research latest news for " + company + " stock symbol " + symbol + ". Return concise bullets with dates.");
+        String result = codex.ask("You are the news research agent for a Java Temporal workflow. Do not inspect files. Do not run commands. Do not ask questions. For " + company + " stock symbol " + symbol + ", summarize latest material company news relevant to investors. If live news is unavailable, say that clearly. Return at most 8 bullets with dates when available.");
         log.info("news activity completed workflowId={} activityId={} attempt={} resultLength={}", info.getWorkflowId(), info.getActivityId(), info.getAttempt(), result.length());
         return result;
     }

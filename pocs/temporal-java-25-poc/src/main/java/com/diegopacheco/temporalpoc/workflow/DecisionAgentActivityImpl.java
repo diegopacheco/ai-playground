@@ -22,12 +22,12 @@ public class DecisionAgentActivityImpl implements DecisionAgentActivity {
         ActivityInfo info = Activity.getExecutionContext().getInfo();
         log.info("decision activity started workflowId={} runId={} activityId={} attempt={} symbol={} company={} stockLength={} newsLength={}", info.getWorkflowId(), info.getRunId(), info.getActivityId(), info.getAttempt(), symbol, company, stockSummary.length(), newsSummary.length());
         String prompt = """
-                You are an investing research agent. Use current public information. Decide BUY or HOLD for %s %s.
+                You are the decision agent for a Java Temporal workflow. Do not inspect files. Do not run commands. Do not ask questions. Decide BUY or HOLD for %s %s from the provided stock and news summaries only.
                 Stock research:
                 %s
                 News research:
                 %s
-                Return concise rationale only.
+                Return one line beginning with BUY or HOLD, then a concise rationale.
                 """.formatted(symbol, company, stockSummary, newsSummary);
         String rationale = codex.ask(prompt);
         String upper = rationale.toUpperCase();

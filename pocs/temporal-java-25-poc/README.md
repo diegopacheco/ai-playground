@@ -32,13 +32,13 @@ The app uses Log4j2 through `src/main/resources/log4j2-spring.xml`.
 
 Logs go to the console and to `logs/temporal-java-25-poc.log`.
 
-Use this to increase app logging:
+The default INFO logs show workflow ID, run ID, task queue, activity names, activity attempts, Codex CLI start, Codex CLI wait, Codex CLI response, output length, decisions, and report persistence.
+
+Use this to change the Codex CLI activity budget:
 
 ```bash
-APP_LOG_LEVEL=DEBUG ./start.sh
+CODEX_TIMEOUT_SECONDS=45 ./start.sh
 ```
-
-The workflow logs show workflow ID, run ID, task queue, activity names, activity attempts, Codex CLI timing, output length, decisions, and report persistence.
 
 ## Temporal UI
 
@@ -103,6 +103,6 @@ The request flow is:
 
 Temporal separates workflow code from activity code. The workflow is the durable plan. Activities are the side-effecting agent calls. This matters because `codex exec` can be slow or fail. Temporal records each activity attempt, timeout, retry, and final result in the workflow timeline. Each activity is capped at 3 attempts.
 
-In this app, Spring AI is used to structure the prompt before the CLI call. `CodexCliService` builds a Spring AI `Prompt` with a `UserMessage`, extracts the content, and passes it to `codex exec`. The actual model call is still made by the Codex CLI, while Spring AI gives the prompt path a standard Java abstraction.
+In this app, Spring AI is used to structure the prompt before the CLI call. `CodexCliService` builds a Spring AI `Prompt` with a `UserMessage`, extracts the content, and passes it to `codex exec`. The actual model call is still made by the Codex CLI, while Spring AI gives the prompt path a standard Java abstraction. The CLI runs with `--ephemeral`, `--sandbox read-only`, `--color never`, and `--output-last-message`.
 
-The Temporal UI screenshot above shows a workflow named `company-research-AAPL-8746b14f-6d04-487e-a2d7-8c07cf51fbce`. The timeline view shows workflow input, workflow type, task queue, event history, and the current activity. In the captured run, `ResearchStock` is visible in the timeline. If the page shows `activity StartToClose timeout`, the activity exceeded its configured runtime budget before the agent call returned. The app now gives the CLI up to 5 minutes and the Temporal activity up to 6 minutes, so slow agent calls should return a controlled result before Temporal closes the activity attempt.
+The Temporal UI screenshot above shows a workflow named `company-research-AAPL-8746b14f-6d04-487e-a2d7-8c07cf51fbce`. The timeline view shows workflow input, workflow type, task queue, event history, and the current activity. In the captured run, `ResearchStock` is visible in the timeline. If the page shows `activity StartToClose timeout`, the activity exceeded its configured runtime budget before the agent call returned. The app gives the CLI 60 seconds by default and the Temporal activity 75 seconds, so slow agent calls should return a controlled result before Temporal closes the activity attempt.
