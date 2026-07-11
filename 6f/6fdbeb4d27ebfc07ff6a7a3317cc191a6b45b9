@@ -1,0 +1,40 @@
+pocs/gpt-5.6-sol-aquarium/start.sh
+  s_8925527a80d819::t_18f6a047edc85d 1,3-4
+  s_8925527a80d819::t_7f4568dc907b13 2
+pocs/gpt-5.6-sol-aquarium/stop.sh
+  s_8925527a80d819::t_18f6a047edc85d 1-6
+pocs/gpt-5.6-sol-aquarium/README.md
+  s_8925527a80d819::t_18f6a047edc85d 1-6,9-30
+  s_8925527a80d819::t_a13eaedc1cd4a2 7-8
+pocs/gpt-5.6-sol-aquarium/styles.css
+  s_8925527a80d819::t_6d23034270b53f 5,11
+  s_8925527a80d819::t_4dead24606eff3 9
+  s_8925527a80d819::t_28e83eb907f2db 3-4,8
+  s_8925527a80d819::t_18f6a047edc85d 1-2,6-7,10,12-32,34-35
+  s_8925527a80d819::t_bd1f300e6ba5d0 33
+pocs/gpt-5.6-sol-aquarium/index.html
+  s_8925527a80d819::t_e63caabe97adc6 45
+  s_8925527a80d819::t_18f6a047edc85d 1-44,46-49
+pocs/gpt-5.6-sol-aquarium/app.js
+  s_8925527a80d819::t_6d23034270b53f 17-19
+  s_8925527a80d819::t_18f6a047edc85d 1-6,8-12,14,20,22-26
+  s_8925527a80d819::t_a13eaedc1cd4a2 27
+  s_8925527a80d819::t_379055e56186f8 7,13,15-16
+  s_8925527a80d819::t_28e83eb907f2db 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "6f6fdbeb4d27ebfc07ff6a7a3317cc191a6b45b9",
+  "prompts": {},
+  "sessions": {
+    "s_8925527a80d819": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5317-2c7c-7720-a7cc-1581c29632b6",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
