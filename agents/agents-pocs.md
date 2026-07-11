@@ -558,3 +558,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-bug-cat
 
 114 - Agent Skill: Effort Map (score real effort from agent sessions) with Claude/Codex <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-effot-mapper
+
+115 - Java 25 - Temporal - Spring Boot 4 - Multi-Agent Stock Research with Codex <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/temporal-java-25-poc
