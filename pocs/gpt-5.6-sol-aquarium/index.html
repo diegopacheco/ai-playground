@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#031b2c">
+  <title>Pacificarium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Italiana&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="aquarium">
+    <div class="backdrop"></div>
+    <canvas id="life"></canvas>
+    <div class="caustics"></div>
+    <div class="grain"></div>
+    <header>
+      <a class="mark" href="#" aria-label="Pacificarium home">
+        <span class="mark-orbit"></span>
+        <span>PACIFICARIUM</span>
+      </a>
+      <div class="coordinates">15° 47' S &nbsp; 155° 21' W<br><span>CENTRAL PACIFIC · LIVE CURRENT</span></div>
+      <button id="sound" class="sound" aria-label="Turn ocean sound on" aria-pressed="false"><span class="sound-bars"><i></i><i></i><i></i><i></i></span><span>SOUND OFF</span></button>
+    </header>
+    <section class="hero">
+      <p class="eyebrow">A WINDOW INTO THE BLUE</p>
+      <h1>the living<br><em>Pacific.</em></h1>
+      <p class="intro">Drift into the planet's greatest wilderness.<br>Move gently. The reef is awake.</p>
+      <button id="dive" class="dive"><span>DIVE DEEPER</span><b>↓</b></button>
+    </section>
+    <aside class="species-card" id="species-card">
+      <span class="card-number">01 / 04</span>
+      <button id="close-card" aria-label="Close species details">×</button>
+      <div class="fish-portrait">◖</div>
+      <p class="latin">Zanclus cornutus</p>
+      <h2>Moorish idol</h2>
+      <p>Reef wanderer of the Indo-Pacific, recognized by its trailing dorsal filament.</p>
+      <div class="facts"><span>DEPTH<br><b>3–180 m</b></span><span>STATUS<br><b>STABLE</b></span></div>
+    </aside>
+    <div class="depth"><span>DEPTH</span><b id="depth-value">12.4 M</b><i></i></div>
+    <div class="temperature"><span>WATER</span><b>26.8°C</b></div>
+    <button id="current" class="current" aria-pressed="true"><span>↝</span><span>CURRENT<br><b>GENTLE</b></span></button>
+    <div class="hint"><span>MOVE TO STIR · SCROLL TO DIVE</span><i></i></div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
