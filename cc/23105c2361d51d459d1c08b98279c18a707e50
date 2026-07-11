@@ -1,0 +1,27 @@
+pocs/temporal-java-25-poc/src/main/resources/application.yml
+  s_5425b8e65ec774::t_e77667ea407986 23
+  s_5425b8e65ec774::t_5777380cc1cb14 22
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/service/CodexCliService.java
+  s_5425b8e65ec774::t_2ad4f2f83a1d66 23,25,29
+  s_5425b8e65ec774::t_e9e95870df7e67 48-49,65-79,89-93
+pocs/temporal-java-25-poc/src/test/java/com/diegopacheco/temporalpoc/service/CodexCliServiceTest.java
+  s_5425b8e65ec774::t_39c09a9b2f474e 23
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/CompanyResearchWorkflowImpl.java
+  s_5425b8e65ec774::t_cd5de7c453173f 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "cc23105c2361d51d459d1c08b98279c18a707e50",
+  "prompts": {},
+  "sessions": {
+    "s_5425b8e65ec774": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85032098-f2d8-4f2c-b83c-97c23c50c65a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
