@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: docker.io/postgres:18
+    environment:
+      POSTGRES_DB: agents
+      POSTGRES_USER: agents
+      POSTGRES_PASSWORD: agents
+    ports:
+      - "5432:5432"
+  temporal:
+    image: docker.io/temporalio/auto-setup:latest
+    environment:
+      DB: postgres12
+      DB_PORT: 5432
+      POSTGRES_USER: agents
+      POSTGRES_PWD: agents
+      POSTGRES_SEEDS: postgres
+    ports:
+      - "7233:7233"
+    depends_on:
+      - postgres
+  temporal-ui:
+    image: docker.io/temporalio/ui:latest
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_CORS_ORIGINS: http://localhost:8082
+    ports:
+      - "8081:8080"
+    depends_on:
+      - temporal

@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: temporal-java-25-poc
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/agents}
+    username: ${DB_USER:agents}
+    password: ${DB_PASSWORD:agents}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+  sql:
+    init:
+      mode: always
+server:
+  port: ${SERVER_PORT:8082}
+temporal:
+  address: ${TEMPORAL_ADDRESS:localhost:7233}
+  task-queue: ${TEMPORAL_TASK_QUEUE:company-stock-research}
+codex:
+  command: ${CODEX_COMMAND:codex}
+  enabled: ${CODEX_ENABLED:true}
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+  api-docs:
+    path: /swagger
