@@ -1,0 +1,23 @@
+pocs/gpt-5.6-sol-aquarium/styles.css
+  s_8925527a80d819::t_5f2bf102ba4c7a 30
+pocs/gpt-5.6-sol-aquarium/app.js
+  s_8925527a80d819::t_3778278a9a924e 3-17,23-27,29-30,32-35,37-40,42,44-46,48-49
+pocs/gpt-5.6-sol-aquarium/index.html
+  s_8925527a80d819::t_5f2bf102ba4c7a 25,34,36-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "3bbf1c295e286e22b97d486fe15588212e882443",
+  "prompts": {},
+  "sessions": {
+    "s_8925527a80d819": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5317-2c7c-7720-a7cc-1581c29632b6",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
