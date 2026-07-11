@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CodexCliServiceTest {
     @Test
@@ -21,9 +22,10 @@ class CodexCliServiceTest {
         script.toFile().setExecutable(true);
         CodexCliService service = new CodexCliService(script.toString(), true, 1);
         Instant start = Instant.now();
-        String result = service.ask("research AAPL");
+        assertThatThrownBy(() -> service.ask("research AAPL"))
+                .isInstanceOf(CodexCliException.class)
+                .hasMessageContaining("timed out");
         long elapsedMs = Duration.between(start, Instant.now()).toMillis();
-        assertThat(result).contains("timed out");
         assertThat(elapsedMs).isLessThan(3000);
     }
 }

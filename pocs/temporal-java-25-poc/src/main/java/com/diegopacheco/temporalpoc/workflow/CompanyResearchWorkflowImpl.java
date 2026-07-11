@@ -11,8 +11,12 @@ import java.time.Duration;
 public class CompanyResearchWorkflowImpl implements CompanyResearchWorkflow {
     private static final Logger log = Workflow.getLogger(CompanyResearchWorkflowImpl.class);
     private final ActivityOptions options = ActivityOptions.newBuilder()
-            .setStartToCloseTimeout(Duration.ofSeconds(75))
-            .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(3).build())
+            .setStartToCloseTimeout(Duration.ofSeconds(40))
+            .setRetryOptions(RetryOptions.newBuilder()
+                    .setInitialInterval(Duration.ofSeconds(1))
+                    .setMaximumInterval(Duration.ofSeconds(5))
+                    .setMaximumAttempts(3)
+                    .build())
             .build();
     private final StockAgentActivity stock = Workflow.newActivityStub(StockAgentActivity.class, options);
     private final NewsAgentActivity news = Workflow.newActivityStub(NewsAgentActivity.class, options);

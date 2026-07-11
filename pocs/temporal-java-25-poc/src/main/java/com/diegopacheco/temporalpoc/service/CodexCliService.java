@@ -64,13 +64,13 @@ public class CodexCliService {
             if (!completed) {
                 process.destroyForcibly();
                 boolean killed = process.waitFor(Duration.ofSeconds(2));
-                log.error("codex step=timeout elapsedMs={} timeoutSeconds={} promptLength={}", elapsedMs, timeoutSeconds, content.length());
-                return "Codex CLI timed out. killed=" + killed;
+                log.error("codex step=timeout result=throwing elapsedMs={} timeoutSeconds={} killed={} promptLength={}", elapsedMs, timeoutSeconds, killed, content.length());
+                throw new CodexCliException("Codex CLI timed out. killed=" + killed);
             }
             String stdout = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim();
             if (process.exitValue() != 0) {
-                log.error("codex step=failed exitCode={} elapsedMs={} stdoutLength={}", process.exitValue(), elapsedMs, stdout.length());
-                return "Codex CLI failed: " + stdout;
+                log.error("codex step=failed result=throwing exitCode={} elapsedMs={} stdoutLength={}", process.exitValue(), elapsedMs, stdout.length());
+                throw new CodexCliException("Codex CLI failed: " + stdout);
             }
             String result = Files.exists(output) ? Files.readString(output).trim() : stdout;
             if (result.isBlank()) {
@@ -79,8 +79,11 @@ public class CodexCliService {
             log.info("codex step=responded exitCode={} elapsedMs={} stdoutLength={} resultLength={}", process.exitValue(), elapsedMs, stdout.length(), result.length());
             return result;
         } catch (Exception e) {
+            if (e instanceof CodexCliException codexCliException) {
+                throw codexCliException;
+            }
             log.error("codex step=unavailable error={}", e.getMessage(), e);
-            return "Codex CLI unavailable: " + e.getMessage();
+            throw new CodexCliException("Codex CLI unavailable: " + e.getMessage(), e);
         } finally {
             if (output != null) {
                 try {
