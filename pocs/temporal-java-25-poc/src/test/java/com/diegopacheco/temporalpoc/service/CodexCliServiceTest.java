@@ -28,4 +28,21 @@ class CodexCliServiceTest {
         long elapsedMs = Duration.between(start, Instant.now()).toMillis();
         assertThat(elapsedMs).isLessThan(3000);
     }
+
+    @Test
+    void shouldCloseChildStdinSoCodexDoesNotBlockReadingIt() throws Exception {
+        Path script = Files.createTempFile("fake-codex-", ".sh");
+        Files.writeString(script, """
+                #!/usr/bin/env bash
+                cat > /dev/null
+                printf 'STDIN_CLOSED_OK'
+                """);
+        script.toFile().setExecutable(true);
+        CodexCliService service = new CodexCliService(script.toString(), true, 5, "low");
+        Instant start = Instant.now();
+        String result = service.ask("research AAPL");
+        long elapsedMs = Duration.between(start, Instant.now()).toMillis();
+        assertThat(result).isEqualTo("STDIN_CLOSED_OK");
+        assertThat(elapsedMs).isLessThan(3000);
+    }
 }

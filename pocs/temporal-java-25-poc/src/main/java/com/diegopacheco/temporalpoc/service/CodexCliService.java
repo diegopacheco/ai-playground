@@ -62,6 +62,7 @@ public class CodexCliService {
             ))
                     .redirectErrorStream(true)
                     .start();
+            process.getOutputStream().close();
             StringBuilder captured = new StringBuilder();
             Thread drain = new Thread(() -> {
                 try (var in = process.getInputStream()) {
