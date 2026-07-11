@@ -22,7 +22,7 @@
         <span>PACIFICARIUM</span>
       </a>
       <div class="coordinates">15° 47' S &nbsp; 155° 21' W<br><span>CENTRAL PACIFIC · LIVE CURRENT</span></div>
-      <button id="sound" class="sound" aria-label="Turn ocean sound on" aria-pressed="false"><span class="sound-bars"><i></i><i></i><i></i><i></i></span><span>SOUND OFF</span></button>
+      <button id="sound" class="sound on" aria-label="Turn ocean sound off" aria-pressed="true"><span class="sound-bars"><i></i><i></i><i></i><i></i></span><span>SOUND ON</span></button>
     </header>
     <section class="hero">
       <p class="eyebrow">A WINDOW INTO THE BLUE</p>
@@ -31,13 +31,14 @@
       <button id="dive" class="dive"><span>DIVE DEEPER</span><b>↓</b></button>
     </section>
     <aside class="species-card" id="species-card">
-      <span class="card-number">01 / 04</span>
+      <span class="card-number" id="species-number">01 / 12</span>
       <button id="close-card" aria-label="Close species details">×</button>
-      <div class="fish-portrait"><img src="assets/moorish-idol.png" alt="Moorish idol fish"></div>
-      <p class="latin">Zanclus cornutus</p>
-      <h2>Moorish idol</h2>
-      <p>Reef wanderer of the Indo-Pacific, recognized by its trailing dorsal filament.</p>
-      <div class="facts"><span>DEPTH<br><b>3–180 m</b></span><span>STATUS<br><b>STABLE</b></span></div>
+      <div class="fish-portrait"><img id="species-image" src="assets/moorish-idol.png" alt="Moorish idol fish"></div>
+      <p class="latin" id="species-latin">Zanclus cornutus</p>
+      <h2 id="species-name">Moorish idol</h2>
+      <p id="species-description">A reef wanderer recognized by its long, trailing dorsal filament.</p>
+      <div class="facts"><span>DEPTH<br><b id="species-depth">3–180 m</b></span><span>STATUS<br><b id="species-status">STABLE</b></span></div>
+      <div class="species-nav"><button id="previous-species" aria-label="Previous species">←</button><button id="next-species" aria-label="Next species">→</button></div>
     </aside>
     <div class="depth"><span>DEPTH</span><b id="depth-value">12.4 M</b><i></i></div>
     <div class="temperature"><span>WATER</span><b>26.8°C</b></div>
