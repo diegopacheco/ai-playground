@@ -1,0 +1,36 @@
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/CompanyResearchWorkflowImpl.java
+  s_d81754c52e79b8::t_ce7bc2c4a935d8 14,23-24,26-27,29-30,32-33
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/service/CodexCliService.java
+  s_d81754c52e79b8::t_c00872d9f261ea 48-50,66,68,70
+  s_d81754c52e79b8::t_ce7bc2c4a935d8 10-11,22,24,27,33,35,39,41-47,51-58,61-62,67,72-73,75-80,82,84-91
+pocs/temporal-java-25-poc/src/main/resources/application.yml
+  s_d81754c52e79b8::t_ce7bc2c4a935d8 22
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/DecisionAgentActivityImpl.java
+  s_d81754c52e79b8::t_c00872d9f261ea 25,30
+pocs/temporal-java-25-poc/start.sh
+  s_d81754c52e79b8::t_3a29f47e9f8fd6 40
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/NewsAgentActivityImpl.java
+  s_d81754c52e79b8::t_c00872d9f261ea 23
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/StockAgentActivityImpl.java
+  s_d81754c52e79b8::t_c00872d9f261ea 23
+pocs/temporal-java-25-poc/README.md
+  s_d81754c52e79b8::t_ce7bc2c4a935d8 35-37,40,106,108
+pocs/temporal-java-25-poc/src/test/java/com/diegopacheco/temporalpoc/service/CodexCliServiceTest.java
+  s_d81754c52e79b8::t_2f167b00667f99 1-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "6812afa6a967cf6bf2dfcb790fac61fb79a2ba21",
+  "prompts": {},
+  "sessions": {
+    "s_d81754c52e79b8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f529e-a812-77c1-85da-e91485f94c16",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
