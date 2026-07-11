@@ -29,13 +29,12 @@ for i in {1..60}; do
 done
 podman exec temporal-java-25-poc_temporal_1 temporal operator namespace create --namespace default --address "$(podman inspect temporal-java-25-poc_temporal_1 --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'):7233" >/dev/null 2>&1 || true
 start_service temporal-java-25-poc_temporal-ui_1 temporal-ui
-if curl -s "http://localhost:8082/swagger" >/dev/null 2>&1; then
-  printf '%s\n' 'Spring Boot already running on http://localhost:8082'
-  exit 0
-fi
-if nc -z 127.0.0.1 8082 >/dev/null 2>&1; then
-  printf '%s\n' 'Port 8082 is already in use'
-  exit 1
+if lsof -ti :8082 >/dev/null 2>&1; then
+  lsof -ti :8082 | xargs kill
+  for i in {1..30}; do
+    nc -z 127.0.0.1 8082 >/dev/null 2>&1 || break
+    sleep 1
+  done
 fi
 mvn -q clean package -DskipTests
 java -jar target/temporal-java-25-poc-1.0.0.jar
