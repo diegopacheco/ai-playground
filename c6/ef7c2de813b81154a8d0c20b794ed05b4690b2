@@ -1,0 +1,119 @@
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/config/WorkerActivities.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-31
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/CompanyResearchWorkflowImpl.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-4,6,8-11,13,16-22,25,28,31,34-36
+  s_d81754c52e79b8::t_d29055b25e74ef 5,15
+  s_d81754c52e79b8::t_de8a44ee36a49f 14
+  s_d81754c52e79b8::t_69d0be3037ea1f 7,12,23-24,26-27,29-30,32-33
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/NewsAgentActivityImpl.java
+  s_d81754c52e79b8::t_69d0be3037ea1f 4-7,12,21-25
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-3,8-11,13-20,26-27
+pocs/temporal-java-25-poc/Containerfile
+  s_d81754c52e79b8::t_905a92dfbbfbc3 1-5
+pocs/temporal-java-25-poc/trigger-temporal-rest.sh
+  s_d81754c52e79b8::t_f5356b327658a7 1-4,6
+  s_d81754c52e79b8::t_8688287bcc2be6 5
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/service/CodexCliService.java
+  s_d81754c52e79b8::t_de8a44ee36a49f 40
+  s_d81754c52e79b8::t_69d0be3037ea1f 7-8,12,17,29,31,34,36,42,45,49,52,55
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-2,5-6,9-11,13-16,18-26,30,33,35,38-39,41,43-44,46-48,50-51,53-54,56-59
+  s_d81754c52e79b8::t_13744d3e3f0103 3-4,27-28,32,37
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/StockAgentActivity.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-8
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/api/TriggerResponse.java
+  s_d81754c52e79b8::t_8688287bcc2be6 1-4
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/repository/ResearchReportRepository.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-8
+pocs/temporal-java-25-poc/test.sh
+  s_d81754c52e79b8::t_905a92dfbbfbc3 1-3
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/domain/ResearchReport.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-20
+pocs/temporal-java-25-poc/src/test/java/com/diegopacheco/temporalpoc/workflow/CompanyResearchWorkflowTest.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-49
+pocs/temporal-java-25-poc/src/main/resources/log4j2-spring.xml
+  s_d81754c52e79b8::t_69d0be3037ea1f 1-33
+pocs/temporal-java-25-poc/start.sh
+  s_d81754c52e79b8::t_6b772e86500926 30
+  s_d81754c52e79b8::t_1d800273dfcaad 3-12,21,31
+  s_d81754c52e79b8::t_905a92dfbbfbc3 1-2,40-41
+  s_d81754c52e79b8::t_8688287bcc2be6 32-39
+  s_d81754c52e79b8::t_eb3863aefedce3 13-20,22-29
+pocs/temporal-java-25-poc/src/main/resources/application.yml
+  s_d81754c52e79b8::t_0b97edb2478d22 15
+  s_d81754c52e79b8::t_905a92dfbbfbc3 1-14,16-26
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/DecisionAgentActivity.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-9
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/api/ResearchRequest.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-4
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/api/ResearchPage.java
+  s_d81754c52e79b8::t_1d800273dfcaad 1-14
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/CompanyResearchWorkflow.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-10
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/NewsAgentActivity.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-8
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/config/TemporalConfig.java
+  s_d81754c52e79b8::t_69d0be3037ea1f 8-9,16-17,20,30,36,39,41,44
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-7,10-15,18-19,21-29,31-35,37-38,40,42-43,45-47
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/ResearchResult.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-6
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/domain/Decision.java
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-4
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/api/ResearchController.java
+  s_d81754c52e79b8::t_69d0be3037ea1f 5-6,18,27,33-36,41,43
+  s_d81754c52e79b8::t_1d800273dfcaad 40,42,44
+  s_d81754c52e79b8::t_8688287bcc2be6 31-32,37-38
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-4,7-17,19-26,28-30,39,45-46
+pocs/temporal-java-25-poc/temporal-ui.sh
+  s_d81754c52e79b8::t_6b772e86500926 30
+  s_d81754c52e79b8::t_1d800273dfcaad 3-12,21,31
+  s_d81754c52e79b8::t_905a92dfbbfbc3 1-2,32
+  s_d81754c52e79b8::t_eb3863aefedce3 13-20,22-29
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/StockAgentActivityImpl.java
+  s_d81754c52e79b8::t_69d0be3037ea1f 4-7,12,21-25
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-3,8-11,13-20,26-27
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/TemporalJava25PocApplication.java
+  s_d81754c52e79b8::t_905a92dfbbfbc3 1-11
+pocs/temporal-java-25-poc/README.md
+  s_d81754c52e79b8::t_8834a550388459 51-56,71-80,82,86-103,105-108
+  s_d81754c52e79b8::t_6785f80d7042fc 29-42
+  s_d81754c52e79b8::t_0b97edb2478d22 59,64,70
+  s_d81754c52e79b8::t_8688287bcc2be6 83-85
+  s_d81754c52e79b8::t_d29055b25e74ef 104
+  s_d81754c52e79b8::t_905a92dfbbfbc3 1-28,43-50,57-58,60-63,65-69,81
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/service/ResearchService.java
+  s_d81754c52e79b8::t_8688287bcc2be6 3,9,37,55-58,60-68,70,78-80,83-86,88-93
+  s_d81754c52e79b8::t_69d0be3037ea1f 12-13,24,36,39,52-54,59,69,74-77,81-82,87
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-2,4-8,10-11,14-23,25-35,38,40-51,71-73,94-95
+pocs/temporal-java-25-poc/pom.xml
+  s_d81754c52e79b8::t_905a92dfbbfbc3 1-33,40-43,50-53,60-61,66-87,94-117
+  s_d81754c52e79b8::t_69d0be3037ea1f 34-39,44-49,54-59,62-65,88-93
+pocs/temporal-java-25-poc/src/main/resources/schema.sql
+  s_d81754c52e79b8::t_905a92dfbbfbc3 1-11
+pocs/temporal-java-25-poc/compose.yml
+  s_d81754c52e79b8::t_905a92dfbbfbc3 1-12,14-25,27-30
+  s_d81754c52e79b8::t_d63287aa55d69e 13
+  s_d81754c52e79b8::t_0b97edb2478d22 26
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/workflow/DecisionAgentActivityImpl.java
+  s_d81754c52e79b8::t_69d0be3037ea1f 5-8,13,22-23,36
+  s_d81754c52e79b8::t_653bbfc0ce5ba4 1-4,9-12,14-21,24-35,37-39
+pocs/temporal-java-25-poc/stop.sh
+  s_d81754c52e79b8::t_905a92dfbbfbc3 1-2
+  s_d81754c52e79b8::t_bb89848bd03be2 3-9
+  s_d81754c52e79b8::t_eb3863aefedce3 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "c6ef7c2de813b81154a8d0c20b794ed05b4690b2",
+  "prompts": {},
+  "sessions": {
+    "s_d81754c52e79b8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f529e-a812-77c1-85da-e91485f94c16",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
