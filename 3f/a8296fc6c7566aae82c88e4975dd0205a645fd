@@ -1,0 +1,19 @@
+pocs/fable-5-game-stand/games.json
+  s_15997b10a40547::t_e1d347881791cd 360,848
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "3fa8296fc6c7566aae82c88e4975dd0205a645fd",
+  "prompts": {},
+  "sessions": {
+    "s_15997b10a40547": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bb254969-55b9-4a4f-8f01-f4eb5a9553ad",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
