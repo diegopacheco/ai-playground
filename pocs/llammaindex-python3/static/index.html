@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LlamaIndex RAG — Northwind Handbook</title>
+<style>
+  :root {
+    --bg: #f5f6fa;
+    --panel: #ffffff;
+    --panel-2: #f0f2f8;
+    --line: #e1e5ee;
+    --text: #1c2230;
+    --muted: #6b7385;
+    --accent: #6a4cff;
+    --accent-2: #0e9c72;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: radial-gradient(1200px 600px at 70% -10%, #eaeafc 0%, var(--bg) 55%);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  header {
+    padding: 28px 24px 12px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  h1 { margin: 0; font-size: 26px; letter-spacing: -0.3px; }
+  h1 span { color: var(--accent); }
+  .sub { color: var(--muted); margin-top: 6px; font-size: 14px; }
+  main { max-width: 900px; margin: 0 auto; padding: 12px 24px 60px; }
+  .ask {
+    display: flex; gap: 10px; margin-top: 14px;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 14px; padding: 10px;
+    box-shadow: 0 4px 16px rgba(30, 40, 80, 0.06);
+  }
+  input {
+    flex: 1; background: transparent; border: 0; color: var(--text);
+    font-size: 16px; padding: 10px 12px; outline: none;
+  }
+  button {
+    background: var(--accent); color: white; border: 0; border-radius: 10px;
+    padding: 10px 20px; font-size: 15px; font-weight: 600; cursor: pointer;
+  }
+  button:disabled { opacity: 0.5; cursor: default; }
+  .chips { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    background: var(--panel-2); border: 1px solid var(--line); color: var(--muted);
+    padding: 6px 12px; border-radius: 999px; font-size: 13px; cursor: pointer;
+  }
+  .chip:hover { color: var(--text); border-color: var(--accent); }
+  .answer {
+    margin-top: 22px; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 14px; padding: 20px; display: none;
+    box-shadow: 0 4px 16px rgba(30, 40, 80, 0.06);
+  }
+  .answer.show { display: block; }
+  .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .answer-text { margin-top: 8px; font-size: 17px; line-height: 1.6; white-space: pre-wrap; }
+  .sources { margin-top: 24px; }
+  .source {
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; margin-top: 10px;
+  }
+  .source .meta { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+  .file { color: var(--accent-2); font-weight: 600; }
+  .score { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .snippet { color: var(--muted); font-size: 13px; line-height: 1.5; margin-top: 8px; }
+  .loading { color: var(--muted); font-style: italic; }
+  footer { max-width: 900px; margin: 0 auto; padding: 0 24px 40px; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1><span>Llama</span>Index RAG</h1>
+  <div class="sub">Ask questions against the Northwind Labs engineering handbook. Answers are grounded in retrieved source chunks — nothing is made up outside the documents.</div>
+</header>
+<main>
+  <div class="ask">
+    <input id="q" placeholder="e.g. How does the on-call rotation work?" autofocus />
+    <button id="go">Ask</button>
+  </div>
+  <div class="chips" id="chips"></div>
+
+  <div class="answer" id="answer">
+    <div class="label">Answer</div>
+    <div class="answer-text" id="answerText"></div>
+    <div class="sources">
+      <div class="label">Retrieved sources</div>
+      <div id="sourceList"></div>
+    </div>
+  </div>
+</main>
+<footer>Local RAG pipeline: SimpleDirectoryReader &rarr; nomic-embed-text embeddings &rarr; VectorStoreIndex &rarr; top-k retrieval &rarr; Ollama LLM synthesis.</footer>
+
+<script>
+  const samples = [
+    "How does the on-call rotation work?",
+    "What is the change freeze policy?",
+    "How much parental leave do primary caregivers get?",
+    "How do I get production database access?",
+    "What happens in the canary stage of a deploy?"
+  ];
+  const chips = document.getElementById("chips");
+  samples.forEach(s => {
+    const c = document.createElement("div");
+    c.className = "chip";
+    c.textContent = s;
+    c.onclick = () => { document.getElementById("q").value = s; ask(); };
+    chips.appendChild(c);
+  });
+
+  const answerBox = document.getElementById("answer");
+  const answerText = document.getElementById("answerText");
+  const sourceList = document.getElementById("sourceList");
+  const go = document.getElementById("go");
+  const q = document.getElementById("q");
+
+  async function ask() {
+    const question = q.value.trim();
+    if (!question) return;
+    go.disabled = true;
+    answerBox.classList.add("show");
+    answerText.innerHTML = '<span class="loading">Retrieving and synthesizing…</span>';
+    sourceList.innerHTML = "";
+    try {
+      const res = await fetch("/query", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      });
+      const data = await res.json();
+      if (data.error) { answerText.textContent = "Error: " + data.error; return; }
+      answerText.textContent = data.answer;
+      sourceList.innerHTML = "";
+      data.sources.forEach(s => {
+        const el = document.createElement("div");
+        el.className = "source";
+        el.innerHTML =
+          '<div class="meta"><span class="file">' + s.file + '</span>' +
+          '<span class="score">score ' + (s.score ?? "—") + '</span></div>' +
+          '<div class="snippet">' + s.text.slice(0, 320).replace(/</g, "&lt;") + (s.text.length > 320 ? "…" : "") + '</div>';
+        sourceList.appendChild(el);
+      });
+    } catch (e) {
+      answerText.textContent = "Request failed: " + e;
+    } finally {
+      go.disabled = false;
+    }
+  }
+  go.onclick = ask;
+  q.addEventListener("keydown", e => { if (e.key === "Enter") ask(); });
+</script>
+</body>
+</html>
