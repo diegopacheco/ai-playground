@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#09110f">
+  <title>Terra Vivo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="experience" aria-live="polite">
+    <div id="scenes"></div>
+    <canvas id="weather" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Return to first habitat">
+        <span class="brand-mark">TV</span>
+        <span>TERRA VIVO</span>
+      </a>
+      <div class="status"><i></i><span>LIVE HABITAT</span></div>
+      <button id="sound" class="sound" type="button" aria-label="Mute ambient sound" aria-pressed="false">
+        <span class="sound-bars"><i></i><i></i><i></i><i></i></span>
+        <span class="sound-label">SOUND ON</span>
+      </button>
+    </header>
+    <section class="story">
+      <div class="eyebrow">
+        <span id="sceneNumber">01</span>
+        <span class="line"></span>
+        <span id="region">UNITED STATES</span>
+      </div>
+      <h1 id="title">Polar<br>Frontier</h1>
+      <p id="description">Where frozen coast, black water and white silence meet.</p>
+      <div id="species" class="species"></div>
+    </section>
+    <nav id="sceneNav" class="scene-nav" aria-label="Habitats"></nav>
+    <div class="coordinates">
+      <span id="coordinates">71.2906° N · 156.7886° W</span>
+      <span id="condition">−18°C · HEAVY SNOW</span>
+    </div>
+    <div class="scroll-cue">
+      <span>SCROLL TO TRAVEL</span>
+      <i></i>
+    </div>
+    <div id="reaction" class="reaction" aria-hidden="true"></div>
+    <div id="toast" class="toast" role="status"></div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
