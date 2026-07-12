@@ -141,12 +141,12 @@ nav{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap;border-bottom:2px solid 
   background-image:repeating-linear-gradient(92deg,transparent 0 26px,rgba(60,38,15,.25) 26px 27px,transparent 27px 60px);
 }
 .cover{
-  width:138px;flex:0 0 138px;cursor:default;position:relative;
-  transition:transform .25s cubic-bezier(.2,.7,.2,1);
-  animation:pop .5s ease both;
+  width:138px;flex:0 0 138px;cursor:pointer;position:relative;
+  transform-origin:50% 100%;
+  transition:transform .16s cubic-bezier(.2,.7,.3,1);will-change:transform;
+  animation:pop .5s ease backwards;
 }
 @keyframes pop{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.cover:hover{transform:translateY(-12px) rotate(-1.2deg);z-index:3}
 .case{
   height:186px;border-radius:4px 8px 8px 4px;overflow:hidden;position:relative;background:#ddd;
   box-shadow:6px 10px 18px rgba(43,33,23,.35),inset 0 0 0 1px rgba(255,255,255,.15);
@@ -235,6 +235,47 @@ nav{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap;border-bottom:2px solid 
 .term .p{color:#8fbf6a}
 .saved-note{margin-top:22px;font-family:"Caveat",cursive;font-size:24px;color:var(--gold);min-height:30px}
 footer{margin-top:30px;text-align:center;color:var(--ink-soft);font-weight:700;font-size:13px}
+.console-card{cursor:pointer}
+.console-card .open-hint{
+  margin-top:12px;font-family:"Caveat",cursive;font-size:20px;color:var(--accent);
+  opacity:0;transform:translateX(-6px);transition:.25s;
+}
+.console-card:hover .open-hint{opacity:1;transform:none}
+.modal-overlay{
+  position:fixed;inset:0;z-index:50;display:none;place-items:center;padding:24px;
+  background:rgba(43,33,23,.45);backdrop-filter:blur(4px);
+}
+.modal-overlay.open{display:grid}
+.modal{
+  background:var(--card);border:2px solid var(--line);border-radius:22px;max-width:640px;width:100%;
+  padding:34px;display:flex;gap:30px;position:relative;box-shadow:0 30px 70px rgba(20,14,8,.45);
+  animation:modalPop .3s cubic-bezier(.2,.9,.3,1.2) both;
+}
+@keyframes modalPop{from{opacity:0;transform:scale(.9) translateY(14px)}to{opacity:1;transform:none}}
+.modal .big-cover{flex:0 0 210px}
+.modal .big-cover img{
+  width:210px;height:280px;object-fit:cover;border-radius:10px;border:5px solid #fff;
+  box-shadow:0 18px 36px rgba(43,33,23,.4);
+}
+.modal-info{flex:1;min-width:0}
+.modal-info h3{font-family:"Paytone One",sans-serif;font-size:26px;line-height:1.15;margin-bottom:14px}
+.modal-info .rows{display:grid;gap:9px;margin-bottom:20px}
+.modal-info .row{display:flex;justify-content:space-between;gap:12px;font-weight:700;font-size:15px;
+  border-bottom:1.5px dashed var(--line);padding-bottom:8px}
+.modal-info .row span:first-child{color:var(--ink-soft)}
+.modal-info .console-chip{color:#fff;background:var(--accent);border-radius:99px;padding:2px 12px;font-size:13px;font-weight:800}
+.close-modal{
+  position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:2px solid var(--line);
+  background:var(--paper);cursor:pointer;font-size:16px;font-weight:800;color:var(--ink-soft);line-height:1;
+}
+.close-modal:hover{color:var(--ink);transform:rotate(90deg);transition:.2s}
+.danger-btn{
+  appearance:none;width:100%;border:2px solid #c0504a;border-radius:14px;background:#fdeeec;cursor:pointer;
+  font-family:inherit;font-weight:800;font-size:15px;color:#a8321e;padding:13px 16px;transition:.18s;
+}
+.danger-btn:hover{background:#c0504a;color:#fff;transform:translateY(-2px)}
+.danger-btn.armed{background:#c0504a;color:#fff;animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 </style>
 </head>
 <body>
@@ -318,6 +359,23 @@ footer{margin-top:30px;text-align:center;color:var(--ink-soft);font-weight:700;f
   <footer>Game Stand &mdash; Flask + vanilla JS &mdash; catalog imported from Trello</footer>
 </div>
 
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <button class="close-modal" id="close-modal">&#10005;</button>
+    <div class="big-cover"><img id="modal-cover" src="" alt=""></div>
+    <div class="modal-info">
+      <h3 id="modal-name"></h3>
+      <div class="rows">
+        <div class="row"><span>Console</span><span class="console-chip" id="modal-console"></span></div>
+        <div class="row"><span>Finished in</span><span id="modal-year"></span></div>
+        <div class="row"><span>Finish order</span><span id="modal-order"></span></div>
+        <div class="row"><span>Cover file</span><span id="modal-file"></span></div>
+      </div>
+      <button class="danger-btn" id="delete-btn"></button>
+    </div>
+  </div>
+</div>
+
 <script>
 const CONSOLES = {
   PS5:{label:"PlayStation 5",img:"/static/consoles/ps5.png",color:"var(--ps)",soft:"var(--ps-soft)"},
@@ -333,14 +391,13 @@ let games = [], config = {agent:"claude"}, filterConsole = "All", filterYear = "
 
 const $ = id => document.getElementById(id);
 
-document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
-  document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
-  document.querySelectorAll(".panel").forEach(x => x.classList.remove("active"));
-  t.classList.add("active");
-  $(t.dataset.tab).classList.add("active");
+function activateTab(name){
+  document.querySelectorAll(".tab").forEach(x => x.classList.toggle("active", x.dataset.tab === name));
+  document.querySelectorAll(".panel").forEach(x => x.classList.toggle("active", x.id === name));
   window.scrollTo(0, 0);
-  if (t.dataset.tab === "stand") renderStand();
-}));
+  if (name === "stand") renderStand();
+}
+document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => activateTab(t.dataset.tab)));
 
 function countUp(el, target){
   const dur = 900, start = performance.now();
@@ -368,7 +425,13 @@ function renderDashboard(){
       "<h3>" + c.label + "</h3>" +
       '<div class="count-row"><span class="count">0</span><span class="unit">games finished</span></div>' +
       '<div class="share-track"><div class="share-fill"></div></div>' +
-      '<div class="share-lbl">' + pct + "% of the collection</div>";
+      '<div class="share-lbl">' + pct + "% of the collection</div>" +
+      '<div class="open-hint">see the ' + key + " shelf &rarr;</div>";
+    card.addEventListener("click", () => {
+      filterConsole = key;
+      renderChips();
+      activateTab("stand");
+    });
     grid.appendChild(card);
     countUp(card.querySelector(".count"), n);
     requestAnimationFrame(() => { card.querySelector(".share-fill").style.width = pct + "%"; });
@@ -444,14 +507,92 @@ function renderStand(){
         '<span class="tag">' + g.console.toUpperCase() + "</span>" +
         '<span class="ytag">' + g.year + "</span>" +
         '<div class="name">' + g.name + "</div>";
+      d.addEventListener("click", () => openModal(g.id));
       row.appendChild(d);
     });
+    dockify(row);
     host.appendChild(row);
     const plank = document.createElement("div");
     plank.className = "plank";
     host.appendChild(plank);
   }
 }
+
+function dockify(row){
+  const reach = 190, lift = 22, grow = 0.34;
+  row.addEventListener("mousemove", e => {
+    row.querySelectorAll(".cover").forEach(c => {
+      const r = c.getBoundingClientRect();
+      const d = Math.abs(e.clientX - (r.left + r.width / 2));
+      const f = Math.max(0, 1 - d / reach);
+      const ease = f * f * (3 - 2 * f);
+      c.style.transform = "translateY(" + (-lift * ease) + "px) scale(" + (1 + grow * ease) + ")";
+      c.style.zIndex = Math.round(10 * ease) + 1;
+    });
+  });
+  row.addEventListener("mouseleave", () => {
+    row.querySelectorAll(".cover").forEach(c => {
+      c.style.transform = "";
+      c.style.zIndex = "";
+    });
+  });
+}
+
+const DELETE_STEPS = [
+  "Delete this game",
+  "Are you sure? Click again",
+  "Really sure? Click one more time",
+];
+let modalGame = null, deleteClicks = 0;
+
+function openModal(id){
+  modalGame = games.find(g => g.id === id);
+  if (!modalGame) return;
+  deleteClicks = 0;
+  const c = CONSOLES[modalGame.console];
+  $("modal-cover").src = "/static/" + modalGame.cover;
+  $("modal-name").textContent = modalGame.name;
+  $("modal-console").textContent = c.label;
+  $("modal-console").style.setProperty("--accent", c.color);
+  $("modal-year").textContent = modalGame.year;
+  $("modal-order").textContent = "#" + modalGame.order + " of " + games.length + " finished";
+  $("modal-file").textContent = modalGame.cover.split("/").pop();
+  const btn = $("delete-btn");
+  btn.textContent = DELETE_STEPS[0];
+  btn.classList.remove("armed");
+  $("modal-overlay").classList.add("open");
+}
+
+function closeModal(){
+  $("modal-overlay").classList.remove("open");
+  modalGame = null;
+}
+
+$("close-modal").addEventListener("click", closeModal);
+$("modal-overlay").addEventListener("click", e => { if (e.target === $("modal-overlay")) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+$("delete-btn").addEventListener("click", async () => {
+  if (!modalGame) return;
+  deleteClicks++;
+  const btn = $("delete-btn");
+  if (deleteClicks < 3){
+    btn.textContent = DELETE_STEPS[deleteClicks];
+    btn.classList.add("armed");
+    return;
+  }
+  const r = await fetch("/api/games/" + modalGame.id, {method:"DELETE"});
+  if (r.ok){
+    games = games.filter(g => g.id !== modalGame.id);
+    closeModal();
+    renderDashboard();
+    renderYears();
+    renderStand();
+  } else {
+    btn.textContent = "delete failed, try again";
+    deleteClicks = 0;
+  }
+});
 
 function renderPick(){
   const box = $("console-pick");

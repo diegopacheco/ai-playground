@@ -119,6 +119,21 @@ def api_add_game():
     return jsonify({"game": game, "source": source, "agent": agent}), 201
 
 
+@app.route("/api/games/<game_id>", methods=["DELETE"])
+def api_delete_game(game_id):
+    with LOCK:
+        games = load_games()
+        game = next((g for g in games if g["id"] == game_id), None)
+        if not game:
+            return jsonify({"error": "game not found"}), 404
+        games = [g for g in games if g["id"] != game_id]
+        save_games(games)
+        cover_path = os.path.join(BASE, "static", game["cover"])
+        if os.path.exists(cover_path):
+            os.remove(cover_path)
+    return jsonify({"deleted": game_id})
+
+
 @app.route("/api/config")
 def api_config():
     return jsonify(load_config())

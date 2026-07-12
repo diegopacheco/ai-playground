@@ -33,9 +33,14 @@ Open http://127.0.0.1:5057 and stop it later with `./stop.sh`.
 
 Welcome view with the total counter and one card per console: a real picture of the
 machine, how many games I finished on it and its share of the collection, plus the
-latest finishes with year.
+latest finishes with year. Clicking a console card jumps straight to The Stand
+filtered by that console.
 
 ![Dashboard](printscreens/dashboard.png)
+
+The Steam shelf, opened by clicking the Steam card on the dashboard:
+
+![Steam shelf from dashboard](printscreens/stand-steam-from-dashboard.png)
 
 ## Add a Game
 
@@ -54,6 +59,21 @@ Every cover carries the console badge and the finish year. Filter by typing in t
 search box, clicking a console logo or picking a year.
 
 ![The Stand](printscreens/stand.png)
+
+Moving the mouse across a shelf magnifies the covers around the cursor like the
+macOS dock, lifting the closest one off the plank:
+
+![Dock hover effect](printscreens/stand-dock-hover.png)
+
+Clicking a cover opens a modal with the game info: console, finish year, finish
+order and cover file.
+
+![Game modal](printscreens/game-modal.png)
+
+The modal is also where games are deleted. The red button must be clicked three
+times before the game and its cover are really removed:
+
+![Delete confirmation](printscreens/game-modal-delete.png)
 
 Console filter showing only Nintendo Switch games:
 

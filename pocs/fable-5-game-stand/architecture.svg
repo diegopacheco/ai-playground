@@ -26,7 +26,7 @@
 
   <rect class="box" x="620" y="110" width="390" height="190" rx="14" fill="#fbe4d6" stroke="#c4835b"/>
   <text class="t" x="815" y="150" text-anchor="middle">Flask app.py :5057</text>
-  <text class="s" x="815" y="188" text-anchor="middle">GET/POST /api/games</text>
+  <text class="s" x="815" y="188" text-anchor="middle">GET/POST/DELETE /api/games</text>
   <text class="s" x="815" y="218" text-anchor="middle">GET/POST /api/config</text>
   <text class="s" x="815" y="256" text-anchor="middle">serves covers + console pics</text>
 
