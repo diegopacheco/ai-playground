@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="5" orient="auto">
+      <path d="M1 1 Q 6 3 10 5 Q 6 7 1 9" fill="none" stroke="#4a4a4a" stroke-width="1.6"/>
+    </marker>
+  </defs>
+  <style>
+    text{font-family:"Caveat","Comic Sans MS",cursive;fill:#333}
+    .t{font-size:30px;font-weight:bold}
+    .s{font-size:21px}
+    .lbl{font-size:20px;fill:#666}
+    .box{stroke-width:2.4;filter:url(#wobble)}
+    .arr{fill:none;stroke:#4a4a4a;stroke-width:2.2;filter:url(#wobble);marker-end:url(#arrow)}
+  </style>
+  <text x="540" y="56" text-anchor="middle" font-size="42" font-weight="bold">Game Stand - how it works</text>
+
+  <rect class="box" x="70" y="110" width="400" height="190" rx="14" fill="#d6e7fb" stroke="#5b8ec4"/>
+  <text class="t" x="270" y="150" text-anchor="middle">Browser (light UI)</text>
+  <text class="s" x="270" y="188" text-anchor="middle">Dashboard . Add a Game</text>
+  <text class="s" x="270" y="218" text-anchor="middle">The Stand . Settings</text>
+  <text class="s" x="270" y="256" text-anchor="middle">covers on wooden shelves</text>
+
+  <rect class="box" x="620" y="110" width="390" height="190" rx="14" fill="#fbe4d6" stroke="#c4835b"/>
+  <text class="t" x="815" y="150" text-anchor="middle">Flask app.py :5057</text>
+  <text class="s" x="815" y="188" text-anchor="middle">GET/POST /api/games</text>
+  <text class="s" x="815" y="218" text-anchor="middle">GET/POST /api/config</text>
+  <text class="s" x="815" y="256" text-anchor="middle">serves covers + console pics</text>
+
+  <path class="arr" d="M470 175 Q 545 155 612 175"/>
+  <text class="lbl" x="542" y="140" text-anchor="middle">fetch JSON</text>
+  <path class="arr" d="M612 245 Q 545 268 478 245"/>
+  <text class="lbl" x="545" y="292" text-anchor="middle">games + config</text>
+
+  <rect class="box" x="70" y="420" width="400" height="170" rx="14" fill="#e2f3dc" stroke="#6ea45f"/>
+  <text class="t" x="270" y="460" text-anchor="middle">games.json + config.json</text>
+  <text class="s" x="270" y="498" text-anchor="middle">113 finished games with</text>
+  <text class="s" x="270" y="528" text-anchor="middle">console . year . finish order</text>
+  <text class="s" x="270" y="558" text-anchor="middle">static/covers/*.png</text>
+
+  <path class="arr" d="M760 300 Q 600 380 420 428"/>
+  <text class="lbl" x="620" y="372" text-anchor="middle">read / write catalog</text>
+
+  <rect class="box" x="620" y="420" width="390" height="170" rx="14" fill="#f3e2f7" stroke="#a06cb4"/>
+  <text class="t" x="815" y="460" text-anchor="middle">CLI agent (Settings)</text>
+  <text class="s" x="815" y="498" text-anchor="middle">claude -p (default)</text>
+  <text class="s" x="815" y="528" text-anchor="middle">codex exec . agy -p</text>
+  <text class="s" x="815" y="558" text-anchor="middle">returns box-art image URL</text>
+
+  <path class="arr" d="M830 300 Q 838 355 828 412"/>
+  <text class="lbl" x="905" y="366" text-anchor="middle">add a game</text>
+
+  <rect class="box" x="620" y="700" width="390" height="160" rx="14" fill="#fdf3cd" stroke="#c2a23c"/>
+  <text class="t" x="815" y="740" text-anchor="middle">The Web</text>
+  <text class="s" x="815" y="778" text-anchor="middle">agent web search for cover</text>
+  <text class="s" x="815" y="808" text-anchor="middle">download real box art</text>
+
+  <path class="arr" d="M815 590 Q 823 640 815 692"/>
+  <text class="lbl" x="900" y="650" text-anchor="middle">search + fetch</text>
+
+  <rect class="box" x="70" y="700" width="400" height="160" rx="14" fill="#dcefef" stroke="#5fa4a4"/>
+  <text class="t" x="270" y="740" text-anchor="middle">catalog.py importer</text>
+  <text class="s" x="270" y="778" text-anchor="middle">Trello card JSON in,</text>
+  <text class="s" x="270" y="808" text-anchor="middle">Wikipedia box art down</text>
+
+  <path class="arr" d="M270 692 Q 262 645 270 598"/>
+  <text class="lbl" x="185" y="650" text-anchor="middle">one-time import</text>
+
+  <text x="540" y="960" text-anchor="middle" font-size="30" font-weight="bold" fill="#8a6d3b">Python 3 + Flask, zero JS frameworks, one JSON file as storage</text>
+</svg>

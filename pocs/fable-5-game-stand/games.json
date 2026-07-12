@@ -1,0 +1,906 @@
+[
+  {
+    "id": "street-fighter-5",
+    "name": "Street Fighter 5",
+    "console": "PS5",
+    "year": 2016,
+    "order": 1,
+    "cover": "covers/street-fighter-5.png"
+  },
+  {
+    "id": "mortal-kombat-x",
+    "name": "Mortal Kombat X",
+    "console": "PS5",
+    "year": 2016,
+    "order": 2,
+    "cover": "covers/mortal-kombat-x.png"
+  },
+  {
+    "id": "walking-dead-season-2",
+    "name": "Walking Dead Season 2",
+    "console": "PS5",
+    "year": 2014,
+    "order": 3,
+    "cover": "covers/walking-dead-season-2.jpeg"
+  },
+  {
+    "id": "south-park-the-stick-of-truth",
+    "name": "South Park: The Stick of Truth",
+    "console": "PS5",
+    "year": 2014,
+    "order": 4,
+    "cover": "covers/south-park-the-stick-of-truth.jpg"
+  },
+  {
+    "id": "diablo-3-expansion-1",
+    "name": "Diablo 3 - Expansion 1",
+    "console": "PS5",
+    "year": 2017,
+    "order": 5,
+    "cover": "covers/diablo-3-expansion-1.jpg"
+  },
+  {
+    "id": "batman-arkham-city",
+    "name": "Batman Arkham City",
+    "console": "PS5",
+    "year": 2016,
+    "order": 6,
+    "cover": "covers/batman-arkham-city.jpg"
+  },
+  {
+    "id": "batman-arkham-asylum",
+    "name": "Batman Arkham Asylum",
+    "console": "PS5",
+    "year": 2016,
+    "order": 7,
+    "cover": "covers/batman-arkham-asylum.jpg"
+  },
+  {
+    "id": "sc2-the-legacy-of-the-void",
+    "name": "SC2 - The Legacy of the Void",
+    "console": "Steam",
+    "year": 2015,
+    "order": 8,
+    "cover": "covers/sc2-the-legacy-of-the-void.jpg"
+  },
+  {
+    "id": "dishonored-2",
+    "name": "Dishonored 2",
+    "console": "PS5",
+    "year": 2017,
+    "order": 9,
+    "cover": "covers/dishonored-2.jpg"
+  },
+  {
+    "id": "ffxv",
+    "name": "FFXV",
+    "console": "PS5",
+    "year": 2017,
+    "order": 10,
+    "cover": "covers/ffxv.jpg"
+  },
+  {
+    "id": "injustice-2",
+    "name": "Injustice 2",
+    "console": "PS5",
+    "year": 2017,
+    "order": 11,
+    "cover": "covers/injustice-2.jpg"
+  },
+  {
+    "id": "marvel-vs-capcom-infinite",
+    "name": "Marvel VS Capcom Infinite",
+    "console": "PS5",
+    "year": 2018,
+    "order": 12,
+    "cover": "covers/marvel-vs-capcom-infinite.png"
+  },
+  {
+    "id": "bloodborne",
+    "name": "Bloodborne",
+    "console": "PS5",
+    "year": 2018,
+    "order": 13,
+    "cover": "covers/bloodborne.jpg"
+  },
+  {
+    "id": "god-of-war",
+    "name": "God of War",
+    "console": "PS5",
+    "year": 2018,
+    "order": 14,
+    "cover": "covers/god-of-war.jpg"
+  },
+  {
+    "id": "spiderman",
+    "name": "Spiderman",
+    "console": "PS5",
+    "year": 2018,
+    "order": 15,
+    "cover": "covers/spiderman.jpg"
+  },
+  {
+    "id": "trine",
+    "name": "Trine",
+    "console": "Steam",
+    "year": 2020,
+    "order": 16,
+    "cover": "covers/trine.png"
+  },
+  {
+    "id": "re2-remake",
+    "name": "RE2 Remake",
+    "console": "PS5",
+    "year": 2020,
+    "order": 17,
+    "cover": "covers/re2-remake.jpg"
+  },
+  {
+    "id": "re3-remake",
+    "name": "RE3 Remake",
+    "console": "PS5",
+    "year": 2020,
+    "order": 18,
+    "cover": "covers/re3-remake.jpg"
+  },
+  {
+    "id": "ff7r",
+    "name": "FF7R",
+    "console": "PS5",
+    "year": 2020,
+    "order": 19,
+    "cover": "covers/ff7r.png"
+  },
+  {
+    "id": "tomb-raider-2013",
+    "name": "Tomb Raider (2013)",
+    "console": "Steam",
+    "year": 2020,
+    "order": 20,
+    "cover": "covers/tomb-raider-2013.jpg"
+  },
+  {
+    "id": "deus-ex-mankind-divided",
+    "name": "Deus Ex Mankind Divided",
+    "console": "Steam",
+    "year": 2020,
+    "order": 21,
+    "cover": "covers/deus-ex-mankind-divided.jpeg"
+  },
+  {
+    "id": "rise-of-the-tomb-raider",
+    "name": "Rise of the Tomb Raider",
+    "console": "Steam",
+    "year": 2020,
+    "order": 22,
+    "cover": "covers/rise-of-the-tomb-raider.jpg"
+  },
+  {
+    "id": "shadow-of-the-tomb-raider",
+    "name": "Shadow of the Tomb Raider",
+    "console": "Steam",
+    "year": 2020,
+    "order": 23,
+    "cover": "covers/shadow-of-the-tomb-raider.png"
+  },
+  {
+    "id": "dying-light",
+    "name": "Dying Light",
+    "console": "Steam",
+    "year": 2020,
+    "order": 24,
+    "cover": "covers/dying-light.jpg"
+  },
+  {
+    "id": "carrion",
+    "name": "Carrion",
+    "console": "Steam",
+    "year": 2020,
+    "order": 25,
+    "cover": "covers/carrion.jpg"
+  },
+  {
+    "id": "rocketbirds-hardboiled-chicken",
+    "name": "Rocketbirds: Hardboiled Chicken",
+    "console": "Steam",
+    "year": 2020,
+    "order": 26,
+    "cover": "covers/rocketbirds-hardboiled-chicken.png"
+  },
+  {
+    "id": "alien-isolation",
+    "name": "Alien Isolation",
+    "console": "Steam",
+    "year": 2020,
+    "order": 27,
+    "cover": "covers/alien-isolation.jpg"
+  },
+  {
+    "id": "shadow-tactics",
+    "name": "Shadow Tactics",
+    "console": "Steam",
+    "year": 2020,
+    "order": 28,
+    "cover": "covers/shadow-tactics.jpg"
+  },
+  {
+    "id": "the-mark-of-the-ninja-remastered",
+    "name": "The Mark of The Ninja Remastered",
+    "console": "Steam",
+    "year": 2020,
+    "order": 29,
+    "cover": "covers/the-mark-of-the-ninja-remastered.png"
+  },
+  {
+    "id": "hitman-2016",
+    "name": "Hitman 2016",
+    "console": "Steam",
+    "year": 2020,
+    "order": 30,
+    "cover": "covers/hitman-2016.jpg"
+  },
+  {
+    "id": "desperados-iii",
+    "name": "Desperados III",
+    "console": "Steam",
+    "year": 2020,
+    "order": 31,
+    "cover": "covers/desperados-iii.jpg"
+  },
+  {
+    "id": "cyberpunk-2077",
+    "name": "CyberPunk 2077",
+    "console": "PS5",
+    "year": 2020,
+    "order": 32,
+    "cover": "covers/cyberpunk-2077.jpg"
+  },
+  {
+    "id": "factorio",
+    "name": "Factorio",
+    "console": "Steam",
+    "year": 2021,
+    "order": 33,
+    "cover": "covers/factorio.png"
+  },
+  {
+    "id": "last-epoch",
+    "name": "Last Epoch",
+    "console": "Steam",
+    "year": 2021,
+    "order": 34,
+    "cover": "covers/last-epoch.png"
+  },
+  {
+    "id": "portal-reloaded",
+    "name": "Portal Reloaded",
+    "console": "Steam",
+    "year": 2021,
+    "order": 35,
+    "cover": "covers/portal-reloaded.jpg"
+  },
+  {
+    "id": "resident-evil-8-village",
+    "name": "Resident Evil 8 - Village",
+    "console": "PS5",
+    "year": 2021,
+    "order": 36,
+    "cover": "covers/resident-evil-8-village.png"
+  },
+  {
+    "id": "hitman-2",
+    "name": "Hitman 2",
+    "console": "PS5",
+    "year": 2021,
+    "order": 37,
+    "cover": "covers/hitman-2.jpg"
+  },
+  {
+    "id": "hitman-3",
+    "name": "Hitman 3",
+    "console": "PS5",
+    "year": 2021,
+    "order": 38,
+    "cover": "covers/hitman-3.jpg"
+  },
+  {
+    "id": "ghost-of-tsushima",
+    "name": "Ghost of Tsushima",
+    "console": "PS5",
+    "year": 2021,
+    "order": 39,
+    "cover": "covers/ghost-of-tsushima.jpg"
+  },
+  {
+    "id": "mortal-kombat-11-aftermath",
+    "name": "Mortal Kombat 11 / Aftermath",
+    "console": "PS5",
+    "year": 2021,
+    "order": 40,
+    "cover": "covers/mortal-kombat-11-aftermath.png"
+  },
+  {
+    "id": "layers-of-fear",
+    "name": "Layers of Fear",
+    "console": "Steam",
+    "year": 2021,
+    "order": 41,
+    "cover": "covers/layers-of-fear.png"
+  },
+  {
+    "id": "super-mario-bros-iii",
+    "name": "Super Mario Bros III",
+    "console": "Steam",
+    "year": 2021,
+    "order": 42,
+    "cover": "covers/super-mario-bros-iii.png"
+  },
+  {
+    "id": "horizon-zero-dawn",
+    "name": "Horizon Zero Dawn",
+    "console": "PS5",
+    "year": 2021,
+    "order": 43,
+    "cover": "covers/horizon-zero-dawn.jpg"
+  },
+  {
+    "id": "until-dawn",
+    "name": "Until Dawn",
+    "console": "PS5",
+    "year": 2022,
+    "order": 44,
+    "cover": "covers/until-dawn.jpg"
+  },
+  {
+    "id": "the-last-cube",
+    "name": "The Last Cube",
+    "console": "Steam",
+    "year": 2022,
+    "order": 45,
+    "cover": "covers/the-last-cube.svg"
+  },
+  {
+    "id": "spider-man-miles-morales",
+    "name": "Spider Man Miles Morales",
+    "console": "PS5",
+    "year": 2022,
+    "order": 46,
+    "cover": "covers/spider-man-miles-morales.jpeg"
+  },
+  {
+    "id": "tmnt-shredders-revenge",
+    "name": "TMNT Shredders Revenge",
+    "console": "PS5",
+    "year": 2022,
+    "order": 47,
+    "cover": "covers/tmnt-shredders-revenge.jpg"
+  },
+  {
+    "id": "dark-anthology-man-of-medan",
+    "name": "Dark Anthology: Man of Medan",
+    "console": "PS5",
+    "year": 2022,
+    "order": 48,
+    "cover": "covers/dark-anthology-man-of-medan.png"
+  },
+  {
+    "id": "dark-anthology-little-hope",
+    "name": "Dark Anthology: Little Hope",
+    "console": "PS5",
+    "year": 2022,
+    "order": 49,
+    "cover": "covers/dark-anthology-little-hope.jpg"
+  },
+  {
+    "id": "dark-anthology-house-of-ashes",
+    "name": "Dark Anthology: House of Ashes",
+    "console": "PS5",
+    "year": 2022,
+    "order": 50,
+    "cover": "covers/dark-anthology-house-of-ashes.png"
+  },
+  {
+    "id": "crash-4-it-s-about-time",
+    "name": "Crash 4 - It's About Time",
+    "console": "PS5",
+    "year": 2022,
+    "order": 51,
+    "cover": "covers/crash-4-it-s-about-time.jpeg"
+  },
+  {
+    "id": "resident-evil-0",
+    "name": "Resident Evil 0",
+    "console": "PS5",
+    "year": 2022,
+    "order": 52,
+    "cover": "covers/resident-evil-0.jpg"
+  },
+  {
+    "id": "the-quarry",
+    "name": "The Quarry",
+    "console": "PS5",
+    "year": 2022,
+    "order": 53,
+    "cover": "covers/the-quarry.png"
+  },
+  {
+    "id": "stray",
+    "name": "Stray",
+    "console": "PS5",
+    "year": 2022,
+    "order": 54,
+    "cover": "covers/stray.jpg"
+  },
+  {
+    "id": "little-nightmares",
+    "name": "Little Nightmares",
+    "console": "PS5",
+    "year": 2022,
+    "order": 55,
+    "cover": "covers/little-nightmares.png"
+  },
+  {
+    "id": "nfs-heat",
+    "name": "NFS Heat",
+    "console": "PS5",
+    "year": 2022,
+    "order": 56,
+    "cover": "covers/nfs-heat.png"
+  },
+  {
+    "id": "gotham-knights",
+    "name": "Gotham Knights",
+    "console": "PS5",
+    "year": 2022,
+    "order": 57,
+    "cover": "covers/gotham-knights.jpg"
+  },
+  {
+    "id": "the-callisto-protocol",
+    "name": "The Callisto Protocol",
+    "console": "PS5",
+    "year": 2022,
+    "order": 58,
+    "cover": "covers/the-callisto-protocol.jpg"
+  },
+  {
+    "id": "god-of-war-ragnarok",
+    "name": "God of War Ragnarok",
+    "console": "PS5",
+    "year": 2022,
+    "order": 59,
+    "cover": "covers/god-of-war-ragnarok.jpg"
+  },
+  {
+    "id": "inside",
+    "name": "Inside",
+    "console": "PS5",
+    "year": 2022,
+    "order": 60,
+    "cover": "covers/inside.png"
+  },
+  {
+    "id": "the-council",
+    "name": "The Council",
+    "console": "PS5",
+    "year": 2022,
+    "order": 61,
+    "cover": "covers/the-council.jpg"
+  },
+  {
+    "id": "nickelodeon-all-stars-brawl",
+    "name": "Nickelodeon All Stars Brawl",
+    "console": "PS5",
+    "year": 2022,
+    "order": 62,
+    "cover": "covers/nickelodeon-all-stars-brawl.jpeg"
+  },
+  {
+    "id": "star-wars-jedi-fallen-order",
+    "name": "Star Wars Jedi: Fallen Order",
+    "console": "PS5",
+    "year": 2023,
+    "order": 63,
+    "cover": "covers/star-wars-jedi-fallen-order.jpg"
+  },
+  {
+    "id": "abzu",
+    "name": "Abzu",
+    "console": "PS5",
+    "year": 2023,
+    "order": 64,
+    "cover": "covers/abzu.jpg"
+  },
+  {
+    "id": "hogwarts-legacy",
+    "name": "Hogwarts Legacy",
+    "console": "PS5",
+    "year": 2023,
+    "order": 65,
+    "cover": "covers/hogwarts-legacy.png"
+  },
+  {
+    "id": "resident-evil-4-remake",
+    "name": "Resident Evil 4 Remake",
+    "console": "PS5",
+    "year": 2023,
+    "order": 66,
+    "cover": "covers/resident-evil-4-remake.jpg"
+  },
+  {
+    "id": "star-wars-jedi-survivor",
+    "name": "Star Wars Jedi: Survivor",
+    "console": "PS5",
+    "year": 2023,
+    "order": 67,
+    "cover": "covers/star-wars-jedi-survivor.jpg"
+  },
+  {
+    "id": "sf6-world-tour",
+    "name": "SF6 World Tour",
+    "console": "PS5",
+    "year": 2023,
+    "order": 68,
+    "cover": "covers/sf6-world-tour.jpg"
+  },
+  {
+    "id": "diablo-iv",
+    "name": "Diablo IV",
+    "console": "PS5",
+    "year": 2023,
+    "order": 69,
+    "cover": "covers/diablo-iv.png"
+  },
+  {
+    "id": "ff-16",
+    "name": "FF 16",
+    "console": "PS5",
+    "year": 2023,
+    "order": 70,
+    "cover": "covers/ff-16.png"
+  },
+  {
+    "id": "mortal-kombat-1",
+    "name": "Mortal Kombat 1",
+    "console": "PS5",
+    "year": 2023,
+    "order": 71,
+    "cover": "covers/mortal-kombat-1.jpeg"
+  },
+  {
+    "id": "sea-of-stars",
+    "name": "Sea of Stars",
+    "console": "PS5",
+    "year": 2023,
+    "order": 72,
+    "cover": "covers/sea-of-stars.jpg"
+  },
+  {
+    "id": "spiderman-2",
+    "name": "Spiderman 2",
+    "console": "PS5",
+    "year": 2023,
+    "order": 73,
+    "cover": "covers/spiderman-2.jpeg"
+  },
+  {
+    "id": "robocop-rogue-city",
+    "name": "RoboCop Rogue City",
+    "console": "PS5",
+    "year": 2023,
+    "order": 74,
+    "cover": "covers/robocop-rogue-city.jpg"
+  },
+  {
+    "id": "telling-lies",
+    "name": "Telling Lies",
+    "console": "PS5",
+    "year": 2023,
+    "order": 75,
+    "cover": "covers/telling-lies.jpg"
+  },
+  {
+    "id": "untitled-goose-game",
+    "name": "Untitled Goose Game",
+    "console": "PS5",
+    "year": 2023,
+    "order": 76,
+    "cover": "covers/untitled-goose-game.jpg"
+  },
+  {
+    "id": "super-mario-3d-world",
+    "name": "Super Mario 3D World",
+    "console": "Switch",
+    "year": 2023,
+    "order": 77,
+    "cover": "covers/super-mario-3d-world.jpg"
+  },
+  {
+    "id": "mario-kart-8-deluxe",
+    "name": "Mario Kart 8 Deluxe",
+    "console": "Switch",
+    "year": 2024,
+    "order": 78,
+    "cover": "covers/mario-kart-8-deluxe.jpg"
+  },
+  {
+    "id": "silent-hill-the-short-message",
+    "name": "Silent Hill: The Short Message",
+    "console": "PS5",
+    "year": 2024,
+    "order": 79,
+    "cover": "covers/silent-hill-the-short-message.jpeg"
+  },
+  {
+    "id": "rollerdrome",
+    "name": "Rollerdrome",
+    "console": "PS5",
+    "year": 2024,
+    "order": 80,
+    "cover": "covers/rollerdrome.jpg"
+  },
+  {
+    "id": "ff7r-rebirth",
+    "name": "FF7R: Rebirth",
+    "console": "PS5",
+    "year": 2024,
+    "order": 81,
+    "cover": "covers/ff7r-rebirth.png"
+  },
+  {
+    "id": "alone-in-the-dark",
+    "name": "Alone in The Dark",
+    "console": "PS5",
+    "year": 2024,
+    "order": 82,
+    "cover": "covers/alone-in-the-dark.jpg"
+  },
+  {
+    "id": "south-park-snow-day",
+    "name": "South Park: Snow Day",
+    "console": "PS5",
+    "year": 2024,
+    "order": 83,
+    "cover": "covers/south-park-snow-day.jpg"
+  },
+  {
+    "id": "crisis-core-ff7-reunion",
+    "name": "Crisis Core: FF7 Reunion",
+    "console": "PS5",
+    "year": 2024,
+    "order": 84,
+    "cover": "covers/crisis-core-ff7-reunion.png"
+  },
+  {
+    "id": "streets-of-rage-4",
+    "name": "Streets of Rage 4",
+    "console": "PS5",
+    "year": 2024,
+    "order": 85,
+    "cover": "covers/streets-of-rage-4.png"
+  },
+  {
+    "id": "star-wars-outlaws",
+    "name": "Star Wars Outlaws",
+    "console": "PS5",
+    "year": 2024,
+    "order": 86,
+    "cover": "covers/star-wars-outlaws.jpeg"
+  },
+  {
+    "id": "silent-hill-2-remake",
+    "name": "Silent Hill 2 Remake",
+    "console": "PS5",
+    "year": 2024,
+    "order": 87,
+    "cover": "covers/silent-hill-2-remake.jpg"
+  },
+  {
+    "id": "broken-sword-reforged",
+    "name": "Broken Sword: Reforged",
+    "console": "PS5",
+    "year": 2024,
+    "order": 88,
+    "cover": "covers/broken-sword-reforged.png"
+  },
+  {
+    "id": "dark-anthology-the-devil-in-me",
+    "name": "Dark Anthology: The Devil in Me",
+    "console": "PS5",
+    "year": 2024,
+    "order": 89,
+    "cover": "covers/dark-anthology-the-devil-in-me.jpg"
+  },
+  {
+    "id": "mario-wonder",
+    "name": "Mario Wonder",
+    "console": "Switch",
+    "year": 2024,
+    "order": 90,
+    "cover": "covers/mario-wonder.png"
+  },
+  {
+    "id": "donkey-kong-country-tropical-freeze",
+    "name": "Donkey Kong Country: Tropical Freeze",
+    "console": "Switch",
+    "year": 2024,
+    "order": 91,
+    "cover": "covers/donkey-kong-country-tropical-freeze.jpg"
+  },
+  {
+    "id": "ultimate-marvel-vs-capcom-3",
+    "name": "Ultimate Marvel VS Capcom 3",
+    "console": "PS5",
+    "year": 2025,
+    "order": 92,
+    "cover": "covers/ultimate-marvel-vs-capcom-3.jpg"
+  },
+  {
+    "id": "tekken-8",
+    "name": "Tekken 8",
+    "console": "PS5",
+    "year": 2025,
+    "order": 93,
+    "cover": "covers/tekken-8.jpg"
+  },
+  {
+    "id": "resident-evil-1-hd-remaster",
+    "name": "Resident Evil 1 HD Remaster",
+    "console": "PS5",
+    "year": 2025,
+    "order": 94,
+    "cover": "covers/resident-evil-1-hd-remaster.jpg"
+  },
+  {
+    "id": "metroid-dread",
+    "name": "Metroid Dread",
+    "console": "Switch",
+    "year": 2025,
+    "order": 95,
+    "cover": "covers/metroid-dread.png"
+  },
+  {
+    "id": "super-mario-rpg-remake",
+    "name": "Super Mario RPG Remake",
+    "console": "Switch",
+    "year": 2025,
+    "order": 96,
+    "cover": "covers/super-mario-rpg-remake.jpg"
+  },
+  {
+    "id": "zelda-links-awakening",
+    "name": "Zelda Links Awakening",
+    "console": "Switch",
+    "year": 2025,
+    "order": 97,
+    "cover": "covers/zelda-links-awakening.jpg"
+  },
+  {
+    "id": "indiana-jones-and-the-great-circle",
+    "name": "Indiana Jones and the Great Circle",
+    "console": "PS5",
+    "year": 2025,
+    "order": 98,
+    "cover": "covers/indiana-jones-and-the-great-circle.jpg"
+  },
+  {
+    "id": "super-street-fighter-30th-anniversary",
+    "name": "Super Street Fighter 30th Anniversary",
+    "console": "PS5",
+    "year": 2025,
+    "order": 99,
+    "cover": "covers/super-street-fighter-30th-anniversary.png"
+  },
+  {
+    "id": "mafia-the-old-country",
+    "name": "Mafia: The Old Country",
+    "console": "PS5",
+    "year": 2025,
+    "order": 100,
+    "cover": "covers/mafia-the-old-country.jpg"
+  },
+  {
+    "id": "ninja-gaiden-ragebound",
+    "name": "Ninja Gaiden Ragebound",
+    "console": "PS5",
+    "year": 2025,
+    "order": 101,
+    "cover": "covers/ninja-gaiden-ragebound.jpg"
+  },
+  {
+    "id": "ghost-of-yotei",
+    "name": "Ghost of Yotei",
+    "console": "PS5",
+    "year": 2025,
+    "order": 102,
+    "cover": "covers/ghost-of-yotei.png"
+  },
+  {
+    "id": "syberia-the-world-before",
+    "name": "Syberia: The World Before",
+    "console": "PS5",
+    "year": 2025,
+    "order": 103,
+    "cover": "covers/syberia-the-world-before.png"
+  },
+  {
+    "id": "the-stanley-parable-ultra-deluxe",
+    "name": "The Stanley Parable: Ultra Deluxe",
+    "console": "Steam",
+    "year": 2025,
+    "order": 104,
+    "cover": "covers/the-stanley-parable-ultra-deluxe.jpg"
+  },
+  {
+    "id": "contra-operation-galuga",
+    "name": "Contra Operation Galuga",
+    "console": "PS5",
+    "year": 2025,
+    "order": 105,
+    "cover": "covers/contra-operation-galuga.jpg"
+  },
+  {
+    "id": "the-complex",
+    "name": "The Complex",
+    "console": "Steam",
+    "year": 2025,
+    "order": 106,
+    "cover": "covers/the-complex.svg"
+  },
+  {
+    "id": "battlefield-6",
+    "name": "Battlefield 6",
+    "console": "PS5",
+    "year": 2025,
+    "order": 107,
+    "cover": "covers/battlefield-6.jpg"
+  },
+  {
+    "id": "timespinner",
+    "name": "Timespinner",
+    "console": "Steam",
+    "year": 2025,
+    "order": 108,
+    "cover": "covers/timespinner.png"
+  },
+  {
+    "id": "pools",
+    "name": "Pools",
+    "console": "Steam",
+    "year": 2025,
+    "order": 109,
+    "cover": "covers/pools.jpg"
+  },
+  {
+    "id": "resident-evil-revelations-2",
+    "name": "Resident Evil Revelations 2",
+    "console": "PS5",
+    "year": 2026,
+    "order": 110,
+    "cover": "covers/resident-evil-revelations-2.png"
+  },
+  {
+    "id": "resident-evil-requiem",
+    "name": "Resident Evil Requiem",
+    "console": "PS5",
+    "year": 2026,
+    "order": 111,
+    "cover": "covers/resident-evil-requiem.jpg"
+  },
+  {
+    "id": "007-first-light",
+    "name": "007 First Light",
+    "console": "PS5",
+    "year": 2026,
+    "order": 112,
+    "cover": "covers/007-first-light.jpg"
+  },
+  {
+    "id": "disney-epic-mickey-rebrushed",
+    "name": "Disney Epic Mickey Rebrushed",
+    "console": "PS5",
+    "year": 2026,
+    "order": 113,
+    "cover": "covers/disney-epic-mickey-rebrushed.jpg"
+  }
+]

@@ -1,0 +1,4 @@
+.venv/
+.server.pid
+.playwright-mcp/
+__pycache__/

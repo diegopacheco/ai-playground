@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Stand</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f1e3;
+  --paper-deep:#efe6d2;
+  --ink:#2b2117;
+  --ink-soft:#6b5d4c;
+  --card:#fffdf7;
+  --line:#e2d6bd;
+  --ps:#0064c8;
+  --ps-soft:#e3effb;
+  --switch:#e60012;
+  --switch-soft:#fde9ea;
+  --steam:#1b2838;
+  --steam-soft:#e7ebf0;
+  --gold:#c8912f;
+  --wood-hi:#c99a68;
+  --wood:#a5713f;
+  --wood-deep:#7c5029;
+  --radius:18px;
+  --shadow:0 10px 30px rgba(75,54,28,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Nunito Sans",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 600px at 85% -10%,rgba(200,145,47,.14),transparent 60%),
+    radial-gradient(900px 500px at -10% 20%,rgba(0,100,200,.07),transparent 55%),
+    var(--paper);
+  min-height:100vh;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:28px 28px 90px}
+header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-mark{
+  width:54px;height:54px;border-radius:16px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#3b2d1f,#14100b);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 8px 18px rgba(43,33,23,.35);
+}
+.brand-mark svg{width:30px;height:30px}
+h1{font-family:"Paytone One",sans-serif;font-size:34px;letter-spacing:.5px;line-height:1}
+h1 span{color:var(--gold)}
+.tagline{font-family:"Caveat",cursive;font-size:22px;color:var(--ink-soft);transform:rotate(-2deg)}
+nav{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:0}
+.tab{
+  appearance:none;border:2px solid transparent;border-bottom:none;background:transparent;cursor:pointer;
+  font-family:"Nunito Sans",sans-serif;font-weight:800;font-size:15px;color:var(--ink-soft);
+  padding:12px 22px;border-radius:14px 14px 0 0;position:relative;top:2px;transition:.18s;
+}
+.tab:hover{color:var(--ink);background:rgba(255,253,247,.7)}
+.tab.active{
+  background:var(--card);border-color:var(--line);color:var(--ink);
+  box-shadow:0 -6px 14px rgba(75,54,28,.06);
+}
+.tab.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:3px;background:var(--card)}
+.panel{display:none;background:var(--card);border:2px solid var(--line);border-top:none;
+  border-radius:0 var(--radius) var(--radius) var(--radius);padding:38px;box-shadow:var(--shadow)}
+.panel.active{display:block;animation:fadeUp .45s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:34px}
+.hero h2{font-family:"Paytone One",sans-serif;font-size:42px;line-height:1.05;max-width:520px}
+.hero h2 em{font-style:normal;color:var(--gold);position:relative;white-space:nowrap}
+.hero h2 em::after{
+  content:"";position:absolute;left:0;right:0;bottom:-4px;height:8px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='8'%3E%3Cpath d='M2 5 Q 30 1 60 5 T 118 4' stroke='%23c8912f' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x;
+  background-size:120px 8px;
+}
+.total{text-align:right}
+.total .num{font-family:"Paytone One",sans-serif;font-size:84px;line-height:.9;color:var(--ink)}
+.total .lbl{font-family:"Caveat",cursive;font-size:26px;color:var(--gold);transform:rotate(-3deg);display:inline-block}
+.console-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+.console-card{
+  border:2px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,#fffefb,#fbf6ea);
+  padding:24px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s;
+}
+.console-card:hover{transform:translateY(-6px);box-shadow:0 18px 38px rgba(75,54,28,.18)}
+.console-card::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:var(--accent)}
+.console-card .photo{
+  height:150px;display:grid;place-items:center;margin-bottom:14px;
+  filter:drop-shadow(0 14px 12px rgba(43,33,23,.25));
+}
+.console-card .photo img{max-height:150px;max-width:100%;object-fit:contain}
+.console-card h3{font-family:"Paytone One",sans-serif;font-size:22px}
+.console-card .count-row{display:flex;align-items:baseline;gap:10px;margin-top:6px}
+.console-card .count{font-family:"Paytone One",sans-serif;font-size:52px;color:var(--accent)}
+.console-card .unit{font-weight:700;color:var(--ink-soft)}
+.share-track{height:10px;border-radius:99px;background:var(--paper-deep);margin-top:14px;overflow:hidden}
+.share-fill{height:100%;border-radius:99px;background:var(--accent);width:0;transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
+.share-lbl{margin-top:8px;font-size:13px;font-weight:700;color:var(--ink-soft)}
+.recent{margin-top:44px}
+.recent h3,.section-title{font-family:"Paytone One",sans-serif;font-size:20px;margin-bottom:16px}
+.recent-row{display:flex;gap:16px;overflow-x:auto;padding:6px 2px 16px}
+.recent-row .mini{flex:0 0 96px;text-align:center}
+.recent-row .mini img{
+  width:96px;height:128px;object-fit:cover;border-radius:6px;
+  box-shadow:0 8px 16px rgba(43,33,23,.25);border:3px solid #fff;
+}
+.recent-row .mini span{display:block;font-size:11px;font-weight:700;color:var(--ink-soft);margin-top:6px;line-height:1.25}
+.toolbar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:30px}
+.search{
+  flex:1;min-width:220px;display:flex;align-items:center;gap:10px;background:var(--paper);
+  border:2px solid var(--line);border-radius:14px;padding:12px 16px;
+}
+.search svg{width:18px;height:18px;flex:none;stroke:var(--ink-soft)}
+.search input{border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;font-weight:600;color:var(--ink);width:100%}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{
+  display:flex;align-items:center;gap:8px;border:2px solid var(--line);background:var(--card);
+  border-radius:99px;padding:9px 18px;cursor:pointer;font-family:inherit;font-weight:800;font-size:14px;
+  color:var(--ink-soft);transition:.18s;
+}
+.chip img{width:26px;height:18px;object-fit:contain}
+.chip:hover{transform:translateY(-2px)}
+.chip.active{border-color:var(--chip,var(--ink));color:var(--chip,var(--ink));background:var(--chip-soft,var(--paper-deep));box-shadow:0 6px 14px rgba(75,54,28,.12)}
+.stand{background:
+  linear-gradient(180deg,rgba(124,80,41,.06),rgba(124,80,41,.02)),
+  var(--card);border-radius:14px;padding:10px 6px 0}
+.shelf-row{display:flex;justify-content:center;gap:26px;padding:26px 18px 0;flex-wrap:nowrap}
+.plank{
+  height:22px;margin:0 6px 8px;border-radius:4px;position:relative;
+  background:linear-gradient(180deg,var(--wood-hi) 0%,var(--wood) 45%,var(--wood-deep) 100%);
+  box-shadow:0 10px 16px rgba(60,38,15,.35),inset 0 2px 0 rgba(255,255,255,.35);
+}
+.plank::after{
+  content:"";position:absolute;inset:0;border-radius:4px;opacity:.35;
+  background-image:repeating-linear-gradient(92deg,transparent 0 26px,rgba(60,38,15,.25) 26px 27px,transparent 27px 60px);
+}
+.cover{
+  width:138px;flex:0 0 138px;cursor:default;position:relative;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1);
+  animation:pop .5s ease both;
+}
+@keyframes pop{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.cover:hover{transform:translateY(-12px) rotate(-1.2deg);z-index:3}
+.case{
+  height:186px;border-radius:4px 8px 8px 4px;overflow:hidden;position:relative;background:#ddd;
+  box-shadow:6px 10px 18px rgba(43,33,23,.35),inset 0 0 0 1px rgba(255,255,255,.15);
+}
+.case::before{
+  content:"";position:absolute;top:0;bottom:0;left:0;width:9px;z-index:2;
+  background:linear-gradient(90deg,rgba(0,0,0,.42),rgba(255,255,255,.28) 55%,rgba(0,0,0,.14));
+}
+.case::after{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(115deg,rgba(255,255,255,.24) 0%,transparent 28%);
+}
+.case img{width:100%;height:100%;object-fit:cover;display:block}
+.cover .tag{
+  position:absolute;top:8px;right:8px;z-index:3;font-size:10px;font-weight:800;letter-spacing:.4px;
+  color:#fff;background:var(--accent);padding:3px 8px;border-radius:99px;box-shadow:0 3px 6px rgba(0,0,0,.3);
+}
+.cover .ytag{
+  position:absolute;top:8px;left:12px;z-index:3;font-size:10px;font-weight:800;letter-spacing:.4px;
+  color:var(--ink);background:rgba(255,253,247,.92);padding:3px 7px;border-radius:99px;box-shadow:0 3px 6px rgba(0,0,0,.25);
+}
+.year-select{
+  border:2px solid var(--line);border-radius:99px;background:var(--card);cursor:pointer;
+  font-family:inherit;font-weight:800;font-size:14px;color:var(--ink-soft);padding:9px 16px;outline:none;
+}
+.year-select:focus{border-color:var(--gold)}
+.cover .name{
+  margin-top:10px;font-size:12.5px;font-weight:800;line-height:1.3;text-align:center;color:var(--ink);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.empty{padding:60px 20px;text-align:center;color:var(--ink-soft);font-family:"Caveat",cursive;font-size:28px}
+.count-note{font-weight:800;color:var(--ink-soft);font-size:14px;margin-bottom:14px}
+.form-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}
+@media(max-width:860px){.form-grid{grid-template-columns:1fr}}
+.field label{display:block;font-weight:800;font-size:14px;margin-bottom:10px;letter-spacing:.3px}
+.field input[type=text]{
+  width:100%;border:2px solid var(--line);border-radius:14px;background:var(--paper);
+  padding:16px 18px;font-family:inherit;font-size:17px;font-weight:700;color:var(--ink);outline:none;transition:.18s;
+}
+.field input[type=text]:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(200,145,47,.18)}
+.console-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.pick{
+  border:2px solid var(--line);border-radius:16px;background:var(--card);cursor:pointer;text-align:center;
+  padding:16px 10px;transition:.18s;font-weight:800;font-size:14px;color:var(--ink-soft);
+}
+.pick img{height:56px;width:100%;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 6px 6px rgba(43,33,23,.2))}
+.pick:hover{transform:translateY(-3px)}
+.pick.active{border-color:var(--pick);color:var(--pick);background:var(--pick-soft);box-shadow:0 10px 20px rgba(75,54,28,.14)}
+.btn{
+  margin-top:30px;appearance:none;border:none;cursor:pointer;font-family:"Paytone One",sans-serif;
+  font-size:18px;color:#fffdf7;letter-spacing:.4px;padding:16px 34px;border-radius:16px;
+  background:linear-gradient(160deg,#3b2d1f,#191209);box-shadow:0 12px 24px rgba(43,33,23,.35),inset 0 1px 0 rgba(255,255,255,.25);
+  transition:.18s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 30px rgba(43,33,23,.4)}
+.btn:disabled{opacity:.55;cursor:progress;transform:none}
+.add-side{border:2px dashed var(--line);border-radius:var(--radius);padding:26px;background:var(--paper);min-height:340px;display:grid;place-items:center;text-align:center}
+.add-side .hint{color:var(--ink-soft);font-weight:700;max-width:280px;line-height:1.6}
+.add-side .hint b{color:var(--ink)}
+.spinner{width:46px;height:46px;border-radius:50%;margin:0 auto 18px;border:5px solid var(--paper-deep);border-top-color:var(--gold);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.result-cover{width:170px;margin:0 auto}
+.result-cover img{width:170px;height:226px;object-fit:cover;border-radius:8px;border:4px solid #fff;box-shadow:0 16px 30px rgba(43,33,23,.35)}
+.result-name{font-family:"Paytone One",sans-serif;font-size:18px;margin-top:16px}
+.result-meta{font-family:"Caveat",cursive;font-size:22px;color:var(--gold);margin-top:4px}
+.error-note{color:#a8321e;font-weight:800;margin-top:14px}
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:8px}
+.agent-card{
+  border:2px solid var(--line);border-radius:var(--radius);padding:24px;cursor:pointer;background:var(--card);
+  transition:.18s;position:relative;
+}
+.agent-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.agent-card.active{border-color:var(--gold);background:linear-gradient(180deg,#fffdf6,#fbf3df);box-shadow:0 14px 28px rgba(200,145,47,.22)}
+.agent-card .check{
+  position:absolute;top:16px;right:16px;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);
+  display:grid;place-items:center;font-size:14px;color:transparent;background:var(--paper);
+}
+.agent-card.active .check{background:var(--gold);border-color:var(--gold);color:#fff}
+.agent-card h3{font-family:"Paytone One",sans-serif;font-size:20px}
+.agent-card .default-badge{font-size:11px;font-weight:800;color:var(--gold);border:1.5px solid var(--gold);border-radius:99px;padding:2px 9px;margin-left:8px;vertical-align:middle}
+.agent-card p{color:var(--ink-soft);font-weight:600;font-size:14px;margin-top:8px;line-height:1.55}
+.term{
+  margin-top:16px;background:#221a11;color:#e8d9ba;border-radius:10px;padding:12px 14px;
+  font-family:ui-monospace,Menlo,monospace;font-size:12.5px;box-shadow:inset 0 2px 6px rgba(0,0,0,.5);
+}
+.term .p{color:#8fbf6a}
+.saved-note{margin-top:22px;font-family:"Caveat",cursive;font-size:24px;color:var(--gold);min-height:30px}
+footer{margin-top:30px;text-align:center;color:var(--ink-soft);font-weight:700;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e8c97a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 11h4M8 9v4"/><circle cx="15.5" cy="10.5" r="1" fill="#e8c97a" stroke="none"/><circle cx="17.5" cy="13" r="1" fill="#e8c97a" stroke="none"/>
+          <path d="M17.3 5H6.7a4.7 4.7 0 0 0-4.6 3.9L1 15.5A2.8 2.8 0 0 0 3.8 19c.9 0 1.8-.4 2.3-1.2L8 15h8l1.9 2.8c.5.8 1.4 1.2 2.3 1.2a2.8 2.8 0 0 0 2.8-3.5l-1.1-6.6A4.7 4.7 0 0 0 17.3 5Z"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Game <span>Stand</span></h1>
+        <div class="tagline">every game Diego finished, on one shelf</div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <button class="tab active" data-tab="dashboard">Dashboard</button>
+    <button class="tab" data-tab="add">Add a Game</button>
+    <button class="tab" data-tab="stand">The Stand</button>
+    <button class="tab" data-tab="settings">Settings</button>
+  </nav>
+
+  <section id="dashboard" class="panel active">
+    <div class="hero">
+      <h2>Every game <em>finished</em>, counted by console.</h2>
+      <div class="total"><div class="num" id="total-count">0</div><div class="lbl">games beaten!</div></div>
+    </div>
+    <div class="console-grid" id="console-grid"></div>
+    <div class="recent">
+      <h3>Latest finishes</h3>
+      <div class="recent-row" id="recent-row"></div>
+    </div>
+  </section>
+
+  <section id="add" class="panel">
+    <div class="section-title">Add a finished game</div>
+    <div class="form-grid">
+      <form id="add-form">
+        <div class="field">
+          <label for="game-name">Game title</label>
+          <input type="text" id="game-name" placeholder="Silent Hill 2 Remake" autocomplete="off">
+        </div>
+        <div class="field" style="margin-top:26px">
+          <label>Which console did you finish it on?</label>
+          <div class="console-pick" id="console-pick"></div>
+        </div>
+        <button class="btn" id="add-btn" type="submit">Find cover &amp; add</button>
+      </form>
+      <div class="add-side" id="add-side">
+        <div class="hint">Type a title, pick the console, and the configured CLI agent
+          (<b id="agent-hint">claude</b>) searches the web for the real box art and files it on your stand.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stand" class="panel">
+    <div class="toolbar">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" id="search-input" placeholder="Search your finished games...">
+      </div>
+      <div class="chips" id="filter-chips"></div>
+      <select class="year-select" id="year-filter"></select>
+    </div>
+    <div class="count-note" id="stand-count"></div>
+    <div class="stand" id="stand-shelves"></div>
+  </section>
+
+  <section id="settings" class="panel">
+    <div class="section-title">Cover-hunting agent</div>
+    <p style="color:var(--ink-soft);font-weight:600;max-width:560px;line-height:1.6;margin-bottom:24px">
+      When you add a game, this CLI agent searches the web for the box art. Pick the one installed on your machine.</p>
+    <div class="agent-grid" id="agent-grid"></div>
+    <div class="saved-note" id="saved-note"></div>
+  </section>
+
+  <footer>Game Stand &mdash; Flask + vanilla JS &mdash; catalog imported from Trello</footer>
+</div>
+
+<script>
+const CONSOLES = {
+  PS5:{label:"PlayStation 5",img:"/static/consoles/ps5.png",color:"var(--ps)",soft:"var(--ps-soft)"},
+  Switch:{label:"Nintendo Switch",img:"/static/consoles/switch.png",color:"var(--switch)",soft:"var(--switch-soft)"},
+  Steam:{label:"Steam / PC",img:"/static/consoles/steam.png",color:"var(--steam)",soft:"var(--steam-soft)"}
+};
+const AGENTS = [
+  {id:"claude",name:"Claude Code",cmd:"claude -p",desc:"Anthropic's coding agent hunts the cover with a headless prompt.",def:true},
+  {id:"codex",name:"Codex",cmd:"codex exec",desc:"OpenAI's Codex CLI runs the web search in exec mode.",def:false},
+  {id:"agy",name:"Agy",cmd:"agy -p",desc:"The agy CLI takes the prompt and returns the cover URL.",def:false}
+];
+let games = [], config = {agent:"claude"}, filterConsole = "All", filterYear = "All", searchTerm = "", pickedConsole = null;
+
+const $ = id => document.getElementById(id);
+
+document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(x => x.classList.remove("active"));
+  t.classList.add("active");
+  $(t.dataset.tab).classList.add("active");
+  window.scrollTo(0, 0);
+  if (t.dataset.tab === "stand") renderStand();
+}));
+
+function countUp(el, target){
+  const dur = 900, start = performance.now();
+  function step(now){
+    const p = Math.min((now - start) / dur, 1);
+    el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function renderDashboard(){
+  countUp($("total-count"), games.length);
+  const grid = $("console-grid");
+  grid.innerHTML = "";
+  Object.keys(CONSOLES).forEach(key => {
+    const c = CONSOLES[key];
+    const n = games.filter(g => g.console === key).length;
+    const pct = games.length ? Math.round(n * 100 / games.length) : 0;
+    const card = document.createElement("div");
+    card.className = "console-card";
+    card.style.setProperty("--accent", c.color);
+    card.innerHTML =
+      '<div class="photo"><img src="' + c.img + '" alt="' + c.label + '"></div>' +
+      "<h3>" + c.label + "</h3>" +
+      '<div class="count-row"><span class="count">0</span><span class="unit">games finished</span></div>' +
+      '<div class="share-track"><div class="share-fill"></div></div>' +
+      '<div class="share-lbl">' + pct + "% of the collection</div>";
+    grid.appendChild(card);
+    countUp(card.querySelector(".count"), n);
+    requestAnimationFrame(() => { card.querySelector(".share-fill").style.width = pct + "%"; });
+  });
+  const row = $("recent-row");
+  row.innerHTML = "";
+  [...games].sort(byNewest).slice(0, 8).forEach(g => {
+    const d = document.createElement("div");
+    d.className = "mini";
+    d.innerHTML = '<img src="/static/' + g.cover + '" alt="' + g.name + '" loading="lazy"><span>' + g.name + " &middot; " + g.year + "</span>";
+    row.appendChild(d);
+  });
+}
+
+function byNewest(a, b){ return b.order - a.order; }
+
+function filteredGames(){
+  const q = searchTerm.trim().toLowerCase();
+  return games.filter(g =>
+    (filterConsole === "All" || g.console === filterConsole) &&
+    (filterYear === "All" || g.year === Number(filterYear)) &&
+    (!q || g.name.toLowerCase().includes(q))
+  ).sort(byNewest);
+}
+
+function renderYears(){
+  const sel = $("year-filter");
+  const years = [...new Set(games.map(g => g.year))].sort((a, b) => b - a);
+  sel.innerHTML = '<option value="All">All years</option>' +
+    years.map(y => '<option value="' + y + '">' + y + "</option>").join("");
+  sel.value = filterYear;
+}
+
+function renderChips(){
+  const box = $("filter-chips");
+  box.innerHTML = "";
+  ["All", "PS5", "Switch", "Steam"].forEach(key => {
+    const b = document.createElement("button");
+    b.className = "chip" + (filterConsole === key ? " active" : "");
+    if (key === "All") b.textContent = "All consoles";
+    else {
+      b.style.setProperty("--chip", CONSOLES[key].color);
+      b.style.setProperty("--chip-soft", CONSOLES[key].soft);
+      b.innerHTML = '<img src="' + CONSOLES[key].img + '" alt="">' + key;
+    }
+    b.addEventListener("click", () => { filterConsole = key; renderChips(); renderStand(); });
+    box.appendChild(b);
+  });
+}
+
+function renderStand(){
+  const host = $("stand-shelves");
+  const list = filteredGames();
+  $("stand-count").textContent = list.length + " of " + games.length + " games on the stand";
+  host.innerHTML = "";
+  if (!list.length){
+    host.innerHTML = '<div class="empty">nothing on this shelf... try another search!</div>';
+    return;
+  }
+  const width = host.clientWidth || 1060;
+  const per = Math.max(2, Math.floor((width - 24) / 164));
+  for (let i = 0; i < list.length; i += per){
+    const row = document.createElement("div");
+    row.className = "shelf-row";
+    list.slice(i, i + per).forEach((g, j) => {
+      const c = CONSOLES[g.console];
+      const d = document.createElement("div");
+      d.className = "cover";
+      d.style.animationDelay = Math.min((i + j) * 18, 500) + "ms";
+      d.style.setProperty("--accent", c.color);
+      d.innerHTML =
+        '<div class="case"><img src="/static/' + g.cover + '" alt="' + g.name + '" loading="lazy"></div>' +
+        '<span class="tag">' + g.console.toUpperCase() + "</span>" +
+        '<span class="ytag">' + g.year + "</span>" +
+        '<div class="name">' + g.name + "</div>";
+      row.appendChild(d);
+    });
+    host.appendChild(row);
+    const plank = document.createElement("div");
+    plank.className = "plank";
+    host.appendChild(plank);
+  }
+}
+
+function renderPick(){
+  const box = $("console-pick");
+  box.innerHTML = "";
+  Object.keys(CONSOLES).forEach(key => {
+    const c = CONSOLES[key];
+    const d = document.createElement("div");
+    d.className = "pick" + (pickedConsole === key ? " active" : "");
+    d.style.setProperty("--pick", c.color);
+    d.style.setProperty("--pick-soft", c.soft);
+    d.innerHTML = '<img src="' + c.img + '" alt="">' + c.label;
+    d.addEventListener("click", () => { pickedConsole = key; renderPick(); });
+    box.appendChild(d);
+  });
+}
+
+function renderAgents(){
+  const grid = $("agent-grid");
+  grid.innerHTML = "";
+  AGENTS.forEach(a => {
+    const d = document.createElement("div");
+    d.className = "agent-card" + (config.agent === a.id ? " active" : "");
+    d.innerHTML =
+      '<div class="check">&#10003;</div>' +
+      "<h3>" + a.name + (a.def ? '<span class="default-badge">default</span>' : "") + "</h3>" +
+      "<p>" + a.desc + "</p>" +
+      '<div class="term"><span class="p">$</span> ' + a.cmd + ' "find the box art of ..."</div>';
+    d.addEventListener("click", async () => {
+      const r = await fetch("/api/config", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({agent:a.id})});
+      config = await r.json();
+      $("agent-hint").textContent = config.agent;
+      renderAgents();
+      $("saved-note").textContent = "saved! " + a.name + " will hunt your covers now";
+      setTimeout(() => { $("saved-note").textContent = ""; }, 3200);
+    });
+    grid.appendChild(d);
+  });
+}
+
+$("add-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const name = $("game-name").value.trim();
+  const side = $("add-side");
+  if (!name){ side.innerHTML = '<div class="hint error-note">give me a game title first!</div>'; return; }
+  if (!pickedConsole){ side.innerHTML = '<div class="hint error-note">pick a console: PS5, Switch or Steam</div>'; return; }
+  const btn = $("add-btn");
+  btn.disabled = true;
+  side.innerHTML = '<div><div class="spinner"></div><div class="hint"><b>' + config.agent +
+    "</b> is searching the web for the cover of <b>" + name + "</b>... this can take a minute</div></div>";
+  try{
+    const r = await fetch("/api/games", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:name,console:pickedConsole})});
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || "something went wrong");
+    games.push(data.game);
+    renderDashboard();
+    renderYears();
+    side.innerHTML =
+      '<div><div class="result-cover"><img src="/static/' + data.game.cover + '"></div>' +
+      '<div class="result-name">' + data.game.name + "</div>" +
+      '<div class="result-meta">' + data.game.console + " &middot; cover found by " + data.source + "</div></div>";
+    $("game-name").value = "";
+  }catch(err){
+    side.innerHTML = '<div class="hint error-note">' + err.message + "</div>";
+  }
+  btn.disabled = false;
+});
+
+$("search-input").addEventListener("input", e => { searchTerm = e.target.value; renderStand(); });
+$("year-filter").addEventListener("change", e => { filterYear = e.target.value; renderStand(); });
+let resizeTimer;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => { if ($("stand").classList.contains("active")) renderStand(); }, 200);
+});
+
+async function boot(){
+  const [g, c] = await Promise.all([fetch("/api/games"), fetch("/api/config")]);
+  games = await g.json();
+  config = await c.json();
+  $("agent-hint").textContent = config.agent;
+  renderDashboard();
+  renderChips();
+  renderYears();
+  renderPick();
+  renderAgents();
+}
+boot();
+</script>
+</body>
+</html>
