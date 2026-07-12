@@ -1,0 +1,36 @@
+pocs/fable-5-game-stand/architecture.svg
+  s_15997b10a40547::t_671edbe0299bcf 29
+pocs/fable-5-game-stand/templates/index.html
+  s_15997b10a40547::t_6a4caec8f7b534 510,513,521-595
+  s_15997b10a40547::t_ddb562815d7db5 428-434
+  s_15997b10a40547::t_eef9a49915c458 144-146
+  s_15997b10a40547::t_549bd50ca1ed8b 238-278
+  s_15997b10a40547::t_9bbf3e1d299f2f 394-396,398-400
+  s_15997b10a40547::t_a4ff623ea8365a 362-378
+  s_15997b10a40547::t_519cb0fb887bc2 147
+  s_15997b10a40547::t_7b3d1cfe016c6e 596
+pocs/fable-5-game-stand/README.md
+  s_15997b10a40547::t_e86edf19af8d17 63-77
+  s_15997b10a40547::t_75d8132d88bbbc 36-37,41-43
+  s_15997b10a40547::t_c5c91799ebfd16 44
+pocs/fable-5-game-stand/stop.sh
+  s_15997b10a40547::t_0cf0c046491ee5 7-8
+pocs/fable-5-game-stand/app.py
+  s_15997b10a40547::t_63c25ea4a6332d 122-136
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "c21718e2570adab0d408fe1a7630e4fac7695d45",
+  "prompts": {},
+  "sessions": {
+    "s_15997b10a40547": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bb254969-55b9-4a4f-8f01-f4eb5a9553ad",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
