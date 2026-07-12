@@ -357,7 +357,7 @@
     "console": "Steam",
     "year": 2022,
     "order": 45,
-    "cover": "covers/the-last-cube.svg"
+    "cover": "covers/the-last-cube.jpg"
   },
   {
     "id": "spider-man-miles-morales",
@@ -845,7 +845,7 @@
     "console": "Steam",
     "year": 2025,
     "order": 106,
-    "cover": "covers/the-complex.svg"
+    "cover": "covers/the-complex.jpg"
   },
   {
     "id": "battlefield-6",
