@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A cinematic real-time WebGL ocean simulator with a buoyant rubber duck.">
+  <title>Pelagic — Wave Observatory</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <canvas id="ocean" aria-label="Interactive 3D ocean with a floating rubber duck"></canvas>
+    <div class="grain"></div>
+    <header class="masthead">
+      <a class="brand" href="#" aria-label="Pelagic home">
+        <span class="brand-mark"></span>
+        <span>PELAGIC</span>
+      </a>
+      <div class="coordinates">
+        <span>47° 36′ N</span>
+        <span>122° 20′ W</span>
+      </div>
+      <button class="sound" id="motionToggle" type="button" aria-pressed="true">
+        <span class="sound-bars"><i></i><i></i><i></i><i></i></span>
+        <span id="motionLabel">LIVE MOTION</span>
+      </button>
+    </header>
+
+    <section class="hero" aria-labelledby="title">
+      <p class="eyebrow"><span></span> REAL-TIME MARINE STUDY 01</p>
+      <h1 id="title">Surface<br><em>Studies</em></h1>
+      <p class="intro">A living study of wind, water and one remarkably resilient passenger.</p>
+    </section>
+
+    <aside class="panel" aria-label="Wave controls">
+      <div class="panel-heading">
+        <div>
+          <p class="kicker">OCEANOGRAPHIC CONTROLS</p>
+          <h2>Shape the sea</h2>
+        </div>
+        <button class="collapse" id="collapse" type="button" aria-label="Collapse controls">−</button>
+      </div>
+      <div class="panel-body" id="panelBody">
+        <label class="control">
+          <span>Wave height <output id="heightValue">1.15 m</output></span>
+          <input id="height" type="range" min="0.15" max="2.5" value="1.15" step="0.05">
+        </label>
+        <label class="control">
+          <span>Wave length <output id="lengthValue">5.8 m</output></span>
+          <input id="length" type="range" min="2" max="12" value="5.8" step="0.1">
+        </label>
+        <label class="control">
+          <span>Wind speed <output id="speedValue">14 kn</output></span>
+          <input id="speed" type="range" min="0" max="32" value="14" step="1">
+        </label>
+        <label class="control">
+          <span>Choppiness <output id="chopValue">46%</output></span>
+          <input id="chop" type="range" min="0" max="100" value="46" step="1">
+        </label>
+        <div class="rule"></div>
+        <div class="switch-row">
+          <div>
+            <span>Storm front</span>
+            <small>Sharper water, colder light</small>
+          </div>
+          <label class="switch">
+            <input id="storm" type="checkbox">
+            <span></span>
+          </label>
+        </div>
+        <div class="preset-row">
+          <button type="button" data-preset="calm">CALM</button>
+          <button type="button" class="active" data-preset="swell">SWELL</button>
+          <button type="button" data-preset="squall">SQUALL</button>
+        </div>
+      </div>
+    </aside>
+
+    <footer>
+      <div class="status"><span></span> SIMULATION STABLE</div>
+      <p>DRAG TO LOOK · SCROLL TO ZOOM</p>
+      <p><span id="fps">60</span> FPS · WEBGL</p>
+    </footer>
+    <div class="unsupported" id="unsupported" hidden>WebGL is unavailable. Enable hardware acceleration and reload.</div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
