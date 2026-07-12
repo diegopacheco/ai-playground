@@ -1,0 +1,29 @@
+services:
+  temporal:
+    image: temporalio/temporal:latest
+    command: server start-dev --ip 0.0.0.0
+    ports:
+      - "7233:7233"
+      - "8233:8233"
+  worker:
+    build:
+      context: .
+      dockerfile: Containerfile
+    command: python -m model_pipeline.worker
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+    volumes:
+      - ./model/artifacts:/app/model/artifacts
+    depends_on:
+      - temporal
+    restart: on-failure
+  ui:
+    build:
+      context: .
+      dockerfile: Containerfile
+    command: python -m web_ui.server
+    ports:
+      - "${UI_PORT:-8091}:8080"
+    volumes:
+      - ./model/artifacts:/app/model/artifacts:ro
+    restart: on-failure

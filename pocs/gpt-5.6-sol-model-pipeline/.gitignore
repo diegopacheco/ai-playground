@@ -1,0 +1,5 @@
+model/artifacts/*
+!model/artifacts/.gitkeep
+__pycache__/
+*.pyc
+.DS_Store
