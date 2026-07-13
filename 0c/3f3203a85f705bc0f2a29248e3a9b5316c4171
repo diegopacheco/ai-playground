@@ -1,0 +1,40 @@
+pocs/tv-time-like/desktop-app/install.sh
+  s_40760ef814bad7::t_d28acabb942004 1-12,14-28,31-39
+  s_40760ef814bad7::t_35eaef90f59067 29-30
+  s_40760ef814bad7::t_cf5b3186a16b05 13
+pocs/tv-time-like/desktop-app/README.md
+  s_40760ef814bad7::t_d28acabb942004 1-23
+pocs/tv-time-like/desktop-app/package.json
+  s_40760ef814bad7::t_d28acabb942004 1-18
+pocs/tv-time-like/desktop-app/main.cjs
+  s_40760ef814bad7::t_b313f406d815c9 161-163
+  s_40760ef814bad7::t_35eaef90f59067 2,31-36,59
+  s_40760ef814bad7::t_43770d9dbe95bd 151-152
+  s_40760ef814bad7::t_d28acabb942004 1,3-30,37-58,60-150,153-160,164-185
+pocs/tv-time-like/desktop-app/uninstall.sh
+  s_40760ef814bad7::t_d28acabb942004 1-11
+pocs/tv-time-like/desktop-app/test.sh
+  s_40760ef814bad7::t_d28acabb942004 1-6
+pocs/tv-time-like/desktop-app/run-desktop-app.sh
+  s_40760ef814bad7::t_d28acabb942004 1-9
+pocs/tv-time-like/desktop-app/bun.lock
+  s_40760ef814bad7::t_b0e827f5684d68 1-42
+pocs/tv-time-like/desktop-app/.gitignore
+  s_40760ef814bad7::t_0fdf70b34ed825 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "0c3f3203a85f705bc0f2a29248e3a9b5316c4171",
+  "prompts": {},
+  "sessions": {
+    "s_40760ef814bad7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5ad7-33ac-7d43-801c-a871c2377658",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
