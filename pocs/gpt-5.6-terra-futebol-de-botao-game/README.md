@@ -2,6 +2,20 @@
 
 A dependency-free futebol de botão game for the browser. Play locally with two people or challenge an AI-controlled Inter powered by Claude, Codex, or Agy.
 
+## Screenshots
+
+### Match setup
+
+![Mesa 12 match setup](docs/screenshots/setup.png)
+
+Every session begins with a focused setup screen. Players first choose between a local two-player match and a match against an AI-controlled Inter. AI and narrator selections only appear when they are relevant.
+
+### Live match
+
+![Mesa 12 live match](docs/screenshots/match.png)
+
+The live table combines the three-minute scoreboard, named Grêmio and Inter players from 1996, turn guidance, tactile button physics, stadium atmosphere, and optional spoken AI commentary displayed over the pitch.
+
 ## Run
 
 ```bash
