@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07160d">
+  <title>Ybyrá · Living Amazon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="jungle">
+    <div class="backdrop"></div>
+    <canvas id="atmosphere"></canvas>
+    <div class="light"></div>
+    <div class="rain" id="rain"></div>
+    <div class="grain"></div>
+    <header>
+      <a class="mark" href="#" aria-label="Ybyrá home"><span class="mark-leaf">⌁</span><span>YBYRÁ</span></a>
+      <div class="coordinates">03° 06' S · 60° 01' W<br><span id="zone">FLORESTA AMAZÔNICA · DAWN</span></div>
+      <div class="controls">
+        <button id="sound" class="sound" aria-label="Turn forest sound on" aria-pressed="false"><span class="sound-bars"><i></i><i></i><i></i><i></i></span><span>SOUND OFF</span></button>
+        <button id="fullscreen" aria-label="Enter full screen"><span>⛶</span><b>FULL SCREEN</b></button>
+      </div>
+    </header>
+    <section class="hero">
+      <p class="eyebrow">THE FOREST BREATHES</p>
+      <h1>enter the<br><em>living green.</em></h1>
+      <p class="intro">Move softly along the water.<br>The deeper you wander, the more the forest reveals.</p>
+      <button id="begin" class="begin"><span>BEGIN LISTENING</span><b>↓</b></button>
+    </section>
+    <button class="creature jaguar" id="jaguar" aria-label="Meet the jaguar">
+      <span class="jaguar-body"><i></i><i></i><i></i><i></i><b></b></span>
+      <span class="creature-label">ONÇA-PINTADA<br><em>Panthera onca</em></span>
+    </button>
+    <button class="creature snake" id="snake" aria-label="Meet the coral snake">
+      <span class="snake-body"></span>
+      <span class="creature-label">CORAL-VERDADEIRA<br><em>Micrurus corallinus</em></span>
+    </button>
+    <button class="guardian" id="guardian" aria-label="Greet the forest guardian">
+      <span class="feathers"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="guardian-head"></span><span class="guardian-body"></span>
+      <span class="creature-label">GUARDIAN OF THE FOREST<br><em>click to greet</em></span>
+    </button>
+    <aside class="story" id="story" aria-live="polite">
+      <span id="chapter">I · IGAPÓ</span>
+      <p id="story-text">Where the river enters the forest, roots learn the rhythm of the water.</p>
+    </aside>
+    <div class="journey"><span>JOURNEY</span><b id="distance">000 M</b><i><u id="journey-line"></u></i></div>
+    <button id="weather" class="weather" aria-pressed="false"><span>☂</span><span>WEATHER<br><b>HUMID</b></span></button>
+    <button id="pause" class="pause" aria-pressed="false"><span></span><b>STOP</b></button>
+    <div class="hint"><span>SCROLL WITHOUT END · CLICK WHAT YOU FIND</span><i></i></div>
+    <div class="notice" id="notice" aria-live="polite"></div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
