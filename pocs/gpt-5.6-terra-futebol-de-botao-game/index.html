@@ -31,6 +31,19 @@
         <button class="setup-option" type="button" data-provider="codex"><span>CX</span><strong>Codex</strong><small>codex exec</small></button>
         <button class="setup-option" type="button" data-provider="agy"><span>AG</span><strong>Agy</strong><small>agy --print</small></button>
       </div>
+      <div id="narrationOptions" class="setup-options" hidden>
+        <button class="setup-option" type="button" data-narration="yes"><span>SIM</span><strong>Com narrador</strong><small>Comentários falados a cada jogada</small></button>
+        <button class="setup-option red-option" type="button" data-narration="no"><span>NÃO</span><strong>Sem narrador</strong><small>Somente torcida e efeitos</small></button>
+      </div>
+      <div id="narratorAgentOptions" class="setup-options agent-options" hidden>
+        <button class="setup-option" type="button" data-narrator-provider="claude"><span>CL</span><strong>Claude</strong><small>claude -p</small></button>
+        <button class="setup-option" type="button" data-narrator-provider="codex"><span>CX</span><strong>Codex</strong><small>codex exec</small></button>
+        <button class="setup-option" type="button" data-narrator-provider="agy"><span>AG</span><strong>Agy</strong><small>agy --print</small></button>
+      </div>
+      <div id="languageOptions" class="setup-options" hidden>
+        <button class="setup-option" type="button" data-language="pt-BR"><span>PT</span><strong>Português</strong><small>Narração brasileira</small></button>
+        <button class="setup-option red-option" type="button" data-language="en-US"><span>EN</span><strong>English</strong><small>English commentary</small></button>
+      </div>
       <button id="backButton" class="setup-back" type="button" hidden>VOLTAR</button>
     </div>
   </div>
@@ -77,6 +90,7 @@
       <div class="table-frame">
         <canvas id="game" width="1200" height="700" aria-label="Campo de futebol de botao"></canvas>
         <div id="goalBanner" class="goal-banner" aria-hidden="true">GOOOL!</div>
+        <div id="commentaryBubble" class="commentary-bubble" aria-live="polite" hidden></div>
       </div>
 
       <aside class="side-panel">

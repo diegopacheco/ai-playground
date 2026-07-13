@@ -75,6 +75,8 @@ button {
 
 .setup-card {
   width: min(680px, 100%);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
   padding: clamp(24px, 4vw, 48px);
   color: var(--ink);
   background: var(--cream);
@@ -407,6 +409,27 @@ canvas {
   animation: goal .95s ease-out;
 }
 
+.commentary-bubble {
+  position: absolute;
+  right: clamp(16px, 3vw, 38px);
+  bottom: clamp(16px, 3vw, 34px);
+  left: clamp(16px, 3vw, 38px);
+  z-index: 3;
+  margin: auto;
+  padding: 10px 16px;
+  max-width: 780px;
+  color: var(--ink);
+  text-align: center;
+  background: rgba(243, 234, 212, .96);
+  border: 3px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--red);
+  font-size: clamp(.9rem, 1.8vw, 1.15rem);
+  font-weight: 800;
+  line-height: 1.15;
+  text-shadow: none;
+  animation: commentary-in .28s ease-out;
+}
+
 .side-panel {
   display: flex;
   flex-direction: column;
@@ -522,6 +545,11 @@ footer {
   0% { opacity: 0; transform: translate(-50%, -50%) rotate(-10deg) scale(.5); }
   25%, 70% { opacity: 1; transform: translate(-50%, -50%) rotate(-4deg) scale(1); }
   100% { opacity: 0; transform: translate(-50%, -50%) rotate(2deg) scale(1.2); }
+}
+
+@keyframes commentary-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 900px) {

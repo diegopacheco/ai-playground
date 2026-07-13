@@ -18,7 +18,11 @@ const setupTitle = document.getElementById('setupTitle')
 const setupCopy = document.getElementById('setupCopy')
 const modeOptions = document.getElementById('modeOptions')
 const agentOptions = document.getElementById('agentOptions')
+const narrationOptions = document.getElementById('narrationOptions')
+const narratorAgentOptions = document.getElementById('narratorAgentOptions')
+const languageOptions = document.getElementById('languageOptions')
 const backButton = document.getElementById('backButton')
+const commentaryBubble = document.getElementById('commentaryBubble')
 
 const width = canvas.width
 const height = canvas.height
@@ -53,6 +57,14 @@ let aiProvider = null
 let aiThinking = false
 let aiRequestId = 0
 let confetti = []
+let setupStage = 'mode'
+let pendingGameMode = null
+let pendingGameProvider = null
+let narrationOn = false
+let narratorProvider = null
+let narrationLanguage = null
+let lastShot = null
+let commentaryQueue = Promise.resolve()
 
 const colors = {
   blue: '#1975c9',
@@ -86,6 +98,7 @@ function resetGame() {
   aiRequestId += 1
   aiThinking = false
   confetti = []
+  lastShot = null
   blueScore = 0
   redScore = 0
   timeLeft = 180
@@ -204,28 +217,71 @@ function providerName() {
   return { claude: 'Claude', codex: 'Codex', agy: 'Agy' }[aiProvider] || 'IA'
 }
 
-function closeSetup(mode, provider = null) {
-  gameMode = mode
-  aiProvider = provider
+function hideSetupOptions() {
+  modeOptions.hidden = true
+  agentOptions.hidden = true
+  narrationOptions.hidden = true
+  narratorAgentOptions.hidden = true
+  languageOptions.hidden = true
+}
+
+function closeSetup() {
+  gameMode = pendingGameMode
+  aiProvider = pendingGameProvider
   setupModal.classList.add('closed')
   resetGame()
   startCrowd()
 }
 
 function showAgentOptions() {
+  setupStage = 'game-agent'
   setupTitle.textContent = 'Escolha a IA'
   setupCopy.textContent = 'Quem vai comandar o Inter de 96?'
-  modeOptions.hidden = true
+  hideSetupOptions()
   agentOptions.hidden = false
   backButton.hidden = false
 }
 
 function showModeOptions() {
+  setupStage = 'mode'
   setupTitle.textContent = 'Quem vai jogar?'
   setupCopy.textContent = 'Escolha o formato da partida.'
+  hideSetupOptions()
   modeOptions.hidden = false
-  agentOptions.hidden = true
   backButton.hidden = true
+}
+
+function showNarrationOptions() {
+  setupStage = 'narration'
+  setupTitle.textContent = 'Quer narração?'
+  setupCopy.textContent = 'Um comentarista pode dar voz a cada jogada.'
+  hideSetupOptions()
+  narrationOptions.hidden = false
+  backButton.hidden = false
+}
+
+function showNarratorAgents() {
+  setupStage = 'narrator-agent'
+  setupTitle.textContent = 'Escolha o narrador'
+  setupCopy.textContent = 'Qual IA vai assumir o microfone?'
+  hideSetupOptions()
+  narratorAgentOptions.hidden = false
+  backButton.hidden = false
+}
+
+function showLanguageOptions() {
+  setupStage = 'language'
+  setupTitle.textContent = 'Qual idioma?'
+  setupCopy.textContent = 'Escolha a voz da transmissão.'
+  hideSetupOptions()
+  languageOptions.hidden = false
+  backButton.hidden = false
+}
+
+function chooseGame(mode, provider = null) {
+  pendingGameMode = mode
+  pendingGameProvider = provider
+  showNarrationOptions()
 }
 
 function fallbackAiShot() {
