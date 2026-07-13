@@ -65,6 +65,7 @@ let narratorProvider = null
 let narrationLanguage = null
 let lastShot = null
 let commentaryQueue = Promise.resolve()
+let commentaryGeneration = 0
 
 const colors = {
   blue: '#1975c9',
@@ -99,6 +100,9 @@ function resetGame() {
   aiThinking = false
   confetti = []
   lastShot = null
+  commentaryGeneration += 1
+  commentaryBubble.hidden = true
+  if ('speechSynthesis' in window) speechSynthesis.cancel()
   blueScore = 0
   redScore = 0
   timeLeft = 180
@@ -284,6 +288,67 @@ function chooseGame(mode, provider = null) {
   showNarrationOptions()
 }
 
+function fallbackCommentary(event, shot) {
+  if (narrationLanguage === 'en-US') {
+    return event === 'goal' ? `Goal! ${shot.player} sends the stadium into orbit for ${shot.team}!` : `${shot.player} launches the button across the green felt—what a fearless strike for ${shot.team}!`
+  }
+  return event === 'goal' ? `Golaço! ${shot.player} faz o estádio explodir em festa para o ${shot.team}!` : `${shot.player} solta o botão no tapete verde—uma pancada cheia de coragem para o ${shot.team}!`
+}
+
+function speakCommentary(text) {
+  if (!soundOn || !('speechSynthesis' in window)) return
+  const utterance = new SpeechSynthesisUtterance(text)
+  utterance.lang = narrationLanguage
+  utterance.rate = narrationLanguage === 'pt-BR' ? 1.08 : 1.02
+  utterance.pitch = 1.08
+  const voice = speechSynthesis.getVoices().find(item => item.lang.toLowerCase().startsWith(narrationLanguage.slice(0, 2).toLowerCase()))
+  if (voice) utterance.voice = voice
+  utterance.onstart = () => {
+    if (crowdGain && audioContext) crowdGain.gain.setTargetAtTime(.025, audioContext.currentTime, .08)
+  }
+  utterance.onend = () => {
+    if (crowdGain && audioContext) crowdGain.gain.setTargetAtTime(.08, audioContext.currentTime, .18)
+  }
+  speechSynthesis.speak(utterance)
+}
+
+function showCommentary(text) {
+  commentaryBubble.hidden = true
+  commentaryBubble.textContent = text
+  void commentaryBubble.offsetWidth
+  commentaryBubble.hidden = false
+  speakCommentary(text)
+}
+
+function requestNarration(event, shot, endBall) {
+  if (!narrationOn || !shot) return
+  const generation = commentaryGeneration
+  const payload = {
+    provider: narratorProvider,
+    language: narrationLanguage,
+    event,
+    team: shot.team,
+    player: shot.player,
+    startBall: shot.ball,
+    endBall
+  }
+  commentaryQueue = commentaryQueue.then(async () => {
+    let text
+    try {
+      const response = await fetch('/api/commentary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      if (!response.ok) throw new Error('Narrator unavailable')
+      text = (await response.json()).commentary
+    } catch {
+      text = fallbackCommentary(event, shot)
+    }
+    if (generation === commentaryGeneration) showCommentary(text)
+  })
+}
+
 function fallbackAiShot() {
   const redPlayers = players.filter(player => player.team === 'red')
   const player = redPlayers.reduce((closest, current) => Math.hypot(current.x - ball.x, current.y - ball.y) < Math.hypot(closest.x - ball.x, closest.y - ball.y) ? current : closest)
@@ -321,6 +386,7 @@ async function requestAiTurn() {
   const player = players.find(item => item.team === 'red' && item.number === Number(shot.player)) || players.find(item => item.team === 'red')
   const power = Math.max(.25, Math.min(1, Number(shot.power)))
   const angle = Number(shot.angle)
+  lastShot = { team: 'Inter', player: player.name, ball: { x: ball.x, y: ball.y } }
   player.vx = Math.cos(angle) * maxPower * power
   player.vy = Math.sin(angle) * maxPower * power
   aiThinking = false
@@ -360,6 +426,7 @@ function handlePointerUp(event) {
   const distance = Math.hypot(dx, dy)
   if (distance > 12) {
     const power = Math.min(distance * .13, maxPower)
+    lastShot = { team: selected.team === 'blue' ? 'Grêmio' : 'Inter', player: selected.name, ball: { x: ball.x, y: ball.y } }
     selected.vx = dx / distance * power
     selected.vy = dy / distance * power
     moving = true
@@ -417,6 +484,7 @@ function constrain(body, isBall) {
 }
 
 function scoreGoal(team) {
+  const finish = { x: ball.x, y: ball.y }
   if (team === 'blue') blueScore += 1
   else redScore += 1
   goalBanner.classList.remove('show')
@@ -426,6 +494,8 @@ function scoreGoal(team) {
   setTimeout(() => beep(880, .35), 180)
   cheer()
   spawnConfetti(team)
+  requestNarration('goal', lastShot || { team: team === 'blue' ? 'Grêmio' : 'Inter', player: team === 'blue' ? 'Grêmio' : 'Inter', ball: { x: 600, y: 350 } }, finish)
+  lastShot = null
   turn = team === 'blue' ? 'red' : 'blue'
   resetPositions()
   updateInterface()
@@ -487,6 +557,8 @@ function updatePhysics() {
   if (ball.x > width - 18 && ball.y > goalTop && ball.y < goalBottom) scoreGoal('blue')
   if (moving && bodies.every(body => body.vx === 0 && body.vy === 0)) {
     moving = false
+    requestNarration('move', lastShot, { x: ball.x, y: ball.y })
+    lastShot = null
     turn = turn === 'blue' ? 'red' : 'blue'
     updateInterface()
     requestAiTurn()
@@ -636,6 +708,7 @@ soundButton.addEventListener('click', () => {
     beep(330, .12, true, .09)
     soundOn = false
     stopCrowd()
+    if ('speechSynthesis' in window) speechSynthesis.cancel()
   } else {
     soundOn = true
     beep(440, .08)
@@ -647,10 +720,28 @@ soundButton.addEventListener('click', () => {
 })
 document.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => {
   if (button.dataset.mode === 'ai') showAgentOptions()
-  else closeSetup('human')
+  else chooseGame('human')
 }))
-document.querySelectorAll('[data-provider]').forEach(button => button.addEventListener('click', () => closeSetup('ai', button.dataset.provider)))
-backButton.addEventListener('click', showModeOptions)
+document.querySelectorAll('[data-provider]').forEach(button => button.addEventListener('click', () => chooseGame('ai', button.dataset.provider)))
+document.querySelectorAll('[data-narration]').forEach(button => button.addEventListener('click', () => {
+  narrationOn = button.dataset.narration === 'yes'
+  if (narrationOn) showNarratorAgents()
+  else closeSetup()
+}))
+document.querySelectorAll('[data-narrator-provider]').forEach(button => button.addEventListener('click', () => {
+  narratorProvider = button.dataset.narratorProvider
+  showLanguageOptions()
+}))
+document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => {
+  narrationLanguage = button.dataset.language
+  closeSetup()
+}))
+backButton.addEventListener('click', () => {
+  if (setupStage === 'game-agent') showModeOptions()
+  else if (setupStage === 'narration') pendingGameMode === 'ai' ? showAgentOptions() : showModeOptions()
+  else if (setupStage === 'narrator-agent') showNarrationOptions()
+  else if (setupStage === 'language') showNarratorAgents()
+})
 fullscreenButton.addEventListener('click', () => {
   const enter = document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen
   const exit = document.exitFullscreen || document.webkitExitFullscreen

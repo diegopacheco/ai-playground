@@ -38,6 +38,8 @@ codex exec "prompt"
 agy --print "prompt"
 ```
 
+The setup then offers optional spoken narration. Choose Claude, Codex, or Agy as the commentator and select Brazilian Portuguese or English. The selected AI creates a short commentary after every move and goal, while the browser reads it aloud.
+
 The match lasts three minutes. Use **PAUSAR** to pause the clock and **REINICIAR** to reset the score, clock, and pieces.
 
 ## Stack
