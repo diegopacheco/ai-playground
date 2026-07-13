@@ -8,12 +8,12 @@ A dependency-free futebol de botão game for the browser. Play locally with two 
 ./start.sh
 ```
 
-Open `http://127.0.0.1:8080`.
+Open `http://127.0.0.1:8091`.
 
 Use a different port when needed:
 
 ```bash
-PORT=9090 ./start.sh
+PORT=8123 ./start.sh
 ```
 
 Stop the server:

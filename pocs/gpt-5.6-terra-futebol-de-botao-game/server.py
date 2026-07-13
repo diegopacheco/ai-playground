@@ -92,7 +92,13 @@ class GameHandler(SimpleHTTPRequestHandler):
         except (KeyError, ValueError, TypeError, json.JSONDecodeError) as error:
             self.send_json(400, {"error": str(error)})
 
+    def do_GET(self):
+        if self.path == "/health":
+            self.send_json(200, {"status": "ok", "game": "mesa12"})
+            return
+        super().do_GET()
+
 
 if __name__ == "__main__":
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+    port = int(sys.argv[1]) if len(sys.argv) > 1 else 8091
     ThreadingHTTPServer(("127.0.0.1", port), GameHandler).serve_forever()
