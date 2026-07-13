@@ -11,7 +11,7 @@ Requirements: macOS and Bun 1.3 or newer.
 ./run-desktop-app.sh
 ```
 
-`install.sh` builds the React interface, packages the Electron runtime, signs the local bundle, and installs `Reelmark.app` in `/Applications`. It keeps the existing repository database as the shared source of truth.
+`install.sh` builds the React interface, generates the native Reelmark icon set, packages the Electron runtime, signs the local bundle, and installs `Reelmark.app` in `/Applications`. It keeps the existing repository database as the shared source of truth.
 
 ## Test
 
