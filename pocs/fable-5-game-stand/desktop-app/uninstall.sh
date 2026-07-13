@@ -15,5 +15,11 @@ if [ -f .desktop.pid ]; then
   fi
   rm -f .desktop.pid
 fi
+for app_bundle in "/Applications/Game Stand.app" "$HOME/Applications/Game Stand.app"; do
+  if [ -d "$app_bundle" ]; then
+    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -u "$app_bundle" 2>/dev/null || true
+    rm -rf "$app_bundle"
+  fi
+done
 rm -rf node_modules .venv
 echo "Game Stand desktop app uninstalled"

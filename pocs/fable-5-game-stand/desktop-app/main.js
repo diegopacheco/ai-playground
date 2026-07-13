@@ -5,8 +5,11 @@ const http = require("http")
 const net = require("net")
 const path = require("path")
 
-const desktopDirectory = __dirname
-const projectDirectory = path.resolve(desktopDirectory, "..")
+const sourceFile = path.join(process.resourcesPath, "source-path")
+const projectDirectory = fs.existsSync(sourceFile)
+  ? fs.readFileSync(sourceFile, "utf8").trim()
+  : path.resolve(__dirname, "..")
+const desktopDirectory = path.join(projectDirectory, "desktop-app")
 const python = path.join(desktopDirectory, ".venv", "bin", "python")
 const pidFile = path.join(desktopDirectory, ".desktop.pid")
 let backend
