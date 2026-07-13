@@ -1,0 +1,28 @@
+pocs/tv-time-like/shared/types.ts
+  s_40760ef814bad7::t_b2d53b3346f86e 70-76
+pocs/tv-time-like/server/index.ts
+  s_40760ef814bad7::t_b2d53b3346f86e 10,49-50
+pocs/tv-time-like/src/api/client.ts
+  s_40760ef814bad7::t_b2d53b3346f86e 1,22-29
+pocs/tv-time-like/server/episodes.ts
+  s_40760ef814bad7::t_0ccfae1a8af2b7 49,95-98
+  s_40760ef814bad7::t_b2d53b3346f86e 29-35,167-191,202-204
+  s_40760ef814bad7::t_e58f0e3f48c31a 55-56,82
+  s_40760ef814bad7::t_c2c5713b2cf979 192-201
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "6c9a4193330af451ab5f77ce9f7f89e4f9002d4e",
+  "prompts": {},
+  "sessions": {
+    "s_40760ef814bad7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5ad7-33ac-7d43-801c-a871c2377658",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
