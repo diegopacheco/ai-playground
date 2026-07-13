@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123f2a">
+  <meta name="description" content="Jogo de futebol de botao para dois jogadores">
+  <title>Mesa 12 — Futebol de Botão</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="setupModal" class="setup-modal" role="dialog" aria-modal="true" aria-labelledby="setupTitle">
+    <div class="setup-card">
+      <span class="setup-kicker">Mesa 12 apresenta</span>
+      <h2 id="setupTitle">Quem vai jogar?</h2>
+      <p id="setupCopy">Escolha o formato da partida.</p>
+      <div id="modeOptions" class="setup-options">
+        <button class="setup-option" type="button" data-mode="human">
+          <span>01</span>
+          <strong>Humano × Humano</strong>
+          <small>Dois jogadores na mesma mesa</small>
+        </button>
+        <button class="setup-option red-option" type="button" data-mode="ai">
+          <span>02</span>
+          <strong>Humano × IA</strong>
+          <small>Você joga com o Grêmio</small>
+        </button>
+      </div>
+      <div id="agentOptions" class="setup-options agent-options" hidden>
+        <button class="setup-option" type="button" data-provider="claude"><span>CL</span><strong>Claude</strong><small>claude -p</small></button>
+        <button class="setup-option" type="button" data-provider="codex"><span>CX</span><strong>Codex</strong><small>codex exec</small></button>
+        <button class="setup-option" type="button" data-provider="agy"><span>AG</span><strong>Agy</strong><small>agy --print</small></button>
+      </div>
+      <button id="backButton" class="setup-back" type="button" hidden>VOLTAR</button>
+    </div>
+  </div>
+  <main>
+    <header class="masthead">
+      <div class="brand">
+        <span class="brand-kicker">Clube de mesa</span>
+        <h1>Mesa <strong>12</strong></h1>
+      </div>
+      <div class="match-status" aria-live="polite">
+        <span id="statusDot" class="status-dot"></span>
+        <span id="statusText">Pronto para jogar</span>
+      </div>
+      <div class="header-actions">
+        <button id="soundButton" class="header-button" type="button" aria-label="Desativar som">SOM LIGADO</button>
+        <button id="fullscreenButton" class="header-button" type="button" aria-label="Entrar em tela cheia">TELA CHEIA</button>
+      </div>
+    </header>
+
+    <section class="scoreboard" aria-label="Placar">
+      <div class="team team-blue">
+        <span class="team-disc"></span>
+        <div>
+          <span class="team-label">Casa</span>
+          <span class="team-name">Grêmio</span>
+        </div>
+      </div>
+      <strong id="blueScore" class="score">0</strong>
+      <div class="clock-wrap">
+        <span id="clock" class="clock">03:00</span>
+        <span id="period" class="period">1º TEMPO</span>
+      </div>
+      <strong id="redScore" class="score">0</strong>
+      <div class="team team-red">
+        <div>
+          <span class="team-label">Visitante</span>
+          <span class="team-name">Inter</span>
+        </div>
+        <span class="team-disc"></span>
+      </div>
+    </section>
+
+    <section class="game-shell">
+      <div class="table-frame">
+        <canvas id="game" width="1200" height="700" aria-label="Campo de futebol de botao"></canvas>
+        <div id="goalBanner" class="goal-banner" aria-hidden="true">GOOOL!</div>
+      </div>
+
+      <aside class="side-panel">
+        <div class="turn-card">
+          <span class="eyebrow">Na vez</span>
+          <div class="turn-team">
+            <span id="turnDisc" class="turn-disc blue"></span>
+            <strong id="turnName">Grêmio</strong>
+          </div>
+          <p id="turnHint">Puxe um botão para trás e solte.</p>
+        </div>
+
+        <div class="controls-card">
+          <span class="eyebrow">Partida</span>
+          <button id="startButton" class="primary-button" type="button">INICIAR JOGO</button>
+          <button id="resetButton" class="secondary-button" type="button">REINICIAR</button>
+        </div>
+
+        <div class="rules-card">
+          <span class="eyebrow">Como bater</span>
+          <ol>
+            <li>Escolha um botão da sua cor.</li>
+            <li>Arraste na direção contrária.</li>
+            <li>Solte para fazer a jogada.</li>
+          </ol>
+        </div>
+      </aside>
+    </section>
+
+    <footer>
+      <span>FUTEBOL DE BOTÃO</span>
+      <span class="footer-mark">BRASIL · 2026</span>
+      <span>2 JOGADORES</span>
+    </footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
