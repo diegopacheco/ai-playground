@@ -1,0 +1,27 @@
+pocs/gpt-5.6-terra-futebol-de-botao-game/server.py
+  s_ebdc30a949f588::t_f80178a9e1d711 95-100
+  s_ebdc30a949f588::t_99c330566a44f5 103
+pocs/gpt-5.6-terra-futebol-de-botao-game/stop.sh
+  s_ebdc30a949f588::t_f80178a9e1d711 3-4,9-14
+pocs/gpt-5.6-terra-futebol-de-botao-game/README.md
+  s_ebdc30a949f588::t_99c330566a44f5 11,16
+pocs/gpt-5.6-terra-futebol-de-botao-game/start.sh
+  s_ebdc30a949f588::t_f80178a9e1d711 3-4,6-13,19-36
+  s_ebdc30a949f588::t_99c330566a44f5 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "ff5222bd56e750918f1ace7d0a1b5cdf42b39052",
+  "prompts": {},
+  "sessions": {
+    "s_ebdc30a949f588": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f58d0-3f8c-7182-a288-3e74aec3021f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
