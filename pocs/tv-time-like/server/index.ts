@@ -7,6 +7,7 @@ import { getSettings, saveSettings } from "./db.ts"
 import type { AiProvider } from "../shared/types.ts"
 import type { Media } from "../shared/types.ts"
 import { syncMetadata } from "./metadata.ts"
+import { syncLibraryEpisodes, syncMediaEpisodes } from "./episodes.ts"
 
 const json = (data: unknown, status = 200) => Response.json(data, { status, headers: { "Cache-Control": "no-store" } })
 
@@ -43,6 +44,9 @@ const server = Bun.serve({
           return json({ error: error instanceof Error ? error.message : "Metadata sync failed" }, 502)
         }
       }
+    },
+    "/api/episodes/sync": {
+      POST: async () => json(await syncLibraryEpisodes())
     },
     "/api/search": async request => {
       const query = new URL(request.url).searchParams.get("q") || ""
@@ -82,6 +86,9 @@ const server = Bun.serve({
         db.prepare("UPDATE media SET in_library = 1, watched = ?, watched_at = ? WHERE id = ?").run(watched ? 1 : 0, watched ? new Date().toISOString() : null, media.id)
         return json({ watched })
       }
+    },
+    "/api/media/:id/episodes/sync": {
+      POST: async request => json(await syncMediaEpisodes(request.params.id))
     },
     "/api/episodes/:id/watched": {
       PATCH: request => {

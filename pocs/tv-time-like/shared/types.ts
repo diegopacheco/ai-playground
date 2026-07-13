@@ -58,6 +58,15 @@ export type ImportReport = {
   messages: string[]
 }
 
+export type EpisodeSyncReport = {
+  showsScanned: number
+  showsMatched: number
+  episodesAdded: number
+  episodesUpdated: number
+  unmatched: string[]
+  failures: string[]
+}
+
 export type AiProvider = "codex" | "claude" | "gemini"
 
 export type CatalogItem = {

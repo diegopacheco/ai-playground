@@ -25,17 +25,18 @@ plutil -replace LSApplicationCategoryType -string public.app-category.entertainm
 plutil -remove ElectronAsarIntegrity "$bundle/Contents/Info.plist" 2>/dev/null || true
 iconset="$staging/reelmark.iconset"
 mkdir -p "$iconset"
-sips -z 16 16 "$root/reelmark-icon.png" --out "$iconset/icon_16x16.png" >/dev/null
-sips -z 32 32 "$root/reelmark-icon.png" --out "$iconset/icon_16x16@2x.png" >/dev/null
-sips -z 32 32 "$root/reelmark-icon.png" --out "$iconset/icon_32x32.png" >/dev/null
-sips -z 64 64 "$root/reelmark-icon.png" --out "$iconset/icon_32x32@2x.png" >/dev/null
-sips -z 128 128 "$root/reelmark-icon.png" --out "$iconset/icon_128x128.png" >/dev/null
-sips -z 256 256 "$root/reelmark-icon.png" --out "$iconset/icon_128x128@2x.png" >/dev/null
-sips -z 256 256 "$root/reelmark-icon.png" --out "$iconset/icon_256x256.png" >/dev/null
-sips -z 512 512 "$root/reelmark-icon.png" --out "$iconset/icon_256x256@2x.png" >/dev/null
-sips -z 512 512 "$root/reelmark-icon.png" --out "$iconset/icon_512x512.png" >/dev/null
-sips -z 1024 1024 "$root/reelmark-icon.png" --out "$iconset/icon_512x512@2x.png" >/dev/null
-iconutil -c icns "$iconset" -o "$bundle/Contents/Resources/reelmark.icns"
+sips -c 1152 1152 "$project/reelmark-logo.png" -o "$staging/reelmark-icon.png" >/dev/null
+sips -z 16 16 "$staging/reelmark-icon.png" --out "$iconset/icon_16x16.png" >/dev/null
+sips -z 32 32 "$staging/reelmark-icon.png" --out "$iconset/icon_16x16@2x.png" >/dev/null
+sips -z 32 32 "$staging/reelmark-icon.png" --out "$iconset/icon_32x32.png" >/dev/null
+sips -z 64 64 "$staging/reelmark-icon.png" --out "$iconset/icon_32x32@2x.png" >/dev/null
+sips -z 128 128 "$staging/reelmark-icon.png" --out "$iconset/icon_128x128.png" >/dev/null
+sips -z 256 256 "$staging/reelmark-icon.png" --out "$iconset/icon_128x128@2x.png" >/dev/null
+sips -z 256 256 "$staging/reelmark-icon.png" --out "$iconset/icon_256x256.png" >/dev/null
+sips -z 512 512 "$staging/reelmark-icon.png" --out "$iconset/icon_256x256@2x.png" >/dev/null
+sips -z 512 512 "$staging/reelmark-icon.png" --out "$iconset/icon_512x512.png" >/dev/null
+sips -z 1024 1024 "$staging/reelmark-icon.png" --out "$iconset/icon_512x512@2x.png" >/dev/null
+node "$root/build-icon.cjs" "$iconset" "$bundle/Contents/Resources/reelmark.icns"
 plutil -replace CFBundleIconFile -string reelmark.icns "$bundle/Contents/Info.plist"
 rm -f "$bundle/Contents/Resources/electron.icns"
 rm -rf "$bundle/Contents/Resources/default_app.asar" "$bundle/Contents/Resources/app.asar"

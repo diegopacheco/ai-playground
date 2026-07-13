@@ -31,8 +31,9 @@ export const parseCsv = (text: string): Record<string, string>[] => {
   return rows.map(values => Object.fromEntries(headers.map((header, index) => [header, values[index]?.trim() || ""])))
 }
 
-const findValue = (row: Record<string, string>, names: string[]) => {
-  const key = Object.keys(row).find(header => names.some(name => header.includes(name)))
+export const findValue = (row: Record<string, string>, names: string[]) => {
+  const headers = Object.keys(row)
+  const key = headers.find(header => names.includes(header)) || headers.find(header => names.some(name => header.includes(name)))
   return key ? row[key] : ""
 }
 
