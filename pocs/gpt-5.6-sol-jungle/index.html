@@ -12,13 +12,12 @@
 </head>
 <body>
   <main id="jungle">
-    <div class="backdrop"></div>
-    <canvas id="atmosphere"></canvas>
-    <div class="light"></div>
-    <div class="rain" id="rain"></div>
+    <div class="backdrop backdrop-a"></div>
+    <div class="backdrop backdrop-b"></div>
+    <canvas class="rain" id="rain"></canvas>
     <div class="grain"></div>
     <header>
-      <a class="mark" href="#" aria-label="Ybyrá home"><span class="mark-leaf">⌁</span><span>YBYRÁ</span></a>
+      <a class="mark" href="#" aria-label="Ybyrá home"><span>YBYRÁ</span></a>
       <div class="coordinates">03° 06' S · 60° 01' W<br><span id="zone">FLORESTA AMAZÔNICA · DAWN</span></div>
       <div class="controls">
         <button id="sound" class="sound" aria-label="Turn forest sound on" aria-pressed="false"><span class="sound-bars"><i></i><i></i><i></i><i></i></span><span>SOUND OFF</span></button>
@@ -32,17 +31,20 @@
       <button id="begin" class="begin"><span>BEGIN LISTENING</span><b>↓</b></button>
     </section>
     <button class="creature jaguar" id="jaguar" aria-label="Meet the jaguar">
-      <span class="jaguar-body"><i></i><i></i><i></i><i></i><b></b></span>
+      <img src="assets/jaguar.png" alt="Onça-pintada walking through the rainforest">
       <span class="creature-label">ONÇA-PINTADA<br><em>Panthera onca</em></span>
     </button>
     <button class="creature snake" id="snake" aria-label="Meet the coral snake">
-      <span class="snake-body"></span>
+      <img src="assets/coral-snake.png" alt="Brazilian coral snake resting among the leaves">
       <span class="creature-label">CORAL-VERDADEIRA<br><em>Micrurus corallinus</em></span>
     </button>
     <button class="guardian" id="guardian" aria-label="Greet the forest guardian">
-      <span class="feathers"><i></i><i></i><i></i><i></i><i></i></span>
-      <span class="guardian-head"></span><span class="guardian-body"></span>
+      <img src="assets/forest-guardian.png" alt="Indigenous forest guardian wearing white, green, and red feathers">
       <span class="creature-label">GUARDIAN OF THE FOREST<br><em>click to greet</em></span>
+    </button>
+    <button class="creature archer" id="archer" aria-label="Meet the Indigenous woman archer">
+      <img src="assets/flecheira.png" alt="Indigenous Brazilian woman archer with a traditional bow">
+      <span class="creature-label">FLECHEIRA<br><em>guardian of the river path</em></span>
     </button>
     <aside class="story" id="story" aria-live="polite">
       <span id="chapter">I · IGAPÓ</span>
