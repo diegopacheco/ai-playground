@@ -561,3 +561,21 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/agent-skill-effot-m
 
 115 - Java 25 - Temporal - Spring Boot 4 - Multi-Agent Stock Research with Codex <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/temporal-java-25-poc
+
+116 - Mesa 12 AI Player and Narrator <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/gpt-5.6-terra-futebol-de-botao-game
+
+117 - GPT-5.6 SOL Temporal PyTorch Pipeline <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/gpt-5.6-sol-model-pipeline
+
+118 - Split or Steal Multi-Agent Game <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/split-or-steal-agents
+
+119 - Temporal Durable Multi-Agent Pipeline <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/temporal-ai-poc
+
+120 - Auth0Lab/OpenFGA Agentic RAG Authorization <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/auth0lab-openfga-agent-poc
+
+121 - Gemini FIFA Tracker <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/gemini-fifa-tracker
