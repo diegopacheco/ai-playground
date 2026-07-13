@@ -19,6 +19,10 @@ plutil -replace CFBundleDisplayName -string Reelmark "$bundle/Contents/Info.plis
 plutil -replace CFBundleExecutable -string Reelmark "$bundle/Contents/Info.plist"
 plutil -replace CFBundleIdentifier -string com.diegopacheco.reelmark "$bundle/Contents/Info.plist"
 plutil -replace CFBundleName -string Reelmark "$bundle/Contents/Info.plist"
+plutil -replace CFBundleShortVersionString -string 1.0.0 "$bundle/Contents/Info.plist"
+plutil -replace CFBundleVersion -string 1 "$bundle/Contents/Info.plist"
+plutil -replace LSApplicationCategoryType -string public.app-category.entertainment "$bundle/Contents/Info.plist"
+plutil -remove ElectronAsarIntegrity "$bundle/Contents/Info.plist" 2>/dev/null || true
 rm -rf "$bundle/Contents/Resources/default_app.asar" "$bundle/Contents/Resources/app.asar"
 mkdir -p "$bundle/Contents/Resources/app"
 cp "$root/main.cjs" "$root/package.json" "$bundle/Contents/Resources/app/"
