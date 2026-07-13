@@ -1,4 +1,4 @@
-import type { CatalogResponse, EpisodeSyncReport, ImportReport, LibraryResponse, Media, Settings } from "../../shared/types"
+import type { CatalogResponse, EpisodeSyncReport, EpisodeSyncState, ImportReport, LibraryResponse, Media, Settings } from "../../shared/types"
 
 const request = async <T>(url: string, init?: RequestInit): Promise<T> => {
   const response = await fetch(url, init)
@@ -19,6 +19,13 @@ export const api = {
   saveSettings: (settings: Settings) => request<Settings>("/api/settings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(settings) }),
   aiCatalog: (topic: string, refresh = false) => request<CatalogResponse>("/api/catalog/ai", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ topic, refresh }) }),
   syncMetadata: () => request<{ scanned: number; imagesUpdated: number; genresUpdated: number; missingImages: number; pagesResolved: number }>("/api/metadata/sync", { method: "POST" }),
-  syncEpisodes: () => request<EpisodeSyncReport>("/api/episodes/sync", { method: "POST" }),
+  syncEpisodes: async () => {
+    await request<EpisodeSyncState>("/api/episodes/sync", { method: "POST" })
+    while (true) {
+      const state = await request<EpisodeSyncState>("/api/episodes/sync")
+      if (!state.running) return state.report as EpisodeSyncReport
+      await new Promise(resolve => setTimeout(resolve, 1_000))
+    }
+  },
   syncMediaEpisodes: (id: string) => request<EpisodeSyncReport>(`/api/media/${id}/episodes/sync`, { method: "POST" })
 }

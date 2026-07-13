@@ -26,6 +26,13 @@ export type EpisodeSyncReport = {
   failures: string[]
 }
 
+export type EpisodeSyncState = {
+  running: boolean
+  startedAt: string | null
+  completedAt: string | null
+  report: EpisodeSyncReport | null
+}
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS tvmaze_matches (
     media_id TEXT PRIMARY KEY,
@@ -39,12 +46,14 @@ const saveMatch = db.prepare("INSERT OR REPLACE INTO tvmaze_matches (media_id, t
 const findEpisode = db.prepare("SELECT id, title, runtime FROM episodes WHERE media_id = ? AND season = ? AND number = ?")
 const addEpisode = db.prepare("INSERT INTO episodes (id, media_id, season, number, title, runtime) VALUES (?, ?, ?, ?, ?, ?)")
 const updateEpisode = db.prepare("UPDATE episodes SET title = ?, runtime = ? WHERE id = ?")
+const episodeOwner = db.prepare("SELECT media_id FROM episodes WHERE id = ?")
 const legacyEpisodes = db.prepare("SELECT id, season, watched, watched_at FROM episodes WHERE media_id = ? AND id LIKE 'tvtime-episode-%' AND number > 1000 ORDER BY season, CAST(REPLACE(id, 'tvtime-episode-', '') AS INTEGER)")
 const transferWatchHistory = db.prepare("UPDATE episodes SET watched = MAX(watched, ?), watched_at = COALESCE(watched_at, ?) WHERE media_id = ? AND season = ? AND number = ?")
 const removeEpisode = db.prepare("DELETE FROM episodes WHERE id = ?")
 
 const delay = (milliseconds: number) => new Promise(resolve => setTimeout(resolve, milliseconds))
-const normalized = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, "")
+const searchTitle = (value: string) => value.replace(/\s*\((?:(?:19|20)\d{2}|US|BR)\)\s*$/i, "")
+const normalized = (value: string) => searchTitle(value).toLowerCase().replace(/[^a-z0-9]/g, "")
 
 const fetchTvMaze = async <T>(url: string): Promise<T> => {
   for (let attempt = 0; attempt < 5; attempt += 1) {
@@ -70,7 +79,7 @@ const loadShow = async (media: Media): Promise<TvMazeShow | null> => {
     saveMatch.run(media.id, String(show.id))
     return show
   }
-  const show = await fetchTvMaze<TvMazeShow | null>(`https://api.tvmaze.com/singlesearch/shows?q=${encodeURIComponent(media.title)}&embed=episodes`)
+  const show = await fetchTvMaze<TvMazeShow | null>(`https://api.tvmaze.com/singlesearch/shows?q=${encodeURIComponent(searchTitle(media.title))}&embed=episodes`)
   if (!show || normalized(show.name) !== normalized(media.title)) return null
   saveMatch.run(media.id, String(show.id))
   return show
@@ -83,7 +92,10 @@ const saveEpisodes = (media: Media, show: TvMazeShow) => {
     const existing = findEpisode.get(media.id, episode.season, episode.number) as { id: string; title: string; runtime: number } | null
     const runtime = episode.runtime || show.averageRuntime || show.runtime || media.runtime || 45
     if (!existing) {
-      addEpisode.run(`tvmaze-episode-${episode.id}`, media.id, episode.season, episode.number, episode.name, runtime)
+      const tvmazeEpisodeId = `tvmaze-episode-${episode.id}`
+      const owner = episodeOwner.get(tvmazeEpisodeId) as { media_id: string } | null
+      const id = owner && owner.media_id !== media.id ? `${media.id}-${tvmazeEpisodeId}` : tvmazeEpisodeId
+      addEpisode.run(id, media.id, episode.season, episode.number, episode.name, runtime)
       episodesAdded += 1
     } else if (existing.title !== episode.name || existing.runtime !== runtime) {
       updateEpisode.run(episode.name, runtime, existing.id)
@@ -151,4 +163,42 @@ export const syncLibraryEpisodes = async (): Promise<EpisodeSyncReport> => {
   }
   await Promise.all([worker(), worker()])
   return report
+}
+
+let syncState: EpisodeSyncState = {
+  running: false,
+  startedAt: null,
+  completedAt: null,
+  report: null
+}
+
+export const getLibraryEpisodeSync = (): EpisodeSyncState => syncState
+
+export const startLibraryEpisodeSync = (): EpisodeSyncState => {
+  if (syncState.running) return syncState
+  syncState = {
+    running: true,
+    startedAt: new Date().toISOString(),
+    completedAt: null,
+    report: null
+  }
+  void syncLibraryEpisodes().then(report => {
+    syncState = {
+      ...syncState,
+      running: false,
+      completedAt: new Date().toISOString(),
+      report
+    }
+  }).catch(error => {
+    syncState = {
+      ...syncState,
+      running: false,
+      completedAt: new Date().toISOString(),
+      report: {
+        ...emptyReport(),
+        failures: [error instanceof Error ? error.message : "sync failed"]
+      }
+    }
+  })
+  return syncState
 }

@@ -7,7 +7,7 @@ import { getSettings, saveSettings } from "./db.ts"
 import type { AiProvider } from "../shared/types.ts"
 import type { Media } from "../shared/types.ts"
 import { syncMetadata } from "./metadata.ts"
-import { syncLibraryEpisodes, syncMediaEpisodes } from "./episodes.ts"
+import { getLibraryEpisodeSync, startLibraryEpisodeSync, syncMediaEpisodes } from "./episodes.ts"
 
 const json = (data: unknown, status = 200) => Response.json(data, { status, headers: { "Cache-Control": "no-store" } })
 
@@ -46,7 +46,8 @@ const server = Bun.serve({
       }
     },
     "/api/episodes/sync": {
-      POST: async () => json(await syncLibraryEpisodes())
+      GET: () => json(getLibraryEpisodeSync()),
+      POST: () => json(startLibraryEpisodeSync(), 202)
     },
     "/api/search": async request => {
       const query = new URL(request.url).searchParams.get("q") || ""

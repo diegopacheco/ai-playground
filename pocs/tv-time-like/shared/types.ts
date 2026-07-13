@@ -67,6 +67,13 @@ export type EpisodeSyncReport = {
   failures: string[]
 }
 
+export type EpisodeSyncState = {
+  running: boolean
+  startedAt: string | null
+  completedAt: string | null
+  report: EpisodeSyncReport | null
+}
+
 export type AiProvider = "codex" | "claude" | "gemini"
 
 export type CatalogItem = {
