@@ -1,0 +1,30 @@
+pocs/fable-5-game-stand/desktop-app/install.sh
+  s_4bafca7a9bd150::t_aa53300003e929 1-15
+pocs/fable-5-game-stand/desktop-app/main.js
+  s_4bafca7a9bd150::t_eee3c12dde7571 114
+  s_4bafca7a9bd150::t_aa53300003e929 1-113,115-119
+pocs/fable-5-game-stand/desktop-app/.gitignore
+  s_4bafca7a9bd150::t_eee3c12dde7571 1-3
+pocs/fable-5-game-stand/desktop-app/uninstall.sh
+  s_4bafca7a9bd150::t_aa53300003e929 1-19
+pocs/fable-5-game-stand/desktop-app/package.json
+  s_4bafca7a9bd150::t_aa53300003e929 1-12
+pocs/fable-5-game-stand/desktop-app/run-desktop-app.sh
+  s_4bafca7a9bd150::t_aa53300003e929 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "9d989c6e03a5a314211603cc68f15d45ee0fe5e7",
+  "prompts": {},
+  "sessions": {
+    "s_4bafca7a9bd150": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5ade-466d-7471-9a2b-53241f182f34",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
