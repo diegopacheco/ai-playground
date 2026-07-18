@@ -1,0 +1,33 @@
+pocs/admin-console/frontend/src/projects/ProjectsPage.tsx
+  s_fa6084944458f4::t_722e571b0f315f 1-205
+pocs/admin-console/frontend/src/projects/ProjectsPage.css
+  s_fa6084944458f4::t_0710a33237eb42 1-125
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/console/RouteController.java
+  s_fa6084944458f4::t_d8096ae88ecfea 1-14
+pocs/admin-console/frontend/src/audit/AuditPage.css
+  s_fa6084944458f4::t_c721530217ca22 1-110
+pocs/admin-console/frontend/src/users/UsersPage.tsx
+  s_fa6084944458f4::t_3f42322fe520c4 1-146
+pocs/admin-console/frontend/src/users/UsersPage.css
+  s_fa6084944458f4::t_a8d64f52955fc8 1-65
+pocs/admin-console/frontend/src/audit/AuditPage.tsx
+  s_fa6084944458f4::t_83bfdd8e296004 1-143
+pocs/admin-console/.playwright-mcp/page-2026-07-18T08-58-20-886Z.yml
+  s_fa6084944458f4::t_909f3e99494507 1-48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "329b0457dbe760235ab8ffe954d0a6f723f50298",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
