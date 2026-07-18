@@ -1,0 +1,23 @@
+pocs/admin-console/frontend/package.json
+  s_fa6084944458f4::t_ed5ef6f6bcdd76 39
+pocs/admin-console/frontend/scripts/screenshots.mjs
+  s_fa6084944458f4::t_5c84d2421c54e1 1-70
+pocs/admin-console/frontend/bun.lock
+  s_fa6084944458f4::t_914de757f5de04 32,969,1295-1298,1637-1638,1659-1660
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "5de7f9c32e6a59d8da119409c0e8da77eb2df8e3",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
