@@ -1,0 +1,26 @@
+500-pocs.md
+  h_8e2c3875396153 1,8-11
+  s_974f4e2844a504::t_197059f0f6e3e7 2-7,12-100,102-120
+  s_974f4e2844a504::t_2d33b146624e36 101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "e6095ba82dfc58cf235fcb10a55501a9bd9ee446",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_974f4e2844a504": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1c01d8b0-9bfa-4d0a-88b1-d2a777f9ef04",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
