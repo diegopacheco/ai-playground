@@ -1,0 +1,34 @@
+pocs/admin-console/frontend/src/lib/types.ts
+  s_fa6084944458f4::t_673f11e26b0edc 82
+pocs/admin-console/design-doc.md
+  s_fa6084944458f4::t_834c744503474d 636-638
+  s_fa6084944458f4::t_ddb19969177ee8 663-675
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedExecutor.java
+  s_fa6084944458f4::t_f9634b42057cb9 24,83-127,305
+  s_fa6084944458f4::t_949d79949e190a 260-262,284-304
+  s_fa6084944458f4::t_3d3a47df0091c3 306
+pocs/admin-console/frontend/src/federation/FederationPage.css
+  s_fa6084944458f4::t_673f11e26b0edc 322-332
+pocs/admin-console/README.md
+  s_fa6084944458f4::t_e5f3f0383db4d8 159-172
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederationController.java
+  s_fa6084944458f4::t_f9634b42057cb9 78
+pocs/admin-console/frontend/src/federation/FederationPage.tsx
+  s_fa6084944458f4::t_673f11e26b0edc 316-319,324
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "eeed8560e59e4ddb5d0b66151c1c87d6861ca504",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
