@@ -1,4 +1,13 @@
-import { ApiError, type AuditEntry, type Project, type QueryResult, type SchemaNode, type Session } from "./types";
+import {
+  ApiError,
+  type AiCli,
+  type AiSuggestion,
+  type AuditEntry,
+  type Project,
+  type QueryResult,
+  type SchemaNode,
+  type Session
+} from "./types";
 
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const response = await fetch(path, {
@@ -74,6 +83,28 @@ export const api = {
       .join("&");
     return request<{ page: number; size: number; entries: AuditEntry[] }>(`/api/audit${query ? `?${query}` : ""}`);
   },
+
+  aiClis: () => request<AiCli[]>("/api/ai/clis"),
+
+  aiSettings: () =>
+    request<{ cli: string; label: string; model: string | null; usingDefault: boolean; installed: boolean }>(
+      "/api/ai/settings"
+    ),
+
+  saveAiSettings: (cli: string, model: string) =>
+    request<unknown>("/api/ai/settings", { method: "PUT", body: JSON.stringify({ cli, model }) }),
+
+  saveGlobalAiSettings: (cli: string, model: string, enabled: boolean) =>
+    request<unknown>("/api/ai/settings/global", {
+      method: "PUT",
+      body: JSON.stringify({ cli, model, enabled })
+    }),
+
+  aiQuery: (connectionId: number, prompt: string) =>
+    request<AiSuggestion>(`/api/ai/connections/${connectionId}/query`, {
+      method: "POST",
+      body: JSON.stringify({ prompt })
+    }),
 
   users: () => request<Record<string, unknown>[]>("/api/users"),
 

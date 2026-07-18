@@ -47,6 +47,23 @@ export interface QueryResult {
   totalRows: number | null;
 }
 
+export interface AiSuggestion {
+  statement: string;
+  cli: string;
+  model: string | null;
+  readOnlyOk: boolean;
+  denialReason: string | null;
+}
+
+export interface AiCli {
+  cli: string;
+  label: string;
+  model: string | null;
+  installed: boolean;
+  enabled: boolean;
+  reason: string | null;
+}
+
 export interface Session {
   username: string;
   role: "admin" | "user";

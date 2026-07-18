@@ -8,6 +8,7 @@ import { Tree } from "@design/Tree/Tree";
 import { engineFor } from "@engines/index";
 import { api } from "@lib/api";
 import { ApiError, type Connection, type QueryResult, type SchemaNode } from "@lib/types";
+import { AskAi } from "../ai/AskAi";
 import { QueryEditor } from "./QueryEditor";
 import { ReadOnlyNotice } from "./ReadOnlyNotice";
 import { RecentQueries } from "./RecentQueries";
@@ -150,6 +151,7 @@ export function ConsolePane({ connection }: ConsolePaneProps) {
             {running ? "running…" : "Run"}
           </Button>
           <span className="console-hint">⌘↵</span>
+          <AskAi connectionId={connection.id} onUse={setStatement} />
           <RecentQueries connectionId={connection.id} onPick={setStatement} />
           <span className="console-target">
             {connection.host}:{connection.port}

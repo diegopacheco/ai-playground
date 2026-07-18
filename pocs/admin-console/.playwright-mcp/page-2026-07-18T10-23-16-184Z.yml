@@ -1,0 +1,30 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]: Admin Console
+      - button "Open the go-to-page palette" [ref=e5] [cursor=pointer]:
+        - generic [ref=e6]: go to…
+        - generic [ref=e7]: ⌘K
+      - navigation [ref=e8]:
+        - link "consoles" [ref=e9] [cursor=pointer]:
+          - /url: /
+        - link "projects" [ref=e10] [cursor=pointer]:
+          - /url: /projects
+        - link "audit" [ref=e11] [cursor=pointer]:
+          - /url: /audit-trail
+        - link "users" [ref=e12] [cursor=pointer]:
+          - /url: /users
+        - link "swagger" [ref=e13] [cursor=pointer]:
+          - /url: /swagger
+    - generic [ref=e16]:
+      - heading "AI query authoring" [level=1] [ref=e17]
+      - paragraph [ref=e18]: Pick which agent CLI writes queries for you. The choice is remembered for your account and follows you across machines. Suggestions are always loaded into the editor for review — nothing runs on its own, and every suggestion passes the same read-only guard as a statement you type.
+      - paragraph [ref=e19]:
+        - text: Asking AI sends your
+        - strong [ref=e20]: schema names
+        - text: — tables, columns, keys, topics and fields — to the model provider behind the CLI you choose. It never sends credentials, hostnames, or any row of data. If your table names are themselves sensitive, leave this feature unused.
+  - generic [ref=e23]:
+    - button [ref=e24]
+    - button [ref=e30]
+    - button [ref=e34]
+    - button [ref=e39]

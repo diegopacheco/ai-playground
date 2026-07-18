@@ -1,0 +1,158 @@
+.askai-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  background: linear-gradient(180deg, #FFFFFF, var(--accent-wash));
+  color: var(--accent-strong);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 6px 12px;
+  cursor: pointer;
+  box-shadow: var(--shadow-xs);
+  transition: transform 100ms var(--ease), box-shadow 160ms var(--ease), border-color 160ms var(--ease);
+}
+
+.askai-trigger:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.askai-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 20, 16, 0.34);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 12vh;
+  z-index: 70;
+}
+
+.askai {
+  width: min(720px, 94vw);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 76vh;
+  overflow: auto;
+}
+
+.askai-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.askai-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.askai-choice {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.askai-model {
+  font-family: var(--mono);
+}
+
+.askai-prompt {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  padding: 11px 13px;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  color: var(--text);
+  background: var(--surface-sunken);
+  resize: vertical;
+}
+
+.askai-prompt:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+  background: var(--surface);
+}
+
+.askai-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.askai-hint {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.askai-actions .ds-button {
+  margin-left: auto;
+}
+
+.askai-error {
+  margin: 0;
+  color: var(--error);
+  font-size: 12px;
+  background: var(--error-wash);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+}
+
+.askai-suggestion {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px;
+  background: var(--surface-sunken);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.askai-suggestion-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.askai-provenance {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.askai-statement {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  white-space: pre-wrap;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 11px 12px;
+  max-height: 240px;
+  overflow: auto;
+}
+
+.askai-denial {
+  margin: 0;
+  color: var(--error);
+  font-size: 11.5px;
+}
