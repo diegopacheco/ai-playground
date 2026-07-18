@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 860" width="1280" height="860">
+  <defs>
+    <filter id="wobble" x="-6%" y="-6%" width="112%" height="112%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.028" numOctaves="3" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="wobbleSoft" x="-6%" y="-6%" width="112%" height="112%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="19" result="n2"/>
+      <feDisplacementMap in="SourceGraphic" in2="n2" scale="1.6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      text { font-family: 'Caveat', 'Comic Sans MS', cursive; fill: #2B1D16; }
+      .title { font-size: 38px; font-weight: 700; }
+      .box-title { font-size: 25px; font-weight: 700; }
+      .box-sub { font-size: 18px; fill: #6B584C; }
+      .lane { font-size: 20px; font-weight: 700; fill: #8B7466; }
+      .edge { font-size: 17px; fill: #7A6355; }
+      .chip { font-size: 18px; font-weight: 700; }
+      .note { font-size: 18px; fill: #97402A; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="860" fill="#FAF5EE"/>
+
+  <text class="title" x="42" y="58">Admin Console — read-only, audited, 7 engines</text>
+
+  <!-- ===== browser lane ===== -->
+  <g filter="url(#wobble)">
+    <rect x="42" y="92" width="1196" height="118" rx="16" fill="#FDF3E7" stroke="#DBC5AB" stroke-width="2.5"/>
+  </g>
+  <text class="lane" x="62" y="120">browser</text>
+  <g filter="url(#wobbleSoft)">
+    <rect x="176" y="112" width="212" height="76" rx="13" fill="#E8F0FB" stroke="#7FA3CE" stroke-width="2.5"/>
+    <rect x="410" y="112" width="212" height="76" rx="13" fill="#E8F0FB" stroke="#7FA3CE" stroke-width="2.5"/>
+    <rect x="644" y="112" width="212" height="76" rx="13" fill="#E8F0FB" stroke="#7FA3CE" stroke-width="2.5"/>
+    <rect x="878" y="112" width="212" height="76" rx="13" fill="#E8F0FB" stroke="#7FA3CE" stroke-width="2.5"/>
+  </g>
+  <text class="box-title" x="200" y="145">ConsolePane</text>
+  <text class="box-sub" x="200" y="171">tree · editor · grid</text>
+  <text class="box-title" x="434" y="145">Picker + ⌘K</text>
+  <text class="box-sub" x="434" y="171">logos · search</text>
+  <text class="box-title" x="668" y="145">Ask AI</text>
+  <text class="box-sub" x="668" y="171">suggests, never runs</text>
+  <text class="box-title" x="902" y="145">Audit · Users</text>
+  <text class="box-sub" x="902" y="171">who ran what</text>
+
+  <!-- browser -> backend -->
+  <path d="M 640 210 Q 646 236 640 262" stroke="#8B7466" stroke-width="2.5" fill="none" filter="url(#wobbleSoft)"/>
+  <path d="M 632 252 L 640 264 L 648 252" stroke="#8B7466" stroke-width="2.5" fill="none"/>
+  <text class="edge" x="656" y="243">cookie session</text>
+
+  <!-- ===== backend lane ===== -->
+  <g filter="url(#wobble)">
+    <rect x="42" y="264" width="1196" height="236" rx="16" fill="#FCF1E6" stroke="#DBC5AB" stroke-width="2.5"/>
+  </g>
+  <text class="lane" x="62" y="292">backend · java 25 · virtual threads · :8099</text>
+
+  <g filter="url(#wobbleSoft)">
+    <rect x="70" y="308" width="196" height="80" rx="13" fill="#FBE3D4" stroke="#C2552A" stroke-width="2.5"/>
+    <rect x="298" y="308" width="196" height="80" rx="13" fill="#FBE3D4" stroke="#C2552A" stroke-width="2.5"/>
+    <rect x="526" y="308" width="196" height="80" rx="13" fill="#F9D9C6" stroke="#963C18" stroke-width="3"/>
+    <rect x="754" y="308" width="196" height="80" rx="13" fill="#FBE3D4" stroke="#C2552A" stroke-width="2.5"/>
+    <rect x="982" y="308" width="228" height="80" rx="13" fill="#FBE3D4" stroke="#C2552A" stroke-width="2.5"/>
+  </g>
+  <text class="box-title" x="92" y="340">AuthFilter</text>
+  <text class="box-sub" x="92" y="366">jwt · admin/user</text>
+  <text class="box-title" x="320" y="340">ConsoleController</text>
+  <text class="box-sub" x="320" y="366">query · schema</text>
+  <text class="box-title" x="548" y="340">ReadOnlyGuard</text>
+  <text class="box-sub" x="548" y="366">rejects writes</text>
+  <text class="box-title" x="776" y="340">AuditService</text>
+  <text class="box-sub" x="776" y="366">allowed + denied</text>
+  <text class="box-title" x="1004" y="340">ConnectionRegistry</text>
+  <text class="box-sub" x="1004" y="366">lazy pools · evicts</text>
+
+  <path d="M 266 348 Q 282 341 298 348" stroke="#8B7466" stroke-width="2.5" fill="none" filter="url(#wobbleSoft)"/>
+  <path d="M 494 348 Q 510 355 526 348" stroke="#8B7466" stroke-width="2.5" fill="none" filter="url(#wobbleSoft)"/>
+  <path d="M 722 348 Q 738 341 754 348" stroke="#8B7466" stroke-width="2.5" fill="none" filter="url(#wobbleSoft)"/>
+  <path d="M 950 348 Q 966 355 982 348" stroke="#8B7466" stroke-width="2.5" fill="none" filter="url(#wobbleSoft)"/>
+
+  <!-- engine SPI -->
+  <g filter="url(#wobbleSoft)">
+    <rect x="298" y="410" width="652" height="70" rx="13" fill="#EFE6FA" stroke="#8B6FC4" stroke-width="2.5"/>
+  </g>
+  <text class="box-title" x="322" y="440">Engine SPI</text>
+  <text class="box-sub" x="322" y="465">schema() · query(page) · assertReadOnly() — one interface, seven implementations</text>
+  <path d="M 624 388 Q 630 400 624 410" stroke="#8B7466" stroke-width="2.5" fill="none" filter="url(#wobbleSoft)"/>
+
+  <!-- metadata store -->
+  <g filter="url(#wobbleSoft)">
+    <rect x="982" y="410" width="228" height="70" rx="13" fill="#E4F1E6" stroke="#4A8750" stroke-width="2.5"/>
+  </g>
+  <text class="box-title" x="1004" y="440">Postgres :5433</text>
+  <text class="box-sub" x="1004" y="465">config · users · audit · keys</text>
+  <path d="M 1096 388 Q 1102 400 1096 410" stroke="#8B7466" stroke-width="2.5" fill="none" filter="url(#wobbleSoft)"/>
+
+  <!-- backend -> targets -->
+  <path d="M 624 480 Q 632 520 624 556" stroke="#963C18" stroke-width="3" fill="none" filter="url(#wobbleSoft)"/>
+  <path d="M 616 546 L 624 558 L 632 546" stroke="#963C18" stroke-width="3" fill="none"/>
+  <text class="note" x="640" y="527">reads only — never writes</text>
+
+  <!-- ===== targets lane ===== -->
+  <g filter="url(#wobble)">
+    <rect x="42" y="558" width="1196" height="150" rx="16" fill="#FDF3E7" stroke="#DBC5AB" stroke-width="2.5"/>
+  </g>
+  <text class="lane" x="62" y="586">target servers — any number, grouped into projects</text>
+
+  <g filter="url(#wobbleSoft)">
+    <rect x="62" y="602" width="158" height="86" rx="13" fill="#E8F0FB" stroke="#336791" stroke-width="2.5"/>
+    <rect x="234" y="602" width="158" height="86" rx="13" fill="#E4F2F5" stroke="#00758F" stroke-width="2.5"/>
+    <rect x="406" y="602" width="158" height="86" rx="13" fill="#E3F1F7" stroke="#1287B1" stroke-width="2.5"/>
+    <rect x="578" y="602" width="158" height="86" rx="13" fill="#FBE6E3" stroke="#DC382D" stroke-width="2.5"/>
+    <rect x="750" y="602" width="158" height="86" rx="13" fill="#E7F1FB" stroke="#419EDA" stroke-width="2.5"/>
+    <rect x="922" y="602" width="158" height="86" rx="13" fill="#ECE9E7" stroke="#3B3838" stroke-width="2.5"/>
+    <rect x="1094" y="602" width="126" height="86" rx="13" fill="#FBF3DC" stroke="#B79300" stroke-width="2.5"/>
+  </g>
+  <text class="chip" x="84" y="636">Postgres</text>
+  <text class="box-sub" x="84" y="662">tables · views</text>
+  <text class="chip" x="256" y="636">MySQL</text>
+  <text class="box-sub" x="256" y="662">tables</text>
+  <text class="chip" x="428" y="636">Cassandra</text>
+  <text class="box-sub" x="428" y="662">keyspace · keys</text>
+  <text class="chip" x="600" y="636">Redis</text>
+  <text class="box-sub" x="600" y="662">keys by type</text>
+  <text class="chip" x="772" y="636">etcd</text>
+  <text class="box-sub" x="772" y="662">prefix tree</text>
+  <text class="chip" x="944" y="636">Kafka</text>
+  <text class="box-sub" x="944" y="662">topics · offsets</text>
+  <text class="chip" x="1116" y="636">Elastic</text>
+  <text class="box-sub" x="1116" y="662">indices</text>
+
+  <!-- ===== agent cli ===== -->
+  <g filter="url(#wobbleSoft)">
+    <rect x="42" y="736" width="470" height="86" rx="13" fill="#F3E9FA" stroke="#8B6FC4" stroke-width="2.5"/>
+  </g>
+  <text class="box-title" x="66" y="770">Agent CLI subprocess</text>
+  <text class="box-sub" x="66" y="796">claude -p · codex exec · agy -p — argv only, no shell</text>
+  <path d="M 700 400 Q 500 640 300 736" stroke="#8B6FC4" stroke-width="2.5" fill="none" stroke-dasharray="9 7" filter="url(#wobbleSoft)"/>
+  <text class="edge" x="520" y="716">schema names only</text>
+
+  <g filter="url(#wobbleSoft)">
+    <rect x="560" y="736" width="678" height="86" rx="13" fill="#FDF4E1" stroke="#EBAA3A" stroke-width="2.5"/>
+  </g>
+  <text class="box-title" x="584" y="770">Three independent read-only layers</text>
+  <text class="box-sub" x="584" y="796">1. statement guard   2. read-only connection + rolled-back txn   3. SELECT-only db user</text>
+</svg>
