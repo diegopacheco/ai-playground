@@ -1,0 +1,48 @@
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/ai/PromptBuilder.java
+  s_fa6084944458f4::t_e00e55a81192cd 31-63
+pocs/admin-console/frontend/src/federation/FederatedEditor.tsx
+  s_fa6084944458f4::t_8b8b4a15e3127d 1-110
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedQueryParser.java
+  s_fa6084944458f4::t_eefe83f30dbdd7 13,15
+pocs/admin-console/frontend/src/federation/FederationPage.css
+  s_fa6084944458f4::t_5a6ac2c8e0ac9e 133-145
+  s_fa6084944458f4::t_d611bcdcf8b18c 146-217
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedAiController.java
+  s_fa6084944458f4::t_3bf8b2d5b15bc0 1-118
+  s_fa6084944458f4::t_d94d907918ff0a 119-124
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/console/ApiExceptionHandler.java
+  s_fa6084944458f4::t_6ba4c846b801a0 27-41
+pocs/admin-console/frontend/src/lib/api.ts
+  s_fa6084944458f4::t_d611bcdcf8b18c 100-105
+pocs/admin-console/frontend/src/federation/FederationPage.tsx
+  s_fa6084944458f4::t_5a6ac2c8e0ac9e 1,7,21,53-93,206-209
+  s_fa6084944458f4::t_fb696fb4271a95 28,32-41,43-48
+  s_fa6084944458f4::t_6485220ae08c2d 10
+  s_fa6084944458f4::t_d611bcdcf8b18c 22-25,111-126,147-149,152-204
+  s_fa6084944458f4::t_ea2e3a0338fedd 205,210-216
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedExecutor.java
+  s_fa6084944458f4::t_d03cb7e4d5dde7 37-39
+  s_fa6084944458f4::t_6a565ca71c854f 122-125,138-139,179-180
+  s_fa6084944458f4::t_f55eb0acf00dd7 103,105-119
+  s_fa6084944458f4::t_60da0ef35ee818 94-102,104,120-121
+  s_fa6084944458f4::t_6a24d28e645266 43-45
+  s_fa6084944458f4::t_41c17b43c68154 126-137,140-148
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/federation/FederatedQueryParserTest.java
+  s_fa6084944458f4::t_7c405bead31e8e 71-83
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "dbd6d1438d0e014fb9090f10730b2634a8be87d7",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
