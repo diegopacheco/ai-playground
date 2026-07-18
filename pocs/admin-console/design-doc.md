@@ -541,14 +541,23 @@ Tagged `@Tag("integration-test")`. `pom.xml` sets `<excluded.groups>integration-
 
 | Script | Does |
 |---|---|
-| `start.sh` | starts metadata Postgres, backend and frontend, waits for health, prints `links.sh` |
-| `stop.sh` | stops all three |
+| `start.sh` | starts metadata Postgres, backend and frontend, waits for health, prints `links.sh`. **Idempotent** — stops any running instance first, so it can never leave a stale process serving a stale database |
+| `stop.sh` | stops all three. **Non-destructive** — the metadata container is stopped, not removed, and its volume is kept |
+| `destroy-all.sh` | the only destructive script. Removes every container, **volume**, network and build artifact. Requires typing `DESTROY` unless run with `--yes` |
 | `it.sh` | demo env up, run tagged integration tests, tear down |
 | `links.sh` | prints every URL |
 | `demo/demo-start.sh` `demo/demo-stop.sh` | seeded target servers + auto-registered connections |
 | `backend/start.sh` `backend/stop.sh`, `frontend/start.sh` `frontend/stop.sh` | each alone |
 
-All bash, no comments, no emoji, no sleep longer than 1, readiness by polling loop — per your bash rules. Containers use `podman-compose` and a `Containerfile`.
+All bash, no comments, no emoji, no sleep longer than 1, readiness by polling loop — per your bash rules. Containers use `podman-compose`.
+
+**Persistence is a correctness property, not a convenience.** Postgres is the system of record for config, users, saved queries and an append-only audit trail (3.1), so any script that silently drops that data destroys the audit trail the design promises. Three rules follow, each of which was violated by the first version and fixed after being caught:
+
+- The metadata Postgres has a **named volume**, mounted at `/var/lib/postgresql` — Postgres 18 stores data in a version-specific subdirectory and refuses to start if the volume is mounted at `/data`.
+- `start.sh` and `demo-start.sh` use `up -d`, never `--force-recreate`; `stop.sh` uses `stop`, never `rm -f`.
+- `start.sh` is **idempotent**: it stops a running instance before starting. Without this, a second backend fails on "port already in use" while the *stale* one keeps answering the health check — so the script reports success while serving the wrong database.
+
+Destruction is opt-in and loud, in exactly one script: `destroy-all.sh`.
 
 | Service | Port |
 |---|---|
