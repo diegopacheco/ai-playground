@@ -1,0 +1,19 @@
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/ai/SuggestionParserTest.java
+  s_fa6084944458f4::t_9d25f4ba083ac6 1-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "2e758387fa4c8c6286c92c35f0b3855e1cb1ee54",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
