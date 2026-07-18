@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
+    @ExceptionHandler(com.github.diegopacheco.adminconsole.engine.ReadOnlyViolation.class)
+    public ResponseEntity<Map<String, Object>> readOnly(
+            com.github.diegopacheco.adminconsole.engine.ReadOnlyViolation error) {
+        return ResponseEntity.badRequest().body(Map.of("error", message(error), "readOnlyViolation", true));
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, Object>> badRequest(IllegalArgumentException error) {
         return ResponseEntity.badRequest().body(Map.of("error", message(error)));
