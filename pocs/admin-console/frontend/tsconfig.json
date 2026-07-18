@@ -1,0 +1,17 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "types": ["@types/jest", "@testing-library/jest-dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@design/*": ["src/design-system/*"],
+      "@console/*": ["src/console/*"],
+      "@engines/*": ["src/engines/*"],
+      "@lib/*": ["src/lib/*"]
+    }
+  },
+  "include": ["src/**/*", ".storybook/**/*"],
+  "exclude": ["dist", "node_modules"]
+}

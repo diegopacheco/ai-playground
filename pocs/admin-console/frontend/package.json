@@ -1,0 +1,42 @@
+{
+  "name": "admin-console-ui",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 0.0.0.0 --port 4321",
+    "build": "astro build",
+    "preview": "astro preview --host 0.0.0.0 --port 4321",
+    "test": "jest --runInBand",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@astrojs/react": "^6.0.1",
+    "@codemirror/autocomplete": "^6.18.6",
+    "@codemirror/commands": "^6.8.1",
+    "@codemirror/lang-json": "^6.0.2",
+    "@codemirror/lang-sql": "^6.9.1",
+    "@codemirror/language": "^6.11.3",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.38.1",
+    "astro": "^7.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@storybook/react-vite": "^10.5.2",
+    "@swc/core": "^1.13.5",
+    "@swc/jest": "^0.2.39",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
+    "storybook": "^10.5.2",
+    "typescript": "^7.0.2"
+  }
+}

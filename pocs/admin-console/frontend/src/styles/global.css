@@ -1,0 +1,100 @@
+:root {
+  --bg: #FAF7F2;
+  --surface: #F3EDE4;
+  --surface-raised: #FBF8F3;
+  --border: #DFD3C3;
+  --text: #3E322A;
+  --muted: #7A6A5D;
+  --accent: #8B5E3C;
+  --accent-soft: #C9A227;
+  --ok: #6B8E4E;
+  --error: #A94F3C;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13px;
+}
+
+a {
+  color: var(--accent);
+}
+
+button {
+  font-family: inherit;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  height: 48px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex: 0 0 auto;
+}
+
+.app-brand {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--accent);
+}
+
+.app-nav {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.app-nav a {
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--muted);
+}
+
+.app-nav a[aria-current="page"] {
+  background: var(--bg);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.app-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+}
+
+.banner-warning {
+  background: #F6EDD2;
+  border-bottom: 1px solid var(--accent-soft);
+  color: #6B5410;
+  padding: 6px 16px;
+  font-size: 12px;
+}
+
+.page {
+  padding: 20px;
+  overflow: auto;
+  width: 100%;
+}
