@@ -75,9 +75,18 @@ case "$existing" in
 esac
 
 register() {
-  curl -fsS -b "$cookies" -X POST "$backend/api/projects/$project/connections" \
-    -H 'Content-Type: application/json' -d "$1" > /dev/null 2>&1 || true
+  name=$(printf '%s' "$1" | sed -n 's/.*"name":"\([^"]*\)".*/\1/p')
+  case "$existing_connections" in
+    *"\"name\":\"$name\""*) return 0 ;;
+  esac
+  if ! curl -fsS -b "$cookies" -X POST "$backend/api/projects/$project/connections" \
+      -H 'Content-Type: application/json' -d "$1" > /dev/null; then
+    echo "  FAILED to register $name"
+    return 1
+  fi
 }
+
+existing_connections=$(curl -fsS -b "$cookies" "$backend/api/projects")
 
 register '{"name":"demo-postgres","kind":"postgres","host":"localhost","port":5432,"database":"shop","keyspace":"public","username":"console_reader","password":"console_reader"}'
 register '{"name":"demo-mysql","kind":"mysql","host":"localhost","port":3306,"database":"shop","username":"console_reader","password":"console_reader"}'
@@ -86,6 +95,16 @@ register '{"name":"demo-redis","kind":"redis","host":"localhost","port":6379}'
 register '{"name":"demo-etcd","kind":"etcd","host":"localhost","port":2379}'
 register '{"name":"demo-kafka","kind":"kafka","host":"localhost","port":9092}'
 register '{"name":"demo-elasticsearch","kind":"elasticsearch","host":"localhost","port":9200}'
+
+registered=$(curl -fsS -b "$cookies" "$backend/api/projects" \
+  | tr '{' '\n' | grep -c '"kind":"' || true)
+if [ "$registered" -lt 7 ]; then
+  echo ""
+  echo "ERROR: expected 7 connections in the demo project, found $registered"
+  echo "the console will look empty — check the backend log at /tmp/admin-console-backend.log"
+  exit 1
+fi
+echo "  registered $registered connections"
 
 cat <<CONFIG
 

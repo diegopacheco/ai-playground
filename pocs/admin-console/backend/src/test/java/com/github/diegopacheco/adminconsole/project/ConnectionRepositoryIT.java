@@ -91,4 +91,12 @@ class ConnectionRepositoryIT {
         projects.delete(projectId);
         assertThat(connections.findByProject(projectId)).isEmpty();
     }
+
+    @org.junit.jupiter.api.AfterEach
+    void cleanUpSoTestDataNeverShowsUpInSomeonesConsole() {
+        jdbc.update("DELETE FROM saved_queries WHERE name LIKE 'it-%'");
+        jdbc.update("DELETE FROM connections WHERE name LIKE 'it-%'");
+        jdbc.update("DELETE FROM projects WHERE name LIKE 'it-%'");
+        jdbc.update("DELETE FROM keys WHERE purpose = 'test-purpose'");
+    }
 }

@@ -56,4 +56,9 @@ class PostgresKeyStoreIT {
         PostgresKeyStore store = new PostgresKeyStore(jdbc);
         assertThat(store.key(PostgresKeyStore.MASTER)).isNotEqualTo(store.key(PostgresKeyStore.JWT));
     }
+
+    @org.junit.jupiter.api.AfterEach
+    void removeTheTestKey() {
+        jdbc.update("DELETE FROM keys WHERE purpose = 'test-purpose'");
+    }
 }
