@@ -15,8 +15,6 @@ A focused, local-first Super Nintendo player with drag-and-drop cartridges, auth
 
 ![SuperBlue desktop interface](docs/images/superblue-desktop.png)
 
-![SuperBlue playing a cartridge with matched box art](docs/images/superblue-game-details.png)
-
 ## Start playing
 
 Requirements:
@@ -178,10 +176,6 @@ Press `Escape` to return. SuperBlue handles both the browser’s native fullscre
 | `stop.sh` | Graceful process shutdown |
 
 ## Responsive view
-
-<div align="center">
-  <img src="docs/images/superblue-mobile.png" width="500" alt="SuperBlue compact responsive interface">
-</div>
 
 The desktop layout keeps the emulator on the left and gives artwork a wide right-hand stage. Narrow screens prioritize the player and present the cover as a compact floating card without adding page scrolling.
 
