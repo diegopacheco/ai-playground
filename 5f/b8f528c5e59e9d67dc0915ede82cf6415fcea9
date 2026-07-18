@@ -1,0 +1,152 @@
+pocs/admin-console/frontend/src/engines/elasticsearch.ts
+  s_fa6084944458f4::t_c0053e8c5bdaf0 16
+  s_fa6084944458f4::t_bed5ffb4e1c41c 1-15,17-23
+pocs/admin-console/frontend/src/design-system/Button/Button.tsx
+  s_fa6084944458f4::t_fd37c09722876e 1-17
+pocs/admin-console/frontend/src/test/setup.ts
+  s_fa6084944458f4::t_e070d96c38f567 2-10
+pocs/admin-console/frontend/src/console/ReadOnlyNotice.css
+  s_fa6084944458f4::t_03999d443104b2 1-21
+pocs/admin-console/frontend/src/engines/mysql.ts
+  s_fa6084944458f4::t_2e49c17317918a 1-16,18-24
+  s_fa6084944458f4::t_c0053e8c5bdaf0 17
+pocs/admin-console/frontend/src/design-system/Pager/Pager.tsx
+  s_fa6084944458f4::t_0e8b10133099fb 1-53
+pocs/admin-console/frontend/.astro/settings.json
+  s_fa6084944458f4::t_56ab035ae1ebec 1-5
+pocs/admin-console/frontend/src/console/LoginForm.tsx
+  s_fa6084944458f4::t_ae1ce56634736c 1-47
+pocs/admin-console/frontend/src/console/ReadOnlyNotice.tsx
+  s_fa6084944458f4::t_96a37af7a6c60e 1-21
+pocs/admin-console/frontend/src/engines/redis.ts
+  s_fa6084944458f4::t_c0053e8c5bdaf0 20
+  s_fa6084944458f4::t_2a3f6039d6270f 1-19,21-30
+pocs/admin-console/frontend/src/console/QueryEditor.tsx
+  s_fa6084944458f4::t_b26ef73ba72e7a 62-63,69
+  s_fa6084944458f4::t_4394bfb9b551bb 1-61,64-68,70-100
+pocs/admin-console/frontend/src/design-system/DataGrid/DataGrid.test.tsx
+  s_fa6084944458f4::t_46789a4adb0710 1-28,32-43
+  s_fa6084944458f4::t_d320f429e4fbc4 29-31
+pocs/admin-console/frontend/src/design-system/DataGrid/DataGrid.tsx
+  s_fa6084944458f4::t_9540bda8e65677 1-54
+pocs/admin-console/.playwright-mcp/page-2026-07-18T08-51-56-958Z.yml
+  s_1d2a34edca3330::t_7e82da4b43401d 1-83
+pocs/admin-console/frontend/src/engines/index.ts
+  s_fa6084944458f4::t_1fa121771745c2 1-25
+pocs/admin-console/frontend/src/design-system/Tree/Tree.tsx
+  s_fa6084944458f4::t_695ec56be50267 1-80
+pocs/admin-console/frontend/src/design-system/DataGrid/DataGrid.css
+  s_fa6084944458f4::t_4f30a2214753a5 1-59
+pocs/admin-console/frontend/src/console/RecentQueries.css
+  s_fa6084944458f4::t_cff48ea9171981 1-55
+pocs/admin-console/frontend/src/engines/cassandra.ts
+  s_fa6084944458f4::t_c0053e8c5bdaf0 16
+  s_fa6084944458f4::t_a8a6db6988e2b2 1-15,17-23
+pocs/admin-console/frontend/src/engines/engines.test.ts
+  s_fa6084944458f4::t_0321d377373aa4 1-63
+pocs/admin-console/frontend/src/console/ConsoleWorkspace.tsx
+  s_fa6084944458f4::t_ef87899ece9262 1-109
+pocs/admin-console/frontend/src/pages/index.astro
+  s_fa6084944458f4::t_77ad8b98937f63 1-8
+pocs/admin-console/frontend/src/console/ConsoleWorkspace.css
+  s_fa6084944458f4::t_a9f45af2d61404 1-78
+pocs/admin-console/frontend/src/console/LoginForm.css
+  s_fa6084944458f4::t_7806ac43dc426b 1-49
+pocs/admin-console/frontend/src/console/ConsolePane.test.tsx
+  s_fa6084944458f4::t_c79a4ce4e1189d 1-148
+pocs/admin-console/frontend/src/design-system/Button/Button.stories.tsx
+  s_fa6084944458f4::t_1d5a62add6560d 1-17
+pocs/admin-console/frontend/src/design-system/Badge/Badge.tsx
+  s_fa6084944458f4::t_d430619d302664 1-18
+pocs/admin-console/frontend/src/console/QueryEditor.css
+  s_fa6084944458f4::t_e446d5b3bde970 1-25
+pocs/admin-console/frontend/src/engines/postgres.ts
+  s_fa6084944458f4::t_c0053e8c5bdaf0 17
+  s_fa6084944458f4::t_531e676753ea57 1-16,18-24
+pocs/admin-console/frontend/.astro/dev.json
+  s_fa6084944458f4::t_56ab035ae1ebec 1-15
+pocs/admin-console/frontend/src/design-system/Tree/Tree.test.tsx
+  s_fa6084944458f4::t_afc4b7a07b38b7 1-77
+pocs/admin-console/frontend/src/engines/types.ts
+  s_fa6084944458f4::t_cd8f052ff54180 11
+  s_fa6084944458f4::t_e124328e646881 1-10,12-28
+pocs/admin-console/frontend/src/lib/api.ts
+  s_fa6084944458f4::t_36165d8c75b3f4 1-84
+pocs/admin-console/.playwright-mcp/page-2026-07-18T08-53-32-272Z.yml
+  s_1d2a34edca3330::t_8aa3831a1515c9 1-21
+pocs/admin-console/frontend/.astro/types.d.ts
+  s_fa6084944458f4::t_56ab035ae1ebec 1
+pocs/admin-console/frontend/src/design-system/Pager/Pager.css
+  s_fa6084944458f4::t_ea7cf87a89a784 1-21
+pocs/admin-console/.playwright-mcp/page-2026-07-18T08-53-43-706Z.yml
+  s_1d2a34edca3330::t_1f503e822bcff9 1-106
+pocs/admin-console/frontend/src/console/ConsolePane.css
+  s_fa6084944458f4::t_a1caaad4218e3e 1-89
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/cassandra/CassandraEngine.java
+  s_fa6084944458f4::t_ddad0d9568f9b3 58-61
+pocs/admin-console/frontend/src/engines/kafka.ts
+  s_fa6084944458f4::t_c696ffbdf3269b 1-14,16-22
+  s_fa6084944458f4::t_c0053e8c5bdaf0 15
+pocs/admin-console/frontend/src/design-system/Button/Button.css
+  s_fa6084944458f4::t_ff920a4703255f 1-47
+pocs/admin-console/frontend/src/lib/types.ts
+  s_fa6084944458f4::t_03f987d05b0187 1-81
+pocs/admin-console/frontend/start.sh
+  s_fa6084944458f4::t_0a5ab5cf9c6673 1-17
+pocs/admin-console/frontend/src/layouts/Shell.astro
+  s_fa6084944458f4::t_a2df25f4e18591 1-41
+pocs/admin-console/frontend/stop.sh
+  s_fa6084944458f4::t_cc99c01e71469c 1-8
+pocs/admin-console/frontend/src/design-system/Button/Button.test.tsx
+  s_fa6084944458f4::t_a8142cea9d937f 1-31
+pocs/admin-console/frontend/src/design-system/Badge/Badge.css
+  s_fa6084944458f4::t_8c56441578a707 1-31
+pocs/admin-console/frontend/src/console/QueryEditor.test.tsx
+  s_fa6084944458f4::t_de179d94af6dad 1-54
+pocs/admin-console/frontend/src/design-system/Pager/Pager.test.tsx
+  s_fa6084944458f4::t_f80627d59aaee2 1-52
+pocs/admin-console/frontend/src/console/RecentQueries.tsx
+  s_fa6084944458f4::t_cb57d4acda8c5a 1-54
+pocs/admin-console/demo/seed/kafka.sh
+  s_fa6084944458f4::t_228103544530cf 20-22
+pocs/admin-console/frontend/src/design-system/Tree/Tree.css
+  s_fa6084944458f4::t_3d69ed09500987 1-65
+pocs/admin-console/frontend/src/design-system/Badge/Badge.test.tsx
+  s_fa6084944458f4::t_d061acd049d414 1-19
+pocs/admin-console/frontend/src/engines/etcd.ts
+  s_fa6084944458f4::t_35f6083eabeaad 1-24,26-32
+  s_fa6084944458f4::t_c0053e8c5bdaf0 25
+pocs/admin-console/frontend/src/console/ConsolePane.tsx
+  s_fa6084944458f4::t_bcf6ae10756d1a 190
+  s_fa6084944458f4::t_26fdc43a1955bb 1-189,191-196
+pocs/admin-console/.playwright-mcp/page-2026-07-18T08-51-03-073Z.yml
+  s_fa6084944458f4::t_2fc5eb05a43cc0 1-15
+pocs/admin-console/.playwright-mcp/page-2026-07-18T08-52-08-055Z.yml
+  s_fa6084944458f4::t_77bd0c5055b625 1-799
+pocs/admin-console/.playwright-mcp/page-2026-07-18T08-53-39-319Z.yml
+  s_fa6084944458f4::t_02418e4b751b27 1-89
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "5fb8f528c5e59e9d67dc0915ede82cf6415fcea9",
+  "prompts": {},
+  "sessions": {
+    "s_1d2a34edca3330": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f744c-c33f-7663-9fe4-743245f35577",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
