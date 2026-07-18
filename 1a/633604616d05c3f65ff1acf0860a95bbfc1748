@@ -1,0 +1,39 @@
+pocs/admin-console/frontend/src/console/ConsoleWorkspace.css
+  s_fa6084944458f4::t_22b14a0ffe67f5 15-17,33
+pocs/admin-console/frontend/src/navigation/CommandPalette.test.tsx
+  s_fa6084944458f4::t_6bd41154416c6e 1-106
+pocs/admin-console/frontend/src/navigation/CommandPalette.css
+  s_fa6084944458f4::t_a0df5228c59190 73
+  s_fa6084944458f4::t_d4d9087af64261 1-72,74-135
+pocs/admin-console/frontend/src/console/ConsolePane.css
+  s_fa6084944458f4::t_22b14a0ffe67f5 6,10-11,15-17,26,28-29,32,39,45,47-49,64,66-68,73,75,77-80,88-91,95-96
+pocs/admin-console/frontend/src/design-system/Tree/Tree.css
+  s_fa6084944458f4::t_22b14a0ffe67f5 11-12,15-16,20,24-26,34-38,53,58,63,71-72
+pocs/admin-console/frontend/src/design-system/Pager/Pager.css
+  s_fa6084944458f4::t_22b14a0ffe67f5 5,7-9,17-20,26
+pocs/admin-console/frontend/src/styles/global.css
+  s_fa6084944458f4::t_92c599d7eefb1e 2-3,5,7-17,19-20,23-31,44-46,52-53,77,79-82,90-92,98-129,147,170-171,184-188
+  s_fa6084944458f4::t_e02d8dc932c1ed 189
+pocs/admin-console/frontend/src/navigation/CommandPalette.tsx
+  s_fa6084944458f4::t_2e5b19d5708fae 80-90
+pocs/admin-console/frontend/src/layouts/Shell.astro
+  s_fa6084944458f4::t_bddbf02e9d70b9 31-34
+  s_fa6084944458f4::t_0345f491843b85 3
+  s_fa6084944458f4::t_4db2853f4b83e0 44,46-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "1a633604616d05c3f65ff1acf0860a95bbfc1748",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
