@@ -1,0 +1,8 @@
+---
+import Shell from "../layouts/Shell.astro";
+import UsersPage from "../users/UsersPage";
+---
+
+<Shell title="Users" active="users">
+  <UsersPage client:load />
+</Shell>
