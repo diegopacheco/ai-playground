@@ -158,6 +158,24 @@ A bounded hash join over two native queries — **not** a query planner. Each si
 
 Supported: `INNER` and `LEFT`, one equality key, `LIMIT`, column projection. Each side is capped (5,000 rows) and the cap is **reported per side**, so a partial join is labelled as partial rather than passed off as complete.
 
+**Any engine can be either side** — MySQL⋈Elasticsearch, Postgres⋈Kafka, Cassandra⋈Kafka, etcd⋈Elasticsearch, Redis⋈etcd all work, including two connections of the same kind.
+
+Three things make it writable rather than a guessing game:
+
+- **A schema panel listing every connection** in the project. Click a source and it inserts `connection.source`; click a column and it inserts `alias.column`, using the alias already bound to that source in your statement.
+- **Autocomplete** in the editor, built from the same live schemas.
+- **Ask AI**, which writes the whole join from a plain-language description. It knows each engine's real result columns — `_id` on Elasticsearch, `offset` and `key` on Kafka — and will tell you when two sources genuinely share no comparable key rather than inventing one.
+
+Mistakes explain themselves instead of failing silently:
+
+```
+no source named "shop" on demo-cassandra
+  — available: events_by_customer, sessions ("shop" is the keyspace, not a table)
+
+no column named "id" on demo-cassandra.events_by_customer (alias x)
+  — did you mean "event_id"? — available: customer_id, event_time, event_id, event_type, payload
+```
+
 ## Discovery
 
 Running containers that look like a supported engine, with the engine and credentials detected. Tick the ones you want and import them as a project.

@@ -55,6 +55,16 @@ public class FederatedAiController {
         this.current = current;
     }
 
+    static List<String> synthetic(com.github.diegopacheco.adminconsole.project.ConnectionKind kind) {
+        return switch (kind) {
+            case ELASTICSEARCH -> List.of("_id", "_score");
+            case KAFKA -> List.of("partition", "offset", "timestamp", "key", "value");
+            case ETCD -> List.of("key", "value", "version", "mod_revision");
+            case REDIS -> List.of("field", "value");
+            default -> List.of();
+        };
+    }
+
     @PostMapping
     @Operation(summary = "Ask the agent CLI to write a cross-engine join")
     public Map<String, Object> ask(@PathVariable long projectId, @RequestBody AskRequest request) {
@@ -70,10 +80,12 @@ public class FederatedAiController {
                     if (sources.size() >= MAX_SOURCES) {
                         break;
                     }
-                    List<String> columns = node.children().stream()
+                    List<String> columns = new ArrayList<>(synthetic(connection.kind()));
+                    node.children().stream()
                             .map(SchemaNode::name)
+                            .filter(name -> !columns.contains(name))
                             .limit(MAX_COLUMNS)
-                            .toList();
+                            .forEach(columns::add);
                     sources.add(new PromptBuilder.FederatedSource(connection.name(), connection.kind().wireName(),
                             node.name(), columns));
                 }

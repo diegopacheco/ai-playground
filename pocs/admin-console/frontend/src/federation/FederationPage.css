@@ -215,3 +215,58 @@
 .fed-suggestion .ds-button {
   align-self: flex-start;
 }
+
+.fed-layout {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  max-width: 1500px;
+  margin-bottom: 16px;
+}
+
+.fed-editor-column {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.fed-tree {
+  flex: 0 0 300px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  max-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+}
+
+.fed-tree-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-sunken);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.fed-tree-body {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 6px 0;
+}
+
+.fed-tree-footer {
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-sunken);
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}

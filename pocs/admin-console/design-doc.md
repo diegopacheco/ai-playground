@@ -604,7 +604,39 @@ Join keys are compared as strings. Every engine already normalises values to str
 
 Federation adds no new path to the data. Both sides go through `Engine.query()`, so a federated query cannot write, cannot escape the read-only guard, and is audited per side. The only new powers are *combining* two read results and *reading two servers in one request*.
 
+### 6d.4 Failing usefully
+
+A federated query has two failure modes that were both silent, and both are now named:
+
+- **Source does not exist.** `demo-cassandra.shop` is the *keyspace*, not a table. Each side is validated against the engine's real schema before fetching, and the error says what is actually there: *no source named "shop" on demo-cassandra — available: events_by_customer, sessions ("shop" is the keyspace, not a table)*.
+- **Join key does not exist.** Joining `ON x.id = y.id` when the table has no `id` column produced **zero rows and no explanation** — indistinguishable from "no matching data". The key is now checked against the fetched columns, with a closest-match hint: *no column named "id" … did you mean "event_id"? — available: customer_id, event_time, event_id, …*.
+
+Unhandled engine errors previously surfaced as a bare `500 Internal Server Error`. The exception handler now unwraps to the root cause so the driver's own message reaches the user.
+
+Related: the source pattern accepts `/` and `:`, because etcd sources are paths and Redis keys contain colons. Without that, three of the seven engines could not be named on either side of a join at all.
+
+### 6d.5 Ask AI for a join
+
+Writing a federated join by hand means knowing two schemas and the alias rules, so the join page has its own **Ask AI**. It builds a prompt from the federated grammar plus every source in the project with its columns, and validates the answer through `FederatedQueryParser` before offering it.
+
+Two details make it work rather than merely appear to:
+
+- **The model sees the columns a query actually returns**, not just the schema tree — including each engine's synthetic columns (`_id`, `_score` for Elasticsearch; `partition`, `offset`, `timestamp`, `key`, `value` for Kafka; `key`, `value`, `version` for etcd). Without them the model declined correct requests, because the column needed for the join was invisible to it.
+- **A refusal is reported as a refusal.** When the model answers in prose — *"these two sources have no comparable column, I won't invent one"* — that is shown as **no join possible** with its explanation, not as a parse error. Declining is often the right answer, and mislabelling it as broken output teaches people to ignore it.
+
+The suggestion loads into the editor for review, and `use this join` stays disabled unless it parses. Nothing runs on its own.
+
+### 6d.6 Writing the query: autocomplete and the schema panel
+
+A federated join asks you to hold two schemas and the alias rules in your head at once, so the page provides both an editor and a browser:
+
+- **The editor is CodeMirror**, not a textarea, with completions built from every connection's live schema — connection names, qualified sources (`demo-mysql.invoices`), and column names — plus the join keywords. `⌘↵` runs.
+- **A schema panel on the right lists every connection in the project**, foldable to sources and columns. Clicking inserts the *correctly qualified* form for where you are: a source becomes `connection.source`, and a column becomes `alias.column` **using the alias already bound to that source in the statement you are writing**. If that source has no alias yet, the bare column name is inserted rather than a wrong guess.
+
+Alias resolution handles the awkward sources deliberately — Kafka topics contain dots, etcd sources are paths, Redis keys contain colons — so `demo-kafka.orders.events x` still resolves to alias `x`, and keywords like `JOIN` are never mistaken for an alias.
+
 `POST /api/projects/{id}/federated` → `{statement}` → `{columns, rows, sides[], elapsedMs}`.
+`POST /api/projects/{id}/federated/ai` → `{prompt}` → `{statement, cli, model, parses, declined, problem}`.
 
 ## 7. The `demo/` folder
 

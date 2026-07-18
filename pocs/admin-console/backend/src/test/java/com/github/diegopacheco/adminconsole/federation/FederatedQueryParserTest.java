@@ -85,7 +85,7 @@ class FederatedQueryParserTest {
     void rejectsASingleSourceQueryBecauseThatIsWhatTheNormalConsoleIsFor() {
         assertThatThrownBy(() -> parser.parse("SELECT * FROM demo-postgres.customers c"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("expected");
+                .hasMessageContaining("no JOIN found");
     }
 
     @Test

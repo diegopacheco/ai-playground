@@ -4,7 +4,9 @@ import { Button } from "@design/Button/Button";
 import { DataGrid } from "@design/DataGrid/DataGrid";
 import { EngineLogo } from "@design/EngineLogo/EngineLogo";
 import { RowDetail } from "@design/RowDetail/RowDetail";
+import { Tree, type TreeNode } from "@design/Tree/Tree";
 import { FederatedEditor, type FederatedCompletion } from "./FederatedEditor";
+import { insertAt, qualify } from "./qualify";
 import { api } from "@lib/api";
 import type { ApiError, ConnectionKind, FederatedResult, Project } from "@lib/types";
 import "../ai/AskAi.css";
@@ -19,6 +21,7 @@ export default function FederationPage() {
   const [result, setResult] = useState<FederatedResult | null>(null);
   const [detail, setDetail] = useState<number | null>(null);
   const [completions, setCompletions] = useState<FederatedCompletion[]>([]);
+  const [tree, setTree] = useState<TreeNode[]>([]);
   const [askOpen, setAskOpen] = useState(false);
   const [askPrompt, setAskPrompt] = useState("");
   const [asking, setAsking] = useState(false);
@@ -62,10 +65,26 @@ export default function FederationPage() {
     let cancelled = false;
     const build = async () => {
       const options: FederatedCompletion[] = [];
+      const nodes: TreeNode[] = [];
       for (const connection of project.connections) {
         options.push({ label: connection.name, detail: connection.kind, type: "namespace" });
         try {
           const schema = await api.schema(connection.id);
+          nodes.push({
+            name: connection.name,
+            kind: connection.kind,
+            detail: `${schema.length} sources`,
+            children: schema.map((node) => ({
+              name: node.name,
+              kind: node.kind,
+              detail: node.detail,
+              children: (node.children ?? []).map((child) => ({
+                name: child.name,
+                kind: child.kind,
+                detail: child.detail
+              }))
+            }))
+          });
           for (const node of schema) {
             options.push({
               label: `${connection.name}.${node.name}`,
@@ -83,6 +102,7 @@ export default function FederationPage() {
       if (!cancelled) {
         const seen = new Set<string>();
         setCompletions(options.filter((option) => !seen.has(option.label) && seen.add(option.label)));
+        setTree(nodes);
       }
     };
     void build();
@@ -210,11 +230,29 @@ export default function FederationPage() {
         </div>
       ) : null}
 
-      <div className="fed-editor-shell">
-        <FederatedEditor value={statement} completions={completions} onChange={setStatement} onRun={run} />
-      </div>
-      <p className="fed-hint">⌘↵ runs · ⌃space for completions · one equality join between two sources · INNER and LEFT</p>
+      <div className="fed-layout">
+        <div className="fed-editor-column">
+          <div className="fed-editor-shell">
+            <FederatedEditor value={statement} completions={completions} onChange={setStatement} onRun={run} />
+          </div>
+          <p className="fed-hint">⌘↵ runs · ⌃space for completions · one equality join between two sources · INNER and LEFT</p>
+        </div>
 
+        <aside className="fed-tree">
+          <header className="fed-tree-header">
+            <span>all schemas</span>
+            <Badge tone="accent">{tree.length}</Badge>
+          </header>
+          <div className="fed-tree-body">
+            <Tree
+              nodes={tree}
+              emptyLabel="no connections in this project"
+              onSelect={(_node, path) => setStatement((current) => insertAt(current, qualify(current, path)))}
+            />
+          </div>
+          <footer className="fed-tree-footer">click to insert · sources become connection.source · columns use the alias</footer>
+        </aside>
+      </div>
       {error ? <pre className="fed-error" role="alert">{error}</pre> : null}
 
       {result ? (
