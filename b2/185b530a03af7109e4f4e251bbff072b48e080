@@ -1,0 +1,27 @@
+pocs/admin-console/frontend/src/navigation/CommandPalette.tsx
+  s_fa6084944458f4::t_a75c2702456e1e 15-17,19,21
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/audit/AuditRepository.java
+  s_fa6084944458f4::t_766f444e8efceb 43-59
+pocs/admin-console/frontend/src/layouts/Shell.astro
+  s_fa6084944458f4::t_a75c2702456e1e 13-21,41-44
+pocs/admin-console/frontend/src/styles/global.css
+  s_fa6084944458f4::t_a75c2702456e1e 215-229
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/audit/AuditService.java
+  s_fa6084944458f4::t_766f444e8efceb 38-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "b2185b530a03af7109e4f4e251bbff072b48e080",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
