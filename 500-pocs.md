@@ -1,14 +1,14 @@
 # 500+ POCs: What did I learned?
 
-Two years. Summer 2024 to summer 2026. 500+ POCs, 100+ agents, 20+ Claude skills, MCP servers, CV games, RL agents, full-stack clones, local models, and one platform shooter where you sling AI slop at developers.
+Two years. Summer 2024 (300 POCS) to summer 2026. 500+ POCs, 170+ agents, 20+ Claude skills, MCP servers, CV games, RL agents, full-stack clones, local models, and one auction house where AI agents bid on a haunted rubber duck.
 
 Here is the thing nobody tells you about building 500 things: the code is the least valuable output. The code rots in weeks — frameworks rename packages, wheels drop modules, endpoints change defaults. What compounds is something else entirely, and it compounds along exactly four dimensions:
 
 ```
-🧠 Skill & Judgment   — Getting Better
-⚡ Speed & Delivery    — Getting Faster
-🔬 Culture & Method   — How you work
-❤️ Motivation         — Why you keep going
+🧠 Skill & Judgment   —> Getting Better
+⚡ Speed & Delivery    -> Getting Faster
+🔬 Culture & Method   —> How you work
+❤️ Motivation         —> Why you keep going
 ```
 
 Eight lessons. Every one backed by code sitting in this repo right now.
@@ -24,7 +24,7 @@ You do not learn a tool by reading its docs. You learn it when a POC corners you
 **Proof from the repo:**
 - [`pocs/agent-skill-bug-video-recording`](pocs/agent-skill-bug-video-recording) — Playwright doesn't just assert, it *films*: a skill that hunts React bugs and records an optimized video of each one, with a sample app carrying three planted bugs so the whole pipeline is verifiable.
 - [`pocs/clihub-fun`](pocs/clihub-fun) — discovered you can compile *any* MCP server into a standalone CLI binary, OAuth included. MCP is not just a protocol for editors; it is a code-generation target.
-- [`pocs/cc-hook-tool-time-tracker`](pocs/cc-hook-tool-time-tracker) + [`pocs/cc-hook-better-permissions`](pocs/cc-hook-better-permissions) — Claude Code hooks turned out to be a full interception layer: time every tool call, rewrite permission prompts, run linters on every edit. A "config file" that is actually a runtime.
+- [`pocs/cc-token-bar`](pocs/cc-token-bar) — discovered that Claude Code hooks are secretly a telemetry feed: a native macOS menu-bar app showing live token spend, cost, cache-hit ratio, and tools ranked by dollars — fed entirely by hooks Claude Code already calls. The POC started here, then outgrew the playground into [its own repo](https://github.com/diegopacheco/cc-token-bar) — the surest sign a "small experiment" found something real.
 
 ### Lesson 2: Acquire Taste — see what's good, bad, works, or doesn't
 
@@ -32,7 +32,7 @@ Taste is not an opinion; it is pattern-matching trained on your own scar tissue,
 
 **Proof from the repo:**
 - The Rubik's rubric gauntlet: [`pocs/cc-fable-5-rubiks-cube-poc`](pocs/cc-fable-5-rubiks-cube-poc), [`pocs/codex-5.5-medium-rubrik`](pocs/codex-5.5-medium-rubrik), [`pocs/gemini-3.1-pro-rubrik`](pocs/gemini-3.1-pro-rubrik) — same challenge, three agents, three completely different failure signatures.
-- The waves face-off: [`pocs/cc-opus-4.5-waves`](pocs/cc-opus-4.5-waves) vs [`pocs/gpt-5.2-codex-waves`](pocs/gpt-5.2-codex-waves) — identical creative brief, and you can *see* which model has visual taste and which one has physics.
+- The head-to-head arenas: [`pocs/connect-four-agent-vs-agent`](pocs/connect-four-agent-vs-agent) and [`pocs/agent-werewolf`](pocs/agent-werewolf) — Claude, Gemini, Copilot, and Codex playing *each other* live: Connect Four for tactics, Werewolf for deception — one agent lies while the rest hunt it, and each model gets a deception score. A leaderboard gives you a number; watching a model bluff badly gives you taste.
 - [`mcp/llm-judges`](mcp/llm-judges) — taste, industrialized: an MCP server that fans content out to Claude, Codex, Copilot, and Gemini as parallel judges and aggregates PASS/FAIL/SPLIT. When your judges split, you've found exactly where taste lives.
 
 ---
@@ -46,16 +46,16 @@ Here is the revelation: you cannot design a good abstraction from one data point
 **Proof from the repo:**
 - [`pocs/redis-fs`](pocs/redis-fs) — a full virtual filesystem shell over Redis in Rust: `ls`, `cat`, `cp`, even executing bash scripts stored in Redis keys. The first "console."
 - [`pocs/agent-skill-data-dict`](pocs/agent-skill-data-dict) — discovers a schema from Liquibase, raw SQL, *and* JPA entities, merges them, and ships an in-browser SQL query console. The second "console" — and the introspection pattern crystallizes.
-- The reinforcement-learning six-pack: [`Pacman`](pocs/reinforcement-learning-Pacman), [`Boxing`](pocs/reinforcement-learning-Boxing), [`CarRacing`](pocs/reinforcement-learning-CarRacing), [`CartPole`](pocs/reinforcement-learning-CartPole), [`FlappyBird`](pocs/reinforcement-learning-FlappyBird), [`LunarLander`](pocs/reinforcement-learning-LunarLander) — six games, one emergent harness: env → policy → reward → loop. After the third one, you're not writing RL code anymore; you're filling in a template your repetition wrote for you.
+- The generator trilogy: [`agent-runbook`](pocs/agent-runbook), [`agent-skill-infra-automation-generator`](pocs/agent-skill-infra-automation-generator), [`agent-bruno-skill`](pocs/agent-bruno-skill) — one generates operational runbooks with real ports and real failure modes, one generates production infra files, one generates a complete Bruno API collection from detected endpoints. Three different outputs, and by the third the machine is undeniable: *scan the codebase → build a model of the stack → emit the artifact*. Nobody designed that pipeline; three repetitions confessed it.
 
 ### Lesson 4: Discovery — 4 years could be done in 4 weeks (100% delivery speed-up, 0% discovery speed-up)
 
 The most uncomfortable insight in this entire repo. Work that took 4 years at a past job could be *rebuilt* today in 4 weeks — the typing, the wiring, the tests, all of it. But here is the trap everyone falls into: AI gave delivery a 100% speed-up and discovery a **0%** speed-up. The 4 years were never about typing. They were about *finding out what to build* — the requirements that only production traffic, angry users, and 3 a.m. pages can reveal. AI compresses construction, not comprehension. Which means discovery is now the entire bottleneck — and the only way to speed it up is to run more experiments, faster, against reality.
 
 **Proof from the repo:**
-- [`pocs/adwf-twitter-like`](pocs/adwf-twitter-like) — a full-stack Twitter clone, Rust backend + React frontend, 106 tests, 85 Playwright e2e tests. A quarter's worth of delivery, compressed into days. Delivery: solved.
-- [`leasons-learned.md`](leasons-learned.md) — 34 lessons distilled from two years of failure. Not one of them could have been generated up front. That file *is* the 0% discovery speed-up, written down: every lesson cost a broken build to learn.
-- The twitter-clone rebuilds — [`adwf-twitter-like`](pocs/adwf-twitter-like), [`adwf-twitter-like-codex`](pocs/adwf-twitter-like-codex), [`v3`](pocs/adwf-twitter-like-opus-4-6-v3-skill), [`v4`](pocs/adwf-twitter-like-opus-4-6-v4-skill), [`v5`](pocs/adwf-twitter-like-opus-4-6-v5-skill) — the same product five times. Build time collapsed with every iteration. What I *learned* per iteration did not collapse — it came from comparing the versions, which no speed-up can skip.
+- The twitter-clone assembly line — [`adwf-twitter-like`](pocs/adwf-twitter-like), [`adwf-twitter-like-codex`](pocs/adwf-twitter-like-codex), [`v3`](pocs/adwf-twitter-like-opus-4-6-v3-skill), [`v4`](pocs/adwf-twitter-like-opus-4-6-v4-skill), [`v5`](pocs/adwf-twitter-like-opus-4-6-v5-skill), and finally [the v5 skill pointed at a brand-new product](pocs/adwf-memory-game-opus-4.6-v5-final) — six builds of the same full-stack app (Rust + React, 106 tests, 85 Playwright e2e), each one driving the next version of the ADWF skill. The first build took 3 full runs and an entire subscription's worth of tokens just to get the e2e suite green. Then the skill started evolving, and each version ships a `mistakes.md` — and *what kind* of mistake it logs climbs a level every version: v3's mistakes are wiring (schema types not matching the backend, crate feature flags); v4's mistakes are contracts (frontend and backend disagreeing on response shapes, wrong status codes, a hardcoded JWT secret caught in review); by v5 the pipeline — design doc → build → four test suites → code + security review → changelog — runs unchanged on a completely different product. Delivery collapsed with every version. The lessons did not: they only exist because the versions can be diffed, and no speed-up can skip that comparison.
+- [`pocs/autobench-skill-poc`](pocs/autobench-skill-poc) — a skill that generates a naive baseline, then runs optimization waves against a real benchmark: 411.7ms → 151.3ms, 2.72x faster. Generating each wave's code is instant — that is the 100% delivery speed-up. Knowing whether a wave actually helped requires running it and honestly recording when it made things *worse* — that is the 0%: reality still has to vote on every wave.
+- [`pocs/agent-learner-prompt`](pocs/agent-learner-prompt) — the "Lisa loop": an attempt to automate discovery itself. Each cycle generates code, reviews it, extracts learnings and mistakes, and rewrites its own prompt — five LLM calls per cycle, tokens burning like crazy. The README's own verdict: "I'm not happy with the results but it works." Discovery refused to be automated, and that honest failure is the cleanest measurement of the 0% in this whole repo.
 
 ---
 
@@ -76,7 +76,7 @@ Two rewirings happen at once. First: your ambition ceiling was miscalibrated —
 
 **Proof from the repo:**
 - [`pocs/claude-code-like-rust`](pocs/claude-code-like-rust) — a coding agent CLI built from scratch in Rust. The kind of project you assume needs a company, until you have one in a folder.
-- [`pocs/claude-code-better-permissions-regex`](pocs/claude-code-better-permissions-regex) + [`pocs/cc-hook-better-permissions`](pocs/cc-hook-better-permissions) — engineering the NO: permission systems tuned so the agent gets exactly the blast radius you chose, and not one file more.
+- [`pocs/cc-permissions-heatmap`](pocs/cc-permissions-heatmap) + [`pocs/agent-observability`](pocs/agent-observability) — engineering the NO starts with seeing it: one replays every recorded tool call from your transcripts against your permission rules and heatmaps exactly where the agent hits the guardrails — including the calls that were *actually* rejected, ground truth, not modeled; the other traces every agent decision as OpenTelemetry spans into Jaeger. You cannot tune a blast radius you cannot see.
 - [`pocs/agent-safehouse-poc`](pocs/agent-safehouse-poc) and [`pocs/leak-detector-skill`](pocs/leak-detector-skill) — containment and leaked-secret scanning as first-class POCs. Security added later feels bolted on because it *is*; here saying NO is designed in before the agent has anything to say yes to.
 
 ---
@@ -88,16 +88,16 @@ Two rewirings happen at once. First: your ambition ceiling was miscalibrated —
 Nobody sustains 500 POCs on discipline. Discipline gets you to POC 30; *delight* gets you to 500. The trick is that fun projects are secretly the hardest technical tests — a CV game must react every frame, a music toy must survive real-time audio, a platform shooter needs collision, spawning, and state machines with zero libraries. Weak abstractions that survive a request-response POC collapse instantly under continuous pressure. So the playful POCs are doing double duty: they keep you going, *and* they stress-test harder than any enterprise CRUD ever will.
 
 **Proof from the repo:**
-- [`pocs/megaslop`](pocs/megaslop) — an 8-bit CRT platform shooter where you sling AI slop at an endless parade of developers. Pure vanilla HTML + Canvas + JS, no libraries, no build step. Pure joy, and a complete game loop.
+- [`pocs/ai-rpg`](pocs/ai-rpg) — an LLM as Dungeon Master: a text RPG where the world does not exist until you walk into it, generated in real time and streamed token by token over SSE, with every campaign persisted. A toy on the surface; underneath, a stateful real-time streaming system that would pass for a serious product architecture.
 - The air-game series — [`air-goalkeeper-game-cv`](pocs/air-goalkeeper-game-cv), [`air-shooting-game-cv`](pocs/air-shooting-game-cv), [`air-fishing`](pocs/air-fishing), [`statue-game-cv`](pocs/statue-game-cv) — your webcam is the controller. MediaPipe hand-tracking under frame-by-frame pressure, disguised as recess.
-- [`pocs/ai-band`](pocs/ai-band) + the karaoke twins ([`claude-gpt-oss-20-karaoke`](pocs/claude-gpt-oss-20-karaoke), [`claude-qwen-coder-3-karaoke`](pocs/claude-qwen-coder-3-karaoke)) — music generation and local-model karaoke. Nobody needed this. That is exactly why it got built — and why the local-model pipeline behind it got debugged for free.
+- [`pocs/agents-auction-hourse`](pocs/agents-auction-hourse) + [`pocs/agent-debate-club`](pocs/agent-debate-club) — AI agents bidding real budgets on a Haunted Rubber Duck and a Time-Travel Microwave; AI agents debating live, each in its own text-to-speech voice, while a judge agent calls the winner. Nobody needed either. That is exactly why they got built — and the four-agent CLI orchestration and SSE streaming behind both got battle-tested for free.
 
 ### Lesson 8: Motion Is the Strategy to Build Clarity — you cannot think your way to insight you can only build your way there
 
 The deepest lesson, and the inversion of how planning is supposed to work: clarity is not a *prerequisite* for motion — clarity is a *product* of motion. Every insight in this document is downstream of building, not upstream of it. You do not know what question a POC answers until you are halfway through it; the confusion you feel before starting is not a signal to plan more, it is the raw material the building converts into understanding. Stuck? Confused? Overwhelmed by options? The move is always the same: build the smallest thing that touches reality, and let reality vote.
 
 **Proof from the repo:**
-- [`leasons-learned.md`](leasons-learned.md) — 34 lessons, and not one was known before the motion that produced it. "The environment breaks more often than the model" costs nothing to read and cost dozens of broken sandboxes to learn.
+- [`pocs/code-city-viz`](pocs/code-city-viz) — point it at any GitHub repo and it builds a 3D city: every file is a building, lines of code and commit counts set the height, and little people walk in and out of the buildings that change the most. You could stare at `git log` for a week and never *see* the hotspots; one build turned them into a skyline. Clarity was not deduced — it was rendered.
 - The Claude Code excavation — [`claude-code-teams`](pocs/claude-code-teams), [`claude-code-loop`](pocs/claude-code-loop), [`claude-context-manager`](pocs/claude-context-manager), [`claude-dispatch`](pocs/claude-dispatch), [`cc-auto-mode-poc`](pocs/cc-auto-mode-poc) — nobody hands you a mental model of how agents orchestrate; a dozen small motions triangulated one.
 - [`pocs/12-rules-template-poc`](pocs/12-rules-template-poc) — the working rules that govern this very repo's agents were not designed in a document first. They were extracted from hundreds of sessions of motion, then written down. Method is fossilized motion.
 
