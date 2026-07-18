@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { isGridKey, measureColumns, nextIndex } from "@lib/gridKeys";
 import "./CommandPalette.css";
 
 export interface Destination {
@@ -12,6 +13,8 @@ export interface Destination {
 export const DESTINATIONS: Destination[] = [
   { label: "Consoles", href: "/?pick=1", hint: "pick a connection, then query it", keywords: "console query editor run sql cql redis kafka etcd elasticsearch home engine connection", icon: "▤" },
   { label: "Projects", href: "/projects", hint: "manage projects and connections", keywords: "projects connections add edit credentials hosts config", icon: "◈" },
+  { label: "Entity trace", href: "/trace", hint: "follow one record across all engines", keywords: "trace entity follow record timeline find search across everywhere", icon: "◈" },
+  { label: "Cross-engine join", href: "/join", hint: "join two engines in one query", keywords: "join federated cross engine sql merge combine two sources", icon: "⋈" },
   { label: "Discovery", href: "/discovery", hint: "import running containers", keywords: "discovery discover containers docker podman import scan running detect", icon: "◇" },
   { label: "Audit trail", href: "/audit-trail", hint: "every statement anyone ran", keywords: "audit trail history log denied allowed security who", icon: "◷" },
   { label: "Users", href: "/users", hint: "accounts, roles and passwords", keywords: "users accounts roles admin password access", icon: "◍" },
@@ -47,6 +50,7 @@ export default function CommandPalette({ destinations = DESTINATIONS, onNavigate
   const [term, setTerm] = useState("");
   const [active, setActive] = useState(0);
   const searchRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
 
   const matches = useMemo(() => {
     return destinations
@@ -113,14 +117,10 @@ export default function CommandPalette({ destinations = DESTINATIONS, onNavigate
       go(matches[active]);
       return;
     }
-    if (event.key === "ArrowDown") {
+    if (isGridKey(event.key)) {
       event.preventDefault();
-      setActive((current) => (matches.length === 0 ? 0 : (current + 1) % matches.length));
-      return;
-    }
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
-      setActive((current) => (matches.length === 0 ? 0 : (current - 1 + matches.length) % matches.length));
+      const columns = measureColumns(listRef.current, ".palette-item");
+      setActive((current) => nextIndex(event.key as never, current, matches.length, columns));
     }
   };
 
@@ -150,7 +150,7 @@ export default function CommandPalette({ destinations = DESTINATIONS, onNavigate
           />
         </div>
 
-        <ul className="palette-list" role="listbox" aria-label="pages">
+        <ul ref={listRef} className="palette-list" role="listbox" aria-label="pages">
           {matches.length === 0 ? (
             <li className="palette-empty">no page matches “{term}”</li>
           ) : (
@@ -173,7 +173,7 @@ export default function CommandPalette({ destinations = DESTINATIONS, onNavigate
           )}
         </ul>
 
-        <footer className="palette-footer">↑↓ move · ↵ go · esc close</footer>
+        <footer className="palette-footer">↑↓←→ move · ↵ go · esc close</footer>
       </div>
     </div>
   );

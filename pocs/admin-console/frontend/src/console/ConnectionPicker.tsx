@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react"
 import { createPortal } from "react-dom";
 import { Badge } from "@design/Badge/Badge";
 import { EngineLogo } from "@design/EngineLogo/EngineLogo";
+import { isGridKey, measureColumns, nextIndex } from "@lib/gridKeys";
 import type { Connection } from "@lib/types";
 import "./ConnectionPicker.css";
 
@@ -27,6 +28,7 @@ export function ConnectionPicker({ connections, selected, onSelect, autoOpen = f
   const [term, setTerm] = useState("");
   const [active, setActive] = useState(0);
   const searchRef = useRef<HTMLInputElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(
     () => connections.filter((connection) => matches(connection, term)),
@@ -64,14 +66,18 @@ export function ConnectionPicker({ connections, selected, onSelect, autoOpen = f
       choose(filtered[active]);
       return;
     }
-    if (event.key === "ArrowDown" || (event.key === "Tab" && !event.shiftKey)) {
+    if (event.key === "Tab") {
       event.preventDefault();
-      setActive((current) => (filtered.length === 0 ? 0 : (current + 1) % filtered.length));
+      const step = event.shiftKey ? -1 : 1;
+      setActive((current) =>
+        filtered.length === 0 ? 0 : (current + step + filtered.length) % filtered.length
+      );
       return;
     }
-    if (event.key === "ArrowUp" || (event.key === "Tab" && event.shiftKey)) {
+    if (isGridKey(event.key)) {
       event.preventDefault();
-      setActive((current) => (filtered.length === 0 ? 0 : (current - 1 + filtered.length) % filtered.length));
+      const columns = measureColumns(gridRef.current, ".picker-card");
+      setActive((current) => nextIndex(event.key as never, current, filtered.length, columns));
     }
   };
 
@@ -109,10 +115,10 @@ export function ConnectionPicker({ connections, selected, onSelect, autoOpen = f
                 placeholder="search connections, engines, hosts…"
                 aria-label="search connections"
               />
-              <span className="picker-hint">↑↓ move · ↵ open · esc close</span>
+              <span className="picker-hint">↑↓←→ move · ↵ open · esc close</span>
             </header>
 
-            <div className="picker-grid" role="listbox" aria-label="connections">
+            <div ref={gridRef} className="picker-grid" role="listbox" aria-label="connections">
               {filtered.length === 0 ? (
                 <p className="picker-empty">no connection matches “{term}”</p>
               ) : (

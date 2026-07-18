@@ -6,16 +6,50 @@ Every console works the same way: browse the schema on the left, write a query i
 
 ![Architecture](printscreens/architecture.png)
 
-## What it does
+## Features
 
-- **Seven engines, one interface.** The same three-pane console drives all of them. Adding an eighth is one backend class plus one frontend descriptor.
-- **Read-only, enforced three ways.** A statement guard, a read-only connection inside a rolled-back transaction, and a `SELECT`-only database user. All three are tested independently.
-- **Full audit trail.** Who ran what, when, against which server, how long it took, and — most usefully — every statement that was *rejected* and why.
-- **Encrypted connection secrets.** AES-256-GCM, so passwords never appear in a `SELECT`, a screenshot or a log line.
-- **Real users and roles.** `admin` manages config, users and the audit trail; `user` can query.
-- **AI query authoring.** Describe what you want, and a local agent CLI (`claude -p`, `codex exec`, `agy -p`) writes the query in the right grammar for that engine. Suggestions are loaded into the editor for review — nothing runs on its own.
-- **Discovery.** Already running Postgres, Kafka and Redis in containers? Discovery finds them, detects the engine and credentials, and imports the ones you tick as a new project.
-- **Keyboard first.** `⌘K` jumps to any page, a searchable picker switches connections, `⌘↵` runs the query, double-click any row for the full record.
+**Querying**
+| | |
+|---|---|
+| Seven engines, one console | Cassandra, MySQL, Postgres, Redis, etcd, Kafka, Elasticsearch — the same three-pane layout drives all of them |
+| Schema tree | Foldable, lazy, engine-shaped: `schema→table→column`, `keyspace→table→column`, `key→field`, `prefix→prefix→key`, `topic→partition`, `index→field` |
+| Editor | CodeMirror 6, syntax highlighting, autocomplete fed from the **live** schema, `⌘↵` (and `Ctrl↵`) to run |
+| Pagination | Server-side and cursor-based — Cassandra paging state, Kafka offsets, Elasticsearch `search_after`, SQL offsets |
+| Row detail | Double-click any row for the full record, JSON pretty-printed, copy per field or whole row, `↑↓` to walk rows |
+| Recent queries | Your own history per connection, loads into the editor without running |
+| Saved queries | Shared with the whole project, optionally pinned to one connection |
+| Row count | Opt-in `count(*)` on SQL engines only — never on engines where counting means a full scan |
+
+**Beyond one engine**
+| | |
+|---|---|
+| **Entity trace** | One value, found across *every* connection in the project, placed on a timeline |
+| **Cross-engine join** | `SELECT … FROM demo-mysql.invoices a JOIN demo-elasticsearch.products b ON a.id = b._id` |
+| **Discovery** | Finds running containers, detects the engine and credentials, imports the ones you tick |
+
+**Safety**
+| | |
+|---|---|
+| Read-only, three layers | Statement guard · read-only connection in a rolled-back transaction · `SELECT`-only DB account |
+| Kafka observer semantics | Never joins a consumer group, never commits an offset — cannot disturb your real consumers |
+| Audit trail | Every statement, allowed or denied, grouped by query, with the denial reason and timing |
+| Encrypted secrets | AES-256-GCM; passwords never appear in a `SELECT`, screenshot or log, and no API ever returns one |
+| Users and roles | `admin` manages config, users and audit; `user` queries. PBKDF2, no hardcoded credential |
+
+**AI**
+| | |
+|---|---|
+| Query authoring | `claude -p`, `codex exec` or `agy -p` writes the query in the right grammar for that engine |
+| Your choice, remembered | Per-user CLI + model, stored in Postgres so it follows you across machines |
+| Guarded | Suggestions pass the same read-only guard and **never execute on their own** |
+| Bounded disclosure | Schema **names** only — never credentials, hostnames or row data |
+
+**Getting around**
+| | |
+|---|---|
+| `⌘K` palette | Jump to any page; two columns, everything visible without scrolling; `⌘K → Consoles` chains into the connection picker |
+| Connection picker | Searchable modal with engine logos — matches name, engine **and host** |
+| Grid keyboard | `↑↓←→` navigate both modals as real grids; `↵` opens, `esc` closes |
 
 ## Quick start
 
@@ -98,6 +132,31 @@ Writes are refused with an engine-appropriate reason, and nothing renders that c
 | etcd | `get`, `get --prefix`, `range` | `put`, `del`, `txn`, `compact` |
 | Kafka | `list`, `describe`, `offsets`, bounded `consume` | produce, topic admin, offset resets |
 | Elasticsearch | `GET`/`HEAD` on `_search`, `_count`, `_mapping`, `_cat` | every other verb, plus `_bulk`, `_delete_by_query`, `_reindex` **even as `GET`** |
+
+## Entity trace
+
+One value, everywhere it exists. Searching `42` finds the Postgres rows, the MySQL invoices, the Kafka messages, the Elasticsearch document and the Redis cache key — in one request, in parallel, read-only.
+
+![Entity trace](printscreens/15-entity-trace.png)
+
+Every connection is searched the way it can be searched *efficiently*, under an explicit budget (12 sources per connection, 5s each, 200 hits total). Where an engine can't answer cheaply it **says so instead of doing something expensive** — Cassandra refuses a non-partition-key search rather than running `ALLOW FILTERING` across the cluster.
+
+Hits with a readable timestamp go on the timeline. Hits without one are listed separately rather than being given an invented order.
+
+## Cross-engine join
+
+```sql
+SELECT a.number, a.customer_email, b.name, b.price_cents
+FROM demo-mysql.invoices a
+JOIN demo-elasticsearch.products b ON a.id = b._id
+LIMIT 25
+```
+
+![Cross-engine join](printscreens/16-cross-engine-join.png)
+
+A bounded hash join over two native queries — **not** a query planner. Each side is fetched through its own engine, so read-only guards, auditing and paging all still apply; then the two are joined in memory.
+
+Supported: `INNER` and `LEFT`, one equality key, `LIMIT`, column projection. Each side is capped (5,000 rows) and the cap is **reported per side**, so a partial join is labelled as partial rather than passed off as complete.
 
 ## Discovery
 

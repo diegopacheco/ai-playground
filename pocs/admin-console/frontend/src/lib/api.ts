@@ -4,6 +4,8 @@ import {
   type AiSuggestion,
   type AuditEntry,
   type DiscoveredContainer,
+  type FederatedResult,
+  type TraceResult,
   type Project,
   type QueryResult,
   type SavedQuery,
@@ -85,6 +87,15 @@ export const api = {
       .join("&");
     return request<{ page: number; size: number; entries: AuditEntry[] }>(`/api/audit${query ? `?${query}` : ""}`);
   },
+
+  trace: (projectId: number, term: string) =>
+    request<TraceResult>(`/api/projects/${projectId}/trace?term=${encodeURIComponent(term)}`),
+
+  federatedQuery: (projectId: number, statement: string) =>
+    request<FederatedResult>(`/api/projects/${projectId}/federated`, {
+      method: "POST",
+      body: JSON.stringify({ statement })
+    }),
 
   discover: () =>
     request<{ runtime: string | null; available: boolean; reason?: string; containers: DiscoveredContainer[] }>(

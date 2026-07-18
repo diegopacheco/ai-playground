@@ -56,10 +56,16 @@ describe("CommandPalette", () => {
     expect(onNavigate).toHaveBeenCalledWith("/swagger");
   });
 
-  it("moves the highlight with arrow keys", async () => {
+  it("moves the highlight forward with the right arrow", async () => {
     const onNavigate = await open();
-    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await userEvent.keyboard("{ArrowRight}{Enter}");
     expect(onNavigate).toHaveBeenCalledWith(DESTINATIONS[1].href);
+  });
+
+  it("wraps backwards past the first entry", async () => {
+    const onNavigate = await open();
+    await userEvent.keyboard("{ArrowLeft}{Enter}");
+    expect(onNavigate).toHaveBeenCalledWith(DESTINATIONS.at(-1)!.href);
   });
 
   it("navigates on click", async () => {

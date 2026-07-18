@@ -1,0 +1,132 @@
+.fed-title {
+  font-size: 20px;
+  margin: 0 0 6px;
+}
+
+.fed-lead {
+  color: var(--text-soft);
+  max-width: 800px;
+  margin: 0 0 16px;
+  font-size: 13px;
+}
+
+.fed-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.fed-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.fed-form select {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  padding: 7px 10px;
+  font-size: 12.5px;
+  background: var(--surface);
+  color: var(--text);
+  text-transform: none;
+}
+
+.fed-editor {
+  width: 100%;
+  max-width: 1100px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  padding: 13px 15px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--surface);
+  resize: vertical;
+}
+
+.fed-editor:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.fed-hint {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+  margin: 6px 0 16px;
+}
+
+.fed-error {
+  color: var(--error);
+  background: var(--error-wash);
+  border-radius: var(--r-sm);
+  padding: 11px 13px;
+  max-width: 1100px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  white-space: pre-wrap;
+  margin: 0 0 16px;
+}
+
+.fed-sides {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.fed-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  padding: 9px 13px;
+}
+
+.fed-side-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12.5px;
+}
+
+.fed-side-source {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.fed-side-rows {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.fed-elapsed {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.fed-result {
+  height: 460px;
+  max-width: 1400px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}

@@ -47,6 +47,40 @@ export interface QueryResult {
   totalRows: number | null;
 }
 
+export interface TraceHit {
+  connectionName: string;
+  kind: string;
+  source: string;
+  label: string;
+  at: string | null;
+  columns: string[];
+  row: Record<string, unknown>;
+}
+
+export interface TraceResult {
+  term: string;
+  elapsedMs: number;
+  truncated: boolean;
+  hits: TraceHit[];
+  failures: { connectionName: string; kind: string; reason: string }[];
+}
+
+export interface FederatedSide {
+  alias: string;
+  connectionName: string;
+  kind: string;
+  source: string;
+  rows: number;
+  truncated: boolean;
+}
+
+export interface FederatedResult {
+  columns: string[];
+  rows: Record<string, unknown>[];
+  elapsedMs: number;
+  sides: FederatedSide[];
+}
+
 export interface DiscoveredContainer {
   id: string;
   name: string;

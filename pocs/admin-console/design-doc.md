@@ -526,6 +526,86 @@ Same rules as the agent CLI (6.5), for the same reason: `ProcessBuilder` with an
 
 Import is admin-only, because it creates connections — the same rule as every other config change (4.6).
 
+## 6c. Entity trace — one record, across the whole stack
+
+Type a value — `1001`, `customer42@example.com` — and get every place it appears across every connection in the project, ordered into a timeline. The Postgres row, the Kafka messages about it, the Redis cache entry, the Elasticsearch document, the etcd key.
+
+This is the feature the seven-engine SPI actually earns. Everything else in this console is seven good consoles sharing a shell; trace is one thing that understands the whole stack.
+
+### 6c.1 Searching is not free — the budget is the design
+
+A naive implementation scans every column of every table on every server. That is exactly the query an admin console must never fire casually (4.3). So trace runs under an explicit **budget**, and every engine's search is written against it:
+
+| Bound | Default | Why |
+|---|---|---|
+| per-connection timeout | 5s | one slow server cannot stall the whole trace |
+| tables/topics/indices per connection | 12 | bounds the fan-out on a wide schema |
+| rows returned per source | 20 | a trace is a set of pointers, not a data dump |
+| total hits | 200 | keeps the response and the UI honest |
+
+Connections are traced **in parallel on virtual threads**, and a connection that fails or times out is reported as a failed source rather than failing the whole trace — a trace that dies because one server is down is useless.
+
+### 6c.2 What "search" means per engine, and where it refuses
+
+Each engine searches the way it can be searched *efficiently*. Where it can't, it says so instead of doing something expensive:
+
+| Engine | How | Refuses when |
+|---|---|---|
+| Postgres / MySQL | candidate columns only — key-ish (`id`, `*_id`, `uuid`, `key`) and text-ish columns, cast to text and compared for equality, one statement per table | a table has no candidate column |
+| Cassandra | **partition-key equality only** | the term does not match a partition key — a non-key scan needs `ALLOW FILTERING`, which is a cluster-wide scan, so it is refused with that as the reason |
+| Redis | exact `GET`/`TYPE` on the term as a key, plus a bounded `SCAN MATCH *term*` | — |
+| etcd | exact key, prefix match, and a value match over the bounded key set | — |
+| Kafka | consumes a bounded recent window per topic and matches key or value; observer semantics from 3.5 apply unchanged — no group, no commits | topic is empty |
+| Elasticsearch | `query_string` across all fields, which is what the engine is for | — |
+
+Cassandra refusing is the interesting case: the honest answer to "can you find this?" is sometimes "not without hurting the cluster", and saying that is better than a `ALLOW FILTERING` scan that appears to work in the demo and melts in production.
+
+### 6c.3 Building the timeline
+
+A hit is placed on the timeline when the engine can supply a time: a temporal-looking column (`*_at`, `time`, `timestamp`, `date`), the Kafka record timestamp, or the Elasticsearch `@timestamp`/date field. Hits without a time are shown in a separate "no timestamp" group rather than being given a fake one — inventing an ordering across seven systems would be worse than admitting there isn't one.
+
+### 6c.4 Read-only and audited
+
+Trace runs through the existing engines, so the read-only guards apply unchanged. Each traced source is written to the audit trail as a normal query, so "who went looking for this customer" is as visible as "who ran this SELECT".
+
+`GET /api/projects/{id}/trace?term=…` → `{term, hits[], failures[], elapsedMs}`.
+
+## 6d. Cross-engine JOIN — a small federated query engine
+
+```sql
+SELECT c.email, o.status, p.name
+FROM demo-postgres.customers c
+JOIN demo-elasticsearch.products p ON p.sku = c.country
+LIMIT 50
+```
+
+Two sources on **different engines**, joined into one grid.
+
+### 6d.1 What it is, and what it deliberately is not
+
+It is a **bounded hash join over two native queries**. It is not a query planner, has no cost model, does not push predicates down, and does not do aggregation. Saying that plainly matters, because "federated SQL" implies a great deal more than this delivers.
+
+Execution is four steps:
+
+1. **Parse** `alias.source` on each side, the `ON a.x = b.y` equality, optional `WHERE` per side, and `LIMIT`.
+2. **Resolve** each alias to a connection **in the current project** by name.
+3. **Fetch** each side through its own `Engine` — the same `query()` every console uses, so read-only guards, auditing and paging all apply. Each engine gets a native "read rows from this source" statement built for its grammar.
+4. **Join** in memory: build a hash table on the smaller side, probe with the larger, project the requested columns.
+
+Supported: `INNER` and `LEFT` joins, a single equality key, `LIMIT`, and column projection. Everything else is rejected with a clear message rather than silently ignored.
+
+### 6d.2 Memory is the hard bound
+
+An in-memory join is a memory risk, so the fetch is capped **before** the join: **5,000 rows per side** by default, and the join result is capped at the requested `LIMIT` (default 100, max 1,000). Exceeding the per-side cap does not truncate silently — the response carries `truncated: true` per side and the UI says which side was cut and that the join may therefore be incomplete. A wrong answer presented as complete is worse than a partial answer labelled as partial.
+
+Join keys are compared as strings. Every engine already normalises values to strings in `QueryResult` (4.1), so `1001` from Postgres matches `"1001"` from Kafka — which is what makes cross-engine joining work at all, and is also its main sharp edge: `1.0` and `1` will not match.
+
+### 6d.3 Why this is safe by construction
+
+Federation adds no new path to the data. Both sides go through `Engine.query()`, so a federated query cannot write, cannot escape the read-only guard, and is audited per side. The only new powers are *combining* two read results and *reading two servers in one request*.
+
+`POST /api/projects/{id}/federated` → `{statement}` → `{columns, rows, sides[], elapsedMs}`.
+
 ## 7. The `demo/` folder
 
 A note on naming: my standing instruction is never to use the word "demo", but you named `demo-start.sh` and `demo-stop.sh` explicitly, so I'm following your naming here. Say the word if you'd rather it be `sandbox/`.

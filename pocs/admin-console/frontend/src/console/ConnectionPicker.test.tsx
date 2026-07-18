@@ -84,16 +84,22 @@ describe("ConnectionPicker", () => {
     expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ name: "demo-mysql" }));
   });
 
-  it("moves the highlight with arrow keys and opens the highlighted one", async () => {
+  it("moves the highlight forward with the right arrow and opens the highlighted one", async () => {
     const onSelect = await openPicker();
-    await userEvent.keyboard("{ArrowDown}{ArrowDown}{Enter}");
+    await userEvent.keyboard("{ArrowRight}{ArrowRight}{Enter}");
     expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ name: "demo-redis" }));
   });
 
-  it("wraps the highlight around the end of the list", async () => {
+  it("wraps backwards past the start to the end of the grid", async () => {
     const onSelect = await openPicker();
-    await userEvent.keyboard("{ArrowUp}{Enter}");
+    await userEvent.keyboard("{ArrowLeft}{Enter}");
     expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ name: "demo-elasticsearch" }));
+  });
+
+  it("moves with Tab too, so the modal is reachable without arrow keys", async () => {
+    const onSelect = await openPicker();
+    await userEvent.keyboard("{Tab}{Enter}");
+    expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ name: "demo-mysql" }));
   });
 
   it("selects on click", async () => {
