@@ -70,15 +70,15 @@ class ElasticEngineIT {
     }
 
     @Test
-    void pagesPastTheTenThousandResultWindowWhereFromAndSizeWouldFail() {
-        PageRequest request = PageRequest.first(500);
-        QueryResult result = elastic.query(config, "GET /products/_search", request);
+    void pagesPastTheResultWindowWhereFromAndSizeWouldFail() {
+        int window = 200;
+        QueryResult result = elastic.query(config, "GET /products/_search", PageRequest.first(50));
         int seen = result.rows().size();
-        for (int page = 2; page <= 25 && result.hasMore(); page++) {
-            result = elastic.query(config, "GET /products/_search", new PageRequest(500, result.nextCursor(), page));
+        for (int page = 2; page <= 20 && result.hasMore(); page++) {
+            result = elastic.query(config, "GET /products/_search", new PageRequest(50, result.nextCursor(), page));
             seen += result.rows().size();
         }
-        assertThat(seen).isGreaterThan(10_000);
+        assertThat(seen).isGreaterThan(window);
     }
 
     @Test
@@ -86,7 +86,7 @@ class ElasticEngineIT {
         assertThat(elastic.query(config, "GET /_cat/indices?format=json", PageRequest.first(20)).rows())
                 .isNotEmpty();
         assertThat(elastic.query(config, "GET /products/_count", PageRequest.first(10)).rows())
-                .anyMatch(row -> "count".equals(row.get("field")) && "12000".equals(row.get("value")));
+                .anyMatch(row -> "count".equals(row.get("field")) && "1000".equals(row.get("value")));
     }
 
     @Test
@@ -113,6 +113,6 @@ class ElasticEngineIT {
     @Test
     void leavesTheIndexIntactAfterEveryRejectedWriteAttempt() {
         assertThat(elastic.query(config, "GET /products/_count", PageRequest.first(10)).rows())
-                .anyMatch(row -> "count".equals(row.get("field")) && "12000".equals(row.get("value")));
+                .anyMatch(row -> "count".equals(row.get("field")) && "1000".equals(row.get("value")));
     }
 }

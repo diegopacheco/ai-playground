@@ -9,7 +9,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - admin-console-metadata:/var/lib/postgresql/data
+      - admin-console-metadata:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin_console -d admin_console"]
       interval: 5s

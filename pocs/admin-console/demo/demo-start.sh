@@ -12,7 +12,7 @@ if ! podman info > /dev/null 2>&1; then
   done
 fi
 
-podman-compose up -d --force-recreate > /dev/null
+podman-compose up -d > /dev/null
 echo "waiting for target servers"
 
 wait_for() {
@@ -37,7 +37,10 @@ wait_for cassandra podman exec admin-console-demo-cassandra cqlsh -e "SELECT now
 wait_for kafka podman exec admin-console-demo-kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
 wait_for elasticsearch curl -fsS http://localhost:9200
 
-echo "seeding"
+if [ "${RESEED:-yes}" = "no" ]; then
+  echo "skipping seed (RESEED=no)"
+else
+  echo "seeding"
 podman exec -i admin-console-demo-postgres psql -U postgres -d shop < seed/postgres.sql > /dev/null
 podman exec -i admin-console-demo-mysql mysql -uroot -proot shop < seed/mysql.sql 2> /dev/null
 podman cp seed/cassandra.cql admin-console-demo-cassandra:/tmp/schema.cql
@@ -47,7 +50,8 @@ podman exec admin-console-demo-cassandra cqlsh -f /tmp/schema.cql > /dev/null
 ./seed/etcd.sh > /dev/null
 ./seed/kafka.sh > /dev/null
 ./seed/elastic.sh > /dev/null
-echo "  seeded"
+  echo "  seeded"
+fi
 
 if ! curl -fsS "$backend/actuator/health" > /dev/null 2>&1; then
   echo "backend is not running on $backend, start it with ../start.sh"
@@ -100,7 +104,7 @@ cassandra    localhost:9042  keyspace=shop  datacenter1   no auth
 redis        localhost:6379  no auth
 etcd         localhost:2379  no auth
 kafka        localhost:9092  no auth     topics: orders.events, payments.events, audit.log
-elasticsearch localhost:9200 no auth     index: products (12000 docs)
+elasticsearch localhost:9200 no auth     index: products (1000 docs, max_result_window 200)
 
 root credentials for seeding only:
   postgres   postgres / postgres
