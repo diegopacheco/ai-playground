@@ -167,9 +167,9 @@ main {
   flex: 1 1 auto;
   padding: 14px 0 18px;
   display: grid;
-  grid-template-columns: minmax(500px, 680px) minmax(430px, 1fr);
+  grid-template-columns: minmax(470px, 620px) minmax(570px, 1fr);
   align-items: center;
-  gap: clamp(36px, 4vw, 58px);
+  gap: clamp(28px, 3vw, 44px);
   overflow: hidden;
 }
 
@@ -240,7 +240,7 @@ h1 em {
   grid-column: 1;
   grid-row: 1;
   width: min(100%, calc((100svh - 178px) * 0.96));
-  max-width: 680px;
+  max-width: 620px;
   justify-self: start;
   border: 1px solid #abc9e6;
   border-radius: 22px 22px 42px 42px;
@@ -257,7 +257,7 @@ h1 em {
   max-width: 100%;
   justify-self: end;
   display: grid;
-  grid-template-columns: minmax(300px, 400px) minmax(120px, 1fr);
+  grid-template-columns: minmax(340px, 440px) minmax(135px, 1fr);
   grid-template-rows: auto 1fr;
   align-items: center;
   gap: 10px 24px;
@@ -274,7 +274,7 @@ h1 em {
   position: relative;
   grid-column: 1;
   grid-row: 2;
-  width: min(100%, 400px);
+  width: min(100%, 440px);
   max-height: calc(100svh - 178px);
   aspect-ratio: 7 / 10;
   margin: 0;

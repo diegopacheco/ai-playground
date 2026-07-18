@@ -51,6 +51,16 @@ const crc32 = (bytes, offset = 0) => {
   return ((crc ^ 0xffffffff) >>> 0).toString(16).padStart(8, '0').toUpperCase()
 }
 
+const snesTitle = bytes => {
+  const rom = bytes.length % 1024 === 512 ? bytes.subarray(512) : bytes
+  const offsets = [0x7fc0, 0xffc0, 0x40ffc0]
+  const titles = offsets
+    .filter(offset => offset + 21 <= rom.length)
+    .map(offset => Array.from(rom.subarray(offset, offset + 21), value => value >= 32 && value <= 126 ? String.fromCharCode(value) : ' ').join('').replace(/\s+/g, ' ').trim())
+    .filter(title => title.length >= 4)
+  return titles.sort((left, right) => right.length - left.length)[0] || ''
+}
+
 const formatBytes = bytes => {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
   return `${(bytes / 1024 / 1024).toFixed(2)} MB`
@@ -129,6 +139,8 @@ const loadMetadata = async file => {
     const bytes = new Uint8Array(await file.arrayBuffer())
     params.set('crc', crc32(bytes))
     if (bytes.length % 1024 === 512) params.set('headerlessCrc', crc32(bytes, 512))
+    const internalTitle = snesTitle(bytes)
+    if (internalTitle) params.set('internalTitle', internalTitle)
   }
   try {
     const response = await fetch(`/metadata?${params}`)

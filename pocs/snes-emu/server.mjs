@@ -40,6 +40,8 @@ const titleKey = title => title
   .trim()
   .toLowerCase()
 
+const compactTitleKey = title => titleKey(title).replaceAll(' ', '')
+
 const titleScore = title => title.includes('(USA)') ? 4 : title.includes('(World)') ? 3 : title.includes('(Europe)') ? 2 : 1
 
 const buildCatalog = async () => {
@@ -55,6 +57,7 @@ const buildCatalog = async () => {
   const years = new Map(entriesFrom(yearsText).map(entry => [entry.crc, entry.year]))
   const byCrc = new Map()
   const byTitle = new Map()
+  const byCompactTitle = new Map()
   const scores = new Map()
   for (const game of entriesFrom(gamesText)) {
     const metadata = { title: game.title, developer: developers.get(game.crc), year: years.get(game.crc) }
@@ -65,8 +68,10 @@ const buildCatalog = async () => {
       byTitle.set(key, metadata)
       scores.set(key, score)
     }
+    const compactKey = compactTitleKey(game.title)
+    if (!byCompactTitle.has(compactKey) || score > titleScore(byCompactTitle.get(compactKey).title)) byCompactTitle.set(compactKey, metadata)
   }
-  return { byCrc, byTitle }
+  return { byCrc, byTitle, byCompactTitle }
 }
 
 const fallbackCoverUrls = title => {
@@ -128,7 +133,11 @@ const metadataFor = async url => {
     if (metadata) break
   }
   const matched = Boolean(metadata)
-  metadata ||= catalog.byTitle.get(titleKey(url.searchParams.get('title') || ''))
+  const titleCandidates = [url.searchParams.get('title'), url.searchParams.get('internalTitle')].filter(Boolean)
+  for (const title of titleCandidates) {
+    metadata ||= catalog.byTitle.get(titleKey(title))
+    metadata ||= catalog.byCompactTitle.get(compactTitleKey(title))
+  }
   metadata ||= { title: url.searchParams.get('title') || 'Unknown cartridge' }
   return { ...metadata, matched, coverUrls: await coverUrlsFor(metadata.title) }
 }
