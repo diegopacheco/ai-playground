@@ -964,7 +964,7 @@ footer p {
   }
 
   h1 {
-    font-size: clamp(49px, 15vw, 68px);
+    font-size: clamp(44px, 13vw, 58px);
   }
 
   .intro {
