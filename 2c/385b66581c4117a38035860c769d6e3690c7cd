@@ -1,0 +1,49 @@
+pocs/admin-console/frontend/.storybook/main.ts
+  s_fa6084944458f4::t_24221fc2cb1496 1-20
+pocs/admin-console/frontend/src/design-system/DataGrid/DataGrid.stories.tsx
+  s_fa6084944458f4::t_8e3786d77b902e 1-31
+pocs/admin-console/frontend/src/design-system/Badge/Badge.stories.tsx
+  s_fa6084944458f4::t_1623b68ca7b307 1-26
+pocs/admin-console/links.sh
+  s_fa6084944458f4::t_705e47a4a298a4 1-16
+pocs/admin-console/frontend/.storybook/preview.ts
+  s_fa6084944458f4::t_25ea6d44f55cd7 1-14
+pocs/admin-console/frontend/src/design-system/Tree/Tree.stories.tsx
+  s_fa6084944458f4::t_82144eee3ac58c 1-70
+pocs/admin-console/stop.sh
+  s_fa6084944458f4::t_ffbba08446886e 1-11
+pocs/admin-console/frontend/src/design-system/EngineLogo/EngineLogo.stories.tsx
+  s_fa6084944458f4::t_c16013ff1600b1 1-31
+pocs/admin-console/start.sh
+  s_fa6084944458f4::t_0ab8b27d403cb6 1-25
+pocs/admin-console/frontend/src/console/RecentQueries.css
+  s_fa6084944458f4::t_1da8c12ee55df6 6-8,10-12,14-20,24-28,31,33,35-36,45,50-53,57-58,62,64-65
+pocs/admin-console/it.sh
+  s_fa6084944458f4::t_2678c7a0d93d42 19
+  s_fa6084944458f4::t_8b76a97f1eb56c 1-18,20-25
+pocs/admin-console/frontend/src/console/RecentQueries.test.tsx
+  s_fa6084944458f4::t_0212f62b34c2e5 1-70
+pocs/admin-console/frontend/src/console/RecentQueries.tsx
+  s_fa6084944458f4::t_db58ca3755ab63 1-2,14-15,28-40,45-62,64-90,93-98,101
+  s_fa6084944458f4::t_9acd803c309934 16
+  s_fa6084944458f4::t_ad3e25913f3de1 41-44
+  s_fa6084944458f4::t_4a47c9a7ba8c3d 63
+pocs/admin-console/.playwright-mcp/page-2026-07-18T10-38-19-647Z.yml
+  s_fa6084944458f4::t_9b7c7285f0b04f 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "2c385b66581c4117a38035860c769d6e3690c7cd",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
