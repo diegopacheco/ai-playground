@@ -165,12 +165,14 @@ main {
 .hero {
   min-height: 0;
   flex: 1 1 auto;
+  width: calc(100% - 3cm);
   padding: 14px 0 18px;
   display: grid;
   grid-template-columns: minmax(470px, 620px) minmax(570px, 1fr);
   align-items: start;
   gap: clamp(28px, 3vw, 44px);
   overflow: hidden;
+  transform: translateX(3cm);
 }
 
 .hero-copy {
@@ -1145,6 +1147,11 @@ footer p {
     width: calc(100% - 28px);
   }
 
+  .hero {
+    width: 100%;
+    transform: none;
+  }
+
   .hero-copy {
     display: none;
   }
@@ -1222,8 +1229,10 @@ footer p {
   .hero,
   .hero.has-game {
     position: relative;
+    width: 100%;
     grid-template-columns: 1fr;
     padding: 8px 0 12px;
+    transform: none;
   }
 
   .console-wrap {
