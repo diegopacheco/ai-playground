@@ -3,30 +3,37 @@
 }
 
 .recent-queries-toggle {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface);
   color: var(--muted);
-  font-size: 11px;
-  padding: 5px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 6px 11px;
   cursor: pointer;
+  box-shadow: var(--shadow-xs);
+  transition: border-color 160ms var(--ease), color 160ms var(--ease);
+}
+
+.recent-queries-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
 }
 
 .recent-queries-list {
-  position: absolute;
-  top: 28px;
-  left: 0;
-  z-index: 20;
-  min-width: 340px;
-  max-height: 260px;
+  position: fixed;
+  z-index: 90;
+  min-width: 380px;
+  max-width: 620px;
+  max-height: 300px;
   overflow: auto;
   margin: 0;
-  padding: 4px;
+  padding: 6px;
   list-style: none;
-  background: var(--surface-raised);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  box-shadow: 0 6px 18px rgba(62, 50, 42, 0.12);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-md);
 }
 
 .recent-queries-list button {
@@ -35,21 +42,25 @@
   text-align: left;
   border: none;
   background: none;
-  padding: 5px 6px;
+  padding: 7px 9px;
   font-family: var(--mono);
   font-size: 11.5px;
   color: var(--text);
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .recent-queries-list button:hover {
-  background: var(--surface);
-  color: var(--accent);
+  background: var(--accent-wash);
+  color: var(--accent-strong);
 }
 
 .recent-queries-empty {
-  padding: 6px;
+  padding: 10px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 11.5px;
+  text-align: center;
 }
