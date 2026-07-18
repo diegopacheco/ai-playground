@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#eaf5ff">
+  <title>SuperBlue — SNES Player</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-glow glow-one"></div>
+  <div class="page-glow glow-two"></div>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="SuperBlue home">
+      <span class="brand-mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span>SUPER<span>BLUE</span></span>
+    </a>
+    <div class="status-pill" id="statusPill">
+      <span class="status-light"></span>
+      <span id="statusText">Ready for a cartridge</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">16-BIT PLAYGROUND / LOCAL SESSION</p>
+        <h1>Your cartridge.<br><em>Your browser.</em></h1>
+        <p class="intro">Drop in a Super Nintendo ROM and jump straight into the game. Nothing leaves your machine.</p>
+        <div class="format-row" aria-label="Supported formats">
+          <span>SFC</span><span>SMC</span><span>FIG</span><span>SWC</span><span>ZIP</span><span>7Z</span>
+        </div>
+      </div>
+
+      <div class="console-wrap">
+        <div class="console-top">
+          <div class="vent-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <p>SUPERBLUE ENTERTAINMENT SYSTEM</p>
+          <span>SB-001</span>
+        </div>
+
+        <div class="screen-shell" id="screenShell">
+          <div class="screen-bezel">
+            <div class="empty-state" id="emptyState">
+              <div class="pixel-scene" aria-hidden="true">
+                <span class="pixel-star star-one"></span>
+                <span class="pixel-star star-two"></span>
+                <span class="pixel-star star-three"></span>
+                <div class="pixel-sun"></div>
+                <div class="pixel-mountain mountain-back"></div>
+                <div class="pixel-mountain mountain-front"></div>
+                <div class="pixel-ground"></div>
+              </div>
+              <p>PLAYER ONE</p>
+              <strong>INSERT A ROM</strong>
+              <span>Use the cartridge slot below</span>
+            </div>
+            <iframe id="playerFrame" title="SNES game player" allow="autoplay; fullscreen; gamepad" hidden></iframe>
+            <div class="loading-state" id="loadingState" hidden>
+              <div class="loading-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+              <strong>READING CARTRIDGE</strong>
+              <span id="loadingName">Preparing your game…</span>
+            </div>
+            <div class="fullscreen-hint">ESC TO EXIT FULLSCREEN</div>
+          </div>
+          <div class="screen-labels"><span>POWER</span><span>16 BIT</span></div>
+        </div>
+
+        <div class="cartridge-bay">
+          <input id="romInput" type="file" accept=".sfc,.smc,.fig,.swc,.gd3,.gd7,.dx2,.bsx,.zip,.7z" hidden>
+          <button class="drop-zone" id="dropZone" type="button">
+            <span class="cart-icon" aria-hidden="true"><i></i></span>
+            <span class="drop-copy">
+              <strong>DROP ROM HERE</strong>
+              <small>or click to browse your files</small>
+            </span>
+            <span class="browse-arrow" aria-hidden="true">↗</span>
+          </button>
+          <div class="loaded-cart" id="loadedCart" hidden>
+            <span class="loaded-cart-art" aria-hidden="true"><i></i></span>
+            <span class="loaded-cart-copy">
+              <small>CARTRIDGE LOADED</small>
+              <strong id="romName"></strong>
+              <span id="romSize"></span>
+            </span>
+            <button id="changeRom" type="button">CHANGE</button>
+          </div>
+        </div>
+
+        <div class="console-controls">
+          <div class="power-group"><span class="power-led"></span><span>POWER</span></div>
+          <div class="console-name">SUPER<span>BLUE</span></div>
+          <button class="fullscreen-button" id="fullscreenButton" type="button" disabled>
+            <span aria-hidden="true">⌗</span> <span id="fullscreenLabel">FULLSCREEN</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide" aria-labelledby="guideTitle">
+      <div class="guide-heading">
+        <p class="eyebrow">QUICK CONTROLS</p>
+        <h2 id="guideTitle">Ready, set, play.</h2>
+        <p>The player includes save states, gamepad mapping, volume, and display settings in its control bar.</p>
+      </div>
+      <div class="control-grid">
+        <article>
+          <span class="step">01</span>
+          <div class="dpad" aria-hidden="true"><i></i><b></b></div>
+          <div><strong>MOVE</strong><p>Arrow keys</p></div>
+        </article>
+        <article>
+          <span class="step">02</span>
+          <div class="key-pair" aria-hidden="true"><kbd>Z</kbd><kbd>X</kbd></div>
+          <div><strong>A / B</strong><p>Z and X keys</p></div>
+        </article>
+        <article>
+          <span class="step">03</span>
+          <div class="key-pair key-pair-blue" aria-hidden="true"><kbd>A</kbd><kbd>S</kbd></div>
+          <div><strong>X / Y</strong><p>A and S keys</p></div>
+        </article>
+        <article>
+          <span class="step">04</span>
+          <div class="select-keys" aria-hidden="true"><kbd>Shift</kbd><kbd>Enter</kbd></div>
+          <div><strong>SELECT / START</strong><p>Shift and Enter</p></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>PLAY RESPONSIBLY · USE ROMS YOU HAVE THE RIGHT TO USE</p>
+    <p>ROM DATA STAYS IN YOUR BROWSER</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
