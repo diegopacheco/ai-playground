@@ -12,6 +12,7 @@ export interface Destination {
 export const DESTINATIONS: Destination[] = [
   { label: "Consoles", href: "/?pick=1", hint: "pick a connection, then query it", keywords: "console query editor run sql cql redis kafka etcd elasticsearch home engine connection", icon: "▤" },
   { label: "Projects", href: "/projects", hint: "manage projects and connections", keywords: "projects connections add edit credentials hosts config", icon: "◈" },
+  { label: "Discovery", href: "/discovery", hint: "import running containers", keywords: "discovery discover containers docker podman import scan running detect", icon: "◇" },
   { label: "Audit trail", href: "/audit-trail", hint: "every statement anyone ran", keywords: "audit trail history log denied allowed security who", icon: "◷" },
   { label: "Users", href: "/users", hint: "accounts, roles and passwords", keywords: "users accounts roles admin password access", icon: "◍" },
   { label: "AI settings", href: "/settings/ai", hint: "choose the agent CLI and model", keywords: "ai agent cli claude codex agy model settings llm prompt", icon: "✦" },

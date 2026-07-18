@@ -3,6 +3,7 @@ import {
   type AiCli,
   type AiSuggestion,
   type AuditEntry,
+  type DiscoveredContainer,
   type Project,
   type QueryResult,
   type SavedQuery,
@@ -84,6 +85,17 @@ export const api = {
       .join("&");
     return request<{ page: number; size: number; entries: AuditEntry[] }>(`/api/audit${query ? `?${query}` : ""}`);
   },
+
+  discover: () =>
+    request<{ runtime: string | null; available: boolean; reason?: string; containers: DiscoveredContainer[] }>(
+      "/api/discovery"
+    ),
+
+  importDiscovered: (projectName: string, containerIds: string[]) =>
+    request<{ projectId: number; projectName: string; imported: string[] }>("/api/discovery/import", {
+      method: "POST",
+      body: JSON.stringify({ projectName, containerIds })
+    }),
 
   savedQueries: (projectId: number) => request<SavedQuery[]>(`/api/projects/${projectId}/saved`),
 

@@ -47,6 +47,21 @@ export interface QueryResult {
   totalRows: number | null;
 }
 
+export interface DiscoveredContainer {
+  id: string;
+  name: string;
+  image: string;
+  kind: string;
+  hostPort: number;
+  containerPort: number;
+  database: string | null;
+  keyspace: string | null;
+  username: string | null;
+  hasPassword: boolean;
+  importable: boolean;
+  reason: string | null;
+}
+
 export interface SavedQuery {
   id: number;
   projectId: number;

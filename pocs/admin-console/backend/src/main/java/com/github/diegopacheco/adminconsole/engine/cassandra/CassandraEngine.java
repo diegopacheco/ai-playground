@@ -40,18 +40,42 @@ public class CassandraEngine implements Engine {
         guard.assertReadOnly(statement);
     }
 
+    private static final List<String> SYSTEM_KEYSPACES = List.of(
+            "system", "system_schema", "system_auth", "system_distributed", "system_traces", "system_views",
+            "system_virtual_schema");
+
     @Override
     public List<SchemaNode> schema(ConnectionConfig config) {
         CqlSession session = registry.cassandra(config);
-        String keyspace = config.keyspace();
+        if (config.keyspace() == null || config.keyspace().isBlank()) {
+            return allKeyspaces(session);
+        }
+        return tablesOf(session, config.keyspace());
+    }
+
+    private List<SchemaNode> allKeyspaces(CqlSession session) {
+        List<SchemaNode> keyspaces = new ArrayList<>();
+        session.execute("SELECT keyspace_name FROM system_schema.keyspaces").forEach(row -> {
+            String name = row.getString("keyspace_name");
+            if (SYSTEM_KEYSPACES.contains(name)) {
+                return;
+            }
+            List<SchemaNode> tables = tablesOf(session, name);
+            keyspaces.add(new SchemaNode(name, "keyspace", tables.size() + " tables", tables));
+        });
+        keyspaces.sort((left, right) -> left.name().compareTo(right.name()));
+        return keyspaces;
+    }
+
+    private List<SchemaNode> tablesOf(CqlSession session, String keyspace) {
         Map<String, List<SchemaNode>> columns = new LinkedHashMap<>();
+        List<SchemaNode> tables = new ArrayList<>();
         session.execute(SimpleStatement.newInstance(
                 "SELECT table_name, column_name, type, kind FROM system_schema.columns WHERE keyspace_name = ?",
                 keyspace)).forEach(row -> columns
                 .computeIfAbsent(row.getString("table_name"), key -> new ArrayList<>())
                 .add(SchemaNode.leaf(row.getString("column_name"), "column",
                         row.getString("type") + " (" + row.getString("kind") + ")")));
-        List<SchemaNode> tables = new ArrayList<>();
         session.execute(SimpleStatement.newInstance(
                 "SELECT table_name FROM system_schema.tables WHERE keyspace_name = ?", keyspace)).forEach(row -> {
             String name = row.getString("table_name");
