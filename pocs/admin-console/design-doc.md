@@ -514,6 +514,9 @@ All open questions are resolved. Recorded here so the reasoning survives.
 | 7 | Is `EXPLAIN` allowed? | **Yes.** `EXPLAIN ANALYZE` stays rejected — it executes the statement. |
 | 8 | etcd grammar | **Mirror `etcdctl`** (`get --prefix /foo`), reads only. |
 | 9 | Query history | **Both.** A "recent queries" dropdown in the editor (own history, loads without executing) *and* the full `/audit-trail` for admins (4.6, 5.2, 5.3). |
+| 10 | Kafka support | **Added** (3.5). Observer semantics are non-negotiable: `assign()` only, no group, no commits — a console must not trigger rebalances or corrupt real consumers' offsets. |
+| 11 | Elasticsearch support | **Added** (3.6). Dev-Tools-style grammar, endpoint whitelist rather than body parsing, `search_after` + PIT paging. No new dependency — JDK `HttpClient` + Boot's Jackson. |
+| 12 | Saved queries | **Added.** Shared per project, editable by anyone with project access, optionally pinned to one connection (4.4). |
 
 ## 12. Not in scope — candidate follow-ups
 
