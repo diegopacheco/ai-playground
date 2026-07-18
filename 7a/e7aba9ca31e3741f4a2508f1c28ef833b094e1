@@ -1,0 +1,51 @@
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/ai/AgentCliRunner.java
+  s_fa6084944458f4::t_f262db29d228dc 1-85
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/ai/PromptBuilder.java
+  s_fa6084944458f4::t_f78496495b8f64 1-63
+pocs/admin-console/backend/src/main/resources/schema.sql
+  s_fa6084944458f4::t_8c3e90a19bd897 76-92
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/audit/AuditService.java
+  s_fa6084944458f4::t_eacdc9979e3ba2 30-37
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/ai/PromptBuilderTest.java
+  s_fa6084944458f4::t_b35186f9cab7eb 1-93
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/ai/AiController.java
+  s_fa6084944458f4::t_19b3ec98b97cc5 1-169
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/audit/AuditRepository.java
+  s_fa6084944458f4::t_2d3e430b3fb2ec 33-42
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/ai/AiSettingsRepository.java
+  s_fa6084944458f4::t_b9b95cc03a2ea6 1-59
+500-pocs.md
+  s_fd57836899634e::t_1810302ac26444 121-122
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/ai/CliAvailability.java
+  s_fa6084944458f4::t_b6899612553e77 1-37
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/ai/AgentCli.java
+  s_fa6084944458f4::t_e810b458e9ca1f 1-49
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/ai/SuggestionParser.java
+  s_fa6084944458f4::t_e8c105e437c899 1-52
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/ai/AgentCliRunnerTest.java
+  s_fa6084944458f4::t_203a46d9c15aba 1-93
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "7ae7aba9ca31e3741f4a2508f1c28ef833b094e1",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_fd57836899634e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9d232740-ddee-472c-b548-0f2fbad545c5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
