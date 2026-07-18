@@ -40,6 +40,10 @@ public class AuditService {
         repository.insertFederated(queryId, username, projectId, statement, elapsedMs, rowCount, error, clientIp);
     }
 
+    public java.util.List<String> recentFederated(String username, Long projectId, int limit) {
+        return repository.recentFederated(username, projectId, limit);
+    }
+
     public void failed(UUID queryId, int page, String username, ConnectionConfig connection, String statement,
                        long elapsedMs, String error, String clientIp) {
         repository.insert(new AuditEntry(null, queryId, page, Instant.now(), username, connection.id(),

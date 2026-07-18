@@ -10,6 +10,7 @@ import { insertAt, qualify } from "./qualify";
 import { api } from "@lib/api";
 import type { ApiError, ConnectionKind, FederatedResult, Project } from "@lib/types";
 import "../ai/AskAi.css";
+import "../console/RecentQueries.css";
 import "./FederationPage.css";
 
 export default function FederationPage() {
@@ -22,6 +23,8 @@ export default function FederationPage() {
   const [detail, setDetail] = useState<number | null>(null);
   const [completions, setCompletions] = useState<FederatedCompletion[]>([]);
   const [tree, setTree] = useState<TreeNode[]>([]);
+  const [history, setHistory] = useState<string[]>([]);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
   const [askPrompt, setAskPrompt] = useState("");
   const [asking, setAsking] = useState(false);
@@ -111,6 +114,13 @@ export default function FederationPage() {
     };
   }, [project]);
 
+  useEffect(() => {
+    if (!projectId || !historyOpen) {
+      return;
+    }
+    api.federatedHistory(projectId).then(setHistory).catch(() => setHistory([]));
+  }, [projectId, historyOpen]);
+
   const run = useCallback(async () => {
     if (!projectId || !statement.trim()) {
       return;
@@ -167,6 +177,34 @@ export default function FederationPage() {
         <button className="askai-trigger" onClick={() => setAskOpen(!askOpen)}>
           ✦ ask ai
         </button>
+        <div className="fed-recent">
+          <button className="recent-queries-toggle" onClick={() => setHistoryOpen(!historyOpen)} aria-expanded={historyOpen}>
+            recent ▾
+          </button>
+          {historyOpen ? (
+            <ul className="fed-recent-list" role="listbox" aria-label="recent joins">
+              {history.length === 0 ? (
+                <li className="recent-queries-empty">no joins yet in this project</li>
+              ) : (
+                history.map((entry) => (
+                  <li key={entry}>
+                    <button
+                      role="option"
+                      aria-selected={false}
+                      title={entry}
+                      onClick={() => {
+                        setStatement(entry);
+                        setHistoryOpen(false);
+                      }}
+                    >
+                      {entry.replace(/\s+/g, " ").slice(0, 78)}
+                    </button>
+                  </li>
+                ))
+              )}
+            </ul>
+          ) : null}
+        </div>
       </div>
 
       {askOpen ? (

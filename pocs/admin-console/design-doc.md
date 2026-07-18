@@ -371,6 +371,26 @@ The console is keyboard-first. Three surfaces share the same pattern — search 
 
 All three modals render through a **portal to `document.body`**. This is not incidental: the toolbars use `backdrop-filter`, which creates a stacking context, and a modal rendered inside one gets trapped behind other chrome regardless of `z-index`. Tests assert the portal target so this cannot regress.
 
+### 5.4b Navigation order
+
+Nine destinations, each with an icon, ordered by how often an operator reaches for them rather than alphabetically or by build order:
+
+| # | Tab | Icon | Why here |
+|---|---|---|---|
+| 1 | consoles | ▤ | the default work surface |
+| 2 | cross-join | ⋈ | the multi-engine query |
+| 3 | trace | ◈ | the multi-engine lookup |
+| 4 | audit | ◷ | checked often, by admins |
+| 5 | discovery | ◇ | occasional — adding servers |
+| 6 | projects | ▦ | configuration, not daily use |
+| 7 | users | ◍ | administration |
+| 8 | ai | ✦ | set once, rarely revisited |
+| 9 | swagger | ◎ | reference |
+
+The `⌘K` palette lists the same nine in the same order with the same icons, so the muscle memory of one transfers to the other.
+
+The Astro dev toolbar is disabled (`devToolbar: { enabled: false }`) — it overlays the bottom of the viewport, which both intercepts clicks in automated runs and appears in every screenshot.
+
 ### 5.5 Palette — warm light, copper accent
 
 ```

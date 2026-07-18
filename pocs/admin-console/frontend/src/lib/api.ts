@@ -97,6 +97,9 @@ export const api = {
       body: JSON.stringify({ statement })
     }),
 
+  federatedHistory: (projectId: number, limit = 20) =>
+    request<string[]>(`/api/projects/${projectId}/federated/history?limit=${limit}`),
+
   federatedAi: (projectId: number, prompt: string) =>
     request<{ statement: string; cli: string; model: string | null; parses: boolean; problem: string | null; declined: boolean }>(
       `/api/projects/${projectId}/federated/ai`,

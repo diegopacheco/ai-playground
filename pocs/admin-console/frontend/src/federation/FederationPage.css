@@ -270,3 +270,46 @@
   color: var(--muted);
   line-height: 1.5;
 }
+
+.fed-recent {
+  position: relative;
+}
+
+.fed-recent-list {
+  position: absolute;
+  top: 34px;
+  left: 0;
+  z-index: 40;
+  min-width: 460px;
+  max-height: 300px;
+  overflow: auto;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-md);
+}
+
+.fed-recent-list button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 7px 9px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text);
+  cursor: pointer;
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fed-recent-list button:hover {
+  background: var(--accent-wash);
+  color: var(--accent-strong);
+}
