@@ -1,6 +1,6 @@
 # Generic Admin Console — Design Doc
 
-Status: **approved**. Build follows §10.
+Status: **approved**. Build follows §11.
 
 ## 1. What this is
 
@@ -38,7 +38,7 @@ The one thing that cannot live in Postgres is the console's *own* Postgres conne
 
 **What this protects against, stated honestly so nobody later assumes more:** with the key sitting next to the ciphertext, a single `pg_dump` contains both halves. Anyone who can read the database can decrypt every stored password. So this defends against **casual disclosure** — someone glancing at a `SELECT * FROM connections`, a screenshot, a log line, a `\d` in psql — and not against anyone who takes the database.
 
-Concretely, the "encrypted at rest" property in §9 is therefore **obfuscation, not a security boundary**. That's a deliberate, informed trade for simplicity, not an oversight. If you later want it to be a real boundary, the change is small and localized: move the key out of Postgres into an env var read at boot (`MasterKeyProvider` is a one-method interface precisely so this stays a one-class swap), at which point stolen dumps, replicas and backups become useless without it.
+Concretely, the "encrypted at rest" property in §10 is therefore **obfuscation, not a security boundary**. That's a deliberate, informed trade for simplicity, not an oversight. If you later want it to be a real boundary, the change is small and localized: move the key out of Postgres into an env var read at boot (`MasterKeyProvider` is a one-method interface precisely so this stays a one-class swap), at which point stolen dumps, replicas and backups become useless without it.
 
 The same `keys` table holds the JWT signing secret, for the same reason.
 
@@ -218,7 +218,10 @@ projects(id, name unique, created_at, created_by)
 connections(id, project_id fk, name, kind, host, port, database, keyspace, datacenter,
             username, secret_ciphertext bytea, options_json, created_at, created_by)
 audit_log(id, query_id, page, at, username, connection_id, project_id, kind, statement,
-          allowed, denial_reason, elapsed_ms, row_count, error, client_ip)
+          allowed, denial_reason, elapsed_ms, row_count, error, client_ip,
+          ai_cli, ai_model, ai_prompt)
+ai_settings(id, scope, username, cli, model, enabled, updated_at,
+            unique(scope, username, cli))
 saved_queries(id, project_id fk, connection_id fk nullable, name, statement, kind,
               description, created_by, created_at, updated_at,
               unique(project_id, name))
@@ -321,6 +324,7 @@ frontend/
       ConsolePane.tsx           three-pane layout, used by all seven kinds
       SchemaTreePanel.tsx       left, foldable, lazy-expanding
       QueryEditor.tsx           CodeMirror 6 + CMD+Enter
+      AskAi.tsx                 prompt dialog, suggestion, CLI/model picker (6)
       RecentQueries.tsx         own history dropdown, from /api/history
       SavedQueries.tsx          project-shared library, save/load/rename/delete
       ResultGrid.tsx            bottom pane, self-contained, internal scroll
@@ -366,7 +370,88 @@ Admin-only. A filterable table over `audit_log`, **grouped by `query_id`** so a 
 
 Light theme only, as requested. Tokens live in `design-system/tokens/colors.ts` and are emitted as CSS custom properties, so Storybook and the app cannot drift.
 
-## 6. The `demo/` folder
+## 6. AI query authoring
+
+Every console gets an **Ask AI** affordance: describe what you want in plain language, and a local agent CLI writes the query for the engine you are looking at. The user picks which CLI and which model, and that choice is remembered.
+
+### 6.1 Agent CLIs
+
+Three supported, each invoked as a local subprocess on the backend host:
+
+| CLI | Invocation | Model flag |
+|---|---|---|
+| Claude Code | `claude -p <prompt>` | `--model <model>` |
+| Codex | `codex exec <prompt>` | `--model <model>` |
+| agy | `agy -p <prompt>` | `--model <model>` |
+
+Each CLI carries **its own model setting**, because the model names are not interchangeable. Switching CLI therefore switches model too, rather than carrying an invalid name across.
+
+Availability is detected at startup and on demand: the backend resolves each binary on `PATH` and marks unavailable ones disabled in the UI with the reason ("`agy` not found on PATH"), instead of failing at query time. The CLIs authenticate themselves — the console never handles their API keys and never asks for one.
+
+### 6.2 Configuration and how the choice is remembered
+
+Two layers, because CLI availability is a property of the machine while model preference is a property of the person:
+
+- **Global (admin)** — which CLIs are enabled at all, and the default model per CLI. Set in the config UI at `/settings/ai`.
+- **Per user** — the selected CLI and model, remembered in `ai_settings` keyed by username, changeable any time from the same config UI or from the picker in the console toolbar.
+
+The user's choice persists in Postgres, not browser storage, so it follows them across machines. First use falls back to the global default; if the chosen CLI later becomes unavailable the UI says so and offers the fallback rather than silently switching.
+
+### 6.3 What the model is told, and what it is never told
+
+The prompt is assembled server-side from three parts:
+
+1. The engine kind and its grammar — so the model writes CQL for Cassandra, an etcdctl-style `get` for etcd, a Redis command for Redis, Query DSL for Elasticsearch, and dialect-correct SQL for MySQL vs Postgres.
+2. **Schema names only** — table, column, key, topic and field names from the `SchemaTree` already fetched for the left panel, plus types.
+3. The user's natural-language request.
+
+**Never sent:** connection credentials, hostnames, the contents of any row, any query result, or the audit trail. The prompt carries structure, never data. This is enforced by building the prompt from `SchemaTree` (which contains no values) rather than from anything that has touched a result set — except Redis and etcd, where key *names* are themselves the schema, so key names do leave the machine and nothing else does.
+
+### 6.4 Generated queries are untrusted input
+
+The model's output is treated exactly like something typed by an anonymous user:
+
+- It is **loaded into the editor, never auto-executed.** The human presses CMD+Enter. An AI feature that runs its own output against a production database is a bad idea regardless of how good the model is.
+- It goes through the **same `assertReadOnly` guard** as any typed statement (4.2). If the model writes an `UPDATE`, the console refuses it at the same boundary, and the refusal is shown next to the suggestion.
+- The suggestion is rendered with write keywords highlighted, so a rejected suggestion is obvious before it is run.
+
+### 6.5 Subprocess execution safety
+
+Shelling out from a web backend is the part most likely to become a vulnerability, so the rules are explicit:
+
+- **No shell.** `ProcessBuilder` with an explicit argv list — never `sh -c`, never string concatenation. The user's prompt is a single argv element and can therefore contain quotes, semicolons, backticks and newlines without meaning anything to a shell.
+- **The binary is chosen from a fixed enum**, never from user input. A request names `claude`/`codex`/`agy`; it cannot name `/bin/rm`.
+- **Timeout 60s**, then `destroyForcibly()`. A wedged CLI cannot pin a request thread.
+- **Prompt size cap** (16 KB) so a giant schema cannot blow up the command line.
+- **No inherited stdin**, output captured and size-capped.
+- Runs on a **virtual thread** like every other blocking call.
+
+### 6.6 Auditing AI usage
+
+`audit_log` gains `ai_cli`, `ai_model` and `ai_prompt`. When a statement originated from a suggestion, the audit row records which CLI and model produced it and the natural-language prompt that led to it — so `/audit-trail` can answer "who asked an AI for this, and what did they actually ask?" A generated statement that the user never runs is still recorded, as an AI request with no execution, because knowing what people asked for is as interesting as knowing what they ran.
+
+### 6.7 API
+
+| Method | Path | Role | Purpose |
+|---|---|---|---|
+| `GET` | `/api/ai/clis` | user | available CLIs, per-CLI models, availability + reason |
+| `GET` | `/api/ai/settings` | user | the caller's remembered CLI and model |
+| `PUT` | `/api/ai/settings` | user | change the caller's CLI and model |
+| `PUT` | `/api/ai/settings/global` | admin | enabled CLIs and default models |
+| `POST` | `/api/connections/{cid}/ai/query` | user | `{prompt}` → `{statement, cli, model, readOnlyOk, denialReason}` |
+
+### 6.8 Backend and frontend shape
+
+```
+backend .../ai/   AgentCli, AiSettings, AiSettingsRepository, AiSettingsController,
+                  CliAvailability, PromptBuilder, AgentCliRunner, AiQueryController
+frontend src/ai/  AskAiButton.tsx, AiPromptDialog.tsx, AiSuggestion.tsx, AiSettingsForm.tsx
+frontend pages/   settings/ai.astro
+```
+
+`PromptBuilder` is per-engine and lives beside the engines, so adding an eighth engine adds its prompt grammar in the same place as its `Engine` implementation. `AgentCliRunner` is the only class allowed to spawn a process, which keeps the audit and safety rules in exactly one file.
+
+## 7. The `demo/` folder
 
 A note on naming: my standing instruction is never to use the word "demo", but you named `demo-start.sh` and `demo-stop.sh` explicitly, so I'm following your naming here. Say the word if you'd rather it be `sandbox/`.
 
@@ -392,11 +477,11 @@ demo/
 
 `demo-start.sh` brings the containers up with `podman-compose`, polls each for readiness in a 1-second loop, applies the seeds, creates the read-only users, then calls the console API to create a `demo` project with all seven connections already wired — so when it finishes you log in and every console works against real data. It ends by printing every credential, host, port and URL it used, so the environment is fully inspectable.
 
-This doubles as the fixture for integration tests (7.2), so there is one seeded environment rather than two that drift.
+This doubles as the fixture for integration tests (8.2), so there is one seeded environment rather than two that drift.
 
-## 7. Testing
+## 8. Testing
 
-### 7.1 Unit — every class
+### 8.1 Unit — every class
 
 **Java, JUnit 6** (ships with Boot 4.1). One test class per production class, plus a smoke test asserting every `@Component`/`@Service` has one, so the "all classes" requirement can't silently rot.
 
@@ -412,6 +497,9 @@ The highest-value tests, per Rule 9, encode *why* the behavior matters:
 - **`AuditService`** — a denied statement is still logged; a thrown engine error still logs elapsed time and the error; page 2 reuses the `query_id` of page 1 rather than opening a new one.
 - **`CursorCache`** — a cursor expires after its idle window, an expired cursor raises rather than returning stale rows, cursors are released when the pool is evicted, and one user cannot fetch another user's cursor by guessing its id.
 - **`HistoryController`** — returns only the caller's statements; a forged user parameter is ignored rather than honored.
+- **`AgentCliRunner`** — the process-spawning boundary, so it gets adversarial cases: a prompt containing `; rm -rf /`, backticks, `$(...)`, quotes and newlines is passed through as **one argv element** and never interpreted; the binary comes from the enum and cannot be redirected by request input; a CLI that never exits is killed at the timeout; oversized prompts are rejected before spawning.
+- **`PromptBuilder`** — the disclosure boundary: the assembled prompt contains schema names and never a password, hostname, or any value from a result row. Asserted per engine, since a regression here silently exfiltrates data to a third party.
+- **AI suggestions are guarded** — a model that returns `UPDATE users SET admin = true` is refused by the same `assertReadOnly` as a typed statement, and is never executed automatically.
 - **Parsers** — `RedisCommandParser`, `EtcdCommandParser` and `KafkaCommandParser` quoting/escaping/malformed input; `PrefixTreeBuilder` `/`-splitting.
 - **`ObserverConsumerFactory`** — the highest-stakes test in the suite: the built consumer has `enable.auto.commit=false`, uses `assign()` and **never** `subscribe()`, carries no `group.id`, and no code path reaches a commit call. A regression here silently damages other people's production consumers (3.5), so it's asserted on the constructed config, not just on behavior.
 - **`ElasticEndpointGuard`** — `_delete_by_query` and `_bulk` are rejected even when sent as `GET`, since several mutating ES endpoints accept it.
@@ -420,13 +508,13 @@ The highest-value tests, per Rule 9, encode *why* the behavior matters:
 
 **TypeScript, Jest** with `@swc/jest` and jsdom, matching the reference project's setup, `@testing-library/react`, one `.test.tsx` beside each component. Covers `ConsolePane` keyboard handling (CMD+Enter fires, plain Enter does not), `SchemaTreePanel` fold/unfold and lazy-load, `Pager` (Next disabled when `hasMore` is false, Prev hidden on page 1, `410` offering re-run rather than showing stale rows), `RecentQueries` loading a statement into the editor **without** executing it, `ReadOnlyNotice` rendering a denial, audit filters building the right query string, `api.ts` error/401/403/410 paths, and every design-system component's states.
 
-### 7.2 Integration — `it.sh` only, never in the build
+### 8.2 Integration — `it.sh` only, never in the build
 
 Tagged `@Tag("integration-test")`. `pom.xml` sets `<excluded.groups>integration-test</excluded.groups>`, so `mvn test` and `mvn package` skip them; `it.sh` flips it with `-Dexcluded.groups= -Dincluded.groups=integration-test`. Exactly the reference project's mechanism.
 
 `it.sh` reuses `demo/` for its environment, then runs tagged tests covering: schema listing per engine, query execution per engine, **paging across all seven engines against real data** (page 2 continues where page 1 ended, with no gaps or repeats — the failure mode that silently corrupts what an operator believes they're looking at), cursor expiry returning `410`, **write statements rejected against real servers** (the layer-2 and layer-3 check — a write must fail even with the guard bypassed in the test), auth rejection, role enforcement, audit rows written for both allowed and denied statements, secrets round-tripping through Postgres encrypted, and config surviving a backend restart.
 
-## 8. Scripts and ports
+## 9. Scripts and ports
 
 | Script | Does |
 |---|---|
@@ -463,7 +551,7 @@ http://localhost:8099/actuator/health
 http://localhost:6006/               storybook
 ```
 
-## 9. Security posture
+## 10. Security posture
 
 What this design commits to:
 
@@ -481,8 +569,10 @@ What it does **not** do, stated so the boundary is explicit rather than accident
 - No rate limiting on login. Brute-forcing `admin/admin` from localhost is possible until the password is changed.
 - No audit-log tamper-evidence (hash chaining). Append-only grants stop the application from rewriting history; they do not stop a Postgres superuser.
 - No MFA, no SSO, no per-connection ACLs — any `user` can query any connection in any project.
+- **AI query authoring sends your schema off the machine.** The agent CLI talks to a third-party model provider, so table, column, key, topic and field names leave the host — never credentials, hostnames or row data (6.3), but names alone can be sensitive (`patients`, `salaries`, `layoff_plan_2026`). The feature is opt-in per user and can be disabled globally by an admin, and this is called out in the UI at the point of use rather than buried here.
+- **AI runs a local subprocess as the backend's OS user.** Hardened per 6.5 (no shell, fixed binary enum, timeout, size caps), but a compromised or trojaned `claude`/`codex`/`agy` binary on `PATH` runs with the console's privileges. That is inherent to invoking local CLIs and is the reason the binary can never be chosen by request input.
 
-## 10. Build order
+## 11. Build order
 
 1. Backend skeleton — Boot 4.1.0, Java 25, virtual threads, metadata Postgres + `schema.sql`, OpenAPI, health.
 2. Crypto — `PostgresKeyStore`, `MasterKeyProvider`, `SecretCipher`, unit tests. Everything else depends on it.
@@ -495,11 +585,12 @@ What it does **not** do, stated so the boundary is explicit rather than accident
 9. Frontend design system + Storybook + tokens, component tests.
 10. `ConsolePane`, `Pager`, `RecentQueries` and the `engines/` descriptors; wire all seven kinds.
 11. Saved queries — table, `SavedQueryController`, `SavedQueries.tsx`.
-12. Projects, users and audit-trail UIs.
-13. Scripts, `podman-compose`, integration tests against `demo/`.
-14. Playwright screenshots into `printscreens/`, Excalidraw-style architecture diagram, `README.md`.
+12. AI query authoring — `AgentCliRunner` and `PromptBuilder` first with their adversarial tests, then settings persistence, then `AskAi.tsx` and `/settings/ai`.
+13. Projects, users and audit-trail UIs.
+14. Scripts, `podman-compose`, integration tests against `demo/`.
+15. Playwright screenshots into `printscreens/`, Excalidraw-style architecture diagram, `README.md`.
 
-## 11. Decisions log
+## 12. Decisions log
 
 All open questions are resolved. Recorded here so the reasoning survives.
 
@@ -507,7 +598,7 @@ All open questions are resolved. Recorded here so the reasoning survives.
 |---|---|---|
 | 1 | Results: one page or pagination? | **Pagination.** Server-side, 100 rows/page, cursor-based with Prev/Next — not numbered jumps, because Cassandra paging state is forward-only (4.3). |
 | 2 | Store configs in FS or Postgres? | **Postgres, everything.** Single system of record (3.1). |
-| 3 | Where does the master key live? | **Postgres `keys` table**, alongside the ciphertext. SQLite dropped, one less dependency. Makes encryption obfuscation rather than a boundary — accepted knowingly (3.2, §9). |
+| 3 | Where does the master key live? | **Postgres `keys` table**, alongside the ciphertext. SQLite dropped, one less dependency. Makes encryption obfuscation rather than a boundary — accepted knowingly (3.2, §10). |
 | 4 | Static or dynamic connection pools? | **Dynamic.** One HikariCP pool per connection, built lazily, idle-evicted, failure-isolated (3.3). |
 | 5 | `demo/` naming | **Keep `demo/`, `demo-start.sh`, `demo-stop.sh`** as specified, overriding the standing no-"demo" rule. |
 | 6 | Metadata Postgres lifecycle | **`start.sh` owns it** as a podman container. No external Postgres required to run this. |
@@ -517,8 +608,9 @@ All open questions are resolved. Recorded here so the reasoning survives.
 | 10 | Kafka support | **Added** (3.5). Observer semantics are non-negotiable: `assign()` only, no group, no commits — a console must not trigger rebalances or corrupt real consumers' offsets. |
 | 11 | Elasticsearch support | **Added** (3.6). Dev-Tools-style grammar, endpoint whitelist rather than body parsing, `search_after` + PIT paging. No new dependency — JDK `HttpClient` + Boot's Jackson. |
 | 12 | Saved queries | **Added.** Shared per project, editable by anyone with project access, optionally pinned to one connection (4.4). |
+| 13 | AI query authoring | **Added** (§6). Three agent CLIs (`claude -p`, `codex exec`, `agy -p`), each with its own model setting; choice remembered per user in Postgres and changeable in the config UI. Suggestions are loaded into the editor, never auto-executed, and pass through the same read-only guard as typed statements. |
 
-## 12. Not in scope — candidate follow-ups
+## 13. Not in scope — candidate follow-ups
 
 Deliberately excluded from this build so the first version stays finishable. Listed so they're visible choices rather than forgotten ones: additional engines (MongoDB, ClickHouse, DynamoDB, S3, RabbitMQ — see below), schema diffing across environments, result export to CSV/JSON, a connection-health dashboard, an `EXPLAIN` plan visualizer, per-connection ACLs, an env-var master key, and audit-log hash chaining.
 
