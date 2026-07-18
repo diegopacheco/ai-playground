@@ -14,6 +14,7 @@ Every console works the same way: browse the schema on the left, write a query i
 - **Encrypted connection secrets.** AES-256-GCM, so passwords never appear in a `SELECT`, a screenshot or a log line.
 - **Real users and roles.** `admin` manages config, users and the audit trail; `user` can query.
 - **AI query authoring.** Describe what you want, and a local agent CLI (`claude -p`, `codex exec`, `agy -p`) writes the query in the right grammar for that engine. Suggestions are loaded into the editor for review — nothing runs on its own.
+- **Discovery.** Already running Postgres, Kafka and Redis in containers? Discovery finds them, detects the engine and credentials, and imports the ones you tick as a new project.
 - **Keyboard first.** `⌘K` jumps to any page, a searchable picker switches connections, `⌘↵` runs the query, double-click any row for the full record.
 
 ## Quick start
@@ -36,6 +37,7 @@ Then open <http://localhost:4321> and log in with **admin / admin**.
 |---|---|
 | `http://localhost:4321/` | consoles |
 | `http://localhost:4321/projects` | projects and connections |
+| `http://localhost:4321/discovery` | import running containers |
 | `http://localhost:4321/audit-trail` | audit trail |
 | `http://localhost:4321/users` | user management |
 | `http://localhost:4321/settings/ai` | AI query authoring |
@@ -96,6 +98,19 @@ Writes are refused with an engine-appropriate reason, and nothing renders that c
 | etcd | `get`, `get --prefix`, `range` | `put`, `del`, `txn`, `compact` |
 | Kafka | `list`, `describe`, `offsets`, bounded `consume` | produce, topic admin, offset resets |
 | Elasticsearch | `GET`/`HEAD` on `_search`, `_count`, `_mapping`, `_cat` | every other verb, plus `_bulk`, `_delete_by_query`, `_reindex` **even as `GET`** |
+
+## Discovery
+
+Running containers that look like a supported engine, with the engine and credentials detected. Tick the ones you want and import them as a project.
+
+![Discovery](printscreens/14-discovery.png)
+
+Two things it deliberately refuses:
+
+- **Containers with no published port** are listed but not importable — the backend runs on the host and genuinely cannot reach them.
+- **The console's own metadata database** is never importable. It holds the master encryption key and the JWT secret, so importing it would let any logged-in user decrypt every stored password and forge an admin token.
+
+Detected credentials are usually the container's superuser, which the UI says plainly and recommends replacing. Read-only still holds either way. Passwords are never sent to the browser — import sends container ids and the backend re-reads the credentials itself.
 
 ## Audit trail
 

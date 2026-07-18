@@ -474,6 +474,58 @@ frontend pages/   settings/ai.astro
 
 `PromptBuilder` is per-engine and lives beside the engines, so adding an eighth engine adds its prompt grammar in the same place as its `Engine` implementation. `AgentCliRunner` is the only class allowed to spawn a process, which keeps the audit and safety rules in exactly one file.
 
+## 6b. Container discovery
+
+Most of the time the servers you want are already running on your machine. **Discovery** lists running containers, works out which are engines this console supports, and lets you tick the ones to import as a new project. From then on they behave exactly like a connection you configured by hand.
+
+### 6b.1 Detection
+
+`podman ps --format json` (falling back to `docker`) gives image, published ports and state. `EngineDetector` matches the image repository against a token list per engine, so forks and drop-in replacements are recognised, not just the canonical image:
+
+| Engine | Recognised images |
+|---|---|
+| Postgres | `postgres`, `postgresql`, `timescale`, `pgvector` |
+| MySQL | `mysql`, `mariadb`, `percona` |
+| Cassandra | `cassandra`, `scylla` |
+| Redis | `redis`, `valkey`, `keydb` |
+| etcd | `etcd` |
+| Kafka | `kafka`, `redpanda` |
+| Elasticsearch | `elasticsearch`, `opensearch` |
+
+Anything else is ignored silently — a discovery page that lists nginx is noise.
+
+### 6b.2 Reachability decides importability
+
+The backend runs on the host, so it can only reach a container through a **published host port**. A container with no published port is listed but marked not importable, with that as the stated reason, rather than being hidden (invisible is indistinguishable from broken) or offered and then failing at query time.
+
+Port matching prefers the engine's own default (`5432` for Postgres and so on) and falls back to the first published port, so a Postgres remapped to `5440` still imports correctly.
+
+### 6b.3 Credentials — convenient, and honest about what they are
+
+Container environments carry credentials (`POSTGRES_PASSWORD`, `MYSQL_ROOT_PASSWORD`, `ELASTIC_PASSWORD`), and discovery reads them so imported connections work immediately. Two rules keep this from being sloppy:
+
+- **They are almost always the superuser.** `POSTGRES_PASSWORD` is the `postgres` superuser; `MYSQL_ROOT_PASSWORD` is `root`. That directly contradicts §4.2 layer 3, which asks for a `SELECT`-only account. Discovery therefore *detects* whether the credentials are a superuser and says so in the UI, next to the row, recommending replacement. Layers 1 and 2 still hold regardless, so an imported superuser connection is still read-only.
+- **Detected passwords never reach the browser.** The scan response carries `hasPassword: true`, never the value. Import sends **container ids**; the backend re-scans and reads the credentials itself. This keeps the §4.6 rule — *no API ever returns a secret* — intact for discovery too.
+
+### 6b.4 The console's own database is excluded
+
+Discovery finds the console's **own** metadata Postgres, because it is a running Postgres container like any other. Importing it would be a privilege escalation: the `keys` table holds the master encryption key and the JWT signing secret, so any logged-in `user` could read the key, decrypt every stored connection password, and forge an admin token.
+
+`ContainerScanner` therefore compares each discovered host port against the port in the console's own `spring.datasource.url` and marks that container **not importable**, with the reason spelled out. This was found by running discovery against a real environment, importing the result, and querying the `keys` table through the console — it returned the master key. Excluding it is not a nicety.
+
+### 6b.5 Subprocess safety
+
+Same rules as the agent CLI (6.5), for the same reason: `ProcessBuilder` with an explicit argv list and no shell, a binary chosen from a fixed list (`podman`, `docker`) and never from request input, a 20s timeout with `destroyForcibly`, and a capped output read. Discovery takes no user input at all at the scanning stage, so there is nothing to inject.
+
+### 6b.6 API
+
+| Method | Path | Role | Purpose |
+|---|---|---|---|
+| `GET` | `/api/discovery` | user | running containers, detected engine, reachability, whether credentials were found |
+| `POST` | `/api/discovery/import` | admin | `{projectName, containerIds}` → creates a project and its connections |
+
+Import is admin-only, because it creates connections — the same rule as every other config change (4.6).
+
 ## 7. The `demo/` folder
 
 A note on naming: my standing instruction is never to use the word "demo", but you named `demo-start.sh` and `demo-stop.sh` explicitly, so I'm following your naming here. Say the word if you'd rather it be `sandbox/`.
@@ -644,6 +696,8 @@ All open questions are resolved. Recorded here so the reasoning survives.
 | 14 | Global navigation | **⌘K command palette** (5.4). Two columns, everything visible without scrolling, name-prefix ranking. `⌘K → Consoles` chains straight into the connection picker. |
 | 15 | Row inspection | **Double-click** a result row for the full record (5.4). Double, not single, so selecting and copying cell text still works. |
 | 16 | Modal layering | **All modals portal to `document.body`.** Toolbars use `backdrop-filter`, which creates a stacking context that traps nested modals behind chrome no matter the `z-index`. Asserted in tests. |
+| 18 | Container discovery | **Added** (§6b). Scans running podman/docker containers, detects supported engines by image, imports checked ones as a new project. Credentials are read from the container env but **never returned to the browser** — import sends container ids and the backend re-reads them. |
+| 19 | Discovery excludes the console's own database | **Enforced** (§6b.4). Importing the metadata Postgres would expose the master encryption key and JWT secret to any logged-in user. Found by actually importing it and reading the `keys` table. |
 | 17 | AI query authoring | **Added** (§6). Three agent CLIs (`claude -p`, `codex exec`, `agy -p`), each with its own model setting; choice remembered per user in Postgres and changeable in the config UI. Suggestions are loaded into the editor, never auto-executed, and pass through the same read-only guard as typed statements. |
 
 ## 13. Not in scope — candidate follow-ups
