@@ -1,0 +1,65 @@
+.users-section {
+  margin-bottom: 26px;
+}
+
+.users-section h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+
+.users-table {
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 560px;
+}
+
+.users-table th {
+  text-align: left;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 5px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.users-table td {
+  padding: 5px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.users-when {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.users-actions {
+  text-align: right;
+}
+
+.users-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.users-form input,
+.users-form select {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 12px;
+  background: var(--surface-raised);
+  color: var(--text);
+}
+
+.users-error {
+  color: var(--error);
+}
+
+.users-notice {
+  color: var(--ok);
+}
