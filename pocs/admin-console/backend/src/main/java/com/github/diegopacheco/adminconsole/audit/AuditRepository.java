@@ -30,6 +30,16 @@ public class AuditRepository {
                 entry.rowCount(), entry.error(), entry.clientIp());
     }
 
+    public void insertSuggestion(AuditEntry entry, String cli, String model, String userPrompt) {
+        jdbc.update("""
+                INSERT INTO audit_log (query_id, page, username, connection_id, project_id, kind, statement,
+                                       allowed, denial_reason, client_ip, ai_cli, ai_model, ai_prompt)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                entry.queryId(), entry.page(), entry.username(), entry.connectionId(), entry.projectId(),
+                entry.kind(), entry.statement(), entry.allowed(), entry.denialReason(), entry.clientIp(),
+                cli, model, userPrompt);
+    }
+
     public List<AuditEntry> search(String username, Long connectionId, Boolean allowed, Instant from, Instant to,
                                    int limit, int offset) {
         StringBuilder sql = new StringBuilder("SELECT * FROM audit_log WHERE 1 = 1");

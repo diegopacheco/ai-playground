@@ -27,6 +27,14 @@ public class AuditService {
                 null, clientIp));
     }
 
+    public void suggested(UUID queryId, String username, ConnectionConfig connection, String statement,
+                          boolean readOnlyOk, String denialReason, String cli, String model, String userPrompt,
+                          String clientIp) {
+        repository.insertSuggestion(new AuditEntry(null, queryId, 1, Instant.now(), username, connection.id(),
+                connection.projectId(), connection.kind().wireName(), statement, readOnlyOk, denialReason, null, null,
+                null, clientIp), cli, model, userPrompt);
+    }
+
     public void failed(UUID queryId, int page, String username, ConnectionConfig connection, String statement,
                        long elapsedMs, String error, String clientIp) {
         repository.insert(new AuditEntry(null, queryId, page, Instant.now(), username, connection.id(),

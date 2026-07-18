@@ -73,6 +73,23 @@ CREATE TABLE IF NOT EXISTS audit_log (
     client_ip VARCHAR(64)
 );
 
+ALTER TABLE audit_log ADD COLUMN IF NOT EXISTS ai_cli VARCHAR(32);
+ALTER TABLE audit_log ADD COLUMN IF NOT EXISTS ai_model VARCHAR(128);
+ALTER TABLE audit_log ADD COLUMN IF NOT EXISTS ai_prompt TEXT;
+
+CREATE TABLE IF NOT EXISTS ai_settings (
+    id BIGSERIAL PRIMARY KEY,
+    scope VARCHAR(16) NOT NULL,
+    username VARCHAR(64),
+    cli VARCHAR(32) NOT NULL,
+    model VARCHAR(128),
+    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS ai_settings_global_idx ON ai_settings (scope, cli) WHERE username IS NULL;
+CREATE UNIQUE INDEX IF NOT EXISTS ai_settings_user_idx ON ai_settings (scope, username, cli) WHERE username IS NOT NULL;
+
 CREATE INDEX IF NOT EXISTS audit_log_at_idx ON audit_log (at DESC);
 CREATE INDEX IF NOT EXISTS audit_log_user_at_idx ON audit_log (username, at DESC);
 CREATE INDEX IF NOT EXISTS audit_log_connection_at_idx ON audit_log (connection_id, at DESC);

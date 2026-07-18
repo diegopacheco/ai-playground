@@ -118,3 +118,5 @@ You need one. Today. Small enough to finish, real enough to break.
 Then another.
 
 That's the whole strategy.
+
+> **Go experiment. Push the frontier — that's how you learn what's possible. Otherwise you just keep your limitations.**
