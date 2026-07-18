@@ -19,11 +19,16 @@ Every console works the same way: browse the schema on the left, write a query i
 ## Quick start
 
 ```bash
-./start.sh          # metadata postgres + backend + frontend, then prints all links
-./demo/demo-start.sh # 7 seeded target servers, auto-registered as the "demo" project
-./links.sh          # every URL
-./stop.sh           # stop everything
+./start.sh            # metadata postgres + backend + frontend, then prints all links
+./demo/demo-start.sh  # 7 seeded target servers, auto-registered as the "demo" project
+./links.sh            # every URL
+./stop.sh             # stop everything — your data is kept
+./destroy-all.sh      # purge everything, including all data (asks for confirmation)
 ```
+
+`start.sh` is idempotent and `stop.sh` is non-destructive: your projects, connections, users,
+saved queries and audit trail live in a named volume and survive restarts. `destroy-all.sh` is
+the only script that deletes data, and it makes you type `DESTROY` to confirm.
 
 Then open <http://localhost:4321> and log in with **admin / admin**.
 
