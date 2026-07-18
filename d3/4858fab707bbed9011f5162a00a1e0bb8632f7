@@ -1,0 +1,26 @@
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/saved/SavedQueryRepositoryIT.java
+  s_fa6084944458f4::t_21a7ba9a1cf7da 1-92
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/saved/SavedQueryRepository.java
+  s_fa6084944458f4::t_f34527c425e6fa 50-55
+  s_fa6084944458f4::t_02273087a6198d 47-49
+  s_fa6084944458f4::t_5ee6cc39848964 56-58
+  s_fa6084944458f4::t_e09b1e88d2d9d6 1-46,59-64
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/saved/SavedQueryController.java
+  s_fa6084944458f4::t_f3c1ed9814fc3e 1-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "d34858fab707bbed9011f5162a00a1e0bb8632f7",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
