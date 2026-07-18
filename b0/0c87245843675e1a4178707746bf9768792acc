@@ -1,0 +1,23 @@
+pocs/admin-console/design-doc.md
+  s_fa6084944458f4::t_4de4acce8b4569 699-700
+  s_fa6084944458f4::t_a29cecafa18fbd 477-528
+pocs/admin-console/README.md
+  s_fa6084944458f4::t_4de4acce8b4569 17,40,102-113
+  s_fa6084944458f4::t_55200e750cafb5 114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "b00c87245843675e1a4178707746bf9768792acc",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
