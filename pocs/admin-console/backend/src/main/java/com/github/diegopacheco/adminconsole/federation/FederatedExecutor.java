@@ -21,7 +21,7 @@ public class FederatedExecutor {
                              boolean truncated) {}
 
     public record Result(List<String> columns, List<Map<String, Object>> rows, List<SideResult> sides,
-                         long elapsedMs) {}
+                         long elapsedMs, String diagnostic) {}
 
     private static final int FETCH_PAGE = 100;
 
@@ -80,7 +80,51 @@ public class FederatedExecutor {
             projected.add(out);
         }
 
-        return new Result(new ArrayList<>(columns), projected, sideResults, System.currentTimeMillis() - started);
+        String diagnostic = projected.isEmpty()
+                ? explainEmpty(query, fetched)
+                : null;
+        return new Result(new ArrayList<>(columns), projected, sideResults,
+                System.currentTimeMillis() - started, diagnostic);
+    }
+
+    private String explainEmpty(FederatedQuery query, Map<String, QueryResult> fetched) {
+        for (FederatedQuery.Join join : query.joins()) {
+            String left = samples(fetched.get(join.leftAlias().toLowerCase()), join.leftKey());
+            String right = samples(fetched.get(join.rightAlias().toLowerCase()), join.rightKey());
+            if (left == null || right == null) {
+                continue;
+            }
+            return "nothing matched on " + join.leftAlias() + "." + join.leftKey() + " = "
+                    + join.rightAlias() + "." + join.rightKey() + ". "
+                    + join.leftAlias() + "." + join.leftKey() + " looks like: " + left + " · "
+                    + join.rightAlias() + "." + join.rightKey() + " looks like: " + right
+                    + " — these values do not overlap, so the join key is probably wrong.";
+        }
+        return "the join produced no rows.";
+    }
+
+    private String samples(QueryResult rows, String column) {
+        if (rows == null || rows.rows().isEmpty()) {
+            return null;
+        }
+        List<String> seen = new ArrayList<>();
+        for (Map<String, Object> row : rows.rows()) {
+            Object value = row.get(column);
+            if (value == null) {
+                continue;
+            }
+            String text = String.valueOf(value);
+            if (text.length() > 28) {
+                text = text.substring(0, 28) + "…";
+            }
+            if (!seen.contains(text)) {
+                seen.add(text);
+            }
+            if (seen.size() == 3) {
+                break;
+            }
+        }
+        return seen.isEmpty() ? null : String.join(", ", seen);
     }
 
     private List<Map<String, Object>> prefix(String alias, List<Map<String, Object>> rows) {
@@ -213,7 +257,9 @@ public class FederatedExecutor {
     }
 
     private QueryResult fetch(ConnectionConfig connection, FederatedQuery.Side side) {
-        String statement = nativeStatement(connection.kind(), side);
+        String statement = connection.kind() == ConnectionKind.REDIS
+                ? redisStatement(connection, side.source())
+                : nativeStatement(connection.kind(), side);
         var engine = engines.of(connection.kind());
         List<Map<String, Object>> rows = new ArrayList<>();
         List<String> columns = List.of();
@@ -233,6 +279,29 @@ public class FederatedExecutor {
             page++;
         }
         return new QueryResult(columns, rows, 0, 1, null, rows.size() >= maxRowsPerSide, null);
+    }
+
+    String redisStatement(ConnectionConfig connection, String key) {
+        String type;
+        try {
+            QueryResult typed = engines.of(ConnectionKind.REDIS)
+                    .query(connection, "TYPE " + key, PageRequest.first(1));
+            type = typed.rows().isEmpty() ? "none" : String.valueOf(typed.rows().getFirst().get("value"));
+        } catch (RuntimeException error) {
+            type = "none";
+        }
+        return switch (type) {
+            case "hash" -> "HGETALL " + key;
+            case "string" -> "GET " + key;
+            case "list" -> "LRANGE " + key + " 0 -1";
+            case "set" -> "SMEMBERS " + key;
+            case "zset" -> "ZRANGE " + key + " 0 -1";
+            case "stream" -> "XRANGE " + key + " - +";
+            case "none" -> throw new IllegalArgumentException("no Redis key named \"" + key + "\" on "
+                    + connection.name() + " — check the key exists, or browse it in the schema panel");
+            default -> throw new IllegalArgumentException("Redis key \"" + key + "\" holds a " + type
+                    + ", which cannot be read as rows for a join");
+        };
     }
 
     String nativeStatement(ConnectionKind kind, FederatedQuery.Side side) {

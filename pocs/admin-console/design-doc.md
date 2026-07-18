@@ -633,6 +633,9 @@ A federated query has two failure modes that were both silent, and both are now 
 - **Source does not exist.** `demo-cassandra.shop` is the *keyspace*, not a table. Each side is validated against the engine's real schema before fetching, and the error says what is actually there: *no source named "shop" on demo-cassandra — available: events_by_customer, sessions ("shop" is the keyspace, not a table)*.
 - **Join key does not exist.** Joining `ON x.id = y.id` when the table has no `id` column produced **zero rows and no explanation** — indistinguishable from "no matching data". The key is now checked against the fetched columns, with a closest-match hint: *no column named "id" … did you mean "event_id"? — available: customer_id, event_time, event_id, …*.
 
+- **The join ran but matched nothing.** Zero rows is a legitimate outcome, and also the single most confusing one — it looks identical to "wrong key". When a join returns nothing, the response carries a diagnostic built from the values that were actually fetched: *nothing matched on `r.value` = `s.customer_id`. `r.value` looks like: `{"id":1,"name":"Customer 1"}` · `s.customer_id` looks like: `24, 13, 9` — these values do not overlap, so the join key is probably wrong.* Three sample values per side is enough to see the mismatch instantly.
+- **Redis keys are read by type.** Redis "sources" are keys, and a key is a string, hash, list, set, zset or stream. Issuing `HGETALL` at all of them — which the first version did — fails with `WRONGTYPE` on five of the six. The executor now reads `TYPE` first and picks `GET`, `HGETALL`, `LRANGE`, `SMEMBERS`, `ZRANGE` or `XRANGE` accordingly, and says *no Redis key named "x"* when the key simply does not exist.
+
 Unhandled engine errors previously surfaced as a bare `500 Internal Server Error`. The exception handler now unwraps to the root cause so the driver's own message reaches the user.
 
 Related: the source pattern accepts `/` and `:`, because etcd sources are paths and Redis keys contain colons. Without that, three of the seven engines could not be named on either side of a join at all.
@@ -656,6 +659,19 @@ A federated join asks you to hold two schemas and the alias rules in your head a
 - **A schema panel on the right lists every connection in the project**, foldable to sources and columns. Clicking inserts the *correctly qualified* form for where you are: a source becomes `connection.source`, and a column becomes `alias.column` **using the alias already bound to that source in the statement you are writing**. If that source has no alias yet, the bare column name is inserted rather than a wrong guess.
 
 Alias resolution handles the awkward sources deliberately — Kafka topics contain dots, etcd sources are paths, Redis keys contain colons — so `demo-kafka.orders.events x` still resolves to alias `x`, and keywords like `JOIN` are never mistaken for an alias.
+
+### 6d.7 The starting example is verified, not guessed
+
+The page used to open with a generated example that was **guessed** — it wrote `ON x.id = y.id` without checking those columns existed, so the very first thing a new user saw was an error. That is worse than an empty editor.
+
+`FederatedExampleBuilder` now earns the example instead:
+
+1. Sample up to 40 rows from one source per connection, recording the **actual values** in every column.
+2. Find pairs of columns across *different* connections whose sampled values genuinely overlap — real value intersection, not name similarity, so `orders.id` matching `products._id` is discovered from the data rather than assumed.
+3. Chain up to four sources that way, prefer human-readable columns for the projection, and then **execute the candidate**.
+4. Only return it if it produced rows. Otherwise return nothing and leave the editor empty.
+
+On the demo project this yields a four-engine join — Cassandra ⋈ Elasticsearch ⋈ Kafka ⋈ MySQL — that returns 25 rows on first click. An example that cannot run is not an example.
 
 `POST /api/projects/{id}/federated` → `{statement}` → `{columns, rows, sides[], elapsedMs}`.
 `POST /api/projects/{id}/federated/ai` → `{prompt}` → `{statement, cli, model, parses, declined, problem}`.

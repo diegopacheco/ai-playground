@@ -75,6 +75,7 @@ public class FederationController {
         body.put("columns", result.columns());
         body.put("rows", result.rows());
         body.put("elapsedMs", result.elapsedMs());
+        body.put("diagnostic", result.diagnostic());
         body.put("sides", result.sides().stream().map(side -> {
             Map<String, Object> view = new LinkedHashMap<>();
             view.put("alias", side.alias());

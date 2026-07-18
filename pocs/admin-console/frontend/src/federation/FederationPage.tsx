@@ -313,11 +313,15 @@ export default function FederationPage() {
             <span className="fed-elapsed">{result.rows.length} joined rows · {result.elapsedMs}ms</span>
           </div>
 
+          {result.diagnostic ? (
+            <p className="fed-diagnostic" role="status">{result.diagnostic}</p>
+          ) : null}
+
           <div className="fed-result">
             <DataGrid
               columns={result.columns}
               rows={result.rows}
-              emptyLabel="the join produced no rows — check that the keys really match"
+              emptyLabel="no rows — see the note above"
               onRowActivate={result.rows.length > 0 ? setDetail : undefined}
             />
           </div>

@@ -156,7 +156,20 @@ LIMIT 25
 
 A bounded hash join over two native queries — **not** a query planner. Each side is fetched through its own engine, so read-only guards, auditing and paging all still apply; then the two are joined in memory.
 
-Supported: `INNER` and `LEFT`, one equality key, `LIMIT`, column projection. Each side is capped (5,000 rows) and the cap is **reported per side**, so a partial join is labelled as partial rather than passed off as complete.
+**Up to five sources can be chained in one query** — this really runs:
+
+```sql
+SELECT a.customer_id, b.sku, c.partition, d.id
+FROM demo-cassandra.events_by_customer a
+JOIN demo-elasticsearch.products b ON a.customer_id = b._id
+JOIN demo-kafka.audit.log c ON a.customer_id = c.offset
+JOIN demo-mysql.invoices d ON a.customer_id = d.id
+LIMIT 25
+```
+
+Supported: `INNER` and `LEFT`, one equality per `ON`, `LIMIT`, and `alias.*` or `alias.column` projection. Each side is capped (5,000 rows), the running intermediate is re-capped after every join, and the cap is **reported per side** so a partial join is labelled as partial rather than passed off as complete.
+
+The page opens with an example that is **verified to return rows** — it samples real values from each connection, finds columns whose values genuinely overlap, then executes the candidate and only offers it if rows came back.
 
 **Any engine can be either side** — MySQL⋈Elasticsearch, Postgres⋈Kafka, Cassandra⋈Kafka, etcd⋈Elasticsearch, Redis⋈etcd all work, including two connections of the same kind.
 

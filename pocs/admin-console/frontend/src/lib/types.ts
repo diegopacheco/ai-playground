@@ -79,6 +79,7 @@ export interface FederatedResult {
   rows: Record<string, unknown>[];
   elapsedMs: number;
   sides: FederatedSide[];
+  diagnostic: string | null;
 }
 
 export interface DiscoveredContainer {
