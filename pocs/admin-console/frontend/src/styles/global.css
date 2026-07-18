@@ -1,33 +1,34 @@
 :root {
-  --bg: #FAF4EC;
-  --bg-deep: #F3E8DA;
+  --bg: #FAF5EE;
+  --bg-deep: #F2E7D8;
   --surface: #FFFFFF;
-  --surface-sunken: #F7EFE5;
+  --surface-sunken: #F8F1E7;
   --surface-raised: #FFFFFF;
-  --border: #EADCCB;
-  --border-strong: #D9C2A6;
-  --text: #241812;
-  --text-soft: #524036;
-  --muted: #927B6C;
-  --accent: #C0562A;
-  --accent-strong: #97401D;
-  --accent-bright: #E2703B;
-  --accent-wash: #FCEDE3;
-  --accent-soft: #E9A93C;
-  --ok: #4F8A54;
+  --border: #ECDFCF;
+  --border-strong: #DBC5AB;
+  --text: #1F1410;
+  --text-soft: #4A3830;
+  --muted: #97806F;
+  --accent: #C2552A;
+  --accent-strong: #963C18;
+  --accent-bright: #E97341;
+  --accent-wash: #FCEBE0;
+  --accent-soft: #EBAA3A;
+  --ok: #4A8750;
   --ok-wash: #E9F3E9;
-  --error: #C63B2C;
-  --error-wash: #FCEAE7;
+  --error: #C9382A;
+  --error-wash: #FCE9E6;
   --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-  --r-sm: 8px;
-  --r-md: 12px;
-  --r-lg: 18px;
-  --shadow-xs: 0 1px 2px rgba(36, 24, 18, 0.05);
-  --shadow-sm: 0 2px 6px rgba(36, 24, 18, 0.06), 0 1px 2px rgba(36, 24, 18, 0.04);
-  --shadow-md: 0 8px 24px rgba(36, 24, 18, 0.10), 0 2px 6px rgba(36, 24, 18, 0.05);
-  --shadow-lg: 0 32px 80px rgba(36, 24, 18, 0.24), 0 8px 24px rgba(36, 24, 18, 0.12);
-  --ring: 0 0 0 3px rgba(233, 169, 60, 0.35);
+  --r-sm: 9px;
+  --r-md: 13px;
+  --r-lg: 20px;
+  --shadow-xs: 0 1px 2px rgba(31, 20, 16, 0.05);
+  --shadow-sm: 0 2px 8px rgba(31, 20, 16, 0.06), 0 1px 2px rgba(31, 20, 16, 0.04);
+  --shadow-md: 0 10px 30px rgba(31, 20, 16, 0.10), 0 2px 8px rgba(31, 20, 16, 0.05);
+  --shadow-lg: 0 40px 90px rgba(31, 20, 16, 0.26), 0 10px 30px rgba(31, 20, 16, 0.14);
+  --ring: 0 0 0 3px rgba(235, 170, 58, 0.38);
+  --ease: cubic-bezier(0.2, 0.8, 0.3, 1);
 }
 
 * {
@@ -40,14 +41,16 @@ body {
   padding: 0;
   height: 100%;
   background:
-    radial-gradient(1100px 620px at 8% -12%, #FFF7EC 0%, rgba(255, 247, 236, 0) 62%),
-    radial-gradient(900px 520px at 102% -4%, #FBE7D8 0%, rgba(251, 231, 216, 0) 58%),
+    radial-gradient(1100px 640px at 6% -14%, #FFF8EE 0%, rgba(255, 248, 238, 0) 60%),
+    radial-gradient(880px 520px at 104% -6%, #FCE7D6 0%, rgba(252, 231, 214, 0) 56%),
+    radial-gradient(700px 700px at 88% 108%, #F7EAD9 0%, rgba(247, 234, 217, 0) 60%),
     linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--sans);
   font-size: 13px;
-  line-height: 1.45;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -71,12 +74,12 @@ button {
 .app-header {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 14px;
   padding: 0 20px;
-  height: 56px;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: saturate(180%) blur(14px);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  height: 58px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: saturate(190%) blur(18px);
+  -webkit-backdrop-filter: saturate(190%) blur(18px);
   border-bottom: 1px solid var(--border);
   flex: 0 0 auto;
   z-index: 30;
@@ -84,12 +87,44 @@ button {
 
 .app-brand {
   font-weight: 800;
-  font-size: 15.5px;
-  letter-spacing: -0.02em;
-  background: linear-gradient(115deg, var(--accent-strong) 0%, var(--accent) 45%, var(--accent-soft) 100%);
+  font-size: 16px;
+  letter-spacing: -0.03em;
+  background: linear-gradient(112deg, var(--accent-strong) 0%, var(--accent) 42%, var(--accent-soft) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.app-command-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--border);
+  background: var(--surface-sunken);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 5px 7px 5px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 160ms var(--ease), color 160ms var(--ease), background 160ms var(--ease);
+}
+
+.app-command-hint:hover {
+  border-color: var(--border-strong);
+  color: var(--accent-strong);
+  background: var(--accent-wash);
+}
+
+.app-command-hint kbd {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 2px 6px;
+  color: var(--accent-strong);
 }
 
 .app-nav {
@@ -109,8 +144,7 @@ button {
   color: var(--muted);
   font-weight: 600;
   font-size: 12px;
-  letter-spacing: -0.005em;
-  transition: color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  transition: color 160ms var(--ease), background 160ms var(--ease), box-shadow 160ms var(--ease);
 }
 
 .app-nav a:hover {
@@ -133,8 +167,8 @@ button {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(90deg, #FDF3DF, #FBE8CC);
-  border-bottom: 1px solid rgba(233, 169, 60, 0.55);
+  background: linear-gradient(90deg, #FDF4E1, #FBEAD0);
+  border-bottom: 1px solid rgba(235, 170, 58, 0.5);
   color: #7A5310;
   padding: 8px 20px;
   font-size: 12px;
@@ -145,6 +179,12 @@ button {
   padding: 26px 28px;
   overflow: auto;
   width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
 }
 
 ::selection {

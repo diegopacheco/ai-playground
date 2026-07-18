@@ -77,6 +77,17 @@ export default function CommandPalette({ destinations = DESTINATIONS, onNavigate
     setActive(0);
   }, [term]);
 
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
+
   const go = (destination: Destination | undefined) => {
     if (!destination) {
       return;

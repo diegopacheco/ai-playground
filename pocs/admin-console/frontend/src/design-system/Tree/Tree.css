@@ -8,20 +8,22 @@
 .ds-tree-row {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 2px 6px 2px 0;
+  gap: 7px;
+  padding: 3px 10px 3px 0;
   font-size: 12px;
   white-space: nowrap;
+  border-radius: 0 999px 999px 0;
+  transition: background 120ms var(--ease);
 }
 
 .ds-tree-row:hover {
-  background: var(--surface);
+  background: var(--accent-wash);
 }
 
 .ds-tree-toggle {
-  width: 14px;
-  height: 14px;
-  flex: 0 0 14px;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
   border: none;
   background: none;
   cursor: pointer;
@@ -29,6 +31,11 @@
   font-size: 9px;
   padding: 0;
   line-height: 1;
+  transition: color 120ms var(--ease);
+}
+
+.ds-tree-toggle:hover {
+  color: var(--accent);
 }
 
 .ds-tree-toggle-empty {
@@ -43,17 +50,17 @@
   color: var(--text);
   font-family: var(--mono);
   font-size: 12px;
+  font-weight: 500;
   text-align: left;
 }
 
 .ds-tree-name:hover {
-  color: var(--accent);
-  text-decoration: underline;
+  color: var(--accent-strong);
 }
 
 .ds-tree-detail {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 10.5px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -61,5 +68,6 @@
 .ds-tree-empty {
   color: var(--muted);
   font-size: 12px;
-  padding: 8px;
+  padding: 14px;
+  text-align: center;
 }

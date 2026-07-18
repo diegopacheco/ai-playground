@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import CommandPalette from "../navigation/CommandPalette";
 
 interface Props {
   title: string;
@@ -27,6 +28,10 @@ const links = [
     <div class="app-shell">
       <header class="app-header">
         <span class="app-brand">Admin Console</span>
+        <button class="app-command-hint" data-command-hint aria-label="Open the go-to-page palette">
+          <span>go to…</span>
+          <kbd>⌘K</kbd>
+        </button>
         <nav class="app-nav">
           {links.map((link) => (
             <a href={link.href} aria-current={active === link.key ? "page" : undefined}>{link.label}</a>
@@ -36,6 +41,14 @@ const links = [
       <div class="app-body">
         <slot />
       </div>
+      <CommandPalette client:load />
     </div>
+    <script>
+      document.querySelector("[data-command-hint]")?.addEventListener("click", () => {
+        window.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true })
+        );
+      });
+    </script>
   </body>
 </html>
