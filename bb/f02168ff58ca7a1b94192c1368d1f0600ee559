@@ -1,0 +1,83 @@
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/auth/Jwt.java
+  s_fa6084944458f4::t_7ae0db63c2d15e 23,27-30,32,38
+  s_fa6084944458f4::t_5bb12230d64b6d 25
+  s_fa6084944458f4::t_2a508a9732b2d5 11
+  s_fa6084944458f4::t_dbeec7d646d314 1-10,12-22,24,26,31,33-37,39-62,64-98
+  s_fa6084944458f4::t_a21bc08683d470 63
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/user/User.java
+  s_fa6084944458f4::t_462441fc0b830a 1-13
+pocs/admin-console/backend/start.sh
+  s_fa6084944458f4::t_76d3383a50f352 1-15
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/crypto/MasterKeyProvider.java
+  s_fa6084944458f4::t_da24515b6d849a 1-5
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/user/UserRepository.java
+  s_fa6084944458f4::t_e2e79c7725cd29 1-77
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/user/BootstrapAdmin.java
+  s_fa6084944458f4::t_9de2e19fd76b1a 1-30
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/auth/PasswordHasher.java
+  s_fa6084944458f4::t_f5ae3c8b16321a 1-39
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/auth/PasswordHasherTest.java
+  s_fa6084944458f4::t_d16dcf412478ca 1-38
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/console/ApiExceptionHandler.java
+  s_fa6084944458f4::t_e1cad2ae0fb64f 1-24
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/crypto/PostgresKeyStoreIT.java
+  s_fa6084944458f4::t_518e0f65ab69f4 1-59
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/auth/AuthController.java
+  s_fa6084944458f4::t_4410378e386067 1-83,87-89
+  s_fa6084944458f4::t_92105c0a3182bc 84-86
+pocs/admin-console/backend/pom.xml
+  s_fa6084944458f4::t_e403a9885d23b3 90-93
+  s_fa6084944458f4::t_86cad543488794 1-89,94-98
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/crypto/SecretCipher.java
+  s_fa6084944458f4::t_95b179678df6d4 1-63
+pocs/admin-console/backend/src/main/resources/application.yml
+  s_fa6084944458f4::t_3759c4d8b8c5cf 1-47
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/user/UserService.java
+  s_fa6084944458f4::t_4100b5cfe192bd 1-96
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/user/UserServiceTest.java
+  s_fa6084944458f4::t_64f2a96980cf42 1-133
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/auth/CurrentUser.java
+  s_fa6084944458f4::t_a01287ad635779 1-32
+pocs/admin-console/backend/src/main/resources/schema.sql
+  s_fa6084944458f4::t_3d5a5ee13a9510 1-79
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/auth/AuthFilterTest.java
+  s_fa6084944458f4::t_a8d7c5803b7947 1-65
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/auth/AuthControllerIT.java
+  s_fa6084944458f4::t_86f90d8db60e63 1-82
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/auth/AuthFilter.java
+  s_fa6084944458f4::t_7d7d89d7c8e06c 1-2,4-92
+  s_fa6084944458f4::t_f31517ed9ebe6e 3
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/crypto/SecretCipherTest.java
+  s_fa6084944458f4::t_ec197699a43637 1-59
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/user/UserController.java
+  s_fa6084944458f4::t_fecd2de2f681b1 1-73
+pocs/admin-console/podman-compose.yml
+  s_fa6084944458f4::t_8eaff8e20ee87b 1-15
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/crypto/PostgresKeyStore.java
+  s_fa6084944458f4::t_4353a998858d39 1-34
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/auth/JwtTest.java
+  s_fa6084944458f4::t_89a2c0092c16be 58-69
+  s_fa6084944458f4::t_a97f41852c0e2f 1-57,70-71
+pocs/admin-console/backend/stop.sh
+  s_fa6084944458f4::t_8ba8d9f58bf641 1-8
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/AdminConsoleApplication.java
+  s_fa6084944458f4::t_987de393b1766e 1-11
+pocs/admin-console/demo/podman-compose.yml
+  s_fa6084944458f4::t_09b5ca4b6153db 1-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "bbf02168ff58ca7a1b94192c1368d1f0600ee559",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
