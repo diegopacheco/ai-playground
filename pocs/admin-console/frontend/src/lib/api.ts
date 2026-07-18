@@ -5,6 +5,7 @@ import {
   type AuditEntry,
   type Project,
   type QueryResult,
+  type SavedQuery,
   type SchemaNode,
   type Session
 } from "./types";
@@ -83,6 +84,14 @@ export const api = {
       .join("&");
     return request<{ page: number; size: number; entries: AuditEntry[] }>(`/api/audit${query ? `?${query}` : ""}`);
   },
+
+  savedQueries: (projectId: number) => request<SavedQuery[]>(`/api/projects/${projectId}/saved`),
+
+  saveQuery: (projectId: number, body: Record<string, unknown>) =>
+    request<SavedQuery>(`/api/projects/${projectId}/saved`, { method: "POST", body: JSON.stringify(body) }),
+
+  deleteSavedQuery: (projectId: number, id: number) =>
+    request<unknown>(`/api/projects/${projectId}/saved/${id}`, { method: "DELETE" }),
 
   aiClis: () => request<AiCli[]>("/api/ai/clis"),
 

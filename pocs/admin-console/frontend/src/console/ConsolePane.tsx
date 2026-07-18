@@ -9,6 +9,7 @@ import { engineFor } from "@engines/index";
 import { api } from "@lib/api";
 import { ApiError, type Connection, type QueryResult, type SchemaNode } from "@lib/types";
 import { AskAi } from "../ai/AskAi";
+import { SavedQueries } from "../saved/SavedQueries";
 import { QueryEditor } from "./QueryEditor";
 import { ReadOnlyNotice } from "./ReadOnlyNotice";
 import { RecentQueries } from "./RecentQueries";
@@ -152,6 +153,13 @@ export function ConsolePane({ connection }: ConsolePaneProps) {
           </Button>
           <span className="console-hint">⌘↵</span>
           <AskAi connectionId={connection.id} onUse={setStatement} />
+          <SavedQueries
+            projectId={connection.projectId}
+            connectionId={connection.id}
+            connectionKind={connection.kind}
+            statement={statement}
+            onUse={setStatement}
+          />
           <RecentQueries connectionId={connection.id} onPick={setStatement} />
           <span className="console-target">
             {connection.host}:{connection.port}

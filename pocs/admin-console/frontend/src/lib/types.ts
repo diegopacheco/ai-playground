@@ -47,6 +47,18 @@ export interface QueryResult {
   totalRows: number | null;
 }
 
+export interface SavedQuery {
+  id: number;
+  projectId: number;
+  connectionId: number | null;
+  name: string;
+  statement: string;
+  kind: string;
+  description: string | null;
+  createdBy: string;
+  updatedAt: string;
+}
+
 export interface AiSuggestion {
   statement: string;
   cli: string;
