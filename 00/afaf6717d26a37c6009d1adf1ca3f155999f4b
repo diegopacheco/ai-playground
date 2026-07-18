@@ -1,0 +1,25 @@
+pocs/admin-console/demo/demo-stop.sh
+  s_fa6084944458f4::t_cd25e069cfc6d3 1-12
+pocs/admin-console/demo/demo-start.sh
+  s_fa6084944458f4::t_fd65bf554ec309 1-109
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/console/ApiExceptionHandler.java
+  s_fa6084944458f4::t_f548da105b0a43 11-16
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/console/ConsoleController.java
+  s_fa6084944458f4::t_2fa87342b37bc8 1-131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "00afaf6717d26a37c6009d1adf1ca3f155999f4b",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
