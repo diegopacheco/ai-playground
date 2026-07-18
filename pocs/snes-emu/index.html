@@ -24,8 +24,8 @@
   </header>
 
   <main>
-    <section class="hero">
-      <div class="hero-copy">
+    <section class="hero" id="hero">
+      <div class="hero-copy" id="heroCopy">
         <p class="eyebrow">16-BIT PLAYGROUND / LOCAL SESSION</p>
         <h1>Your cartridge.<br><em>Your browser.</em></h1>
         <p class="intro">Drop in a Super Nintendo ROM and jump straight into the game. Nothing leaves your machine.</p>
@@ -97,6 +97,28 @@
           </button>
         </div>
       </div>
+
+      <aside class="game-info" id="gameInfo" aria-live="polite" hidden>
+        <p class="eyebrow">NOW PLAYING / CARTRIDGE FILE</p>
+        <div class="cover-frame">
+          <div class="cover-shine"></div>
+          <img id="coverImage" alt="" hidden>
+          <div class="cover-fallback" id="coverFallback">
+            <span class="cover-cart" aria-hidden="true"><i></i></span>
+            <strong>BOX ART</strong>
+            <span id="coverStatus">IDENTIFYING GAME</span>
+          </div>
+        </div>
+        <div class="game-details">
+          <p class="metadata-source" id="metadataSource">Reading cartridge signature…</p>
+          <h2 id="gameTitle">Unknown cartridge</h2>
+          <dl class="game-facts">
+            <div><dt>RELEASED</dt><dd id="gameYear">—</dd></div>
+            <div><dt>DEVELOPER</dt><dd id="gameDeveloper">—</dd></div>
+          </dl>
+          <p class="art-credit">Game metadata and box art matched through Libretro.</p>
+        </div>
+      </aside>
     </section>
 
     <section class="guide" aria-labelledby="guideTitle">

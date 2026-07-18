@@ -15,6 +15,8 @@ const loadGame = file => {
   window.EJS_color = '#1261d8'
   window.EJS_backgroundColor = '#07101f'
   window.EJS_disableAutoLang = true
+  window.EJS_forceLegacyCores = true
+  window.EJS_defaultOptions = { shader: 'disabled' }
   window.EJS_mouse = false
   window.EJS_multitap = false
   window.EJS_Buttons = { fullscreen: true }

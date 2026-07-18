@@ -15,6 +15,16 @@ const elements = {
   screenShell: document.querySelector('#screenShell'),
   fullscreenButton: document.querySelector('#fullscreenButton'),
   fullscreenLabel: document.querySelector('#fullscreenLabel'),
+  hero: document.querySelector('#hero'),
+  heroCopy: document.querySelector('#heroCopy'),
+  gameInfo: document.querySelector('#gameInfo'),
+  coverImage: document.querySelector('#coverImage'),
+  coverFallback: document.querySelector('#coverFallback'),
+  coverStatus: document.querySelector('#coverStatus'),
+  metadataSource: document.querySelector('#metadataSource'),
+  gameTitle: document.querySelector('#gameTitle'),
+  gameYear: document.querySelector('#gameYear'),
+  gameDeveloper: document.querySelector('#gameDeveloper'),
   statusText: document.querySelector('#statusText'),
   statusPill: document.querySelector('#statusPill'),
   toast: document.querySelector('#toast')
@@ -22,8 +32,24 @@ const elements = {
 
 let selectedRom = null
 let toastTimer = null
+let metadataRequest = 0
+
+const crcTable = new Uint32Array(256)
+for (let index = 0; index < 256; index++) {
+  let value = index
+  for (let bit = 0; bit < 8; bit++) value = value & 1 ? 0xedb88320 ^ value >>> 1 : value >>> 1
+  crcTable[index] = value >>> 0
+}
 
 const extensionOf = file => file.name.split('.').pop()?.toLowerCase() || ''
+
+const titleFromFile = file => file.name.replace(/\.[^.]+$/, '').replaceAll('_', ' ').trim()
+
+const crc32 = (bytes, offset = 0) => {
+  let crc = 0xffffffff
+  for (let index = offset; index < bytes.length; index++) crc = crcTable[(crc ^ bytes[index]) & 0xff] ^ crc >>> 8
+  return ((crc ^ 0xffffffff) >>> 0).toString(16).padStart(8, '0').toUpperCase()
+}
 
 const formatBytes = bytes => {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
@@ -63,6 +89,65 @@ const showLoading = file => {
   setStatus('Reading cartridge', 'loading')
 }
 
+const showGameInfo = file => {
+  elements.hero.classList.add('has-game')
+  elements.heroCopy.hidden = true
+  elements.gameInfo.hidden = false
+  elements.coverImage.hidden = true
+  elements.coverImage.removeAttribute('src')
+  elements.coverFallback.hidden = false
+  elements.coverStatus.textContent = 'IDENTIFYING GAME'
+  elements.metadataSource.textContent = 'Reading cartridge signature…'
+  elements.gameTitle.textContent = titleFromFile(file)
+  elements.gameYear.textContent = '—'
+  elements.gameDeveloper.textContent = '—'
+}
+
+const showCover = urls => {
+  const tryCover = index => {
+    if (index >= urls.length) {
+      elements.coverImage.hidden = true
+      elements.coverFallback.hidden = false
+      elements.coverStatus.textContent = 'ART NOT FOUND'
+      return
+    }
+    elements.coverImage.onload = () => {
+      elements.coverImage.hidden = false
+      elements.coverFallback.hidden = true
+    }
+    elements.coverImage.onerror = () => tryCover(index + 1)
+    elements.coverImage.src = urls[index]
+  }
+  tryCover(0)
+}
+
+const loadMetadata = async file => {
+  const requestId = ++metadataRequest
+  const params = new URLSearchParams({ title: titleFromFile(file) })
+  const extension = extensionOf(file)
+  if (!['zip', '7z'].includes(extension)) {
+    const bytes = new Uint8Array(await file.arrayBuffer())
+    params.set('crc', crc32(bytes))
+    if (bytes.length % 1024 === 512) params.set('headerlessCrc', crc32(bytes, 512))
+  }
+  try {
+    const response = await fetch(`/metadata?${params}`)
+    if (!response.ok) throw new Error('Metadata unavailable')
+    const metadata = await response.json()
+    if (requestId !== metadataRequest) return
+    elements.gameTitle.textContent = metadata.title || titleFromFile(file)
+    elements.gameYear.textContent = metadata.year || 'Unknown'
+    elements.gameDeveloper.textContent = metadata.developer || 'Unknown'
+    elements.metadataSource.textContent = metadata.matched ? 'Verified cartridge match' : 'Best filename match'
+    if (metadata.coverUrls?.length) showCover(metadata.coverUrls)
+    else elements.coverStatus.textContent = 'ART NOT FOUND'
+  } catch {
+    if (requestId !== metadataRequest) return
+    elements.metadataSource.textContent = 'Metadata unavailable'
+    elements.coverStatus.textContent = 'ART UNAVAILABLE'
+  }
+}
+
 const mountPlayer = file => {
   elements.playerFrame.onload = () => {
     elements.playerFrame.contentWindow.postMessage({ type: 'load-rom', file }, window.location.origin)
@@ -78,11 +163,17 @@ const loadRom = file => {
   }
   selectedRom = file
   showLoading(file)
+  showGameInfo(file)
   mountPlayer(file)
+  loadMetadata(file)
 }
 
 const resetPlayer = () => {
   selectedRom = null
+  metadataRequest++
+  elements.hero.classList.remove('has-game')
+  elements.heroCopy.hidden = false
+  elements.gameInfo.hidden = true
   elements.playerFrame.onload = null
   elements.playerFrame.src = 'about:blank'
   elements.playerFrame.hidden = true
