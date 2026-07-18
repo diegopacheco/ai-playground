@@ -35,6 +35,11 @@ public class AuditService {
                 null, clientIp), cli, model, userPrompt);
     }
 
+    public void federated(UUID queryId, String username, Long projectId, String statement, long elapsedMs,
+                          Integer rowCount, String error, String clientIp) {
+        repository.insertFederated(queryId, username, projectId, statement, elapsedMs, rowCount, error, clientIp);
+    }
+
     public void failed(UUID queryId, int page, String username, ConnectionConfig connection, String statement,
                        long elapsedMs, String error, String clientIp) {
         repository.insert(new AuditEntry(null, queryId, page, Instant.now(), username, connection.id(),

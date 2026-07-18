@@ -212,3 +212,18 @@ h3 {
   background: var(--muted);
   background-clip: content-box;
 }
+
+.app-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-nav-icon {
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.app-nav a[aria-current="page"] .app-nav-icon {
+  opacity: 1;
+}

@@ -10,15 +10,15 @@ interface Props {
 const { title, active } = Astro.props;
 
 const links = [
-  { href: "/", label: "consoles", key: "consoles" },
-  { href: "/projects", label: "projects", key: "projects" },
-  { href: "/trace", label: "trace", key: "trace" },
-  { href: "/join", label: "join", key: "join" },
-  { href: "/discovery", label: "discovery", key: "discovery" },
-  { href: "/audit-trail", label: "audit", key: "audit" },
-  { href: "/users", label: "users", key: "users" },
-  { href: "/settings/ai", label: "ai", key: "settings" },
-  { href: "/swagger", label: "swagger", key: "swagger" }
+  { href: "/", label: "consoles", key: "consoles", icon: "▤" },
+  { href: "/join", label: "cross-join", key: "join", icon: "⋈" },
+  { href: "/trace", label: "trace", key: "trace", icon: "◈" },
+  { href: "/audit-trail", label: "audit", key: "audit", icon: "◷" },
+  { href: "/discovery", label: "discovery", key: "discovery", icon: "◇" },
+  { href: "/projects", label: "projects", key: "projects", icon: "▦" },
+  { href: "/users", label: "users", key: "users", icon: "◍" },
+  { href: "/settings/ai", label: "ai", key: "settings", icon: "✦" },
+  { href: "/swagger", label: "swagger", key: "swagger", icon: "◎" }
 ];
 ---
 
@@ -38,7 +38,10 @@ const links = [
         </button>
         <nav class="app-nav">
           {links.map((link) => (
-            <a href={link.href} aria-current={active === link.key ? "page" : undefined}>{link.label}</a>
+            <a href={link.href} aria-current={active === link.key ? "page" : undefined}>
+              <span class="app-nav-icon" aria-hidden="true">{link.icon}</span>
+              <span>{link.label}</span>
+            </a>
           ))}
         </nav>
       </header>

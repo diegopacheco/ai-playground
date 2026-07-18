@@ -40,6 +40,23 @@ public class AuditRepository {
                 cli, model, userPrompt);
     }
 
+    public void insertFederated(java.util.UUID queryId, String username, Long projectId, String statement,
+                                Long elapsedMs, Integer rowCount, String error, String clientIp) {
+        jdbc.update("""
+                INSERT INTO audit_log (query_id, page, username, connection_id, project_id, kind, statement,
+                                       allowed, denial_reason, elapsed_ms, row_count, error, client_ip)
+                VALUES (?, 1, ?, NULL, ?, 'federated', ?, true, NULL, ?, ?, ?, ?)""",
+                queryId, username, projectId, statement, elapsedMs, rowCount, error, clientIp);
+    }
+
+    public List<String> recentFederated(String username, Long projectId, int limit) {
+        return jdbc.queryForList("""
+                SELECT statement FROM audit_log
+                WHERE username = ? AND kind = 'federated' AND project_id = ? AND error IS NULL
+                GROUP BY statement ORDER BY max(at) DESC LIMIT ?""",
+                String.class, username, projectId, limit);
+    }
+
     public List<AuditEntry> search(String username, Long connectionId, Boolean allowed, Instant from, Instant to,
                                    int limit, int offset) {
         StringBuilder sql = new StringBuilder("SELECT * FROM audit_log WHERE 1 = 1");
