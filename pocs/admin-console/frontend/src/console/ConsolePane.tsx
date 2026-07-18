@@ -3,6 +3,7 @@ import { Badge } from "@design/Badge/Badge";
 import { Button } from "@design/Button/Button";
 import { DataGrid } from "@design/DataGrid/DataGrid";
 import { Pager } from "@design/Pager/Pager";
+import { RowDetail } from "@design/RowDetail/RowDetail";
 import { Tree } from "@design/Tree/Tree";
 import { engineFor } from "@engines/index";
 import { api } from "@lib/api";
@@ -31,6 +32,7 @@ export function ConsolePane({ connection }: ConsolePaneProps) {
   const [running, setRunning] = useState(false);
   const [cursors, setCursors] = useState<(string | null)[]>([]);
   const [totalRows, setTotalRows] = useState<number | null>(null);
+  const [detailIndex, setDetailIndex] = useState<number | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -74,6 +76,7 @@ export function ConsolePane({ connection }: ConsolePaneProps) {
           queryId
         });
         setResult(next);
+        setDetailIndex(null);
       } catch (error) {
         const apiError = error as ApiError;
         setResult(null);
@@ -174,8 +177,19 @@ export function ConsolePane({ connection }: ConsolePaneProps) {
             columns={result?.columns ?? []}
             rows={result?.rows ?? []}
             emptyLabel={result ? "0 rows returned" : "run a statement to see results"}
+            onRowActivate={result && result.rows.length > 0 ? setDetailIndex : undefined}
           />
         </div>
+
+        {result && detailIndex !== null ? (
+          <RowDetail
+            columns={result.columns}
+            rows={result.rows}
+            index={detailIndex}
+            onClose={() => setDetailIndex(null)}
+            onNavigate={setDetailIndex}
+          />
+        ) : null}
 
         {result ? (
           <Pager

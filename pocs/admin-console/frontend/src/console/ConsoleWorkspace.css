@@ -9,10 +9,10 @@
 .workspace-bar {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 6px 12px;
+  gap: 14px;
+  padding: 9px 14px;
   border-bottom: 1px solid var(--border);
-  background: var(--surface-raised);
+  background: linear-gradient(180deg, #FFFDFA, #FBF4EB);
   flex: 0 0 auto;
 }
 

@@ -6,6 +6,7 @@ export interface DataGridProps {
   columns: string[];
   rows: GridRow[];
   emptyLabel?: string;
+  onRowActivate?: (index: number) => void;
 }
 
 function cell(value: unknown) {
@@ -15,13 +16,13 @@ function cell(value: unknown) {
   return String(value);
 }
 
-export function DataGrid({ columns, rows, emptyLabel = "no rows" }: DataGridProps) {
+export function DataGrid({ columns, rows, emptyLabel = "no rows", onRowActivate }: DataGridProps) {
   if (columns.length === 0) {
     return <p className="ds-grid-empty">{emptyLabel}</p>;
   }
   return (
     <div className="ds-grid-scroll">
-      <table className="ds-grid">
+      <table className={onRowActivate ? "ds-grid ds-grid-clickable" : "ds-grid"}>
         <thead>
           <tr>
             <th className="ds-grid-index">#</th>
@@ -37,7 +38,11 @@ export function DataGrid({ columns, rows, emptyLabel = "no rows" }: DataGridProp
             </tr>
           ) : (
             rows.map((row, index) => (
-              <tr key={index}>
+              <tr
+                key={index}
+                onDoubleClick={onRowActivate ? () => onRowActivate(index) : undefined}
+                title={onRowActivate ? "double-click to see the full row" : undefined}
+              >
                 <td className="ds-grid-index">{index + 1}</td>
                 {columns.map((column) => (
                   <td key={column} title={row[column] === null ? "null" : String(row[column] ?? "")}>

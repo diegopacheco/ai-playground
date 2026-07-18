@@ -1,47 +1,75 @@
 .ds-button {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  padding: 7px 14px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: -0.005em;
   cursor: pointer;
-  background: var(--surface-raised);
-  color: var(--text);
-  transition: background 120ms ease, border-color 120ms ease;
+  background: var(--surface);
+  color: var(--text-soft);
+  box-shadow: var(--shadow-xs);
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease,
+    transform 100ms cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 160ms ease;
 }
 
 .ds-button:hover:not(:disabled) {
   border-color: var(--accent);
+  color: var(--accent-strong);
+  background: var(--accent-wash);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.ds-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .ds-button:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .ds-button:focus-visible {
-  outline: 2px solid var(--accent-soft);
-  outline-offset: 1px;
+  outline: none;
+  box-shadow: var(--ring);
 }
 
 .ds-button-primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
+  background: linear-gradient(180deg, var(--accent-bright) 0%, var(--accent) 52%, var(--accent-strong) 100%);
+  border-color: var(--accent-strong);
+  color: #FFF7F2;
+  box-shadow: 0 2px 8px rgba(151, 64, 29, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 .ds-button-primary:hover:not(:disabled) {
-  background: #7a5134;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-strong) 100%);
+  color: #FFF7F2;
+  border-color: var(--accent-strong);
+  box-shadow: 0 6px 18px rgba(151, 64, 29, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 .ds-button-ghost {
   background: transparent;
   border-color: transparent;
   color: var(--muted);
+  box-shadow: none;
+}
+
+.ds-button-ghost:hover:not(:disabled) {
+  background: var(--accent-wash);
+  box-shadow: none;
+  transform: none;
 }
 
 .ds-button-danger {
-  background: var(--error);
-  border-color: var(--error);
-  color: #fff;
+  background: linear-gradient(180deg, #D8503F 0%, var(--error) 100%);
+  border-color: #A32A1D;
+  color: #FFF5F3;
+  box-shadow: 0 2px 8px rgba(163, 42, 29, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }

@@ -1,16 +1,33 @@
 :root {
-  --bg: #FAF7F2;
-  --surface: #F3EDE4;
-  --surface-raised: #FBF8F3;
-  --border: #DFD3C3;
-  --text: #3E322A;
-  --muted: #7A6A5D;
-  --accent: #8B5E3C;
-  --accent-soft: #C9A227;
-  --ok: #6B8E4E;
-  --error: #A94F3C;
-  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --bg: #FAF4EC;
+  --bg-deep: #F3E8DA;
+  --surface: #FFFFFF;
+  --surface-sunken: #F7EFE5;
+  --surface-raised: #FFFFFF;
+  --border: #EADCCB;
+  --border-strong: #D9C2A6;
+  --text: #241812;
+  --text-soft: #524036;
+  --muted: #927B6C;
+  --accent: #C0562A;
+  --accent-strong: #97401D;
+  --accent-bright: #E2703B;
+  --accent-wash: #FCEDE3;
+  --accent-soft: #E9A93C;
+  --ok: #4F8A54;
+  --ok-wash: #E9F3E9;
+  --error: #C63B2C;
+  --error-wash: #FCEAE7;
+  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --shadow-xs: 0 1px 2px rgba(36, 24, 18, 0.05);
+  --shadow-sm: 0 2px 6px rgba(36, 24, 18, 0.06), 0 1px 2px rgba(36, 24, 18, 0.04);
+  --shadow-md: 0 8px 24px rgba(36, 24, 18, 0.10), 0 2px 6px rgba(36, 24, 18, 0.05);
+  --shadow-lg: 0 32px 80px rgba(36, 24, 18, 0.24), 0 8px 24px rgba(36, 24, 18, 0.12);
+  --ring: 0 0 0 3px rgba(233, 169, 60, 0.35);
 }
 
 * {
@@ -22,14 +39,22 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: var(--bg);
+  background:
+    radial-gradient(1100px 620px at 8% -12%, #FFF7EC 0%, rgba(255, 247, 236, 0) 62%),
+    radial-gradient(900px 520px at 102% -4%, #FBE7D8 0%, rgba(251, 231, 216, 0) 58%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--sans);
   font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 a {
   color: var(--accent);
+  text-underline-offset: 2px;
 }
 
 button {
@@ -46,37 +71,56 @@ button {
 .app-header {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 0 16px;
-  height: 48px;
-  background: var(--surface);
+  gap: 18px;
+  padding: 0 20px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
   border-bottom: 1px solid var(--border);
   flex: 0 0 auto;
+  z-index: 30;
 }
 
 .app-brand {
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--accent);
+  font-weight: 800;
+  font-size: 15.5px;
+  letter-spacing: -0.02em;
+  background: linear-gradient(115deg, var(--accent-strong) 0%, var(--accent) 45%, var(--accent-soft) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .app-nav {
   display: flex;
-  gap: 4px;
+  gap: 2px;
   margin-left: auto;
+  padding: 3px;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: 999px;
 }
 
 .app-nav a {
-  padding: 6px 10px;
-  border-radius: 6px;
+  padding: 5px 14px;
+  border-radius: 999px;
   text-decoration: none;
   color: var(--muted);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: -0.005em;
+  transition: color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.app-nav a:hover {
+  color: var(--accent-strong);
 }
 
 .app-nav a[aria-current="page"] {
-  background: var(--bg);
-  color: var(--accent);
-  font-weight: 500;
+  background: var(--surface);
+  color: var(--accent-strong);
+  box-shadow: var(--shadow-xs);
 }
 
 .app-body {
@@ -86,15 +130,45 @@ button {
 }
 
 .banner-warning {
-  background: #F6EDD2;
-  border-bottom: 1px solid var(--accent-soft);
-  color: #6B5410;
-  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, #FDF3DF, #FBE8CC);
+  border-bottom: 1px solid rgba(233, 169, 60, 0.55);
+  color: #7A5310;
+  padding: 8px 20px;
   font-size: 12px;
+  font-weight: 500;
 }
 
 .page {
-  padding: 20px;
+  padding: 26px 28px;
   overflow: auto;
   width: 100%;
+}
+
+::selection {
+  background: var(--accent-wash);
+  color: var(--accent-strong);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 3.5px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+  background-clip: content-box;
 }

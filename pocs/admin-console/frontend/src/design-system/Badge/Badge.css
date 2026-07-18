@@ -1,31 +1,31 @@
 .ds-badge {
   display: inline-block;
-  padding: 1px 6px;
+  padding: 2px 8px;
   border-radius: 999px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   background: var(--surface);
   color: var(--muted);
   white-space: nowrap;
 }
 
 .ds-badge-accent {
-  background: #F0E2D4;
+  background: var(--accent-wash);
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-strong);
 }
 
 .ds-badge-ok {
-  background: #E7EFDE;
+  background: #E9F1E2;
   border-color: var(--ok);
-  color: #3F5A2C;
+  color: #43642F;
 }
 
 .ds-badge-error {
-  background: #F6E1DC;
+  background: #FBE7E4;
   border-color: var(--error);
-  color: var(--error);
+  color: #97281C;
 }

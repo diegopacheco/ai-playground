@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@design/Badge/Badge";
 import { api } from "@lib/api";
 import type { Connection, Project, Session } from "@lib/types";
+import { ConnectionPicker } from "./ConnectionPicker";
 import { ConsolePane } from "./ConsolePane";
 import { LoginForm } from "./LoginForm";
 import "./ConsoleWorkspace.css";
@@ -78,18 +79,11 @@ export default function ConsoleWorkspace() {
           </select>
         </label>
 
-        <div className="workspace-tabs">
-          {(project?.connections ?? []).map((candidate) => (
-            <button
-              key={candidate.id}
-              className={candidate.id === connectionId ? "workspace-tab workspace-tab-active" : "workspace-tab"}
-              onClick={() => setConnectionId(candidate.id)}
-            >
-              {candidate.name}
-              <Badge tone={candidate.id === connectionId ? "accent" : "neutral"}>{candidate.kind}</Badge>
-            </button>
-          ))}
-        </div>
+        <ConnectionPicker
+          connections={project?.connections ?? []}
+          selected={connection}
+          onSelect={(chosen) => setConnectionId(chosen.id)}
+        />
 
         <span className="workspace-user">
           {session.username}
