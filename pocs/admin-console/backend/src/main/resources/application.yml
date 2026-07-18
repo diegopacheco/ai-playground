@@ -1,0 +1,47 @@
+server:
+  port: 8099
+  address: 127.0.0.1
+
+spring:
+  application:
+    name: admin-console
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://localhost:5433/admin_console
+    username: admin_console
+    password: admin_console
+    hikari:
+      maximum-pool-size: 8
+      minimum-idle: 1
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+app:
+  admin:
+    bootstrap-username: admin
+    bootstrap-password: admin
+  query:
+    page-size: 100
+    max-page-size: 1000
+    statement-timeout-seconds: 30
+  cursor:
+    idle-timeout-seconds: 300
+    max-per-user: 8
+  pool:
+    maximum-size: 4
+    connection-timeout-ms: 5000
+    idle-eviction-seconds: 600
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
