@@ -11,7 +11,7 @@ if ! podman info > /dev/null 2>&1; then
 fi
 podman info > /dev/null
 
-podman-compose up -d --force-recreate > /dev/null
+podman-compose up -d > /dev/null
 for attempt in $(seq 1 60); do
   if podman exec admin-console-metadata pg_isready -U admin_console > /dev/null 2>&1; then
     echo "metadata postgres ready on 5433"

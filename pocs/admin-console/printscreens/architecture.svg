@@ -136,8 +136,9 @@
   </g>
   <text class="box-title" x="66" y="770">Agent CLI subprocess</text>
   <text class="box-sub" x="66" y="796">claude -p · codex exec · agy -p — argv only, no shell</text>
-  <path d="M 700 400 Q 500 640 300 736" stroke="#8B6FC4" stroke-width="2.5" fill="none" stroke-dasharray="9 7" filter="url(#wobbleSoft)"/>
-  <text class="edge" x="520" y="716">schema names only</text>
+  <path d="M 227 500 Q 233 616 227 736" stroke="#8B6FC4" stroke-width="2.5" fill="none" stroke-dasharray="9 7" filter="url(#wobbleSoft)"/>
+  <path d="M 219 726 L 227 738 L 235 726" stroke="#8B6FC4" stroke-width="2.5" fill="none"/>
+  <text class="edge" x="240" y="726">schema names only</text>
 
   <g filter="url(#wobbleSoft)">
     <rect x="560" y="736" width="678" height="86" rx="13" fill="#FDF4E1" stroke="#EBAA3A" stroke-width="2.5"/>
