@@ -1,0 +1,25 @@
+pocs/snes-emu/app.js
+  s_1d2a34edca3330::t_b5f1e5cbc52a4f 54-63,142-143
+pocs/snes-emu/server.mjs
+  s_1d2a34edca3330::t_b5f1e5cbc52a4f 43-44,60,71-72,74,136-140
+pocs/snes-emu/styles.css
+  s_1d2a34edca3330::t_b5f1e5cbc52a4f 170,172,243,260,277
+pocs/snes-emu/README.md
+  s_1d2a34edca3330::t_980de4f5b461d9 1-208
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "2a023ed037dd98da46fa0fc606a796e7c2bf8716",
+  "prompts": {},
+  "sessions": {
+    "s_1d2a34edca3330": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f744c-c33f-7663-9fe4-743245f35577",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
