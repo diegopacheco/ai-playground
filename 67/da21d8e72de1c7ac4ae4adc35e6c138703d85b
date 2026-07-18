@@ -1,0 +1,89 @@
+pocs/admin-console/design-doc.md
+  s_fa6084944458f4::t_2d0e73a31d51ab 529-608
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedQueryParser.java
+  s_fa6084944458f4::t_16340dde3a8ec5 1-86
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/trace/TraceHit.java
+  s_fa6084944458f4::t_39d586c35b2a4a 1-8
+pocs/admin-console/frontend/src/lib/gridKeys.ts
+  s_fa6084944458f4::t_28520f2e646d67 1-26,34-47
+  s_fa6084944458f4::t_3efffd6b5630b7 27-33
+pocs/admin-console/frontend/src/trace/TracePage.tsx
+  s_fa6084944458f4::t_41ac806663869c 1-46,59-102,120-198
+  s_fa6084944458f4::t_2fcd3a716e6f6e 47-58,103-119
+pocs/admin-console/frontend/src/lib/api.ts
+  s_fa6084944458f4::t_5adb658ae0700c 7-8,91-98
+  s_fa6084944458f4::t_16457fede87e64 99
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/federation/FederatedQueryParserTest.java
+  s_fa6084944458f4::t_7e29bbc8dd3d63 1-109
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederationController.java
+  s_fa6084944458f4::t_f2101c7dcf2811 1-51
+pocs/admin-console/frontend/src/layouts/Shell.astro
+  s_fa6084944458f4::t_5adb658ae0700c 15-16
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/trace/TraceStatements.java
+  s_fa6084944458f4::t_15490c57232599 1-52,54,56-57,59-67,69-82,84-112,129-142
+  s_fa6084944458f4::t_3758470eaba7c0 53,55,58,68,83,113-128
+pocs/admin-console/frontend/src/console/ConnectionPicker.tsx
+  s_fa6084944458f4::t_bd5ccce42f2dd4 5,31,69,71-74,77,79-80,118,121
+pocs/admin-console/frontend/src/trace/TracePage.css
+  s_fa6084944458f4::t_65b0af3f0e39e6 1-70,100-238
+  s_fa6084944458f4::t_2fcd3a716e6f6e 71-99
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedExecutor.java
+  s_fa6084944458f4::t_a85dcee6fa1ec3 73,75,114,116
+  s_fa6084944458f4::t_31002488f8d867 1-72,74,76-85,88-89,109-113,115,117-148
+  s_fa6084944458f4::t_0b7561a38cdec3 86-87,90-108
+pocs/admin-console/frontend/src/navigation/CommandPalette.tsx
+  s_fa6084944458f4::t_5adb658ae0700c 16-17
+  s_fa6084944458f4::t_bd5ccce42f2dd4 2,53,120,122-123,153,176
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/trace/TraceController.java
+  s_fa6084944458f4::t_8d269279346898 1-52
+pocs/admin-console/frontend/src/federation/FederationPage.tsx
+  s_fa6084944458f4::t_ba4f54faa68d9a 1-140
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/trace/TraceTimestamps.java
+  s_fa6084944458f4::t_0907fcdc3f0b79 1-68
+pocs/admin-console/frontend/src/console/ConnectionPicker.test.tsx
+  s_fa6084944458f4::t_d55689892b5837 87,89,93,95,99-102
+  s_fa6084944458f4::t_f330393b08913a 103-104
+pocs/admin-console/frontend/src/navigation/CommandPalette.test.tsx
+  s_fa6084944458f4::t_d55689892b5837 59,61,65-68
+  s_fa6084944458f4::t_45136dc8e38bae 69-70
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/trace/TraceBudget.java
+  s_fa6084944458f4::t_c7e13330be16c9 1-2,5,7-8
+  s_fa6084944458f4::t_3758470eaba7c0 3-4,6
+pocs/admin-console/frontend/src/pages/trace.astro
+  s_fa6084944458f4::t_5adb658ae0700c 1-8
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/trace/TraceStatementsTest.java
+  s_fa6084944458f4::t_65e75f43e24905 1-119
+pocs/admin-console/frontend/src/pages/join.astro
+  s_fa6084944458f4::t_5adb658ae0700c 1-8
+pocs/admin-console/README.md
+  s_fa6084944458f4::t_c4aefdc66d455d 9,11-52,136-159
+  s_fa6084944458f4::t_08d39d6fc58cab 160
+pocs/admin-console/frontend/src/lib/gridKeys.test.ts
+  s_fa6084944458f4::t_72b231afcd7738 1-61
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/trace/EntityTracer.java
+  s_fa6084944458f4::t_4c8a8216a06f03 128-131,133
+  s_fa6084944458f4::t_67e93e1d7012d6 1-97,101-127,132,134-154
+  s_fa6084944458f4::t_3d4fb363b7a189 98-100
+pocs/admin-console/frontend/src/federation/FederationPage.css
+  s_fa6084944458f4::t_b79bdd5d8fb568 1-132
+pocs/admin-console/frontend/src/lib/types.ts
+  s_fa6084944458f4::t_5adb658ae0700c 50-83
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedQuery.java
+  s_fa6084944458f4::t_20b222f42615bc 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "67da21d8e72de1c7ac4ae4adc35e6c138703d85b",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
