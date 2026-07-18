@@ -1,0 +1,31 @@
+pocs/admin-console/frontend/astro.config.mjs
+  s_fa6084944458f4::t_c6aaa2350bb594 6
+pocs/admin-console/design-doc.md
+  s_fa6084944458f4::t_1196dddb762acd 374-393
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/audit/AuditService.java
+  s_fa6084944458f4::t_6b01507e04775c 43-46
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederationController.java
+  s_fa6084944458f4::t_6b01507e04775c 3-4,6,25-26,29,33-42,47-48,50-60
+pocs/admin-console/frontend/src/federation/FederationPage.css
+  s_fa6084944458f4::t_e385f98eda8b82 273-315
+pocs/admin-console/frontend/src/federation/FederationPage.tsx
+  s_fa6084944458f4::t_7e54516a67696d 13,26-27,117-123,180-207
+pocs/admin-console/frontend/src/lib/api.ts
+  s_fa6084944458f4::t_ae97ea94c3f6ac 100-102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "83f38793b59a94ed576312d49a5b548195d4a113",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
