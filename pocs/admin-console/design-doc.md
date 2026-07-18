@@ -318,10 +318,13 @@ frontend/
   src/
     design-system/          Storybook lives here — zero app knowledge
       tokens/               colors.ts, spacing.ts, typography.ts
-      Button/ Badge/ Panel/ Split/ Tree/ DataGrid/ Field/ Select/ Modal/ Toast/
-        <Name>.tsx  <Name>.stories.tsx  <Name>.test.tsx  <Name>.module.css
+      Button/ Badge/ Tree/ DataGrid/ Pager/ EngineLogo/ RowDetail/
+        <Name>.tsx  <Name>.stories.tsx  <Name>.test.tsx  <Name>.css
+    navigation/
+      CommandPalette.tsx    ⌘K go-to-page, two columns, no scrolling (5.4)
     console/
       ConsolePane.tsx           three-pane layout, used by all seven kinds
+      ConnectionPicker.tsx      logo grid modal, search + keyboard (5.4)
       SchemaTreePanel.tsx       left, foldable, lazy-expanding
       QueryEditor.tsx           CodeMirror 6 + CMD+Enter
       AskAi.tsx                 prompt dialog, suggestion, CLI/model picker (6)
@@ -354,21 +357,41 @@ CodeMirror 6 with `@codemirror/lang-sql` for the MySQL/Postgres/Cassandra dialec
 
 Admin-only. A filterable table over `audit_log`, **grouped by `query_id`** so a six-page browse reads as one entry: who, when, which project/connection, the statement, allowed or denied (denials in terracotta with the reason), pages fetched, total elapsed ms, rows, and error if any. Expanding a group shows per-page timing. Filters for user, connection, allowed/denied and time range; server-side paging; CSV export (ungrouped — one row per audit record, since an export is for forensics). Clicking a row opens the full statement in a read-only CodeMirror instance so long SQL stays legible.
 
-### 5.4 Palette — brown-ish light
+### 5.4 Navigation and selection — three modals, one interaction language
+
+The console is keyboard-first. Three surfaces share the same pattern — search box focused on open, arrow keys to move, Enter to commit, Escape to cancel — so learning one teaches the others.
+
+**Connection picker (AWS-console style).** Connections are chosen from a **button + modal**, not tabs. Tabs stop scaling past a handful of connections, and this console is explicitly built for "as many as you want". The modal shows a grid of cards, each with an **engine logo**, connection name, kind badge and target. Search matches name, engine kind *and host* — because `prod` vs `staging` is usually a host distinction, and typing `kafka` should find every Kafka connection.
+
+**Command palette (`⌘K` / `Ctrl+K`).** Opens anywhere, jumps to any page. Two-column grid sized so **every destination fits without scrolling** — a palette that scrolls has already failed at being faster than clicking. Ranking prefers a name prefix over a name substring over a keyword match, so typing `users` goes to Users rather than to whatever mentions "user" in its description. Background scroll is locked while open.
+
+**Chained flow:** `⌘K → Consoles` navigates *and* opens the connection picker, so "go somewhere and pick a thing" is one gesture. The `?pick=1` flag that carries this is stripped with `history.replaceState` immediately, so a refresh doesn't reopen the picker.
+
+**Row detail (double-click).** Double-clicking a result row opens the full record: every column, JSON values pretty-printed, per-field and whole-row copy, `↑↓` to walk rows without closing. Deliberately **double**-click, not single — a grid is text people select and copy, and popping a modal on every stray click makes that miserable.
+
+All three modals render through a **portal to `document.body`**. This is not incidental: the toolbars use `backdrop-filter`, which creates a stacking context, and a modal rendered inside one gets trapped behind other chrome regardless of `z-index`. Tests assert the portal target so this cannot regress.
+
+### 5.5 Palette — warm light, copper accent
 
 ```
---bg          #FAF7F2   parchment
---surface     #F3EDE4   panel
---border      #DFD3C3   hairline
---text        #3E322A   primary
---muted       #7A6A5D   secondary
---accent      #8B5E3C   walnut — primary actions, active tab
---accent-soft #C9A227   brass — focus ring, selection
---ok          #6B8E4E   moss
---error       #A94F3C   terracotta — denials, errors
+--bg           #FAF5EE   warm ivory (layered radial gradients, fixed)
+--surface      #FFFFFF   crisp white cards, for contrast against the warm field
+--surface-sunken #F8F1E7 recessed chrome, chips, code blocks
+--border       #ECDFCF   hairline
+--border-strong #DBC5AB  emphasis edge
+--text         #1F1410   near-black espresso, high contrast
+--text-soft    #4A3830   secondary copy
+--muted        #97806F   tertiary, metadata
+--accent       #C2552A   copper — primary actions
+--accent-strong #963C18  pressed / active
+--accent-bright #E97341  gradient top
+--accent-wash  #FCEBE0   hover and selection field
+--accent-soft  #EBAA3A   honey — focus ring
+--ok           #4A8750   allowed
+--error        #C9382A   denied, errors
 ```
 
-Light theme only, as requested. Tokens live in `design-system/tokens/colors.ts` and are emitted as CSS custom properties, so Storybook and the app cannot drift.
+Light theme only, as requested. The look is warm-ivory ground with **white elevated surfaces** and a copper accent — the contrast between warm background and crisp white is what stops it reading as flat parchment. Chrome (header, toolbars, pager) uses translucency plus `backdrop-filter` so panels feel layered rather than stacked. Tokens live in `design-system/tokens/colors.ts` and are mirrored as CSS custom properties, so Storybook and the app cannot drift.
 
 ## 6. AI query authoring
 
@@ -608,7 +631,11 @@ All open questions are resolved. Recorded here so the reasoning survives.
 | 10 | Kafka support | **Added** (3.5). Observer semantics are non-negotiable: `assign()` only, no group, no commits — a console must not trigger rebalances or corrupt real consumers' offsets. |
 | 11 | Elasticsearch support | **Added** (3.6). Dev-Tools-style grammar, endpoint whitelist rather than body parsing, `search_after` + PIT paging. No new dependency — JDK `HttpClient` + Boot's Jackson. |
 | 12 | Saved queries | **Added.** Shared per project, editable by anyone with project access, optionally pinned to one connection (4.4). |
-| 13 | AI query authoring | **Added** (§6). Three agent CLIs (`claude -p`, `codex exec`, `agy -p`), each with its own model setting; choice remembered per user in Postgres and changeable in the config UI. Suggestions are loaded into the editor, never auto-executed, and pass through the same read-only guard as typed statements. |
+| 13 | Connection selection | **Button + modal picker with engine logos**, not tabs (5.4). Tabs do not scale to "as many connections as you want"; search covers name, engine and host. |
+| 14 | Global navigation | **⌘K command palette** (5.4). Two columns, everything visible without scrolling, name-prefix ranking. `⌘K → Consoles` chains straight into the connection picker. |
+| 15 | Row inspection | **Double-click** a result row for the full record (5.4). Double, not single, so selecting and copying cell text still works. |
+| 16 | Modal layering | **All modals portal to `document.body`.** Toolbars use `backdrop-filter`, which creates a stacking context that traps nested modals behind chrome no matter the `z-index`. Asserted in tests. |
+| 17 | AI query authoring | **Added** (§6). Three agent CLIs (`claude -p`, `codex exec`, `agy -p`), each with its own model setting; choice remembered per user in Postgres and changeable in the config UI. Suggestions are loaded into the editor, never auto-executed, and pass through the same read-only guard as typed statements. |
 
 ## 13. Not in scope — candidate follow-ups
 

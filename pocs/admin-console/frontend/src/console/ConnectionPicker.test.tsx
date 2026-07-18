@@ -148,3 +148,10 @@ describe("ConnectionPicker autoOpen", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });
+
+describe("ConnectionPicker layering", () => {
+  it("renders into document.body so the toolbar's backdrop-filter cannot render it behind other chrome", () => {
+    render(<ConnectionPicker connections={connections} selected={null} onSelect={jest.fn()} autoOpen />);
+    expect(document.querySelector(".picker-backdrop")?.parentElement).toBe(document.body);
+  });
+});
