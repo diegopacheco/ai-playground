@@ -1,0 +1,51 @@
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/discovery/DiscoveryController.java
+  s_fa6084944458f4::t_a60f23b5c0f9b6 1-23,25-58,60-61,70-71,78-102
+  s_fa6084944458f4::t_c17f43ef2c0669 59,62-69,72-77
+  s_fa6084944458f4::t_f940a80b337408 24
+pocs/admin-console/frontend/src/discovery/DiscoveryPage.css
+  s_fa6084944458f4::t_ca8933aef61a27 1-157
+pocs/admin-console/frontend/src/layouts/Shell.astro
+  s_fa6084944458f4::t_5aafcdc67431b5 15
+pocs/admin-console/frontend/src/pages/discovery.astro
+  s_fa6084944458f4::t_5aafcdc67431b5 1-8
+pocs/admin-console/frontend/src/lib/api.ts
+  s_fa6084944458f4::t_5aafcdc67431b5 6,89-98
+  s_fa6084944458f4::t_c13f668cd804f3 99
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/cassandra/CassandraEngine.java
+  s_fa6084944458f4::t_20768d253648a8 72
+  s_fa6084944458f4::t_3e7b9f1fcb561a 43-46,50-70
+pocs/admin-console/frontend/src/navigation/CommandPalette.tsx
+  s_fa6084944458f4::t_5aafcdc67431b5 15
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/discovery/EngineDetector.java
+  s_fa6084944458f4::t_cb336dc574fb60 1-93
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/discovery/ContainerScannerTest.java
+  s_fa6084944458f4::t_4a6531671addc7 1-26
+pocs/admin-console/frontend/src/discovery/DiscoveryPage.tsx
+  s_fa6084944458f4::t_02cb770d55f2ab 1-181
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/discovery/ContainerScanner.java
+  s_fa6084944458f4::t_7f749847be4283 1-27,30,33-34,55-91,98-194
+  s_fa6084944458f4::t_a9cd0faccd7b0a 28-29,31-32,35-54
+  s_fa6084944458f4::t_fcb6f276cc6672 92-97
+pocs/admin-console/frontend/src/lib/types.ts
+  s_fa6084944458f4::t_5aafcdc67431b5 50-64
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/discovery/DiscoveredContainer.java
+  s_fa6084944458f4::t_34c1f060a8e5cb 1-13
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/discovery/EngineDetectorTest.java
+  s_fa6084944458f4::t_081bfee66f962a 1-107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "9e4170cc1ca58bda62ac0bc06ec1871f52455eac",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
