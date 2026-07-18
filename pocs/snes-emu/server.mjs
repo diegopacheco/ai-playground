@@ -23,7 +23,7 @@ let coverIndexPromise
 
 const field = (body, name) => body.match(new RegExp(`${name}\\s+"([^"]+)"`))?.[1]
 
-const entriesFrom = text => Array.from(text.matchAll(/\ngame \(\n([\s\S]*?)\n\)\n/g), match => {
+const entriesFrom = text => Array.from(text.matchAll(/game \(\n([\s\S]*?)\n\)(?:\n|$)/g), match => {
   const body = match[1]
   return {
     crc: body.match(/crc\s+([A-Fa-f0-9]{8})/)?.[1]?.toUpperCase(),
@@ -42,7 +42,11 @@ const titleKey = title => title
 
 const compactTitleKey = title => titleKey(title).replaceAll(' ', '')
 
-const titleScore = title => title.includes('(USA)') ? 4 : title.includes('(World)') ? 3 : title.includes('(Europe)') ? 2 : 1
+const titleScore = title => {
+  let score = title.includes('(USA)') ? 4 : title.includes('(World)') ? 3 : title.includes('(Europe)') ? 2 : 1
+  if (/\((Beta|Sample|Proto|Kiosk|Competition)/i.test(title)) score -= 20
+  return score
+}
 
 const buildCatalog = async () => {
   const urls = [
@@ -132,14 +136,19 @@ const metadataFor = async url => {
     metadata = catalog.byCrc.get(crc)
     if (metadata) break
   }
-  const matched = Boolean(metadata)
-  const titleCandidates = [url.searchParams.get('title'), url.searchParams.get('internalTitle')].filter(Boolean)
-  for (const title of titleCandidates) {
+  let matchType = metadata ? 'crc' : ''
+  const titleCandidates = [
+    { title: url.searchParams.get('internalTitle'), type: 'internal' },
+    { title: url.searchParams.get('title'), type: 'filename' }
+  ].filter(candidate => candidate.title)
+  for (const candidate of titleCandidates) {
+    const { title } = candidate
     metadata ||= catalog.byTitle.get(titleKey(title))
     metadata ||= catalog.byCompactTitle.get(compactTitleKey(title))
+    if (metadata && !matchType) matchType = candidate.type
   }
   metadata ||= { title: url.searchParams.get('title') || 'Unknown cartridge' }
-  return { ...metadata, matched, coverUrls: await coverUrlsFor(metadata.title) }
+  return { ...metadata, matched: Boolean(matchType), matchType: matchType || 'fallback', coverUrls: await coverUrlsFor(metadata.title) }
 }
 
 const server = createServer(async (request, response) => {

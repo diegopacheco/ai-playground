@@ -15,6 +15,8 @@ A focused, local-first Super Nintendo player with drag-and-drop cartridges, auth
 
 ![SuperBlue desktop interface](docs/images/superblue-desktop.png)
 
+![SuperBlue playing a cartridge with matched box art](docs/images/superblue-game-details.png)
+
 ## Start playing
 
 Requirements:

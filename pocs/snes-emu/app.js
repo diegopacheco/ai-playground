@@ -150,7 +150,8 @@ const loadMetadata = async file => {
     elements.gameTitle.textContent = metadata.title || titleFromFile(file)
     elements.gameYear.textContent = metadata.year || 'Unknown'
     elements.gameDeveloper.textContent = metadata.developer || 'Unknown'
-    elements.metadataSource.textContent = metadata.matched ? 'Verified cartridge match' : 'Best filename match'
+    const matchLabels = { crc: 'Verified cartridge match', internal: 'Internal cartridge match', filename: 'Best filename match', fallback: 'Metadata fallback' }
+    elements.metadataSource.textContent = matchLabels[metadata.matchType] || 'Metadata match'
     if (metadata.coverUrls?.length) showCover(metadata.coverUrls)
     else elements.coverStatus.textContent = 'ART NOT FOUND'
   } catch {
