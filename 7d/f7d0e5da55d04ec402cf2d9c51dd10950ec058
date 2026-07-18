@@ -1,0 +1,42 @@
+pocs/admin-console/frontend/src/console/ConsoleWorkspace.tsx
+  s_fa6084944458f4::t_e56de5ea497661 16-29
+  s_fa6084944458f4::t_0cf6ea19903602 100
+pocs/admin-console/frontend/src/console/ConnectionPicker.test.tsx
+  s_fa6084944458f4::t_80580a3eded398 139-150
+pocs/admin-console/frontend/src/navigation/CommandPalette.css
+  s_fa6084944458f4::t_3e0d5c1aaeadf8 121
+  s_fa6084944458f4::t_f863f8c4917e6b 82
+  s_fa6084944458f4::t_6d90a83d21452e 102-103
+  s_fa6084944458f4::t_b2cdc553a94985 15,72,74-76,81,84,86,90,93,110,117,122,124-126
+pocs/admin-console/frontend/src/console/ConnectionPicker.tsx
+  s_fa6084944458f4::t_3bc7d22dcebee1 12
+  s_fa6084944458f4::t_22b8fdf4305542 25-26
+  s_fa6084944458f4::t_07edf807c4c30f 93
+  s_fa6084944458f4::t_7676cde9d61bb6 2
+  s_fa6084944458f4::t_df512b224bbaa1 141-142
+pocs/admin-console/frontend/src/design-system/RowDetail/RowDetail.test.tsx
+  s_fa6084944458f4::t_49495724edc602 88-89,91,96-103
+pocs/admin-console/frontend/src/design-system/RowDetail/RowDetail.tsx
+  s_fa6084944458f4::t_b2cdc553a94985 67,136-137
+  s_fa6084944458f4::t_4ab3ba99332e51 2
+pocs/admin-console/frontend/src/navigation/CommandPalette.tsx
+  s_fa6084944458f4::t_35aec0c3741339 13
+pocs/admin-console/.playwright-mcp/page-2026-07-18T10-00-09-546Z.yml
+  s_fa6084944458f4::t_e71070dafdfdd2 1-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "7df7d0e5da55d04ec402cf2d9c51dd10950ec058",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
