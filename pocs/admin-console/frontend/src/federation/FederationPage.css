@@ -124,11 +124,17 @@
 }
 
 .fed-result {
-  height: 460px;
+  max-height: 460px;
   max-width: 1400px;
   border: 1px solid var(--border);
   border-radius: var(--r-md);
   overflow: hidden;
+  display: flex;
+}
+
+.fed-result .ds-grid-scroll {
+  height: auto;
+  max-height: 458px;
 }
 
 .fed-editor-shell {

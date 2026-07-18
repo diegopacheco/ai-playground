@@ -22,16 +22,29 @@ public class FederationController {
     private final FederatedQueryParser parser;
     private final FederatedExecutor executor;
     private final ConnectionRepository connections;
+    private final FederatedExampleBuilder examples;
     private final AuditService audit;
     private final CurrentUser current;
 
     public FederationController(FederatedQueryParser parser, FederatedExecutor executor,
-                                ConnectionRepository connections, AuditService audit, CurrentUser current) {
+                                ConnectionRepository connections, FederatedExampleBuilder examples,
+                                AuditService audit, CurrentUser current) {
         this.parser = parser;
         this.executor = executor;
         this.connections = connections;
+        this.examples = examples;
         this.audit = audit;
         this.current = current;
+    }
+
+    @org.springframework.web.bind.annotation.GetMapping("/example")
+    @Operation(summary = "A cross-engine join for this project that is verified to return rows")
+    public Map<String, Object> example(@PathVariable long projectId) {
+        String statement = examples.build(connections.findByProject(projectId));
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("statement", statement);
+        body.put("found", statement != null);
+        return body;
     }
 
     @org.springframework.web.bind.annotation.GetMapping("/history")

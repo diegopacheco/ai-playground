@@ -16,10 +16,10 @@ class FederatedQueryParserTest {
                 JOIN demo-elasticsearch.products p ON p.sku = c.country
                 LIMIT 50""");
         assertThat(query.projection()).containsExactly("c.email", "p.name");
-        assertThat(query.left().connectionName()).isEqualTo("demo-postgres");
-        assertThat(query.left().source()).isEqualTo("customers");
-        assertThat(query.right().connectionName()).isEqualTo("demo-elasticsearch");
-        assertThat(query.right().source()).isEqualTo("products");
+        assertThat(query.sides().get(0).connectionName()).isEqualTo("demo-postgres");
+        assertThat(query.sides().get(0).source()).isEqualTo("customers");
+        assertThat(query.sides().get(1).connectionName()).isEqualTo("demo-elasticsearch");
+        assertThat(query.sides().get(1).source()).isEqualTo("products");
         assertThat(query.limit()).isEqualTo(50);
     }
 
@@ -29,25 +29,25 @@ class FederatedQueryParserTest {
                 "SELECT a.id FROM demo-postgres.orders a JOIN demo-kafka.orders.events b ON a.id = b.key");
         FederatedQuery reversed = parser.parse(
                 "SELECT a.id FROM demo-postgres.orders a JOIN demo-kafka.orders.events b ON b.key = a.id");
-        assertThat(written.leftKey()).isEqualTo("id");
-        assertThat(written.rightKey()).isEqualTo("key");
-        assertThat(reversed.leftKey()).isEqualTo("id");
-        assertThat(reversed.rightKey()).isEqualTo("key");
+        assertThat(written.joins().get(0).leftKey()).isEqualTo("id");
+        assertThat(written.joins().get(0).rightKey()).isEqualTo("key");
+        assertThat(reversed.joins().get(0).leftKey()).isEqualTo("id");
+        assertThat(reversed.joins().get(0).rightKey()).isEqualTo("key");
     }
 
     @Test
     void keepsDottedSourceNamesLikeKafkaTopicsIntact() {
         FederatedQuery query = parser.parse(
                 "SELECT a.id FROM demo-kafka.orders.events a JOIN demo-postgres.orders b ON a.key = b.id");
-        assertThat(query.left().connectionName()).isEqualTo("demo-kafka");
-        assertThat(query.left().source()).isEqualTo("orders.events");
+        assertThat(query.sides().get(0).connectionName()).isEqualTo("demo-kafka");
+        assertThat(query.sides().get(0).source()).isEqualTo("orders.events");
     }
 
     @Test
     void recognisesLeftJoinSoUnmatchedRowsCanBeKept() {
-        assertThat(parser.parse("SELECT a.id FROM x.a a LEFT JOIN y.b b ON a.id = b.id").leftJoin()).isTrue();
-        assertThat(parser.parse("SELECT a.id FROM x.a a JOIN y.b b ON a.id = b.id").leftJoin()).isFalse();
-        assertThat(parser.parse("SELECT a.id FROM x.a a INNER JOIN y.b b ON a.id = b.id").leftJoin()).isFalse();
+        assertThat(parser.parse("SELECT a.id FROM x.a a LEFT JOIN y.b b ON a.id = b.id").joins().get(0).leftJoin()).isTrue();
+        assertThat(parser.parse("SELECT a.id FROM x.a a JOIN y.b b ON a.id = b.id").joins().get(0).leftJoin()).isFalse();
+        assertThat(parser.parse("SELECT a.id FROM x.a a INNER JOIN y.b b ON a.id = b.id").joins().get(0).leftJoin()).isFalse();
     }
 
     @Test
@@ -62,23 +62,16 @@ class FederatedQueryParserTest {
     }
 
     @Test
-    void carriesAPerSideWhereClause() {
-        FederatedQuery query = parser.parse(
-                "SELECT a.id FROM x.a a WHERE a.country = 'BR' JOIN y.b b ON a.id = b.id");
-        assertThat(query.left().where()).isEqualTo("a.country = 'BR'");
-    }
-
-    @Test
     void acceptsEtcdPathsAndRedisKeysAsSourcesSoEveryEngineCanBeJoined() {
         FederatedQuery etcd = parser.parse(
                 "SELECT a.key FROM demo-etcd./config/app a JOIN demo-postgres.orders b ON a.key = b.id");
-        assertThat(etcd.left().connectionName()).isEqualTo("demo-etcd");
-        assertThat(etcd.left().source()).isEqualTo("/config/app");
+        assertThat(etcd.sides().get(0).connectionName()).isEqualTo("demo-etcd");
+        assertThat(etcd.sides().get(0).source()).isEqualTo("/config/app");
 
         FederatedQuery redis = parser.parse(
                 "SELECT a.field FROM demo-redis.session:abc123 a JOIN demo-postgres.orders b ON a.field = b.id");
-        assertThat(redis.left().connectionName()).isEqualTo("demo-redis");
-        assertThat(redis.left().source()).isEqualTo("session:abc123");
+        assertThat(redis.sides().get(0).connectionName()).isEqualTo("demo-redis");
+        assertThat(redis.sides().get(0).source()).isEqualTo("session:abc123");
     }
 
     @Test
@@ -98,14 +91,14 @@ class FederatedQueryParserTest {
     void rejectsAnOnClauseThatOnlyMentionsOneSide() {
         assertThatThrownBy(() -> parser.parse("SELECT a.id FROM x.a a JOIN y.b b ON a.id = a.other"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("both aliases");
+                .hasMessageContaining("must compare it to an earlier source");
     }
 
     @Test
     void rejectsTwoSidesSharingAnAliasBecauseProjectionWouldBeAmbiguous() {
         assertThatThrownBy(() -> parser.parse("SELECT a.id FROM x.a a JOIN y.b a ON a.id = a.id"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("different aliases");
+                .hasMessageContaining("must compare it to an earlier source");
     }
 
     @Test

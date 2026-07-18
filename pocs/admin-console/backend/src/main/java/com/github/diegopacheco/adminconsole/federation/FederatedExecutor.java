@@ -3,12 +3,15 @@ package com.github.diegopacheco.adminconsole.federation;
 import com.github.diegopacheco.adminconsole.engine.EngineRegistry;
 import com.github.diegopacheco.adminconsole.engine.PageRequest;
 import com.github.diegopacheco.adminconsole.engine.QueryResult;
+import com.github.diegopacheco.adminconsole.engine.SchemaNode;
 import com.github.diegopacheco.adminconsole.project.ConnectionConfig;
 import com.github.diegopacheco.adminconsole.project.ConnectionKind;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,8 @@ public class FederatedExecutor {
 
     public record Result(List<String> columns, List<Map<String, Object>> rows, List<SideResult> sides,
                          long elapsedMs) {}
+
+    private static final int FETCH_PAGE = 100;
 
     private final EngineRegistry engines;
     private final int maxRowsPerSide;
@@ -31,55 +36,116 @@ public class FederatedExecutor {
 
     public Result execute(FederatedQuery query, List<ConnectionConfig> available) {
         long started = System.currentTimeMillis();
-        ConnectionConfig leftConnection = resolve(query.left().connectionName(), available);
-        ConnectionConfig rightConnection = resolve(query.right().connectionName(), available);
 
-        validateSource(leftConnection, query.left());
-        validateSource(rightConnection, query.right());
+        Map<String, ConnectionConfig> connectionByAlias = new LinkedHashMap<>();
+        Map<String, QueryResult> fetched = new LinkedHashMap<>();
+        List<SideResult> sideResults = new ArrayList<>();
 
-        QueryResult leftRows = fetch(leftConnection, query.left());
-        QueryResult rightRows = fetch(rightConnection, query.right());
-
-        requireKey(query.left().alias(), leftConnection, query.left().source(), query.leftKey(), leftRows);
-        requireKey(query.right().alias(), rightConnection, query.right().source(), query.rightKey(), rightRows);
-
-        Map<String, List<Map<String, Object>>> index = new LinkedHashMap<>();
-        for (Map<String, Object> row : rightRows.rows()) {
-            Object key = row.get(query.rightKey());
-            if (key == null) {
-                continue;
-            }
-            index.computeIfAbsent(String.valueOf(key), ignored -> new ArrayList<>()).add(row);
+        for (FederatedQuery.Side side : query.sides()) {
+            ConnectionConfig connection = resolve(side.connectionName(), available);
+            validateSource(connection, side);
+            QueryResult rows = fetch(connection, side);
+            connectionByAlias.put(side.alias().toLowerCase(), connection);
+            fetched.put(side.alias().toLowerCase(), rows);
+            sideResults.add(new SideResult(side.alias(), connection.name(), connection.kind().wireName(),
+                    side.source(), rows.rows().size(), rows.hasMore()));
         }
 
-        List<Map<String, Object>> joined = new ArrayList<>();
-        for (Map<String, Object> row : leftRows.rows()) {
-            if (joined.size() >= query.limit()) {
+        for (FederatedQuery.Join join : query.joins()) {
+            requireKey(join.leftAlias(), connectionByAlias, query, join.leftKey(), fetched);
+            requireKey(join.rightAlias(), connectionByAlias, query, join.rightKey(), fetched);
+        }
+
+        FederatedQuery.Side first = query.sides().getFirst();
+        List<Map<String, Object>> accumulated = prefix(first.alias(), fetched.get(first.alias().toLowerCase()).rows());
+
+        for (FederatedQuery.Join join : query.joins()) {
+            List<Map<String, Object>> right = prefix(join.rightAlias(),
+                    fetched.get(join.rightAlias().toLowerCase()).rows());
+            accumulated = hashJoin(accumulated, join.leftAlias() + "." + join.leftKey(),
+                    right, join.rightAlias() + "." + join.rightKey(), join.leftJoin());
+            if (accumulated.size() > maxRowsPerSide) {
+                accumulated = new ArrayList<>(accumulated.subList(0, maxRowsPerSide));
+            }
+        }
+
+        List<Map<String, Object>> projected = new ArrayList<>();
+        Set<String> columns = new LinkedHashSet<>();
+        for (Map<String, Object> row : accumulated) {
+            if (projected.size() >= query.limit()) {
                 break;
             }
-            Object key = row.get(query.leftKey());
-            List<Map<String, Object>> matches = key == null ? List.of() : index.getOrDefault(String.valueOf(key), List.of());
+            Map<String, Object> out = project(query, row);
+            columns.addAll(out.keySet());
+            projected.add(out);
+        }
+
+        return new Result(new ArrayList<>(columns), projected, sideResults, System.currentTimeMillis() - started);
+    }
+
+    private List<Map<String, Object>> prefix(String alias, List<Map<String, Object>> rows) {
+        List<Map<String, Object>> prefixed = new ArrayList<>(rows.size());
+        for (Map<String, Object> row : rows) {
+            Map<String, Object> copy = new LinkedHashMap<>();
+            row.forEach((key, value) -> copy.put(alias + "." + key, value));
+            prefixed.add(copy);
+        }
+        return prefixed;
+    }
+
+    private List<Map<String, Object>> hashJoin(List<Map<String, Object>> left, String leftKey,
+                                               List<Map<String, Object>> right, String rightKey, boolean leftJoin) {
+        Map<String, List<Map<String, Object>>> index = new LinkedHashMap<>();
+        for (Map<String, Object> row : right) {
+            Object key = row.get(rightKey);
+            if (key != null) {
+                index.computeIfAbsent(String.valueOf(key), ignored -> new ArrayList<>()).add(row);
+            }
+        }
+        List<Map<String, Object>> joined = new ArrayList<>();
+        for (Map<String, Object> row : left) {
+            Object key = row.get(leftKey);
+            List<Map<String, Object>> matches = key == null
+                    ? List.of()
+                    : index.getOrDefault(String.valueOf(key), List.of());
             if (matches.isEmpty()) {
-                if (query.leftJoin()) {
-                    joined.add(project(query, row, Map.of()));
+                if (leftJoin) {
+                    joined.add(row);
                 }
                 continue;
             }
             for (Map<String, Object> match : matches) {
-                if (joined.size() >= query.limit()) {
-                    break;
-                }
-                joined.add(project(query, row, match));
+                Map<String, Object> merged = new LinkedHashMap<>(row);
+                merged.putAll(match);
+                joined.add(merged);
             }
         }
+        return joined;
+    }
 
-        List<String> columns = columns(query);
-        List<SideResult> sides = List.of(
-                new SideResult(query.left().alias(), leftConnection.name(), leftConnection.kind().wireName(),
-                        query.left().source(), leftRows.rows().size(), leftRows.hasMore()),
-                new SideResult(query.right().alias(), rightConnection.name(), rightConnection.kind().wireName(),
-                        query.right().source(), rightRows.rows().size(), rightRows.hasMore()));
-        return new Result(columns, joined, sides, System.currentTimeMillis() - started);
+    private Map<String, Object> project(FederatedQuery query, Map<String, Object> row) {
+        Map<String, Object> out = new LinkedHashMap<>();
+        for (String selected : query.projection()) {
+            if (selected.equals("*")) {
+                out.putAll(row);
+                continue;
+            }
+            if (selected.endsWith(".*")) {
+                String alias = selected.substring(0, selected.length() - 2);
+                row.forEach((key, value) -> {
+                    if (key.regionMatches(true, 0, alias + ".", 0, alias.length() + 1)) {
+                        out.put(key, value);
+                    }
+                });
+                continue;
+            }
+            if (!selected.contains(".")) {
+                throw new IllegalArgumentException("qualify every column with its alias, for example "
+                        + query.sides().getFirst().alias() + "." + selected);
+            }
+            out.put(selected, row.get(selected));
+        }
+        return out;
     }
 
     private ConnectionConfig resolve(String name, List<ConnectionConfig> available) {
@@ -89,10 +155,10 @@ public class FederatedExecutor {
                 .orElseThrow(() -> new IllegalArgumentException("no connection named " + name + " in this project"));
     }
 
-    private static final int FETCH_PAGE = 100;
-
-    private void requireKey(String alias, ConnectionConfig connection, String source, String key, QueryResult rows) {
-        if (rows.rows().isEmpty() || rows.columns().isEmpty()) {
+    private void requireKey(String alias, Map<String, ConnectionConfig> connections, FederatedQuery query,
+                            String key, Map<String, QueryResult> fetched) {
+        QueryResult rows = fetched.get(alias.toLowerCase());
+        if (rows == null || rows.rows().isEmpty() || rows.columns().isEmpty()) {
             return;
         }
         boolean present = rows.columns().stream().anyMatch(column -> column.equalsIgnoreCase(key))
@@ -100,9 +166,11 @@ public class FederatedExecutor {
         if (present) {
             return;
         }
+        ConnectionConfig connection = connections.get(alias.toLowerCase());
+        FederatedQuery.Side side = query.sideOf(alias);
         String suggestion = closest(key, rows.columns());
         throw new IllegalArgumentException("no column named \"" + key + "\" on " + connection.name() + "."
-                + source + " (alias " + alias + ")"
+                + side.source() + " (alias " + alias + ")"
                 + (suggestion == null ? "" : " — did you mean \"" + suggestion + "\"?")
                 + " — available: " + String.join(", ", rows.columns()));
     }
@@ -129,9 +197,7 @@ public class FederatedExecutor {
         }
         List<String> available;
         try {
-            available = engines.of(connection.kind()).schema(connection).stream()
-                    .map(com.github.diegopacheco.adminconsole.engine.SchemaNode::name)
-                    .toList();
+            available = engines.of(connection.kind()).schema(connection).stream().map(SchemaNode::name).toList();
         } catch (RuntimeException error) {
             return;
         }
@@ -176,35 +242,7 @@ public class FederatedExecutor {
             case ELASTICSEARCH -> "GET /" + side.source() + "/_search";
             case KAFKA -> "consume " + side.source() + " --limit " + FETCH_PAGE;
             case REDIS -> "HGETALL " + side.source();
-            case ETCD -> "get " + (side.source().startsWith("/") ? side.source() : "/" + side.source())
-                    + " --prefix";
+            case ETCD -> "get " + (side.source().startsWith("/") ? side.source() : "/" + side.source()) + " --prefix";
         };
-    }
-
-    private List<String> columns(FederatedQuery query) {
-        List<String> columns = new ArrayList<>();
-        for (String selected : query.projection()) {
-            columns.add(selected.equals("*") ? "*" : selected);
-        }
-        return columns;
-    }
-
-    private Map<String, Object> project(FederatedQuery query, Map<String, Object> left, Map<String, Object> right) {
-        Map<String, Object> row = new LinkedHashMap<>();
-        for (String selected : query.projection()) {
-            if (selected.equals("*")) {
-                left.forEach((key, value) -> row.put(query.left().alias() + "." + key, value));
-                right.forEach((key, value) -> row.put(query.right().alias() + "." + key, value));
-                continue;
-            }
-            String[] parts = selected.split("\\.", 2);
-            if (parts.length != 2) {
-                throw new IllegalArgumentException("qualify every column with its alias, for example "
-                        + query.left().alias() + "." + selected);
-            }
-            Map<String, Object> source = parts[0].equalsIgnoreCase(query.left().alias()) ? left : right;
-            row.put(selected, source.get(parts[1]));
-        }
-        return row;
     }
 }

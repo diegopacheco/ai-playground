@@ -603,7 +603,9 @@ Two sources on **different engines**, joined into one grid.
 
 ### 6d.1 What it is, and what it deliberately is not
 
-It is a **bounded hash join over two native queries**. It is not a query planner, has no cost model, does not push predicates down, and does not do aggregation. Saying that plainly matters, because "federated SQL" implies a great deal more than this delivers.
+It is a **chain of bounded hash joins over native queries**. It is not a query planner, has no cost model, does not push predicates down, and does not do aggregation. Saying that plainly matters, because "federated SQL" implies a great deal more than this delivers.
+
+**Up to five sources** can be chained: `FROM a JOIN b ON … JOIN c ON … JOIN d ON …`. Each new source joins against any *earlier* alias, and the joins fold left-to-right, with the running intermediate re-capped at the per-side limit after every step so a fan-out cannot grow without bound. Five is a deliberate ceiling — beyond it, an in-memory chain stops being defensible and the honest answer is a real query engine.
 
 Execution is four steps:
 

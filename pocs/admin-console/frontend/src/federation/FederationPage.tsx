@@ -31,28 +31,9 @@ export default function FederationPage() {
   const [suggestion, setSuggestion] = useState<{ statement: string; cli: string; model: string | null; parses: boolean; problem: string | null; declined?: boolean } | null>(null);
 
   useEffect(() => {
-    api.projects().then(async (loaded) => {
+    api.projects().then((loaded) => {
       setProjects(loaded);
-      const first = loaded[0];
-      setProjectId((current) => current ?? first?.id ?? null);
-      if (!first || first.connections.length < 2) {
-        return;
-      }
-      const [a, b] = first.connections;
-      const sourceOf = async (connection: (typeof first.connections)[number]) => {
-        try {
-          const schema = await api.schema(connection.id);
-          return schema[0]?.name ?? null;
-        } catch {
-          return null;
-        }
-      };
-      const [sourceA, sourceB] = await Promise.all([sourceOf(a), sourceOf(b)]);
-      if (sourceA && sourceB) {
-        setStatement(
-          `SELECT x.*, y.*\nFROM ${a.name}.${sourceA} x\nJOIN ${b.name}.${sourceB} y ON x.id = y.id\nLIMIT 25`
-        );
-      }
+      setProjectId((current) => current ?? loaded[0]?.id ?? null);
     });
   }, []);
 
@@ -113,6 +94,24 @@ export default function FederationPage() {
       cancelled = true;
     };
   }, [project]);
+
+  useEffect(() => {
+    if (!projectId) {
+      return;
+    }
+    let cancelled = false;
+    api
+      .federatedExample(projectId)
+      .then((example) => {
+        if (!cancelled && example.found && example.statement) {
+          setStatement((current) => (current.trim() === "" ? example.statement! : current));
+        }
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId]);
 
   useEffect(() => {
     if (!projectId || !historyOpen) {
