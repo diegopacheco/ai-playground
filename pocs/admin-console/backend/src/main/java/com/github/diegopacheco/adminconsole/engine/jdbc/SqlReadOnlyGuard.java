@@ -53,7 +53,7 @@ public class SqlReadOnlyGuard {
         return result.toString();
     }
 
-    String normalize(String statement) {
+    public String normalize(String statement) {
         if (statement == null) {
             return "";
         }
