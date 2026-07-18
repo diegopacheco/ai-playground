@@ -1,0 +1,28 @@
+pocs/admin-console/demo/demo-start.sh
+  s_fa6084944458f4::t_ede8550481c930 78-86,89-90,99-107
+  s_fa6084944458f4::t_7cc8207e86339b 108
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/project/ConnectionRepositoryIT.java
+  s_fa6084944458f4::t_3d3c8f4f6ed350 97-99
+  s_fa6084944458f4::t_c50347a66b1403 94-96,100-101
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/saved/SavedQueryRepositoryIT.java
+  s_fa6084944458f4::t_3d3c8f4f6ed350 96-98
+  s_fa6084944458f4::t_c50347a66b1403 92-95,99-100
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/crypto/PostgresKeyStoreIT.java
+  s_fa6084944458f4::t_c50347a66b1403 59-63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "e010043a0746e08212665159bbb78121aff7067a",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
