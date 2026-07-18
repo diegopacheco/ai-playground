@@ -1,0 +1,40 @@
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederationController.java
+  s_fa6084944458f4::t_8d39a02f8f3818 25,30-31,35,40-47
+  s_fa6084944458f4::t_c09f222152a2ac 48-49
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedExampleBuilder.java
+  s_fa6084944458f4::t_d0a661573ccc58 1-150
+pocs/admin-console/design-doc.md
+  s_fa6084944458f4::t_4b49d841dd1b90 606-608
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/federation/FederatedQueryParserTest.java
+  s_fa6084944458f4::t_92481f9731b89e 19-22,32-35,42-43,48-50,68-69,73-74
+  s_fa6084944458f4::t_d9fd39bbba0059 94,101
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedExecutor.java
+  s_fa6084944458f4::t_f8e8a0eadc2529 6,11,14,26-27,40-52,54-57,59-60,62-68,72-75,78-110,112-113,118-120,123-124,126-148,158-161,169-170,173,200,245
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedQueryParser.java
+  s_fa6084944458f4::t_f55672342f85a3 4,6,13-16,19-25,28,36-37,42-45,51-67,70-76,78-86,88-89,91-107,121-124,126,128-129,133,139,145,155
+pocs/admin-console/frontend/src/lib/api.ts
+  s_fa6084944458f4::t_f767a34f35c63c 100-102
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedQuery.java
+  s_fa6084944458f4::t_94dbe8f7c21625 5,8-16
+pocs/admin-console/frontend/src/federation/FederationPage.css
+  s_fa6084944458f4::t_6f5c072e99cfb5 127,132-137
+pocs/admin-console/frontend/src/federation/FederationPage.tsx
+  s_fa6084944458f4::t_f767a34f35c63c 34,36,98-114
+  s_fa6084944458f4::t_902d2689ea0a12 115
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "35ca7adce2cf9edc78d53c67171689ddaf564d99",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
