@@ -1,0 +1,36 @@
+package com.github.diegopacheco.adminconsole.audit;
+
+import com.github.diegopacheco.adminconsole.project.ConnectionConfig;
+import java.time.Instant;
+import java.util.UUID;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AuditService {
+    private final AuditRepository repository;
+
+    public AuditService(AuditRepository repository) {
+        this.repository = repository;
+    }
+
+    public void allowed(UUID queryId, int page, String username, ConnectionConfig connection, String statement,
+                        long elapsedMs, int rowCount, String clientIp) {
+        repository.insert(new AuditEntry(null, queryId, page, Instant.now(), username, connection.id(),
+                connection.projectId(), connection.kind().wireName(), statement, true, null, elapsedMs, rowCount,
+                null, clientIp));
+    }
+
+    public void denied(UUID queryId, String username, ConnectionConfig connection, String statement, String reason,
+                       String clientIp) {
+        repository.insert(new AuditEntry(null, queryId, 1, Instant.now(), username, connection.id(),
+                connection.projectId(), connection.kind().wireName(), statement, false, reason, null, null,
+                null, clientIp));
+    }
+
+    public void failed(UUID queryId, int page, String username, ConnectionConfig connection, String statement,
+                       long elapsedMs, String error, String clientIp) {
+        repository.insert(new AuditEntry(null, queryId, page, Instant.now(), username, connection.id(),
+                connection.projectId(), connection.kind().wireName(), statement, true, null, elapsedMs, null,
+                error, clientIp));
+    }
+}
