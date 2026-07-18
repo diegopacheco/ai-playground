@@ -1,6 +1,6 @@
 # Generic Admin Console — Design Doc
 
-Status: draft for approval. Nothing is built yet.
+Status: **approved**. Build follows §10.
 
 ## 1. What this is
 
@@ -177,6 +177,8 @@ A parser alone is not enough; anything that only inspects a string can eventuall
 | Cassandra | `SELECT` only | all DML, DDL, `TRUNCATE`, `USE` |
 | Redis | commands whose `COMMAND INFO` flags include `readonly` and exclude `write`/`admin` | everything else, plus `EVAL`/`EVALSHA`/`FCALL` (Lua can write), `SUBSCRIBE`, `MONITOR` |
 | etcd | `get`, `get --prefix`, `range` | `put`, `del`, `txn`, `compact`, lease and auth operations |
+| Kafka | `list`/`describe` topics and groups, `offsets`, bounded `consume` | produce, topic create/delete/alter, config alter, `delete records`, group offset reset or deletion (3.5) |
+| Elasticsearch | `GET`/`HEAD` on `_search`, `_count`, `_mapping`, `_cat`, `_msearch` | every other verb, plus `_bulk`, `_update_by_query`, `_delete_by_query`, `_reindex`, `_open`, `_close` and index management **even when sent as `GET`** (3.6) |
 
 Redis uses the server's own command metadata rather than a hand-maintained list, so it stays correct as Redis adds commands.
 
@@ -196,6 +198,8 @@ Server-side paging, 100 rows per page. The awkward part is that no two engines p
 | Cassandra | native driver paging state (`ExecutionInfo.getSafePagingState()`), passed back as the cursor | **no — forward-only** |
 | Redis | `SCAN` cursor for key listing; materialized values (hash fields, list members) sliced in memory | yes |
 | etcd | `range` with `limit` + start-key, the cursor being the last key seen | forward-only in practice |
+| Kafka | partition → next-offset map as the cursor; offsets are native, so this is the cleanest fit | yes — offsets are addressable |
+| Elasticsearch | `search_after` + point-in-time; **not** `from`/`size`, which breaks past `max_result_window` (3.6) | forward-only |
 
 Cassandra's paging state is opaque and strictly forward-only — there is no "jump to page 47" without re-scanning from the start, which on a large table is exactly the query you don't want an admin console issuing casually.
 
@@ -215,7 +219,12 @@ connections(id, project_id fk, name, kind, host, port, database, keyspace, datac
             username, secret_ciphertext bytea, options_json, created_at, created_by)
 audit_log(id, query_id, page, at, username, connection_id, project_id, kind, statement,
           allowed, denial_reason, elapsed_ms, row_count, error, client_ip)
+saved_queries(id, project_id fk, connection_id fk nullable, name, statement, kind,
+              description, created_by, created_at, updated_at,
+              unique(project_id, name))
 ```
+
+**Saved queries** are shared per project — anyone with access to the project sees them, which is the point: the useful queries stop living in someone's local notes. `connection_id` is nullable so a query can be pinned to one connection or left loose to run against any connection of the same `kind` (the same "find the stuck rows" SQL usually wants running against staging *and* prod). Editing is not restricted to the author — a shared library that only its creator can fix goes stale fast — but `updated_at` and `created_by` are shown, and every execution still lands in the audit trail under the person who ran it, not the person who saved it.
 
 **Paging and the audit trail.** You flagged that paging means more audit rows, so the model separates the two: a statement execution gets a fresh `query_id` and `page=1`; each subsequent page fetch writes a row with the **same** `query_id` and an incrementing `page`. `/audit-trail` groups by `query_id` by default and shows `page 1 of 6` on the group, with an expander for per-page timing — so browsing a result set reads as one entry, not six, while the detail is still there for forensics. Denials never have follow-on pages.
 
@@ -242,6 +251,9 @@ backend/src/main/java/com/github/diegopacheco/adminconsole/
   engine/cassandra/ CassandraEngine, CqlReadOnlyGuard
   engine/redis/     RedisEngine, RedisCommandParser, RedisReadOnlyGuard, RedisValueReader
   engine/etcd/      EtcdEngine, EtcdCommandParser, EtcdReadOnlyGuard, PrefixTreeBuilder
+  engine/kafka/     KafkaEngine, KafkaCommandParser, KafkaReadOnlyGuard, ObserverConsumerFactory
+  engine/elastic/   ElasticEngine, ElasticCommandParser, ElasticEndpointGuard, PitCursor
+  saved/       SavedQuery, SavedQueryRepository, SavedQueryController
   console/     ConsoleController, QueryRequest, ApiExceptionHandler
 ```
 
@@ -271,6 +283,8 @@ backend/src/main/java/com/github/diegopacheco/adminconsole/
 | `DELETE` | `/api/connections/{cid}/query/{queryId}` | user | release a held cursor |
 | `POST` | `/api/connections/{cid}/query/count` | user | opt-in `SELECT count(*)`, SQL only |
 | `GET` | `/api/history?connection=&limit=` | user | **own** recent distinct statements |
+| `GET` | `/api/projects/{id}/saved` | user | saved queries for the project |
+| `POST` `PUT` `DELETE` | `/api/projects/{id}/saved/{sid}` | user | manage saved queries |
 | `GET` | `/api/audit?user=&connection=&allowed=&from=&to=&page=` | admin | audit trail, grouped by `query_id` |
 | `GET` | `/api/audit/export.csv` | admin | audit export |
 | `GET` | `/swagger` | user | redirect → `/swagger-ui/index.html` |
@@ -308,11 +322,12 @@ frontend/
       SchemaTreePanel.tsx       left, foldable, lazy-expanding
       QueryEditor.tsx           CodeMirror 6 + CMD+Enter
       RecentQueries.tsx         own history dropdown, from /api/history
+      SavedQueries.tsx          project-shared library, save/load/rename/delete
       ResultGrid.tsx            bottom pane, self-contained, internal scroll
       Pager.tsx                 Prev/Next/First, page number, opt-in row count
       ReadOnlyNotice.tsx        renders a rejected statement and why
     engines/                only per-engine knowledge in the whole frontend
-      mysql.ts postgres.ts cassandra.ts redis.ts etcd.ts types.ts
+      mysql.ts postgres.ts cassandra.ts redis.ts etcd.ts kafka.ts elastic.ts types.ts
     projects/               ProjectSwitcher, ConnectionForm, ConnectionList
     audit/                  AuditTable, AuditFilters, AuditDetail
     users/                  UserTable, UserForm, PasswordForm
@@ -359,13 +374,17 @@ A note on naming: my standing instruction is never to use the word "demo", but y
 
 ```
 demo/
-  podman-compose.yml      mysql, postgres, cassandra, redis, etcd
+  podman-compose.yml      mysql, postgres, cassandra, redis, etcd, kafka, elasticsearch
   seed/
     mysql.sql             tables with realistic rows
     postgres.sql          schemas, views, foreign keys
     cassandra.cql         keyspace with partition + clustering keys
     redis.sh              string, hash, list, set, zset, stream keys
     etcd.sh               nested /config/... and /service/... prefixes
+    kafka.sh              multi-partition topics, enough messages to page, a live
+                          consumer group so lag is non-zero and paging is observable
+    elastic.sh            index with a real mapping, nested objects, >10k docs so
+                          search_after is exercised past max_result_window
   readonly-users.sql      SELECT-only DB users the console connects as
   demo-start.sh           up, wait, seed, register connections, print all configs
   demo-stop.sh            tear down containers, volumes and network
@@ -393,7 +412,10 @@ The highest-value tests, per Rule 9, encode *why* the behavior matters:
 - **`AuditService`** — a denied statement is still logged; a thrown engine error still logs elapsed time and the error; page 2 reuses the `query_id` of page 1 rather than opening a new one.
 - **`CursorCache`** — a cursor expires after its idle window, an expired cursor raises rather than returning stale rows, cursors are released when the pool is evicted, and one user cannot fetch another user's cursor by guessing its id.
 - **`HistoryController`** — returns only the caller's statements; a forged user parameter is ignored rather than honored.
-- **Parsers** — `RedisCommandParser` and `EtcdCommandParser` quoting/escaping/malformed input; `PrefixTreeBuilder` `/`-splitting.
+- **Parsers** — `RedisCommandParser`, `EtcdCommandParser` and `KafkaCommandParser` quoting/escaping/malformed input; `PrefixTreeBuilder` `/`-splitting.
+- **`ObserverConsumerFactory`** — the highest-stakes test in the suite: the built consumer has `enable.auto.commit=false`, uses `assign()` and **never** `subscribe()`, carries no `group.id`, and no code path reaches a commit call. A regression here silently damages other people's production consumers (3.5), so it's asserted on the constructed config, not just on behavior.
+- **`ElasticEndpointGuard`** — `_delete_by_query` and `_bulk` are rejected even when sent as `GET`, since several mutating ES endpoints accept it.
+- **`PitCursor`** — the point-in-time is released on cursor expiry, so an abandoned browse doesn't leak PIT resources on the cluster.
 - **`ConnectionRegistry`** — pool reuse, eviction on config change, no pool leak on connect failure.
 
 **TypeScript, Jest** with `@swc/jest` and jsdom, matching the reference project's setup, `@testing-library/react`, one `.test.tsx` beside each component. Covers `ConsolePane` keyboard handling (CMD+Enter fires, plain Enter does not), `SchemaTreePanel` fold/unfold and lazy-load, `Pager` (Next disabled when `hasMore` is false, Prev hidden on page 1, `410` offering re-run rather than showing stale rows), `RecentQueries` loading a statement into the editor **without** executing it, `ReadOnlyNotice` rendering a denial, audit filters building the right query string, `api.ts` error/401/403/410 paths, and every design-system component's states.
@@ -424,6 +446,7 @@ All bash, no comments, no emoji, no sleep longer than 1, readiness by polling lo
 | Storybook | 6006 |
 | console metadata Postgres | 5433 |
 | target MySQL / Postgres / Cassandra / Redis / etcd | 3306 / 5432 / 9042 / 6379 / 2379 |
+| target Kafka / Elasticsearch | 9092 / 9200 |
 
 Backend is on 8099 rather than the reference project's 8095, and the metadata Postgres on 5433, so this can run alongside both the reference project and the `demo/` Postgres.
 
@@ -467,13 +490,14 @@ What it does **not** do, stated so the boundary is explicit rather than accident
 4. Projects and connections — repositories with encrypted secrets, `ProjectController`, unit tests.
 5. Audit — `AuditService`, `AuditRepository`, `AuditController`, wrapped around every query.
 6. `Engine` SPI + `ConnectionRegistry` (dynamic Hikari pools) + `CursorCache` + `JdbcEngine` + `SqlReadOnlyGuard` (MySQL and Postgres both land here).
-7. `CassandraEngine`, `RedisEngine`, `EtcdEngine` + parsers, guards and per-engine paging, unit tests each.
+7. `CassandraEngine`, `RedisEngine`, `EtcdEngine`, `KafkaEngine`, `ElasticEngine` + parsers, guards and per-engine paging, unit tests each.
 8. `demo/` — containers, seeds, read-only users, `demo-start.sh` / `demo-stop.sh`.
 9. Frontend design system + Storybook + tokens, component tests.
 10. `ConsolePane`, `Pager`, `RecentQueries` and the `engines/` descriptors; wire all seven kinds.
-11. Projects, users and audit-trail UIs.
-12. Scripts, `podman-compose`, integration tests against `demo/`.
-13. Playwright screenshots into `printscreens/`, Excalidraw-style architecture diagram, `README.md`.
+11. Saved queries — table, `SavedQueryController`, `SavedQueries.tsx`.
+12. Projects, users and audit-trail UIs.
+13. Scripts, `podman-compose`, integration tests against `demo/`.
+14. Playwright screenshots into `printscreens/`, Excalidraw-style architecture diagram, `README.md`.
 
 ## 11. Decisions log
 
@@ -493,4 +517,6 @@ All open questions are resolved. Recorded here so the reasoning survives.
 
 ## 12. Not in scope — candidate follow-ups
 
-Deliberately excluded from this build so the first version stays finishable. Listed so they're visible choices rather than forgotten ones: additional engines (MongoDB, Elasticsearch/OpenSearch, ClickHouse, Kafka, DynamoDB, S3), schema diffing across environments, saved queries shared between users, per-connection ACLs, an env-var master key, and audit-log hash chaining.
+Deliberately excluded from this build so the first version stays finishable. Listed so they're visible choices rather than forgotten ones: additional engines (MongoDB, ClickHouse, DynamoDB, S3, RabbitMQ — see below), schema diffing across environments, result export to CSV/JSON, a connection-health dashboard, an `EXPLAIN` plan visualizer, per-connection ACLs, an env-var master key, and audit-log hash chaining.
+
+**RabbitMQ** is worth a note because it does *not* work the way Kafka does. Kafka reads are non-destructive — consuming never removes messages, retention does, so 3.5's observer consumer can browse a topic freely. RabbitMQ queues are destructive by nature: `basic.get` removes a message, and requeueing it sets the `redelivered` flag and disturbs ordering, which can trip real consumers and dead-letter policies. There is no reliable way to browse queue *contents* without side effects. So if RabbitMQ is added, the honest scope is **metadata only** — vhosts, exchanges, queues, depths, rates, consumers, bindings, via the read-only management HTTP API — with message peeking deliberately absent and the UI saying why, rather than shipping a footgun that looks like the other consoles.
