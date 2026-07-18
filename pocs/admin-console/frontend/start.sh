@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+if [ ! -d node_modules ]; then
+  bun install
+fi
+nohup bun run dev > /tmp/admin-console-frontend.log 2>&1 &
+echo $! > /tmp/admin-console-frontend.pid
+for attempt in $(seq 1 60); do
+  if curl -fsS http://localhost:4321/ > /dev/null 2>&1; then
+    echo "frontend ready on http://localhost:4321"
+    exit 0
+  fi
+  sleep 1
+done
+tail -20 /tmp/admin-console-frontend.log
+exit 1

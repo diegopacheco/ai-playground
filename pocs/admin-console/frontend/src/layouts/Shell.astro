@@ -1,0 +1,41 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  active?: string;
+}
+
+const { title, active } = Astro.props;
+
+const links = [
+  { href: "/", label: "consoles", key: "consoles" },
+  { href: "/projects", label: "projects", key: "projects" },
+  { href: "/audit-trail", label: "audit", key: "audit" },
+  { href: "/users", label: "users", key: "users" },
+  { href: "/swagger", label: "swagger", key: "swagger" }
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · Admin Console</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <span class="app-brand">Admin Console</span>
+        <nav class="app-nav">
+          {links.map((link) => (
+            <a href={link.href} aria-current={active === link.key ? "page" : undefined}>{link.label}</a>
+          ))}
+        </nav>
+      </header>
+      <div class="app-body">
+        <slot />
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+.ds-tree,
+.ds-tree-children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ds-tree-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 6px 2px 0;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.ds-tree-row:hover {
+  background: var(--surface);
+}
+
+.ds-tree-toggle {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 9px;
+  padding: 0;
+  line-height: 1;
+}
+
+.ds-tree-toggle-empty {
+  cursor: default;
+}
+
+.ds-tree-name {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  text-align: left;
+}
+
+.ds-tree-name:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.ds-tree-detail {
+  color: var(--muted);
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ds-tree-empty {
+  color: var(--muted);
+  font-size: 12px;
+  padding: 8px;
+}

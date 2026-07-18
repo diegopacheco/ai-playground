@@ -1,0 +1,59 @@
+.ds-grid-scroll {
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+}
+
+.ds-grid {
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 12px;
+  width: max-content;
+  min-width: 100%;
+}
+
+.ds-grid th,
+.ds-grid td {
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  padding: 3px 8px;
+  text-align: left;
+  max-width: 380px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ds-grid thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  z-index: 1;
+}
+
+.ds-grid tbody tr:hover {
+  background: var(--surface-raised);
+}
+
+.ds-grid-index {
+  color: var(--muted);
+  text-align: right;
+  background: var(--surface-raised);
+  user-select: none;
+}
+
+.ds-grid-null {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.ds-grid-empty {
+  color: var(--muted);
+  padding: 12px;
+  font-family: var(--sans);
+  text-align: center;
+}

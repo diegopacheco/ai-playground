@@ -1,0 +1,47 @@
+.ds-button {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--surface-raised);
+  color: var(--text);
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.ds-button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.ds-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ds-button:focus-visible {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 1px;
+}
+
+.ds-button-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.ds-button-primary:hover:not(:disabled) {
+  background: #7a5134;
+}
+
+.ds-button-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+}
+
+.ds-button-danger {
+  background: var(--error);
+  border-color: var(--error);
+  color: #fff;
+}

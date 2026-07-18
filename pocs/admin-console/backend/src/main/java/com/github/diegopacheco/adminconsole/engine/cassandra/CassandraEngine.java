@@ -55,7 +55,10 @@ public class CassandraEngine implements Engine {
         session.execute(SimpleStatement.newInstance(
                 "SELECT table_name FROM system_schema.tables WHERE keyspace_name = ?", keyspace)).forEach(row -> {
             String name = row.getString("table_name");
-            tables.add(new SchemaNode(name, "table", "table", columns.getOrDefault(name, List.of())));
+            List<SchemaNode> tableColumns = columns.getOrDefault(name, List.of());
+            long keys = tableColumns.stream().filter(column -> column.detail().contains("key")).count();
+            tables.add(new SchemaNode(name, "table",
+                    tableColumns.size() + " columns, " + keys + " key", tableColumns));
         });
         tables.sort((left, right) -> left.name().compareTo(right.name()));
         return tables;

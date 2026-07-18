@@ -1,0 +1,21 @@
+.console-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-top: 1px solid var(--error);
+  background: #F9EDE9;
+  font-size: 12px;
+  flex: 0 0 auto;
+}
+
+.console-notice-text {
+  color: var(--error);
+  font-family: var(--mono);
+}
+
+.console-notice-hint {
+  color: var(--muted);
+  font-size: 11px;
+  margin-left: auto;
+}

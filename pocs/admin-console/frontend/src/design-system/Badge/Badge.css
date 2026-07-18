@@ -1,0 +1,31 @@
+.ds-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.ds-badge-accent {
+  background: #F0E2D4;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.ds-badge-ok {
+  background: #E7EFDE;
+  border-color: var(--ok);
+  color: #3F5A2C;
+}
+
+.ds-badge-error {
+  background: #F6E1DC;
+  border-color: var(--error);
+  color: var(--error);
+}
