@@ -1,0 +1,40 @@
+pocs/admin-console/frontend/astro.config.mjs
+  s_fa6084944458f4::t_37b8081a292a7f 1-17
+pocs/admin-console/frontend/src/test/styleMock.ts
+  s_fa6084944458f4::t_529d3872e2087e 1
+pocs/admin-console/frontend/package.json
+  s_fa6084944458f4::t_3e396be4601f00 1-37,39-42
+  s_fa6084944458f4::t_21867e79bee194 38
+pocs/admin-console/frontend/tsconfig.json
+  s_fa6084944458f4::t_6a4ad74137a5aa 1-17
+pocs/admin-console/frontend/src/styles/global.css
+  s_fa6084944458f4::t_0d55ee63b67448 1-100
+pocs/admin-console/frontend/src/design-system/tokens/typography.ts
+  s_fa6084944458f4::t_67a6aa7508d0ac 1-14
+pocs/admin-console/frontend/src/design-system/tokens/spacing.ts
+  s_fa6084944458f4::t_7678e97c5245e9 1-17
+pocs/admin-console/frontend/src/test/setup.ts
+  s_fa6084944458f4::t_1f97f88f9704e2 1
+pocs/admin-console/frontend/jest.config.mjs
+  s_fa6084944458f4::t_0bbf4b0e4882f4 1-21
+pocs/admin-console/frontend/src/design-system/tokens/colors.ts
+  s_fa6084944458f4::t_46a880e97206e8 1-18
+pocs/admin-console/frontend/bun.lock
+  s_fa6084944458f4::t_6bcbf08ca757d8 1-1714
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "9256565df7aeca2d461cc368a5102b14c3d927c7",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
