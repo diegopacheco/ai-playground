@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { createPortal } from "react-dom";
 import { Badge } from "@design/Badge/Badge";
 import { EngineLogo } from "@design/EngineLogo/EngineLogo";
 import type { Connection } from "@lib/types";
@@ -8,6 +9,7 @@ export interface ConnectionPickerProps {
   connections: Connection[];
   selected: Connection | null;
   onSelect: (connection: Connection) => void;
+  autoOpen?: boolean;
 }
 
 function matches(connection: Connection, term: string) {
@@ -20,8 +22,8 @@ function matches(connection: Connection, term: string) {
   return haystack.includes(term.toLowerCase());
 }
 
-export function ConnectionPicker({ connections, selected, onSelect }: ConnectionPickerProps) {
-  const [open, setOpen] = useState(false);
+export function ConnectionPicker({ connections, selected, onSelect, autoOpen = false }: ConnectionPickerProps) {
+  const [open, setOpen] = useState(autoOpen);
   const [term, setTerm] = useState("");
   const [active, setActive] = useState(0);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -88,7 +90,7 @@ export function ConnectionPicker({ connections, selected, onSelect }: Connection
         <span className="picker-trigger-caret">▾</span>
       </button>
 
-      {open ? (
+      {open && typeof document !== "undefined" ? createPortal(
         <div className="picker-backdrop" onClick={() => setOpen(false)}>
           <div
             className="picker-modal"
@@ -136,7 +138,8 @@ export function ConnectionPicker({ connections, selected, onSelect }: Connection
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       ) : null}
     </>
   );

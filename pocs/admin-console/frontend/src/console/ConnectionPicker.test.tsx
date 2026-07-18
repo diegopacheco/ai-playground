@@ -136,3 +136,15 @@ describe("ConnectionPicker", () => {
     expect(screen.getAllByRole("option")).toHaveLength(5);
   });
 });
+
+describe("ConnectionPicker autoOpen", () => {
+  it("opens immediately when arriving from the command palette, so ⌘K → Consoles lands on the picker", () => {
+    render(<ConnectionPicker connections={connections} selected={null} onSelect={jest.fn()} autoOpen />);
+    expect(screen.getByRole("dialog", { name: "Choose a connection" })).toBeInTheDocument();
+  });
+
+  it("stays closed on a normal visit", () => {
+    render(<ConnectionPicker connections={connections} selected={connections[0]} onSelect={jest.fn()} />);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+});

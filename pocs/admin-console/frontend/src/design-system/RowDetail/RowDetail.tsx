@@ -1,4 +1,5 @@
 import { useEffect, useState, type KeyboardEvent } from "react";
+import { createPortal } from "react-dom";
 import { Button } from "../Button/Button";
 import type { GridRow } from "../DataGrid/DataGrid";
 import "./RowDetail.css";
@@ -63,7 +64,7 @@ export function RowDetail({ columns, rows, index, onClose, onNavigate }: RowDeta
     }
   };
 
-  return (
+  const modal = (
     <div className="row-detail-backdrop" onClick={onClose}>
       <div
         className="row-detail"
@@ -132,4 +133,6 @@ export function RowDetail({ columns, rows, index, onClose, onNavigate }: RowDeta
       </div>
     </div>
   );
+
+  return typeof document === "undefined" ? modal : createPortal(modal, document.body);
 }

@@ -85,19 +85,21 @@ describe("RowDetail", () => {
 
   it("closes when the backdrop is clicked but not when the panel itself is", async () => {
     const onClose = jest.fn();
-    const { container } = render(
-      <RowDetail columns={columns} rows={rows} index={0} onClose={onClose} onNavigate={jest.fn()} />
-    );
-    await userEvent.click(container.querySelector(".row-detail") as HTMLElement);
+    render(<RowDetail columns={columns} rows={rows} index={0} onClose={onClose} onNavigate={jest.fn()} />);
+    await userEvent.click(document.querySelector(".row-detail") as HTMLElement);
     expect(onClose).not.toHaveBeenCalled();
-    await userEvent.click(container.querySelector(".row-detail-backdrop") as HTMLElement);
+    await userEvent.click(document.querySelector(".row-detail-backdrop") as HTMLElement);
     expect(onClose).toHaveBeenCalled();
   });
 
   it("renders nothing when the index points past the page, rather than crashing", () => {
-    const { container } = render(
-      <RowDetail columns={columns} rows={rows} index={9} onClose={jest.fn()} onNavigate={jest.fn()} />
-    );
-    expect(container.querySelector(".row-detail")).toBeNull();
+    render(<RowDetail columns={columns} rows={rows} index={9} onClose={jest.fn()} onNavigate={jest.fn()} />);
+    expect(document.querySelector(".row-detail")).toBeNull();
+  });
+
+  it("renders into document.body so panel chrome with backdrop-filter cannot trap it in a stacking context", () => {
+    render(<RowDetail columns={columns} rows={rows} index={0} onClose={jest.fn()} onNavigate={jest.fn()} />);
+    const backdrop = document.querySelector(".row-detail-backdrop");
+    expect(backdrop?.parentElement).toBe(document.body);
   });
 });

@@ -13,6 +13,20 @@ export default function ConsoleWorkspace() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [projectId, setProjectId] = useState<number | null>(null);
   const [connectionId, setConnectionId] = useState<number | null>(null);
+  const [pickOnLoad, setPickOnLoad] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("pick") === "1") {
+      setPickOnLoad(true);
+      params.delete("pick");
+      const query = params.toString();
+      window.history.replaceState({}, "", window.location.pathname + (query ? `?${query}` : ""));
+    }
+  }, []);
 
   useEffect(() => {
     api
@@ -83,6 +97,7 @@ export default function ConsoleWorkspace() {
           connections={project?.connections ?? []}
           selected={connection}
           onSelect={(chosen) => setConnectionId(chosen.id)}
+          autoOpen={pickOnLoad}
         />
 
         <span className="workspace-user">
