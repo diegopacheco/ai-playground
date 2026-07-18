@@ -34,8 +34,14 @@ public class FederatedExecutor {
         ConnectionConfig leftConnection = resolve(query.left().connectionName(), available);
         ConnectionConfig rightConnection = resolve(query.right().connectionName(), available);
 
+        validateSource(leftConnection, query.left());
+        validateSource(rightConnection, query.right());
+
         QueryResult leftRows = fetch(leftConnection, query.left());
         QueryResult rightRows = fetch(rightConnection, query.right());
+
+        requireKey(query.left().alias(), leftConnection, query.left().source(), query.leftKey(), leftRows);
+        requireKey(query.right().alias(), rightConnection, query.right().source(), query.rightKey(), rightRows);
 
         Map<String, List<Map<String, Object>>> index = new LinkedHashMap<>();
         for (Map<String, Object> row : rightRows.rows()) {
@@ -85,6 +91,61 @@ public class FederatedExecutor {
 
     private static final int FETCH_PAGE = 100;
 
+    private void requireKey(String alias, ConnectionConfig connection, String source, String key, QueryResult rows) {
+        if (rows.rows().isEmpty() || rows.columns().isEmpty()) {
+            return;
+        }
+        boolean present = rows.columns().stream().anyMatch(column -> column.equalsIgnoreCase(key))
+                || rows.rows().getFirst().containsKey(key);
+        if (present) {
+            return;
+        }
+        String suggestion = closest(key, rows.columns());
+        throw new IllegalArgumentException("no column named \"" + key + "\" on " + connection.name() + "."
+                + source + " (alias " + alias + ")"
+                + (suggestion == null ? "" : " — did you mean \"" + suggestion + "\"?")
+                + " — available: " + String.join(", ", rows.columns()));
+    }
+
+    static String closest(String wanted, List<String> candidates) {
+        String needle = wanted.toLowerCase();
+        return candidates.stream()
+                .filter(candidate -> {
+                    String name = candidate.toLowerCase();
+                    return name.contains(needle) || needle.contains(name)
+                            || name.replace("_", "").equals(needle.replace("_", ""));
+                })
+                .min((left, right) -> Integer.compare(left.length(), right.length()))
+                .orElse(null);
+    }
+
+    static String normalizeSource(String source) {
+        return source.startsWith("/") ? source.substring(1) : source;
+    }
+
+    private void validateSource(ConnectionConfig connection, FederatedQuery.Side side) {
+        if (connection.kind() == ConnectionKind.REDIS) {
+            return;
+        }
+        List<String> available;
+        try {
+            available = engines.of(connection.kind()).schema(connection).stream()
+                    .map(com.github.diegopacheco.adminconsole.engine.SchemaNode::name)
+                    .toList();
+        } catch (RuntimeException error) {
+            return;
+        }
+        String wanted = normalizeSource(side.source());
+        if (available.isEmpty() || available.stream().anyMatch(name -> normalizeSource(name).equalsIgnoreCase(wanted))) {
+            return;
+        }
+        throw new IllegalArgumentException("no source named \"" + side.source() + "\" on " + connection.name()
+                + " — available: " + String.join(", ", available)
+                + (connection.kind() == ConnectionKind.CASSANDRA && side.source().equalsIgnoreCase(connection.keyspace())
+                        ? " (\"" + side.source() + "\" is the keyspace, not a table)"
+                        : ""));
+    }
+
     private QueryResult fetch(ConnectionConfig connection, FederatedQuery.Side side) {
         String statement = nativeStatement(connection.kind(), side);
         var engine = engines.of(connection.kind());
@@ -115,7 +176,8 @@ public class FederatedExecutor {
             case ELASTICSEARCH -> "GET /" + side.source() + "/_search";
             case KAFKA -> "consume " + side.source() + " --limit " + FETCH_PAGE;
             case REDIS -> "HGETALL " + side.source();
-            case ETCD -> "get " + side.source() + " --prefix";
+            case ETCD -> "get " + (side.source().startsWith("/") ? side.source() : "/" + side.source())
+                    + " --prefix";
         };
     }
 

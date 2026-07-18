@@ -97,6 +97,12 @@ export const api = {
       body: JSON.stringify({ statement })
     }),
 
+  federatedAi: (projectId: number, prompt: string) =>
+    request<{ statement: string; cli: string; model: string | null; parses: boolean; problem: string | null; declined: boolean }>(
+      `/api/projects/${projectId}/federated/ai`,
+      { method: "POST", body: JSON.stringify({ prompt }) }
+    ),
+
   discover: () =>
     request<{ runtime: string | null; available: boolean; reason?: string; containers: DiscoveredContainer[] }>(
       "/api/discovery"

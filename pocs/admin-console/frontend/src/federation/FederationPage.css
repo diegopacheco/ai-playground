@@ -130,3 +130,88 @@
   border-radius: var(--r-md);
   overflow: hidden;
 }
+
+.fed-editor-shell {
+  max-width: 1100px;
+  height: 170px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.fed-cm .cm-content {
+  padding: 12px 14px;
+}
+
+.fed-ask {
+  max-width: 1100px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  background: var(--surface-sunken);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fed-ask-prompt {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  font-family: var(--sans);
+  font-size: 13px;
+  background: var(--surface);
+  color: var(--text);
+  resize: vertical;
+}
+
+.fed-ask-prompt:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.fed-ask-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fed-ask-actions .ds-button {
+  margin-left: auto;
+}
+
+.fed-suggestion {
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  padding: 11px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.fed-suggestion-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fed-suggestion-sql {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  white-space: pre-wrap;
+  color: var(--text);
+}
+
+.fed-suggestion-problem {
+  margin: 0;
+  color: var(--error);
+  font-size: 11.5px;
+}
+
+.fed-suggestion .ds-button {
+  align-self: flex-start;
+}

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 public class FederatedQueryParser {
     private static final Pattern SHAPE = Pattern.compile(
             "^\\s*SELECT\\s+(?<projection>.+?)\\s+"
-                    + "FROM\\s+(?<leftSource>[\\w.\\-]+)\\s+(?:AS\\s+)?(?<leftAlias>\\w+)\\s*"
+                    + "FROM\\s+(?<leftSource>[\\w.\\-/:*]+)\\s+(?:AS\\s+)?(?<leftAlias>\\w+)\\s*"
                     + "(?:WHERE\\s+(?<leftWhere>.+?)\\s+)?"
-                    + "(?<joinType>LEFT\\s+JOIN|INNER\\s+JOIN|JOIN)\\s+(?<rightSource>[\\w.\\-]+)\\s+(?:AS\\s+)?(?<rightAlias>\\w+)\\s*"
+                    + "(?<joinType>LEFT\\s+JOIN|INNER\\s+JOIN|JOIN)\\s+(?<rightSource>[\\w.\\-/:*]+)\\s+(?:AS\\s+)?(?<rightAlias>\\w+)\\s*"
                     + "ON\\s+(?<leftKey>\\w+\\.\\w+)\\s*=\\s*(?<rightKey>\\w+\\.\\w+)\\s*"
                     + "(?:WHERE\\s+(?<rightWhere>.+?)\\s*)?"
                     + "(?:LIMIT\\s+(?<limit>\\d+)\\s*)?$",

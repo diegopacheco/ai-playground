@@ -24,6 +24,21 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", message(error)));
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, Object>> unexpected(RuntimeException error) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("error", rootCause(error)));
+    }
+
+    private String rootCause(Throwable error) {
+        Throwable cause = error;
+        while (cause.getCause() != null && cause.getCause() != cause) {
+            cause = cause.getCause();
+        }
+        String text = cause.getMessage() == null ? cause.getClass().getSimpleName() : cause.getMessage();
+        return text.length() > 400 ? text.substring(0, 400) + "…" : text;
+    }
+
     private String message(Exception error) {
         return error.getMessage() == null ? error.getClass().getSimpleName() : error.getMessage();
     }

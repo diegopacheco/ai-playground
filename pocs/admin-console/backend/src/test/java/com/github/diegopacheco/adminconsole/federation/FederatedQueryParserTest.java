@@ -69,6 +69,19 @@ class FederatedQueryParserTest {
     }
 
     @Test
+    void acceptsEtcdPathsAndRedisKeysAsSourcesSoEveryEngineCanBeJoined() {
+        FederatedQuery etcd = parser.parse(
+                "SELECT a.key FROM demo-etcd./config/app a JOIN demo-postgres.orders b ON a.key = b.id");
+        assertThat(etcd.left().connectionName()).isEqualTo("demo-etcd");
+        assertThat(etcd.left().source()).isEqualTo("/config/app");
+
+        FederatedQuery redis = parser.parse(
+                "SELECT a.field FROM demo-redis.session:abc123 a JOIN demo-postgres.orders b ON a.field = b.id");
+        assertThat(redis.left().connectionName()).isEqualTo("demo-redis");
+        assertThat(redis.left().source()).isEqualTo("session:abc123");
+    }
+
+    @Test
     void rejectsASingleSourceQueryBecauseThatIsWhatTheNormalConsoleIsFor() {
         assertThatThrownBy(() -> parser.parse("SELECT * FROM demo-postgres.customers c"))
                 .isInstanceOf(IllegalArgumentException.class)

@@ -28,6 +28,39 @@ public class PromptBuilder {
         return prompt.toString();
     }
 
+    public record FederatedSource(String connectionName, String kind, String source, List<String> columns) {}
+
+    public String buildFederated(List<FederatedSource> sources, String request) {
+        if (request == null || request.isBlank()) {
+            throw new IllegalArgumentException("describe the join you want");
+        }
+        StringBuilder prompt = new StringBuilder();
+        prompt.append("You write cross-engine join queries for an admin console.\n\n");
+        prompt.append("""
+                Grammar — exactly this shape, nothing else:
+                  SELECT <alias>.<column>, ... FROM <connection>.<source> <alias>
+                  JOIN <connection>.<source> <alias> ON <alias>.<column> = <alias>.<column>
+                  LIMIT <n>
+
+                Rules:
+                - The two sides must be different connections.
+                - Only one equality join. INNER or LEFT only. No GROUP BY, no aggregation, no subqueries.
+                - Every projected column must be qualified with its alias.
+                - Use only the connection names, sources and columns listed below. Never invent one.
+                - Join keys must be columns that actually exist on their side and hold comparable values.
+                - Answer with the query only, inside one code fence. No explanation.
+
+                Available sources:
+                """);
+        for (FederatedSource source : sources) {
+            prompt.append("- ").append(source.connectionName()).append('.').append(source.source())
+                    .append("  [").append(source.kind()).append("]  columns: ")
+                    .append(String.join(", ", source.columns())).append('\n');
+        }
+        prompt.append("\nRequest: ").append(request.strip()).append('\n');
+        return prompt.toString();
+    }
+
     String grammar(ConnectionKind kind) {
         return switch (kind) {
             case POSTGRES -> "PostgreSQL. Write standard PostgreSQL SELECT syntax.";

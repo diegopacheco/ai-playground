@@ -1,11 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Badge } from "@design/Badge/Badge";
 import { Button } from "@design/Button/Button";
 import { DataGrid } from "@design/DataGrid/DataGrid";
 import { EngineLogo } from "@design/EngineLogo/EngineLogo";
 import { RowDetail } from "@design/RowDetail/RowDetail";
+import { FederatedEditor, type FederatedCompletion } from "./FederatedEditor";
 import { api } from "@lib/api";
 import type { ApiError, ConnectionKind, FederatedResult, Project } from "@lib/types";
+import "../ai/AskAi.css";
 import "./FederationPage.css";
 
 export default function FederationPage() {
@@ -16,25 +18,78 @@ export default function FederationPage() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<FederatedResult | null>(null);
   const [detail, setDetail] = useState<number | null>(null);
+  const [completions, setCompletions] = useState<FederatedCompletion[]>([]);
+  const [askOpen, setAskOpen] = useState(false);
+  const [askPrompt, setAskPrompt] = useState("");
+  const [asking, setAsking] = useState(false);
+  const [suggestion, setSuggestion] = useState<{ statement: string; cli: string; model: string | null; parses: boolean; problem: string | null; declined?: boolean } | null>(null);
 
   useEffect(() => {
-    api.projects().then((loaded) => {
+    api.projects().then(async (loaded) => {
       setProjects(loaded);
       const first = loaded[0];
       setProjectId((current) => current ?? first?.id ?? null);
-      if (first && first.connections.length >= 2) {
-        const sql = first.connections.find((c) => c.kind === "postgres" || c.kind === "mysql");
-        const other = first.connections.find((c) => c.id !== sql?.id);
-        if (sql && other) {
-          setStatement(
-            `SELECT a.id, b.key\nFROM ${sql.name}.${sql.kind === "mysql" ? "invoices" : "orders"} a\nJOIN ${other.name}.${
-              other.kind === "kafka" ? "orders.events" : other.kind === "elasticsearch" ? "products" : "shop"
-            } b ON a.id = b.key\nLIMIT 50`
-          );
+      if (!first || first.connections.length < 2) {
+        return;
+      }
+      const [a, b] = first.connections;
+      const sourceOf = async (connection: (typeof first.connections)[number]) => {
+        try {
+          const schema = await api.schema(connection.id);
+          return schema[0]?.name ?? null;
+        } catch {
+          return null;
         }
+      };
+      const [sourceA, sourceB] = await Promise.all([sourceOf(a), sourceOf(b)]);
+      if (sourceA && sourceB) {
+        setStatement(
+          `SELECT x.*, y.*\nFROM ${a.name}.${sourceA} x\nJOIN ${b.name}.${sourceB} y ON x.id = y.id\nLIMIT 25`
+        );
       }
     });
   }, []);
+
+  const project = useMemo(
+    () => projects.find((candidate) => candidate.id === projectId) ?? null,
+    [projects, projectId]
+  );
+
+  useEffect(() => {
+    if (!project) {
+      return;
+    }
+    let cancelled = false;
+    const build = async () => {
+      const options: FederatedCompletion[] = [];
+      for (const connection of project.connections) {
+        options.push({ label: connection.name, detail: connection.kind, type: "namespace" });
+        try {
+          const schema = await api.schema(connection.id);
+          for (const node of schema) {
+            options.push({
+              label: `${connection.name}.${node.name}`,
+              detail: `${connection.kind} ${node.kind}`,
+              type: "class"
+            });
+            for (const child of node.children ?? []) {
+              options.push({ label: child.name, detail: `${node.name} · ${child.detail ?? child.kind}`, type: "property" });
+            }
+          }
+        } catch {
+          continue;
+        }
+      }
+      if (!cancelled) {
+        const seen = new Set<string>();
+        setCompletions(options.filter((option) => !seen.has(option.label) && seen.add(option.label)));
+      }
+    };
+    void build();
+    return () => {
+      cancelled = true;
+    };
+  }, [project]);
 
   const run = useCallback(async () => {
     if (!projectId || !statement.trim()) {
@@ -52,6 +107,22 @@ export default function FederationPage() {
       setBusy(false);
     }
   }, [projectId, statement]);
+
+  const ask = useCallback(async () => {
+    if (!projectId || !askPrompt.trim()) {
+      return;
+    }
+    setAsking(true);
+    setError(null);
+    setSuggestion(null);
+    try {
+      setSuggestion(await api.federatedAi(projectId, askPrompt));
+    } catch (caught) {
+      setError((caught as ApiError).message);
+    } finally {
+      setAsking(false);
+    }
+  }, [projectId, askPrompt]);
 
   return (
     <div className="page">
@@ -73,24 +144,76 @@ export default function FederationPage() {
         <Button variant="primary" onClick={run} disabled={busy || !statement.trim()}>
           {busy ? "joining…" : "Run join"}
         </Button>
+        <button className="askai-trigger" onClick={() => setAskOpen(!askOpen)}>
+          ✦ ask ai
+        </button>
       </div>
 
-      <textarea
-        className="fed-editor"
-        value={statement}
-        onChange={(event) => setStatement(event.target.value)}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
-            event.preventDefault();
-            void run();
-          }
-        }}
-        rows={6}
-        spellCheck={false}
-        aria-label="federated statement"
-        placeholder={"SELECT a.email, b.name\nFROM demo-postgres.customers a\nJOIN demo-elasticsearch.products b ON a.country = b.sku\nLIMIT 50"}
-      />
-      <p className="fed-hint">⌘↵ runs · one equality join between two sources · INNER and LEFT</p>
+      {askOpen ? (
+        <div className="fed-ask">
+          <textarea
+            className="fed-ask-prompt"
+            value={askPrompt}
+            onChange={(event) => setAskPrompt(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+                event.preventDefault();
+                void ask();
+              }
+              if (event.key === "Escape") {
+                setAskOpen(false);
+              }
+            }}
+            rows={2}
+            autoFocus
+            aria-label="describe the join you want"
+            placeholder="describe the join — e.g. invoices with their matching product name"
+          />
+          <div className="fed-ask-actions">
+            <span className="fed-hint">⌘↵ ask · esc close · the model only sees source and column names</span>
+            <Button variant="primary" onClick={ask} disabled={asking || !askPrompt.trim()}>
+              {asking ? "asking…" : "Ask"}
+            </Button>
+          </div>
+          {suggestion ? (
+            <div className="fed-suggestion">
+              <div className="fed-suggestion-head">
+                <Badge tone={suggestion.parses ? "ok" : "error"}>
+                  {suggestion.parses ? "valid join" : suggestion.declined ? "no join possible" : "does not parse"}
+                </Badge>
+                <span className="fed-side-source">
+                  {suggestion.cli}{suggestion.model ? ` · ${suggestion.model}` : ""}
+                </span>
+              </div>
+              <pre className="fed-suggestion-sql">{suggestion.statement}</pre>
+              {suggestion.declined ? (
+                <p className="fed-suggestion-problem">
+                  The model could not write this join — its answer is above. Usually that means the two sources
+                  have no column in common.
+                </p>
+              ) : suggestion.problem ? (
+                <p className="fed-suggestion-problem">{suggestion.problem.split("\n")[0]}</p>
+              ) : null}
+              <Button
+                variant="primary"
+                disabled={!suggestion.parses}
+                onClick={() => {
+                  setStatement(suggestion.statement);
+                  setAskOpen(false);
+                  setSuggestion(null);
+                }}
+              >
+                use this join
+              </Button>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+
+      <div className="fed-editor-shell">
+        <FederatedEditor value={statement} completions={completions} onChange={setStatement} onRun={run} />
+      </div>
+      <p className="fed-hint">⌘↵ runs · ⌃space for completions · one equality join between two sources · INNER and LEFT</p>
 
       {error ? <pre className="fed-error" role="alert">{error}</pre> : null}
 
