@@ -111,48 +111,51 @@ Website (Games Catalog): [games/index.html](https://diegopacheco.github.io/ai-pl
 33. **Rubik's Cube** — A colorful 3D cube built with CSS transforms, animated layer turns, scrambling and automatic solving in one HTML file.
     [pocs/cc-fable-5-rubiks-cube-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/cc-fable-5-rubiks-cube-poc)
 
+34. **Riverlight Poker School** — A light-themed Texas Hold'em learning app (Python + Django) that teaches the deck, hand strength, equity and street-by-street decisions, with heads-up play against local CLI agents.
+    [pocs/gpt-5.6-sol-assisted-poker](https://github.com/diegopacheco/ai-playground/tree/main/pocs/gpt-5.6-sol-assisted-poker)
+
 ## Reinforcement Learning Games (AI learns to play)
 
-34. **Flappy Bird RL** — A reinforcement-learning agent trained to play Flappy Bird.
+35. **Flappy Bird RL** — A reinforcement-learning agent trained to play Flappy Bird.
     [pocs/reinforcement-learning-FlappyBird](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-FlappyBird)
 
-35. **Pacman RL** — A reinforcement-learning agent trained to play Pacman.
+36. **Pacman RL** — A reinforcement-learning agent trained to play Pacman.
     [pocs/reinforcement-learning-Pacman](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-Pacman)
 
-36. **Boxing RL** — A reinforcement-learning agent trained to play Atari Boxing.
+37. **Boxing RL** — A reinforcement-learning agent trained to play Atari Boxing.
     [pocs/reinforcement-learning-Boxing](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-Boxing)
 
-37. **Car Racing RL** — A reinforcement-learning agent trained to drive in Car Racing.
+38. **Car Racing RL** — A reinforcement-learning agent trained to drive in Car Racing.
     [pocs/reinforcement-learning-CarRacing](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-CarRacing)
 
-38. **CartPole RL** — A reinforcement-learning agent trained to balance the CartPole.
+39. **CartPole RL** — A reinforcement-learning agent trained to balance the CartPole.
     [pocs/reinforcement-learning-CartPole](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-CartPole)
 
-39. **Lunar Lander RL** — A reinforcement-learning agent trained to land in Lunar Lander.
+40. **Lunar Lander RL** — A reinforcement-learning agent trained to land in Lunar Lander.
     [pocs/reinforcement-learning-LunarLander](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-LunarLander)
 
-40. **Mario Double DQN** — A Double Deep Q-Network PyTorch agent trained to play Super Mario Bros.
+41. **Mario Double DQN** — A Double Deep Q-Network PyTorch agent trained to play Super Mario Bros.
     [pocs/pytorch-double-deep-q-networks-mario-rl-agent](https://github.com/diegopacheco/ai-playground/tree/main/pocs/pytorch-double-deep-q-networks-mario-rl-agent)
 
 ## Simple POCs
 
-41. **Rock Paper Scissors** — A web rock paper scissors game built with React 19 and Bun, with animations and persistent score tracking.
+42. **Rock Paper Scissors** — A web rock paper scissors game built with React 19 and Bun, with animations and persistent score tracking.
     [pocs/kiro-sdd-game-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/kiro-sdd-game-poc)
 
-42. **Paper Cizer Rock** — A React web game for quick Paper, Cizer, Rock rounds against the house.
+43. **Paper Cizer Rock** — A React web game for quick Paper, Cizer, Rock rounds against the house.
     [pocs/codex-gpt-5.5-high-paper-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-gpt-5.5-high-paper-game)
 
-43. **Rock · Paper · Scissors** — A single-file React Rock-Paper-Scissors game running via CDN, no build step.
+44. **Rock · Paper · Scissors** — A single-file React Rock-Paper-Scissors game running via CDN, no build step.
     [pocs/opus-4.7-high-paper-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/opus-4.7-high-paper-game)
 
-44. **Rock Paper Sizer** — A React Rock-Paper-Scissors game with round results, score tracking and win rate against the CPU.
+45. **Rock Paper Sizer** — A React Rock-Paper-Scissors game with round results, score tracking and win rate against the CPU.
     [pocs/openai-codex-5.3-poc-fun](https://github.com/diegopacheco/ai-playground/tree/main/pocs/openai-codex-5.3-poc-fun)
 
-45. **Codex Tetris** — A classic Tetris with a configurable admin panel for themes, difficulty and timeouts, built with the Codex Mac app.
+46. **Codex Tetris** — A classic Tetris with a configurable admin panel for themes, difficulty and timeouts, built with the Codex Mac app.
     [pocs/codex-app-agent-fun](https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-app-agent-fun)
 
-46. **Cursor Tetris** — A full-stack Tetris with a React + Vite frontend and a Rust + Actix backend, built with Cursor v3.
+47. **Cursor Tetris** — A full-stack Tetris with a React + Vite frontend and a Rust + Actix backend, built with Cursor v3.
     [pocs/cursor-v3-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/cursor-v3-poc)
 
-47. **SUPERBLUE** — A local-first browser SNES player with drag-and-drop cartridges, box-art matching, save states, gamepads and fullscreen play.
+48. **SUPERBLUE** — A local-first browser SNES player with drag-and-drop cartridges, box-art matching, save states, gamepads and fullscreen play.
     [pocs/snes-emu](https://github.com/diegopacheco/ai-playground/tree/main/pocs/snes-emu)
