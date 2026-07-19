@@ -1669,11 +1669,6 @@ body {
     color: var(--ink);
 }
 
-.deck-card:hover ~ .deck-card,
-.deck-card:focus ~ .deck-card {
-    transform: translateX(15px) rotateY(-7deg);
-}
-
 .card-corner {
     position: absolute;
     top: 8px;
@@ -2546,11 +2541,6 @@ body {
         margin-left: -16px;
     }
 
-    .deck-card:hover ~ .deck-card,
-    .deck-card:focus ~ .deck-card {
-        transform: translateX(7px) rotateY(-7deg);
-    }
-
     .deck-card:hover,
     .deck-card:focus,
     .showcase-card:hover,
@@ -2692,17 +2682,18 @@ body {
 .hand-fan > .showcase-card {
     --dock-scale: 1;
     --dock-lift: 0px;
-    --dock-shift: 0px;
-    --dock-turn: 0deg;
-    --dock-shadow-y: 13px;
-    --dock-shadow-blur: 18px;
     color: var(--ink);
     background: #fff;
     filter: none;
-    transform: translateX(var(--dock-shift)) translateY(calc(0px - var(--dock-lift))) perspective(700px) rotateX(1.5deg) rotateY(var(--dock-turn)) scale(var(--dock-scale));
-    box-shadow: 0 var(--dock-shadow-y) var(--dock-shadow-blur) rgba(27, 37, 30, .18), 0 1px 0 rgba(255, 255, 255, .9) inset;
-    transition: transform .075s cubic-bezier(.2, .8, .2, 1), box-shadow .1s ease;
-    animation-fill-mode: backwards;
+    transform: translate3d(0, calc(0px - var(--dock-lift)), 0) scale(var(--dock-scale));
+    box-shadow: 0 12px 18px rgba(27, 37, 30, .16), 0 1px 0 rgba(255, 255, 255, .9) inset;
+    transition: transform .12s cubic-bezier(.2, .8, .2, 1), box-shadow .12s ease;
+    animation: none;
+}
+
+.dock-active > .deck-card,
+.dock-active > .showcase-card {
+    transition: none;
 }
 
 .suit-lane.red .card-fan > .deck-card,

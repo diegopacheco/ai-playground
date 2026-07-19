@@ -43,31 +43,47 @@ document.addEventListener("submit", async (event) => {
 if (matchMedia("(hover: hover)").matches) {
     document.querySelectorAll(".card-fan, .hand-fan").forEach((group) => {
         const cards = [...group.querySelectorAll(".deck-card, .showcase-card")]
-        group.addEventListener("pointermove", (event) => {
-            const pointer = event.clientX - group.getBoundingClientRect().left + group.scrollLeft
-            cards.forEach((card) => {
-                const center = card.offsetLeft + card.offsetWidth / 2
-                const distance = pointer - center
-                const influence = Math.max(0, 1 - Math.abs(distance) / 175)
-                const curve = influence * influence
-                card.style.setProperty("--dock-scale", `${1 + curve * 0.56}`)
-                card.style.setProperty("--dock-lift", `${curve * 38}px`)
-                card.style.setProperty("--dock-shift", `${-Math.sign(distance) * curve * 12}px`)
-                card.style.setProperty("--dock-turn", `${distance / 175 * curve * 5}deg`)
-                card.style.setProperty("--dock-shadow-y", `${13 + curve * 22}px`)
-                card.style.setProperty("--dock-shadow-blur", `${18 + curve * 30}px`)
+        let centers = []
+        let pointer = 0
+        let frame = 0
+        let groupLeft = 0
+        const measure = () => {
+            centers = cards.map((card) => card.offsetLeft + card.offsetWidth / 2)
+        }
+        const render = () => {
+            cards.forEach((card, index) => {
+                const distance = Math.abs(pointer - centers[index])
+                const influence = Math.max(0, 1 - distance / 145)
+                const curve = (1 - Math.cos(influence * Math.PI)) / 2
+                card.style.setProperty("--dock-scale", `${1 + curve * 0.36}`)
+                card.style.setProperty("--dock-lift", `${curve * 26}px`)
                 card.style.zIndex = `${Math.round(curve * 100)}`
             })
+            frame = 0
+        }
+        group.addEventListener("pointerenter", () => {
+            measure()
+            groupLeft = group.getBoundingClientRect().left
+            group.classList.add("dock-active")
+        })
+        group.addEventListener("pointermove", (event) => {
+            pointer = event.clientX - groupLeft + group.scrollLeft
+            if (!frame) {
+                frame = requestAnimationFrame(render)
+            }
         })
         group.addEventListener("pointerleave", () => {
-            cards.forEach((card) => {
-                card.style.removeProperty("--dock-scale")
-                card.style.removeProperty("--dock-lift")
-                card.style.removeProperty("--dock-shift")
-                card.style.removeProperty("--dock-turn")
-                card.style.removeProperty("--dock-shadow-y")
-                card.style.removeProperty("--dock-shadow-blur")
-                card.style.removeProperty("z-index")
+            if (frame) {
+                cancelAnimationFrame(frame)
+                frame = 0
+            }
+            group.classList.remove("dock-active")
+            requestAnimationFrame(() => {
+                cards.forEach((card) => {
+                    card.style.removeProperty("--dock-scale")
+                    card.style.removeProperty("--dock-lift")
+                    card.style.removeProperty("z-index")
+                })
             })
         })
     })
