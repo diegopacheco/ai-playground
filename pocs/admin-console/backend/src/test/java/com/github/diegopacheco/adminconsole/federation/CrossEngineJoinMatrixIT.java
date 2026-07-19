@@ -103,6 +103,24 @@ class CrossEngineJoinMatrixIT {
     }
 
     @Test
+    void redisJoinsOnBareScalarValuesButNeverOnAJsonDocument() {
+        assertThat(run("""
+                SELECT r.value, oi.sku
+                FROM demo-redis.counter:visits r
+                JOIN demo-postgres.order_items oi ON r.value = oi.id
+                LIMIT 5""").rows()).hasSize(1);
+
+        FederatedExecutor.Result blob = run("""
+                SELECT c.value, oi.sku
+                FROM demo-redis.cache:customer:1 c
+                JOIN demo-postgres.order_items oi ON c.value = oi.id
+                LIMIT 5""");
+
+        assertThat(blob.rows()).isEmpty();
+        assertThat(blob.diagnostic()).contains("{\"id\":1");
+    }
+
+    @Test
     void timestampsNeverMatchAcrossEnginesBecauseEachFormatsThemDifferently() {
         FederatedExecutor.Result result = run("""
                 SELECT o.placed_at, i.issued_at
