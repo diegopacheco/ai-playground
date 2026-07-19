@@ -1484,12 +1484,13 @@ body {
 }
 
 .suit-lane {
+    position: relative;
     min-width: 0;
     padding: 22px 26px 25px;
     display: grid;
     grid-template-columns: 150px minmax(0, 1fr);
     align-items: center;
-    overflow: hidden;
+    overflow: visible;
     color: var(--green-deep);
     background:
         linear-gradient(110deg, rgba(207, 226, 211, .64), rgba(255, 255, 255, .78) 45%),
@@ -1497,6 +1498,13 @@ body {
     border: 1px solid rgba(24, 32, 27, .12);
     border-radius: 18px;
     box-shadow: 0 12px 30px rgba(27, 59, 40, .055);
+    transition: z-index 0s, box-shadow .25s;
+}
+
+.suit-lane:has(.deck-card:hover),
+.suit-lane:has(.deck-card:focus) {
+    z-index: 20;
+    box-shadow: 0 22px 48px rgba(27, 47, 35, .15);
 }
 
 .suit-lane.red {
@@ -1556,6 +1564,11 @@ body {
 
 .deck-card,
 .showcase-card {
+    --rx: 0deg;
+    --ry: 0deg;
+    --mx: 50%;
+    --my: 50%;
+    --sx: 0px;
     position: relative;
     isolation: isolate;
     flex: 0 0 auto;
@@ -1577,6 +1590,7 @@ body {
     animation: card-arrive .65s cubic-bezier(.18, .8, .2, 1) both;
     animation-delay: calc(var(--i) * 38ms);
     cursor: pointer;
+    will-change: transform, box-shadow;
 }
 
 .deck-card::before,
@@ -1587,7 +1601,9 @@ body {
     z-index: 3;
     pointer-events: none;
     opacity: 0;
-    background: linear-gradient(105deg, transparent 34%, rgba(180, 211, 220, .16) 41%, rgba(255, 255, 255, .98) 49%, rgba(255, 222, 176, .42) 54%, rgba(180, 211, 220, .3) 59%, transparent 66%);
+    background:
+        radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, .94), rgba(206, 226, 233, .28) 16%, transparent 34%),
+        linear-gradient(105deg, transparent 34%, rgba(180, 211, 220, .16) 41%, rgba(255, 255, 255, .9) 49%, rgba(255, 222, 176, .38) 54%, rgba(180, 211, 220, .26) 59%, transparent 66%);
     transform: translateX(-55%) rotate(7deg);
 }
 
@@ -1599,10 +1615,13 @@ body {
 .showcase-card::after {
     content: "";
     position: absolute;
-    inset: 5px;
+    inset: 4px -7px -9px 7px;
     z-index: -1;
-    border: 1px solid rgba(40, 101, 70, .07);
-    border-radius: 5px;
+    background: linear-gradient(135deg, #edf0eb, #aeb6af);
+    border: 1px solid rgba(22, 30, 25, .24);
+    border-radius: 8px;
+    box-shadow: 5px 8px 13px rgba(19, 31, 23, .2);
+    transform: translateZ(-9px);
 }
 
 .deck-card:hover,
@@ -1611,14 +1630,15 @@ body {
 .showcase-card:focus {
     z-index: 30;
     outline: 0;
-    transform: translateY(-25px) rotateY(10deg) rotateZ(-2deg) scale(1.28);
+    filter: brightness(1.035) contrast(1.025);
+    transform: perspective(620px) translateY(-34px) translateZ(52px) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(-1deg) scale(1.4);
     box-shadow:
         1px 1px 0 #d5d9d2,
-        5px 6px 0 #aeb9ad,
+        7px 9px 0 #aeb9ad,
         0 0 0 3px rgba(255, 255, 255, .92),
-        0 0 18px rgba(169, 195, 207, .58),
-        0 0 34px rgba(255, 219, 169, .32),
-        19px 32px 42px rgba(25, 53, 35, .3);
+        0 0 20px rgba(169, 195, 207, .62),
+        0 0 38px rgba(255, 219, 169, .34),
+        var(--sx) 42px 52px rgba(17, 31, 22, .38);
 }
 
 .deck-card:hover::before,
@@ -1728,19 +1748,25 @@ body {
 }
 
 .ranking-row {
+    position: relative;
     min-height: 250px;
     padding: 28px;
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-rows: auto 1fr;
     gap: 22px;
-    overflow: hidden;
+    overflow: visible;
     background:
         radial-gradient(circle at 77% 50%, rgba(210, 228, 213, .7), transparent 33%),
         rgba(255, 255, 255, .68);
     border: 1px solid rgba(24, 32, 27, .12);
     border-radius: 18px;
     box-shadow: 0 11px 28px rgba(27, 59, 40, .05);
+}
+
+.ranking-row:has(.showcase-card:hover),
+.ranking-row:has(.showcase-card:focus) {
+    z-index: 20;
 }
 
 .ranking-row:hover {
@@ -2529,7 +2555,7 @@ body {
     .deck-card:focus,
     .showcase-card:hover,
     .showcase-card:focus {
-        transform: translateY(-17px) rotateY(8deg) rotateZ(-1deg) scale(1.16);
+        transform: perspective(620px) translateY(-20px) translateZ(30px) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(-1deg) scale(1.2);
     }
 
     .ace-note {
@@ -2653,5 +2679,93 @@ body {
 
     .equity-reveal.open {
         grid-template-columns: 1fr;
+    }
+}
+
+.card-fan,
+.hand-fan {
+    padding-top: 48px;
+    padding-bottom: 34px;
+}
+
+.card-fan > .deck-card,
+.hand-fan > .showcase-card {
+    --dock-scale: 1;
+    --dock-lift: 0px;
+    --dock-shift: 0px;
+    --dock-turn: 0deg;
+    --dock-shadow-y: 13px;
+    --dock-shadow-blur: 18px;
+    color: var(--ink);
+    background: #fff;
+    filter: none;
+    transform: translateX(var(--dock-shift)) translateY(calc(0px - var(--dock-lift))) perspective(700px) rotateX(1.5deg) rotateY(var(--dock-turn)) scale(var(--dock-scale));
+    box-shadow: 0 var(--dock-shadow-y) var(--dock-shadow-blur) rgba(27, 37, 30, .18), 0 1px 0 rgba(255, 255, 255, .9) inset;
+    transition: transform .16s cubic-bezier(.2, .8, .2, 1), box-shadow .18s ease;
+    animation-fill-mode: backwards;
+}
+
+.suit-lane.red .card-fan > .deck-card,
+.hand-fan > .showcase-card.red-card {
+    color: var(--red);
+}
+
+.card-fan > .deck-card::before,
+.hand-fan > .showcase-card::before {
+    inset: 0;
+    opacity: 0;
+    background: linear-gradient(125deg, rgba(255, 255, 255, .95), transparent 34%, transparent 68%, rgba(227, 232, 230, .6));
+    border-radius: inherit;
+    transform: none;
+    transition: opacity .18s ease;
+}
+
+.card-fan > .deck-card:hover::before,
+.card-fan > .deck-card:focus::before,
+.hand-fan > .showcase-card:hover::before,
+.hand-fan > .showcase-card:focus::before {
+    opacity: .72;
+    animation: none;
+}
+
+.card-fan > .deck-card::after,
+.hand-fan > .showcase-card::after {
+    inset: 4px;
+    background: transparent;
+    border: 1px solid rgba(20, 27, 23, .055);
+    border-radius: 6px;
+    box-shadow: none;
+    transform: none;
+}
+
+.card-fan > .deck-card:hover > em,
+.card-fan > .deck-card:focus > em,
+.hand-fan > .showcase-card:hover > em,
+.hand-fan > .showcase-card:focus > em {
+    color: inherit;
+    transform: translate(-50%, -50%) scale(1.08);
+    text-shadow: 0 3px 8px rgba(24, 32, 27, .12);
+}
+
+.card-fan > .deck-card:focus,
+.hand-fan > .showcase-card:focus {
+    --dock-scale: 1.5;
+    --dock-lift: 36px;
+    z-index: 100;
+    outline: 3px solid rgba(57, 91, 70, .24);
+    outline-offset: 4px;
+}
+
+@media (max-width: 720px) {
+    .card-fan,
+    .hand-fan {
+        padding-top: 30px;
+        padding-bottom: 24px;
+    }
+
+    .card-fan > .deck-card:focus,
+    .hand-fan > .showcase-card:focus {
+        --dock-scale: 1.18;
+        --dock-lift: 14px;
     }
 }
