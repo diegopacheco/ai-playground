@@ -23,6 +23,9 @@ public class FederatedQueryParser {
 
     private static final Pattern LIMIT_CLAUSE = Pattern.compile("\\bLIMIT\\s+(\\S+)\\s*$", Pattern.CASE_INSENSITIVE);
 
+    private static final Pattern ON_CONDITION = Pattern.compile(
+            "\\bON\\s+(.+?)(?:\\s+(?:LEFT\\s+JOIN|INNER\\s+JOIN|JOIN|LIMIT)\\b|$)", Pattern.CASE_INSENSITIVE);
+
     private static final int DEFAULT_LIMIT = 100;
     private static final int MAX_LIMIT = 1000;
     static final int MAX_SIDES = 5;
@@ -65,6 +68,14 @@ public class FederatedQueryParser {
 
         if (joins.isEmpty()) {
             throw new IllegalArgumentException(diagnose(normalized));
+        }
+
+        Matcher condition = ON_CONDITION.matcher(normalized);
+        while (condition.find()) {
+            String written = condition.group(1).trim();
+            if (written.toUpperCase().contains(" AND ") || written.toUpperCase().contains(" OR ")) {
+                throw new IllegalArgumentException("only one equality is supported per ON — got: " + written);
+            }
         }
 
         Set<String> aliases = new LinkedHashSet<>();
@@ -141,8 +152,7 @@ public class FederatedQueryParser {
         if (!Pattern.compile("\\bON\\b", Pattern.CASE_INSENSITIVE).matcher(normalized).find()) {
             return "a JOIN has no ON clause — add ON <alias>.<column> = <alias>.<column>";
         }
-        Matcher on = Pattern.compile("\\bON\\s+(.+?)(?:\\s+(?:LEFT\\s+JOIN|INNER\\s+JOIN|JOIN|LIMIT)\\b|$)",
-                Pattern.CASE_INSENSITIVE).matcher(normalized);
+        Matcher on = ON_CONDITION.matcher(normalized);
         if (on.find()) {
             String condition = on.group(1).trim();
             if (condition.toUpperCase().contains(" AND ") || condition.toUpperCase().contains(" OR ")) {
