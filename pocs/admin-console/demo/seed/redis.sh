@@ -9,6 +9,9 @@ run SET counter:visits 4821
 for index in $(seq 1 60); do
   run SET "cache:customer:$index" "{\"id\":$index,\"name\":\"Customer $index\"}"
 done
+for index in $(seq 1 40); do
+  run HSET customer:emails "$index" "customer$index@example.com"
+done
 run HSET session:abc123 user "diego" ip "10.0.0.7" agent "firefox" expires "3600"
 run HSET session:def456 user "reader" ip "10.0.0.9" agent "chrome" expires "1800"
 run RPUSH queue:emails "welcome:1" "welcome:2" "receipt:3" "receipt:4" "digest:5"

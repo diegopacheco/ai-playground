@@ -103,6 +103,29 @@ class CrossEngineJoinMatrixIT {
     }
 
     @Test
+    void joinsFiveEnginesInOneQueryWithRedisCarryingTheCustomerId() {
+        FederatedExecutor.Result result = run("""
+                SELECT a.customer_id, b.sku, c.partition, d.id, e.value
+                FROM demo-cassandra.events_by_customer a
+                JOIN demo-elasticsearch.products b ON a.customer_id = b._id
+                JOIN demo-kafka.audit.log c ON a.customer_id = c.offset
+                JOIN demo-mysql.invoices d ON a.customer_id = d.id
+                JOIN demo-redis.customer:emails e ON a.customer_id = e.field
+                LIMIT 25""");
+
+        assertThat(result.rows()).hasSize(25);
+        assertThat(result.diagnostic()).isNull();
+        assertThat(result.sides()).extracting(FederatedExecutor.SideResult::kind)
+                .containsExactly("cassandra", "elasticsearch", "kafka", "mysql", "redis");
+        assertThat(result.rows()).allSatisfy(row -> {
+            String customer = String.valueOf(row.get("a.customer_id"));
+            assertThat(row.get("b.sku")).isEqualTo("SKU-" + String.format("%04d", Integer.parseInt(customer)));
+            assertThat(row.get("d.id")).isEqualTo(customer);
+            assertThat(row.get("e.value")).isEqualTo("customer" + customer + "@example.com");
+        });
+    }
+
+    @Test
     void redisJoinsOnBareScalarValuesButNeverOnAJsonDocument() {
         assertThat(run("""
                 SELECT r.value, oi.sku
