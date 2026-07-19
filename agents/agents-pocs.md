@@ -579,3 +579,6 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/auth0lab-openfga-ag
 
 121 - Gemini FIFA Tracker <br/>
 https://github.com/diegopacheco/ai-playground/tree/main/pocs/gemini-fifa-tracker
+
+122 - Dev Admin Console: read-only console for Cassandra, MySQL, Postgres, Redis, etcd, Kafka and Elasticsearch <br/>
+https://github.com/diegopacheco/ai-playground/tree/main/pocs/dev-admin-console
