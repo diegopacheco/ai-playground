@@ -1,0 +1,76 @@
+- generic [ref=f2e2]:
+  - banner [ref=f2e3]:
+    - generic [ref=f2e4]: Dev Admin Console
+    - button "Open the go-to-page palette" [ref=f2e5] [cursor=pointer]:
+      - generic [ref=f2e6]: go to…
+      - generic [ref=f2e7]: ⌘K
+    - navigation [ref=f2e8]:
+      - link "consoles" [ref=f2e9] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f2e10]: ▤
+      - link "cross-join" [ref=f2e12] [cursor=pointer]:
+        - /url: /join
+        - generic [ref=f2e13]: ⋈
+      - link "trace" [ref=f2e15] [cursor=pointer]:
+        - /url: /trace
+        - generic [ref=f2e16]: ◈
+      - link "audit" [ref=f2e18] [cursor=pointer]:
+        - /url: /audit-trail
+        - generic [ref=f2e19]: ◷
+      - link "discovery" [ref=f2e21] [cursor=pointer]:
+        - /url: /discovery
+        - generic [ref=f2e22]: ◇
+      - group [ref=f2e24]:
+        - generic "config" [ref=f2e25] [cursor=pointer]: ⚙
+  - generic [ref=f2e30]:
+    - heading "projects" [level=2] [ref=f2e32]
+    - generic [ref=f2e33]:
+      - heading "new project" [level=2] [ref=f2e34]
+      - generic [ref=f2e35]:
+        - textbox "project name" [ref=f2e36]
+        - button "create" [ref=f2e37] [cursor=pointer]
+    - generic [ref=f2e38]:
+      - heading "new connection" [level=2] [ref=f2e39]
+      - generic [ref=f2e40]:
+        - generic [ref=f2e41]:
+          - text: project
+          - combobox "project" [ref=f2e42]
+        - generic [ref=f2e43]:
+          - text: kind
+          - combobox "kind" [ref=f2e44]:
+            - option "postgres" [selected]
+            - option "mysql"
+            - option "cassandra"
+            - option "redis"
+            - option "etcd"
+            - option "kafka"
+            - option "elasticsearch"
+        - generic [ref=f2e45]:
+          - text: name
+          - textbox "name" [ref=f2e46]
+        - generic [ref=f2e47]:
+          - text: host
+          - textbox "host" [ref=f2e48]: localhost
+        - generic [ref=f2e49]:
+          - text: port
+          - spinbutton "port" [ref=f2e50]: "5432"
+        - generic [ref=f2e51]:
+          - text: database
+          - textbox "database" [ref=f2e52]
+        - generic [ref=f2e53]:
+          - text: keyspace / schema
+          - textbox "keyspace / schema" [ref=f2e54]
+        - generic [ref=f2e55]:
+          - text: datacenter
+          - textbox "datacenter" [ref=f2e56]
+        - generic [ref=f2e57]:
+          - text: username
+          - textbox "username" [ref=f2e58]
+        - generic [ref=f2e59]:
+          - text: password
+          - textbox "password" [ref=f2e60]
+        - button "add connection" [ref=f2e61] [cursor=pointer]
+      - paragraph [ref=f2e62]:
+        - text: Use a database account granted only
+        - code [ref=f2e63]: SELECT
+        - text: . The console refuses writes, but a read-only account is the layer that still holds if that check is ever bypassed.
