@@ -1,0 +1,238 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical Texas Hold'em learning table with cards, odds, guided hands, and CLI agent opponents.">
+    <title>Riverlight Poker School</title>
+    <link rel="stylesheet" href="{% static 'academy/style.css' %}">
+    <script src="{% static 'academy/app.js' %}" defer></script>
+</head>
+<body>
+    <div class="page-shell">
+        <header class="masthead">
+            <a class="brand" href="{% url 'home' %}">
+                <span class="brand-mark"><span>R</span><i>♣</i></span>
+                <span><strong>Riverlight</strong><small>Poker school</small></span>
+            </a>
+            <p class="masthead-note">Read the table.<br>Play the odds.</p>
+        </header>
+
+        <nav class="tabs" aria-label="Learning sections">
+            <a href="?tab=cards" class="tab {% if tab == 'cards' %}active{% endif %}"><span>01</span> Cards & hands</a>
+            <a href="?tab=simulation" class="tab {% if tab == 'simulation' %}active{% endif %}"><span>02</span> Guided hand</a>
+            <a href="?tab=ai" class="tab {% if tab == 'ai' %}active{% endif %}"><span>03</span> Agent table</a>
+        </nav>
+
+        <main>
+            {% if tab == 'cards' %}
+                <section class="hero cards-hero reveal">
+                    <div>
+                        <p class="eyebrow">Your first session starts here</p>
+                        <h1>See the hand.<br>Make the move.</h1>
+                    </div>
+                    <div class="hero-copy">
+                        <p>Learn every card, recognize every made hand, and understand what each table action means before chips are at risk.</p>
+                        <div class="quick-facts"><span><b>52</b><small>cards</small></span><span><b>10</b><small>hand ranks</small></span><span><b>4</b><small>core moves</small></span></div>
+                    </div>
+                </section>
+
+                <section class="deck-index reveal delay-1" aria-labelledby="deck-title">
+                    <div class="section-heading">
+                        <div><p class="eyebrow">Four suits · thirteen ranks</p><h2 id="deck-title">The deck at a glance</h2></div>
+                        <p>Move over a card to lift it from the deck. Rank rises from two to ace. All four suits carry equal value.</p>
+                    </div>
+                    <div class="suit-showcase">
+                        {% for suit in suits %}
+                            <article class="suit-lane {% if suit.red %}red{% endif %}">
+                                <div class="suit-heading"><span class="suit-medallion">{{ suit.symbol }}</span><span><b>{{ suit.name }}</b><small>Two through ace</small></span></div>
+                                <div class="card-fan" aria-label="{{ suit.name }} cards">
+                                    {% for rank in ranks %}
+                                        <span class="deck-card" style="--i: {{ forloop.counter0 }}" tabindex="0">
+                                            <span class="card-corner"><b>{{ rank }}</b><i>{{ suit.symbol }}</i></span>
+                                            <em>{{ suit.symbol }}</em>
+                                            <span class="card-corner bottom"><b>{{ rank }}</b><i>{{ suit.symbol }}</i></span>
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </div>
+                    <div class="ace-note"><span>A</span><p><b>The ace has two jobs.</b> It is the highest rank in most hands and the lowest card in an A–2–3–4–5 straight.</p></div>
+                </section>
+
+                <section class="ranking-section reveal delay-2" aria-labelledby="rankings-title">
+                    <div class="section-heading">
+                        <div><p class="eyebrow">Strongest to weakest</p><h2 id="rankings-title">The ten hand ranks</h2></div>
+                        <p>The chance shown is the frequency of being dealt that exact five-card category from a fully shuffled deck.</p>
+                    </div>
+                    <div class="ranking-list">
+                        {% for hand in rankings %}
+                            <article class="ranking-row">
+                                <div class="rank-identity"><span class="rank-number">{{ forloop.counter|stringformat:"02d" }}</span><div class="rank-copy"><h3>{{ hand.name }}</h3><p>{{ hand.note }}</p></div></div>
+                                <div class="hand-fan" aria-label="{{ hand.name }}">
+                                    {% for card in hand.card_views %}
+                                        <span class="showcase-card {% if card.red %}red-card{% endif %}" style="--i: {{ forloop.counter0 }}" tabindex="0">
+                                            <span class="card-corner"><b>{{ card.rank }}</b><i>{{ card.suit }}</i></span>
+                                            <em>{{ card.suit }}</em>
+                                            <span class="card-corner bottom"><b>{{ card.rank }}</b><i>{{ card.suit }}</i></span>
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                                <div class="rank-odds"><small>Deal chance</small><strong>{{ hand.odds }}</strong></div>
+                            </article>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                {% include "academy/actions.html" %}
+
+                <section class="five-card-rule reveal"><span class="rule-number">5/7</span><div><p class="eyebrow">The final rule</p><h2>Seven cards are available.<br>The best five make your hand.</h2><p>A pair in your private cards is not automatically your final hand. The board may create a stronger shared combination.</p></div></section>
+            {% elif tab == 'simulation' %}
+                <div id="simulation-play-area" data-live-area aria-live="polite">
+                <section class="worktop reveal">
+                    <div class="lesson-panel">
+                        <div class="lesson-progress"><p class="eyebrow">Guided hand · {{ sim_street }}</p><span>Step {{ sim_step }} of 4</span></div>
+                        <h1>{{ sim_hand_name }}</h1>
+                        <p class="stage-copy">{{ sim_stage_copy }}</p>
+                        {% if sim_delta is not None %}<p class="equity-shift {% if sim_delta >= 0 %}up{% else %}down{% endif %}"><b>{% if sim_delta >= 0 %}+{% endif %}{{ sim_delta }} points</b> since the previous street. The new shared card changed the hands you can make and the ranges that can beat you.</p>{% endif %}
+                        <div class="equity-block">
+                            <div class="equity-number"><strong>{{ sim_chance }}</strong><span>%</span></div>
+                            <div class="equity-copy"><small>Estimated chance to win</small><div class="meter"><i style="width: {{ sim_chance }}%"></i></div><p>Against one random hand, including half the value of tied pots.</p></div>
+                        </div>
+                        <div class="coach-callout">
+                            <span class="coach-label">Your move</span>
+                            <h2>{{ sim_action }}</h2>
+                            <p>{{ sim_reason }}</p>
+                        </div>
+                    </div>
+
+                    <div class="table-panel">
+                        <div class="table-topline"><span>Community cards</span><span>{{ sim_street }}</span></div>
+                        <div class="community-cards">
+                            {% for card in sim_board %}
+                                {% include "academy/card.html" with card=card %}
+                            {% endfor %}
+                            {% for slot in "12345" %}
+                                {% if forloop.counter > sim_board|length %}<span class="card-slot"><i>{{ forloop.counter }}</i></span>{% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="felt-rule"><span></span><b>YOUR HAND</b><span></span></div>
+                        <div class="hole-cards">
+                            {% for card in sim_hero %}{% include "academy/card.html" with card=card %}{% endfor %}
+                        </div>
+                        <div class="table-actions">
+                            <form method="post" action="{% url 'simulation_new' %}">{% csrf_token %}<button class="button secondary" type="submit">Deal another hand</button></form>
+                            {% if not sim.complete %}<form method="post" action="{% url 'simulation_advance' %}">{% csrf_token %}<button class="button primary" type="submit">Follow advice · {% if sim.street == 0 %}See the flop{% elif sim.street == 1 %}See the turn{% elif sim.street == 2 %}See the river{% else %}Finish the hand{% endif %}<span>→</span></button></form>{% endif %}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="guided-journey reveal">
+                    <div class="journey-heading"><div><p class="eyebrow">Your complete line</p><h2>{% if sim.complete %}Hand review{% else %}Guidance that stays with you{% endif %}</h2></div><p>Every recommendation is kept here, so you can follow how the hand, equity, and best decision change from pre-flop through the river.</p></div>
+                    <div class="journey-track">
+                        {% for moment in sim_journey %}
+                            <article class="journey-step complete"><span>{{ forloop.counter|stringformat:"02d" }}</span><div class="journey-top"><small>{{ moment.street }}</small><strong>{{ moment.chance }}%</strong></div><h3>{{ moment.action }}</h3><p>{{ moment.reason }}</p><b>{{ moment.hand }}</b></article>
+                        {% endfor %}
+                        {% if not sim.complete %}<article class="journey-step current"><span>{{ sim_step|stringformat:"02d" }}</span><div class="journey-top"><small>{{ sim_street }} · now</small><strong>{{ sim_chance }}%</strong></div><h3>{{ sim_action }}</h3><p>{{ sim_reason }}</p><b>{{ sim_hand_name }}</b></article>{% endif %}
+                    </div>
+                    {% if sim.complete %}<div class="journey-finish"><div><span>✓</span><p><b>Four streets complete.</b> Review the changing advice above, then deal another hand to practice a different path.</p></div><form method="post" action="{% url 'simulation_new' %}">{% csrf_token %}<button class="button primary" type="submit">Start the next guided hand <span>→</span></button></form></div>{% endif %}
+                </section>
+                </div>
+
+                <section class="how-it-works reveal delay-1">
+                    <p class="eyebrow">How the number moves</p>
+                    <div class="logic-grid">
+                        <article><span>01</span><h3>Known cards</h3><p>Your private cards and every revealed community card are removed from the deck.</p></article>
+                        <article><span>02</span><h3>Possible runouts</h3><p>The trainer deals many unseen opponent hands and board completions from the cards left.</p></article>
+                        <article><span>03</span><h3>Showdown result</h3><p>Wins count fully and ties count halfway, producing a practical heads-up equity estimate.</p></article>
+                    </div>
+                </section>
+                {% include "academy/actions.html" with compact=True %}
+            {% else %}
+                <div id="ai-play-area" data-live-area aria-live="polite">
+                <section class="agent-header reveal">
+                    <div><p class="eyebrow">Heads-up · no coaching</p><h1>Pick an agent.<br>Play your hand.</h1><p class="agent-lead">Your agent sees only its own cards, the shared board, the pot, and legal moves. Your cards stay private.</p></div>
+                    <div class="agent-picker" data-agent-picker>
+                        {% for key, item in providers.items %}
+                            <form method="post" action="{% url 'provider_select' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="provider" value="{{ key }}">
+                                <button type="submit" class="agent-option {% if provider == key %}selected{% endif %}">
+                                    <span class="agent-orb">{{ item.label|first }}</span>
+                                    <span><strong>{{ item.label }}</strong><small>{% if key == 'codex' %}codex exec{% else %}{{ key }} -p{% endif %}</small></span>
+                                    <i>{% if provider == key %}Selected{% else %}Choose{% endif %}</i>
+                                </button>
+                            </form>
+                        {% endfor %}
+                        <p>Your choice is remembered for this browser session.</p>
+                    </div>
+                </section>
+
+                {% if not ai_game %}
+                    <section class="empty-table reveal delay-1">
+                        <div class="dealer-button">D</div>
+                        <div><p class="eyebrow">The table is ready</p><h2>Play the cards without hints.</h2><p>Your opponent reads the current street, pot, and its own estimated equity before choosing a move.</p></div>
+                        <form method="post" action="{% url 'ai_new' %}">{% csrf_token %}<button class="button primary" type="submit">Deal a hand <span>→</span></button></form>
+                    </section>
+                {% else %}
+                    <section class="game-layout reveal delay-1">
+                        <aside class="game-ledger">
+                            <div><p class="eyebrow">Hand ledger</p><h2>{{ ai_street }}</h2></div>
+                            <dl><div><dt>Pot</dt><dd>{{ ai_game.pot }}</dd></div><div><dt>Your stack</dt><dd>{{ ai_game.hero_stack }}</dd></div><div><dt>{{ ai_provider_label }} stack</dt><dd>{{ ai_game.villain_stack }}</dd></div></dl>
+                            <ol class="history">{% for line in ai_game.history %}<li>{{ line }}</li>{% endfor %}</ol>
+                            <form method="post" action="{% url 'ai_new' %}">{% csrf_token %}<button class="text-button" type="submit">Start a new hand</button></form>
+                        </aside>
+                        <div class="poker-table">
+                            <div class="opponent-seat">
+                                <div class="avatar">{{ ai_provider_label|first }}</div><div><strong>{{ ai_provider_label }}</strong><small>CLI opponent</small></div>
+                                {% if ai_game.finished %}<div class="small-cards">{% for card in ai_villain %}{% include "academy/card.html" with card=card compact=True %}{% endfor %}</div>{% else %}<div class="card-backs"><span></span><span></span></div>{% endif %}
+                            </div>
+                            <div class="board-area">
+                                <span class="pot-chip">POT {{ ai_game.pot }}</span>
+                                <div class="community-cards compact-board">
+                                    {% for card in ai_board %}{% include "academy/card.html" with card=card %}{% endfor %}
+                                    {% for slot in "12345" %}{% if forloop.counter > ai_board|length %}<span class="card-slot"><i></i></span>{% endif %}{% endfor %}
+                                </div>
+                            </div>
+                            <div class="player-seat">
+                                <div class="hole-cards small-cards">{% for card in ai_hero %}{% include "academy/card.html" with card=card %}{% endfor %}</div>
+                                <div><strong>You</strong><small>Stack {{ ai_game.hero_stack }}</small></div>
+                            </div>
+                        </div>
+                    </section>
+                    {% if ai_game.finished %}
+                        <section class="result-strip"><div><p class="eyebrow">Hand complete</p><h2>{{ ai_game.result }}</h2></div><form method="post" action="{% url 'ai_new' %}">{% csrf_token %}<button class="button primary" type="submit">Deal again <span>→</span></button></form></section>
+                    {% else %}
+                        <section class="equity-reveal {% if ai_equity %}open{% endif %}">
+                            {% if ai_equity %}
+                                <div class="equity-summary"><p class="eyebrow">Your chance to win</p><span><b>{{ ai_equity.equity }}</b>%</span><p>Against one unknown hand with {{ ai_equity.cards_to_come }} card{{ ai_equity.cards_to_come|pluralize }} still to come.</p></div>
+                                <div class="outcome-path">
+                                    <div class="outcome-bars"><span><b>Win</b><i><em style="width: {{ ai_equity.wins }}%"></em></i><strong>{{ ai_equity.wins }}%</strong></span><span><b>Tie</b><i><em style="width: {{ ai_equity.ties }}%"></em></i><strong>{{ ai_equity.ties }}%</strong></span><span><b>Lose</b><i><em style="width: {{ ai_equity.losses }}%"></em></i><strong>{{ ai_equity.losses }}%</strong></span></div>
+                                    <div class="route-copy"><small>{{ ai_equity.hand }} · {{ ai_equity.unseen }} unseen cards</small><ul>{% for route in ai_equity.routes %}<li>{{ route }}</li>{% endfor %}</ul><p>{{ ai_equity.samples }} possible opponent hands and board runouts were dealt. Wins count fully and ties count halfway.</p></div>
+                                </div>
+                            {% else %}
+                                <div><p class="eyebrow">Optional hand insight</p><h2>Want to see the math behind this spot?</h2><p>Open the probability path to see how this hand can win, tie, or lose.</p></div>
+                                <form method="post" action="{% url 'ai_reveal' %}">{% csrf_token %}<button class="reveal-button" type="submit"><span>Reveal your chance to win</span><b>↗</b></button></form>
+                            {% endif %}
+                        </section>
+                        <section class="action-bar">
+                            <div><p class="eyebrow">Action is on you</p><h2>{% if ai_game.to_call %}Match, increase, or leave?{% else %}Pass or apply pressure?{% endif %}</h2></div>
+                            <div class="move-buttons">
+                                <form method="post" action="{% url 'ai_move' %}">{% csrf_token %}<input type="hidden" name="action" value="fold"><button type="submit"><b>Fold</b><small>Give up this hand</small></button></form>
+                                {% if ai_game.to_call %}<form method="post" action="{% url 'ai_move' %}">{% csrf_token %}<input type="hidden" name="action" value="call"><button type="submit"><b>Call · {{ ai_game.to_call }}</b><small>Match the current bet</small></button></form>{% else %}<form method="post" action="{% url 'ai_move' %}">{% csrf_token %}<input type="hidden" name="action" value="check"><button type="submit"><b>Check</b><small>Stay without betting</small></button></form>{% endif %}
+                                <form method="post" action="{% url 'ai_move' %}">{% csrf_token %}<input type="hidden" name="action" value="raise"><button class="raise" type="submit"><b>Raise · 80</b><small>Increase the bet</small></button></form>
+                            </div>
+                        </section>
+                    {% endif %}
+                    {% include "academy/actions.html" with compact=True %}
+                {% endif %}
+                </div>
+            {% endif %}
+        </main>
+
+        <footer><span>Riverlight Poker School</span><span>Texas Hold’em · Heads-up learning</span><span>Practice the decision, not the result.</span></footer>
+    </div>
+</body>
+</html>
