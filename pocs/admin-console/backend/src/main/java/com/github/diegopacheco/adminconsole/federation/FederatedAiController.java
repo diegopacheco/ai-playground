@@ -28,7 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class FederatedAiController {
     public record AskRequest(@NotBlank String prompt) {}
 
-    private static final int MAX_SOURCES = 24;
+    private static final int MAX_SOURCES = 56;
+    private static final int MAX_SOURCES_PER_CONNECTION = 8;
     private static final int MAX_COLUMNS = 24;
 
     private final ConnectionRepository connections;
@@ -75,9 +76,10 @@ public class FederatedAiController {
 
         List<PromptBuilder.FederatedSource> sources = new ArrayList<>();
         for (ConnectionConfig connection : available) {
+            int taken = 0;
             try {
                 for (SchemaNode node : engines.of(connection.kind()).schema(connection)) {
-                    if (sources.size() >= MAX_SOURCES) {
+                    if (sources.size() >= MAX_SOURCES || taken++ >= MAX_SOURCES_PER_CONNECTION) {
                         break;
                     }
                     List<String> columns = new ArrayList<>(synthetic(connection.kind()));

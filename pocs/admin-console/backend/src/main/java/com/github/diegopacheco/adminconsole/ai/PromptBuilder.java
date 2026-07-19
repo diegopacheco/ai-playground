@@ -40,11 +40,15 @@ public class PromptBuilder {
                 Grammar — exactly this shape, nothing else:
                   SELECT <alias>.<column>, ... FROM <connection>.<source> <alias>
                   JOIN <connection>.<source> <alias> ON <alias>.<column> = <alias>.<column>
+                  [JOIN <connection>.<source> <alias> ON <alias>.<column> = <alias>.<column>] ...
                   LIMIT <n>
 
                 Rules:
-                - The two sides must be different connections.
-                - Only one equality join. INNER or LEFT only. No GROUP BY, no aggregation, no subqueries.
+                - Up to 5 sources may be joined, so up to 4 JOIN clauses. Two sources is the minimum.
+                - Sources may come from the same connection or from different ones.
+                - Each JOIN carries exactly one equality, and it must compare the source being
+                  joined to an alias introduced earlier in the query.
+                - INNER or LEFT only. No GROUP BY, no aggregation, no subqueries.
                 - Every projected column must be qualified with its alias.
                 - Use only the connection names, sources and columns listed below. Never invent one.
                 - Join keys must be columns that actually exist on their side and hold comparable values.

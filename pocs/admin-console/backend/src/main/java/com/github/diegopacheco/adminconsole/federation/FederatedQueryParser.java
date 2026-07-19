@@ -85,7 +85,22 @@ public class FederatedQueryParser {
             limit = Math.min(Integer.parseInt(value), MAX_LIMIT);
         }
 
-        return new FederatedQuery(projection, sides, joins, limit);
+        List<String> qualified = new ArrayList<>();
+        for (String selected : projection) {
+            int dot = selected.indexOf('.');
+            qualified.add(dot <= 0 ? selected
+                    : canonicalAlias(selected.substring(0, dot), sides) + selected.substring(dot));
+        }
+
+        return new FederatedQuery(qualified, sides, joins, limit);
+    }
+
+    private String canonicalAlias(String alias, List<FederatedQuery.Side> sides) {
+        return sides.stream()
+                .filter(side -> side.alias().equalsIgnoreCase(alias))
+                .map(FederatedQuery.Side::alias)
+                .findFirst()
+                .orElse(alias);
     }
 
     private FederatedQuery.Join joinOf(String first, String second, String newAlias,
@@ -104,7 +119,8 @@ public class FederatedQueryParser {
         if (!known) {
             throw new IllegalArgumentException("unknown alias \"" + existing[0] + "\" in the ON clause");
         }
-        return new FederatedQuery.Join(existing[0], existing[1], added[0], added[1], leftJoin);
+        return new FederatedQuery.Join(canonicalAlias(existing[0], sides), existing[1],
+                canonicalAlias(added[0], sides), added[1], leftJoin);
     }
 
     String diagnose(String normalized) {
