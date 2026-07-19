@@ -1,23 +1,5 @@
 [
   {
-    "id": "elden-ring",
-    "name": "Elden Ring",
-    "console": "PS5",
-    "cover": "covers/elden-ring.jpg"
-  },
-  {
-    "id": "hollow-knight-silksong",
-    "name": "Hollow Knight Silksong",
-    "console": "Switch",
-    "cover": "covers/hollow-knight-silksong.jpg"
-  },
-  {
-    "id": "baldurs-gate-3",
-    "name": "Baldurs Gate 3",
-    "console": "Steam",
-    "cover": "covers/baldurs-gate-3.jpg"
-  },
-  {
     "id": "ratchet-and-clank-rift-apart",
     "name": "Ratchet and Clank: Rift Apart",
     "console": "PS5",
@@ -28,5 +10,11 @@
     "name": "oddworld abe",
     "console": "PS5",
     "cover": "covers/oddworld-abe.jpg"
+  },
+  {
+    "id": "hot-wheels-unleashed",
+    "name": "Hot Wheels Unleashed",
+    "console": "PS5",
+    "cover": "covers/hot-wheels-unleashed.jpeg"
   }
 ]

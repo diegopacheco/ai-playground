@@ -83,6 +83,24 @@ Year filter showing only what I finished in 2024:
 
 ![Year filter](printscreens/stand-year-filter.png)
 
+## W.I.P
+
+The games I started but did not beat yet. Same idea as the library: type a title, pick
+PS5, Switch or Steam and the CLI agent hunts the real box art. The shelf below has its own
+search box and console filters, and every case carries a `PLAYING` badge instead of a year.
+
+![W.I.P shelf](printscreens/wip.png)
+
+Clicking a case opens it with two actions. **Mark as finished** moves the game to the
+library with the current year and the next finish order, then jumps to The Stand.
+**Remove from W.I.P** drops it and deletes the cover. Both ask for confirmation on a
+second click before anything happens.
+
+![W.I.P game modal](printscreens/wip-modal.png)
+
+In-progress games live in `wip.json` and carry no `year` or `order` — those are only
+assigned when the game is marked as finished.
+
 ## Settings
 
 Choose which CLI agent finds the covers: Claude Code (default), Codex or Agy.
