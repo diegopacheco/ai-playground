@@ -1,0 +1,23 @@
+pocs/dev-admin-console/landing-page-index.html
+  s_41e403565f61bc::t_97724449554689 1-57,59-100,102-104,108-234,236-303,306-381,384-390,395-397,399-421
+  s_41e403565f61bc::t_2bf1a4e52dad7f 106-107
+  s_41e403565f61bc::t_23091c2b355f67 58
+  s_41e403565f61bc::t_de84f6781f3288 382-383,391-394,398
+  s_41e403565f61bc::t_c61158319a8bc4 101,105,235,304-305
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "02034554c2176b863422cc842ee3a1c23db16e56",
+  "prompts": {},
+  "sessions": {
+    "s_41e403565f61bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ecee70b-287e-417e-8899-303c2a3ca927",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
