@@ -1,0 +1,21 @@
+pocs/dev-admin-console/.playwright-mcp/page-2026-07-19T07-39-38-109Z.yml
+  s_8b9f232a52361e::t_a3cebac3fc2216 1-76
+pocs/dev-admin-console/.playwright-mcp/page-2026-07-19T07-39-57-838Z.yml
+  s_8b9f232a52361e::t_bf0c520f6a31c3 1-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "2febd0fb274108add3675a142f8431f32bab9a03",
+  "prompts": {},
+  "sessions": {
+    "s_8b9f232a52361e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b99b44a1-6650-4324-a633-0b3357aea750",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
