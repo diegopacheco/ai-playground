@@ -1,0 +1,57 @@
+pocs/chrome-ext-render-html-md/src/viewer.js
+  s_fe3342e066a440::t_ed60a08f85e95b 1-104
+pocs/chrome-ext-render-html-md/src/popup.css
+  s_fe3342e066a440::t_4351d8478395d4 173-180,194-204
+pocs/chrome-ext-render-html-md/manifest.json
+  s_fe3342e066a440::t_4351d8478395d4 6-7
+  s_fe3342e066a440::t_065d5ab205a9e5 26
+  s_fe3342e066a440::t_0e76c4b5598371 45
+  s_fe3342e066a440::t_e0370e7cfdf504 4-5
+  s_fe3342e066a440::t_ed60a08f85e95b 9-10
+pocs/chrome-ext-render-html-md/src/html-viewer.js
+  s_fe3342e066a440::t_5fefc308f763a7 1-2,5-16,21,27
+pocs/chrome-ext-render-html-md/README.md
+  s_fe3342e066a440::t_ed60a08f85e95b 21,141-143
+  s_fe3342e066a440::t_4351d8478395d4 1-9,26-65,128-129,153-156
+  s_fe3342e066a440::t_1cbc08eee5c62c 76
+pocs/chrome-ext-render-html-md/package.json
+  s_fe3342e066a440::t_e0370e7cfdf504 3
+pocs/chrome-ext-render-html-md/install.sh
+  s_fe3342e066a440::t_1cbc08eee5c62c 11
+pocs/chrome-ext-render-html-md/src/background.js
+  s_fe3342e066a440::t_ed60a08f85e95b 34-36,38-55
+  s_fe3342e066a440::t_0e76c4b5598371 37
+pocs/chrome-ext-render-html-md/src/viewer.html
+  s_fe3342e066a440::t_ed60a08f85e95b 1-32
+pocs/chrome-ext-render-html-md/src/popup.html
+  s_fe3342e066a440::t_4351d8478395d4 31-34
+pocs/chrome-ext-render-html-md/assets/github-render-logo.svg
+  s_fe3342e066a440::t_4351d8478395d4 1-29
+pocs/chrome-ext-render-html-md/build.sh
+  s_fe3342e066a440::t_ed60a08f85e95b 16-18
+  s_fe3342e066a440::t_1cbc08eee5c62c 22
+pocs/chrome-ext-render-html-md/test/package.test.js
+  s_fe3342e066a440::t_065d5ab205a9e5 35-36
+  s_fe3342e066a440::t_0e76c4b5598371 20-22
+  s_fe3342e066a440::t_e0370e7cfdf504 52
+  s_fe3342e066a440::t_ed60a08f85e95b 37-45
+  s_fe3342e066a440::t_ebd1af922dcd9f 46-51,53-54
+pocs/chrome-ext-render-html-md/src/viewer.css
+  s_fe3342e066a440::t_ed60a08f85e95b 1-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "d67cbeb2b49862b0dcb9350e8b98e3ff7038bd4a",
+  "prompts": {},
+  "sessions": {
+    "s_fe3342e066a440": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7c92-af92-7780-ac7d-288e145cd228",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
