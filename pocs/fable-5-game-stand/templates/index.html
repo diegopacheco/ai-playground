@@ -276,6 +276,17 @@ footer{margin-top:30px;text-align:center;color:var(--ink-soft);font-weight:700;f
 .danger-btn:hover{background:#c0504a;color:#fff;transform:translateY(-2px)}
 .danger-btn.armed{background:#c0504a;color:#fff;animation:shake .3s}
 @keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.ok-btn{
+  appearance:none;width:100%;border:2px solid #4b8b3b;border-radius:14px;background:#eef7e9;cursor:pointer;
+  font-family:inherit;font-weight:800;font-size:15px;color:#356b28;padding:13px 16px;transition:.18s;margin-bottom:12px;
+}
+.ok-btn:hover{background:#4b8b3b;color:#fff;transform:translateY(-2px)}
+.ok-btn.armed{background:#4b8b3b;color:#fff;animation:shake .3s}
+.wip-badge{
+  position:absolute;bottom:8px;left:12px;right:12px;z-index:3;text-align:center;font-size:10px;font-weight:800;
+  letter-spacing:.6px;color:var(--ink);background:rgba(255,253,247,.92);padding:3px 0;border-radius:99px;
+  box-shadow:0 3px 6px rgba(0,0,0,.25);
+}
 </style>
 </head>
 <body>
@@ -298,6 +309,7 @@ footer{margin-top:30px;text-align:center;color:var(--ink-soft);font-weight:700;f
   <nav>
     <button class="tab active" data-tab="dashboard">Dashboard</button>
     <button class="tab" data-tab="add">Add a Game</button>
+    <button class="tab" data-tab="wip">W.I.P</button>
     <button class="tab" data-tab="stand">The Stand</button>
     <button class="tab" data-tab="settings">Settings</button>
   </nav>
@@ -348,6 +360,36 @@ footer{margin-top:30px;text-align:center;color:var(--ink-soft);font-weight:700;f
     <div class="stand" id="stand-shelves"></div>
   </section>
 
+  <section id="wip" class="panel">
+    <div class="section-title">Still playing</div>
+    <div class="form-grid">
+      <form id="wip-form">
+        <div class="field">
+          <label for="wip-name">Game title</label>
+          <input type="text" id="wip-name" placeholder="Elden Ring" autocomplete="off">
+        </div>
+        <div class="field" style="margin-top:26px">
+          <label>Which console are you playing it on?</label>
+          <div class="console-pick" id="wip-console-pick"></div>
+        </div>
+        <button class="btn" id="wip-add-btn" type="submit">Find cover &amp; start</button>
+      </form>
+      <div class="add-side" id="wip-side">
+        <div class="hint">Games you started but did not beat yet. When you finish one,
+          open it and <b>mark it as finished</b> to move it to your library.</div>
+      </div>
+    </div>
+    <div class="toolbar" style="margin-top:44px">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" id="wip-search" placeholder="Search the games you are playing...">
+      </div>
+      <div class="chips" id="wip-chips"></div>
+    </div>
+    <div class="count-note" id="wip-count"></div>
+    <div class="stand" id="wip-shelves"></div>
+  </section>
+
   <section id="settings" class="panel">
     <div class="section-title">Cover-hunting agent</div>
     <p style="color:var(--ink-soft);font-weight:600;max-width:560px;line-height:1.6;margin-bottom:24px">
@@ -367,10 +409,12 @@ footer{margin-top:30px;text-align:center;color:var(--ink-soft);font-weight:700;f
       <h3 id="modal-name"></h3>
       <div class="rows">
         <div class="row"><span>Console</span><span class="console-chip" id="modal-console"></span></div>
-        <div class="row"><span>Finished in</span><span id="modal-year"></span></div>
-        <div class="row"><span>Finish order</span><span id="modal-order"></span></div>
+        <div class="row" id="modal-year-row"><span>Finished in</span><span id="modal-year"></span></div>
+        <div class="row" id="modal-order-row"><span>Finish order</span><span id="modal-order"></span></div>
+        <div class="row" id="modal-status-row"><span>Status</span><span>still playing</span></div>
         <div class="row"><span>Cover file</span><span id="modal-file"></span></div>
       </div>
+      <button class="ok-btn" id="finish-btn"></button>
       <button class="danger-btn" id="delete-btn"></button>
     </div>
   </div>
@@ -388,6 +432,7 @@ const AGENTS = [
   {id:"agy",name:"Agy",cmd:"agy -p",desc:"The agy CLI takes the prompt and returns the cover URL.",def:false}
 ];
 let games = [], config = {agent:"claude"}, filterConsole = "All", filterYear = "All", searchTerm = "", pickedConsole = null;
+let wip = [], wipFilterConsole = "All", wipSearch = "", wipPicked = null;
 
 const $ = id => document.getElementById(id);
 
@@ -396,6 +441,7 @@ function activateTab(name){
   document.querySelectorAll(".panel").forEach(x => x.classList.toggle("active", x.id === name));
   window.scrollTo(0, 0);
   if (name === "stand") renderStand();
+  if (name === "wip") renderWip();
 }
 document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => activateTab(t.dataset.tab)));
 
@@ -465,30 +511,35 @@ function renderYears(){
   sel.value = filterYear;
 }
 
-function renderChips(){
-  const box = $("filter-chips");
+function renderChipsInto(boxId, selected, onPick){
+  const box = $(boxId);
   box.innerHTML = "";
   ["All", "PS5", "Switch", "Steam"].forEach(key => {
     const b = document.createElement("button");
-    b.className = "chip" + (filterConsole === key ? " active" : "");
+    b.className = "chip" + (selected === key ? " active" : "");
     if (key === "All") b.textContent = "All consoles";
     else {
       b.style.setProperty("--chip", CONSOLES[key].color);
       b.style.setProperty("--chip-soft", CONSOLES[key].soft);
       b.innerHTML = '<img src="' + CONSOLES[key].img + '" alt="">' + key;
     }
-    b.addEventListener("click", () => { filterConsole = key; renderChips(); renderStand(); });
+    b.addEventListener("click", () => onPick(key));
     box.appendChild(b);
   });
 }
 
-function renderStand(){
-  const host = $("stand-shelves");
-  const list = filteredGames();
-  $("stand-count").textContent = list.length + " of " + games.length + " games on the stand";
+function renderChips(){
+  renderChipsInto("filter-chips", filterConsole, key => { filterConsole = key; renderChips(); renderStand(); });
+}
+
+function renderWipChips(){
+  renderChipsInto("wip-chips", wipFilterConsole, key => { wipFilterConsole = key; renderWipChips(); renderWip(); });
+}
+
+function buildShelves(host, list, mode, emptyText){
   host.innerHTML = "";
   if (!list.length){
-    host.innerHTML = '<div class="empty">nothing on this shelf... try another search!</div>';
+    host.innerHTML = '<div class="empty">' + emptyText + "</div>";
     return;
   }
   const width = host.clientWidth || 1060;
@@ -503,11 +554,12 @@ function renderStand(){
       d.style.animationDelay = Math.min((i + j) * 18, 500) + "ms";
       d.style.setProperty("--accent", c.color);
       d.innerHTML =
-        '<div class="case"><img src="/static/' + g.cover + '" alt="' + g.name + '" loading="lazy"></div>' +
+        '<div class="case"><img src="/static/' + g.cover + '" alt="' + g.name + '" loading="lazy">' +
+        (mode === "wip" ? '<span class="wip-badge">PLAYING</span>' : "") + "</div>" +
         '<span class="tag">' + g.console.toUpperCase() + "</span>" +
-        '<span class="ytag">' + g.year + "</span>" +
+        (mode === "wip" ? "" : '<span class="ytag">' + g.year + "</span>") +
         '<div class="name">' + g.name + "</div>";
-      d.addEventListener("click", () => openModal(g.id));
+      d.addEventListener("click", () => openModal(g.id, mode));
       row.appendChild(d);
     });
     dockify(row);
@@ -516,6 +568,26 @@ function renderStand(){
     plank.className = "plank";
     host.appendChild(plank);
   }
+}
+
+function renderStand(){
+  const list = filteredGames();
+  $("stand-count").textContent = list.length + " of " + games.length + " games on the stand";
+  buildShelves($("stand-shelves"), list, "library", "nothing on this shelf... try another search!");
+}
+
+function filteredWip(){
+  const q = wipSearch.trim().toLowerCase();
+  return wip.filter(g =>
+    (wipFilterConsole === "All" || g.console === wipFilterConsole) &&
+    (!q || g.name.toLowerCase().includes(q))
+  );
+}
+
+function renderWip(){
+  const list = filteredWip();
+  $("wip-count").textContent = list.length + " of " + wip.length + " games in progress";
+  buildShelves($("wip-shelves"), list, "wip", "nothing in progress... go start a game!");
 }
 
 function dockify(row){
@@ -543,22 +615,43 @@ const DELETE_STEPS = [
   "Are you sure? Click again",
   "Really sure? Click one more time",
 ];
-let modalGame = null, deleteClicks = 0;
+const REMOVE_STEPS = [
+  "Remove from W.I.P",
+  "Are you sure? Click again",
+];
+const FINISH_STEPS = [
+  "Mark as finished",
+  "Move it to the library? Click again",
+];
+let modalGame = null, modalMode = "library", deleteClicks = 0, finishClicks = 0;
 
-function openModal(id){
-  modalGame = games.find(g => g.id === id);
+function openModal(id, mode){
+  modalMode = mode || "library";
+  const source = modalMode === "wip" ? wip : games;
+  modalGame = source.find(g => g.id === id);
   if (!modalGame) return;
   deleteClicks = 0;
+  finishClicks = 0;
   const c = CONSOLES[modalGame.console];
   $("modal-cover").src = "/static/" + modalGame.cover;
   $("modal-name").textContent = modalGame.name;
   $("modal-console").textContent = c.label;
   $("modal-console").style.setProperty("--accent", c.color);
-  $("modal-year").textContent = modalGame.year;
-  $("modal-order").textContent = "#" + modalGame.order + " of " + games.length + " finished";
   $("modal-file").textContent = modalGame.cover.split("/").pop();
+  const isWip = modalMode === "wip";
+  $("modal-year-row").style.display = isWip ? "none" : "";
+  $("modal-order-row").style.display = isWip ? "none" : "";
+  $("modal-status-row").style.display = isWip ? "" : "none";
+  if (!isWip){
+    $("modal-year").textContent = modalGame.year;
+    $("modal-order").textContent = "#" + modalGame.order + " of " + games.length + " finished";
+  }
+  const finish = $("finish-btn");
+  finish.style.display = isWip ? "" : "none";
+  finish.textContent = FINISH_STEPS[0];
+  finish.classList.remove("armed");
   const btn = $("delete-btn");
-  btn.textContent = DELETE_STEPS[0];
+  btn.textContent = isWip ? REMOVE_STEPS[0] : DELETE_STEPS[0];
   btn.classList.remove("armed");
   $("modal-overlay").classList.add("open");
 }
@@ -574,39 +667,82 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal()
 
 $("delete-btn").addEventListener("click", async () => {
   if (!modalGame) return;
-  deleteClicks++;
   const btn = $("delete-btn");
-  if (deleteClicks < 3){
-    btn.textContent = DELETE_STEPS[deleteClicks];
+  const steps = modalMode === "wip" ? REMOVE_STEPS : DELETE_STEPS;
+  deleteClicks++;
+  if (deleteClicks < steps.length){
+    btn.textContent = steps[deleteClicks];
     btn.classList.add("armed");
     return;
   }
-  const r = await fetch("/api/games/" + modalGame.id, {method:"DELETE"});
+  const url = modalMode === "wip" ? "/api/wip/" + modalGame.id : "/api/games/" + modalGame.id;
+  const r = await fetch(url, {method:"DELETE"});
   if (r.ok){
-    games = games.filter(g => g.id !== modalGame.id);
+    const id = modalGame.id;
     closeModal();
-    renderDashboard();
-    renderYears();
-    renderStand();
+    if (modalMode === "wip"){
+      wip = wip.filter(g => g.id !== id);
+      renderWip();
+    } else {
+      games = games.filter(g => g.id !== id);
+      renderDashboard();
+      renderYears();
+      renderStand();
+    }
   } else {
-    btn.textContent = "delete failed, try again";
+    btn.textContent = "it failed, try again";
     deleteClicks = 0;
   }
 });
 
-function renderPick(){
-  const box = $("console-pick");
+$("finish-btn").addEventListener("click", async () => {
+  if (!modalGame) return;
+  const btn = $("finish-btn");
+  finishClicks++;
+  if (finishClicks < FINISH_STEPS.length){
+    btn.textContent = FINISH_STEPS[finishClicks];
+    btn.classList.add("armed");
+    return;
+  }
+  const r = await fetch("/api/wip/" + modalGame.id + "/finish", {method:"POST"});
+  const data = await r.json();
+  if (r.ok){
+    const id = modalGame.id;
+    closeModal();
+    wip = wip.filter(g => g.id !== id);
+    games.push(data.game);
+    renderWip();
+    renderDashboard();
+    renderYears();
+    renderStand();
+    activateTab("stand");
+  } else {
+    btn.textContent = data.error || "it failed, try again";
+    finishClicks = 0;
+  }
+});
+
+function renderPickInto(boxId, selected, onPick){
+  const box = $(boxId);
   box.innerHTML = "";
   Object.keys(CONSOLES).forEach(key => {
     const c = CONSOLES[key];
     const d = document.createElement("div");
-    d.className = "pick" + (pickedConsole === key ? " active" : "");
+    d.className = "pick" + (selected === key ? " active" : "");
     d.style.setProperty("--pick", c.color);
     d.style.setProperty("--pick-soft", c.soft);
     d.innerHTML = '<img src="' + c.img + '" alt="">' + c.label;
-    d.addEventListener("click", () => { pickedConsole = key; renderPick(); });
+    d.addEventListener("click", () => onPick(key));
     box.appendChild(d);
   });
+}
+
+function renderPick(){
+  renderPickInto("console-pick", pickedConsole, key => { pickedConsole = key; renderPick(); });
+}
+
+function renderWipPick(){
+  renderPickInto("wip-console-pick", wipPicked, key => { wipPicked = key; renderWipPick(); });
 }
 
 function renderAgents(){
@@ -660,24 +796,58 @@ $("add-form").addEventListener("submit", async e => {
   btn.disabled = false;
 });
 
+$("wip-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const name = $("wip-name").value.trim();
+  const side = $("wip-side");
+  if (!name){ side.innerHTML = '<div class="hint error-note">give me a game title first!</div>'; return; }
+  if (!wipPicked){ side.innerHTML = '<div class="hint error-note">pick a console: PS5, Switch or Steam</div>'; return; }
+  const btn = $("wip-add-btn");
+  btn.disabled = true;
+  side.innerHTML = '<div><div class="spinner"></div><div class="hint"><b>' + config.agent +
+    "</b> is searching the web for the cover of <b>" + name + "</b>... this can take a minute</div></div>";
+  try{
+    const r = await fetch("/api/wip", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:name,console:wipPicked})});
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || "something went wrong");
+    wip.push(data.game);
+    renderWip();
+    side.innerHTML =
+      '<div><div class="result-cover"><img src="/static/' + data.game.cover + '"></div>' +
+      '<div class="result-name">' + data.game.name + "</div>" +
+      '<div class="result-meta">' + data.game.console + " &middot; cover found by " + data.source + "</div></div>";
+    $("wip-name").value = "";
+  }catch(err){
+    side.innerHTML = '<div class="hint error-note">' + err.message + "</div>";
+  }
+  btn.disabled = false;
+});
+
+$("wip-search").addEventListener("input", e => { wipSearch = e.target.value; renderWip(); });
 $("search-input").addEventListener("input", e => { searchTerm = e.target.value; renderStand(); });
 $("year-filter").addEventListener("change", e => { filterYear = e.target.value; renderStand(); });
 let resizeTimer;
 window.addEventListener("resize", () => {
   clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => { if ($("stand").classList.contains("active")) renderStand(); }, 200);
+  resizeTimer = setTimeout(() => {
+    if ($("stand").classList.contains("active")) renderStand();
+    if ($("wip").classList.contains("active")) renderWip();
+  }, 200);
 });
 
 async function boot(){
-  const [g, c] = await Promise.all([fetch("/api/games"), fetch("/api/config")]);
+  const [g, c, w] = await Promise.all([fetch("/api/games"), fetch("/api/config"), fetch("/api/wip")]);
   games = await g.json();
   config = await c.json();
+  wip = await w.json();
   $("agent-hint").textContent = config.agent;
   renderDashboard();
   renderChips();
   renderYears();
   renderPick();
   renderAgents();
+  renderWipChips();
+  renderWipPick();
 }
 boot();
 </script>
