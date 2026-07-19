@@ -1,0 +1,27 @@
+pocs/gpt-5.6-sol-assisted-poker/static/academy/app.js
+  s_bbd9f09a541335::t_faeefec321f4bb 42-43,61,72-74
+  s_bbd9f09a541335::t_a955ab22d99ff2 44-60,62-71
+pocs/gpt-5.6-sol-assisted-poker/docs/screenshots/.gitkeep
+  s_bbd9f09a541335::t_e460b50253fd73 1
+pocs/gpt-5.6-sol-assisted-poker/static/academy/style.css
+  s_bbd9f09a541335::t_92dc667cea59e5 2702
+  s_bbd9f09a541335::t_faeefec321f4bb 1487,1493,1501-1507,1567-1570,1593,1604-1606,1618,1620-1624,1633-1634,1637,1639-1640,1751,1758,1767-1771,2558
+  s_bbd9f09a541335::t_a955ab22d99ff2 2684-2701,2703-2771
+  s_bbd9f09a541335::t_14c71abe8e53d4 1571,1641
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "845ccf45e68675f02340f7ea274766c1b733b88f",
+  "prompts": {},
+  "sessions": {
+    "s_bbd9f09a541335": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7bd9-135c-7fc1-9d99-a2a040ab8bd7",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
