@@ -34,6 +34,8 @@ test("HTML viewer runs in an isolated sandbox", () => {
   assert.doesNotMatch(manifest.content_security_policy.sandbox, /allow-same-origin/)
   assert.doesNotMatch(fs.readFileSync(path.join(root, "src", "viewer.js"), "utf8"), /setAttribute\("sandbox"/)
   assert.doesNotMatch(fs.readFileSync(path.join(root, "src", "content.js"), "utf8"), /setAttribute\("sandbox"/)
+  assert.match(fs.readFileSync(path.join(root, "src", "viewer.js"), "utf8"), /getManifest\(\)\.version/)
+  assert.match(fs.readFileSync(path.join(root, "src", "content.js"), "utf8"), /getManifest\(\)\.version/)
 })
 
 test("raw GitHub navigation has a full-page reader", () => {

@@ -54,7 +54,7 @@ function showHtml(source, url) {
   const frame = document.createElement("iframe")
   frame.className = "github-render-frame"
   frame.setAttribute("title", `Rendered ${decodeURIComponent(url.pathname.split("/").pop())}`)
-  frame.src = chrome.runtime.getURL("html-viewer.html")
+  frame.src = `${chrome.runtime.getURL("html-viewer.html")}?version=${encodeURIComponent(chrome.runtime.getManifest().version)}`
   frame.addEventListener("load", () => {
     frame.contentWindow.postMessage({
       type: "github-render-document",
