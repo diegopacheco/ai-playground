@@ -57,7 +57,7 @@ export const EtcdPrefixes: Story = {
             name: "app",
             kind: "prefix",
             detail: "2 keys",
-            children: [{ name: "name", kind: "key", detail: "admin-console" }]
+            children: [{ name: "name", kind: "key", detail: "dev-admin-console" }]
           }
         ]
       }

@@ -1,4 +1,4 @@
-# Generic Admin Console — Design Doc
+# Generic Dev Admin Console — Design Doc
 
 Status: **approved**. Build follows §11.
 
@@ -51,7 +51,7 @@ The same `keys` table holds the JWT signing secret, for the same reason.
 Because these pools are created at runtime from user input rather than from static config, the registry owns their whole lifecycle:
 
 - **Sizing** — small per pool (`maximumPoolSize` 4, `minimumIdle` 0), since a console issues interactive queries, not load. Twenty configured connections then cost at most 80 sockets, not 20 × default-10.
-- **Idle eviction** — a pool with no query for 10 minutes is closed entirely, not just idled down. An admin console spends most of its life with nobody looking at it, and holding connections open against twenty production databases overnight is antisocial.
+- **Idle eviction** — a pool with no query for 10 minutes is closed entirely, not just idled down. An dev admin console spends most of its life with nobody looking at it, and holding connections open against twenty production databases overnight is antisocial.
 - **Failure isolation** — `connectionTimeout` 5s and `initializationFailTimeout` -1, so an unreachable target surfaces as one broken pane instead of blocking startup or wedging the registry for every other connection.
 - **Eviction correctness** — editing or deleting a connection closes its pool and invalidates any open result cursors (4.3) bound to it, so a config change can never serve rows from the old target.
 
@@ -201,11 +201,11 @@ Server-side paging, 100 rows per page. The awkward part is that no two engines p
 | Kafka | partition → next-offset map as the cursor; offsets are native, so this is the cleanest fit | yes — offsets are addressable |
 | Elasticsearch | `search_after` + point-in-time; **not** `from`/`size`, which breaks past `max_result_window` (3.6) | forward-only |
 
-Cassandra's paging state is opaque and strictly forward-only — there is no "jump to page 47" without re-scanning from the start, which on a large table is exactly the query you don't want an admin console issuing casually.
+Cassandra's paging state is opaque and strictly forward-only — there is no "jump to page 47" without re-scanning from the start, which on a large table is exactly the query you don't want an dev admin console issuing casually.
 
 **Decision: cursor paging with Prev/Next controls, not numbered page jumps.** The pane footer shows `page N · 100 rows · 42ms` with Prev/Next/First. This is the honest common denominator; offering a page-number box that silently degrades to a full re-scan on four of seven engines would be worse than not offering it.
 
-`totalRows` is nullable and populated **only when it's cheap**: never for Cassandra (counting means scanning), never for etcd, and for SQL only when the user opts in via a "count rows" button that runs a separate `SELECT count(*)` over the statement as a subquery. Guessing a total by scanning is the classic way an admin console takes down the database it's inspecting.
+`totalRows` is nullable and populated **only when it's cheap**: never for Cassandra (counting means scanning), never for etcd, and for SQL only when the user opts in via a "count rows" button that runs a separate `SELECT count(*)` over the statement as a subquery. Guessing a total by scanning is the classic way an dev admin console takes down the database it's inspecting.
 
 Held cursors are resources, so `ConnectionRegistry` expires them after 5 minutes idle and caps concurrent open cursors per user. An expired cursor returns `410 Gone` and the UI offers to re-run the statement rather than silently returning wrong rows.
 
@@ -240,8 +240,8 @@ Password hashing is **PBKDF2WithHmacSHA256**, 600k iterations, 16-byte random sa
 ### 4.5 Backend package layout
 
 ```
-backend/src/main/java/com/github/diegopacheco/adminconsole/
-  AdminConsoleApplication.java
+backend/src/main/java/com/github/diegopacheco/devadminconsole/
+  DevAdminConsoleApplication.java
   auth/        Jwt, AuthFilter, AuthController, PasswordHasher, CurrentUser
   user/        User, UserRepository, UserService, UserController, BootstrapAdmin
   crypto/      MasterKeyProvider, PostgresKeyStore, SecretCipher (AES-GCM)
@@ -302,7 +302,7 @@ Connection responses **never** include secrets, not even masked ciphertext.
 
 Built on the reference project's `AdminJwt` + `AdminWebFilter`, which are dependency-free HMAC-SHA256 and work well, extended for real users:
 
-- Login checks the `users` table with PBKDF2 and a constant-time comparison, then issues an 8h HS256 token carrying `sub` (username) and `role`, set as an `HttpOnly` `SameSite=Lax` cookie `admin_console_token`.
+- Login checks the `users` table with PBKDF2 and a constant-time comparison, then issues an 8h HS256 token carrying `sub` (username) and `role`, set as an `HttpOnly` `SameSite=Lax` cookie `dev_admin_console_token`.
 - A `OncePerRequestFilter` at highest precedence rejects unauthenticated requests to `/api/**` (except `/api/auth/login`), `/swagger*` and `/v3/api-docs*` with `401`, and role-violating requests with `403`.
 - The JWT secret is generated on first boot into the `keys` table — no committed default, and it survives restarts so sessions aren't silently invalidated.
 - `BootstrapAdmin` seeds `admin`/`admin` **only when the users table is empty**, and the UI shows a persistent banner until that password is changed.
@@ -554,7 +554,7 @@ This is the feature the seven-engine SPI actually earns. Everything else in this
 
 ### 6c.1 Searching is not free — the budget is the design
 
-A naive implementation scans every column of every table on every server. That is exactly the query an admin console must never fire casually (4.3). So trace runs under an explicit **budget**, and every engine's search is written against it:
+A naive implementation scans every column of every table on every server. That is exactly the query an dev admin console must never fire casually (4.3). So trace runs under an explicit **budget**, and every engine's search is written against it:
 
 | Bound | Default | Why |
 |---|---|---|

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-container="${1:-admin-console-demo-kafka}"
+container="${1:-dev-admin-console-demo-kafka}"
 kafka() { podman exec "$container" "/opt/kafka/bin/$@"; }
 existing=$(kafka kafka-topics.sh --bootstrap-server localhost:9092 --list 2>/dev/null || true)
 for topic in orders.events payments.events audit.log; do

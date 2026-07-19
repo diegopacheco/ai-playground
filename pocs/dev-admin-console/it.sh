@@ -12,7 +12,7 @@ fi
 
 podman-compose up -d > /dev/null
 for attempt in $(seq 1 60); do
-  podman exec admin-console-metadata pg_isready -U admin_console > /dev/null 2>&1 && break
+  podman exec dev-admin-console-metadata pg_isready -U dev_admin_console > /dev/null 2>&1 && break
   sleep 1
 done
 

@@ -1,4 +1,4 @@
-# Admin Console
+# Dev Admin Console
 
 A single web console for **Cassandra, MySQL, Postgres, Redis, etcd, Kafka and Elasticsearch** — as many servers as you want, grouped into projects.
 

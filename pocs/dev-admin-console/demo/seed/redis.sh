@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
-container="${1:-admin-console-demo-redis}"
+container="${1:-dev-admin-console-demo-redis}"
 run() { podman exec "$container" redis-cli "$@" > /dev/null; }
 run FLUSHALL
-run SET config:app:name "admin-console-demo"
+run SET config:app:name "dev-admin-console-demo"
 run SET config:app:version "1.0.0"
 run SET counter:visits 4821
 for index in $(seq 1 60); do

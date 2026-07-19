@@ -66,12 +66,12 @@ describe("Tree", () => {
   it("renders deeply nested prefixes, which is how etcd keys arrive", async () => {
     const etcd: TreeNode[] = [
       { name: "config", kind: "prefix", children: [
-        { name: "app", kind: "prefix", children: [{ name: "name", kind: "key", detail: "admin-console" }] }
+        { name: "app", kind: "prefix", children: [{ name: "name", kind: "key", detail: "dev-admin-console" }] }
       ] }
     ];
     render(<Tree nodes={etcd} />);
     await userEvent.click(screen.getByRole("button", { name: "Expand config" }));
     await userEvent.click(screen.getByRole("button", { name: "Expand app" }));
-    expect(screen.getByText("admin-console")).toBeInTheDocument();
+    expect(screen.getByText("dev-admin-console")).toBeInTheDocument();
   });
 });

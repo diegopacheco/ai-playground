@@ -8,10 +8,10 @@
         <relativePath/>
     </parent>
     <groupId>com.github.diegopacheco</groupId>
-    <artifactId>admin-console</artifactId>
+    <artifactId>dev-admin-console</artifactId>
     <version>1.0.0</version>
-    <name>admin-console</name>
-    <description>Generic read-only admin console for Cassandra, MySQL, Postgres, Redis, etcd, Kafka and Elasticsearch</description>
+    <name>dev-admin-console</name>
+    <description>Generic read-only dev admin console for Cassandra, MySQL, Postgres, Redis, etcd, Kafka and Elasticsearch</description>
     <properties>
         <java.version>25</java.version>
         <springdoc.version>3.0.3</springdoc.version>
@@ -75,7 +75,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>admin-console</finalName>
+        <finalName>dev-admin-console</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:9
-    container_name: admin-console-demo-mysql
+    container_name: dev-admin-console-demo-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: shop
@@ -10,7 +10,7 @@ services:
 
   postgres:
     image: postgres:18
-    container_name: admin-console-demo-postgres
+    container_name: dev-admin-console-demo-postgres
     environment:
       POSTGRES_DB: shop
       POSTGRES_USER: postgres
@@ -20,7 +20,7 @@ services:
 
   cassandra:
     image: cassandra:5.0
-    container_name: admin-console-demo-cassandra
+    container_name: dev-admin-console-demo-cassandra
     environment:
       MAX_HEAP_SIZE: 1G
       HEAP_NEWSIZE: 200M
@@ -30,13 +30,13 @@ services:
 
   redis:
     image: redis:8
-    container_name: admin-console-demo-redis
+    container_name: dev-admin-console-demo-redis
     ports:
       - "6379:6379"
 
   etcd:
     image: quay.io/coreos/etcd:v3.6.6
-    container_name: admin-console-demo-etcd
+    container_name: dev-admin-console-demo-etcd
     environment:
       ETCD_ADVERTISE_CLIENT_URLS: http://0.0.0.0:2379
       ETCD_LISTEN_CLIENT_URLS: http://0.0.0.0:2379
@@ -48,7 +48,7 @@ services:
 
   kafka:
     image: apache/kafka:4.1.0
-    container_name: admin-console-demo-kafka
+    container_name: dev-admin-console-demo-kafka
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
@@ -67,7 +67,7 @@ services:
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:9.1.2
-    container_name: admin-console-demo-elasticsearch
+    container_name: dev-admin-console-demo-elasticsearch
     environment:
       discovery.type: single-node
       xpack.security.enabled: "false"

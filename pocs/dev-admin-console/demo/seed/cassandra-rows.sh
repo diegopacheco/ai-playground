@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-container="${1:-admin-console-demo-cassandra}"
+container="${1:-dev-admin-console-demo-cassandra}"
 rows="${2:-300}"
 file=/tmp/cassandra-rows.cql
 : > "$file"

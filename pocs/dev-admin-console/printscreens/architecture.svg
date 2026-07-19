@@ -23,7 +23,7 @@
 
   <rect width="1280" height="860" fill="#FAF5EE"/>
 
-  <text class="title" x="42" y="58">Admin Console — read-only, audited, 7 engines</text>
+  <text class="title" x="42" y="58">Dev Admin Console — read-only, audited, 7 engines</text>
 
   <!-- ===== browser lane ===== -->
   <g filter="url(#wobble)">

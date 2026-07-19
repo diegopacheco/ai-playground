@@ -13,7 +13,7 @@ podman info > /dev/null
 
 podman-compose up -d > /dev/null
 for attempt in $(seq 1 60); do
-  if podman exec admin-console-metadata pg_isready -U admin_console > /dev/null 2>&1; then
+  if podman exec dev-admin-console-metadata pg_isready -U dev_admin_console > /dev/null 2>&1; then
     echo "metadata postgres ready on 5433"
     break
   fi

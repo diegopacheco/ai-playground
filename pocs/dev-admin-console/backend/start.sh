@@ -14,8 +14,8 @@ if lsof -ti tcp:8099 > /dev/null 2>&1; then
   exit 1
 fi
 mvn -q -B -DskipTests package
-nohup java -jar target/admin-console.jar > /tmp/admin-console-backend.log 2>&1 &
-echo $! > /tmp/admin-console-backend.pid
+nohup java -jar target/dev-admin-console.jar > /tmp/dev-admin-console-backend.log 2>&1 &
+echo $! > /tmp/dev-admin-console-backend.pid
 for attempt in $(seq 1 90); do
   if curl -fsS http://localhost:8099/actuator/health >/dev/null 2>&1; then
     echo "backend ready on http://localhost:8099"
@@ -23,5 +23,5 @@ for attempt in $(seq 1 90); do
   fi
   sleep 1
 done
-tail -30 /tmp/admin-console-backend.log
+tail -30 /tmp/dev-admin-console-backend.log
 exit 1

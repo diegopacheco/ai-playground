@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
-container="${1:-admin-console-demo-etcd}"
+container="${1:-dev-admin-console-demo-etcd}"
 put() { podman exec "$container" etcdctl put "$1" "$2" > /dev/null; }
 podman exec "$container" etcdctl del "" --from-key=true > /dev/null
-put /config/app/name "admin-console"
+put /config/app/name "dev-admin-console"
 put /config/app/version "1.0.0"
 put /config/app/log-level "info"
 put /config/database/host "postgres.internal"

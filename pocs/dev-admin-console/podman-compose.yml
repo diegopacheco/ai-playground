@@ -1,20 +1,20 @@
 services:
   metadata-postgres:
     image: postgres:18
-    container_name: admin-console-metadata
+    container_name: dev-admin-console-metadata
     environment:
-      POSTGRES_DB: admin_console
-      POSTGRES_USER: admin_console
-      POSTGRES_PASSWORD: admin_console
+      POSTGRES_DB: dev_admin_console
+      POSTGRES_USER: dev_admin_console
+      POSTGRES_PASSWORD: dev_admin_console
     ports:
       - "5433:5432"
     volumes:
-      - admin-console-metadata:/var/lib/postgresql
+      - dev-admin-console-metadata:/var/lib/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin_console -d admin_console"]
+      test: ["CMD-SHELL", "pg_isready -U dev_admin_console -d dev_admin_console"]
       interval: 5s
       timeout: 3s
       retries: 20
 
 volumes:
-  admin-console-metadata:
+  dev-admin-console-metadata:

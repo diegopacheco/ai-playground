@@ -11,8 +11,8 @@ done
 if [ ! -d node_modules ]; then
   bun install
 fi
-nohup bun run dev > /tmp/admin-console-frontend.log 2>&1 &
-echo $! > /tmp/admin-console-frontend.pid
+nohup bun run dev > /tmp/dev-admin-console-frontend.log 2>&1 &
+echo $! > /tmp/dev-admin-console-frontend.pid
 for attempt in $(seq 1 60); do
   if curl -fsS http://localhost:4321/ > /dev/null 2>&1; then
     echo "frontend ready on http://localhost:4321"
@@ -20,5 +20,5 @@ for attempt in $(seq 1 60); do
   fi
   sleep 1
 done
-tail -20 /tmp/admin-console-frontend.log
+tail -20 /tmp/dev-admin-console-frontend.log
 exit 1

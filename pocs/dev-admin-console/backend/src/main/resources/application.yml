@@ -4,14 +4,14 @@ server:
 
 spring:
   application:
-    name: admin-console
+    name: dev-admin-console
   threads:
     virtual:
       enabled: true
   datasource:
-    url: jdbc:postgresql://localhost:5433/admin_console
-    username: admin_console
-    password: admin_console
+    url: jdbc:postgresql://localhost:5433/dev_admin_console
+    username: dev_admin_console
+    password: dev_admin_console
     hikari:
       maximum-pool-size: 8
       minimum-idle: 1

@@ -2,7 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 backend="${BACKEND:-http://localhost:8099}"
-cookies=/tmp/admin-console-demo-cookies.txt
+cookies=/tmp/dev-admin-console-demo-cookies.txt
 
 if ! podman info > /dev/null 2>&1; then
   podman machine start
@@ -29,22 +29,22 @@ wait_for() {
   return 1
 }
 
-wait_for postgres podman exec admin-console-demo-postgres pg_isready -U postgres
-wait_for mysql podman exec admin-console-demo-mysql mysqladmin ping -uroot -proot
-wait_for redis podman exec admin-console-demo-redis redis-cli ping
-wait_for etcd podman exec admin-console-demo-etcd etcdctl endpoint health
-wait_for cassandra podman exec admin-console-demo-cassandra cqlsh -e "SELECT now() FROM system.local"
-wait_for kafka podman exec admin-console-demo-kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+wait_for postgres podman exec dev-admin-console-demo-postgres pg_isready -U postgres
+wait_for mysql podman exec dev-admin-console-demo-mysql mysqladmin ping -uroot -proot
+wait_for redis podman exec dev-admin-console-demo-redis redis-cli ping
+wait_for etcd podman exec dev-admin-console-demo-etcd etcdctl endpoint health
+wait_for cassandra podman exec dev-admin-console-demo-cassandra cqlsh -e "SELECT now() FROM system.local"
+wait_for kafka podman exec dev-admin-console-demo-kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
 wait_for elasticsearch curl -fsS http://localhost:9200
 
 if [ "${RESEED:-yes}" = "no" ]; then
   echo "skipping seed (RESEED=no)"
 else
   echo "seeding"
-podman exec -i admin-console-demo-postgres psql -U postgres -d shop < seed/postgres.sql > /dev/null
-podman exec -i admin-console-demo-mysql mysql -uroot -proot shop < seed/mysql.sql 2> /dev/null
-podman cp seed/cassandra.cql admin-console-demo-cassandra:/tmp/schema.cql
-podman exec admin-console-demo-cassandra cqlsh -f /tmp/schema.cql > /dev/null
+podman exec -i dev-admin-console-demo-postgres psql -U postgres -d shop < seed/postgres.sql > /dev/null
+podman exec -i dev-admin-console-demo-mysql mysql -uroot -proot shop < seed/mysql.sql 2> /dev/null
+podman cp seed/cassandra.cql dev-admin-console-demo-cassandra:/tmp/schema.cql
+podman exec dev-admin-console-demo-cassandra cqlsh -f /tmp/schema.cql > /dev/null
 ./seed/cassandra-rows.sh > /dev/null
 ./seed/redis.sh > /dev/null
 ./seed/etcd.sh > /dev/null
@@ -101,7 +101,7 @@ registered=$(curl -fsS -b "$cookies" "$backend/api/projects" \
 if [ "$registered" -lt 7 ]; then
   echo ""
   echo "ERROR: expected 7 connections in the demo project, found $registered"
-  echo "the console will look empty — check the backend log at /tmp/admin-console-backend.log"
+  echo "the console will look empty — check the backend log at /tmp/dev-admin-console-backend.log"
   exit 1
 fi
 echo "  registered $registered connections"

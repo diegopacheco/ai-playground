@@ -29,7 +29,7 @@ export function LoginForm({ onAuthenticated }: LoginFormProps) {
 
   return (
     <form className="login" onSubmit={submit}>
-      <h1>Admin Console</h1>
+      <h1>Dev Admin Console</h1>
       <label>
         username
         <input value={username} onChange={(event) => setUsername(event.target.value)} autoFocus />
