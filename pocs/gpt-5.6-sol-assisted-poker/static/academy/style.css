@@ -1587,8 +1587,8 @@ body {
     transform-style: preserve-3d;
     transform: rotateY(-7deg) translateZ(calc(var(--i) * 1px));
     transition: transform .28s cubic-bezier(.2, .8, .2, 1), margin .28s, box-shadow .28s;
-    animation: card-arrive .65s cubic-bezier(.18, .8, .2, 1) both;
-    animation-delay: calc(var(--i) * 38ms);
+    animation: card-arrive .36s cubic-bezier(.18, .8, .2, 1) both;
+    animation-delay: calc(var(--i) * 16ms);
     cursor: pointer;
     will-change: transform, box-shadow;
 }
@@ -2701,7 +2701,7 @@ body {
     filter: none;
     transform: translateX(var(--dock-shift)) translateY(calc(0px - var(--dock-lift))) perspective(700px) rotateX(1.5deg) rotateY(var(--dock-turn)) scale(var(--dock-scale));
     box-shadow: 0 var(--dock-shadow-y) var(--dock-shadow-blur) rgba(27, 37, 30, .18), 0 1px 0 rgba(255, 255, 255, .9) inset;
-    transition: transform .16s cubic-bezier(.2, .8, .2, 1), box-shadow .18s ease;
+    transition: transform .075s cubic-bezier(.2, .8, .2, 1), box-shadow .1s ease;
     animation-fill-mode: backwards;
 }
 
