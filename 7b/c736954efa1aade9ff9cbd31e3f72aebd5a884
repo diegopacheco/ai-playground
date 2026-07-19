@@ -1,0 +1,299 @@
+pocs/dev-admin-console/frontend/src/design-system/Tree/Tree.test.tsx
+  s_8b9f232a52361e::t_7c3792a26b6e83 69,75
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/discovery/ContainerScanner.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-194
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/project/ProjectRepository.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-47
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/saved/SavedQueryController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-87
+pocs/dev-admin-console/backend/stop.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 3-5,7
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/project/ConnectionView.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-26
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/cassandra/CqlReadOnlyGuard.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-25
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/redis/RedisReadOnlyGuard.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-32
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/ai/PromptBuilderTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-93
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/project/ProjectController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-109
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/etcd/EtcdCommand.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-3
+pocs/dev-admin-console/frontend/src/design-system/Tree/Tree.stories.tsx
+  s_8b9f232a52361e::t_7c3792a26b6e83 60
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/audit/AuditController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-90
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/trace/EntityTracer.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-154
+pocs/dev-admin-console/frontend/stop.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 3-5
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/config/OpenApiConfig.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-17
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/auth/CurrentUser.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-32
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/trace/TraceBudget.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-8
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/audit/AuditService.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-53
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/ai/PromptBuilder.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-100
+pocs/dev-admin-console/demo/demo-stop.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 9
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/project/Project.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-5
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/ai/AgentCli.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-49
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/user/BootstrapAdmin.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-30
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/engine/ElasticEngineIT.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-118
+pocs/dev-admin-console/demo/demo-start.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 5,32-37,44-47,104
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/saved/SavedQuery.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-6
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/ReadOnlyViolation.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-7
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/saved/SavedQueryRepository.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-64
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/engine/jdbc/SqlReadOnlyGuardTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-112
+pocs/dev-admin-console/demo/seed/cassandra-rows.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 3
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/etcd/PrefixTreeBuilder.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-54
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/ai/AgentCliRunner.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-85
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/elastic/ElasticEndpointGuard.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-28
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/audit/AuditEntry.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-8
+pocs/dev-admin-console/backend/src/main/resources/application.yml
+  s_8b9f232a52361e::t_7c3792a26b6e83 7,12-14
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/console/ApiExceptionHandler.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-45
+pocs/dev-admin-console/backend/pom.xml
+  s_8b9f232a52361e::t_7c3792a26b6e83 11,13-14,78
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/federation/CrossEngineJoinIT.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-495
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/discovery/DiscoveredContainer.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-13
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/jdbc/JdbcEngine.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-139
+pocs/dev-admin-console/README.md
+  s_8b9f232a52361e::t_7c3792a26b6e83 1
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/audit/AuditServiceTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-83
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/crypto/MasterKeyProvider.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-5
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/engine/jdbc/JdbcEngineIT.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-117
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/etcd/EtcdEngine.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-99
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/jdbc/SqlReadOnlyGuard.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-130
+pocs/dev-admin-console/demo/seed/kafka.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 3
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/auth/Jwt.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-98
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/redis/RedisCommandParser.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-57
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/auth/PasswordHasher.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-39
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/trace/TraceStatementsTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-119
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/Engine.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-20
+pocs/dev-admin-console/design-doc.md
+  s_8b9f232a52361e::t_7c3792a26b6e83 1,54,204,208,243-244,305,557
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/user/UserRepository.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-77
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/console/RouteController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-14
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/audit/HistoryController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-28
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/project/ConnectionConfig.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-10
+pocs/dev-admin-console/demo/seed/etcd.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 3,6
+pocs/dev-admin-console/demo/seed/redis.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 3,6
+pocs/dev-admin-console/it.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 15
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/SchemaNode.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-9
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/trace/TraceStatements.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-142
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/project/SecretPayload.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-32
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/project/ConnectionRepositoryIT.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-102
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/user/UserService.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-96
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/registry/ConnectionRegistry.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-171
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/elastic/ElasticRequest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-3
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/federation/FederatedQueryParserTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-231
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/federation/FederatedAiController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-138
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/elastic/ElasticEngine.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-186
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/QueryResult.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-16
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/auth/AuthFilterTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-65
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/saved/SavedQueryRepositoryIT.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-101
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/etcd/EtcdReadOnlyGuard.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-19
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/user/UserServiceTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-133
+pocs/dev-admin-console/frontend/start.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 14-15,23
+pocs/dev-admin-console/start.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 16
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/project/ConnectionRepository.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-77
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/user/User.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-13
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/discovery/EngineDetectorTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-107
+pocs/dev-admin-console/frontend/src/layouts/Shell.astro
+  s_8b9f232a52361e::t_7c3792a26b6e83 29,34
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/user/UserController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-73
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/elastic/ElasticCommandParser.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-35
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/trace/TraceTimestamps.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-68
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/federation/FederatedQueryParser.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-183
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/etcd/EtcdCommandParser.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-43
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/kafka/ObserverConsumerFactory.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-30
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/EngineRegistry.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-25
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/auth/JwtTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-71
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/discovery/ContainerScannerTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-26
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/federation/CrossEngineJoinMatrixIT.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-228
+pocs/dev-admin-console/frontend/src/console/LoginForm.tsx
+  s_8b9f232a52361e::t_7c3792a26b6e83 32
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/engine/CassandraRedisEngineIT.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-126
+pocs/dev-admin-console/demo/podman-compose.yml
+  s_8b9f232a52361e::t_7c3792a26b6e83 4,13,23,33,39,51,70
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/kafka/KafkaCommand.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-3
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/kafka/KafkaEngine.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-274
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/kafka/KafkaReadOnlyGuard.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-21
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/engine/kafka/ObserverConsumerFactoryTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-55
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/discovery/DiscoveryController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-102
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/federation/FederatedExampleBuilder.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-150
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/redis/RedisEngine.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-166
+pocs/dev-admin-console/printscreens/architecture.svg
+  s_8b9f232a52361e::t_7c3792a26b6e83 26
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/project/ConnectionKind.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-34
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/trace/TraceHit.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-8
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/DevAdminConsoleApplication.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-11
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/discovery/EngineDetector.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-93
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/auth/AuthControllerIT.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-82
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/engine/EtcdKafkaEngineIT.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-140
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/federation/FederatedQuery.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-17
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/auth/AuthController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-89
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/ai/AiSettingsRepository.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-59
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/trace/TraceController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-52
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/auth/PasswordHasherTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-38
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/audit/AuditRepository.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-131
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/ai/SuggestionParser.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-52
+pocs/dev-admin-console/frontend/package.json
+  s_8b9f232a52361e::t_7c3792a26b6e83 2
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/crypto/PostgresKeyStore.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-34
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/crypto/SecretCipher.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-63
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/federation/FederationController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-91
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/federation/FederatedExecutor.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-323
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/jdbc/MysqlEngine.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-39
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/ai/AgentCliRunnerTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-93
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/crypto/SecretCipherTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-59
+pocs/dev-admin-console/stop.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 9,11
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/cassandra/CassandraEngine.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-122
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/console/ConsoleController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-131
+pocs/dev-admin-console/destroy-all.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 26-30,36,40,46
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/ai/CliAvailability.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-37
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/registry/RedisHandle.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-12
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/config/SchedulingConfig.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-9
+pocs/dev-admin-console/backend/start.sh
+  s_8b9f232a52361e::t_7c3792a26b6e83 17-18,26
+pocs/dev-admin-console/podman-compose.yml
+  s_8b9f232a52361e::t_7c3792a26b6e83 4,6-8,12,14,20
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/kafka/KafkaCommandParser.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-61
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/jdbc/PostgresEngine.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-39
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/auth/AuthFilter.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-92
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/crypto/PostgresKeyStoreIT.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-64
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/engine/PageRequest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-11
+pocs/dev-admin-console/backend/src/main/java/com/github/diegopacheco/devadminconsole/ai/AiController.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-169
+pocs/dev-admin-console/backend/src/test/java/com/github/diegopacheco/devadminconsole/ai/SuggestionParserTest.java
+  s_8b9f232a52361e::t_7c3792a26b6e83 1-87
+pocs/dev-admin-console/frontend/bun.lock
+  s_8b9f232a52361e::t_3ae774741d5b4c 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "7bc736954efa1aade9ff9cbd31e3f72aebd5a884",
+  "prompts": {},
+  "sessions": {
+    "s_8b9f232a52361e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b99b44a1-6650-4324-a633-0b3357aea750",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
