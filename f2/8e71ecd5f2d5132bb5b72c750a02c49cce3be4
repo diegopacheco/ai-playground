@@ -1,0 +1,23 @@
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedQueryParser.java
+  s_49062c8b22ecc5::t_2e67418080e275 73-80
+  s_49062c8b22ecc5::t_f20a7f70f057d0 26-28
+  s_49062c8b22ecc5::t_a27f8cb2249693 155
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/federation/FederatedQueryParserTest.java
+  s_49062c8b22ecc5::t_650a6eaf8e5f2a 11-126
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "f28e71ecd5f2d5132bb5b72c750a02c49cce3be4",
+  "prompts": {},
+  "sessions": {
+    "s_49062c8b22ecc5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7431fe07-959e-4e94-8858-2979cac07db7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
