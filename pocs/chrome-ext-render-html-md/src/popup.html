@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub Render</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main>
+    <header>
+      <span class="mark">GR</span>
+      <div>
+        <p>GitHub Render</p>
+        <h1>Document view</h1>
+      </div>
+    </header>
+    <section class="control">
+      <div>
+        <strong id="status" aria-live="polite">Enabled</strong>
+        <span>HTML and Markdown</span>
+      </div>
+      <label class="switch">
+        <input id="enabled" type="checkbox" role="switch" aria-label="Enable document rendering">
+        <span></span>
+      </label>
+    </section>
+    <p class="note" id="note">Supported GitHub files open in a clean reading view.</p>
+    <footer>
+      <span></span>
+      <p>Local rendering · No tracking</p>
+    </footer>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

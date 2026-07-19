@@ -1,0 +1,67 @@
+{
+  "manifest_version": 3,
+  "name": "GitHub Render",
+  "version": "1.0.1",
+  "description": "Renders HTML and Markdown files while browsing GitHub.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://github.com/*",
+    "https://raw.githubusercontent.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "sandbox": {
+    "pages": [
+      "html-viewer.html"
+    ]
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'",
+    "sandbox": "sandbox allow-scripts; script-src 'self' 'unsafe-inline'; object-src 'none'"
+  },
+  "action": {
+    "default_title": "GitHub Render",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    },
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/*/*/blob/*",
+        "https://raw.githubusercontent.com/*"
+      ],
+      "js": [
+        "renderer.js",
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "html-viewer.html",
+        "html-viewer.js"
+      ],
+      "matches": [
+        "https://github.com/*",
+        "https://raw.githubusercontent.com/*"
+      ]
+    }
+  ]
+}
