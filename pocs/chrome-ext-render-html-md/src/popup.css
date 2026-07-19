@@ -170,6 +170,14 @@ footer {
   color: #c9c3b5;
 }
 
+footer div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
 footer span {
   width: 6px;
   height: 6px;
@@ -182,4 +190,15 @@ footer p {
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
+}
+
+footer a {
+  color: #fffdf7;
+  font: 600 10px/1.2 Georgia, Cambria, serif;
+  text-decoration-color: #e25332;
+  text-underline-offset: 3px;
+}
+
+footer a:hover {
+  color: #e7a18f;
 }

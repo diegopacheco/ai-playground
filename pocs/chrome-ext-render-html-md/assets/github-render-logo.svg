@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title description">
+  <title id="title">GitHub Render</title>
+  <desc id="description">A document reader mark on a white editorial card</desc>
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#e7e1d5" stroke-width="1"/>
+    </pattern>
+    <filter id="shadow" x="-20%" y="-30%" width="140%" height="180%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#3b352d" flood-opacity=".14"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="360" rx="28" fill="#f4f0e7"/>
+  <rect width="1200" height="360" rx="28" fill="url(#grid)" opacity=".72"/>
+  <rect x="38" y="38" width="1124" height="284" rx="18" fill="#ffffff" stroke="#c9c1b2" filter="url(#shadow)"/>
+  <g transform="translate(102 78)">
+    <rect width="204" height="204" rx="42" fill="#24231f"/>
+    <path d="M54 34h73l35 35v101H54z" fill="#fffdf7"/>
+    <path d="M127 34v36h35" fill="#d9d2c3"/>
+    <path d="M127 34v36h35" fill="none" stroke="#24231f" stroke-width="5"/>
+    <path d="M77 94h61M77 118h61M77 142h40" fill="none" stroke="#bd3c1f" stroke-width="9"/>
+  </g>
+  <g transform="translate(354 92)">
+    <text x="0" y="35" fill="#bd3c1f" font-family="Courier New, monospace" font-size="17" font-weight="700" letter-spacing="4">HTML · MARKDOWN</text>
+    <text x="0" y="112" fill="#24231f" font-family="Georgia, serif" font-size="72" font-weight="700" letter-spacing="-3">GitHub Render</text>
+    <path d="M0 138h710" stroke="#c9c1b2" stroke-width="2"/>
+    <text x="0" y="178" fill="#6e685d" font-family="Georgia, serif" font-size="23">Turn source files into readable documents.</text>
+    <text x="710" y="212" fill="#24231f" font-family="Courier New, monospace" font-size="14" font-weight="700" text-anchor="end">BY DIEGO PACHECO</text>
+  </g>
+</svg>

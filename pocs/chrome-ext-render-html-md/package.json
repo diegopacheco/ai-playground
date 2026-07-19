@@ -1,6 +1,6 @@
 {
   "name": "github-render",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "build": "./build.sh",

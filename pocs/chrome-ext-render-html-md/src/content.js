@@ -68,7 +68,6 @@ function showMarkdown(stage, source) {
 function showHtml(stage, source) {
   const frame = document.createElement("iframe")
   frame.className = "github-render-frame"
-  frame.setAttribute("sandbox", "allow-scripts")
   frame.setAttribute("title", `Rendered ${fileName()}`)
   frame.src = chrome.runtime.getURL("html-viewer.html")
   frame.addEventListener("load", () => {

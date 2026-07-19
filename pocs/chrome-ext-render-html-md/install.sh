@@ -8,6 +8,7 @@ printf '\nChrome requires one confirmation for unpacked extensions.\n'
 printf '1. Enable Developer mode.\n'
 printf '2. Select Load unpacked.\n'
 printf '3. Choose %s\n\n' "$ROOT/dist"
+printf 'If it is already loaded, select its Reload button and refresh the GitHub tab.\n\n'
 
 if [[ "$(uname -s)" == "Darwin" ]] && [[ -d "/Applications/Google Chrome.app" ]]; then
   open -a "Google Chrome" "chrome://extensions"

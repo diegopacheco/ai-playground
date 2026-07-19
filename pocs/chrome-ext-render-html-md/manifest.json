@@ -1,10 +1,13 @@
 {
   "manifest_version": 3,
   "name": "GitHub Render",
-  "version": "1.0.1",
-  "description": "Renders HTML and Markdown files while browsing GitHub.",
+  "version": "1.0.5",
+  "description": "Renders HTML and Markdown files while browsing GitHub by Diego Pacheco(diegopacheco.github.io).",
+  "author": "Diego Pacheco",
+  "homepage_url": "https://diegopacheco.github.io",
   "permissions": [
-    "storage"
+    "storage",
+    "webNavigation"
   ],
   "host_permissions": [
     "https://github.com/*",
@@ -20,7 +23,7 @@
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'",
-    "sandbox": "sandbox allow-scripts; script-src 'self' 'unsafe-inline'; object-src 'none'"
+    "sandbox": "sandbox allow-scripts; script-src 'self' 'unsafe-inline' 'unsafe-eval'; child-src 'self'"
   },
   "action": {
     "default_title": "GitHub Render",
@@ -39,8 +42,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://github.com/*/*/blob/*",
-        "https://raw.githubusercontent.com/*"
+        "https://github.com/*/*/blob/*"
       ],
       "js": [
         "renderer.js",

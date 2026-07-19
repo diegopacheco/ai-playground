@@ -31,3 +31,25 @@ function isAllowed(url) {
   if (url.hostname === "raw.githubusercontent.com") return true
   return url.hostname === "github.com" && url.pathname.includes("/raw/")
 }
+
+const supportedFiles = [".html", ".htm", ".md", ".markdown", ".mdown", ".mkd"]
+
+chrome.webNavigation.onCommitted.addListener(details => {
+  if (details.frameId !== 0) return
+
+  const url = new URL(details.url)
+  if (!supportedFiles.some(extension => url.pathname.toLowerCase().endsWith(extension))) return
+
+  chrome.storage.sync.get({ enabled: true }, settings => {
+    if (!settings.enabled) return
+    const viewer = chrome.runtime.getURL(`viewer.html?url=${encodeURIComponent(url.href)}`)
+    chrome.tabs.update(details.tabId, { url: viewer })
+  })
+}, {
+  url: [
+    {
+      schemes: ["https"],
+      hostEquals: "raw.githubusercontent.com"
+    }
+  ]
+})
