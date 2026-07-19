@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 ./stop.sh > /dev/null 2>&1 || true
 for attempt in $(seq 1 15); do
-  if ! lsof -ti tcp:4321 > /dev/null 2>&1; then
+  if ! lsof -ti tcp:4321 -sTCP:LISTEN > /dev/null 2>&1; then
     break
   fi
   sleep 1

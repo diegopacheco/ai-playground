@@ -227,3 +227,59 @@ h3 {
 .app-nav a[aria-current="page"] .app-nav-icon {
   opacity: 1;
 }
+
+.app-nav-menu {
+  position: relative;
+}
+
+.app-nav-menu summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  list-style: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 12px;
+  transition: color 160ms var(--ease), background 160ms var(--ease), box-shadow 160ms var(--ease);
+}
+
+.app-nav-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.app-nav-menu summary:hover {
+  color: var(--accent-strong);
+}
+
+.app-nav-menu summary[aria-current="page"] {
+  background: var(--surface);
+  color: var(--accent-strong);
+  box-shadow: var(--shadow-xs);
+}
+
+.app-nav-menu summary[aria-current="page"] .app-nav-icon {
+  opacity: 1;
+}
+
+.app-nav-menu-items {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 160px;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+}
+
+.app-nav-menu-items a {
+  border-radius: 8px;
+}

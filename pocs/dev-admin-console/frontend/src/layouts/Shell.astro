@@ -14,12 +14,17 @@ const links = [
   { href: "/join", label: "cross-join", key: "join", icon: "⋈" },
   { href: "/trace", label: "trace", key: "trace", icon: "◈" },
   { href: "/audit-trail", label: "audit", key: "audit", icon: "◷" },
-  { href: "/discovery", label: "discovery", key: "discovery", icon: "◇" },
+  { href: "/discovery", label: "discovery", key: "discovery", icon: "◇" }
+];
+
+const configLinks = [
   { href: "/projects", label: "projects", key: "projects", icon: "▦" },
   { href: "/users", label: "users", key: "users", icon: "◍" },
   { href: "/settings/ai", label: "ai", key: "settings", icon: "✦" },
   { href: "/swagger", label: "swagger", key: "swagger", icon: "◎" }
 ];
+
+const configActive = configLinks.some((link) => link.key === active);
 ---
 
 <html lang="en">
@@ -43,6 +48,20 @@ const links = [
               <span>{link.label}</span>
             </a>
           ))}
+          <details class="app-nav-menu" data-nav-menu>
+            <summary aria-current={configActive ? "page" : undefined}>
+              <span class="app-nav-icon" aria-hidden="true">⚙</span>
+              <span>config</span>
+            </summary>
+            <div class="app-nav-menu-items">
+              {configLinks.map((link) => (
+                <a href={link.href} aria-current={active === link.key ? "page" : undefined}>
+                  <span class="app-nav-icon" aria-hidden="true">{link.icon}</span>
+                  <span>{link.label}</span>
+                </a>
+              ))}
+            </div>
+          </details>
         </nav>
       </header>
       <div class="app-body">
@@ -55,6 +74,18 @@ const links = [
         window.dispatchEvent(
           new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true })
         );
+      });
+
+      const navMenu = document.querySelector("[data-nav-menu]");
+      document.addEventListener("click", (event) => {
+        if (navMenu && !navMenu.contains(event.target)) {
+          navMenu.removeAttribute("open");
+        }
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          navMenu?.removeAttribute("open");
+        }
       });
     </script>
   </body>

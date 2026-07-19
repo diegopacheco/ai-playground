@@ -1,0 +1,25 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]: Dev Admin Console
+    - button "Open the go-to-page palette" [ref=e5] [cursor=pointer]:
+      - generic [ref=e6]: go to…
+      - generic [ref=e7]: ⌘K
+    - navigation [ref=e8]:
+      - link "consoles" [ref=e9] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e10]: ▤
+      - link "cross-join" [ref=e12] [cursor=pointer]:
+        - /url: /join
+        - generic [ref=e13]: ⋈
+      - link "trace" [ref=e15] [cursor=pointer]:
+        - /url: /trace
+        - generic [ref=e16]: ◈
+      - link "audit" [ref=e18] [cursor=pointer]:
+        - /url: /audit-trail
+        - generic [ref=e19]: ◷
+      - link "discovery" [ref=e21] [cursor=pointer]:
+        - /url: /discovery
+        - generic [ref=e22]: ◇
+      - group [ref=e24]:
+        - generic "config" [ref=e25] [cursor=pointer]: ⚙
+  - paragraph [ref=e30]: loading…
