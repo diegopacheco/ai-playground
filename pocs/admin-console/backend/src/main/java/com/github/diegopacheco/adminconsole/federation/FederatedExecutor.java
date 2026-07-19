@@ -59,11 +59,16 @@ public class FederatedExecutor {
         FederatedQuery.Side first = query.sides().getFirst();
         List<Map<String, Object>> accumulated = prefix(first.alias(), fetched.get(first.alias().toLowerCase()).rows());
 
+        FederatedQuery.Join emptiedBy = null;
         for (FederatedQuery.Join join : query.joins()) {
             List<Map<String, Object>> right = prefix(join.rightAlias(),
                     fetched.get(join.rightAlias().toLowerCase()).rows());
             accumulated = hashJoin(accumulated, join.leftAlias() + "." + join.leftKey(),
                     right, join.rightAlias() + "." + join.rightKey(), join.leftJoin());
+            if (accumulated.isEmpty()) {
+                emptiedBy = join;
+                break;
+            }
             if (accumulated.size() > maxRowsPerSide) {
                 accumulated = new ArrayList<>(accumulated.subList(0, maxRowsPerSide));
             }
@@ -81,14 +86,15 @@ public class FederatedExecutor {
         }
 
         String diagnostic = projected.isEmpty()
-                ? explainEmpty(query, fetched)
+                ? explainEmpty(query, fetched, emptiedBy)
                 : null;
         return new Result(new ArrayList<>(columns), projected, sideResults,
                 System.currentTimeMillis() - started, diagnostic);
     }
 
-    private String explainEmpty(FederatedQuery query, Map<String, QueryResult> fetched) {
-        for (FederatedQuery.Join join : query.joins()) {
+    private String explainEmpty(FederatedQuery query, Map<String, QueryResult> fetched,
+                               FederatedQuery.Join emptiedBy) {
+        for (FederatedQuery.Join join : emptiedBy == null ? query.joins() : List.of(emptiedBy)) {
             String left = samples(fetched.get(join.leftAlias().toLowerCase()), join.leftKey());
             String right = samples(fetched.get(join.rightAlias().toLowerCase()), join.rightKey());
             if (left == null || right == null) {

@@ -342,6 +342,36 @@ class CrossEngineJoinIT {
     }
 
     @Test
+    void blamesTheJoinThatEmptiedTheResultRatherThanTheFirstOneInTheQuery() {
+        FederatedExecutor.Result result = run("""
+                SELECT a.customer_id, b._id, e.value
+                FROM demo-cassandra.events_by_customer a
+                JOIN demo-elasticsearch.products b ON a.customer_id = b._id
+                JOIN demo-redis.cache:customer:1 e ON a.customer_id = e.value
+                LIMIT 25""");
+
+        assertThat(result.rows()).isEmpty();
+        assertThat(result.diagnostic())
+                .contains("a.customer_id = e.value")
+                .doesNotContain("b._id");
+    }
+
+    @Test
+    void eachJoinOfAChainMatchesOnItsOwnSoOnlyTheGuiltyOneIsReported() {
+        assertThat(run("""
+                SELECT a.customer_id, b._id
+                FROM demo-cassandra.events_by_customer a
+                JOIN demo-elasticsearch.products b ON a.customer_id = b._id
+                LIMIT 25""").rows()).hasSize(25);
+
+        assertThat(run("""
+                SELECT a.customer_id, d.id
+                FROM demo-cassandra.events_by_customer a
+                JOIN demo-mysql.invoices d ON a.customer_id = d.id
+                LIMIT 25""").rows()).hasSize(25);
+    }
+
+    @Test
     void namesTheAvailableColumnsWhenTheJoinKeyDoesNotExist() {
         assertThatThrownBy(() -> run("""
                 SELECT c.email, i.number
