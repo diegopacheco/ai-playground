@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="macOS apps and Chrome extensions built by Diego Pacheco with Swift, Electron, and Manifest V3.">
+  <title>Diego Pacheco macOS Apps and Chrome Extensions</title>
+  <style>
+    :root{--paper:#eeeae1;--paper-2:#f7f4ed;--ink:#171817;--muted:#6a6a63;--line:#d5d0c5;--night:#121824;--blue:#246bfd;--cyan:#78e7e1;--orange:#ff784f;--chrome:#f6c445;--white:#fff;--shadow:rgba(28,31,35,.13)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;color:var(--ink);font-family:"Avenir Next",Avenir,"Gill Sans",sans-serif;background:linear-gradient(rgba(23,24,23,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(23,24,23,.035) 1px,transparent 1px),var(--paper);background-size:32px 32px}
+    a{color:inherit}
+    button{font:inherit}
+    .shell{width:min(1420px,calc(100% - 64px));margin:0 auto}
+    .topbar{min-height:84px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 0}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:800;white-space:nowrap}
+    .brand-mark{width:38px;height:38px;border-radius:12px;background:var(--night);color:var(--cyan);display:grid;place-items:center;font:800 11px Menlo,monospace;box-shadow:0 8px 20px rgba(18,24,36,.22)}
+    .nav{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+    .nav a{padding:9px 12px;border:1px solid rgba(23,24,23,.07);border-radius:999px;background:rgba(247,244,237,.84);color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.08em;text-decoration:none;text-transform:uppercase;transition:.2s ease}
+    .nav a:hover{border-color:var(--blue);color:var(--blue);background:var(--white)}
+    .hero{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.75fr);gap:52px;align-items:center;padding:clamp(38px,5.5vw,78px);min-height:600px;border-radius:32px;background:var(--night);color:var(--white);box-shadow:0 34px 80px rgba(18,24,36,.25)}
+    .hero:before{content:"";position:absolute;z-index:-2;inset:0;background:radial-gradient(circle at 78% 12%,rgba(36,107,253,.52),transparent 30%),radial-gradient(circle at 92% 82%,rgba(120,231,225,.18),transparent 30%),linear-gradient(120deg,#121824 30%,#1c2840)}
+    .hero:after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(115deg,transparent 49.5%,rgba(255,255,255,.06) 49.5%,rgba(255,255,255,.06) 50%,transparent 50%)}
+    .eyebrow{margin-bottom:18px;color:var(--cyan);font:800 11px Menlo,monospace;letter-spacing:.2em;text-transform:uppercase}
+    h1{max-width:780px;margin:0;font:800 clamp(49px,7vw,102px)/.88 "Avenir Next Condensed","Gill Sans",sans-serif;letter-spacing:-.065em}
+    h1 em{font-style:normal;color:var(--chrome)}
+    .hero-copy>p{max-width:690px;margin:28px 0 0;color:rgba(255,255,255,.72);font-size:clamp(16px,1.4vw,20px);line-height:1.6}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:32px}
+    .hero-actions a{padding:13px 18px;border-radius:999px;background:var(--white);color:var(--night);font-size:11px;font-weight:900;letter-spacing:.07em;text-decoration:none;text-transform:uppercase;transition:transform .2s ease,background .2s ease}
+    .hero-actions a+a{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.07);color:var(--white)}
+    .hero-actions a:hover{transform:translateY(-3px);background:var(--chrome)}
+    .desktop{position:relative;min-height:420px}
+    .window{position:absolute;overflow:hidden;border:1px solid rgba(255,255,255,.17);border-radius:18px;background:rgba(247,244,237,.96);box-shadow:0 24px 60px rgba(0,0,0,.34)}
+    .window:first-child{inset:22px 26px 76px 0;transform:rotate(-3deg)}
+    .window:last-child{width:70%;height:58%;right:0;bottom:22px;transform:rotate(4deg)}
+    .window-bar{height:34px;display:flex;align-items:center;gap:7px;padding:0 12px;background:#ddd9d0;border-bottom:1px solid #c6c1b8}
+    .dot{width:9px;height:9px;border-radius:50%;background:#ff6258}
+    .dot:nth-child(2){background:#ffbd2e}
+    .dot:nth-child(3){background:#28c840}
+    .window-body{height:calc(100% - 34px);padding:24px;color:var(--night);background:radial-gradient(circle at 90% 5%,rgba(36,107,253,.18),transparent 35%),var(--paper-2)}
+    .window-label{font:800 10px Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+    .window-title{margin-top:14px;font:800 34px/1 "Avenir Next Condensed",sans-serif;letter-spacing:-.035em}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:24px}
+    .metric{padding:13px 10px;border:1px solid var(--line);border-radius:12px;background:var(--white)}
+    .metric strong{display:block;font:800 23px/1 Menlo,monospace}
+    .metric span{display:block;margin-top:7px;color:var(--muted);font-size:8px;font-weight:800;text-transform:uppercase}
+    .extension-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}
+    .extension-icon{aspect-ratio:1;border-radius:18px;display:grid;place-items:center;background:var(--white);box-shadow:0 8px 20px rgba(18,24,36,.12)}
+    .extension-icon img{width:68%;height:68%;object-fit:contain}
+    .catalog-strip{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:22px 0 0;padding:22px 26px;border:1px solid var(--line);border-radius:22px;background:rgba(247,244,237,.82);box-shadow:0 14px 34px rgba(28,31,35,.06)}
+    .catalog-strip p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+    .stats{display:flex;gap:8px;flex-shrink:0}
+    .stat{min-width:94px;padding:12px 14px;border-radius:14px;background:var(--white);text-align:center}
+    .stat strong{display:block;font:900 28px/1 Menlo,monospace;color:var(--blue)}
+    .stat span{display:block;margin-top:7px;color:var(--muted);font-size:8px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+    .section{padding:84px 0 20px}
+    .section-toggle{position:relative;width:100%;display:block;padding:0 64px 0 0;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}
+    .section-toggle:after{content:"−";position:absolute;right:0;top:2px;width:44px;height:44px;border:1px solid var(--line);border-radius:14px;background:var(--paper-2);color:var(--blue);display:grid;place-items:center;font:700 24px/1 Menlo,monospace;box-shadow:0 7px 18px rgba(28,31,35,.07)}
+    .section.collapsed .section-toggle:after{content:"+"}
+    .section.collapsed .grid{display:none}
+    .section-kicker{display:block;margin-bottom:12px;color:var(--blue);font:800 10px Menlo,monospace;letter-spacing:.16em;text-transform:uppercase}
+    h2{margin:0 0 12px;font:800 clamp(38px,5vw,64px)/.94 "Avenir Next Condensed","Gill Sans",sans-serif;letter-spacing:-.045em}
+    .section-note{max-width:660px;margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:30px}
+    .card{position:relative;overflow:hidden;display:flex;min-height:520px;flex-direction:column;border:1px solid rgba(23,24,23,.1);border-radius:25px;background:var(--paper-2);color:inherit;text-decoration:none;box-shadow:0 15px 40px rgba(28,31,35,.08);transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+    .card:hover{transform:translateY(-8px);border-color:rgba(36,107,253,.4);box-shadow:0 28px 60px rgba(28,31,35,.16)}
+    .art{position:relative;height:270px;overflow:hidden;border-bottom:1px solid var(--line);background:#d9d5cd}
+    .art img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+    .card:hover .art img{transform:scale(1.035)}
+    .card[data-kind="chrome"] .art{display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#fff,transparent 36%),linear-gradient(135deg,#f5d775,#e86a4f 48%,#246bfd)}
+    .card[data-kind="chrome"] .art img{width:132px;height:132px;object-fit:contain;filter:drop-shadow(0 18px 18px rgba(18,24,36,.24))}
+    .rank{position:absolute;z-index:2;top:14px;left:14px;padding:6px 10px;border-radius:999px;background:var(--night);color:var(--cyan);font:800 10px Menlo,monospace;letter-spacing:.08em}
+    .platform{position:absolute;z-index:2;right:14px;top:14px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.92);color:var(--night);font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .card-body{display:flex;flex:1;flex-direction:column;padding:21px 22px 20px}
+    .stack{margin-bottom:11px;color:var(--blue);font:800 9px Menlo,monospace;letter-spacing:.12em;text-transform:uppercase}
+    .card h3{margin:0 0 11px;font:800 25px/1.05 "Avenir Next Condensed","Gill Sans",sans-serif;letter-spacing:-.025em}
+    .card p{flex:1;margin:0 0 20px;color:var(--muted);font-size:12px;line-height:1.62}
+    .open{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+    .arrow{color:var(--blue);font-size:18px;transition:transform .2s ease}
+    .card:hover .arrow{transform:translateX(5px)}
+    footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:52px 0 64px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    footer a{color:var(--blue);text-decoration:none}
+    @media(max-width:1060px){.hero{grid-template-columns:1fr;min-height:0}.desktop{min-height:380px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:720px){.shell{width:calc(100% - 30px)}.topbar{align-items:flex-start;flex-direction:column}.nav{justify-content:flex-start}.hero{padding:36px 24px;border-radius:24px}.desktop{min-height:330px}.window:first-child{inset:10px 15px 60px 0}.window:last-child{width:74%}.metrics{grid-template-columns:1fr}.metric:nth-child(n+2){display:none}.grid{grid-template-columns:1fr}.catalog-strip{align-items:flex-start;flex-direction:column}.stats{width:100%}.stat{flex:1;min-width:0}.card{min-height:490px}.art{height:250px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="../"><span class="brand-mark">APPS</span>Diego Pacheco · macOS + Chrome</a>
+      <nav class="nav">
+        <a href="#macos">macOS</a>
+        <a href="#chrome">Chrome</a>
+        <a href="https://diegopacheco.github.io/ai-playground/mcp/">MCP &nearr;</a>
+        <a href="https://diegopacheco.github.io/ai-playground/sec/">Security &nearr;</a>
+        <a href="https://diegopacheco.github.io/ai-playground/games/">Games &nearr;</a>
+        <a href="https://diegopacheco.github.io/ai-playground/">AI Playground &nearr;</a>
+        <a href="https://diegopacheco.github.io/">Main site &nearr;</a>
+        <a href="https://github.com/diegopacheco/ai-playground/tree/main/macos-chrome-apps" target="_blank" rel="noreferrer">GitHub &nearr;</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Swift · Electron · Manifest V3</div>
+          <h1>Apps for the <em>desktop</em> and browser.</h1>
+          <p>Focused utilities for local metrics, personal collections, GitHub reading, browser recording, and localhost operations.</p>
+          <div class="hero-actions">
+            <a href="#macos">Browse apps &darr;</a>
+            <a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs" target="_blank" rel="noreferrer">Open POCs &nearr;</a>
+          </div>
+        </div>
+        <div class="desktop" aria-hidden="true">
+          <div class="window">
+            <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="window-body">
+              <div class="window-label">macOS applications</div>
+              <div class="window-title">Native surfaces.<br>Local data.</div>
+              <div class="metrics">
+                <div class="metric"><strong>01</strong><span>Swift app</span></div>
+                <div class="metric"><strong>02</strong><span>Electron apps</span></div>
+                <div class="metric"><strong>03</strong><span>Local-first</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="window">
+            <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="window-body">
+              <div class="window-label">Chrome extensions</div>
+              <div class="extension-grid">
+                <div class="extension-icon"><img src="../pocs/chrome-ext-render-html-md/dist/icons/icon128.png" alt=""></div>
+                <div class="extension-icon"><img src="../pocs/flowprint/assets/icon-128.png" alt=""></div>
+                <div class="extension-icon"><img src="../pocs/localhost-radar/assets/icon-128.png" alt=""></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="catalog-strip">
+        <p>Six focused builds collected from <strong>pocs/</strong>. Each card opens the source project with its installation, usage, and technical details.</p>
+        <div class="stats">
+          <div class="stat"><strong>6</strong><span>Projects</span></div>
+          <div class="stat"><strong>3</strong><span>macOS</span></div>
+          <div class="stat"><strong>3</strong><span>Chrome</span></div>
+        </div>
+      </div>
+
+      <section class="section" id="macos">
+        <button class="section-toggle" type="button" aria-expanded="true" aria-controls="macos-grid">
+          <span class="section-kicker">Installed on macOS</span>
+          <h2>macOS Apps</h2>
+          <p class="section-note">One native Swift menu bar utility and two Electron desktop editions, all centered on local data and direct installation.</p>
+        </button>
+        <div class="grid" id="macos-grid" data-kind="macos"></div>
+      </section>
+
+      <section class="section" id="chrome">
+        <button class="section-toggle" type="button" aria-expanded="true" aria-controls="chrome-grid">
+          <span class="section-kicker">Lives beside the address bar</span>
+          <h2>Chrome Extensions</h2>
+          <p class="section-note">Manifest V3 tools for reading source, recording browser journeys, and understanding the local development surface.</p>
+        </button>
+        <div class="grid" id="chrome-grid" data-kind="chrome"></div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Diego Pacheco · AI Playground · macOS + Chrome · 2026</span>
+      <a href="https://github.com/diegopacheco/ai-playground/tree/main/macos-chrome-apps">github.com/diegopacheco/ai-playground &nearr;</a>
+    </footer>
+  </div>
+
+  <script>
+    const base="https://github.com/diegopacheco/ai-playground/tree/main/pocs/"
+    const projects=[
+      {n:1,kind:"macos",title:"cc-token-bar",platform:"macOS 13+",stack:"Swift · SwiftUI · AppKit",description:"A native menu bar app for Claude Code token usage, estimated cost, cache efficiency, sessions, tools, and model distribution. All data stays local.",image:"../pocs/cc-token-bar/cc-bar-result.png",position:"center 18%",repo:"cc-token-bar"},
+      {n:2,kind:"macos",title:"Game Stand",platform:"macOS",stack:"Electron · Python · Flask",description:"A desktop home for a finished-game collection across PlayStation, Nintendo Switch, and Steam, packaged as a native macOS application.",image:"../pocs/fable-5-game-stand/printscreens/stand.png",position:"center",repo:"fable-5-game-stand"},
+      {n:3,kind:"macos",title:"Reelmark",platform:"macOS",stack:"Electron · Bun · React · SQLite",description:"A private watch journal for movies and television that tracks episodes, runtime, completion, and viewing patterns through a signed desktop bundle.",image:"../pocs/tv-time-like/docs/screenshots/library.png",position:"top center",repo:"tv-time-like"},
+      {n:4,kind:"chrome",title:"GitHub Render",platform:"Chrome",stack:"Manifest V3 · Plain JavaScript",description:"Turns HTML and Markdown source files into calm, readable documents on GitHub, with raw-file routing and isolated HTML execution.",image:"../pocs/chrome-ext-render-html-md/dist/icons/icon128.png",repo:"chrome-ext-render-html-md"},
+      {n:5,kind:"chrome",title:"FlowPrint",platform:"Chrome",stack:"Manifest V3 · Playwright",description:"Records real browser journeys, keeps the trail in a side panel, and generates Playwright TypeScript with durable locators and redacted secrets.",image:"../pocs/flowprint/assets/icon-128.png",repo:"flowprint"},
+      {n:6,kind:"chrome",title:"Localhost Radar",platform:"Chrome DevTools",stack:"Manifest V3 · Python · Podman",description:"Inspects containers, listening localhost services, and browser traffic through a DevTools panel and a constrained native messaging host.",image:"../pocs/localhost-radar/assets/icon-128.png",repo:"localhost-radar"}
+    ]
+
+    function card(project){
+      const style=project.position?` style="object-position:${project.position}"`:""
+      return `<a class="card" data-kind="${project.kind}" href="${base}${project.repo}" target="_blank" rel="noreferrer"><div class="art"><span class="rank">${String(project.n).padStart(2,"0")}</span><span class="platform">${project.platform}</span><img loading="lazy" src="${project.image}" alt="${project.title}"${style}></div><div class="card-body"><div class="stack">${project.stack}</div><h3>${project.title}</h3><p>${project.description}</p><div class="open"><span>Open project</span><span class="arrow">&rarr;</span></div></div></a>`
+    }
+
+    document.querySelectorAll(".grid[data-kind]").forEach(grid=>{
+      grid.innerHTML=projects.filter(project=>project.kind===grid.dataset.kind).map(card).join("")
+    })
+
+    document.querySelectorAll(".section-toggle").forEach(toggle=>{
+      toggle.addEventListener("click",()=>{
+        const section=toggle.closest(".section")
+        const collapsed=section.classList.toggle("collapsed")
+        toggle.setAttribute("aria-expanded",String(!collapsed))
+      })
+    })
+  </script>
+</body>
+</html>
