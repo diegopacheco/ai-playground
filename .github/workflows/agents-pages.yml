@@ -7,6 +7,7 @@ on:
     paths:
       - agents/**
       - games/**
+      - macos-chrome-apps/**
       - mcp/**
       - sec/**
       - .github/workflows/agents-pages.yml
@@ -35,6 +36,9 @@ jobs:
           mkdir _site
           cp agents/landing-page.html _site/index.html
           cp -R agents/logos _site/logos
+          mkdir -p _site/agents
+          cp agents/landing-page.html _site/agents/index.html
+          cp -R agents/logos _site/agents/logos
           mkdir -p _site/games
           cp games/index.html _site/games/index.html
           cp games/README.md _site/games/README.md
@@ -58,6 +62,20 @@ jobs:
           cp agents/logos/147-agent-safehouse-macos-sandboxing-toolkit-for-llm-coding-agents.png _site/agents/logos/
           cp agents/logos/160-agent-skill-accessibility-auditor-wcag-with-claude-codex.png _site/agents/logos/
           cp agents/open-claw/sebastian-sec.png _site/agents/open-claw/
+          mkdir -p _site/macos-chrome-apps
+          mkdir -p _site/pocs/cc-token-bar
+          mkdir -p _site/pocs/chrome-ext-render-html-md/assets
+          mkdir -p _site/pocs/fable-5-game-stand/printscreens
+          mkdir -p _site/pocs/flowprint/assets
+          mkdir -p _site/pocs/localhost-radar/assets
+          mkdir -p _site/pocs/tv-time-like/docs/screenshots
+          cp macos-chrome-apps/index.html _site/macos-chrome-apps/index.html
+          cp pocs/cc-token-bar/cc-bar-result.png _site/pocs/cc-token-bar/cc-bar-result.png
+          cp pocs/chrome-ext-render-html-md/assets/github-render-logo.svg _site/pocs/chrome-ext-render-html-md/assets/github-render-logo.svg
+          cp pocs/fable-5-game-stand/printscreens/stand.png _site/pocs/fable-5-game-stand/printscreens/stand.png
+          cp pocs/flowprint/assets/icon-128.png _site/pocs/flowprint/assets/icon-128.png
+          cp pocs/localhost-radar/assets/icon-128.png _site/pocs/localhost-radar/assets/icon-128.png
+          cp pocs/tv-time-like/docs/screenshots/library.png _site/pocs/tv-time-like/docs/screenshots/library.png
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
