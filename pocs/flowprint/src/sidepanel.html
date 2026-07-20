@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowPrint</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <main>
+    <header class="masthead">
+      <div class="identity">
+        <img src="../assets/logo.svg" alt="FlowPrint">
+        <a href="https://diegopacheco.github.io" target="_blank" rel="noreferrer">GitHub by Diego Pacheco (diegopacheco.github.io)</a>
+      </div>
+      <div class="status" id="status"><span></span><strong>READY</strong></div>
+    </header>
+
+    <section class="intro">
+      <p class="eyebrow">BROWSER FIELD RECORDER</p>
+      <h1>Leave a trail.<br>Ship the test.</h1>
+      <p class="lede">Turn a real browser journey into a clean Playwright test without breaking your rhythm.</p>
+    </section>
+
+    <section class="controls">
+      <button class="primary" id="record">Start recording</button>
+      <button class="secondary" id="clear">Clear</button>
+    </section>
+
+    <section class="ledger">
+      <div class="section-title">
+        <h2>Recorded trail</h2>
+        <span id="step-count">0 marks</span>
+      </div>
+      <ol id="steps" class="steps"></ol>
+      <div class="empty" id="empty">
+        <span>01</span>
+        <p>Start recording, then use the page normally. Your actions and requests will appear here.</p>
+      </div>
+    </section>
+
+    <section class="output">
+      <div class="section-title">
+        <h2>Playwright test</h2>
+        <button id="copy" class="text-button">Copy test</button>
+      </div>
+      <pre><code id="code">Start a recording to create a test.</code></pre>
+      <button class="download" id="download">Save flow.spec.ts</button>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="lib.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

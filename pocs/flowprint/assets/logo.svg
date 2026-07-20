@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 132" role="img" aria-labelledby="title desc">
+  <title id="title">FlowPrint</title>
+  <desc id="desc">A red route forming a fingerprint beside the FlowPrint name</desc>
+  <rect width="520" height="132" fill="#f2efe6"/>
+  <g fill="none" stroke="#ef3e2f" stroke-width="8" stroke-linecap="round">
+    <path d="M22 77c0-37 26-61 60-61 34 0 59 24 59 58 0 29-15 44-32 44-15 0-23-11-23-27V61"/>
+    <path d="M40 82c0-26 17-45 42-45 23 0 40 17 40 40 0 15-6 26-15 26-8 0-11-6-11-15V65"/>
+    <path d="M57 87c0-16 9-29 25-29 13 0 23 10 23 24"/>
+  </g>
+  <circle cx="82" cy="88" r="7" fill="#2d5bff"/>
+  <text x="166" y="82" fill="#141412" font-family="Avenir Next Condensed, sans-serif" font-size="52" font-weight="800" letter-spacing="-3">FLOWPRINT</text>
+  <text x="168" y="108" fill="#66645e" font-family="monospace" font-size="13" letter-spacing="4">TRACE TO TEST</text>
+</svg>
