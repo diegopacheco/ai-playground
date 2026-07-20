@@ -51,6 +51,21 @@
     return lines.join("\n");
   };
 
+  const highlightTest = value => {
+    const source = String(value);
+    const expression = /('(?:\\.|[^'\\])*')|\b(import|from|async|await|const|return|new|process|env)\b|\b(test|expect|page|getByTestId|getByLabel|getByRole|locator|goto|click|fill|press|selectOption|evaluate|toHaveURL|requestSubmit)\b|(\b\d+\b)/g;
+    const tokens = [];
+    let cursor = 0;
+    for (const match of source.matchAll(expression)) {
+      if (match.index > cursor) tokens.push({ type: "plain", value: source.slice(cursor, match.index) });
+      const type = match[1] ? "string" : match[2] ? "keyword" : match[3] ? "api" : "number";
+      tokens.push({ type, value: match[0] });
+      cursor = match.index + match[0].length;
+    }
+    if (cursor < source.length) tokens.push({ type: "plain", value: source.slice(cursor) });
+    return tokens;
+  };
+
   const describeStep = step => {
     if (step.type === "navigation") return { label: "Navigate", detail: step.url };
     if (step.type === "network") return { label: `${step.method} ${step.status}`, detail: step.url };
@@ -61,7 +76,7 @@
     return { label: "Click", detail: step.text || step.locator?.value || "element" };
   };
 
-  const api = { describeStep, generateTest, locatorCode, quote, titleFrom, urlAssertionCode };
+  const api = { describeStep, generateTest, highlightTest, locatorCode, quote, titleFrom, urlAssertionCode };
   root.FlowPrintLib = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

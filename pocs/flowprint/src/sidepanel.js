@@ -5,6 +5,8 @@ const elements = {
   download: document.querySelector("#download"),
   empty: document.querySelector("#empty"),
   record: document.querySelector("#record"),
+  report: document.querySelector("#report"),
+  run: document.querySelector("#run"),
   status: document.querySelector("#status"),
   stepCount: document.querySelector("#step-count"),
   steps: document.querySelector("#steps"),
@@ -12,7 +14,9 @@ const elements = {
 };
 
 let state = { recording: false, steps: [] };
+let execution = { reportAvailable: false, running: false };
 let toastTimer;
+const runnerUrl = "http://127.0.0.1:17339";
 
 const notify = message => {
   clearTimeout(toastTimer);
@@ -24,6 +28,25 @@ const notify = message => {
 const currentTab = async () => {
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
   return tabs[0];
+};
+
+const renderExecution = () => {
+  elements.run.disabled = !state.steps.length || state.recording || execution.running;
+  elements.run.textContent = execution.running ? "Running Playwright..." : "Run Playwright";
+  elements.report.disabled = !execution.reportAvailable || execution.running;
+  elements.status.classList.toggle("running", execution.running);
+  if (execution.running) elements.status.querySelector("strong").textContent = "RUNNING";
+};
+
+const renderCode = source => {
+  const nodes = FlowPrintLib.highlightTest(source).map(token => {
+    if (token.type === "plain") return document.createTextNode(token.value);
+    const span = document.createElement("span");
+    span.className = `token-${token.type}`;
+    span.textContent = token.value;
+    return span;
+  });
+  elements.code.replaceChildren(...nodes);
 };
 
 const render = nextState => {
@@ -51,7 +74,8 @@ const render = nextState => {
     item.append(number, label, detail);
     return item;
   }));
-  elements.code.textContent = state.steps.length ? FlowPrintLib.generateTest(state) : "Start a recording to create a test.";
+  renderCode(state.steps.length ? FlowPrintLib.generateTest(state) : "Start a recording to create a test.");
+  renderExecution();
 };
 
 elements.record.addEventListener("click", async () => {
@@ -89,8 +113,42 @@ elements.download.addEventListener("click", () => {
   notify("Test saved");
 });
 
+elements.run.addEventListener("click", async () => {
+  if (!state.steps.length) return notify("Nothing to run yet");
+  execution.running = true;
+  renderExecution();
+  try {
+    const response = await fetch(`${runnerUrl}/run`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ spec: FlowPrintLib.generateTest(state) })
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "Playwright could not run");
+    execution.reportAvailable = result.reportAvailable;
+    notify(result.passed ? "Playwright run passed" : "Playwright run failed");
+  } catch (error) {
+    notify(error instanceof TypeError ? "Run ./start-runner.sh first" : error.message);
+  } finally {
+    execution.running = false;
+    render(state);
+  }
+});
+
+elements.report.addEventListener("click", async () => {
+  if (!execution.reportAvailable) return notify("Run Playwright first");
+  await chrome.tabs.create({ url: `${runnerUrl}/report/` });
+});
+
 chrome.runtime.onMessage.addListener(message => {
   if (message.type === "flowprint:state-changed") render(message.state);
 });
 
-chrome.runtime.sendMessage({ type: "flowprint:get-state" }).then(render);
+Promise.all([
+  chrome.runtime.sendMessage({ type: "flowprint:get-state" }),
+  fetch(`${runnerUrl}/status`).then(response => response.json()).catch(() => ({ reportAvailable: false }))
+]).then(([storedState, runner]) => {
+  execution.reportAvailable = Boolean(runner.reportAvailable);
+  execution.running = Boolean(runner.running);
+  render(storedState);
+});

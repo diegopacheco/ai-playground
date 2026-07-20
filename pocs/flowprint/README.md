@@ -17,7 +17,9 @@ FlowPrint is a dependency-free Chrome extension that records browser interaction
 - Redacts password values before storing them
 - Shows HTTP method, status, duration, failures, and request address
 - Generates a TypeScript Playwright test with exact accessible-name locators and stable route assertions in real time
+- Highlights the generated TypeScript directly in the side panel
 - Copies the test or saves it as `flow.spec.ts`
+- Runs the generated test and opens the latest Playwright HTML report
 - Stores the active session locally in Chrome
 - Uses no runtime libraries and sends no analytics
 
@@ -63,7 +65,10 @@ Enable Developer mode on Chrome's extensions page, select **Load unpacked**, and
 3. Select **Start recording**.
 4. Use the page normally.
 5. Select **Stop recording**.
-6. Copy or save the generated Playwright test.
+6. Select **Run Playwright**.
+7. Select **Show Report** to open the report from that run.
+
+The install script installs Playwright and starts the local Python runner in the background. The runner, generated spec, log, and latest report stay under `/tmp/flowprint`. The uninstall script stops it.
 
 Chrome blocks content scripts on internal pages such as `chrome://settings` and the Chrome Web Store.
 

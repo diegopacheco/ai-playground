@@ -134,7 +134,9 @@ button {
 
 .primary,
 .secondary,
-.download {
+.download,
+.run,
+.report {
   min-height: 44px;
   padding: 0 18px;
   border: 2px solid var(--ink);
@@ -151,7 +153,8 @@ button {
 }
 
 .primary:hover,
-.download:hover {
+.download:hover,
+.run:hover:not(:disabled) {
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0 var(--ink);
 }
@@ -275,12 +278,71 @@ code {
   white-space: pre-wrap;
 }
 
+.token-keyword {
+  color: #7da0ff;
+}
+
+.token-api {
+  color: #ff7669;
+}
+
+.token-string {
+  color: #f5cf42;
+}
+
+.token-number {
+  color: #73d49d;
+}
+
 .download {
   width: 100%;
   margin-top: 10px;
   color: var(--ink);
   background: #f5cf42;
   box-shadow: 3px 3px 0 var(--ink);
+}
+
+.execution {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.run,
+.report {
+  min-width: 0;
+}
+
+.run {
+  color: var(--paper);
+  background: var(--blue);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.report {
+  color: var(--blue);
+  border-color: var(--blue);
+  background: transparent;
+}
+
+.report:hover:not(:disabled) {
+  color: var(--paper);
+  background: var(--blue);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  filter: grayscale(1);
+  opacity: .38;
+  box-shadow: none;
+}
+
+.status.running span {
+  border-color: var(--blue);
+  background: var(--blue);
+  box-shadow: 0 0 0 5px rgba(45, 91, 255, .13);
+  animation: pulse .8s infinite;
 }
 
 .toast {

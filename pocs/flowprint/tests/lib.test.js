@@ -1,6 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const { describeStep, generateTest, locatorCode, quote, titleFrom, urlAssertionCode } = require("../src/lib.js");
+const { describeStep, generateTest, highlightTest, locatorCode, quote, titleFrom, urlAssertionCode } = require("../src/lib.js");
 
 test("quotes JavaScript strings safely", () => {
   assert.equal(quote("Diego's flow\nnext"), "'Diego\\'s flow\\nnext'");
@@ -52,6 +52,13 @@ test("keeps captured passwords out of generated code", () => {
   });
   assert.match(output, /process\.env\.FLOWPRINT_SECRET/);
   assert.doesNotMatch(output, /fill\('\[redacted\]'\)/);
+});
+
+test("highlights generated Playwright code without changing it", () => {
+  const source = "import { test } from '@playwright/test';\nawait page.getByRole('button').click();";
+  const tokens = highlightTest(source);
+  assert.equal(tokens.map(token => token.value).join(""), source);
+  assert.deepEqual(new Set(tokens.map(token => token.type)), new Set(["plain", "keyword", "api", "string"]));
 });
 
 test("manifest credits the author", () => {
