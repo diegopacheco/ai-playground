@@ -1,0 +1,21 @@
+macos-chrome-apps/index.html
+  s_89daada29aebde::t_475fdd6352ac11 1-206
+macos-chrome-apps/README.md
+  s_89daada29aebde::t_475fdd6352ac11 1-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "6add57f4f5a938d45d6253395d30bc8b7bdee8f5",
+  "prompts": {},
+  "sessions": {
+    "s_89daada29aebde": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7d72-d249-7713-8d95-4f1f84014bc4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
