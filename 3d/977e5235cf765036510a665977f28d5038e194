@@ -1,0 +1,23 @@
+pocs/tv-time-like/src/pages/LibraryPage.tsx
+  s_2e4dc872721764::t_625f6cc2114bcf 9,13
+  s_2e4dc872721764::t_119a5b01c68d88 45
+  s_2e4dc872721764::t_2146d7b5916e64 20
+  s_2e4dc872721764::t_6f55398c364279 30
+  s_2e4dc872721764::t_2eeeca6e0bc0e2 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "3d977e5235cf765036510a665977f28d5038e194",
+  "prompts": {},
+  "sessions": {
+    "s_2e4dc872721764": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "81a00605-969f-45a1-9cc3-5a42213cc799",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
