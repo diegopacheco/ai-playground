@@ -1,0 +1,9 @@
+{
+  "name": "localhost-radar",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "icons": "node scripts/generate-icons.js",
+    "test": "./test.sh"
+  }
+}

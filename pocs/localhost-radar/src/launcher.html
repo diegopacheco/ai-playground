@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open Localhost Radar</title>
+  <style>
+    body {
+      display: grid;
+      width: 300px;
+      min-height: 150px;
+      margin: 0;
+      place-items: center;
+      color: #edf2e8;
+      background: #0b0e0c;
+      font-family: "Avenir Next Condensed", "Gill Sans", sans-serif;
+    }
+    main {
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+    }
+    img {
+      width: 240px;
+      height: auto;
+    }
+    p {
+      margin: 14px 0 0;
+      color: #a9ff68;
+      font: 500 10px Menlo, monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    a {
+      display: block;
+      margin-top: 8px;
+      color: #839087;
+      font: 500 10px Menlo, monospace;
+      text-decoration: none;
+    }
+    a:hover { color: #a9ff68; }
+    button {
+      width: 100%;
+      min-height: 40px;
+      margin-top: 16px;
+      border: 1px solid #a9ff68;
+      color: #0b0e0c;
+      background: #a9ff68;
+      font: 700 12px "Avenir Next Condensed", "Gill Sans", sans-serif;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <img src="../assets/logo.svg" alt="Localhost Radar">
+    <a href="https://diegopacheco.github.io" target="_blank" rel="noreferrer">by Diego Pacheco (diegopacheco.github.io)</a>
+    <p id="status">Opening radar</p>
+    <button id="open" hidden>Open Radar</button>
+  </main>
+  <script src="launcher.js"></script>
+</body>
+</html>

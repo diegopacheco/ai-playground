@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 132" role="img" aria-labelledby="title desc">
+  <title id="title">Localhost Radar</title>
+  <desc id="desc">A green radar scope beside the Localhost Radar name</desc>
+  <rect width="720" height="132" fill="#0b0e0c"/>
+  <g transform="translate(10 10)">
+    <circle cx="56" cy="56" r="54" fill="#0b0e0c"/>
+    <path d="M56 56 89.6 20.7A49 49 0 0 1 103.9 45.8Z" fill="#a9ff68" opacity=".28"/>
+    <g fill="none" stroke="#7cbe5c" stroke-width="3">
+      <circle cx="56" cy="56" r="35"/>
+      <circle cx="56" cy="56" r="17"/>
+      <path d="M7 56h98M56 7v98"/>
+    </g>
+    <circle cx="56" cy="56" r="51.5" fill="none" stroke="#a9ff68" stroke-width="6"/>
+    <path d="M56 56 91 21" stroke="#a9ff68" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="82" cy="40" r="8" fill="#ffb84d"/>
+  </g>
+  <text x="140" y="61" fill="#edf2e8" font-family="Avenir Next Condensed, sans-serif" font-size="50" font-weight="800" letter-spacing="-2">LOCALHOST</text>
+  <text x="140" y="108" fill="#a9ff68" font-family="Avenir Next Condensed, sans-serif" font-size="50" font-weight="800" letter-spacing="9">RADAR</text>
+</svg>

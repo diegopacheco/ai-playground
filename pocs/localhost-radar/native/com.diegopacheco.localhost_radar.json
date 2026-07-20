@@ -1,0 +1,9 @@
+{
+  "name": "com.diegopacheco.localhost_radar",
+  "description": "Localhost Radar native host",
+  "path": "__HOST_PATH__",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://pdokohojfmgoiaogpimmndjfdhgehkhk/"
+  ]
+}

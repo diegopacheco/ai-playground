@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Localhost Radar</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <main>
+    <header class="topbar">
+      <div class="brand">
+        <img src="../assets/logo.svg" alt="Localhost Radar">
+        <a href="https://diegopacheco.github.io" target="_blank" rel="noreferrer">by Diego Pacheco (diegopacheco.github.io)</a>
+      </div>
+      <div class="sweep"><i></i><span>HOST LINK</span></div>
+      <button id="refresh-all" class="refresh">Refresh all</button>
+    </header>
+
+    <nav class="tabs" aria-label="Radar views">
+      <button class="tab active" data-tab="containers"><span>01</span> Containers <b id="container-count">0</b></button>
+      <button class="tab" data-tab="services"><span>02</span> Services <b id="service-count">0</b></button>
+    </nav>
+
+    <section class="view active" id="containers-view">
+      <div class="view-heading">
+        <div>
+          <p class="kicker">PODMAN SURFACE</p>
+          <h1>Container fleet</h1>
+        </div>
+        <div class="heading-actions">
+          <button class="outline" id="start-podman">Start / Repair Podman</button>
+          <button class="outline" id="refresh-containers">Scan containers</button>
+        </div>
+      </div>
+      <div class="metrics">
+        <article><strong id="running-count">0</strong><span>running</span></article>
+        <article><strong id="stopped-count">0</strong><span>stopped</span></article>
+        <article><strong id="image-count">0</strong><span>images</span></article>
+      </div>
+      <div class="notice" id="container-notice" hidden></div>
+      <div class="container-grid" id="containers"></div>
+      <div class="empty" id="containers-empty">
+        <div class="radar-mark"><i></i></div>
+        <h2>No containers detected</h2>
+        <p>Start a Podman container, then scan again.</p>
+      </div>
+    </section>
+
+    <section class="view" id="services-view">
+      <div class="view-heading">
+        <div>
+          <p class="kicker">LOOPBACK SURFACE</p>
+          <h1>Ports and traffic</h1>
+        </div>
+        <div class="heading-actions">
+          <button class="outline" id="export-map">Export API map</button>
+          <button class="outline" id="refresh-services">Scan ports</button>
+        </div>
+      </div>
+      <div class="notice" id="service-notice" hidden></div>
+      <div class="table-shell">
+        <table>
+          <thead><tr><th>Port</th><th>Service</th><th>Language</th><th>Path</th><th>Actions</th></tr></thead>
+          <tbody id="services"></tbody>
+        </table>
+        <div class="empty compact" id="services-empty"><h2>No listening services</h2><p>Start a local server, then scan again.</p></div>
+      </div>
+
+      <div class="traffic-heading">
+        <div><p class="kicker">DEVTOOLS FEED</p><h2>Live request traffic</h2></div>
+        <span id="traffic-count">0 requests</span>
+      </div>
+      <div class="traffic" id="traffic"></div>
+      <div class="empty compact" id="traffic-empty"><h2>Waiting for traffic</h2><p>Reload the inspected page to map REST calls and WebSockets.</p></div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="lib.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Localhost Radar",
+  "version": "1.0.5",
+  "description": "Inspect Podman containers, localhost services, and DevTools traffic by Diego Pacheco (diegopacheco.github.io).",
+  "minimum_chrome_version": "114",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8cWZwTfu2835xjQaSnH2U+85S084mD7m1jweo2ebcLfsydMTLtmpXINsxn3Ef7g7J1nxF+BhzSwWPWrCFRofrkU3iZh3L6OVlz6SXafSV0GNDCdB9PxlP1shWoPqTin7MdjrAOEkOcapGKI82rge45k4uy1JIN2/mOIcU9kwO155vt5osYjRXLrx4VRhX016Kd+v/zMsXDVgH77P9U9CpzNP8G8ojUJ5p1i+O8vR1DhES3gcdNAASDWeuY6JJCU51/U0IvI72x8UrchCI+JQfosup+o9J8Aj8FCldMujbgnemyEXG7kA/lHiNZDfaFObCyPzoCny5FOXet0Diw7yTQIDAQAB",
+  "permissions": [
+    "nativeMessaging",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "action": {
+    "default_title": "Open Localhost Radar",
+    "default_popup": "src/launcher.html",
+    "default_icon": {
+      "16": "assets/icon-16.png",
+      "32": "assets/icon-32.png",
+      "48": "assets/icon-48.png",
+      "128": "assets/icon-128.png"
+    }
+  },
+  "devtools_page": "src/devtools.html",
+  "icons": {
+    "16": "assets/icon-16.png",
+    "32": "assets/icon-32.png",
+    "48": "assets/icon-48.png",
+    "128": "assets/icon-128.png"
+  }
+}
