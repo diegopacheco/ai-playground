@@ -1,0 +1,21 @@
+macos-chrome-apps/index.html
+  s_738aee729a87ec::t_fdeb24324c0eba 134,183
+.github/workflows/macos-chrome-apps-pages.yml
+  s_738aee729a87ec::t_fdeb24324c0eba 10,40,47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "5294b4a89606935695ff2e57bb522b0e3a380e61",
+  "prompts": {},
+  "sessions": {
+    "s_738aee729a87ec": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f80d8-1377-78b0-b2e0-7d53a69007bb",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
