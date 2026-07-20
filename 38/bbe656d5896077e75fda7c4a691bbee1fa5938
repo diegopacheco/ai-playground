@@ -1,0 +1,19 @@
+.github/workflows/agents-pages.yml
+  s_738aee729a87ec::t_1901d265179ef1 10,39-41,65-78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "38bbe656d5896077e75fda7c4a691bbee1fa5938",
+  "prompts": {},
+  "sessions": {
+    "s_738aee729a87ec": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f80d8-1377-78b0-b2e0-7d53a69007bb",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
