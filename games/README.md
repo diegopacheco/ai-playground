@@ -67,11 +67,11 @@ Website (Games Catalog): [games/index.html](https://diegopacheco.github.io/ai-pl
 19. **Mesa 12** — A browser button-football match with drag-to-aim shots, canvas physics, local multiplayer and an optional AI-controlled opponent.
     [pocs/gpt-5.6-terra-futebol-de-botao-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/gpt-5.6-terra-futebol-de-botao-game)
 
-20. **Train Ride** — A 3D web train ride across Rio Grande do Sul, Brazil: seven stops with real landmarks, day/night, rain and a chugging steam engine.
-    [pocs/fable-5-train-ride-rs](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable-5-train-ride-rs)
-
-21. **BlockRails** — An interactive 3D wooden railway builder where you place track and scenery, shape the world, then run a nine-wagon train over the connected route.
+20. **BlockRails** — An interactive 3D wooden railway builder where you place track and scenery, shape the world, then run a nine-wagon train over the connected route.
     [Play BlockRails](https://diegopacheco.github.io/ai-playground/games/blockrails/) · [pocs/toy-train-track-builder-gpt.5.6-sol](https://github.com/diegopacheco/ai-playground/tree/main/pocs/toy-train-track-builder-gpt.5.6-sol)
+
+21. **Train Ride** — A 3D web train ride across Rio Grande do Sul, Brazil: seven stops with real landmarks, day/night, rain and a chugging steam engine.
+    [pocs/fable-5-train-ride-rs](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable-5-train-ride-rs)
 
 22. **Rally Game** — A 3D rally racing game in the browser (Three.js, no build step) where you race a gravel loop against three AI rivals.
     [pocs/fable5-rally-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-rally-game)
