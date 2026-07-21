@@ -70,92 +70,95 @@ Website (Games Catalog): [games/index.html](https://diegopacheco.github.io/ai-pl
 20. **Train Ride** — A 3D web train ride across Rio Grande do Sul, Brazil: seven stops with real landmarks, day/night, rain and a chugging steam engine.
     [pocs/fable-5-train-ride-rs](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable-5-train-ride-rs)
 
-21. **Rally Game** — A 3D rally racing game in the browser (Three.js, no build step) where you race a gravel loop against three AI rivals.
+21. **BlockRails** — An interactive 3D wooden railway builder where you place track and scenery, shape the world, then run a nine-wagon train over the connected route.
+    [Play BlockRails](https://diegopacheco.github.io/ai-playground/games/blockrails/) · [pocs/toy-train-track-builder-gpt.5.6-sol](https://github.com/diegopacheco/ai-playground/tree/main/pocs/toy-train-track-builder-gpt.5.6-sol)
+
+22. **Rally Game** — A 3D rally racing game in the browser (Three.js, no build step) where you race a gravel loop against three AI rivals.
     [pocs/fable5-rally-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-rally-game)
 
-22. **Top Speed GP** — A Top Gear-style pseudo-3D arcade racer over a sunset circuit with 19 rivals, nitro boosts and a CRT bezel, one HTML file.
+23. **Top Speed GP** — A Top Gear-style pseudo-3D arcade racer over a sunset circuit with 19 rivals, nitro boosts and a CRT bezel, one HTML file.
     [pocs/fable5-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-poc)
 
-23. **3D Tetris** — A playable Blockout-style 3D Tetris where polycubes fall down a pit and you slide and rotate them across all three axes.
+24. **3D Tetris** — A playable Blockout-style 3D Tetris where polycubes fall down a pit and you slide and rotate them across all three axes.
     [pocs/claude-opus-4.8-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-opus-4.8-poc)
 
-24. **Fight Game** — A 2-player cartoon fighting game in the browser, pure HTML5 canvas, drain the other player's health before the timer runs out.
+25. **Fight Game** — A 2-player cartoon fighting game in the browser, pure HTML5 canvas, drain the other player's health before the timer runs out.
     [pocs/fable-5-fight-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable-5-fight-game)
 
-25. **Bomberman-like** — A Bomberman-style arcade game on a canvas: drop bombs, blast bricks, collect power-ups and clear all four foes.
+26. **Bomberman-like** — A Bomberman-style arcade game on a canvas: drop bombs, blast bricks, collect power-ups and clear all four foes.
     [pocs/fable-5-bombermanlike](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable-5-bombermanlike)
 
-26. **Cyber Jungle DoomLike** — A small browser FPS using classic raycasting for a fast retro corridor-shooter feel.
+27. **Cyber Jungle DoomLike** — A small browser FPS using classic raycasting for a fast retro corridor-shooter feel.
     [pocs/codex-gpt-5.4-doom-like-experiment](https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-gpt-5.4-doom-like-experiment)
 
-27. **Megaslop Runner** — A cyberpunk endless runner where you are an AI coding agent that runs forever, flinging slop while devs hurl determinism at you.
+28. **Megaslop Runner** — A cyberpunk endless runner where you are an AI coding agent that runs forever, flinging slop while devs hurl determinism at you.
     [pocs/megaslop-runner](https://github.com/diegopacheco/ai-playground/tree/main/pocs/megaslop-runner)
 
-28. **Mega Slop** — An 8-bit, CRT-flavored platform shooter where you play a green slop-bot.
+29. **Mega Slop** — An 8-bit, CRT-flavored platform shooter where you play a green slop-bot.
     [pocs/megaslop](https://github.com/diegopacheco/ai-playground/tree/main/pocs/megaslop)
 
 ## Puzzle, Strategy & Board Games
 
-29. **Pokemon Collector** — A Pokemon trading-card collector built with Claude Opus 4.5.
+30. **Pokemon Collector** — A Pokemon trading-card collector built with Claude Opus 4.5.
     [pocs/claude-opus-4.5-pokemon-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/claude-opus-4.5-pokemon-poc)
 
-30. **Rubik's Cube** — A colorful 3D cube built with CSS transforms, animated layer turns, scrambling and automatic solving in one HTML file.
+31. **Rubik's Cube** — A colorful 3D cube built with CSS transforms, animated layer turns, scrambling and automatic solving in one HTML file.
     [pocs/cc-fable-5-rubiks-cube-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/cc-fable-5-rubiks-cube-poc)
 
-31. **Riverlight Poker School** — A light-themed Texas Hold'em learning app (Python + Django) that teaches the deck, hand strength, equity and street-by-street decisions, with heads-up play against local CLI agents.
+32. **Riverlight Poker School** — A light-themed Texas Hold'em learning app (Python + Django) that teaches the deck, hand strength, equity and street-by-street decisions, with heads-up play against local CLI agents.
     [pocs/gpt-5.6-sol-assisted-poker](https://github.com/diegopacheco/ai-playground/tree/main/pocs/gpt-5.6-sol-assisted-poker)
 
-32. **Memory Game** — A full-stack card-matching memory game built with Rust (Axum), React and SQLite.
+33. **Memory Game** — A full-stack card-matching memory game built with Rust (Axum), React and SQLite.
     [pocs/adwf-memory-game-opus-4.6-v5-final](https://github.com/diegopacheco/ai-playground/tree/main/pocs/adwf-memory-game-opus-4.6-v5-final)
 
-33. **Times 2** — A real-time strategy game in the spirit of Age of Empires II, where the enemy RED empire's strategy is decided live by Claude Sonnet.
+34. **Times 2** — A real-time strategy game in the spirit of Age of Empires II, where the enemy RED empire's strategy is decided live by Claude Sonnet.
     [pocs/times-2-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/times-2-game)
 
-34. **Maze Race** — A maze generator and solver race (pure Java) that replays BFS vs DFS side by side against the live solver source.
+35. **Maze Race** — A maze generator and solver race (pure Java) that replays BFS vs DFS side by side against the live solver source.
     [pocs/fable5-maze-viz](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fable5-maze-viz)
 
 ## Reinforcement Learning Games (AI learns to play)
 
-35. **Flappy Bird RL** — A reinforcement-learning agent trained to play Flappy Bird.
+36. **Flappy Bird RL** — A reinforcement-learning agent trained to play Flappy Bird.
     [pocs/reinforcement-learning-FlappyBird](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-FlappyBird)
 
-36. **Pacman RL** — A reinforcement-learning agent trained to play Pacman.
+37. **Pacman RL** — A reinforcement-learning agent trained to play Pacman.
     [pocs/reinforcement-learning-Pacman](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-Pacman)
 
-37. **Boxing RL** — A reinforcement-learning agent trained to play Atari Boxing.
+38. **Boxing RL** — A reinforcement-learning agent trained to play Atari Boxing.
     [pocs/reinforcement-learning-Boxing](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-Boxing)
 
-38. **Car Racing RL** — A reinforcement-learning agent trained to drive in Car Racing.
+39. **Car Racing RL** — A reinforcement-learning agent trained to drive in Car Racing.
     [pocs/reinforcement-learning-CarRacing](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-CarRacing)
 
-39. **CartPole RL** — A reinforcement-learning agent trained to balance the CartPole.
+40. **CartPole RL** — A reinforcement-learning agent trained to balance the CartPole.
     [pocs/reinforcement-learning-CartPole](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-CartPole)
 
-40. **Lunar Lander RL** — A reinforcement-learning agent trained to land in Lunar Lander.
+41. **Lunar Lander RL** — A reinforcement-learning agent trained to land in Lunar Lander.
     [pocs/reinforcement-learning-LunarLander](https://github.com/diegopacheco/ai-playground/tree/main/pocs/reinforcement-learning-LunarLander)
 
-41. **Mario Double DQN** — A Double Deep Q-Network PyTorch agent trained to play Super Mario Bros.
+42. **Mario Double DQN** — A Double Deep Q-Network PyTorch agent trained to play Super Mario Bros.
     [pocs/pytorch-double-deep-q-networks-mario-rl-agent](https://github.com/diegopacheco/ai-playground/tree/main/pocs/pytorch-double-deep-q-networks-mario-rl-agent)
 
 ## Simple POCs
 
-42. **SUPERBLUE** — A local-first browser SNES player with drag-and-drop cartridges, box-art matching, save states, gamepads and fullscreen play.
+43. **SUPERBLUE** — A local-first browser SNES player with drag-and-drop cartridges, box-art matching, save states, gamepads and fullscreen play.
     [pocs/snes-emu](https://github.com/diegopacheco/ai-playground/tree/main/pocs/snes-emu)
 
-43. **Rock Paper Scissors** — A web rock paper scissors game built with React 19 and Bun, with animations and persistent score tracking.
+44. **Rock Paper Scissors** — A web rock paper scissors game built with React 19 and Bun, with animations and persistent score tracking.
     [pocs/kiro-sdd-game-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/kiro-sdd-game-poc)
 
-44. **Paper Cizer Rock** — A React web game for quick Paper, Cizer, Rock rounds against the house.
+45. **Paper Cizer Rock** — A React web game for quick Paper, Cizer, Rock rounds against the house.
     [pocs/codex-gpt-5.5-high-paper-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-gpt-5.5-high-paper-game)
 
-45. **Rock · Paper · Scissors** — A single-file React Rock-Paper-Scissors game running via CDN, no build step.
+46. **Rock · Paper · Scissors** — A single-file React Rock-Paper-Scissors game running via CDN, no build step.
     [pocs/opus-4.7-high-paper-game](https://github.com/diegopacheco/ai-playground/tree/main/pocs/opus-4.7-high-paper-game)
 
-46. **Rock Paper Sizer** — A React Rock-Paper-Scissors game with round results, score tracking and win rate against the CPU.
+47. **Rock Paper Sizer** — A React Rock-Paper-Scissors game with round results, score tracking and win rate against the CPU.
     [pocs/openai-codex-5.3-poc-fun](https://github.com/diegopacheco/ai-playground/tree/main/pocs/openai-codex-5.3-poc-fun)
 
-47. **Codex Tetris** — A classic Tetris with a configurable admin panel for themes, difficulty and timeouts, built with the Codex Mac app.
+48. **Codex Tetris** — A classic Tetris with a configurable admin panel for themes, difficulty and timeouts, built with the Codex Mac app.
     [pocs/codex-app-agent-fun](https://github.com/diegopacheco/ai-playground/tree/main/pocs/codex-app-agent-fun)
 
-48. **Cursor Tetris** — A full-stack Tetris with a React + Vite frontend and a Rust + Actix backend, built with Cursor v3.
+49. **Cursor Tetris** — A full-stack Tetris with a React + Vite frontend and a Rust + Actix backend, built with Cursor v3.
     [pocs/cursor-v3-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/cursor-v3-poc)

@@ -105,7 +105,7 @@
     <div class="hero-side">
       <span class="hero-side-label">Catalog index</span>
       <div class="stats">
-        <div class="stat"><strong>48</strong><span>Games</span></div>
+        <div class="stat"><strong>49</strong><span>Games</span></div>
         <div class="stat"><strong>6</strong><span>Categories</span></div>
         <div class="stat"><strong>10</strong><span>CV Games</span></div>
       </div>
@@ -202,6 +202,7 @@ const games=[
 
 {n:13,cat:"arcade",t:"Mesa 12",c:"Button Football · Human vs AI",d:"A browser button-football match with drag-to-aim shots, canvas physics, local multiplayer and an optional AI-controlled opponent.",gif:"../pocs/gpt-5.6-terra-futebol-de-botao-game/docs/mesa12-gameplay.gif",r:"gpt-5.6-terra-futebol-de-botao-game"},
 {n:13,cat:"arcade",t:"Train Ride",c:"3D · Exploration",d:"A 3D web train ride across Rio Grande do Sul with real landmarks, day/night, rain and a steam engine.",gif:"../pocs/fable-5-train-ride-rs/printscreens/train-ride.gif",r:"fable-5-train-ride-rs"},
+{n:14,cat:"arcade",t:"BlockRails",c:"3D · Railway Builder",d:"Build a wooden railway from track and scenery, shape the world, then run a nine-wagon train over the connected route.",img:"../pocs/toy-train-track-builder-gpt.5.6-sol/assets/blockrails-app.png",url:"blockrails/"},
 {n:14,cat:"arcade",t:"Rally Game",c:"3D Racing · Three.js",d:"A 3D rally racer over a gravel loop against three AI rivals, one HTML file, no build step.",img:"../pocs/fable5-rally-game/printscreens/chasing.png",r:"fable5-rally-game"},
 {n:15,cat:"arcade",t:"Top Speed GP",c:"Pseudo-3D Racing",d:"A Top Gear-style pseudo-3D arcade racer over a sunset circuit with 19 rivals, nitro boosts and a CRT bezel, one HTML file.",img:"../pocs/fable5-poc/printscreens/racing.png",r:"fable5-poc"},
 {n:16,cat:"arcade",t:"3D Tetris",c:"3D · Three.js",d:"A playable Blockout-style 3D Tetris where polycubes fall down a pit and you slide and rotate them across all three axes.",img:"../pocs/claude-opus-4.8-poc/docs/02-playing.png",r:"claude-opus-4.8-poc"},
@@ -244,9 +245,9 @@ function media(g){
   return '<div class="art ph" style="background:'+g.bg+'">'+rank+'<span class="ph-emoji">'+g.ph+'</span></div>';
 }
 function card(g){
-  return '<a class="card" href="'+base+g.r+'">'+media(g)+
+  return '<a class="card" href="'+(g.url||base+g.r)+'">'+media(g)+
     '<div class="body"><div class="category">'+g.c+'</div><h3>'+g.t+'</h3><p>'+g.d+'</p>'+
-    '<div class="open"><span>Open POC</span><span class="arr">&rarr;</span></div></div></a>';
+    '<div class="open"><span>'+(g.url?'Play game':'Open POC')+'</span><span class="arr">&rarr;</span></div></div></a>';
 }
 document.querySelectorAll('.grid[data-cat]').forEach(el=>{
   el.innerHTML=games.filter(g=>g.cat===el.dataset.cat).map(card).join('');
