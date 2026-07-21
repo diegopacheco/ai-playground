@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 220" role="img" aria-labelledby="title description">
+  <title id="title">BlockRails</title>
+  <desc id="description">A red wooden locomotive beside the BlockRails name</desc>
+  <defs>
+    <linearGradient id="wood" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f1c986"/>
+      <stop offset="1" stop-color="#c98d48"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ed5543"/>
+      <stop offset="1" stop-color="#b82526"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#493524" flood-opacity=".18"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="824" height="204" rx="42" fill="#fffaf0" stroke="#ead9b9" stroke-width="4"/>
+  <g transform="translate(42 32)" filter="url(#shadow)">
+    <path d="M8 142h218" stroke="#6b4630" stroke-width="8" stroke-linecap="round"/>
+    <path d="M18 128v30M58 128v30M98 128v30M138 128v30M178 128v30M218 128v30" stroke="url(#wood)" stroke-width="12" stroke-linecap="round"/>
+    <path d="M32 132h190" stroke="#dba661" stroke-width="10" stroke-linecap="round"/>
+    <path d="M65 60h84c17 0 31 14 31 31v35H48V77c0-9 8-17 17-17Z" fill="url(#red)" stroke="#7d2224" stroke-width="5"/>
+    <path d="M122 35h35v50h-35z" fill="#d83931" stroke="#7d2224" stroke-width="5"/>
+    <path d="M114 34h51l-8-18h-35z" fill="#f06449" stroke="#7d2224" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M45 83H24L10 105h38" fill="#e8ad48" stroke="#7d2224" stroke-width="5" stroke-linejoin="round"/>
+    <rect x="76" y="73" width="38" height="31" rx="4" fill="#9dd7dd" stroke="#7d2224" stroke-width="5"/>
+    <path d="M178 92h27l20 34h-47z" fill="#e8ad48" stroke="#7d2224" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="78" cy="128" r="23" fill="#333c43" stroke="#20262a" stroke-width="5"/>
+    <circle cx="78" cy="128" r="10" fill="#e8ad48"/>
+    <circle cx="165" cy="128" r="23" fill="#333c43" stroke="#20262a" stroke-width="5"/>
+    <circle cx="165" cy="128" r="10" fill="#e8ad48"/>
+    <circle cx="139" cy="51" r="7" fill="#f8d879"/>
+  </g>
+  <g transform="translate(300 63)">
+    <text x="0" y="75" fill="#283c36" font-family="Georgia, 'Times New Roman', serif" font-size="78" font-weight="700" letter-spacing="-3">Block<tspan fill="#c93431">Rails</tspan></text>
+    <path d="M4 101h454" stroke="#d9a65c" stroke-width="8" stroke-linecap="round"/>
+    <path d="M25 92v18M73 92v18M121 92v18M169 92v18M217 92v18M265 92v18M313 92v18M361 92v18M409 92v18M457 92v18" stroke="#855b36" stroke-width="5" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4dca8">
+    <title>BlockRails</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="BlockRails home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span><b>Block</b>Rails</span>
+        </a>
+        <nav class="mode-switch" aria-label="Play mode" role="tablist">
+          <button class="mode-button active" data-mode="build" type="button" role="tab" aria-selected="true" aria-controls="buildPanel"><span class="mode-number">1</span>Build</button>
+          <button class="mode-button" data-mode="simulate" type="button" role="tab" aria-selected="false" aria-controls="simulatePanel"><span class="mode-number">2</span>Simulate</button>
+        </nav>
+        <button id="soundButton" class="round-button" type="button" aria-label="Mute sound" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zm-2.5-8v2a6.5 6.5 0 0 1 0 12v2a8.5 8.5 0 0 0 0-16z"/></svg>
+        </button>
+      </header>
+
+      <main id="viewport" aria-label="3D wooden train track builder">
+        <canvas id="scene"></canvas>
+        <div class="scene-vignette"></div>
+        <div id="weatherLayer" aria-hidden="true"></div>
+
+        <section id="buildPanel" class="build-panel panel" aria-label="Track pieces" role="tabpanel">
+          <div class="panel-heading">
+            <div><span class="eyebrow">Piece box</span><h1>Build your railway</h1></div>
+            <span id="pieceCount" class="piece-count">24 pieces</span>
+          </div>
+          <div class="piece-grid">
+            <button class="piece-card active" data-piece="straight" data-shortcut="1" type="button"><span class="piece-art straight-art"><i></i><i></i></span><b>Straight</b><small>1 × 1</small></button>
+            <button class="piece-card" data-piece="curve" data-shortcut="2" type="button"><span class="piece-art curve-art"><i></i></span><b>Curve</b><small>Quarter turn</small></button>
+            <button class="piece-card" data-piece="bridge" data-shortcut="3" type="button"><span class="piece-art bridge-art"><i></i><i></i></span><b>Bridge</b><small>1 × 1</small></button>
+            <button class="piece-card" data-piece="station" data-shortcut="4" type="button"><span class="piece-art station-art"><i></i><i></i></span><b>Station</b><small>1 × 1</small></button>
+            <button class="piece-card" data-piece="t-junction" data-shortcut="5" type="button"><span class="piece-art t-junction-art"><i></i></span><b>T Junction</b><small>3-way track</small></button>
+            <button class="piece-card" data-piece="x-crossing" data-shortcut="6" type="button"><span class="piece-art x-crossing-art"><i></i></span><b>X Crossing</b><small>4-way track</small></button>
+            <button class="piece-card" data-piece="overpass" data-shortcut="7" type="button"><span class="piece-art overpass-art"><i></i><i></i></span><b>Overpass</b><small>Rail crossing</small></button>
+            <button class="piece-card" data-piece="tree" data-shortcut="8" type="button"><span class="piece-art tree-art"><i></i></span><b>Tree</b><small>Scenery</small></button>
+            <button class="piece-card" data-piece="lake" data-shortcut="9" type="button"><span class="piece-art lake-art"><i></i></span><b>Lake</b><small>Scenery</small></button>
+            <button class="piece-card" data-piece="house" data-shortcut="0" type="button"><span class="piece-art house-art"><i></i></span><b>House</b><small>Scenery</small></button>
+            <button class="piece-card" data-piece="track-over" data-shortcut="-" type="button"><span class="piece-art track-over-art"><i></i></span><b>Track Over</b><small>Slope up</small></button>
+            <button class="piece-card" data-piece="track-under" data-shortcut="=" type="button"><span class="piece-art track-under-art"><i></i></span><b>Track Under</b><small>Slope down</small></button>
+          </div>
+          <div class="build-actions">
+            <button id="rotateButton" class="tool-button primary" type="button"><kbd>R</kbd> Rotate</button>
+            <button id="eraseButton" class="tool-button" type="button"><kbd>E</kbd> Erase</button>
+            <button id="undoButton" class="tool-button" type="button"><kbd>⌘Z</kbd> Undo</button>
+          </div>
+          <p class="build-tip"><span></span>Drag a piece onto the table or click an open square.</p>
+        </section>
+
+        <section id="simulatePanel" class="simulate-panel panel" aria-label="Train controls" role="tabpanel" hidden>
+          <span class="eyebrow">Conductor desk</span>
+          <h1>All aboard</h1>
+          <p id="routeMessage">The railway is ready for a journey.</p>
+          <button id="trainToggle" class="train-toggle" type="button"><span class="play-icon"></span><b>Start train</b></button>
+          <div class="wagon-manifest"><b>9 wagons</b><span>Food · Minerals · People · Timber · Milk · Mail · Animals · Tools · Caboose</span></div>
+          <label class="speed-control" for="speedRange"><span>Gentle</span><b>Train speed</b><span>Express</span></label>
+          <input id="speedRange" type="range" min="0.5" max="3" value="1.4" step="0.1">
+          <div class="route-stat"><span>Route length</span><strong id="routeLength">0 m</strong></div>
+        </section>
+
+        <aside class="world-panel" aria-label="World effects">
+          <div class="world-title"><span class="sun-symbol"></span><div><span class="eyebrow">World controls</span><b>Set the scene</b></div></div>
+          <div class="control-row"><span>Sky</span><div class="segmented"><button class="active" data-world="sky" data-value="day" type="button">Day</button><button data-world="sky" data-value="night" type="button">Night</button></div></div>
+          <div class="control-row"><span>Weather</span><div class="segmented"><button class="active" data-world="weather" data-value="sunny" type="button">Sunny</button><button data-world="weather" data-value="rain" type="button">Rain</button></div></div>
+          <div class="control-row"><span>Ground</span><div class="segmented"><button class="active" data-world="ground" data-value="clean" type="button">Clean</button><button data-world="ground" data-value="snow" type="button">Snow</button></div></div>
+          <div class="control-row"><span>Sound</span><div class="segmented"><button class="active" data-sound="on" type="button">On</button><button data-sound="off" type="button">Off</button></div></div>
+        </aside>
+
+        <div class="camera-hint"><span></span>Drag to look around · Scroll to zoom</div>
+      </main>
+      <div id="toast" role="status" aria-live="polite"></div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
