@@ -21,6 +21,7 @@ The `diegopacheco/diegopacheco.github.io` repository is a separate site. Changes
 | `diegopacheco/ai-playground` | `agents/landing-page.html` | `https://diegopacheco.github.io/ai-playground/agents/` |
 | `diegopacheco/ai-playground` | `sec/index.html` and `sec/landing-page.html` | `https://diegopacheco.github.io/ai-playground/sec/` |
 | `diegopacheco/ai-playground` | `games/index.html` and `games/README.md` | `https://diegopacheco.github.io/ai-playground/games/` |
+| `diegopacheco/ai-playground` | `games/blockrails/index.html` and `games/blockrails/assets/` | `https://diegopacheco.github.io/ai-playground/games/blockrails/` |
 | `diegopacheco/ai-playground` | `mcp/index.html` | `https://diegopacheco.github.io/ai-playground/mcp/` |
 | `diegopacheco/ai-playground` | `macos-chrome-apps/index.html` | `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` |
 
@@ -37,6 +38,7 @@ The aggregate workflow currently creates these entry points:
 | `sec/landing-page.html` | `_site/sec/landing-page.html` |
 | `games/index.html` | `_site/games/index.html` |
 | `games/README.md` | `_site/games/README.md` |
+| `games/blockrails/` | `_site/games/blockrails/` |
 | `mcp/index.html` | `_site/mcp/index.html` |
 | `macos-chrome-apps/index.html` | `_site/macos-chrome-apps/index.html` |
 
@@ -49,7 +51,7 @@ The workflow also copies every media file required by these pages. Source files 
 3. If asset paths changed, update the `Prepare site` step in the same workflow.
 4. Preserve every existing artifact entry point and copy operation.
 5. Rehearse the complete `Prepare site` step in an isolated temporary directory.
-6. Confirm all six `ai-playground` entry points exist in the generated `_site` directory.
+6. Confirm all seven `ai-playground` entry points exist in the generated `_site` directory.
 7. Confirm every local image, video, stylesheet, and script reference resolves inside `_site`.
 8. Commit and push the requested source changes and the aggregate workflow change together.
 9. Wait for the `Publish Agent Atlas` workflow to finish successfully.
@@ -74,6 +76,7 @@ The workflow also copies every media file required by these pages. Source files 
 - `_site/agents/index.html` exists.
 - `_site/sec/index.html` exists.
 - `_site/games/index.html` exists.
+- `_site/games/blockrails/index.html` exists.
 - `_site/mcp/index.html` exists.
 - `_site/macos-chrome-apps/index.html` exists.
 - No existing route or asset is missing from the artifact.
@@ -86,6 +89,7 @@ The workflow also copies every media file required by these pages. Source files 
 - `https://diegopacheco.github.io/ai-playground/agents/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/sec/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/games/` returns HTTP 200.
+- `https://diegopacheco.github.io/ai-playground/games/blockrails/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/mcp/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` returns HTTP 200.
 
