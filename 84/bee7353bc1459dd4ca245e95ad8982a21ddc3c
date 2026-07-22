@@ -1,0 +1,38 @@
+games/angry-bode/styles.css
+  s_a2d028edf9cb3e::t_a106d00239ef2f 1-695
+pages/pages.md
+  s_a2d028edf9cb3e::t_b130e0604b48b4 43
+  s_a2d028edf9cb3e::t_b3fda626a96f05 25
+  s_a2d028edf9cb3e::t_4e6397aec151e2 95
+games/angry-bode/index.html
+  s_a2d028edf9cb3e::t_a106d00239ef2f 1-87
+games/index.html
+  s_a2d028edf9cb3e::t_d80380939cc421 203
+games/angry-bode/src/game.js
+  s_a2d028edf9cb3e::t_a106d00239ef2f 2-1351
+  s_a2d028edf9cb3e::t_109ef601ab913d 1
+games/angry-bode/favicon.svg
+  s_a2d028edf9cb3e::t_a106d00239ef2f 1-7
+.github/workflows/agents-pages.yml
+  s_a2d028edf9cb3e::t_34acddff92a9e0 46
+games/angry-bode/vendor/three.core.js
+  s_a2d028edf9cb3e::t_50f05f6a5756dc 1-60007
+games/angry-bode/vendor/three.module.js
+  s_a2d028edf9cb3e::t_69a176717c7c0c 1-19610
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "84bee7353bc1459dd4ca245e95ad8982a21ddc3c",
+  "prompts": {},
+  "sessions": {
+    "s_a2d028edf9cb3e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "738d3ede-8dec-4a2a-acf3-0ceb68b36f86",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
