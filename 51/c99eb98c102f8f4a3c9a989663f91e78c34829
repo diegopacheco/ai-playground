@@ -1,0 +1,21 @@
+games/README.md
+  s_d54bbfaa273494::t_6a46776d7982d8 67-68,73-76,79,82,85,88,91,94,97,100,105,108,111,114,117,120,125,128,131,134,137,140,143,148,151,154,157,160,163,166
+games/index.html
+  s_d54bbfaa273494::t_f8074895a4961b 108,203,205
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "51c99eb98c102f8f4a3c9a989663f91e78c34829",
+  "prompts": {},
+  "sessions": {
+    "s_d54bbfaa273494": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f88aa-0c67-71b1-bf4a-4b0cd8092842",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
