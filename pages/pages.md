@@ -22,6 +22,7 @@ The `diegopacheco/diegopacheco.github.io` repository is a separate site. Changes
 | `diegopacheco/ai-playground` | `sec/index.html` and `sec/landing-page.html` | `https://diegopacheco.github.io/ai-playground/sec/` |
 | `diegopacheco/ai-playground` | `games/index.html` and `games/README.md` | `https://diegopacheco.github.io/ai-playground/games/` |
 | `diegopacheco/ai-playground` | `games/blockrails/index.html` and `games/blockrails/assets/` | `https://diegopacheco.github.io/ai-playground/games/blockrails/` |
+| `diegopacheco/ai-playground` | `games/angry-bode/index.html`, `games/angry-bode/src/`, `games/angry-bode/vendor/` and `games/angry-bode/assets/` | `https://diegopacheco.github.io/ai-playground/games/angry-bode/` |
 | `diegopacheco/ai-playground` | `mcp/index.html` | `https://diegopacheco.github.io/ai-playground/mcp/` |
 | `diegopacheco/ai-playground` | `macos-chrome-apps/index.html` | `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` |
 
@@ -39,6 +40,7 @@ The aggregate workflow currently creates these entry points:
 | `games/index.html` | `_site/games/index.html` |
 | `games/README.md` | `_site/games/README.md` |
 | `games/blockrails/` | `_site/games/blockrails/` |
+| `games/angry-bode/` | `_site/games/angry-bode/` |
 | `mcp/index.html` | `_site/mcp/index.html` |
 | `macos-chrome-apps/index.html` | `_site/macos-chrome-apps/index.html` |
 
@@ -90,6 +92,7 @@ The workflow also copies every media file required by these pages. Source files 
 - `https://diegopacheco.github.io/ai-playground/sec/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/games/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/games/blockrails/` returns HTTP 200.
+- `https://diegopacheco.github.io/ai-playground/games/angry-bode/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/mcp/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` returns HTTP 200.
 
