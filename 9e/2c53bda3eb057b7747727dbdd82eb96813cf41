@@ -1,0 +1,23 @@
+pocs/angry-bode-gpt-5.6-sol/scripts/capture-media.mjs
+  s_44ded56369557b::t_b61e44a6c0567b 1-2,4,8,54-57,59-68
+pocs/angry-bode-gpt-5.6-sol/index.html
+  s_44ded56369557b::t_f78a0bc0febbac 51-67
+pocs/angry-bode-gpt-5.6-sol/styles.css
+  s_44ded56369557b::t_029952dee6ebae 298-368,598-625,691-694
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "9e2c53bda3eb057b7747727dbdd82eb96813cf41",
+  "prompts": {},
+  "sessions": {
+    "s_44ded56369557b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f886d-740d-7452-8aad-6684fbd03151",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
