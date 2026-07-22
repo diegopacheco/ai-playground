@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#191629">
+  <title>Angry Bode</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="game-shell">
+    <canvas id="game" aria-label="Angry Bode city destruction game"></canvas>
+    <div class="scanlines"></div>
+    <header class="hud" id="hud">
+      <section class="brand">
+        <span class="brand-small">THE</span>
+        <span class="brand-main">ANGRY BODE</span>
+      </section>
+      <section class="stat health-stat">
+        <span>RAGE</span>
+        <div class="meter"><i id="rage-fill"></i></div>
+      </section>
+      <section class="scoreboard">
+        <span class="score-label">CITY WRECKED</span>
+        <strong id="score">000000</strong>
+      </section>
+      <section class="combo" id="combo">
+        <strong id="combo-value">x1</strong>
+        <span>RAMPAGE</span>
+      </section>
+    </header>
+    <aside class="mission" id="mission">
+      <span class="mission-kicker">CURRENT MOOD</span>
+      <strong>BREAK EVERYTHING.</strong>
+    </aside>
+    <section class="start-screen" id="start-screen">
+      <div class="sunburst"></div>
+      <canvas id="hero-goat" aria-hidden="true"></canvas>
+      <div class="start-copy">
+        <p class="eyebrow">A 16-BIT CITY SMASHER</p>
+        <h1><span>ANGRY</span><b>BODE</b></h1>
+        <p class="tagline">HALF GOAT. HALF FURY. ALL PROPERTY DAMAGE.</p>
+        <button class="music-toggle" id="music-toggle" type="button" aria-pressed="true">
+          <span>FRENETIC BANJO</span>
+          <b id="music-state">ON</b>
+        </button>
+        <button id="start-button" type="button">UNLEASH THE BODE!</button>
+        <p class="start-hint">PRESS ENTER OR TAP THE BUTTON</p>
+      </div>
+    </section>
+    <section class="pause-screen" id="pause-screen" hidden>
+      <p>DESTRUCTION PAUSED</p>
+      <button id="resume-button" type="button">KEEP SMASHING</button>
+    </section>
+    <footer class="controls" id="controls">
+      <div><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd><span>MOVE / CLIMB</span></div>
+      <div><kbd>A</kbd><kbd>D</kbd><span>MOVE</span></div>
+      <div><kbd>SPACE</kbd><span>JUMP</span></div>
+      <div class="hot"><kbd>E</kbd><span>LASER EYES</span></div>
+      <div><kbd>W</kbd><span>KICK</span></div>
+      <div><kbd>R</kbd><span>BURP</span></div>
+      <div><kbd>ESC</kbd><span>PAUSE</span></div>
+    </footer>
+    <div class="announcement" id="announcement"></div>
+    <div class="damage-flash" id="damage-flash"></div>
+  </main>
+  <script type="module" src="src/game.js"></script>
+</body>
+</html>
