@@ -1,8 +1,11 @@
-import { mkdir } from 'node:fs/promises'
+import { execFile } from 'node:child_process'
+import { mkdir, unlink } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { promisify } from 'node:util'
 import { chromium } from 'playwright'
 
 const assets = resolve('assets')
+const run = promisify(execFile)
 await mkdir(assets, { recursive: true })
 
 const browser = await chromium.launch({ channel: 'chrome', headless: true })
@@ -48,5 +51,18 @@ await page.waitForTimeout(Math.max(0, 5000 - (Date.now() - startedAt)))
 
 const video = page.video()
 await videoContext.close()
-await video.saveAs(resolve(assets, 'angry-bode-play.webm'))
+const recordedVideo = await video.path()
+const savedVideo = resolve(assets, 'angry-bode-play.webm')
+await video.saveAs(savedVideo)
+if (recordedVideo !== savedVideo) await unlink(recordedVideo)
 await browser.close()
+await run('ffmpeg', [
+  '-y',
+  '-ss', '1.25',
+  '-t', '5',
+  '-i', savedVideo,
+  '-vf', 'fps=12,scale=640:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128:stats_mode=diff[p];[s1][p]paletteuse=dither=bayer:bayer_scale=3',
+  '-loop', '0',
+  resolve(assets, 'angry-bode-play.gif')
+])
+await unlink(savedVideo)

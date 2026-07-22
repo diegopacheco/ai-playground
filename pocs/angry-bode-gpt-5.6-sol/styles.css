@@ -295,6 +295,77 @@ kbd {
   pointer-events: none;
 }
 
+.media-gallery {
+  position: absolute;
+  z-index: 4;
+  right: 34px;
+  bottom: 34px;
+  width: min(20vw, 290px);
+  padding: 8px;
+  border: 4px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 8px 8px 0 rgba(25,22,41,.45);
+  transform: rotate(1deg);
+}
+
+.media-gallery header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2px 6px;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.media-gallery header span {
+  color: var(--red);
+}
+
+.media-gallery a {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 3px solid var(--ink);
+  background: var(--ink);
+  color: white;
+  text-decoration: none;
+}
+
+.media-gallery img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  image-rendering: pixelated;
+  transition: transform .15s steps(3), filter .15s;
+}
+
+.media-gallery a:hover img {
+  filter: saturate(1.35) contrast(1.08);
+  transform: scale(1.04);
+}
+
+.media-gallery a span {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 5px 6px 4px;
+  background: rgba(25,22,41,.9);
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .8px;
+}
+
+.media-stills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 6px;
+}
+
 @keyframes turn {
   to { transform: rotate(360deg); }
 }
@@ -524,6 +595,34 @@ h1 b {
   .mission {
     display: none;
   }
+
+  .media-gallery {
+    right: 14px;
+    bottom: 14px;
+    width: 190px;
+    padding: 5px;
+    border-width: 3px;
+    box-shadow: 5px 5px 0 rgba(25,22,41,.45);
+  }
+
+  .media-gallery header {
+    padding-bottom: 4px;
+    font-size: 6px;
+  }
+
+  .media-gallery a {
+    border-width: 2px;
+  }
+
+  .media-gallery a span {
+    padding: 3px 4px;
+    font-size: 5px;
+  }
+
+  .media-stills {
+    gap: 4px;
+    margin-top: 4px;
+  }
 }
 
 @media (max-width: 580px) {
@@ -588,5 +687,9 @@ h1 b {
     bottom: 3vh;
     width: 82vw;
     opacity: .72;
+  }
+
+  .media-gallery {
+    width: 142px;
   }
 }
