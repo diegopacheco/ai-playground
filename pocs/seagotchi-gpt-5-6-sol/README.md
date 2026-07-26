@@ -1,6 +1,18 @@
-# Seagotchi
+<p align="center">
+  <img src="assets/seagotchi-logo.png" width="240" alt="Seagotchi pixel-art sea lion logo">
+</p>
+
+<h1 align="center">Seagotchi</h1>
 
 A 16-bit style virtual pet built with Three.js and WebGL. Care for Blubber, a California sea lion resting on a rocky Pacific cove while waves roll and nearby sea lions swim past.
+
+## Render
+
+![Five-second Seagotchi gameplay render](assets/seagotchi.gif)
+
+The five-second GIF records the running WebGL application. The ocean waves and nearby sea lions remain in motion while a fish is thrown directly into Blubber's open mouth. After eating, Blubber grows into the fat-fat stage and receives a pet with an animated reaction.
+
+[Open the compact five-second MP4](assets/seagotchi-5s.mp4)
 
 ## Features
 
