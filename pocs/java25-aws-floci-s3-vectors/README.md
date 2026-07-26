@@ -63,6 +63,23 @@ APP_PORT=8090 ./test.sh
 | http://localhost:8082/api/v1/status | Service status |
 | http://localhost:4568 | Floci AWS endpoint |
 
+## Floci UI
+
+Start the application before launching the visual Floci console:
+
+```bash
+./start.sh
+./floci-ui.sh
+```
+
+Floci UI is available at http://localhost:4500. The script pulls the latest official image and connects it to this project's Floci container.
+
+The host port can be changed:
+
+```bash
+FLOCI_UI_PORT=4502 ./floci-ui.sh
+```
+
 ## Verify the REST API
 
 ```bash
@@ -107,6 +124,7 @@ curl -X DELETE http://localhost:8082/api/v1/vectors/java
 |---|---|
 | `APP_PORT` | `8082` |
 | `FLOCI_PORT` | `4568` |
+| `FLOCI_UI_PORT` | `4500` |
 | `S3_VECTORS_ENDPOINT` | `http://localhost:4566` |
 | `AWS_REGION` | `us-east-1` |
 | `AWS_ACCESS_KEY_ID` | `test` |
