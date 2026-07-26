@@ -44,6 +44,7 @@ jobs:
           cp games/README.md _site/games/README.md
           cp -R games/blockrails _site/games/blockrails
           cp -R games/angry-bode _site/games/angry-bode
+          cp -R games/seagotchi _site/games/seagotchi
           grep -oE '\.\./pocs/[^"]+\.(png|jpg|jpeg|gif|mp4|webm)' games/index.html | sort -u | sed 's#^\.\./##' | while read -r f; do
             mkdir -p "_site/$(dirname "$f")"
             cp "$f" "_site/$f"

@@ -120,6 +120,29 @@ h1 {
   gap: 14px;
 }
 
+.github-link {
+  width: 42px;
+  height: 42px;
+  color: var(--cream);
+  border: 3px solid var(--foam);
+  display: grid;
+  place-items: center;
+  background: var(--deep);
+  box-shadow: 5px 5px 0 var(--coral);
+}
+
+.github-link svg {
+  width: 23px;
+  fill: currentColor;
+}
+
+.github-link:hover,
+.github-link:focus-visible {
+  color: var(--ink);
+  background: var(--mint);
+  outline: none;
+}
+
 .sound-toggle {
   padding: 10px 12px;
   color: var(--cream);
@@ -592,6 +615,17 @@ h1 {
     border-width: 2px;
     box-shadow: 3px 3px 0 var(--coral);
     font-size: 7px;
+  }
+
+  .github-link {
+    width: 34px;
+    height: 34px;
+    border-width: 2px;
+    box-shadow: 3px 3px 0 var(--coral);
+  }
+
+  .github-link svg {
+    width: 19px;
   }
 
   .scene-wrap {

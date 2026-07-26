@@ -65,7 +65,7 @@ Website (Games Catalog): [games/index.html](https://diegopacheco.github.io/ai-pl
 ## Arcade & Action Games
 
 19. **Seagotchi** — A 16-bit style virtual pet built with Three.js and WebGL: care for Blubber, a California sea lion resting on a rocky Pacific cove while waves roll and rivals swim past.
-    [pocs/seagotchi-gpt-5-6-sol](https://github.com/diegopacheco/ai-playground/tree/main/pocs/seagotchi-gpt-5-6-sol)
+    [Play Seagotchi](https://diegopacheco.github.io/ai-playground/games/seagotchi/) · [pocs/seagotchi-gpt-5-6-sol](https://github.com/diegopacheco/ai-playground/tree/main/pocs/seagotchi-gpt-5-6-sol)
 
 20. **Angry Bode** — A 16-bit-style 3D city destruction game where a giant white goat climbs buildings, fires laser eyes, kicks cars and unleashes burp shockwaves.
     [pocs/angry-bode-gpt-5.6-sol](https://github.com/diegopacheco/ai-playground/tree/main/pocs/angry-bode-gpt-5.6-sol)
