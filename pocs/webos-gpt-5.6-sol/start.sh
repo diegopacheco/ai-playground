@@ -15,10 +15,19 @@ fi
 if [[ -s "${PID_FILE}" && -s "${PORT_FILE}" ]]; then
   read -r SERVER_PID < "${PID_FILE}"
   read -r ACTIVE_PORT < "${PORT_FILE}"
-  if [[ "${SERVER_PID}" =~ ^[0-9]+$ ]] && [[ "${ACTIVE_PORT}" =~ ^[0-9]+$ ]] && kill -0 "${SERVER_PID}" 2>/dev/null && curl -fsS "http://127.0.0.1:${ACTIVE_PORT}/" 2>/dev/null | grep -q "LumaOS 2003"; then
-    echo "LumaOS port: ${ACTIVE_PORT}"
-    echo "LumaOS is already running at http://127.0.0.1:${ACTIVE_PORT}"
-    exit 0
+  if [[ "${SERVER_PID}" =~ ^[0-9]+$ ]] && [[ "${ACTIVE_PORT}" =~ ^[0-9]+$ ]] && kill -0 "${SERVER_PID}" 2>/dev/null; then
+    if curl -fsS "http://127.0.0.1:${ACTIVE_PORT}/api/health" 2>/dev/null | grep -q '"reader":true'; then
+      echo "LumaOS port: ${ACTIVE_PORT}"
+      echo "LumaOS is already running at http://127.0.0.1:${ACTIVE_PORT}"
+      exit 0
+    fi
+    kill "${SERVER_PID}" 2>/dev/null || true
+    for _ in {1..30}; do
+      if ! kill -0 "${SERVER_PID}" 2>/dev/null; then
+        break
+      fi
+      sleep 0.1
+    done
   fi
 fi
 
@@ -31,7 +40,7 @@ echo "LumaOS is searching for a port from ${START_PORT} to ${END_PORT}"
 
 for (( PORT=START_PORT; PORT<=END_PORT; PORT++ )); do
   : > "${LOG_FILE}"
-  python3 -m http.server "${PORT}" --bind 127.0.0.1 --directory "${APP_DIR}" > "${LOG_FILE}" 2>&1 &
+  python3 "${APP_DIR}/server.py" "${PORT}" "${APP_DIR}" > "${LOG_FILE}" 2>&1 &
   SERVER_PID=$!
   READY=0
 
@@ -39,7 +48,7 @@ for (( PORT=START_PORT; PORT<=END_PORT; PORT++ )); do
     if ! kill -0 "${SERVER_PID}" 2>/dev/null; then
       break
     fi
-    if curl -fsS "http://127.0.0.1:${PORT}/" 2>/dev/null | grep -q "LumaOS 2003"; then
+    if curl -fsS "http://127.0.0.1:${PORT}/api/health" 2>/dev/null | grep -q '"reader":true'; then
       sleep 0.1
       if kill -0 "${SERVER_PID}" 2>/dev/null; then
         READY=1

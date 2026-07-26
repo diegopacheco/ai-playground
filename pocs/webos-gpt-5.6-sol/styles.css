@@ -1004,6 +1004,13 @@ select:focus-visible,
   background: white;
 }
 
+.browser-viewport iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: white;
+}
+
 .browser-home {
   position: absolute;
   inset: 0;
@@ -1039,44 +1046,6 @@ select:focus-visible,
   flex: 1;
   border: 2px solid #5993d4;
   border-radius: 4px;
-}
-
-.browser-external {
-  position: absolute;
-  inset: 0;
-  overflow: auto;
-  padding: 58px 36px;
-  background:
-    radial-gradient(circle at 78% 22%, rgba(101, 177, 255, .28), transparent 28%),
-    linear-gradient(145deg, #eef6ff, #fff);
-  text-align: center;
-}
-
-.browser-external-icon {
-  font-size: 54px;
-  filter: drop-shadow(0 5px 5px rgba(0, 51, 112, .25));
-}
-
-.browser-external h2 {
-  margin: 13px 0 6px;
-  color: #0b55b7;
-  font: italic 800 27px "Trebuchet MS", sans-serif;
-}
-
-.browser-external p {
-  max-width: 470px;
-  margin: 0 auto 22px;
-  color: #536f8f;
-  line-height: 1.55;
-}
-
-.browser-external a,
-.browser-external button {
-  display: inline-flex;
-  align-items: center;
-  margin: 3px;
-  color: #182a42;
-  text-decoration: none;
 }
 
 .media-app {

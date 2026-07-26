@@ -54,20 +54,14 @@ test("LumaOS core flows", async ({ page }) => {
 
   await page.locator('[data-app="browser"]').dblclick()
   await expect(page.locator(".browser-home")).toBeVisible()
-  await page.context().route("https://site.test/**", route => route.fulfill({
-    status: 200,
-    contentType: "text/html",
-    body: "<title>Loaded Site</title><h1>Loaded successfully</h1>"
-  }))
-  await page.locator('.os-window[data-app="browser"] .browser-bar > input').fill("https://site.test")
-  const popupPromise = page.waitForEvent("popup")
+  await page.locator('.os-window[data-app="browser"] .browser-bar > input').fill("https://httpbin.org/html")
   await page.locator('.os-window[data-app="browser"] [data-browser="go"]').click()
-  const popup = await popupPromise
-  await expect(page.locator(".browser-external")).toBeVisible()
-  await expect(page.locator(".browser-external")).toContainText("Website opened")
-  await expect(popup).toHaveURL("https://site.test/")
+  await expect(page.locator('.os-window[data-app="browser"] iframe')).toBeVisible()
+  await expect(page.frameLocator('.os-window[data-app="browser"] iframe').locator("h1")).toContainText("Herman Melville", { timeout: 20000 })
   await page.locator('.os-window[data-app="browser"]').screenshot({ path: "assets/luma-explorer.png" })
-  await popup.close()
+  await page.locator('.os-window[data-app="browser"] .browser-bar > input').fill("https://html.duckduckgo.com/html/?q=test")
+  await page.locator('.os-window[data-app="browser"] [data-browser="go"]').click()
+  await expect(page.frameLocator('.os-window[data-app="browser"] iframe').locator("#challenge-form, #links")).toHaveCount(1, { timeout: 20000 })
   await page.locator('.os-window[data-app="browser"] .close-window').click()
 
   await page.locator("#start-button").click()

@@ -2,5 +2,6 @@
 .webos.pid
 .webos.port
 node_modules
+__pycache__
 test-results
 playwright-report

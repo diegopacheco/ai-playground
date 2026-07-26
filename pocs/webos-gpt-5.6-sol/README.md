@@ -45,7 +45,7 @@ WEBOS_PORT=43174 ./stop.sh
 - Notepad with local saving and text download
 - Luma Paint with pencil, brush, eraser, undo and PNG saving
 - Safe Terminal with a small allowed command set
-- Luma Explorer with validated links that open in a regular browser tab
+- Luma Explorer with an in-window protected web reader
 - Picture Viewer with five bundled scenes
 - Video Player with two local canvas animations
 - Clock, Desktop Properties, Help and Recycle Bin
@@ -63,9 +63,11 @@ WEBOS_PORT=43174 ./stop.sh
 
 ![Luma Explorer opening a website](assets/luma-explorer.png)
 
-Enter a web address or search term and press `Go`. Luma Explorer validates the destination, opens it in a regular browser tab and keeps a confirmation page inside the desktop window. This avoids the connection refusal shown by websites that block iframe embedding.
+Enter a web address or search term and press `Go`. Luma Explorer validates the destination and loads it through the local Luma reader inside the desktop window. Searches use DuckDuckGo's HTML results page.
 
-The back button returns to the Luma Explorer home page. Refresh opens the current address again. The confirmation page also provides an `Open website again` link.
+The reader accepts only public HTTP and HTTPS destinations. Localhost, private networks, credentials and oversized responses are blocked. The loaded page stays inside a sandbox without same-origin access. DuckDuckGo may request a human verification step, which also appears inside Luma Explorer.
+
+The back button moves through Luma Explorer history or returns home. Refresh reloads the current address.
 
 ## Storage and safety
 
@@ -73,6 +75,6 @@ Notes, folders and personalization settings use browser local storage. Clearing 
 
 Safe Terminal never runs system shell commands. It accepts only `help`, `pwd`, `ls`, `cd`, `mkdir`, `touch`, `cat`, `echo`, `date`, `whoami`, `hostname`, `history`, `clear` and `open`. Destructive command names and shell operators are rejected.
 
-Luma Explorer accepts only HTTP and HTTPS addresses. Searches and websites open in a regular browser tab because modern sites commonly prevent framed display.
+Luma Explorer uses a local reader because many websites prevent direct framed display. Static pages and DuckDuckGo HTML search results work best. Sites that require complex authentication, streaming, browser storage or advanced scripts may provide limited behavior.
 
 The scripts bind the server to `127.0.0.1`, track one explicit process ID, wait in one-second checks and never scan or stop unrelated processes.

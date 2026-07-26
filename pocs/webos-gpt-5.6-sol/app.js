@@ -689,7 +689,7 @@ Protected mode blocks destructive commands and shell operators.
 }
 
 function openBrowser() {
-  const windowEl = createWindow("browser", { title: "Luma Explorer", menu: false, status: "External sites open in a protected browser tab" })
+  const windowEl = createWindow("browser", { title: "Luma Explorer", menu: false, status: "Public websites load through the protected Luma reader" })
   const content = windowEl.querySelector(".window-content")
   content.innerHTML = `
     <div class="browser-app">
@@ -704,38 +704,33 @@ function openBrowser() {
         <button class="xp-button" data-browser="go">Go</button>
       </div>
       <div class="browser-viewport">
+        <iframe title="Web page" sandbox="allow-forms allow-scripts"></iframe>
         <div class="browser-home">
           <div class="boot-mark"><span class="boot-orbit"></span><span class="boot-core"></span></div>
           <h1>Luma Explorer</h1>
-          <p>Searches and websites open in a full browser tab</p>
+          <p>Browse the public web without leaving your desktop</p>
           <form class="home-search">
             <input aria-label="Search query" placeholder="Search the web">
             <button class="xp-button">Search</button>
           </form>
         </div>
-        <div class="browser-external" hidden>
-          <div class="browser-external-icon">🌐</div>
-          <h2>Website opened</h2>
-          <p>Modern websites prevent desktop frames from displaying their pages. Luma Explorer opened this address in a regular browser tab.</p>
-          <a class="xp-button" target="_blank" rel="noopener noreferrer">Open website again</a>
-          <button class="xp-button" data-browser="home">Return home</button>
-        </div>
       </div>
     </div>
   `
+  const iframe = content.querySelector("iframe")
   const home = content.querySelector(".browser-home")
-  const external = content.querySelector(".browser-external")
-  const externalLink = external.querySelector("a")
   const address = content.querySelector(".browser-bar > input")
   const search = content.querySelector(".home-search input")
   let currentUrl = ""
+  const history = []
+  let historyIndex = -1
 
-  const navigate = (raw, openTab = false) => {
+  const navigate = (raw, record = true) => {
     let value = raw.trim()
     if (!value || value === "luma://home") {
       address.value = "luma://home"
       home.hidden = false
-      external.hidden = true
+      iframe.hidden = true
       currentUrl = ""
       return
     }
@@ -747,12 +742,16 @@ function openBrowser() {
       const parsed = new URL(value)
       if (!["http:", "https:"].includes(parsed.protocol)) throw new Error()
       home.hidden = true
-      external.hidden = false
-      externalLink.href = parsed.href
+      iframe.hidden = false
+      iframe.src = `/api/browser?url=${encodeURIComponent(parsed.href)}`
       address.value = parsed.href
       currentUrl = parsed.href
-      if (openTab) window.open(parsed.href, "_blank", "noopener,noreferrer")
-      toast("Website opened", "Luma Explorer used a regular browser tab.")
+      if (record) {
+        history.splice(historyIndex + 1)
+        history.push(parsed.href)
+        historyIndex = history.length - 1
+      }
+      toast("Loading website", "The page will stay inside Luma Explorer.")
     } catch {
       toast("Address blocked", "Only regular HTTP and HTTPS addresses are allowed.")
     }
@@ -760,18 +759,35 @@ function openBrowser() {
 
   content.addEventListener("click", event => {
     const action = event.target.closest("[data-browser]")?.dataset.browser
-    if (action === "go") navigate(address.value, true)
+    if (action === "go") navigate(address.value)
     if (action === "home") navigate("luma://home")
-    if (action === "refresh" && currentUrl) navigate(currentUrl, true)
-    if (action === "back") navigate("luma://home")
+    if (action === "refresh" && currentUrl) navigate(currentUrl, false)
+    if (action === "back") {
+      if (historyIndex > 0) {
+        historyIndex -= 1
+        navigate(history[historyIndex], false)
+      } else {
+        navigate("luma://home")
+      }
+    }
   })
   address.addEventListener("keydown", event => {
-    if (event.key === "Enter") navigate(address.value, true)
+    if (event.key === "Enter") navigate(address.value)
   })
   content.querySelector(".home-search").addEventListener("submit", event => {
     event.preventDefault()
-    navigate(search.value, true)
+    navigate(`https://html.duckduckgo.com/html/?q=${encodeURIComponent(search.value)}`)
   })
+  const receiveNavigation = event => {
+    if (!windowEl.isConnected) {
+      window.removeEventListener("message", receiveNavigation)
+      return
+    }
+    if (event.source !== iframe.contentWindow) return
+    if (event.data?.lumaUrl) navigate(event.data.lumaUrl)
+    if (event.data?.lumaError) toast("Action blocked", event.data.lumaError)
+  }
+  window.addEventListener("message", receiveNavigation)
   navigate("luma://home")
 }
 
