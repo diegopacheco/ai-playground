@@ -1,0 +1,24 @@
+services:
+  floci:
+    image: docker.io/floci/floci:latest
+    ports:
+      - "${FLOCI_PORT:-4568}:4566"
+    environment:
+      FLOCI_STORAGE_MODE: hybrid
+    volumes:
+      - floci-data:/app/data
+  app:
+    build:
+      context: .
+      dockerfile: Containerfile
+    ports:
+      - "${APP_PORT:-8082}:8080"
+    environment:
+      S3_VECTORS_ENDPOINT: http://floci:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    depends_on:
+      - floci
+volumes:
+  floci-data:
