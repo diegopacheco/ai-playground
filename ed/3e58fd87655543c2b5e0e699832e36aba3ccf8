@@ -1,0 +1,36 @@
+pocs/webos-gpt-5.6-sol/start.sh
+  s_3ffd7c9ba741ba::t_61cac8fdf9febf 18-30,51
+  s_3ffd7c9ba741ba::t_243ee6c3bf347d 43
+pocs/webos-gpt-5.6-sol/README.md
+  s_3ffd7c9ba741ba::t_243ee6c3bf347d 48,66,70,78
+  s_3ffd7c9ba741ba::t_bb87ec09215b7d 68
+  s_3ffd7c9ba741ba::t_1b1fe4cc3135ce 69
+pocs/webos-gpt-5.6-sol/.gitignore
+  s_3ffd7c9ba741ba::t_bb87ec09215b7d 5
+pocs/webos-gpt-5.6-sol/server.py
+  s_3ffd7c9ba741ba::t_243ee6c3bf347d 1-38,48-142
+  s_3ffd7c9ba741ba::t_61cac8fdf9febf 39-47
+pocs/webos-gpt-5.6-sol/tests/webos.spec.js
+  s_3ffd7c9ba741ba::t_bb87ec09215b7d 62-64
+  s_3ffd7c9ba741ba::t_243ee6c3bf347d 57,59-60
+pocs/webos-gpt-5.6-sol/styles.css
+  s_3ffd7c9ba741ba::t_243ee6c3bf347d 1007-1013
+pocs/webos-gpt-5.6-sol/app.js
+  s_3ffd7c9ba741ba::t_243ee6c3bf347d 692,707,711,720,725-726,728,733,745-746,749-754,762,764-772,775,779,781-790
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "ed3e58fd87655543c2b5e0e699832e36aba3ccf8",
+  "prompts": {},
+  "sessions": {
+    "s_3ffd7c9ba741ba": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f9ba6-075f-70f2-8ae0-e86c10c8c05d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
