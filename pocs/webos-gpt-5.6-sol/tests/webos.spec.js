@@ -1,0 +1,65 @@
+const { test, expect } = require("@playwright/test")
+const fs = require("node:fs")
+const path = require("node:path")
+
+test("LumaOS core flows", async ({ page }) => {
+  const activePort = fs.readFileSync(path.join(__dirname, "..", ".webos.port"), "utf8").trim()
+  await page.addInitScript(() => localStorage.clear())
+  await page.goto(`http://127.0.0.1:${activePort}`)
+  await expect(page.locator("#boot-screen")).toHaveClass(/done/, { timeout: 5000 })
+  await expect(page.locator(".desktop-icon")).toHaveCount(10)
+
+  await page.locator('[data-app="notepad"]').dblclick()
+  await expect(page.locator('.os-window[data-app="notepad"]')).toBeVisible()
+  await page.locator(".notepad").fill("Saved through Chromium")
+  page.once("dialog", dialog => dialog.accept("Browser Check.txt"))
+  await page.locator('.os-window[data-app="notepad"] [data-note="save"]').click()
+  await expect(page.locator(".toast").filter({ hasText: "Note saved" })).toBeVisible()
+  await page.locator('.os-window[data-app="notepad"] .close-window').click()
+
+  await page.locator('[data-app="settings"]').dblclick()
+  await page.locator('[data-wallpaper="2"]').click()
+  await expect(page.locator("#desktop")).toHaveClass(/wallpaper-2/)
+  await page.locator('.os-window[data-app="settings"] .close-window').click()
+
+  await page.locator('[data-app="terminal"]').dblclick()
+  const terminalInput = page.locator(".terminal-input")
+  await terminalInput.fill("rm -rf /")
+  await terminalInput.press("Enter")
+  await expect(page.locator(".terminal-output")).toContainText("is blocked")
+  await terminalInput.fill("mkdir ChromiumFolder")
+  await terminalInput.press("Enter")
+  await expect(page.locator(".terminal-output")).toContainText("Created folder: ChromiumFolder")
+  await page.locator('.os-window[data-app="terminal"] .close-window').click()
+
+  await page.locator('[data-app="files"]').dblclick()
+  await expect(page.locator(".file-grid")).toContainText("ChromiumFolder")
+  await page.locator('.os-window[data-app="files"] .close-window').click()
+
+  await page.locator('[data-app="images"]').dblclick()
+  await expect(page.locator("[data-picture]")).toHaveCount(5)
+  await page.locator('[data-image-action="next"]').click()
+  await expect(page.locator("[data-image-title]")).toHaveText("Moonlit Tide")
+  await page.locator('.os-window[data-app="images"] .close-window').click()
+
+  await page.locator('[data-app="videos"]').dblclick()
+  await expect(page.locator("[data-video]")).toHaveCount(2)
+  await page.locator('[data-video="aquarium"]').click()
+  await expect(page.locator("[data-video-title]")).toHaveText("Pixel Aquarium")
+  await page.locator('.os-window[data-app="videos"] .close-window').click()
+
+  await page.locator('[data-app="paint"]').dblclick()
+  await expect(page.locator(".paint-stage canvas")).toBeVisible()
+  await page.locator('.os-window[data-app="paint"] .close-window').click()
+
+  await page.locator('[data-app="browser"]').dblclick()
+  await expect(page.locator(".browser-home")).toBeVisible()
+  await page.locator('.os-window[data-app="browser"] .close-window').click()
+
+  await page.locator("#start-button").click()
+  await expect(page.locator("#start-menu")).toBeVisible()
+  await expect(page.locator(".start-app")).toHaveCount(6)
+
+  await page.waitForTimeout(250)
+  await page.screenshot({ path: "/tmp/lumaos-verified.png", fullPage: true })
+})

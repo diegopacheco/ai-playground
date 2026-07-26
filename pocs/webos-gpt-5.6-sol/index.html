@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b58c2">
+  <title>LumaOS 2003</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="boot-screen">
+    <div class="boot-mark">
+      <span class="boot-orbit"></span>
+      <span class="boot-core"></span>
+    </div>
+    <div class="boot-name">Luma<span>OS</span></div>
+    <div class="boot-copy">A brighter personal web</div>
+    <div class="boot-track"><i></i></div>
+  </div>
+
+  <main id="desktop" class="wallpaper-1" aria-label="LumaOS desktop">
+    <div id="desktop-icons" class="desktop-icons" aria-label="Desktop shortcuts"></div>
+    <div id="window-layer"></div>
+
+    <section id="start-menu" class="start-menu" aria-label="Start menu" hidden>
+      <header class="start-profile">
+        <div class="profile-avatar">DP</div>
+        <div>
+          <strong>Diego</strong>
+          <span>Local account</span>
+        </div>
+      </header>
+      <div class="start-body">
+        <div id="start-apps" class="start-apps"></div>
+        <aside class="start-links">
+          <button data-open="files"><span>📁</span> My Documents</button>
+          <button data-open="images"><span>🖼️</span> My Pictures</button>
+          <button data-open="videos"><span>🎞️</span> My Videos</button>
+          <button data-open="settings"><span>⚙️</span> Control Panel</button>
+          <div class="start-rule"></div>
+          <button data-open="help"><span>❔</span> Help &amp; Support</button>
+        </aside>
+      </div>
+      <footer class="start-footer">
+        <button id="log-off"><span>🔑</span> Log Off</button>
+        <button id="power-off"><span>⏻</span> Turn Off</button>
+      </footer>
+    </section>
+
+    <div id="context-menu" class="context-menu" hidden>
+      <button data-context="new-folder">New folder</button>
+      <button data-context="notepad">New text note</button>
+      <div></div>
+      <button data-context="wallpaper">Desktop properties</button>
+      <button data-context="refresh">Refresh</button>
+    </div>
+
+    <div id="toast-region" class="toast-region" aria-live="polite"></div>
+
+    <footer class="taskbar">
+      <button id="start-button" class="start-button" aria-expanded="false">
+        <span class="luma-flag"><i></i><i></i><i></i><i></i></span>
+        <b>start</b>
+      </button>
+      <div class="quick-launch">
+        <button data-open="browser" aria-label="Open browser">🌐</button>
+        <button data-open="notepad" aria-label="Open notepad">📝</button>
+        <button data-open="files" aria-label="Open files">📁</button>
+      </div>
+      <div id="task-buttons" class="task-buttons"></div>
+      <div class="tray">
+        <span title="System protected">🛡️</span>
+        <span title="Volume">🔊</span>
+        <button id="tray-clock" aria-label="Open clock">
+          <strong id="clock-time"></strong>
+          <small id="clock-date"></small>
+        </button>
+      </div>
+    </footer>
+  </main>
+
+  <div id="shutdown-screen" hidden>
+    <div class="shutdown-card">
+      <div class="shutdown-logo"><span></span></div>
+      <h1>Turn off LumaOS</h1>
+      <div class="power-actions">
+        <button data-power="standby"><i>◐</i><span>Stand By</span></button>
+        <button data-power="off"><i>⏻</i><span>Turn Off</span></button>
+        <button data-power="restart"><i>↻</i><span>Restart</span></button>
+      </div>
+      <button id="cancel-power">Cancel</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

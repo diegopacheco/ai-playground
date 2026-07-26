@@ -1,0 +1,11 @@
+{
+  "name": "lumaos-2003",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:browser": "playwright test tests/webos.spec.js --browser chromium --workers 1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.0"
+  }
+}
