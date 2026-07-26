@@ -1,0 +1,53 @@
+pocs/webos-gpt-5.6-sol/stop.sh
+  s_3ffd7c9ba741ba::t_6fe39301a0869d 1-5,7,9-13,18,20-28,31-34,36-39
+  s_3ffd7c9ba741ba::t_26634aa6feded8 6,8,14-17,19,29-30,35,40-41
+pocs/webos-gpt-5.6-sol/README.md
+  s_3ffd7c9ba741ba::t_6fe39301a0869d 1-10,12,15-20,22-32,42-70
+  s_3ffd7c9ba741ba::t_26634aa6feded8 11,13,21
+  s_3ffd7c9ba741ba::t_734194ac949364 33-41
+  s_3ffd7c9ba741ba::t_81577a35aa8a8f 14
+pocs/webos-gpt-5.6-sol/start.sh
+  s_3ffd7c9ba741ba::t_6fe39301a0869d 1-5,7,9,16,21-22,28,37,56-57,63-66,70
+  s_3ffd7c9ba741ba::t_26634aa6feded8 6,8,10-13,15,17-20,23-27,29-36,38-40,42-55,58-62,67-69
+  s_3ffd7c9ba741ba::t_81577a35aa8a8f 14,41
+pocs/webos-gpt-5.6-sol/test.sh
+  s_3ffd7c9ba741ba::t_6fe39301a0869d 1-6,8-26,29-32
+  s_3ffd7c9ba741ba::t_467a7502597f87 7
+  s_3ffd7c9ba741ba::t_26634aa6feded8 27-28
+pocs/webos-gpt-5.6-sol/package.json
+  s_3ffd7c9ba741ba::t_734194ac949364 1-11
+pocs/webos-gpt-5.6-sol/index.html
+  s_3ffd7c9ba741ba::t_9d31eda37507a0 1-97
+pocs/webos-gpt-5.6-sol/styles.css
+  s_3ffd7c9ba741ba::t_9d31eda37507a0 1-1132,1135-1138,1141-1144,1147-1150,1153-1156,1159-1536
+  s_3ffd7c9ba741ba::t_6fe39301a0869d 1133-1134,1139-1140,1145-1146,1151-1152,1157-1158
+pocs/webos-gpt-5.6-sol/app.js
+  s_3ffd7c9ba741ba::t_ddc28807334a98 1-1256
+pocs/webos-gpt-5.6-sol/.gitignore
+  s_3ffd7c9ba741ba::t_734194ac949364 1-2,4-6
+  s_3ffd7c9ba741ba::t_26634aa6feded8 3
+pocs/webos-gpt-5.6-sol/tests/webos.spec.js
+  s_3ffd7c9ba741ba::t_ada677fe26a3ee 4-5,9-16,18-62,64-65
+  s_3ffd7c9ba741ba::t_26634aa6feded8 2-3,6,8
+  s_3ffd7c9ba741ba::t_734194ac949364 1
+  s_3ffd7c9ba741ba::t_79131bb100bbe2 7,17
+  s_3ffd7c9ba741ba::t_f8c2de9456e7a2 63
+pocs/webos-gpt-5.6-sol/package-lock.json
+  s_3ffd7c9ba741ba::t_3a0cab9ee42a32 1-78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "d1535f936a3a23dd12688f050991f4857f700fb2",
+  "prompts": {},
+  "sessions": {
+    "s_3ffd7c9ba741ba": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f9ba6-075f-70f2-8ae0-e86c10c8c05d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
