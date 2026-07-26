@@ -7,7 +7,11 @@ A 16-bit style virtual pet built with Three.js and WebGL. Care for Blubber, a Ca
 - Animated low-poly WebGL ocean and coastal scene
 - Food, sleep, and happiness meters
 - Fish feeding, sleeping, and petting actions
-- Progressive growth after every fish
+- Synthesized sea-lion barks, honks, and snores
+- Six-note sea-lion song with a sound on/off control
+- Persistent game days that advance every 60 seconds
+- Fat-fat, super-fat, uber-fat, and chonkers growth stages
+- Rival rock-climbing, pooping, and loud stinky burp events
 - Chonkers achievement for dedicated feeding
 - Mouse and touch scene rotation
 - Responsive handheld-console interface

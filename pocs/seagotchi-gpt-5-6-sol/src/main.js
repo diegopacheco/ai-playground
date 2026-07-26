@@ -6,11 +6,13 @@ const sceneWrap = document.querySelector("#scene-wrap");
 const feedButton = document.querySelector("#feed-button");
 const sleepButton = document.querySelector("#sleep-button");
 const petButton = document.querySelector("#pet-button");
+const soundToggle = document.querySelector("#sound-toggle");
 const sleepLabel = document.querySelector("#sleep-label");
 const speech = document.querySelector("#speech");
 const achievement = document.querySelector("#achievement");
 const weightValue = document.querySelector("#weight-value");
 const heartLayer = document.querySelector("#heart-layer");
+const dayNumber = document.querySelector("#day-number");
 
 const ui = {
   food: {
@@ -36,7 +38,14 @@ const state = {
   action: "idle",
   actionStarted: 0,
   achievement: false,
-  elapsedCare: 0
+  elapsedCare: 0,
+  elapsedDay: 0,
+  day: Number(localStorage.getItem("seagotchi-day") ?? 1),
+  soundEnabled: localStorage.getItem("seagotchi-sound") !== "off",
+  ambientEvent: null,
+  ambientStarted: 0,
+  ambientIndex: 0,
+  nextAmbientAt: performance.now() / 1000 + 12 + Math.random() * 8
 };
 
 const renderer = new THREE.WebGLRenderer({
@@ -80,7 +89,15 @@ const colors = {
   flipper: new THREE.MeshStandardMaterial({ color: "#56352f", roughness: 1, flatShading: true }),
   fish: new THREE.MeshStandardMaterial({ color: "#f0bc49", roughness: 0.7, flatShading: true }),
   fishFin: new THREE.MeshStandardMaterial({ color: "#ff6b4e", roughness: 0.8, flatShading: true }),
-  foam: new THREE.MeshBasicMaterial({ color: "#e2fff3" })
+  foam: new THREE.MeshBasicMaterial({ color: "#e2fff3" }),
+  poop: new THREE.MeshStandardMaterial({ color: "#493126", roughness: 1, flatShading: true }),
+  stink: new THREE.MeshStandardMaterial({
+    color: "#a7d65d",
+    roughness: 1,
+    flatShading: true,
+    transparent: true,
+    opacity: 0.72
+  })
 };
 
 const makeMesh = (geometry, material, position, scale, rotation) => {
@@ -267,32 +284,67 @@ const nose = makeMesh(
 );
 headPivot.add(nose);
 
-const leftEye = makeMesh(
-  new THREE.SphereGeometry(0.09, 6, 4),
+const mouthInterior = makeMesh(
+  new THREE.SphereGeometry(0.22, 7, 5),
   colors.dark,
-  [0.24, 0.16, 0.48],
-  [1, 1, 0.5],
+  [0.57, -0.24, 0.31],
+  [1.05, 0.28, 0.7],
   [0, 0, 0]
 );
-headPivot.add(leftEye);
+headPivot.add(mouthInterior);
 
-const eyeGlint = makeMesh(
-  new THREE.SphereGeometry(0.025, 4, 3),
-  colors.eye,
-  [0.275, 0.2, 0.525],
-  [1, 1, 0.4],
-  [0, 0, 0]
-);
-headPivot.add(eyeGlint);
+const jawPivot = new THREE.Group();
+jawPivot.position.set(0.4, -0.2, 0.28);
+headPivot.add(jawPivot);
 
-const farEye = makeMesh(
-  new THREE.SphereGeometry(0.075, 6, 4),
-  colors.dark,
-  [0.35, 0.17, -0.32],
-  [1, 1, 0.5],
+const lowerJaw = makeMesh(
+  new THREE.SphereGeometry(0.25, 7, 5),
+  colors.furLight,
+  [0.16, -0.08, 0.03],
+  [1.05, 0.38, 0.72],
   [0, 0, 0]
 );
-headPivot.add(farEye);
+jawPivot.add(lowerJaw);
+
+const faceGroup = new THREE.Group();
+faceGroup.rotation.set(-0.22, 0.68, -0.04);
+headPivot.add(faceGroup);
+
+const createEye = (x) => {
+  const eye = new THREE.Group();
+  eye.position.set(x, 0.17, 0.59);
+  const white = makeMesh(
+    new THREE.SphereGeometry(0.12, 7, 5),
+    colors.eye,
+    [0, 0, 0],
+    [1, 1, 0.42],
+    [0, 0, 0]
+  );
+  const pupil = makeMesh(
+    new THREE.SphereGeometry(0.07, 6, 4),
+    colors.dark,
+    [0, -0.012, 0.055],
+    [1, 1, 0.5],
+    [0, 0, 0]
+  );
+  const glint = makeMesh(
+    new THREE.SphereGeometry(0.02, 4, 3),
+    colors.eye,
+    [0.022, 0.025, 0.095],
+    [1, 1, 0.5],
+    [0, 0, 0]
+  );
+  eye.add(white, pupil, glint);
+  faceGroup.add(eye);
+  return { eye, glint };
+};
+
+const leftEyeParts = createEye(-0.145);
+const rightEyeParts = createEye(0.145);
+const leftEye = leftEyeParts.eye;
+const farEye = rightEyeParts.eye;
+const eyeGlint = leftEyeParts.glint;
+const farEyeGlint = rightEyeParts.glint;
 
 const ear = makeMesh(
   new THREE.SphereGeometry(0.12, 5, 4),
@@ -303,21 +355,30 @@ const ear = makeMesh(
 );
 headPivot.add(ear);
 
-const makeWhisker = (y, angle) => {
+const makeWhisker = (start, end) => {
+  const direction = new THREE.Vector3().subVectors(end, start);
+  const midpoint = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
   const whisker = makeMesh(
-    new THREE.CylinderGeometry(0.008, 0.008, 0.72, 4),
+    new THREE.CylinderGeometry(0.008, 0.008, direction.length(), 4),
     colors.eye,
-    [0.78, y, 0.47],
+    [midpoint.x, midpoint.y, midpoint.z],
     [1, 1, 1],
-    [0, 0, angle]
+    [0, 0, 0]
   );
-  whisker.rotation.x = Math.PI / 2.8;
+  whisker.quaternion.setFromUnitVectors(
+    new THREE.Vector3(0, 1, 0),
+    direction.normalize()
+  );
+  whisker.castShadow = false;
   return whisker;
 };
 
-headPivot.add(makeWhisker(-0.12, -0.85));
-headPivot.add(makeWhisker(-0.2, -1.03));
-headPivot.add(makeWhisker(-0.28, -1.22));
+faceGroup.add(makeWhisker(new THREE.Vector3(-0.18, -0.13, 0.61), new THREE.Vector3(-0.82, -0.02, 0.64)));
+faceGroup.add(makeWhisker(new THREE.Vector3(-0.2, -0.18, 0.61), new THREE.Vector3(-0.88, -0.2, 0.64)));
+faceGroup.add(makeWhisker(new THREE.Vector3(-0.18, -0.23, 0.61), new THREE.Vector3(-0.8, -0.38, 0.64)));
+faceGroup.add(makeWhisker(new THREE.Vector3(0.18, -0.13, 0.61), new THREE.Vector3(0.82, -0.02, 0.64)));
+faceGroup.add(makeWhisker(new THREE.Vector3(0.2, -0.18, 0.61), new THREE.Vector3(0.88, -0.2, 0.64)));
+faceGroup.add(makeWhisker(new THREE.Vector3(0.18, -0.23, 0.61), new THREE.Vector3(0.8, -0.38, 0.64)));
 
 const frontFlipper = makeMesh(
   new THREE.CapsuleGeometry(0.2, 0.88, 3, 6),
@@ -358,6 +419,8 @@ sealMorph.add(tailRight);
 const fishGroup = new THREE.Group();
 fishGroup.visible = false;
 world.add(fishGroup);
+const fishStart = new THREE.Vector3(4.6, 1.55, 1.1);
+const fishTarget = new THREE.Vector3();
 
 const fishBody = makeMesh(
   new THREE.SphereGeometry(0.28, 7, 5),
@@ -390,30 +453,103 @@ const swimmers = [];
 
 const createSwimmer = (index) => {
   const swimmer = new THREE.Group();
+  const swimmerMaterial = index % 2 ? colors.fur : colors.furLight;
   const swimmerBody = makeMesh(
-    new THREE.SphereGeometry(0.5, 7, 5),
-    index % 2 ? colors.fur : colors.furLight,
+    new THREE.SphereGeometry(0.52, 8, 6),
+    swimmerMaterial,
     [0, 0, 0],
-    [1.7, 0.52, 0.5],
+    [1.75, 0.58, 0.62],
     [0, 0, 0]
   );
+  const swimmerNeck = makeMesh(
+    new THREE.CylinderGeometry(0.3, 0.46, 0.72, 7),
+    swimmerMaterial,
+    [0.57, 0.22, 0],
+    [1, 1, 1],
+    [0, 0, -0.78]
+  );
   const swimmerHead = makeMesh(
-    new THREE.SphereGeometry(0.35, 7, 5),
-    index % 2 ? colors.fur : colors.furLight,
-    [0.72, 0.25, 0],
-    [1, 1, 0.9],
+    new THREE.SphereGeometry(0.36, 8, 6),
+    swimmerMaterial,
+    [0.82, 0.38, 0],
+    [1, 0.9, 0.9],
+    [0, 0, 0]
+  );
+  const swimmerMuzzle = makeMesh(
+    new THREE.SphereGeometry(0.16, 6, 4),
+    colors.furLight,
+    [1.1, 0.3, 0.15],
+    [1, 0.7, 0.75],
     [0, 0, 0]
   );
   const swimmerNose = makeMesh(
-    new THREE.SphereGeometry(0.08, 5, 3),
+    new THREE.SphereGeometry(0.07, 5, 3),
     colors.dark,
-    [1.04, 0.24, 0.08],
+    [1.23, 0.31, 0.19],
     [1, 0.75, 0.65],
     [0, 0, 0]
   );
-  swimmer.add(swimmerBody, swimmerHead, swimmerNose);
-  swimmer.scale.setScalar(0.75 + index * 0.08);
-  swimmer.position.set(-8 + index * 5, -0.72, -4 - index);
+  const swimmerEyeLeft = makeMesh(
+    new THREE.SphereGeometry(0.045, 5, 3),
+    colors.dark,
+    [0.94, 0.48, 0.27],
+    [1, 1, 0.5],
+    [0, 0, 0]
+  );
+  const swimmerEyeRight = makeMesh(
+    new THREE.SphereGeometry(0.045, 5, 3),
+    colors.dark,
+    [1.08, 0.45, 0.23],
+    [1, 1, 0.5],
+    [0, 0, 0]
+  );
+  const swimmerFlipper = makeMesh(
+    new THREE.CapsuleGeometry(0.13, 0.54, 2, 5),
+    colors.flipper,
+    [0.1, -0.18, 0.5],
+    [1, 1, 0.65],
+    [0.1, 0, 0.72]
+  );
+  const swimmerFarFlipper = makeMesh(
+    new THREE.CapsuleGeometry(0.12, 0.48, 2, 5),
+    colors.flipper,
+    [0.08, -0.12, -0.48],
+    [1, 1, 0.6],
+    [-0.1, 0, -0.72]
+  );
+  const swimmerTailLeft = makeMesh(
+    new THREE.CapsuleGeometry(0.15, 0.52, 2, 5),
+    colors.flipper,
+    [-1.02, 0, 0.18],
+    [1, 1, 0.58],
+    [0, 0.2, 1.16]
+  );
+  const swimmerTailRight = makeMesh(
+    new THREE.CapsuleGeometry(0.15, 0.52, 2, 5),
+    colors.flipper,
+    [-1.02, 0, -0.18],
+    [1, 1, 0.58],
+    [0, -0.2, 1.16]
+  );
+  swimmer.add(
+    swimmerBody,
+    swimmerNeck,
+    swimmerHead,
+    swimmerMuzzle,
+    swimmerNose,
+    swimmerEyeLeft,
+    swimmerEyeRight,
+    swimmerFlipper,
+    swimmerFarFlipper,
+    swimmerTailLeft,
+    swimmerTailRight
+  );
+  swimmer.userData.flipper = swimmerFlipper;
+  swimmer.userData.farFlipper = swimmerFarFlipper;
+  swimmer.userData.tailLeft = swimmerTailLeft;
+  swimmer.userData.tailRight = swimmerTailRight;
+  swimmer.scale.setScalar(0.82 + index * 0.07);
+  swimmer.position.set(-8 + index * 4.8, -0.62, -2.8 - (index % 3) * 1.35);
   world.add(swimmer);
   swimmers.push(swimmer);
 };
@@ -421,6 +557,55 @@ const createSwimmer = (index) => {
 for (let index = 0; index < 4; index += 1) {
   createSwimmer(index);
 }
+
+const visitorSeal = swimmers[0].clone(true);
+visitorSeal.visible = false;
+visitorSeal.scale.setScalar(0.96);
+world.add(visitorSeal);
+
+const visitorStart = new THREE.Vector3(5.4, -0.72, 1.2);
+const visitorRock = new THREE.Vector3(2.35, 0.22, 0.65);
+
+const poopGroup = new THREE.Group();
+poopGroup.visible = false;
+world.add(poopGroup);
+
+poopGroup.add(
+  makeMesh(new THREE.SphereGeometry(0.22, 7, 5), colors.poop, [0, 0, 0], [1.2, 0.55, 1], [0, 0, 0]),
+  makeMesh(new THREE.SphereGeometry(0.17, 7, 5), colors.poop, [0, 0.17, 0], [1, 0.65, 1], [0, 0, 0]),
+  makeMesh(new THREE.ConeGeometry(0.12, 0.22, 6), colors.poop, [0, 0.34, 0], [1, 1, 1], [0, 0, 0])
+);
+
+for (let index = 0; index < 3; index += 1) {
+  const wisp = makeMesh(
+    new THREE.CapsuleGeometry(0.025, 0.3, 2, 4),
+    colors.stink,
+    [-0.18 + index * 0.18, 0.58, 0],
+    [1, 1, 1],
+    [0, 0, index % 2 ? -0.2 : 0.2]
+  );
+  wisp.userData.phase = index * 1.7;
+  poopGroup.add(wisp);
+}
+
+const burpCloud = new THREE.Group();
+burpCloud.visible = false;
+world.add(burpCloud);
+
+for (let index = 0; index < 5; index += 1) {
+  const puff = makeMesh(
+    new THREE.IcosahedronGeometry(0.18 + index * 0.025, 1),
+    colors.stink,
+    [index * 0.2, Math.sin(index) * 0.12, (index % 2) * 0.12],
+    [1, 1, 1],
+    [0, 0, 0]
+  );
+  puff.castShadow = false;
+  puff.userData.phase = index * 0.9;
+  burpCloud.add(puff);
+}
+
+const burpTarget = new THREE.Vector3();
 
 const foamLines = [];
 
@@ -451,6 +636,111 @@ const setSpeech = (message) => {
   speech.textContent = message;
 };
 
+let audioContext;
+
+const createSealTone = (start, frequency, duration, volume) => {
+  const oscillator = audioContext.createOscillator();
+  const filter = audioContext.createBiquadFilter();
+  const gain = audioContext.createGain();
+  oscillator.type = "sawtooth";
+  oscillator.frequency.setValueAtTime(frequency, start);
+  oscillator.frequency.exponentialRampToValueAtTime(frequency * 0.55, start + duration * 0.58);
+  oscillator.frequency.exponentialRampToValueAtTime(frequency * 0.82, start + duration);
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(1250, start);
+  filter.Q.setValueAtTime(4.5, start);
+  gain.gain.setValueAtTime(0.0001, start);
+  gain.gain.exponentialRampToValueAtTime(Math.min(volume * 2.4, 0.42), start + 0.025);
+  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+  oscillator.connect(filter);
+  filter.connect(gain);
+  gain.connect(audioContext.destination);
+  oscillator.start(start);
+  oscillator.stop(start + duration);
+};
+
+const playSealSound = (sound) => {
+  if (!state.soundEnabled) return;
+  audioContext ??= new AudioContext();
+  if (audioContext.state === "suspended") audioContext.resume();
+  const now = audioContext.currentTime + 0.015;
+  if (sound === "bark") {
+    createSealTone(now, 330, 0.2, 0.16);
+    createSealTone(now + 0.24, 390, 0.18, 0.13);
+  }
+  if (sound === "honk") {
+    createSealTone(now, 210, 0.46, 0.14);
+  }
+  if (sound === "snore") {
+    createSealTone(now, 145, 0.58, 0.08);
+    createSealTone(now + 0.66, 120, 0.52, 0.06);
+  }
+  if (sound === "achievement") {
+    createSealTone(now, 260, 0.2, 0.15);
+    createSealTone(now + 0.22, 360, 0.2, 0.15);
+    createSealTone(now + 0.44, 510, 0.4, 0.17);
+  }
+  if (sound === "song") {
+    [430, 430, 270, 430, 270, 270].forEach((frequency, index) => {
+      createSealTone(now + index * 0.19, frequency, 0.17, 0.12);
+    });
+  }
+  if (sound === "burp") {
+    createSealTone(now, 125, 0.72, 0.18);
+    createSealTone(now + 0.12, 92, 0.78, 0.14);
+  }
+};
+
+const updateSoundToggle = () => {
+  soundToggle.textContent = state.soundEnabled ? "SOUND ON" : "SOUND OFF";
+  soundToggle.setAttribute("aria-pressed", String(state.soundEnabled));
+};
+
+const toggleSound = () => {
+  state.soundEnabled = !state.soundEnabled;
+  localStorage.setItem("seagotchi-sound", state.soundEnabled ? "on" : "off");
+  updateSoundToggle();
+  setSpeech(state.soundEnabled ? "AE AE AU AE AU AU!" : "QUIET COVE MODE.");
+  if (state.soundEnabled) playSealSound("song");
+};
+
+const updateDay = () => {
+  dayNumber.textContent = String(state.day).padStart(2, "0");
+};
+
+const startAmbientEvent = (seconds) => {
+  const events = ["climb", "poop", "burp"];
+  state.ambientEvent = events[state.ambientIndex % events.length];
+  state.ambientIndex += 1;
+  state.ambientStarted = seconds;
+  if (state.ambientEvent === "climb") {
+    visitorSeal.visible = true;
+    visitorSeal.position.copy(visitorStart);
+    visitorSeal.rotation.set(0, 0, 0);
+    setSpeech("HEY! THIS IS MY ROCK!");
+    playSealSound("bark");
+  }
+  if (state.ambientEvent === "poop") {
+    poopGroup.visible = true;
+    setSpeech("UH-OH... THE TIDE WILL GET THAT.");
+    playSealSound("honk");
+  }
+  if (state.ambientEvent === "burp") {
+    burpCloud.visible = true;
+    setSpeech("BUUUURP! THAT WAS A STINKY ONE.");
+    playSealSound("burp");
+  }
+};
+
+const finishAmbientEvent = (seconds) => {
+  visitorSeal.visible = false;
+  poopGroup.visible = false;
+  burpCloud.visible = false;
+  state.ambientEvent = null;
+  state.nextAmbientAt = seconds + 20 + Math.random() * 20;
+  setSpeech("BORK! THE TIDE IS NICE.");
+};
+
 const updateSize = () => {
   const growth = Math.min(state.feeds, 12);
   sealMorph.scale.set(
@@ -458,9 +748,10 @@ const updateSize = () => {
     1 + growth * 0.042,
     1 + growth * 0.065
   );
-  if (growth < 3) weightValue.textContent = "SLEEK";
-  if (growth >= 3) weightValue.textContent = "PLUSH";
-  if (growth >= 6) weightValue.textContent = "HEFTY";
+  if (growth === 0) weightValue.textContent = "SLEEK";
+  if (growth >= 1) weightValue.textContent = "FAT-FAT";
+  if (growth >= 3) weightValue.textContent = "SUPER-FAT";
+  if (growth >= 5) weightValue.textContent = "UBER-FAT";
   if (growth >= 8) weightValue.textContent = "CHONKERS";
 };
 
@@ -469,6 +760,7 @@ const showAchievement = () => {
   state.achievement = true;
   achievement.classList.add("visible");
   setSpeech("BORK! I HAVE BECOME UNSTOPPABLE.");
+  playSealSound("achievement");
   window.setTimeout(() => achievement.classList.remove("visible"), 4200);
 };
 
@@ -482,14 +774,18 @@ const feed = () => {
   state.actionStarted = performance.now();
   feedButton.disabled = true;
   fishGroup.visible = true;
+  fishGroup.scale.setScalar(1);
+  fishGroup.rotation.set(0, Math.PI, 0);
   state.food = clamp(state.food + 18);
   state.happy = clamp(state.happy + 5);
   setSpeech("FISH! FISH! FISH!");
+  playSealSound("bark");
   updateBars();
   window.setTimeout(() => {
     state.feeds += 1;
     updateSize();
     fishGroup.visible = false;
+    fishGroup.scale.setScalar(1);
     feedButton.disabled = false;
     state.action = "idle";
     setSpeech(state.feeds >= 6 ? "ONE MORE COULD NOT HURT..." : "TASTES LIKE THE PACIFIC.");
@@ -503,6 +799,7 @@ const toggleSleep = () => {
   state.actionStarted = performance.now();
   sleepLabel.textContent = state.sleeping ? "WAKE UP" : "PUT TO SLEEP";
   setSpeech(state.sleeping ? "HONK... SHOOO... HONK..." : "THE SUN IS BACK!");
+  playSealSound(state.sleeping ? "snore" : "honk");
 };
 
 const createHearts = () => {
@@ -522,6 +819,7 @@ const pet = () => {
   state.actionStarted = performance.now();
   state.happy = clamp(state.happy + 15);
   setSpeech("BORK BORK! DO THAT AGAIN.");
+  playSealSound("song");
   createHearts();
   updateBars();
   window.setTimeout(() => {
@@ -532,6 +830,7 @@ const pet = () => {
 feedButton.addEventListener("click", feed);
 sleepButton.addEventListener("click", toggleSleep);
 petButton.addEventListener("click", pet);
+soundToggle.addEventListener("click", toggleSound);
 
 canvas.addEventListener("click", pet);
 
@@ -562,9 +861,6 @@ const updateClock = () => {
     hour: "2-digit",
     minute: "2-digit"
   });
-  const started = new Date(now.getFullYear(), 0, 1);
-  const day = Math.floor((now - started) / 86400000) + 1;
-  document.querySelector("#day-number").textContent = String(day).slice(-2).padStart(2, "0");
 };
 
 const resize = () => {
@@ -589,6 +885,7 @@ const animate = (time) => {
   previousTime = time;
   const seconds = time / 1000;
   state.elapsedCare += delta;
+  state.elapsedDay += delta;
 
   oceanMaterial.uniforms.time.value = seconds;
   world.rotation.y += (targetRotation - world.rotation.y) * 0.045;
@@ -607,6 +904,11 @@ const animate = (time) => {
     if (swimmer.position.x > 9) swimmer.position.x = -10;
     swimmer.position.y = -0.72 + Math.sin(seconds * 1.5 + index * 1.7) * 0.22;
     swimmer.rotation.z = Math.sin(seconds * 2.1 + index) * 0.08;
+    const stroke = Math.sin(seconds * 3.2 + index * 1.3);
+    swimmer.userData.flipper.rotation.z = 0.72 + stroke * 0.38;
+    swimmer.userData.farFlipper.rotation.z = -0.72 - stroke * 0.3;
+    swimmer.userData.tailLeft.rotation.z = 1.16 + stroke * 0.2;
+    swimmer.userData.tailRight.rotation.z = 1.16 - stroke * 0.2;
   });
 
   const breathing = Math.sin(seconds * 2.2) * 0.025;
@@ -615,14 +917,21 @@ const animate = (time) => {
 
   if (state.action === "feed") {
     const progress = Math.min((time - state.actionStarted) / 1350, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    fishGroup.position.set(
-      4.3 + (1.63 - 4.3) * eased,
-      2.2 + (1.15 - 2.2) * eased + Math.sin(progress * Math.PI) * 1.2,
-      1.5 + (0.62 - 1.5) * eased
-    );
+    const approach = progress * progress * (3 - 2 * progress);
+    const mouthRise = Math.sin(Math.min(progress / 0.35, 1) * Math.PI * 0.5);
+    const mouthClose = progress < 0.9 ? 1 : Math.max(0, 1 - (progress - 0.9) / 0.1);
+    const mouthOpen = mouthRise * mouthClose;
+    const eaten = Math.max(0, (progress - 0.88) / 0.12);
+    headPivot.rotation.z = Math.sin(progress * Math.PI) * 0.08;
+    jawPivot.rotation.z = -mouthOpen * 0.48;
+    mouthInterior.scale.y = 0.28 + mouthOpen * 1.35;
+    world.updateMatrixWorld(true);
+    mouthInterior.getWorldPosition(fishTarget);
+    world.worldToLocal(fishTarget);
+    fishGroup.position.lerpVectors(fishStart, fishTarget, approach);
+    fishGroup.position.y += Math.sin(progress * Math.PI) * 0.35;
     fishGroup.rotation.z = Math.sin(progress * 28) * 0.18;
-    headPivot.rotation.z = Math.sin(progress * 16) * 0.12;
+    fishGroup.scale.setScalar(Math.max(0.02, 1 - eaten));
   } else if (state.action === "pet") {
     headPivot.rotation.z = Math.sin((time - state.actionStarted) * 0.024) * 0.25;
     frontFlipper.rotation.z = 1.02 + Math.sin((time - state.actionStarted) * 0.03) * 0.5;
@@ -632,6 +941,7 @@ const animate = (time) => {
     leftEye.scale.y = 0.12;
     farEye.scale.y = 0.12;
     eyeGlint.visible = false;
+    farEyeGlint.visible = false;
   } else {
     headPivot.rotation.z *= 0.9;
     headPivot.position.y += (1.02 - headPivot.position.y) * 0.08;
@@ -639,6 +949,77 @@ const animate = (time) => {
     leftEye.scale.y += (1 - leftEye.scale.y) * 0.14;
     farEye.scale.y += (1 - farEye.scale.y) * 0.14;
     eyeGlint.visible = true;
+    farEyeGlint.visible = true;
+  }
+
+  if (state.action !== "feed") {
+    jawPivot.rotation.z *= 0.82;
+    mouthInterior.scale.y += (0.28 - mouthInterior.scale.y) * 0.18;
+  }
+
+  if (
+    !state.ambientEvent &&
+    seconds >= state.nextAmbientAt &&
+    state.action === "idle" &&
+    !state.sleeping
+  ) {
+    startAmbientEvent(seconds);
+  }
+
+  if (state.ambientEvent) {
+    const ambientElapsed = seconds - state.ambientStarted;
+    let ambientDuration = 4;
+
+    if (state.ambientEvent === "climb") {
+      ambientDuration = 4.2;
+      if (ambientElapsed < 2.2) {
+        const climbProgress = Math.min(ambientElapsed / 2.2, 1);
+        const climbEase = climbProgress * climbProgress * (3 - 2 * climbProgress);
+        visitorSeal.position.lerpVectors(visitorStart, visitorRock, climbEase);
+        visitorSeal.rotation.z = Math.sin(climbProgress * Math.PI) * 0.12;
+      } else {
+        const kickProgress = Math.min((ambientElapsed - 2.2) / 2, 1);
+        visitorSeal.position.set(
+          visitorRock.x + kickProgress * 4.8,
+          visitorRock.y + Math.sin(kickProgress * Math.PI) * 1.1 - kickProgress * 1.25,
+          visitorRock.z + kickProgress * 0.7
+        );
+        visitorSeal.rotation.z = -kickProgress * 2.8;
+        frontFlipper.rotation.z = 1.02 + Math.sin(kickProgress * Math.PI) * 1.65;
+      }
+    }
+
+    if (state.ambientEvent === "poop") {
+      ambientDuration = 6;
+      const dropProgress = Math.min(ambientElapsed / 0.85, 1);
+      poopGroup.position.set(-1.35, 1.28 - dropProgress * 0.58, -0.28);
+      tailLeft.rotation.z = 1.15 + Math.sin(ambientElapsed * 9) * 0.22;
+      tailRight.rotation.z = 1.15 - Math.sin(ambientElapsed * 9) * 0.22;
+      poopGroup.children.slice(3).forEach((wisp, index) => {
+        wisp.position.y = 0.54 + Math.sin(ambientElapsed * 2.4 + wisp.userData.phase) * 0.12;
+        wisp.scale.y = 0.8 + Math.sin(ambientElapsed * 2 + index) * 0.22;
+      });
+    }
+
+    if (state.ambientEvent === "burp") {
+      ambientDuration = 3.4;
+      const burpProgress = Math.min(ambientElapsed / ambientDuration, 1);
+      world.updateMatrixWorld(true);
+      mouthInterior.getWorldPosition(burpTarget);
+      world.worldToLocal(burpTarget);
+      burpCloud.position.copy(burpTarget);
+      burpCloud.position.x += burpProgress * 1.45;
+      burpCloud.position.y += Math.sin(burpProgress * Math.PI) * 0.45;
+      burpCloud.scale.setScalar(0.35 + burpProgress * 1.25);
+      burpCloud.rotation.z = Math.sin(ambientElapsed * 3) * 0.15;
+      if (state.action !== "feed") {
+        const burpOpen = Math.sin(Math.min(ambientElapsed / 1.25, 1) * Math.PI);
+        jawPivot.rotation.z = -burpOpen * 0.45;
+        mouthInterior.scale.y = 0.28 + burpOpen * 1.25;
+      }
+    }
+
+    if (ambientElapsed >= ambientDuration) finishAmbientEvent(seconds);
   }
 
   if (state.elapsedCare >= 1) {
@@ -656,6 +1037,15 @@ const animate = (time) => {
     updateBars();
   }
 
+  if (state.elapsedDay >= 60) {
+    state.elapsedDay -= 60;
+    state.day += 1;
+    localStorage.setItem("seagotchi-day", String(state.day));
+    updateDay();
+    setSpeech("NEW DAY! AE AE AU AE AU AU!");
+    playSealSound("song");
+  }
+
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 };
@@ -663,6 +1053,8 @@ const animate = (time) => {
 updateBars();
 updateSize();
 updateClock();
+updateDay();
+updateSoundToggle();
 window.setInterval(updateClock, 30000);
 resize();
 requestAnimationFrame(animate);
