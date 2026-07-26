@@ -2,6 +2,12 @@
 
 LumaOS is a self-contained browser desktop inspired by the tactile, colorful personal computers of the early 2000s. It uses plain HTML, CSS and JavaScript with no runtime libraries.
 
+## Desktop
+
+![LumaOS desktop](assets/lumaos-desktop.png)
+
+The desktop combines the default Emerald Hills wallpaper with app shortcuts, a Start button, quick-launch controls, task buttons and a live system tray. Double-clicking a shortcut opens its app in a draggable, resizable desktop window.
+
 ## Run
 
 ```bash
@@ -11,8 +17,6 @@ LumaOS is a self-contained browser desktop inspired by the tactile, colorful per
 The script searches from port `4173`, prints the selected port and displays the full address.
 
 Set a different starting port when needed:
-
-Use another port when needed:
 
 ```bash
 WEBOS_PORT=8080 ./start.sh
