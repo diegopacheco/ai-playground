@@ -1,0 +1,5 @@
+node_modules
+dist
+.seagotchi.log
+.seagotchi.pid
+.seagotchi.port

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08182f">
+    <meta name="description" content="Care for a tiny sea lion on a living WebGL coast.">
+    <title>Seagotchi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Micro+5&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <div class="brand-lockup">
+          <span class="mini-label">POCKET COAST</span>
+          <h1>SEAGOTCHI</h1>
+        </div>
+        <div class="day-box">
+          <span>DAY</span>
+          <strong id="day-number">01</strong>
+        </div>
+      </header>
+
+      <section class="game-frame">
+        <div class="scene-wrap" id="scene-wrap">
+          <canvas id="ocean-canvas" aria-label="Animated sea lion resting on a rock in the ocean"></canvas>
+          <div class="sun-label">LA JOLLA, CA</div>
+          <div class="scanlines"></div>
+
+          <aside class="stats-panel" aria-label="Seagotchi status">
+            <div class="stat">
+              <div class="stat-heading">
+                <span>FOOD</span>
+                <strong id="food-value">78</strong>
+              </div>
+              <div class="meter"><i id="food-bar"></i></div>
+            </div>
+            <div class="stat">
+              <div class="stat-heading">
+                <span>SLEEP</span>
+                <strong id="sleep-value">64</strong>
+              </div>
+              <div class="meter"><i id="sleep-bar"></i></div>
+            </div>
+            <div class="stat">
+              <div class="stat-heading">
+                <span>HAPPY</span>
+                <strong id="happy-value">82</strong>
+              </div>
+              <div class="meter"><i id="happy-bar"></i></div>
+            </div>
+          </aside>
+
+          <div class="speech" id="speech">BORK! THE TIDE IS NICE.</div>
+          <div class="heart-layer" id="heart-layer"></div>
+
+          <aside class="actions-panel" aria-label="Care actions">
+            <span class="panel-title">CARE</span>
+            <button class="action-button" id="feed-button" type="button">
+              <svg viewBox="0 0 32 24" aria-hidden="true">
+                <path d="M4 12 0 5v14l4-7Zm2-6h13l9 6-9 6H6l4-6-4-6Z"/>
+                <rect x="20" y="9" width="3" height="3"/>
+              </svg>
+              <span>GIVE FISH</span>
+            </button>
+            <button class="action-button" id="sleep-button" type="button">
+              <svg viewBox="0 0 32 24" aria-hidden="true">
+                <path d="M4 18h18v4H0V2h4v16Zm3-9h8c4 0 7 3 7 7H7V9Zm18-7h7l-5 6h5v3h-9l5-6h-3V2Z"/>
+              </svg>
+              <span id="sleep-label">PUT TO SLEEP</span>
+            </button>
+            <button class="action-button" id="pet-button" type="button">
+              <svg viewBox="0 0 32 24" aria-hidden="true">
+                <path d="M7 3h4v8h2V0h4v11h2V2h4v10h2V6h4v10l-6 8H10l-7-9V8h4v7h2L7 3Z"/>
+              </svg>
+              <span>PET IT</span>
+            </button>
+          </aside>
+
+          <div class="weight-tag">
+            <span>SIZE</span>
+            <strong id="weight-value">SLEEK</strong>
+          </div>
+
+          <figure class="cove-cam">
+            <img src="https://lajollamom.com/wp-content/uploads/2018/12/la-jolla-seals-and-sea-lions-scaled-768x512.jpg" alt="Wild sea lions resting together on La Jolla rocks">
+            <figcaption>WILD COVE CAM</figcaption>
+          </figure>
+
+          <div class="achievement" id="achievement" role="status" aria-live="polite">
+            <span>ACHIEVEMENT UNLOCKED</span>
+            <strong>CHONKERS</strong>
+            <small>ABSOLUTE UNIT OF THE SEA</small>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer-strip">
+        <p><span class="live-dot"></span> TIDE LINK ACTIVE</p>
+        <p>BLUBBER · CALIFORNIA SEA LION</p>
+        <p id="clock">08:42 AM</p>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
