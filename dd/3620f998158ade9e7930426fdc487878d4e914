@@ -1,0 +1,49 @@
+pocs/toy-train-track-builder-gpt.5.6-sol/playwright.config.js
+  s_a3a5ee0ccbe318::t_075eb8bbd094c5 1-17
+games/blockrails/index.html
+  s_a3a5ee0ccbe318::t_4f43c091d8ba11 7,9-10
+  s_a3a5ee0ccbe318::t_bb525d93cbaa5d 5,23-28,74-75
+pocs/toy-train-track-builder-gpt.5.6-sol/test.sh
+  s_a3a5ee0ccbe318::t_075eb8bbd094c5 9
+pocs/toy-train-track-builder-gpt.5.6-sol/package.json
+  s_a3a5ee0ccbe318::t_075eb8bbd094c5 9-10
+  s_a3a5ee0ccbe318::t_ec13604ede2d6c 8,16
+games/blockrails/assets/index-CX8BbBxf.js
+  s_a3a5ee0ccbe318::t_bb525d93cbaa5d 1-4108
+pocs/toy-train-track-builder-gpt.5.6-sol/src/style.css
+  s_a3a5ee0ccbe318::t_161a99c8e08a32 246-252,254-255,259-263,265
+  s_a3a5ee0ccbe318::t_df8c46c7ab7ff7 14,18,54,58-59,155,177,183,185-225,235-245,253,256-258,264,266-272
+games/blockrails/assets/logo-DdmLarb-.svg
+  s_a3a5ee0ccbe318::t_bb525d93cbaa5d 1-39
+pocs/toy-train-track-builder-gpt.5.6-sol/tests/game.spec.js
+  s_a3a5ee0ccbe318::t_075eb8bbd094c5 1-74,76-89
+  s_a3a5ee0ccbe318::t_e79d8a5e5a7d35 75
+pocs/toy-train-track-builder-gpt.5.6-sol/.gitignore
+  s_a3a5ee0ccbe318::t_ec13604ede2d6c 5-6
+pocs/toy-train-track-builder-gpt.5.6-sol/src/main.js
+  s_a3a5ee0ccbe318::t_df8c46c7ab7ff7 8-9,718-724,734,738-742,1300,1349-1355,1781-1789,1796,1798-1801,1803-1808,1810-1819
+  s_a3a5ee0ccbe318::t_161a99c8e08a32 1790-1795,1797,1802,1809
+pocs/toy-train-track-builder-gpt.5.6-sol/index.html
+  s_a3a5ee0ccbe318::t_161a99c8e08a32 7
+  s_a3a5ee0ccbe318::t_df8c46c7ab7ff7 5,21-26,72-73
+games/blockrails/assets/index-CPbThXH0.css
+  s_a3a5ee0ccbe318::t_bb525d93cbaa5d 1
+pocs/toy-train-track-builder-gpt.5.6-sol/package-lock.json
+  s_a3a5ee0ccbe318::t_500448c89e802f 14,81-96,715-761
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "dd3620f998158ade9e7930426fdc487878d4e914",
+  "prompts": {},
+  "sessions": {
+    "s_a3a5ee0ccbe318": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa110-d47f-7442-bd91-9483f8eddc0b",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
