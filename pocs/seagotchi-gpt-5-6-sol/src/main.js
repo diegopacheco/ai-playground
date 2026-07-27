@@ -228,6 +228,8 @@ sealRoot.rotation.y = -0.2;
 world.add(sealRoot);
 
 const sealRestPosition = new THREE.Vector3(-0.15, 0.56, 0.2);
+const sealSwimCenter = new THREE.Vector3(3.45, -1.05, 4.6);
+const sealSwimRight = new THREE.Vector3(0.8, 0, -0.6);
 
 const sealMorph = new THREE.Group();
 sealRoot.add(sealMorph);
@@ -884,6 +886,7 @@ const swim = () => {
     state.action = "idle";
     sealRoot.position.copy(sealRestPosition);
     sealRoot.rotation.set(0, -0.2, 0);
+    sealRoot.scale.setScalar(1);
     frontFlipper.rotation.z = 1.02;
     farFlipper.rotation.z = -0.92;
     tailLeft.rotation.z = 1.15;
@@ -1005,39 +1008,47 @@ const animate = (time) => {
   if (state.action === "swim") {
     const elapsed = time - state.actionStarted;
     const progress = Math.min(elapsed / state.swimDuration, 1);
+    const swimRadius = Math.min(2.8, (camera.right - camera.left) * 0.28);
+    const swimScale = Math.min(0.76, 0.55 + swimRadius * 0.06);
+    const swimHeading = -0.2 - Math.atan2(sealSwimRight.z, sealSwimRight.x);
     if (progress < 0.18) {
       const stage = progress / 0.18;
       const ease = stage * stage * (3 - 2 * stage);
       sealRoot.position.set(
-        sealRestPosition.x + ease * 1.65,
-        sealRestPosition.y - ease * 1.22,
-        sealRestPosition.z + ease * 0.15
+        sealRestPosition.x + (sealSwimCenter.x - sealRestPosition.x) * ease,
+        sealRestPosition.y + (sealSwimCenter.y - sealRestPosition.y) * ease + Math.sin(stage * Math.PI) * 1.35,
+        sealRestPosition.z + (sealSwimCenter.z - sealRestPosition.z) * ease
       );
-      sealRoot.rotation.set(0, -0.2, -Math.sin(stage * Math.PI) * 0.34);
+      sealRoot.rotation.set(0, -0.2 + (swimHeading + 0.2) * ease, -Math.sin(stage * Math.PI) * 0.34);
+      sealRoot.scale.setScalar(1 + (swimScale - 1) * ease);
     } else if (progress < 0.8) {
       const stage = (progress - 0.18) / 0.62;
       const angle = stage * Math.PI * 2;
-      const directionX = 2.75 * Math.cos(angle);
-      const directionZ = 1.7 * Math.sin(angle);
+      const offset = swimRadius * Math.sin(angle);
+      const direction = swimRadius * Math.cos(angle);
+      const directionX = sealSwimRight.x * direction;
+      const directionZ = sealSwimRight.z * direction;
       sealRoot.position.set(
-        1.5 + 2.75 * Math.sin(angle),
-        -0.66 + Math.sin(angle * 2) * 0.12,
-        0.35 + 1.7 * (1 - Math.cos(angle))
+        sealSwimCenter.x + sealSwimRight.x * offset,
+        sealSwimCenter.y + Math.sin(angle * 2) * 0.08,
+        sealSwimCenter.z + sealSwimRight.z * offset
       );
       sealRoot.rotation.set(
         0,
         -0.2 - Math.atan2(directionZ, directionX),
         Math.sin(angle * 2) * 0.08
       );
+      sealRoot.scale.setScalar(swimScale);
     } else {
       const stage = (progress - 0.8) / 0.2;
       const ease = stage * stage * (3 - 2 * stage);
       sealRoot.position.set(
-        1.5 - ease * 1.65,
-        -0.66 + ease * 1.22 + Math.sin(stage * Math.PI) * 1.05,
-        0.35 - ease * 0.15
+        sealSwimCenter.x + (sealRestPosition.x - sealSwimCenter.x) * ease,
+        sealSwimCenter.y + (sealRestPosition.y - sealSwimCenter.y) * ease + Math.sin(stage * Math.PI) * 1.35,
+        sealSwimCenter.z + (sealRestPosition.z - sealSwimCenter.z) * ease
       );
-      sealRoot.rotation.set(0, -0.2, -Math.sin(stage * Math.PI) * 0.38);
+      sealRoot.rotation.set(0, swimHeading + (-0.2 - swimHeading) * ease, -Math.sin(stage * Math.PI) * 0.38);
+      sealRoot.scale.setScalar(swimScale + ease * (1 - swimScale));
     }
     const stroke = Math.sin(elapsed * 0.018);
     headPivot.rotation.z = Math.sin(elapsed * 0.012) * 0.1;
