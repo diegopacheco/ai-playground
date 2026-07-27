@@ -5,6 +5,8 @@ import './style.css'
 
 const canvas = document.querySelector('#scene')
 const viewport = document.querySelector('#viewport')
+const worldToggle = document.querySelector('#worldToggle')
+const worldClose = document.querySelector('#worldClose')
 let fallbackCanvas = null
 let fallbackContext = null
 let fallbackActive = false
@@ -713,7 +715,13 @@ const placeAtHover = () => {
   return false
 }
 
-canvas.addEventListener('pointerdown', event => { pointerStart = { x: event.clientX, y: event.clientY } })
+canvas.addEventListener('pointerdown', event => {
+  updateHover(event)
+  pointerStart = { x: event.clientX, y: event.clientY }
+  viewport.classList.remove('world-open')
+  worldToggle.setAttribute('aria-expanded', 'false')
+  worldToggle.setAttribute('aria-label', 'Open scene controls')
+})
 canvas.addEventListener('pointermove', updateHover)
 canvas.addEventListener('pointerleave', () => {
   highlighter.visible = false
@@ -723,8 +731,14 @@ canvas.addEventListener('pointerup', event => {
   if (!pointerStart || mode !== 'build') return
   const distance = Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y)
   pointerStart = null
+  updateHover(event)
   if (distance > 6 || !hoverCell) return
   placeAtHover()
+})
+canvas.addEventListener('pointercancel', () => {
+  pointerStart = null
+  highlighter.visible = false
+  hoverCell = null
 })
 
 const createWheel = (x, z) => {
@@ -1283,7 +1297,7 @@ document.querySelectorAll('.piece-card').forEach(button => {
     selectPiece(button)
   })
   button.addEventListener('pointerdown', event => {
-    if (mode !== 'build' || event.button > 0) return
+    if (mode !== 'build' || event.button > 0 || event.pointerType !== 'mouse') return
     paletteDrag = { button, startX: event.clientX, startY: event.clientY, active: false, preview: null }
   })
 })
@@ -1332,6 +1346,13 @@ document.querySelector('#trainToggle').addEventListener('click', () => {
   setTrainRunning(!trainRunning)
 })
 document.querySelector('#soundButton').addEventListener('click', () => setMuted(!muted))
+const setWorldPanel = open => {
+  viewport.classList.toggle('world-open', open)
+  worldToggle.setAttribute('aria-expanded', String(open))
+  worldToggle.setAttribute('aria-label', open ? 'Close scene controls' : 'Open scene controls')
+}
+worldToggle.addEventListener('click', () => setWorldPanel(!viewport.classList.contains('world-open')))
+worldClose.addEventListener('click', () => setWorldPanel(false))
 document.querySelectorAll('[data-sound]').forEach(button => button.addEventListener('click', () => {
   setMuted(button.dataset.sound === 'off')
   showToast(button.dataset.sound === 'off' ? 'All sounds off' : 'Soundscape on')
@@ -1757,8 +1778,45 @@ const resize = () => {
   camera.aspect = width / height
   camera.updateProjectionMatrix()
 }
-window.addEventListener('resize', resize)
-resize()
+
+let cameraLayout = ''
+const syncViewport = () => {
+  const viewportHeight = window.visualViewport?.height ?? window.innerHeight
+  document.documentElement.style.setProperty('--app-height', `${Math.round(viewportHeight)}px`)
+  const nextLayout = window.innerWidth <= 620 && viewportHeight > window.innerWidth ? 'portrait' : window.innerWidth <= 950 && viewportHeight <= 560 ? 'landscape' : 'desktop'
+  if (nextLayout !== cameraLayout) {
+    cameraLayout = nextLayout
+    if (cameraLayout === 'portrait') {
+      camera.position.set(21, 25, 25)
+      controls.target.set(0, -3, 0)
+      controls.minDistance = 18
+      controls.maxDistance = 54
+      camera.fov = 72
+      scene.fog.far = 70
+    } else if (cameraLayout === 'landscape') {
+      camera.position.set(21, 18, 23)
+      controls.target.set(0, -0.8, 0)
+      controls.minDistance = 16
+      controls.maxDistance = 52
+      camera.fov = 44
+      scene.fog.far = 58
+    } else {
+      camera.position.set(18, 17, 20)
+      controls.target.set(0, 0, 0)
+      controls.minDistance = 12
+      controls.maxDistance = 34
+      camera.fov = 38
+      scene.fog.far = 48
+      setWorldPanel(false)
+    }
+  }
+  resize()
+}
+window.addEventListener('resize', syncViewport)
+window.addEventListener('orientationchange', syncViewport)
+window.visualViewport?.addEventListener('resize', syncViewport)
+new ResizeObserver(resize).observe(viewport)
+syncViewport()
 
 const animate = () => {
   const delta = Math.min(clock.getDelta(), 0.05)

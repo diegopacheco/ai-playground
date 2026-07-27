@@ -6,4 +6,5 @@ if [ ! -d node_modules ]; then
 fi
 npm run build
 test -f dist/index.html
+npm test
 echo "All checks passed"

@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "start": "vite --host 0.0.0.0",
-    "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "build": "vite build --base /ai-playground/games/blockrails/",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "playwright test"
   },
   "dependencies": {
     "three": "0.185.1"
   },
   "devDependencies": {
+    "@playwright/test": "1.61.1",
     "vite": "8.1.5"
   }
 }

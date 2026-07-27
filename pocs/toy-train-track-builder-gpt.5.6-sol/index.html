@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#f4dca8">
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
     <title>BlockRails</title>
   </head>
   <body>
@@ -17,9 +18,12 @@
           <button class="mode-button active" data-mode="build" type="button" role="tab" aria-selected="true" aria-controls="buildPanel"><span class="mode-number">1</span>Build</button>
           <button class="mode-button" data-mode="simulate" type="button" role="tab" aria-selected="false" aria-controls="simulatePanel"><span class="mode-number">2</span>Simulate</button>
         </nav>
-        <button id="soundButton" class="round-button" type="button" aria-label="Mute sound" aria-pressed="false">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zm-2.5-8v2a6.5 6.5 0 0 1 0 12v2a8.5 8.5 0 0 0 0-16z"/></svg>
-        </button>
+        <div class="top-actions">
+          <button id="worldToggle" class="world-toggle" type="button" aria-label="Open scene controls" aria-expanded="false" aria-controls="worldPanel"><span aria-hidden="true"></span>Scene</button>
+          <button id="soundButton" class="round-button" type="button" aria-label="Mute sound" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zm-2.5-8v2a6.5 6.5 0 0 1 0 12v2a8.5 8.5 0 0 0 0-16z"/></svg>
+          </button>
+        </div>
       </header>
 
       <main id="viewport" aria-label="3D wooden train track builder">
@@ -65,8 +69,8 @@
           <div class="route-stat"><span>Route length</span><strong id="routeLength">0 m</strong></div>
         </section>
 
-        <aside class="world-panel" aria-label="World effects">
-          <div class="world-title"><span class="sun-symbol"></span><div><span class="eyebrow">World controls</span><b>Set the scene</b></div></div>
+        <aside id="worldPanel" class="world-panel" aria-label="World effects">
+          <div class="world-title"><span class="sun-symbol"></span><div><span class="eyebrow">World controls</span><b>Set the scene</b></div><button id="worldClose" class="world-close" type="button" aria-label="Close scene controls">Close</button></div>
           <div class="control-row"><span>Sky</span><div class="segmented"><button class="active" data-world="sky" data-value="day" type="button">Day</button><button data-world="sky" data-value="night" type="button">Night</button></div></div>
           <div class="control-row"><span>Weather</span><div class="segmented"><button class="active" data-world="weather" data-value="sunny" type="button">Sunny</button><button data-world="weather" data-value="rain" type="button">Rain</button></div></div>
           <div class="control-row"><span>Ground</span><div class="segmented"><button class="active" data-world="ground" data-value="clean" type="button">Clean</button><button data-world="ground" data-value="snow" type="button">Snow</button></div></div>
