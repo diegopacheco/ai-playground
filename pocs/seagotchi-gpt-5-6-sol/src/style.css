@@ -650,9 +650,13 @@ h1 {
 
 @media (max-width: 570px) {
   .shell {
-    padding: 8px;
+    padding:
+      max(6px, env(safe-area-inset-top))
+      max(6px, env(safe-area-inset-right))
+      max(6px, env(safe-area-inset-bottom))
+      max(6px, env(safe-area-inset-left));
     grid-template-rows: auto minmax(0, 1fr);
-    gap: 8px;
+    gap: 6px;
   }
 
   .masthead {
@@ -660,7 +664,8 @@ h1 {
   }
 
   h1 {
-    font-size: 42px;
+    font-size: clamp(34px, 11vw, 42px);
+    text-shadow: 3px 3px 0 var(--ocean);
   }
 
   .mini-label {
@@ -676,29 +681,31 @@ h1 {
   }
 
   .day-box strong {
-    padding: 8px;
+    padding: 7px;
+    font-size: 11px;
   }
 
   .header-controls {
-    gap: 7px;
+    gap: 5px;
   }
 
   .sound-toggle {
-    padding: 8px 7px;
+    height: 30px;
+    padding: 5px 6px;
     border-width: 2px;
-    box-shadow: 3px 3px 0 var(--coral);
-    font-size: 7px;
+    box-shadow: 2px 2px 0 var(--coral);
+    font-size: 6px;
   }
 
   .github-link {
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     border-width: 2px;
-    box-shadow: 3px 3px 0 var(--coral);
+    box-shadow: 2px 2px 0 var(--coral);
   }
 
   .github-link svg {
-    width: 19px;
+    width: 16px;
   }
 
   .scene-wrap {
@@ -706,29 +713,138 @@ h1 {
     min-height: 0;
   }
 
-  .stats-panel,
-  .actions-panel {
-    left: 14px;
-    right: 14px;
+  .stats-panel {
+    top: 8px;
+    right: 8px;
+    bottom: auto;
+    left: 8px;
     width: auto;
     min-width: 0;
+    padding: 0;
+    border: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    transform: none;
   }
 
-  .stats-panel {
-    bottom: 248px;
+  .stat {
+    min-width: 0;
+    padding: 6px;
+    border: 2px solid var(--foam);
+    background: rgba(5, 23, 48, 0.9);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  .stat + .stat {
+    margin-top: 0;
+  }
+
+  .stat-heading {
+    margin-bottom: 4px;
+    font-size: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  .stat-heading strong {
+    font-size: 7px;
+  }
+
+  .meter {
+    height: 8px;
+    padding: 1px;
+    border-width: 1px;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .meter i {
+    background:
+      repeating-linear-gradient(90deg, transparent 0 6px, rgba(7, 19, 38, 0.35) 6px 7px),
+      var(--mint);
   }
 
   .actions-panel {
-    bottom: 12px;
+    top: auto;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    width: auto;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    transform: none;
+  }
+
+  .panel-title {
+    display: none;
   }
 
   .action-button {
-    min-height: 54px;
+    min-width: 0;
+    min-height: 46px;
+    padding: 5px 3px;
+    border-width: 2px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    text-align: center;
+    font-size: 6px;
+    line-height: 1;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  .action-button + .action-button {
+    margin-top: 0;
+  }
+
+  .action-button svg {
+    width: 20px;
+    min-width: 20px;
+    height: 17px;
+  }
+
+  .action-button:nth-of-type(1) {
+    border-color: var(--sun);
+  }
+
+  .action-button:nth-of-type(2) {
+    border-color: var(--coral);
+  }
+
+  .action-button:nth-of-type(3) {
+    color: var(--ink);
+    border-color: var(--mint);
+    background: var(--mint);
+  }
+
+  .action-button:nth-of-type(3) svg {
+    fill: var(--ink);
   }
 
   .speech {
-    top: 12px;
-    width: calc(100% - 36px);
+    top: 70px;
+    width: min(280px, calc(100% - 74px));
+    padding: 8px 10px;
+    border-width: 2px;
+    box-shadow: 3px 3px 0 var(--ink);
+    font-size: 7px;
+    line-height: 1.35;
+  }
+
+  .speech::before {
+    top: -9px;
+    width: 12px;
+    height: 12px;
+    border-width: 2px 0 0 2px;
   }
 
   .sun-label {
@@ -744,8 +860,62 @@ h1 {
   }
 
   .weight-tag {
-    top: 88px;
+    top: 69px;
+    left: 8px;
     bottom: auto;
+    font-size: 6px;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .weight-tag span,
+  .weight-tag strong {
+    padding: 5px 6px;
+  }
+
+  .game-frame {
+    padding: 4px;
+    border-width: 3px;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .scene-wrap {
+    border-width: 3px;
+  }
+
+  .achievement {
+    width: calc(100% - 28px);
+    padding: 16px 10px;
+    border-width: 3px;
+    box-shadow: 6px 6px 0 var(--coral), 10px 10px 0 var(--ink);
+  }
+
+  .achievement strong {
+    font-size: 54px;
+  }
+
+  .achievement span,
+  .achievement small {
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 570px) and (max-height: 650px) {
+  .speech {
+    top: 64px;
+  }
+
+  .weight-tag {
+    top: 63px;
+  }
+
+  .action-button {
+    min-height: 42px;
+  }
+
+  .action-button svg {
+    width: 18px;
+    min-width: 18px;
+    height: 15px;
   }
 }
 
