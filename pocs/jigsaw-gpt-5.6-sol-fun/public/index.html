@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f0e5">
+  <title>Big Cat Jigsaw</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Big Cat Jigsaw home">
+      <span class="brand-mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span>
+        <strong>Big Cat Jigsaw</strong>
+        <small>one room · many hands</small>
+      </span>
+    </a>
+    <div class="progress-wrap" aria-label="Puzzle progress">
+      <div class="progress-copy">
+        <span id="levelText">LEVEL 1 OF 9 · THE GREAT CAT NAP</span>
+        <strong id="progressText">0 / 315</strong>
+      </div>
+      <div class="progress-track"><span id="progressBar"></span></div>
+    </div>
+    <div class="header-actions">
+      <button class="light-button" id="previewButton" type="button">Peek</button>
+      <button class="primary-button" id="copyButton" type="button">Invite players</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="play-area" aria-label="Collaborative puzzle">
+      <div class="stage" id="stage">
+        <div class="world" id="world">
+          <div class="board-frame" id="boardFrame">
+            <div class="board" id="board">
+              <div class="board-label">
+                <span>315 pieces</span>
+                <strong id="boardPrompt">Build the picture together</strong>
+                <small id="nextWorld">Next world: The Endless Library</small>
+              </div>
+            </div>
+          </div>
+          <div id="loosePieces"></div>
+          <div id="cursors"></div>
+        </div>
+      </div>
+      <div class="stage-tools">
+        <button type="button" id="recenterButton">Recenter</button>
+        <span class="tool-separator"></span>
+        <button type="button" id="zoomOutButton" aria-label="Zoom out">−</button>
+        <output id="zoomOutput">80%</output>
+        <button type="button" id="zoomInButton" aria-label="Zoom in">+</button>
+      </div>
+      <div class="hint" id="hint">
+        <span class="hint-piece" aria-hidden="true"></span>
+        Drag a piece near its home. It clicks into place.
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="player-card">
+        <div class="eyebrow">YOU ARE HERE</div>
+        <div class="identity">
+          <span class="identity-dot" id="identityDot"></span>
+          <div>
+            <strong id="playerName">Joining room…</strong>
+            <small id="playerScore">0 pieces placed</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="crew">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">AROUND THE TABLE</div>
+            <h2>Live crew</h2>
+          </div>
+          <span class="online-count" id="onlineCount">1 online</span>
+        </div>
+        <div class="crew-list" id="crewList"></div>
+      </section>
+
+      <section class="reference-card">
+        <div class="reference-copy">
+          <div>
+            <div class="eyebrow" id="depthLabel">DEPTH 1 · LOOP 1</div>
+            <h2 id="artTitle">A very crowded cat nap</h2>
+          </div>
+          <span id="percentText">0%</span>
+        </div>
+        <div class="depth-map" id="depthMap" aria-label="Nine nested worlds"></div>
+        <div class="reference-image">
+          <img id="referenceImage" src="/puzzle.jpg" alt="Finished illustration showing many cats gathered around a bed">
+          <span>Keep going</span>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <section class="tray-shell">
+    <div class="tray-title">
+      <span>Loose pieces</span>
+      <strong id="looseCount">315 waiting</strong>
+    </div>
+    <div class="tray" id="tray" aria-label="Loose puzzle pieces"></div>
+    <div class="tray-fade"></div>
+  </section>
+
+  <div class="drag-layer" id="dragLayer"></div>
+  <div class="portal" id="portal" aria-live="assertive">
+    <div class="portal-rings" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="portal-copy">
+      <small>PUZZLE INSIDE PUZZLE</small>
+      <strong id="portalTitle">Deeper we go</strong>
+      <span id="portalLevel">Opening level 2</span>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
