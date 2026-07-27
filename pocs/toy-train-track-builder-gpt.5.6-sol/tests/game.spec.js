@@ -43,9 +43,19 @@ test('builds and runs with touch controls on phone screens', async ({ browser })
   await expect(page.locator('#worldPanel')).toBeHidden()
   const tray = await page.locator('.piece-grid').evaluate(element => ({
     width: element.clientWidth,
-    scrollWidth: element.scrollWidth
+    scrollWidth: element.scrollWidth,
+    touchAction: getComputedStyle(element.querySelector('.piece-card')).touchAction
   }))
   expect(tray.scrollWidth).toBeGreaterThan(tray.width)
+  expect(tray.touchAction).toBe('pan-x')
+  await page.locator('.piece-grid').hover()
+  await page.mouse.wheel(180, 0)
+  await expect.poll(() => page.locator('.piece-grid').evaluate(element => element.scrollLeft)).toBeGreaterThan(0)
+
+  const buildScene = await page.locator('#scene').boundingBox()
+  const buildPanel = await page.locator('#buildPanel').boundingBox()
+  expect(buildScene.y).toBeGreaterThanOrEqual(58)
+  expect(buildScene.y + buildScene.height).toBeLessThanOrEqual(buildPanel.y)
 
   await page.locator('#worldToggle').tap()
   await expect(page.locator('#worldPanel')).toBeVisible()
@@ -77,6 +87,9 @@ test('builds and runs with touch controls on phone screens', async ({ browser })
 
   await page.getByRole('tab', { name: /Simulate/ }).tap()
   await expect(page.getByRole('heading', { name: 'All aboard' })).toBeVisible()
+  const simulateScene = await page.locator('#scene').boundingBox()
+  const simulatePanel = await page.locator('#simulatePanel').boundingBox()
+  expect(simulateScene.y + simulateScene.height).toBeLessThanOrEqual(simulatePanel.y)
   await page.getByRole('button', { name: /Start train/ }).tap()
   await expect(page.getByRole('button', { name: /Stop train/ })).toBeVisible()
 

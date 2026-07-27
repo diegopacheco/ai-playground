@@ -1224,6 +1224,7 @@ const setMode = nextMode => {
     setTrainRunning(false)
     trainParts.forEach(part => { part.visible = false })
   }
+  requestAnimationFrame(syncViewport)
 }
 
 document.querySelectorAll('.mode-button').forEach(button => button.addEventListener('click', event => {
@@ -1772,8 +1773,9 @@ const updateSoundscape = () => {
 
 const clock = new THREE.Clock()
 const resize = () => {
-  const width = viewport.clientWidth
-  const height = viewport.clientHeight
+  const width = canvas.clientWidth
+  const height = canvas.clientHeight
+  if (!width || !height) return
   renderer.setSize(width, height, false)
   camera.aspect = width / height
   camera.updateProjectionMatrix()
@@ -1784,6 +1786,9 @@ const syncViewport = () => {
   const viewportHeight = window.visualViewport?.height ?? window.innerHeight
   document.documentElement.style.setProperty('--app-height', `${Math.round(viewportHeight)}px`)
   const nextLayout = window.innerWidth <= 620 && viewportHeight > window.innerWidth ? 'portrait' : window.innerWidth <= 950 && viewportHeight <= 560 ? 'landscape' : 'desktop'
+  const activePanel = mode === 'build' ? document.querySelector('#buildPanel') : document.querySelector('#simulatePanel')
+  if (nextLayout === 'portrait' || nextLayout === 'landscape') viewport.style.setProperty('--mobile-panel-height', `${activePanel.offsetHeight}px`)
+  else viewport.style.removeProperty('--mobile-panel-height')
   if (nextLayout !== cameraLayout) {
     cameraLayout = nextLayout
     if (cameraLayout === 'portrait') {
@@ -1815,7 +1820,7 @@ const syncViewport = () => {
 window.addEventListener('resize', syncViewport)
 window.addEventListener('orientationchange', syncViewport)
 window.visualViewport?.addEventListener('resize', syncViewport)
-new ResizeObserver(resize).observe(viewport)
+new ResizeObserver(resize).observe(canvas)
 syncViewport()
 
 const animate = () => {
