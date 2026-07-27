@@ -1,0 +1,31 @@
+games/blockrails/index.html
+  s_58acf0908e4156::t_c068fca796e220 9-10
+games/blockrails/assets/index-DotcFG_d.js
+  s_58acf0908e4156::t_c068fca796e220 1-4108
+pocs/toy-train-track-builder-gpt.5.6-sol/tests/game.spec.js
+  s_58acf0908e4156::t_1a802be506fdcf 46-47,50-58,90-92
+games/blockrails/assets/index-B4_KoHon.css
+  s_58acf0908e4156::t_c068fca796e220 1
+pocs/toy-train-track-builder-gpt.5.6-sol/src/main.js
+  s_58acf0908e4156::t_1a802be506fdcf 1227,1776-1778,1789-1791,1823
+pocs/toy-train-track-builder-gpt.5.6-sol/src/style.css
+  s_58acf0908e4156::t_c459d633c7465c 198,251
+  s_58acf0908e4156::t_1a802be506fdcf 61,226,268
+  s_58acf0908e4156::t_03bcced7a66b21 184,239
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "c469ae103a82d8d4297ce8eff46edfcc4e19923f",
+  "prompts": {},
+  "sessions": {
+    "s_58acf0908e4156": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa1b7-586a-7291-b0bc-d9125294bf3e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
