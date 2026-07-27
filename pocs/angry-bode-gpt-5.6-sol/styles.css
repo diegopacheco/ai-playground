@@ -7,6 +7,7 @@
   --yellow: #ffd447;
   --mint: #73e0b2;
   --blue: #42a5d9;
+  --app-height: 100dvh;
 }
 
 * {
@@ -37,7 +38,7 @@ button:focus-visible {
 #game-shell {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: var(--app-height);
   min-height: 520px;
   overflow: hidden;
   background: #8dd8d0;
@@ -48,6 +49,7 @@ button:focus-visible {
   display: block;
   width: 100%;
   height: 100%;
+  touch-action: none;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
@@ -237,6 +239,130 @@ kbd {
   font-size: 8px;
   font-weight: 900;
   letter-spacing: .6px;
+}
+
+.touch-controls {
+  display: none;
+}
+
+.touch-button,
+.touch-pause {
+  color: white;
+  border: 3px solid var(--ink);
+  background: rgba(25,22,41,.9);
+  box-shadow: 4px 4px 0 rgba(25,22,41,.55);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.touch-button[data-active="true"],
+.touch-button:active,
+.touch-pause:active {
+  color: var(--ink);
+  background: var(--yellow);
+  box-shadow: 1px 1px 0 var(--ink);
+  transform: translate(3px, 3px);
+}
+
+.movement-pad {
+  display: grid;
+  grid-template: repeat(2, 58px) / repeat(3, 58px);
+  gap: 5px;
+}
+
+.movement-pad .touch-button {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 24px;
+}
+
+.move-up {
+  grid-area: 1 / 2;
+}
+
+.move-left {
+  grid-area: 2 / 1;
+}
+
+.move-down {
+  grid-area: 2 / 2;
+}
+
+.move-right {
+  grid-area: 2 / 3;
+}
+
+.action-pad {
+  display: grid;
+  grid-template-columns: repeat(2, 68px);
+  gap: 7px;
+}
+
+.action-pad .touch-button {
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: 23px 1fr;
+  align-items: center;
+  padding: 5px;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .5px;
+}
+
+.action-pad b {
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: Impact, fantasy;
+  font-size: 15px;
+}
+
+.action-laser {
+  border-color: var(--red);
+  background: rgba(157,32,39,.92);
+}
+
+.touch-pause {
+  align-self: end;
+  width: 44px;
+  height: 36px;
+  margin-bottom: 4px;
+  padding: 0;
+  font-family: Impact, fantasy;
+  font-size: 16px;
+}
+
+.touch-layout .touch-controls {
+  position: absolute;
+  z-index: 15;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  left: max(12px, env(safe-area-inset-left));
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.touch-layout #game-shell {
+  min-height: 0;
+}
+
+.touch-layout .touch-controls button {
+  pointer-events: auto;
+}
+
+.touch-layout .controls {
+  display: none;
+}
+
+.touch-layout .mission {
+  top: 86px;
 }
 
 .start-screen {
@@ -691,5 +817,184 @@ h1 b {
 
   .media-gallery {
     width: 142px;
+  }
+
+  .start-screen::after {
+    inset: 8px;
+    border-width: 3px;
+    box-shadow: inset 0 0 0 4px var(--yellow);
+  }
+
+  .start-copy {
+    width: 94vw;
+    transform: rotate(-1deg) translateY(-9vh);
+  }
+
+  .eyebrow {
+    margin-bottom: 5px;
+    padding: 4px 7px;
+    font-size: 7px;
+    letter-spacing: 2px;
+  }
+
+  h1 span {
+    margin-left: -10%;
+    font-size: clamp(60px, 24vw, 105px);
+  }
+
+  h1 b {
+    margin-right: -8%;
+    font-size: clamp(86px, 34vw, 148px);
+  }
+
+  .tagline {
+    margin: 17px auto 10px;
+    padding: 5px 7px;
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .music-toggle {
+    margin-bottom: 12px;
+    padding: 5px 5px 5px 8px;
+    font-size: 8px;
+  }
+
+  #start-button {
+    padding: 12px 18px 10px;
+    font-size: 18px;
+  }
+
+  .start-hint {
+    margin-top: 12px;
+    font-size: 7px;
+  }
+
+  .media-gallery {
+    right: 12px;
+    bottom: 12px;
+    width: 118px;
+  }
+
+  .media-stills {
+    display: none;
+  }
+}
+
+@media (max-width: 430px) {
+  .movement-pad {
+    grid-template: repeat(2, 52px) / repeat(3, 52px);
+    gap: 4px;
+  }
+
+  .action-pad {
+    grid-template-columns: repeat(2, 58px);
+    gap: 5px;
+  }
+
+  .action-pad .touch-button {
+    min-height: 49px;
+    grid-template-columns: 20px 1fr;
+    padding: 3px;
+    font-size: 7px;
+  }
+
+  .action-pad b {
+    width: 20px;
+    height: 20px;
+    font-size: 13px;
+  }
+
+  .touch-pause {
+    width: 36px;
+    height: 32px;
+  }
+}
+
+@media (max-height: 560px) and (max-width: 1024px) {
+  .hud {
+    top: max(6px, env(safe-area-inset-top));
+    left: max(8px, env(safe-area-inset-left));
+    right: max(8px, env(safe-area-inset-right));
+  }
+
+  .touch-layout .mission {
+    display: none;
+  }
+
+  .touch-layout .touch-controls {
+    bottom: max(7px, env(safe-area-inset-bottom));
+  }
+
+  .movement-pad {
+    grid-template: repeat(2, 48px) / repeat(3, 48px);
+    gap: 4px;
+  }
+
+  .action-pad {
+    grid-template-columns: repeat(2, 62px);
+    gap: 5px;
+  }
+
+  .action-pad .touch-button {
+    min-height: 44px;
+  }
+
+  .touch-pause {
+    height: 32px;
+  }
+
+  #hero-goat {
+    bottom: 0;
+    height: 88vh;
+  }
+
+  .start-copy {
+    width: 68vw;
+  }
+
+  .eyebrow,
+  .start-hint {
+    display: none;
+  }
+
+  h1 span {
+    font-size: clamp(55px, 13vw, 100px);
+    -webkit-text-stroke-width: 3px;
+  }
+
+  h1 b {
+    font-size: clamp(78px, 19vw, 145px);
+    -webkit-text-stroke-width: 4px;
+  }
+
+  .tagline {
+    margin: 12px auto 8px;
+    font-size: 7px;
+  }
+
+  .music-toggle {
+    margin-bottom: 8px;
+    padding: 4px 4px 4px 7px;
+    font-size: 7px;
+  }
+
+  #start-button {
+    padding: 9px 15px 8px;
+    font-size: 16px;
+  }
+
+  .media-gallery {
+    width: 112px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
   }
 }

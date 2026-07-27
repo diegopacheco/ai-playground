@@ -31,6 +31,9 @@ Stop the server:
 | W | Kick |
 | R | Burp shockwave |
 | Escape | Pause |
+| On-screen direction pad | Move freely and climb |
+| On-screen action buttons | Jump, laser eyes, kick, and burp |
+| On-screen pause button | Pause |
 
 ## Features
 
@@ -44,6 +47,7 @@ Stop the server:
 - Rage meter, score, combos, announcements, and procedural arcade sound effects
 - Pixelated low-resolution rendering with a street-facing 3D camera
 - Responsive opening screen with two screenshots and a five-second gameplay GIF
+- Multi-touch controls with phone and tablet portrait and landscape layouts
 
 ## Media
 

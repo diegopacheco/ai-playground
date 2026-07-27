@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#191629">
   <title>Angry Bode</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -69,6 +69,21 @@
     <section class="pause-screen" id="pause-screen" hidden>
       <p>DESTRUCTION PAUSED</p>
       <button id="resume-button" type="button">KEEP SMASHING</button>
+    </section>
+    <section class="touch-controls" id="touch-controls" aria-label="Touch game controls">
+      <div class="movement-pad">
+        <button class="touch-button move-up" type="button" data-code="ArrowUp" aria-label="Move up or climb"><span>▲</span></button>
+        <button class="touch-button move-left" type="button" data-code="ArrowLeft" aria-label="Move left"><span>◀</span></button>
+        <button class="touch-button move-down" type="button" data-code="ArrowDown" aria-label="Move down"><span>▼</span></button>
+        <button class="touch-button move-right" type="button" data-code="ArrowRight" aria-label="Move right"><span>▶</span></button>
+      </div>
+      <button class="touch-pause" id="touch-pause" type="button" aria-label="Pause game">II</button>
+      <div class="action-pad">
+        <button class="touch-button action-jump" type="button" data-code="Space"><b>J</b><span>JUMP</span></button>
+        <button class="touch-button action-laser" type="button" data-code="KeyE"><b>E</b><span>LASER</span></button>
+        <button class="touch-button action-kick" type="button" data-code="KeyW"><b>W</b><span>KICK</span></button>
+        <button class="touch-button action-burp" type="button" data-code="KeyR"><b>R</b><span>BURP</span></button>
+      </div>
     </section>
     <footer class="controls" id="controls">
       <div><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd><span>MOVE / CLIMB</span></div>

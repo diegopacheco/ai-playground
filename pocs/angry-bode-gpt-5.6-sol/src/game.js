@@ -14,6 +14,9 @@ const comboNode = document.querySelector('#combo')
 const comboValue = document.querySelector('#combo-value')
 const announcement = document.querySelector('#announcement')
 const damageFlash = document.querySelector('#damage-flash')
+const gameShell = document.querySelector('#game-shell')
+const touchControls = document.querySelector('#touch-controls')
+const touchPause = document.querySelector('#touch-pause')
 
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(0x8dd8d0)
@@ -1237,8 +1240,8 @@ function updateCamera(dt) {
 }
 
 function resize() {
-  const width = window.innerWidth
-  const height = window.innerHeight
+  const width = gameShell.clientWidth
+  const height = gameShell.clientHeight
   const scale = width < 700 ? 2 : 3
   renderer.setSize(Math.max(320, Math.floor(width / scale)), Math.max(200, Math.floor(height / scale)), false)
   camera.aspect = width / height
@@ -1248,6 +1251,15 @@ function resize() {
   heroRenderer.setSize(Math.floor(heroWidth / 2), Math.floor(heroHeight / 2), false)
   heroCamera.aspect = heroWidth / heroHeight
   heroCamera.updateProjectionMatrix()
+}
+
+function syncViewport() {
+  const viewportHeight = window.visualViewport?.height ?? window.innerHeight
+  const touchDevice = /Android|iPad|iPhone|iPod/i.test(navigator.userAgent) ||
+    navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches
+  document.documentElement.style.setProperty('--app-height', `${Math.round(viewportHeight)}px`)
+  document.body.classList.toggle('touch-layout', touchDevice)
+  resize()
 }
 
 let started = false
@@ -1286,6 +1298,40 @@ musicToggle.addEventListener('click', () => {
   }
 })
 
+function useControl(code) {
+  if (!started || paused) return
+  if (code === 'Space') jump()
+  if (code === 'KeyW') doKick()
+  if (code === 'KeyR') doBurp()
+  keys.add(code)
+}
+
+function releaseControl(button, code) {
+  keys.delete(code)
+  button.dataset.active = 'false'
+}
+
+touchControls.querySelectorAll('[data-code]').forEach(button => {
+  const code = button.dataset.code
+  button.addEventListener('pointerdown', event => {
+    event.preventDefault()
+    if (event.isTrusted && button.setPointerCapture) button.setPointerCapture(event.pointerId)
+    button.dataset.active = 'true'
+    useControl(code)
+  })
+  button.addEventListener('pointerup', () => releaseControl(button, code))
+  button.addEventListener('pointercancel', () => releaseControl(button, code))
+  button.addEventListener('lostpointercapture', () => releaseControl(button, code))
+  button.addEventListener('click', event => {
+    if (event.detail === 0) {
+      useControl(code)
+      releaseControl(button, code)
+    }
+  })
+})
+
+touchPause.addEventListener('click', () => togglePause())
+
 window.addEventListener('keydown', event => {
   const blocked = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space']
   if (blocked.includes(event.code)) event.preventDefault()
@@ -1312,7 +1358,10 @@ window.addEventListener('blur', () => {
   keys.clear()
   if (started && !paused) togglePause()
 })
-window.addEventListener('resize', resize)
+window.addEventListener('resize', syncViewport)
+window.addEventListener('orientationchange', syncViewport)
+window.visualViewport?.addEventListener('resize', syncViewport)
+new ResizeObserver(resize).observe(gameShell)
 
 createGround()
 createSkyline()
@@ -1321,7 +1370,7 @@ createHighline()
 populateCity()
 populateCitizens()
 populateCars()
-resize()
+syncViewport()
 updateHud()
 camera.position.set(player.position.x + 11, 18, player.position.z + 27)
 
