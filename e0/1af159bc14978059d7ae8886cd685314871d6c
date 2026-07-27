@@ -1,0 +1,42 @@
+games/seagotchi/index.html
+  s_98aa81b2bc2787::t_921426493f66c5 5,12-13
+  s_98aa81b2bc2787::t_98914c9f6adf1a 107
+games/seagotchi/assets/index-DlD_AImw.css
+  s_98aa81b2bc2787::t_921426493f66c5 1
+games/seagotchi/assets/index-lpTYl06k.js
+  s_98aa81b2bc2787::t_921426493f66c5 1-4135
+pocs/seagotchi-gpt-5-6-sol/src/style.css
+  s_98aa81b2bc2787::t_3fa6e2369f7eab 56,65,72,173,185,663,674-681,714,752-753,762,766,770-771,777,781,788,792,799,805-806,810-811,819,824,829,833,838,842,847,854,858,863,872
+  s_98aa81b2bc2787::t_2c8eb98a1c3f22 12,55
+  s_98aa81b2bc2787::t_16f465e6b9c1cf 491,505,509
+  s_98aa81b2bc2787::t_077b1bbf0dc523 632-650,754-761,763-765,767-769,774-776,778-780,782-787,789-791,793-798,800-804,807-809,812-818,820,822-823,826-828,830-832,834-837,839-841,843-846,848-853,855-857,859-862,864-871,874-878
+  s_98aa81b2bc2787::t_b3b225522951a6 478-490,492-504,506-508,510-517
+  s_98aa81b2bc2787::t_579eb8655b239c 772-773
+  s_98aa81b2bc2787::t_67a001905682a1 821,825,873
+  s_98aa81b2bc2787::t_e9b614edb88783 879
+pocs/seagotchi-gpt-5-6-sol/src/main.js
+  s_98aa81b2bc2787::t_b3b225522951a6 15,763,769-774,777-780,784-785,788-791
+  s_98aa81b2bc2787::t_16f465e6b9c1cf 775-776,781-783,786-787
+  s_98aa81b2bc2787::t_2c8eb98a1c3f22 792,906-907,911-916,918-920,1100
+  s_98aa81b2bc2787::t_7fe6bba71c1cb9 908-910
+  s_98aa81b2bc2787::t_26a7a75b72b03a 793
+pocs/seagotchi-gpt-5-6-sol/index.html
+  s_98aa81b2bc2787::t_2c8eb98a1c3f22 5
+  s_98aa81b2bc2787::t_b3b225522951a6 105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "e01af159bc14978059d7ae8886cd685314871d6c",
+  "prompts": {},
+  "sessions": {
+    "s_98aa81b2bc2787": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa0cd-0272-7820-9625-532c30bcef17",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
