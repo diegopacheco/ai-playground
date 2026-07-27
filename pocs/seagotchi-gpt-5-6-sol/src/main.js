@@ -12,6 +12,7 @@ const speech = document.querySelector("#speech");
 const achievement = document.querySelector("#achievement");
 const weightValue = document.querySelector("#weight-value");
 const heartLayer = document.querySelector("#heart-layer");
+const confettiLayer = document.querySelector("#confetti-layer");
 const dayNumber = document.querySelector("#day-number");
 
 const ui = {
@@ -759,9 +760,35 @@ const showAchievement = () => {
   if (state.achievement) return;
   state.achievement = true;
   achievement.classList.add("visible");
+  createConfetti();
   setSpeech("BORK! I HAVE BECOME UNSTOPPABLE.");
   playSealSound("achievement");
   window.setTimeout(() => achievement.classList.remove("visible"), 4200);
+};
+
+const createConfetti = () => {
+  const colors = ["#ffd15c", "#ff654f", "#55e0aa", "#d9f7e8", "#1496c4"];
+  confettiLayer.replaceChildren();
+  for (let index = 0; index < 72; index += 1) {
+    const confetti = document.createElement("span");
+    const sway = Math.round(Math.random() * 160 - 80);
+    const turn = Math.round(Math.random() * 720 + 360);
+    const size = Math.round(Math.random() * 5 + 5);
+    confetti.className = "confetti";
+    confetti.style.setProperty("--x", `${Math.random() * 100}%`);
+    confetti.style.setProperty("--sway", `${sway}px`);
+    confetti.style.setProperty("--sway-back", `${Math.round(sway * -0.55)}px`);
+    confetti.style.setProperty("--turn", `${turn}deg`);
+    confetti.style.setProperty("--turn-mid", `${Math.round(turn * 0.4)}deg`);
+    confetti.style.setProperty("--turn-late", `${Math.round(turn * 0.72)}deg`);
+    confetti.style.setProperty("--delay", `${Math.random() * 0.55}s`);
+    confetti.style.setProperty("--duration", `${Math.random() * 1.2 + 2.6}s`);
+    confetti.style.setProperty("--size", `${size}px`);
+    confetti.style.setProperty("--height", `${Math.round(size * 1.7)}px`);
+    confetti.style.setProperty("--color", colors[index % colors.length]);
+    confettiLayer.append(confetti);
+  }
+  window.setTimeout(() => confettiLayer.replaceChildren(), 4400);
 };
 
 const feed = () => {
@@ -876,7 +903,21 @@ const resize = () => {
   renderer.setSize(Math.max(1, Math.floor(width * 0.62)), Math.max(1, Math.floor(height * 0.62)), false);
 };
 
+const syncViewport = () => {
+  const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+  const mobileDevice = /Android|iPad|iPhone|iPod/i.test(navigator.userAgent) ||
+    window.matchMedia("(pointer: coarse)").matches;
+  const mobileLayout = mobileDevice &&
+    (window.innerWidth <= 1024 || window.innerHeight <= 600);
+  document.documentElement.style.setProperty("--app-height", `${Math.round(viewportHeight)}px`);
+  document.body.classList.toggle("mobile-layout", mobileLayout);
+  resize();
+};
+
 new ResizeObserver(resize).observe(sceneWrap);
+window.addEventListener("resize", syncViewport);
+window.addEventListener("orientationchange", syncViewport);
+window.visualViewport?.addEventListener("resize", syncViewport);
 
 let previousTime = performance.now();
 
@@ -1056,5 +1097,5 @@ updateClock();
 updateDay();
 updateSoundToggle();
 window.setInterval(updateClock, 30000);
-resize();
+syncViewport();
 requestAnimationFrame(animate);

@@ -9,6 +9,7 @@
   --cream: #fff8d7;
   --panel: rgba(5, 23, 48, 0.86);
   --line: rgba(217, 247, 232, 0.32);
+  --app-height: 100dvh;
 }
 
 * {
@@ -51,7 +52,8 @@ button {
 
 .shell {
   width: min(1440px, 100%);
-  height: 100vh;
+  height: var(--app-height);
+  min-width: 0;
   margin: 0 auto;
   padding: 28px clamp(18px, 3vw, 48px) 22px;
   display: grid;
@@ -60,12 +62,14 @@ button {
 }
 
 .masthead {
+  min-width: 0;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
 }
 
 .brand-lockup {
+  min-width: 0;
   display: flex;
   align-items: flex-end;
   gap: 18px;
@@ -166,6 +170,7 @@ h1 {
 }
 
 .game-frame {
+  min-width: 0;
   min-height: 0;
   border: 4px solid var(--cream);
   padding: 8px;
@@ -177,6 +182,7 @@ h1 {
   position: relative;
   width: 100%;
   height: 100%;
+  min-width: 0;
   min-height: 0;
   overflow: hidden;
   border: 4px solid var(--ink);
@@ -469,6 +475,46 @@ h1 {
   text-shadow: 4px 4px 0 var(--ink);
 }
 
+.confetti-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti {
+  position: absolute;
+  top: -20px;
+  left: var(--x);
+  width: var(--size);
+  height: var(--height);
+  display: block;
+  background: var(--color);
+  box-shadow: 2px 2px 0 rgba(7, 19, 38, 0.38);
+  animation: confetti-fall var(--duration) steps(30) var(--delay) forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, -8vh, 0) rotate(0deg);
+  }
+
+  38% {
+    transform: translate3d(var(--sway), 42vh, 0) rotate(var(--turn-mid));
+  }
+
+  72% {
+    transform: translate3d(var(--sway-back), 78vh, 0) rotate(var(--turn-late));
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--sway), 112vh, 0) rotate(var(--turn));
+  }
+}
+
 .heart-layer {
   position: absolute;
   inset: 0;
@@ -583,6 +629,25 @@ h1 {
   }
 }
 
+.mobile-layout .shell {
+  grid-template-rows: auto minmax(0, 1fr);
+  padding:
+    max(8px, env(safe-area-inset-top))
+    max(8px, env(safe-area-inset-right))
+    max(8px, env(safe-area-inset-bottom))
+    max(8px, env(safe-area-inset-left));
+  gap: 8px;
+}
+
+.mobile-layout .game-frame,
+.mobile-layout .scene-wrap {
+  min-height: 0;
+}
+
+.mobile-layout .footer-strip {
+  display: none;
+}
+
 @media (max-width: 570px) {
   .shell {
     padding: 8px;
@@ -595,7 +660,7 @@ h1 {
   }
 
   h1 {
-    font-size: 48px;
+    font-size: 42px;
   }
 
   .mini-label {
@@ -604,6 +669,14 @@ h1 {
 
   .day-box {
     min-width: auto;
+  }
+
+  .day-box span {
+    display: none;
+  }
+
+  .day-box strong {
+    padding: 8px;
   }
 
   .header-controls {
@@ -638,6 +711,7 @@ h1 {
     left: 14px;
     right: 14px;
     width: auto;
+    min-width: 0;
   }
 
   .stats-panel {
@@ -672,6 +746,134 @@ h1 {
   .weight-tag {
     top: 88px;
     bottom: auto;
+  }
+}
+
+@media (max-height: 560px) and (max-width: 1024px) {
+  .shell {
+    padding:
+      max(4px, env(safe-area-inset-top))
+      max(6px, env(safe-area-inset-right))
+      max(4px, env(safe-area-inset-bottom))
+      max(6px, env(safe-area-inset-left));
+    gap: 4px;
+  }
+
+  .masthead {
+    align-items: center;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  .mini-label,
+  .sun-label,
+  .cove-cam,
+  .footer-strip {
+    display: none;
+  }
+
+  .header-controls {
+    gap: 6px;
+  }
+
+  .github-link {
+    width: 32px;
+    height: 32px;
+    border-width: 2px;
+    box-shadow: 3px 3px 0 var(--coral);
+  }
+
+  .github-link svg {
+    width: 18px;
+  }
+
+  .sound-toggle {
+    padding: 7px 6px;
+    border-width: 2px;
+    box-shadow: 3px 3px 0 var(--coral);
+    font-size: 7px;
+  }
+
+  .day-box {
+    min-width: auto;
+    border-width: 2px;
+    box-shadow: 3px 3px 0 var(--coral);
+  }
+
+  .day-box span,
+  .day-box strong {
+    padding: 7px;
+  }
+
+  .stats-panel,
+  .actions-panel {
+    top: 50%;
+    bottom: auto;
+    width: 150px;
+    padding: 10px;
+    transform: translateY(-50%);
+  }
+
+  .stats-panel {
+    left: 8px;
+    right: auto;
+  }
+
+  .actions-panel {
+    left: auto;
+    right: 8px;
+  }
+
+  .stat + .stat {
+    margin-top: 8px;
+  }
+
+  .stat-heading {
+    margin-bottom: 4px;
+    font-size: 8px;
+  }
+
+  .meter {
+    height: 12px;
+  }
+
+  .panel-title {
+    margin: -20px auto 6px;
+    font-size: 8px;
+  }
+
+  .action-button {
+    min-height: 42px;
+    padding: 5px;
+    gap: 6px;
+    font-size: 7px;
+  }
+
+  .action-button + .action-button {
+    margin-top: 6px;
+  }
+
+  .action-button svg {
+    width: 23px;
+    min-width: 23px;
+  }
+
+  .speech {
+    top: 8px;
+    bottom: auto;
+    width: min(280px, calc(100% - 328px));
+    min-width: 180px;
+    padding: 8px 10px;
+    font-size: 7px;
+  }
+
+  .weight-tag {
+    top: auto;
+    left: 50%;
+    bottom: 8px;
+    transform: translateX(-50%);
   }
 }
 
