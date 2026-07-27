@@ -6,8 +6,10 @@ const sceneWrap = document.querySelector("#scene-wrap");
 const feedButton = document.querySelector("#feed-button");
 const sleepButton = document.querySelector("#sleep-button");
 const petButton = document.querySelector("#pet-button");
+const swimButton = document.querySelector("#swim-button");
 const soundToggle = document.querySelector("#sound-toggle");
 const sleepLabel = document.querySelector("#sleep-label");
+const swimLabel = document.querySelector("#swim-label");
 const speech = document.querySelector("#speech");
 const achievement = document.querySelector("#achievement");
 const weightValue = document.querySelector("#weight-value");
@@ -38,6 +40,7 @@ const state = {
   sleeping: false,
   action: "idle",
   actionStarted: 0,
+  swimDuration: 0,
   achievement: false,
   elapsedCare: 0,
   elapsedDay: 0,
@@ -223,6 +226,8 @@ const sealRoot = new THREE.Group();
 sealRoot.position.set(-0.15, 0.56, 0.2);
 sealRoot.rotation.y = -0.2;
 world.add(sealRoot);
+
+const sealRestPosition = new THREE.Vector3(-0.15, 0.56, 0.2);
 
 const sealMorph = new THREE.Group();
 sealRoot.add(sealMorph);
@@ -792,7 +797,7 @@ const createConfetti = () => {
 };
 
 const feed = () => {
-  if (state.action === "feed") return;
+  if (state.action === "feed" || state.action === "swim") return;
   if (state.sleeping) {
     state.sleeping = false;
     sleepLabel.textContent = "PUT TO SLEEP";
@@ -800,6 +805,7 @@ const feed = () => {
   state.action = "feed";
   state.actionStarted = performance.now();
   feedButton.disabled = true;
+  swimButton.disabled = true;
   fishGroup.visible = true;
   fishGroup.scale.setScalar(1);
   fishGroup.rotation.set(0, Math.PI, 0);
@@ -814,6 +820,7 @@ const feed = () => {
     fishGroup.visible = false;
     fishGroup.scale.setScalar(1);
     feedButton.disabled = false;
+    swimButton.disabled = false;
     state.action = "idle";
     setSpeech(state.feeds >= 6 ? "ONE MORE COULD NOT HURT..." : "TASTES LIKE THE PACIFIC.");
     if (state.feeds >= 8) showAchievement();
@@ -821,6 +828,7 @@ const feed = () => {
 };
 
 const toggleSleep = () => {
+  if (state.action === "swim") return;
   state.sleeping = !state.sleeping;
   state.action = state.sleeping ? "sleep" : "idle";
   state.actionStarted = performance.now();
@@ -842,6 +850,7 @@ const createHearts = () => {
 };
 
 const pet = () => {
+  if (state.action === "swim") return;
   state.action = "pet";
   state.actionStarted = performance.now();
   state.happy = clamp(state.happy + 15);
@@ -854,9 +863,46 @@ const pet = () => {
   }, 1300);
 };
 
+const swim = () => {
+  if (state.action === "feed" || state.action === "swim") return;
+  if (state.ambientEvent) finishAmbientEvent(performance.now() / 1000);
+  state.sleeping = false;
+  sleepLabel.textContent = "PUT TO SLEEP";
+  state.action = "swim";
+  state.actionStarted = performance.now();
+  state.swimDuration = 3000 + Math.random() * 2000;
+  feedButton.disabled = true;
+  sleepButton.disabled = true;
+  petButton.disabled = true;
+  swimButton.disabled = true;
+  swimButton.setAttribute("aria-busy", "true");
+  swimLabel.textContent = "SWIMMING";
+  setSpeech("SPLASH! COVE LAP TIME.");
+  playSealSound("honk");
+  window.setTimeout(() => {
+    if (state.action !== "swim") return;
+    state.action = "idle";
+    sealRoot.position.copy(sealRestPosition);
+    sealRoot.rotation.set(0, -0.2, 0);
+    frontFlipper.rotation.z = 1.02;
+    farFlipper.rotation.z = -0.92;
+    tailLeft.rotation.z = 1.15;
+    tailRight.rotation.z = 1.15;
+    feedButton.disabled = false;
+    sleepButton.disabled = false;
+    petButton.disabled = false;
+    swimButton.disabled = false;
+    swimButton.removeAttribute("aria-busy");
+    swimLabel.textContent = "GO SWIM";
+    setSpeech("BEST LAP YET. BORK!");
+    playSealSound("bark");
+  }, state.swimDuration);
+};
+
 feedButton.addEventListener("click", feed);
 sleepButton.addEventListener("click", toggleSleep);
 petButton.addEventListener("click", pet);
+swimButton.addEventListener("click", swim);
 soundToggle.addEventListener("click", toggleSound);
 
 canvas.addEventListener("click", pet);
@@ -956,7 +1002,50 @@ const animate = (time) => {
   body.scale.y = 0.72 + breathing;
   sealRoot.position.y = 0.56 + Math.sin(seconds * 1.5) * 0.015;
 
-  if (state.action === "feed") {
+  if (state.action === "swim") {
+    const elapsed = time - state.actionStarted;
+    const progress = Math.min(elapsed / state.swimDuration, 1);
+    if (progress < 0.18) {
+      const stage = progress / 0.18;
+      const ease = stage * stage * (3 - 2 * stage);
+      sealRoot.position.set(
+        sealRestPosition.x + ease * 1.65,
+        sealRestPosition.y - ease * 1.22,
+        sealRestPosition.z + ease * 0.15
+      );
+      sealRoot.rotation.set(0, -0.2, -Math.sin(stage * Math.PI) * 0.34);
+    } else if (progress < 0.8) {
+      const stage = (progress - 0.18) / 0.62;
+      const angle = stage * Math.PI * 2;
+      const directionX = 2.75 * Math.cos(angle);
+      const directionZ = 1.7 * Math.sin(angle);
+      sealRoot.position.set(
+        1.5 + 2.75 * Math.sin(angle),
+        -0.66 + Math.sin(angle * 2) * 0.12,
+        0.35 + 1.7 * (1 - Math.cos(angle))
+      );
+      sealRoot.rotation.set(
+        0,
+        -0.2 - Math.atan2(directionZ, directionX),
+        Math.sin(angle * 2) * 0.08
+      );
+    } else {
+      const stage = (progress - 0.8) / 0.2;
+      const ease = stage * stage * (3 - 2 * stage);
+      sealRoot.position.set(
+        1.5 - ease * 1.65,
+        -0.66 + ease * 1.22 + Math.sin(stage * Math.PI) * 1.05,
+        0.35 - ease * 0.15
+      );
+      sealRoot.rotation.set(0, -0.2, -Math.sin(stage * Math.PI) * 0.38);
+    }
+    const stroke = Math.sin(elapsed * 0.018);
+    headPivot.rotation.z = Math.sin(elapsed * 0.012) * 0.1;
+    frontFlipper.rotation.z = 1.02 + stroke * 0.72;
+    farFlipper.rotation.z = -0.92 - stroke * 0.62;
+    tailLeft.rotation.z = 1.15 + stroke * 0.38;
+    tailRight.rotation.z = 1.15 - stroke * 0.38;
+  } else if (state.action === "feed") {
     const progress = Math.min((time - state.actionStarted) / 1350, 1);
     const approach = progress * progress * (3 - 2 * progress);
     const mouthRise = Math.sin(Math.min(progress / 0.35, 1) * Math.PI * 0.5);

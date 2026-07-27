@@ -776,8 +776,8 @@ h1 {
     padding: 0;
     border: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 6px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
     background: transparent;
     box-shadow: none;
     backdrop-filter: none;
@@ -797,7 +797,7 @@ h1 {
     justify-content: center;
     gap: 2px;
     text-align: center;
-    font-size: 6px;
+    font-size: 5.5px;
     line-height: 1;
     box-shadow: 3px 3px 0 var(--ink);
   }
@@ -828,6 +828,10 @@ h1 {
 
   .action-button:nth-of-type(3) svg {
     fill: var(--ink);
+  }
+
+  .action-button:nth-of-type(4) {
+    border-color: #75cee0;
   }
 
   .speech {
