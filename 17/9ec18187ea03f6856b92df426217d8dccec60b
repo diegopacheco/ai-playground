@@ -1,0 +1,26 @@
+games/seagotchi/assets/index-CKGImsBc.js
+  s_0998ae6b5ab58f::t_db6d7dc94051b9 1-4135
+pocs/seagotchi-gpt-5-6-sol/src/main.js
+  s_0998ae6b5ab58f::t_fc66bccd1c231b 231-232,1011,1018-1020,1027-1030,1032-1034,1046-1048
+  s_0998ae6b5ab58f::t_0caca17701eb3c 1013,1022,1050
+  s_0998ae6b5ab58f::t_57553b6ec49b99 1012,1023,1041,1051
+  s_0998ae6b5ab58f::t_a44584aff05cde 889
+games/seagotchi/index.html
+  s_0998ae6b5ab58f::t_db6d7dc94051b9 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "179ec18187ea03f6856b92df426217d8dccec60b",
+  "prompts": {},
+  "sessions": {
+    "s_0998ae6b5ab58f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa111-b35e-7a22-aaf8-0509a664e334",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
