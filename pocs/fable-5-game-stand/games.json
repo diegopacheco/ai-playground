@@ -902,5 +902,13 @@
     "year": 2026,
     "order": 113,
     "cover": "covers/disney-epic-mickey-rebrushed.jpg"
+  },
+  {
+    "id": "hot-wheels-unleashed",
+    "name": "Hot Wheels Unleashed",
+    "console": "PS5",
+    "year": 2026,
+    "order": 114,
+    "cover": "covers/hot-wheels-unleashed.jpeg"
   }
 ]
