@@ -43,36 +43,44 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping
 renderer.toneMappingExposure = 1.08
 
 const textureLoader = new THREE.TextureLoader()
-const pavementTexture = textureLoader.load('./assets/textures/pavement.jpg')
-pavementTexture.wrapS = pavementTexture.wrapT = THREE.RepeatWrapping
-pavementTexture.repeat.set(14, 14)
-pavementTexture.colorSpace = THREE.SRGBColorSpace
-pavementTexture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy())
-const concreteTexture = textureLoader.load('./assets/textures/concrete.jpg')
-concreteTexture.wrapS = concreteTexture.wrapT = THREE.RepeatWrapping
-concreteTexture.repeat.set(3, 1)
-concreteTexture.colorSpace = THREE.SRGBColorSpace
-concreteTexture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy())
 
-const pavementMaterial = new THREE.MeshStandardMaterial({ map: pavementTexture, color: 0xa69c86, roughness: .96, metalness: .02 })
+function loadTexture(path, x, y) {
+  const texture = textureLoader.load(path)
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+  texture.repeat.set(x, y)
+  texture.colorSpace = THREE.SRGBColorSpace
+  texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy())
+  return texture
+}
+
+const asphaltTexture = loadTexture('./assets/textures/asphalt.jpg', 18, 18)
+const pavementTexture = loadTexture('./assets/textures/pavement.jpg', 10, 2)
+const concreteTexture = loadTexture('./assets/textures/concrete.jpg', 3, 2)
+const brickTexture = loadTexture('./assets/textures/factory-brick.jpg', 5, 2)
+const metalTexture = loadTexture('./assets/textures/corrugated-iron.jpg', 4, 2)
+const asphaltMaterial = new THREE.MeshStandardMaterial({ map: asphaltTexture, color: 0x797268, roughness: .98, metalness: 0 })
+const pavementMaterial = new THREE.MeshStandardMaterial({ map: pavementTexture, color: 0xaaa191, roughness: .94, metalness: .01 })
 const concreteMaterial = new THREE.MeshStandardMaterial({ map: concreteTexture, color: 0xaaa28f, roughness: .92, metalness: .03 })
-const steelMaterial = new THREE.MeshStandardMaterial({ color: 0x5f625a, roughness: .62, metalness: .55 })
-const rustMaterial = new THREE.MeshStandardMaterial({ color: 0x7a4934, roughness: .88, metalness: .18 })
-const darkMaterial = new THREE.MeshStandardMaterial({ color: 0x262a26, roughness: .75, metalness: .25 })
+const brickMaterial = new THREE.MeshStandardMaterial({ map: brickTexture, color: 0x8a7566, roughness: .94, metalness: 0 })
+const metalMaterial = new THREE.MeshStandardMaterial({ map: metalTexture, color: 0x7a786d, roughness: .72, metalness: .42 })
+const steelMaterial = new THREE.MeshStandardMaterial({ color: 0x565b58, roughness: .58, metalness: .62 })
+const rustMaterial = new THREE.MeshStandardMaterial({ color: 0x6f4636, roughness: .88, metalness: .18 })
+const darkMaterial = new THREE.MeshStandardMaterial({ color: 0x222724, roughness: .72, metalness: .3 })
+const glassMaterial = new THREE.MeshStandardMaterial({ color: 0x17252a, roughness: .22, metalness: .5, emissive: 0x071217, emissiveIntensity: .35 })
 
-scene.add(new THREE.HemisphereLight(0xeedcb4, 0x40392d, 2.6))
-const sun = new THREE.DirectionalLight(0xffe3ad, 4.4)
-sun.position.set(-16, 24, 10)
+scene.add(new THREE.HemisphereLight(0xdbe5e6, 0x383932, 2.35))
+const sun = new THREE.DirectionalLight(0xffd9a2, 4.1)
+sun.position.set(-20, 32, 14)
 sun.castShadow = !coarsePointer
 sun.shadow.mapSize.set(1024, 1024)
-sun.shadow.camera.left = -32
-sun.shadow.camera.right = 32
-sun.shadow.camera.top = 32
-sun.shadow.camera.bottom = -32
+sun.shadow.camera.left = -42
+sun.shadow.camera.right = 42
+sun.shadow.camera.top = 42
+sun.shadow.camera.bottom = -42
 sun.shadow.bias = -.001
 scene.add(sun)
 
-const ground = new THREE.Mesh(new THREE.PlaneGeometry(64, 64), pavementMaterial)
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(84, 84), asphaltMaterial)
 ground.rotation.x = -Math.PI / 2
 ground.receiveShadow = true
 scene.add(ground)
@@ -94,53 +102,68 @@ function addBox(x, y, z, width, height, depth, material = concreteMaterial, coll
   return mesh
 }
 
-addBox(0, 2, -30, 60, 4, 1)
-addBox(0, 2, 30, 60, 4, 1)
-addBox(-30, 2, 0, 1, 4, 60)
-addBox(30, 2, 0, 1, 4, 60)
-addBox(-13, 1.8, -10, 10, 3.6, 1.2)
-addBox(-8.6, 1.8, -5.8, 1.2, 3.6, 9.6)
-addBox(8, 1.8, -13, 14, 3.6, 1.2)
-addBox(14.4, 1.8, -8.8, 1.2, 3.6, 9.6)
-addBox(12, 1.8, 8, 12, 3.6, 1.2)
-addBox(6.6, 1.8, 12, 1.2, 3.6, 7)
-addBox(-11, 1.8, 11, 1.2, 3.6, 13)
-addBox(-16, 1.8, 17, 11, 3.6, 1.2)
-addBox(0, 1, 1, 4, 2, 4, rustMaterial)
-addBox(20, 1.25, 18, 6, 2.5, 3, steelMaterial)
-addBox(-22, .8, -20, 4, 1.6, 4, rustMaterial)
-
-for (let i = 0; i < 7; i += 1) {
-  const pole = new THREE.Mesh(new THREE.CylinderGeometry(.08, .12, 5, 8), steelMaterial)
-  pole.position.set(-26 + i * 8.5, 2.5, -27)
-  pole.castShadow = !coarsePointer
-  scene.add(pole)
-  const wire = new THREE.Mesh(new THREE.BoxGeometry(8.5, .025, .025), darkMaterial)
-  wire.position.set(pole.position.x + 4.25, 4.3, -27)
-  scene.add(wire)
+function addBoundary(x, z, width, depth) {
+  collisionBoxes.push({ x, z, hx: width / 2, hz: depth / 2 })
 }
 
-const rubblePositions = [[-26, 23], [-22, 25], [-15, 23], [-7, 25], [7, 25], [15, 23], [25, 24], [-26, 6], [-19, 3], [-3, 7], [4, -6], [19, 3], [26, 8], [-25, -24], [-16, -23], [-4, -25], [15, -24], [26, -20]]
+addBoundary(0, -41, 82, 2)
+addBoundary(0, 41, 82, 2)
+addBoundary(-41, 0, 2, 82)
+addBoundary(41, 0, 2, 82)
 
-rubblePositions.forEach(([x, z]) => {
-  const size = .4 + Math.random() * .65
-  const rubble = new THREE.Mesh(new THREE.DodecahedronGeometry(size, 0), darkMaterial)
-  rubble.position.set(x, size * .35, z)
-  rubble.scale.y = .45
-  rubble.rotation.set(Math.random(), Math.random(), Math.random())
-  rubble.castShadow = !coarsePointer
-  scene.add(rubble)
-  decorations.push(rubble)
-})
+addBox(-21, .09, 0, 16, .18, 78, pavementMaterial, false)
+addBox(21, .09, 0, 16, .18, 78, pavementMaterial, false)
+addBox(0, .1, -21, 26, .2, 12, pavementMaterial, false)
+addBox(0, .1, 21, 26, .2, 12, pavementMaterial, false)
+
+for (let z = -34; z <= 34; z += 5) addBox(0, .025, z, .16, .05, 2.7, new THREE.MeshBasicMaterial({ color: 0xc1a35d }), false)
+for (let x = -35; x <= 35; x += 5) addBox(x, .026, 0, 2.7, .052, .13, new THREE.MeshBasicMaterial({ color: 0xd4cfc0 }), false)
 
 const loader = new GLTFLoader()
 const assetModels = {}
+const assetAnimations = {}
+let assetsReady = false
+let cityBuilt = false
+deploy.disabled = true
+deploy.textContent = 'LOADING CITY'
+
 const modelPaths = {
   pistol: './assets/models/blaster-n.glb',
   rifle: './assets/models/blaster-e.glb',
   shotgun: './assets/models/blaster-p.glb',
-  crate: './assets/models/crate-medium.glb'
+  crate: './assets/models/crate-medium.glb',
+  roadStraight: './assets/roads/road-straight.glb',
+  roadCross: './assets/roads/road-crossroad-path.glb',
+  streetLight: './assets/roads/light-curved.glb',
+  streetLightDouble: './assets/roads/light-curved-double.glb',
+  barrier: './assets/roads/construction-barrier.glb',
+  cone: './assets/roads/construction-cone.glb',
+  roadSign: './assets/roads/sign-highway.glb',
+  crane: './assets/factory/crane.glb',
+  hopper: './assets/factory/hopper-high-round.glb',
+  machine: './assets/factory/machine-fortified.glb',
+  pipeBend: './assets/factory/pipe-large-bend.glb',
+  pipeLong: './assets/factory/pipe-large-long.glb',
+  pipeValve: './assets/factory/pipe-large-valve.glb',
+  catwalk: './assets/factory/catwalk-straight.glb',
+  stairs: './assets/factory/catwalk-stairs.glb',
+  factoryBox: './assets/factory/box-large.glb',
+  factoryBoxWide: './assets/factory/box-wide.glb',
+  robotArm: './assets/factory/robot-arm-a.glb',
+  trafficWarning: './assets/factory/warning-traffic.glb',
+  towerA: './assets/buildings/building-sample-tower-a.glb',
+  towerB: './assets/buildings/building-sample-tower-b.glb',
+  towerC: './assets/buildings/building-sample-tower-c.glb',
+  towerD: './assets/buildings/building-sample-tower-d.glb',
+  houseA: './assets/buildings/building-sample-house-a.glb',
+  houseB: './assets/buildings/building-sample-house-b.glb',
+  houseC: './assets/buildings/building-sample-house-c.glb',
+  acA: './assets/buildings/detail-ac-a.glb',
+  acB: './assets/buildings/detail-ac-b.glb'
 }
+
+for (const letter of 'abcdefghijklmnopqrst') modelPaths[`city${letter.toUpperCase()}`] = `./assets/city/building-${letter}.glb`
+for (const letter of 'abcde') modelPaths[`enemy${letter.toUpperCase()}`] = `./assets/characters/character-${letter}.glb`
 
 function styleAsset(model, color, roughness, metalness) {
   model.traverse(node => {
@@ -152,32 +175,119 @@ function styleAsset(model, color, roughness, metalness) {
   })
 }
 
-Object.entries(modelPaths).forEach(([key, path]) => {
-  loader.load(path, data => {
-    assetModels[key] = data.scene
-    data.scene.traverse(node => {
-      if (node.isMesh) {
-        node.castShadow = !coarsePointer
-        node.receiveShadow = true
-      }
-    })
-    if (key === 'crate') addAssetCrates()
-    if (key === currentWeaponKey) showWeaponModel()
-    pickups.filter(item => item.key === key && !item.model).forEach(item => addPickupModel(item))
-  })
-})
-
-function addAssetCrates() {
-  const positions = [[-2, -2], [2.2, -1.7], [20, 20], [-23, -18]]
-  positions.forEach(([x, z], index) => {
-    const model = assetModels.crate.clone(true)
-    styleAsset(model, 0x706557, .84, .12)
-    model.position.set(x, index < 2 ? 2.15 : index === 2 ? 2.72 : 2.1, z)
-    model.scale.setScalar(1.6)
-    model.rotation.y = index * .8
-    scene.add(model)
+function prepareAsset(model, shadows = true) {
+  model.traverse(node => {
+    if (!node.isMesh) return
+    node.castShadow = shadows && !coarsePointer
+    node.receiveShadow = true
   })
 }
+
+function placeAsset(key, x, z, scale, rotation = 0, collision = false, tint = null) {
+  if (!assetModels[key]) return null
+  const model = assetModels[key].clone(true)
+  if (tint) styleAsset(model, tint, .7, .18)
+  prepareAsset(model, collision)
+  model.scale.setScalar(scale)
+  model.rotation.y = rotation
+  model.position.set(x, 0, z)
+  scene.add(model)
+  scene.updateMatrixWorld(true)
+  let box = new THREE.Box3().setFromObject(model)
+  model.position.y -= box.min.y
+  scene.updateMatrixWorld(true)
+  box = new THREE.Box3().setFromObject(model)
+  if (collision) {
+    const center = box.getCenter(new THREE.Vector3())
+    const size = box.getSize(new THREE.Vector3())
+    collisionBoxes.push({ x: center.x, z: center.z, hx: Math.max(.3, size.x * .44), hz: Math.max(.3, size.z * .44) })
+    model.traverse(node => { if (node.isMesh) obstacleMeshes.push(node) })
+  }
+  decorations.push(model)
+  return model
+}
+
+function addWarehouse(x, z, width, depth, height, material) {
+  addBox(x, height / 2, z, width, height, depth, material)
+  addBox(x, height + .18, z, width + .18, .36, depth + .18, metalMaterial, false)
+  const door = addBox(x, 1.65, z + depth / 2 + .012, 3.2, 3.3, .08, darkMaterial, false)
+  door.castShadow = false
+  for (let offset = -width * .32; offset <= width * .32; offset += width * .32) addBox(x + offset, height * .62, z + depth / 2 + .02, 1.2, 1.1, .1, glassMaterial, false)
+}
+
+function buildCity() {
+  if (cityBuilt) return
+  cityBuilt = true
+  for (let z = -36; z <= 36; z += 8) {
+    if (Math.abs(z) < 5) continue
+    placeAsset('roadStraight', 0, z, 8, 0, false)
+  }
+  for (let x = -36; x <= 36; x += 8) {
+    if (Math.abs(x) < 5) continue
+    placeAsset('roadStraight', x, 0, 8, Math.PI / 2, false)
+  }
+  placeAsset('roadCross', 0, 0, 8, 0, false)
+
+  const cityLayout = [
+    ['cityA', -33, -31, 5.8, 0], ['cityB', -20, -33, 5.6, 0], ['cityC', -7, -34, 5.8, 0], ['cityD', 7, -34, 5.8, 0], ['cityE', 21, -33, 5.8, 0], ['cityF', 34, -28, 5.8, Math.PI / 2],
+    ['cityG', -34, -17, 5.6, -Math.PI / 2], ['cityH', -35, -4, 5.8, -Math.PI / 2], ['cityI', -35, 11, 5.8, -Math.PI / 2], ['cityJ', -33, 27, 5.7, Math.PI],
+    ['cityK', -21, 34, 5.8, Math.PI], ['cityL', -8, 35, 5.8, Math.PI], ['cityM', 7, 35, 5.7, Math.PI], ['cityN', 21, 34, 5.7, Math.PI], ['cityO', 34, 28, 5.8, Math.PI / 2],
+    ['cityP', 35, 14, 5.8, Math.PI / 2], ['cityQ', 35, 1, 5.8, Math.PI / 2], ['cityR', 35, -14, 5.8, Math.PI / 2]
+  ]
+  cityLayout.forEach(args => placeAsset(...args, true))
+
+  placeAsset('towerA', -20, 13, 4.4, Math.PI / 2, true)
+  placeAsset('towerB', 21, 14, 4.3, -Math.PI / 2, true)
+  placeAsset('houseA', -19, -14, 4.8, Math.PI / 2, true)
+  placeAsset('houseB', 20, -14, 4.7, -Math.PI / 2, true)
+  addWarehouse(-12, 15, 10, 12, 6.4, brickMaterial)
+  addWarehouse(13, -15, 11, 11, 5.8, metalMaterial)
+
+  const lights = [[-6, -27, 0], [6, -27, Math.PI], [-6, -12, 0], [6, -12, Math.PI], [-6, 13, 0], [6, 13, Math.PI], [-6, 28, 0], [6, 28, Math.PI], [-27, -6, Math.PI / 2], [-27, 6, -Math.PI / 2], [27, -6, Math.PI / 2], [27, 6, -Math.PI / 2]]
+  lights.forEach(([x, z, rotation]) => placeAsset('streetLight', x, z, 6.2, rotation, false))
+  placeAsset('streetLightDouble', 0, -18, 6.2, 0, false)
+  placeAsset('streetLightDouble', 0, 18, 6.2, Math.PI, false)
+  placeAsset('roadSign', 1, -29, 5.5, Math.PI, false)
+
+  ;[[-4, 7, 0], [4, 7, Math.PI], [-5, -7, 0], [5, -7, Math.PI]].forEach(args => placeAsset('barrier', ...args, 3.2, args[2], true))
+  ;[[-6, 6], [-5, 6], [5, -6], [6, -6], [-2, -19], [2, 19]].forEach(([x, z], index) => placeAsset('cone', x, z, 2.2, index, false))
+
+  placeAsset('crane', -24, 22, 2.25, Math.PI / 2, true)
+  placeAsset('hopper', 24, 23, 2.5, 0, true)
+  placeAsset('machine', 17, -22, 2.8, Math.PI, true)
+  placeAsset('robotArm', 24, -23, 2.5, -.5, true)
+  placeAsset('catwalk', -12, 21, 3.1, Math.PI / 2, true)
+  placeAsset('stairs', -8, 22, 3.1, Math.PI / 2, true)
+  placeAsset('pipeLong', 12, 21, 2.6, Math.PI / 2, true)
+  placeAsset('pipeValve', 16, 21, 2.6, Math.PI / 2, true)
+  placeAsset('pipeBend', 20, 21, 2.6, Math.PI / 2, true)
+  placeAsset('trafficWarning', 8, -20, 2.7, 0, false)
+
+  const crateLayout = [[-3, 10, 0], [-2, 10, 0], [3, -10, 0], [4, -10, 0], [-25, 8, .4], [25, -7, -.4], [10, 25, 0], [-10, -24, 0]]
+  crateLayout.forEach(([x, z, rotation], index) => placeAsset(index % 3 ? 'factoryBox' : 'factoryBoxWide', x, z, 2.2, rotation, true))
+}
+
+async function loadAssets() {
+  try {
+    await Promise.all(Object.entries(modelPaths).map(async ([key, path]) => {
+      const data = await loader.loadAsync(path)
+      assetModels[key] = data.scene
+      assetAnimations[key] = data.animations
+    }))
+    buildCity()
+    bots.forEach((bot, index) => bot.setModel(`enemy${'ABCDE'[index]}`))
+    pickups.forEach(item => addPickupModel(item))
+    showWeaponModel()
+    assetsReady = true
+    deploy.disabled = false
+    deploy.textContent = 'DEPLOY'
+  } catch (error) {
+    deploy.textContent = 'ASSET LOAD FAILED'
+    console.error(error)
+  }
+}
+
+loadAssets()
 
 const weaponDefinitions = {
   pistol: { label: 'VX-9 SIDEARM', pickup: 'VX-9 SIDEARM', mag: 12, reserve: 60, damage: 34, rate: .22, reload: 1.15, spread: .004, pellets: 1, scale: .24 },

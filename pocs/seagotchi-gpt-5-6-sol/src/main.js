@@ -126,9 +126,9 @@ const coatMaterials = {
     flipper: createCoatMaterial("#56352f")
   },
   gray: {
-    fur: createCoatMaterial("#68727a"),
-    light: createCoatMaterial("#aeb7b8"),
-    flipper: createCoatMaterial("#4b555d")
+    fur: createCoatMaterial("#737d79"),
+    light: createCoatMaterial("#b9ae98"),
+    flipper: createCoatMaterial("#505b58")
   },
   white: {
     fur: createCoatMaterial("#e7e5d8"),
@@ -458,8 +458,8 @@ const tailRight = makeMesh(
 sealMorph.add(tailRight);
 
 const goldMaterial = new THREE.MeshStandardMaterial({ color: "#f6c945", roughness: 0.45, metalness: 0.38, flatShading: true });
-const blueHatMaterial = new THREE.MeshStandardMaterial({ color: "#1975b9", roughness: 0.82, flatShading: true });
-const blueHatLightMaterial = new THREE.MeshStandardMaterial({ color: "#56c4dc", roughness: 0.78, flatShading: true });
+const blueHatMaterial = new THREE.MeshStandardMaterial({ color: "#165984", roughness: 0.92, flatShading: true });
+const blueHatLightMaterial = new THREE.MeshStandardMaterial({ color: "#49b9cf", roughness: 0.88, flatShading: true });
 const vikingMaterial = new THREE.MeshStandardMaterial({ color: "#798892", roughness: 0.72, metalness: 0.18, flatShading: true });
 const hornMaterial = new THREE.MeshStandardMaterial({ color: "#fff0c7", roughness: 0.9, flatShading: true });
 const blondeMaterial = new THREE.MeshStandardMaterial({ color: "#f3d45b", roughness: 0.9, flatShading: true });
@@ -472,11 +472,11 @@ crownHat.add(makeMesh(new THREE.CylinderGeometry(0.34, 0.39, 0.18, 8), goldMater
 });
 
 const blueHat = new THREE.Group();
-blueHat.position.set(0, 0.57, 0);
-blueHat.rotation.z = -0.08;
+blueHat.position.set(0, 0.51, 0);
 blueHat.add(
-  makeMesh(new THREE.CylinderGeometry(0.57, 0.57, 0.08, 10), blueHatLightMaterial, [0.08, 0, 0], [1, 1, 0.78], [0, 0, 0]),
-  makeMesh(new THREE.CylinderGeometry(0.31, 0.39, 0.36, 9), blueHatMaterial, [-0.08, 0.2, 0], [1, 1, 0.9], [0, 0, 0])
+  makeMesh(new THREE.SphereGeometry(0.43, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2), blueHatMaterial, [0, 0.02, 0], [1, 0.86, 0.94], [0, 0, 0]),
+  makeMesh(new THREE.CylinderGeometry(0.43, 0.43, 0.13, 10), blueHatLightMaterial, [0, 0.01, 0], [1, 1, 0.94], [0, 0, 0]),
+  makeMesh(new THREE.IcosahedronGeometry(0.13, 1), blueHatLightMaterial, [0, 0.43, 0], [1, 1, 1], [0, 0, 0])
 );
 
 const vikingHat = new THREE.Group();
