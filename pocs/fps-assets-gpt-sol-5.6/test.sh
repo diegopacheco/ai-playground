@@ -26,6 +26,10 @@ for asset in game.js style.css assets/vendor/three.module.min.js assets/vendor/t
   echo "$asset passed"
 done
 
+rg -F 'new THREE.MeshStandardMaterial({ map: textures[index]' game.js >/dev/null
+rg -F 'node.frustumCulled = false' game.js >/dev/null
+echo "Enemy visibility check passed"
+
 if [ "$started" -eq 1 ]; then
   ./stop.sh
 fi

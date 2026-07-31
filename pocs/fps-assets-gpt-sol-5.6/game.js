@@ -286,10 +286,8 @@ async function loadAssets() {
       textures[index].colorSpace = THREE.SRGBColorSpace
       model.traverse(node => {
         if (!node.isMesh) return
-        node.material = node.material.clone()
-        node.material.map = textures[index]
-        node.material.color.set(0xffffff)
-        node.material.needsUpdate = true
+        node.material = new THREE.MeshStandardMaterial({ map: textures[index], color: 0xffffff, roughness: .82, metalness: .03 })
+        node.frustumCulled = false
       })
       const idle = idleData.animations[0].clone()
       const run = runData.animations[0].clone()
