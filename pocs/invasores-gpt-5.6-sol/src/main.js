@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import "./style.css";
 
 const canvas = document.querySelector("#game");
@@ -468,6 +469,9 @@ function createCloud(x, y, z, scale) {
   });
   cloud.scale.setScalar(scale);
   cloud.userData.speed = 0.8 + scale * 0.3;
+  cloud.traverse(object => {
+    object.userData.dynamic = true;
+  });
   world.add(cloud);
   clouds.push(cloud);
 }
@@ -514,6 +518,9 @@ function createLabels() {
 const entities = [];
 
 function registerEntity(group, type, radius, update) {
+  group.traverse(object => {
+    object.userData.dynamic = true;
+  });
   entities.push({ group, type, radius, update, hitAt: -10 });
   return group;
 }
@@ -664,6 +671,56 @@ function populateEntities() {
   createAnimal(42, -69, "seal");
 }
 
+function optimizedGeometry(object, includeNormals) {
+  const clone = object.geometry.clone();
+  clone.applyMatrix4(object.matrixWorld);
+  const geometry = clone.index ? clone.toNonIndexed() : clone;
+  if (geometry !== clone) clone.dispose();
+  Object.keys(geometry.attributes).forEach(attribute => {
+    if (attribute !== "position" && (!includeNormals || attribute !== "normal")) geometry.deleteAttribute(attribute);
+  });
+  if (includeNormals && !geometry.attributes.normal) geometry.computeVertexNormals();
+  return geometry;
+}
+
+function optimizeStaticWorld() {
+  world.updateMatrixWorld(true);
+  const meshGroups = new Map();
+  const lineGroups = new Map();
+  const removable = [];
+  world.traverse(object => {
+    if (object.userData.dynamic || object === water) return;
+    if (object.isMesh && !Array.isArray(object.material)) {
+      const key = object.material.uuid;
+      if (!meshGroups.has(key)) meshGroups.set(key, { material: object.material, geometries: [] });
+      meshGroups.get(key).geometries.push(optimizedGeometry(object, true));
+      removable.push(object);
+    } else if (object.isLineSegments && !Array.isArray(object.material)) {
+      const key = object.material.uuid;
+      if (!lineGroups.has(key)) lineGroups.set(key, { material: object.material, geometries: [] });
+      lineGroups.get(key).geometries.push(optimizedGeometry(object, false));
+      removable.push(object);
+    }
+  });
+  removable.forEach(object => object.parent?.remove(object));
+  meshGroups.forEach(({ material, geometries }) => {
+    const geometry = mergeGeometries(geometries, false);
+    geometries.forEach(item => item.dispose());
+    if (!geometry) return;
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.frustumCulled = false;
+    world.add(mesh);
+  });
+  lineGroups.forEach(({ material, geometries }) => {
+    const geometry = mergeGeometries(geometries, false);
+    geometries.forEach(item => item.dispose());
+    if (!geometry) return;
+    const lines = new THREE.LineSegments(geometry, material);
+    lines.frustumCulled = false;
+    world.add(lines);
+  });
+}
+
 const clouds = [];
 createLand();
 createRoads();
@@ -683,6 +740,7 @@ populateEntities();
 createCloud(-100, 95, -80, 1.2);
 createCloud(80, 115, 40, 0.9);
 createCloud(160, 86, -150, 1.5);
+optimizeStaticWorld();
 
 function createBird() {
   const bird = new THREE.Group();
@@ -734,11 +792,24 @@ function createBird() {
   const leftWing = createWing(-1);
   const rightWing = createWing(1);
   bird.add(leftWing, rightWing);
-  [-1.8, 0, 1.8].forEach((x, index) => {
-    const feather = cone(colors.paper, [x, -0.2, 7.4 + (index === 1 ? 1 : 0)], [1.5, 5.4, 1.15], bird, true);
-    feather.rotation.x = Math.PI / 2;
-    feather.rotation.z = (index - 1) * 0.12;
-  });
+  const tailPoints = [
+    new THREE.Vector3(-3.4, -0.15, 5.4),
+    new THREE.Vector3(-3.8, -0.15, 9.6),
+    new THREE.Vector3(0, -0.15, 8.4),
+    new THREE.Vector3(3.8, -0.15, 9.6),
+    new THREE.Vector3(3.4, -0.15, 5.4)
+  ];
+  const tailGeometry = new THREE.BufferGeometry();
+  tailGeometry.setAttribute("position", new THREE.Float32BufferAttribute([
+    ...tailPoints[0].toArray(), ...tailPoints[1].toArray(), ...tailPoints[2].toArray(),
+    ...tailPoints[0].toArray(), ...tailPoints[2].toArray(), ...tailPoints[4].toArray(),
+    ...tailPoints[2].toArray(), ...tailPoints[3].toArray(), ...tailPoints[4].toArray()
+  ], 3));
+  tailGeometry.computeVertexNormals();
+  bird.add(new THREE.Mesh(tailGeometry, mat(colors.paper, { side: THREE.DoubleSide })));
+  const tailOutline = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(tailPoints), inkMaterial);
+  tailOutline.position.y = 0.05;
+  bird.add(tailOutline);
   const legs = new THREE.Group();
   [-1.15, 1.15].forEach(x => {
     cylinder(colors.orange, [x, -3.2, 2.3], [0.34, 2.4, 0.34], legs);
@@ -1152,6 +1223,7 @@ document.querySelector("#start-button").addEventListener("click", () => {
   state.started = true;
   document.querySelector("#start-screen").classList.add("hidden");
   document.querySelector("#hud").classList.remove("hidden");
+  document.querySelector(".paper-grain").classList.add("hidden");
   audioTone(520, 0.24, "triangle", 0.05);
   showToast("Find a target below!");
 });

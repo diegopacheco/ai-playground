@@ -204,7 +204,6 @@ h1 span {
   border: 2px solid var(--ink);
   background: rgba(244, 232, 202, 0.93);
   box-shadow: 4px 4px 0 rgba(28, 43, 42, 0.85);
-  backdrop-filter: blur(4px);
 }
 
 .district-card {
