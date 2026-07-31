@@ -131,9 +131,9 @@ const coatMaterials = {
     flipper: createCoatMaterial("#505b58")
   },
   white: {
-    fur: createCoatMaterial("#e7e5d8"),
-    light: createCoatMaterial("#fff9e7"),
-    flipper: createCoatMaterial("#c5c7c0")
+    fur: createCoatMaterial("#d9d2c0"),
+    light: createCoatMaterial("#f2dfb9"),
+    flipper: createCoatMaterial("#aaa696")
   }
 };
 
@@ -660,40 +660,48 @@ for (let index = 0; index < 4; index += 1) {
 const guestStarts = [
   new THREE.Vector3(-6.2, -0.78, 1.25),
   new THREE.Vector3(6.1, -0.8, 0.25),
-  new THREE.Vector3(3.8, -0.82, -3.1)
+  new THREE.Vector3(0, -0.82, 4)
 ];
 const guestTargets = [
-  new THREE.Vector3(-2.45, 0.64, 0.62),
-  new THREE.Vector3(2.25, 0.62, 0.35),
-  new THREE.Vector3(-1.35, 0.68, -0.95)
+  new THREE.Vector3(-2.55, 0.58, 0.9),
+  new THREE.Vector3(2.6, 0.55, 0.75),
+  new THREE.Vector3(1.1, 0.25, 1.75)
+];
+const guestChonkerTargets = [
+  new THREE.Vector3(-3.55, 0.38, 1.15),
+  new THREE.Vector3(3.55, 0.35, 0.85),
+  new THREE.Vector3(1.55, 0.08, 2.25)
 ];
 const guestEdges = [
   new THREE.Vector3(-3.55, -0.48, 0.66),
   new THREE.Vector3(3.5, -0.48, 0.28),
-  new THREE.Vector3(-1.35, -0.48, -1.9)
+  new THREE.Vector3(0, -0.48, 2.25)
 ];
-const guestHeadings = [-0.08, Math.PI, 0.14];
+const guestHeadings = [-0.08, Math.PI, Math.PI / 2];
 const guestVelocities = [
   new THREE.Vector3(-2.8, 2.2, 0.4),
   new THREE.Vector3(2.8, 2.2, 0.3),
-  new THREE.Vector3(1.8, 2.4, -1.5)
+  new THREE.Vector3(0, 2.4, 2.2)
 ];
 const guestAnimals = [];
 
 for (let index = 0; index < 3; index += 1) {
   const guest = swimmers[index + 1].clone(true);
   guest.visible = false;
-  guest.scale.setScalar(0.48 + index * 0.025);
+  guest.scale.setScalar(0.46 + index * 0.01);
   guest.position.copy(guestStarts[index]);
   guest.rotation.set(0, guestHeadings[index], 0);
   guest.userData = {
     phase: "away",
     phaseStarted: 0,
     delay: index * 0.22,
-    target: guestTargets[index],
+    target: guestTargets[index].clone(),
+    desiredTarget: guestTargets[index].clone(),
     edge: guestEdges[index],
     start: guestStarts[index],
     heading: guestHeadings[index],
+    baseScale: 0.46 + index * 0.01,
+    chonkerScale: 0.32 + index * 0.01,
     exitStart: new THREE.Vector3(),
     velocity: guestVelocities[index]
   };
@@ -916,7 +924,10 @@ const inviteGuests = (seconds) => {
   swimmers.forEach((swimmer) => {
     swimmer.visible = false;
   });
-  guestAnimals.forEach((guest) => {
+  guestAnimals.forEach((guest, index) => {
+    const clearance = Math.max(0, Math.min(1, (state.feeds - 3) / 5));
+    guest.userData.target.lerpVectors(guestTargets[index], guestChonkerTargets[index], clearance);
+    guest.userData.desiredTarget.copy(guest.userData.target);
     guest.visible = true;
     guest.position.copy(guest.userData.start);
     guest.rotation.set(0, guest.userData.heading, 0);
@@ -952,6 +963,10 @@ const updateGuests = (seconds) => {
   guestAnimals.forEach((guest, index) => {
     const data = guest.userData;
     if (data.phase === "away") return;
+    const clearance = Math.max(0, Math.min(1, (state.feeds - 3) / 5));
+    data.desiredTarget.lerpVectors(guestTargets[index], guestChonkerTargets[index], clearance);
+    data.target.lerp(data.desiredTarget, data.phase === "settled" ? 0.08 : 0.2);
+    guest.scale.setScalar(data.baseScale + (data.chonkerScale - data.baseScale) * clearance);
     if (data.phase === "entering") {
       const elapsed = seconds - data.phaseStarted - data.delay;
       if (elapsed <= 0) {
