@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#ef5b3f">
+    <meta name="description" content="A hand-drawn seagull adventure across San Francisco.">
+    <title>Gull About Town</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game" aria-label="Interactive 3D San Francisco seagull game"></canvas>
+      <div class="paper-grain"></div>
+
+      <section id="start-screen" class="screen">
+        <div class="cover-art"></div>
+        <div class="start-copy">
+          <div class="eyebrow">A San Francisco nuisance</div>
+          <h1>Gull<br><span>About Town</span></h1>
+          <p class="lede">Soar the bay. Strut the piers. Paddle the shallows. Ruin somebody’s afternoon.</p>
+          <button id="start-button" class="primary-button">Take wing <span>→</span></button>
+          <div class="start-details">
+            <span>WASD to steer</span>
+            <span>Space to flap</span>
+            <span>Q to poop</span>
+          </div>
+        </div>
+        <div class="stamp">100%<br>unlicensed<br>bird activity</div>
+      </section>
+
+      <div id="hud" class="hud hidden">
+        <div class="top-left">
+          <div class="brand">Gull About Town</div>
+          <div class="district-card">
+            <span class="label">Now circling</span>
+            <strong id="district">Presidio</strong>
+          </div>
+        </div>
+
+        <div class="top-center">
+          <div class="mission">
+            <div class="mission-head">
+              <span>Today’s mischief</span>
+              <strong id="mission-count">0 / 6</strong>
+            </div>
+            <div class="mission-track"><i id="mission-progress"></i></div>
+            <p id="mission-text">Mark 3 people, 2 cars &amp; 1 animal</p>
+          </div>
+        </div>
+
+        <div class="top-right">
+          <button id="sound-button" class="icon-button" aria-label="Toggle sound">SFX</button>
+          <button id="pause-button" class="icon-button" aria-label="Pause game">II</button>
+        </div>
+
+        <div class="score-card">
+          <span class="label">Civic complaints</span>
+          <strong id="score">000</strong>
+          <div id="streak">No streak yet</div>
+        </div>
+
+        <div class="mode-card">
+          <span class="mode-icon" id="mode-icon">↟</span>
+          <div><span class="label">Movement</span><strong id="mode">Flying</strong></div>
+          <div class="altitude"><i id="altitude"></i></div>
+        </div>
+
+        <canvas id="map" width="176" height="116" aria-label="Area map"></canvas>
+
+        <div id="reticle" class="reticle"><i></i></div>
+        <div id="toast" class="toast"></div>
+
+        <div class="desktop-controls">
+          <span><kbd>WASD</kbd> steer</span>
+          <span><kbd>SPACE</kbd> flap</span>
+          <span><kbd>SHIFT</kbd> dive</span>
+          <span><kbd>Q</kbd> poop</span>
+        </div>
+
+        <div class="mobile-controls">
+          <div id="joystick" class="joystick"><i id="joystick-knob"></i></div>
+          <div class="mobile-actions">
+            <button id="dive-button">Dive</button>
+            <button id="flap-button">Flap</button>
+            <button id="poop-button">Poop!</button>
+          </div>
+        </div>
+      </div>
+
+      <section id="pause-screen" class="pause-panel hidden">
+        <div class="eyebrow">Bird at rest</div>
+        <h2>Paused</h2>
+        <p>The city is enjoying the brief peace.</p>
+        <button id="resume-button" class="primary-button">Back to trouble <span>→</span></button>
+        <button id="restart-button" class="text-button">Restart flight</button>
+      </section>
+
+      <section id="complete-screen" class="complete-panel hidden">
+        <div class="eyebrow">Mission complete</div>
+        <h2>Public enemy<br>number bird</h2>
+        <p id="final-score">You caused 0 civic complaints.</p>
+        <button id="continue-button" class="primary-button">Keep flying <span>→</span></button>
+      </section>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

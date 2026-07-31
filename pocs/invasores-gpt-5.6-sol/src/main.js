@@ -1,0 +1,1019 @@
+import * as THREE from "three";
+import "./style.css";
+
+const canvas = document.querySelector("#game");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 1.65));
+renderer.setSize(innerWidth, innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.shadowMap.enabled = innerWidth > 700;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x91c9d5);
+scene.fog = new THREE.Fog(0x91c9d5, 145, 430);
+
+const camera = new THREE.PerspectiveCamera(58, innerWidth / innerHeight, 0.1, 650);
+const clock = new THREE.Clock();
+const world = new THREE.Group();
+scene.add(world);
+
+const colors = {
+  ink: 0x1c2b2a,
+  paper: 0xf4e8ca,
+  orange: 0xef5b3f,
+  bridge: 0xe84f37,
+  blue: 0x287e9c,
+  deepBlue: 0x1c667e,
+  green: 0x4d765b,
+  darkGreen: 0x315746,
+  yellow: 0xf2bc3a,
+  red: 0xc94634,
+  cream: 0xe9ddb9,
+  road: 0x3e4c4a,
+  wood: 0x855b3d,
+  pink: 0xd7837d
+};
+
+const materialCache = new Map();
+const mat = (color, options = {}) => {
+  const key = `${color}-${options.transparent || false}-${options.opacity || 1}`;
+  if (!materialCache.has(key)) {
+    materialCache.set(key, new THREE.MeshToonMaterial({
+      color,
+      transparent: options.transparent,
+      opacity: options.opacity ?? 1,
+      side: options.side ?? THREE.FrontSide
+    }));
+  }
+  return materialCache.get(key);
+};
+
+const inkMaterial = new THREE.LineBasicMaterial({ color: colors.ink, linewidth: 1 });
+const geometryCache = {
+  box: new THREE.BoxGeometry(1, 1, 1),
+  sphere: new THREE.SphereGeometry(0.5, 10, 7),
+  cylinder: new THREE.CylinderGeometry(0.5, 0.5, 1, 10),
+  cone: new THREE.ConeGeometry(0.5, 1, 9),
+  wheel: new THREE.CylinderGeometry(0.5, 0.5, 0.3, 8)
+};
+
+function primitive(type, color, position, scale, parent = world, outline = false) {
+  const mesh = new THREE.Mesh(geometryCache[type], mat(color));
+  mesh.position.set(...position);
+  mesh.scale.set(...scale);
+  mesh.castShadow = type !== "sphere" || scale[0] > 1;
+  mesh.receiveShadow = type === "box";
+  parent.add(mesh);
+  if (outline) {
+    const edge = new THREE.LineSegments(new THREE.EdgesGeometry(geometryCache[type], 28), inkMaterial);
+    edge.scale.setScalar(1.003);
+    mesh.add(edge);
+  }
+  return mesh;
+}
+
+function box(color, position, scale, parent = world, outline = false) {
+  return primitive("box", color, position, scale, parent, outline);
+}
+
+function cylinder(color, position, scale, parent = world, outline = false) {
+  return primitive("cylinder", color, position, scale, parent, outline);
+}
+
+function sphere(color, position, scale, parent = world, outline = false) {
+  return primitive("sphere", color, position, scale, parent, outline);
+}
+
+function cone(color, position, scale, parent = world, outline = false) {
+  return primitive("cone", color, position, scale, parent, outline);
+}
+
+function seeded(index) {
+  const value = Math.sin(index * 129.73 + 74.21) * 43758.5453;
+  return value - Math.floor(value);
+}
+
+const hemi = new THREE.HemisphereLight(0xfff3d7, 0x426a67, 2.1);
+scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xffefcf, 2.8);
+sun.position.set(-90, 150, 40);
+sun.castShadow = true;
+sun.shadow.mapSize.set(1024, 1024);
+sun.shadow.camera.left = -180;
+sun.shadow.camera.right = 180;
+sun.shadow.camera.top = 180;
+sun.shadow.camera.bottom = -180;
+scene.add(sun);
+
+const waterGeometry = new THREE.PlaneGeometry(620, 620, 42, 42);
+waterGeometry.rotateX(-Math.PI / 2);
+const water = new THREE.Mesh(waterGeometry, new THREE.MeshToonMaterial({
+  color: colors.blue,
+  transparent: true,
+  opacity: 0.93
+}));
+water.position.y = 0;
+water.receiveShadow = true;
+world.add(water);
+const waterPositions = waterGeometry.attributes.position;
+const waterBase = Float32Array.from(waterPositions.array);
+
+function createLand() {
+  const shape = new THREE.Shape();
+  shape.moveTo(-178, -22);
+  shape.lineTo(-112, -14);
+  shape.lineTo(-72, -28);
+  shape.lineTo(-25, -16);
+  shape.lineTo(24, -22);
+  shape.lineTo(78, -5);
+  shape.lineTo(145, -16);
+  shape.lineTo(205, 8);
+  shape.lineTo(230, 240);
+  shape.lineTo(-190, 240);
+  shape.closePath();
+  const geometry = new THREE.ExtrudeGeometry(shape, { depth: 3, bevelEnabled: false });
+  geometry.rotateX(Math.PI / 2);
+  const land = new THREE.Mesh(geometry, mat(colors.cream));
+  land.position.y = 3;
+  land.receiveShadow = true;
+  world.add(land);
+
+  const northShape = new THREE.Shape();
+  northShape.moveTo(-180, -205);
+  northShape.lineTo(-48, -220);
+  northShape.lineTo(-45, -160);
+  northShape.lineTo(-76, -135);
+  northShape.lineTo(-150, -132);
+  northShape.closePath();
+  const northGeometry = new THREE.ExtrudeGeometry(northShape, { depth: 4, bevelEnabled: false });
+  northGeometry.rotateX(Math.PI / 2);
+  const north = new THREE.Mesh(northGeometry, mat(0x8f9b67));
+  north.position.y = 4;
+  north.receiveShadow = true;
+  world.add(north);
+
+  for (let i = 0; i < 9; i += 1) {
+    const x = -152 + i * 41;
+    box(i % 2 ? 0xd2c49c : 0xdecfab, [x, 4.7, 105], [36, 2.4 + seeded(i) * 4, 90], world);
+  }
+}
+
+function createRoads() {
+  const roads = [
+    [22, 7.1, 86, 6, 260],
+    [82, 7.12, 84, 8, 230],
+    [-45, 7.14, 110, 7, 220],
+    [-110, 7.16, 105, 6, 210],
+    [20, 7.18, 25, 360, 7],
+    [20, 7.2, 76, 360, 7],
+    [18, 7.22, 132, 350, 8],
+    [20, 7.24, 184, 350, 7]
+  ];
+  roads.forEach(([x, y, z, sx, sz]) => {
+    box(colors.road, [x, y, z], [sx, 0.18, sz], world);
+    if (sx > sz) {
+      for (let k = -150; k < 170; k += 18) box(colors.yellow, [k, y + 0.12, z], [7, 0.04, 0.35], world);
+    } else {
+      for (let k = 0; k < 210; k += 18) box(colors.yellow, [x, y + 0.12, k], [0.35, 0.04, 7], world);
+    }
+  });
+}
+
+function createBuilding(x, z, width, depth, height, color, roof = "flat") {
+  const group = new THREE.Group();
+  group.position.set(x, 7.5, z);
+  box(color, [0, height / 2, 0], [width, height, depth], group, true);
+  if (roof === "peak") {
+    const top = cone(colors.red, [0, height + 2.3, 0], [width * 0.74, 4.6, depth * 0.74], group, true);
+    top.rotation.y = Math.PI / 4;
+  } else {
+    box(colors.ink, [0, height + 0.35, 0], [width * 0.82, 0.7, depth * 0.82], group);
+  }
+  const windowColor = seeded(x + z) > 0.5 ? colors.yellow : colors.blue;
+  const rows = Math.max(1, Math.floor(height / 7));
+  const columns = Math.max(1, Math.floor(width / 5));
+  for (let row = 0; row < rows; row += 1) {
+    for (let column = 0; column < columns; column += 1) {
+      const wx = -width * 0.35 + column * (width * 0.7 / Math.max(1, columns - 1));
+      box(windowColor, [wx, 4.5 + row * 6.2, -depth / 2 - 0.06], [1.6, 2.4, 0.16], group);
+    }
+  }
+  world.add(group);
+  return group;
+}
+
+function createCity() {
+  const palette = [0xd9b59d, 0xc6b18c, 0xe2c9a3, 0xb9b58e, 0xcc8c79, 0xaec0a4];
+  let index = 0;
+  for (let z = 45; z < 208; z += 26) {
+    for (let x = -145; x < 188; x += 25) {
+      index += 1;
+      const nearRoadX = [-110, -45, 22, 82].some(roadX => Math.abs(x - roadX) < 10);
+      const nearRoadZ = [25, 76, 132, 184].some(roadZ => Math.abs(z - roadZ) < 10);
+      const chinatownGap = x > 38 && x < 82 && z > 60 && z < 102;
+      if (nearRoadX || nearRoadZ || chinatownGap || seeded(index) < 0.12) continue;
+      const width = 14 + seeded(index + 1) * 7;
+      const depth = 14 + seeded(index + 2) * 7;
+      const hill = Math.max(0, (z - 50) * 0.035);
+      const height = 10 + seeded(index + 3) * 22 + hill;
+      createBuilding(x, z, width, depth, height, palette[index % palette.length], seeded(index + 4) > 0.78 ? "peak" : "flat");
+    }
+  }
+}
+
+function cableBetween(start, end, sag, color = colors.ink, thickness = 0.2) {
+  const midpoint = start.clone().add(end).multiplyScalar(0.5);
+  midpoint.y -= sag;
+  const curve = new THREE.QuadraticBezierCurve3(start, midpoint, end);
+  const geometry = new THREE.TubeGeometry(curve, 18, thickness, 5, false);
+  const cable = new THREE.Mesh(geometry, mat(color));
+  world.add(cable);
+}
+
+function createBridge() {
+  box(colors.bridge, [-121, 21, -94], [17, 2.2, 166], world, true);
+  box(colors.road, [-121, 22.2, -94], [11.5, 0.25, 166], world);
+  const towerZ = [-46, -142];
+  towerZ.forEach(z => {
+    [-127, -115].forEach(x => box(colors.bridge, [x, 43, z], [3.6, 44, 5], world, true));
+    box(colors.bridge, [-121, 62, z], [17, 3.6, 5], world, true);
+    box(colors.bridge, [-121, 47, z], [17, 2.2, 5], world, true);
+    box(colors.bridge, [-121, 33, z], [17, 2.2, 5], world, true);
+  });
+  [-127, -115].forEach(x => {
+    cableBetween(new THREE.Vector3(x, 62, -46), new THREE.Vector3(x, 62, -142), 28, colors.bridge, 0.32);
+    cableBetween(new THREE.Vector3(x, 62, -46), new THREE.Vector3(x, 24, -12), 4, colors.bridge, 0.26);
+    cableBetween(new THREE.Vector3(x, 62, -142), new THREE.Vector3(x, 25, -186), 6, colors.bridge, 0.26);
+    for (let z = -52; z >= -136; z -= 9) {
+      const ratio = (z + 46) / -96;
+      const cableY = 62 - Math.sin(ratio * Math.PI) * 28;
+      cableBetween(new THREE.Vector3(x, cableY, z), new THREE.Vector3(x, 23, z), 0, colors.bridge, 0.1);
+    }
+  });
+  box(0x9a956d, [-138, 9, -18], [30, 14, 28], world);
+  cone(colors.darkGreen, [-156, 21, -12], [40, 28, 38], world);
+}
+
+function createPier() {
+  box(colors.wood, [22, 3.4, -48], [42, 2.2, 63], world, true);
+  for (let x = 4; x <= 40; x += 12) {
+    for (let z = -77; z <= -22; z += 18) cylinder(colors.wood, [x, 1.1, z], [1.2, 5, 1.2], world);
+  }
+  createBuilding(22, -38, 27, 24, 13, 0xe0c79f, "peak");
+  cylinder(colors.orange, [22, 18, -38], [4.3, 4, 4.3], world, true);
+  const wheel = new THREE.Group();
+  wheel.position.set(22, 29, -39);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(10, 0.65, 7, 22), mat(colors.red));
+  wheel.add(ring);
+  for (let i = 0; i < 8; i += 1) {
+    const angle = i * Math.PI / 4;
+    const spoke = box(colors.ink, [Math.cos(angle) * 5, Math.sin(angle) * 5, 0], [0.28, 9.5, 0.28], wheel);
+    spoke.rotation.z = angle - Math.PI / 2;
+  }
+  world.add(wheel);
+
+  box(colors.wood, [95, 3.2, -38], [10, 1.7, 75], world, true);
+  for (let z = -68; z < -8; z += 14) {
+    cylinder(colors.wood, [92, 0.6, z], [0.7, 6, 0.7], world);
+    cylinder(colors.wood, [98, 0.6, z], [0.7, 6, 0.7], world);
+  }
+}
+
+function createChinatownGate() {
+  const gate = new THREE.Group();
+  gate.position.set(59, 8, 76);
+  box(colors.red, [-7, 7, 0], [2.2, 15, 2.2], gate, true);
+  box(colors.red, [7, 7, 0], [2.2, 15, 2.2], gate, true);
+  box(colors.red, [0, 14, 0], [17, 2, 2.5], gate, true);
+  const roof = cone(colors.darkGreen, [0, 17, 0], [14, 4, 6], gate, true);
+  roof.rotation.y = Math.PI / 4;
+  [-8.5, 8.5].forEach(x => sphere(colors.yellow, [x, 15, 0], [1.4, 1.4, 1.4], gate));
+  for (let x = -14; x <= 14; x += 7) {
+    sphere(colors.red, [x, 12, -6], [1.4, 1.4, 1.4], gate);
+    cylinder(colors.yellow, [x, 10.5, -6], [0.12, 1.4, 0.12], gate);
+  }
+  world.add(gate);
+}
+
+function createCoitTower() {
+  const tower = new THREE.Group();
+  tower.position.set(126, 8, 54);
+  cylinder(colors.cream, [0, 16, 0], [5.5, 32, 5.5], tower, true);
+  cylinder(colors.paper, [0, 33, 0], [6.8, 3, 6.8], tower, true);
+  for (let i = 0; i < 6; i += 1) {
+    const angle = i * Math.PI / 3;
+    box(colors.ink, [Math.cos(angle) * 5.2, 26, Math.sin(angle) * 5.2], [1.1, 6, 0.35], tower);
+  }
+  world.add(tower);
+}
+
+function createTree(x, z, size = 1) {
+  const group = new THREE.Group();
+  group.position.set(x, 7.5, z);
+  cylinder(colors.wood, [0, 3 * size, 0], [1.1 * size, 6 * size, 1.1 * size], group);
+  sphere(seeded(x + z) > 0.45 ? colors.green : colors.darkGreen, [0, 8 * size, 0], [6 * size, 8 * size, 6 * size], group, true);
+  world.add(group);
+}
+
+function createVegetation() {
+  for (let i = 0; i < 52; i += 1) {
+    const x = -170 + seeded(i * 3) * 360;
+    const z = 12 + seeded(i * 3 + 1) * 215;
+    const roadClear = [-110, -45, 22, 82].every(roadX => Math.abs(x - roadX) > 7);
+    if (roadClear && seeded(i + 9) > 0.42) createTree(x, z, 0.65 + seeded(i + 7) * 0.7);
+  }
+  for (let i = 0; i < 18; i += 1) {
+    createTree(-170 + seeded(i + 50) * 110, -205 + seeded(i + 70) * 75, 0.9 + seeded(i + 90) * 0.8);
+  }
+}
+
+function createCloud(x, y, z, scale) {
+  const cloud = new THREE.Group();
+  cloud.position.set(x, y, z);
+  [[0, 0, 0, 8], [8, 1, 1, 6], [-8, 0, 2, 6], [2, 3, 0, 7]].forEach(part => {
+    sphere(colors.paper, [part[0], part[1], part[2]], [part[3], part[3] * 0.52, part[3] * 0.7], cloud);
+  });
+  cloud.scale.setScalar(scale);
+  cloud.userData.speed = 0.8 + scale * 0.3;
+  world.add(cloud);
+  clouds.push(cloud);
+}
+
+function makeTextSprite(text, color = "#1c2b2a") {
+  const textCanvas = document.createElement("canvas");
+  textCanvas.width = 512;
+  textCanvas.height = 128;
+  const context = textCanvas.getContext("2d");
+  context.fillStyle = "#f4e8ca";
+  context.fillRect(0, 19, 512, 88);
+  context.strokeStyle = "#1c2b2a";
+  context.lineWidth = 8;
+  context.strokeRect(4, 23, 504, 80);
+  context.fillStyle = color;
+  context.font = "bold 42px Georgia";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText(text, 256, 64);
+  const texture = new THREE.CanvasTexture(textCanvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true }));
+  sprite.scale.set(34, 8.5, 1);
+  return sprite;
+}
+
+function createLabels() {
+  [
+    ["GOLDEN GATE", -121, 73, -95],
+    ["FISHERMAN'S WHARF", 22, 46, -32],
+    ["CHINATOWN", 59, 42, 76],
+    ["EMBARCADERO", 102, 37, 8],
+    ["GOLDEN GATE PARK", -83, 29, 163]
+  ].forEach(([text, x, y, z]) => {
+    const label = makeTextSprite(text);
+    label.position.set(x, y, z);
+    world.add(label);
+  });
+}
+
+const entities = [];
+
+function registerEntity(group, type, radius, update) {
+  entities.push({ group, type, radius, update, hitAt: -10 });
+  return group;
+}
+
+function createPerson(x, z, hue, path = "street") {
+  const group = new THREE.Group();
+  group.position.set(x, 8, z);
+  cylinder(hue, [0, 2.1, 0], [1.25, 4.2, 1.25], group, true);
+  sphere([0x9e715b, 0xd3a281, 0x754f3e][Math.floor(seeded(x * z) * 3)], [0, 5, 0], [2.3, 2.3, 2.3], group, true);
+  const hair = sphere(colors.ink, [0, 5.8, 0.25], [2.35, 1.2, 2], group);
+  hair.scale.z = 0.7;
+  [-0.75, 0.75].forEach(px => cylinder(colors.ink, [px, -0.8, 0], [0.28, 2.2, 0.28], group));
+  world.add(group);
+  const axis = path === "street" ? "z" : "x";
+  const origin = group.position[axis];
+  const phase = seeded(x + z) * Math.PI * 2;
+  return registerEntity(group, "person", 3.3, time => {
+    group.position[axis] = origin + Math.sin(time * 0.3 + phase) * 13;
+    group.rotation.y = Math.cos(time * 0.3 + phase) > 0 ? 0 : Math.PI;
+  });
+}
+
+function createCar(x, z, color, axis = "x", speed = 8) {
+  const group = new THREE.Group();
+  group.position.set(x, 8.5, z);
+  box(color, [0, 1.3, 0], [7, 2.2, 3.8], group, true);
+  box(colors.paper, [0.8, 3, 0], [3.5, 1.7, 3.3], group, true);
+  [-2.2, 2.2].forEach(wx => {
+    [-2, 2].forEach(wz => {
+      const wheel = new THREE.Mesh(geometryCache.wheel, mat(colors.ink));
+      wheel.position.set(wx, 0.4, wz);
+      wheel.rotation.x = Math.PI / 2;
+      group.add(wheel);
+    });
+  });
+  if (axis === "z") group.rotation.y = Math.PI / 2;
+  world.add(group);
+  const start = group.position[axis];
+  return registerEntity(group, "car", 4.6, time => {
+    const distance = ((time * speed + start + 170) % 340) - 170;
+    group.position[axis] = distance;
+  });
+}
+
+function createCableCar() {
+  const group = new THREE.Group();
+  group.position.set(-44, 9.5, 110);
+  box(colors.yellow, [0, 2.2, 0], [5.5, 4.5, 10], group, true);
+  box(colors.red, [0, 4.8, 0], [5.8, 0.8, 10.4], group, true);
+  for (let z = -3.2; z <= 3.2; z += 3.2) {
+    box(colors.blue, [-2.8, 2.8, z], [0.18, 1.8, 2], group);
+    box(colors.blue, [2.8, 2.8, z], [0.18, 1.8, 2], group);
+  }
+  cylinder(colors.ink, [0, 9.4, 0], [0.12, 9.2, 0.12], group);
+  cableBetween(new THREE.Vector3(-44, 19, -10), new THREE.Vector3(-44, 19, 215), 8, colors.ink, 0.08);
+  world.add(group);
+  return registerEntity(group, "car", 5.5, time => {
+    group.position.z = 105 + Math.sin(time * 0.13) * 100;
+    group.rotation.y = Math.cos(time * 0.13) > 0 ? 0 : Math.PI;
+  });
+}
+
+function createAnimal(x, z, kind = "dog") {
+  const group = new THREE.Group();
+  group.position.set(x, kind === "seal" ? 1.4 : 7.6, z);
+  const color = kind === "seal" ? 0x6e6455 : kind === "cat" ? 0xb77443 : 0x8b6c4e;
+  sphere(color, [0, 1.1, 0], [3.8, 2.2, 2.1], group, true);
+  sphere(color, [2.4, 2.1, 0], [2, 2, 1.8], group, true);
+  if (kind === "seal") {
+    cone(color, [-3.4, 0.9, 0], [2.2, 3.6, 1.2], group).rotation.z = Math.PI / 2;
+  } else {
+    [-1.4, 1.3].forEach(px => {
+      [-1, 1].forEach(pz => cylinder(color, [px, -0.4, pz], [0.35, 1.7, 0.35], group));
+    });
+    const tail = cylinder(color, [-3, 2.2, 0], [0.35, 4.5, 0.35], group);
+    tail.rotation.z = -0.75;
+  }
+  world.add(group);
+  const originX = x;
+  const phase = seeded(x - z) * Math.PI * 2;
+  return registerEntity(group, "animal", 3.6, time => {
+    if (kind !== "seal") group.position.x = originX + Math.sin(time * 0.45 + phase) * 8;
+    group.rotation.y = Math.cos(time * 0.45 + phase) > 0 ? 0 : Math.PI;
+  });
+}
+
+function populateEntities() {
+  const peopleColors = [colors.orange, colors.blue, colors.green, colors.pink, colors.yellow];
+  [
+    [-96, 45], [-70, 28], [-25, 48], [12, 30], [45, 24], [70, 43],
+    [110, 23], [143, 41], [48, 83], [73, 92], [16, 132], [-36, 150],
+    [-85, 185], [22, -36], [34, -52], [94, -24]
+  ].forEach(([x, z], index) => createPerson(x, z, peopleColors[index % peopleColors.length], index % 3 ? "street" : "cross"));
+  [
+    [-80, 25, colors.red, "x", 7],
+    [50, 76, colors.blue, "x", 9],
+    [120, 132, colors.orange, "x", 10],
+    [22, 160, colors.green, "z", 7],
+    [82, 94, colors.yellow, "z", 8],
+    [-110, 120, colors.paper, "z", 11]
+  ].forEach(item => createCar(...item));
+  createCableCar();
+  createAnimal(-74, 164, "dog");
+  createAnimal(67, 116, "cat");
+  createAnimal(12, -71, "seal");
+  createAnimal(26, -72, "seal");
+  createAnimal(42, -69, "seal");
+}
+
+const clouds = [];
+createLand();
+createRoads();
+createCity();
+createBridge();
+createPier();
+createChinatownGate();
+createCoitTower();
+createVegetation();
+createLabels();
+populateEntities();
+createCloud(-100, 95, -80, 1.2);
+createCloud(80, 115, 40, 0.9);
+createCloud(160, 86, -150, 1.5);
+
+function createBird() {
+  const bird = new THREE.Group();
+  sphere(colors.paper, [0, 0, 0], [5.5, 3.8, 8.5], bird, true);
+  sphere(colors.paper, [0, 1.4, -5.6], [3.6, 3.3, 3.8], bird, true);
+  const beak = cone(colors.orange, [0, 0.8, -9], [1.8, 4.8, 1.8], bird, true);
+  beak.rotation.x = -Math.PI / 2;
+  [-1.35, 1.35].forEach(x => {
+    sphere(colors.ink, [x, 2.4, -8], [0.7, 0.8, 0.45], bird);
+  });
+  const leftWing = new THREE.Group();
+  const rightWing = new THREE.Group();
+  leftWing.position.set(-4, 1, 0);
+  rightWing.position.set(4, 1, 0);
+  const wingGeometry = new THREE.BufferGeometry();
+  wingGeometry.setAttribute("position", new THREE.Float32BufferAttribute([
+    0, 0, -3, -13, 0, 2, -6, 0, 7,
+    0, 0, -3, -6, 0, 7, 0, 0, 6
+  ], 3));
+  wingGeometry.computeVertexNormals();
+  const leftMesh = new THREE.Mesh(wingGeometry, mat(colors.paper, { side: THREE.DoubleSide }));
+  leftWing.add(leftMesh);
+  const rightMesh = leftMesh.clone();
+  rightMesh.scale.x = -1;
+  rightWing.add(rightMesh);
+  const leftTip = box(colors.ink, [-10.3, 0.05, 2.5], [5.5, 0.18, 3], leftWing);
+  leftTip.rotation.y = -0.2;
+  const rightTip = box(colors.ink, [10.3, 0.05, 2.5], [5.5, 0.18, 3], rightWing);
+  rightTip.rotation.y = 0.2;
+  bird.add(leftWing, rightWing);
+  const tailLeft = cone(colors.ink, [-2, 0, 7.4], [1.7, 5, 1.2], bird);
+  tailLeft.rotation.x = Math.PI / 2;
+  tailLeft.rotation.z = -0.25;
+  const tailRight = tailLeft.clone();
+  tailRight.position.x = 2;
+  tailRight.rotation.z = 0.25;
+  bird.add(tailRight);
+  bird.scale.setScalar(0.55);
+  bird.userData.leftWing = leftWing;
+  bird.userData.rightWing = rightWing;
+  scene.add(bird);
+  return bird;
+}
+
+const bird = createBird();
+bird.position.set(-88, 31, 12);
+
+const state = {
+  started: false,
+  paused: false,
+  yaw: Math.PI,
+  speed: 18,
+  verticalSpeed: 0,
+  mode: "Flying",
+  score: 0,
+  streak: 0,
+  lastHit: -10,
+  lastPoop: -10,
+  sound: true,
+  mission: { person: 0, car: 0, animal: 0 },
+  complete: false
+};
+
+const keys = {};
+const mobile = { x: 0, y: 0, flap: false, dive: false };
+const poops = [];
+const splats = [];
+let toastTimer;
+let audioContext;
+
+function audioTone(frequency, duration, type = "triangle", volume = 0.04) {
+  if (!state.sound) return;
+  audioContext ||= new AudioContext();
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+  oscillator.frequency.exponentialRampToValueAtTime(frequency * 0.68, audioContext.currentTime + duration);
+  gain.gain.setValueAtTime(volume, audioContext.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
+  oscillator.connect(gain).connect(audioContext.destination);
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime + duration);
+}
+
+function showToast(message) {
+  const toast = document.querySelector("#toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 1150);
+}
+
+function groundAt(x, z) {
+  if (Math.abs(x + 121) < 9 && z > -178 && z < -10) return { height: 22.5, surface: "land" };
+  if (x > 0 && x < 44 && z > -80 && z < -16) return { height: 4.7, surface: "land" };
+  if (x > 89 && x < 101 && z > -78 && z < 0) return { height: 4.3, surface: "land" };
+  const city = x > -182 && x < 220 && z > -22 && z < 240;
+  const north = x > -180 && x < -45 && z > -215 && z < -130;
+  return city || north ? { height: 7.4, surface: "land" } : { height: 0.8, surface: "water" };
+}
+
+function dropPoop() {
+  const time = clock.elapsedTime;
+  if (!state.started || state.paused || time - state.lastPoop < 0.42) return;
+  state.lastPoop = time;
+  const poop = sphere(0xf7f2dd, [0, 0, 0], [0.55, 0.75, 0.55], scene, true);
+  poop.position.copy(bird.position);
+  poop.position.y -= 1.5;
+  const forward = new THREE.Vector3(Math.sin(state.yaw), 0, Math.cos(state.yaw));
+  poop.userData.velocity = forward.multiplyScalar(state.speed * 0.35);
+  poop.userData.velocity.y = -7;
+  poop.userData.born = time;
+  poops.push(poop);
+  audioTone(420, 0.08, "square", 0.018);
+}
+
+function makeSplat(position, surface) {
+  const geometry = new THREE.CircleGeometry(1.6, 12);
+  const splat = new THREE.Mesh(geometry, mat(0xf5f0d9));
+  splat.position.copy(position);
+  if (surface === "water") {
+    splat.rotation.x = -Math.PI / 2;
+    splat.position.y = 0.9;
+  } else {
+    splat.rotation.x = -Math.PI / 2;
+    splat.position.y += 0.08;
+  }
+  splat.scale.set(1.2, 0.65, 1);
+  scene.add(splat);
+  splats.push({ mesh: splat, born: clock.elapsedTime });
+}
+
+function registerHit(entity, position) {
+  const time = clock.elapsedTime;
+  if (time - entity.hitAt < 3) return;
+  entity.hitAt = time;
+  state.streak = time - state.lastHit < 5 ? state.streak + 1 : 1;
+  state.lastHit = time;
+  const points = 10 * state.streak;
+  state.score += points;
+  if (state.mission[entity.type] < ({ person: 3, car: 2, animal: 1 })[entity.type]) state.mission[entity.type] += 1;
+  const labels = {
+    person: ["Direct hit!", "Hat hazard!", "Tourist tagged!"],
+    car: ["Fresh paint!", "Windshield special!", "Parking violation!"],
+    animal: ["Nature answers back!", "Wildlife marked!", "Food chain!"]
+  };
+  const label = labels[entity.type][Math.floor(Math.random() * labels[entity.type].length)];
+  showToast(`${label} +${points}`);
+  audioTone(690 + state.streak * 55, 0.24, "triangle", 0.06);
+  makeSplat(position, "land");
+  entity.group.rotation.z = 0.18;
+  updateHud();
+  if (missionTotal() === 6 && !state.complete) {
+    state.complete = true;
+    setTimeout(() => {
+      state.paused = true;
+      document.querySelector("#final-score").textContent = `You caused ${state.score} civic complaints.`;
+      document.querySelector("#complete-screen").classList.remove("hidden");
+    }, 900);
+  }
+}
+
+function missionTotal() {
+  return state.mission.person + state.mission.car + state.mission.animal;
+}
+
+function updatePoops(delta) {
+  for (let i = poops.length - 1; i >= 0; i -= 1) {
+    const poop = poops[i];
+    poop.userData.velocity.y -= 24 * delta;
+    poop.position.addScaledVector(poop.userData.velocity, delta);
+    poop.rotation.x += delta * 8;
+    poop.rotation.z += delta * 5;
+    let hit = false;
+    for (const entity of entities) {
+      const target = entity.group.position;
+      const dx = poop.position.x - target.x;
+      const dz = poop.position.z - target.z;
+      const dy = poop.position.y - (target.y + 3);
+      if (dx * dx + dz * dz < entity.radius * entity.radius && Math.abs(dy) < 4.5) {
+        registerHit(entity, poop.position.clone());
+        hit = true;
+        break;
+      }
+    }
+    const ground = groundAt(poop.position.x, poop.position.z);
+    if (!hit && poop.position.y <= ground.height) {
+      makeSplat(new THREE.Vector3(poop.position.x, ground.height, poop.position.z), ground.surface);
+      hit = true;
+    }
+    if (hit || clock.elapsedTime - poop.userData.born > 6) {
+      scene.remove(poop);
+      poops.splice(i, 1);
+    }
+  }
+  for (let i = splats.length - 1; i >= 0; i -= 1) {
+    const splat = splats[i];
+    if (clock.elapsedTime - splat.born > 12) {
+      splat.mesh.material.transparent = true;
+      splat.mesh.material.opacity -= delta * 0.7;
+      if (splat.mesh.material.opacity <= 0) {
+        scene.remove(splat.mesh);
+        splats.splice(i, 1);
+      }
+    }
+  }
+}
+
+function updateBird(delta, elapsed) {
+  const ground = groundAt(bird.position.x, bird.position.z);
+  const forwardInput = (keys.KeyW ? 1 : 0) - (keys.KeyS ? 1 : 0) - mobile.y;
+  const turnInput = (keys.KeyD ? 1 : 0) - (keys.KeyA ? 1 : 0) + mobile.x;
+  const flying = bird.position.y > ground.height + 2.3 || state.verticalSpeed > 1;
+  if (flying) {
+    state.mode = "Flying";
+    state.speed += (14 + Math.max(0, forwardInput) * 13 - state.speed) * delta * 1.8;
+    state.yaw -= turnInput * delta * 1.45;
+    state.verticalSpeed -= 6.2 * delta;
+    if (keys.Space || mobile.flap) {
+      state.verticalSpeed += 18 * delta;
+      state.verticalSpeed = Math.min(state.verticalSpeed, 8.5);
+    }
+    if (keys.ShiftLeft || keys.ShiftRight || mobile.dive) state.verticalSpeed -= 13 * delta;
+    state.verticalSpeed = Math.max(-11, state.verticalSpeed);
+    bird.position.y += state.verticalSpeed * delta;
+  } else if (ground.surface === "water") {
+    state.mode = "Swimming";
+    state.speed += (4.2 + Math.max(0, forwardInput) * 3.5 - state.speed) * delta * 3;
+    state.yaw -= turnInput * delta * 2;
+    bird.position.y = ground.height + 0.9 + Math.sin(elapsed * 2.2) * 0.1;
+    state.verticalSpeed = 0;
+    if (keys.Space || mobile.flap) state.verticalSpeed = 8.5;
+  } else {
+    state.mode = "Walking";
+    state.speed += ((forwardInput > 0 ? 6.2 : 1.2) - state.speed) * delta * 4;
+    state.yaw -= turnInput * delta * 2.3;
+    bird.position.y = ground.height + 1.7;
+    state.verticalSpeed = 0;
+    if (keys.Space || mobile.flap) state.verticalSpeed = 8.7;
+  }
+
+  const forward = new THREE.Vector3(Math.sin(state.yaw), 0, Math.cos(state.yaw));
+  if (flying || forwardInput > 0 || state.mode === "Swimming") bird.position.addScaledVector(forward, state.speed * delta);
+  if (!flying && forwardInput < 0) bird.position.addScaledVector(forward, -state.speed * 0.55 * delta);
+  bird.position.x = THREE.MathUtils.clamp(bird.position.x, -260, 270);
+  bird.position.z = THREE.MathUtils.clamp(bird.position.z, -260, 270);
+  const currentGround = groundAt(bird.position.x, bird.position.z);
+  bird.position.y = Math.max(currentGround.height + (currentGround.surface === "water" ? 0.9 : 1.6), bird.position.y);
+  bird.position.y = Math.min(115, bird.position.y);
+  bird.rotation.y = state.yaw;
+  bird.rotation.z = THREE.MathUtils.lerp(bird.rotation.z, -turnInput * 0.3, delta * 5);
+  bird.rotation.x = THREE.MathUtils.lerp(bird.rotation.x, -state.verticalSpeed * 0.025, delta * 4);
+  const flap = state.mode === "Flying" ? Math.sin(elapsed * (keys.Space || mobile.flap ? 15 : 7)) * 0.45 : Math.sin(elapsed * 4) * 0.08;
+  bird.userData.leftWing.rotation.z = flap;
+  bird.userData.rightWing.rotation.z = -flap;
+}
+
+function updateCamera(delta) {
+  const ground = groundAt(bird.position.x, bird.position.z);
+  const heightFactor = THREE.MathUtils.clamp((bird.position.y - ground.height) / 45, 0, 1);
+  const distance = 18 + heightFactor * 12;
+  const offset = new THREE.Vector3(-Math.sin(state.yaw) * distance, 9 + heightFactor * 6, -Math.cos(state.yaw) * distance);
+  const desired = bird.position.clone().add(offset);
+  camera.position.lerp(desired, 1 - Math.pow(0.001, delta));
+  const look = bird.position.clone().add(new THREE.Vector3(Math.sin(state.yaw) * 10, 0, Math.cos(state.yaw) * 10));
+  camera.lookAt(look);
+}
+
+function updateWorld(delta, elapsed) {
+  for (let i = 0; i < waterPositions.count; i += 1) {
+    const index = i * 3;
+    waterPositions.array[index + 1] = waterBase[index + 1] + Math.sin(waterBase[index] * 0.08 + elapsed * 1.2) * 0.34 + Math.cos(waterBase[index + 2] * 0.07 + elapsed) * 0.22;
+  }
+  waterPositions.needsUpdate = true;
+  clouds.forEach(cloud => {
+    cloud.position.x += cloud.userData.speed * delta;
+    if (cloud.position.x > 250) cloud.position.x = -250;
+  });
+  entities.forEach(entity => {
+    entity.update(elapsed);
+    entity.group.rotation.z *= Math.pow(0.1, delta);
+  });
+}
+
+function districtAt(x, z) {
+  if (z < -95) return "Golden Gate";
+  if (z < 8 && x < 60) return "Fisherman's Wharf";
+  if (x > 86 && z < 100) return "Embarcadero";
+  if (x > 28 && x < 94 && z >= 45 && z < 120) return "Chinatown";
+  if (z > 135 && x < 20) return "Golden Gate Park";
+  if (z < -20) return "San Francisco Bay";
+  return "Nob Hill";
+}
+
+function drawMap() {
+  const map = document.querySelector("#map");
+  const context = map.getContext("2d");
+  const width = map.width;
+  const height = map.height;
+  context.clearRect(0, 0, width, height);
+  context.fillStyle = "#287e9c";
+  context.fillRect(0, 0, width, height);
+  context.fillStyle = "#e9ddb9";
+  context.beginPath();
+  context.moveTo(0, 46);
+  context.lineTo(43, 42);
+  context.lineTo(76, 48);
+  context.lineTo(120, 40);
+  context.lineTo(width, 48);
+  context.lineTo(width, height);
+  context.lineTo(0, height);
+  context.fill();
+  context.strokeStyle = "#1c2b2a";
+  context.lineWidth = 2;
+  context.stroke();
+  context.strokeStyle = "#ef5b3f";
+  context.lineWidth = 4;
+  context.beginPath();
+  context.moveTo(32, 6);
+  context.lineTo(32, 49);
+  context.stroke();
+  const px = THREE.MathUtils.mapLinear(bird.position.x, -260, 270, 0, width);
+  const py = THREE.MathUtils.mapLinear(bird.position.z, -260, 270, 0, height);
+  context.save();
+  context.translate(px, py);
+  context.rotate(-state.yaw);
+  context.fillStyle = "#f2bc3a";
+  context.strokeStyle = "#1c2b2a";
+  context.lineWidth = 2;
+  context.beginPath();
+  context.moveTo(0, -7);
+  context.lineTo(5, 6);
+  context.lineTo(0, 3);
+  context.lineTo(-5, 6);
+  context.closePath();
+  context.fill();
+  context.stroke();
+  context.restore();
+  context.fillStyle = "#1c2b2a";
+  context.font = "bold 9px Georgia";
+  context.fillText("WHARF", 73, 39);
+  context.fillText("CITY", 105, 79);
+}
+
+function updateReticle() {
+  const center = new THREE.Vector2();
+  let best = 1;
+  entities.forEach(entity => {
+    const projected = entity.group.position.clone().project(camera);
+    if (projected.z < 1) {
+      const distance = Math.hypot(projected.x - center.x, projected.y - center.y);
+      best = Math.min(best, distance);
+    }
+  });
+  document.querySelector("#reticle").classList.toggle("locked", best < 0.12);
+}
+
+function updateHud() {
+  document.querySelector("#district").textContent = districtAt(bird.position.x, bird.position.z);
+  document.querySelector("#score").textContent = String(state.score).padStart(3, "0");
+  document.querySelector("#streak").textContent = state.streak > 1 ? `${state.streak}× streak` : "No streak yet";
+  document.querySelector("#mode").textContent = state.mode;
+  document.querySelector("#mode-icon").textContent = state.mode === "Flying" ? "↟" : state.mode === "Swimming" ? "≈" : "↝";
+  const altitude = THREE.MathUtils.clamp((bird.position.y / 115) * 100, 4, 100);
+  document.querySelector("#altitude").style.width = `${altitude}%`;
+  const total = missionTotal();
+  document.querySelector("#mission-count").textContent = `${total} / 6`;
+  document.querySelector("#mission-progress").style.width = `${total / 6 * 100}%`;
+  document.querySelector("#mission-text").textContent = `${state.mission.person}/3 people · ${state.mission.car}/2 cars · ${state.mission.animal}/1 animal`;
+}
+
+function setPaused(paused) {
+  if (!state.started) return;
+  state.paused = paused;
+  document.querySelector("#pause-screen").classList.toggle("hidden", !paused);
+}
+
+function resetGame() {
+  state.score = 0;
+  state.streak = 0;
+  state.mission = { person: 0, car: 0, animal: 0 };
+  state.complete = false;
+  state.paused = false;
+  state.yaw = Math.PI;
+  state.speed = 18;
+  state.verticalSpeed = 0;
+  bird.position.set(-88, 31, 12);
+  document.querySelector("#pause-screen").classList.add("hidden");
+  document.querySelector("#complete-screen").classList.add("hidden");
+  updateHud();
+}
+
+document.addEventListener("keydown", event => {
+  keys[event.code] = true;
+  if (event.code === "KeyQ") dropPoop();
+  if (event.code === "Escape") setPaused(!state.paused);
+  if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.code)) event.preventDefault();
+});
+
+document.addEventListener("keyup", event => {
+  keys[event.code] = false;
+});
+
+document.querySelector("#start-button").addEventListener("click", () => {
+  state.started = true;
+  document.querySelector("#start-screen").classList.add("hidden");
+  document.querySelector("#hud").classList.remove("hidden");
+  audioTone(520, 0.24, "triangle", 0.05);
+  showToast("Find a target below!");
+});
+
+document.querySelector("#pause-button").addEventListener("click", () => setPaused(true));
+document.querySelector("#resume-button").addEventListener("click", () => setPaused(false));
+document.querySelector("#restart-button").addEventListener("click", resetGame);
+document.querySelector("#continue-button").addEventListener("click", () => {
+  state.paused = false;
+  document.querySelector("#complete-screen").classList.add("hidden");
+});
+document.querySelector("#sound-button").addEventListener("click", event => {
+  state.sound = !state.sound;
+  event.currentTarget.textContent = state.sound ? "SFX" : "OFF";
+  if (state.sound) audioTone(560, 0.12);
+});
+
+const joystick = document.querySelector("#joystick");
+const joystickKnob = document.querySelector("#joystick-knob");
+
+function updateJoystick(event) {
+  const touch = event.touches?.[0] || event;
+  const rect = joystick.getBoundingClientRect();
+  const x = touch.clientX - rect.left - rect.width / 2;
+  const y = touch.clientY - rect.top - rect.height / 2;
+  const max = rect.width * 0.31;
+  const length = Math.hypot(x, y) || 1;
+  const clamped = Math.min(length, max);
+  mobile.x = x / max;
+  mobile.y = y / max;
+  if (length > max) {
+    mobile.x = x / length;
+    mobile.y = y / length;
+  }
+  joystickKnob.style.transform = `translate(calc(-50% + ${mobile.x * clamped}px), calc(-50% + ${mobile.y * clamped}px))`;
+}
+
+function resetJoystick() {
+  mobile.x = 0;
+  mobile.y = 0;
+  joystickKnob.style.transform = "translate(-50%, -50%)";
+}
+
+joystick.addEventListener("pointerdown", event => {
+  joystick.setPointerCapture(event.pointerId);
+  updateJoystick(event);
+});
+joystick.addEventListener("pointermove", event => {
+  if (joystick.hasPointerCapture(event.pointerId)) updateJoystick(event);
+});
+joystick.addEventListener("pointerup", resetJoystick);
+joystick.addEventListener("pointercancel", resetJoystick);
+
+function bindHold(id, field) {
+  const button = document.querySelector(id);
+  button.addEventListener("pointerdown", event => {
+    button.setPointerCapture(event.pointerId);
+    mobile[field] = true;
+  });
+  button.addEventListener("pointerup", () => {
+    mobile[field] = false;
+  });
+  button.addEventListener("pointercancel", () => {
+    mobile[field] = false;
+  });
+}
+
+bindHold("#flap-button", "flap");
+bindHold("#dive-button", "dive");
+document.querySelector("#poop-button").addEventListener("pointerdown", dropPoop);
+
+window.addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 700 ? 1.35 : 1.65));
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+let hudAccumulator = 0;
+
+function animate() {
+  requestAnimationFrame(animate);
+  const delta = Math.min(clock.getDelta(), 0.04);
+  const elapsed = clock.elapsedTime;
+  if (state.started && !state.paused) {
+    updateBird(delta, elapsed);
+    updateWorld(delta, elapsed);
+    updatePoops(delta);
+    updateCamera(delta);
+    hudAccumulator += delta;
+    if (hudAccumulator > 0.08) {
+      updateHud();
+      updateReticle();
+      drawMap();
+      hudAccumulator = 0;
+    }
+  } else if (!state.started) {
+    water.rotation.z = Math.sin(elapsed * 0.1) * 0.005;
+    bird.rotation.y += delta * 0.2;
+    camera.position.set(-70, 70, 80);
+    camera.lookAt(-20, 10, -30);
+  }
+  renderer.render(scene, camera);
+}
+
+updateHud();
+animate();
