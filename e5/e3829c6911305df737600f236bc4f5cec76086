@@ -1,0 +1,43 @@
+pocs/fps-assets-gpt-sol-5.6/index.html
+  s_102037e6fd3390::t_509e054079b935 21,50
+pocs/fps-assets-gpt-sol-5.6/test.sh
+  s_102037e6fd3390::t_509e054079b935 24
+pocs/fps-assets-gpt-sol-5.6/README.md
+  s_102037e6fd3390::t_509e054079b935 3,54-56,67-71,74-76
+pocs/fps-assets-gpt-sol-5.6/game.js
+  s_102037e6fd3390::t_e4fc01b1294f9b 740
+  s_102037e6fd3390::t_cb96b783c41d26 402-405,411-412,416-421,424-426,437-466,469,475-476,480,482,491,504,514-515,529,540-542
+  s_102037e6fd3390::t_28a5cb239d8ada 293-295,305,307-310,322,326-330,335,361-362,368-369,379-380,384,386-387
+  s_102037e6fd3390::t_0b21093dad27fc 252-253,259-263,324,474
+  s_102037e6fd3390::t_9532d5b4683d4d 311-321,323,325,331-334,422-423,427-436
+  s_102037e6fd3390::t_509e054079b935 394
+  s_102037e6fd3390::t_642477e60761f7 554,580,584-588,636-638,741,822,840
+pocs/fps-assets-gpt-sol-5.6/style.css
+  s_102037e6fd3390::t_509e054079b935 162-167
+pocs/fps-assets-gpt-sol-5.6/assets/buildings/License.txt
+  s_102037e6fd3390::t_63d7580b88590f 1-28
+pocs/fps-assets-gpt-sol-5.6/assets/characters/License.txt
+  s_102037e6fd3390::t_f7f02652cba342 1-28
+pocs/fps-assets-gpt-sol-5.6/assets/city/License.txt
+  s_102037e6fd3390::t_c01c696941300c 1-28
+pocs/fps-assets-gpt-sol-5.6/assets/factory/License.txt
+  s_102037e6fd3390::t_77a445d3c3b686 1-28
+pocs/fps-assets-gpt-sol-5.6/assets/roads/License.txt
+  s_102037e6fd3390::t_34d84cdd8d0d93 1-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "e5e3829c6911305df737600f236bc4f5cec76086",
+  "prompts": {},
+  "sessions": {
+    "s_102037e6fd3390": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb9c3-d5dd-7371-b6c5-a66221fe6de1",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
