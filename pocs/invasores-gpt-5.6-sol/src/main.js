@@ -9,7 +9,7 @@ const renderer = new THREE.WebGLRenderer({
   alpha: false,
   powerPreference: "high-performance"
 });
-renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 700 ? 1 : 1.1));
+renderer.setPixelRatio(Math.min(devicePixelRatio, 0.85));
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.shadowMap.enabled = false;
@@ -746,7 +746,6 @@ function createBird() {
   const bird = new THREE.Group();
   sphere(colors.paper, [0, 0, 0.8], [5.2, 3.5, 8.4], bird, true);
   sphere(0xd3d4c8, [0, 1.75, 1.8], [4.4, 1.25, 5.2], bird);
-  sphere(colors.paper, [0, 0.7, -3.4], [4.1, 3.1, 3.8], bird);
   sphere(colors.paper, [0, 1.4, -5.3], [3.5, 3.2, 3.7], bird, true);
   const beak = cone(colors.orange, [0, 0.75, -8.5], [1.55, 4.3, 1.55], bird, true);
   beak.rotation.x = -Math.PI / 2;
@@ -755,7 +754,7 @@ function createBird() {
   });
   const createWing = direction => {
     const wing = new THREE.Group();
-    wing.position.set(direction * 2.55, 0.9, -0.4);
+    wing.position.set(direction * 1.5, 0.9, -0.4);
     const points = [
       new THREE.Vector3(0, 0, -2.4),
       new THREE.Vector3(direction * 13.5, 0, -0.3),
@@ -793,11 +792,11 @@ function createBird() {
   const rightWing = createWing(1);
   bird.add(leftWing, rightWing);
   const tailPoints = [
-    new THREE.Vector3(-3.4, -0.15, 5.4),
-    new THREE.Vector3(-3.8, -0.15, 9.6),
-    new THREE.Vector3(0, -0.15, 8.4),
-    new THREE.Vector3(3.8, -0.15, 9.6),
-    new THREE.Vector3(3.4, -0.15, 5.4)
+    new THREE.Vector3(-3.4, -0.15, 4.3),
+    new THREE.Vector3(-3.2, -0.15, 8.6),
+    new THREE.Vector3(0, -0.15, 10),
+    new THREE.Vector3(3.2, -0.15, 8.6),
+    new THREE.Vector3(3.4, -0.15, 4.3)
   ];
   const tailGeometry = new THREE.BufferGeometry();
   tailGeometry.setAttribute("position", new THREE.Float32BufferAttribute([
@@ -1298,7 +1297,7 @@ document.querySelector("#poop-button").addEventListener("pointerdown", dropPoop)
 window.addEventListener("resize", () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 700 ? 1 : 1.1));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 0.85));
   renderer.setSize(innerWidth, innerHeight);
 });
 
