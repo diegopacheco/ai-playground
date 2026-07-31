@@ -1,0 +1,30 @@
+pocs/seagotchi-gpt-5-6-sol/src/main.js
+  s_4214341c5c0b28::t_1f4677d4ac6571 927-930
+  s_4214341c5c0b28::t_03ce842386ea4a 134-136,663,670,678,680,684,698-699,966-968
+  s_4214341c5c0b28::t_11c2af1fa3e6e7 666-668,671-673,691,703-704,969
+  s_4214341c5c0b28::t_46b30c80fb9cb2 669
+games/seagotchi/assets/index-D7Z4Fpc2.css
+  s_4214341c5c0b28::t_7fd75d8452ada2 1
+games/seagotchi/assets/index-CntF2bDZ.js
+  s_4214341c5c0b28::t_7fd75d8452ada2 1-4135
+pocs/seagotchi-gpt-5-6-sol/src/style.css
+  s_4214341c5c0b28::t_03ce842386ea4a 326
+games/seagotchi/index.html
+  s_4214341c5c0b28::t_7fd75d8452ada2 12-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "a91461a943fe67c4ff3c4052ae683e6c6bacc665",
+  "prompts": {},
+  "sessions": {
+    "s_4214341c5c0b28": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb9c0-e935-7670-b35f-db14d730de72",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
