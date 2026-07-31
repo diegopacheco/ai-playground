@@ -1,0 +1,19 @@
+games/gull-about-town/assets/index-BQCqnVI3.js
+  s_164a8c6fc63bf9::t_4a72208eaa6298 1-3830
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "38da7b8ef91b22b7d4cd772b336b4c97d5acf9d4",
+  "prompts": {},
+  "sessions": {
+    "s_164a8c6fc63bf9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb60e-5a1a-7e70-add0-e191cc1bcdc4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
