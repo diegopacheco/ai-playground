@@ -21,7 +21,7 @@ case "$page" in
   *) echo "HTML check failed"; exit 1 ;;
 esac
 
-for asset in game.js style.css assets/vendor/three.module.min.js assets/vendor/three.core.min.js assets/vendor/GLTFLoader.js assets/utils/BufferGeometryUtils.js assets/models/blaster-n.glb assets/models/blaster-e.glb assets/models/blaster-p.glb assets/models/Textures/colormap.png assets/textures/concrete.jpg assets/textures/pavement.jpg; do
+for asset in game.js style.css assets/vendor/three.module.min.js assets/vendor/three.core.min.js assets/vendor/GLTFLoader.js assets/utils/BufferGeometryUtils.js assets/models/blaster-n.glb assets/models/blaster-e.glb assets/models/blaster-p.glb assets/models/Textures/colormap.png assets/city/building-a.glb assets/city/building-q.glb assets/roads/road-straight.glb assets/roads/light-curved.glb assets/factory/crane.glb assets/factory/machine-fortified.glb assets/characters/character-a.glb assets/characters/character-e.glb assets/buildings/building-sample-tower-a.glb assets/textures/asphalt.jpg assets/textures/factory-brick.jpg assets/textures/corrugated-iron.jpg assets/textures/concrete.jpg assets/textures/pavement.jpg; do
   curl -fsS "http://127.0.0.1:$port/$asset" >/dev/null
   echo "$asset passed"
 done

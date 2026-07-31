@@ -159,6 +159,12 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: wait;
+  filter: saturate(.35);
+  opacity: .72;
+}
+
 #deploy, #redeploy {
   width: 220px;
   height: 56px;

@@ -249,18 +249,18 @@ function buildCity() {
   placeAsset('streetLightDouble', 0, 18, 6.2, Math.PI, false)
   placeAsset('roadSign', 1, -29, 5.5, Math.PI, false)
 
-  ;[[-4, 7, 0], [4, 7, Math.PI], [-5, -7, 0], [5, -7, Math.PI]].forEach(args => placeAsset('barrier', ...args, 3.2, args[2], true))
-  ;[[-6, 6], [-5, 6], [5, -6], [6, -6], [-2, -19], [2, 19]].forEach(([x, z], index) => placeAsset('cone', x, z, 2.2, index, false))
+  ;[[-4, 7, 0], [4, 7, Math.PI], [-5, -7, 0], [5, -7, Math.PI]].forEach(([x, z, rotation]) => placeAsset('barrier', x, z, 1.8, rotation, true))
+  ;[[-6, 6], [-5, 6], [5, -6], [6, -6], [-2, -19], [2, 19]].forEach(([x, z], index) => placeAsset('cone', x, z, 1.5, index, false))
 
   placeAsset('crane', -24, 22, 2.25, Math.PI / 2, true)
   placeAsset('hopper', 24, 23, 2.5, 0, true)
   placeAsset('machine', 17, -22, 2.8, Math.PI, true)
   placeAsset('robotArm', 24, -23, 2.5, -.5, true)
-  placeAsset('catwalk', -12, 21, 3.1, Math.PI / 2, true)
-  placeAsset('stairs', -8, 22, 3.1, Math.PI / 2, true)
-  placeAsset('pipeLong', 12, 21, 2.6, Math.PI / 2, true)
-  placeAsset('pipeValve', 16, 21, 2.6, Math.PI / 2, true)
-  placeAsset('pipeBend', 20, 21, 2.6, Math.PI / 2, true)
+  placeAsset('catwalk', -22, 25, 2.1, Math.PI / 2, true)
+  placeAsset('stairs', -18, 25, 2.1, Math.PI / 2, true)
+  placeAsset('pipeLong', 14, 24, 1.7, Math.PI / 2, true)
+  placeAsset('pipeValve', 17, 24, 1.7, Math.PI / 2, true)
+  placeAsset('pipeBend', 20, 24, 1.7, Math.PI / 2, true)
   placeAsset('trafficWarning', 8, -20, 2.7, 0, false)
 
   const crateLayout = [[-3, 10, 0], [-2, 10, 0], [3, -10, 0], [4, -10, 0], [-25, 8, .4], [25, -7, -.4], [10, 25, 0], [-10, -24, 0]]
@@ -290,9 +290,9 @@ async function loadAssets() {
 loadAssets()
 
 const weaponDefinitions = {
-  pistol: { label: 'VX-9 SIDEARM', pickup: 'VX-9 SIDEARM', mag: 12, reserve: 60, damage: 34, rate: .22, reload: 1.15, spread: .004, pellets: 1, scale: .24 },
-  rifle: { label: 'AR-4 CARBINE', pickup: 'AR-4 CARBINE', mag: 30, reserve: 120, damage: 22, rate: .095, reload: 1.65, spread: .009, pellets: 1, scale: .21 },
-  shotgun: { label: 'M12 BREACHER', pickup: 'M12 BREACHER', mag: 6, reserve: 30, damage: 17, rate: .7, reload: 1.8, spread: .044, pellets: 7, scale: .2 }
+  pistol: { label: 'VX-9 SIDEARM', pickup: 'VX-9 SIDEARM', mag: 12, reserve: 60, damage: 34, rate: .22, reload: 1.15, spread: .004, pellets: 1, scale: .5 },
+  rifle: { label: 'AR-4 CARBINE', pickup: 'AR-4 CARBINE', mag: 30, reserve: 120, damage: 22, rate: .095, reload: 1.65, spread: .009, pellets: 1, scale: .43 },
+  shotgun: { label: 'M12 BREACHER', pickup: 'M12 BREACHER', mag: 6, reserve: 30, damage: 17, rate: .7, reload: 1.8, spread: .044, pellets: 7, scale: .42 }
 }
 
 const inventory = {
@@ -302,8 +302,37 @@ const inventory = {
 }
 
 const weaponRig = new THREE.Group()
-weaponRig.position.set(.3, -.27, -.54)
+weaponRig.position.set(.27, -.26, -.36)
 camera.add(weaponRig)
+const armRig = new THREE.Group()
+const sleeveMaterial = new THREE.MeshStandardMaterial({ color: 0x303a35, roughness: .94, metalness: .02 })
+const gloveMaterial = new THREE.MeshStandardMaterial({ color: 0x171b19, roughness: .78, metalness: .08 })
+
+function createLimb(start, end, radius, material) {
+  const direction = end.clone().sub(start)
+  const length = direction.length()
+  const limb = new THREE.Mesh(new THREE.CapsuleGeometry(radius, Math.max(.02, length - radius * 2), 4, 8), material)
+  limb.position.copy(start).add(end).multiplyScalar(.5)
+  limb.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize())
+  limb.castShadow = !coarsePointer
+  return limb
+}
+
+function createArm(start, end) {
+  const group = new THREE.Group()
+  const sleeve = createLimb(start, end, .052, sleeveMaterial)
+  const hand = new THREE.Mesh(new THREE.SphereGeometry(.046, 10, 8), gloveMaterial)
+  hand.position.copy(end)
+  hand.castShadow = !coarsePointer
+  group.add(sleeve, hand)
+  return group
+}
+
+armRig.add(
+  createArm(new THREE.Vector3(.32, -.46, .18), new THREE.Vector3(.08, -.09, -.06)),
+  createArm(new THREE.Vector3(-.3, -.44, .16), new THREE.Vector3(-.055, -.08, -.16))
+)
+weaponRig.add(armRig)
 let weaponView = null
 let currentWeaponKey = 'pistol'
 let recoil = 0
@@ -329,15 +358,15 @@ function showWeaponModel() {
   if (assetModels[currentWeaponKey]) styleAsset(weaponView, 0x777970, .52, .3)
   const definition = weaponDefinitions[currentWeaponKey]
   weaponView.scale.setScalar(definition.scale)
-  weaponView.rotation.set(-.12, Math.PI / 2, 0)
-  weaponView.position.set(0, -.06, -.08)
+  weaponView.rotation.set(-.04, Math.PI + .08, -.025)
+  weaponView.position.set(.01, -.035, -.08)
   weaponRig.add(weaponView)
   updateHud()
 }
 
 const pickups = [
-  { key: 'rifle', x: 17, z: -18, baseY: .52, model: null, active: true },
-  { key: 'shotgun', x: -20, z: 8, baseY: .52, model: null, active: true }
+  { key: 'rifle', x: -4, z: -17, baseY: .04, model: null, active: true },
+  { key: 'shotgun', x: 5, z: 18, baseY: .04, model: null, active: true }
 ]
 
 pickups.forEach(item => addPickupModel(item))
@@ -347,68 +376,110 @@ function addPickupModel(item) {
   const group = new THREE.Group()
   const model = assetModels[item.key] ? assetModels[item.key].clone(true) : fallbackWeapon()
   if (assetModels[item.key]) styleAsset(model, 0x777970, .58, .26)
-  model.scale.setScalar(assetModels[item.key] ? .42 : 1.2)
-  model.rotation.y = Math.PI / 2
+  model.scale.setScalar(assetModels[item.key] ? .5 : 1.2)
+  model.rotation.y = Math.PI * .25
   group.add(model)
   const ring = new THREE.Mesh(new THREE.RingGeometry(.52, .62, 24), new THREE.MeshBasicMaterial({ color: 0xe8a848, transparent: true, opacity: .55, side: THREE.DoubleSide }))
   ring.rotation.x = -Math.PI / 2
-  ring.position.y = -.45
+  ring.position.y = .01
   group.add(ring)
+  const box = new THREE.Box3().setFromObject(model)
+  model.position.y = -box.min.y + .025
   group.position.set(item.x, item.baseY, item.z)
   scene.add(group)
   item.model = group
 }
 
-const botMaterial = new THREE.MeshStandardMaterial({ color: 0x43493f, roughness: .78, metalness: .08 })
-const botArmorMaterial = new THREE.MeshStandardMaterial({ color: 0x2b302c, roughness: .7, metalness: .22 })
-const botAccentMaterial = new THREE.MeshStandardMaterial({ color: 0x9f4a35, roughness: .68, metalness: .18 })
 const botHitMeshes = []
-const botSpawns = [[-22, -14], [21, -18], [20, 14], [-20, 20], [1, -21], [23, 1], [-21, 1]]
+const botSpawns = [[0, -28], [0, -12], [0, 12], [-27, 0], [27, 0], [-9, 0], [9, 0]]
 const bots = []
 
 class Bot {
   constructor(index) {
     this.index = index
     this.group = new THREE.Group()
-    const legs = new THREE.Mesh(new THREE.CylinderGeometry(.32, .38, .8, 7), botMaterial)
-    legs.position.y = .48
-    const torso = new THREE.Mesh(new THREE.CylinderGeometry(.42, .34, .82, 7), botArmorMaterial)
-    torso.position.y = 1.18
-    const vest = new THREE.Mesh(new THREE.BoxGeometry(.62, .48, .28), botAccentMaterial)
-    vest.position.set(0, 1.22, -.27)
-    const head = new THREE.Mesh(new THREE.SphereGeometry(.25, 10, 8), botMaterial)
-    head.position.y = 1.78
-    const visor = new THREE.Mesh(new THREE.BoxGeometry(.34, .1, .12), new THREE.MeshStandardMaterial({ color: 0x171b18, metalness: .75, roughness: .26 }))
-    visor.position.set(0, 1.82, -.21)
-    const gun = new THREE.Mesh(new THREE.BoxGeometry(.12, .13, .68), darkMaterial)
-    gun.position.set(.34, 1.25, -.35)
-    gun.rotation.x = -.08
-    this.group.add(legs, torso, vest, head, visor, gun)
-    ;[legs, torso, vest, head, visor].forEach(mesh => {
-      mesh.castShadow = !coarsePointer
-      mesh.userData.bot = this
-      botHitMeshes.push(mesh)
-    })
     scene.add(this.group)
+    this.visual = null
+    this.mixer = null
+    this.actions = {}
+    this.actionName = ''
     this.health = 100
     this.alive = true
     this.cooldown = 1 + Math.random()
     this.strafe = Math.random() > .5 ? 1 : -1
     this.respawnAt = 0
+    this.hideAt = 0
+    this.shootPoseUntil = 0
     this.place(index)
+  }
+
+  setModel(key) {
+    for (let index = botHitMeshes.length - 1; index >= 0; index -= 1) {
+      if (botHitMeshes[index].userData.bot === this) botHitMeshes.splice(index, 1)
+    }
+    this.group.clear()
+    this.visual = assetModels[key].clone(true)
+    const tacticalColors = [0x4d5a4f, 0x4b504d, 0x5b5448, 0x3f4c50, 0x555a4d]
+    styleAsset(this.visual, tacticalColors[this.index], .86, .04)
+    this.visual.scale.setScalar(.68)
+    this.visual.rotation.y = Math.PI
+    prepareAsset(this.visual, true)
+    const armorMaterial = new THREE.MeshStandardMaterial({ color: this.index % 2 ? 0x343c37 : 0x3f493e, roughness: .88, metalness: .08 })
+    const helmetMaterial = new THREE.MeshStandardMaterial({ color: 0x252d29, roughness: .72, metalness: .18 })
+    const armor = new THREE.Mesh(new THREE.BoxGeometry(.92, .72, .22), armorMaterial)
+    armor.position.set(0, 1.55, -.43)
+    armor.rotation.x = -.04
+    const helmet = new THREE.Mesh(new THREE.SphereGeometry(.47, 12, 8, 0, Math.PI * 2, 0, Math.PI * .62), helmetMaterial)
+    helmet.position.set(0, 2.38, 0)
+    const visor = new THREE.Mesh(new THREE.BoxGeometry(.55, .13, .08), glassMaterial)
+    visor.position.set(0, 2.35, -.405)
+    this.visual.add(armor, helmet, visor)
+    const gun = assetModels.rifle.clone(true)
+    styleAsset(gun, 0x5b615d, .56, .34)
+    gun.scale.setScalar(.7)
+    gun.rotation.y = Math.PI
+    gun.position.set(.04, 1.34, -.3)
+    this.visual.add(gun)
+    this.visual.traverse(node => {
+      if (!node.isMesh) return
+      node.userData.bot = this
+      botHitMeshes.push(node)
+    })
+    this.group.add(this.visual)
+    this.mixer = new THREE.AnimationMixer(this.visual)
+    this.actions = {}
+    assetAnimations[key].forEach(clip => { this.actions[clip.name] = this.mixer.clipAction(clip) })
+    this.play('holding-both')
+  }
+
+  play(name, once = false) {
+    const action = this.actions[name]
+    if (!action || this.actionName === name) return
+    const previous = this.actions[this.actionName]
+    if (previous) previous.fadeOut(.12)
+    action.reset().fadeIn(.12)
+    action.setLoop(once ? THREE.LoopOnce : THREE.LoopRepeat)
+    action.clampWhenFinished = once
+    action.play()
+    this.actionName = name
   }
 
   place(offset = 0) {
     const spawn = botSpawns[(this.index + offset) % botSpawns.length]
-    this.group.position.set(spawn[0] + Math.random() * 2 - 1, 0, spawn[1] + Math.random() * 2 - 1)
+    this.group.position.set(spawn[0], 0, spawn[1])
     this.group.visible = true
     this.health = 100
     this.alive = true
     this.cooldown = .7 + Math.random() * 1.2
+    if (this.mixer) this.mixer.stopAllAction()
+    this.actionName = ''
+    this.play('holding-both')
   }
 
   update(dt, elapsed) {
+    if (this.mixer) this.mixer.update(dt)
     if (!this.alive) {
+      if (elapsed >= this.hideAt) this.group.visible = false
       if (running && elapsed >= this.respawnAt && kills < targetKills) this.place(Math.floor(elapsed) + 1)
       return
     }
@@ -417,6 +488,7 @@ class Bot {
     const distance = Math.hypot(dx, dz)
     const visible = distance < 25 && !segmentBlocked(this.group.position.x, this.group.position.z, player.x, player.z)
     if (visible) {
+      this.play(elapsed < this.shootPoseUntil ? 'holding-both-shoot' : 'holding-both')
       const targetAngle = Math.atan2(dx, dz)
       this.group.rotation.y = approachAngle(this.group.rotation.y, targetAngle, dt * 4.5)
       if (distance > 8) this.move(dx / distance * dt * 1.25, dz / distance * dt * 1.25)
@@ -429,6 +501,7 @@ class Bot {
         if (Math.random() < .3) this.strafe *= -1
       }
     } else {
+      this.play('walk')
       const angle = elapsed * .18 + this.index * 1.37
       this.group.rotation.y = approachAngle(this.group.rotation.y, angle, dt * 1.5)
       this.move(Math.sin(angle) * dt * .42, Math.cos(angle) * dt * .42)
@@ -438,8 +511,8 @@ class Bot {
   move(dx, dz) {
     const nextX = this.group.position.x + dx
     const nextZ = this.group.position.z + dz
-    if (canMove(nextX, this.group.position.z, .5)) this.group.position.x = nextX
-    if (canMove(this.group.position.x, nextZ, .5)) this.group.position.z = nextZ
+    if (canBotMove(nextX, this.group.position.z, this)) this.group.position.x = nextX
+    if (canBotMove(this.group.position.x, nextZ, this)) this.group.position.z = nextZ
   }
 
   shoot(distance) {
@@ -453,6 +526,7 @@ class Bot {
       end.y += (Math.random() - .5) * 2
     }
     addTracer(start, end, 0xd95a3e)
+    this.shootPoseUntil = matchElapsed + .22
     botShotSound(distance)
     if (hit) damagePlayer(7 + Math.floor(Math.random() * 7))
   }
@@ -463,8 +537,9 @@ class Bot {
     makeImpact(point)
     if (this.health <= 0) {
       this.alive = false
-      this.group.visible = false
-      this.respawnAt = matchElapsed + 3.2
+      this.hideAt = matchElapsed + 1.35
+      this.respawnAt = matchElapsed + 4.2
+      this.play('die', true)
       kills += 1
       killValue.textContent = kills
       addFeed('YOU', `HOSTILE ${String(this.index + 1).padStart(2, '0')}`)
@@ -476,7 +551,7 @@ class Bot {
 
 for (let i = 0; i < 5; i += 1) bots.push(new Bot(i))
 
-const player = { x: 0, z: 15, yaw: 0, pitch: 0, health: 100, radius: .42 }
+const player = { x: 0, z: 29, yaw: 0, pitch: 0, health: 100, radius: .42 }
 const keys = new Set()
 const targetKills = 12
 let running = false
@@ -502,8 +577,13 @@ const raycaster = new THREE.Raycaster()
 showWeaponModel()
 
 function canMove(x, z, radius = player.radius) {
-  if (x < -28.8 || x > 28.8 || z < -28.8 || z > 28.8) return false
+  if (x < -39.5 || x > 39.5 || z < -39.5 || z > 39.5) return false
   return !collisionBoxes.some(box => x + radius > box.x - box.hx && x - radius < box.x + box.hx && z + radius > box.z - box.hz && z - radius < box.z + box.hz)
+}
+
+function canBotMove(x, z, self) {
+  if (!canMove(x, z, .48)) return false
+  return !bots.some(bot => bot !== self && bot.alive && Math.hypot(x - bot.group.position.x, z - bot.group.position.z) < .78)
 }
 
 function segmentBlocked(x1, z1, x2, z2) {
@@ -553,9 +633,9 @@ function updatePlayer(dt) {
   camera.position.set(player.x, 1.68 + Math.abs(Math.cos(bobTime * .5)) * .024 * moveAmount, player.z)
   camera.rotation.y = player.yaw
   camera.rotation.x = player.pitch + bob * .12
-  weaponRig.position.x = .3 + Math.cos(bobTime * .5) * .018 * moveAmount
-  weaponRig.position.y = -.27 + Math.sin(bobTime) * .018 * moveAmount - recoil * .055
-  weaponRig.position.z = -.54 + recoil * .12
+  weaponRig.position.x = .27 + Math.cos(bobTime * .5) * .018 * moveAmount
+  weaponRig.position.y = -.26 + Math.sin(bobTime) * .018 * moveAmount - recoil * .055
+  weaponRig.position.z = -.36 + recoil * .12
   weaponRig.rotation.x = recoil * .09
   recoil = Math.max(0, recoil - dt * 7)
   stanceValue.textContent = sprinting ? 'SPRINT' : magnitude > .08 ? 'WALK' : 'HOLD'
@@ -657,8 +737,8 @@ function updatePickups(elapsed) {
   currentPickup = null
   pickups.forEach((item, index) => {
     if (!item.active || !item.model) return
-    item.model.rotation.y += .65 / 60
-    item.model.position.y = item.baseY + Math.sin(elapsed * 2.2 + index) * .1
+    item.model.rotation.y = Math.sin(elapsed * .7 + index) * .035
+    item.model.position.y = item.baseY
     const distance = Math.hypot(player.x - item.x, player.z - item.z)
     if (distance < 2.1) currentPickup = item
   })
@@ -739,6 +819,7 @@ function addFeed(actor, target) {
 }
 
 function begin() {
+  if (!assetsReady) return
   ensureAudio()
   if (!started || result.classList.contains('visible')) resetMatch()
   running = true
@@ -756,7 +837,7 @@ function resetMatch() {
   shots = 0
   hitShots = 0
   player.x = 0
-  player.z = 15
+  player.z = 29
   player.yaw = 0
   player.pitch = 0
   player.health = 100
