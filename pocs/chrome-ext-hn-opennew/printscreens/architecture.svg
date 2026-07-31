@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="470" viewBox="0 0 1040 470">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="9" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M1 1 L11 6 L1 11 z" fill="#3d3d3d"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: "Caveat", "Bradley Hand", "Chalkboard SE", cursive; fill: #2f2f2f; }
+    .title { font-size: 34px; font-weight: bold; }
+    .label { font-size: 21px; }
+    .sub { font-size: 17px; fill: #6b6b6b; }
+    .edge { font-size: 17px; fill: #8a5a20; }
+    .box { stroke: #3d3d3d; stroke-width: 2.4; }
+    .link { stroke: #3d3d3d; stroke-width: 2.4; fill: none; }
+  </style>
+
+  <text class="title" x="40" y="52">HN Open New — how a click becomes tabs</text>
+
+  <g filter="url(#wobble)">
+    <rect class="box" x="40" y="100" width="250" height="96" rx="12" fill="#cfe8ff"/>
+    <rect class="box" x="395" y="100" width="250" height="96" rx="12" fill="#ffd9b3"/>
+    <rect class="box" x="750" y="100" width="250" height="96" rx="12" fill="#fff3b0"/>
+    <rect class="box" x="750" y="330" width="250" height="96" rx="12" fill="#ffd6d6"/>
+    <rect class="box" x="395" y="330" width="250" height="96" rx="12" fill="#e6d9f7"/>
+    <rect class="box" x="40" y="330" width="250" height="96" rx="12" fill="#d9f2d9"/>
+
+    <path class="link" d="M290 148 Q343 141 395 148" marker-end="url(#arrow)"/>
+    <path class="link" d="M645 148 Q698 155 750 148" marker-end="url(#arrow)"/>
+    <path class="link" d="M875 196 Q882 263 875 330" marker-end="url(#arrow)"/>
+    <path class="link" d="M750 378 Q698 371 645 378" marker-end="url(#arrow)"/>
+    <path class="link" d="M395 378 Q343 385 290 378" marker-end="url(#arrow)"/>
+  </g>
+
+  <text class="label" x="60" y="140">news.ycombinator.com</text>
+  <text class="label" x="60" y="166">tab you are reading</text>
+  <text class="sub" x="60" y="188">front page, new, best...</text>
+
+  <text class="label" x="415" y="140">click the Y icon</text>
+  <text class="sub" x="415" y="164">popup finds the HN tab</text>
+  <text class="sub" x="415" y="186">in the current window</text>
+
+  <text class="label" x="770" y="140">scripting.executeScript</text>
+  <text class="sub" x="770" y="164">reads every</text>
+  <text class="sub" x="770" y="186">.titleline &gt; a story link</text>
+
+  <text class="label" x="770" y="370">drop same-origin links</text>
+  <text class="sub" x="770" y="394">item?id= and from?site=</text>
+  <text class="sub" x="770" y="416">comments never open</text>
+
+  <text class="label" x="415" y="370">history.getVisits(url)</text>
+  <text class="sub" x="415" y="394">any visit at all</text>
+  <text class="sub" x="415" y="416">means already read</text>
+
+  <text class="label" x="60" y="370">tabs.create(active: false)</text>
+  <text class="sub" x="60" y="394">only unread stories</text>
+  <text class="sub" x="60" y="416">capped at 30 tabs</text>
+
+  <text class="edge" x="300" y="132">tab query</text>
+  <text class="edge" x="662" y="132">inject</text>
+  <text class="edge" x="890" y="270">30 links</text>
+  <text class="edge" x="655" y="360">stories only</text>
+  <text class="edge" x="308" y="358">unread only</text>
+</svg>

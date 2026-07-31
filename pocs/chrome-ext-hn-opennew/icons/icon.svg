@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="22" fill="#ff6600"/>
+  <text x="44" y="94" text-anchor="middle" font-family="Verdana,Geneva,sans-serif" font-size="78" font-weight="bold" fill="#ffffff">Y</text>
+  <g stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M76 60 L104 32"/>
+    <path d="M80 30 L106 30 L106 56"/>
+  </g>
+</svg>
