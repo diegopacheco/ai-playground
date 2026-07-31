@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Alpine Carve — Snowboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <canvas id="view"></canvas>
+
+    <div id="hud">
+      <div class="panel left">
+        <div class="speedo"><span id="speed">0</span><em>km/h</em></div>
+        <div class="meter">
+          <div class="bar"><i id="edgeFill"></i></div>
+          <span id="grip">CARVE</span>
+        </div>
+      </div>
+      <div class="panel right">
+        <div class="row"><span>TIME</span><b id="timer">0:00.00</b></div>
+        <div class="row"><span>SCORE</span><b id="score">0</b></div>
+        <div class="row"><span>AIR</span><b id="air" class="value">--</b></div>
+      </div>
+      <div class="progress"><i id="progressFill"></i></div>
+      <div id="toasts"></div>
+    </div>
+
+    <div id="menu" class="overlay">
+      <div class="card">
+        <h1>ALPINE CARVE</h1>
+        <p class="sub">2.6 km vertical descent · carve, send, land clean</p>
+        <div class="keys">
+          <div><kbd>A</kbd><kbd>D</kbd><span>lean on edge / spin in air</span></div>
+          <div><kbd>W</kbd><span>tuck for speed</span></div>
+          <div><kbd>S</kbd><span>scrub speed</span></div>
+          <div><kbd>Space</kbd><span>hold to load, release to ollie</span></div>
+          <div><kbd>Shift</kbd><span>grab</span></div>
+          <div><kbd>R</kbd><kbd>P</kbd><span>restart / pause</span></div>
+        </div>
+        <p class="hint">Edge angle sets your turn radius. Ask for more than the snow can grip and you will skid.</p>
+        <button id="dropin">PRESS ENTER TO DROP IN</button>
+      </div>
+    </div>
+
+    <div id="results" class="overlay hidden">
+      <div class="card">
+        <h1>RUN COMPLETE</h1>
+        <div id="stats" class="stats"></div>
+        <button>PRESS R TO RIDE AGAIN</button>
+      </div>
+    </div>
+
+    <div id="paused" class="overlay hidden">
+      <div class="card"><h1>PAUSED</h1><button>PRESS P TO RESUME</button></div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
