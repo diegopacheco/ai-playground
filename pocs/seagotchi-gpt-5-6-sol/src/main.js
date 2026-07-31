@@ -663,15 +663,20 @@ const guestStarts = [
   new THREE.Vector3(3.8, -0.82, -3.1)
 ];
 const guestTargets = [
-  new THREE.Vector3(-2.6, 0.25, 0.72),
-  new THREE.Vector3(2.5, 0.22, 0.04),
-  new THREE.Vector3(-1.45, 0.38, -1.08)
+  new THREE.Vector3(-2.45, 0.64, 0.62),
+  new THREE.Vector3(2.25, 0.62, 0.35),
+  new THREE.Vector3(-1.35, 0.68, -0.95)
+];
+const guestEdges = [
+  new THREE.Vector3(-3.55, -0.48, 0.66),
+  new THREE.Vector3(3.5, -0.48, 0.28),
+  new THREE.Vector3(-1.35, -0.48, -1.9)
 ];
 const guestHeadings = [-0.08, Math.PI, 0.14];
 const guestVelocities = [
-  new THREE.Vector3(-3.8, 3.7, 0.6),
-  new THREE.Vector3(4.2, 4.1, 0.5),
-  new THREE.Vector3(2.8, 4.5, -2.4)
+  new THREE.Vector3(-2.8, 2.2, 0.4),
+  new THREE.Vector3(2.8, 2.2, 0.3),
+  new THREE.Vector3(1.8, 2.4, -1.5)
 ];
 const guestAnimals = [];
 
@@ -684,8 +689,9 @@ for (let index = 0; index < 3; index += 1) {
   guest.userData = {
     phase: "away",
     phaseStarted: 0,
-    delay: index * 0.18,
+    delay: index * 0.22,
     target: guestTargets[index],
+    edge: guestEdges[index],
     start: guestStarts[index],
     heading: guestHeadings[index],
     exitStart: new THREE.Vector3(),
@@ -907,6 +913,9 @@ const inviteGuests = (seconds) => {
     sleepLabel.textContent = "PUT TO SLEEP";
   }
   state.sharing = true;
+  swimmers.forEach((swimmer) => {
+    swimmer.visible = false;
+  });
   guestAnimals.forEach((guest) => {
     guest.visible = true;
     guest.position.copy(guest.userData.start);
@@ -950,14 +959,21 @@ const updateGuests = (seconds) => {
         guest.position.y += Math.sin(seconds * 2.5 + index) * 0.06;
         return;
       }
-      const progress = Math.min(elapsed / 1.4, 1);
-      const ease = progress * progress * (3 - 2 * progress);
-      guest.position.lerpVectors(data.start, data.target, ease);
-      guest.position.y += Math.sin(progress * Math.PI) * (1.05 + index * 0.12);
-      const horizontal = Math.hypot(data.target.x - data.start.x, data.target.z - data.start.z);
-      const vertical = data.target.y - data.start.y + Math.cos(progress * Math.PI) * Math.PI * (1.05 + index * 0.12);
-      const direction = Math.sign(data.target.x - data.start.x);
-      guest.rotation.z = Math.atan2(vertical, horizontal) * direction * 0.46;
+      const progress = Math.min(elapsed / 2.1, 1);
+      if (progress < 0.68) {
+        const swimProgress = progress / 0.68;
+        const swimEase = swimProgress * swimProgress * (3 - 2 * swimProgress);
+        guest.position.lerpVectors(data.start, data.edge, swimEase);
+        guest.position.y += Math.sin(seconds * 5 + index) * 0.035;
+        guest.rotation.z = Math.sin(swimProgress * Math.PI * 2) * 0.025;
+      } else {
+        const climbProgress = (progress - 0.68) / 0.32;
+        const climbEase = climbProgress * climbProgress * (3 - 2 * climbProgress);
+        guest.position.lerpVectors(data.edge, data.target, climbEase);
+        guest.position.y += Math.sin(climbProgress * Math.PI) * 0.14;
+        const direction = Math.sign(data.target.x - data.edge.x || 1);
+        guest.rotation.z = Math.sin(climbProgress * Math.PI) * direction * 0.18;
+      }
       if (progress === 1) {
         data.phase = "settled";
         data.phaseStarted = seconds;
@@ -968,7 +984,7 @@ const updateGuests = (seconds) => {
     }
     if (data.phase === "settled") {
       const restElapsed = seconds - data.phaseStarted;
-      const landingBounce = Math.sin(restElapsed * 10) * Math.exp(-restElapsed * 5) * 0.07;
+      const landingBounce = Math.sin(restElapsed * 10) * Math.exp(-restElapsed * 6) * 0.025;
       guest.position.copy(data.target);
       guest.position.y += landingBounce + Math.sin(seconds * 1.7 + index) * 0.012;
       guest.rotation.z = Math.sin(restElapsed * 8) * Math.exp(-restElapsed * 4) * 0.08;
@@ -977,9 +993,9 @@ const updateGuests = (seconds) => {
     if (data.phase === "exiting") {
       const elapsed = seconds - data.phaseStarted;
       guest.position.copy(data.exitStart).addScaledVector(data.velocity, elapsed);
-      guest.position.y -= 2.9 * elapsed * elapsed;
-      guest.rotation.z = (index % 2 ? -1 : 1) * elapsed * (4.4 + index * 0.5);
-      if (guest.position.y < -1.8 || elapsed >= 1.7) {
+      guest.position.y -= 4.9 * elapsed * elapsed;
+      guest.rotation.z = (index % 2 ? -1 : 1) * elapsed * (3.2 + index * 0.3);
+      if ((elapsed > 0.3 && guest.position.y < -0.72) || elapsed >= 1.2) {
         guest.visible = false;
         guest.position.copy(data.start);
         guest.rotation.set(0, data.heading, 0);
@@ -987,6 +1003,11 @@ const updateGuests = (seconds) => {
       }
     }
   });
+  if (!state.sharing && guestAnimals.every((guest) => guest.userData.phase === "away")) {
+    swimmers.forEach((swimmer) => {
+      swimmer.visible = true;
+    });
+  }
 };
 
 const startAmbientEvent = (seconds) => {
