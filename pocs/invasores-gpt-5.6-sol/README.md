@@ -1,5 +1,7 @@
 # Gull About Town
 
+![Gull About Town logo](assets/gull-about-town-logo.png)
+
 A hand-drawn 3D seagull adventure across a playful San Francisco. Fly over the Golden Gate Bridge, walk the waterfront, swim through the bay, visit Fisherman's Wharf, Chinatown, the Embarcadero, and Golden Gate Park, then create a little civic chaos.
 
 ## Play

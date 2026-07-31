@@ -2,12 +2,16 @@ import * as THREE from "three";
 import "./style.css";
 
 const canvas = document.querySelector("#game");
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 1.65));
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  antialias: innerWidth > 700,
+  alpha: false,
+  powerPreference: "high-performance"
+});
+renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 700 ? 1 : 1.1));
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
-renderer.shadowMap.enabled = innerWidth > 700;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.enabled = false;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x91c9d5);
@@ -37,7 +41,7 @@ const colors = {
 
 const materialCache = new Map();
 const mat = (color, options = {}) => {
-  const key = `${color}-${options.transparent || false}-${options.opacity || 1}`;
+  const key = `${color}-${options.transparent || false}-${options.opacity || 1}-${options.side ?? THREE.FrontSide}`;
   if (!materialCache.has(key)) {
     materialCache.set(key, new THREE.MeshToonMaterial({
       color,
@@ -53,9 +57,16 @@ const inkMaterial = new THREE.LineBasicMaterial({ color: colors.ink, linewidth: 
 const geometryCache = {
   box: new THREE.BoxGeometry(1, 1, 1),
   sphere: new THREE.SphereGeometry(0.5, 10, 7),
-  cylinder: new THREE.CylinderGeometry(0.5, 0.5, 1, 10),
-  cone: new THREE.ConeGeometry(0.5, 1, 9),
+  cylinder: new THREE.CylinderGeometry(0.5, 0.5, 1, 8),
+  cone: new THREE.ConeGeometry(0.5, 1, 8),
   wheel: new THREE.CylinderGeometry(0.5, 0.5, 0.3, 8)
+};
+const edgeGeometryCache = {
+  box: new THREE.EdgesGeometry(geometryCache.box, 28),
+  sphere: new THREE.EdgesGeometry(geometryCache.sphere, 28),
+  cylinder: new THREE.EdgesGeometry(geometryCache.cylinder, 28),
+  cone: new THREE.EdgesGeometry(geometryCache.cone, 28),
+  wheel: new THREE.EdgesGeometry(geometryCache.wheel, 28)
 };
 
 const roadX = [-145, -80, -15, 50, 115, 180];
@@ -66,11 +77,9 @@ function primitive(type, color, position, scale, parent = world, outline = false
   const mesh = new THREE.Mesh(geometryCache[type], mat(color));
   mesh.position.set(...position);
   mesh.scale.set(...scale);
-  mesh.castShadow = type !== "sphere" || scale[0] > 1;
-  mesh.receiveShadow = type === "box";
   parent.add(mesh);
   if (outline) {
-    const edge = new THREE.LineSegments(new THREE.EdgesGeometry(geometryCache[type], 28), inkMaterial);
+    const edge = new THREE.LineSegments(edgeGeometryCache[type], inkMaterial);
     edge.scale.setScalar(1.003);
     mesh.add(edge);
   }
@@ -102,15 +111,9 @@ const hemi = new THREE.HemisphereLight(0xfff3d7, 0x426a67, 2.1);
 scene.add(hemi);
 const sun = new THREE.DirectionalLight(0xffefcf, 2.8);
 sun.position.set(-90, 150, 40);
-sun.castShadow = true;
-sun.shadow.mapSize.set(1024, 1024);
-sun.shadow.camera.left = -180;
-sun.shadow.camera.right = 180;
-sun.shadow.camera.top = 180;
-sun.shadow.camera.bottom = -180;
 scene.add(sun);
 
-const waterGeometry = new THREE.PlaneGeometry(620, 620, 42, 42);
+const waterGeometry = new THREE.PlaneGeometry(620, 620, 16, 16);
 waterGeometry.rotateX(-Math.PI / 2);
 const water = new THREE.Mesh(waterGeometry, new THREE.MeshToonMaterial({
   color: colors.blue,
@@ -118,10 +121,14 @@ const water = new THREE.Mesh(waterGeometry, new THREE.MeshToonMaterial({
   opacity: 0.93
 }));
 water.position.y = 0;
-water.receiveShadow = true;
 world.add(water);
 const waterPositions = waterGeometry.attributes.position;
-const waterBase = Float32Array.from(waterPositions.array);
+for (let index = 0; index < waterPositions.count; index += 1) {
+  const x = waterPositions.getX(index);
+  const z = waterPositions.getZ(index);
+  waterPositions.setY(index, Math.sin(x * 0.07) * 0.28 + Math.cos(z * 0.06) * 0.2);
+}
+waterPositions.needsUpdate = true;
 
 function createLand() {
   const shape = new THREE.Shape();
@@ -174,10 +181,8 @@ function createRoads() {
   });
   roadX.forEach(x => {
     roadZ.forEach(z => {
-      for (let stripe = -3; stripe <= 3; stripe += 1) {
-        box(colors.paper, [x + stripe * 1.1, 7.22, z - 6.2], [0.58, 0.04, 2.5], world);
-        box(colors.paper, [x + stripe * 1.1, 7.22, z + 6.2], [0.58, 0.04, 2.5], world);
-      }
+      box(colors.paper, [x, 7.22, z - 6.2], [7.4, 0.04, 2.1], world);
+      box(colors.paper, [x, 7.22, z + 6.2], [7.4, 0.04, 2.1], world);
     });
   });
 }
@@ -193,13 +198,9 @@ function createBuilding(x, z, width, depth, height, color, roof = "flat") {
     box(colors.ink, [0, height + 0.3, 0], [width * 0.86, 0.6, depth * 0.86], group);
   }
   const windowColor = seeded(x + z) > 0.5 ? colors.yellow : colors.blue;
-  const rows = Math.max(1, Math.floor(height / 7));
-  const columns = Math.max(1, Math.floor(width / 6));
+  const rows = Math.min(4, Math.max(1, Math.floor(height / 8)));
   for (let row = 0; row < rows; row += 1) {
-    for (let column = 0; column < columns; column += 1) {
-      const wx = -width * 0.35 + column * (width * 0.7 / Math.max(1, columns - 1));
-      box(windowColor, [wx, 4.5 + row * 6.2, -depth / 2 - 0.06], [1.6, 2.4, 0.16], group);
-    }
+    box(windowColor, [0, 4.6 + row * 6.4, -depth / 2 - 0.06], [width * 0.7, 1.55, 0.16], group);
   }
   box(0x4d4033, [0, 1.9, -depth / 2 - 0.12], [2.1, 3.8, 0.24], group);
   if (seeded(x * 0.4 + z) > 0.48) {
@@ -533,22 +534,22 @@ function createPerson(x, z, hue, route) {
   const rightLeg = new THREE.Group();
   leftLeg.position.set(-0.7, 2.35, 0);
   rightLeg.position.set(0.7, 2.35, 0);
-  cylinder(pants, [0, -1.15, 0], [0.62, 2.3, 0.62], leftLeg, true);
-  cylinder(pants, [0, -1.15, 0], [0.62, 2.3, 0.62], rightLeg, true);
-  box(colors.ink, [0, -2.35, -0.25], [0.85, 0.45, 1.4], leftLeg, true);
-  box(colors.ink, [0, -2.35, -0.25], [0.85, 0.45, 1.4], rightLeg, true);
+  cylinder(pants, [0, -1.15, 0], [0.62, 2.3, 0.62], leftLeg);
+  cylinder(pants, [0, -1.15, 0], [0.62, 2.3, 0.62], rightLeg);
+  box(colors.ink, [0, -2.35, -0.25], [0.85, 0.45, 1.4], leftLeg);
+  box(colors.ink, [0, -2.35, -0.25], [0.85, 0.45, 1.4], rightLeg);
   const leftArm = new THREE.Group();
   const rightArm = new THREE.Group();
   leftArm.position.set(-1.65, 5.25, 0);
   rightArm.position.set(1.65, 5.25, 0);
-  cylinder(skin, [0, -1.25, 0], [0.48, 2.5, 0.48], leftArm, true);
-  cylinder(skin, [0, -1.25, 0], [0.48, 2.5, 0.48], rightArm, true);
+  cylinder(skin, [0, -1.25, 0], [0.48, 2.5, 0.48], leftArm);
+  cylinder(skin, [0, -1.25, 0], [0.48, 2.5, 0.48], rightArm);
   group.add(leftLeg, rightLeg, leftArm, rightArm);
   if (seeded(x - z) > 0.56) {
-    cylinder(colors.yellow, [0, 8.55, 0], [1.4, 0.45, 1.4], group, true);
-    box(colors.yellow, [0, 8.42, -1.1], [3.5, 0.22, 1.1], group, true);
+    cylinder(colors.yellow, [0, 8.55, 0], [1.4, 0.45, 1.4], group);
+    box(colors.yellow, [0, 8.42, -1.1], [3.5, 0.22, 1.1], group);
   }
-  if (seeded(x + z * 2) > 0.6) box(colors.red, [1.65, 3.25, 0.2], [1, 2.6, 1.8], group, true);
+  if (seeded(x + z * 2) > 0.6) box(colors.red, [1.65, 3.25, 0.2], [1, 2.6, 1.8], group);
   world.add(group);
   const axis = route.axis;
   const origin = group.position[axis];
@@ -685,43 +686,75 @@ createCloud(160, 86, -150, 1.5);
 
 function createBird() {
   const bird = new THREE.Group();
-  sphere(colors.paper, [0, 0, 0], [5.5, 3.8, 8.5], bird, true);
-  sphere(colors.paper, [0, 1.4, -5.6], [3.6, 3.3, 3.8], bird, true);
-  const beak = cone(colors.orange, [0, 0.8, -9], [1.8, 4.8, 1.8], bird, true);
+  sphere(colors.paper, [0, 0, 0.8], [5.2, 3.5, 8.4], bird, true);
+  sphere(0xd3d4c8, [0, 1.75, 1.8], [4.4, 1.25, 5.2], bird);
+  sphere(colors.paper, [0, 0.7, -3.4], [4.1, 3.1, 3.8], bird);
+  sphere(colors.paper, [0, 1.4, -5.3], [3.5, 3.2, 3.7], bird, true);
+  const beak = cone(colors.orange, [0, 0.75, -8.5], [1.55, 4.3, 1.55], bird, true);
   beak.rotation.x = -Math.PI / 2;
-  [-1.35, 1.35].forEach(x => {
-    sphere(colors.ink, [x, 2.4, -8], [0.7, 0.8, 0.45], bird);
+  [-1.42, 1.42].forEach(x => {
+    sphere(colors.ink, [x, 2.15, -6.25], [0.28, 0.34, 0.24], bird);
   });
-  const leftWing = new THREE.Group();
-  const rightWing = new THREE.Group();
-  leftWing.position.set(-4, 1, 0);
-  rightWing.position.set(4, 1, 0);
-  const wingGeometry = new THREE.BufferGeometry();
-  wingGeometry.setAttribute("position", new THREE.Float32BufferAttribute([
-    0, 0, -3, -13, 0, 2, -6, 0, 7,
-    0, 0, -3, -6, 0, 7, 0, 0, 6
-  ], 3));
-  wingGeometry.computeVertexNormals();
-  const leftMesh = new THREE.Mesh(wingGeometry, mat(colors.paper, { side: THREE.DoubleSide }));
-  leftWing.add(leftMesh);
-  const rightMesh = leftMesh.clone();
-  rightMesh.scale.x = -1;
-  rightWing.add(rightMesh);
-  const leftTip = box(colors.ink, [-10.3, 0.05, 2.5], [5.5, 0.18, 3], leftWing);
-  leftTip.rotation.y = -0.2;
-  const rightTip = box(colors.ink, [10.3, 0.05, 2.5], [5.5, 0.18, 3], rightWing);
-  rightTip.rotation.y = 0.2;
+  const createWing = direction => {
+    const wing = new THREE.Group();
+    wing.position.set(direction * 2.55, 0.9, -0.4);
+    const points = [
+      new THREE.Vector3(0, 0, -2.4),
+      new THREE.Vector3(direction * 13.5, 0, -0.3),
+      new THREE.Vector3(direction * 11.2, 0, 2.4),
+      new THREE.Vector3(direction * 8, 0, 5.5),
+      new THREE.Vector3(direction * 1.4, 0, 4.5)
+    ];
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute([
+      ...points[0].toArray(), ...points[1].toArray(), ...points[2].toArray(),
+      ...points[0].toArray(), ...points[2].toArray(), ...points[3].toArray(),
+      ...points[0].toArray(), ...points[3].toArray(), ...points[4].toArray()
+    ], 3));
+    geometry.computeVertexNormals();
+    wing.add(new THREE.Mesh(geometry, mat(colors.paper, { side: THREE.DoubleSide })));
+    const outline = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(points), inkMaterial);
+    outline.position.y = 0.05;
+    wing.add(outline);
+    const tipPoints = [
+      points[1].clone().setY(0.08),
+      points[2].clone().setY(0.08),
+      new THREE.Vector3(direction * 9.3, 0.08, 3.8),
+      new THREE.Vector3(direction * 10.5, 0.08, 0.2)
+    ];
+    const tipGeometry = new THREE.BufferGeometry();
+    tipGeometry.setAttribute("position", new THREE.Float32BufferAttribute([
+      ...tipPoints[0].toArray(), ...tipPoints[1].toArray(), ...tipPoints[2].toArray(),
+      ...tipPoints[0].toArray(), ...tipPoints[2].toArray(), ...tipPoints[3].toArray()
+    ], 3));
+    tipGeometry.computeVertexNormals();
+    wing.add(new THREE.Mesh(tipGeometry, mat(colors.ink, { side: THREE.DoubleSide })));
+    return wing;
+  };
+  const leftWing = createWing(-1);
+  const rightWing = createWing(1);
   bird.add(leftWing, rightWing);
-  const tailLeft = cone(colors.ink, [-2, 0, 7.4], [1.7, 5, 1.2], bird);
-  tailLeft.rotation.x = Math.PI / 2;
-  tailLeft.rotation.z = -0.25;
-  const tailRight = tailLeft.clone();
-  tailRight.position.x = 2;
-  tailRight.rotation.z = 0.25;
-  bird.add(tailRight);
-  bird.scale.setScalar(0.55);
+  [-1.8, 0, 1.8].forEach((x, index) => {
+    const feather = cone(colors.paper, [x, -0.2, 7.4 + (index === 1 ? 1 : 0)], [1.5, 5.4, 1.15], bird, true);
+    feather.rotation.x = Math.PI / 2;
+    feather.rotation.z = (index - 1) * 0.12;
+  });
+  const legs = new THREE.Group();
+  [-1.15, 1.15].forEach(x => {
+    cylinder(colors.orange, [x, -3.2, 2.3], [0.34, 2.4, 0.34], legs);
+    const foot = new THREE.Group();
+    foot.position.set(x, -4.4, 1.7);
+    [-0.45, 0, 0.45].forEach(toeX => {
+      const toe = cylinder(colors.orange, [toeX, 0, -0.7], [0.13, 1.5, 0.13], foot);
+      toe.rotation.x = Math.PI / 2;
+    });
+    legs.add(foot);
+  });
+  bird.add(legs);
+  bird.scale.setScalar(0.51);
   bird.userData.leftWing = leftWing;
   bird.userData.rightWing = rightWing;
+  bird.userData.legs = legs;
   scene.add(bird);
   return bird;
 }
@@ -740,6 +773,7 @@ const state = {
   streak: 0,
   lastHit: -10,
   lastPoop: -10,
+  lastTakeoff: -10,
   sound: true,
   mission: { person: 0, car: 0, animal: 0 },
   complete: false
@@ -807,7 +841,10 @@ function dropPoop() {
 
 function makeSplat(position, surface) {
   const geometry = new THREE.CircleGeometry(1.6, 12);
-  const splat = new THREE.Mesh(geometry, mat(0xf5f0d9));
+  const splat = new THREE.Mesh(geometry, new THREE.MeshToonMaterial({
+    color: 0xf5f0d9,
+    transparent: true
+  }));
   splat.position.copy(position);
   if (surface === "water") {
     splat.rotation.x = -Math.PI / 2;
@@ -902,13 +939,24 @@ function updateBird(delta, elapsed) {
   const previousPosition = bird.position.clone();
   const forwardInput = (keys.KeyW ? 1 : 0) - (keys.KeyS ? 1 : 0) - mobile.y;
   const turnInput = (keys.KeyD ? 1 : 0) - (keys.KeyA ? 1 : 0) + mobile.x;
-  const flying = bird.position.y > ground.height + 2.3 || state.verticalSpeed > 1;
+  const wantsFlap = keys.Space || mobile.flap;
+  let flying = bird.position.y > ground.height + 2.3 || state.verticalSpeed > 1;
+  const takingOff = !flying && wantsFlap;
+  if (takingOff) {
+    flying = true;
+    state.verticalSpeed = 10.8;
+    bird.position.y += 0.45;
+    if (elapsed - state.lastTakeoff > 0.8) {
+      state.lastTakeoff = elapsed;
+      audioTone(310, 0.14, "triangle", 0.035);
+    }
+  }
   if (flying) {
     state.mode = "Flying";
     state.speed += (14 + Math.max(0, forwardInput) * 13 - state.speed) * delta * 1.8;
     state.yaw -= turnInput * delta * 1.45;
     state.verticalSpeed -= 6.2 * delta;
-    if (keys.Space || mobile.flap) {
+    if (wantsFlap && !takingOff) {
       state.verticalSpeed += 18 * delta;
       state.verticalSpeed = Math.min(state.verticalSpeed, 8.5);
     }
@@ -921,14 +969,12 @@ function updateBird(delta, elapsed) {
     state.yaw -= turnInput * delta * 2;
     bird.position.y = ground.height + 0.9 + Math.sin(elapsed * 2.2) * 0.1;
     state.verticalSpeed = 0;
-    if (keys.Space || mobile.flap) state.verticalSpeed = 8.5;
   } else {
     state.mode = "Walking";
     state.speed += ((forwardInput > 0 ? 6.2 : 1.2) - state.speed) * delta * 4;
     state.yaw -= turnInput * delta * 2.3;
     bird.position.y = ground.height + 1.7;
     state.verticalSpeed = 0;
-    if (keys.Space || mobile.flap) state.verticalSpeed = 8.7;
   }
 
   const forward = new THREE.Vector3(Math.sin(state.yaw), 0, Math.cos(state.yaw));
@@ -951,12 +997,14 @@ function updateBird(delta, elapsed) {
   bird.rotation.y = state.yaw + Math.PI;
   bird.rotation.z = THREE.MathUtils.lerp(bird.rotation.z, -turnInput * 0.3, delta * 5);
   bird.rotation.x = THREE.MathUtils.lerp(bird.rotation.x, -state.verticalSpeed * 0.025, delta * 4);
-  const flap = state.mode === "Flying" ? Math.sin(elapsed * (keys.Space || mobile.flap ? 15 : 7)) * 0.45 : Math.sin(elapsed * 4) * 0.08;
+  const flap = state.mode === "Flying" ? Math.sin(elapsed * (wantsFlap ? 15 : 7)) * 0.48 : Math.sin(elapsed * 4) * 0.05;
   bird.userData.leftWing.rotation.z = flap;
   bird.userData.rightWing.rotation.z = -flap;
-  const wingSpread = state.mode === "Flying" ? 1 : 0.48;
+  const wingSpread = state.mode === "Flying" ? 1 : 0.22;
   bird.userData.leftWing.scale.x = THREE.MathUtils.lerp(bird.userData.leftWing.scale.x, wingSpread, delta * 5);
   bird.userData.rightWing.scale.x = THREE.MathUtils.lerp(bird.userData.rightWing.scale.x, wingSpread, delta * 5);
+  bird.userData.legs.rotation.x = THREE.MathUtils.lerp(bird.userData.legs.rotation.x, state.mode === "Flying" ? -1.25 : 0, delta * 6);
+  bird.userData.legs.scale.y = THREE.MathUtils.lerp(bird.userData.legs.scale.y, state.mode === "Flying" ? 0.18 : 1, delta * 6);
 }
 
 function updateCamera(delta) {
@@ -971,11 +1019,6 @@ function updateCamera(delta) {
 }
 
 function updateWorld(delta, elapsed) {
-  for (let i = 0; i < waterPositions.count; i += 1) {
-    const index = i * 3;
-    waterPositions.array[index + 1] = waterBase[index + 1] + Math.sin(waterBase[index] * 0.08 + elapsed * 1.2) * 0.34 + Math.cos(waterBase[index + 2] * 0.07 + elapsed) * 0.22;
-  }
-  waterPositions.needsUpdate = true;
   clouds.forEach(cloud => {
     cloud.position.x += cloud.userData.speed * delta;
     if (cloud.position.x > 250) cloud.position.x = -250;
@@ -1183,7 +1226,7 @@ document.querySelector("#poop-button").addEventListener("pointerdown", dropPoop)
 window.addEventListener("resize", () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 700 ? 1.35 : 1.65));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 700 ? 1 : 1.1));
   renderer.setSize(innerWidth, innerHeight);
 });
 
