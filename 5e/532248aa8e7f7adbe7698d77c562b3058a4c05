@@ -1,0 +1,35 @@
+pocs/fps-assets-gpt-sol-5.6/assets/survivors/Protagonists-License.txt
+  s_102037e6fd3390::t_9c0b5e71f25698 1-27
+pocs/fps-assets-gpt-sol-5.6/game.js
+  s_102037e6fd3390::t_514ce136dce73c 446
+  s_102037e6fd3390::t_1450181d6e4df9 583-584,853-857,993-994,1003,1006,1015-1019,1028-1031,1035-1040,1048-1051
+  s_102037e6fd3390::t_bca4ceb0a8575a 3,124,277-300,317-319,323-325,445,451,453,459,487,494,553,558-560,564,669-671,713
+  s_102037e6fd3390::t_f4cb9a1d174fbc 572,866
+  s_102037e6fd3390::t_5112e21b912cbb 1052-1053
+pocs/fps-assets-gpt-sol-5.6/index.html
+  s_102037e6fd3390::t_1450181d6e4df9 15
+pocs/fps-assets-gpt-sol-5.6/README.md
+  s_102037e6fd3390::t_514ce136dce73c 32,45,59,72-73,81
+pocs/fps-assets-gpt-sol-5.6/test.sh
+  s_102037e6fd3390::t_514ce136dce73c 24
+pocs/fps-assets-gpt-sol-5.6/assets/survivors/License.txt
+  s_102037e6fd3390::t_6ede204cd7659d 1-27
+pocs/fps-assets-gpt-sol-5.6/assets/vendor/FBXLoader.js
+  s_102037e6fd3390::t_8411f2327c03c8 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "5e532248aa8e7f7adbe7698d77c562b3058a4c05",
+  "prompts": {},
+  "sessions": {
+    "s_102037e6fd3390": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb9c3-d5dd-7371-b6c5-a66221fe6de1",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
