@@ -38,7 +38,8 @@ The compact world includes:
 - Golden Gate Bridge with a driveable roadway, towers, hangers, and suspension cables
 - Fisherman's Wharf with a pier, sea lions, posts, and waterfront buildings
 - Chinatown gate, lanterns, steep blocks, and a moving cable car
-- Embarcadero piers and Coit Tower
+- Embarcadero piers, Ferry Building clock tower, and Coit Tower
+- Transamerica Pyramid, Painted Ladies, and Alcatraz
 - Golden Gate Park, hills, plants, trees, roads, cars, people, cats, and dogs
 
 ## Mobile
