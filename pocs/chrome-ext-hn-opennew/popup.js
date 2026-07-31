@@ -42,6 +42,13 @@ async function readStories(tabId) {
   return injection.result || [];
 }
 
+async function grayVisited(tabId) {
+  try {
+    await chrome.scripting.insertCSS({ target: { tabId }, files: ["content.css"] });
+    await chrome.scripting.executeScript({ target: { tabId }, files: ["content.js"] });
+  } catch {}
+}
+
 async function isVisited(url) {
   try {
     const visits = await chrome.history.getVisits({ url });
@@ -84,6 +91,8 @@ async function start() {
     hintEl.textContent = "Open news.ycombinator.com and click the icon again.";
     return;
   }
+
+  await grayVisited(tab.id);
 
   const stories = await readStories(tab.id);
   const unread = (await filterUnvisited(stories)).slice(0, MAX_TABS);

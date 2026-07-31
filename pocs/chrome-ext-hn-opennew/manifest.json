@@ -5,6 +5,16 @@
   "description": "Opens every Hacker News story link you never visited in background tabs.",
   "permissions": ["tabs", "history", "scripting"],
   "host_permissions": ["https://news.ycombinator.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://news.ycombinator.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
   "action": {
     "default_title": "HN Open New",
     "default_popup": "popup.html",
