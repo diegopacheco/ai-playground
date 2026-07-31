@@ -1,0 +1,29 @@
+pocs/chrome-ext-hn-opennew/popup.js
+  s_8c0871d12912a1::t_3fd1b9e2ba3a92 45-51
+  s_8c0871d12912a1::t_6f8a975c23e420 95-96
+pocs/chrome-ext-hn-opennew/background.js
+  s_8c0871d12912a1::t_f5a74b958c901c 1-14
+pocs/chrome-ext-hn-opennew/content.js
+  s_8c0871d12912a1::t_b24704cc28cdfc 1-10,16
+  s_8c0871d12912a1::t_01e972dbc35113 11-15
+pocs/chrome-ext-hn-opennew/manifest.json
+  s_8c0871d12912a1::t_ca54f48b58776f 8-17
+pocs/chrome-ext-hn-opennew/content.css
+  s_8c0871d12912a1::t_d93f2b395bc3cb 1-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "5be26e6c7cdc583221fb2dc9c8f42c428c02a338",
+  "prompts": {},
+  "sessions": {
+    "s_8c0871d12912a1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a57e030-8d9d-42cc-b717-55829d317239",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
