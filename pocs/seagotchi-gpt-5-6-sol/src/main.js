@@ -664,20 +664,21 @@ const guestStarts = [
 ];
 const guestTargets = [
   new THREE.Vector3(-2.55, 0.58, 0.9),
-  new THREE.Vector3(2.6, 0.55, 0.75),
-  new THREE.Vector3(1.1, 0.25, 1.75)
+  new THREE.Vector3(1.5, 0.55, 2.05),
+  new THREE.Vector3(-1.25, 0.25, 1.8)
 ];
 const guestChonkerTargets = [
   new THREE.Vector3(-3.35, 0.38, 1),
-  new THREE.Vector3(3.35, 0.35, 1),
-  new THREE.Vector3(1.55, 0.08, 2.25)
+  new THREE.Vector3(1.2, 0.35, 2.25),
+  new THREE.Vector3(-1.8, 0.08, 2.05)
 ];
 const guestEdges = [
   new THREE.Vector3(-4.45, -0.72, 0.66),
   new THREE.Vector3(4.45, -0.72, 0.28),
   new THREE.Vector3(0, -0.72, 3.15)
 ];
-const guestHeadings = [-0.08, Math.PI, Math.PI / 2];
+const guestEntryHeadings = [-0.08, Math.PI, Math.PI * 0.82];
+const guestHeadings = [-0.08, 0, Math.PI * 0.82];
 const guestVelocities = [
   new THREE.Vector3(-2.8, 2.2, 0.4),
   new THREE.Vector3(2.8, 2.2, 0.3),
@@ -743,6 +744,7 @@ for (let index = 0; index < 3; index += 1) {
     rim: guestEdges[index].clone(),
     edge: guestEdges[index],
     start: guestStarts[index],
+    entryHeading: guestEntryHeadings[index],
     heading: guestHeadings[index],
     baseScale: 0.46 + index * 0.01,
     chonkerScale: 0.32 + index * 0.01,
@@ -758,11 +760,12 @@ visitorSeal.visible = false;
 visitorSeal.scale.setScalar(0.96);
 world.add(visitorSeal);
 
-const visitorStart = new THREE.Vector3(5.4, -0.72, 1.2);
-const visitorEdge = new THREE.Vector3(4.45, -0.72, 0.78);
-const visitorRock = new THREE.Vector3(2.65, 0.22, 0.78);
+const visitorStart = new THREE.Vector3(0, -0.72, 4.2);
+const visitorEdge = new THREE.Vector3(0, -0.72, 3.15);
+const visitorRock = new THREE.Vector3(0, 0.22, 2.2);
 const visitorRim = visitorEdge.clone();
-const visitorExitVelocity = new THREE.Vector3(3.2, 2.6, 0.5);
+const visitorExitVelocity = new THREE.Vector3(0, 2.6, 2.8);
+const visitorHeading = Math.PI / 2;
 
 const poopGroup = new THREE.Group();
 poopGroup.visible = false;
@@ -983,7 +986,7 @@ const inviteGuests = (seconds) => {
     guest.scale.setScalar(guestScale);
     guest.visible = true;
     guest.position.copy(guest.userData.start);
-    guest.rotation.set(0, guest.userData.heading, 0);
+    guest.rotation.set(0, guest.userData.entryHeading, 0);
     guest.userData.phase = "entering";
     guest.userData.phaseStarted = seconds;
   });
@@ -1051,6 +1054,8 @@ const updateGuests = (seconds) => {
         const surface = rockSurfaceHeight(guest.position.x, guest.position.z);
         if (surface !== null) guest.position.y = surface + guestScale * 0.36;
         guest.position.y += Math.sin(crawlProgress * Math.PI) * 0.045;
+        const landingHeading = index === 1 ? Math.PI * 2 : data.heading;
+        guest.rotation.y = THREE.MathUtils.lerp(data.entryHeading, landingHeading, crawlEase);
         guest.rotation.z *= 0.8;
       }
       if (progress === 1) {
@@ -1107,7 +1112,7 @@ const startAmbientEvent = (seconds) => {
     findRockRim(visitorEdge, visitorRock, 0.32, visitorRim);
     visitorSeal.visible = true;
     visitorSeal.position.copy(visitorStart);
-    visitorSeal.rotation.set(0, 0, 0);
+    visitorSeal.rotation.set(0, visitorHeading, 0);
     setSpeech("HEY! THIS IS MY ROCK!");
     playSealSound("bark");
   }
