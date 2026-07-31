@@ -1,5 +1,6 @@
 import * as THREE from './assets/vendor/three.module.min.js'
 import { GLTFLoader } from './assets/vendor/GLTFLoader.js'
+import { FBXLoader } from './assets/vendor/FBXLoader.js'
 
 const canvas = document.querySelector('#game')
 const briefing = document.querySelector('#briefing')
@@ -120,6 +121,7 @@ for (let z = -34; z <= 34; z += 5) addBox(0, .025, z, .16, .05, 2.7, new THREE.M
 for (let x = -35; x <= 35; x += 5) addBox(x, .026, 0, 2.7, .052, .13, new THREE.MeshBasicMaterial({ color: 0xd4cfc0 }), false)
 
 const loader = new GLTFLoader()
+const fbxLoader = new FBXLoader()
 const assetModels = {}
 const assetAnimations = {}
 let assetsReady = false
@@ -163,8 +165,6 @@ const modelPaths = {
 }
 
 for (const letter of 'abcdefghijklmnopqrst') modelPaths[`city${letter.toUpperCase()}`] = `./assets/city/building-${letter}.glb`
-for (const letter of 'abcde') modelPaths[`enemy${letter.toUpperCase()}`] = `./assets/characters/character-${letter}.glb`
-
 function styleAsset(model, color, roughness, metalness) {
   model.traverse(node => {
     if (!node.isMesh) return
@@ -274,6 +274,30 @@ async function loadAssets() {
       assetModels[key] = data.scene
       assetAnimations[key] = data.animations
     }))
+    const enemySkins = ['criminalMaleA', 'cyborgFemaleA', 'survivorMaleB', 'skaterFemaleA', 'survivorFemaleA']
+    const [idleData, runData, ...textures] = await Promise.all([
+      fbxLoader.loadAsync('./assets/survivors/idle.fbx'),
+      fbxLoader.loadAsync('./assets/survivors/run.fbx'),
+      ...enemySkins.map(name => textureLoader.loadAsync(`./assets/survivors/${name}.png`))
+    ])
+    for (let index = 0; index < enemySkins.length; index += 1) {
+      const key = `enemy${'ABCDE'[index]}`
+      const model = await fbxLoader.loadAsync('./assets/survivors/characterMedium.fbx')
+      textures[index].colorSpace = THREE.SRGBColorSpace
+      model.traverse(node => {
+        if (!node.isMesh) return
+        node.material = node.material.clone()
+        node.material.map = textures[index]
+        node.material.color.set(0xffffff)
+        node.material.needsUpdate = true
+      })
+      const idle = idleData.animations[0].clone()
+      const run = runData.animations[0].clone()
+      idle.name = 'holding-both'
+      run.name = 'walk'
+      assetModels[key] = model
+      assetAnimations[key] = [idle, run]
+    }
     buildCity()
     bots.forEach((bot, index) => bot.setModel(`enemy${'ABCDE'[index]}`))
     pickups.forEach(item => addPickupModel(item))
@@ -290,15 +314,15 @@ async function loadAssets() {
 loadAssets()
 
 const weaponDefinitions = {
-  pistol: { label: 'VX-9 SIDEARM', pickup: 'VX-9 SIDEARM', mag: 12, reserve: 60, damage: 34, rate: .22, reload: 1.15, spread: .004, pellets: 1, scale: .5 },
-  rifle: { label: 'AR-4 CARBINE', pickup: 'AR-4 CARBINE', mag: 30, reserve: 120, damage: 22, rate: .095, reload: 1.65, spread: .009, pellets: 1, scale: .43 },
-  shotgun: { label: 'M12 BREACHER', pickup: 'M12 BREACHER', mag: 6, reserve: 30, damage: 17, rate: .7, reload: 1.8, spread: .044, pellets: 7, scale: .42 }
+  pistol: { label: 'VX-9 SIDEARM', pickup: 'VX-9 SIDEARM', mag: 12, reserve: 96, damage: 34, rate: .22, reload: 1.15, spread: .004, pellets: 1, scale: .5 },
+  rifle: { label: 'AR-4 CARBINE', pickup: 'AR-4 CARBINE', mag: 30, reserve: 180, damage: 22, rate: .095, reload: 1.65, spread: .009, pellets: 1, scale: .43 },
+  shotgun: { label: 'M12 BREACHER', pickup: 'M12 BREACHER', mag: 6, reserve: 48, damage: 17, rate: .7, reload: 1.8, spread: .044, pellets: 7, scale: .42 }
 }
 
 const inventory = {
-  pistol: { owned: true, ammo: 12, reserve: 60 },
-  rifle: { owned: false, ammo: 30, reserve: 120 },
-  shotgun: { owned: false, ammo: 6, reserve: 30 }
+  pistol: { owned: true, ammo: 12, reserve: 96 },
+  rifle: { owned: false, ammo: 30, reserve: 180 },
+  shotgun: { owned: false, ammo: 6, reserve: 48 }
 }
 
 const weaponRig = new THREE.Group()
@@ -418,34 +442,21 @@ class Bot {
       if (botHitMeshes[index].userData.bot === this) botHitMeshes.splice(index, 1)
     }
     this.group.clear()
-    this.visual = assetModels[key].clone(true)
-    const tacticalColors = [0x4d5a4f, 0x4b504d, 0x5b5448, 0x3f4c50, 0x555a4d]
-    styleAsset(this.visual, tacticalColors[this.index], .86, .04)
-    this.visual.scale.setScalar(.68)
+    this.visual = assetModels[key]
+    this.visual.scale.setScalar(.005)
     this.visual.rotation.y = Math.PI
     prepareAsset(this.visual, true)
-    const armorMaterial = new THREE.MeshStandardMaterial({ color: this.index % 2 ? 0x343c37 : 0x3f493e, roughness: .88, metalness: .08 })
-    const helmetMaterial = new THREE.MeshStandardMaterial({ color: 0x252d29, roughness: .72, metalness: .18 })
-    const armor = new THREE.Mesh(new THREE.BoxGeometry(.92, .72, .22), armorMaterial)
-    armor.position.set(0, 1.55, -.43)
-    armor.rotation.x = -.04
-    const helmet = new THREE.Mesh(new THREE.SphereGeometry(.47, 12, 8, 0, Math.PI * 2, 0, Math.PI * .62), helmetMaterial)
-    helmet.position.set(0, 2.38, 0)
-    const visor = new THREE.Mesh(new THREE.BoxGeometry(.55, .13, .08), glassMaterial)
-    visor.position.set(0, 2.35, -.405)
-    this.visual.add(armor, helmet, visor)
     const gun = assetModels.rifle.clone(true)
     styleAsset(gun, 0x5b615d, .56, .34)
-    gun.scale.setScalar(.7)
+    gun.scale.setScalar(.46)
     gun.rotation.y = Math.PI
-    gun.position.set(.04, 1.34, -.3)
-    this.visual.add(gun)
+    gun.position.set(.16, 1.26, -.2)
     this.visual.traverse(node => {
       if (!node.isMesh) return
       node.userData.bot = this
       botHitMeshes.push(node)
     })
-    this.group.add(this.visual)
+    this.group.add(this.visual, gun)
     this.mixer = new THREE.AnimationMixer(this.visual)
     this.actions = {}
     assetAnimations[key].forEach(clip => { this.actions[clip.name] = this.mixer.clipAction(clip) })
@@ -473,12 +484,14 @@ class Bot {
     this.cooldown = .7 + Math.random() * 1.2
     if (this.mixer) this.mixer.stopAllAction()
     this.actionName = ''
+    this.group.rotation.z = 0
     this.play('holding-both')
   }
 
   update(dt, elapsed) {
     if (this.mixer) this.mixer.update(dt)
     if (!this.alive) {
+      this.group.rotation.z = Math.min(Math.PI / 2, (elapsed - this.diedAt) * 2.8)
       if (elapsed >= this.hideAt) this.group.visible = false
       if (running && elapsed >= this.respawnAt && kills < targetKills) this.place(Math.floor(elapsed) + 1)
       return
@@ -537,13 +550,18 @@ class Bot {
     makeImpact(point)
     if (this.health <= 0) {
       this.alive = false
+      this.diedAt = matchElapsed
       this.hideAt = matchElapsed + 1.35
       this.respawnAt = matchElapsed + 4.2
       this.play('die', true)
       kills += 1
+      const definition = weaponDefinitions[currentWeaponKey]
+      const state = inventory[currentWeaponKey]
+      state.reserve = Math.min(definition.reserve, state.reserve + Math.ceil(definition.mag / 2))
       killValue.textContent = kills
       addFeed('YOU', `HOSTILE ${String(this.index + 1).padStart(2, '0')}`)
       deathSound()
+      updateHud()
       if (kills >= targetKills) endMatch(true)
     }
   }
@@ -551,7 +569,7 @@ class Bot {
 
 for (let i = 0; i < 5; i += 1) bots.push(new Bot(i))
 
-const player = { x: 0, z: 29, yaw: 0, pitch: 0, health: 100, radius: .42 }
+const player = { x: 0, z: 26, yaw: 0, pitch: 0, health: 100, radius: .42 }
 const keys = new Set()
 const targetKills = 12
 let running = false
@@ -562,6 +580,8 @@ let shots = 0
 let hitShots = 0
 let nextShot = 0
 let fireHeld = false
+let dragAim = false
+let pointerLockWasActive = false
 let reloadLeft = 0
 let currentPickup = null
 let audioContext = null
@@ -646,8 +666,9 @@ function shoot() {
   const definition = weaponDefinitions[currentWeaponKey]
   const state = inventory[currentWeaponKey]
   if (state.ammo <= 0) {
-    drySound()
-    nextShot = matchElapsed + .22
+    if (state.reserve > 0) reload()
+    else drySound()
+    nextShot = matchElapsed + .25
     return
   }
   state.ammo -= 1
@@ -689,6 +710,7 @@ function shoot() {
     hitSound()
   }
   updateHud()
+  if (state.ammo === 0 && state.reserve > 0) reload()
 }
 
 function reload() {
@@ -828,7 +850,11 @@ function begin() {
   result.classList.remove('visible')
   hud.classList.add('active')
   mobileControls.classList.toggle('active', coarsePointer)
-  if (!coarsePointer) canvas.requestPointerLock()
+  canvas.focus({ preventScroll: true })
+  if (!coarsePointer && canvas.requestPointerLock) {
+    const request = canvas.requestPointerLock()
+    if (request?.catch) request.catch(() => {})
+  }
 }
 
 function resetMatch() {
@@ -837,7 +863,7 @@ function resetMatch() {
   shots = 0
   hitShots = 0
   player.x = 0
-  player.z = 29
+  player.z = 26
   player.yaw = 0
   player.pitch = 0
   player.health = 100
@@ -964,7 +990,8 @@ function loop(now) {
 deploy.addEventListener('click', begin)
 redeploy.addEventListener('click', begin)
 
-document.addEventListener('keydown', event => {
+window.addEventListener('keydown', event => {
+  if (['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ShiftLeft', 'ShiftRight', 'KeyR', 'KeyE', 'Digit1', 'Digit2', 'Digit3'].includes(event.code)) event.preventDefault()
   keys.add(event.code)
   if (event.code === 'KeyR') reload()
   if (event.code === 'KeyE') usePickup()
@@ -973,10 +1000,10 @@ document.addEventListener('keydown', event => {
   if (event.code === 'Digit3') switchWeapon('shotgun')
 })
 
-document.addEventListener('keyup', event => keys.delete(event.code))
+window.addEventListener('keyup', event => keys.delete(event.code))
 
 document.addEventListener('mousemove', event => {
-  if (!running || document.pointerLockElement !== canvas) return
+  if (!running || document.pointerLockElement !== canvas && !dragAim) return
   player.yaw -= event.movementX * .0019
   player.pitch -= event.movementY * .0019
   player.pitch = Math.max(-1.35, Math.min(1.35, player.pitch))
@@ -985,8 +1012,11 @@ document.addEventListener('mousemove', event => {
 canvas.addEventListener('mousedown', event => {
   if (!running) return
   if (document.pointerLockElement !== canvas && !coarsePointer) {
-    canvas.requestPointerLock()
-    return
+    dragAim = true
+    if (canvas.requestPointerLock) {
+      const request = canvas.requestPointerLock()
+      if (request?.catch) request.catch(() => {})
+    }
   }
   if (event.button === 0) {
     fireHeld = true
@@ -995,16 +1025,30 @@ canvas.addEventListener('mousedown', event => {
 })
 
 document.addEventListener('mouseup', event => {
-  if (event.button === 0) fireHeld = false
+  if (event.button === 0) {
+    fireHeld = false
+    dragAim = false
+  }
 })
 
 document.addEventListener('pointerlockchange', () => {
-  if (started && running && !coarsePointer && document.pointerLockElement !== canvas) {
+  if (document.pointerLockElement === canvas) {
+    pointerLockWasActive = true
+    return
+  }
+  if (pointerLockWasActive && started && running && !coarsePointer) {
+    pointerLockWasActive = false
     running = false
     deploy.textContent = 'RESUME'
     briefing.classList.add('visible')
     hud.classList.remove('active')
   }
+})
+
+window.addEventListener('blur', () => {
+  keys.clear()
+  fireHeld = false
+  dragAim = false
 })
 
 let mobileMove = { x: 0, y: 0 }

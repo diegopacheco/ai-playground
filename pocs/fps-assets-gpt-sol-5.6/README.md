@@ -29,7 +29,7 @@ Desktop:
 - `Shift`: sprint
 - Mouse: aim
 - Left mouse button: fire
-- `R`: reload
+- `R`: reload immediately; empty magazines reload automatically
 - `E`: collect a nearby weapon
 - `1`, `2`, `3`: switch owned weapons
 - `Esc`: release the pointer and pause
@@ -42,7 +42,7 @@ iPhone and iPad Safari:
 - Round right button: fire
 - `RUN`: sprint
 - `USE`: collect a nearby weapon
-- `R`: reload
+- `R`: reload immediately; empty magazines reload automatically
 
 Open the game using the Mac's local network address to play from an iPhone or iPad on the same Wi-Fi network. The terminal prints the desktop URL; replace `localhost` with the Mac's IP address.
 
@@ -56,6 +56,7 @@ Open the game using the Mac's local network address to play from an iPhone or iP
 - First-person arms hold every equipped weapon and move with recoil and locomotion
 - The VX-9 sidearm is available at deployment
 - The AR-4 carbine and M12 breacher are placed in the arena
+- Eliminated hostiles recover ammunition for the equipped weapon
 
 ## Performance
 
@@ -68,7 +69,8 @@ The renderer targets 60 FPS. Mobile devices use a capped pixel ratio, reduced sh
 - [Kenney City Kit Roads](https://kenney.nl/assets/city-kit-roads): roads and street props, CC0
 - [Kenney Factory Kit](https://kenney.nl/assets/factory-kit): machinery and industrial props, CC0
 - [Kenney Modular Buildings](https://kenney.nl/assets/modular-buildings): city towers and houses, CC0
-- [Kenney Blocky Characters](https://kenney.nl/assets/blocky-characters): animated enemy models, CC0
+- [Kenney Animated Characters Survivors](https://kenney.nl/assets/animated-characters-survivors): animated enemy models and skins, CC0
+- [Kenney Animated Characters Protagonists](https://kenney.nl/assets/animated-characters-protagonists): enemy skins, CC0
 - [Poly Haven Concrete](https://polyhaven.com/a/concrete): wall texture, CC0
 - [Poly Haven Concrete Pavement](https://polyhaven.com/a/concrete_pavement): ground texture, CC0
 - [Poly Haven Asphalt 03](https://polyhaven.com/a/asphalt_03): street texture, CC0
@@ -76,7 +78,7 @@ The renderer targets 60 FPS. Mobile devices use a capped pixel ratio, reduced sh
 - [Poly Haven Corrugated Iron](https://polyhaven.com/a/corrugated_iron): industrial structure texture, CC0
 - [Three.js](https://threejs.org/): WebGL rendering, MIT
 
-The Kenney license text is stored at `assets/models/License.txt`. Poly Haven assets are published under CC0.
+Kenney license texts are stored with their asset folders. Poly Haven assets are published under CC0.
 
 ## Check
 
