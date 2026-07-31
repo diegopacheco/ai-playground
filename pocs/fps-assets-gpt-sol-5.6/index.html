@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#10120f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Dustline</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23e8a848' d='M14 2h4v10h10v4H18v14h-4V16H4v-4h10z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="game-shell">
+    <canvas id="game" aria-label="Dustline first-person arena"></canvas>
+    <div id="grain"></div>
+    <section id="briefing" class="screen visible">
+      <div class="brief-card">
+        <div class="eyebrow"><span></span> Operation 04</div>
+        <h1>DUST<span>LINE</span></h1>
+        <p class="mission">Clear the abandoned relay yard. Hostiles are armed and moving.</p>
+        <div class="intel">
+          <div><b>05:00</b><small>TIME LIMIT</small></div>
+          <div><b>12</b><small>TARGET SCORE</small></div>
+          <div><b>05</b><small>HOSTILES</small></div>
+        </div>
+        <button id="deploy">DEPLOY</button>
+        <div class="controls-copy">
+          <p><kbd>WASD</kbd> Move <kbd>SHIFT</kbd> Sprint <kbd>CLICK</kbd> Fire</p>
+          <p><kbd>R</kbd> Reload <kbd>E</kbd> Pick up <kbd>1–3</kbd> Switch</p>
+        </div>
+        <p class="mobile-note">Mobile controls appear after deployment. Best played in landscape.</p>
+      </div>
+      <div class="asset-credit">CC0 field assets by Kenney + Poly Haven</div>
+    </section>
+    <section id="result" class="screen">
+      <div class="result-card">
+        <div id="result-kicker" class="eyebrow"><span></span> Mission report</div>
+        <h2 id="result-title">SECTOR CLEAR</h2>
+        <div class="result-stats">
+          <div><b id="result-kills">0</b><small>ELIMINATIONS</small></div>
+          <div><b id="result-accuracy">0%</b><small>ACCURACY</small></div>
+          <div><b id="result-time">00:00</b><small>FIELD TIME</small></div>
+        </div>
+        <button id="redeploy">REDEPLOY</button>
+      </div>
+    </section>
+    <div id="hud">
+      <div class="topbar">
+        <div class="location"><span>RELAY YARD</span><small>SECTOR 7 / CLEAR</small></div>
+        <div class="timer" id="timer">05:00</div>
+        <div class="score"><span id="kills">0</span><i>/</i><span>12</span></div>
+      </div>
+      <div id="hit-marker"><i></i><i></i><i></i><i></i></div>
+      <div id="crosshair"><i></i><i></i><i></i><i></i><b></b></div>
+      <div id="pickup-prompt"><kbd>E</kbd><span>PICK UP <b id="pickup-name">RIFLE</b></span></div>
+      <div class="bottom-left">
+        <div class="status-label"><span>VITALS</span><b id="health-value">100</b></div>
+        <div class="health-track"><i id="health-bar"></i></div>
+        <div class="stance"><span id="stance">WALK</span><span id="fps">60 FPS</span></div>
+      </div>
+      <div class="bottom-right">
+        <div class="weapon-name"><small>PRIMARY</small><span id="weapon-name">VX-9 SIDEARM</span></div>
+        <div class="ammo"><b id="ammo">12</b><i>/</i><span id="reserve">60</span></div>
+      </div>
+      <div id="damage-flash"></div>
+      <div id="kill-feed"></div>
+    </div>
+    <div id="mobile-controls">
+      <div id="move-zone"><div id="move-stick"><i></i></div></div>
+      <div id="look-zone"></div>
+      <button id="mobile-sprint">RUN</button>
+      <button id="mobile-use">USE</button>
+      <button id="mobile-reload">R</button>
+      <button id="mobile-fire"><span></span></button>
+    </div>
+    <div id="rotate-device">ROTATE DEVICE TO LANDSCAPE</div>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
