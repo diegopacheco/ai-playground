@@ -668,14 +668,14 @@ const guestTargets = [
   new THREE.Vector3(1.1, 0.25, 1.75)
 ];
 const guestChonkerTargets = [
-  new THREE.Vector3(-3.55, 0.38, 1.15),
-  new THREE.Vector3(3.55, 0.35, 0.85),
+  new THREE.Vector3(-3.35, 0.38, 1),
+  new THREE.Vector3(3.35, 0.35, 1),
   new THREE.Vector3(1.55, 0.08, 2.25)
 ];
 const guestEdges = [
-  new THREE.Vector3(-3.55, -0.48, 0.66),
-  new THREE.Vector3(3.5, -0.48, 0.28),
-  new THREE.Vector3(0, -0.48, 2.25)
+  new THREE.Vector3(-4.45, -0.72, 0.66),
+  new THREE.Vector3(4.45, -0.72, 0.28),
+  new THREE.Vector3(0, -0.72, 3.15)
 ];
 const guestHeadings = [-0.08, Math.PI, Math.PI / 2];
 const guestVelocities = [
@@ -689,15 +689,43 @@ const rockSurfaceProbe = new THREE.Vector3();
 const rockSurfaceHit = new THREE.Vector3();
 const rockSurfaceDown = new THREE.Vector3(0, -1, 0);
 
-const getRockSurfaceHeight = (x, z, fallback) => {
+const rockSurfaceHeight = (x, z) => {
   rockSurfaceProbe.set(x, 4, z);
   world.localToWorld(rockSurfaceProbe);
   rockSurfaceRay.set(rockSurfaceProbe, rockSurfaceDown);
   const intersection = rockSurfaceRay.intersectObjects([rockTop, rock], false)[0];
-  if (!intersection) return fallback;
+  if (!intersection) return null;
   rockSurfaceHit.copy(intersection.point);
   world.worldToLocal(rockSurfaceHit);
   return rockSurfaceHit.y;
+};
+
+const groundOnRock = (target, offset) => {
+  let x = target.x;
+  let z = target.z;
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const height = rockSurfaceHeight(x, z);
+    if (height !== null) {
+      target.set(x, height + offset, z);
+      return;
+    }
+    x *= 0.92;
+    z *= 0.92;
+  }
+  target.set(0, offset, 0);
+};
+
+const findRockRim = (edge, target, offset, rim) => {
+  for (let step = 1; step <= 30; step += 1) {
+    const progress = step / 30;
+    rim.lerpVectors(edge, target, progress);
+    const height = rockSurfaceHeight(rim.x, rim.z);
+    if (height !== null) {
+      rim.y = height + offset;
+      return;
+    }
+  }
+  rim.copy(target);
 };
 
 for (let index = 0; index < 3; index += 1) {
@@ -712,6 +740,7 @@ for (let index = 0; index < 3; index += 1) {
     delay: index * 0.22,
     target: guestTargets[index].clone(),
     desiredTarget: guestTargets[index].clone(),
+    rim: guestEdges[index].clone(),
     edge: guestEdges[index],
     start: guestStarts[index],
     heading: guestHeadings[index],
@@ -730,8 +759,9 @@ visitorSeal.scale.setScalar(0.96);
 world.add(visitorSeal);
 
 const visitorStart = new THREE.Vector3(5.4, -0.72, 1.2);
-const visitorEdge = new THREE.Vector3(3.65, -0.48, 0.78);
+const visitorEdge = new THREE.Vector3(4.45, -0.72, 0.78);
 const visitorRock = new THREE.Vector3(2.65, 0.22, 0.78);
+const visitorRim = visitorEdge.clone();
 const visitorExitVelocity = new THREE.Vector3(3.2, 2.6, 0.5);
 
 const poopGroup = new THREE.Group();
@@ -941,10 +971,16 @@ const inviteGuests = (seconds) => {
   swimmers.forEach((swimmer) => {
     swimmer.visible = false;
   });
+  world.updateMatrixWorld(true);
   guestAnimals.forEach((guest, index) => {
     const clearance = Math.max(0, Math.min(1, (state.feeds - 3) / 5));
+    const guestScale = guest.userData.baseScale +
+      (guest.userData.chonkerScale - guest.userData.baseScale) * clearance;
     guest.userData.target.lerpVectors(guestTargets[index], guestChonkerTargets[index], clearance);
+    groundOnRock(guest.userData.target, guestScale * 0.36);
+    findRockRim(guest.userData.edge, guest.userData.target, guestScale * 0.36, guest.userData.rim);
     guest.userData.desiredTarget.copy(guest.userData.target);
+    guest.scale.setScalar(guestScale);
     guest.visible = true;
     guest.position.copy(guest.userData.start);
     guest.rotation.set(0, guest.userData.heading, 0);
@@ -984,11 +1020,7 @@ const updateGuests = (seconds) => {
     const clearance = Math.max(0, Math.min(1, (state.feeds - 3) / 5));
     const guestScale = data.baseScale + (data.chonkerScale - data.baseScale) * clearance;
     data.desiredTarget.lerpVectors(guestTargets[index], guestChonkerTargets[index], clearance);
-    data.desiredTarget.y = getRockSurfaceHeight(
-      data.desiredTarget.x,
-      data.desiredTarget.z,
-      data.desiredTarget.y
-    ) + guestScale * 0.42;
+    groundOnRock(data.desiredTarget, guestScale * 0.36);
     data.target.lerp(data.desiredTarget, data.phase === "settled" ? 0.08 : 0.2);
     guest.scale.setScalar(guestScale);
     if (data.phase === "entering") {
@@ -999,19 +1031,27 @@ const updateGuests = (seconds) => {
         return;
       }
       const progress = Math.min(elapsed / 2.1, 1);
-      if (progress < 0.68) {
-        const swimProgress = progress / 0.68;
+      if (progress < 0.58) {
+        const swimProgress = progress / 0.58;
         const swimEase = swimProgress * swimProgress * (3 - 2 * swimProgress);
         guest.position.lerpVectors(data.start, data.edge, swimEase);
         guest.position.y += Math.sin(seconds * 5 + index) * 0.035;
         guest.rotation.z = Math.sin(swimProgress * Math.PI * 2) * 0.025;
-      } else {
-        const climbProgress = (progress - 0.68) / 0.32;
+      } else if (progress < 0.8) {
+        const climbProgress = (progress - 0.58) / 0.22;
         const climbEase = climbProgress * climbProgress * (3 - 2 * climbProgress);
-        guest.position.lerpVectors(data.edge, data.target, climbEase);
-        guest.position.y += Math.sin(climbProgress * Math.PI) * 0.14;
-        const direction = Math.sign(data.target.x - data.edge.x || 1);
+        guest.position.lerpVectors(data.edge, data.rim, climbEase);
+        guest.position.y += Math.sin(climbProgress * Math.PI) * 0.1;
+        const direction = Math.sign(data.rim.x - data.edge.x || 1);
         guest.rotation.z = Math.sin(climbProgress * Math.PI) * direction * 0.18;
+      } else {
+        const crawlProgress = (progress - 0.8) / 0.2;
+        const crawlEase = crawlProgress * crawlProgress * (3 - 2 * crawlProgress);
+        guest.position.lerpVectors(data.rim, data.target, crawlEase);
+        const surface = rockSurfaceHeight(guest.position.x, guest.position.z);
+        if (surface !== null) guest.position.y = surface + guestScale * 0.36;
+        guest.position.y += Math.sin(crawlProgress * Math.PI) * 0.045;
+        guest.rotation.z *= 0.8;
       }
       if (progress === 1) {
         data.phase = "settled";
@@ -1059,6 +1099,12 @@ const startAmbientEvent = (seconds) => {
   state.ambientIndex += 1;
   state.ambientStarted = seconds;
   if (state.ambientEvent === "climb") {
+    swimmers.forEach((swimmer) => {
+      swimmer.visible = false;
+    });
+    world.updateMatrixWorld(true);
+    groundOnRock(visitorRock, 0.32);
+    findRockRim(visitorEdge, visitorRock, 0.32, visitorRim);
     visitorSeal.visible = true;
     visitorSeal.position.copy(visitorStart);
     visitorSeal.rotation.set(0, 0, 0);
@@ -1081,6 +1127,11 @@ const finishAmbientEvent = (seconds) => {
   visitorSeal.visible = false;
   poopGroup.visible = false;
   burpCloud.visible = false;
+  if (!state.sharing && guestAnimals.every((guest) => guest.userData.phase === "away")) {
+    swimmers.forEach((swimmer) => {
+      swimmer.visible = true;
+    });
+  }
   state.ambientEvent = null;
   state.nextAmbientAt = seconds + 20 + Math.random() * 20;
   setSpeech("BORK! THE TIDE IS NICE.");
@@ -1485,21 +1536,35 @@ const animate = (time) => {
     let ambientDuration = 4;
 
     if (state.ambientEvent === "climb") {
-      ambientDuration = 4.2;
-      if (ambientElapsed < 2.2) {
-        const climbProgress = Math.min(ambientElapsed / 2.2, 1);
+      ambientDuration = 4.4;
+      if (ambientElapsed < 1.6) {
+        const swimProgress = Math.min(ambientElapsed / 1.6, 1);
+        const swimEase = swimProgress * swimProgress * (3 - 2 * swimProgress);
+        visitorSeal.position.lerpVectors(visitorStart, visitorEdge, swimEase);
+        visitorSeal.position.y += Math.sin(seconds * 5) * 0.035;
+        visitorSeal.rotation.z = Math.sin(swimProgress * Math.PI * 2) * 0.025;
+      } else if (ambientElapsed < 2.35) {
+        const climbProgress = Math.min((ambientElapsed - 1.6) / 0.75, 1);
         const climbEase = climbProgress * climbProgress * (3 - 2 * climbProgress);
-        visitorSeal.position.lerpVectors(visitorStart, visitorRock, climbEase);
-        visitorSeal.rotation.z = Math.sin(climbProgress * Math.PI) * 0.12;
+        visitorSeal.position.lerpVectors(visitorEdge, visitorRim, climbEase);
+        visitorSeal.position.y += Math.sin(climbProgress * Math.PI) * 0.1;
+        visitorSeal.rotation.z = Math.sin(climbProgress * Math.PI) * 0.16;
+      } else if (ambientElapsed < 3) {
+        const crawlProgress = Math.min((ambientElapsed - 2.35) / 0.65, 1);
+        const crawlEase = crawlProgress * crawlProgress * (3 - 2 * crawlProgress);
+        visitorSeal.position.lerpVectors(visitorRim, visitorRock, crawlEase);
+        const surface = rockSurfaceHeight(visitorSeal.position.x, visitorSeal.position.z);
+        if (surface !== null) visitorSeal.position.y = surface + 0.32;
+        visitorSeal.position.y += Math.sin(crawlProgress * Math.PI) * 0.04;
+        visitorSeal.rotation.z *= 0.8;
       } else {
-        const kickProgress = Math.min((ambientElapsed - 2.2) / 2, 1);
-        visitorSeal.position.set(
-          visitorRock.x + kickProgress * 4.8,
-          visitorRock.y + Math.sin(kickProgress * Math.PI) * 1.1 - kickProgress * 1.25,
-          visitorRock.z + kickProgress * 0.7
-        );
-        visitorSeal.rotation.z = -kickProgress * 2.8;
+        const exitElapsed = ambientElapsed - 3;
+        visitorSeal.position.copy(visitorRock).addScaledVector(visitorExitVelocity, exitElapsed);
+        visitorSeal.position.y -= 4.9 * exitElapsed * exitElapsed;
+        visitorSeal.rotation.z = -exitElapsed * 3.2;
+        const kickProgress = Math.min(exitElapsed / 0.6, 1);
         frontFlipper.rotation.z = 1.02 + Math.sin(kickProgress * Math.PI) * 1.65;
+        if (exitElapsed > 0.3 && visitorSeal.position.y < -0.72) visitorSeal.visible = false;
       }
     }
 
