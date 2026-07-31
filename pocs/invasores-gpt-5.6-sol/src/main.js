@@ -58,6 +58,10 @@ const geometryCache = {
   wheel: new THREE.CylinderGeometry(0.5, 0.5, 0.3, 8)
 };
 
+const roadX = [-145, -80, -15, 50, 115, 180];
+const roadZ = [18, 68, 118, 168, 218];
+const buildingBounds = [];
+
 function primitive(type, color, position, scale, parent = world, outline = false) {
   const mesh = new THREE.Mesh(geometryCache[type], mat(color));
   mesh.position.set(...position);
@@ -153,71 +157,103 @@ function createLand() {
   north.receiveShadow = true;
   world.add(north);
 
-  for (let i = 0; i < 9; i += 1) {
-    const x = -152 + i * 41;
-    box(i % 2 ? 0xd2c49c : 0xdecfab, [x, 4.7, 105], [36, 2.4 + seeded(i) * 4, 90], world);
-  }
 }
 
 function createRoads() {
   const roads = [
-    [22, 7.1, 86, 6, 260],
-    [82, 7.12, 84, 8, 230],
-    [-45, 7.14, 110, 7, 220],
-    [-110, 7.16, 105, 6, 210],
-    [20, 7.18, 25, 360, 7],
-    [20, 7.2, 76, 360, 7],
-    [18, 7.22, 132, 350, 8],
-    [20, 7.24, 184, 350, 7]
+    ...roadX.map(x => [x, 7.05, 112, 9, 240]),
+    ...roadZ.map(z => [20, 7.07, z, 400, 9])
   ];
   roads.forEach(([x, y, z, sx, sz]) => {
     box(colors.road, [x, y, z], [sx, 0.18, sz], world);
     if (sx > sz) {
-      for (let k = -150; k < 170; k += 18) box(colors.yellow, [k, y + 0.12, z], [7, 0.04, 0.35], world);
+      for (let k = -170; k < 210; k += 20) box(colors.yellow, [k, y + 0.12, z], [7, 0.04, 0.32], world);
     } else {
-      for (let k = 0; k < 210; k += 18) box(colors.yellow, [x, y + 0.12, k], [0.35, 0.04, 7], world);
+      for (let k = 0; k < 235; k += 20) box(colors.yellow, [x, y + 0.12, k], [0.32, 0.04, 7], world);
     }
+  });
+  roadX.forEach(x => {
+    roadZ.forEach(z => {
+      for (let stripe = -3; stripe <= 3; stripe += 1) {
+        box(colors.paper, [x + stripe * 1.1, 7.22, z - 6.2], [0.58, 0.04, 2.5], world);
+        box(colors.paper, [x + stripe * 1.1, 7.22, z + 6.2], [0.58, 0.04, 2.5], world);
+      }
+    });
   });
 }
 
 function createBuilding(x, z, width, depth, height, color, roof = "flat") {
   const group = new THREE.Group();
-  group.position.set(x, 7.5, z);
+  group.position.set(x, 7.65, z);
   box(color, [0, height / 2, 0], [width, height, depth], group, true);
   if (roof === "peak") {
-    const top = cone(colors.red, [0, height + 2.3, 0], [width * 0.74, 4.6, depth * 0.74], group, true);
+    const top = cone(colors.red, [0, height + 2, 0], [width * 0.66, 4, depth * 0.66], group, true);
     top.rotation.y = Math.PI / 4;
   } else {
-    box(colors.ink, [0, height + 0.35, 0], [width * 0.82, 0.7, depth * 0.82], group);
+    box(colors.ink, [0, height + 0.3, 0], [width * 0.86, 0.6, depth * 0.86], group);
   }
   const windowColor = seeded(x + z) > 0.5 ? colors.yellow : colors.blue;
   const rows = Math.max(1, Math.floor(height / 7));
-  const columns = Math.max(1, Math.floor(width / 5));
+  const columns = Math.max(1, Math.floor(width / 6));
   for (let row = 0; row < rows; row += 1) {
     for (let column = 0; column < columns; column += 1) {
       const wx = -width * 0.35 + column * (width * 0.7 / Math.max(1, columns - 1));
       box(windowColor, [wx, 4.5 + row * 6.2, -depth / 2 - 0.06], [1.6, 2.4, 0.16], group);
     }
   }
+  box(0x4d4033, [0, 1.9, -depth / 2 - 0.12], [2.1, 3.8, 0.24], group);
+  if (seeded(x * 0.4 + z) > 0.48) {
+    const awning = box(colors.orange, [0, 6.5, -depth / 2 - 0.65], [width * 0.65, 0.45, 1.5], group, true);
+    awning.rotation.x = -0.18;
+  }
   world.add(group);
+  buildingBounds.push({
+    minX: x - width / 2 - 1.2,
+    maxX: x + width / 2 + 1.2,
+    minZ: z - depth / 2 - 1.2,
+    maxZ: z + depth / 2 + 1.2,
+    height: 7.65 + height
+  });
   return group;
 }
 
 function createCity() {
   const palette = [0xd9b59d, 0xc6b18c, 0xe2c9a3, 0xb9b58e, 0xcc8c79, 0xaec0a4];
-  let index = 0;
-  for (let z = 45; z < 208; z += 26) {
-    for (let x = -145; x < 188; x += 25) {
+  const xStops = [-178, ...roadX, 218];
+  const zStops = [-8, ...roadZ, 236];
+  let index = 1;
+  for (let zi = 0; zi < zStops.length - 1; zi += 1) {
+    for (let xi = 0; xi < xStops.length - 1; xi += 1) {
+      const lowX = xStops[xi] + (xi === 0 ? 1 : 6);
+      const highX = xStops[xi + 1] - (xi === xStops.length - 2 ? 1 : 6);
+      const lowZ = zStops[zi] + (zi === 0 ? 1 : 6);
+      const highZ = zStops[zi + 1] - (zi === zStops.length - 2 ? 1 : 6);
+      const centerX = (lowX + highX) / 2;
+      const centerZ = (lowZ + highZ) / 2;
+      const blockWidth = highX - lowX;
+      const blockDepth = highZ - lowZ;
+      const landmarkSpace =
+        centerX > 35 && centerX < 100 && centerZ > 40 && centerZ < 112 ||
+        centerX > 100 && centerZ < 112 ||
+        centerX < 5 && centerZ > 125 ||
+        centerX < -105 && centerZ < 38;
+      box(index % 2 ? 0xd6c99f : 0xc9c294, [centerX, 7.23, centerZ], [blockWidth, 0.36, blockDepth], world, true);
+      if (landmarkSpace || seeded(index) < 0.14) {
+        index += 1;
+        continue;
+      }
+      const buildingCount = blockWidth > 46 ? 2 : 1;
+      for (let buildingIndex = 0; buildingIndex < buildingCount; buildingIndex += 1) {
+        const sectionWidth = blockWidth / buildingCount;
+        const width = Math.min(22, sectionWidth - 5);
+        const depth = Math.min(27, blockDepth - 7);
+        const x = lowX + sectionWidth * (buildingIndex + 0.5);
+        const z = centerZ + (seeded(index + buildingIndex) - 0.5) * 3;
+        const financial = centerX > 80 && centerZ < 145;
+        const height = financial ? 24 + seeded(index + 3) * 24 : 12 + seeded(index + 3) * 14;
+        createBuilding(x, z, width, depth, height, palette[(index + buildingIndex) % palette.length], seeded(index + 4) > 0.82 ? "peak" : "flat");
+      }
       index += 1;
-      const nearRoadX = [-110, -45, 22, 82].some(roadX => Math.abs(x - roadX) < 10);
-      const nearRoadZ = [25, 76, 132, 184].some(roadZ => Math.abs(z - roadZ) < 10);
-      const chinatownGap = x > 38 && x < 82 && z > 60 && z < 102;
-      if (nearRoadX || nearRoadZ || chinatownGap || seeded(index) < 0.12) continue;
-      const width = 14 + seeded(index + 1) * 7;
-      const depth = 14 + seeded(index + 2) * 7;
-      const hill = Math.max(0, (z - 50) * 0.035);
-      const height = 10 + seeded(index + 3) * 22 + hill;
-      createBuilding(x, z, width, depth, height, palette[index % palette.length], seeded(index + 4) > 0.78 ? "peak" : "flat");
     }
   }
 }
@@ -308,6 +344,94 @@ function createCoitTower() {
   world.add(tower);
 }
 
+function createFerryBuilding() {
+  const group = new THREE.Group();
+  group.position.set(148, 7.65, 4);
+  box(0xc99f76, [0, 6, 0], [52, 12, 15], group, true);
+  box(colors.cream, [0, 17, 0], [10, 22, 10], group, true);
+  box(colors.ink, [0, 29, 0], [12, 2, 12], group, true);
+  const roof = cone(colors.cream, [0, 35, 0], [11, 12, 11], group, true);
+  roof.rotation.y = Math.PI / 4;
+  const clockFace = new THREE.Mesh(new THREE.CircleGeometry(3.1, 18), mat(colors.paper));
+  clockFace.position.set(0, 21, -5.08);
+  group.add(clockFace);
+  const clockRing = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(
+    Array.from({ length: 19 }, (_, index) => {
+      const angle = index / 18 * Math.PI * 2;
+      return new THREE.Vector3(Math.cos(angle) * 3.1, Math.sin(angle) * 3.1 + 21, -5.12);
+    })
+  ), inkMaterial);
+  group.add(clockRing);
+  box(colors.ink, [0, 22, -5.18], [0.22, 2.1, 0.12], group);
+  box(colors.ink, [0.9, 21, -5.18], [1.8, 0.22, 0.12], group);
+  for (let x = -21; x <= 21; x += 7) {
+    box(colors.blue, [x, 6, -7.56], [2.2, 4, 0.18], group);
+  }
+  world.add(group);
+}
+
+function createTransamerica() {
+  const group = new THREE.Group();
+  group.position.set(146, 7.65, 88);
+  const geometry = new THREE.ConeGeometry(15, 72, 4);
+  const tower = new THREE.Mesh(geometry, mat(0xd9d0b3));
+  tower.position.y = 36;
+  tower.rotation.y = Math.PI / 4;
+  tower.castShadow = true;
+  group.add(tower);
+  const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 18), inkMaterial);
+  edges.scale.setScalar(1.003);
+  tower.add(edges);
+  box(0xd9d0b3, [-9, 35, 0], [13, 5, 5], group, true);
+  box(0xd9d0b3, [9, 35, 0], [13, 5, 5], group, true);
+  world.add(group);
+}
+
+function createPaintedLadies() {
+  const houseColors = [0xd78779, 0x7fa696, 0xd3ad61, 0x8d91ad];
+  [-128, -114, -100, -86].forEach((x, index) => {
+    const house = new THREE.Group();
+    house.position.set(x, 7.65, 143 + index * 0.7);
+    box(houseColors[index], [0, 8, 0], [11, 16, 18], house, true);
+    const roof = cone(colors.ink, [0, 19, 0], [10, 7, 13], house, true);
+    roof.rotation.y = Math.PI / 4;
+    box(colors.paper, [0, 6, -9.12], [7.5, 6.5, 0.3], house, true);
+    box(colors.ink, [0, 3.1, -9.35], [2.2, 5.8, 0.22], house);
+    [-3, 3].forEach(windowX => {
+      box(colors.blue, [windowX, 11, -9.25], [2.2, 3.1, 0.2], house);
+    });
+    cylinder(colors.paper, [-4.2, 3, -9.6], [0.4, 6, 0.4], house);
+    cylinder(colors.paper, [4.2, 3, -9.6], [0.4, 6, 0.4], house);
+    world.add(house);
+  });
+}
+
+function createAlcatraz() {
+  const island = sphere(0x8a8d63, [78, 1.1, -150], [72, 8, 48], world, true);
+  island.rotation.y = -0.2;
+  box(0xb9ad8b, [78, 8, -150], [42, 12, 19], world, true);
+  box(colors.ink, [78, 14.3, -150], [38, 0.7, 16], world);
+  const lighthouse = new THREE.Group();
+  lighthouse.position.set(52, 3.5, -145);
+  cylinder(colors.cream, [0, 9, 0], [4, 18, 4], lighthouse, true);
+  cylinder(colors.red, [0, 18.7, 0], [5.2, 2.2, 5.2], lighthouse, true);
+  cone(colors.red, [0, 22, 0], [5, 4.5, 5], lighthouse, true);
+  world.add(lighthouse);
+}
+
+function createWharfDetails() {
+  const sign = makeTextSprite("PIER 39", "#ef5b3f");
+  sign.position.set(22, 38, -57);
+  sign.scale.set(25, 6.25, 1);
+  world.add(sign);
+  const arch = new THREE.Group();
+  arch.position.set(22, 5, -15);
+  cylinder(colors.wood, [-10, 7, 0], [1.2, 14, 1.2], arch, true);
+  cylinder(colors.wood, [10, 7, 0], [1.2, 14, 1.2], arch, true);
+  box(colors.red, [0, 14, 0], [23, 3.5, 2], arch, true);
+  world.add(arch);
+}
+
 function createTree(x, z, size = 1) {
   const group = new THREE.Group();
   group.position.set(x, 7.5, z);
@@ -320,8 +444,15 @@ function createVegetation() {
   for (let i = 0; i < 52; i += 1) {
     const x = -170 + seeded(i * 3) * 360;
     const z = 12 + seeded(i * 3 + 1) * 215;
-    const roadClear = [-110, -45, 22, 82].every(roadX => Math.abs(x - roadX) > 7);
-    if (roadClear && seeded(i + 9) > 0.42) createTree(x, z, 0.65 + seeded(i + 7) * 0.7);
+    const roadClear = roadX.every(value => Math.abs(x - value) > 8) && roadZ.every(value => Math.abs(z - value) > 8);
+    const buildingClear = buildingBounds.every(bounds =>
+      x < bounds.minX - 5 || x > bounds.maxX + 5 || z < bounds.minZ - 5 || z > bounds.maxZ + 5
+    );
+    const landmarkClear =
+      !(x > 118 && z < 112) &&
+      !(x > 32 && x < 96 && z > 45 && z < 112) &&
+      !(x < -75 && x > -138 && z > 128 && z < 158);
+    if (roadClear && buildingClear && landmarkClear && seeded(i + 9) > 0.42) createTree(x, z, 0.65 + seeded(i + 7) * 0.7);
   }
   for (let i = 0; i < 18; i += 1) {
     createTree(-170 + seeded(i + 50) * 110, -205 + seeded(i + 70) * 75, 0.9 + seeded(i + 90) * 0.8);
@@ -366,9 +497,12 @@ function createLabels() {
   [
     ["GOLDEN GATE", -121, 73, -95],
     ["FISHERMAN'S WHARF", 22, 46, -32],
-    ["CHINATOWN", 59, 42, 76],
-    ["EMBARCADERO", 102, 37, 8],
-    ["GOLDEN GATE PARK", -83, 29, 163]
+    ["CHINATOWN", 59, 42, 78],
+    ["FERRY BUILDING", 148, 51, 4],
+    ["TRANSAMERICA", 146, 86, 88],
+    ["PAINTED LADIES", -107, 37, 143],
+    ["ALCATRAZ", 78, 28, -150],
+    ["GOLDEN GATE PARK", -40, 29, 194]
   ].forEach(([text, x, y, z]) => {
     const label = makeTextSprite(text);
     label.position.set(x, y, z);
@@ -383,21 +517,52 @@ function registerEntity(group, type, radius, update) {
   return group;
 }
 
-function createPerson(x, z, hue, path = "street") {
+function createPerson(x, z, hue, route) {
   const group = new THREE.Group();
-  group.position.set(x, 8, z);
-  cylinder(hue, [0, 2.1, 0], [1.25, 4.2, 1.25], group, true);
-  sphere([0x9e715b, 0xd3a281, 0x754f3e][Math.floor(seeded(x * z) * 3)], [0, 5, 0], [2.3, 2.3, 2.3], group, true);
-  const hair = sphere(colors.ink, [0, 5.8, 0.25], [2.35, 1.2, 2], group);
-  hair.scale.z = 0.7;
-  [-0.75, 0.75].forEach(px => cylinder(colors.ink, [px, -0.8, 0], [0.28, 2.2, 0.28], group));
+  group.position.set(x, 7.5, z);
+  const skin = [0x8f604b, 0xd3a281, 0x6f4837, 0xe0b48f][Math.floor(seeded(x * z) * 4)];
+  const pants = [0x263f54, 0x483b48, 0x36574f][Math.floor(seeded(x + z) * 3)];
+  const torso = box(hue, [0, 4.1, 0], [2.8, 3.7, 1.7], group, true);
+  torso.rotation.z = (seeded(z) - 0.5) * 0.04;
+  sphere(skin, [0, 7.1, -0.05], [2.5, 2.7, 2.4], group, true);
+  const hair = sphere(colors.ink, [0, 7.9, 0.18], [2.55, 1.5, 2.4], group);
+  const nose = sphere(skin, [0, 6.9, -1.25], [0.55, 0.7, 0.65], group);
+  hair.scale.z = 0.92;
+  nose.scale.z = 1.2;
+  const leftLeg = new THREE.Group();
+  const rightLeg = new THREE.Group();
+  leftLeg.position.set(-0.7, 2.35, 0);
+  rightLeg.position.set(0.7, 2.35, 0);
+  cylinder(pants, [0, -1.15, 0], [0.62, 2.3, 0.62], leftLeg, true);
+  cylinder(pants, [0, -1.15, 0], [0.62, 2.3, 0.62], rightLeg, true);
+  box(colors.ink, [0, -2.35, -0.25], [0.85, 0.45, 1.4], leftLeg, true);
+  box(colors.ink, [0, -2.35, -0.25], [0.85, 0.45, 1.4], rightLeg, true);
+  const leftArm = new THREE.Group();
+  const rightArm = new THREE.Group();
+  leftArm.position.set(-1.65, 5.25, 0);
+  rightArm.position.set(1.65, 5.25, 0);
+  cylinder(skin, [0, -1.25, 0], [0.48, 2.5, 0.48], leftArm, true);
+  cylinder(skin, [0, -1.25, 0], [0.48, 2.5, 0.48], rightArm, true);
+  group.add(leftLeg, rightLeg, leftArm, rightArm);
+  if (seeded(x - z) > 0.56) {
+    cylinder(colors.yellow, [0, 8.55, 0], [1.4, 0.45, 1.4], group, true);
+    box(colors.yellow, [0, 8.42, -1.1], [3.5, 0.22, 1.1], group, true);
+  }
+  if (seeded(x + z * 2) > 0.6) box(colors.red, [1.65, 3.25, 0.2], [1, 2.6, 1.8], group, true);
   world.add(group);
-  const axis = path === "street" ? "z" : "x";
+  const axis = route.axis;
   const origin = group.position[axis];
-  const phase = seeded(x + z) * Math.PI * 2;
+  const phase = route.phase;
   return registerEntity(group, "person", 3.3, time => {
-    group.position[axis] = origin + Math.sin(time * 0.3 + phase) * 13;
-    group.rotation.y = Math.cos(time * 0.3 + phase) > 0 ? 0 : Math.PI;
+    const stride = time * 0.62 + phase;
+    group.position[axis] = origin + Math.sin(stride) * route.distance;
+    const direction = Math.cos(stride);
+    group.rotation.y = axis === "z" ? direction > 0 ? Math.PI : 0 : direction > 0 ? -Math.PI / 2 : Math.PI / 2;
+    leftLeg.rotation.x = Math.sin(stride * 2) * 0.42;
+    rightLeg.rotation.x = -leftLeg.rotation.x;
+    leftArm.rotation.x = -leftLeg.rotation.x * 0.8;
+    rightArm.rotation.x = leftLeg.rotation.x * 0.8;
+    group.position.y = 7.5 + Math.abs(Math.sin(stride * 2)) * 0.08;
   });
 }
 
@@ -417,9 +582,11 @@ function createCar(x, z, color, axis = "x", speed = 8) {
   if (axis === "z") group.rotation.y = Math.PI / 2;
   world.add(group);
   const start = group.position[axis];
+  const minimum = axis === "x" ? -168 : -2;
+  const maximum = axis === "x" ? 208 : 232;
+  const range = maximum - minimum;
   return registerEntity(group, "car", 4.6, time => {
-    const distance = ((time * speed + start + 170) % 340) - 170;
-    group.position[axis] = distance;
+    group.position[axis] = ((time * speed + start - minimum) % range + range) % range + minimum;
   });
 }
 
@@ -468,17 +635,25 @@ function createAnimal(x, z, kind = "dog") {
 function populateEntities() {
   const peopleColors = [colors.orange, colors.blue, colors.green, colors.pink, colors.yellow];
   [
-    [-96, 45], [-70, 28], [-25, 48], [12, 30], [45, 24], [70, 43],
-    [110, 23], [143, 41], [48, 83], [73, 92], [16, 132], [-36, 150],
-    [-85, 185], [22, -36], [34, -52], [94, -24]
-  ].forEach(([x, z], index) => createPerson(x, z, peopleColors[index % peopleColors.length], index % 3 ? "street" : "cross"));
+    [-137, 42, "z", 15], [-72, 42, "z", 15], [-7, 42, "z", 15],
+    [58, 42, "z", 15], [123, 42, "z", 15], [172, 42, "z", 15],
+    [-112, 60, "x", 23], [-47, 76, "x", 23], [18, 110, "x", 23],
+    [83, 126, "x", 23], [148, 160, "x", 22], [-137, 143, "z", 16],
+    [-72, 194, "z", 14], [8, -35, "x", 11], [36, -59, "x", 10],
+    [91, -30, "z", 14]
+  ].forEach(([x, z, axis, distance], index) => createPerson(
+    x,
+    z,
+    peopleColors[index % peopleColors.length],
+    { axis, distance, phase: index * 0.83 }
+  ));
   [
-    [-80, 25, colors.red, "x", 7],
-    [50, 76, colors.blue, "x", 9],
-    [120, 132, colors.orange, "x", 10],
-    [22, 160, colors.green, "z", 7],
-    [82, 94, colors.yellow, "z", 8],
-    [-110, 120, colors.paper, "z", 11]
+    [-80, 18, colors.red, "x", 7],
+    [50, 68, colors.blue, "x", 9],
+    [120, 118, colors.orange, "x", 10],
+    [-15, 160, colors.green, "z", 7],
+    [50, 94, colors.yellow, "z", 8],
+    [-145, 120, colors.paper, "z", 11]
   ].forEach(item => createCar(...item));
   createCableCar();
   createAnimal(-74, 164, "dog");
@@ -496,6 +671,11 @@ createBridge();
 createPier();
 createChinatownGate();
 createCoitTower();
+createFerryBuilding();
+createTransamerica();
+createPaintedLadies();
+createAlcatraz();
+createWharfDetails();
 createVegetation();
 createLabels();
 populateEntities();
@@ -602,6 +782,12 @@ function groundAt(x, z) {
   const city = x > -182 && x < 220 && z > -22 && z < 240;
   const north = x > -180 && x < -45 && z > -215 && z < -130;
   return city || north ? { height: 7.4, surface: "land" } : { height: 0.8, surface: "water" };
+}
+
+function buildingAt(x, z) {
+  return buildingBounds.find(bounds =>
+    x > bounds.minX && x < bounds.maxX && z > bounds.minZ && z < bounds.maxZ
+  );
 }
 
 function dropPoop() {
@@ -713,6 +899,7 @@ function updatePoops(delta) {
 
 function updateBird(delta, elapsed) {
   const ground = groundAt(bird.position.x, bird.position.z);
+  const previousPosition = bird.position.clone();
   const forwardInput = (keys.KeyW ? 1 : 0) - (keys.KeyS ? 1 : 0) - mobile.y;
   const turnInput = (keys.KeyD ? 1 : 0) - (keys.KeyA ? 1 : 0) + mobile.x;
   const flying = bird.position.y > ground.height + 2.3 || state.verticalSpeed > 1;
@@ -747,27 +934,39 @@ function updateBird(delta, elapsed) {
   const forward = new THREE.Vector3(Math.sin(state.yaw), 0, Math.cos(state.yaw));
   if (flying || forwardInput > 0 || state.mode === "Swimming") bird.position.addScaledVector(forward, state.speed * delta);
   if (!flying && forwardInput < 0) bird.position.addScaledVector(forward, -state.speed * 0.55 * delta);
+  const occupiedBuilding = buildingAt(bird.position.x, bird.position.z);
+  if (occupiedBuilding && !flying) {
+    bird.position.x = previousPosition.x;
+    bird.position.z = previousPosition.z;
+    state.speed *= 0.25;
+  } else if (occupiedBuilding && bird.position.y < occupiedBuilding.height + 2) {
+    bird.position.y = occupiedBuilding.height + 2;
+    state.verticalSpeed = Math.max(0, state.verticalSpeed);
+  }
   bird.position.x = THREE.MathUtils.clamp(bird.position.x, -260, 270);
   bird.position.z = THREE.MathUtils.clamp(bird.position.z, -260, 270);
   const currentGround = groundAt(bird.position.x, bird.position.z);
   bird.position.y = Math.max(currentGround.height + (currentGround.surface === "water" ? 0.9 : 1.6), bird.position.y);
   bird.position.y = Math.min(115, bird.position.y);
-  bird.rotation.y = state.yaw;
+  bird.rotation.y = state.yaw + Math.PI;
   bird.rotation.z = THREE.MathUtils.lerp(bird.rotation.z, -turnInput * 0.3, delta * 5);
   bird.rotation.x = THREE.MathUtils.lerp(bird.rotation.x, -state.verticalSpeed * 0.025, delta * 4);
   const flap = state.mode === "Flying" ? Math.sin(elapsed * (keys.Space || mobile.flap ? 15 : 7)) * 0.45 : Math.sin(elapsed * 4) * 0.08;
   bird.userData.leftWing.rotation.z = flap;
   bird.userData.rightWing.rotation.z = -flap;
+  const wingSpread = state.mode === "Flying" ? 1 : 0.48;
+  bird.userData.leftWing.scale.x = THREE.MathUtils.lerp(bird.userData.leftWing.scale.x, wingSpread, delta * 5);
+  bird.userData.rightWing.scale.x = THREE.MathUtils.lerp(bird.userData.rightWing.scale.x, wingSpread, delta * 5);
 }
 
 function updateCamera(delta) {
   const ground = groundAt(bird.position.x, bird.position.z);
   const heightFactor = THREE.MathUtils.clamp((bird.position.y - ground.height) / 45, 0, 1);
-  const distance = 18 + heightFactor * 12;
-  const offset = new THREE.Vector3(-Math.sin(state.yaw) * distance, 9 + heightFactor * 6, -Math.cos(state.yaw) * distance);
+  const distance = 25 + heightFactor * 10;
+  const offset = new THREE.Vector3(-Math.sin(state.yaw) * distance, 12 + heightFactor * 7, -Math.cos(state.yaw) * distance);
   const desired = bird.position.clone().add(offset);
   camera.position.lerp(desired, 1 - Math.pow(0.001, delta));
-  const look = bird.position.clone().add(new THREE.Vector3(Math.sin(state.yaw) * 10, 0, Math.cos(state.yaw) * 10));
+  const look = bird.position.clone().add(new THREE.Vector3(Math.sin(state.yaw) * 14, 1.5, Math.cos(state.yaw) * 14));
   camera.lookAt(look);
 }
 
