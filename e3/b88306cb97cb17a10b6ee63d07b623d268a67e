@@ -1,0 +1,38 @@
+games/seagotchi/assets/index-CvWobb9z.css
+  s_4214341c5c0b28::t_7a97777b24716c 1
+games/seagotchi/index.html
+  s_4214341c5c0b28::t_7a97777b24716c 12-13
+pocs/seagotchi-gpt-5-6-sol/src/style.css
+  s_4214341c5c0b28::t_b8797f8b6bd0de 322
+pocs/seagotchi-gpt-5-6-sol/src/main.js
+  s_4214341c5c0b28::t_b8797f8b6bd0de 129-131,461-462,475,477-479
+pocs/fps-assets-gpt-sol-5.6/game.js
+  s_102037e6fd3390::t_af7d79dae13768 46-62,64-69,71-73,76-79,83,105-106,109-117,119-120,124-129,134-162,165-167,178-182,186-290
+  s_102037e6fd3390::t_e671d0d56c1cb0 291
+games/seagotchi/assets/index-BcxyE-gr.js
+  s_4214341c5c0b28::t_7a97777b24716c 1-4135
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "e3b88306cb97cb17a10b6ee63d07b623d268a67e",
+  "prompts": {},
+  "sessions": {
+    "s_102037e6fd3390": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb9c3-d5dd-7371-b6c5-a66221fe6de1",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_4214341c5c0b28": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb9c0-e935-7670-b35f-db14d730de72",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
