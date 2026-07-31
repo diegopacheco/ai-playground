@@ -1,0 +1,24 @@
+pocs/invasores-gpt-5.6-sol/src/main.js
+  s_c9fd9745bc6ea4::t_46e44b7a15f36b 61-64,164-165,170,172,175-182,187,190,193,197,204-208,210-216,222-235,237,239-255
+  s_c9fd9745bc6ea4::t_c7a0553d94bae8 433,787-792,902,937-945,951,957-959,965-966,969
+  s_c9fd9745bc6ea4::t_1b220fe6416cb2 236,238,347-432
+  s_c9fd9745bc6ea4::t_b93f0de4074234 500-505,674-678
+  s_c9fd9745bc6ea4::t_4ba621f4277793 447-455,520,522-551,553,555,557-565,585-587,589,638-649,651-656
+  s_c9fd9745bc6ea4::t_4e3362c4a739cc 434
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "7f0ba73ccd655500c7e8848ae3058aeaee83e714",
+  "prompts": {},
+  "sessions": {
+    "s_c9fd9745bc6ea4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb5ee-5acc-7fb2-8120-05456a29eafd",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
