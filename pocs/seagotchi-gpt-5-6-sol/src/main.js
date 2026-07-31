@@ -684,6 +684,21 @@ const guestVelocities = [
   new THREE.Vector3(0, 2.4, 2.2)
 ];
 const guestAnimals = [];
+const rockSurfaceRay = new THREE.Raycaster();
+const rockSurfaceProbe = new THREE.Vector3();
+const rockSurfaceHit = new THREE.Vector3();
+const rockSurfaceDown = new THREE.Vector3(0, -1, 0);
+
+const getRockSurfaceHeight = (x, z, fallback) => {
+  rockSurfaceProbe.set(x, 4, z);
+  world.localToWorld(rockSurfaceProbe);
+  rockSurfaceRay.set(rockSurfaceProbe, rockSurfaceDown);
+  const intersection = rockSurfaceRay.intersectObjects([rockTop, rock], false)[0];
+  if (!intersection) return fallback;
+  rockSurfaceHit.copy(intersection.point);
+  world.worldToLocal(rockSurfaceHit);
+  return rockSurfaceHit.y;
+};
 
 for (let index = 0; index < 3; index += 1) {
   const guest = swimmers[index + 1].clone(true);
@@ -715,7 +730,9 @@ visitorSeal.scale.setScalar(0.96);
 world.add(visitorSeal);
 
 const visitorStart = new THREE.Vector3(5.4, -0.72, 1.2);
-const visitorRock = new THREE.Vector3(2.35, 0.22, 0.65);
+const visitorEdge = new THREE.Vector3(3.65, -0.48, 0.78);
+const visitorRock = new THREE.Vector3(2.65, 0.22, 0.78);
+const visitorExitVelocity = new THREE.Vector3(3.2, 2.6, 0.5);
 
 const poopGroup = new THREE.Group();
 poopGroup.visible = false;
@@ -960,13 +977,20 @@ const toggleShare = () => {
 };
 
 const updateGuests = (seconds) => {
+  world.updateMatrixWorld(true);
   guestAnimals.forEach((guest, index) => {
     const data = guest.userData;
     if (data.phase === "away") return;
     const clearance = Math.max(0, Math.min(1, (state.feeds - 3) / 5));
+    const guestScale = data.baseScale + (data.chonkerScale - data.baseScale) * clearance;
     data.desiredTarget.lerpVectors(guestTargets[index], guestChonkerTargets[index], clearance);
+    data.desiredTarget.y = getRockSurfaceHeight(
+      data.desiredTarget.x,
+      data.desiredTarget.z,
+      data.desiredTarget.y
+    ) + guestScale * 0.42;
     data.target.lerp(data.desiredTarget, data.phase === "settled" ? 0.08 : 0.2);
-    guest.scale.setScalar(data.baseScale + (data.chonkerScale - data.baseScale) * clearance);
+    guest.scale.setScalar(guestScale);
     if (data.phase === "entering") {
       const elapsed = seconds - data.phaseStarted - data.delay;
       if (elapsed <= 0) {
@@ -1018,7 +1042,11 @@ const updateGuests = (seconds) => {
       }
     }
   });
-  if (!state.sharing && guestAnimals.every((guest) => guest.userData.phase === "away")) {
+  if (
+    !state.sharing &&
+    state.ambientEvent !== "climb" &&
+    guestAnimals.every((guest) => guest.userData.phase === "away")
+  ) {
     swimmers.forEach((swimmer) => {
       swimmer.visible = true;
     });
