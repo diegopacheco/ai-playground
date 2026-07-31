@@ -80,6 +80,18 @@ What it does:
 
 [Open `pocs/localhost-radar`](https://github.com/diegopacheco/ai-playground/tree/main/pocs/localhost-radar)
 
+### 7. `chrome-ext-hn-opennew`
+
+HN Open New opens every unread Hacker News story on the current page in background tabs.
+
+What it does:
+
+- Finds external story links on the active Hacker News page and skips comment pages and site filters.
+- Uses Chrome history to avoid reopening stories and paints visited titles grey.
+- Opens up to 30 unread stories in background tabs without changing the active tab.
+
+[Open `pocs/chrome-ext-hn-opennew`](https://github.com/diegopacheco/ai-playground/tree/main/pocs/chrome-ext-hn-opennew)
+
 ## Notes
 
 - The macOS catalog includes native Swift and Electron apps that install or run as macOS applications.

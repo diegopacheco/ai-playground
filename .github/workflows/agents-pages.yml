@@ -69,6 +69,7 @@ jobs:
           cp agents/open-claw/sebastian-sec.png _site/agents/open-claw/
           mkdir -p _site/macos-chrome-apps
           mkdir -p _site/pocs/cc-token-bar
+          mkdir -p _site/pocs/chrome-ext-hn-opennew/icons
           mkdir -p _site/pocs/chrome-ext-render-html-md/assets
           mkdir -p _site/pocs/fable-5-game-stand/printscreens
           mkdir -p _site/pocs/flowprint/assets
@@ -76,6 +77,7 @@ jobs:
           mkdir -p _site/pocs/tv-time-like/docs/screenshots
           cp macos-chrome-apps/index.html _site/macos-chrome-apps/index.html
           cp pocs/cc-token-bar/cc-bar-result.png _site/pocs/cc-token-bar/cc-bar-result.png
+          cp pocs/chrome-ext-hn-opennew/icons/icon128.png _site/pocs/chrome-ext-hn-opennew/icons/icon128.png
           cp pocs/chrome-ext-render-html-md/assets/github-render-logo.svg _site/pocs/chrome-ext-render-html-md/assets/github-render-logo.svg
           cp pocs/fable-5-game-stand/printscreens/stand.png _site/pocs/fable-5-game-stand/printscreens/stand.png
           cp pocs/flowprint/assets/icon-128.png _site/pocs/flowprint/assets/icon-128.png

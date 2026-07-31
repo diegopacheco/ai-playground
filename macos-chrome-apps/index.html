@@ -107,7 +107,7 @@
         <div class="hero-copy">
           <div class="eyebrow">Swift · Electron · Manifest V3</div>
           <h1>Apps for the <em>desktop</em> and browser.</h1>
-          <p>Focused utilities for local metrics, personal collections, GitHub reading, browser recording, and localhost operations.</p>
+          <p>Focused utilities for local metrics, personal collections, GitHub reading, unread Hacker News stories, browser recording, and localhost operations.</p>
           <div class="hero-actions">
             <a href="#macos">Browse apps &darr;</a>
             <a href="https://github.com/diegopacheco/ai-playground/tree/main/pocs" target="_blank" rel="noreferrer">Open POCs &nearr;</a>
@@ -134,6 +134,7 @@
                 <div class="extension-icon"><img src="../pocs/chrome-ext-render-html-md/assets/github-render-logo.svg" alt=""></div>
                 <div class="extension-icon"><img src="../pocs/flowprint/assets/icon-128.png" alt=""></div>
                 <div class="extension-icon"><img src="../pocs/localhost-radar/assets/icon-128.png" alt=""></div>
+                <div class="extension-icon"><img src="../pocs/chrome-ext-hn-opennew/icons/icon128.png" alt=""></div>
               </div>
             </div>
           </div>
@@ -141,11 +142,11 @@
       </section>
 
       <div class="catalog-strip">
-        <p>Six focused builds collected from <strong>pocs/</strong>. Each card opens the source project with its installation, usage, and technical details.</p>
+        <p>Seven focused builds collected from <strong>pocs/</strong>. Each card opens the source project with its installation, usage, and technical details.</p>
         <div class="stats">
-          <div class="stat"><strong>6</strong><span>Projects</span></div>
+          <div class="stat"><strong>7</strong><span>Projects</span></div>
           <div class="stat"><strong>3</strong><span>macOS</span></div>
-          <div class="stat"><strong>3</strong><span>Chrome</span></div>
+          <div class="stat"><strong>4</strong><span>Chrome</span></div>
         </div>
       </div>
 
@@ -162,7 +163,7 @@
         <button class="section-toggle" type="button" aria-expanded="true" aria-controls="chrome-grid">
           <span class="section-kicker">Lives beside the address bar</span>
           <h2>Chrome Extensions</h2>
-          <p class="section-note">Manifest V3 tools for reading source, recording browser journeys, and understanding the local development surface.</p>
+          <p class="section-note">Manifest V3 tools for reading source, opening unread stories, recording browser journeys, and understanding the local development surface.</p>
         </button>
         <div class="grid" id="chrome-grid" data-kind="chrome"></div>
       </section>
@@ -182,7 +183,8 @@
       {n:3,kind:"macos",title:"Reelmark",platform:"macOS",stack:"Electron · Bun · React · SQLite",description:"A private watch journal for movies and television that tracks episodes, runtime, completion, and viewing patterns through a signed desktop bundle.",image:"../pocs/tv-time-like/docs/screenshots/library.png",position:"top center",repo:"tv-time-like"},
       {n:4,kind:"chrome",title:"GitHub Render",platform:"Chrome",stack:"Manifest V3 · Plain JavaScript",description:"Turns HTML and Markdown source files into calm, readable documents on GitHub, with raw-file routing and isolated HTML execution.",image:"../pocs/chrome-ext-render-html-md/assets/github-render-logo.svg",repo:"chrome-ext-render-html-md"},
       {n:5,kind:"chrome",title:"FlowPrint",platform:"Chrome",stack:"Manifest V3 · Playwright",description:"Records real browser journeys, keeps the trail in a side panel, and generates Playwright TypeScript with durable locators and redacted secrets.",image:"../pocs/flowprint/assets/icon-128.png",repo:"flowprint"},
-      {n:6,kind:"chrome",title:"Localhost Radar",platform:"Chrome DevTools",stack:"Manifest V3 · Python · Podman",description:"Inspects containers, listening localhost services, and browser traffic through a DevTools panel and a constrained native messaging host.",image:"../pocs/localhost-radar/assets/icon-128.png",repo:"localhost-radar"}
+      {n:6,kind:"chrome",title:"Localhost Radar",platform:"Chrome DevTools",stack:"Manifest V3 · Python · Podman",description:"Inspects containers, listening localhost services, and browser traffic through a DevTools panel and a constrained native messaging host.",image:"../pocs/localhost-radar/assets/icon-128.png",repo:"localhost-radar"},
+      {n:7,kind:"chrome",title:"HN Open New",platform:"Chrome",stack:"Manifest V3 · Plain JavaScript",description:"Finds unread external stories on the active Hacker News page, marks visited titles grey, and opens up to 30 new stories in background tabs.",image:"../pocs/chrome-ext-hn-opennew/icons/icon128.png",repo:"chrome-ext-hn-opennew"}
     ]
 
     function card(project){
