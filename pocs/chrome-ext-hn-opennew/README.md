@@ -7,6 +7,16 @@ visited, and opens them as background tabs. Comment pages are never opened.
 
 ![HN Open New popup](printscreens/popup.png)
 
+## Visited stories go grey
+
+On every Hacker News page, story titles you already visited are repainted in the HN grey `#828282`, exactly as
+if you had clicked them. Rows 3, 4 and 5 below were visited before, the rest are still unread:
+
+![Visited stories greyed out](printscreens/visited-grey.png)
+
+This runs on page load, and the popup also re-applies it to a Hacker News tab that was already open, so tabs
+opened by the extension turn grey the next time you click the icon without a reload.
+
 ## How it works
 
 ![Architecture](printscreens/architecture.png)
@@ -21,6 +31,10 @@ visited, and opens them as background tabs. Comment pages are never opened.
 
 "Already read" is the browser's own history, the same source that paints visited HN titles grey. If you opened
 a story yesterday from anywhere, it will not open again.
+
+The grey repaint uses that same history. A content script on `news.ycombinator.com` collects the story links
+and asks the service worker for their visit counts, since `chrome.history` is not reachable from a content
+script, then tags the visited ones with a class that `content.css` paints grey.
 
 ## Install
 
@@ -55,6 +69,9 @@ manifest.json      MV3 manifest
 popup.html         popup markup
 popup.css          Hacker News styling
 popup.js           scrape, filter by history, open tabs
+background.js      service worker answering history lookups
+content.js         tags visited story links on the page
+content.css        grey paint for visited story links
 icons/             icon.svg source and 16/32/48/128 PNGs
 printscreens/      screenshots and the architecture diagram
 ```
@@ -68,22 +85,24 @@ printscreens/      screenshots and the architecture diagram
 ## Verification
 
 Driven through the Chrome DevTools Protocol against the live front page: the extension is loaded, three story
-URLs are pushed into history to simulate "already read", then the popup is reloaded and its output checked.
+URLs are pushed into history to simulate "already read", the page is reloaded and the greying is checked
+against the computed colour, then the popup is opened and its output checked.
 
 ```
 extension loaded: emoapamelbphdgemicnoefddjcbcmljj
-front page rows: 30, external story links: 30
+external story links: 30
+PASS nothing grey before any visit (got 0, expected 0)
 seeded visits: [1,1,1]
-marked read: #3 qm | #4 Golang proposal: container/: generic collection types | #5 Severance
+PASS grey link count (got 3, expected 3)
+PASS grey links are the visited ones (got ["https://github.com/golang/go/issues/80590","https://github.com/yc-software/qm","https://lcamtuf.substack.com/p/severance"], expected [same])
+PASS computed colour is HN grey (got ["rgb(130, 130, 130)"], expected ["rgb(130, 130, 130)"])
+PASS unvisited titles stay black (got false, expected false)
+PASS no HN-internal links greyed (got 0, expected 0)
 popup status: 27 of 30 stories never opened:
-popup button: Open 27 tabs
-PASS unread count = stories - read (got 27, expected 27)
-PASS already read hidden (got 0, expected 0)
-PASS no comment links listed (got 0, expected 0)
-PASS button enabled (got false, expected false)
-PASS button label (got "Open 27 tabs", expected "Open 27 tabs")
-PASS tabs opened (got 27, expected 27)
-PASS hn tab kept, not reopened (got 1, expected 1)
-opened hosts sample: jwlabs.vercel.app, blog.marcua.net, xn--gckvb8fzb.com, cgjennings.ca, arxiv.org, jovidecroock.com
+PASS popup still filters read stories (got "27 of 30 stories never opened:", expected "27 of 30 stories never opened:")
+PASS re-injection into an already-open tab re-greys (got 3, expected 3)
 ALL CHECKS PASSED
 ```
+
+`--load-extension` is ignored by Chrome stable since 137, so the harness runs against the Chrome for Testing
+build (151) that ships with Playwright.
