@@ -16,5 +16,11 @@
     "name": "alan wake 2",
     "console": "PS5",
     "cover": "covers/alan-wake-2.jpg"
+  },
+  {
+    "id": "path-of-exile-2-beta",
+    "name": "Path of exile 2 beta",
+    "console": "PS5",
+    "cover": "covers/path-of-exile-2-beta.jpg"
   }
 ]
