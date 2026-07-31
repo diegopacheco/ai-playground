@@ -10,5 +10,11 @@
     "name": "oddworld abe",
     "console": "PS5",
     "cover": "covers/oddworld-abe.jpg"
+  },
+  {
+    "id": "alan-wake-2",
+    "name": "alan wake 2",
+    "console": "PS5",
+    "cover": "covers/alan-wake-2.jpg"
   }
 ]

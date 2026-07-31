@@ -910,5 +910,13 @@
     "year": 2026,
     "order": 114,
     "cover": "covers/hot-wheels-unleashed.jpeg"
+  },
+  {
+    "id": "deliver-us-the-moon",
+    "name": "Deliver us the moon",
+    "console": "PS5",
+    "year": 2026,
+    "order": 115,
+    "cover": "covers/deliver-us-the-moon.jpg"
   }
 ]
