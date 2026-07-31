@@ -1,0 +1,23 @@
+.github/workflows/agents-pages.yml
+  s_11e01fbe8d594f::t_8c31b9327ccd53 72,80
+macos-chrome-apps/index.html
+  s_11e01fbe8d594f::t_9d5da13c29400e 110,137,145,147,149,166,186-187
+macos-chrome-apps/README.md
+  s_11e01fbe8d594f::t_9d5da13c29400e 83-94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "5d9541aa2a994e8753b0643c02c8c9878e443873",
+  "prompts": {},
+  "sessions": {
+    "s_11e01fbe8d594f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fba1c-2b8e-7880-9754-fd1eaafdb2d4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
