@@ -1,0 +1,35 @@
+pocs/invasores-gpt-5.6-sol/README.md
+  s_1b4cd63be668c7::t_dc148e6c3f06cb 3-4
+pocs/invasores-gpt-5.6-sol/src/main.js
+  s_c9fd9745bc6ea4::t_f9000c612c217b 537-540,545-546,549-550,552
+  s_c9fd9745bc6ea4::t_b4a84e036bc15a 691,700,1006-1007
+  s_c9fd9745bc6ea4::t_f04453b4caa67f 689-690,692-693,695-696,698-699,701-735,737-754,757
+  s_c9fd9745bc6ea4::t_b9a161427fc5e4 776,942-953,959,1000,1003
+  s_c9fd9745bc6ea4::t_ad5dc9aa3820d1 184-185,201,203
+  s_c9fd9745bc6ea4::t_90f2613ac61859 44,844-847,1229
+  s_c9fd9745bc6ea4::t_6c9802b181f78d 5-11,14,60-61,64-70,82,116,126-131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "1adf831b5a68524c032f3750872f19476174f041",
+  "prompts": {},
+  "sessions": {
+    "s_1b4cd63be668c7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb60d-cc95-7050-bf99-4205d0156885",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_c9fd9745bc6ea4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb5ee-5acc-7fb2-8120-05456a29eafd",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
