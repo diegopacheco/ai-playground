@@ -37,6 +37,38 @@
           <div class="sun-label">LA JOLLA, CA</div>
           <div class="scanlines"></div>
 
+          <button class="costume-button" id="costume-button" type="button" aria-expanded="false" aria-controls="costume-panel" aria-label="Open costume closet">
+            <svg viewBox="0 0 32 28" aria-hidden="true">
+              <path d="M11 2h10l2 5 7 4-4 7-4-2v10H10V16l-4 2-4-7 7-4 2-5Zm3 3-1 4h6l-1-4h-4Z"/>
+            </svg>
+            <span>COSTUME</span>
+          </button>
+
+          <section class="costume-panel" id="costume-panel" aria-label="Costume closet" hidden>
+            <div class="closet-heading">
+              <strong>COVE CLOSET</strong>
+              <button id="costume-close" type="button" aria-label="Close costume closet">×</button>
+            </div>
+            <fieldset>
+              <legend>COAT</legend>
+              <div class="costume-options coat-options" role="radiogroup" aria-label="Coat color">
+                <button class="costume-option" type="button" data-coat="brown" role="radio" aria-checked="true"><i class="brown-swatch"></i>BROWN</button>
+                <button class="costume-option" type="button" data-coat="gray" role="radio" aria-checked="false"><i class="gray-swatch"></i>GRAY</button>
+                <button class="costume-option" type="button" data-coat="white" role="radio" aria-checked="false"><i class="white-swatch"></i>WHITE</button>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>HEAD</legend>
+              <div class="costume-options hat-options" role="radiogroup" aria-label="Hat">
+                <button class="costume-option" type="button" data-hat="none" role="radio" aria-checked="true">NO HAT</button>
+                <button class="costume-option" type="button" data-hat="crown" role="radio" aria-checked="false">GOLDEN CROWN</button>
+                <button class="costume-option" type="button" data-hat="blue" role="radio" aria-checked="false">BLUE HAT</button>
+                <button class="costume-option" type="button" data-hat="viking" role="radio" aria-checked="false">VIKING HAT</button>
+                <button class="costume-option" type="button" data-hat="wig" role="radio" aria-checked="false">BLONDE WIG</button>
+              </div>
+            </fieldset>
+          </section>
+
           <aside class="stats-panel" aria-label="Seagotchi status">
             <div class="stat">
               <div class="stat-heading">
@@ -90,6 +122,12 @@
                 <path d="M2 8c4 0 4-3 8-3s4 3 8 3 4-3 8-3c2 0 3 .7 4 1.4v4C29 9.7 28 9 26 9c-4 0-4 3-8 3s-4-3-8-3-4 3-8 3V8Zm0 8c4 0 4-3 8-3s4 3 8 3 4-3 8-3c2 0 3 .7 4 1.4v4C29 17.7 28 17 26 17c-4 0-4 3-8 3s-4-3-8-3-4 3-8 3v-4Z"/>
               </svg>
               <span id="swim-label">GO SWIM</span>
+            </button>
+            <button class="action-button" id="share-button" type="button" aria-pressed="false">
+              <svg viewBox="0 0 32 24" aria-hidden="true">
+                <path d="M16 3a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-1 7H9c-4 0-7 3-7 7v3h20v-3c0-4-3-7-7-7Zm12-4a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-3 7h-2c2 2 3 4 3 7h7v-2c0-3-3-5-8-5Z"/>
+              </svg>
+              <span id="share-label">SHARE ROCK</span>
             </button>
           </aside>
 

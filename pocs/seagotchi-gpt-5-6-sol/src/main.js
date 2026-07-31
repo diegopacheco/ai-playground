@@ -7,9 +7,14 @@ const feedButton = document.querySelector("#feed-button");
 const sleepButton = document.querySelector("#sleep-button");
 const petButton = document.querySelector("#pet-button");
 const swimButton = document.querySelector("#swim-button");
+const shareButton = document.querySelector("#share-button");
 const soundToggle = document.querySelector("#sound-toggle");
 const sleepLabel = document.querySelector("#sleep-label");
 const swimLabel = document.querySelector("#swim-label");
+const shareLabel = document.querySelector("#share-label");
+const costumeButton = document.querySelector("#costume-button");
+const costumePanel = document.querySelector("#costume-panel");
+const costumeClose = document.querySelector("#costume-close");
 const speech = document.querySelector("#speech");
 const achievement = document.querySelector("#achievement");
 const weightValue = document.querySelector("#weight-value");
@@ -49,6 +54,10 @@ const state = {
   ambientEvent: null,
   ambientStarted: 0,
   ambientIndex: 0,
+  sharing: false,
+  shareKickStarted: 0,
+  coat: localStorage.getItem("seagotchi-coat") ?? "brown",
+  hat: localStorage.getItem("seagotchi-hat") ?? "none",
   nextAmbientAt: performance.now() / 1000 + 12 + Math.random() * 8
 };
 
@@ -102,6 +111,30 @@ const colors = {
     transparent: true,
     opacity: 0.72
   })
+};
+
+const createCoatMaterial = (color) => new THREE.MeshStandardMaterial({
+  color,
+  roughness: 0.92,
+  flatShading: true
+});
+
+const coatMaterials = {
+  brown: {
+    fur: createCoatMaterial("#6c4637"),
+    light: createCoatMaterial("#a7775e"),
+    flipper: createCoatMaterial("#56352f")
+  },
+  gray: {
+    fur: createCoatMaterial("#68727a"),
+    light: createCoatMaterial("#aeb7b8"),
+    flipper: createCoatMaterial("#4b555d")
+  },
+  white: {
+    fur: createCoatMaterial("#e7e5d8"),
+    light: createCoatMaterial("#fff9e7"),
+    flipper: createCoatMaterial("#c5c7c0")
+  }
 };
 
 const makeMesh = (geometry, material, position, scale, rotation) => {
@@ -424,6 +457,64 @@ const tailRight = makeMesh(
 );
 sealMorph.add(tailRight);
 
+const goldMaterial = new THREE.MeshStandardMaterial({ color: "#f6c945", roughness: 0.45, metalness: 0.38, flatShading: true });
+const blueHatMaterial = new THREE.MeshStandardMaterial({ color: "#1975b9", roughness: 0.82, flatShading: true });
+const blueHatLightMaterial = new THREE.MeshStandardMaterial({ color: "#56c4dc", roughness: 0.78, flatShading: true });
+const vikingMaterial = new THREE.MeshStandardMaterial({ color: "#798892", roughness: 0.72, metalness: 0.18, flatShading: true });
+const hornMaterial = new THREE.MeshStandardMaterial({ color: "#fff0c7", roughness: 0.9, flatShading: true });
+const blondeMaterial = new THREE.MeshStandardMaterial({ color: "#f3d45b", roughness: 0.9, flatShading: true });
+
+const crownHat = new THREE.Group();
+crownHat.position.set(0, 0.58, 0);
+crownHat.add(makeMesh(new THREE.CylinderGeometry(0.34, 0.39, 0.18, 8), goldMaterial, [0, 0.08, 0], [1, 1, 1], [0, 0, 0]));
+[-0.25, 0, 0.25].forEach((x, index) => {
+  crownHat.add(makeMesh(new THREE.ConeGeometry(0.13, index === 1 ? 0.48 : 0.38, 4), goldMaterial, [x, index === 1 ? 0.38 : 0.33, 0], [1, 1, 1], [0, 0, 0]));
+});
+
+const blueHat = new THREE.Group();
+blueHat.position.set(0, 0.57, 0);
+blueHat.rotation.z = -0.08;
+blueHat.add(
+  makeMesh(new THREE.CylinderGeometry(0.57, 0.57, 0.08, 10), blueHatLightMaterial, [0.08, 0, 0], [1, 1, 0.78], [0, 0, 0]),
+  makeMesh(new THREE.CylinderGeometry(0.31, 0.39, 0.36, 9), blueHatMaterial, [-0.08, 0.2, 0], [1, 1, 0.9], [0, 0, 0])
+);
+
+const vikingHat = new THREE.Group();
+vikingHat.position.set(0, 0.49, 0);
+vikingHat.add(
+  makeMesh(new THREE.SphereGeometry(0.43, 9, 5, 0, Math.PI * 2, 0, Math.PI / 2), vikingMaterial, [0, 0, 0], [1, 0.84, 0.95], [0, 0, 0]),
+  makeMesh(new THREE.ConeGeometry(0.13, 0.55, 7), hornMaterial, [-0.48, 0.28, 0], [1, 1, 1], [0, 0, 1.05]),
+  makeMesh(new THREE.ConeGeometry(0.13, 0.55, 7), hornMaterial, [0.48, 0.28, 0], [1, 1, 1], [0, 0, -1.05])
+);
+
+const blondeWig = new THREE.Group();
+blondeWig.position.set(0, 0.42, 0);
+[
+  [-0.38, -0.02, 0.02, 0.26],
+  [-0.2, 0.17, 0, 0.28],
+  [0.04, 0.24, 0, 0.31],
+  [0.29, 0.13, 0, 0.27],
+  [0.43, -0.05, 0, 0.23],
+  [-0.31, -0.22, 0.01, 0.22],
+  [0.34, -0.23, 0.01, 0.21]
+].forEach(([x, y, z, scale]) => {
+  blondeWig.add(makeMesh(new THREE.IcosahedronGeometry(1, 1), blondeMaterial, [x, y, z], [scale, scale * 1.15, scale], [0, 0, 0]));
+});
+
+const hats = {
+  none: null,
+  crown: crownHat,
+  blue: blueHat,
+  viking: vikingHat,
+  wig: blondeWig
+};
+
+Object.values(hats).forEach((hat) => {
+  if (!hat) return;
+  hat.visible = false;
+  headPivot.add(hat);
+});
+
 const fishGroup = new THREE.Group();
 fishGroup.visible = false;
 world.add(fishGroup);
@@ -564,6 +655,44 @@ const createSwimmer = (index) => {
 
 for (let index = 0; index < 4; index += 1) {
   createSwimmer(index);
+}
+
+const guestStarts = [
+  new THREE.Vector3(-6.2, -0.78, 1.25),
+  new THREE.Vector3(6.1, -0.8, 0.25),
+  new THREE.Vector3(3.8, -0.82, -3.1)
+];
+const guestTargets = [
+  new THREE.Vector3(-2.6, 0.25, 0.72),
+  new THREE.Vector3(2.5, 0.22, 0.04),
+  new THREE.Vector3(-1.45, 0.38, -1.08)
+];
+const guestHeadings = [-0.08, Math.PI, 0.14];
+const guestVelocities = [
+  new THREE.Vector3(-3.8, 3.7, 0.6),
+  new THREE.Vector3(4.2, 4.1, 0.5),
+  new THREE.Vector3(2.8, 4.5, -2.4)
+];
+const guestAnimals = [];
+
+for (let index = 0; index < 3; index += 1) {
+  const guest = swimmers[index + 1].clone(true);
+  guest.visible = false;
+  guest.scale.setScalar(0.48 + index * 0.025);
+  guest.position.copy(guestStarts[index]);
+  guest.rotation.set(0, guestHeadings[index], 0);
+  guest.userData = {
+    phase: "away",
+    phaseStarted: 0,
+    delay: index * 0.18,
+    target: guestTargets[index],
+    start: guestStarts[index],
+    heading: guestHeadings[index],
+    exitStart: new THREE.Vector3(),
+    velocity: guestVelocities[index]
+  };
+  world.add(guest);
+  guestAnimals.push(guest);
 }
 
 const visitorSeal = swimmers[0].clone(true);
@@ -716,6 +845,150 @@ const updateDay = () => {
   dayNumber.textContent = String(state.day).padStart(2, "0");
 };
 
+const setCostumePanel = (open) => {
+  costumePanel.hidden = !open;
+  costumeButton.setAttribute("aria-expanded", String(open));
+  costumeButton.setAttribute("aria-label", open ? "Close costume closet" : "Open costume closet");
+};
+
+const applyCoat = (coat, announce = false) => {
+  const selected = coatMaterials[coat] ? coat : "brown";
+  state.coat = selected;
+  const material = coatMaterials[selected];
+  [body, neck, head].forEach((part) => {
+    part.material = material.fur;
+  });
+  [belly, muzzle, lowerJaw].forEach((part) => {
+    part.material = material.light;
+  });
+  [ear, frontFlipper, farFlipper, tailLeft, tailRight].forEach((part) => {
+    part.material = material.flipper;
+  });
+  document.querySelectorAll("[data-coat]").forEach((option) => {
+    option.setAttribute("aria-checked", String(option.dataset.coat === selected));
+  });
+  localStorage.setItem("seagotchi-coat", selected);
+  if (announce) setSpeech(`${selected.toUpperCase()} COAT. COVE READY!`);
+};
+
+const applyHat = (hat, announce = false) => {
+  const selected = Object.hasOwn(hats, hat) ? hat : "none";
+  state.hat = selected;
+  Object.entries(hats).forEach(([name, item]) => {
+    if (item) item.visible = name === selected;
+  });
+  document.querySelectorAll("[data-hat]").forEach((option) => {
+    option.setAttribute("aria-checked", String(option.dataset.hat === selected));
+  });
+  localStorage.setItem("seagotchi-hat", selected);
+  if (announce) {
+    const names = {
+      none: "NATURAL LOOK. BORK!",
+      crown: "KING OF THE ROCK!",
+      blue: "BLUE TIDE STYLE!",
+      viking: "VIKING OF THE COVE!",
+      wig: "GOLDEN LOCKS. FABULOUS!"
+    };
+    setSpeech(names[selected]);
+  }
+};
+
+const updateShareButton = () => {
+  shareButton.setAttribute("aria-pressed", String(state.sharing));
+  shareLabel.textContent = state.sharing ? "KICK OUT GUESTS" : "SHARE ROCK";
+};
+
+const inviteGuests = (seconds) => {
+  if (state.action === "feed" || state.action === "swim") return;
+  if (state.ambientEvent) finishAmbientEvent(seconds);
+  if (state.sleeping) {
+    state.sleeping = false;
+    state.action = "idle";
+    sleepLabel.textContent = "PUT TO SLEEP";
+  }
+  state.sharing = true;
+  guestAnimals.forEach((guest) => {
+    guest.visible = true;
+    guest.position.copy(guest.userData.start);
+    guest.rotation.set(0, guest.userData.heading, 0);
+    guest.userData.phase = "entering";
+    guest.userData.phaseStarted = seconds;
+  });
+  updateShareButton();
+  setSpeech("COME UP! ROOM FOR THREE SMALL FRIENDS.");
+  playSealSound("song");
+};
+
+const kickGuests = (seconds) => {
+  state.sharing = false;
+  state.shareKickStarted = seconds;
+  guestAnimals.forEach((guest) => {
+    if (!guest.visible) return;
+    guest.userData.exitStart.copy(guest.position);
+    guest.userData.phase = "exiting";
+    guest.userData.phaseStarted = seconds;
+  });
+  updateShareButton();
+  setSpeech("OFF MY ROCK! SPLASH TIME!");
+  playSealSound("bark");
+};
+
+const toggleShare = () => {
+  const seconds = performance.now() / 1000;
+  if (state.sharing) kickGuests(seconds);
+  else inviteGuests(seconds);
+};
+
+const updateGuests = (seconds) => {
+  guestAnimals.forEach((guest, index) => {
+    const data = guest.userData;
+    if (data.phase === "away") return;
+    if (data.phase === "entering") {
+      const elapsed = seconds - data.phaseStarted - data.delay;
+      if (elapsed <= 0) {
+        guest.position.copy(data.start);
+        guest.position.y += Math.sin(seconds * 2.5 + index) * 0.06;
+        return;
+      }
+      const progress = Math.min(elapsed / 1.4, 1);
+      const ease = progress * progress * (3 - 2 * progress);
+      guest.position.lerpVectors(data.start, data.target, ease);
+      guest.position.y += Math.sin(progress * Math.PI) * (1.05 + index * 0.12);
+      const horizontal = Math.hypot(data.target.x - data.start.x, data.target.z - data.start.z);
+      const vertical = data.target.y - data.start.y + Math.cos(progress * Math.PI) * Math.PI * (1.05 + index * 0.12);
+      const direction = Math.sign(data.target.x - data.start.x);
+      guest.rotation.z = Math.atan2(vertical, horizontal) * direction * 0.46;
+      if (progress === 1) {
+        data.phase = "settled";
+        data.phaseStarted = seconds;
+        guest.position.copy(data.target);
+        guest.rotation.set(0, data.heading, 0);
+      }
+      return;
+    }
+    if (data.phase === "settled") {
+      const restElapsed = seconds - data.phaseStarted;
+      const landingBounce = Math.sin(restElapsed * 10) * Math.exp(-restElapsed * 5) * 0.07;
+      guest.position.copy(data.target);
+      guest.position.y += landingBounce + Math.sin(seconds * 1.7 + index) * 0.012;
+      guest.rotation.z = Math.sin(restElapsed * 8) * Math.exp(-restElapsed * 4) * 0.08;
+      return;
+    }
+    if (data.phase === "exiting") {
+      const elapsed = seconds - data.phaseStarted;
+      guest.position.copy(data.exitStart).addScaledVector(data.velocity, elapsed);
+      guest.position.y -= 2.9 * elapsed * elapsed;
+      guest.rotation.z = (index % 2 ? -1 : 1) * elapsed * (4.4 + index * 0.5);
+      if (guest.position.y < -1.8 || elapsed >= 1.7) {
+        guest.visible = false;
+        guest.position.copy(data.start);
+        guest.rotation.set(0, data.heading, 0);
+        data.phase = "away";
+      }
+    }
+  });
+};
+
 const startAmbientEvent = (seconds) => {
   const events = ["climb", "poop", "burp"];
   state.ambientEvent = events[state.ambientIndex % events.length];
@@ -808,6 +1081,7 @@ const feed = () => {
   state.actionStarted = performance.now();
   feedButton.disabled = true;
   swimButton.disabled = true;
+  shareButton.disabled = true;
   fishGroup.visible = true;
   fishGroup.scale.setScalar(1);
   fishGroup.rotation.set(0, Math.PI, 0);
@@ -823,6 +1097,7 @@ const feed = () => {
     fishGroup.scale.setScalar(1);
     feedButton.disabled = false;
     swimButton.disabled = false;
+    shareButton.disabled = false;
     state.action = "idle";
     setSpeech(state.feeds >= 6 ? "ONE MORE COULD NOT HURT..." : "TASTES LIKE THE PACIFIC.");
     if (state.feeds >= 8) showAchievement();
@@ -877,6 +1152,7 @@ const swim = () => {
   sleepButton.disabled = true;
   petButton.disabled = true;
   swimButton.disabled = true;
+  shareButton.disabled = true;
   swimButton.setAttribute("aria-busy", "true");
   swimLabel.textContent = "SWIMMING";
   setSpeech("SPLASH! COVE LAP TIME.");
@@ -895,6 +1171,7 @@ const swim = () => {
     sleepButton.disabled = false;
     petButton.disabled = false;
     swimButton.disabled = false;
+    shareButton.disabled = false;
     swimButton.removeAttribute("aria-busy");
     swimLabel.textContent = "GO SWIM";
     setSpeech("BEST LAP YET. BORK!");
@@ -906,7 +1183,28 @@ feedButton.addEventListener("click", feed);
 sleepButton.addEventListener("click", toggleSleep);
 petButton.addEventListener("click", pet);
 swimButton.addEventListener("click", swim);
+shareButton.addEventListener("click", toggleShare);
 soundToggle.addEventListener("click", toggleSound);
+
+costumeButton.addEventListener("click", () => {
+  setCostumePanel(costumePanel.hidden);
+});
+costumeClose.addEventListener("click", () => {
+  setCostumePanel(false);
+  costumeButton.focus();
+});
+document.querySelectorAll("[data-coat]").forEach((option) => {
+  option.addEventListener("click", () => applyCoat(option.dataset.coat, true));
+});
+document.querySelectorAll("[data-hat]").forEach((option) => {
+  option.addEventListener("click", () => applyHat(option.dataset.hat, true));
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !costumePanel.hidden) {
+    setCostumePanel(false);
+    costumeButton.focus();
+  }
+});
 
 canvas.addEventListener("click", pet);
 
@@ -1000,6 +1298,8 @@ const animate = (time) => {
     swimmer.userData.tailLeft.rotation.z = 1.16 + stroke * 0.2;
     swimmer.userData.tailRight.rotation.z = 1.16 - stroke * 0.2;
   });
+
+  updateGuests(seconds);
 
   const breathing = Math.sin(seconds * 2.2) * 0.025;
   body.scale.y = 0.72 + breathing;
@@ -1098,8 +1398,17 @@ const animate = (time) => {
     mouthInterior.scale.y += (0.28 - mouthInterior.scale.y) * 0.18;
   }
 
+  const kickElapsed = seconds - state.shareKickStarted;
+  if (kickElapsed >= 0 && kickElapsed < 0.58 && state.action !== "swim") {
+    const kick = Math.sin((kickElapsed / 0.58) * Math.PI);
+    frontFlipper.rotation.z = 1.02 + kick * 1.62;
+    headPivot.rotation.z = -kick * 0.18;
+  }
+
   if (
     !state.ambientEvent &&
+    !state.sharing &&
+    guestAnimals.every((guest) => guest.userData.phase === "away") &&
     seconds >= state.nextAmbientAt &&
     state.action === "idle" &&
     !state.sleeping
@@ -1196,6 +1505,9 @@ updateSize();
 updateClock();
 updateDay();
 updateSoundToggle();
+updateShareButton();
+applyCoat(state.coat);
+applyHat(state.hat);
 window.setInterval(updateClock, 30000);
 syncViewport();
 requestAnimationFrame(animate);

@@ -169,6 +169,163 @@ h1 {
   background: var(--coral);
 }
 
+.costume-button {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  z-index: 6;
+  min-height: 42px;
+  padding: 7px 10px;
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--sun);
+  box-shadow: 5px 5px 0 var(--ink);
+  cursor: pointer;
+  font-size: 8px;
+}
+
+.costume-button svg {
+  width: 25px;
+  height: 23px;
+  fill: currentColor;
+}
+
+.costume-button:hover,
+.costume-button:focus-visible,
+.costume-button[aria-expanded="true"] {
+  color: var(--ink);
+  background: var(--mint);
+  outline: none;
+}
+
+.costume-button:active {
+  transform: translate(4px, 4px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+.costume-panel {
+  position: absolute;
+  top: 74px;
+  right: 22px;
+  z-index: 7;
+  width: 278px;
+  padding: 12px;
+  color: var(--cream);
+  border: 3px solid var(--foam);
+  background: rgba(5, 23, 48, 0.96);
+  box-shadow: 7px 7px 0 var(--ink);
+}
+
+.costume-panel[hidden] {
+  display: none;
+}
+
+.closet-heading {
+  margin-bottom: 11px;
+  color: var(--sun);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.closet-heading button {
+  width: 27px;
+  height: 27px;
+  padding: 0;
+  color: var(--cream);
+  border: 2px solid var(--foam);
+  background: var(--deep);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.closet-heading button:hover,
+.closet-heading button:focus-visible {
+  color: var(--ink);
+  background: var(--coral);
+  outline: none;
+}
+
+.costume-panel fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 8px;
+  border: 2px solid var(--line);
+}
+
+.costume-panel fieldset + fieldset {
+  margin-top: 10px;
+}
+
+.costume-panel legend {
+  padding: 0 6px;
+  color: var(--mint);
+  font-size: 8px;
+}
+
+.costume-options {
+  display: grid;
+  gap: 5px;
+}
+
+.coat-options {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.hat-options {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.costume-option {
+  min-width: 0;
+  min-height: 32px;
+  padding: 5px;
+  color: var(--cream);
+  border: 2px solid var(--line);
+  background: var(--deep);
+  cursor: pointer;
+  font-size: 6px;
+  line-height: 1.35;
+}
+
+.costume-option:hover,
+.costume-option:focus-visible {
+  border-color: var(--mint);
+  outline: none;
+}
+
+.costume-option[aria-checked="true"] {
+  color: var(--ink);
+  border-color: var(--ink);
+  background: var(--sun);
+  box-shadow: 3px 3px 0 var(--coral);
+}
+
+.costume-option i {
+  width: 12px;
+  height: 12px;
+  margin: 0 auto 4px;
+  border: 2px solid var(--cream);
+  display: block;
+}
+
+.brown-swatch {
+  background: #6c4637;
+}
+
+.gray-swatch {
+  background: #68727a;
+}
+
+.white-swatch {
+  background: #e7e5d8;
+}
+
 .game-frame {
   min-width: 0;
   min-height: 0;
@@ -299,7 +456,7 @@ h1 {
 
 .action-button {
   width: 100%;
-  min-height: 62px;
+  min-height: 50px;
   padding: 8px;
   color: var(--cream);
   border: 2px solid var(--foam);
@@ -316,7 +473,17 @@ h1 {
 }
 
 .action-button + .action-button {
-  margin-top: 10px;
+  margin-top: 8px;
+}
+
+.action-button[aria-pressed="true"] {
+  color: var(--ink);
+  border-color: var(--sun);
+  background: var(--sun);
+}
+
+.action-button[aria-pressed="true"] svg {
+  fill: var(--ink);
 }
 
 .action-button svg {
@@ -776,7 +943,7 @@ h1 {
     padding: 0;
     border: 0;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 4px;
     background: transparent;
     box-shadow: none;
@@ -834,9 +1001,53 @@ h1 {
     border-color: #75cee0;
   }
 
+  .action-button:nth-of-type(5) {
+    border-color: var(--sun);
+  }
+
+  .costume-button {
+    top: 68px;
+    right: 8px;
+    width: 38px;
+    min-height: 34px;
+    padding: 4px;
+    border-width: 2px;
+    justify-content: center;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  .costume-button svg {
+    width: 22px;
+    height: 20px;
+  }
+
+  .costume-button span {
+    display: none;
+  }
+
+  .costume-panel {
+    top: 108px;
+    right: 8px;
+    width: min(300px, calc(100% - 16px));
+    max-height: calc(100% - 174px);
+    padding: 9px;
+    overflow-y: auto;
+    border-width: 2px;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .costume-panel fieldset {
+    padding: 6px;
+  }
+
+  .costume-option {
+    min-height: 30px;
+    font-size: 5.5px;
+  }
+
   .speech {
     top: 70px;
-    width: min(280px, calc(100% - 74px));
+    width: min(220px, calc(100% - 150px));
     padding: 8px 10px;
     border-width: 2px;
     box-shadow: 3px 3px 0 var(--ink);
