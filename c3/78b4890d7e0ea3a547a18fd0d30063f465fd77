@@ -1,0 +1,36 @@
+pocs/chrome-ext-hn-opennew/popup.js
+  s_3fd9d94264486b::t_ae9167a5d12929 90
+  s_3fd9d94264486b::t_2f127ee12aaa64 9
+  s_3fd9d94264486b::t_4d9526cdf01085 37
+  s_3fd9d94264486b::t_9083a590d8dd7c 2,10,21,35-36,40,42-46
+  s_3fd9d94264486b::t_816d59fb31dd98 102
+  s_3fd9d94264486b::t_4d59885b3e3786 18
+  s_3fd9d94264486b::t_6df7f8b39d1a7c 24-25,27,30,33-34
+  s_3fd9d94264486b::t_5cea1a948a2ad2 86-89,91-93,97
+pocs/chrome-ext-hn-opennew/printscreens/architecture.svg
+  s_3fd9d94264486b::t_32d0b5573e801b 63-64
+  s_3fd9d94264486b::t_a7975d26b8df3b 39-41,43-45,47
+pocs/chrome-ext-hn-opennew/README.md
+  s_3fd9d94264486b::t_e261de2dd717ec 50-51,53-55
+  s_3fd9d94264486b::t_fa7bb6fc81f8d2 5-7
+  s_3fd9d94264486b::t_5f460cf0b70be5 112-127
+  s_3fd9d94264486b::t_f0f413f92ac52a 25-27
+  s_3fd9d94264486b::t_a91e436b82dbec 62-63,66
+  s_3fd9d94264486b::t_c8b60b370f0f78 74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "c378b4890d7e0ea3a547a18fd0d30063f465fd77",
+  "prompts": {},
+  "sessions": {
+    "s_3fd9d94264486b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "911471e6-2fbe-449c-8cc5-5d8a4518acac",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
