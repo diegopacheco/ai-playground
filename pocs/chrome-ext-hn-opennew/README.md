@@ -2,8 +2,9 @@
 
 Chrome extension that opens every Hacker News story you have **not read yet** in background tabs.
 
-One click on the toolbar icon reads the Hacker News page you have open, keeps only the story links you never
-visited, and opens them as background tabs. Comment pages are never opened.
+One click on the toolbar icon fetches Hacker News, keeps only the story links you never visited, and opens them
+as background tabs. Comment pages are never opened. Hacker News does not have to be open: every click pulls the
+page fresh, so new stories always show up.
 
 ![HN Open New popup](printscreens/popup.png)
 
@@ -21,8 +22,9 @@ opened by the extension turn grey the next time you click the icon without a rel
 
 ![Architecture](printscreens/architecture.png)
 
-1. The popup looks for a `news.ycombinator.com` tab in the current window.
-2. It injects a small reader into that tab and collects every `.titleline > a` story link (30 on a front page).
+1. The popup fetches the front page on every click, with `cache: "no-store"` so the list is never stale. If the
+   active tab is already a Hacker News list page (`newest`, `best`), that URL is fetched instead.
+2. The HTML is parsed with `DOMParser` and every `.titleline > a` story link is collected (30 on a front page).
 3. Links pointing back to `news.ycombinator.com` (`item?id=`, `from?site=`) are dropped, so comment pages and
    site filters never open.
 4. Each remaining URL is checked against `chrome.history.getVisits`. Zero visits means never opened.
@@ -45,22 +47,23 @@ script, then tags the visited ones with a class that `content.css` paints grey.
 
 ## Use
 
-1. Go to `news.ycombinator.com` (front page, `newest`, `best`, any list page).
-2. Click the icon. The popup lists the unread stories with their HN rank.
-3. Click **Open N tabs**.
+1. Click the icon from anywhere. The popup lists the unread front page stories with their HN rank.
+2. Click **Open N tabs**.
 
-If everything on the page was already opened, the popup says so and the button stays disabled.
+If the active tab is a Hacker News list page (`newest`, `best`), that page is read instead of the front page.
+
+If everything was already opened, the popup says so and the button stays disabled.
 
 ## Permissions
 
 | Permission | Why |
 | --- | --- |
 | `history` | Read-only check of whether a story URL was ever visited |
-| `tabs` | Find the Hacker News tab and create background tabs |
-| `scripting` | Read the story links from the Hacker News page |
+| `tabs` | Read the active Hacker News list page URL and create background tabs |
+| `scripting` | Re-grey visited links on open Hacker News tabs |
 | `host_permissions: https://news.ycombinator.com/*` | The only site the extension touches |
 
-Nothing is sent anywhere, no storage, no network calls of its own.
+The only request it makes is fetching the Hacker News page itself. Nothing is sent anywhere, no storage.
 
 ## Files
 
@@ -68,7 +71,7 @@ Nothing is sent anywhere, no storage, no network calls of its own.
 manifest.json      MV3 manifest
 popup.html         popup markup
 popup.css          Hacker News styling
-popup.js           scrape, filter by history, open tabs
+popup.js           fetch and parse HN, filter by history, open tabs
 background.js      service worker answering history lookups
 content.js         tags visited story links on the page
 content.css        grey paint for visited story links
@@ -106,3 +109,19 @@ ALL CHECKS PASSED
 
 `--load-extension` is ignored by Chrome stable since 137, so the harness runs against the Chrome for Testing
 build (151) that ships with Playwright.
+
+The fetch-on-click behaviour is checked the same way, with no Hacker News tab open anywhere in the browser:
+
+```
+extension id: emoapamelbphdgemicnoefddjcbcmljj
+front page story links: 30
+popup state (no HN tab open): {"status":"30 of 30 stories never opened:","count":30,"button":"Open 30 tabs","disabled":false}
+PASS popup lists stories with NO hacker news tab open (30 stories, status: "30 of 30 stories never opened:")
+PASS open button enabled (Open 30 tabs)
+seeded history with: 3 story urls
+popup state (after seeding history): {"status":"27 of 30 stories never opened:","count":27}
+PASS visited stories are filtered out of the list (30 -> 27 after visiting 3)
+PASS newest page still loads story rows (30 rows, 1 greyed)
+
+4/4 checks passed
+```

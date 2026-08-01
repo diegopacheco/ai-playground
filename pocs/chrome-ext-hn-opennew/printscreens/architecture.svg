@@ -36,15 +36,15 @@
     <path class="link" d="M395 378 Q343 385 290 378" marker-end="url(#arrow)"/>
   </g>
 
-  <text class="label" x="60" y="140">news.ycombinator.com</text>
-  <text class="label" x="60" y="166">tab you are reading</text>
-  <text class="sub" x="60" y="188">front page, new, best...</text>
+  <text class="label" x="60" y="140">click the Y icon</text>
+  <text class="sub" x="60" y="164">no HN tab needed</text>
+  <text class="sub" x="60" y="186">every click re-reads</text>
 
-  <text class="label" x="415" y="140">click the Y icon</text>
-  <text class="sub" x="415" y="164">popup finds the HN tab</text>
-  <text class="sub" x="415" y="186">in the current window</text>
+  <text class="label" x="415" y="140">fetch(news.ycombinator)</text>
+  <text class="sub" x="415" y="164">cache: no-store</text>
+  <text class="sub" x="415" y="186">front page, new, best...</text>
 
-  <text class="label" x="770" y="140">scripting.executeScript</text>
+  <text class="label" x="770" y="140">DOMParser</text>
   <text class="sub" x="770" y="164">reads every</text>
   <text class="sub" x="770" y="186">.titleline &gt; a story link</text>
 
@@ -60,8 +60,8 @@
   <text class="sub" x="60" y="394">only unread stories</text>
   <text class="sub" x="60" y="416">capped at 30 tabs</text>
 
-  <text class="edge" x="300" y="132">tab query</text>
-  <text class="edge" x="662" y="132">inject</text>
+  <text class="edge" x="303" y="132">fresh HTML</text>
+  <text class="edge" x="662" y="132">parse</text>
   <text class="edge" x="890" y="270">30 links</text>
   <text class="edge" x="655" y="360">stories only</text>
   <text class="edge" x="308" y="358">unread only</text>

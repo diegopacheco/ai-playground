@@ -1,12 +1,13 @@
 const MAX_TABS = 30;
+const FRONT_PAGE = "https://news.ycombinator.com/";
 
 const statusEl = document.getElementById("status");
 const listEl = document.getElementById("list");
 const buttonEl = document.getElementById("open");
 const hintEl = document.getElementById("hint");
 
-function collect() {
-  const links = document.querySelectorAll(".athing .titleline > a, .athing a.storylink");
+function collect(doc, base) {
+  const links = doc.querySelectorAll(".athing .titleline > a, .athing a.storylink");
   return [...links]
     .map((a) => {
       const row = a.closest(".athing");
@@ -14,38 +15,35 @@ function collect() {
       return {
         rank: rank ? rank.textContent.replace(".", "").trim() : "",
         title: a.textContent.trim(),
-        url: a.href
+        url: new URL(a.getAttribute("href"), base).href
       };
     })
-    .filter((story) => {
-      try {
-        return new URL(story.url).origin !== location.origin;
-      } catch {
-        return false;
-      }
-    });
+    .filter((story) => new URL(story.url).hostname !== "news.ycombinator.com");
 }
 
-async function findHackerNewsTab() {
-  const tabs = await chrome.tabs.query({
+async function pageToRead() {
+  const [tab] = await chrome.tabs.query({
     currentWindow: true,
+    active: true,
     url: "https://news.ycombinator.com/*"
   });
-  return tabs[0];
+  return tab ? tab.url : FRONT_PAGE;
 }
 
-async function readStories(tabId) {
-  const [injection] = await chrome.scripting.executeScript({
-    target: { tabId },
-    func: collect
-  });
-  return injection.result || [];
+async function fetchStories(url) {
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) throw new Error(response.status);
+  const doc = new DOMParser().parseFromString(await response.text(), "text/html");
+  return collect(doc, url);
 }
 
-async function grayVisited(tabId) {
+async function grayVisitedTabs() {
   try {
-    await chrome.scripting.insertCSS({ target: { tabId }, files: ["content.css"] });
-    await chrome.scripting.executeScript({ target: { tabId }, files: ["content.js"] });
+    const tabs = await chrome.tabs.query({ url: "https://news.ycombinator.com/*" });
+    for (const tab of tabs) {
+      await chrome.scripting.insertCSS({ target: { tabId: tab.id }, files: ["content.css"] });
+      await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["content.js"] });
+    }
   } catch {}
 }
 
@@ -85,20 +83,23 @@ function openTabs(stories) {
 }
 
 async function start() {
-  const tab = await findHackerNewsTab();
-  if (!tab) {
-    statusEl.textContent = "No Hacker News tab in this window.";
-    hintEl.textContent = "Open news.ycombinator.com and click the icon again.";
+  statusEl.textContent = "Loading Hacker News...";
+
+  let stories;
+  try {
+    stories = await fetchStories(await pageToRead());
+  } catch {
+    statusEl.textContent = "Could not reach news.ycombinator.com.";
+    hintEl.textContent = "Check your connection and click the icon again.";
     return;
   }
 
-  await grayVisited(tab.id);
+  grayVisitedTabs();
 
-  const stories = await readStories(tab.id);
   const unread = (await filterUnvisited(stories)).slice(0, MAX_TABS);
 
   if (unread.length === 0) {
-    statusEl.textContent = `All ${stories.length} stories on this page were already opened.`;
+    statusEl.textContent = `All ${stories.length} stories were already opened.`;
     return;
   }
 
