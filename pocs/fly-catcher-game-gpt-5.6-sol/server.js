@@ -32,6 +32,7 @@ const files = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/index.html', ['index.html', 'text/html; charset=utf-8']],
   ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
+  ['/assets/fly-catcher-logo.png', ['assets/fly-catcher-logo.png', 'image/png']],
   ['/qr.js', ['qr.js', 'text/javascript; charset=utf-8']],
   ['/game.js', ['game.js', 'text/javascript; charset=utf-8']]
 ])

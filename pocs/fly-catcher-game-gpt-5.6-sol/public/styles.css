@@ -94,6 +94,23 @@ button:disabled {
   transform: rotate(-1deg);
 }
 
+.brand-lockup {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 20px);
+}
+
+.marquee-logo {
+  width: clamp(54px, 9vh, 86px);
+  height: clamp(54px, 9vh, 86px);
+  flex: 0 0 auto;
+  border: 3px solid var(--ink);
+  object-fit: cover;
+  image-rendering: pixelated;
+  box-shadow: 4px 4px 0 var(--yellow);
+}
+
 .eyebrow {
   margin: 0 0 7px;
   font-weight: 900;

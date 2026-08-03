@@ -1,5 +1,7 @@
 # Fly Catcher
 
+![Fly Catcher pixel-art logo](public/assets/fly-catcher-logo.png)
+
 Fly Catcher is a local 8-bit kitchen arcade game controlled from Safari on an iPhone. It uses no native phone app, third-party package, cloud service, account, or public endpoint.
 
 The Mac serves the game only on loopback. The QR code opens a private-LAN setup page on the phone. After a one-time local certificate installation, Safari reads accelerometer motion through HTTPS and sends it to the Mac. The Mac relays each control packet through the local UDP receiver before the game receives it.
