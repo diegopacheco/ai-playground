@@ -1,0 +1,12 @@
+{
+  "name": "fly-catcher",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "test": "bash test.sh"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

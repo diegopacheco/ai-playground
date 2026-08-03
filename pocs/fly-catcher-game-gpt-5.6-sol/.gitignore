@@ -1,0 +1,6 @@
+.fly-catcher.pid
+.fly-catcher.state
+fly-catcher.log
+.DS_Store
+xcuserdata/
+DerivedData/

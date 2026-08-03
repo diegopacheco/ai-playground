@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17131e">
+  <title>Fly Catcher</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="cabinet">
+    <header class="marquee">
+      <div class="marquee-copy">
+        <p class="eyebrow">Kitchen patrol unit 84</p>
+        <h1>Fly Catcher</h1>
+      </div>
+      <div class="status-wrap">
+        <span class="status-light" id="status-light"></span>
+        <span id="controller-status">Waiting for controller</span>
+      </div>
+    </header>
+
+    <section class="scoreboard" aria-label="Scoreboard">
+      <div><span>Score</span><strong id="score">000000</strong></div>
+      <div><span>Hits</span><strong id="hits">00</strong></div>
+      <div><span>Time</span><strong id="time">60</strong></div>
+      <div><span>Chain</span><strong id="chain">x1</strong></div>
+    </section>
+
+    <section class="screen-shell">
+      <div class="screen" id="screen">
+        <canvas id="game" width="960" height="540" aria-label="Fly Catcher kitchen game"></canvas>
+        <div class="scanlines"></div>
+        <div class="game-card" id="game-card">
+          <p class="card-kicker">Phone pairing</p>
+          <h2 id="card-title">Scan to link</h2>
+          <div class="pairing-row">
+            <div class="qr-shell">
+              <canvas id="pairing-qr" width="225" height="225" aria-label="QR code for the iPhone controller"></canvas>
+            </div>
+            <div class="pairing-copy">
+              <p id="card-copy">Scan with the iPhone Camera, then tap Open UDP Controller on the private pairing page.</p>
+              <code id="pairing-address">Finding private address</code>
+              <span id="pairing-state">Waiting for UDP signal</span>
+            </div>
+          </div>
+          <button id="card-action" type="button" disabled>Start round</button>
+        </div>
+        <div class="hit-flash" id="hit-flash"></div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <div class="instructions">
+        <p><span class="key">Tilt</span> Aim the swatter</p>
+        <p><span class="key">Snap</span> Strike the fly</p>
+        <p><span class="key">Space</span> Keyboard strike</p>
+      </div>
+      <div class="actions">
+        <button class="secondary" id="calibrate" type="button">Center aim</button>
+        <button class="danger" id="stop" type="button" disabled>Stop round</button>
+      </div>
+    </section>
+
+    <footer>
+      <span>Local arcade link</span>
+      <span id="udp-port">UDP 5005</span>
+    </footer>
+  </main>
+  <script src="/qr.js"></script>
+  <script src="/game.js"></script>
+</body>
+</html>

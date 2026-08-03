@@ -1,0 +1,11 @@
+const fs = require('node:fs')
+
+const html = fs.readFileSync('public/index.html', 'utf8')
+const styles = fs.readFileSync('public/styles.css', 'utf8')
+const game = fs.readFileSync('public/game.js', 'utf8')
+
+if (!html.includes('id="pairing-qr"')) process.exit(1)
+if (!html.includes('id="card-action" type="button" disabled')) process.exit(1)
+if (!styles.includes('height: 100dvh') || !styles.includes('overflow: hidden') || !styles.includes('minmax(0, 1fr)')) process.exit(1)
+if (!game.includes('Date.now() - state.lastPacketAt >= 2200')) process.exit(1)
+process.stdout.write('Fixed viewport and controller gate passed\n')
