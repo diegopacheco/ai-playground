@@ -1,0 +1,19 @@
+pages/pages.md
+  s_c0c8c813cfa865::t_ad11456eac8e51 29,51,93,111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "ecd0e898839623b3e3140f183a0d93dae7ee06d3",
+  "prompts": {},
+  "sessions": {
+    "s_c0c8c813cfa865": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc5fa-443b-7a71-817a-1a708b4817f6",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
