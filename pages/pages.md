@@ -26,6 +26,7 @@ The `diegopacheco/diegopacheco.github.io` repository is a separate site. Changes
 | `diegopacheco/ai-playground` | `games/seagotchi/index.html` and `games/seagotchi/assets/` | `https://diegopacheco.github.io/ai-playground/games/seagotchi/` |
 | `diegopacheco/ai-playground` | `games/gull-about-town/index.html` and `games/gull-about-town/assets/` | `https://diegopacheco.github.io/ai-playground/games/gull-about-town/` |
 | `diegopacheco/ai-playground` | `games/dustline/index.html` and `games/dustline/assets/` | `https://diegopacheco.github.io/ai-playground/games/dustline/` |
+| `diegopacheco/ai-playground` | `games/fly-catcher/index.html`, `games/fly-catcher/game.js` and `games/fly-catcher/styles.css` | `https://diegopacheco.github.io/ai-playground/games/fly-catcher/` |
 | `diegopacheco/ai-playground` | `mcp/index.html` | `https://diegopacheco.github.io/ai-playground/mcp/` |
 | `diegopacheco/ai-playground` | `macos-chrome-apps/index.html` | `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` |
 
@@ -47,6 +48,7 @@ The aggregate workflow currently creates these entry points:
 | `games/seagotchi/` | `_site/games/seagotchi/` |
 | `games/gull-about-town/` | `_site/games/gull-about-town/` |
 | `games/dustline/` | `_site/games/dustline/` |
+| `games/fly-catcher/` | `_site/games/fly-catcher/` |
 | `mcp/index.html` | `_site/mcp/index.html` |
 | `macos-chrome-apps/index.html` | `_site/macos-chrome-apps/index.html` |
 
@@ -88,6 +90,7 @@ The workflow also copies every media file required by these pages. Source files 
 - `_site/games/seagotchi/index.html` exists.
 - `_site/games/gull-about-town/index.html` exists.
 - `_site/games/dustline/index.html` exists.
+- `_site/games/fly-catcher/index.html` exists.
 - `_site/mcp/index.html` exists.
 - `_site/macos-chrome-apps/index.html` exists.
 - No existing route or asset is missing from the artifact.
@@ -105,6 +108,7 @@ The workflow also copies every media file required by these pages. Source files 
 - `https://diegopacheco.github.io/ai-playground/games/seagotchi/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/games/gull-about-town/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/games/dustline/` returns HTTP 200.
+- `https://diegopacheco.github.io/ai-playground/games/fly-catcher/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/mcp/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` returns HTTP 200.
 
