@@ -23,7 +23,7 @@ node -e "const s=JSON.parse(process.argv[1]); const p=Number(process.argv[2]); i
 pairing_url="$(node -p "JSON.parse(process.argv[1]).pairingUrl||''" "$status")"
 if [ -n "$pairing_url" ]; then
   pairing_page="$(curl --noproxy '*' -fsS "$pairing_url")"
-  printf '%s' "$pairing_page" | grep -q "Open UDP controller"
+  printf '%s' "$pairing_page" | grep -q "Controller 1.1 required"
 fi
 node tests/ports.test.js
 node tests/qr.test.js

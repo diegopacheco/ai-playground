@@ -422,7 +422,7 @@ window.setInterval(() => {
     if (state.mode !== 'running') cardAction.disabled = true
     if (state.mode === 'idle') {
       cardTitle.textContent = 'Scan to link'
-      cardCopy.textContent = 'Scan with the iPhone Camera, then tap Open UDP Controller on the private pairing page.'
+      cardCopy.textContent = 'Install Controller 1.1 from Xcode, scan with Camera, then open the installed controller.'
     }
     if (state.mode === 'ended') {
       cardTitle.textContent = 'Controller offline'

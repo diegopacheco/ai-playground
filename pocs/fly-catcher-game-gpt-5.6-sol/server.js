@@ -169,16 +169,17 @@ function pairingPage(controllerUri) {
 <meta name="theme-color" content="#17131e">
 <title>Fly Catcher Pairing</title>
 <style>
-*{box-sizing:border-box}html,body{height:100%;overflow:hidden}body{margin:0;padding:18px;display:grid;place-items:center;color:#fff0c9;font-family:Rockwell,"Courier New",monospace;background:#17131e}.panel{width:min(430px,100%);padding:28px;border:5px solid #09070d;background:#2e2336;box-shadow:9px 9px 0 #ff5b4d}small{color:#ffd447;font-weight:900;letter-spacing:.16em;text-transform:uppercase}h1{margin:8px 0 12px;font-family:Impact,Haettenschweiler,fantasy;font-size:46px;line-height:.95;text-transform:uppercase;text-shadow:4px 4px 0 #ff5b4d}p{line-height:1.5}.address{padding:11px;color:#17131e;font-weight:900;background:#ffd447}a{margin-top:18px;padding:17px;display:block;color:#17131e;font-weight:900;text-align:center;text-decoration:none;text-transform:uppercase;background:#65d6a7;box-shadow:5px 5px 0 #09070d}a:active{transform:translate(3px,3px);box-shadow:2px 2px 0 #09070d}
+*{box-sizing:border-box}html,body{height:100%;overflow:hidden}body{margin:0;padding:18px;display:grid;place-items:center;color:#fff0c9;font-family:Rockwell,"Courier New",monospace;background:#17131e}.panel{width:min(430px,100%);padding:28px;border:5px solid #09070d;background:#2e2336;box-shadow:9px 9px 0 #ff5b4d}small{color:#ffd447;font-weight:900;letter-spacing:.16em;text-transform:uppercase}h1{margin:8px 0 12px;font-family:Impact,Haettenschweiler,fantasy;font-size:42px;line-height:.95;text-transform:uppercase;text-shadow:4px 4px 0 #ff5b4d}p{line-height:1.45}.address{padding:11px;color:#17131e;font-weight:900;background:#ffd447}.help{font-size:12px;color:#d8aeb1}a{margin-top:18px;padding:17px;display:block;color:#17131e;font-weight:900;text-align:center;text-decoration:none;text-transform:uppercase;background:#65d6a7;box-shadow:5px 5px 0 #09070d}a:active{transform:translate(3px,3px);box-shadow:2px 2px 0 #09070d}
 </style>
 </head>
 <body>
 <main class="panel">
-<small>Private local pairing</small>
-<h1>Phone found</h1>
-<p>This Mac is ready. Open the installed controller to begin sending motion through UDP.</p>
+<small>Controller 1.1 required</small>
+<h1>Install then pair</h1>
+<p>Safari cannot send UDP. Install the iPhone controller from Xcode on the Mac, then open it here.</p>
 <p class="address">${controllerHost}:${udpPort}</p>
-<a href="${controllerUri}">Open UDP controller</a>
+<a href="${controllerUri}">Open installed controller</a>
+<p class="help">If Safari reports an invalid address, Controller 1.1 is not installed on this iPhone.</p>
 </main>
 </body>
 </html>`

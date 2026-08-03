@@ -46,6 +46,8 @@ ifconfig
 
 The QR code contains a standard HTTP address hosted only on the Mac private network. The page opens the installed controller with the detected Mac private IPv4 address and selected UDP port. Manual address and port entry remain available in the controller.
 
+The current iPhone controller version is `1.1`. Reinstall it from Xcode after pulling changes so iOS registers the `flycatcher://` pairing address. If Safari says the address is invalid, the current controller is not installed on that iPhone.
+
 The game unlocks its Start button only after receiving an iPhone UDP packet. The iPhone app displays live X, Y, and Z acceleration values. Hold it in a comfortable portrait position, wait for the green linked state, start a round on the Mac, then press `Center aim`. Tilt the phone to move the swatter. Push the phone forward quickly to snap, or press the large `Snap` button.
 
 The Mac firewall may ask whether Node can receive incoming connections. Allow local connections so the iPhone UDP packets can reach the game.
