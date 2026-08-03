@@ -9,6 +9,7 @@ const axisZ = document.getElementById('axis-z')
 const tiltDot = document.getElementById('tilt-dot')
 let active = false
 let motionInFlight = false
+let pendingMotion
 let lastMotionAt = 0
 let lastSnapAt = 0
 let wakeLock
@@ -18,9 +19,7 @@ function setStatus(text, online) {
   statusLight.classList.toggle('online', online)
 }
 
-async function send(packet, motion) {
-  if (motion && motionInFlight) return
-  if (motion) motionInFlight = true
+async function send(packet) {
   try {
     const response = await fetch('/api/control', {
       method: 'POST',
@@ -34,14 +33,27 @@ async function send(packet, motion) {
     setStatus('Linked to the kitchen', true)
   } catch {
     setStatus('Local controller link lost', false)
-  } finally {
-    if (motion) motionInFlight = false
   }
+}
+
+async function flushMotion() {
+  if (motionInFlight || !pendingMotion) return
+  motionInFlight = true
+  const packet = pendingMotion
+  pendingMotion = null
+  await send(packet)
+  motionInFlight = false
+  flushMotion()
+}
+
+function queueMotion(packet) {
+  pendingMotion = packet
+  flushMotion()
 }
 
 function updateMotion(event) {
   const now = performance.now()
-  if (!active || now - lastMotionAt < 40) return
+  if (!active || now - lastMotionAt < 16) return
   const acceleration = event.accelerationIncludingGravity || event.acceleration
   if (!acceleration || acceleration.x == null || acceleration.y == null || acceleration.z == null) return
   lastMotionAt = now
@@ -54,11 +66,11 @@ function updateMotion(event) {
   const x = Math.max(-84, Math.min(84, ax * 96))
   const y = Math.max(-84, Math.min(84, -ay * 96))
   tiltDot.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`
-  send({ type: 'motion', ax, ay, az }, true)
+  queueMotion({ type: 'motion', ax, ay, az })
   const force = Math.hypot(ax, ay, az)
   if (force > 1.72 && now - lastSnapAt > 550) {
     lastSnapAt = now
-    send({ type: 'snap' }, false)
+    send({ type: 'snap' })
   }
 }
 
@@ -90,7 +102,7 @@ async function enableMotion() {
       } catch {
       }
     }
-    await send({ type: 'motion', ax: 0, ay: 0, az: 1 }, false)
+    await send({ type: 'motion', ax: 0, ay: 0, az: 1 })
   } catch {
     setStatus('Motion permission unavailable', false)
   }
@@ -99,7 +111,7 @@ async function enableMotion() {
 enableButton.addEventListener('click', enableMotion)
 snapButton.addEventListener('click', () => {
   lastSnapAt = performance.now()
-  send({ type: 'snap' }, false)
+  send({ type: 'snap' })
 })
 
 document.addEventListener('visibilitychange', async () => {

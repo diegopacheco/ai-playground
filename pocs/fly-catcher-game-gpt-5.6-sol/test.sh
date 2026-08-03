@@ -54,6 +54,7 @@ fi
 node tests/ports.test.js
 node tests/qr.test.js
 node tests/layout.test.js
+node tests/controller-motion.test.js
 openssl verify -CAfile .certs/ca.crt .certs/server.crt >/dev/null
 controller_host="$(node -p "JSON.parse(require('node:fs').readFileSync('.fly-catcher.state')).controllerHost")"
 openssl x509 -in .certs/server.crt -noout -text | rg -q "IP Address:$controller_host"
