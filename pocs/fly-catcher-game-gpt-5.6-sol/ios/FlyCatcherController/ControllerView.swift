@@ -31,7 +31,7 @@ struct ControllerView: View {
 
     private var title: some View {
         VStack(spacing: 5) {
-            Text("KITCHEN PATROL UNIT 84")
+            Text("KITCHEN PATROL UNIT 84 / V1.1")
                 .font(.system(size: 12, weight: .black, design: .monospaced))
                 .tracking(2)
                 .foregroundStyle(yellow)

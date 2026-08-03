@@ -28,8 +28,13 @@ fi
 node tests/ports.test.js
 node tests/qr.test.js
 node tests/layout.test.js
+scheme="$(plutil -extract CFBundleURLTypes.0.CFBundleURLSchemes.0 raw ios/FlyCatcherController/Info.plist)"
+if [ "$scheme" != "flycatcher" ]; then
+  exit 1
+fi
 echo "HTTP game page passed"
 echo "Private UDP motion packet passed"
 echo "Browser event stream passed"
 echo "Private pairing page passed"
+echo "iPhone pairing address registration passed"
 echo "Local-only game HTTP binding passed"
