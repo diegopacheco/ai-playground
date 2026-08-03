@@ -47,6 +47,7 @@ jobs:
           cp -R games/seagotchi _site/games/seagotchi
           cp -R games/gull-about-town _site/games/gull-about-town
           cp -R games/dustline _site/games/dustline
+          cp -R games/fly-catcher _site/games/fly-catcher
           grep -oE '\.\./pocs/[^"]+\.(png|jpg|jpeg|gif|mp4|webm)' games/index.html | sort -u | sed 's#^\.\./##' | while read -r f; do
             mkdir -p "_site/$(dirname "$f")"
             cp "$f" "_site/$f"
