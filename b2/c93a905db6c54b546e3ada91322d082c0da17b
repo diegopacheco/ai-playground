@@ -1,0 +1,24 @@
+pocs/fly-catcher-game-gpt-5.6-sol/public/controller.js
+  s_60c9674436bdf2::t_0ded9de0326a41 12,22,39-53,56,69,73,105,114
+pocs/fly-catcher-game-gpt-5.6-sol/test.sh
+  s_60c9674436bdf2::t_0ded9de0326a41 57
+pocs/fly-catcher-game-gpt-5.6-sol/tests/controller-motion.test.js
+  s_60c9674436bdf2::t_191aff62706998 66
+  s_60c9674436bdf2::t_0ded9de0326a41 1-65,67-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "b2c93a905db6c54b546e3ada91322d082c0da17b",
+  "prompts": {},
+  "sessions": {
+    "s_60c9674436bdf2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc62e-8e85-71f1-945d-2a0d2b73e955",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
