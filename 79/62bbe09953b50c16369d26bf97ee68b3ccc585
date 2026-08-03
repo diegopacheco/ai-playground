@@ -1,0 +1,31 @@
+pocs/fly-catcher-game-gpt-5.6-sol/public/index.html
+  s_540d41c2f50ea7::t_e391211c9b8f51 42
+pocs/fly-catcher-game-gpt-5.6-sol/ios/FlyCatcherController.xcodeproj/project.pbxproj
+  s_540d41c2f50ea7::t_e391211c9b8f51 134,139,154,158
+pocs/fly-catcher-game-gpt-5.6-sol/test.sh
+  s_540d41c2f50ea7::t_e391211c9b8f51 26
+pocs/fly-catcher-game-gpt-5.6-sol/server.js
+  s_540d41c2f50ea7::t_e391211c9b8f51 172,177-179,181-182
+pocs/fly-catcher-game-gpt-5.6-sol/README.md
+  s_540d41c2f50ea7::t_e391211c9b8f51 49-50
+pocs/fly-catcher-game-gpt-5.6-sol/public/game.js
+  s_540d41c2f50ea7::t_e391211c9b8f51 425
+pocs/fly-catcher-game-gpt-5.6-sol/ios/FlyCatcherController/Info.plist
+  s_540d41c2f50ea7::t_e391211c9b8f51 18,33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "7962bbe09953b50c16369d26bf97ee68b3ccc585",
+  "prompts": {},
+  "sessions": {
+    "s_540d41c2f50ea7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc5b8-d98d-7df3-9b00-a8f495c3a348",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
