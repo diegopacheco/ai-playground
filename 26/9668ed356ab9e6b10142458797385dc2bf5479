@@ -1,0 +1,21 @@
+pocs/fly-catcher-game-gpt-5.6-sol/ios/FlyCatcherController/ControllerView.swift
+  s_540d41c2f50ea7::t_58d98dadb3acfb 34
+pocs/fly-catcher-game-gpt-5.6-sol/test.sh
+  s_540d41c2f50ea7::t_343123401db890 31-34,39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "269668ed356ab9e6b10142458797385dc2bf5479",
+  "prompts": {},
+  "sessions": {
+    "s_540d41c2f50ea7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc5b8-d98d-7df3-9b00-a8f495c3a348",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
