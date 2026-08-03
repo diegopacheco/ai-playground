@@ -109,8 +109,8 @@ Website (Games Catalog): [games/index.html](https://diegopacheco.github.io/ai-pl
 33. **Mega Slop** — An 8-bit, CRT-flavored platform shooter where you play a green slop-bot.
     [pocs/megaslop](https://github.com/diegopacheco/ai-playground/tree/main/pocs/megaslop)
 
-34. **Fly Catcher** — An 8-bit kitchen arcade game where you aim a fly swatter with the arrow keys, strike with Space and build scoring chains against a 60-second clock.
-    [Play Fly Catcher](https://diegopacheco.github.io/ai-playground/games/fly-catcher/) · [pocs/fly-catcher-game-gpt-5.6-sol](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fly-catcher-game-gpt-5.6-sol)
+34. **Fly Catcher** — A local 8-bit kitchen arcade game controlled by an iPhone accelerometer, with scoring chains and a 60-second clock.
+    [pocs/fly-catcher-game-gpt-5.6-sol](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fly-catcher-game-gpt-5.6-sol)
 
 ## Puzzle, Strategy & Board Games
 
