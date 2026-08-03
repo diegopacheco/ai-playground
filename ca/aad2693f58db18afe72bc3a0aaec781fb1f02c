@@ -1,0 +1,19 @@
+games/index.html
+  s_66cfb59c886321::t_4704fff5444d0d 218
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "caaad2693f58db18afe72bc3a0aaec781fb1f02c",
+  "prompts": {},
+  "sessions": {
+    "s_66cfb59c886321": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc627-b0eb-7823-adac-c22777b06877",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
