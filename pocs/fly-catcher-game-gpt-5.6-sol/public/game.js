@@ -415,14 +415,14 @@ events.onmessage = (event) => {
 window.setInterval(() => {
   const online = Date.now() - state.lastPacketAt < 2200
   statusLight.classList.toggle('online', online)
-  controllerStatus.textContent = online ? 'iPhone controller linked' : 'Waiting for controller'
+  controllerStatus.textContent = online ? 'Phone browser linked' : 'Waiting for controller'
   if (!online) {
     pairingState.textContent = 'Waiting for UDP signal'
     pairingState.classList.remove('online')
     if (state.mode !== 'running') cardAction.disabled = true
     if (state.mode === 'idle') {
       cardTitle.textContent = 'Scan to link'
-      cardCopy.textContent = 'Install Controller 1.1 from Xcode, scan with Camera, then open the installed controller.'
+      cardCopy.textContent = 'Scan with Camera, trust the local certificate once, then enable motion in Safari.'
     }
     if (state.mode === 'ended') {
       cardTitle.textContent = 'Controller offline'

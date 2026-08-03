@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#17131e">
+  <title>Fly Catcher Controller</title>
+  <link rel="stylesheet" href="/controller.css">
+</head>
+<body>
+  <main class="controller">
+    <header>
+      <p>Kitchen patrol unit 84</p>
+      <h1>Fly Catcher</h1>
+      <div class="status"><span id="status-light"></span><strong id="status-text">Ready for motion permission</strong></div>
+    </header>
+
+    <section class="motion-stage">
+      <div class="tilt-field">
+        <div class="cross horizontal"></div>
+        <div class="cross vertical"></div>
+        <div class="tilt-dot" id="tilt-dot"></div>
+      </div>
+      <div class="meters">
+        <div><span>X</span><strong id="axis-x">0.00</strong></div>
+        <div><span>Y</span><strong id="axis-y">0.00</strong></div>
+        <div><span>Z</span><strong id="axis-z">0.00</strong></div>
+      </div>
+    </section>
+
+    <button class="enable" id="enable" type="button">Enable motion</button>
+    <button class="snap" id="snap" type="button" disabled>Snap</button>
+    <p class="instructions">Hold upright, tilt to aim, then push forward quickly or press Snap.</p>
+  </main>
+  <script src="/controller.js"></script>
+</body>
+</html>

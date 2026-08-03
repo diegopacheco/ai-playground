@@ -1,0 +1,231 @@
+:root {
+  color-scheme: dark;
+  --ink: #17131e;
+  --cream: #fff0c9;
+  --coral: #ff5b4d;
+  --yellow: #ffd447;
+  --mint: #65d6a7;
+  --shadow: #09070d;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  padding: max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom));
+  color: var(--cream);
+  font-family: Rockwell, "Courier New", monospace;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0 0 / 20px 20px,
+    var(--ink);
+}
+
+button {
+  border: 0;
+  border-radius: 0;
+  font: 900 18px/1 Rockwell, "Courier New", monospace;
+  text-transform: uppercase;
+  touch-action: manipulation;
+}
+
+button:disabled {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.controller {
+  width: min(520px, 100%);
+  height: 100%;
+  margin: auto;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+  gap: clamp(9px, 1.8vh, 16px);
+}
+
+header {
+  padding: clamp(12px, 2.2vh, 20px);
+  color: var(--ink);
+  background: var(--coral);
+  border: 5px solid var(--shadow);
+  box-shadow: 7px 7px 0 var(--yellow);
+}
+
+header p {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 2px 0 10px;
+  font-family: Impact, Haettenschweiler, fantasy;
+  font-size: clamp(36px, 7vh, 58px);
+  line-height: 0.92;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 0 var(--yellow);
+}
+
+.status {
+  padding: 9px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--cream);
+  font-size: 11px;
+  background: var(--ink);
+}
+
+.status span {
+  width: 11px;
+  height: 11px;
+  flex: 0 0 auto;
+  background: var(--coral);
+}
+
+.status span.online {
+  background: var(--mint);
+  box-shadow: 0 0 12px var(--mint);
+}
+
+.motion-stage {
+  min-height: 0;
+  padding: clamp(10px, 2vh, 18px);
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 10px;
+  border: 5px solid var(--shadow);
+  background: #2e2336;
+}
+
+.tilt-field {
+  position: relative;
+  min-height: 110px;
+  overflow: hidden;
+  background: #201824;
+  border: 3px solid #55405d;
+}
+
+.cross {
+  position: absolute;
+  background: #55405d;
+}
+
+.cross.horizontal {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+}
+
+.cross.vertical {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+}
+
+.tilt-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34px;
+  height: 34px;
+  background: var(--yellow);
+  border: 5px solid var(--coral);
+  box-shadow: 5px 5px 0 var(--shadow);
+  transform: translate(-50%, -50%);
+}
+
+.meters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+}
+
+.meters div {
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  color: var(--yellow);
+  font-size: 13px;
+  background: var(--ink);
+}
+
+.meters span {
+  color: var(--coral);
+  font-weight: 900;
+}
+
+.enable,
+.snap {
+  min-height: clamp(54px, 9vh, 76px);
+  color: var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+}
+
+.enable {
+  background: var(--mint);
+}
+
+.snap {
+  min-height: clamp(84px, 17vh, 142px);
+  color: var(--cream);
+  font-family: Impact, Haettenschweiler, fantasy;
+  font-size: clamp(42px, 9vh, 72px);
+  letter-spacing: 0.05em;
+  background: var(--coral);
+  text-shadow: 4px 4px 0 var(--ink);
+}
+
+.enable:active,
+.snap:active {
+  transform: translate(4px, 4px);
+  box-shadow: 2px 2px 0 var(--shadow);
+}
+
+.instructions {
+  margin: 0;
+  color: #bbaac2;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+}
+
+@media (max-height: 650px) {
+  header {
+    padding: 8px 12px;
+  }
+
+  h1 {
+    margin-bottom: 5px;
+    font-size: 34px;
+  }
+
+  .motion-stage {
+    padding: 7px;
+  }
+
+  .snap {
+    min-height: 72px;
+  }
+
+  .instructions {
+    display: none;
+  }
+}

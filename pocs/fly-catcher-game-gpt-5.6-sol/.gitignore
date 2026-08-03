@@ -1,6 +1,5 @@
 .fly-catcher.pid
 .fly-catcher.state
+.certs/
 fly-catcher.log
 .DS_Store
-xcuserdata/
-DerivedData/
