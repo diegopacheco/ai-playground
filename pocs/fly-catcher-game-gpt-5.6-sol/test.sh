@@ -17,6 +17,7 @@ finish() {
 trap finish EXIT
 page="$(curl -fsS "http://127.0.0.1:$http_port/")"
 printf '%s' "$page" | grep -q "Fly Catcher"
+curl -fsS -o /dev/null "http://127.0.0.1:$http_port/assets/fly-catcher-logo.png"
 GAME_PORT="$http_port" UDP_PORT="$udp_port" node tests/bridge.test.js
 status="$(curl -fsS "http://127.0.0.1:$http_port/api/status")"
 node -e "const s=JSON.parse(process.argv[1]); const p=Number(process.argv[2]); if(!s.running||s.packetCount<1||s.http!=='127.0.0.1:'+p) process.exit(1)" "$status" "$http_port"

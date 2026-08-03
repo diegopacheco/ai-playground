@@ -7,6 +7,7 @@ const controller = fs.readFileSync('public/controller.html', 'utf8')
 const controllerStyles = fs.readFileSync('public/controller.css', 'utf8')
 
 if (!html.includes('id="pairing-qr"')) process.exit(1)
+if (!html.includes('class="marquee-logo" src="/assets/fly-catcher-logo.png"')) process.exit(1)
 if (!html.includes('id="card-action" type="button" disabled')) process.exit(1)
 if (!styles.includes('height: 100dvh') || !styles.includes('overflow: hidden') || !styles.includes('minmax(0, 1fr)')) process.exit(1)
 if (!game.includes('Date.now() - state.lastPacketAt >= 2200')) process.exit(1)

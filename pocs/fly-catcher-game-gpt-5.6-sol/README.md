@@ -6,6 +6,16 @@ Fly Catcher is a local 8-bit kitchen arcade game controlled from Safari on an iP
 
 The Mac serves the game only on loopback. The QR code opens a private-LAN setup page on the phone. After a one-time local certificate installation, Safari reads accelerometer motion through HTTPS and sends it to the Mac. The Mac relays each control packet through the local UDP receiver before the game receives it.
 
+## Screens
+
+![Fly Catcher opening screen with the logo, kitchen, score, and QR pairing card](assets/screenshots/game-pairing.png)
+
+The opening screen keeps the game on the Mac. The logo appears in the upper-left marquee, while the pairing card shows the current private address and a QR code generated for this run. The round remains locked until the phone controller sends its first packet.
+
+<img src="assets/screenshots/iphone-certificate-pairing.png" alt="iPhone-sized certificate pairing page" width="390">
+
+The phone pairing page stays on the private network. First download the local certificate, install its profile, enable full trust in iPhone Settings, then return and open the browser controller.
+
 ## Requirements
 
 - macOS with Node.js 20 or newer
