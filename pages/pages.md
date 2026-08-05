@@ -12,6 +12,8 @@ Never create another workflow that calls `actions/deploy-pages`. Extend the exis
 
 The `diegopacheco/diegopacheco.github.io` repository is a separate site. Changes to `ai-playground` must never modify or deploy that repository.
 
+That repository has no workflow. It serves `index.html` with classic GitHub Pages from its `master` branch, so pushing `master` publishes it. Its deployment is independent of the `ai-playground` artifact and cannot add or remove any `ai-playground` route.
+
 ## Published Pages
 
 | Repository | Path in repository | Public URL |
