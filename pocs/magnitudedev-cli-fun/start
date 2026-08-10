@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# TanStack Table V9 Application
+# Start the development server using Vite
+
+PORT="${PORT:-3000}"
+
+echo "Starting TanStack Table V9 Application..."
+echo "Server will run on http://localhost:${PORT}"
+echo ""
+
+# Start Vite preview server (serves the production build)
+npm run preview

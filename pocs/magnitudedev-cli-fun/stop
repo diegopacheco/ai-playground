@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# TanStack Table V9 Application
+# Stop the development server
+
+echo "Stopping server..."
+
+# Kill node processes related to the server
+pkill -f "npm run preview" 2>/dev/null || true
+pkill -f "vite" 2>/dev/null || true
+
+echo "Server stopped."
+echo ""
+echo "To start again, run: ./start"
