@@ -1,0 +1,132 @@
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/README.md
+  h_8e2c3875396153 1-373
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/index.html
+  s_c886d449425d5b::t_aeb0af0cea0b85 1-12
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/app/__init__.py
+  h_8e2c3875396153 1-27
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/app/api/routes.py
+  h_8e2c3875396153 1-69
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/app/api/schemas.py
+  h_8e2c3875396153 1-69
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/app/config.py
+  h_8e2c3875396153 1-47
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/app/database.py
+  h_8e2c3875396153 1-19
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/app/models/__init__.py
+  h_8e2c3875396153 1-8
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/app/models/product.py
+  h_8e2c3875396153 1-58
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/app/services/__init__.py
+  h_8e2c3875396153 1-8
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/app/services/product_service.py
+  h_8e2c3875396153 1-120
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/requirements.txt
+  h_8e2c3875396153 1-5
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/run.py
+  h_8e2c3875396153 1-10
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/scripts/start.sh
+  h_8e2c3875396153 1-41
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/scripts/stop.sh
+  h_8e2c3875396153 1-25
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/backend/tests/test_products.py
+  h_8e2c3875396153 1-81
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/bun.lock
+  h_8e2c3875396153 1-193
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/package.json
+  h_8e2c3875396153 1-28
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/scripts/screenshots.ts
+  h_8e2c3875396153 1-93
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/scripts/start.sh
+  h_8e2c3875396153 1-43
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/scripts/stop.sh
+  h_8e2c3875396153 1-25
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/App.tsx
+  h_8e2c3875396153 1-24
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/common/Button/Button.tsx
+  h_8e2c3875396153 1-29
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/common/Button/button.styles.ts
+  h_8e2c3875396153 1-84
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/common/Input/Input.tsx
+  h_8e2c3875396153 1-19
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/common/Input/input.styles.ts
+  h_8e2c3875396153 1-93
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/common/Modal/Modal.tsx
+  h_8e2c3875396153 1-51
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/common/Modal/modal.styles.ts
+  h_8e2c3875396153 1-66
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/forms/ProductForm.tsx
+  h_8e2c3875396153 1-208
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/forms/form.styles.ts
+  h_8e2c3875396153 1-45
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/layout/Container/Container.tsx
+  h_8e2c3875396153 1-17
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/layout/Container/container.styles.ts
+  h_8e2c3875396153 1-35
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/layout/Header/Header.tsx
+  h_8e2c3875396153 1-29
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/layout/Header/header.styles.ts
+  h_8e2c3875396153 1-45
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/table/ProductTable.tsx
+  h_8e2c3875396153 1-167
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/components/table/table.styles.ts
+  h_8e2c3875396153 1-111
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/hooks/index.ts
+  h_8e2c3875396153 1-2
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/hooks/useProducts.ts
+  h_8e2c3875396153 1-98
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/main.tsx
+  h_8e2c3875396153 1-9
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/pages/HomePage.tsx
+  h_8e2c3875396153 1-170
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/pages/index.ts
+  h_8e2c3875396153 1
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/services/api.ts
+  h_8e2c3875396153 1-81
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/services/index.ts
+  h_8e2c3875396153 1-2
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/services/productService.ts
+  h_8e2c3875396153 1-29
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/styles/GlobalStyles.ts
+  h_8e2c3875396153 1-70
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/styles/styled-components.d.ts
+  h_8e2c3875396153 1-6
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/styles/theme.ts
+  h_8e2c3875396153 1-47
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/types/index.ts
+  h_8e2c3875396153 1
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/types/product.ts
+  h_8e2c3875396153 1-29
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/src/vite-env.d.ts
+  h_8e2c3875396153 1-10
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/tsconfig.json
+  h_8e2c3875396153 1-30
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/tsconfig.node.json
+  h_8e2c3875396153 1-14
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/frontend/vite.config.ts
+  h_8e2c3875396153 1-28
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/scripts/start-all.sh
+  h_8e2c3875396153 1-27
+pocs/magnitude-cli-LagunaS2.1-18B-A8B/scripts/stop-all.sh
+  h_8e2c3875396153 1-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "736d3b7456a9e9b3e667756bbda4f3b678c482d4",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_c886d449425d5b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "50e4d0a2-69c6-4de7-8911-f6b4c9984106",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
