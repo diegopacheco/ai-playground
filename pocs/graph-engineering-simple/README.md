@@ -21,6 +21,12 @@ Both outputs flow into `answer`, which makes a third LLM call and returns the fi
 
 The question enters `Graph.run`, which schedules nodes only when their dependencies are complete. It sends the original question to the `facts` and `risks` agents through the selected provider CLI. Their outputs become state for the `answer` agent, which creates the final response. The graph expresses a fan-out, but the current runner invokes ready agents sequentially.
 
+## Program graph
+
+![Directed program graph containing the facts, risks, and answer nodes with their two stored edges](program-graph.png)
+
+`build_graph()` creates the three `Node` records shown above and stores exactly two edges: `("facts", "answer")` and `("risks", "answer")`. Because `facts` and `risks` have no incoming edges, both are ready during the first scheduler pass and run in list order. `answer` becomes ready during the second pass only after both source names exist in `results`; it receives both values as prompt context and adds the final key to the returned dictionary.
+
 ## Stack
 
 - Python 3.14.6 — provides data classes, process execution, and the CLI with no third-party packages.
