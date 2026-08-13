@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="570" viewBox="0 0 1120 570" role="img" aria-labelledby="title description">
+  <title id="title">Graph engineering agents and workflow</title>
+  <desc id="description">A question enters the graph scheduler, fans out to facts and risks agents through a selected provider CLI, converges into the answer agent, and produces the final response.</desc>
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="11" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="1120" height="570" rx="28" fill="#fffdf8"/>
+  <text x="560" y="44" fill="#172033" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="31" font-weight="700">Agents and workflow</text>
+  <rect x="445" y="65" width="460" height="390" rx="28" fill="#f8fafc" stroke="#64748b" stroke-width="2.5" stroke-dasharray="10 8" filter="url(#wobble)"/>
+  <text x="675" y="94" fill="#475569" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="20">Selected provider CLI + model</text>
+  <g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#arrow)" filter="url(#wobble)">
+    <path d="M175 274 C200 274 210 274 235 274"/>
+    <path d="M405 274 C435 274 440 175 475 175"/>
+    <path d="M405 274 C435 274 440 355 475 355"/>
+    <path d="M665 175 C720 175 720 265 765 265"/>
+    <path d="M665 355 C720 355 720 265 765 265"/>
+    <path d="M925 265 C955 265 960 265 985 265"/>
+  </g>
+  <g stroke="#334155" stroke-width="3" filter="url(#wobble)">
+    <rect x="25" y="219" width="150" height="110" rx="18" fill="#dbeafe"/>
+    <rect x="235" y="204" width="170" height="140" rx="18" fill="#ede9fe"/>
+    <rect x="475" y="120" width="190" height="110" rx="18" fill="#dcfce7"/>
+    <rect x="475" y="300" width="190" height="110" rx="18" fill="#fef3c7"/>
+    <rect x="765" y="210" width="160" height="110" rx="18" fill="#fce7f3"/>
+    <rect x="985" y="219" width="110" height="110" rx="18" fill="#ccfbf1"/>
+  </g>
+  <g fill="#172033" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="700">
+    <text x="100" y="266" font-size="27">Question</text>
+    <text x="100" y="295" font-size="18" font-weight="400">CLI input</text>
+    <text x="320" y="258" font-size="27">Graph.run</text>
+    <text x="320" y="287" font-size="18" font-weight="400">dependency</text>
+    <text x="320" y="310" font-size="18" font-weight="400">scheduler</text>
+    <text x="570" y="169" font-size="27">Facts agent</text>
+    <text x="570" y="199" font-size="18" font-weight="400">essential facts</text>
+    <text x="570" y="349" font-size="27">Risks agent</text>
+    <text x="570" y="379" font-size="18" font-weight="400">assumptions + risks</text>
+    <text x="845" y="258" font-size="27">Answer agent</text>
+    <text x="845" y="288" font-size="18" font-weight="400">merge both inputs</text>
+    <text x="1040" y="264" font-size="25">Final</text>
+    <text x="1040" y="293" font-size="20">response</text>
+  </g>
+  <g fill="#475569" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive">
+    <text x="560" y="496" font-size="22">1. Fan out the question</text>
+    <text x="560" y="523" font-size="22">2. Wait for facts and risks</text>
+    <text x="560" y="550" font-size="22">3. Merge state and print the answer</text>
+  </g>
+</svg>
