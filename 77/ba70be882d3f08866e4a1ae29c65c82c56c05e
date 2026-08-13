@@ -1,0 +1,27 @@
+pocs/graph-engineering-simple/architecture.svg
+  s_39bbfe7ec0a6b7::t_1e782885e7cb56 15-16,21-23,30
+pocs/graph-engineering-simple/README.md
+  h_8e2c3875396153 70,73-84
+  s_39bbfe7ec0a6b7::t_1e782885e7cb56 20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "77ba70be882d3f08866e4a1ae29c65c82c56c05e",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_39bbfe7ec0a6b7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019ffbfd-4321-74b0-bca5-9ba11db97ebd",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
