@@ -17,7 +17,7 @@ Both outputs flow into `answer`, which makes a third LLM call and returns the fi
 
 ## Architecture
 
-![Question flowing through the graph scheduler, facts agent, risks agent, answer agent, and final response](architecture.svg)
+![Question flowing through the graph scheduler, facts agent, risks agent, answer agent, and final response](architecture.png)
 
 The question enters `Graph.run`, which schedules nodes only when their dependencies are complete. It sends the original question to the `facts` and `risks` agents through the selected provider CLI. Their outputs become state for the `answer` agent, which creates the final response. The graph expresses a fan-out, but the current runner invokes ready agents sequentially.
 
@@ -67,8 +67,20 @@ Run with Codex:
 
 Run all tests:
 
-```bash
+```python
 python3.14 -m unittest -v
+```
+```
+test_invalid_provider_fails_loudly (test_graph.AgentTest.test_invalid_provider_fails_loudly) ... ok
+test_provider_commands_are_argument_arrays (test_graph.AgentTest.test_provider_commands_are_argument_arrays) ... ok
+test_success_excludes_provider_diagnostics (test_graph.AgentTest.test_success_excludes_provider_diagnostics) ... ok
+test_cycle_prevents_partial_execution (test_graph.GraphTest.test_cycle_prevents_partial_execution) ... ok
+test_fan_out_results_feed_the_final_node (test_graph.GraphTest.test_fan_out_results_feed_the_final_node) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+OK
 ```
 
 ## How It Works?
