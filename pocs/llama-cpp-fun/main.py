@@ -18,6 +18,7 @@ class ChatRequest(TypedDict):
     model: str
     messages: list[Message]
     max_tokens: int
+    chat_template_kwargs: dict[str, bool]
 
 
 class Choice(TypedDict):
@@ -34,6 +35,7 @@ def chat(prompt: str) -> str:
         "model": MODEL,
         "messages": [{"role": "user", "content": prompt}],
         "max_tokens": 512,
+        "chat_template_kwargs": {"enable_thinking": False},
     }
     request = Request(
         f"{base_url}/chat/completions",
