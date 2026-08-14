@@ -5,7 +5,7 @@ set -euo pipefail
 image="docker.io/kestra/kestra:latest"
 container="kestra"
 
-echo "Open http://localhost:8080 in your browser."
+echo "Kestra is starting. Open http://localhost:8080/ui/ after startup completes."
 
 socket="$(podman info --format '{{.Host.RemoteSocket.Path}}')"
 socket="${socket#unix://}"
@@ -31,7 +31,6 @@ podman run --pull=always --interactive --tty --rm \
   --name "$container" \
   --volume kestra_data:/app/storage \
   --volume "$socket:/var/run/docker.sock" \
-  --volume /tmp:/tmp \
   "$image" server local
 status="$?"
 set -e
