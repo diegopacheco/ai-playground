@@ -74,6 +74,7 @@ input[type=search]:focus{outline:none;background:#fff;box-shadow:3px 3px 0 var(-
 .badge.xmen{background:var(--blue);color:var(--gold)}
 .badge.villain{background:var(--red);color:#fff}
 .badge.ally{background:#127a4b;color:#eaffd8}
+.badge.cameo{background:#7a2b8f;color:#ffd9f4}
 .season{background:var(--gold);color:var(--ink);font-weight:900;font-size:10px;padding:5px 9px;
   border:2.5px solid var(--ink);border-radius:2px;letter-spacing:1px}
 .powers{position:absolute;left:12px;right:78px;bottom:14px;z-index:4;display:flex;flex-wrap:wrap;gap:5px;
@@ -119,6 +120,7 @@ footer{margin-top:56px;text-align:center;font-size:11px;font-weight:800;letter-s
     <button class="chip" data-f="X-MEN">X-Men</button>
     <button class="chip" data-f="VILLAIN">Villains</button>
     <button class="chip" data-f="ALLY">Allies</button>
+    <button class="chip" data-f="CAMEO">Cameos</button>
     <span class="spacer"></span>
     <input type="search" id="q" placeholder="Search the roster...">
     <span class="count" id="count"></span>
@@ -216,6 +218,10 @@ const GEAR={
     line(g,16,8,13,5,c,1);line(g,31,8,34,5,c,1);},
   mojo:(g)=>{box(g,18,14,12,4,'#2b0f12');box(g,19,15,10,1,'#ffffff');
     mbox(g,13,4,2,2,'#c0392b');},
+  fullmask:(g,a)=>{const c=a.mask[1], e=a.mask[2]||'#ffffff';
+    box(g,17,3,14,15,c);mbox(g,16,6,1,9,c);mbox(g,19,9,4,4,e);},
+  winghelm:(g,a)=>{const c=a.mask[1];box(g,17,2,14,6,c);mbox(g,15,4,2,4,c);
+    [[13,1,2,3],[11,-1,2,3]].forEach(([x,y,w,h])=>mbox(g,x,y,w,h,c));},
   none:()=>{}
 };
 
@@ -277,7 +283,8 @@ const PROP={
   staff:(F,c,p)=>{line(F,8,49,38,9,c,1);line(F,9,49,39,9,c,1);box(F,37,6,3,3,'#ff3ea5');},
   sword:(F,c,p)=>{box(F,p.rf[0]+1,p.rf[1]-13,2,13,c);box(F,p.rf[0]-1,p.rf[1]-2,6,1,'#8a6b3a');},
   blade:(F,c,p)=>{box(F,p.rf[0]+1,p.rf[1]-12,3,12,c);},
-  coils:(F,c,p)=>{line(F,p.lf[0],p.lf[1]+3,4,56,c,1);line(F,p.rf[0]+4,p.rf[1]+3,44,56,c,1);}
+  coils:(F,c,p)=>{line(F,p.lf[0],p.lf[1]+3,4,56,c,1);line(F,p.rf[0]+4,p.rf[1]+3,44,56,c,1);},
+  hammer:(F,c,p)=>{const[x,y]=p.rf;box(F,x+1,y-11,2,11,'#5b3b22');box(F,x-2,y-16,9,6,c);}
 };
 
 const FX={
@@ -345,7 +352,7 @@ function pixCard(c){
 
 function poster(c,i){
   const a=c.art, id='c'+i;
-  const edge=c.team==='VILLAIN'?'#c8203f':c.team==='ALLY'?'#127a4b':'#2aa8e0';
+  const edge=c.team==='VILLAIN'?'#c8203f':c.team==='ALLY'?'#127a4b':c.team==='CAMEO'?'#7a2b8f':'#2aa8e0';
   const nm=c.name.toUpperCase();
   const fs=Math.min(56, 300/(nm.length*0.56));
   const panel=a.img
@@ -801,7 +808,7 @@ const STATS=['PWR','SPD','MIND','CQC','HEART'];
 const grid=document.getElementById('grid'), count=document.getElementById('count');
 
 function cardHtml(c,i){
-  const cls=c.team==='X-MEN'?'xmen':c.team==='VILLAIN'?'villain':'ally';
+  const cls=c.team==='X-MEN'?'xmen':c.team==='VILLAIN'?'villain':c.team==='CAMEO'?'cameo':'ally';
   const st=STATS.map((l,n)=>`<div class="stat"><b>${l}</b><div class="bar"><i style="--w:${c.stats[n]}%"></i></div><u>${c.stats[n]}</u></div>`).join('');
   return `<article class="card" data-team="${c.team}" data-name="${(c.name+' '+c.real+' '+c.powers.join(' ')).toLowerCase()}">
     <div class="face front">
