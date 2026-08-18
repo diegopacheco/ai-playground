@@ -290,13 +290,28 @@ function faceGroup(a,id){
   return `<defs><clipPath id="hd${id}"><path d="${hp}"/></clipPath></defs>${g}`;
 }
 
-function bodyGeom(a,w){
+const POSES={
+  power:{l:[[154,242],[110,292],[94,350]], r:[[254,242],[306,266],[330,206]], lf:[90,356], rf:[334,198]},
+  fists:{l:[[152,244],[102,284],[116,344]], r:[[256,244],[306,284],[292,344]], lf:[118,352], rf:[290,352]},
+  wide: {l:[[152,244],[100,254],[48,230]], r:[[256,244],[308,254],[360,230]], lf:[42,224], rf:[366,224]},
+  guard:{l:[[152,244],[114,292],[180,282]], r:[[256,244],[294,292],[228,290]], lf:[186,280], rf:[222,288]}
+};
+const poseOf=(c)=>{
+  const props=(c.art.front||[]).some(f=>PROP[Array.isArray(f)?f[0]:f]);
+  if(props||c.art.pose==='power')return POSES.power;
+  const k=['power','fists','wide','guard'];
+  let h=0; for(const ch of c.name) h=(h*31+ch.charCodeAt(0))>>>0;
+  return POSES[c.art.pose&&POSES[c.art.pose]?c.art.pose:k[h%4]];
+};
+
+function bodyGeom(a,w,p){
   const s=a.suit, C=c=>w?'#fff':c, O=w?'#fff':'#141109';
   const L=(x1,y1,x2,y2,wd,c)=>
     `<path d="M${x1} ${y1} L${x2} ${y2}" stroke="${O}" stroke-width="${wd+9}" stroke-linecap="round" fill="none"/>`+
     `<path d="M${x1} ${y1} L${x2} ${y2}" stroke="${C(c)}" stroke-width="${wd}" stroke-linecap="round" fill="none"/>`;
   const P=(d,c)=>`<path d="${d}" fill="${C(c)}" stroke="${O}" stroke-width="5" stroke-linejoin="round"/>`;
   const D=(x,y,r,c)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${C(c)}" stroke="${O}" stroke-width="5"/>`;
+  const arm=(j)=>L(j[0][0],j[0][1],j[1][0],j[1][1],32,s.a)+L(j[1][0],j[1][1],j[2][0],j[2][1],27,s.a);
   let g='';
   g+=L(178,366,150,420,38,s.a)+L(150,420,134,466,32,s.a);
   g+=L(230,366,258,420,38,s.a)+L(258,420,274,466,32,s.a);
@@ -306,17 +321,17 @@ function bodyGeom(a,w){
   g+=P('M144 230 C158 200 250 200 264 230 L244 324 L164 324 Z',s.a);
   g+=P('M158 312 L250 312 L252 338 L156 338 Z',s.trim);
   g+=P('M188 188 L220 188 L222 232 L186 232 Z',shade(a.skin||s.a,.7));
-  g+=L(154,242,110,292,32,s.a)+L(110,292,94,350,27,s.a);
-  g+=L(254,242,306,266,32,s.a)+L(306,266,330,206,27,s.a);
-  g+=D(90,356,18,s.trim)+D(334,198,18,s.trim);
+  g+=arm(p.l)+arm(p.r);
+  g+=D(152,242,23,s.a)+D(256,242,23,s.a);
+  g+=D(p.lf[0],p.lf[1],18,s.trim)+D(p.rf[0],p.rf[1],18,s.trim);
   return g;
 }
 
-function bodySvg(a,id){
+function bodySvg(a,id,p){
   const s=a.suit;
   let g=`<defs><mask id="bd${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="408" height="500">
-    <rect width="408" height="500" fill="#000"/>${bodyGeom(a,true)}</mask></defs>`;
-  g+=bodyGeom(a,false);
+    <rect width="408" height="500" fill="#000"/>${bodyGeom(a,true,p)}</mask></defs>`;
+  g+=bodyGeom(a,false,p);
   g+=`<path d="M170 252 C186 268 222 268 238 252" fill="none" stroke="rgba(0,0,0,.35)" stroke-width="4"/>`;
   g+=`<path d="M170 226 L204 268 L238 226" fill="none" stroke="${s.b}" stroke-width="14" stroke-linejoin="round"/>`;
   g+=`<path d="M164 324 L244 324 L248 350 L160 350 Z" fill="${s.b}" opacity=".85"/>`;
@@ -350,10 +365,11 @@ const FX={
   circuits:()=>`<g stroke="#57e2ff" stroke-width="3" fill="none" opacity=".7" filter="url(#gl)">
     <path d="M6 70 L74 70 L74 16 M402 70 L334 70 L334 16 M6 400 L66 400 L66 480 M402 400 L342 400 L342 480"/>
     <circle cx="74" cy="70" r="5"/><circle cx="334" cy="70" r="5"/><circle cx="66" cy="400" r="5"/><circle cx="342" cy="400" r="5"/></g>`,
-  arms:(c)=>[[-1,118,150],[-1,96,232],[1,118,150],[1,96,232]].map(([sg,rx,ty])=>
-    `<path d="M${204+sg*46} 320 C${204+sg*(rx*0.8)} 296 ${204+sg*(rx+18)} 250 ${204+sg*rx} ${ty}"
-      stroke="${c}" stroke-width="19" fill="none" stroke-linecap="round"/>
-     <circle cx="${204+sg*rx}" cy="${ty-8}" r="15" fill="${c}" stroke="#141109" stroke-width="3"/>`).join(''),
+  arms:(c)=>[[-1,126,148],[-1,104,240],[1,126,148],[1,104,240]].map(([sg,rx,ty])=>{
+    const d=`M${204+sg*44} 316 C${204+sg*(rx*0.8)} 290 ${204+sg*(rx+20)} 246 ${204+sg*rx} ${ty}`;
+    return `<path d="${d}" stroke="#141109" stroke-width="28" fill="none" stroke-linecap="round"/>
+     <path d="${d}" stroke="${c}" stroke-width="19" fill="none" stroke-linecap="round"/>
+     <circle cx="${204+sg*rx}" cy="${ty-8}" r="16" fill="${c}" stroke="#141109" stroke-width="4"/>`;}).join(''),
   tail:(c)=>`<path d="M244 350 C330 336 372 250 336 168" stroke="${c}" stroke-width="15" fill="none" stroke-linecap="round"/>
     <path d="M336 168 L322 130 L356 154 Z" fill="${c}"/>`,
   psi:()=>`<g stroke="#ff6ec7" stroke-width="4" fill="none" opacity=".65" filter="url(#gl)">
@@ -395,7 +411,13 @@ const PROP={
 
 function scene(a,id){
   const b=a.bg, deep=shade(b[1],.62), mid=shade(b[1],.82);
-  let g=`<rect width="408" height="500" fill="url(#sky${id})"/>`;
+  let g=`<defs><linearGradient id="sky${id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${b[0]}"/><stop offset="100%" stop-color="${b[1]}"/></linearGradient>
+    <radialGradient id="sp${id}" cx="50%" cy="54%" r="58%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".26"/>
+      <stop offset="70%" stop-color="#ffffff" stop-opacity=".07"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs>
+    <rect width="408" height="500" fill="url(#sky${id})"/>`;
   for(let i=0;i<26;i+=2){
     const t1=i/26*Math.PI*2, t2=(i+1.1)/26*Math.PI*2;
     g+=`<path d="M204 150 L${204+Math.cos(t1)*700} ${150+Math.sin(t1)*700} L${204+Math.cos(t2)*700} ${150+Math.sin(t2)*700} Z" fill="${a.ray}" opacity=".14"/>`;
@@ -406,6 +428,7 @@ function scene(a,id){
       <ellipse cx="250" cy="150" rx="38" ry="16"/></g>`;
   g+=`<path d="M-20 452 C80 434 150 446 204 452 C270 460 350 448 428 436 L428 500 L-20 500 Z" fill="${shade(b[1],.45)}"/>`;
   g+=`<ellipse cx="204" cy="492" rx="118" ry="20" fill="#000" opacity=".35"/>`;
+  g+=`<ellipse cx="204" cy="280" rx="164" ry="228" fill="url(#sp${id})"/>`;
   return g;
 }
 
@@ -413,20 +436,27 @@ function poster(c,i){
   const a=c.art, id='c'+i, team=c.team;
   const edge=team==='VILLAIN'?'#c8203f':team==='ALLY'?'#127a4b':'#2aa8e0';
   const nm=c.name.toUpperCase();
-  const fs=Math.min(58, 400/(nm.length*0.56));
-  let panel=scene(a,id);
+  const fs=Math.min(56, 300/(nm.length*0.56));
+  let panel='';
+  if(a.img){
+    panel=`<image href="${a.img}" x="0" y="0" width="408" height="500" preserveAspectRatio="xMidYMid slice"/>`;
+    return frame(panel,id,edge,nm,c.real,fs);
+  }
+  panel=scene(a,id);
   (a.fx||[]).forEach(f=>{const[k,v]=Array.isArray(f)?f:[f]; if(FX[k])panel+=FX[k](v);});
   if(a.cape) panel+=`<path d="M158 208 C104 280 84 400 96 500 L312 500 C324 400 304 280 250 208 Z" fill="${a.cape}" stroke="#141109" stroke-width="4"/>
     <path d="M170 214 C126 284 110 400 118 500 L290 500 C298 400 282 284 238 214 Z" fill="${shade(a.cape,.72)}"/>`;
-  panel+=bodySvg(a,id);
+  const pose=poseOf(c);
+  panel+=bodySvg(a,id,pose);
   panel+=`<g transform="translate(117 50) scale(0.58)">${faceGroup(a,id)}</g>`;
   (a.front||[]).forEach(f=>{const[k,v]=Array.isArray(f)?f:[f]; if(PROP[k])panel+=PROP[k](v);});
   panel+=`<rect width="408" height="500" fill="url(#ht${id})"/>`;
+  return frame(panel,id,edge,nm,c.real,fs);
+}
 
+function frame(panel,id,edge,nm,real,fs){
   return `<svg viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="sky${id}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="${a.bg[0]}"/><stop offset="100%" stop-color="${a.bg[1]}"/></linearGradient>
     <pattern id="ht${id}" width="8" height="8" patternUnits="userSpaceOnUse">
       <circle cx="2" cy="2" r="1.5" fill="#ffffff" opacity=".13"/></pattern>
     <pattern id="xp${id}" width="46" height="46" patternUnits="userSpaceOnUse">
@@ -443,12 +473,12 @@ function poster(c,i){
   <rect x="46" y="60" width="408" height="500" fill="none" stroke="#141109" stroke-width="5"/>
   <g><rect x="0" y="72" width="212" height="46" fill="#e01b2e" stroke="#141109" stroke-width="4"/>
     <text x="106" y="104" text-anchor="middle" font-family="Trebuchet MS,Verdana,sans-serif" font-size="27" font-weight="900" fill="#fff" letter-spacing="1">X-MEN '97</text></g>
-  <g transform="translate(408 596)"><circle r="48" fill="#2b46c8" stroke="#141109" stroke-width="5"/>
-    <path d="M-22 -22 L22 22 M22 -22 L-22 22" stroke="#f2c518" stroke-width="14" stroke-linecap="round"/></g>
+  <g transform="translate(424 594)"><circle r="43" fill="#2b46c8" stroke="#141109" stroke-width="5"/>
+    <path d="M-19 -19 L19 19 M19 -19 L-19 19" stroke="#f2c518" stroke-width="13" stroke-linecap="round"/></g>
   <text x="52" y="632" font-family="Trebuchet MS,Verdana,sans-serif" font-size="${fs.toFixed(1)}" font-weight="900"
     fill="#fff" stroke="#141109" stroke-width="9" paint-order="stroke" letter-spacing="-1">${nm}</text>
   <text x="54" y="662" font-family="Trebuchet MS,Verdana,sans-serif" font-size="17" font-weight="800"
-    fill="#141109" letter-spacing="2">${c.real.toUpperCase()}</text>
+    fill="#141109" letter-spacing="2">${real.toUpperCase()}</text>
 </svg>`;
 }
 
@@ -718,6 +748,14 @@ X('Apocalypse','En Sabah Nur','VILLAIN','S1–S2','The First One',['Immortality'
  {bg:['#3a2a6f','#0a0518'],ray:'#a06bff',skin:'#4a6fa8',shade:'#2f4a75',
   head:{cheek:74,jaw:54,chin:262},mask:['apoc','#2a3a6b','#f2c518'],eyes:['demon','#ff3b30'],
   mouth:'dark',suit:{a:'#2a3a6b',b:'#4a6fa8',trim:'#f2c518'},emblem:'none'}),
+
+X('Rama-Tut','Kang the Conqueror','VILLAIN','S2','Time Conqueror',['Time Travel','Future Tech'],
+ 'Ruled Egypt on a whim and lost it to a bigger ego.',
+ 'An alternate Kang who set himself up as pharaoh and became Apocalypse\'s rival for the ancient world.',
+ [82,56,88,64,16],
+ {bg:['#2a6b8f','#041a26'],ray:'#7ef0ff',fx:['circuits'],skin:'#c8a06a',shade:'#a07a48',
+  mask:['headdress','#2b46c8','#7ef0ff'],eyes:['glow','#7ef0ff'],browColor:'#8a6a3a',
+  mouth:'grim',suit:{a:'#2b46c8',b:'#1a2a7a',trim:'#f2c518'},emblem:'dot'}),
 
 X('Mister Sinister','Dr. Nathaniel Essex','VILLAIN','S1–S2','Geneticist',['Genetic Mastery','Shapeshifting'],
  'Treats the Summers bloodline like a lab notebook.',
