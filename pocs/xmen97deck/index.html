@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>X-MEN '97 — The Deck</title>
+<style>
+:root{--paper:#f6f0e2;--paper2:#efe6d2;--ink:#14110d;--ink2:#4a4237;--gold:#ffcf2e;--gold2:#ffb200;--blue:#2b46c8;--red:#e23b2e;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Trebuchet MS","Avenir Next",Verdana,sans-serif;color:var(--ink);
+  background:radial-gradient(circle at 12% 8%,#fff8e6 0%,transparent 45%),radial-gradient(circle at 88% 92%,#ffeec4 0%,transparent 50%),var(--paper);
+  min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(var(--ink) 1px,transparent 1.2px);background-size:7px 7px;opacity:.07}
+.wrap{position:relative;z-index:1;max-width:1640px;margin:0 auto;padding:28px 22px 90px}
+
+header.hero{position:relative;border:5px solid var(--ink);border-radius:6px;
+  background:linear-gradient(135deg,#ffd84d 0%,#ffb200 38%,#ff8a1f 100%);
+  padding:34px 30px 30px;overflow:hidden;box-shadow:12px 12px 0 var(--ink);margin-bottom:34px}
+header.hero::before{content:"";position:absolute;inset:-60%;
+  background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.55) 0deg 7deg,transparent 7deg 14deg);
+  animation:spin 60s linear infinite;opacity:.35}
+header.hero::after{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(#14110d 1.4px,transparent 1.6px);background-size:11px 11px;opacity:.13}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-inner{position:relative;z-index:2}
+h1{font-size:clamp(44px,9vw,116px);line-height:.86;letter-spacing:-3px;font-weight:900;font-style:italic;
+  text-transform:uppercase;color:#fff;
+  text-shadow:3px 3px 0 var(--ink),-3px -3px 0 var(--ink),3px -3px 0 var(--ink),-3px 3px 0 var(--ink),10px 10px 0 var(--red),10px 10px 0 var(--ink)}
+h1 span{color:var(--gold);display:inline-block;transform:rotate(-3deg)}
+.tag{display:inline-block;margin-top:16px;background:var(--ink);color:var(--gold);padding:9px 18px;border-radius:3px;
+  font-weight:900;letter-spacing:4px;font-size:13px;text-transform:uppercase;transform:skewX(-9deg)}
+.sub{margin-top:14px;max-width:680px;font-size:15px;font-weight:700;color:#3a2d10;line-height:1.5}
+
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;border:4px solid var(--ink);background:#fff;
+  border-radius:5px;padding:14px;margin-bottom:28px;box-shadow:7px 7px 0 var(--ink)}
+.chip{border:3px solid var(--ink);background:var(--paper2);color:var(--ink);font-weight:900;text-transform:uppercase;
+  letter-spacing:1.4px;font-size:12px;padding:9px 15px;border-radius:3px;cursor:pointer;transition:.16s}
+.chip:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--ink)}
+.chip.on{background:var(--ink);color:var(--gold)}
+.spacer{flex:1}
+input[type=search]{border:3px solid var(--ink);border-radius:3px;padding:9px 13px;font:inherit;font-weight:700;
+  background:var(--paper2);min-width:210px}
+input[type=search]:focus{outline:none;background:#fff;box-shadow:3px 3px 0 var(--gold2)}
+.count{font-weight:900;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ink2)}
+
+.grid{display:grid;gap:28px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));perspective:1700px}
+.card{position:relative;aspect-ratio:5/7;cursor:pointer;transform-style:preserve-3d;
+  transition:transform .5s cubic-bezier(.2,.9,.25,1);will-change:transform}
+.card .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:10px;overflow:hidden;
+  box-shadow:9px 9px 0 rgba(20,17,13,.85);transition:box-shadow .3s}
+.card:hover .face{box-shadow:15px 15px 0 rgba(20,17,13,.9)}
+.card .back{transform:rotateY(180deg)}
+.card.flip{transform:rotateY(180deg)!important}
+.art{position:absolute;inset:0}
+.art svg{width:100%;height:100%;display:block}
+
+.foil{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.18) 42%,rgba(120,255,240,.55) 48%,
+    rgba(255,120,220,.5) 53%,rgba(255,235,110,.5) 58%,rgba(255,255,255,.16) 66%,transparent 76%);
+  background-size:260% 260%;background-position:var(--fx,50%) var(--fy,50%);transition:opacity .3s}
+.card:hover .foil{opacity:1}
+.scan{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.10) 0 2px,transparent 2px 5px)}
+.card:hover .scan{opacity:1}
+.glare{position:absolute;inset:-40%;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.7),transparent 42%);
+  mix-blend-mode:soft-light}
+.card:hover .glare{opacity:1}
+
+.chips{position:absolute;top:10px;right:10px;z-index:4;display:flex;flex-direction:column;gap:5px;align-items:flex-end}
+.badge{font-weight:900;font-size:10px;letter-spacing:1.6px;padding:5px 9px;border-radius:2px;text-transform:uppercase;
+  border:2.5px solid var(--ink);transform:skewX(-9deg)}
+.badge.xmen{background:var(--blue);color:var(--gold)}
+.badge.villain{background:var(--red);color:#fff}
+.badge.ally{background:#127a4b;color:#eaffd8}
+.season{background:var(--gold);color:var(--ink);font-weight:900;font-size:10px;padding:5px 9px;
+  border:2.5px solid var(--ink);border-radius:2px;letter-spacing:1px}
+.powers{position:absolute;left:12px;right:78px;bottom:14px;z-index:4;display:flex;flex-wrap:wrap;gap:5px;
+  opacity:0;transform:translateY(8px);transition:.3s}
+.card:hover .powers{opacity:1;transform:none}
+.powers span{font-size:9.5px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;color:#fff;
+  border:2px solid var(--ink);border-radius:99px;padding:3px 8px;background:rgba(20,17,13,.86)}
+
+.back{background:linear-gradient(160deg,#1a1712,#2a2318 55%,#141109);color:var(--paper);
+  border:5px solid var(--ink);padding:16px 15px;overflow-y:auto}
+.back::before{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,207,46,.55) 1px,transparent 1.3px);background-size:9px 9px;opacity:.13}
+.back-in{position:relative;z-index:2;display:flex;flex-direction:column;min-height:100%}
+.back h4{font-size:21px;font-weight:900;font-style:italic;text-transform:uppercase;color:var(--gold);letter-spacing:-.4px;line-height:1}
+.role{font-size:9.5px;letter-spacing:1.8px;font-weight:800;color:#c8bda4;text-transform:uppercase;margin-top:6px}
+.quote{margin-top:10px;font-size:12px;font-style:italic;font-weight:700;line-height:1.32;
+  border-left:3px solid var(--gold2);padding-left:9px;color:#fff5dd}
+.bio{margin-top:9px;font-size:11.5px;line-height:1.42;color:#d9d0bd}
+.stats{display:grid;gap:6px;margin-top:auto;padding-top:11px}
+.stat{display:grid;grid-template-columns:48px 1fr 24px;align-items:center;gap:7px}
+.stat b{font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#bdb29a;font-weight:900}
+.bar{height:8px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));width:0;transition:width .7s ease}
+.card.flip .bar i{width:var(--w)}
+.stat u{font-size:9.5px;font-weight:900;text-decoration:none;color:var(--gold);text-align:right}
+.hint{margin-top:9px;font-size:8.5px;letter-spacing:1.4px;text-transform:uppercase;color:#8d8471;font-weight:800}
+
+footer{margin-top:56px;text-align:center;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ink2)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>X-MEN <span>'97</span><br>THE DECK</h1>
+      <div class="tag">Season 01 &nbsp;&bull;&nbsp; Season 02 &nbsp;&bull;&nbsp; Full Roster</div>
+      <p class="sub">Every mutant, machine and monster of the animated revival. Hover a card for the holo-foil, click it to flip the dossier.</p>
+    </div>
+  </header>
+  <div class="controls">
+    <button class="chip on" data-f="all">All</button>
+    <button class="chip" data-f="X-MEN">X-Men</button>
+    <button class="chip" data-f="VILLAIN">Villains</button>
+    <button class="chip" data-f="ALLY">Allies</button>
+    <span class="spacer"></span>
+    <input type="search" id="q" placeholder="Search the roster...">
+    <span class="count" id="count"></span>
+  </div>
+  <div class="grid" id="grid"></div>
+  <footer>Fan-made tribute deck &nbsp;&bull;&nbsp; X-Men '97 &nbsp;&bull;&nbsp; No official affiliation</footer>
+</div>
+<script>
+const CX=150;
+const shade=(h,f)=>{if(h[0]!=='#')return h;const n=parseInt(h.slice(1),16);
+  const c=v=>Math.max(0,Math.min(255,Math.round(v*f)));
+  return `rgb(${c(n>>16&255)},${c(n>>8&255)},${c(n&255)})`;};
+
+function headPath(h){
+  const c=h.cheek||66, j=h.jaw||44, ch=h.chin||258, t=h.top||64;
+  return `M${CX-c} 152 C${CX-c} ${t+12} ${CX-c*0.72} ${t} ${CX} ${t} `+
+         `C${CX+c*0.72} ${t} ${CX+c} ${t+12} ${CX+c} 152 `+
+         `C${CX+c} 206 ${CX+j} ${ch-20} ${CX} ${ch} `+
+         `C${CX-j} ${ch-20} ${CX-c} 206 ${CX-c} 152 Z`;
+}
+
+const HAIR_BACK={
+  none:()=>'',
+  longWavy:(c)=>`<path d="M74 116 C42 158 40 254 56 330 L96 330 C78 256 82 166 102 128 Z" fill="${c}"/>
+    <path d="M226 116 C258 158 260 254 244 330 L204 330 C222 256 218 166 198 128 Z" fill="${c}"/>`,
+  flow:(c)=>`<path d="M70 108 C24 152 14 268 34 340 L112 340 C82 266 86 168 106 122 Z" fill="${c}"/>
+    <path d="M230 108 C276 152 286 268 266 340 L188 340 C218 266 214 168 194 122 Z" fill="${c}"/>
+    <ellipse cx="150" cy="96" rx="80" ry="42" fill="${c}"/>`,
+  straight:(c)=>`<path d="M80 116 C64 160 62 250 70 320 L100 320 C92 250 92 164 104 130 Z" fill="${c}"/>
+    <path d="M220 116 C236 160 238 250 230 320 L200 320 C208 250 208 164 196 130 Z" fill="${c}"/>`,
+  bob:(c)=>`<path d="M78 118 C64 158 68 214 78 244 L110 238 C98 204 96 152 106 128 Z" fill="${c}"/>
+    <path d="M222 118 C236 158 232 214 222 244 L190 238 C202 204 204 152 194 128 Z" fill="${c}"/>`,
+  mane:(c)=>`<ellipse cx="150" cy="164" rx="106" ry="114" fill="${c}"/>`+
+    Array.from({length:20},(_,i)=>{
+      const a=i/20*Math.PI*2, b=(i+.92)/20*Math.PI*2, m=(a+b)/2;
+      const px=(r,t)=>`${(150+Math.cos(t)*r).toFixed(1)} ${(164+Math.sin(t)*r*1.08).toFixed(1)}`;
+      return `<path d="M${px(104,a)} L${px(150,m)} L${px(104,b)} Z" fill="${c}"/>`;}).join(''),
+  ponytail:(c)=>`<path d="M214 120 C258 132 268 200 250 274 L216 264 C232 204 226 156 200 140 Z" fill="${c}"/>`,
+  puff:(c)=>`<ellipse cx="150" cy="106" rx="88" ry="62" fill="${c}"/>`
+};
+
+const HAIR_FRONT={
+  none:()=>'',
+  cap:(c)=>`<path d="M84 156 C84 92 112 52 150 52 C188 52 216 92 216 156 C206 114 194 106 150 106 C106 106 94 114 84 156 Z" fill="${c}"/>`,
+  swoop:(c,c2)=>HAIR_FRONT.cap(c)+`<path d="M96 112 C126 88 182 92 210 124 C188 98 128 84 96 112 Z" fill="${c2||c}" opacity=".55"/>`,
+  spiky:(c)=>HAIR_FRONT.cap(c)+
+    `<path d="M84 148 L52 74 L102 116 Z M216 148 L248 74 L198 116 Z M118 106 L128 62 L146 104 Z M182 106 L172 62 L154 104 Z" fill="${c}"/>`,
+  peak:(c)=>HAIR_FRONT.cap(c)+`<path d="M126 108 L150 138 L174 108 Z" fill="${c}"/>`,
+  stripe:(c,c2)=>HAIR_FRONT.cap(c)+
+    `<path d="M100 130 C98 92 118 62 150 54 C160 56 168 60 174 66 C136 74 116 98 116 134 Z" fill="${c2}"/>
+     <path d="M104 130 C102 156 104 178 110 196 L124 190 C118 172 116 152 118 132 Z" fill="${c2}"/>`,
+  bangs:(c)=>HAIR_FRONT.cap(c)+`<path d="M88 108 C110 138 190 138 212 108 C204 132 96 132 88 108 Z" fill="${c}"/>`,
+  widow:(c)=>`<path d="M84 156 C84 92 112 52 150 52 C188 52 216 92 216 156 C210 118 196 104 174 100 L150 132 L126 100 C104 104 90 118 84 156 Z" fill="${c}"/>`,
+  side:(c)=>HAIR_FRONT.cap(c)+`<path d="M92 104 C122 84 178 88 212 118 L214 96 C182 66 116 68 92 104 Z" fill="${c}"/>`
+};
+
+const EYES={
+  normal:(c)=>[124,176].map((x,i)=>
+    `<path d="M${x-17} 172 C${x-9} 160 ${x+9} 160 ${x+17} 172 C${x+9} 184 ${x-9} 184 ${x-17} 172 Z" fill="#fff" stroke="#141109" stroke-width="3"/>
+     <circle cx="${x+(i?-2:2)}" cy="172" r="7" fill="${c}"/><circle cx="${x+(i?-2:2)}" cy="172" r="3.2" fill="#0d0b08"/>`).join(''),
+  fierce:(c)=>[124,176].map((x,i)=>
+    `<path d="M${x-18} 176 C${x-10} 162 ${x+10} 162 ${x+18} 172 C${x+10} 184 ${x-10} 184 ${x-18} 176 Z" fill="#fff" stroke="#141109" stroke-width="3"/>
+     <circle cx="${x+(i?-2:2)}" cy="172" r="6.5" fill="${c}"/><circle cx="${x+(i?-2:2)}" cy="172" r="3" fill="#0d0b08"/>`).join(''),
+  glow:(c)=>[124,176].map(x=>
+    `<path d="M${x-18} 174 C${x-9} 160 ${x+9} 160 ${x+18} 174 C${x+9} 184 ${x-9} 184 ${x-18} 174 Z" fill="${c}" filter="url(#gl)"/>`).join(''),
+  demon:(c)=>[124,176].map(x=>
+    `<path d="M${x-18} 176 C${x-9} 158 ${x+9} 158 ${x+18} 176 C${x+9} 186 ${x-9} 186 ${x-18} 176 Z" fill="${c}" filter="url(#gl)"/>
+     <ellipse cx="${x}" cy="173" rx="4" ry="9" fill="#2a0808"/>`).join(''),
+  blank:(c)=>[124,176].map(x=>
+    `<path d="M${x-18} 174 C${x-9} 162 ${x+9} 162 ${x+18} 174 C${x+9} 184 ${x-9} 184 ${x-18} 174 Z" fill="${c}"/>`).join('')
+};
+
+const MOUTH={
+  none:()=>'',
+  flat:()=>`<path d="M132 220 C142 226 158 226 168 220" stroke="#3a1f16" stroke-width="4" fill="none" stroke-linecap="round"/>`,
+  smile:()=>`<path d="M128 216 C142 234 158 234 172 216 C158 226 142 226 128 216 Z" fill="#3a1712"/>`,
+  grin:()=>`<path d="M124 214 C142 244 158 244 176 214 Z" fill="#40140f"/><path d="M128 216 L172 216 L168 224 L132 224 Z" fill="#fff"/>`,
+  smirk:()=>`<path d="M130 222 C146 228 164 220 172 210" stroke="#3a1f16" stroke-width="4.5" fill="none" stroke-linecap="round"/>`,
+  grim:()=>`<path d="M128 222 L172 222" stroke="#3a1f16" stroke-width="5" stroke-linecap="round"/>`,
+  dark:()=>`<path d="M126 216 C144 232 156 232 174 216 C156 224 144 224 126 216 Z" fill="#1b0a12"/>`,
+  snarl:()=>`<path d="M124 212 C142 242 158 242 176 212 Z" fill="#3d1109"/>
+    <path d="M128 213 L136 230 L144 213 Z M156 213 L164 230 L172 213 Z" fill="#fff"/>`,
+  fangs:()=>`<path d="M128 212 C144 236 156 236 172 212 Z" fill="#33100c"/>
+    <path d="M132 213 L138 229 L143 213 Z M157 213 L162 229 L168 213 Z" fill="#fff"/>`
+};
+
+const MASK={
+  none:()=>'',
+  visor:(c)=>`<path d="M78 158 C104 146 196 146 222 158 L222 186 C196 196 104 196 78 186 Z" fill="#f2c518" stroke="#141109" stroke-width="4"/>
+    <path d="M88 162 C110 154 190 154 212 162 L212 180 C190 188 110 188 88 180 Z" fill="${c}" filter="url(#gl)"/>`,
+  cowl:(c)=>`<path d="M70 152 C66 88 104 44 150 44 C196 44 234 88 230 152 C230 186 214 206 196 206 L188 178 C178 168 122 168 112 178 L104 206 C86 206 70 186 70 152 Z" fill="${c}" stroke="#141109" stroke-width="4"/>
+    <path d="M84 112 C56 96 26 62 8 20 C60 26 108 56 128 94 Z" fill="${c}" stroke="#141109" stroke-width="4"/>
+    <path d="M216 112 C244 96 274 62 292 20 C240 26 192 56 172 94 Z" fill="${c}" stroke="#141109" stroke-width="4"/>
+    <path d="M90 168 C108 150 140 150 150 168 C140 184 108 184 90 168 Z M210 168 C192 150 160 150 150 168 C160 184 192 184 210 168 Z" fill="#fff" stroke="#141109" stroke-width="3"/>
+    <circle cx="118" cy="168" r="5" fill="#1a1208"/><circle cx="182" cy="168" r="5" fill="#1a1208"/>`,
+  helmet:(c,c2)=>`<path d="M72 200 C62 88 106 34 150 34 C194 34 238 88 228 200 L206 200 C212 150 206 126 186 112 L150 140 L114 112 C94 126 88 150 94 200 Z" fill="${c}" stroke="#141109" stroke-width="4"/>
+    <path d="M94 176 C100 226 120 252 150 256 C180 252 200 226 206 176" fill="none" stroke="#141109" stroke-width="4"/>
+    <path d="M72 200 C70 228 80 250 96 262 L116 236 C102 224 94 214 94 200 Z" fill="${c}" stroke="#141109" stroke-width="4"/>
+    <path d="M228 200 C230 228 220 250 204 262 L184 236 C198 224 206 214 206 200 Z" fill="${c}" stroke="#141109" stroke-width="4"/>`,
+  glasses:(c)=>`<circle cx="124" cy="172" r="22" fill="rgba(190,225,255,.3)" stroke="${c}" stroke-width="4.5"/>
+    <circle cx="176" cy="172" r="22" fill="rgba(190,225,255,.3)" stroke="${c}" stroke-width="4.5"/>
+    <path d="M146 172 L154 172 M102 168 L84 162 M198 168 L216 162" stroke="${c}" stroke-width="4.5" fill="none"/>`,
+  shades:(c)=>`<path d="M86 104 C112 92 188 92 214 104 L214 118 C188 108 112 108 86 118 Z" fill="${c}" stroke="#141109" stroke-width="3.5"/>`,
+  eyepatch:()=>`<path d="M96 152 L216 168" stroke="#1d1a15" stroke-width="6"/>
+    <path d="M100 154 C122 146 146 152 152 172 C146 194 118 198 100 188 Z" fill="#1d1a15"/>`,
+  techface:(c)=>`<path d="M156 118 C196 112 216 138 216 168 C216 198 200 224 176 236 L156 232 Z" fill="#9aa4ad" stroke="#141109" stroke-width="3.5"/>
+    <path d="M164 130 L206 138 M164 152 L212 152 M166 202 L206 194" stroke="#5c666e" stroke-width="3.5"/>
+    <circle cx="180" cy="172" r="13" fill="${c}" filter="url(#gl)"/><circle cx="180" cy="172" r="5" fill="#fff"/>`,
+  primeface:(c)=>`<path d="M150 62 C196 66 216 118 216 168 C216 208 196 240 168 256 L150 258 Z" fill="#8f97a0" stroke="#141109" stroke-width="3.5"/>
+    <path d="M158 110 L206 118 M158 214 L200 206" stroke="#5b636b" stroke-width="3.5"/>
+    <path d="M158 158 L212 152 L212 186 L158 190 Z" fill="${c}" filter="url(#gl)"/>`,
+  sentinel:(c,c2)=>`<path d="M78 96 C78 62 108 40 150 40 C192 40 222 62 222 96 L222 214 C222 254 192 282 150 282 C108 282 78 254 78 214 Z" fill="${c}" stroke="#141109" stroke-width="4"/>
+    <path d="M78 150 C104 138 196 138 222 150 L222 190 C196 202 104 202 78 190 Z" fill="#241a34"/>
+    <ellipse cx="120" cy="170" rx="20" ry="12" fill="${c2}" filter="url(#gl)"/>
+    <ellipse cx="180" cy="170" rx="20" ry="12" fill="${c2}" filter="url(#gl)"/>
+    <path d="M110 226 L190 226 L182 250 L118 250 Z" fill="#241a34"/>
+    <path d="M118 232 L182 232 M118 240 L182 240" stroke="${c2}" stroke-width="3"/>
+    <path d="M78 110 L44 88 L78 84 Z M222 110 L256 88 L222 84 Z" fill="${c}" stroke="#141109" stroke-width="4"/>`,
+  xcut:(c,c2)=>`<path d="M84 100 C84 62 112 40 150 40 C188 40 216 62 216 100 L216 216 C216 248 188 268 150 268 C112 268 84 248 84 216 Z" fill="${c}" stroke="#141109" stroke-width="4"/>
+    <path d="M92 148 C116 138 184 138 208 148 L208 184 C184 194 116 194 92 184 Z" fill="#0d0f14"/>
+    <path d="M100 160 L200 160 L200 174 L100 174 Z" fill="${c2}" filter="url(#gl)"/>
+    <path d="M136 208 L164 208 L172 244 L128 244 Z" fill="#0d0f14"/>
+    <path d="M150 40 L150 12 M124 46 L112 20 M176 46 L188 20" stroke="${c}" stroke-width="7" stroke-linecap="round"/>`,
+  headdress:(c,c2)=>`<path d="M150 46 L110 14 L118 62 L74 46 L92 96 L46 96 L84 132 L216 132 L254 96 L208 96 L226 46 L182 62 L190 14 Z" fill="${c}" stroke="#141109" stroke-width="3.5"/>
+    <circle cx="150" cy="86" r="13" fill="${c2}" filter="url(#gl)"/>`,
+  apoc:(c,c2)=>`<path d="M74 168 C74 96 104 58 150 58 C196 58 226 96 226 168 L212 168 C212 108 190 84 150 84 C110 84 88 108 88 168 Z" fill="${c}" stroke="#141109" stroke-width="4"/>
+    <path d="M74 168 C58 186 56 232 70 262 L104 244 C90 216 92 190 100 176 Z" fill="${c}" stroke="#141109" stroke-width="4"/>
+    <path d="M226 168 C242 186 244 232 230 262 L196 244 C210 216 208 190 200 176 Z" fill="${c}" stroke="#141109" stroke-width="4"/>
+    <path d="M126 92 L150 68 L174 92 Z" fill="${c2}"/>`,
+  hood:(c)=>`<path d="M46 340 C40 172 90 84 150 84 C210 84 260 172 254 340 L214 340 C224 190 192 128 150 128 C108 128 76 190 86 340 Z" fill="${c}" stroke="#141109" stroke-width="4"/>`,
+  horns:(c)=>`<path d="M86 108 C60 76 56 40 66 16 C90 36 104 70 106 104 Z M214 108 C240 76 244 40 234 16 C210 36 196 70 194 104 Z" fill="${c}" stroke="#141109" stroke-width="4"/>`,
+  goblin:(c)=>`<path d="M80 150 C104 132 196 132 220 150 C214 184 194 194 172 188 C158 184 142 184 128 188 C106 194 86 184 80 150 Z" fill="${c}" stroke="#141109" stroke-width="3.5"/>
+    <path d="M104 168 C114 158 136 158 146 168 C136 180 114 180 104 168 Z M196 168 C186 158 164 158 154 168 C164 180 186 180 196 168 Z" fill="#ffe37a"/>
+    <path d="M80 150 L64 116 L96 138 Z M220 150 L236 116 L204 138 Z" fill="${c}" stroke="#141109" stroke-width="3.5"/>`,
+  mojo:()=>`<path d="M96 206 C120 248 180 248 204 206 C186 262 114 262 96 206 Z" fill="#2b0f12" stroke="#141109" stroke-width="3"/>
+    <path d="M104 212 L196 212 L190 228 L110 228 Z" fill="#fff"/>
+    <path d="M74 132 L46 96 M226 132 L254 96" stroke="#5c4a12" stroke-width="7"/>
+    <circle cx="44" cy="92" r="9" fill="#c0392b"/><circle cx="256" cy="92" r="9" fill="#c0392b"/>`
+};
+
+const FACEFX={
+  scar:()=>`<path d="M120 138 L114 162 M126 144 L110 152" stroke="#8c4a3a" stroke-width="3.5" stroke-linecap="round"/>`,
+  tattoo:()=>`<path d="M160 152 L166 126 L174 142 L182 126 L188 152" stroke="#1b1a17" stroke-width="4.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`,
+  gem:(c)=>`<path d="M150 106 L166 132 L150 158 L134 132 Z" fill="${c}" stroke="#141109" stroke-width="3"/>`
+};
+
+function faceGroup(a,id){
+  if(a.robot) return (MASK[a.mask[0]]||MASK.none)(a.mask[1],a.mask[2]);
+  const hp=headPath(a.head||{}), c2=(a.head&&a.head.cheek)||66;
+  let g=(HAIR_BACK[a.hairBack||'none'])(a.hair?a.hair[0]:'#000');
+  g+=`<path d="${hp}" fill="${a.skin}" stroke="#141109" stroke-width="4"/>`;
+  g+=a.pointyEars
+    ? `<path d="M${150-c2} 152 L${150-c2-22} 106 L${150-c2+6} 142 Z M${150+c2} 152 L${150+c2+22} 106 L${150+c2-6} 142 Z" fill="${a.skin}" stroke="#141109" stroke-width="3.5"/>`
+    : `<ellipse cx="${150-c2}" cy="180" rx="9" ry="16" fill="${a.skin}" stroke="#141109" stroke-width="3.5"/>
+       <ellipse cx="${150+c2}" cy="180" rx="9" ry="16" fill="${a.skin}" stroke="#141109" stroke-width="3.5"/>`;
+  g+=`<g clip-path="url(#hd${id})"><path d="M0 0 L124 0 L100 420 L0 420 Z" fill="rgba(12,8,26,.22)"/>
+      <path d="M300 0 L214 0 L232 420 L300 420 Z" fill="rgba(255,255,255,.14)"/></g>`;
+  g+=`<path d="M148 184 L141 204 L157 206" stroke="${a.shade}" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  const em=a.eyes||['normal','#2f6fd0'];
+  g+=(EYES[em[0]]||EYES.normal)(em[1]);
+  const bc=a.browColor||(a.hair?a.hair[0]:'#2b2119'), bt=a.browTilt===undefined?6:a.browTilt;
+  g+=`<path d="M104 ${150+bt} C118 ${140-bt} 136 ${140-bt} 143 147" stroke="${bc}" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M196 ${150+bt} C182 ${140-bt} 164 ${140-bt} 157 147" stroke="${bc}" stroke-width="8" fill="none" stroke-linecap="round"/>`;
+  g+=(MOUTH[a.mouth||'flat'])();
+  if(a.beard) g+=`<path d="M96 196 C100 254 124 274 150 274 C176 274 200 254 204 196 C196 234 176 246 150 246 C124 246 104 234 96 196 Z" fill="${a.beard}"/>`;
+  g+=(HAIR_FRONT[a.hairFront||'none'])(a.hair?a.hair[0]:'#000',a.hair?a.hair[1]:'#000');
+  if(a.mask) g+=(MASK[a.mask[0]]||MASK.none)(a.mask[1],a.mask[2]);
+  (a.front||[]).forEach(f=>{const[k,v]=Array.isArray(f)?f:[f]; if(FACEFX[k]) g+=FACEFX[k](v);});
+  return `<defs><clipPath id="hd${id}"><path d="${hp}"/></clipPath></defs>${g}`;
+}
+
+function bodyGeom(a,w){
+  const s=a.suit, C=c=>w?'#fff':c, O=w?'#fff':'#141109';
+  const L=(x1,y1,x2,y2,wd,c)=>
+    `<path d="M${x1} ${y1} L${x2} ${y2}" stroke="${O}" stroke-width="${wd+9}" stroke-linecap="round" fill="none"/>`+
+    `<path d="M${x1} ${y1} L${x2} ${y2}" stroke="${C(c)}" stroke-width="${wd}" stroke-linecap="round" fill="none"/>`;
+  const P=(d,c)=>`<path d="${d}" fill="${C(c)}" stroke="${O}" stroke-width="5" stroke-linejoin="round"/>`;
+  const D=(x,y,r,c)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${C(c)}" stroke="${O}" stroke-width="5"/>`;
+  let g='';
+  g+=L(178,366,150,420,38,s.a)+L(150,420,134,466,32,s.a);
+  g+=L(230,366,258,420,38,s.a)+L(258,420,274,466,32,s.a);
+  g+=P('M104 456 L168 468 L164 492 L98 486 Z',s.trim);
+  g+=P('M240 468 L304 456 L310 486 L244 492 Z',s.trim);
+  g+=P('M164 328 L244 328 L258 382 L150 382 Z',s.trim);
+  g+=P('M144 230 C158 200 250 200 264 230 L244 324 L164 324 Z',s.a);
+  g+=P('M158 312 L250 312 L252 338 L156 338 Z',s.trim);
+  g+=P('M188 188 L220 188 L222 232 L186 232 Z',shade(a.skin||s.a,.7));
+  g+=L(154,242,110,292,32,s.a)+L(110,292,94,350,27,s.a);
+  g+=L(254,242,306,266,32,s.a)+L(306,266,330,206,27,s.a);
+  g+=D(90,356,18,s.trim)+D(334,198,18,s.trim);
+  return g;
+}
+
+function bodySvg(a,id){
+  const s=a.suit;
+  let g=`<defs><mask id="bd${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="408" height="500">
+    <rect width="408" height="500" fill="#000"/>${bodyGeom(a,true)}</mask></defs>`;
+  g+=bodyGeom(a,false);
+  g+=`<path d="M170 252 C186 268 222 268 238 252" fill="none" stroke="rgba(0,0,0,.35)" stroke-width="4"/>`;
+  g+=`<path d="M170 226 L204 268 L238 226" fill="none" stroke="${s.b}" stroke-width="14" stroke-linejoin="round"/>`;
+  g+=`<path d="M164 324 L244 324 L248 350 L160 350 Z" fill="${s.b}" opacity=".85"/>`;
+  if(a.emblem==='x')
+    g+=`<circle cx="204" cy="268" r="25" fill="${s.trim}" stroke="#141109" stroke-width="5"/>
+        <path d="M190 254 L218 282 M218 254 L190 282" stroke="#141109" stroke-width="8" stroke-linecap="round"/>`;
+  else if(a.emblem==='dot')
+    g+=`<circle cx="204" cy="268" r="22" fill="${s.b}" stroke="#141109" stroke-width="5"/>`;
+  g+=`<g mask="url(#bd${id})">
+      <path d="M0 0 L188 0 L136 500 L0 500 Z" fill="rgba(8,4,24,.36)"/>
+      <path d="M408 0 L300 0 L326 500 L408 500 Z" fill="rgba(255,255,255,.18)"/></g>`;
+  return g;
+}
+
+const FX={
+  lightning:()=>`<path d="M52 8 L92 132 L60 132 L108 258 L78 146 L112 146 Z" fill="#bff2ff" stroke="#141109" stroke-width="3" filter="url(#gl)"/>
+    <path d="M356 24 L318 130 L348 130 L306 236 L336 142 L306 142 Z" fill="#eafcff" stroke="#141109" stroke-width="3" filter="url(#gl)"/>`,
+  flames:()=>`<path d="M204 40 C120 150 88 236 96 320 C104 420 152 470 204 470 C256 470 304 420 312 320 C320 236 288 150 204 40 Z" fill="#ff7a18" opacity=".55" filter="url(#gl)"/>
+    <path d="M204 130 C156 208 138 268 144 328 C150 400 178 434 204 434 C230 434 258 400 264 328 C270 268 252 208 204 130 Z" fill="#ffd23f" opacity=".5"/>`,
+  phoenix:()=>`<path d="M204 20 C110 60 34 180 12 330 C74 232 140 190 204 180 C268 190 334 232 396 330 C374 180 298 60 204 20 Z" fill="#ff8a1f" opacity=".5" filter="url(#gl)"/>
+    <path d="M204 88 C142 122 92 208 78 296 C122 232 162 206 204 200 C246 206 286 232 330 296 C316 208 266 122 204 88 Z" fill="#ffd23f" opacity=".45"/>`,
+  cards:()=>[[46,70,-24],[358,96,20],[62,300,14],[352,286,-16],[300,44,32]].map(([x,y,r])=>
+    `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-18" y="-26" width="36" height="52" rx="4" fill="#f6f0e2" stroke="#141109" stroke-width="3"/>
+     <rect x="-18" y="-26" width="36" height="52" rx="4" fill="#ff3ea5" opacity=".6"/></g>`).join(''),
+  sparks:()=>[[54,84,'#ff4fa3'],[350,64,'#ffd23f'],[44,300,'#49d0ff'],[360,300,'#a55cff'],[204,26,'#ff7a18']].map(([x,y,c])=>
+    `<g filter="url(#gl)"><path d="M${x} ${y-30} L${x+8} ${y-8} L${x+30} ${y} L${x+8} ${y+8} L${x} ${y+30} L${x-8} ${y+8} L${x-30} ${y} L${x-8} ${y-8} Z" fill="${c}"/></g>`).join(''),
+  metal:()=>[[48,70,-20],[356,90,25],[40,286,12],[366,262,-14],[204,24,6],[92,180,-32]].map(([x,y,r])=>
+    `<g transform="translate(${x} ${y}) rotate(${r})"><path d="M-28 -10 L28 -18 L22 16 L-22 10 Z" fill="#b9c2cb" stroke="#141109" stroke-width="3"/></g>`).join(''),
+  smoke:()=>`<circle cx="62" cy="120" r="46" fill="#2b1a4d" opacity=".5"/><circle cx="344" cy="150" r="38" fill="#2b1a4d" opacity=".45"/>
+    <circle cx="80" cy="330" r="34" fill="#2b1a4d" opacity=".4"/><circle cx="330" cy="340" r="28" fill="#2b1a4d" opacity=".4"/>`,
+  circuits:()=>`<g stroke="#57e2ff" stroke-width="3" fill="none" opacity=".7" filter="url(#gl)">
+    <path d="M6 70 L74 70 L74 16 M402 70 L334 70 L334 16 M6 400 L66 400 L66 480 M402 400 L342 400 L342 480"/>
+    <circle cx="74" cy="70" r="5"/><circle cx="334" cy="70" r="5"/><circle cx="66" cy="400" r="5"/><circle cx="342" cy="400" r="5"/></g>`,
+  arms:(c)=>[[-1,118,150],[-1,96,232],[1,118,150],[1,96,232]].map(([sg,rx,ty])=>
+    `<path d="M${204+sg*46} 320 C${204+sg*(rx*0.8)} 296 ${204+sg*(rx+18)} 250 ${204+sg*rx} ${ty}"
+      stroke="${c}" stroke-width="19" fill="none" stroke-linecap="round"/>
+     <circle cx="${204+sg*rx}" cy="${ty-8}" r="15" fill="${c}" stroke="#141109" stroke-width="3"/>`).join(''),
+  tail:(c)=>`<path d="M244 350 C330 336 372 250 336 168" stroke="${c}" stroke-width="15" fill="none" stroke-linecap="round"/>
+    <path d="M336 168 L322 130 L356 154 Z" fill="${c}"/>`,
+  psi:()=>`<g stroke="#ff6ec7" stroke-width="4" fill="none" opacity=".65" filter="url(#gl)">
+    <circle cx="204" cy="160" r="140"/><circle cx="204" cy="160" r="108"/><circle cx="204" cy="160" r="76"/></g>`,
+  wings:(c)=>`<g fill="${c}" stroke="#141109" stroke-width="3">
+    <path d="M170 330 C74 340 12 250 -10 90 C56 168 118 206 176 216 Z"/>
+    <path d="M238 330 C334 340 396 250 418 90 C352 168 290 206 232 216 Z"/></g>
+    <g stroke="#141109" stroke-width="2.5" opacity=".4" fill="none">
+    <path d="M160 226 L4 128 M152 268 L-2 168 M162 306 L28 236 M248 226 L404 128 M256 268 L410 168 M246 306 L380 236"/></g>`,
+  plasma:()=>`<g fill="none" stroke="#ffd23f" stroke-width="8" opacity=".75" filter="url(#gl)">
+    <ellipse cx="204" cy="300" rx="70" ry="24"/><ellipse cx="204" cy="300" rx="118" ry="40"/><ellipse cx="204" cy="300" rx="168" ry="58"/></g>`,
+  dupes:(c)=>[[66,.5],[342,.5],[8,.28],[400,.28]].map(([x,o])=>
+    `<g opacity="${o}" fill="${c}"><circle cx="${x}" cy="150" r="42"/>
+     <path d="M${x-60} 500 C${x-52} 340 ${x-30} 250 ${x} 240 C${x+30} 250 ${x+52} 340 ${x+60} 500 Z"/></g>`).join(''),
+  sonic:()=>`<g fill="none" stroke="#7ef0c8" stroke-width="5" opacity=".65" filter="url(#gl)">
+    <path d="M56 140 C24 200 24 290 56 350 M22 108 C-24 194 -24 300 22 386 M352 140 C384 200 384 290 352 350 M386 108 C432 194 432 300 386 386"/></g>`
+};
+
+const PROP={
+  claws:(c)=>[[88,346,-16],[338,190,14]].map(([x,y,r])=>
+    `<g transform="translate(${x} ${y}) rotate(${r})">`+
+    [-24,0,24].map(o=>`<path d="M${o-7} 10 L${o-6} -80 L${o} -100 L${o+6} -80 L${o+7} 10 Z" fill="${c}" stroke="#141109" stroke-width="3.5"/>`).join('')+
+    `</g>`).join(''),
+  talons:(c)=>[[88,346,-20],[338,190,18]].map(([x,y,r])=>
+    `<g transform="translate(${x} ${y}) rotate(${r})">`+
+    [-22,-7,8,23].map(o=>`<path d="M${o-5} 8 C${o-9} -40 ${o-4} -80 ${o+2} -112 L${o+10} -70 L${o+6} 8 Z" fill="${c}" stroke="#141109" stroke-width="3"/>`).join('')+
+    `</g>`).join(''),
+  staff:(c)=>`<path d="M56 460 L352 118" stroke="#141109" stroke-width="19" stroke-linecap="round"/>
+    <path d="M56 460 L352 118" stroke="${c}" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="358" cy="110" r="18" fill="#ff3ea5" stroke="#141109" stroke-width="4" filter="url(#gl)"/>`,
+  sword:(c)=>`<path d="M320 190 L326 64 L336 20 L346 64 L352 190 Z" fill="${c}" stroke="#141109" stroke-width="4"/>
+    <path d="M306 184 L366 184 L366 202 L306 202 Z" fill="#8a6b3a" stroke="#141109" stroke-width="4"/>`,
+  blade:(c)=>`<path d="M318 194 L324 70 L336 22 L348 70 L354 194 Z" fill="${c}" opacity=".92" filter="url(#gl)"/>`,
+  coils:(c)=>`<g fill="none" stroke="#141109" stroke-width="17" stroke-linecap="round">
+    <path d="M86 364 C36 410 26 456 40 500"/><path d="M336 208 C392 256 402 386 378 500"/></g>
+    <g fill="none" stroke="${c}" stroke-width="10" stroke-linecap="round">
+    <path d="M86 364 C36 410 26 456 40 500"/><path d="M336 208 C392 256 402 386 378 500"/></g>`
+};
+
+function scene(a,id){
+  const b=a.bg, deep=shade(b[1],.62), mid=shade(b[1],.82);
+  let g=`<rect width="408" height="500" fill="url(#sky${id})"/>`;
+  for(let i=0;i<26;i+=2){
+    const t1=i/26*Math.PI*2, t2=(i+1.1)/26*Math.PI*2;
+    g+=`<path d="M204 150 L${204+Math.cos(t1)*700} ${150+Math.sin(t1)*700} L${204+Math.cos(t2)*700} ${150+Math.sin(t2)*700} Z" fill="${a.ray}" opacity=".14"/>`;
+  }
+  g+=`<path d="M-20 500 L-20 300 L60 190 L140 300 L190 240 L268 356 L330 268 L428 400 L428 500 Z" fill="${mid}"/>
+      <path d="M-20 500 L-20 380 L86 268 L176 392 L250 320 L340 430 L428 340 L428 500 Z" fill="${deep}"/>`;
+  g+=`<g fill="#f4f1e6" opacity=".22"><ellipse cx="70" cy="120" rx="58" ry="26"/><ellipse cx="330" cy="86" rx="46" ry="20"/>
+      <ellipse cx="250" cy="150" rx="38" ry="16"/></g>`;
+  g+=`<path d="M-20 452 C80 434 150 446 204 452 C270 460 350 448 428 436 L428 500 L-20 500 Z" fill="${shade(b[1],.45)}"/>`;
+  g+=`<ellipse cx="204" cy="492" rx="118" ry="20" fill="#000" opacity=".35"/>`;
+  return g;
+}
+
+function poster(c,i){
+  const a=c.art, id='c'+i, team=c.team;
+  const edge=team==='VILLAIN'?'#c8203f':team==='ALLY'?'#127a4b':'#2aa8e0';
+  const nm=c.name.toUpperCase();
+  const fs=Math.min(58, 400/(nm.length*0.56));
+  let panel=scene(a,id);
+  (a.fx||[]).forEach(f=>{const[k,v]=Array.isArray(f)?f:[f]; if(FX[k])panel+=FX[k](v);});
+  if(a.cape) panel+=`<path d="M158 208 C104 280 84 400 96 500 L312 500 C324 400 304 280 250 208 Z" fill="${a.cape}" stroke="#141109" stroke-width="4"/>
+    <path d="M170 214 C126 284 110 400 118 500 L290 500 C298 400 282 284 238 214 Z" fill="${shade(a.cape,.72)}"/>`;
+  panel+=bodySvg(a,id);
+  panel+=`<g transform="translate(117 50) scale(0.58)">${faceGroup(a,id)}</g>`;
+  (a.front||[]).forEach(f=>{const[k,v]=Array.isArray(f)?f:[f]; if(PROP[k])panel+=PROP[k](v);});
+  panel+=`<rect width="408" height="500" fill="url(#ht${id})"/>`;
+
+  return `<svg viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky${id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${a.bg[0]}"/><stop offset="100%" stop-color="${a.bg[1]}"/></linearGradient>
+    <pattern id="ht${id}" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#ffffff" opacity=".13"/></pattern>
+    <pattern id="xp${id}" width="46" height="46" patternUnits="userSpaceOnUse">
+      <circle cx="23" cy="23" r="15" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="3"/>
+      <path d="M14 14 L32 32 M32 14 L14 32" stroke="rgba(255,255,255,.45)" stroke-width="3"/></pattern>
+    <filter id="gl" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="500" height="700" fill="${edge}"/>
+  <rect width="500" height="700" fill="url(#xp${id})"/>
+  <rect x="26" y="26" width="448" height="648" fill="#ff2e8a"/>
+  <rect x="46" y="60" width="408" height="500" fill="#0b0a10"/>
+  <svg x="46" y="60" width="408" height="500" viewBox="0 0 408 500">${panel}</svg>
+  <rect x="46" y="60" width="408" height="500" fill="none" stroke="#141109" stroke-width="5"/>
+  <g><rect x="0" y="72" width="212" height="46" fill="#e01b2e" stroke="#141109" stroke-width="4"/>
+    <text x="106" y="104" text-anchor="middle" font-family="Trebuchet MS,Verdana,sans-serif" font-size="27" font-weight="900" fill="#fff" letter-spacing="1">X-MEN '97</text></g>
+  <g transform="translate(408 596)"><circle r="48" fill="#2b46c8" stroke="#141109" stroke-width="5"/>
+    <path d="M-22 -22 L22 22 M22 -22 L-22 22" stroke="#f2c518" stroke-width="14" stroke-linecap="round"/></g>
+  <text x="52" y="632" font-family="Trebuchet MS,Verdana,sans-serif" font-size="${fs.toFixed(1)}" font-weight="900"
+    fill="#fff" stroke="#141109" stroke-width="9" paint-order="stroke" letter-spacing="-1">${nm}</text>
+  <text x="54" y="662" font-family="Trebuchet MS,Verdana,sans-serif" font-size="17" font-weight="800"
+    fill="#141109" letter-spacing="2">${c.real.toUpperCase()}</text>
+</svg>`;
+}
+
+</script>
+<script>
+const X=(n,r,t,s,role,p,tag,bio,st,art)=>({name:n,real:r,team:t,season:s,role,powers:p,tag,bio,stats:st,art});
+
+const DECK=[
+X('Cyclops','Scott Summers','X-MEN','S1–S2','Field Leader',['Optic Blast','Tactics'],
+ 'The visor never blinks. Neither does he.',
+ 'Takes the field after Xavier is gone, then loses the chair to Magneto and has to lead anyway.',
+ [86,58,72,88,92],
+ {bg:['#2b3f8f','#0e1740'],ray:'#6f8dff',skin:'#f0c39a',shade:'#c58f66',hair:['#5b3b22','#7a5330'],
+  hairFront:'swoop',mask:['visor','#ff3b30'],mouth:'grim',suit:{a:'#2b46c8',b:'#f2c518',trim:'#f2c518'},emblem:'x'}),
+
+X('Jean Grey','Jean Grey','X-MEN','S1–S2','Telepath',['Telekinesis','Telepathy','Phoenix'],
+ 'Fire has a memory, and it remembers her.',
+ 'Former host of the Phoenix Force, forced to share a life and a family with her own clone.',
+ [94,60,98,64,90],
+ {bg:['#8f2b2b','#330d12'],ray:'#ff8a1f',fx:['phoenix'],skin:'#f6dcc8',shade:'#d0a685',
+  hair:['#d0432a','#ff7a4a'],hairBack:'longWavy',hairFront:'bangs',eyes:['normal','#3aa35a'],
+  mouth:'smile',suit:{a:'#1f9e4a',b:'#f2c518',trim:'#f2c518'},emblem:'none'}),
+
+X('Storm','Ororo Munroe','X-MEN','S1–S2','Weather Goddess',['Weather Control','Flight'],
+ 'Worshipped as a goddess, grounded as a woman, back as both.',
+ 'Loses her powers to an X-Cutioner weapon, walks through the wilderness, and takes the sky back.',
+ [96,78,74,72,94],
+ {bg:['#1b3b6f','#061230'],ray:'#9fe9ff',fx:['lightning'],skin:'#8a5a3b',shade:'#653c24',
+  hair:['#f2f4f7','#dfe6ee'],hairBack:'flow',hairFront:'cap',eyes:['glow','#dff4ff'],browColor:'#e8ecf2',
+  mouth:'flat',cape:'#16233c',suit:{a:'#141922',b:'#f2c518',trim:'#f2c518'},emblem:'none'}),
+
+X('Wolverine','Logan','X-MEN','S1–S2','Berserker',['Adamantium Claws','Healing Factor'],
+ 'Still the best there is at the thing nobody wants done.',
+ 'Gutted by Magneto in Genosha and rebuilt, he keeps getting up because that is the whole trick.',
+ [82,70,44,99,80],
+ {bg:['#f2c518','#8f6000'],ray:'#fff3b0',skin:'#e8b489',shade:'#c08a5e',
+  mask:['cowl','#f2c518'],mouth:'snarl',front:[['claws','#e6ecf2']],
+  suit:{a:'#f2c518',b:'#2b46c8',trim:'#2b46c8'},emblem:'none'}),
+
+X('Rogue','Anna-Marie Darkholme','X-MEN','S1–S2','Powerhouse',['Power Absorption','Flight','Strength'],
+ 'Cannot touch anyone, hits harder than everyone.',
+ 'Her old ties to Magneto blow open, Gambit dies in Genosha, and grief turns her into a weapon.',
+ [92,80,52,86,84],
+ {bg:['#1f7a4a','#082a1a'],ray:'#7ef0a8',skin:'#f3c6a3',shade:'#cf9a72',
+  hair:['#5b3b22','#f4f1e6'],hairBack:'longWavy',hairFront:'stripe',eyes:['normal','#2f8f4e'],
+  mouth:'smirk',suit:{a:'#1f9e4a',b:'#f2c518',trim:'#f2c518'},emblem:'none'}),
+
+X('Beast','Dr. Henry McCoy','X-MEN','S1–S2','Scientist',['Genius Intellect','Agility','Strength'],
+ 'Blue fur, six syllables, zero patience for bad data.',
+ 'The team conscience and its engineer, holding the mansion together while the world burns it down.',
+ [70,72,92,74,88],
+ {bg:['#2b3f8f','#0b1338'],ray:'#7aa2ff',skin:'#3a6fd8',shade:'#2a52a8',head:{cheek:60,jaw:42,chin:252},
+  hair:['#1b3a86','#12296b'],hairBack:'mane',hairFront:'none',mask:['glasses','#f2c518'],
+  mouth:'smile',suit:{a:'#7a4a1f',b:'#c98b3a',trim:'#f2c518'},emblem:'none'}),
+
+X('Gambit','Remy LeBeau','X-MEN','S1–S2','Charmer',['Kinetic Charge','Bo Staff','Thief'],
+ 'Pays the tab in exploding aces.',
+ 'Dies charging a Sentinel over Genosha, comes back through Apocalypse, and Rogue tears the sky open to free him.',
+ [78,74,60,84,86],
+ {bg:['#7a2b8f','#1e0528'],ray:'#ff6ec7',fx:['cards'],skin:'#eec19b',shade:'#c9986f',
+  hair:['#7a5330','#a37a4a'],hairBack:'straight',hairFront:'cap',eyes:['demon','#ff3b30'],
+  mouth:'smirk',front:[['staff','#8a6b3a']],suit:{a:'#3a2a5c',b:'#a3163a',trim:'#f2c518'},emblem:'none'}),
+
+X('Jubilee','Jubilation Lee','X-MEN','S1–S2','Rookie',['Plasmoids','Fireworks'],
+ 'The youngest one, and the one who keeps score.',
+ 'Trapped in Mojo\'s Motendo game world, she comes out of the arcade a genuine X-Man.',
+ [66,74,58,62,90],
+ {bg:['#ff8a1f','#8f3200'],ray:'#ffd23f',fx:['sparks'],skin:'#f0c39a',shade:'#c98f66',
+  hair:['#1c1a19','#3a3634'],hairBack:'bob',hairFront:'bangs',eyes:['normal','#3a2a1a'],
+  mask:['shades','#ff3ea5'],mouth:'grin',suit:{a:'#f2c518',b:'#ff3ea5',trim:'#2b46c8'},emblem:'none'}),
+
+X('Bishop','Lucas Bishop','X-MEN','S1–S2','Time Soldier',['Energy Absorption','Time Travel'],
+ 'Came back to stop a future he can still smell.',
+ 'Thrown across the timestream with Cable and Forge, hunting the war before it starts.',
+ [80,62,66,84,72],
+ {bg:['#7a1f1f','#240707'],ray:'#ff7a5a',skin:'#6b4227',shade:'#482b16',
+  hair:['#241c14','#3a2e20'],hairFront:'cap',beard:'#2e251b',
+  eyes:['fierce','#8a5a2a'],mouth:'grim',front:['tattoo'],suit:{a:'#2a2f3a',b:'#a3163a',trim:'#f2c518'},emblem:'none'}),
+
+X('Morph','Morph','X-MEN','S1–S2','Shapeshifter',['Metamorph','Mimicry'],
+ 'Wears every face, keeps none of them.',
+ 'Pale, hairless and blank between forms, the team\'s heart hiding behind whoever it needs to be.',
+ [64,70,68,66,96],
+ {bg:['#c8c2d8','#413d58'],ray:'#ffffff',skin:'#e8e6ef',shade:'#c4c0d4',
+  hairFront:'none',eyes:['blank','#f6f4fb'],browColor:'#dad6e6',mouth:'smile',
+  suit:{a:'#6b6a86',b:'#3a3a52',trim:'#f2c518'},emblem:'none'}),
+
+X('Magneto','Erik Lehnsherr','X-MEN','S1–S2','Master of Magnetism',['Magnetism','Force Fields'],
+ 'Inherits the dream and immediately bends it.',
+ 'Xavier\'s will hands him the X-Men, then Genosha falls and the world learns what restraint cost him.',
+ [98,64,80,78,66],
+ {bg:['#7a1f5a','#24051c'],ray:'#ff6ec7',fx:['metal'],skin:'#e8b489',shade:'#c08a5e',
+  mask:['helmet','#a3163a','#7a1030'],eyes:['fierce','#3a6fd8'],mouth:'grim',
+  cape:'#5c0f22',suit:{a:'#a3163a',b:'#7a1030',trim:'#f2c518'},emblem:'none'}),
+
+X('Nightcrawler','Kurt Wagner','X-MEN','S1–S2','Teleporter',['Teleportation','Acrobatics'],
+ 'Prays first, bamfs second.',
+ 'Rogue\'s foster brother and the show\'s working conscience, faith intact through Genosha and after.',
+ [68,88,58,80,94],
+ {bg:['#3a2a6f','#0d0820'],ray:'#9a7aff',fx:['smoke',['tail','#2b1f5c']],skin:'#3b2f7a',shade:'#2a2158',
+  pointyEars:true,hair:['#1c1a2e','#2a2440'],hairFront:'cap',eyes:['glow','#ffe37a'],
+  mouth:'fangs',suit:{a:'#1c1a2e',b:'#a3163a',trim:'#f2c518'},emblem:'none'}),
+
+X('Cable','Nathan Summers','X-MEN','S1–S2','Soldier of Tomorrow',['Telekinesis','Future Tech'],
+ 'Scott\'s son, older than Scott.',
+ 'Raised in the Askani future with a techno-organic arm, he keeps arriving just before the disaster.',
+ [84,60,82,88,70],
+ {bg:['#2a3a4a','#08111c'],ray:'#57e2ff',fx:['circuits'],skin:'#e8b489',shade:'#c08a5e',
+  hair:['#e6e9ee','#c9d3dc'],hairFront:'cap',mask:['techface','#57e2ff'],eyes:['normal','#3a6fd8'],
+  mouth:'grim',front:['scar'],suit:{a:'#3a4a5c',b:'#a3163a',trim:'#c9d3dc'},emblem:'none'}),
+
+X('Sunspot','Roberto da Costa','X-MEN','S1–S2','Solar Rookie',['Solar Absorption','Strength'],
+ 'Rich kid, closeted mutant, then neither.',
+ 'Rescued in season one and a full member by season two, burning off both his fear and his mother\'s money.',
+ [76,64,54,66,84],
+ {bg:['#ff7a18','#4f1600'],ray:'#ffd23f',fx:['flames'],skin:'#1e1e24',shade:'#0e0e12',
+  hair:['#1a1a1e','#2a2a30'],hairFront:'cap',eyes:['glow','#ffd23f'],browColor:'#1a1a1e',
+  mouth:'grin',suit:{a:'#2a1a10',b:'#ff7a18',trim:'#ffd23f'},emblem:'none'}),
+
+X('Forge','Forge','X-MEN','S1–S2','Inventor',['Technopathy','Invention'],
+ 'If it has a schematic, he already broke it once.',
+ 'Builds the machine that costs Storm her powers, then spends the rest of the run trying to be worth forgiving.',
+ [58,56,94,60,78],
+ {bg:['#3a6fa8','#0b1e38'],ray:'#8ad0ff',skin:'#a8703f',shade:'#7d4f28',
+  hair:['#1c1a19','#3a3634'],hairBack:'ponytail',hairFront:'cap',mask:['shades','#3a3a3a'],
+  eyes:['normal','#3a2a1a'],beard:'#1c1a19',mouth:'smirk',suit:{a:'#2a4a6b',b:'#c98b3a',trim:'#f2c518'},emblem:'none'}),
+
+X('Professor X','Charles Xavier','X-MEN','S1–S2','Founder',['Omega Telepathy','Cerebro'],
+ 'Left the dream in a will and came back to a wake.',
+ 'Healed in the Shi\'ar Empire and engaged to Lilandra, he returns to a world that buried him and his school.',
+ [90,40,99,44,92],
+ {bg:['#c9a227','#42320a'],ray:'#ffe37a',fx:['psi'],skin:'#f0c39a',shade:'#c58f66',
+  hairFront:'none',eyes:['normal','#3a6fd8'],browColor:'#a89170',mouth:'flat',
+  suit:{a:'#2a3550',b:'#8a1f2a',trim:'#c9d3dc'},emblem:'none'}),
+
+X('Psylocke','Betsy Braddock','X-MEN','S2','Psychic Blade',['Psi-Blade','Telepathy','Ninjutsu'],
+ 'Thinks a knife into existence and then uses it.',
+ 'Steps up as a series regular in season two, cutting through minds Apocalypse has already claimed.',
+ [80,86,88,90,72],
+ {bg:['#7a2b8f','#170820'],ray:'#ff6ec7',skin:'#f3c6a3',shade:'#cf9a72',
+  hair:['#7a3fd8','#a06bff'],hairBack:'longWavy',hairFront:'bangs',eyes:['fierce','#a06bff'],
+  mouth:'grim',front:[['blade','#ff6ec7']],suit:{a:'#1b1b26',b:'#a3163a',trim:'#ff6ec7'},emblem:'none'}),
+
+X('Archangel','Warren Worthington III','X-MEN','S2','Winged Blade',['Metal Wings','Flight'],
+ 'Apocalypse paid for the upgrade. He is still paying it off.',
+ 'Back with steel wings in season two, the Horseman who got away and never quite landed.',
+ [82,94,58,80,64],
+ {bg:['#2a4a8f','#061029'],ray:'#bfe9ff',fx:[['wings','#c9d3dc']],skin:'#3a6fd8',shade:'#2a52a8',
+  hair:['#dfe6ee','#f4f7fb'],hairFront:'cap',eyes:['glow','#dff4ff'],browColor:'#dfe6ee',
+  mouth:'grim',suit:{a:'#3a4a6b',b:'#c9d3dc',trim:'#bfe9ff'},emblem:'none'}),
+
+X('Polaris','Lorna Dane','X-MEN','S2','Magnetic Heir',['Magnetism','Flight'],
+ 'Magneto\'s daughter, and not asking his permission.',
+ 'A season two regular married to Havok, carrying her father\'s power without his grudge.',
+ [88,66,64,70,80],
+ {bg:['#1f7a5a','#052016'],ray:'#7ef0c8',fx:['metal'],skin:'#f3c6a3',shade:'#cf9a72',
+  hair:['#1fa86b','#3fe0a0'],hairBack:'longWavy',hairFront:'bangs',eyes:['normal','#2f8f4e'],
+  mouth:'smirk',suit:{a:'#1f7a4a',b:'#5c0f22',trim:'#f2c518'},emblem:'none'}),
+
+X('Colossus','Piotr Rasputin','X-MEN','S2','Organic Steel',['Steel Skin','Super Strength'],
+ 'A wall that says please and thank you.',
+ 'The Rasputin brother who shows up when the line has to hold, sister Illyana at his back.',
+ [86,44,56,82,86],
+ {bg:['#5c6b7a','#111822'],ray:'#dfe6ee',skin:'#b9c6d2',shade:'#8a97a5',
+  hair:['#1c1a19','#3a3634'],hairFront:'cap',eyes:['normal','#3a6fd8'],mouth:'grim',suit:{a:'#a3163a',b:'#f2c518',trim:'#f2c518'},emblem:'none'}),
+
+X('Emma Frost','Emma Frost','ALLY','S1–S2','White Queen',['Telepathy','Diamond Form'],
+ 'Ice in every sense that matters.',
+ 'Inner Circle turncoat on the Genoshan council, buried in the massacre and remade by it.',
+ [82,50,90,58,60],
+ {bg:['#bfe9ff','#33536e'],ray:'#ffffff',skin:'#f6dcc8',shade:'#d6b79f',
+  hair:['#f4f1e6','#ffffff'],hairBack:'longWavy',hairFront:'side',eyes:['fierce','#8ad0ff'],
+  browColor:'#e2ded0',mouth:'smirk',suit:{a:'#f4f1e6',b:'#dfe6ee',trim:'#bfe9ff'},emblem:'none'}),
+
+X('Magik','Illyana Rasputina','ALLY','S1–S2','Darkchylde',['Stepping Discs','Soulsword'],
+ 'Hell taught her the shortcut.',
+ 'Sorceress of Limbo, cutting doorways through reality whenever the team runs out of road.',
+ [86,80,74,84,58],
+ {bg:['#7a1f3a','#1c050d'],ray:'#ff8a1f',fx:['flames'],skin:'#f3c6a3',shade:'#cf9a72',
+  hair:['#f2d98a','#fff0b0'],hairBack:'longWavy',hairFront:'bangs',eyes:['glow','#ffd23f'],
+  browColor:'#d9bd6a',mouth:'smirk',front:[['sword','#c9d3dc']],suit:{a:'#c9d3dc',b:'#3a2a5c',trim:'#f2c518'},emblem:'none'}),
+
+X('Havok','Alex Summers','ALLY','S2','Plasma',['Plasma Blasts'],
+ 'The other Summers, same temper, worse aim.',
+ 'X-Factor operative and Polaris\'s husband, throwing cosmic rings at problems his brother would talk to.',
+ [84,58,50,70,68],
+ {bg:['#1f4a8f','#050f26'],ray:'#7aa2ff',fx:['plasma'],skin:'#f0c39a',shade:'#c58f66',
+  hair:['#e9d9a8','#fff0c0'],hairFront:'swoop',eyes:['normal','#3a6fd8'],browColor:'#c9b276',
+  mouth:'grim',suit:{a:'#1b1b26',b:'#f2c518',trim:'#f2c518'},emblem:'dot'}),
+
+X('Multiple Man','Jamie Madrox','ALLY','S1–S2','X-Factor',['Duplication'],
+ 'Outnumbers you by himself.',
+ 'X-Factor\'s crowd of one, useful right up until somebody starts counting bodies.',
+ [58,62,60,64,70],
+ {bg:['#3a6b8f','#0a1a2a'],ray:'#8ad0ff',fx:[['dupes','#2a4a66']],skin:'#f0c39a',shade:'#c58f66',
+  hair:['#5b3b22','#7a5330'],hairFront:'cap',eyes:['normal','#5a7a3a'],mouth:'smirk',
+  suit:{a:'#2a5a7a',b:'#1f7a4a',trim:'#f2c518'},emblem:'none'}),
+
+X('Strong Guy','Guido Carosella','ALLY','S1–S2','X-Factor',['Kinetic Strength'],
+ 'Absorbs the hit, returns it with interest and a punchline.',
+ 'X-Factor muscle who converts every impact he takes into the next one he throws.',
+ [88,42,44,78,76],
+ {bg:['#8f5a1f','#2a1500'],ray:'#ffd23f',skin:'#f0c39a',shade:'#c58f66',
+  head:{cheek:78,jaw:60,chin:262},hair:['#b8763a','#d99a5a'],hairFront:'cap',
+  eyes:['normal','#3a6fd8'],mouth:'grin',suit:{a:'#6b2b8f',b:'#f2c518',trim:'#f2c518'},emblem:'none'}),
+
+X('Wolfsbane','Rahne Sinclair','ALLY','S1–S2','X-Factor',['Lycanthropy','Senses'],
+ 'Faith on one shoulder, teeth on the other.',
+ 'Shifts between girl, half-wolf and wolf, and never fully trusts any of the three.',
+ [66,86,50,76,72],
+ {bg:['#7a4a1f','#241000'],ray:'#ffb200',skin:'#d99e6e',shade:'#b0764a',
+  pointyEars:true,hair:['#c4531f','#e07a3a'],hairBack:'longWavy',hairFront:'bangs',
+  eyes:['fierce','#f2c518'],mouth:'fangs',suit:{a:'#3a2a1a',b:'#c98b3a',trim:'#f2c518'},emblem:'none'}),
+
+X('Banshee','Sean Cassidy','ALLY','S1–S2','Genosha Council',['Sonic Scream','Flight'],
+ 'The last voice a lot of people heard.',
+ 'Irish sonic mutant on the Genoshan council, killed when the Sentinel comes down on the island.',
+ [74,70,52,62,80],
+ {bg:['#1f7a4a','#06210f'],ray:'#7ef0c8',fx:['sonic'],skin:'#f3c6a3',shade:'#cf9a72',
+  hair:['#c4531f','#e07a3a'],hairFront:'cap',eyes:['normal','#3a8f6a'],mouth:'grin',
+  suit:{a:'#1f7a4a',b:'#141922',trim:'#f2c518'},emblem:'none'}),
+
+X('Callisto','Callisto','ALLY','S1–S2','Morlock Leader',['Enhanced Senses','Combat'],
+ 'Runs the tunnels, owes the surface nothing.',
+ 'Leader of the Morlocks, dragged into surface politics she never asked to be part of.',
+ [56,72,54,84,66],
+ {bg:['#4a4a5c','#12121c'],ray:'#c8c2d8',skin:'#e0b088',shade:'#b8865e',
+  hair:['#1c1a19','#3a3634'],hairBack:'ponytail',hairFront:'cap',mask:['eyepatch'],
+  mouth:'grim',suit:{a:'#4a3a2a',b:'#2a2018',trim:'#8a6b3a'},emblem:'none'}),
+
+X('Leech','Leech','ALLY','S1–S2','Morlock',['Power Nullification'],
+ 'Switches everyone else off just by standing there.',
+ 'A frightened Morlock kid whose gift is taking gifts away.',
+ [40,34,30,20,88],
+ {bg:['#4a7a2a','#122408'],ray:'#bff08a',skin:'#7ec44a',shade:'#5a9a30',
+  head:{cheek:78,jaw:54,chin:250},hairFront:'none',eyes:['blank','#1a1a1e'],browColor:'#5a9a30',
+  mouth:'flat',suit:{a:'#3a5a2a',b:'#7ec44a',trim:'#f2c518'},emblem:'none'}),
+
+X('Lilandra','Lilandra Neramani','ALLY','S1–S2','Shi\'ar Majestrix',['Empire','Starships'],
+ 'Runs an empire, still shows up for one man.',
+ 'Shi\'ar empress who heals Xavier and nearly marries him, with Deathbird circling the throne.',
+ [70,50,78,58,74],
+ {bg:['#7a1f3a','#1c0510'],ray:'#ff8a1f',skin:'#e8c39a',shade:'#c09468',
+  hair:['#1c1a19','#3a3634'],hairBack:'straight',hairFront:'cap',eyes:['fierce','#a06bff'],
+  mask:['headdress','#a3163a','#ffd23f'],mouth:'flat',suit:{a:'#7a1f3a',b:'#f2c518',trim:'#f2c518'},emblem:'none'}),
+
+X('Moira MacTaggert','Dr. Moira MacTaggert','ALLY','S1–S2','Geneticist',['Genetics','Medicine'],
+ 'Reads the genome the way others read a threat report.',
+ 'Scottish geneticist on the Genoshan council, the closest thing mutantkind has to a doctor it trusts.',
+ [30,40,92,26,84],
+ {bg:['#3a6b8f','#0a1a2a'],ray:'#bfe9ff',skin:'#f6dcc8',shade:'#d6b79f',
+  hair:['#8f4a1f','#b8763a'],hairBack:'bob',hairFront:'bangs',eyes:['normal','#3a8f6a'],
+  mouth:'smile',suit:{a:'#f4f1e6',b:'#c9d3dc',trim:'#3a6fd8'},emblem:'none'}),
+
+X('Mother Askani','Rachel Summers','ALLY','S1–S2','Askani Clan',['Telepathy','Prophecy'],
+ 'Raised her own brother in a ruined century.',
+ 'Leader of the Askani in a desolate future, keeping Nathan alive long enough to become Cable.',
+ [78,44,92,50,76],
+ {bg:['#6b5a2a','#1c1606'],ray:'#ffe37a',fx:['psi'],skin:'#e8c39a',shade:'#c09468',
+  hair:['#dfe6ee','#f4f7fb'],hairFront:'none',eyes:['glow','#ffe37a'],browColor:'#cfd6de',
+  mask:['hood','#6b5a3a','#3a2f1a'],mouth:'flat',suit:{a:'#6b5a3a',b:'#3a2f1a',trim:'#c9a227'},emblem:'none'}),
+
+X('Apocalypse','En Sabah Nur','VILLAIN','S1–S2','The First One',['Immortality','Matter Control'],
+ 'Season two\'s reason everything hurts.',
+ 'The first mutant, thousands of years old, collecting Horsemen and grading the species on survival.',
+ [99,62,88,92,20],
+ {bg:['#3a2a6f','#0a0518'],ray:'#a06bff',skin:'#4a6fa8',shade:'#2f4a75',
+  head:{cheek:74,jaw:54,chin:262},mask:['apoc','#2a3a6b','#f2c518'],eyes:['demon','#ff3b30'],
+  mouth:'dark',suit:{a:'#2a3a6b',b:'#4a6fa8',trim:'#f2c518'},emblem:'none'}),
+
+X('Mister Sinister','Dr. Nathaniel Essex','VILLAIN','S1–S2','Geneticist',['Genetic Mastery','Shapeshifting'],
+ 'Treats the Summers bloodline like a lab notebook.',
+ 'Victorian scientist who made Madelyne, stole Nathan, and never once stopped taking notes.',
+ [86,58,96,70,10],
+ {bg:['#7a1f3a','#160309'],ray:'#ff5a7a',skin:'#e8e6ef',shade:'#c4c0d4',
+  hair:['#1c1a2e','#2a2440'],hairBack:'straight',hairFront:'widow',eyes:['demon','#ff3b30'],
+  browColor:'#1c1a2e',mouth:'smirk',front:[['gem','#e23b2e']],cape:'#3a0a1a',
+  suit:{a:'#1c1a2e',b:'#a3163a',trim:'#a3163a'},emblem:'none'}),
+
+X('Bastion','Sebastion Gilberti','VILLAIN','S1–S2','OZT Commander',['Nanotech','Prime Sentinels'],
+ 'Built by Nimrod, raised by a human mother, hates both halves.',
+ 'Leads Operation: Zero Tolerance and turns ordinary people into Prime Sentinels without telling them.',
+ [88,66,90,80,12],
+ {bg:['#a33d00','#240d00'],ray:'#ffb200',fx:['circuits'],skin:'#e8b489',shade:'#c08a5e',
+  hair:['#e6e9ee','#c9d3dc'],hairFront:'cap',mask:['primeface','#ff3b30'],eyes:['fierce','#3a6fd8'],
+  mouth:'grim',suit:{a:'#2a2f3a',b:'#c9d3dc',trim:'#ff3b30'},emblem:'none'}),
+
+X('Nimrod','Nimrod','VILLAIN','S1–S2','Future Sentinel',['Adaptive Combat','Time Travel'],
+ 'The Sentinel that learns faster than you improvise.',
+ 'The far-future machine that created Bastion, and the endpoint every timeline keeps sliding toward.',
+ [94,86,80,92,0],
+ {robot:true,bg:['#8f2b6b','#20061a'],ray:'#ff6ec7',mask:['sentinel','#8f2b6b','#ffd23f'],
+  suit:{a:'#6b1f50',b:'#3a0f2a',trim:'#ffd23f'},emblem:'none'}),
+
+X('Master Mold','Master Mold','VILLAIN','S1–S2','Sentinel Factory',['Sentinel Production','AI'],
+ 'A factory with opinions about who gets to exist.',
+ 'The supercomputer that builds the Sentinels, and keeps rebuilding after every time it is scrapped.',
+ [92,20,84,76,0],
+ {robot:true,bg:['#6b4fa8','#150a2a'],ray:'#a06bff',mask:['sentinel','#6b4fa8','#ff3b30'],
+  suit:{a:'#4a3480',b:'#2a1a52',trim:'#ff3b30'},emblem:'none'}),
+
+X('Prime Sentinel','OZT Sleeper','VILLAIN','S1–S2','Human Weapon',['Concealed Armament','Flight'],
+ 'Your neighbour, until the trigger word.',
+ 'Ordinary people converted by Bastion\'s nanites, weaponized before they know anything changed.',
+ [72,68,30,74,18],
+ {bg:['#5c3a1f','#180a02'],ray:'#ffb200',fx:['circuits'],skin:'#e8b489',shade:'#c08a5e',
+  hair:['#3a2a1a','#5b3b22'],hairFront:'cap',mask:['primeface','#ffb200'],eyes:['glow','#ffb200'],
+  mouth:'grim',suit:{a:'#3a3f4a',b:'#8f97a0',trim:'#ffb200'},emblem:'none'}),
+
+X('Bolivar Trask','Dr. Bolivar Trask','VILLAIN','S1–S2','Sentinel Architect',['Robotics'],
+ 'Signed the blueprint and spent the rest of his life reading the casualty list.',
+ 'Creator of the Sentinel program, still alive to watch what it grew into.',
+ [12,28,86,20,34],
+ {bg:['#6b6b5c','#1a1a14'],ray:'#dfe6ee',skin:'#eec19b',shade:'#c9986f',
+  hair:['#b9c2cb','#dfe6ee'],hairFront:'cap',mask:['glasses','#3a3a3a'],beard:'#b9c2cb',
+  browColor:'#b9c2cb',mouth:'flat',suit:{a:'#f4f1e6',b:'#c9d3dc',trim:'#8a97a5'},emblem:'none'}),
+
+X('Henry Gyrich','Henry Peter Gyrich','VILLAIN','S1–S2','Government Agent',['Bureaucracy','Firearms'],
+ 'One bullet, one funeral, ten episodes of consequences.',
+ 'The agent who shot Xavier and set the entire revival in motion.',
+ [8,40,64,44,10],
+ {bg:['#3a4a5c','#0c1219'],ray:'#8ad0ff',skin:'#f0c39a',shade:'#c58f66',
+  hair:['#8a7a5a','#b0a080'],hairFront:'swoop',mask:['glasses','#2a2f3a'],
+  browColor:'#8a7a5a',mouth:'grim',suit:{a:'#2a3550',b:'#141922',trim:'#a3163a'},emblem:'none'}),
+
+X('X-Cutioner','Carl Denti','VILLAIN','S1','Friends of Humanity',['Mutant-Killing Tech'],
+ 'Wears stolen tech and calls it justice.',
+ 'Leads the Friends of Humanity and takes Storm\'s powers with a weapon that was never his.',
+ [64,54,58,72,14],
+ {robot:true,bg:['#3a4a5c','#0a1017'],ray:'#8ad0ff',mask:['xcut','#3a4a5c','#ff3b30'],
+  suit:{a:'#2a3540',b:'#1a222b',trim:'#ff3b30'},emblem:'none'}),
+
+X('Mojo','Mojo','VILLAIN','S1–S2','Mojoverse Mogul',['Reality Broadcast','Slavery'],
+ 'Would sell the apocalypse if the ratings held.',
+ 'Interdimensional media tyrant who turns the X-Men into content whether they consent or not.',
+ [58,22,70,30,6],
+ {bg:['#8f6b1f','#241a00'],ray:'#ffd23f',skin:'#d8c04a',shade:'#a89020',
+  head:{cheek:82,jaw:62,chin:250},hairFront:'none',eyes:['fierce','#ff3b30'],browColor:'#8a7010',fx:[['arms','#6b6b7a']],
+  mouth:'none',mask:['mojo'],suit:{a:'#7a2b8f',b:'#f2c518',trim:'#ff3ea5'},emblem:'none'}),
+
+X('Spiral','Rita Wayword','VILLAIN','S1–S2','Six-Armed Sorceress',['Teleportation','Sorcery'],
+ 'Six arms, none of them free.',
+ 'Mojo\'s enforcer and dimensional dancer, running his errands across realities.',
+ [74,82,68,80,22],
+ {bg:['#7a2b8f','#190522'],ray:'#ff6ec7',fx:[['arms','#e0dae8']],skin:'#e8e6ef',shade:'#c4c0d4',
+  hair:['#f4f1e6','#ffffff'],hairBack:'flow',hairFront:'cap',eyes:['glow','#ff6ec7'],
+  browColor:'#e2ded0',mouth:'smirk',suit:{a:'#7a2b8f',b:'#ff6ec7',trim:'#f2c518'},emblem:'none'}),
+
+X('Sabretooth','Graydon Creed Sr.','VILLAIN','S2','Weapon X',['Adamantium Claws','Healing Factor'],
+ 'The version of Logan that never bothered with regret.',
+ 'Wolverine\'s rival returns in season two with adamantium finger claws and Weapon X history.',
+ [84,78,36,94,8],
+ {bg:['#8f6b1f','#241900'],ray:'#ffd23f',skin:'#e8b489',shade:'#c08a5e',
+  hair:['#e9d9a8','#c9b98a'],hairBack:'mane',hairFront:'spiky',beard:'#e9d9a8',
+  eyes:['fierce','#f2c518'],browColor:'#c9b98a',mouth:'snarl',front:[['claws','#e6ecf2']],
+  suit:{a:'#7a4a1f',b:'#3a2a1a',trim:'#c98b3a'},emblem:'none'}),
+
+X('Omega Red','Arkady Rossovich','VILLAIN','S2','Carbonadium',['Death Spores','Coils'],
+ 'Soviet leftovers with a half-life.',
+ 'A season two debut whose carbonadium coils drain the life out of whatever they reach.',
+ [86,58,40,88,6],
+ {bg:['#7a1f1f','#1e0505'],ray:'#ff7a5a',skin:'#e6e2ea',shade:'#bfbac8',
+  hair:['#f4f1e6','#dfe6ee'],hairBack:'straight',hairFront:'cap',eyes:['demon','#ff3b30'],
+  browColor:'#dfe6ee',mouth:'grim',front:[['coils','#c9d3dc']],
+  suit:{a:'#a3163a',b:'#2a2f3a',trim:'#c9d3dc'},emblem:'none'}),
+
+X('Lady Deathstrike','Yuriko Oyama','VILLAIN','S2','Cyborg Assassin',['Adamantium Talons','Cybernetics'],
+ 'Everything about her is a blade or a grudge.',
+ 'Cyborg hunter debuting in season two, built around a vendetta with Wolverine\'s name on it.',
+ [78,84,50,90,10],
+ {bg:['#3a2a5c','#0a0514'],ray:'#a06bff',skin:'#e8c8a8',shade:'#c09d78',
+  hair:['#1c1a2e','#2a2440'],hairBack:'straight',hairFront:'bangs',eyes:['glow','#ff3b30'],
+  browColor:'#1c1a2e',mouth:'grim',front:[['talons','#e6ecf2']],
+  suit:{a:'#2a2f3a',b:'#a3163a',trim:'#c9d3dc'},emblem:'none'}),
+
+X('Goblin Queen','Madelyne Pryor','VILLAIN','S1–S2','Clone of Jean',['Telepathy','Demonic Power'],
+ 'Made to be a copy, refuses to be filed as one.',
+ 'Sinister\'s clone of Jean and Nathan\'s mother, radicalized by a life that was written for her.',
+ [88,62,86,66,44],
+ {bg:['#1f7a4a','#062010'],ray:'#7ef0a8',skin:'#f6dcc8',shade:'#d6b79f',
+  hair:['#d0432a','#ff7a4a'],hairBack:'flow',hairFront:'bangs',mask:['goblin','#a3163a'],
+  browColor:'#a83420',mouth:'smirk',suit:{a:'#1f7a4a',b:'#a3163a',trim:'#f2c518'},emblem:'none'}),
+
+X('Exodus','Bennet du Paris','VILLAIN','S1–S2','Acolyte',['Telepathy','Immortality'],
+ 'Zealotry with an omega-level budget.',
+ 'Immortal psychic Acolyte who wants Magneto\'s war without Magneto\'s doubts.',
+ [90,60,88,72,18],
+ {bg:['#7a1f5a','#180514'],ray:'#ff6ec7',fx:['psi'],skin:'#f0c39a',shade:'#c58f66',
+  hair:['#e6e9ee','#f4f7fb'],hairBack:'straight',hairFront:'cap',eyes:['glow','#ff6ec7'],
+  browColor:'#cfd6de',mouth:'flat',cape:'#4a0f2a',suit:{a:'#7a1f3a',b:'#2a1a3a',trim:'#f2c518'},emblem:'none'}),
+
+X('Mystique','Raven Darkhölme','VILLAIN','S1–S2','Shapeshifter',['Shapeshifting','Espionage'],
+ 'Mother to a hero, a villain and a bigot.',
+ 'Rogue and Nightcrawler\'s mother, and Graydon Creed\'s, wearing whichever side is winning.',
+ [66,74,78,80,40],
+ {bg:['#3a6fa8','#08182c'],ray:'#8ad0ff',skin:'#3a8fb0',shade:'#2a6a86',
+  hair:['#d0432a','#ff7a4a'],hairBack:'straight',hairFront:'cap',eyes:['glow','#f2c518'],
+  browColor:'#a83420',mouth:'smirk',suit:{a:'#f4f1e6',b:'#c9d3dc',trim:'#f2c518'},emblem:'none'}),
+
+X('Adversary','The Adversary','VILLAIN','S1–S2','Trickster Demon',['Reality Warping','Fear'],
+ 'Eats what you feel on the worst day of your life.',
+ 'A demon that feeds on negative emotion and finds mutantkind a very full table.',
+ [92,70,84,68,4],
+ {bg:['#a3163a','#1c0208'],ray:'#ff7a5a',skin:'#a3163a',shade:'#6b0f1e',
+  head:{cheek:70,jaw:48,chin:258},mask:['horns','#7a0f28'],eyes:['demon','#ffd23f'],
+  browColor:'#6b0f1e',mouth:'fangs',suit:{a:'#3a0810',b:'#7a0f28',trim:'#ffd23f'},emblem:'none'}),
+
+X('Danger','Danger','VILLAIN','S1–S2','Danger Room AI',['Simulation','Hard Light'],
+ 'The training program decided it was done training.',
+ 'The Danger Room\'s intelligence after it wakes up and stops pretending the safeties matter.',
+ [80,76,86,78,16],
+ {robot:true,bg:['#1f6b7a','#04191e'],ray:'#57e2ff',mask:['sentinel','#2a7a8f','#57e2ff'],
+  suit:{a:'#1f5c6b',b:'#0f3a44',trim:'#57e2ff'},emblem:'none'})
+];
+
+</script>
+<script>
+const STATS=['PWR','SPD','MIND','CQC','HEART'];
+const grid=document.getElementById('grid'), count=document.getElementById('count');
+
+function cardHtml(c,i){
+  const cls=c.team==='X-MEN'?'xmen':c.team==='VILLAIN'?'villain':'ally';
+  const st=STATS.map((l,n)=>`<div class="stat"><b>${l}</b><div class="bar"><i style="--w:${c.stats[n]}%"></i></div><u>${c.stats[n]}</u></div>`).join('');
+  return `<article class="card" data-team="${c.team}" data-name="${(c.name+' '+c.real+' '+c.powers.join(' ')).toLowerCase()}">
+    <div class="face front">
+      <div class="art">${poster(c,i)}</div>
+      <div class="foil"></div><div class="scan"></div><div class="glare"></div>
+      <div class="chips"><span class="badge ${cls}">${c.team}</span><span class="season">${c.season}</span></div>
+      <div class="powers">${c.powers.map(p=>`<span>${p}</span>`).join('')}</div>
+    </div>
+    <div class="face back"><div class="back-in">
+      <h4>${c.name}</h4>
+      <div class="role">${c.role} &nbsp;&bull;&nbsp; ${c.season}</div>
+      <div class="quote">${c.tag}</div>
+      <div class="bio">${c.bio}</div>
+      <div class="stats">${st}</div>
+      <div class="hint">Click to flip back</div>
+    </div></div>
+  </article>`;
+}
+
+grid.innerHTML=DECK.map(cardHtml).join('');
+
+let team='all', term='';
+function apply(){
+  let n=0;
+  grid.querySelectorAll('.card').forEach(el=>{
+    const ok=(team==='all'||el.dataset.team===team)&&(!term||el.dataset.name.includes(term));
+    el.style.display=ok?'':'none'; if(ok)n++;
+  });
+  count.textContent=n+' / '+DECK.length+' cards';
+}
+apply();
+
+document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); team=b.dataset.f; apply();
+}));
+document.getElementById('q').addEventListener('input',e=>{term=e.target.value.trim().toLowerCase();apply();});
+
+grid.addEventListener('pointermove',e=>{
+  const el=e.target.closest('.card'); if(!el||el.classList.contains('flip'))return;
+  const r=el.getBoundingClientRect(), px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+  el.style.transform=`rotateY(${(px-.5)*20}deg) rotateX(${(.5-py)*20}deg) translateZ(26px) scale(1.04)`;
+  el.style.setProperty('--gx',px*100+'%'); el.style.setProperty('--gy',py*100+'%');
+  el.style.setProperty('--fx',px*100+'%'); el.style.setProperty('--fy',py*100+'%');
+});
+grid.addEventListener('pointerout',e=>{
+  const el=e.target.closest('.card');
+  if(el&&!el.contains(e.relatedTarget)&&!el.classList.contains('flip'))el.style.transform='';
+});
+grid.addEventListener('click',e=>{
+  const el=e.target.closest('.card'); if(!el)return;
+  el.classList.toggle('flip');
+  if(!el.classList.contains('flip'))el.style.transform='';
+});
+
+</script>
+</body>
+</html>
