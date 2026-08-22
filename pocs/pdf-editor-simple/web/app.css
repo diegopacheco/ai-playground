@@ -157,3 +157,26 @@ footer.bad { background: var(--danger); }
 }
 
 main[hidden] { display: none; }
+
+.bar .tools { margin-left: 0; }
+.tool.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+#runs { position: absolute; inset: 0; }
+#runs.drawing { cursor: crosshair; }
+#runs.drawing .run { pointer-events: none; }
+
+.note {
+  position: absolute;
+  border-radius: 2px;
+  cursor: move;
+  touch-action: none;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.note.text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.note:hover { outline: 1px dashed rgba(37, 99, 235, 0.7); }
+.note.moving, .run.moving { opacity: 0.65; z-index: 3; }
+.note input { position: absolute; inset: -4px -6px; width: max(160px, calc(100% + 12px)); }
+
+.run { touch-action: none; }

@@ -8,7 +8,7 @@ from pypdf import PdfReader
 
 from content import show_operations, tokenize
 from sample import assemble, build
-from textedit import apply_edits, covered_boxes, read_runs
+from textedit import apply_changes, apply_edits, covered_boxes, read_runs
 
 
 def _text(data, page=0):
@@ -212,3 +212,53 @@ class Grouping(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def _page(stream, base_font="Helvetica", rotation=0):
+    return assemble({
+        1: "<< /Type /Catalog /Pages 2 0 R >>",
+        2: "<< /Type /Pages /Kids [4 0 R] /Count 1 >>",
+        3: f"<< /Type /Font /Subtype /Type1 /BaseFont /{base_font} >>",
+        4: ("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] "
+            f"/Rotate {rotation} /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>"),
+        5: f"<< /Length {len(stream)} >>\nstream\n{stream}\nendstream",
+    })
+
+
+class DrawnSize(unittest.TestCase):
+    def test_a_scaled_page_reports_the_size_the_reader_sees(self):
+        pdf = _page("q .5 0 0 .5 0 0 cm BT /F1 24 Tf 144 1400 Td (Hello ) Tj (world) Tj ET Q")
+        _, _, runs = read_runs(pdf, 0)
+        self.assertAlmostEqual(runs[0]["draw_size"], 12.0, delta=0.01)
+
+    def test_new_text_is_drawn_at_the_size_the_reader_sees(self):
+        pdf = _page("q .5 0 0 .5 0 0 cm BT /F1 24 Tf 144 1400 Td (Hello ) Tj (world) Tj ET Q")
+        data, _ = apply_edits(pdf, 0, {0: "Hello again"})
+        self.assertIn(b"12.00 Tf", PdfReader(BytesIO(data)).pages[0].get_contents().get_data())
+
+
+class Typeface(unittest.TestCase):
+    def test_a_standard_font_keeps_its_own_typeface_when_redrawn(self):
+        pdf = _page("BT /F1 24 Tf 72 700 Td (Hello ) Tj (world) Tj ET", base_font="Times-Roman")
+        data, report = apply_edits(pdf, 0, {0: "Hello again"})
+        contents = PdfReader(BytesIO(data)).pages[0].get_contents().get_data()
+        self.assertEqual(report[0]["mode"], "replaced")
+        self.assertIn(b"/F1 24.00 Tf", contents)
+        self.assertNotIn(b"/PDFEDITHELV", contents)
+
+
+class Moving(unittest.TestCase):
+    def setUp(self):
+        self.pdf = _page("BT /F1 24 Tf 72 700 Td (Hello ) Tj (world) Tj ET")
+
+    def test_a_line_can_be_moved_without_changing_its_words(self):
+        data, _ = apply_changes(self.pdf, 0, {0: {"text": None, "dx": 40.0, "dy": -30.0}})
+        _, _, runs = read_runs(data, 0)
+        self.assertEqual(runs[0]["text"], "Hello world")
+        self.assertAlmostEqual(runs[0]["x"], 112.0, delta=1.0)
+        self.assertAlmostEqual(runs[0]["y"], 670.0, delta=1.0)
+
+    def test_moving_a_line_leaves_only_one_copy_of_it(self):
+        data, _ = apply_changes(self.pdf, 0, {0: {"text": None, "dx": 40.0, "dy": -30.0}})
+        _, _, runs = read_runs(data, 0)
+        self.assertEqual([run["text"] for run in runs], ["Hello world"])

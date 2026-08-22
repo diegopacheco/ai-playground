@@ -1,15 +1,15 @@
 # PDF Editor Simple
 
 A visual PDF editor that runs in the browser on your own machine. Open any PDF and
-**click a line of text to retype it**, or work on whole pages: rotate, delete, drag
-into a new order, merge another PDF in, then save the result. The same page
-operations are also a command line tool, so anything you can do by clicking to a
-page you can do in a script.
+**click a line of text to retype it, drag a line to move it, highlight it, or write
+on the page**. Whole pages can be rotated, deleted, dragged into a new order or
+merged in from another file. The page operations are also a command line tool, so
+anything you can do by clicking to a page you can do in a script.
 
 Nothing leaves the machine. The server binds to `127.0.0.1` and the file you open is
 held in memory until you replace it.
 
-![Editing the title of a real paper by clicking it](screenshot-text.png)
+![A paper with a line highlighted and a note written on the page](screenshot-text.png)
 
 ![The editor with three pages selected and rotated](screenshot.png)
 
@@ -28,6 +28,9 @@ held in memory until you replace it.
 | Merge         | `Add PDF`, or drop a second file in, appends its pages        |
 | Undo          | `Undo`, or `Cmd/Ctrl+Z`, back through the last 30 edits       |
 | Edit text     | select one page, `Edit text`, then click any line and retype  |
+| Move a line   | drag it to a new place on the page                            |
+| Highlight     | the `Highlight` tool, then drag a marker over anything         |
+| Write on it   | the `Write` tool, then click and type                          |
 | Save          | `Save` downloads the edited PDF                               |
 
 Page edits are held as a list of page slots, each one pointing at a page in an
@@ -38,17 +41,34 @@ and the original bytes stay untouched. The PDF is built once, when you save.
 
 `Edit text` renders the page and lays a clickable box over every line it finds.
 Click one, retype it, press Enter. Escape cancels, `Undo` reverts, and the page
-thumbnail updates.
+thumbnail updates. Dragging a line moves it, and it keeps its own typeface as it
+goes.
+
+Two tools sit next to `Select`. `Highlight` draws a marker over anything you drag
+across, in a translucent yellow that multiplies with the page so the words stay
+readable underneath. `Write` puts new text wherever you click. Both can be dragged
+around afterwards, a written note can be clicked and retyped, and both are only
+written into the file when you save.
 
 A PDF stores positioned glyphs, not sentences, so how a line can be changed depends
 on how the file was produced. The editor picks the best of three routes per line and
 tells you which one it used when you hover it:
 
-| Route      | When it is used                                                  | What you get                           |
-|------------|------------------------------------------------------------------|----------------------------------------|
-| in place   | the line is one text operator in a non embedded standard font     | **the original font is kept**          |
-| replaced   | the line is several operators, or an embedded font                | old text removed, redrawn in Helvetica |
-| covered    | the text is drawn somewhere this editor cannot reach into         | old text covered, redrawn in Helvetica |
+| Route      | When it is used                                              | What you get                           |
+|------------|--------------------------------------------------------------|----------------------------------------|
+| in place   | the line is a single text operator whose font can encode it   | **the file is barely touched**         |
+| replaced   | the line is several operators, or it moved                    | **the original font and size are kept**|
+| covered    | the text is drawn somewhere this editor cannot reach into     | old text covered, redrawn in Helvetica |
+
+The first two keep the typeface. A line is redrawn with the page's own font
+resource, so an embedded font stays exactly as it was, as long as the characters you
+type exist in it. For an embedded subset that is decided by reading the font's own
+`/ToUnicode` map, and for the standard fonts every Latin character is available. Only
+a character that is genuinely absent falls back to Helvetica.
+
+Size follows the same care. A font asked for at 26.67pt inside a page scaled by 0.75
+is 20pt on paper, so the text matrix and the current transform are multiplied out and
+the line is redrawn at the size a reader actually sees.
 
 Which route a line takes is decided by position. The content stream is walked while
 tracking the text matrix, so every text operator has a place on the page, and the
@@ -76,10 +96,13 @@ you click is the line you see.
 - **The covered route leaves the old text in the file.** It is hidden from view and
   from this editor, but a text search or a copy and paste still finds the old words.
   The other two routes remove it properly, which is the usual case.
-- **Redrawn text is Helvetica.** Only the in place route can keep an embedded font,
-  since the glyphs for the letters you type may simply not exist in a subset font.
-- **Latin characters only when redrawing.** A character Helvetica cannot draw is
+- **A subset font may not have the letter you typed.** Embedded fonts usually carry
+  only the characters the document already used. If one is missing, that line falls
+  back to Helvetica rather than drawing a wrong glyph.
+- **Latin characters only when falling back.** A character Helvetica cannot draw is
   refused with a message rather than quietly turned into a question mark.
+- **Written notes are Helvetica**, and a highlight is a rectangle, not a shaped
+  outline of the glyphs.
 
 ## Requirements
 
@@ -202,7 +225,7 @@ error: angle must be a multiple of 90
 ```
 
 ```
-Ran 53 tests in 0.060s
+Ran 66 tests in 0.074s
 
 OK
 ```
@@ -235,6 +258,7 @@ drift from the document.
 web/app.js ──POST /open, /add, /op, /text──▶ server.py ──▶ document.py ──▶ pypdf
      ▲                                           │
      └────── page list as JSON ──────────────────┘
+  POST /move, /note ────────────────────────▶ document.py
        GET /runs?uid=<page>  ──▶ textedit.py ──▶ textmap.py ──▶ content.py
        GET /thumb|/view/<source>/<page>.png ──▶ render.py ──▶ pypdfium2 ──▶ png.py
        GET /save ─────────────────────────────▶ document.save()
@@ -250,7 +274,8 @@ pdf-editor-simple
 ├── src
 │   ├── server.py    HTTP endpoints, one document in memory
 │   ├── document.py  the editor model: page slots, undo, save
-│   ├── textedit.py  applying a text change to a page
+│   ├── textedit.py  applying a text change, a move or an annotation to a page
+│   ├── fontmap.py   reading a font's own character map, to reuse its glyphs
 │   ├── textmap.py   finding the editable lines and how each can be changed
 │   ├── content.py   content stream tokenizer
 │   ├── render.py    page thumbnails and page views, cached

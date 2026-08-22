@@ -1,3 +1,5 @@
+import math
+
 DELIMITERS = b"()<>[]{}/%"
 WHITESPACE = b"\x00\t\n\x0c\r "
 
@@ -175,6 +177,7 @@ def show_operations(data):
                 strings = [item for item in operands if item.kind == "string"]
                 if strings:
                     placed = multiply(matrix, ctm)
+                    scale = math.hypot(placed[2], placed[3]) or 1.0
                     operations.append({
                         "operator": name,
                         "font": font,
@@ -185,6 +188,7 @@ def show_operations(data):
                         "single": name == "Tj" and len(operands) == 1,
                         "x": placed[4],
                         "y": placed[5],
+                        "scale": scale,
                     })
             operands = []
         elif token.kind in ("[", "]", "<<", ">>"):

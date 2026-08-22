@@ -32,9 +32,14 @@
   <div class="bar">
     <button id="back">Back to pages</button>
     <span id="editing"></span>
-    <span class="hint">Click any line to retype it. Enter saves, Escape cancels.</span>
+    <span class="tools">
+      <button class="tool on" data-tool="select">Select</button>
+      <button class="tool" data-tool="highlight">Highlight</button>
+      <button class="tool" data-tool="write">Write</button>
+    </span>
+    <span class="hint">Click a line to retype it, drag it to move it. Enter saves, Escape cancels.</span>
   </div>
-  <div class="sheet"><img id="sheet" alt="page"><div id="runs"></div></div>
+  <div class="sheet"><img id="sheet" alt="page" draggable="false"><div id="runs"></div></div>
 </section>
 
 <section id="empty">

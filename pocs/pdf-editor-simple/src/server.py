@@ -38,6 +38,16 @@ class Handler(BaseHTTPRequestHandler):
                 document.add(self._body())
             elif self.path == "/op":
                 self._operate(json.loads(self._body() or b"{}"))
+            elif self.path == "/move":
+                request = json.loads(self._body() or b"{}")
+                applied = document.move_text(
+                    int(request["page"]), int(request["run"]),
+                    float(request["dx"]), float(request["dy"]))
+                return self._json({**document.state(), "applied": applied})
+            elif self.path == "/note":
+                request = json.loads(self._body() or b"{}")
+                self._annotate(request)
+                return self._json(document.state())
             elif self.path == "/text":
                 request = json.loads(self._body() or b"{}")
                 applied = document.edit_text(int(request["page"]), request.get("edits", {}))
@@ -64,6 +74,18 @@ class Handler(BaseHTTPRequestHandler):
             document.undo()
         else:
             raise ValueError(f"unknown operation '{name}'")
+
+    def _annotate(self, request):
+        page = int(request["page"])
+        action = request.get("action")
+        if action == "add":
+            document.add_note(page, request["note"])
+        elif action == "update":
+            document.update_note(page, int(request["id"]), request["note"])
+        elif action == "delete":
+            document.delete_note(page, int(request["id"]))
+        else:
+            raise ValueError(f"unknown annotation action '{action}'")
 
     def _runs(self):
         uid = int(self.path.split("uid=")[1])

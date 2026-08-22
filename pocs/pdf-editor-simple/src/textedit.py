@@ -2,11 +2,12 @@ from io import BytesIO
 
 import pypdfium2 as pdfium
 from pypdf import PdfReader, PdfWriter
-from pypdf.generic import DecodedStreamObject, DictionaryObject, NameObject
+from pypdf.generic import DecodedStreamObject, DictionaryObject, FloatObject, NameObject
 
 from textmap import page_runs
 
 FONT_KEY = "/PDFEDITHELV"
+ALPHA_KEY = "/PDFEDITALPHA"
 PADDING = 1.0
 COVER_MARKER = b"%PDFEDIT-COVER"
 
@@ -37,6 +38,25 @@ def _displayed(box, rotation, page):
     return [min(xs), min(ys), max(xs), max(ys)]
 
 
+def to_page(point, rotation, width, height):
+    x, y = point
+    if not rotation:
+        return x, y
+    if rotation == 90:
+        return width - y, x
+    if rotation == 180:
+        return width - x, height - y
+    return y, height - x
+
+
+def page_shape(pdf_bytes, page_index):
+    page = pdfium.PdfDocument(pdf_bytes)[page_index]
+    rotation = page.get_rotation()
+    if rotation in (90, 270):
+        return rotation, page.get_height(), page.get_width()
+    return rotation, page.get_width(), page.get_height()
+
+
 def _turn(x, y, rotation, width, height):
     if rotation == 90:
         return y, width - x
@@ -56,6 +76,12 @@ def covered_boxes(contents):
 
 
 def apply_edits(pdf_bytes, page_index, edits):
+    return apply_changes(pdf_bytes, page_index, {
+        run_id: {"text": text, "dx": 0.0, "dy": 0.0} for run_id, text in edits.items()
+    })
+
+
+def apply_changes(pdf_bytes, page_index, changes):
     width, height, runs = read_runs(pdf_bytes, page_index)
     by_id = {run["id"]: run for run in runs}
     writer = PdfWriter(clone_from=BytesIO(pdf_bytes))
@@ -68,15 +94,21 @@ def apply_edits(pdf_bytes, page_index, edits):
     report = []
     background = None
 
-    for run_id, new_text in edits.items():
+    for run_id, change in changes.items():
         run = by_id.get(int(run_id))
         if run is None:
             raise ValueError(f"page {page_index + 1} has no text run {run_id}")
-        if run["mode"] == "inplace" and _encodable(run, new_text):
+        new_text = change["text"] if change.get("text") is not None else run["text"]
+        moved = bool(change.get("dx") or change.get("dy"))
+        if moved:
+            run = dict(run, x=run["x"] + change["dx"], y=run["y"] + change["dy"],
+                       box=[run["box"][0] + change["dx"], run["box"][1] + change["dy"],
+                            run["box"][2] + change["dx"], run["box"][3] + change["dy"]])
+        if not moved and run["mode"] == "inplace" and _encodable(run, new_text):
             replacements.append((run, new_text))
             report.append({"run": run["id"], "mode": "inplace"})
         else:
-            missing = _undrawable(new_text)
+            missing = "" if _keeps_typeface(run, new_text) else _undrawable(new_text)
             if missing:
                 raise ValueError(
                     f"the fallback font cannot draw {missing}, so this line cannot be redrawn"
@@ -84,14 +116,17 @@ def apply_edits(pdf_bytes, page_index, edits):
             if run["operations"]:
                 removals.extend(run["operations"])
                 overlay.append((run, new_text, False))
-                report.append({"run": run["id"], "mode": "replaced"})
+                report.append({
+                    "run": run["id"],
+                    "mode": "replaced" if _keeps_typeface(run, new_text) else "redrawn",
+                })
             else:
                 if background is None:
                     background = _background(pdf_bytes, page_index)
                 overlay.append((run, new_text, True))
                 report.append({"run": run["id"], "mode": "redraw"})
 
-    for run, new_text in sorted(replacements, key=lambda pair: pair[0]["operation"]["start"], reverse=True):
+    for run, new_text in sorted(replacements, key=lambda pair: pair[0]["operation"]["start"], reverse=True):  # noqa: E501
         operation = run["operation"]
         codes = _encode(run, new_text)
         contents = contents[:operation["start"]] + _literal(codes) + b" Tj" + contents[operation["end"]:]
@@ -101,12 +136,64 @@ def apply_edits(pdf_bytes, page_index, edits):
 
     if overlay:
         contents = b"q\n" + contents + b"\nQ\n" + _overlay(overlay, background)
-        _ensure_font(writer, page)
+        if any(not _keeps_typeface(run, text) for run, text, _ in overlay):
+            _ensure_font(writer, page)
 
     page.replace_contents(DecodedStreamObject.initialize_from_dictionary({"__streamdata__": contents, "/Length": len(contents)}))
     output = BytesIO()
     writer.write(output)
     return output.getvalue(), report
+
+
+def bake(pdf_bytes, page_index, notes):
+    if not notes:
+        return pdf_bytes
+    writer = PdfWriter(clone_from=BytesIO(pdf_bytes))
+    page = writer.pages[page_index]
+    contents = _contents(page)
+    drawing = [b"q"]
+    wants_alpha = False
+    for note in notes:
+        if note["kind"] == "highlight":
+            wants_alpha = True
+            red, green, blue = note["color"]
+            drawing.append(
+                f"q {ALPHA_KEY} gs {red:.4f} {green:.4f} {blue:.4f} rg "
+                f"{note['x']:.2f} {note['y']:.2f} {note['width']:.2f} {note['height']:.2f} re f Q".encode("latin-1")
+            )
+        elif note["text"]:
+            red, green, blue = note["color"]
+            drawing.append(
+                b"BT " + f"{FONT_KEY} {note['size']:.2f} Tf {red:.4f} {green:.4f} {blue:.4f} rg "
+                f"{note['x']:.2f} {note['y']:.2f} Td ".encode("latin-1")
+                + _literal(note["text"].encode("cp1252", "replace")) + b" Tj ET"
+            )
+    drawing.append(b"Q")
+    contents = b"q\n" + contents + b"\nQ\n" + b"\n".join(drawing)
+    _ensure_font(writer, page)
+    if wants_alpha:
+        _ensure_alpha(writer, page)
+    page.replace_contents(DecodedStreamObject.initialize_from_dictionary(
+        {"__streamdata__": contents, "/Length": len(contents)}))
+    output = BytesIO()
+    writer.write(output)
+    return output.getvalue()
+
+
+def _ensure_alpha(writer, page):
+    resources = page.get("/Resources")
+    states = resources.get("/ExtGState")
+    if states is None:
+        states = DictionaryObject()
+        resources[NameObject("/ExtGState")] = states
+    if ALPHA_KEY not in states:
+        state = DictionaryObject()
+        state.update({
+            NameObject("/Type"): NameObject("/ExtGState"),
+            NameObject("/ca"): FloatObject(0.38),
+            NameObject("/BM"): NameObject("/Multiply"),
+        })
+        states[NameObject(ALPHA_KEY)] = writer._add_object(state)
 
 
 def _overlay(overlay, background):
@@ -135,11 +222,35 @@ def _overlay(overlay, background):
 
 def _draw(run, new_text):
     colour = " ".join(f"{channel:.4f}" for channel in run["color"])
+    resource, codes = _typeface(run, new_text)
     return (
-        b"BT " + f"{FONT_KEY} {run['size']:.2f} Tf {colour} rg "
+        b"BT " + f"{resource} {run['draw_size']:.2f} Tf {colour} rg "
         f"{run['x']:.2f} {run['y']:.2f} Td ".encode("latin-1")
-        + _literal(new_text.encode("cp1252")) + b" Tj ET"
+        + _literal(codes) + b" Tj ET"
     )
+
+
+def _typeface(run, new_text):
+    resource = run.get("font_resource")
+    if resource and run.get("standard_font"):
+        codes = _latin(new_text)
+        if codes is not None:
+            return resource, codes
+    alphabet = run.get("alphabet") or {}
+    if resource and new_text and all(character in alphabet for character in new_text):
+        return resource, b"".join(alphabet[character] for character in new_text)
+    return FONT_KEY, _latin(new_text) or b""
+
+
+def _latin(text):
+    try:
+        return text.encode("cp1252")
+    except UnicodeEncodeError:
+        return None
+
+
+def _keeps_typeface(run, new_text):
+    return _typeface(run, new_text)[0] != FONT_KEY
 
 
 def _ensure_font(writer, page):
@@ -197,7 +308,7 @@ def _encodable(run, text):
 def _encode(run, text):
     if run.get("full_charset"):
         return text.encode("cp1252")
-    return bytes(run["encoding"][character] for character in text)
+    return b"".join(run["encoding"][character] for character in text)
 
 
 def _literal(data):

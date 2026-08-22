@@ -152,6 +152,10 @@ document.ondrop = (event) => {
   document.body.classList.remove("dropping");
   const file = event.dataTransfer.files[0];
   if (!file) return;
+  if (!file.name.toLowerCase().endsWith(".pdf")) {
+    say(`${file.name} is not a PDF`, true);
+    return;
+  }
   target = state.pages.length ? "add" : "open";
   upload(file);
 };
@@ -174,6 +178,10 @@ document.onkeydown = (event) => {
   }
 };
 
+let tool = "select";
+let sheetScale = 1;
+let pageHeight = 0;
+
 async function openEditor(uid) {
   const page = state.pages.find((item) => item.uid === uid);
   if (!page) return;
@@ -182,8 +190,7 @@ async function openEditor(uid) {
   document.getElementById("empty").classList.remove("on");
   document.getElementById("editor").hidden = false;
   window.scrollTo(0, 0);
-  document.getElementById("editing").textContent =
-    "Page " + (state.pages.indexOf(page) + 1);
+  document.getElementById("editing").textContent = "Page " + (state.pages.indexOf(page) + 1);
   await drawSheet();
 }
 
@@ -193,8 +200,7 @@ async function drawSheet() {
   const layer = document.getElementById("runs");
   layer.replaceChildren();
 
-  const response = await fetch("/runs?uid=" + editing);
-  const data = await response.json();
+  const data = await fetch("/runs?uid=" + editing).then((reply) => reply.json());
   if (data.error) return say(data.error, true);
 
   if (sheet.getAttribute("src") !== page.view) {
@@ -205,31 +211,78 @@ async function drawSheet() {
     });
   }
 
-  const scale = sheet.clientWidth / data.width;
-  layer.replaceChildren(...data.runs.map((run) => box(run, scale, data.height)));
+  sheetScale = sheet.clientWidth / data.width;
+  pageHeight = data.height;
+  layer.replaceChildren(
+    ...data.runs.map((run) => lineNode(run)),
+    ...(page.notes || []).map((note) => noteNode(note)),
+  );
   const kept = data.runs.filter((run) => run.mode === "inplace").length;
   say(data.runs.length + " lines, " + kept + " keep their font when edited");
 }
 
-function box(run, scale, pageHeight) {
-  const [left, bottom, right, top] = run.box;
+const toPage = (pixels) => pixels / sheetScale;
+
+function place(node, box) {
+  const [left, bottom, right, top] = box;
+  node.style.left = left * sheetScale + "px";
+  node.style.top = (pageHeight - top) * sheetScale + "px";
+  node.style.width = (right - left) * sheetScale + "px";
+  node.style.height = (top - bottom) * sheetScale + "px";
+}
+
+function draggable(node, onDrop) {
+  node.onpointerdown = (event) => {
+    if (event.target.tagName === "INPUT" || tool !== "select") return;
+    const from = { x: event.clientX, y: event.clientY };
+    let moved = false;
+    node.setPointerCapture(event.pointerId);
+    const move = (step) => {
+      const dx = step.clientX - from.x;
+      const dy = step.clientY - from.y;
+      if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+      if (moved) {
+        node.style.transform = `translate(${dx}px, ${dy}px)`;
+        node.classList.add("moving");
+      }
+    };
+    const up = async (step) => {
+      node.onpointermove = null;
+      node.onpointerup = null;
+      node.classList.remove("moving");
+      node.style.transform = "";
+      if (!moved) return;
+      node.dataset.moved = "1";
+      await onDrop(toPage(step.clientX - from.x), -toPage(step.clientY - from.y));
+    };
+    node.onpointermove = move;
+    node.onpointerup = up;
+  };
+}
+
+function lineNode(run) {
   const node = document.createElement("div");
   node.className = "run " + run.mode;
-  node.style.left = left * scale + "px";
-  node.style.top = (pageHeight - top) * scale + "px";
-  node.style.width = (right - left) * scale + "px";
-  node.style.height = (top - bottom) * scale + "px";
+  place(node, run.box);
   node.title = {
     inplace: "Edited in place, the original font is kept",
-    replaced: "The original text is removed and redrawn in Helvetica",
-    redraw: "The original text is covered and redrawn in Helvetica",
-  }[run.mode];
+    replaced: "Redrawn in the same font",
+    redraw: "Covered and redrawn",
+  }[run.mode] + ". Drag to move it.";
+
+  draggable(node, (dx, dy) => call("/move", {
+    method: "POST",
+    body: JSON.stringify({ page: editing, run: run.id, dx, dy }),
+  }));
 
   node.onclick = () => {
-    if (node.querySelector("input")) return;
+    if (node.dataset.moved || tool !== "select" || node.querySelector("input")) {
+      delete node.dataset.moved;
+      return;
+    }
     const field = document.createElement("input");
     field.value = run.text;
-    field.style.fontSize = Math.max(11, run.size * scale * 0.9) + "px";
+    field.style.fontSize = Math.max(11, run.size * sheetScale * 0.9) + "px";
     node.appendChild(field);
     field.focus();
     field.select();
@@ -245,20 +298,133 @@ function box(run, scale, pageHeight) {
         body: JSON.stringify({ page: editing, edits: { [run.id]: value } }),
       });
       if (!applied) {
-        if (field.isConnected) {
-          field.disabled = false;
-          field.focus();
-        }
+        if (field.isConnected) { field.disabled = false; field.focus(); }
         return;
       }
       say({
         inplace: "Line updated, the original font is kept",
-        replaced: "Line updated, redrawn in Helvetica",
-        redraw: "Line updated, covered and redrawn in Helvetica",
+        replaced: "Line updated in the same font",
+        redrawn: "Line updated, redrawn in Helvetica",
+        redraw: "Line updated, covered and redrawn",
       }[(state.applied || [{}])[0].mode] || "Line updated");
     };
   };
   return node;
+}
+
+function noteNode(note) {
+  const node = document.createElement("div");
+  node.className = "note " + note.kind;
+  place(node, [note.x, note.y, note.x + note.width, note.y + note.height]);
+  const colour = note.color.map((channel) => Math.round(channel * 255)).join(",");
+
+  if (note.kind === "highlight") {
+    node.style.background = `rgba(${colour}, 0.42)`;
+    node.title = "Highlight. Drag to move it, Backspace to remove it.";
+  } else {
+    node.style.color = `rgb(${colour})`;
+    node.style.fontSize = note.size * sheetScale + "px";
+    node.textContent = note.text;
+    node.title = "Note. Click to retype, drag to move, Backspace to remove.";
+    node.onclick = () => {
+      if (node.dataset.moved) { delete node.dataset.moved; return; }
+      writeInto(node, note);
+    };
+  }
+
+  node.onpointerdown = (event) => event.stopPropagation();
+  draggable(node, (dx, dy) => call("/note", {
+    method: "POST",
+    body: JSON.stringify({
+      page: editing, action: "update", id: note.id,
+      note: { x: note.x + dx, y: note.y + dy },
+    }),
+  }));
+  return node;
+}
+
+function writeInto(node, note) {
+  const field = document.createElement("input");
+  field.value = note.text;
+  field.style.fontSize = Math.max(12, note.size * sheetScale) + "px";
+  node.textContent = "";
+  node.appendChild(field);
+  field.focus();
+  field.onkeydown = async (event) => {
+    event.stopPropagation();
+    if (event.key === "Escape") { await drawSheet(); return; }
+    if (event.key !== "Enter") return;
+    await call("/note", {
+      method: "POST",
+      body: JSON.stringify({
+        page: editing, action: note.id ? "update" : "add", id: note.id,
+        note: { ...note, text: field.value },
+      }),
+    });
+  };
+}
+
+function startSheetTool(event) {
+  if (tool === "select" || event.target.closest(".note, .run input")) return;
+  const layer = document.getElementById("runs");
+  const bounds = layer.getBoundingClientRect();
+  const from = { x: event.clientX - bounds.left, y: event.clientY - bounds.top };
+
+  if (tool === "write") {
+    const ghost = document.createElement("div");
+    ghost.className = "note text";
+    const size = 14;
+    const note = {
+      kind: "text", size, color: [0.85, 0.1, 0.1], text: "",
+      x: toPage(from.x), y: pageHeight - toPage(from.y) - size, width: 200, height: size * 1.2,
+    };
+    place(ghost, [note.x, note.y, note.x + note.width, note.y + note.height]);
+    ghost.style.color = "rgb(217,26,26)";
+    layer.appendChild(ghost);
+    writeInto(ghost, note);
+    return;
+  }
+
+  const ghost = document.createElement("div");
+  ghost.className = "note highlight";
+  ghost.style.background = "rgba(255,235,59,0.42)";
+  layer.appendChild(ghost);
+  const move = (step) => {
+    const x = Math.min(from.x, step.clientX - bounds.left);
+    const y = Math.min(from.y, step.clientY - bounds.top);
+    ghost.style.left = x + "px";
+    ghost.style.top = y + "px";
+    ghost.style.width = Math.abs(step.clientX - bounds.left - from.x) + "px";
+    ghost.style.height = Math.abs(step.clientY - bounds.top - from.y) + "px";
+  };
+  const up = async (step) => {
+    window.onpointermove = null;
+    window.onpointerup = null;
+    const width = toPage(Math.abs(step.clientX - bounds.left - from.x));
+    const height = toPage(Math.abs(step.clientY - bounds.top - from.y));
+    const left = toPage(Math.min(from.x, step.clientX - bounds.left));
+    const bottom = pageHeight - toPage(Math.max(from.y, step.clientY - bounds.top));
+    ghost.remove();
+    if (width < 3 || height < 3) return;
+    await call("/note", {
+      method: "POST",
+      body: JSON.stringify({
+        page: editing, action: "add",
+        note: { kind: "highlight", x: left, y: bottom, width, height,
+                text: "", size: 12, color: [1, 0.92, 0.23] },
+      }),
+    });
+  };
+  window.onpointermove = move;
+  window.onpointerup = up;
+}
+
+function pickTool(name) {
+  tool = name;
+  for (const button of document.querySelectorAll(".tool")) {
+    button.classList.toggle("on", button.dataset.tool === name);
+  }
+  document.getElementById("runs").classList.toggle("drawing", name !== "select");
 }
 
 function closeEditor() {
@@ -270,5 +436,9 @@ function closeEditor() {
 
 buttons.edit.onclick = () => openEditor([...selected][0]);
 document.getElementById("back").onclick = closeEditor;
+document.getElementById("runs").onpointerdown = startSheetTool;
+for (const button of document.querySelectorAll(".tool")) {
+  button.onclick = () => pickTool(button.dataset.tool);
+}
 
 call("/state");
