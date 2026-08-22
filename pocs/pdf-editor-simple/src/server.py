@@ -94,7 +94,7 @@ class Handler(BaseHTTPRequestHandler):
 
 def main():
     port = int(os.environ.get("PORT", "8099"))
-    print(f"pdf editor on http://127.0.0.1:{port}")
+    print(f"pdf editor on http://127.0.0.1:{port}", flush=True)
     try:
         HTTPServer(("127.0.0.1", port), Handler).serve_forever()
     except KeyboardInterrupt:

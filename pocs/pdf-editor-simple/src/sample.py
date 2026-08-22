@@ -3,6 +3,12 @@ PAGE_HEIGHT = 792
 
 
 def write_sample(out_path, titles):
+    with open(out_path, "wb") as handle:
+        handle.write(build(titles))
+    return out_path
+
+
+def build(titles):
     objects = {
         1: "<< /Type /Catalog /Pages 2 0 R >>",
         3: "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
@@ -22,9 +28,7 @@ def write_sample(out_path, titles):
         )
         objects[content_id] = f"<< /Length {len(stream)} >>\nstream\n{stream}\nendstream"
 
-    with open(out_path, "wb") as handle:
-        handle.write(_assemble(objects))
-    return out_path
+    return _assemble(objects)
 
 
 def _assemble(objects):
