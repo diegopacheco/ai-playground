@@ -24,12 +24,13 @@ async function call(path, options) {
   const payload = await response.json();
   if (payload.error) {
     say(payload.error, true);
-    return;
+    return false;
   }
   state = payload;
   selected = new Set([...selected].filter((uid) => state.pages.some((page) => page.uid === uid)));
   draw();
   if (editing !== null && state.pages.some((page) => page.uid === editing)) await drawSheet();
+  return true;
 }
 
 const send = (op, extra) => call("/op", {
@@ -113,7 +114,7 @@ function say(text, bad) {
   message.classList.toggle("bad", Boolean(bad));
   message.classList.add("on");
   clearTimeout(say.timer);
-  say.timer = setTimeout(() => message.classList.remove("on"), 2600);
+  say.timer = setTimeout(() => message.classList.remove("on"), bad ? 9000 : 2600);
 }
 
 buttons.open.onclick = () => {
@@ -196,10 +197,13 @@ async function drawSheet() {
   const data = await response.json();
   if (data.error) return say(data.error, true);
 
-  await new Promise((done) => {
-    sheet.onload = done;
-    sheet.src = page.view;
-  });
+  if (sheet.getAttribute("src") !== page.view) {
+    await new Promise((done) => {
+      sheet.onload = done;
+      sheet.onerror = done;
+      sheet.src = page.view;
+    });
+  }
 
   const scale = sheet.clientWidth / data.width;
   layer.replaceChildren(...data.runs.map((run) => box(run, scale, data.height)));
@@ -234,12 +238,24 @@ function box(run, scale, pageHeight) {
       if (event.key === "Escape") { field.remove(); return; }
       if (event.key !== "Enter") return;
       const value = field.value;
-      field.disabled = true;
       if (value === run.text) { field.remove(); return; }
-      await call("/text", {
+      field.disabled = true;
+      const applied = await call("/text", {
         method: "POST",
         body: JSON.stringify({ page: editing, edits: { [run.id]: value } }),
       });
+      if (!applied) {
+        if (field.isConnected) {
+          field.disabled = false;
+          field.focus();
+        }
+        return;
+      }
+      say({
+        inplace: "Line updated, the original font is kept",
+        replaced: "Line updated, redrawn in Helvetica",
+        redraw: "Line updated, covered and redrawn in Helvetica",
+      }[(state.applied || [{}])[0].mode] || "Line updated");
     };
   };
   return node;

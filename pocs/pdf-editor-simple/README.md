@@ -44,15 +44,23 @@ A PDF stores positioned glyphs, not sentences, so how a line can be changed depe
 on how the file was produced. The editor picks the best of three routes per line and
 tells you which one it used when you hover it:
 
-| Route      | When it is used                                                     | What you get                          |
-|------------|---------------------------------------------------------------------|---------------------------------------|
-| in place   | the line is one text operator in a non embedded standard font        | **the original font is kept**         |
-| replaced   | the line maps cleanly onto its operators, but more than one          | old text removed, redrawn in Helvetica |
-| covered    | the glyphs cannot be mapped back, as in most LaTeX and scanned files | old text covered, redrawn in Helvetica |
+| Route      | When it is used                                                  | What you get                           |
+|------------|------------------------------------------------------------------|----------------------------------------|
+| in place   | the line is one text operator in a non embedded standard font     | **the original font is kept**          |
+| replaced   | the line is several operators, or an embedded font                | old text removed, redrawn in Helvetica |
+| covered    | the text is drawn somewhere this editor cannot reach into         | old text covered, redrawn in Helvetica |
+
+Which route a line takes is decided by position. The content stream is walked while
+tracking the text matrix, so every text operator has a place on the page, and the
+line you clicked is matched to the operators that actually drew it. That is why a
+line can be edited even in a file whose text is broken into kerned fragments, as
+LaTeX does.
 
 Every route keeps the position, the size and the colour of the line it replaces. The
 covering rectangle is filled with the page's own dominant background colour, not
-plain white, so it disappears on tinted pages.
+plain white, so it disappears on tinted pages. Turned pages are handled: a page with
+a `/Rotate` of 90, 180 or 270 has its boxes mapped into the turned view, so the line
+you click is the line you see.
 
 ### What it will not do
 
@@ -61,7 +69,7 @@ plain white, so it disappears on tinted pages.
   to it.
 - **The covered route leaves the old text in the file.** It is hidden from view and
   from this editor, but a text search or a copy and paste still finds the old words.
-  The other two routes remove it properly.
+  The other two routes remove it properly, which is the usual case.
 - **Redrawn text is Helvetica.** Only the in place route can keep an embedded font,
   since the glyphs for the letters you type may simply not exist in a subset font.
 - **Latin characters only when redrawing.** A character Helvetica cannot draw is
@@ -188,7 +196,7 @@ error: angle must be a multiple of 90
 ```
 
 ```
-Ran 44 tests in 0.049s
+Ran 51 tests in 0.058s
 
 OK
 ```
@@ -205,7 +213,10 @@ survive the tokenizer, a kerned array counts as one operation, a single operator
 a standard font is edited in place and leaves no covering rectangle, a line split
 across two operators has its old text removed rather than hidden, a redrawn line
 keeps the position of the line it replaced, and a character Helvetica cannot draw is
-refused instead of mangled.
+refused instead of mangled. Three of its cases are there because they were bugs: an
+operator's position must follow the text matrix and the current transform, a clicked
+box must stay on the page whatever the `/Rotate`, and editing the same line twice
+must leave no trace of the first edit.
 
 ## How the pieces fit
 

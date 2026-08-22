@@ -40,10 +40,12 @@ class Handler(BaseHTTPRequestHandler):
                 self._operate(json.loads(self._body() or b"{}"))
             elif self.path == "/text":
                 request = json.loads(self._body() or b"{}")
-                document.edit_text(int(request["page"]), request.get("edits", {}))
+                applied = document.edit_text(int(request["page"]), request.get("edits", {}))
+                return self._json({**document.state(), "applied": applied})
             else:
                 return self.send_error(404)
         except Exception as error:
+            print(f"{self.path} failed: {type(error).__name__}: {error}", flush=True)
             return self._json({"error": str(error)}, status=400)
         self._json(document.state())
 
@@ -73,7 +75,7 @@ class Handler(BaseHTTPRequestHandler):
             "width": width,
             "height": height,
             "runs": [
-                {"id": run["id"], "text": run["text"], "box": [round(value, 2) for value in run["box"]],
+                {"id": run["id"], "text": run["text"], "box": [round(value, 2) for value in run["display"]],
                  "size": round(run["size"], 2), "mode": run["mode"]}
                 for run in runs
             ],

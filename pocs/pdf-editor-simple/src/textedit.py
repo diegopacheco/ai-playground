@@ -19,7 +19,30 @@ def read_runs(pdf_bytes, page_index):
     page = document[page_index]
     width, height = page.get_width(), page.get_height()
     runs = page_runs(page, contents, dict(fonts), covered_boxes(contents))
+    rotation = page.get_rotation()
+    for run in runs:
+        run["display"] = _displayed(run["box"], rotation, page)
     return width, height, runs
+
+
+def _displayed(box, rotation, page):
+    if not rotation:
+        return list(box)
+    unrotated_width = page.get_height() if rotation in (90, 270) else page.get_width()
+    unrotated_height = page.get_width() if rotation in (90, 270) else page.get_height()
+    corners = [(box[0], box[1]), (box[2], box[3])]
+    moved = [_turn(x, y, rotation, unrotated_width, unrotated_height) for x, y in corners]
+    xs = [point[0] for point in moved]
+    ys = [point[1] for point in moved]
+    return [min(xs), min(ys), max(xs), max(ys)]
+
+
+def _turn(x, y, rotation, width, height):
+    if rotation == 90:
+        return y, width - x
+    if rotation == 180:
+        return width - x, height - y
+    return height - y, x
 
 
 def covered_boxes(contents):

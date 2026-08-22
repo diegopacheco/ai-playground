@@ -12,26 +12,26 @@ GAP_TOLERANCE = 0.9
 def page_runs(page, contents, fonts=None, covers=()):
     textpage = page.get_textpage()
     characters = _characters(textpage)
-    visible = _uncovered(characters, covers)
-    runs = _group(characters, visible)
+    runs = _group(characters, range(len(characters)))
     _mark_editable(runs, characters, contents, fonts or {})
-    return runs
+    return _uncovered(runs, covers)
 
 
-def _uncovered(characters, covers):
-    drawn_last = sum(len(text) for _, text in covers)
-    original = len(characters) - drawn_last
-    visible = []
-    for index, character in enumerate(characters):
-        left, bottom, right, top = character["box"]
-        covered = index < original and any(
+def _uncovered(runs, covers):
+    kept = []
+    for run in runs:
+        left, bottom, right, top = run["box"]
+        buried = any(
             box[0] - 0.5 <= left and box[1] - 0.5 <= bottom
             and box[2] + 0.5 >= right and box[3] + 0.5 >= top
-            for box, _ in covers
+            and run["text"] != text
+            for box, text in covers
         )
-        if not covered:
-            visible.append(index)
-    return visible
+        if not buried:
+            kept.append(run)
+    for number, run in enumerate(kept):
+        run["id"] = number
+    return kept
 
 
 def is_standard(font):
@@ -87,6 +87,7 @@ def _group(characters, visible):
             continue
         if current and _continues(current, character):
             current["text"] += current.pop("pending", "") + character["text"]
+            current["letters"] += character["text"]
             current["last"] = index
             current["box"] = _union(current["box"], character["box"])
         else:
@@ -94,6 +95,7 @@ def _group(characters, visible):
                 runs.append(current)
             current = {
                 "text": character["text"],
+                "letters": character["text"],
                 "box": list(character["box"]),
                 "size": character["size"],
                 "color": character["color"],
@@ -122,49 +124,31 @@ def _union(box, other):
 
 def _mark_editable(runs, characters, contents, fonts):
     operations = show_operations(contents) if contents else []
-    drawn = [index for index, character in enumerate(characters) if character["drawn"] or character["text"].strip()]
-    codes = sum(len(operation["codes"]) for operation in operations)
-    aligned = codes == len(drawn)
-
-    owner = {}
-    if aligned:
-        position = 0
-        for operation in operations:
-            for offset in range(len(operation["codes"])):
-                owner[drawn[position]] = (operation, offset)
-                position += 1
 
     for run in runs:
-        run["mode"] = "redraw"
+        here = [operation for operation in operations if _inside(operation, run)]
+        run["operations"] = here or None
         run["operation"] = None
-        run["operations"] = None
+        run["encoding"] = {}
         run["full_charset"] = False
-        if not aligned:
-            continue
-        span = [index for index in range(run["first"], run["last"] + 1) if index in owner]
-        if not span:
-            continue
+        run["mode"] = "replaced" if here else "redraw"
 
-        used = []
-        for index in span:
-            operation = owner[index][0]
-            if operation not in used:
-                used.append(operation)
-        whole = all(
-            sum(1 for index in span if owner[index][0] is operation) == len(operation["codes"])
-            for operation in used
-        )
-        if not whole:
+        if len(here) != 1:
             continue
-        run["operations"] = used
-        run["mode"] = "replaced"
-        if len(used) != 1:
+        operation = here[0]
+        if len(operation["codes"]) != len(run["letters"]):
             continue
-
-        operation = used[0]
+        font = fonts.get(operation["font"])
         run["mode"] = "inplace"
         run["operation"] = operation
-        run["encoding"] = {characters[index]["text"]: operation["codes"][owner[index][1]] for index in span}
-        font = fonts.get(operation["font"])
+        run["encoding"] = dict(zip(run["letters"], operation["codes"]))
         run["full_charset"] = is_standard(font.get_object() if font is not None else None)
     return runs
+
+
+def _inside(operation, run):
+    left, bottom, right, top = run["box"]
+    slack = max(2.0, 0.35 * run["size"])
+    if not left - slack <= operation["x"] <= right + slack:
+        return False
+    return abs(operation["y"] - run["y"]) <= 0.5 * max(run["size"], 1)

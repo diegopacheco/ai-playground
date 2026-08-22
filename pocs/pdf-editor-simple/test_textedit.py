@@ -29,6 +29,18 @@ class Tokenizer(unittest.TestCase):
     def test_comments_are_ignored_so_markers_are_not_operators(self):
         self.assertEqual([t.value for t in tokenize(b"% a comment\n12 Tf")], [12.0, "Tf"])
 
+    def test_the_text_matrix_gives_each_operation_its_position(self):
+        operations = show_operations(b"BT /F1 12 Tf 1 0 0 1 100 700 Tm (here) Tj ET")
+        self.assertEqual((operations[0]["x"], operations[0]["y"]), (100.0, 700.0))
+
+    def test_a_line_move_shifts_the_next_operation(self):
+        operations = show_operations(b"BT /F1 12 Tf 1 0 0 1 100 700 Tm (a) Tj 0 -20 Td (b) Tj ET")
+        self.assertEqual((operations[1]["x"], operations[1]["y"]), (100.0, 680.0))
+
+    def test_the_current_transform_moves_the_text_with_it(self):
+        operations = show_operations(b"q 1 0 0 1 50 10 cm BT /F1 12 Tf 1 0 0 1 100 700 Tm (a) Tj ET Q")
+        self.assertEqual((operations[0]["x"], operations[0]["y"]), (150.0, 710.0))
+
     def test_kerned_array_counts_as_one_show_operation(self):
         operations = show_operations(b"BT /F1 12 Tf [(He)-30(llo)]TJ ET")
         self.assertEqual(len(operations), 1)
@@ -115,6 +127,48 @@ class Redraw(unittest.TestCase):
         _, _, after = read_runs(self.data, 0)
         replacement = [run for run in after if run["text"] == "Hello again"][0]
         self.assertAlmostEqual(before[0]["box"][0], replacement["box"][0], delta=2.0)
+
+
+class Rotation(unittest.TestCase):
+    def _page(self, rotation):
+        stream = "BT /F1 24 Tf 72 700 Td (Rotated) Tj ET"
+        return assemble({
+            1: "<< /Type /Catalog /Pages 2 0 R >>",
+            2: "<< /Type /Pages /Kids [4 0 R] /Count 1 >>",
+            3: "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+            4: ("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] "
+                f"/Rotate {rotation} /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>"),
+            5: f"<< /Length {len(stream)} >>\nstream\n{stream}\nendstream",
+        })
+
+    def test_a_clickable_box_stays_on_the_page_however_it_is_turned(self):
+        for rotation in (0, 90, 180, 270):
+            width, height, runs = read_runs(self._page(rotation), 0)
+            left, bottom, right, top = runs[0]["display"]
+            self.assertTrue(
+                0 <= left and 0 <= bottom and right <= width and top <= height,
+                f"box {runs[0]['display']} falls outside a {rotation} degree page of {width}x{height}",
+            )
+
+    def test_an_upright_page_needs_no_mapping(self):
+        _, _, runs = read_runs(self._page(0), 0)
+        self.assertEqual(runs[0]["display"], list(runs[0]["box"]))
+
+    def test_turning_the_page_swaps_its_reported_size(self):
+        upright, _, _ = read_runs(self._page(0), 0)
+        turned, _, _ = read_runs(self._page(90), 0)
+        self.assertEqual((round(upright), round(turned)), (612, 792))
+
+
+class RepeatedEdits(unittest.TestCase):
+    def test_editing_the_same_line_twice_leaves_no_trace_of_the_first(self):
+        data, _ = apply_edits(_split_line_pdf(), 0, {0: "First change"})
+        _, _, runs = read_runs(data, 0)
+        again = [run for run in runs if run["text"] == "First change"][0]
+        data, _ = apply_edits(data, 0, {again["id"]: "Second change"})
+        _, _, runs = read_runs(data, 0)
+        self.assertEqual([run["text"] for run in runs], ["Second change"])
+        self.assertNotIn("First", _text(data))
 
 
 class Grouping(unittest.TestCase):

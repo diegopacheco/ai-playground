@@ -109,6 +109,20 @@ def _is_number(raw):
 
 
 SHOW = {"Tj", "TJ", "'", '"'}
+IDENTITY = (1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+
+
+def multiply(first, second):
+    a1, b1, c1, d1, e1, f1 = first
+    a2, b2, c2, d2, e2, f2 = second
+    return (
+        a1 * a2 + b1 * c2,
+        a1 * b2 + b1 * d2,
+        c1 * a2 + d1 * c2,
+        c1 * b2 + d1 * d2,
+        e1 * a2 + f1 * c2 + e2,
+        e1 * b2 + f1 * d2 + f2,
+    )
 
 
 def show_operations(data):
@@ -116,22 +130,61 @@ def show_operations(data):
     operands = []
     font = None
     size = 0.0
+    ctm = IDENTITY
+    stack = []
+    matrix = IDENTITY
+    line_matrix = IDENTITY
+    leading = 0.0
     operations = []
+
+    def numbers(count):
+        values = [item.value for item in operands if item.kind == "number"]
+        return values[-count:] if len(values) >= count else None
+
     for token in tokens:
         if token.kind == "operator":
-            if token.value == "Tf" and len(operands) >= 2:
+            name = token.value
+            if name == "q":
+                stack.append(ctm)
+            elif name == "Q" and stack:
+                ctm = stack.pop()
+            elif name == "cm" and numbers(6):
+                ctm = multiply(tuple(numbers(6)), ctm)
+            elif name == "BT":
+                matrix = line_matrix = IDENTITY
+            elif name == "Tf" and len(operands) >= 2:
                 font, size = operands[-2].value, operands[-1].value
-            elif token.value in SHOW:
+            elif name == "TL" and numbers(1):
+                leading = numbers(1)[0]
+            elif name == "Tm" and numbers(6):
+                matrix = line_matrix = tuple(numbers(6))
+            elif name in ("Td", "TD") and numbers(2):
+                shift_x, shift_y = numbers(2)
+                if name == "TD":
+                    leading = -shift_y
+                line_matrix = multiply((1.0, 0.0, 0.0, 1.0, shift_x, shift_y), line_matrix)
+                matrix = line_matrix
+            elif name == "T*":
+                line_matrix = multiply((1.0, 0.0, 0.0, 1.0, 0.0, -leading), line_matrix)
+                matrix = line_matrix
+
+            if name in SHOW:
+                if name in ("'", '"'):
+                    line_matrix = multiply((1.0, 0.0, 0.0, 1.0, 0.0, -leading), line_matrix)
+                    matrix = line_matrix
                 strings = [item for item in operands if item.kind == "string"]
                 if strings:
+                    placed = multiply(matrix, ctm)
                     operations.append({
-                        "operator": token.value,
+                        "operator": name,
                         "font": font,
                         "size": size,
                         "codes": b"".join(item.value for item in strings),
                         "start": operands[0].start,
                         "end": token.end,
-                        "single": token.value == "Tj" and len(operands) == 1,
+                        "single": name == "Tj" and len(operands) == 1,
+                        "x": placed[4],
+                        "y": placed[5],
                     })
             operands = []
         elif token.kind in ("[", "]", "<<", ">>"):
