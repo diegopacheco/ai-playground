@@ -19,6 +19,7 @@
     <button id="right" disabled>Rotate right</button>
     <button id="delete" disabled>Delete</button>
     <button id="keep" disabled>Keep only</button>
+    <button id="edit" disabled>Edit text</button>
     <span class="divider"></span>
     <button id="undo" disabled>Undo</button>
     <button id="save" class="primary" disabled>Save</button>
@@ -26,6 +27,15 @@
 </header>
 
 <main id="grid"></main>
+
+<section id="editor" hidden>
+  <div class="bar">
+    <button id="back">Back to pages</button>
+    <span id="editing"></span>
+    <span class="hint">Click any line to retype it. Enter saves, Escape cancels.</span>
+  </div>
+  <div class="sheet"><img id="sheet" alt="page"><div id="runs"></div></div>
+</section>
 
 <section id="empty">
   <p class="big">Drop a PDF here</p>

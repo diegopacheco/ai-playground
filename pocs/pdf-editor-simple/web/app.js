@@ -8,6 +8,7 @@ const buttons = {
   right: document.getElementById("right"),
   delete: document.getElementById("delete"),
   keep: document.getElementById("keep"),
+  edit: document.getElementById("edit"),
   undo: document.getElementById("undo"),
   save: document.getElementById("save"),
 };
@@ -16,6 +17,7 @@ let state = { name: "", pages: [], canUndo: false };
 let selected = new Set();
 let target = "open";
 let dragged = null;
+let editing = null;
 
 async function call(path, options) {
   const response = await fetch(path, options);
@@ -27,6 +29,7 @@ async function call(path, options) {
   state = payload;
   selected = new Set([...selected].filter((uid) => state.pages.some((page) => page.uid === uid)));
   draw();
+  if (editing !== null && state.pages.some((page) => page.uid === editing)) await drawSheet();
 }
 
 const send = (op, extra) => call("/op", {
@@ -50,6 +53,7 @@ function draw() {
   const some = selected.size > 0;
   buttons.append.disabled = !state.pages.length;
   buttons.left.disabled = buttons.right.disabled = buttons.delete.disabled = buttons.keep.disabled = !some;
+  buttons.edit.disabled = selected.size !== 1;
   buttons.undo.disabled = !state.canUndo;
   buttons.save.disabled = !state.pages.length;
 
@@ -152,6 +156,10 @@ document.ondrop = (event) => {
 };
 
 document.onkeydown = (event) => {
+  if (editing !== null) {
+    if (event.key === "Escape") closeEditor();
+    return;
+  }
   if (event.key === "Backspace" && selected.size) send("delete");
   if (event.key === "z" && (event.metaKey || event.ctrlKey)) send("undo");
   if (event.key === "a" && (event.metaKey || event.ctrlKey)) {
@@ -164,5 +172,87 @@ document.onkeydown = (event) => {
     draw();
   }
 };
+
+async function openEditor(uid) {
+  const page = state.pages.find((item) => item.uid === uid);
+  if (!page) return;
+  editing = uid;
+  document.getElementById("grid").hidden = true;
+  document.getElementById("empty").classList.remove("on");
+  document.getElementById("editor").hidden = false;
+  window.scrollTo(0, 0);
+  document.getElementById("editing").textContent =
+    "Page " + (state.pages.indexOf(page) + 1);
+  await drawSheet();
+}
+
+async function drawSheet() {
+  const page = state.pages.find((item) => item.uid === editing);
+  const sheet = document.getElementById("sheet");
+  const layer = document.getElementById("runs");
+  layer.replaceChildren();
+
+  const response = await fetch("/runs?uid=" + editing);
+  const data = await response.json();
+  if (data.error) return say(data.error, true);
+
+  await new Promise((done) => {
+    sheet.onload = done;
+    sheet.src = page.view;
+  });
+
+  const scale = sheet.clientWidth / data.width;
+  layer.replaceChildren(...data.runs.map((run) => box(run, scale, data.height)));
+  const kept = data.runs.filter((run) => run.mode === "inplace").length;
+  say(data.runs.length + " lines, " + kept + " keep their font when edited");
+}
+
+function box(run, scale, pageHeight) {
+  const [left, bottom, right, top] = run.box;
+  const node = document.createElement("div");
+  node.className = "run " + run.mode;
+  node.style.left = left * scale + "px";
+  node.style.top = (pageHeight - top) * scale + "px";
+  node.style.width = (right - left) * scale + "px";
+  node.style.height = (top - bottom) * scale + "px";
+  node.title = {
+    inplace: "Edited in place, the original font is kept",
+    replaced: "The original text is removed and redrawn in Helvetica",
+    redraw: "The original text is covered and redrawn in Helvetica",
+  }[run.mode];
+
+  node.onclick = () => {
+    if (node.querySelector("input")) return;
+    const field = document.createElement("input");
+    field.value = run.text;
+    field.style.fontSize = Math.max(11, run.size * scale * 0.9) + "px";
+    node.appendChild(field);
+    field.focus();
+    field.select();
+    field.onkeydown = async (event) => {
+      event.stopPropagation();
+      if (event.key === "Escape") { field.remove(); return; }
+      if (event.key !== "Enter") return;
+      const value = field.value;
+      field.disabled = true;
+      if (value === run.text) { field.remove(); return; }
+      await call("/text", {
+        method: "POST",
+        body: JSON.stringify({ page: editing, edits: { [run.id]: value } }),
+      });
+    };
+  };
+  return node;
+}
+
+function closeEditor() {
+  editing = null;
+  document.getElementById("editor").hidden = true;
+  document.getElementById("grid").hidden = false;
+  draw();
+}
+
+buttons.edit.onclick = () => openEditor([...selected][0]);
+document.getElementById("back").onclick = closeEditor;
 
 call("/state");

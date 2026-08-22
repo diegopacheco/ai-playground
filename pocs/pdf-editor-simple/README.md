@@ -1,12 +1,15 @@
 # PDF Editor Simple
 
-A visual PDF editor that runs in the browser on your own machine. Open any PDF, see
-its pages as thumbnails, select them, rotate them, delete them, drag them into a new
-order, merge another PDF in, then save the result. The same editing core is also a
-command line tool, so anything you can do by clicking you can do in a script.
+A visual PDF editor that runs in the browser on your own machine. Open any PDF and
+**click a line of text to retype it**, or work on whole pages: rotate, delete, drag
+into a new order, merge another PDF in, then save the result. The same page
+operations are also a command line tool, so anything you can do by clicking to a
+page you can do in a script.
 
 Nothing leaves the machine. The server binds to `127.0.0.1` and the file you open is
 held in memory until you replace it.
+
+![Editing the title of a real paper by clicking it](screenshot-text.png)
 
 ![The editor with three pages selected and rotated](screenshot.png)
 
@@ -24,11 +27,45 @@ held in memory until you replace it.
 | Reorder       | drag a page and drop it before or after another               |
 | Merge         | `Add PDF`, or drop a second file in, appends its pages        |
 | Undo          | `Undo`, or `Cmd/Ctrl+Z`, back through the last 30 edits       |
+| Edit text     | select one page, `Edit text`, then click any line and retype  |
 | Save          | `Save` downloads the edited PDF                               |
 
-Edits are held as a list of page slots, each one pointing at a page in an opened
-file plus a rotation. Nothing is rewritten while you work, so undo is cheap and the
-original bytes stay untouched. The PDF is built once, when you save.
+Page edits are held as a list of page slots, each one pointing at a page in an
+opened file plus a rotation. Nothing is rewritten while you work, so undo is cheap
+and the original bytes stay untouched. The PDF is built once, when you save.
+
+## Editing the text
+
+`Edit text` renders the page and lays a clickable box over every line it finds.
+Click one, retype it, press Enter. Escape cancels, `Undo` reverts, and the page
+thumbnail updates.
+
+A PDF stores positioned glyphs, not sentences, so how a line can be changed depends
+on how the file was produced. The editor picks the best of three routes per line and
+tells you which one it used when you hover it:
+
+| Route      | When it is used                                                     | What you get                          |
+|------------|---------------------------------------------------------------------|---------------------------------------|
+| in place   | the line is one text operator in a non embedded standard font        | **the original font is kept**         |
+| replaced   | the line maps cleanly onto its operators, but more than one          | old text removed, redrawn in Helvetica |
+| covered    | the glyphs cannot be mapped back, as in most LaTeX and scanned files | old text covered, redrawn in Helvetica |
+
+Every route keeps the position, the size and the colour of the line it replaces. The
+covering rectangle is filled with the page's own dominant background colour, not
+plain white, so it disappears on tinted pages.
+
+### What it will not do
+
+- **No reflow.** A longer line does not push the rest of the page down, because a
+  PDF has no paragraphs to reflow. A much longer line can run into what sits next
+  to it.
+- **The covered route leaves the old text in the file.** It is hidden from view and
+  from this editor, but a text search or a copy and paste still finds the old words.
+  The other two routes remove it properly.
+- **Redrawn text is Helvetica.** Only the in place route can keep an embedded font,
+  since the glyphs for the letters you type may simply not exist in a subset font.
+- **Latin characters only when redrawing.** A character Helvetica cannot draw is
+  refused with a message rather than quietly turned into a question mark.
 
 ## Requirements
 
@@ -50,7 +87,7 @@ Then open http://127.0.0.1:8099. `PORT=9000 ./serve.sh` picks another port.
 
 ## Command line
 
-The same operations without the browser. Page selection uses one syntax everywhere,
+The page operations without the browser. Text editing is browser only. Page selection uses one syntax everywhere,
 1-based like a page number on paper.
 
 ```bash
@@ -151,19 +188,24 @@ error: angle must be a multiple of 90
 ```
 
 ```
-Ran 25 tests in 0.018s
+Ran 44 tests in 0.049s
 
 OK
 ```
 
-The tests cover the two places every edit is decided. `test_pages.py` pins page
+The tests cover the three places every edit is decided. `test_pages.py` pins page
 selection: order is kept so `extract` can reorder, a page named twice is written
 once, ranges are inclusive, and out of range, backwards, non numeric and empty
 selections raise instead of quietly selecting fewer pages. `test_document.py` pins
 the editor model against the file it produces: the saved PDF follows the order shown
 on screen, rotation reaches the file and wraps at 360, undo restores what was
 deleted, a freshly opened file has nothing to undo, and a reorder that would lose a
-page is refused.
+page is refused. `test_textedit.py` pins the text layer: escaped and octal strings
+survive the tokenizer, a kerned array counts as one operation, a single operator in
+a standard font is edited in place and leaves no covering rectangle, a line split
+across two operators has its old text removed rather than hidden, a redrawn line
+keeps the position of the line it replaced, and a character Helvetica cannot draw is
+refused instead of mangled.
 
 ## How the pieces fit
 
@@ -172,11 +214,12 @@ back what you clicked. Every edit returns the whole new state, so the screen can
 drift from the document.
 
 ```
-web/app.js  ──POST /open, /add, /op──▶  server.py  ──▶  document.py  ──▶  pypdf
-     ▲                                      │
-     └────── page list as JSON ─────────────┘
-            GET /thumb/<source>/<page>.png ──▶  render.py ──▶ pypdfium2 ──▶ png.py
-            GET /save ────────────────────────▶  document.save()
+web/app.js ──POST /open, /add, /op, /text──▶ server.py ──▶ document.py ──▶ pypdf
+     ▲                                           │
+     └────── page list as JSON ──────────────────┘
+       GET /runs?uid=<page>  ──▶ textedit.py ──▶ textmap.py ──▶ content.py
+       GET /thumb|/view/<source>/<page>.png ──▶ render.py ──▶ pypdfium2 ──▶ png.py
+       GET /save ─────────────────────────────▶ document.save()
 ```
 
 Thumbnails are rendered once per source page and cached, and rotation is applied in
@@ -189,7 +232,10 @@ pdf-editor-simple
 ├── src
 │   ├── server.py    HTTP endpoints, one document in memory
 │   ├── document.py  the editor model: page slots, undo, save
-│   ├── render.py    page thumbnails, cached
+│   ├── textedit.py  applying a text change to a page
+│   ├── textmap.py   finding the editable lines and how each can be changed
+│   ├── content.py   content stream tokenizer
+│   ├── render.py    page thumbnails and page views, cached
 │   ├── png.py       PNG encoder, zlib and struct only
 │   ├── main.py      command line argument parsing
 │   ├── editor.py    command line page operations
@@ -201,6 +247,7 @@ pdf-editor-simple
 │   └── app.js
 ├── test_pages.py
 ├── test_document.py
+├── test_textedit.py
 ├── install-deps.sh
 ├── serve.sh
 ├── run.sh
@@ -211,5 +258,6 @@ pdf-editor-simple
 
 - Python 3.14.6, standard library HTTP server
 - [pypdf](https://pypi.org/project/pypdf/) to read and write PDF structure
-- [pypdfium2](https://pypi.org/project/pypdfium2/) to rasterize pages for thumbnails
+- [pypdfium2](https://pypi.org/project/pypdfium2/) to rasterize pages and to locate
+  the text on them
 - No frontend framework, no JavaScript dependencies, no PNG library

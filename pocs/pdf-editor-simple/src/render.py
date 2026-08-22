@@ -8,6 +8,12 @@ _thumbnails = {}
 THUMB_WIDTH = 260
 
 
+def preview(sources, source_index, page_index, scale=1.5):
+    page = _document(sources, source_index)[page_index]
+    bitmap = page.render(scale=scale, rev_byteorder=True)
+    return encode(bytes(bitmap.buffer), bitmap.width, bitmap.height, bitmap.stride)
+
+
 def thumbnail(sources, source_index, page_index):
     key = (source_index, page_index)
     if key not in _thumbnails:

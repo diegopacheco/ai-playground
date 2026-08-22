@@ -3,6 +3,7 @@ import os
 import sys
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
+import render
 from document import Document
 
 WEB_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "web")
@@ -21,6 +22,10 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(document.state())
         if self.path.startswith("/thumb/"):
             return self._thumbnail()
+        if self.path.startswith("/view/"):
+            return self._preview()
+        if self.path.startswith("/runs"):
+            return self._runs()
         if self.path == "/save":
             return self._save()
         self.send_error(404)
@@ -33,6 +38,9 @@ class Handler(BaseHTTPRequestHandler):
                 document.add(self._body())
             elif self.path == "/op":
                 self._operate(json.loads(self._body() or b"{}"))
+            elif self.path == "/text":
+                request = json.loads(self._body() or b"{}")
+                document.edit_text(int(request["page"]), request.get("edits", {}))
             else:
                 return self.send_error(404)
         except Exception as error:
@@ -55,8 +63,32 @@ class Handler(BaseHTTPRequestHandler):
         else:
             raise ValueError(f"unknown operation '{name}'")
 
+    def _runs(self):
+        uid = int(self.path.split("uid=")[1])
+        try:
+            width, height, runs = document.runs(uid)
+        except ValueError as error:
+            return self._json({"error": str(error)}, status=400)
+        self._json({
+            "width": width,
+            "height": height,
+            "runs": [
+                {"id": run["id"], "text": run["text"], "box": [round(value, 2) for value in run["box"]],
+                 "size": round(run["size"], 2), "mode": run["mode"]}
+                for run in runs
+            ],
+        })
+
+    def _preview(self):
+        source, page = self.path[len("/view/"):].split("?")[0].replace(".png", "").split("/")
+        try:
+            data = render.preview(document.sources, int(source), int(page))
+        except (IndexError, ValueError):
+            return self.send_error(404)
+        self._send(data, "image/png", {"Cache-Control": "no-store"})
+
     def _thumbnail(self):
-        source, page = self.path[len("/thumb/"):].replace(".png", "").split("/")
+        source, page = self.path[len("/thumb/"):].split("?")[0].replace(".png", "").split("/")
         try:
             data = document.thumbnail(int(source), int(page))
         except (IndexError, ValueError):

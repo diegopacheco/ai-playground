@@ -28,10 +28,10 @@ def build(titles):
         )
         objects[content_id] = f"<< /Length {len(stream)} >>\nstream\n{stream}\nendstream"
 
-    return _assemble(objects)
+    return assemble(objects)
 
 
-def _assemble(objects):
+def assemble(objects):
     out = bytearray(b"%PDF-1.4\n")
     offsets = {}
     for number in sorted(objects):

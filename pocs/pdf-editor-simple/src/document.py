@@ -3,6 +3,7 @@ from io import BytesIO
 from pypdf import PdfReader, PdfWriter
 
 import render
+from textedit import apply_edits, read_runs
 
 
 class Document:
@@ -12,6 +13,7 @@ class Document:
     def reset(self):
         self.name = ""
         self.sources = []
+        self.versions = []
         self.slots = []
         self.history = []
         self._next_uid = 1
@@ -28,6 +30,7 @@ class Document:
         self._remember()
         source_index = len(self.sources)
         self.sources.append(data)
+        self.versions.append(0)
         for page_index in range(len(PdfReader(BytesIO(data)).pages)):
             self.slots.append({"uid": self._take_uid(), "source": source_index, "page": page_index, "rotation": 0})
 
@@ -62,7 +65,34 @@ class Document:
     def undo(self):
         if not self.history:
             raise ValueError("nothing to undo")
-        self.slots = self.history.pop()
+        previous = self.history.pop()
+        self.slots = previous["slots"]
+        for index, data in enumerate(previous["sources"]):
+            if index < len(self.sources) and self.sources[index] is not data:
+                self.sources[index] = data
+                self.versions[index] += 1
+                render.forget(index)
+
+    def runs(self, uid):
+        slot = self._slot(uid)
+        return read_runs(self.sources[slot["source"]], slot["page"])
+
+    def edit_text(self, uid, edits):
+        slot = self._slot(uid)
+        if not edits:
+            raise ValueError("no text was changed")
+        self._remember()
+        data, report = apply_edits(self.sources[slot["source"]], slot["page"], edits)
+        self.sources[slot["source"]] = data
+        self.versions[slot["source"]] += 1
+        render.forget(slot["source"])
+        return report
+
+    def _slot(self, uid):
+        for slot in self.slots:
+            if slot["uid"] == uid:
+                return slot
+        raise ValueError(f"page {uid} is not in the document")
 
     def save(self):
         writer = PdfWriter()
@@ -87,7 +117,8 @@ class Document:
                 {
                     "uid": slot["uid"],
                     "rotation": slot["rotation"],
-                    "thumb": f"/thumb/{slot['source']}/{slot['page']}.png",
+                    "thumb": f"/thumb/{slot['source']}/{slot['page']}.png?v={self.versions[slot['source']]}",
+                    "view": f"/view/{slot['source']}/{slot['page']}.png?v={self.versions[slot['source']]}",
                 }
                 for slot in self.slots
             ],
@@ -106,7 +137,10 @@ class Document:
         return chosen
 
     def _remember(self):
-        self.history.append([dict(slot) for slot in self.slots])
+        self.history.append({
+            "slots": [dict(slot) for slot in self.slots],
+            "sources": list(self.sources),
+        })
         del self.history[:-30]
 
     def _take_uid(self):
