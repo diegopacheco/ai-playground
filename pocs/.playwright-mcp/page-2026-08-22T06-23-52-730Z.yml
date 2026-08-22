@@ -1,0 +1,46 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - heading "PDF Editor" [level=1] [ref=e3]
+    - generic [ref=e4]:
+      - generic [ref=e5]: deck.pdf
+      - generic [ref=e6]: 8 pages
+    - generic [ref=e7]:
+      - button "Open" [ref=e8] [cursor=pointer]
+      - button "Add PDF" [ref=e9] [cursor=pointer]
+      - button "Rotate left" [disabled] [ref=e11]
+      - button "Rotate right" [disabled] [ref=e12]
+      - button "Delete" [disabled] [ref=e13]
+      - button "Keep only" [disabled] [ref=e14]
+      - button "Undo" [disabled] [ref=e16]
+      - button "Save" [ref=e17] [cursor=pointer]
+  - main [ref=e18]:
+    - generic [ref=e19] [cursor=pointer]:
+      - img "page 1" [ref=e21]
+      - generic [ref=e22]: "1"
+    - generic [ref=e24] [cursor=pointer]:
+      - img "page 2" [ref=e26]
+      - generic [ref=e27]: "2"
+    - generic [ref=e29] [cursor=pointer]:
+      - img "page 3" [ref=e31]
+      - generic [ref=e32]: "3"
+    - generic [ref=e34] [cursor=pointer]:
+      - generic [ref=e35]:
+        - img "page 4"
+      - generic [ref=e36]: "4"
+    - generic [ref=e38] [cursor=pointer]:
+      - generic [ref=e39]:
+        - img "page 5"
+      - generic [ref=e40]: "5"
+    - generic [ref=e42] [cursor=pointer]:
+      - generic [ref=e43]:
+        - img "page 6"
+      - generic [ref=e44]: "6"
+    - generic [ref=e46] [cursor=pointer]:
+      - generic [ref=e47]:
+        - img "page 7"
+      - generic [ref=e48]: "7"
+    - generic [ref=e50] [cursor=pointer]:
+      - generic [ref=e51]:
+        - img "page 8"
+      - generic [ref=e52]: "8"
+  - contentinfo [ref=e54]
