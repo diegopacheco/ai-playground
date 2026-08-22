@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF Editor</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header>
+  <h1>PDF Editor</h1>
+  <div class="file"><span id="name"></span><span id="count"></span></div>
+  <div class="tools">
+    <button id="open">Open</button>
+    <button id="append" disabled>Add PDF</button>
+    <span class="divider"></span>
+    <button id="left" disabled>Rotate left</button>
+    <button id="right" disabled>Rotate right</button>
+    <button id="delete" disabled>Delete</button>
+    <button id="keep" disabled>Keep only</button>
+    <span class="divider"></span>
+    <button id="undo" disabled>Undo</button>
+    <button id="save" class="primary" disabled>Save</button>
+  </div>
+</header>
+
+<main id="grid"></main>
+
+<section id="empty">
+  <p class="big">Drop a PDF here</p>
+  <p>or use <strong>Open</strong>. Click pages to select them, drag them to reorder.</p>
+</section>
+
+<footer id="message"></footer>
+<input type="file" id="picker" accept="application/pdf" hidden>
+<script src="/app.js"></script>
+</body>
+</html>
