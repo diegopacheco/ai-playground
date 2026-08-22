@@ -1,0 +1,30 @@
+pocs/pdf-editor-simple/src/server.py
+  s_1e8c9dc45c6d50::t_81245f98435253 97
+pocs/pdf-editor-simple/serve.sh
+  s_1e8c9dc45c6d50::t_4e470cd9164b60 1-4
+pocs/pdf-editor-simple/requirements.txt
+  s_1e8c9dc45c6d50::t_4e470cd9164b60 2
+pocs/pdf-editor-simple/src/sample.py
+  s_1e8c9dc45c6d50::t_8b780ac6dc03a3 6-11,31
+pocs/pdf-editor-simple/README.md
+  s_1e8c9dc45c6d50::t_e3bdfffc5cb80e 3-6,8-9,11-58,81-85,87,90-91,94-95,98-100,103-117,119-120,129,137-138,140,143,154,159-183,190-201,203,205,212-215
+pocs/pdf-editor-simple/test_document.py
+  s_1e8c9dc45c6d50::t_6d35f33b73d819 1-9,11-13,15-93
+  s_1e8c9dc45c6d50::t_8b780ac6dc03a3 10,14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "9a9a1c65fe09a83f3597457081c144e3c0a86ce0",
+  "prompts": {},
+  "sessions": {
+    "s_1e8c9dc45c6d50": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f0849cd5-edaa-4d44-94a8-8cdf00b003db",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
