@@ -1,0 +1,55 @@
+pocs/pdf-editor-simple/test_textedit.py
+  s_1e8c9dc45c6d50::t_498f2e9e0f8934 11
+  s_1e8c9dc45c6d50::t_1c474cbed6efad 215-264
+pocs/pdf-editor-simple/README.md
+  s_1e8c9dc45c6d50::t_f3112f3b75f95f 4-7,12,31-33,44-51,57-71,99-102,104-105,228,261,277-278
+pocs/pdf-editor-simple/web/app.js
+  s_1e8c9dc45c6d50::t_081a4355c2e584 155-158
+  s_1e8c9dc45c6d50::t_9f63f9f8d0a486 181-184,193,203,214-219,224-263,266,269-276,279-282,285,301,306-308,315-429,439-442
+pocs/pdf-editor-simple/src/content.py
+  s_1e8c9dc45c6d50::t_ad05d59a76bf4f 1-2,180,191
+pocs/pdf-editor-simple/src/fontmap.py
+  s_1e8c9dc45c6d50::t_ba1f5bcdd71756 1-74
+pocs/pdf-editor-simple/web/app.css
+  s_1e8c9dc45c6d50::t_83753f66efbb3c 160-163,165-182
+  s_1e8c9dc45c6d50::t_081a4355c2e584 164
+pocs/pdf-editor-simple/test_document.py
+  s_1e8c9dc45c6d50::t_1c474cbed6efad 94-145
+pocs/pdf-editor-simple/src/textedit.py
+  s_1e8c9dc45c6d50::t_fc2540146acba8 311
+  s_1e8c9dc45c6d50::t_61f14f28f457e3 5,10,79-84,97,101-107,129,148-196
+  s_1e8c9dc45c6d50::t_ad05d59a76bf4f 111,119-122,139-140,225,227,229,233,239,250-253
+  s_1e8c9dc45c6d50::t_7f9e2fd4fb71e8 41-59
+  s_1e8c9dc45c6d50::t_da3c73806276b2 234-238,240-249
+  s_1e8c9dc45c6d50::t_30d28afb9df930 197-198,254-255
+pocs/pdf-editor-simple/src/textmap.py
+  s_1e8c9dc45c6d50::t_da3c73806276b2 162-165
+  s_1e8c9dc45c6d50::t_882ad15ec3c69e 144,169-175,178-179
+  s_1e8c9dc45c6d50::t_fc2540146acba8 7,128-131,154-157,176-177
+  s_1e8c9dc45c6d50::t_ad05d59a76bf4f 141-143,145,159-161
+  s_1e8c9dc45c6d50::t_110d3db7e63cb2 180-181
+pocs/pdf-editor-simple/src/server.py
+  s_1e8c9dc45c6d50::t_5e3281a552ee9e 41-50,78-88
+  s_1e8c9dc45c6d50::t_e3463c123d07a1 89
+pocs/pdf-editor-simple/web/index.html
+  s_1e8c9dc45c6d50::t_83753f66efbb3c 35-40
+  s_1e8c9dc45c6d50::t_081a4355c2e584 42
+pocs/pdf-editor-simple/src/document.py
+  s_1e8c9dc45c6d50::t_10dbde03a2eb22 6,17-18,72,83-85,89-108,110-131,137-139,148-152,157,176,198
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "a18d41921967ad236bde57f62c861aeb650f3f1b",
+  "prompts": {},
+  "sessions": {
+    "s_1e8c9dc45c6d50": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f0849cd5-edaa-4d44-94a8-8cdf00b003db",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
