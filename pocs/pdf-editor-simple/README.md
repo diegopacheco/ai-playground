@@ -56,6 +56,12 @@ line you clicked is matched to the operators that actually drew it. That is why 
 line can be edited even in a file whose text is broken into kerned fragments, as
 LaTeX does.
 
+New text is drawn with the graphics state reset first. Files written by word
+processors often start the page with a transform that is never restored, such as
+`1 0 0 -1 0 792 cm` to flip the y axis, and anything appended after it inherits that
+flip and lands mirrored somewhere off the page. Wrapping the page's own drawing puts
+the coordinate system back to the page default before the new line is written.
+
 Every route keeps the position, the size and the colour of the line it replaces. The
 covering rectangle is filled with the page's own dominant background colour, not
 plain white, so it disappears on tinted pages. Turned pages are handled: a page with
@@ -196,7 +202,7 @@ error: angle must be a multiple of 90
 ```
 
 ```
-Ran 51 tests in 0.058s
+Ran 53 tests in 0.060s
 
 OK
 ```
@@ -213,10 +219,11 @@ survive the tokenizer, a kerned array counts as one operation, a single operator
 a standard font is edited in place and leaves no covering rectangle, a line split
 across two operators has its old text removed rather than hidden, a redrawn line
 keeps the position of the line it replaced, and a character Helvetica cannot draw is
-refused instead of mangled. Three of its cases are there because they were bugs: an
+refused instead of mangled. Four of its cases are there because they were bugs: an
 operator's position must follow the text matrix and the current transform, a clicked
-box must stay on the page whatever the `/Rotate`, and editing the same line twice
-must leave no trace of the first edit.
+box must stay on the page whatever the `/Rotate`, editing the same line twice must
+leave no trace of the first edit, and new text must land where the old text was even
+when the page begins with a transform it never restores.
 
 ## How the pieces fit
 

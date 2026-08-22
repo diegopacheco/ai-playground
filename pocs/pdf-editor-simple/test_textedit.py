@@ -171,6 +171,35 @@ class RepeatedEdits(unittest.TestCase):
         self.assertNotIn("First", _text(data))
 
 
+class FlippedPage(unittest.TestCase):
+    def _pdf(self):
+        stream = ("1 0 0 -1 0 792 cm BT /F1 24 Tf 1 0 0 -1 72 100 Tm "
+                  "(Hello ) Tj (world) Tj ET")
+        return assemble({
+            1: "<< /Type /Catalog /Pages 2 0 R >>",
+            2: "<< /Type /Pages /Kids [4 0 R] /Count 1 >>",
+            3: "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+            4: ("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] "
+                "/Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>"),
+            5: f"<< /Length {len(stream)} >>\nstream\n{stream}\nendstream",
+        })
+
+    def test_new_text_lands_where_the_old_text_was_despite_a_page_wide_flip(self):
+        pdf = self._pdf()
+        _, _, before = read_runs(pdf, 0)
+        self.assertEqual(before[0]["text"], "Hello world")
+        data, _ = apply_edits(pdf, 0, {0: "Hello again"})
+        _, _, after = read_runs(data, 0)
+        replacement = [run for run in after if run["text"] == "Hello again"][0]
+        self.assertAlmostEqual(before[0]["x"], replacement["x"], delta=2.0)
+        self.assertAlmostEqual(before[0]["y"], replacement["y"], delta=1.0)
+
+    def test_the_page_own_drawing_is_left_alone(self):
+        data, _ = apply_edits(self._pdf(), 0, {0: "Hello again"})
+        contents = PdfReader(BytesIO(data)).pages[0].get_contents().get_data()
+        self.assertIn(b"1 0 0 -1 0 792 cm", contents)
+
+
 class Grouping(unittest.TestCase):
     def test_one_printed_line_is_offered_as_one_editable_run(self):
         width, height, runs = read_runs(build(["A single line of text"]), 0)

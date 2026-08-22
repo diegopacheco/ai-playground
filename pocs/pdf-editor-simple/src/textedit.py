@@ -100,7 +100,7 @@ def apply_edits(pdf_bytes, page_index, edits):
         contents = contents[:operation["start"]] + contents[operation["end"]:]
 
     if overlay:
-        contents += b"\n" + _overlay(overlay, background)
+        contents = b"q\n" + contents + b"\nQ\n" + _overlay(overlay, background)
         _ensure_font(writer, page)
 
     page.replace_contents(DecodedStreamObject.initialize_from_dictionary({"__streamdata__": contents, "/Length": len(contents)}))
