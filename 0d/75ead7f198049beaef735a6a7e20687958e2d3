@@ -1,0 +1,22 @@
+pocs/tinyllama-python3-fun/src/main.py
+  h_8e2c3875396153 1-7
+pocs/tinyllama-python3-fun/requirements.txt
+  h_8e2c3875396153 1
+pocs/tinyllama-python3-fun/README.md
+  h_8e2c3875396153 1-30
+pocs/tinyllama-python3-fun/install-deps.sh
+  h_8e2c3875396153 1-3
+pocs/tinyllama-python3-fun/run.sh
+  h_8e2c3875396153 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "0d75ead7f198049beaef735a6a7e20687958e2d3",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
