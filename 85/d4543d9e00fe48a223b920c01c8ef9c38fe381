@@ -1,0 +1,23 @@
+pocs/agent-skill-bug-triage/skill/scripts/checkout.sh
+  s_01d76a70d9dcbc::t_ec107184c5e455 15
+pocs/agent-skill-bug-triage/bug-triage-report/index.html
+  s_01d76a70d9dcbc::t_fcadc389ac5e04 154
+pocs/agent-skill-bug-triage/test.sh
+  s_01d76a70d9dcbc::t_fcadc389ac5e04 61-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "85d4543d9e00fe48a223b920c01c8ef9c38fe381",
+  "prompts": {},
+  "sessions": {
+    "s_01d76a70d9dcbc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "74fdd763-d625-4cab-a006-e76e9f10cb07",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
