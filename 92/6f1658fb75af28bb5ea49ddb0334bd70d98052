@@ -1,0 +1,81 @@
+pocs/agent-skill-inventory/uninstall.sh
+  s_e8baad570edda9::t_d460f218a7f65e 42-48
+  s_e8baad570edda9::t_294501b3db38e4 1-41,49-51
+pocs/agent-skill-inventory/prompts/pass-3-adversarial.md
+  s_e8baad570edda9::t_53b9debf841d09 1-44
+pocs/agent-skill-inventory/skills/inventory/scripts/render.py
+  s_e8baad570edda9::t_2e9003e6bcad10 1,3-9,11-103,112,114-121,123-125,131-137,140-142,144-145,152-157,160-178,181-185,195-201,213-366,376-414
+  s_e8baad570edda9::t_a887dc25e30f22 2,367-375
+  s_e8baad570edda9::t_4faf68f54b579e 10,128-130,138-139,143,146-148,150-151
+  s_e8baad570edda9::t_4739f33348bedd 104-107,109-111
+  s_e8baad570edda9::t_ec96ecdfbb36d7 108,149,179-180,186-192
+  s_e8baad570edda9::t_c9f371ea88f674 113,122,126-127,158-159,193-194,202-212
+pocs/agent-skill-inventory/sample/analysis.json
+  s_e8baad570edda9::t_d8adba2b7eb090 1-1366
+pocs/agent-skill-inventory/tests/analysis.py
+  s_e8baad570edda9::t_49f1abc26bec77 72,94
+  s_e8baad570edda9::t_3d8fcccfe14642 1-71,73-93,95-110
+pocs/agent-skill-inventory/sample/facts.json
+  s_e8baad570edda9::t_d8adba2b7eb090 1-1637
+pocs/agent-skill-inventory/skills/inventory/scripts/scan.py
+  s_e8baad570edda9::t_4daaf076ef6c58 1-11,13,16-29,31,33-40,43-46,48-52,61-62,64-68,70-71,238
+  s_e8baad570edda9::t_325b5af48027f5 106
+  s_e8baad570edda9::t_54018f8e2731b8 12,30,32,41-42,47,53-60,63,69,72-105,107-122,127-150,204,207-211,213-237,239-259,265-289,291-295,300-415,420-484,488-582
+  s_e8baad570edda9::t_2dcadba17deafa 151-203,205-206,416-419
+  s_e8baad570edda9::t_e844a7ee2056b2 260-263,290,296-299
+  s_e8baad570edda9::t_19bf7ac2abced0 264
+  s_e8baad570edda9::t_75216b28cd1b6c 14-15,123-126
+  s_e8baad570edda9::t_89959d067811e4 485-487
+  s_e8baad570edda9::t_6770551449b5a2 212
+pocs/agent-skill-inventory/design-doc.md
+  s_e8baad570edda9::t_1d5723a2be4a31 3-109
+  s_e8baad570edda9::t_0868d3e1d2e41a 1-2
+pocs/agent-skill-inventory/install.sh
+  s_e8baad570edda9::t_e4fd052bd1f352 48
+  s_e8baad570edda9::t_294501b3db38e4 1-47,49-51,54-73
+  s_e8baad570edda9::t_d460f218a7f65e 52-53
+pocs/agent-skill-inventory/prompts/pass-1-collect.md
+  s_e8baad570edda9::t_c0b5f30c312e42 1-35
+pocs/agent-skill-inventory/sample/README.md
+  s_e8baad570edda9::t_0637ee2567f4f9 1-24
+pocs/agent-skill-inventory/skills/inventory/SKILL.md
+  s_e8baad570edda9::t_06d8b466884ede 1-100
+pocs/agent-skill-inventory/skills/inventory/assets/template.html
+  s_e8baad570edda9::t_a887dc25e30f22 477-478
+  s_e8baad570edda9::t_a2b42dabeb71d4 1-292
+  s_e8baad570edda9::t_2726571bb51e96 293-476,479-644
+pocs/agent-skill-inventory/sample/index.html
+  s_e8baad570edda9::t_d8adba2b7eb090 1-690
+pocs/agent-skill-inventory/tests/fixture.sh
+  s_e8baad570edda9::t_7cd5273d0ff369 1-97
+pocs/agent-skill-inventory/test.sh
+  s_e8baad570edda9::t_325b5af48027f5 7,64
+  s_e8baad570edda9::t_49f1abc26bec77 90-91
+  s_e8baad570edda9::t_17261dadbee615 1-6,8-63,65-89,92-126
+pocs/agent-skill-inventory/prompts/pass-2-verify.md
+  s_e8baad570edda9::t_c0b5f30c312e42 1-37
+pocs/agent-skill-inventory/prompts/schema.md
+  s_e8baad570edda9::t_7920d17d4e8b71 1-128
+pocs/agent-skill-inventory/.gitignore
+  s_e8baad570edda9::t_e4fd052bd1f352 1-3
+pocs/agent-skill-inventory/README.md
+  s_e8baad570edda9::t_90aa88c4632c02 1-243
+pocs/agent-skill-inventory/changelog.md
+  s_e8baad570edda9::t_7363c969f1150c 1-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "926f1658fb75af28bb5ea49ddb0334bd70d98052",
+  "prompts": {},
+  "sessions": {
+    "s_e8baad570edda9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6cff4f1e-0257-4c45-993f-623bb949b6b4",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
