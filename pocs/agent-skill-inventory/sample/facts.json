@@ -1,0 +1,1637 @@
+{
+  "repoRoot": "/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/adwf-twitter-like",
+  "repoName": "adwf-twitter-like",
+  "githubUrl": "https://github.com/diegopacheco/ai-playground",
+  "gitRemote": "git@github.com:diegopacheco/ai-playground.git",
+  "branch": "main",
+  "headCommit": "a18d4192",
+  "scannedAt": "2026-08-29T19:00:02Z",
+  "totals": {
+    "files": 166,
+    "codeFiles": 105,
+    "lines": 9801,
+    "commits": 10,
+    "modules": 16
+  },
+  "languages": [
+    {
+      "name": "TypeScript",
+      "files": 35,
+      "lines": 4339
+    },
+    {
+      "name": "Rust",
+      "files": 30,
+      "lines": 3106
+    },
+    {
+      "name": "Shell",
+      "files": 19,
+      "lines": 872
+    },
+    {
+      "name": "JavaScript",
+      "files": 12,
+      "lines": 1319
+    },
+    {
+      "name": "SQL",
+      "files": 7,
+      "lines": 133
+    },
+    {
+      "name": "HTML",
+      "files": 1,
+      "lines": 14
+    },
+    {
+      "name": "CSS",
+      "files": 1,
+      "lines": 18
+    }
+  ],
+  "modules": [
+    {
+      "dir": ".",
+      "kind": "cargo",
+      "build": "Cargo.toml",
+      "files": 86,
+      "lines": 36682,
+      "langs": {
+        "Shell": 19,
+        "JavaScript": 5,
+        "TypeScript": 2,
+        "HTML": 1
+      },
+      "topFiles": [
+        {
+          "path": "generate-performance-report.sh",
+          "lines": 165
+        },
+        {
+          "path": "analyze-k6-results.sh",
+          "lines": 112
+        },
+        {
+          "path": "run-e2e-tests.sh",
+          "lines": 92
+        },
+        {
+          "path": "verify-k6-setup.sh",
+          "lines": 85
+        },
+        {
+          "path": "run-k6-tests.sh",
+          "lines": 65
+        },
+        {
+          "path": "test-db.sh",
+          "lines": 62
+        },
+        {
+          "path": "start.sh",
+          "lines": 61
+        },
+        {
+          "path": "run-single-k6-test.sh",
+          "lines": 42
+        },
+        {
+          "path": "test-k6-quick.sh",
+          "lines": 37
+        },
+        {
+          "path": "eslint.config.js",
+          "lines": 29
+        },
+        {
+          "path": "playwright.config.ts",
+          "lines": 27
+        },
+        {
+          "path": "setup-test-db.sh",
+          "lines": 25
+        }
+      ],
+      "tests": 0,
+      "logs": 2,
+      "debtMarks": 1
+    },
+    {
+      "dir": "e2e",
+      "kind": "directory",
+      "build": null,
+      "files": 14,
+      "lines": 1693,
+      "langs": {
+        "TypeScript": 13
+      },
+      "topFiles": [
+        {
+          "path": "e2e/comments.spec.ts",
+          "lines": 212
+        },
+        {
+          "path": "e2e/follow.spec.ts",
+          "lines": 199
+        },
+        {
+          "path": "e2e/tweets.spec.ts",
+          "lines": 173
+        },
+        {
+          "path": "e2e/feed.spec.ts",
+          "lines": 171
+        },
+        {
+          "path": "e2e/profile.spec.ts",
+          "lines": 152
+        },
+        {
+          "path": "e2e/responsive.spec.ts",
+          "lines": 151
+        },
+        {
+          "path": "e2e/navigation.spec.ts",
+          "lines": 145
+        },
+        {
+          "path": "e2e/auth.spec.ts",
+          "lines": 114
+        },
+        {
+          "path": "e2e/pages/HomePage.ts",
+          "lines": 78
+        },
+        {
+          "path": "e2e/pages/TweetDetailPage.ts",
+          "lines": 65
+        },
+        {
+          "path": "e2e/pages/ProfilePage.ts",
+          "lines": 61
+        },
+        {
+          "path": "e2e/pages/LoginPage.ts",
+          "lines": 59
+        }
+      ],
+      "tests": 13,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "tests",
+      "kind": "directory",
+      "build": null,
+      "files": 5,
+      "lines": 1445,
+      "langs": {
+        "Rust": 5
+      },
+      "topFiles": [
+        {
+          "path": "tests/integration_tests.rs",
+          "lines": 1229
+        },
+        {
+          "path": "tests/model_validation_test.rs",
+          "lines": 91
+        },
+        {
+          "path": "tests/api_test.rs",
+          "lines": 79
+        },
+        {
+          "path": "tests/jwt_test.rs",
+          "lines": 39
+        },
+        {
+          "path": "tests/integration_test.rs",
+          "lines": 7
+        }
+      ],
+      "tests": 5,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "k6-tests",
+      "kind": "directory",
+      "build": null,
+      "files": 8,
+      "lines": 1279,
+      "langs": {
+        "JavaScript": 7
+      },
+      "topFiles": [
+        {
+          "path": "k6-tests/social-interactions-test.js",
+          "lines": 239
+        },
+        {
+          "path": "k6-tests/stress-test.js",
+          "lines": 237
+        },
+        {
+          "path": "k6-tests/tweet-feed-test.js",
+          "lines": 191
+        },
+        {
+          "path": "k6-tests/user-profile-test.js",
+          "lines": 174
+        },
+        {
+          "path": "k6-tests/load-test.js",
+          "lines": 154
+        },
+        {
+          "path": "k6-tests/auth-test.js",
+          "lines": 130
+        },
+        {
+          "path": "k6-tests/baseline-test.js",
+          "lines": 113
+        }
+      ],
+      "tests": 2,
+      "logs": 14,
+      "debtMarks": 0
+    },
+    {
+      "dir": "src/components",
+      "kind": "directory",
+      "build": null,
+      "files": 8,
+      "lines": 1216,
+      "langs": {
+        "TypeScript": 8
+      },
+      "topFiles": [
+        {
+          "path": "src/components/__tests__/TweetCard.test.tsx",
+          "lines": 390
+        },
+        {
+          "path": "src/components/__tests__/TweetComposer.test.tsx",
+          "lines": 284
+        },
+        {
+          "path": "src/components/TweetCard.tsx",
+          "lines": 177
+        },
+        {
+          "path": "src/components/CommentList.tsx",
+          "lines": 143
+        },
+        {
+          "path": "src/components/UserCard.tsx",
+          "lines": 68
+        },
+        {
+          "path": "src/components/TweetComposer.tsx",
+          "lines": 65
+        },
+        {
+          "path": "src/components/NavigationBar.tsx",
+          "lines": 46
+        },
+        {
+          "path": "src/components/FeedList.tsx",
+          "lines": 43
+        }
+      ],
+      "tests": 2,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "src/handlers",
+      "kind": "directory",
+      "build": null,
+      "files": 5,
+      "lines": 756,
+      "langs": {
+        "Rust": 5
+      },
+      "topFiles": [
+        {
+          "path": "src/handlers/tweets.rs",
+          "lines": 357
+        },
+        {
+          "path": "src/handlers/users.rs",
+          "lines": 183
+        },
+        {
+          "path": "src/handlers/comments.rs",
+          "lines": 126
+        },
+        {
+          "path": "src/handlers/auth.rs",
+          "lines": 80
+        },
+        {
+          "path": "src/handlers/mod.rs",
+          "lines": 10
+        }
+      ],
+      "tests": 0,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "src/lib",
+      "kind": "directory",
+      "build": null,
+      "files": 2,
+      "lines": 552,
+      "langs": {
+        "TypeScript": 2
+      },
+      "topFiles": [
+        {
+          "path": "src/lib/__tests__/api.test.ts",
+          "lines": 418
+        },
+        {
+          "path": "src/lib/api.ts",
+          "lines": 134
+        }
+      ],
+      "tests": 1,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "src/models",
+      "kind": "directory",
+      "build": null,
+      "files": 10,
+      "lines": 477,
+      "langs": {
+        "Rust": 10
+      },
+      "topFiles": [
+        {
+          "path": "src/models/user.rs",
+          "lines": 161
+        },
+        {
+          "path": "src/models/user_test.rs",
+          "lines": 104
+        },
+        {
+          "path": "src/models/tweet_test.rs",
+          "lines": 48
+        },
+        {
+          "path": "src/models/comment_test.rs",
+          "lines": 48
+        },
+        {
+          "path": "src/models/tweet.rs",
+          "lines": 35
+        },
+        {
+          "path": "src/models/comment.rs",
+          "lines": 31
+        },
+        {
+          "path": "src/models/retweet.rs",
+          "lines": 13
+        },
+        {
+          "path": "src/models/like.rs",
+          "lines": 13
+        },
+        {
+          "path": "src/models/follow.rs",
+          "lines": 13
+        },
+        {
+          "path": "src/models/mod.rs",
+          "lines": 11
+        }
+      ],
+      "tests": 3,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "src/pages",
+      "kind": "directory",
+      "build": null,
+      "files": 4,
+      "lines": 412,
+      "langs": {
+        "TypeScript": 4
+      },
+      "topFiles": [
+        {
+          "path": "src/pages/ProfilePage.tsx",
+          "lines": 212
+        },
+        {
+          "path": "src/pages/LoginPage.tsx",
+          "lines": 137
+        },
+        {
+          "path": "src/pages/TweetDetailPage.tsx",
+          "lines": 45
+        },
+        {
+          "path": "src/pages/HomePage.tsx",
+          "lines": 18
+        }
+      ],
+      "tests": 0,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "src/contexts",
+      "kind": "directory",
+      "build": null,
+      "files": 2,
+      "lines": 344,
+      "langs": {
+        "TypeScript": 2
+      },
+      "topFiles": [
+        {
+          "path": "src/contexts/__tests__/AuthContext.test.tsx",
+          "lines": 272
+        },
+        {
+          "path": "src/contexts/AuthContext.tsx",
+          "lines": 72
+        }
+      ],
+      "tests": 1,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "src",
+      "kind": "directory",
+      "build": null,
+      "files": 10,
+      "lines": 336,
+      "langs": {
+        "Rust": 6,
+        "TypeScript": 3,
+        "CSS": 1
+      },
+      "topFiles": [
+        {
+          "path": "src/error_test.rs",
+          "lines": 77
+        },
+        {
+          "path": "src/App.tsx",
+          "lines": 74
+        },
+        {
+          "path": "src/main.rs",
+          "lines": 57
+        },
+        {
+          "path": "src/error.rs",
+          "lines": 56
+        },
+        {
+          "path": "src/config.rs",
+          "lines": 19
+        },
+        {
+          "path": "src/index.css",
+          "lines": 18
+        },
+        {
+          "path": "src/state.rs",
+          "lines": 14
+        },
+        {
+          "path": "src/main.tsx",
+          "lines": 11
+        },
+        {
+          "path": "src/lib.rs",
+          "lines": 8
+        },
+        {
+          "path": "src/vite-env.d.ts",
+          "lines": 2
+        }
+      ],
+      "tests": 1,
+      "logs": 3,
+      "debtMarks": 0
+    },
+    {
+      "dir": "src/middleware",
+      "kind": "directory",
+      "build": null,
+      "files": 3,
+      "lines": 147,
+      "langs": {
+        "Rust": 3
+      },
+      "topFiles": [
+        {
+          "path": "src/middleware/auth_test.rs",
+          "lines": 77
+        },
+        {
+          "path": "src/middleware/auth.rs",
+          "lines": 66
+        },
+        {
+          "path": "src/middleware/mod.rs",
+          "lines": 4
+        }
+      ],
+      "tests": 1,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "migrations",
+      "kind": "directory",
+      "build": null,
+      "files": 6,
+      "lines": 69,
+      "langs": {
+        "SQL": 6
+      },
+      "topFiles": [
+        {
+          "path": "migrations/20260209000001_create_users.sql",
+          "lines": 14
+        },
+        {
+          "path": "migrations/20260209000006_create_comments.sql",
+          "lines": 13
+        },
+        {
+          "path": "migrations/20260209000003_create_follows.sql",
+          "lines": 11
+        },
+        {
+          "path": "migrations/20260209000002_create_tweets.sql",
+          "lines": 11
+        },
+        {
+          "path": "migrations/20260209000005_create_retweets.sql",
+          "lines": 10
+        },
+        {
+          "path": "migrations/20260209000004_create_likes.sql",
+          "lines": 10
+        }
+      ],
+      "tests": 0,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "db",
+      "kind": "directory",
+      "build": null,
+      "files": 1,
+      "lines": 64,
+      "langs": {
+        "SQL": 1
+      },
+      "topFiles": [
+        {
+          "path": "db/schema.sql",
+          "lines": 64
+        }
+      ],
+      "tests": 0,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "src/types",
+      "kind": "directory",
+      "build": null,
+      "files": 1,
+      "lines": 52,
+      "langs": {
+        "TypeScript": 1
+      },
+      "topFiles": [
+        {
+          "path": "src/types/index.ts",
+          "lines": 52
+        }
+      ],
+      "tests": 0,
+      "logs": 0,
+      "debtMarks": 0
+    },
+    {
+      "dir": "src/routes",
+      "kind": "directory",
+      "build": null,
+      "files": 1,
+      "lines": 50,
+      "langs": {
+        "Rust": 1
+      },
+      "topFiles": [
+        {
+          "path": "src/routes/mod.rs",
+          "lines": 50
+        }
+      ],
+      "tests": 0,
+      "logs": 0,
+      "debtMarks": 0
+    }
+  ],
+  "committers": [
+    {
+      "name": "diegopacheco",
+      "email": "diego.pacheco.it@gmail.com",
+      "login": null,
+      "commits": 10,
+      "firstCommit": "2026-02-10",
+      "lastCommit": "2026-02-11",
+      "topDirs": [
+        {
+          "dir": "e2e",
+          "changes": 21
+        },
+        {
+          "dir": "k6-tests",
+          "changes": 14
+        },
+        {
+          "dir": "src",
+          "changes": 10
+        },
+        {
+          "dir": "src/models",
+          "changes": 10
+        },
+        {
+          "dir": "e2e/pages",
+          "changes": 8
+        },
+        {
+          "dir": "migrations",
+          "changes": 6
+        },
+        {
+          "dir": "src/components",
+          "changes": 6
+        },
+        {
+          "dir": "tests",
+          "changes": 5
+        }
+      ],
+      "recentSubjects": [
+        "progress",
+        "progress",
+        "progress",
+        "improve e2e",
+        "improve e2e",
+        "added report",
+        "added report",
+        "added report"
+      ]
+    }
+  ],
+  "tests": {
+    "e2e": {
+      "files": 13,
+      "cases": 85,
+      "samples": [
+        {
+          "path": "e2e/auth.spec.ts",
+          "cases": 8
+        },
+        {
+          "path": "e2e/comments.spec.ts",
+          "cases": 10
+        },
+        {
+          "path": "e2e/feed.spec.ts",
+          "cases": 11
+        },
+        {
+          "path": "e2e/follow.spec.ts",
+          "cases": 7
+        },
+        {
+          "path": "e2e/navigation.spec.ts",
+          "cases": 13
+        },
+        {
+          "path": "e2e/profile.spec.ts",
+          "cases": 12
+        }
+      ]
+    },
+    "unit": {
+      "files": 12,
+      "cases": 157,
+      "samples": [
+        {
+          "path": "src/error_test.rs",
+          "cases": 20
+        },
+        {
+          "path": "src/components/__tests__/TweetCard.test.tsx",
+          "cases": 29
+        },
+        {
+          "path": "src/components/__tests__/TweetComposer.test.tsx",
+          "cases": 19
+        },
+        {
+          "path": "src/contexts/__tests__/AuthContext.test.tsx",
+          "cases": 12
+        },
+        {
+          "path": "src/lib/__tests__/api.test.ts",
+          "cases": 18
+        },
+        {
+          "path": "src/middleware/auth_test.rs",
+          "cases": 16
+        }
+      ]
+    },
+    "stress": {
+      "files": 2,
+      "cases": 0,
+      "samples": [
+        {
+          "path": "k6-tests/load-test.js",
+          "cases": 0
+        },
+        {
+          "path": "k6-tests/stress-test.js",
+          "cases": 0
+        }
+      ]
+    },
+    "integration": {
+      "files": 2,
+      "cases": 14,
+      "samples": [
+        {
+          "path": "tests/integration_test.rs",
+          "cases": 1
+        },
+        {
+          "path": "tests/integration_tests.rs",
+          "cases": 13
+        }
+      ]
+    }
+  },
+  "observability": {
+    "logCounts": {
+      "print": 14,
+      "error": 4,
+      "info": 1
+    },
+    "logDensityPerKLoc": 1.94,
+    "topLogFiles": [
+      {
+        "path": "k6-tests/stress-test.js",
+        "count": 4
+      },
+      {
+        "path": "k6-tests/load-test.js",
+        "count": 3
+      },
+      {
+        "path": "k6-tests/social-interactions-test.js",
+        "count": 3
+      },
+      {
+        "path": "review/2026-02-09/sec-review.md",
+        "count": 2
+      },
+      {
+        "path": "src/error.rs",
+        "count": 2
+      },
+      {
+        "path": "k6-tests/auth-test.js",
+        "count": 1
+      },
+      {
+        "path": "k6-tests/baseline-test.js",
+        "count": 1
+      },
+      {
+        "path": "k6-tests/tweet-feed-test.js",
+        "count": 1
+      },
+      {
+        "path": "k6-tests/user-profile-test.js",
+        "count": 1
+      },
+      {
+        "path": "src/main.rs",
+        "count": 1
+      }
+    ],
+    "dashboards": [],
+    "alerts": [],
+    "validationHits": [
+      {
+        "path": "tests/model_validation_test.rs",
+        "count": 13
+      },
+      {
+        "path": "src/models/user.rs",
+        "count": 12
+      },
+      {
+        "path": "src/models/user_test.rs",
+        "count": 12
+      },
+      {
+        "path": "src/middleware/auth_test.rs",
+        "count": 10
+      },
+      {
+        "path": "tests/integration_tests.rs",
+        "count": 7
+      },
+      {
+        "path": "src/models/comment_test.rs",
+        "count": 6
+      },
+      {
+        "path": "src/models/tweet_test.rs",
+        "count": 6
+      },
+      {
+        "path": "tests/jwt_test.rs",
+        "count": 4
+      },
+      {
+        "path": "src/handlers/tweets.rs",
+        "count": 2
+      },
+      {
+        "path": "src/middleware/auth.rs",
+        "count": 2
+      },
+      {
+        "path": "e2e/helpers/auth.ts",
+        "count": 1
+      },
+      {
+        "path": "src/contexts/AuthContext.tsx",
+        "count": 1
+      },
+      {
+        "path": "src/handlers/auth.rs",
+        "count": 1
+      },
+      {
+        "path": "src/handlers/comments.rs",
+        "count": 1
+      },
+      {
+        "path": "src/handlers/users.rs",
+        "count": 1
+      },
+      {
+        "path": "tests/integration_test.rs",
+        "count": 1
+      }
+    ],
+    "validationTotal": 80,
+    "guardTotal": 87,
+    "emptyCatches": [],
+    "configs": [
+      ".env"
+    ],
+    "externals": []
+  },
+  "techDebtSignals": {
+    "markers": [
+      {
+        "path": "todo.md",
+        "line": 1,
+        "marker": "TODO",
+        "snippet": "# TODO - Twitter Application",
+        "module": "."
+      }
+    ],
+    "markerCounts": {
+      "TODO": 1
+    },
+    "bigFiles": [
+      {
+        "path": "tests/integration_tests.rs",
+        "lines": 1229,
+        "module": "tests"
+      },
+      {
+        "path": "src/lib/__tests__/api.test.ts",
+        "lines": 418,
+        "module": "src/lib"
+      }
+    ],
+    "longFunctions": [
+      {
+        "line": 92,
+        "lines": 141,
+        "name": "export default function(data) {",
+        "path": "k6-tests/social-interactions-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 827,
+        "lines": 140,
+        "name": "async fn test_feed_generation() {",
+        "path": "tests/integration_tests.rs",
+        "module": "tests"
+      },
+      {
+        "line": 1096,
+        "lines": 133,
+        "name": "async fn test_complex_user_interaction_scenario() {",
+        "path": "tests/integration_tests.rs",
+        "module": "tests"
+      },
+      {
+        "line": 104,
+        "lines": 126,
+        "name": "if (action < 0.3 && data.tweetIds.length > 0) {",
+        "path": "k6-tests/social-interactions-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 252,
+        "lines": 123,
+        "name": "async fn test_follow_unfollow_operations() {",
+        "path": "tests/integration_tests.rs",
+        "module": "tests"
+      },
+      {
+        "line": 112,
+        "lines": 118,
+        "name": "export default function(data) {",
+        "path": "k6-tests/stress-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 709,
+        "lines": 116,
+        "name": "async fn test_comment_operations() {",
+        "path": "tests/integration_tests.rs",
+        "module": "tests"
+      },
+      {
+        "line": 129,
+        "lines": 105,
+        "name": "describe('Tweet Submission', () => {",
+        "path": "src/components/__tests__/TweetComposer.test.tsx",
+        "module": "src/components"
+      },
+      {
+        "line": 124,
+        "lines": 103,
+        "name": "if (scenario < 0.35) {",
+        "path": "k6-tests/stress-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 13,
+        "lines": 103,
+        "name": "describe('authApi', () => {",
+        "path": "src/lib/__tests__/api.test.ts",
+        "module": "src/lib"
+      },
+      {
+        "line": 25,
+        "lines": 101,
+        "name": "export default function() {",
+        "path": "k6-tests/auth-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 70,
+        "lines": 100,
+        "name": "export default function(data) {",
+        "path": "k6-tests/user-profile-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 377,
+        "lines": 97,
+        "name": "async fn test_tweet_operations() {",
+        "path": "tests/integration_tests.rs",
+        "module": "tests"
+      },
+      {
+        "line": 523,
+        "lines": 91,
+        "name": "async fn test_like_unlike_tweet() {",
+        "path": "tests/integration_tests.rs",
+        "module": "tests"
+      },
+      {
+        "line": 616,
+        "lines": 91,
+        "name": "async fn test_retweet_operations() {",
+        "path": "tests/integration_tests.rs",
+        "module": "tests"
+      },
+      {
+        "line": 187,
+        "lines": 87,
+        "name": "describe('tweetsApi', () => {",
+        "path": "src/lib/__tests__/api.test.ts",
+        "module": "src/lib"
+      },
+      {
+        "line": 101,
+        "lines": 86,
+        "name": "export default function(data) {",
+        "path": "k6-tests/tweet-feed-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 82,
+        "lines": 85,
+        "name": "if (action < 0.5) {",
+        "path": "k6-tests/user-profile-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 29,
+        "lines": 82,
+        "name": "export function setup() {",
+        "path": "k6-tests/stress-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 230,
+        "lines": 77,
+        "name": "describe('Delete Functionality', () => {",
+        "path": "src/components/__tests__/TweetCard.test.tsx",
+        "module": "src/components"
+      },
+      {
+        "line": 52,
+        "lines": 76,
+        "name": "describe('User Input', () => {",
+        "path": "src/components/__tests__/TweetComposer.test.tsx",
+        "module": "src/components"
+      },
+      {
+        "line": 66,
+        "lines": 74,
+        "name": "describe('Rendering', () => {",
+        "path": "src/components/__tests__/TweetCard.test.tsx",
+        "module": "src/components"
+      },
+      {
+        "line": 275,
+        "lines": 74,
+        "name": "describe('commentsApi', () => {",
+        "path": "src/lib/__tests__/api.test.ts",
+        "module": "src/lib"
+      },
+      {
+        "line": 27,
+        "lines": 73,
+        "name": "export function setup() {",
+        "path": "k6-tests/tweet-feed-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 113,
+        "lines": 71,
+        "name": "if (scenario < 0.6) {",
+        "path": "k6-tests/tweet-feed-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 117,
+        "lines": 69,
+        "name": "describe('usersApi', () => {",
+        "path": "src/lib/__tests__/api.test.ts",
+        "module": "src/lib"
+      },
+      {
+        "line": 129,
+        "lines": 68,
+        "name": "async fn test_authentication_validation_errors() {",
+        "path": "tests/integration_tests.rs",
+        "module": "tests"
+      },
+      {
+        "line": 1027,
+        "lines": 67,
+        "name": "async fn test_data_persistence() {",
+        "path": "tests/integration_tests.rs",
+        "module": "tests"
+      },
+      {
+        "line": 24,
+        "lines": 65,
+        "name": "export function setup() {",
+        "path": "k6-tests/load-test.js",
+        "module": "k6-tests"
+      },
+      {
+        "line": 26,
+        "lines": 65,
+        "name": "export function setup() {",
+        "path": "k6-tests/social-interactions-test.js",
+        "module": "k6-tests"
+      }
+    ],
+    "secrets": [
+      {
+        "path": "DEPLOYMENT.md",
+        "line": 14,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "DEPLOYMENT.md",
+        "line": 125,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "INTEGRATION_TESTS.md",
+        "line": 34,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "TEST_EXECUTION_GUIDE.md",
+        "line": 65,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "TEST_EXECUTION_GUIDE.md",
+        "line": 358,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "run-integration-tests.sh",
+        "line": 12,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "e2e/helpers/auth.ts",
+        "line": 17,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/auth-test.js",
+        "line": 28,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/baseline-test.js",
+        "line": 32,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/baseline-test.js",
+        "line": 47,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/load-test.js",
+        "line": 35,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/load-test.js",
+        "line": 50,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/social-interactions-test.js",
+        "line": 37,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/social-interactions-test.js",
+        "line": 52,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/stress-test.js",
+        "line": 40,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/stress-test.js",
+        "line": 57,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/tweet-feed-test.js",
+        "line": 38,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/tweet-feed-test.js",
+        "line": 53,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/user-profile-test.js",
+        "line": 36,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "k6-tests/user-profile-test.js",
+        "line": 51,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "review/2026-02-09/features.md",
+        "line": 103,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/contexts/__tests__/AuthContext.test.tsx",
+        "line": 57,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/contexts/__tests__/AuthContext.test.tsx",
+        "line": 75,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/contexts/__tests__/AuthContext.test.tsx",
+        "line": 92,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/contexts/__tests__/AuthContext.test.tsx",
+        "line": 115,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/contexts/__tests__/AuthContext.test.tsx",
+        "line": 128,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/contexts/__tests__/AuthContext.test.tsx",
+        "line": 146,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/contexts/__tests__/AuthContext.test.tsx",
+        "line": 172,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/contexts/__tests__/AuthContext.test.tsx",
+        "line": 185,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/contexts/__tests__/AuthContext.test.tsx",
+        "line": 203,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/contexts/__tests__/AuthContext.test.tsx",
+        "line": 247,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/contexts/__tests__/AuthContext.test.tsx",
+        "line": 264,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/lib/__tests__/api.test.ts",
+        "line": 17,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/lib/__tests__/api.test.ts",
+        "line": 28,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/lib/__tests__/api.test.ts",
+        "line": 40,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/lib/__tests__/api.test.ts",
+        "line": 58,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/lib/__tests__/api.test.ts",
+        "line": 67,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/lib/__tests__/api.test.ts",
+        "line": 79,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/lib/__tests__/api.test.ts",
+        "line": 89,
+        "kind": "hardcoded credential"
+      },
+      {
+        "path": "src/middleware/auth_test.rs",
+        "line": 30,
+        "kind": "hardcoded credential"
+      }
+    ],
+    "duplicateDeps": []
+  },
+  "schema": {
+    "tables": [
+      {
+        "name": "comments",
+        "source": "db/schema.sql",
+        "columns": 6,
+        "definedBy": "sql"
+      },
+      {
+        "name": "follows",
+        "source": "db/schema.sql",
+        "columns": 6,
+        "definedBy": "sql"
+      },
+      {
+        "name": "likes",
+        "source": "db/schema.sql",
+        "columns": 5,
+        "definedBy": "sql"
+      },
+      {
+        "name": "retweets",
+        "source": "db/schema.sql",
+        "columns": 5,
+        "definedBy": "sql"
+      },
+      {
+        "name": "tweets",
+        "source": "db/schema.sql",
+        "columns": 5,
+        "definedBy": "sql"
+      },
+      {
+        "name": "users",
+        "source": "db/schema.sql",
+        "columns": 8,
+        "definedBy": "sql"
+      }
+    ],
+    "tableCount": 6,
+    "entities": [],
+    "suspiciousQueries": [
+      {
+        "path": "test-db.sh",
+        "line": 43,
+        "query": "SELECT id, username, email, display_name FROM users",
+        "flags": [
+          "no where clause",
+          "unbounded"
+        ]
+      },
+      {
+        "path": "test-db.sh",
+        "line": 55,
+        "query": "SELECT t.id, t.content, t.created_at, u.username FROM tweets t JOIN users u ON t.user_id = u.id",
+        "flags": [
+          "no where clause",
+          "unbounded"
+        ]
+      },
+      {
+        "path": "src/handlers/auth.rs",
+        "line": 55,
+        "query": "SELECT id, username, email, password_hash, display_name, bio, created_at, updated_at FROM users WHERE username = $1 OR email = $1",
+        "flags": [
+          "or in predicate"
+        ]
+      },
+      {
+        "path": "src/handlers/comments.rs",
+        "line": 72,
+        "query": "SELECT id, user_id, tweet_id, content, created_at, updated_at FROM comments WHERE tweet_id = $1 ORDER BY created_at ASC",
+        "flags": [
+          "unbounded"
+        ]
+      },
+      {
+        "path": "src/handlers/tweets.rs",
+        "line": 205,
+        "query": "SELECT id, user_id, content, created_at, updated_at FROM tweets ORDER BY created_at DESC LIMIT $1 OFFSET $2",
+        "flags": [
+          "no where clause"
+        ]
+      },
+      {
+        "path": "src/handlers/users.rs",
+        "line": 105,
+        "query": "SELECT u.id, u.username, u.email, u.password_hash, u.display_name, u.bio, u.created_at, u.updated_at FROM users u INNER JOIN follows f ON f.follower_id = u.id WHERE f.following_id = $1 ORDER BY f.created_at DESC",
+        "flags": [
+          "unbounded"
+        ]
+      },
+      {
+        "path": "src/handlers/users.rs",
+        "line": 125,
+        "query": "SELECT u.id, u.username, u.email, u.password_hash, u.display_name, u.bio, u.created_at, u.updated_at FROM users u INNER JOIN follows f ON f.following_id = u.id WHERE f.follower_id = $1 ORDER BY f.created_at DESC",
+        "flags": [
+          "unbounded"
+        ]
+      }
+    ],
+    "dataFiles": []
+  },
+  "files": [
+    ".env",
+    ".gitignore",
+    "API_DOCUMENTATION.md",
+    "Cargo.toml",
+    "DATABASE.md",
+    "DEPLOYMENT.md",
+    "DESIGN_DOC_SYNC_SUMMARY.md",
+    "DEVELOPMENT.md",
+    "E2E_TESTING.md",
+    "E2E_TEST_SUMMARY.md",
+    "FILES_CREATED.md",
+    "IMPLEMENTATION_CHECKLIST.md",
+    "INTEGRATION_TESTS.md",
+    "K6_FILES_SUMMARY.md",
+    "K6_PERFORMANCE_TESTS.md",
+    "K6_QUICKSTART.md",
+    "K6_TESTING_COMPLETE.md",
+    "Makefile",
+    "PROJECT_SUMMARY.md",
+    "QUICKSTART.md",
+    "README.md",
+    "TEST_EXECUTION_GUIDE.md",
+    "analyze-k6-results.sh",
+    "backend-test.log",
+    "backend.log",
+    "changelog.md",
+    "create-admin.sh",
+    "create-schema.sh",
+    "current-run.log",
+    "design-doc.md",
+    "eslint.config.js",
+    "final-run.log",
+    "final-test.log",
+    "fresh-run.log",
+    "frontend-test.log",
+    "frontend.log",
+    "generate-performance-report.sh",
+    "index.html",
+    "jest.config.js",
+    "jest.setup.js",
+    "latest-run.log",
+    "latest-test.log",
+    "package-lock.json",
+    "package.json",
+    "playwright.config.ts",
+    "podman-compose.yml",
+    "postcss.config.js",
+    "query-db.sh",
+    "run-e2e-tests.sh",
+    "run-integration-tests.sh",
+    "run-k6-tests.sh",
+    "run-single-k6-test.sh",
+    "run-sql-client.sh",
+    "setup-test-db.sh",
+    "start-db.sh",
+    "start.log",
+    "start.sh",
+    "stop-db.sh",
+    "stop.sh",
+    "tailwind.config.js",
+    "test-backend.log",
+    "test-db.sh",
+    "test-frontend.log",
+    "test-k6-quick.sh",
+    "test-results.json",
+    "test-run.log",
+    "test-run2.log",
+    "test-run3.log",
+    "test.sh",
+    "todo.md",
+    "tsconfig.json",
+    "tsconfig.node.json",
+    "verify-k6-setup.sh",
+    "vite.config.ts",
+    ".claude/settings.local.json",
+    "db/schema.sql",
+    "e2e/README.md",
+    "e2e/auth.spec.ts",
+    "e2e/comments.spec.ts",
+    "e2e/feed.spec.ts",
+    "e2e/follow.spec.ts",
+    "e2e/navigation.spec.ts",
+    "e2e/profile.spec.ts",
+    "e2e/responsive.spec.ts",
+    "e2e/tweets.spec.ts",
+    "e2e/helpers/auth.ts",
+    "e2e/pages/HomePage.ts",
+    "e2e/pages/LoginPage.ts",
+    "e2e/pages/ProfilePage.ts",
+    "e2e/pages/TweetDetailPage.ts",
+    "k6-results/auth-summary.json",
+    "k6-results/baseline-20260210-220129.json",
+    "k6-results/baseline-20260211-210733.json",
+    "k6-results/baseline-summary.json",
+    "k6-results/tweet-feed-20260211-211313.json",
+    "k6-results/tweet-feed-summary.json",
+    "k6-results/user-profile-summary.json",
+    "k6-tests/README.md",
+    "k6-tests/auth-test.js",
+    "k6-tests/baseline-test.js",
+    "k6-tests/load-test.js",
+    "k6-tests/social-interactions-test.js",
+    "k6-tests/stress-test.js",
+    "k6-tests/tweet-feed-test.js",
+    "k6-tests/user-profile-test.js",
+    "migrations/20260209000001_create_users.sql",
+    "migrations/20260209000002_create_tweets.sql",
+    "migrations/20260209000003_create_follows.sql",
+    "migrations/20260209000004_create_likes.sql",
+    "migrations/20260209000005_create_retweets.sql",
+    "migrations/20260209000006_create_comments.sql",
+    "review/2026-02-09/code-review.md",
+    "review/2026-02-09/features.md",
+    "review/2026-02-09/sec-review.md",
+    "review/2026-02-09/summary.md",
+    "src/App.tsx",
+    "src/config.rs",
+    "src/error.rs",
+    "src/error_test.rs",
+    "src/index.css",
+    "src/lib.rs",
+    "src/main.rs",
+    "src/main.tsx",
+    "src/state.rs",
+    "src/vite-env.d.ts",
+    "src/components/CommentList.tsx",
+    "src/components/FeedList.tsx",
+    "src/components/NavigationBar.tsx",
+    "src/components/TweetCard.tsx",
+    "src/components/TweetComposer.tsx",
+    "src/components/UserCard.tsx",
+    "src/components/__tests__/TweetCard.test.tsx",
+    "src/components/__tests__/TweetComposer.test.tsx",
+    "src/contexts/AuthContext.tsx",
+    "src/contexts/__tests__/AuthContext.test.tsx",
+    "src/handlers/auth.rs",
+    "src/handlers/comments.rs",
+    "src/handlers/mod.rs",
+    "src/handlers/tweets.rs",
+    "src/handlers/users.rs",
+    "src/lib/api.ts",
+    "src/lib/__tests__/api.test.ts",
+    "src/middleware/auth.rs",
+    "src/middleware/auth_test.rs",
+    "src/middleware/mod.rs",
+    "src/models/comment.rs",
+    "src/models/comment_test.rs",
+    "src/models/follow.rs",
+    "src/models/like.rs",
+    "src/models/mod.rs",
+    "src/models/retweet.rs",
+    "src/models/tweet.rs",
+    "src/models/tweet_test.rs",
+    "src/models/user.rs",
+    "src/models/user_test.rs",
+    "src/pages/HomePage.tsx",
+    "src/pages/LoginPage.tsx",
+    "src/pages/ProfilePage.tsx",
+    "src/pages/TweetDetailPage.tsx",
+    "src/routes/mod.rs",
+    "src/types/index.ts",
+    "tests/api_test.rs",
+    "tests/integration_test.rs",
+    "tests/integration_tests.rs",
+    "tests/jwt_test.rs",
+    "tests/model_validation_test.rs"
+  ]
+}

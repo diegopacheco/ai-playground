@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>twitter-clone — codebase inventory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f7f5; --panel:#ffffff; --line:#e4e2dc; --line2:#efedE7;
+  --ink:#1b1b19; --muted:#6d6a63; --faint:#93908a;
+  --accent:#2f5fd0; --accent-soft:#eaf0fd;
+  --good:#15803d; --good-soft:#e8f5ec;
+  --warn:#b45309; --warn-soft:#fdf1e0;
+  --bad:#b91c1c; --bad-soft:#fdecec;
+  --radius:12px;
+  --hand:"Caveat","Bradley Hand","Chalkboard SE","Comic Sans MS",cursive;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+
+header.top{background:var(--panel);border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:flex-start;gap:18px;padding:22px 0 16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand .mark{
+  width:38px;height:38px;border-radius:10px;flex:0 0 38px;
+  background:linear-gradient(145deg,#2f5fd0,#5b8def);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:19px;
+}
+.brand h1{margin:0;font-size:19px;font-weight:650;letter-spacing:-.2px}
+.brand .sub{margin:2px 0 0;color:var(--muted);font-size:13px}
+.spacer{flex:1 1 40px}
+.stats{display:flex;gap:20px;flex-wrap:wrap}
+.stat b{display:block;font-size:19px;font-weight:650;line-height:1.2}
+.stat span{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.6px}
+
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px}
+.meta div{background:var(--panel);padding:9px 13px;min-width:0}
+.meta .k{font-size:10px;letter-spacing:.7px;text-transform:uppercase;color:var(--faint)}
+.meta .v{font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  word-break:break-all;margin-top:2px}
+
+.searchbar{display:flex;align-items:center;gap:9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:10px;padding:9px 13px;margin-bottom:14px}
+.searchbar input{border:0;outline:0;flex:1;font-size:14.5px;background:transparent;color:var(--ink)}
+.searchbar .hint{font-size:11.5px;color:var(--faint);white-space:nowrap}
+
+nav.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);
+  background:var(--panel);position:sticky;top:0;z-index:40}
+nav.tabs .inner{display:flex;gap:4px;max-width:1180px;margin:0 auto;padding:0 22px;width:100%}
+.tab{appearance:none;border:0;background:transparent;color:var(--muted);cursor:pointer;
+  padding:12px 13px;font-size:13.5px;font-weight:520;white-space:nowrap;
+  border-bottom:2px solid transparent;display:flex;align-items:center;gap:7px}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.tab .badge{background:var(--accent-soft);color:var(--accent);border-radius:20px;
+  font-size:10.5px;padding:1px 7px;font-weight:640}
+.tab .badge.zero{display:none}
+
+main{padding:26px 0 70px}
+section.panel{display:none}
+section.panel.on{display:block}
+h2.sec{margin:0 0 4px;font-size:17px;font-weight:640;letter-spacing:-.2px}
+p.lead{margin:0 0 18px;color:var(--muted);max-width:78ch;white-space:pre-line}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.grid{display:grid;gap:13px}
+.g3{grid-template-columns:repeat(auto-fill,minmax(268px,1fr))}
+.g2{grid-template-columns:repeat(auto-fill,minmax(380px,1fr))}
+
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:15px 16px;cursor:pointer;transition:border-color .12s,box-shadow .12s,transform .12s;
+  text-align:left;font:inherit;color:inherit;width:100%;display:block}
+.tile:hover{border-color:#c9c6bf;box-shadow:0 6px 20px rgba(20,18,14,.07);transform:translateY(-1px)}
+.tile .th{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.tile .ico{font-size:21px;line-height:1}
+.tile .tt{font-weight:620;font-size:14.5px;letter-spacing:-.1px}
+.tile .td{color:var(--muted);font-size:13px;display:-webkit-box;-webkit-line-clamp:3;
+  -webkit-box-orient:vertical;overflow:hidden}
+.tile .tf{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+
+.pill{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--line2);
+  color:var(--muted);white-space:nowrap;border:1px solid var(--line)}
+.pill.good{background:var(--good-soft);color:var(--good);border-color:#cfe7d7}
+.pill.warn{background:var(--warn-soft);color:var(--warn);border-color:#f0dcbe}
+.pill.bad{background:var(--bad-soft);color:var(--bad);border-color:#f3d2d2}
+.pill.acc{background:var(--accent-soft);color:var(--accent);border-color:#d5e0fa}
+
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+code.path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
+  background:var(--line2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;
+  word-break:break-all}
+
+table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+table.tbl th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.6px;
+  color:var(--faint);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.tbl td{padding:9px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+table.tbl tr:last-child td{border-bottom:0}
+.scrollx{overflow-x:auto}
+
+.bar{height:7px;background:var(--line2);border-radius:20px;overflow:hidden;min-width:80px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:20px}
+.bar i.good{background:var(--good)} .bar i.warn{background:var(--warn)} .bar i.bad{background:var(--bad)}
+
+.score{display:flex;align-items:center;gap:14px}
+.dial{width:74px;height:74px;flex:0 0 74px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-weight:680;font-size:19px;position:relative}
+.dial span{position:relative;z-index:2}
+.dial::after{content:"";position:absolute;inset:7px;background:var(--panel);border-radius:50%}
+
+.people{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.person{display:flex;gap:13px;align-items:flex-start;background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--radius);padding:14px;cursor:pointer;
+  text-align:left;font:inherit;color:inherit;width:100%;transition:border-color .12s,box-shadow .12s}
+.person:hover{border-color:#c9c6bf;box-shadow:0 6px 20px rgba(20,18,14,.07)}
+.avatar{width:52px;height:52px;flex:0 0 52px;border-radius:50%;overflow:hidden;
+  border:1px solid var(--line);background:var(--line2)}
+.avatar img,.avatar svg{width:100%;height:100%;display:block}
+.person .pn{font-weight:620;font-size:14.5px}
+.person .pe{color:var(--faint);font-size:12px;word-break:break-all}
+.person .pw{color:var(--muted);font-size:13px;margin-top:5px;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rank{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--faint);
+  border:1px solid var(--line);border-radius:5px;padding:0 5px;margin-right:6px}
+
+.diagram{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px;overflow-x:auto}
+.diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:13px;height:13px;border-radius:4px;border:1.5px solid #7c766b;
+  margin-right:6px;vertical-align:-2px}
+
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.kv .card{padding:13px 15px}
+.kv b{display:block;font-size:22px;font-weight:660;letter-spacing:-.4px}
+.kv span{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.6px}
+
+.empty{color:var(--faint);font-size:13.5px;padding:22px;text-align:center;
+  border:1px dashed var(--line);border-radius:var(--radius)}
+
+.mask{position:fixed;inset:0;background:rgba(24,22,18,.42);backdrop-filter:blur(2px);
+  display:none;align-items:flex-start;justify-content:center;padding:44px 20px;z-index:90;overflow-y:auto}
+.mask.on{display:flex}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+  width:min(820px,100%);box-shadow:0 24px 70px rgba(20,18,14,.26)}
+.modal .mh{display:flex;gap:12px;align-items:flex-start;padding:20px 22px 14px;
+  border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);border-radius:16px 16px 0 0}
+.modal .mh .ico{font-size:26px;line-height:1}
+.modal .mh h3{margin:0;font-size:18px;font-weight:650;letter-spacing:-.2px}
+.modal .mh .msub{color:var(--muted);font-size:12.5px;margin-top:3px}
+.modal .mb{padding:18px 22px 24px}
+.x{margin-left:auto;border:1px solid var(--line);background:var(--panel);border-radius:8px;
+  width:30px;height:30px;cursor:pointer;color:var(--muted);font-size:16px;line-height:1;flex:0 0 30px}
+.x:hover{background:var(--line2);color:var(--ink)}
+.mb h4{margin:20px 0 8px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint)}
+.mb h4:first-child{margin-top:0}
+.mb p{margin:0 0 10px;white-space:pre-line}
+.mb ul{margin:0;padding-left:19px}
+.mb li{margin-bottom:6px}
+.mb ul.plain{list-style:none;padding-left:0}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.pc{grid-template-columns:1fr}}
+.con{border:1px solid var(--line);border-left:3px solid var(--bad);border-radius:9px;
+  padding:11px 13px;margin-bottom:9px;background:#fffdfd}
+.con .cn{font-weight:620;font-size:13.5px;margin-bottom:5px}
+.con .cw,.con .cf{font-size:13px;color:var(--muted);margin-bottom:4px}
+.con .cw b,.con .cf b{color:var(--ink);font-weight:600}
+.pro{border:1px solid var(--line);border-left:3px solid var(--good);border-radius:9px;
+  padding:9px 12px;margin-bottom:8px;font-size:13.5px;background:#fdfffd}
+.ex{border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin-bottom:8px;background:#fbfaf8}
+.ex .exp{font-size:12px;font-family:ui-monospace,Menlo,monospace;word-break:break-all}
+.ex pre{margin:6px 0 0;font-size:12px;background:var(--panel);border:1px solid var(--line);
+  border-radius:6px;padding:8px 10px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.ap{border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:9px;
+  padding:9px 12px;margin-bottom:8px;background:#fffdf9}
+.ap b{display:block;font-size:13.5px;margin-bottom:3px}
+.ap span{font-size:13px;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--faint);font-size:12.5px}
+.hide{display:none !important}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="hrow">
+      <div class="brand">
+        <div class="mark">🔍</div>
+        <div>
+          <h1 id="pname"></h1>
+          <p class="sub" id="psum"></p>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <div class="stats" id="hstats"></div>
+    </div>
+    <div class="meta" id="meta"></div>
+    <div class="searchbar">
+      <span>🔎</span>
+      <input id="q" type="search" placeholder="Search modules, tech debt, tables, people, tests…" autocomplete="off">
+      <span class="hint" id="qhint">press / to focus</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs"><div class="inner" id="tabs"></div></nav>
+
+<main class="wrap">
+  <section class="panel" id="p-arch">
+    <h2 class="sec">Architecture overview</h2>
+    <p class="lead" id="archsum"></p>
+    <div class="diagram" id="diagram"><svg viewBox="516 46 638 1188" width="638" height="1188" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="architecture overview">
+<defs>
+<filter id="wob" x="-12%" y="-12%" width="124%" height="124%">
+<feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="7" result="n"/>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+<marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L10,5 L0,9 z" fill="#6f6a60"/></marker>
+</defs>
+<rect x="516" y="46" width="638" height="1188" fill="#ffffff"/>
+<g filter="url(#wob)">
+<path d="M617.0,128.0 Q748.0,190.0 835.0,252.0" fill="none" stroke="#6f6a60" stroke-width="1.9" stroke-linecap="round" marker-end="url(#arw)"/>
+<path d="M821.5,128.0 Q850.2,190.0 835.0,252.0" fill="none" stroke="#6f6a60" stroke-width="1.9" stroke-linecap="round" marker-end="url(#arw)"/>
+<path d="M835.0,308.0 Q835.0,370.0 835.0,432.0" fill="none" stroke="#6f6a60" stroke-width="1.9" stroke-linecap="round" marker-end="url(#arw)"/>
+<path d="M835.0,488.0 Q835.0,550.0 835.0,612.0" fill="none" stroke="#6f6a60" stroke-width="1.9" stroke-linecap="round" marker-end="url(#arw)"/>
+<path d="M1039.5,128.0 Q537.2,370.0 835.0,612.0" fill="none" stroke="#6f6a60" stroke-width="1.9" stroke-linecap="round" marker-end="url(#arw)"/>
+<path d="M835.0,668.0 Q835.0,730.0 835.0,792.0" fill="none" stroke="#6f6a60" stroke-width="1.9" stroke-linecap="round" marker-end="url(#arw)"/>
+<path d="M835.0,848.0 Q835.0,910.0 835.0,972.0" fill="none" stroke="#6f6a60" stroke-width="1.9" stroke-linecap="round" marker-end="url(#arw)"/>
+<path d="M835.0,1028.0 Q835.0,1090.0 835.0,1152.0" fill="none" stroke="#6f6a60" stroke-width="1.9" stroke-linecap="round" marker-end="url(#arw)"/>
+<path d="M835.0,668.0 Q379.0,910.0 835.0,1152.0" fill="none" stroke="#6f6a60" stroke-width="1.9" stroke-linecap="round" marker-end="url(#arw)"/>
+<rect x="542.0" y="72.0" width="150" height="56" rx="9" fill="#e4f5df" stroke="#6f6a60" stroke-width="2"/>
+<rect x="738.0" y="72.0" width="167" height="56" rx="9" fill="#e4f5df" stroke="#6f6a60" stroke-width="2"/>
+<rect x="951.0" y="72.0" width="177" height="56" rx="9" fill="#e4f5df" stroke="#6f6a60" stroke-width="2"/>
+<rect x="760.0" y="252.0" width="150" height="56" rx="9" fill="#fde8d0" stroke="#6f6a60" stroke-width="2"/>
+<rect x="760.0" y="432.0" width="150" height="56" rx="9" fill="#fde8d0" stroke="#6f6a60" stroke-width="2"/>
+<rect x="760.0" y="612.0" width="150" height="56" rx="9" fill="#fde8d0" stroke="#6f6a60" stroke-width="2"/>
+<rect x="751.5" y="792.0" width="167" height="56" rx="9" fill="#fde8d0" stroke="#6f6a60" stroke-width="2"/>
+<rect x="760.0" y="972.0" width="150" height="56" rx="9" fill="#fde8d0" stroke="#6f6a60" stroke-width="2"/>
+<rect x="760.0" y="1152.0" width="150" height="56" rx="9" fill="#d9ecf7" stroke="#6f6a60" stroke-width="2"/>
+</g>
+<text x="617.0" y="106.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="19" font-weight="700" fill="#22201c">Browser</text>
+<text x="821.5" y="106.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="19" font-weight="700" fill="#22201c">Playwright e2e</text>
+<text x="1039.5" y="106.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="19" font-weight="700" fill="#22201c">k6 load scripts</text>
+<text x="835.0" y="286.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="19" font-weight="700" fill="#22201c">React SPA</text>
+<text x="835.0" y="466.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="19" font-weight="700" fill="#22201c">API client</text>
+<text x="835.0" y="646.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="19" font-weight="700" fill="#22201c">Axum server</text>
+<text x="835.0" y="826.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="19" font-weight="700" fill="#22201c">JWT middleware</text>
+<text x="835.0" y="1006.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="19" font-weight="700" fill="#22201c">Handlers</text>
+<text x="835.0" y="1186.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="19" font-weight="700" fill="#22201c">PostgreSQL</text>
+<rect x="712.0" y="178.0" width="50.0" height="21" rx="6" fill="#ffffff" fill-opacity="0.94"/><text x="737.0" y="193.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="16" fill="#5f5a51">loads</text>
+<rect x="799.0" y="178.0" width="80.4" height="21" rx="6" fill="#ffffff" fill-opacity="0.94"/><text x="839.2" y="193.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="16" fill="#5f5a51">drives UI</text>
+<rect x="810.0" y="358.0" width="50.0" height="21" rx="6" fill="#ffffff" fill-opacity="0.94"/><text x="835.0" y="373.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="16" fill="#5f5a51">calls</text>
+<rect x="794.8" y="538.0" width="80.4" height="21" rx="6" fill="#ffffff" fill-opacity="0.94"/><text x="835.0" y="553.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="16" fill="#5f5a51">HTTP JSON</text>
+<rect x="685.6" y="358.0" width="103.2" height="21" rx="6" fill="#ffffff" fill-opacity="0.94"/><text x="737.2" y="373.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="16" fill="#5f5a51">load traffic</text>
+<rect x="779.6" y="718.0" width="110.8" height="21" rx="6" fill="#ffffff" fill-opacity="0.94"/><text x="835.0" y="733.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="16" fill="#5f5a51">guards routes</text>
+<rect x="779.6" y="898.0" width="110.8" height="21" rx="6" fill="#ffffff" fill-opacity="0.94"/><text x="835.0" y="913.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="16" fill="#5f5a51">passes claims</text>
+<rect x="783.4" y="1078.0" width="103.2" height="21" rx="6" fill="#ffffff" fill-opacity="0.94"/><text x="835.0" y="1093.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="16" fill="#5f5a51">sqlx queries</text>
+<rect x="544.0" y="898.0" width="126.0" height="21" rx="6" fill="#ffffff" fill-opacity="0.94"/><text x="607.0" y="913.0" text-anchor="middle" font-family="Caveat, Bradley Hand, Chalkboard SE, Comic Sans MS, cursive" font-size="16" fill="#5f5a51">runs migrations</text>
+</svg></div>
+    <div class="legend" id="archlegend"></div>
+    <h4 style="margin:24px 0 8px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint)">Connections and the evidence for them</h4>
+    <div class="card scrollx"><table class="tbl" id="edges"></table></div>
+  </section>
+
+  <section class="panel" id="p-mod">
+    <h2 class="sec">Modules</h2>
+    <p class="lead">Every core module found in the codebase. Click a card for what it does, its main files, and five things it gets right and five it gets wrong.</p>
+    <div class="grid g3" id="mods"></div>
+  </section>
+
+  <section class="panel" id="p-schema">
+    <h2 class="sec">Schema</h2>
+    <p class="lead" id="schsum"></p>
+    <div class="kv" id="schkv"></div>
+    <div class="card scrollx" style="margin-bottom:16px"><table class="tbl" id="schtables"></table></div>
+    <h2 class="sec" style="margin-top:26px">Worst queries</h2>
+    <p class="lead">Queries most likely to hurt in production, with the reason and the fix.</p>
+    <div class="grid" id="schqueries" style="margin-bottom:22px"></div>
+    <div class="pc" id="schpc"></div>
+  </section>
+
+  <section class="panel" id="p-people">
+    <h2 class="sec">Committers</h2>
+    <p class="lead">Ordered by number of commits in the scanned path. Click anyone to see what they work on.</p>
+    <div class="people" id="people"></div>
+  </section>
+
+  <section class="panel" id="p-debt">
+    <h2 class="sec">Tech debt</h2>
+    <p class="lead">Top items per module, ranked by how much evidence the scan found. Click a card for why it hurts, how to fix it, the anti-patterns behind it, and real examples.</p>
+    <div class="grid g3" id="debt"></div>
+  </section>
+
+  <section class="panel" id="p-obs">
+    <h2 class="sec">Observability</h2>
+    <p class="lead" id="obssum"></p>
+    <div class="g2 grid" id="obsscores" style="margin-bottom:18px"></div>
+    <div class="g2 grid" id="obslists"></div>
+  </section>
+
+  <section class="panel" id="p-tests">
+    <h2 class="sec">Tests</h2>
+    <p class="lead" id="tsum"></p>
+    <div class="kv" id="tkv"></div>
+    <div class="card scrollx" style="margin-bottom:18px"><table class="tbl" id="ttypes"></table></div>
+    <div id="tcov" style="margin-bottom:18px"></div>
+    <h2 class="sec" style="margin-top:26px">Issues in the tests</h2>
+    <p class="lead">What is wrong with the test suite itself.</p>
+    <div class="grid g2" id="tissues"></div>
+  </section>
+</main>
+
+<div class="wrap"><footer id="foot"></footer></div>
+
+<div class="mask" id="mask">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="mh">
+      <div class="ico" id="mico"></div>
+      <div style="min-width:0"><h3 id="mtitle"></h3><div class="msub" id="msub"></div></div>
+      <button class="x" id="mx" aria-label="close">✕</button>
+    </div>
+    <div class="mb" id="mbody"></div>
+  </div>
+</div>
+
+<script id="payload" type="application/json">{"project": {"name": "twitter-clone", "summary": "A Twitter-style social app: a Rust axum backend over PostgreSQL and a React 19 single page app,\nwith Playwright end to end tests and k6 load scripts.", "codebaseUrl": "/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/adwf-twitter-like", "githubUrl": null}, "architecture": {"summary": "The browser loads a React single page app. Every call goes through one API client module that\nattaches a JWT from localStorage and talks to the axum server on port 8000.\nThe server puts a JWT middleware in front of the user, tweet and comment routes, then hands the\nrequest to a handler that runs sqlx queries against PostgreSQL. Migrations run at boot from main.rs.\nPlaywright drives the real UI and k6 hits the HTTP API directly, so both bypass the other's path.", "nodes": [{"id": "browser", "label": "Browser", "kind": "client", "layer": 0}, {"id": "playwright", "label": "Playwright e2e", "kind": "client", "layer": 0}, {"id": "k6", "label": "k6 load scripts", "kind": "client", "layer": 0}, {"id": "spa", "label": "React SPA", "kind": "module", "layer": 1}, {"id": "apiclient", "label": "API client", "kind": "module", "layer": 2}, {"id": "axum", "label": "Axum server", "kind": "module", "layer": 3}, {"id": "authmw", "label": "JWT middleware", "kind": "module", "layer": 4}, {"id": "handlers", "label": "Handlers", "kind": "module", "layer": 5}, {"id": "pg", "label": "PostgreSQL", "kind": "store", "layer": 6}], "edges": [{"from": "browser", "to": "spa", "label": "loads", "evidence": "index.html mounts src/App.tsx"}, {"from": "playwright", "to": "spa", "label": "drives UI", "evidence": "playwright.config.ts, e2e/*.spec.ts"}, {"from": "spa", "to": "apiclient", "label": "calls", "evidence": "src/contexts/AuthContext.tsx imports authApi from src/lib/api.ts"}, {"from": "apiclient", "to": "axum", "label": "HTTP JSON", "evidence": "src/lib/api.ts:3 API_BASE_URL http://localhost:8000/api"}, {"from": "k6", "to": "axum", "label": "load traffic", "evidence": "k6-tests/load-test.js targets the same /api base"}, {"from": "axum", "to": "authmw", "label": "guards routes", "evidence": "src/routes/mod.rs middleware::from_fn_with_state(auth_middleware)"}, {"from": "authmw", "to": "handlers", "label": "passes claims", "evidence": "src/middleware/auth.rs:60 request.extensions_mut().insert(claims)"}, {"from": "handlers", "to": "pg", "label": "sqlx queries", "evidence": "src/handlers/tweets.rs:35 sqlx::query_as against state.db"}, {"from": "axum", "to": "pg", "label": "runs migrations", "evidence": "src/main.rs:36 sqlx::migrate!(\"./migrations\")"}]}, "modules": [{"id": "http-api", "name": "HTTP API", "icon": "🛣️", "paths": ["src/routes", "src/handlers"], "description": "Defines every REST route and the code that answers it.\nRoutes are grouped into auth, users, tweets and comments, and all but auth sit behind the JWT middleware.\nEach handler reads the request, runs sqlx queries directly, and returns JSON.\nThere is no service layer between the handler and the database.", "files": [{"path": "src/routes/mod.rs", "role": "Builds the router and decides which route groups require a token"}, {"path": "src/handlers/tweets.rs", "role": "Create, read, delete, feed, like, retweet and comment endpoints for tweets"}, {"path": "src/handlers/users.rs", "role": "Profile read and update, follow and unfollow, follower and following lists"}, {"path": "src/handlers/auth.rs", "role": "Register, login and logout, including password hashing and JWT creation"}, {"path": "src/handlers/comments.rs", "role": "Create, list and delete comments on a tweet"}], "pros": ["Routes are declared in one file, so the whole public surface is readable in 50 lines.", "Authentication is applied per route group, not repeated inside each handler.", "Every handler returns the shared Result type, so error mapping to HTTP status codes is consistent.", "sqlx queries use bound parameters everywhere, so SQL injection is not possible through these paths.", "Path and query extraction is typed, so a bad id fails before any database work happens."], "cons": [{"title": "Feed builds one query per tweet", "why": "get_feed loads 20 tweets then calls enrich_tweet for each one, and enrich_tweet runs 6 more queries. One feed request costs about 121 round trips.", "fix": "Replace the loop at src/handlers/tweets.rs:218 with a single query that joins users and aggregates likes, retweets and comments with GROUP BY. Return the counts in the same result set."}, {"title": "Page size is never capped", "why": "limit comes straight from the query string with only a default of 20. A client can ask for a million rows and the server will try.", "fix": "Clamp limit in FeedQuery at src/handlers/tweets.rs:19 to a maximum of 100 and reject a negative offset before the query runs."}, {"title": "Follower lists select the password hash", "why": "get_followers and get_following read u.password_hash out of the database on every call, even though it is not sent to the client.", "fix": "Remove password_hash from the SELECT lists at src/handlers/users.rs:105 and src/handlers/users.rs:125 and map into a struct that does not carry the field."}, {"title": "Handlers hold the database queries directly", "why": "Query text lives inside the HTTP layer, so the same read is written more than once and cannot be reused or tested on its own.", "fix": "Move each query into a repository function per table under a new src/repo module, and have handlers call those functions."}, {"title": "No handler logs anything", "why": "There is no log line for a successful or rejected request in any handler, so a production failure shows up only as a status code.", "fix": "Add a tracing::info span per handler with the user id and the entity id, and a tracing::warn on every rejected request."}]}, {"id": "domain-models", "name": "Domain models", "icon": "🧩", "paths": ["src/models"], "description": "Rust structs for users, tweets and comments, plus the request and response shapes for the API.\nEach struct maps to a table with sqlx FromRow and serializes with serde.\nRequest structs carry validator rules such as a minimum username length and an email format.\nUnit tests for those rules live next to the models.", "files": [{"path": "src/models/user.rs", "role": "User row, register, login and update request shapes with validator rules"}, {"path": "src/models/tweet.rs", "role": "Tweet row plus the enriched response with author and counts"}, {"path": "src/models/comment.rs", "role": "Comment row and its create request"}, {"path": "src/models/user_test.rs", "role": "Tests that the validator rules accept and reject the right input"}, {"path": "src/models/mod.rs", "role": "Re-exports the model types for the rest of the crate"}], "pros": ["The password hash is marked serde skip_serializing, so it cannot leak through a JSON response.", "Timestamps use a fixed RFC3339 serializer, so the API date format does not depend on the locale.", "Validation rules sit on the request struct, right where the field is declared.", "Every model has a test file beside it, so a rule change breaks a test in the same directory.", "Read models and write models are separate structs, so an API change does not force a table change."], "cons": [{"title": "The validation rules are never executed", "why": "validate() is called only in src/models/user_test.rs. No handler calls it, so a one character username or a malformed email is accepted by the API.", "fix": "Call payload.validate() at the top of register and update_user_profile in src/handlers/auth.rs and src/handlers/users.rs, and map the error to AppError::BadRequest."}, {"title": "Tests prove the rules, not the behaviour", "why": "The model tests pass while the API accepts invalid input, because the tests call validate() directly and the running code never does.", "fix": "Add a request level test that posts an invalid username to the register endpoint and asserts a 400 response."}, {"title": "The User struct is used as an API response", "why": "get_followers returns the full User row. Adding a private column later would ship it to clients unless someone remembers to skip it.", "fix": "Add a PublicUser struct with only id, username, display_name and bio, and return that from the follower and following endpoints."}, {"title": "Tweet content length is enforced only by the database", "why": "The column is VARCHAR(280) but no request struct limits the text, so an over long tweet fails as a database error instead of a clear message.", "fix": "Add a validate(length(max = 280)) rule to the create tweet request in src/models/tweet.rs and check it in the handler."}, {"title": "No model rejects an empty string", "why": "A username of three spaces passes the length rule, so blank profiles can be created.", "fix": "Add a non blank check to the username and content rules, trimming before the length is measured."}]}, {"id": "auth", "name": "Authentication", "icon": "🔐", "paths": ["src/middleware"], "description": "Creates and checks JSON Web Tokens.\ncreate_jwt signs a token holding the user id and an expiry seven days out.\nauth_middleware reads the Authorization header, strips the Bearer prefix, verifies the token, and puts the claims on the request.\nHandlers behind the middleware read the user id from those claims.", "files": [{"path": "src/middleware/auth.rs", "role": "Token creation, token verification and the axum middleware that guards routes"}, {"path": "src/middleware/auth_test.rs", "role": "Tests for signing and verifying a token"}, {"path": "src/middleware/mod.rs", "role": "Exports the middleware and the Claims type"}], "pros": ["Every protected route goes through one middleware function, so there is a single place to change auth.", "A missing header and a malformed header produce different messages, which makes client bugs quicker to find.", "Claims are inserted into the request extensions, so handlers never parse a token themselves.", "Token expiry is set explicitly rather than left to a library default.", "Signing and verification are separate functions with their own tests."], "cons": [{"title": "The JWT secret has a working default", "why": "src/config.rs:15 falls back to the literal string your-secret-key when JWT_SECRET is unset, so a deployment that forgets the variable still starts and signs tokens anyone can forge.", "fix": "Change Config::from_env to return an error when JWT_SECRET is missing, and let main.rs exit before the server binds."}, {"title": "Tokens are stored in localStorage", "why": "src/lib/api.ts:6 reads the token from localStorage, which any script running on the page can read. One cross site scripting bug hands over every session.", "fix": "Move the token to an HttpOnly, Secure, SameSite cookie set by the login endpoint, and drop the Authorization header logic from the API client."}, {"title": "There is no way to revoke a token", "why": "A token stays valid for seven days. Logout only clears the browser, so a stolen token keeps working.", "fix": "Shorten the token to 15 minutes, add a refresh endpoint, and keep a revoked token id list checked by verify_jwt."}, {"title": "The token carries only a user id", "why": "There is no role or scope in the claims, so any future permission check has to hit the database on every request.", "fix": "Add a role field to Claims in src/middleware/auth.rs and set it at login from the users table."}, {"title": "Failed authentication is not logged", "why": "A brute force attempt against login leaves no trace, because auth_middleware returns an error without writing a log line.", "fix": "Add a tracing::warn in auth_middleware for every rejection, including the request path and the source address."}]}, {"id": "backend-core", "name": "Backend core", "icon": "⚙️", "paths": ["src/main.rs", "src/config.rs", "src/error.rs", "src/state.rs"], "description": "Starts the server and holds what every request needs.\nmain.rs sets up tracing, reads config, opens a PostgreSQL pool of five connections, runs migrations, adds CORS and a trace layer, then listens on port 8000.\nAppState carries the pool and the config into every handler.\nAppError maps each failure kind to an HTTP status and a JSON body.", "files": [{"path": "src/main.rs", "role": "Process entry point: tracing, pool, migrations, CORS, router and listener"}, {"path": "src/config.rs", "role": "Reads DATABASE_URL and JWT_SECRET from the environment"}, {"path": "src/error.rs", "role": "AppError enum and its conversion into an HTTP response"}, {"path": "src/state.rs", "role": "Shared state handed to every handler"}, {"path": "src/error_test.rs", "role": "Tests that each error kind maps to the expected status code"}], "pros": ["Migrations run at startup, so the schema cannot drift behind the running binary.", "Database and internal errors are logged and then replaced with a generic message, so internals do not reach clients.", "One AppError type covers the whole crate, so no handler invents its own error shape.", "The connection pool is created once and shared, so handlers never open a connection themselves.", "The tracing filter is read from RUST_LOG with a sensible default, so log level changes need no rebuild."], "cons": [{"title": "CORS accepts every origin", "why": "src/main.rs:41 allows any origin, method and header. Any website can call the API from a visitor's browser.", "fix": "Replace Any with an explicit origin list read from config, and restrict methods to the ones the routes actually use."}, {"title": "Configuration failures are silent", "why": "A missing DATABASE_URL falls back to a local development URL, so a misconfigured deployment connects to the wrong database instead of failing.", "fix": "Make Config::from_env return Result and stop the process when a required variable is missing."}, {"title": "The pool is fixed at five connections", "why": "Five connections is a hard ceiling on concurrency, and it is not adjustable without a rebuild.", "fix": "Read max_connections from an environment variable in src/main.rs:32 with a default that matches the deployment size."}, {"title": "There is no health or readiness endpoint", "why": "Nothing can tell whether the process is up and the database is reachable, so a load balancer cannot route around a broken instance.", "fix": "Add a GET /health route that runs SELECT 1 against the pool and returns 200 only when it succeeds."}, {"title": "Only three log lines exist in the backend", "why": "Two error logs in src/error.rs and one startup line in src/main.rs. Normal traffic produces nothing to read when something goes wrong.", "fix": "Configure the existing TraceLayer to emit a request and response line, and add spans with the user id in the handlers."}]}, {"id": "web-ui", "name": "Web UI components", "icon": "🎨", "paths": ["src/components"], "description": "React components that draw the timeline.\nTweetCard shows one tweet with its counts and like and retweet buttons.\nTweetComposer submits new tweets, CommentList and UserCard render the smaller pieces.\nTwo of the components have Jest tests next to them.", "files": [{"path": "src/components/TweetCard.tsx", "role": "Renders one tweet with author, counts and the like and retweet actions"}, {"path": "src/components/TweetComposer.tsx", "role": "Text area and submit path for creating a tweet"}, {"path": "src/components/CommentList.tsx", "role": "Lists the comments under a tweet"}, {"path": "src/components/UserCard.tsx", "role": "Compact user row used in follower and following lists"}, {"path": "src/components/__tests__/TweetCard.test.tsx", "role": "Rendering and interaction tests for TweetCard"}], "pros": ["Components take plain props and hold no data fetching, so they render the same way in a test and in the app.", "TypeScript types come from a single src/types module, so a backend field rename breaks the build.", "Two components have tests that cover both rendering and click behaviour.", "Styling uses Tailwind classes, so there is no separate stylesheet to keep in sync.", "Each component file holds one component, so the file name says what is inside."], "cons": [{"title": "Only two of eight components are tested", "why": "CommentList and UserCard have no tests, so a change to how a follower row renders is caught only by an end to end run.", "fix": "Add a Jest test per untested component under src/components/__tests__ covering the empty list and the populated list."}, {"title": "No component shows a loading or error state", "why": "When a request is slow or fails, the component keeps its old content, so the user cannot tell that anything went wrong.", "fix": "Pass loading and error props into TweetCard and CommentList and render a placeholder and a retry action for each."}, {"title": "Counts are read straight from the response", "why": "TweetCard trusts likes_count and retweets_count as sent. A missing field renders as blank rather than zero.", "fix": "Default the count props to 0 where they are destructured in src/components/TweetCard.tsx."}, {"title": "There is no error boundary", "why": "One component that throws while rendering blanks the whole page, because nothing catches it above the tree.", "fix": "Wrap the routed area in src/App.tsx with a React error boundary that renders a fallback and reports the error."}, {"title": "No accessibility attributes on the action buttons", "why": "The like and retweet buttons show only an icon, so a screen reader announces nothing useful.", "fix": "Add an aria-label to each icon button in src/components/TweetCard.tsx describing the action and the target."}]}, {"id": "web-client", "name": "Web state and API client", "icon": "🔌", "paths": ["src/lib", "src/contexts", "src/types", "src/pages"], "description": "The browser side data layer and the routed screens.\napi.ts wraps fetch, attaches the token and throws when the response is not ok.\nAuthContext keeps the user and token in React state and mirrors them into localStorage.\nThe pages compose components into the home, profile, login and tweet detail screens.", "files": [{"path": "src/lib/api.ts", "role": "Single fetch wrapper plus the auth, tweet, user and comment API calls"}, {"path": "src/contexts/AuthContext.tsx", "role": "Holds the logged in user and token and exposes login, register and logout"}, {"path": "src/types/index.ts", "role": "Shared TypeScript types for every API payload"}, {"path": "src/pages/HomePage.tsx", "role": "Timeline screen that lists the feed and hosts the composer"}, {"path": "src/lib/__tests__/api.test.ts", "role": "Tests for the fetch wrapper and each API group"}], "pros": ["Every request goes through one makeRequest function, so the token header is attached in exactly one place.", "The API base URL is a single constant, so pointing the app at another environment is a one line change.", "Auth state is initialised from localStorage inside useState, so a page reload keeps the session without a flash.", "The API client has the largest test file in the frontend at 418 lines.", "Types are shared between the API client and the components, so a payload change surfaces at compile time."], "cons": [{"title": "Errors are thrown as plain strings", "why": "src/lib/api.ts:30 throws new Error with the raw response body, so callers cannot tell a 401 from a 500 without parsing text.", "fix": "Create an ApiError class carrying status and body, throw that instead, and branch on status in the callers."}, {"title": "The API base URL is hardcoded to localhost", "why": "src/lib/api.ts:3 points at http://localhost:8000/api, so a production build talks to the developer's machine.", "fix": "Read the base URL from import.meta.env.VITE_API_BASE_URL with the localhost value as the development default."}, {"title": "A 401 does not log the user out", "why": "When the token expires every call fails but the app still shows a logged in shell, so the user sees empty screens.", "fix": "Check for status 401 in makeRequest, clear the stored token and user, and redirect to the login page."}, {"title": "The user object is trusted from localStorage", "why": "AuthContext parses whatever is in localStorage into a User with no check, so edited storage produces a broken UI.", "fix": "Validate the parsed object against the User shape in src/contexts/AuthContext.tsx:17 and clear the key when it does not match."}, {"title": "No request is cancelled or retried", "why": "React Query is a dependency but the pages call the API client directly, so a slow request keeps running after the user navigates away.", "fix": "Move the page level fetches into useQuery hooks so React Query handles cancellation, caching and retry."}]}, {"id": "database", "name": "Database schema", "icon": "🗄️", "paths": ["migrations", "db"], "description": "Six PostgreSQL tables defined as sqlx migrations that run at server startup.\nusers, tweets and comments carry a serial id; follows, likes and retweets are join tables keyed by the pair of ids.\nEvery foreign key cascades on delete and every lookup column has an index.\nA second copy of the schema also exists in db/schema.sql.", "files": [{"path": "migrations/20260209000001_create_users.sql", "role": "users table plus indexes on username and email"}, {"path": "migrations/20260209000002_create_tweets.sql", "role": "tweets table with a 280 character content column"}, {"path": "migrations/20260209000003_create_follows.sql", "role": "follows join table with a self follow check"}, {"path": "migrations/20260209000006_create_comments.sql", "role": "comments table linked to both a user and a tweet"}, {"path": "db/schema.sql", "role": "A second full schema used by the setup scripts"}], "pros": ["Every foreign key uses ON DELETE CASCADE, so deleting a user leaves no orphan rows.", "follows has a CHECK that stops a user following themselves, so the rule cannot be bypassed by a bug in the API.", "Join tables use a composite primary key, so a duplicate like or retweet is rejected by the database.", "Every column used in a WHERE or ORDER BY has an index, including created_at on tweets and comments.", "Migrations are numbered and run automatically at boot, so a new environment reaches the right schema in one step."], "cons": [{"title": "The schema exists twice and the two copies differ", "why": "db/schema.sql:8 uses TIMESTAMP while migrations/20260209000001_create_users.sql:8 uses TIMESTAMPTZ. Whichever ran last decides how times behave.", "fix": "Delete db/schema.sql and change create-schema.sql and setup-test-db.sh to run the migrations instead."}, {"title": "The comment index sorts the wrong way", "why": "comments are read with ORDER BY created_at ASC but the index is created DESC in the migration, so the database sorts the rows again.", "fix": "Change idx_comments_created_at in migrations/20260209000006_create_comments.sql to ASC to match the query in src/handlers/comments.rs:72."}, {"title": "Ids are 32 bit serials", "why": "SERIAL stops at about 2.1 billion rows. For tweets and likes on a social app that is a ceiling, not a theoretical limit.", "fix": "Add a migration that alters the id columns on tweets, comments, likes and retweets to BIGSERIAL."}, {"title": "There is no rollback for any migration", "why": "sqlx migrations here are forward only, so a bad deploy has to be fixed by writing a new migration under pressure.", "fix": "Add a matching .down.sql for each migration and switch to sqlx reversible migrations."}, {"title": "No table records deleted rows", "why": "Deletes cascade, so removing a user erases their tweets and comments with no record that they existed.", "fix": "Add a deleted_at column to users, tweets and comments and change the delete handlers to set it instead of removing the row."}]}, {"id": "test-suites", "name": "Test suites", "icon": "🧪", "paths": ["tests", "e2e", "k6-tests"], "description": "Three separate suites outside the source tree.\ntests holds Rust integration tests that build the router in process and send real HTTP requests.\ne2e holds Playwright specs that drive the browser through the real UI.\nk6-tests holds JavaScript load scripts that hit the API directly.", "files": [{"path": "tests/integration_tests.rs", "role": "The main backend integration suite, 1228 lines covering auth, tweets, follows and comments"}, {"path": "tests/api_test.rs", "role": "Endpoint level checks against the built router"}, {"path": "e2e/auth.spec.ts", "role": "Register, login and logout through the browser"}, {"path": "e2e/helpers/auth.ts", "role": "Shared helper that registers and logs in a test user"}, {"path": "k6-tests/stress-test.js", "role": "Ramping load scenario with thresholds on latency and error rate"}], "pros": ["Three levels of testing exist: in process HTTP, real browser and load.", "The e2e suite is substantial at 13 spec files and 85 cases.", "Playwright specs use page objects under e2e/pages, so a selector change is fixed in one file.", "k6 scripts declare thresholds, so a load run fails rather than just printing numbers.", "The Rust integration tests build the real router, so route wiring and middleware are covered, not mocked."], "cons": [{"title": "One integration file holds 1228 lines", "why": "tests/integration_tests.rs mixes auth, tweets, follows and comments, so a failure means reading the whole file to find the setup that applies.", "fix": "Split it into tests/auth_test.rs, tests/tweets_test.rs, tests/follows_test.rs and tests/comments_test.rs, and move the shared setup into a common module."}, {"title": "Test credentials are written into the files", "why": "The literal password123 appears in e2e/helpers/auth.ts:17 and across the k6 scripts, so the same string ends up in scripts that can be pointed at a real environment.", "fix": "Read the test user and password from environment variables with a development default, and fail the run when they are missing against a non local host."}, {"title": "Nothing tests failure behaviour", "why": "There is no test that stops the database or delays a response, so the code paths that handle an outage have never run.", "fix": "Add a suite that starts the server against a stopped database and asserts the error status, then add a timeout case."}, {"title": "The k6 scripts report no test cases", "why": "They measure thresholds rather than assert outcomes, so a run can pass while the API returns wrong data quickly.", "fix": "Add response body checks to the k6 scripts alongside the latency thresholds so incorrect responses fail the run."}, {"title": "No test covers the feed under a large following list", "why": "The feed query cost grows with the number of tweets returned, and no test exercises it beyond a handful of rows.", "fix": "Add an integration test that seeds 500 tweets and asserts the number of database round trips stays constant."}]}], "schema": {"present": true, "engine": "postgres", "tableCount": 6, "sizeNote": "n/a - table sizes are not reachable from a static scan. The scan found no database file or dump in the repository.", "tables": [{"name": "users", "purpose": "Accounts with the login credentials and profile fields", "columns": 8, "rows": "n/a", "size": "n/a", "source": "migrations/20260209000001_create_users.sql"}, {"name": "tweets", "purpose": "Posts, limited to 280 characters and owned by one user", "columns": 5, "rows": "n/a", "size": "n/a", "source": "migrations/20260209000002_create_tweets.sql"}, {"name": "follows", "purpose": "Directed follower to following pairs with a self follow check", "columns": 3, "rows": "n/a", "size": "n/a", "source": "migrations/20260209000003_create_follows.sql"}, {"name": "likes", "purpose": "One row per user and tweet pair that was liked", "columns": 3, "rows": "n/a", "size": "n/a", "source": "migrations/20260209000004_create_likes.sql"}, {"name": "retweets", "purpose": "One row per user and tweet pair that was retweeted", "columns": 3, "rows": "n/a", "size": "n/a", "source": "migrations/20260209000005_create_retweets.sql"}, {"name": "comments", "purpose": "Replies attached to a tweet and a user", "columns": 6, "rows": "n/a", "size": "n/a", "source": "migrations/20260209000006_create_comments.sql"}], "worstQueries": [{"query": "SELECT username, display_name FROM users WHERE id = $1", "path": "src/handlers/tweets.rs", "line": 36, "why": "This runs once per tweet inside enrich_tweet, together with four count queries. A 20 tweet feed sends about 121 queries.", "fix": "Join users into the feed query and aggregate the counts with GROUP BY, so one query returns the whole page."}, {"query": "SELECT id, user_id, content, created_at, updated_at FROM tweets ORDER BY created_at DESC LIMIT $1 OFFSET $2", "path": "src/handlers/tweets.rs", "line": 205, "why": "OFFSET makes the database walk and discard every earlier row, so page 500 is far slower than page 1.", "fix": "Switch to keyset pagination: pass the created_at and id of the last row seen and use WHERE (created_at, id) < ($1, $2)."}, {"query": "SELECT u.id, u.username, u.email, u.password_hash, u.display_name, u.bio, u.created_at, u.updated_at FROM users u INNER JOIN follows f ON f.follower_id = u.id WHERE f.following_id = $1 ORDER BY f.created_at DESC", "path": "src/handlers/users.rs", "line": 105, "why": "There is no LIMIT, so a popular account returns every follower in one response, and the password hash is read for each of them.", "fix": "Add LIMIT and OFFSET parameters and drop password_hash and email from the column list."}, {"query": "SELECT id, user_id, tweet_id, content, created_at, updated_at FROM comments WHERE tweet_id = $1 ORDER BY created_at ASC", "path": "src/handlers/comments.rs", "line": 72, "why": "Every comment on a tweet is returned at once, and the index on created_at is DESC while the query sorts ASC.", "fix": "Add a LIMIT with pagination and change idx_comments_created_at to ASC so the index matches the sort."}, {"query": "SELECT id, username, email, password_hash, display_name, bio, created_at, updated_at FROM users WHERE username = $1 OR email = $1", "path": "src/handlers/auth.rs", "line": 55, "why": "An OR across two columns cannot use either index well, so login does more work as the users table grows.", "fix": "Split into two lookups, or add an expression index that covers both columns, and pick the branch from whether the input contains an @."}], "pros": ["Six tables cover the whole product, so there is nothing unused to maintain.", "Foreign keys are declared and cascade, so referential integrity is enforced by the database.", "Composite primary keys on likes, follows and retweets make duplicates impossible.", "Thirteen indexes exist and each one matches a column the handlers filter or sort on.", "Content length is enforced at the column with VARCHAR(280), so bad data cannot be stored even if the API misses it."], "cons": [{"title": "Two schemas define the same tables differently", "why": "db/schema.sql:8 declares created_at as TIMESTAMP while the migration declares TIMESTAMPTZ, so time zone handling depends on which file was applied.", "fix": "Delete db/schema.sql and point create-schema.sh and setup-test-db.sh at the migrations directory."}, {"title": "No counter is stored for likes or comments", "why": "Every read counts rows with COUNT(*), so the cost of showing a tweet grows with how popular it is.", "fix": "Add likes_count and comments_count columns to tweets and update them in the like and comment handlers inside the same transaction."}, {"title": "Ids are 32 bit", "why": "SERIAL columns on tweets, likes and retweets run out at about 2.1 billion rows, which is reachable for these tables.", "fix": "Add a migration altering those id columns and their foreign keys to BIGSERIAL and BIGINT."}, {"title": "No unique constraint on the tweet author and content", "why": "The same tweet can be posted repeatedly, so a retrying client fills the timeline with duplicates.", "fix": "Add an idempotency key column to tweets with a unique index, and have the create handler pass the client supplied key."}, {"title": "Nothing is partitioned or archived", "why": "tweets and comments only grow, so every index and every scan gets slower over the life of the system.", "fix": "Partition tweets and comments by created_at month and add a job that detaches partitions older than the retention window."}]}, "committers": [{"name": "diegopacheco", "email": "diego.pacheco.it@gmail.com", "login": null, "commits": 10, "firstCommit": "2026-02-10", "lastCommit": "2026-02-11", "areas": ["e2e", "k6-tests", "src", "src/models", "e2e/pages", "migrations", "src/components", "tests"], "worksOn": "Sole author of every commit in this path. The commit file counts are highest in e2e and k6-tests,\nwhich matches a project where the application landed first and the effort then went into the\nPlaywright suite and the load scripts. Recent commit subjects are progress, improve e2e and added report.", "profileUrl": "mailto:diego.pacheco.it@gmail.com", "avatarUrl": "https://www.gravatar.com/avatar/fb8b94451149ab5842c8985936821d3f?s=104&d=404"}], "techDebt": [{"id": "n-plus-one-feed", "module": "http-api", "title": "Feed runs one query per tweet", "severity": "high", "whyBad": "get_feed loads a page of tweets and then calls enrich_tweet for every one of them.\nenrich_tweet runs six queries: the author, three counts, and two exists checks.\nA default page of 20 tweets costs about 121 database round trips, and the pool holds five connections.\nUnder concurrent load the pool is the first thing to run out.", "howToFix": "Write one query that selects the tweet page joined to users for the author.\nAdd LEFT JOIN LATERAL aggregates, or grouped subqueries, for the like, retweet and comment counts.\nCompute is_liked and is_retweeted in the same statement using the current user id.\nDelete enrich_tweet and map the joined row straight into TweetResponse.\nAdd an integration test that seeds 500 tweets and asserts the round trip count stays flat.", "antiPatterns": [{"name": "N+1 query", "why": "One query per row in a result set turns a single page view into hundreds of round trips."}, {"name": "Counting on read", "why": "COUNT(*) on every read makes the cost of showing a tweet grow with how popular it is."}], "examples": [{"path": "src/handlers/tweets.rs", "line": 218, "snippet": "for tweet in tweets {"}, {"path": "src/handlers/tweets.rs", "line": 250, "snippet": "for tweet in tweets {"}, {"path": "src/handlers/tweets.rs", "line": 36, "snippet": "\"SELECT username, display_name FROM users WHERE id = $1\""}]}, {"id": "unbounded-pagination", "module": "http-api", "title": "Page size and offset are unbounded", "severity": "medium", "whyBad": "FeedQuery takes limit and offset straight from the query string with only a default of 20.\nA request for a limit of one million is accepted and executed.\nOFFSET also forces the database to walk and discard every earlier row, so deep pages get slower without bound.", "howToFix": "Clamp limit to a maximum of 100 and reject a negative offset in FeedQuery.\nReturn 400 with a clear message instead of silently capping, so clients learn the limit.\nReplace OFFSET with keyset pagination using the created_at and id of the last row returned.", "antiPatterns": [{"name": "Trusting client input", "why": "A value taken from the request and passed to the database lets the caller decide how much work the server does."}, {"name": "OFFSET pagination", "why": "The database reads and throws away every row before the offset, so cost grows with page number."}], "examples": [{"path": "src/handlers/tweets.rs", "line": 19, "snippet": "pub struct FeedQuery {"}, {"path": "src/handlers/tweets.rs", "line": 205, "snippet": "ORDER BY created_at DESC LIMIT $1 OFFSET $2"}]}, {"id": "password-hash-selected", "module": "http-api", "title": "Follower queries read the password hash", "severity": "medium", "whyBad": "get_followers and get_following select u.password_hash out of the database and load it into the User struct.\nIt is not serialized today only because of a serde attribute on the model.\nOne removed attribute, or one debug log of the struct, sends every follower's hash to the client.", "howToFix": "Remove password_hash and email from the SELECT lists in both queries.\nAdd a PublicUser struct with id, username, display_name and bio and use it as the response type.\nAdd a test asserting the follower response body contains no password field.", "antiPatterns": [{"name": "SELECT everything", "why": "Reading columns the caller does not need means one mistake elsewhere turns into a data leak."}, {"name": "Database entity as API response", "why": "The response shape follows the table, so any new column is exposed by default."}], "examples": [{"path": "src/handlers/users.rs", "line": 105, "snippet": "SELECT u.id, u.username, u.email, u.password_hash, ... FROM users u"}, {"path": "src/handlers/users.rs", "line": 125, "snippet": "SELECT u.id, u.username, u.email, u.password_hash, ... FROM users u"}]}, {"id": "validation-never-called", "module": "domain-models", "title": "Validation rules are declared but never run", "severity": "high", "whyBad": "RegisterRequest and UpdateUserRequest carry validator rules for username length, email format and password length.\nThe only calls to validate() in the whole repository are inside src/models/user_test.rs.\nThe API therefore accepts a one character username, a password of one character and a string that is not an email.\nThe tests pass, which makes the gap invisible.", "howToFix": "Call payload.validate() as the first statement of register and update_user_profile.\nMap the validator error into AppError::BadRequest so it returns 400 with the field names.\nAdd the same call to any future handler that takes a Validate request struct.\nAdd a request level test posting an invalid email and asserting a 400.", "antiPatterns": [{"name": "Declarative rule with no enforcement point", "why": "An annotation that nothing reads looks like protection while providing none."}, {"name": "Testing the rule instead of the path", "why": "A test that calls the validator directly passes even when the running code never does."}], "examples": [{"path": "src/models/user.rs", "line": 23, "snippet": "#[validate(length(min = 3, max = 50))]"}, {"path": "src/models/user_test.rs", "line": 14, "snippet": "assert!(request.validate().is_err());"}, {"path": "src/handlers/auth.rs", "line": 1, "snippet": "no call to validate() anywhere in this file"}]}, {"id": "default-jwt-secret", "module": "auth", "title": "JWT secret falls back to a literal string", "severity": "high", "whyBad": "When JWT_SECRET is not set, Config::from_env uses the string your-secret-key and the server starts normally.\nAnyone who knows that value can sign a token for any user id and get full access.\nThe value is in a public source file, so it is known.", "howToFix": "Change Config::from_env to return Result and produce an error when JWT_SECRET is missing or shorter than 32 bytes.\nPropagate that error in main.rs so the process exits before it binds the listener.\nGenerate the secret per environment and inject it as an environment variable.", "antiPatterns": [{"name": "Insecure default", "why": "A default that lets the system start hides a misconfiguration until it is exploited."}, {"name": "Secret in source control", "why": "Anything committed to the repository is available to everyone who can read it, forever."}], "examples": [{"path": "src/config.rs", "line": 15, "snippet": ".unwrap_or_else(|_| \"your-secret-key\".to_string()),"}]}, {"id": "token-in-localstorage", "module": "auth", "title": "Session token is kept in localStorage", "severity": "high", "whyBad": "The JWT is written to localStorage at login and read back on every request.\nlocalStorage is readable by any JavaScript running on the page, including anything injected through a cross site scripting bug.\nThe token is valid for seven days and cannot be revoked, so one leak is a week of access.", "howToFix": "Have the login endpoint set the token in an HttpOnly, Secure, SameSite=Strict cookie.\nRemove the Authorization header logic from src/lib/api.ts and send credentials with the request instead.\nRead the cookie in auth_middleware as well as the header during the transition, then drop the header path.", "antiPatterns": [{"name": "Credential in script readable storage", "why": "Any script on the page can read it, so the token is only as safe as every dependency the page loads."}, {"name": "Long lived non revocable token", "why": "With no server side record there is no way to end a session that has been stolen."}], "examples": [{"path": "src/lib/api.ts", "line": 6, "snippet": "return localStorage.getItem('token');"}, {"path": "src/contexts/AuthContext.tsx", "line": 29, "snippet": "localStorage.setItem('token', response.token);"}]}, {"id": "wide-open-cors", "module": "backend-core", "title": "CORS allows every origin", "severity": "high", "whyBad": "The CORS layer is built with allow_origin(Any), allow_methods(Any) and allow_headers(Any).\nAny website a logged in user visits can call this API from their browser.\nCombined with a token in localStorage, a malicious page has a wide surface to work with.", "howToFix": "Replace Any with an explicit list of allowed origins read from configuration.\nRestrict methods to GET, POST, PUT and DELETE and headers to content-type and authorization.\nAdd an integration test that asserts a request from an unknown origin is rejected.", "antiPatterns": [{"name": "Permissive CORS in production code", "why": "A development convenience left in the build removes a browser protection for every user."}], "examples": [{"path": "src/main.rs", "line": 41, "snippet": ".allow_origin(Any)"}]}, {"id": "almost-no-logging", "module": "backend-core", "title": "The backend produces three log lines", "severity": "medium", "whyBad": "The whole Rust source has two tracing::error calls in src/error.rs and one tracing::info in src/main.rs.\nA request that fails validation, a rejected token or a slow query leaves no record.\nDiagnosing a production incident would mean adding logs and redeploying first.", "howToFix": "Configure the existing TraceLayer with make_span_with and on_response so every request logs method, path, status and duration.\nAdd tracing::warn to auth_middleware for each rejection with the path and the reason.\nAdd a span per handler carrying the user id and the entity id so lines can be correlated.", "antiPatterns": [{"name": "Logging only on crash", "why": "Without a record of normal traffic there is no baseline to compare a failure against."}, {"name": "Unused instrumentation", "why": "TraceLayer is installed but not configured, so the dependency is paid for without the benefit."}], "examples": [{"path": "src/error.rs", "line": 34, "snippet": "tracing::error!(\"Database error: {}\", self);"}, {"path": "src/main.rs", "line": 51, "snippet": "tracing::info!(\"Server running on http://0.0.0.0:8000\");"}]}, {"id": "duplicate-schema", "module": "database", "title": "The schema is defined twice and the copies disagree", "severity": "medium", "whyBad": "db/schema.sql and the migrations directory both create all six tables.\ndb/schema.sql uses TIMESTAMP while the migrations use TIMESTAMPTZ, so timestamps behave differently depending on which one created the database.\nA developer using the setup script and a server running migrations get two different databases.", "howToFix": "Delete db/schema.sql.\nChange create-schema.sh and setup-test-db.sh to run sqlx migrate run against the target database.\nAdd a check in the integration test setup that asserts the created_at column type is timestamptz.", "antiPatterns": [{"name": "Two sources of truth", "why": "When the same thing is defined in two places they drift, and nothing reports the difference."}, {"name": "Naive timestamp column", "why": "TIMESTAMP without a time zone stores an ambiguous instant, so comparisons across regions are wrong."}], "examples": [{"path": "db/schema.sql", "line": 8, "snippet": "created_at TIMESTAMP NOT NULL DEFAULT NOW(),"}, {"path": "migrations/20260209000001_create_users.sql", "line": 8, "snippet": "created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),"}]}, {"id": "giant-test-file", "module": "test-suites", "title": "One integration test file holds 1228 lines", "severity": "medium", "whyBad": "tests/integration_tests.rs covers auth, tweets, follows and comments in a single file.\nA failing test means scrolling through unrelated setup to find which state applies.\nThe two longest functions in the repository are inside it at 140 and 133 lines.", "howToFix": "Split the file by feature into auth, tweets, follows and comments test files.\nMove the shared server and database setup into a tests/common module.\nBreak the two longest test functions into smaller cases with one assertion subject each.", "antiPatterns": [{"name": "One file per suite", "why": "A file that grows with the product stops being readable long before anyone decides to split it."}, {"name": "Long test function", "why": "A 140 line test asserts many things, so a failure does not say which behaviour broke."}], "examples": [{"path": "tests/integration_tests.rs", "line": 827, "snippet": "async fn test_feed_generation() {"}, {"path": "tests/integration_tests.rs", "line": 1096, "snippet": "async fn test_complex_user_interaction_scenario() {"}]}, {"id": "hardcoded-test-credentials", "module": "test-suites", "title": "Test passwords are written into the scripts", "severity": "low", "whyBad": "The literal password123 appears in the Playwright helper and across the k6 scripts.\nThose scripts take a base URL, so the same credentials can be pointed at a shared environment.\nThe scan matched 40 credential-shaped literals across test files and documentation.", "howToFix": "Read the test user and password from environment variables with a local development default.\nFail the run when the target host is not localhost and the variables are unset.\nRemove the literal passwords from DEPLOYMENT.md and TEST_EXECUTION_GUIDE.md.", "antiPatterns": [{"name": "Credentials in source", "why": "A password in the repository is available to everyone with read access and stays in the history after removal."}], "examples": [{"path": "e2e/helpers/auth.ts", "line": 17, "snippet": "password: 'password123',"}, {"path": "k6-tests/load-test.js", "line": 35, "snippet": "password field with a literal test password"}]}, {"id": "string-errors", "module": "web-client", "title": "API errors are thrown as untyped strings", "severity": "medium", "whyBad": "makeRequest throws a plain Error built from the response body text.\nCallers cannot tell an expired token from a server fault without parsing that text.\nBecause of that, an expired session leaves the app looking logged in with empty screens.", "howToFix": "Add an ApiError class holding status, body and endpoint, and throw it from makeRequest.\nBranch on status 401 there: clear the stored token and user and send the browser to the login page.\nShow the message from an ApiError in the pages instead of a generic failure.", "antiPatterns": [{"name": "Stringly typed errors", "why": "Losing the status code forces every caller to guess what went wrong from text."}, {"name": "Ignoring 401", "why": "Without a logout on an expired token the user sees a broken app rather than a login screen."}], "examples": [{"path": "src/lib/api.ts", "line": 30, "snippet": "throw new Error(error || `HTTP error! status: ${response.status}`);"}]}], "observability": {"logsScore": 18, "logsVerdict": "The backend writes three log lines in total: two errors in src/error.rs and one startup line in src/main.rs.\nMost of what the scan counted as logging is console.log inside the k6 scripts, which never runs in production.\nTraceLayer is installed in main.rs but left at its default, so it emits nothing useful.\nThere is no request log, no correlation id and no log for a rejected token.", "logsFindings": [{"title": "TraceLayer is installed but not configured", "detail": "The layer is added with no make_span_with or on_response, so requests produce no line.", "path": "src/main.rs"}, {"title": "Only two error logs exist", "detail": "Database and internal errors are logged; every other AppError variant is silent.", "path": "src/error.rs"}, {"title": "Authentication failures leave no trace", "detail": "auth_middleware returns an error without logging the path or the reason.", "path": "src/middleware/auth.rs"}, {"title": "No correlation id on any request", "detail": "Nothing ties a log line to a request or a user, so lines cannot be joined.", "path": "src/routes/mod.rs"}, {"title": "Log density is 1.94 lines per 1000 lines of code", "detail": "Of 19 counted statements, 14 are console.log in load scripts and only 3 are in the Rust backend.", "path": "k6-tests/stress-test.js"}], "dashboards": [], "alerts": [], "defensive": {"score": 41, "verdict": "The type system does most of the work. Path and query parameters are typed, sqlx binds every parameter,\nand errors are converted through one AppError rather than unwrapped.\nThe gap is input validation: the validator rules on the request structs are never executed by any handler,\nso length, email format and password rules are declared and then skipped.\nThere is no health endpoint, no rate limit and no size limit on a request body.", "findings": [{"title": "validate() is never called outside tests", "detail": "The rules on RegisterRequest and UpdateUserRequest do not run in the API path.", "path": "src/models/user.rs"}, {"title": "Query parameters are not bounded", "detail": "limit and offset are used as given, with only a default value.", "path": "src/handlers/tweets.rs"}, {"title": "CORS allows any origin, method and header", "detail": "The browser protection is disabled for every caller.", "path": "src/main.rs"}, {"title": "JWT secret has a working fallback", "detail": "A missing JWT_SECRET is replaced with a literal string and the server still starts.", "path": "src/config.rs"}, {"title": "Stored user object is parsed without a check", "detail": "AuthContext trusts whatever JSON is in localStorage as a User.", "path": "src/contexts/AuthContext.tsx"}, {"title": "No rate limit on login", "detail": "Nothing slows repeated attempts against the login endpoint.", "path": "src/handlers/auth.rs"}, {"title": "Parameter binding is used everywhere", "detail": "Every sqlx call binds its parameters, so SQL injection is not reachable.", "path": "src/handlers/tweets.rs"}]}}, "tests": {"summary": "Four kinds of test exist across 29 files and 256 counted cases: Playwright end to end, Jest and Rust unit tests,\nRust integration tests that build the real router, and k6 load scripts.\nThe gaps are the failure paths: nothing tests an outage, a slow dependency, a contract or a rendered style.", "types": [{"type": "e2e", "files": 13, "cases": 85, "verdict": "The strongest suite: real browser, page objects, covers auth, feed, follow, comments and navigation."}, {"type": "unit", "files": 12, "cases": 157, "verdict": "Split between Rust model and error tests and Jest component tests; only 2 of 8 React components are covered."}, {"type": "integration", "files": 2, "cases": 14, "verdict": "Builds the real router and sends real requests, but 1228 of the 1445 lines sit in one file."}, {"type": "stress", "files": 2, "cases": 0, "verdict": "k6 load and stress scripts with latency thresholds, but no assertions on the response bodies."}], "coverage": [{"area": "React components with a test", "covered": 2, "total": 8}, {"area": "Rust handler modules with an integration test", "covered": 4, "total": 5}, {"area": "Database tables exercised by a test", "covered": 6, "total": 6}, {"area": "REST endpoints reached by e2e or integration tests", "covered": 18, "total": 22}, {"area": "Test kinds present out of the ones this stack warrants", "covered": 4, "total": 9}], "issues": [{"title": "No chaos or failure injection test", "why": "No test stops the database or delays a response, so the error handling code has never been executed.", "fix": "Add a suite that runs the server against a stopped database and asserts the status and the log output.", "path": "tests/integration_tests.rs", "line": 1}, {"title": "No property based test", "why": "The validation rules are checked with a handful of chosen strings, so edge cases such as unicode usernames are untested.", "fix": "Add proptest to the dev dependencies and generate usernames and tweet bodies against the model rules.", "path": "src/models/user_test.rs", "line": 1}, {"title": "No visual or CSS regression test", "why": "The UI is styled with Tailwind classes and nothing checks the rendered result, so a layout break ships silently.", "fix": "Add Playwright screenshot assertions to the existing specs for the timeline and the profile page.", "path": "e2e/feed.spec.ts", "line": 1}, {"title": "No contract test between the SPA and the API", "why": "The TypeScript types and the Rust structs are maintained by hand, so a renamed field is found only at runtime.", "fix": "Generate the TypeScript types from the Rust models, or add a test that checks a sample response against src/types/index.ts.", "path": "src/types/index.ts", "line": 1}, {"title": "k6 scripts assert nothing about correctness", "why": "They measure latency and error rate only, so the API can return wrong data quickly and the run passes.", "fix": "Add k6 check() calls on the response bodies next to the existing thresholds.", "path": "k6-tests/stress-test.js", "line": 1}, {"title": "One integration file holds 1228 lines", "why": "Auth, tweets, follows and comments share one file, so a failure requires reading unrelated setup.", "fix": "Split by feature and move shared setup into a tests/common module.", "path": "tests/integration_tests.rs", "line": 827}, {"title": "Six of eight React components have no test", "why": "CommentList, UserCard and the four pages are covered only by the end to end suite, which is slow to run.", "fix": "Add a Jest test per component under src/components/__tests__ covering empty and populated states.", "path": "src/components/CommentList.tsx", "line": 1}, {"title": "Test credentials are literals in the scripts", "why": "password123 is written into the Playwright helper and the k6 scripts, which accept a configurable target host.", "fix": "Read the credentials from environment variables and refuse to run against a non local host without them.", "path": "e2e/helpers/auth.ts", "line": 17}, {"title": "The feed is never tested at scale", "why": "No test seeds enough tweets to expose the per tweet query loop, so the N+1 pattern passes every run.", "fix": "Seed 500 tweets in an integration test and assert the number of queries stays constant.", "path": "tests/integration_tests.rs", "line": 827}, {"title": "No test covers an expired token", "why": "Token expiry is set to seven days and no test advances past it, so the client behaviour on expiry is unknown.", "fix": "Add an integration test that signs a token with a past expiry and asserts a 401 with a clear message.", "path": "src/middleware/auth_test.rs", "line": 1}]}, "verification": {"passes": 3, "notes": ["fixed: pass 1 recorded 23 risky queries from the scan -> pass 2 confirmed only 7 after the scanner stopped flagging primary key lookups as unbounded", "fixed: pass 1 listed src/pages as its own module -> pass 2 folded it into web-client because it has 4 files and no independent build", "fixed: pass 1 said integration tests contribute 0 cases -> pass 2 read the files and counted 28 #[tokio::test] functions", "fixed: pass 2 checked every con and tech debt path against disk; src/handlers/tweets.rs:217 corrected to 218 and :249 to 250", "fixed: pass 2 confirmed db/schema.sql:8 uses TIMESTAMP and migrations/20260209000001_create_users.sql:8 uses TIMESTAMPTZ", "cut: pass 3 removed an empty catch block finding; the scan reported zero and pass 1 had inferred one", "cut: pass 3 removed a claim that the backend has structured logging; grep found exactly 3 tracing calls", "rewrote: pass 3 replaced metaphors in five con explanations with the mechanism that fails", "rewrote: pass 3 shortened four fixes that ran past three lines", "cut: pass 3 dropped a duplicate deps finding; the scan found no dependency declared in two build files", "fixed: pass 3 confirmed validate() appears only in src/models/user_test.rs and never in a handler, raising that item to high severity", "fixed: pass 3 rechecked the log density against facts.json; 2.53 -> 1.94 and 25 statements -> 19", "fixed: pass 3 recounted test cases against facts.json; unit 158 -> 157 and integration 28 -> 14, total 271 -> 256"]}, "reportDir": "/var/folders/m2/6djb07tx1hv0929qwb_znsw00000gn/T/inventory-adwf-twitter-like-Dml1bU", "facts": {"totals": {"files": 166, "codeFiles": 105, "lines": 9801, "commits": 10, "modules": 16}, "branch": "main", "headCommit": "a18d4192", "scannedAt": "2026-08-29T19:00:02Z", "languages": [{"name": "TypeScript", "files": 35, "lines": 4339}, {"name": "Rust", "files": 30, "lines": 3106}, {"name": "Shell", "files": 19, "lines": 872}, {"name": "JavaScript", "files": 12, "lines": 1319}, {"name": "SQL", "files": 7, "lines": 133}, {"name": "HTML", "files": 1, "lines": 14}, {"name": "CSS", "files": 1, "lines": 18}], "modules": [{"dir": ".", "files": 86, "lines": 36682, "kind": "cargo"}, {"dir": "e2e", "files": 14, "lines": 1693, "kind": "directory"}, {"dir": "tests", "files": 5, "lines": 1445, "kind": "directory"}, {"dir": "k6-tests", "files": 8, "lines": 1279, "kind": "directory"}, {"dir": "src/components", "files": 8, "lines": 1216, "kind": "directory"}, {"dir": "src/handlers", "files": 5, "lines": 756, "kind": "directory"}, {"dir": "src/lib", "files": 2, "lines": 552, "kind": "directory"}, {"dir": "src/models", "files": 10, "lines": 477, "kind": "directory"}, {"dir": "src/pages", "files": 4, "lines": 412, "kind": "directory"}, {"dir": "src/contexts", "files": 2, "lines": 344, "kind": "directory"}, {"dir": "src", "files": 10, "lines": 336, "kind": "directory"}, {"dir": "src/middleware", "files": 3, "lines": 147, "kind": "directory"}, {"dir": "migrations", "files": 6, "lines": 69, "kind": "directory"}, {"dir": "db", "files": 1, "lines": 64, "kind": "directory"}, {"dir": "src/types", "files": 1, "lines": 52, "kind": "directory"}, {"dir": "src/routes", "files": 1, "lines": 50, "kind": "directory"}], "observability": {"logCounts": {"print": 14, "error": 4, "info": 1}, "logDensityPerKLoc": 1.94}, "tests": {"e2e": {"files": 13, "cases": 85, "samples": [{"path": "e2e/auth.spec.ts", "cases": 8}, {"path": "e2e/comments.spec.ts", "cases": 10}, {"path": "e2e/feed.spec.ts", "cases": 11}, {"path": "e2e/follow.spec.ts", "cases": 7}, {"path": "e2e/navigation.spec.ts", "cases": 13}, {"path": "e2e/profile.spec.ts", "cases": 12}]}, "unit": {"files": 12, "cases": 157, "samples": [{"path": "src/error_test.rs", "cases": 20}, {"path": "src/components/__tests__/TweetCard.test.tsx", "cases": 29}, {"path": "src/components/__tests__/TweetComposer.test.tsx", "cases": 19}, {"path": "src/contexts/__tests__/AuthContext.test.tsx", "cases": 12}, {"path": "src/lib/__tests__/api.test.ts", "cases": 18}, {"path": "src/middleware/auth_test.rs", "cases": 16}]}, "stress": {"files": 2, "cases": 0, "samples": [{"path": "k6-tests/load-test.js", "cases": 0}, {"path": "k6-tests/stress-test.js", "cases": 0}]}, "integration": {"files": 2, "cases": 14, "samples": [{"path": "tests/integration_test.rs", "cases": 1}, {"path": "tests/integration_tests.rs", "cases": 13}]}}}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById("payload").textContent);
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? "" : s)
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;");
+const nf = (n) => (n == null ? "-" : Number(n).toLocaleString("en-US"));
+
+const TABS = [
+  { id: "arch", label: "Architecture", icon: "🗺️", panel: "p-arch" },
+  { id: "mod", label: "Modules", icon: "🧱", panel: "p-mod" },
+  { id: "schema", label: "Schema", icon: "🗄️", panel: "p-schema" },
+  { id: "people", label: "Committers", icon: "👥", panel: "p-people" },
+  { id: "debt", label: "Tech debt", icon: "🧨", panel: "p-debt" },
+  { id: "obs", label: "Observability", icon: "📡", panel: "p-obs" },
+  { id: "tests", label: "Tests", icon: "🧪", panel: "p-tests" },
+];
+
+function header() {
+  $("pname").textContent = DATA.project.name;
+  $("psum").textContent = DATA.project.summary || "";
+  document.title = DATA.project.name + " — codebase inventory";
+  const t = DATA.facts.totals;
+  $("hstats").innerHTML = [
+    ["Modules", nf(DATA.modules.length)],
+    ["Files", nf(t.files)],
+    ["Lines", nf(t.lines)],
+    ["Commits", nf(t.commits)],
+    ["Committers", nf(DATA.committers.length)],
+  ].map((r) => `<div class="stat"><b>${r[1]}</b><span>${r[0]}</span></div>`).join("");
+
+  const gh = DATA.project.githubUrl;
+  const rows = [
+    ["Codebase", `<a href="file://${esc(DATA.project.codebaseUrl)}">${esc(DATA.project.codebaseUrl)}</a>`],
+    ["GitHub", gh ? `<a href="${esc(gh)}" target="_blank" rel="noopener">${esc(gh)}</a>` : "not a GitHub remote"],
+    ["Report directory", `<a href="file://${esc(DATA.reportDir)}">${esc(DATA.reportDir)}</a>`],
+    ["Scan", `${esc(DATA.facts.branch || "-")} @ ${esc(DATA.facts.headCommit || "-")} · ${esc(DATA.facts.scannedAt || "")} · ${DATA.verification.passes} passes`],
+  ];
+  $("meta").innerHTML = rows.map((r) =>
+    `<div><div class="k">${r[0]}</div><div class="v">${r[1]}</div></div>`).join("");
+  $("foot").innerHTML = `Generated by <b>/inventory</b> — ${DATA.verification.passes} scan passes, `
+    + `${DATA.verification.notes.length} corrections applied. Report written to `
+    + `<span class="mono">${esc(DATA.reportDir)}</span>`;
+}
+
+function tabs() {
+  const active = TABS.filter((t) => t.id !== "schema" || DATA.schema.present);
+  $("tabs").innerHTML = active.map((t, i) =>
+    `<button class="tab${i === 0 ? " on" : ""}" data-tab="${t.id}" data-panel="${t.panel}">
+      <span>${t.icon}</span>${t.label}<span class="badge zero" id="b-${t.id}">0</span></button>`).join("");
+  TABS.forEach((t) => { if (!active.includes(t)) $(t.panel).remove(); });
+  $(active[0].panel).classList.add("on");
+  $("tabs").addEventListener("click", (e) => {
+    const b = e.target.closest(".tab");
+    if (!b) return;
+    document.querySelectorAll(".tab").forEach((x) => x.classList.remove("on"));
+    document.querySelectorAll("section.panel").forEach((x) => x.classList.remove("on"));
+    b.classList.add("on");
+    $(b.dataset.panel).classList.add("on");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
+
+function modal(icon, title, sub, html) {
+  $("mico").textContent = icon || "";
+  $("mtitle").textContent = title;
+  $("msub").innerHTML = sub || "";
+  $("mbody").innerHTML = html;
+  $("mask").classList.add("on");
+  document.body.style.overflow = "hidden";
+}
+function closeModal() {
+  $("mask").classList.remove("on");
+  document.body.style.overflow = "";
+}
+$("mx").onclick = closeModal;
+$("mask").onclick = (e) => { if (e.target === $("mask")) closeModal(); };
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
+  if (e.key === "/" && document.activeElement !== $("q")) { e.preventDefault(); $("q").focus(); }
+});
+
+function fileLink(p) {
+  const abs = DATA.project.codebaseUrl.replace(/\/$/, "") + "/" + p;
+  const gh = DATA.project.githubUrl;
+  const remote = gh ? `${gh}/blob/${DATA.facts.branch || "main"}/${p}` : null;
+  return `<a href="file://${esc(abs)}"><code class="path">${esc(p)}</code></a>`
+    + (remote ? ` <a href="${esc(remote)}" target="_blank" rel="noopener" title="open on GitHub">↗</a>` : "");
+}
+function lineLink(p, line) {
+  const abs = DATA.project.codebaseUrl.replace(/\/$/, "") + "/" + p;
+  const gh = DATA.project.githubUrl;
+  const remote = gh ? `${gh}/blob/${DATA.facts.branch || "main"}/${p}#L${line}` : null;
+  return `<a href="file://${esc(abs)}"><code class="path">${esc(p)}:${line}</code></a>`
+    + (remote ? ` <a href="${esc(remote)}" target="_blank" rel="noopener" title="open on GitHub">↗</a>` : "");
+}
+
+function prosCons(pros, cons) {
+  return `<div class="pc">
+    <div><h4>What works — 5 pros</h4>${pros.map((p) => `<div class="pro">${esc(p)}</div>`).join("")}</div>
+    <div><h4>What hurts — 5 cons</h4>${cons.map((c) => `<div class="con">
+        <div class="cn">${esc(c.title)}</div>
+        <div class="cw"><b>Why it is bad:</b> ${esc(c.why)}</div>
+        <div class="cf"><b>Fix:</b> ${esc(c.fix)}</div></div>`).join("")}</div></div>`;
+}
+
+function renderArch() {
+  $("archsum").textContent = DATA.architecture.summary || "";
+  const kinds = [
+    ["module", "#fde8d0", "module"], ["store", "#d9ecf7", "data store"],
+    ["client", "#e4f5df", "client"], ["queue", "#f6e0ef", "queue or bus"],
+    ["external", "#eee6fb", "external service"],
+  ];
+  const used = new Set(DATA.architecture.nodes.map((n) => n.kind));
+  $("archlegend").innerHTML = kinds.filter((k) => used.has(k[0]))
+    .map((k) => `<span><i style="background:${k[1]}"></i>${k[2]}</span>`).join("");
+  const byId = {};
+  DATA.architecture.nodes.forEach((n) => { byId[n.id] = n.label; });
+  $("edges").innerHTML = `<thead><tr><th>From</th><th>To</th><th>Relationship</th><th>Evidence</th></tr></thead><tbody>`
+    + DATA.architecture.edges.map((e) => `<tr>
+        <td><b>${esc(byId[e.from] || e.from)}</b></td>
+        <td><b>${esc(byId[e.to] || e.to)}</b></td>
+        <td>${esc(e.label)}</td>
+        <td class="mono">${esc(e.evidence)}</td></tr>`).join("") + "</tbody>";
+}
+
+function renderModules() {
+  $("mods").innerHTML = DATA.modules.map((m, i) => {
+    const f = DATA.facts.modules.find((x) => x.dir === (m.paths || [])[0]) || {};
+    return `<button class="tile" data-kind="mod" data-i="${i}">
+      <div class="th"><span class="ico">${esc(m.icon || "📦")}</span><span class="tt">${esc(m.name)}</span></div>
+      <div class="td">${esc(m.description)}</div>
+      <div class="tf">
+        <span class="pill acc">${m.files.length} key files</span>
+        <span class="pill good">5 pros</span><span class="pill bad">5 cons</span>
+        ${f.lines ? `<span class="pill">${nf(f.lines)} lines</span>` : ""}
+      </div></button>`;
+  }).join("");
+}
+function moduleModal(m) {
+  modal(m.icon || "📦", m.name, (m.paths || []).map((p) => `<code class="path">${esc(p)}</code>`).join(" "),
+    `<h4>What it does</h4><p>${esc(m.description)}</p>
+     <h4>Main classes and files</h4>
+     <ul class="plain">${m.files.map((f) =>
+      `<li>${fileLink(f.path)}<div style="color:var(--muted);font-size:13px;margin-top:2px">${esc(f.role)}</div></li>`).join("")}</ul>
+     ${prosCons(m.pros, m.cons)}`);
+}
+
+function renderSchema() {
+  if (!DATA.schema.present) return;
+  const s = DATA.schema;
+  $("schsum").textContent = `Engine: ${s.engine}. ${s.sizeNote || ""}`;
+  $("schkv").innerHTML = [
+    ["Tables", nf(s.tableCount)],
+    ["Columns mapped", nf(s.tables.reduce((a, t) => a + (t.columns || 0), 0))],
+    ["Worst queries", nf(s.worstQueries.length)],
+    ["Size", s.tables.some((t) => t.size && t.size !== "n/a") ? "measured" : "n/a"],
+  ].map((r) => `<div class="card"><b>${r[1]}</b><span>${r[0]}</span></div>`).join("");
+  $("schtables").innerHTML = `<thead><tr><th>Table</th><th>Purpose</th><th>Cols</th><th>Rows</th><th>Size</th><th>Defined in</th></tr></thead><tbody>`
+    + s.tables.map((t) => `<tr data-search="${esc(t.name + " " + t.purpose)}">
+        <td><b>${esc(t.name)}</b></td><td>${esc(t.purpose)}</td>
+        <td class="mono">${t.columns || "-"}</td><td class="mono">${esc(t.rows || "n/a")}</td>
+        <td class="mono">${esc(t.size || "n/a")}</td><td>${fileLink(t.source)}</td></tr>`).join("") + "</tbody>";
+  $("schqueries").innerHTML = s.worstQueries.map((q) => `<div class="card">
+      <div class="mono" style="margin-bottom:8px">${lineLink(q.path, q.line)}</div>
+      <pre style="margin:0 0 10px;font-size:12px;background:var(--line2);border:1px solid var(--line);border-radius:6px;padding:9px 11px;overflow-x:auto;white-space:pre-wrap">${esc(q.query)}</pre>
+      <div style="font-size:13px;color:var(--muted)"><b style="color:var(--ink)">Why it is bad:</b> ${esc(q.why)}</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px"><b style="color:var(--ink)">Fix:</b> ${esc(q.fix)}</div>
+    </div>`).join("") || `<div class="empty">No risky queries found.</div>`;
+  $("schpc").innerHTML = prosCons(s.pros, s.cons);
+}
+
+function initials(name) {
+  const parts = String(name).trim().split(/[\s._-]+/).filter(Boolean);
+  return ((parts[0] || "?")[0] + (parts[1] ? parts[1][0] : "")).toUpperCase();
+}
+function avatarSvg(name) {
+  let h = 0;
+  for (const ch of String(name)) h = (h * 31 + ch.charCodeAt(0)) % 360;
+  return `<svg viewBox="0 0 52 52"><rect width="52" height="52" fill="hsl(${h},52%,86%)"/>
+    <text x="26" y="33" text-anchor="middle" font-size="19" font-weight="600"
+      font-family="-apple-system,Helvetica,Arial" fill="hsl(${h},42%,32%)">${esc(initials(name))}</text></svg>`;
+}
+function renderPeople() {
+  $("people").innerHTML = DATA.committers.map((c, i) => {
+    const img = c.avatarUrl
+      ? `<img src="${esc(c.avatarUrl)}" alt="${esc(c.name)}" loading="lazy"
+           onerror="this.parentNode.innerHTML=this.getAttribute('data-fb')" data-fb='${avatarSvg(c.name).replace(/'/g, "&#39;")}'>`
+      : avatarSvg(c.name);
+    return `<button class="person" data-kind="person" data-i="${i}">
+      <div class="avatar">${img}</div>
+      <div style="min-width:0">
+        <div class="pn"><span class="rank">#${i + 1}</span>${esc(c.name)}</div>
+        <div class="pe">${esc(c.email)}</div>
+        <div class="tf" style="margin-top:6px">
+          <span class="pill acc">${nf(c.commits)} commits</span>
+          <span class="pill">${esc(c.firstCommit)} → ${esc(c.lastCommit)}</span></div>
+        <div class="pw">${esc(c.worksOn)}</div>
+      </div></button>`;
+  }).join("") || `<div class="empty">No git history in the scanned path.</div>`;
+}
+function personModal(c) {
+  const link = c.profileUrl || ("mailto:" + c.email);
+  modal("", c.name, `<a href="${esc(link)}" target="_blank" rel="noopener">${esc(link)}</a>`,
+    `<h4>What they work on</h4><p>${esc(c.worksOn)}</p>
+     <h4>Numbers</h4>
+     <ul><li><b>${nf(c.commits)}</b> commits in the scanned path</li>
+     <li>First commit <b>${esc(c.firstCommit)}</b>, last commit <b>${esc(c.lastCommit)}</b></li></ul>
+     <h4>Areas touched</h4>
+     <ul class="plain">${(c.areas || []).map((a) => `<li><code class="path">${esc(a)}</code></li>`).join("")}</ul>`);
+}
+
+const SEV = { high: "bad", medium: "warn", low: "" };
+function renderDebt() {
+  const modName = {};
+  DATA.modules.forEach((m) => { modName[m.id] = m.name; });
+  $("debt").innerHTML = DATA.techDebt.map((d, i) => `<button class="tile" data-kind="debt" data-i="${i}">
+      <div class="th"><span class="ico">${d.severity === "high" ? "🔴" : d.severity === "medium" ? "🟠" : "🟡"}</span>
+        <span class="tt">${esc(d.title)}</span></div>
+      <div class="td">${esc(d.whyBad)}</div>
+      <div class="tf">
+        <span class="pill acc">${esc(modName[d.module] || d.module)}</span>
+        <span class="pill ${SEV[d.severity] || ""}">${esc(d.severity)}</span>
+        <span class="pill">${d.examples.length} example${d.examples.length === 1 ? "" : "s"}</span>
+      </div></button>`).join("") || `<div class="empty">No tech debt recorded.</div>`;
+}
+function debtModal(d) {
+  const modName = {};
+  DATA.modules.forEach((m) => { modName[m.id] = m.name; });
+  modal(d.severity === "high" ? "🔴" : d.severity === "medium" ? "🟠" : "🟡", d.title,
+    `${esc(modName[d.module] || d.module)} · severity ${esc(d.severity)}`,
+    `<h4>Why it is bad</h4><p>${esc(d.whyBad)}</p>
+     <h4>How to fix it</h4><p>${esc(d.howToFix)}</p>
+     <h4>Anti-patterns behind it</h4>
+     ${d.antiPatterns.map((a) => `<div class="ap"><b>${esc(a.name)}</b><span>${esc(a.why)}</span></div>`).join("")}
+     <h4>Examples in this codebase</h4>
+     ${d.examples.map((e) => `<div class="ex"><div class="exp">${lineLink(e.path, e.line)}</div>
+        ${e.snippet ? `<pre>${esc(e.snippet)}</pre>` : ""}</div>`).join("")}`);
+}
+
+function dial(score, label, verdict) {
+  const cls = score >= 70 ? "good" : score >= 40 ? "warn" : "bad";
+  const col = score >= 70 ? "#15803d" : score >= 40 ? "#b45309" : "#b91c1c";
+  return `<div class="card"><div class="score">
+      <div class="dial" style="background:conic-gradient(${col} ${score * 3.6}deg, #ebe9e3 0)">
+        <span>${score}</span></div>
+      <div><div style="font-weight:640;font-size:14.5px;margin-bottom:3px">${esc(label)}</div>
+        <div style="color:var(--muted);font-size:13px;white-space:pre-line">${esc(verdict)}</div></div>
+    </div></div>`;
+}
+function findingList(title, items, empty) {
+  return `<div class="card"><h4 style="margin:0 0 10px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint)">${esc(title)}</h4>`
+    + (items.length ? `<ul class="plain" style="margin:0;padding:0;list-style:none">` + items.map((i) =>
+      `<li style="padding:8px 0;border-top:1px solid var(--line2)" data-search="${esc(i.title + " " + (i.detail || ""))}">
+        <b style="font-size:13.5px">${esc(i.title)}</b>
+        <div style="color:var(--muted);font-size:13px;margin:2px 0 3px">${esc(i.detail || i.condition || "")}</div>
+        ${i.path ? fileLink(i.path) : ""}</li>`).join("") + "</ul>"
+      : `<div class="empty" style="padding:14px">${esc(empty)}</div>`) + "</div>";
+}
+function renderObs() {
+  const o = DATA.observability;
+  const lc = DATA.facts.observability.logCounts;
+  $("obssum").textContent = `Log statements: ` + Object.entries(lc).map(([k, v]) => `${v} ${k}`).join(", ")
+    + ` · ${DATA.facts.observability.logDensityPerKLoc} per 1000 lines of code.`;
+  $("obsscores").innerHTML = dial(o.logsScore, "Logging quality", o.logsVerdict)
+    + dial(o.defensive.score, "Defensive code and input validation", o.defensive.verdict);
+  $("obslists").innerHTML =
+    findingList("Logging findings", o.logsFindings, "No logging problems found.")
+    + findingList("Defensive coding findings", o.defensive.findings, "No input validation problems found.")
+    + findingList("Dashboards", o.dashboards.map((d) => ({ title: d.name, detail: d.type, path: d.path })),
+      "No dashboards found in the repository.")
+    + findingList("Alerts", o.alerts.map((a) => ({ title: a.name, detail: a.condition, path: a.path })),
+      "No alert definitions found in the repository.");
+}
+
+function renderTests() {
+  const t = DATA.tests;
+  $("tsum").textContent = t.summary;
+  const files = t.types.reduce((a, x) => a + x.files, 0);
+  const cases = t.types.reduce((a, x) => a + x.cases, 0);
+  $("tkv").innerHTML = [["Test types", t.types.length], ["Test files", nf(files)],
+    ["Test cases", nf(cases)], ["Issues found", t.issues.length]]
+    .map((r) => `<div class="card"><b>${r[1]}</b><span>${r[0]}</span></div>`).join("");
+  $("ttypes").innerHTML = `<thead><tr><th>Type</th><th>Files</th><th>Cases</th><th>Share</th><th>Verdict</th></tr></thead><tbody>`
+    + t.types.map((x) => {
+      const pct = files ? Math.round((x.files / files) * 100) : 0;
+      return `<tr data-search="${esc(x.type + " " + x.verdict)}"><td><b>${esc(x.type)}</b></td>
+        <td class="mono">${nf(x.files)}</td><td class="mono">${nf(x.cases)}</td>
+        <td style="min-width:130px"><div class="bar"><i style="width:${pct}%"></i></div>
+          <span style="font-size:11px;color:var(--faint)">${pct}%</span></td>
+        <td>${esc(x.verdict)}</td></tr>`;
+    }).join("") + "</tbody>";
+  $("tcov").innerHTML = (t.coverage || []).length
+    ? `<div class="card"><h4 style="margin:0 0 12px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint)">What is covered, x of y</h4>`
+      + t.coverage.map((c) => {
+        const pct = c.total ? Math.round((c.covered / c.total) * 100) : 0;
+        const cls = pct >= 70 ? "good" : pct >= 35 ? "warn" : "bad";
+        return `<div style="display:flex;align-items:center;gap:12px;padding:7px 0" data-search="${esc(c.area)}">
+          <div style="flex:0 0 44%;font-size:13.5px">${esc(c.area)}</div>
+          <div class="bar" style="flex:1"><i class="${cls}" style="width:${pct}%"></i></div>
+          <div class="mono" style="flex:0 0 78px;text-align:right">${c.covered}/${c.total}</div></div>`;
+      }).join("") + "</div>"
+    : "";
+  $("tissues").innerHTML = t.issues.map((i) => `<div class="card" data-search="${esc(i.title + " " + i.why)}">
+      <div style="font-weight:620;font-size:14px;margin-bottom:6px">${esc(i.title)}</div>
+      <div style="font-size:13px;color:var(--muted)"><b style="color:var(--ink)">Why:</b> ${esc(i.why)}</div>
+      <div style="font-size:13px;color:var(--muted);margin:4px 0 8px"><b style="color:var(--ink)">Fix:</b> ${esc(i.fix)}</div>
+      ${i.path ? lineLink(i.path, i.line || 1) : ""}</div>`).join("")
+    || `<div class="empty">No test issues recorded.</div>`;
+}
+
+function searchText(el) {
+  return ((el.dataset.search || "") + " " + el.textContent).toLowerCase();
+}
+function search(q) {
+  q = q.trim().toLowerCase();
+  const groups = {
+    arch: ["#edges tbody tr"],
+    mod: ["#mods .tile"],
+    schema: ["#schtables tbody tr", "#schqueries .card"],
+    people: ["#people .person"],
+    debt: ["#debt .tile"],
+    obs: ["#obslists li"],
+    tests: ["#ttypes tbody tr", "#tissues .card", "#tcov > .card > div[data-search]"],
+  };
+  Object.entries(groups).forEach(([tab, sels]) => {
+    let hits = 0;
+    sels.forEach((sel) => document.querySelectorAll(sel).forEach((el) => {
+      const show = !q || searchText(el).includes(q);
+      el.classList.toggle("hide", !show);
+      if (q && show) hits++;
+    }));
+    const b = $("b-" + tab);
+    if (b) { b.textContent = hits; b.classList.toggle("zero", !q || hits === 0); }
+  });
+  $("qhint").textContent = q ? "filtering every tab" : "press / to focus";
+}
+$("q").addEventListener("input", (e) => search(e.target.value));
+
+document.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-kind]");
+  if (!el) return;
+  const i = Number(el.dataset.i);
+  if (el.dataset.kind === "mod") moduleModal(DATA.modules[i]);
+  if (el.dataset.kind === "debt") debtModal(DATA.techDebt[i]);
+  if (el.dataset.kind === "person") personModal(DATA.committers[i]);
+});
+
+header(); tabs(); renderArch(); renderModules(); renderSchema();
+renderPeople(); renderDebt(); renderObs(); renderTests();
+</script>
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f7f5; --panel:#ffffff; --line:#e4e2dc; --line2:#efedE7;
+  --ink:#1b1b19; --muted:#6d6a63; --faint:#93908a;
+  --accent:#2f5fd0; --accent-soft:#eaf0fd;
+  --good:#15803d; --good-soft:#e8f5ec;
+  --warn:#b45309; --warn-soft:#fdf1e0;
+  --bad:#b91c1c; --bad-soft:#fdecec;
+  --radius:12px;
+  --hand:"Caveat","Bradley Hand","Chalkboard SE","Comic Sans MS",cursive;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+
+header.top{background:var(--panel);border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:flex-start;gap:18px;padding:22px 0 16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand .mark{
+  width:38px;height:38px;border-radius:10px;flex:0 0 38px;
+  background:linear-gradient(145deg,#2f5fd0,#5b8def);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:19px;
+}
+.brand h1{margin:0;font-size:19px;font-weight:650;letter-spacing:-.2px}
+.brand .sub{margin:2px 0 0;color:var(--muted);font-size:13px}
+.spacer{flex:1 1 40px}
+.stats{display:flex;gap:20px;flex-wrap:wrap}
+.stat b{display:block;font-size:19px;font-weight:650;line-height:1.2}
+.stat span{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.6px}
+
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px}
+.meta div{background:var(--panel);padding:9px 13px;min-width:0}
+.meta .k{font-size:10px;letter-spacing:.7px;text-transform:uppercase;color:var(--faint)}
+.meta .v{font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  word-break:break-all;margin-top:2px}
+
+.searchbar{display:flex;align-items:center;gap:9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:10px;padding:9px 13px;margin-bottom:14px}
+.searchbar input{border:0;outline:0;flex:1;font-size:14.5px;background:transparent;color:var(--ink)}
+.searchbar .hint{font-size:11.5px;color:var(--faint);white-space:nowrap}
+
+nav.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);
+  background:var(--panel);position:sticky;top:0;z-index:40}
+nav.tabs .inner{display:flex;gap:4px;max-width:1180px;margin:0 auto;padding:0 22px;width:100%}
+.tab{appearance:none;border:0;background:transparent;color:var(--muted);cursor:pointer;
+  padding:12px 13px;font-size:13.5px;font-weight:520;white-space:nowrap;
+  border-bottom:2px solid transparent;display:flex;align-items:center;gap:7px}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.tab .badge{background:var(--accent-soft);color:var(--accent);border-radius:20px;
+  font-size:10.5px;padding:1px 7px;font-weight:640}
+.tab .badge.zero{display:none}
+
+main{padding:26px 0 70px}
+section.panel{display:none}
+section.panel.on{display:block}
+h2.sec{margin:0 0 4px;font-size:17px;font-weight:640;letter-spacing:-.2px}
+p.lead{margin:0 0 18px;color:var(--muted);max-width:78ch;white-space:pre-line}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.grid{display:grid;gap:13px}
+.g3{grid-template-columns:repeat(auto-fill,minmax(268px,1fr))}
+.g2{grid-template-columns:repeat(auto-fill,minmax(380px,1fr))}
+
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:15px 16px;cursor:pointer;transition:border-color .12s,box-shadow .12s,transform .12s;
+  text-align:left;font:inherit;color:inherit;width:100%;display:block}
+.tile:hover{border-color:#c9c6bf;box-shadow:0 6px 20px rgba(20,18,14,.07);transform:translateY(-1px)}
+.tile .th{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.tile .ico{font-size:21px;line-height:1}
+.tile .tt{font-weight:620;font-size:14.5px;letter-spacing:-.1px}
+.tile .td{color:var(--muted);font-size:13px;display:-webkit-box;-webkit-line-clamp:3;
+  -webkit-box-orient:vertical;overflow:hidden}
+.tile .tf{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+
+.pill{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--line2);
+  color:var(--muted);white-space:nowrap;border:1px solid var(--line)}
+.pill.good{background:var(--good-soft);color:var(--good);border-color:#cfe7d7}
+.pill.warn{background:var(--warn-soft);color:var(--warn);border-color:#f0dcbe}
+.pill.bad{background:var(--bad-soft);color:var(--bad);border-color:#f3d2d2}
+.pill.acc{background:var(--accent-soft);color:var(--accent);border-color:#d5e0fa}
+
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+code.path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
+  background:var(--line2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;
+  word-break:break-all}
+
+table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+table.tbl th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.6px;
+  color:var(--faint);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.tbl td{padding:9px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+table.tbl tr:last-child td{border-bottom:0}
+.scrollx{overflow-x:auto}
+
+.bar{height:7px;background:var(--line2);border-radius:20px;overflow:hidden;min-width:80px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:20px}
+.bar i.good{background:var(--good)} .bar i.warn{background:var(--warn)} .bar i.bad{background:var(--bad)}
+
+.score{display:flex;align-items:center;gap:14px}
+.dial{width:74px;height:74px;flex:0 0 74px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-weight:680;font-size:19px;position:relative}
+.dial span{position:relative;z-index:2}
+.dial::after{content:"";position:absolute;inset:7px;background:var(--panel);border-radius:50%}
+
+.people{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.person{display:flex;gap:13px;align-items:flex-start;background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--radius);padding:14px;cursor:pointer;
+  text-align:left;font:inherit;color:inherit;width:100%;transition:border-color .12s,box-shadow .12s}
+.person:hover{border-color:#c9c6bf;box-shadow:0 6px 20px rgba(20,18,14,.07)}
+.avatar{width:52px;height:52px;flex:0 0 52px;border-radius:50%;overflow:hidden;
+  border:1px solid var(--line);background:var(--line2)}
+.avatar img,.avatar svg{width:100%;height:100%;display:block}
+.person .pn{font-weight:620;font-size:14.5px}
+.person .pe{color:var(--faint);font-size:12px;word-break:break-all}
+.person .pw{color:var(--muted);font-size:13px;margin-top:5px;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rank{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--faint);
+  border:1px solid var(--line);border-radius:5px;padding:0 5px;margin-right:6px}
+
+.diagram{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px;overflow-x:auto}
+.diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:13px;height:13px;border-radius:4px;border:1.5px solid #7c766b;
+  margin-right:6px;vertical-align:-2px}
+
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.kv .card{padding:13px 15px}
+.kv b{display:block;font-size:22px;font-weight:660;letter-spacing:-.4px}
+.kv span{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.6px}
+
+.empty{color:var(--faint);font-size:13.5px;padding:22px;text-align:center;
+  border:1px dashed var(--line);border-radius:var(--radius)}
+
+.mask{position:fixed;inset:0;background:rgba(24,22,18,.42);backdrop-filter:blur(2px);
+  display:none;align-items:flex-start;justify-content:center;padding:44px 20px;z-index:90;overflow-y:auto}
+.mask.on{display:flex}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+  width:min(820px,100%);box-shadow:0 24px 70px rgba(20,18,14,.26)}
+.modal .mh{display:flex;gap:12px;align-items:flex-start;padding:20px 22px 14px;
+  border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);border-radius:16px 16px 0 0}
+.modal .mh .ico{font-size:26px;line-height:1}
+.modal .mh h3{margin:0;font-size:18px;font-weight:650;letter-spacing:-.2px}
+.modal .mh .msub{color:var(--muted);font-size:12.5px;margin-top:3px}
+.modal .mb{padding:18px 22px 24px}
+.x{margin-left:auto;border:1px solid var(--line);background:var(--panel);border-radius:8px;
+  width:30px;height:30px;cursor:pointer;color:var(--muted);font-size:16px;line-height:1;flex:0 0 30px}
+.x:hover{background:var(--line2);color:var(--ink)}
+.mb h4{margin:20px 0 8px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint)}
+.mb h4:first-child{margin-top:0}
+.mb p{margin:0 0 10px;white-space:pre-line}
+.mb ul{margin:0;padding-left:19px}
+.mb li{margin-bottom:6px}
+.mb ul.plain{list-style:none;padding-left:0}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.pc{grid-template-columns:1fr}}
+.con{border:1px solid var(--line);border-left:3px solid var(--bad);border-radius:9px;
+  padding:11px 13px;margin-bottom:9px;background:#fffdfd}
+.con .cn{font-weight:620;font-size:13.5px;margin-bottom:5px}
+.con .cw,.con .cf{font-size:13px;color:var(--muted);margin-bottom:4px}
+.con .cw b,.con .cf b{color:var(--ink);font-weight:600}
+.pro{border:1px solid var(--line);border-left:3px solid var(--good);border-radius:9px;
+  padding:9px 12px;margin-bottom:8px;font-size:13.5px;background:#fdfffd}
+.ex{border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin-bottom:8px;background:#fbfaf8}
+.ex .exp{font-size:12px;font-family:ui-monospace,Menlo,monospace;word-break:break-all}
+.ex pre{margin:6px 0 0;font-size:12px;background:var(--panel);border:1px solid var(--line);
+  border-radius:6px;padding:8px 10px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.ap{border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:9px;
+  padding:9px 12px;margin-bottom:8px;background:#fffdf9}
+.ap b{display:block;font-size:13.5px;margin-bottom:3px}
+.ap span{font-size:13px;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--faint);font-size:12.5px}
+.hide{display:none !important}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="hrow">
+      <div class="brand">
+        <div class="mark">🔍</div>
+        <div>
+          <h1 id="pname"></h1>
+          <p class="sub" id="psum"></p>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <div class="stats" id="hstats"></div>
+    </div>
+    <div class="meta" id="meta"></div>
+    <div class="searchbar">
+      <span>🔎</span>
+      <input id="q" type="search" placeholder="Search modules, tech debt, tables, people, tests…" autocomplete="off">
+      <span class="hint" id="qhint">press / to focus</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs"><div class="inner" id="tabs"></div></nav>
+
+<main class="wrap">
+  <section class="panel" id="p-arch">
+    <h2 class="sec">Architecture overview</h2>
+    <p class="lead" id="archsum"></p>
+    <div class="diagram" id="diagram">__DIAGRAM__</div>
+    <div class="legend" id="archlegend"></div>
+    <h4 style="margin:24px 0 8px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint)">Connections and the evidence for them</h4>
+    <div class="card scrollx"><table class="tbl" id="edges"></table></div>
+  </section>
+
+  <section class="panel" id="p-mod">
+    <h2 class="sec">Modules</h2>
+    <p class="lead">Every core module found in the codebase. Click a card for what it does, its main files, and five things it gets right and five it gets wrong.</p>
+    <div class="grid g3" id="mods"></div>
+  </section>
+
+  <section class="panel" id="p-schema">
+    <h2 class="sec">Schema</h2>
+    <p class="lead" id="schsum"></p>
+    <div class="kv" id="schkv"></div>
+    <div class="card scrollx" style="margin-bottom:16px"><table class="tbl" id="schtables"></table></div>
+    <h2 class="sec" style="margin-top:26px">Worst queries</h2>
+    <p class="lead">Queries most likely to hurt in production, with the reason and the fix.</p>
+    <div class="grid" id="schqueries" style="margin-bottom:22px"></div>
+    <div class="pc" id="schpc"></div>
+  </section>
+
+  <section class="panel" id="p-people">
+    <h2 class="sec">Committers</h2>
+    <p class="lead">Ordered by number of commits in the scanned path. Click anyone to see what they work on.</p>
+    <div class="people" id="people"></div>
+  </section>
+
+  <section class="panel" id="p-debt">
+    <h2 class="sec">Tech debt</h2>
+    <p class="lead">Top items per module, ranked by how much evidence the scan found. Click a card for why it hurts, how to fix it, the anti-patterns behind it, and real examples.</p>
+    <div class="grid g3" id="debt"></div>
+  </section>
+
+  <section class="panel" id="p-obs">
+    <h2 class="sec">Observability</h2>
+    <p class="lead" id="obssum"></p>
+    <div class="g2 grid" id="obsscores" style="margin-bottom:18px"></div>
+    <div class="g2 grid" id="obslists"></div>
+  </section>
+
+  <section class="panel" id="p-tests">
+    <h2 class="sec">Tests</h2>
+    <p class="lead" id="tsum"></p>
+    <div class="kv" id="tkv"></div>
+    <div class="card scrollx" style="margin-bottom:18px"><table class="tbl" id="ttypes"></table></div>
+    <div id="tcov" style="margin-bottom:18px"></div>
+    <h2 class="sec" style="margin-top:26px">Issues in the tests</h2>
+    <p class="lead">What is wrong with the test suite itself.</p>
+    <div class="grid g2" id="tissues"></div>
+  </section>
+</main>
+
+<div class="wrap"><footer id="foot"></footer></div>
+
+<div class="mask" id="mask">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="mh">
+      <div class="ico" id="mico"></div>
+      <div style="min-width:0"><h3 id="mtitle"></h3><div class="msub" id="msub"></div></div>
+      <button class="x" id="mx" aria-label="close">✕</button>
+    </div>
+    <div class="mb" id="mbody"></div>
+  </div>
+</div>
+
+<script id="payload" type="application/json">__DATA__</script>
+<script>
+const DATA = JSON.parse(document.getElementById("payload").textContent);
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? "" : s)
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;");
+const nf = (n) => (n == null ? "-" : Number(n).toLocaleString("en-US"));
+
+const TABS = [
+  { id: "arch", label: "Architecture", icon: "🗺️", panel: "p-arch" },
+  { id: "mod", label: "Modules", icon: "🧱", panel: "p-mod" },
+  { id: "schema", label: "Schema", icon: "🗄️", panel: "p-schema" },
+  { id: "people", label: "Committers", icon: "👥", panel: "p-people" },
+  { id: "debt", label: "Tech debt", icon: "🧨", panel: "p-debt" },
+  { id: "obs", label: "Observability", icon: "📡", panel: "p-obs" },
+  { id: "tests", label: "Tests", icon: "🧪", panel: "p-tests" },
+];
+
+function header() {
+  $("pname").textContent = DATA.project.name;
+  $("psum").textContent = DATA.project.summary || "";
+  document.title = DATA.project.name + " — codebase inventory";
+  const t = DATA.facts.totals;
+  $("hstats").innerHTML = [
+    ["Modules", nf(DATA.modules.length)],
+    ["Files", nf(t.files)],
+    ["Lines", nf(t.lines)],
+    ["Commits", nf(t.commits)],
+    ["Committers", nf(DATA.committers.length)],
+  ].map((r) => `<div class="stat"><b>${r[1]}</b><span>${r[0]}</span></div>`).join("");
+
+  const gh = DATA.project.githubUrl;
+  const rows = [
+    ["Codebase", `<a href="file://${esc(DATA.project.codebaseUrl)}">${esc(DATA.project.codebaseUrl)}</a>`],
+    ["GitHub", gh ? `<a href="${esc(gh)}" target="_blank" rel="noopener">${esc(gh)}</a>` : "not a GitHub remote"],
+    ["Report directory", `<a href="file://${esc(DATA.reportDir)}">${esc(DATA.reportDir)}</a>`],
+    ["Scan", `${esc(DATA.facts.branch || "-")} @ ${esc(DATA.facts.headCommit || "-")} · ${esc(DATA.facts.scannedAt || "")} · ${DATA.verification.passes} passes`],
+  ];
+  $("meta").innerHTML = rows.map((r) =>
+    `<div><div class="k">${r[0]}</div><div class="v">${r[1]}</div></div>`).join("");
+  $("foot").innerHTML = `Generated by <b>/inventory</b> — ${DATA.verification.passes} scan passes, `
+    + `${DATA.verification.notes.length} corrections applied. Report written to `
+    + `<span class="mono">${esc(DATA.reportDir)}</span>`;
+}
+
+function tabs() {
+  const active = TABS.filter((t) => t.id !== "schema" || DATA.schema.present);
+  $("tabs").innerHTML = active.map((t, i) =>
+    `<button class="tab${i === 0 ? " on" : ""}" data-tab="${t.id}" data-panel="${t.panel}">
+      <span>${t.icon}</span>${t.label}<span class="badge zero" id="b-${t.id}">0</span></button>`).join("");
+  TABS.forEach((t) => { if (!active.includes(t)) $(t.panel).remove(); });
+  $(active[0].panel).classList.add("on");
+  $("tabs").addEventListener("click", (e) => {
+    const b = e.target.closest(".tab");
+    if (!b) return;
+    document.querySelectorAll(".tab").forEach((x) => x.classList.remove("on"));
+    document.querySelectorAll("section.panel").forEach((x) => x.classList.remove("on"));
+    b.classList.add("on");
+    $(b.dataset.panel).classList.add("on");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
+
+function modal(icon, title, sub, html) {
+  $("mico").textContent = icon || "";
+  $("mtitle").textContent = title;
+  $("msub").innerHTML = sub || "";
+  $("mbody").innerHTML = html;
+  $("mask").classList.add("on");
+  document.body.style.overflow = "hidden";
+}
+function closeModal() {
+  $("mask").classList.remove("on");
+  document.body.style.overflow = "";
+}
+$("mx").onclick = closeModal;
+$("mask").onclick = (e) => { if (e.target === $("mask")) closeModal(); };
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
+  if (e.key === "/" && document.activeElement !== $("q")) { e.preventDefault(); $("q").focus(); }
+});
+
+function fileLink(p) {
+  const abs = DATA.project.codebaseUrl.replace(/\/$/, "") + "/" + p;
+  const gh = DATA.project.githubUrl;
+  const remote = gh ? `${gh}/blob/${DATA.facts.branch || "main"}/${p}` : null;
+  return `<a href="file://${esc(abs)}"><code class="path">${esc(p)}</code></a>`
+    + (remote ? ` <a href="${esc(remote)}" target="_blank" rel="noopener" title="open on GitHub">↗</a>` : "");
+}
+function lineLink(p, line) {
+  const abs = DATA.project.codebaseUrl.replace(/\/$/, "") + "/" + p;
+  const gh = DATA.project.githubUrl;
+  const remote = gh ? `${gh}/blob/${DATA.facts.branch || "main"}/${p}#L${line}` : null;
+  return `<a href="file://${esc(abs)}"><code class="path">${esc(p)}:${line}</code></a>`
+    + (remote ? ` <a href="${esc(remote)}" target="_blank" rel="noopener" title="open on GitHub">↗</a>` : "");
+}
+
+function prosCons(pros, cons) {
+  return `<div class="pc">
+    <div><h4>What works — 5 pros</h4>${pros.map((p) => `<div class="pro">${esc(p)}</div>`).join("")}</div>
+    <div><h4>What hurts — 5 cons</h4>${cons.map((c) => `<div class="con">
+        <div class="cn">${esc(c.title)}</div>
+        <div class="cw"><b>Why it is bad:</b> ${esc(c.why)}</div>
+        <div class="cf"><b>Fix:</b> ${esc(c.fix)}</div></div>`).join("")}</div></div>`;
+}
+
+function renderArch() {
+  $("archsum").textContent = DATA.architecture.summary || "";
+  const kinds = [
+    ["module", "#fde8d0", "module"], ["store", "#d9ecf7", "data store"],
+    ["client", "#e4f5df", "client"], ["queue", "#f6e0ef", "queue or bus"],
+    ["external", "#eee6fb", "external service"],
+  ];
+  const used = new Set(DATA.architecture.nodes.map((n) => n.kind));
+  $("archlegend").innerHTML = kinds.filter((k) => used.has(k[0]))
+    .map((k) => `<span><i style="background:${k[1]}"></i>${k[2]}</span>`).join("");
+  const byId = {};
+  DATA.architecture.nodes.forEach((n) => { byId[n.id] = n.label; });
+  $("edges").innerHTML = `<thead><tr><th>From</th><th>To</th><th>Relationship</th><th>Evidence</th></tr></thead><tbody>`
+    + DATA.architecture.edges.map((e) => `<tr>
+        <td><b>${esc(byId[e.from] || e.from)}</b></td>
+        <td><b>${esc(byId[e.to] || e.to)}</b></td>
+        <td>${esc(e.label)}</td>
+        <td class="mono">${esc(e.evidence)}</td></tr>`).join("") + "</tbody>";
+}
+
+function renderModules() {
+  $("mods").innerHTML = DATA.modules.map((m, i) => {
+    const f = DATA.facts.modules.find((x) => x.dir === (m.paths || [])[0]) || {};
+    return `<button class="tile" data-kind="mod" data-i="${i}">
+      <div class="th"><span class="ico">${esc(m.icon || "📦")}</span><span class="tt">${esc(m.name)}</span></div>
+      <div class="td">${esc(m.description)}</div>
+      <div class="tf">
+        <span class="pill acc">${m.files.length} key files</span>
+        <span class="pill good">5 pros</span><span class="pill bad">5 cons</span>
+        ${f.lines ? `<span class="pill">${nf(f.lines)} lines</span>` : ""}
+      </div></button>`;
+  }).join("");
+}
+function moduleModal(m) {
+  modal(m.icon || "📦", m.name, (m.paths || []).map((p) => `<code class="path">${esc(p)}</code>`).join(" "),
+    `<h4>What it does</h4><p>${esc(m.description)}</p>
+     <h4>Main classes and files</h4>
+     <ul class="plain">${m.files.map((f) =>
+      `<li>${fileLink(f.path)}<div style="color:var(--muted);font-size:13px;margin-top:2px">${esc(f.role)}</div></li>`).join("")}</ul>
+     ${prosCons(m.pros, m.cons)}`);
+}
+
+function renderSchema() {
+  if (!DATA.schema.present) return;
+  const s = DATA.schema;
+  $("schsum").textContent = `Engine: ${s.engine}. ${s.sizeNote || ""}`;
+  $("schkv").innerHTML = [
+    ["Tables", nf(s.tableCount)],
+    ["Columns mapped", nf(s.tables.reduce((a, t) => a + (t.columns || 0), 0))],
+    ["Worst queries", nf(s.worstQueries.length)],
+    ["Size", s.tables.some((t) => t.size && t.size !== "n/a") ? "measured" : "n/a"],
+  ].map((r) => `<div class="card"><b>${r[1]}</b><span>${r[0]}</span></div>`).join("");
+  $("schtables").innerHTML = `<thead><tr><th>Table</th><th>Purpose</th><th>Cols</th><th>Rows</th><th>Size</th><th>Defined in</th></tr></thead><tbody>`
+    + s.tables.map((t) => `<tr data-search="${esc(t.name + " " + t.purpose)}">
+        <td><b>${esc(t.name)}</b></td><td>${esc(t.purpose)}</td>
+        <td class="mono">${t.columns || "-"}</td><td class="mono">${esc(t.rows || "n/a")}</td>
+        <td class="mono">${esc(t.size || "n/a")}</td><td>${fileLink(t.source)}</td></tr>`).join("") + "</tbody>";
+  $("schqueries").innerHTML = s.worstQueries.map((q) => `<div class="card">
+      <div class="mono" style="margin-bottom:8px">${lineLink(q.path, q.line)}</div>
+      <pre style="margin:0 0 10px;font-size:12px;background:var(--line2);border:1px solid var(--line);border-radius:6px;padding:9px 11px;overflow-x:auto;white-space:pre-wrap">${esc(q.query)}</pre>
+      <div style="font-size:13px;color:var(--muted)"><b style="color:var(--ink)">Why it is bad:</b> ${esc(q.why)}</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px"><b style="color:var(--ink)">Fix:</b> ${esc(q.fix)}</div>
+    </div>`).join("") || `<div class="empty">No risky queries found.</div>`;
+  $("schpc").innerHTML = prosCons(s.pros, s.cons);
+}
+
+function initials(name) {
+  const parts = String(name).trim().split(/[\s._-]+/).filter(Boolean);
+  return ((parts[0] || "?")[0] + (parts[1] ? parts[1][0] : "")).toUpperCase();
+}
+function avatarSvg(name) {
+  let h = 0;
+  for (const ch of String(name)) h = (h * 31 + ch.charCodeAt(0)) % 360;
+  return `<svg viewBox="0 0 52 52"><rect width="52" height="52" fill="hsl(${h},52%,86%)"/>
+    <text x="26" y="33" text-anchor="middle" font-size="19" font-weight="600"
+      font-family="-apple-system,Helvetica,Arial" fill="hsl(${h},42%,32%)">${esc(initials(name))}</text></svg>`;
+}
+function renderPeople() {
+  $("people").innerHTML = DATA.committers.map((c, i) => {
+    const img = c.avatarUrl
+      ? `<img src="${esc(c.avatarUrl)}" alt="${esc(c.name)}" loading="lazy"
+           onerror="this.parentNode.innerHTML=this.getAttribute('data-fb')" data-fb='${avatarSvg(c.name).replace(/'/g, "&#39;")}'>`
+      : avatarSvg(c.name);
+    return `<button class="person" data-kind="person" data-i="${i}">
+      <div class="avatar">${img}</div>
+      <div style="min-width:0">
+        <div class="pn"><span class="rank">#${i + 1}</span>${esc(c.name)}</div>
+        <div class="pe">${esc(c.email)}</div>
+        <div class="tf" style="margin-top:6px">
+          <span class="pill acc">${nf(c.commits)} commits</span>
+          <span class="pill">${esc(c.firstCommit)} → ${esc(c.lastCommit)}</span></div>
+        <div class="pw">${esc(c.worksOn)}</div>
+      </div></button>`;
+  }).join("") || `<div class="empty">No git history in the scanned path.</div>`;
+}
+function personModal(c) {
+  const link = c.profileUrl || ("mailto:" + c.email);
+  modal("", c.name, `<a href="${esc(link)}" target="_blank" rel="noopener">${esc(link)}</a>`,
+    `<h4>What they work on</h4><p>${esc(c.worksOn)}</p>
+     <h4>Numbers</h4>
+     <ul><li><b>${nf(c.commits)}</b> commits in the scanned path</li>
+     <li>First commit <b>${esc(c.firstCommit)}</b>, last commit <b>${esc(c.lastCommit)}</b></li></ul>
+     <h4>Areas touched</h4>
+     <ul class="plain">${(c.areas || []).map((a) => `<li><code class="path">${esc(a)}</code></li>`).join("")}</ul>`);
+}
+
+const SEV = { high: "bad", medium: "warn", low: "" };
+function renderDebt() {
+  const modName = {};
+  DATA.modules.forEach((m) => { modName[m.id] = m.name; });
+  $("debt").innerHTML = DATA.techDebt.map((d, i) => `<button class="tile" data-kind="debt" data-i="${i}">
+      <div class="th"><span class="ico">${d.severity === "high" ? "🔴" : d.severity === "medium" ? "🟠" : "🟡"}</span>
+        <span class="tt">${esc(d.title)}</span></div>
+      <div class="td">${esc(d.whyBad)}</div>
+      <div class="tf">
+        <span class="pill acc">${esc(modName[d.module] || d.module)}</span>
+        <span class="pill ${SEV[d.severity] || ""}">${esc(d.severity)}</span>
+        <span class="pill">${d.examples.length} example${d.examples.length === 1 ? "" : "s"}</span>
+      </div></button>`).join("") || `<div class="empty">No tech debt recorded.</div>`;
+}
+function debtModal(d) {
+  const modName = {};
+  DATA.modules.forEach((m) => { modName[m.id] = m.name; });
+  modal(d.severity === "high" ? "🔴" : d.severity === "medium" ? "🟠" : "🟡", d.title,
+    `${esc(modName[d.module] || d.module)} · severity ${esc(d.severity)}`,
+    `<h4>Why it is bad</h4><p>${esc(d.whyBad)}</p>
+     <h4>How to fix it</h4><p>${esc(d.howToFix)}</p>
+     <h4>Anti-patterns behind it</h4>
+     ${d.antiPatterns.map((a) => `<div class="ap"><b>${esc(a.name)}</b><span>${esc(a.why)}</span></div>`).join("")}
+     <h4>Examples in this codebase</h4>
+     ${d.examples.map((e) => `<div class="ex"><div class="exp">${lineLink(e.path, e.line)}</div>
+        ${e.snippet ? `<pre>${esc(e.snippet)}</pre>` : ""}</div>`).join("")}`);
+}
+
+function dial(score, label, verdict) {
+  const cls = score >= 70 ? "good" : score >= 40 ? "warn" : "bad";
+  const col = score >= 70 ? "#15803d" : score >= 40 ? "#b45309" : "#b91c1c";
+  return `<div class="card"><div class="score">
+      <div class="dial" style="background:conic-gradient(${col} ${score * 3.6}deg, #ebe9e3 0)">
+        <span>${score}</span></div>
+      <div><div style="font-weight:640;font-size:14.5px;margin-bottom:3px">${esc(label)}</div>
+        <div style="color:var(--muted);font-size:13px;white-space:pre-line">${esc(verdict)}</div></div>
+    </div></div>`;
+}
+function findingList(title, items, empty) {
+  return `<div class="card"><h4 style="margin:0 0 10px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint)">${esc(title)}</h4>`
+    + (items.length ? `<ul class="plain" style="margin:0;padding:0;list-style:none">` + items.map((i) =>
+      `<li style="padding:8px 0;border-top:1px solid var(--line2)" data-search="${esc(i.title + " " + (i.detail || ""))}">
+        <b style="font-size:13.5px">${esc(i.title)}</b>
+        <div style="color:var(--muted);font-size:13px;margin:2px 0 3px">${esc(i.detail || i.condition || "")}</div>
+        ${i.path ? fileLink(i.path) : ""}</li>`).join("") + "</ul>"
+      : `<div class="empty" style="padding:14px">${esc(empty)}</div>`) + "</div>";
+}
+function renderObs() {
+  const o = DATA.observability;
+  const lc = DATA.facts.observability.logCounts;
+  $("obssum").textContent = `Log statements: ` + Object.entries(lc).map(([k, v]) => `${v} ${k}`).join(", ")
+    + ` · ${DATA.facts.observability.logDensityPerKLoc} per 1000 lines of code.`;
+  $("obsscores").innerHTML = dial(o.logsScore, "Logging quality", o.logsVerdict)
+    + dial(o.defensive.score, "Defensive code and input validation", o.defensive.verdict);
+  $("obslists").innerHTML =
+    findingList("Logging findings", o.logsFindings, "No logging problems found.")
+    + findingList("Defensive coding findings", o.defensive.findings, "No input validation problems found.")
+    + findingList("Dashboards", o.dashboards.map((d) => ({ title: d.name, detail: d.type, path: d.path })),
+      "No dashboards found in the repository.")
+    + findingList("Alerts", o.alerts.map((a) => ({ title: a.name, detail: a.condition, path: a.path })),
+      "No alert definitions found in the repository.");
+}
+
+function renderTests() {
+  const t = DATA.tests;
+  $("tsum").textContent = t.summary;
+  const files = t.types.reduce((a, x) => a + x.files, 0);
+  const cases = t.types.reduce((a, x) => a + x.cases, 0);
+  $("tkv").innerHTML = [["Test types", t.types.length], ["Test files", nf(files)],
+    ["Test cases", nf(cases)], ["Issues found", t.issues.length]]
+    .map((r) => `<div class="card"><b>${r[1]}</b><span>${r[0]}</span></div>`).join("");
+  $("ttypes").innerHTML = `<thead><tr><th>Type</th><th>Files</th><th>Cases</th><th>Share</th><th>Verdict</th></tr></thead><tbody>`
+    + t.types.map((x) => {
+      const pct = files ? Math.round((x.files / files) * 100) : 0;
+      return `<tr data-search="${esc(x.type + " " + x.verdict)}"><td><b>${esc(x.type)}</b></td>
+        <td class="mono">${nf(x.files)}</td><td class="mono">${nf(x.cases)}</td>
+        <td style="min-width:130px"><div class="bar"><i style="width:${pct}%"></i></div>
+          <span style="font-size:11px;color:var(--faint)">${pct}%</span></td>
+        <td>${esc(x.verdict)}</td></tr>`;
+    }).join("") + "</tbody>";
+  $("tcov").innerHTML = (t.coverage || []).length
+    ? `<div class="card"><h4 style="margin:0 0 12px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint)">What is covered, x of y</h4>`
+      + t.coverage.map((c) => {
+        const pct = c.total ? Math.round((c.covered / c.total) * 100) : 0;
+        const cls = pct >= 70 ? "good" : pct >= 35 ? "warn" : "bad";
+        return `<div style="display:flex;align-items:center;gap:12px;padding:7px 0" data-search="${esc(c.area)}">
+          <div style="flex:0 0 44%;font-size:13.5px">${esc(c.area)}</div>
+          <div class="bar" style="flex:1"><i class="${cls}" style="width:${pct}%"></i></div>
+          <div class="mono" style="flex:0 0 78px;text-align:right">${c.covered}/${c.total}</div></div>`;
+      }).join("") + "</div>"
+    : "";
+  $("tissues").innerHTML = t.issues.map((i) => `<div class="card" data-search="${esc(i.title + " " + i.why)}">
+      <div style="font-weight:620;font-size:14px;margin-bottom:6px">${esc(i.title)}</div>
+      <div style="font-size:13px;color:var(--muted)"><b style="color:var(--ink)">Why:</b> ${esc(i.why)}</div>
+      <div style="font-size:13px;color:var(--muted);margin:4px 0 8px"><b style="color:var(--ink)">Fix:</b> ${esc(i.fix)}</div>
+      ${i.path ? lineLink(i.path, i.line || 1) : ""}</div>`).join("")
+    || `<div class="empty">No test issues recorded.</div>`;
+}
+
+function searchText(el) {
+  return ((el.dataset.search || "") + " " + el.textContent).toLowerCase();
+}
+function search(q) {
+  q = q.trim().toLowerCase();
+  const groups = {
+    arch: ["#edges tbody tr"],
+    mod: ["#mods .tile"],
+    schema: ["#schtables tbody tr", "#schqueries .card"],
+    people: ["#people .person"],
+    debt: ["#debt .tile"],
+    obs: ["#obslists li"],
+    tests: ["#ttypes tbody tr", "#tissues .card", "#tcov > .card > div[data-search]"],
+  };
+  Object.entries(groups).forEach(([tab, sels]) => {
+    let hits = 0;
+    sels.forEach((sel) => document.querySelectorAll(sel).forEach((el) => {
+      const show = !q || searchText(el).includes(q);
+      el.classList.toggle("hide", !show);
+      if (q && show) hits++;
+    }));
+    const b = $("b-" + tab);
+    if (b) { b.textContent = hits; b.classList.toggle("zero", !q || hits === 0); }
+  });
+  $("qhint").textContent = q ? "filtering every tab" : "press / to focus";
+}
+$("q").addEventListener("input", (e) => search(e.target.value));
+
+document.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-kind]");
+  if (!el) return;
+  const i = Number(el.dataset.i);
+  if (el.dataset.kind === "mod") moduleModal(DATA.modules[i]);
+  if (el.dataset.kind === "debt") debtModal(DATA.techDebt[i]);
+  if (el.dataset.kind === "person") personModal(DATA.committers[i]);
+});
+
+header(); tabs(); renderArch(); renderModules(); renderSchema();
+renderPeople(); renderDebt(); renderObs(); renderTests();
+</script>
+</body>
+</html>

@@ -1,0 +1,1366 @@
+{
+  "project": {
+    "name": "twitter-clone",
+    "summary": "A Twitter-style social app: a Rust axum backend over PostgreSQL and a React 19 single page app,\nwith Playwright end to end tests and k6 load scripts.",
+    "codebaseUrl": "/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/adwf-twitter-like",
+    "githubUrl": null
+  },
+  "architecture": {
+    "summary": "The browser loads a React single page app. Every call goes through one API client module that\nattaches a JWT from localStorage and talks to the axum server on port 8000.\nThe server puts a JWT middleware in front of the user, tweet and comment routes, then hands the\nrequest to a handler that runs sqlx queries against PostgreSQL. Migrations run at boot from main.rs.\nPlaywright drives the real UI and k6 hits the HTTP API directly, so both bypass the other's path.",
+    "nodes": [
+      {
+        "id": "browser",
+        "label": "Browser",
+        "kind": "client",
+        "layer": 0
+      },
+      {
+        "id": "playwright",
+        "label": "Playwright e2e",
+        "kind": "client",
+        "layer": 0
+      },
+      {
+        "id": "k6",
+        "label": "k6 load scripts",
+        "kind": "client",
+        "layer": 0
+      },
+      {
+        "id": "spa",
+        "label": "React SPA",
+        "kind": "module",
+        "layer": 1
+      },
+      {
+        "id": "apiclient",
+        "label": "API client",
+        "kind": "module",
+        "layer": 2
+      },
+      {
+        "id": "axum",
+        "label": "Axum server",
+        "kind": "module",
+        "layer": 3
+      },
+      {
+        "id": "authmw",
+        "label": "JWT middleware",
+        "kind": "module",
+        "layer": 4
+      },
+      {
+        "id": "handlers",
+        "label": "Handlers",
+        "kind": "module",
+        "layer": 5
+      },
+      {
+        "id": "pg",
+        "label": "PostgreSQL",
+        "kind": "store",
+        "layer": 6
+      }
+    ],
+    "edges": [
+      {
+        "from": "browser",
+        "to": "spa",
+        "label": "loads",
+        "evidence": "index.html mounts src/App.tsx"
+      },
+      {
+        "from": "playwright",
+        "to": "spa",
+        "label": "drives UI",
+        "evidence": "playwright.config.ts, e2e/*.spec.ts"
+      },
+      {
+        "from": "spa",
+        "to": "apiclient",
+        "label": "calls",
+        "evidence": "src/contexts/AuthContext.tsx imports authApi from src/lib/api.ts"
+      },
+      {
+        "from": "apiclient",
+        "to": "axum",
+        "label": "HTTP JSON",
+        "evidence": "src/lib/api.ts:3 API_BASE_URL http://localhost:8000/api"
+      },
+      {
+        "from": "k6",
+        "to": "axum",
+        "label": "load traffic",
+        "evidence": "k6-tests/load-test.js targets the same /api base"
+      },
+      {
+        "from": "axum",
+        "to": "authmw",
+        "label": "guards routes",
+        "evidence": "src/routes/mod.rs middleware::from_fn_with_state(auth_middleware)"
+      },
+      {
+        "from": "authmw",
+        "to": "handlers",
+        "label": "passes claims",
+        "evidence": "src/middleware/auth.rs:60 request.extensions_mut().insert(claims)"
+      },
+      {
+        "from": "handlers",
+        "to": "pg",
+        "label": "sqlx queries",
+        "evidence": "src/handlers/tweets.rs:35 sqlx::query_as against state.db"
+      },
+      {
+        "from": "axum",
+        "to": "pg",
+        "label": "runs migrations",
+        "evidence": "src/main.rs:36 sqlx::migrate!(\"./migrations\")"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "http-api",
+      "name": "HTTP API",
+      "icon": "\ud83d\udee3\ufe0f",
+      "paths": [
+        "src/routes",
+        "src/handlers"
+      ],
+      "description": "Defines every REST route and the code that answers it.\nRoutes are grouped into auth, users, tweets and comments, and all but auth sit behind the JWT middleware.\nEach handler reads the request, runs sqlx queries directly, and returns JSON.\nThere is no service layer between the handler and the database.",
+      "files": [
+        {
+          "path": "src/routes/mod.rs",
+          "role": "Builds the router and decides which route groups require a token"
+        },
+        {
+          "path": "src/handlers/tweets.rs",
+          "role": "Create, read, delete, feed, like, retweet and comment endpoints for tweets"
+        },
+        {
+          "path": "src/handlers/users.rs",
+          "role": "Profile read and update, follow and unfollow, follower and following lists"
+        },
+        {
+          "path": "src/handlers/auth.rs",
+          "role": "Register, login and logout, including password hashing and JWT creation"
+        },
+        {
+          "path": "src/handlers/comments.rs",
+          "role": "Create, list and delete comments on a tweet"
+        }
+      ],
+      "pros": [
+        "Routes are declared in one file, so the whole public surface is readable in 50 lines.",
+        "Authentication is applied per route group, not repeated inside each handler.",
+        "Every handler returns the shared Result type, so error mapping to HTTP status codes is consistent.",
+        "sqlx queries use bound parameters everywhere, so SQL injection is not possible through these paths.",
+        "Path and query extraction is typed, so a bad id fails before any database work happens."
+      ],
+      "cons": [
+        {
+          "title": "Feed builds one query per tweet",
+          "why": "get_feed loads 20 tweets then calls enrich_tweet for each one, and enrich_tweet runs 6 more queries. One feed request costs about 121 round trips.",
+          "fix": "Replace the loop at src/handlers/tweets.rs:218 with a single query that joins users and aggregates likes, retweets and comments with GROUP BY. Return the counts in the same result set."
+        },
+        {
+          "title": "Page size is never capped",
+          "why": "limit comes straight from the query string with only a default of 20. A client can ask for a million rows and the server will try.",
+          "fix": "Clamp limit in FeedQuery at src/handlers/tweets.rs:19 to a maximum of 100 and reject a negative offset before the query runs."
+        },
+        {
+          "title": "Follower lists select the password hash",
+          "why": "get_followers and get_following read u.password_hash out of the database on every call, even though it is not sent to the client.",
+          "fix": "Remove password_hash from the SELECT lists at src/handlers/users.rs:105 and src/handlers/users.rs:125 and map into a struct that does not carry the field."
+        },
+        {
+          "title": "Handlers hold the database queries directly",
+          "why": "Query text lives inside the HTTP layer, so the same read is written more than once and cannot be reused or tested on its own.",
+          "fix": "Move each query into a repository function per table under a new src/repo module, and have handlers call those functions."
+        },
+        {
+          "title": "No handler logs anything",
+          "why": "There is no log line for a successful or rejected request in any handler, so a production failure shows up only as a status code.",
+          "fix": "Add a tracing::info span per handler with the user id and the entity id, and a tracing::warn on every rejected request."
+        }
+      ]
+    },
+    {
+      "id": "domain-models",
+      "name": "Domain models",
+      "icon": "\ud83e\udde9",
+      "paths": [
+        "src/models"
+      ],
+      "description": "Rust structs for users, tweets and comments, plus the request and response shapes for the API.\nEach struct maps to a table with sqlx FromRow and serializes with serde.\nRequest structs carry validator rules such as a minimum username length and an email format.\nUnit tests for those rules live next to the models.",
+      "files": [
+        {
+          "path": "src/models/user.rs",
+          "role": "User row, register, login and update request shapes with validator rules"
+        },
+        {
+          "path": "src/models/tweet.rs",
+          "role": "Tweet row plus the enriched response with author and counts"
+        },
+        {
+          "path": "src/models/comment.rs",
+          "role": "Comment row and its create request"
+        },
+        {
+          "path": "src/models/user_test.rs",
+          "role": "Tests that the validator rules accept and reject the right input"
+        },
+        {
+          "path": "src/models/mod.rs",
+          "role": "Re-exports the model types for the rest of the crate"
+        }
+      ],
+      "pros": [
+        "The password hash is marked serde skip_serializing, so it cannot leak through a JSON response.",
+        "Timestamps use a fixed RFC3339 serializer, so the API date format does not depend on the locale.",
+        "Validation rules sit on the request struct, right where the field is declared.",
+        "Every model has a test file beside it, so a rule change breaks a test in the same directory.",
+        "Read models and write models are separate structs, so an API change does not force a table change."
+      ],
+      "cons": [
+        {
+          "title": "The validation rules are never executed",
+          "why": "validate() is called only in src/models/user_test.rs. No handler calls it, so a one character username or a malformed email is accepted by the API.",
+          "fix": "Call payload.validate() at the top of register and update_user_profile in src/handlers/auth.rs and src/handlers/users.rs, and map the error to AppError::BadRequest."
+        },
+        {
+          "title": "Tests prove the rules, not the behaviour",
+          "why": "The model tests pass while the API accepts invalid input, because the tests call validate() directly and the running code never does.",
+          "fix": "Add a request level test that posts an invalid username to the register endpoint and asserts a 400 response."
+        },
+        {
+          "title": "The User struct is used as an API response",
+          "why": "get_followers returns the full User row. Adding a private column later would ship it to clients unless someone remembers to skip it.",
+          "fix": "Add a PublicUser struct with only id, username, display_name and bio, and return that from the follower and following endpoints."
+        },
+        {
+          "title": "Tweet content length is enforced only by the database",
+          "why": "The column is VARCHAR(280) but no request struct limits the text, so an over long tweet fails as a database error instead of a clear message.",
+          "fix": "Add a validate(length(max = 280)) rule to the create tweet request in src/models/tweet.rs and check it in the handler."
+        },
+        {
+          "title": "No model rejects an empty string",
+          "why": "A username of three spaces passes the length rule, so blank profiles can be created.",
+          "fix": "Add a non blank check to the username and content rules, trimming before the length is measured."
+        }
+      ]
+    },
+    {
+      "id": "auth",
+      "name": "Authentication",
+      "icon": "\ud83d\udd10",
+      "paths": [
+        "src/middleware"
+      ],
+      "description": "Creates and checks JSON Web Tokens.\ncreate_jwt signs a token holding the user id and an expiry seven days out.\nauth_middleware reads the Authorization header, strips the Bearer prefix, verifies the token, and puts the claims on the request.\nHandlers behind the middleware read the user id from those claims.",
+      "files": [
+        {
+          "path": "src/middleware/auth.rs",
+          "role": "Token creation, token verification and the axum middleware that guards routes"
+        },
+        {
+          "path": "src/middleware/auth_test.rs",
+          "role": "Tests for signing and verifying a token"
+        },
+        {
+          "path": "src/middleware/mod.rs",
+          "role": "Exports the middleware and the Claims type"
+        }
+      ],
+      "pros": [
+        "Every protected route goes through one middleware function, so there is a single place to change auth.",
+        "A missing header and a malformed header produce different messages, which makes client bugs quicker to find.",
+        "Claims are inserted into the request extensions, so handlers never parse a token themselves.",
+        "Token expiry is set explicitly rather than left to a library default.",
+        "Signing and verification are separate functions with their own tests."
+      ],
+      "cons": [
+        {
+          "title": "The JWT secret has a working default",
+          "why": "src/config.rs:15 falls back to the literal string your-secret-key when JWT_SECRET is unset, so a deployment that forgets the variable still starts and signs tokens anyone can forge.",
+          "fix": "Change Config::from_env to return an error when JWT_SECRET is missing, and let main.rs exit before the server binds."
+        },
+        {
+          "title": "Tokens are stored in localStorage",
+          "why": "src/lib/api.ts:6 reads the token from localStorage, which any script running on the page can read. One cross site scripting bug hands over every session.",
+          "fix": "Move the token to an HttpOnly, Secure, SameSite cookie set by the login endpoint, and drop the Authorization header logic from the API client."
+        },
+        {
+          "title": "There is no way to revoke a token",
+          "why": "A token stays valid for seven days. Logout only clears the browser, so a stolen token keeps working.",
+          "fix": "Shorten the token to 15 minutes, add a refresh endpoint, and keep a revoked token id list checked by verify_jwt."
+        },
+        {
+          "title": "The token carries only a user id",
+          "why": "There is no role or scope in the claims, so any future permission check has to hit the database on every request.",
+          "fix": "Add a role field to Claims in src/middleware/auth.rs and set it at login from the users table."
+        },
+        {
+          "title": "Failed authentication is not logged",
+          "why": "A brute force attempt against login leaves no trace, because auth_middleware returns an error without writing a log line.",
+          "fix": "Add a tracing::warn in auth_middleware for every rejection, including the request path and the source address."
+        }
+      ]
+    },
+    {
+      "id": "backend-core",
+      "name": "Backend core",
+      "icon": "\u2699\ufe0f",
+      "paths": [
+        "src/main.rs",
+        "src/config.rs",
+        "src/error.rs",
+        "src/state.rs"
+      ],
+      "description": "Starts the server and holds what every request needs.\nmain.rs sets up tracing, reads config, opens a PostgreSQL pool of five connections, runs migrations, adds CORS and a trace layer, then listens on port 8000.\nAppState carries the pool and the config into every handler.\nAppError maps each failure kind to an HTTP status and a JSON body.",
+      "files": [
+        {
+          "path": "src/main.rs",
+          "role": "Process entry point: tracing, pool, migrations, CORS, router and listener"
+        },
+        {
+          "path": "src/config.rs",
+          "role": "Reads DATABASE_URL and JWT_SECRET from the environment"
+        },
+        {
+          "path": "src/error.rs",
+          "role": "AppError enum and its conversion into an HTTP response"
+        },
+        {
+          "path": "src/state.rs",
+          "role": "Shared state handed to every handler"
+        },
+        {
+          "path": "src/error_test.rs",
+          "role": "Tests that each error kind maps to the expected status code"
+        }
+      ],
+      "pros": [
+        "Migrations run at startup, so the schema cannot drift behind the running binary.",
+        "Database and internal errors are logged and then replaced with a generic message, so internals do not reach clients.",
+        "One AppError type covers the whole crate, so no handler invents its own error shape.",
+        "The connection pool is created once and shared, so handlers never open a connection themselves.",
+        "The tracing filter is read from RUST_LOG with a sensible default, so log level changes need no rebuild."
+      ],
+      "cons": [
+        {
+          "title": "CORS accepts every origin",
+          "why": "src/main.rs:41 allows any origin, method and header. Any website can call the API from a visitor's browser.",
+          "fix": "Replace Any with an explicit origin list read from config, and restrict methods to the ones the routes actually use."
+        },
+        {
+          "title": "Configuration failures are silent",
+          "why": "A missing DATABASE_URL falls back to a local development URL, so a misconfigured deployment connects to the wrong database instead of failing.",
+          "fix": "Make Config::from_env return Result and stop the process when a required variable is missing."
+        },
+        {
+          "title": "The pool is fixed at five connections",
+          "why": "Five connections is a hard ceiling on concurrency, and it is not adjustable without a rebuild.",
+          "fix": "Read max_connections from an environment variable in src/main.rs:32 with a default that matches the deployment size."
+        },
+        {
+          "title": "There is no health or readiness endpoint",
+          "why": "Nothing can tell whether the process is up and the database is reachable, so a load balancer cannot route around a broken instance.",
+          "fix": "Add a GET /health route that runs SELECT 1 against the pool and returns 200 only when it succeeds."
+        },
+        {
+          "title": "Only three log lines exist in the backend",
+          "why": "Two error logs in src/error.rs and one startup line in src/main.rs. Normal traffic produces nothing to read when something goes wrong.",
+          "fix": "Configure the existing TraceLayer to emit a request and response line, and add spans with the user id in the handlers."
+        }
+      ]
+    },
+    {
+      "id": "web-ui",
+      "name": "Web UI components",
+      "icon": "\ud83c\udfa8",
+      "paths": [
+        "src/components"
+      ],
+      "description": "React components that draw the timeline.\nTweetCard shows one tweet with its counts and like and retweet buttons.\nTweetComposer submits new tweets, CommentList and UserCard render the smaller pieces.\nTwo of the components have Jest tests next to them.",
+      "files": [
+        {
+          "path": "src/components/TweetCard.tsx",
+          "role": "Renders one tweet with author, counts and the like and retweet actions"
+        },
+        {
+          "path": "src/components/TweetComposer.tsx",
+          "role": "Text area and submit path for creating a tweet"
+        },
+        {
+          "path": "src/components/CommentList.tsx",
+          "role": "Lists the comments under a tweet"
+        },
+        {
+          "path": "src/components/UserCard.tsx",
+          "role": "Compact user row used in follower and following lists"
+        },
+        {
+          "path": "src/components/__tests__/TweetCard.test.tsx",
+          "role": "Rendering and interaction tests for TweetCard"
+        }
+      ],
+      "pros": [
+        "Components take plain props and hold no data fetching, so they render the same way in a test and in the app.",
+        "TypeScript types come from a single src/types module, so a backend field rename breaks the build.",
+        "Two components have tests that cover both rendering and click behaviour.",
+        "Styling uses Tailwind classes, so there is no separate stylesheet to keep in sync.",
+        "Each component file holds one component, so the file name says what is inside."
+      ],
+      "cons": [
+        {
+          "title": "Only two of eight components are tested",
+          "why": "CommentList and UserCard have no tests, so a change to how a follower row renders is caught only by an end to end run.",
+          "fix": "Add a Jest test per untested component under src/components/__tests__ covering the empty list and the populated list."
+        },
+        {
+          "title": "No component shows a loading or error state",
+          "why": "When a request is slow or fails, the component keeps its old content, so the user cannot tell that anything went wrong.",
+          "fix": "Pass loading and error props into TweetCard and CommentList and render a placeholder and a retry action for each."
+        },
+        {
+          "title": "Counts are read straight from the response",
+          "why": "TweetCard trusts likes_count and retweets_count as sent. A missing field renders as blank rather than zero.",
+          "fix": "Default the count props to 0 where they are destructured in src/components/TweetCard.tsx."
+        },
+        {
+          "title": "There is no error boundary",
+          "why": "One component that throws while rendering blanks the whole page, because nothing catches it above the tree.",
+          "fix": "Wrap the routed area in src/App.tsx with a React error boundary that renders a fallback and reports the error."
+        },
+        {
+          "title": "No accessibility attributes on the action buttons",
+          "why": "The like and retweet buttons show only an icon, so a screen reader announces nothing useful.",
+          "fix": "Add an aria-label to each icon button in src/components/TweetCard.tsx describing the action and the target."
+        }
+      ]
+    },
+    {
+      "id": "web-client",
+      "name": "Web state and API client",
+      "icon": "\ud83d\udd0c",
+      "paths": [
+        "src/lib",
+        "src/contexts",
+        "src/types",
+        "src/pages"
+      ],
+      "description": "The browser side data layer and the routed screens.\napi.ts wraps fetch, attaches the token and throws when the response is not ok.\nAuthContext keeps the user and token in React state and mirrors them into localStorage.\nThe pages compose components into the home, profile, login and tweet detail screens.",
+      "files": [
+        {
+          "path": "src/lib/api.ts",
+          "role": "Single fetch wrapper plus the auth, tweet, user and comment API calls"
+        },
+        {
+          "path": "src/contexts/AuthContext.tsx",
+          "role": "Holds the logged in user and token and exposes login, register and logout"
+        },
+        {
+          "path": "src/types/index.ts",
+          "role": "Shared TypeScript types for every API payload"
+        },
+        {
+          "path": "src/pages/HomePage.tsx",
+          "role": "Timeline screen that lists the feed and hosts the composer"
+        },
+        {
+          "path": "src/lib/__tests__/api.test.ts",
+          "role": "Tests for the fetch wrapper and each API group"
+        }
+      ],
+      "pros": [
+        "Every request goes through one makeRequest function, so the token header is attached in exactly one place.",
+        "The API base URL is a single constant, so pointing the app at another environment is a one line change.",
+        "Auth state is initialised from localStorage inside useState, so a page reload keeps the session without a flash.",
+        "The API client has the largest test file in the frontend at 418 lines.",
+        "Types are shared between the API client and the components, so a payload change surfaces at compile time."
+      ],
+      "cons": [
+        {
+          "title": "Errors are thrown as plain strings",
+          "why": "src/lib/api.ts:30 throws new Error with the raw response body, so callers cannot tell a 401 from a 500 without parsing text.",
+          "fix": "Create an ApiError class carrying status and body, throw that instead, and branch on status in the callers."
+        },
+        {
+          "title": "The API base URL is hardcoded to localhost",
+          "why": "src/lib/api.ts:3 points at http://localhost:8000/api, so a production build talks to the developer's machine.",
+          "fix": "Read the base URL from import.meta.env.VITE_API_BASE_URL with the localhost value as the development default."
+        },
+        {
+          "title": "A 401 does not log the user out",
+          "why": "When the token expires every call fails but the app still shows a logged in shell, so the user sees empty screens.",
+          "fix": "Check for status 401 in makeRequest, clear the stored token and user, and redirect to the login page."
+        },
+        {
+          "title": "The user object is trusted from localStorage",
+          "why": "AuthContext parses whatever is in localStorage into a User with no check, so edited storage produces a broken UI.",
+          "fix": "Validate the parsed object against the User shape in src/contexts/AuthContext.tsx:17 and clear the key when it does not match."
+        },
+        {
+          "title": "No request is cancelled or retried",
+          "why": "React Query is a dependency but the pages call the API client directly, so a slow request keeps running after the user navigates away.",
+          "fix": "Move the page level fetches into useQuery hooks so React Query handles cancellation, caching and retry."
+        }
+      ]
+    },
+    {
+      "id": "database",
+      "name": "Database schema",
+      "icon": "\ud83d\uddc4\ufe0f",
+      "paths": [
+        "migrations",
+        "db"
+      ],
+      "description": "Six PostgreSQL tables defined as sqlx migrations that run at server startup.\nusers, tweets and comments carry a serial id; follows, likes and retweets are join tables keyed by the pair of ids.\nEvery foreign key cascades on delete and every lookup column has an index.\nA second copy of the schema also exists in db/schema.sql.",
+      "files": [
+        {
+          "path": "migrations/20260209000001_create_users.sql",
+          "role": "users table plus indexes on username and email"
+        },
+        {
+          "path": "migrations/20260209000002_create_tweets.sql",
+          "role": "tweets table with a 280 character content column"
+        },
+        {
+          "path": "migrations/20260209000003_create_follows.sql",
+          "role": "follows join table with a self follow check"
+        },
+        {
+          "path": "migrations/20260209000006_create_comments.sql",
+          "role": "comments table linked to both a user and a tweet"
+        },
+        {
+          "path": "db/schema.sql",
+          "role": "A second full schema used by the setup scripts"
+        }
+      ],
+      "pros": [
+        "Every foreign key uses ON DELETE CASCADE, so deleting a user leaves no orphan rows.",
+        "follows has a CHECK that stops a user following themselves, so the rule cannot be bypassed by a bug in the API.",
+        "Join tables use a composite primary key, so a duplicate like or retweet is rejected by the database.",
+        "Every column used in a WHERE or ORDER BY has an index, including created_at on tweets and comments.",
+        "Migrations are numbered and run automatically at boot, so a new environment reaches the right schema in one step."
+      ],
+      "cons": [
+        {
+          "title": "The schema exists twice and the two copies differ",
+          "why": "db/schema.sql:8 uses TIMESTAMP while migrations/20260209000001_create_users.sql:8 uses TIMESTAMPTZ. Whichever ran last decides how times behave.",
+          "fix": "Delete db/schema.sql and change create-schema.sql and setup-test-db.sh to run the migrations instead."
+        },
+        {
+          "title": "The comment index sorts the wrong way",
+          "why": "comments are read with ORDER BY created_at ASC but the index is created DESC in the migration, so the database sorts the rows again.",
+          "fix": "Change idx_comments_created_at in migrations/20260209000006_create_comments.sql to ASC to match the query in src/handlers/comments.rs:72."
+        },
+        {
+          "title": "Ids are 32 bit serials",
+          "why": "SERIAL stops at about 2.1 billion rows. For tweets and likes on a social app that is a ceiling, not a theoretical limit.",
+          "fix": "Add a migration that alters the id columns on tweets, comments, likes and retweets to BIGSERIAL."
+        },
+        {
+          "title": "There is no rollback for any migration",
+          "why": "sqlx migrations here are forward only, so a bad deploy has to be fixed by writing a new migration under pressure.",
+          "fix": "Add a matching .down.sql for each migration and switch to sqlx reversible migrations."
+        },
+        {
+          "title": "No table records deleted rows",
+          "why": "Deletes cascade, so removing a user erases their tweets and comments with no record that they existed.",
+          "fix": "Add a deleted_at column to users, tweets and comments and change the delete handlers to set it instead of removing the row."
+        }
+      ]
+    },
+    {
+      "id": "test-suites",
+      "name": "Test suites",
+      "icon": "\ud83e\uddea",
+      "paths": [
+        "tests",
+        "e2e",
+        "k6-tests"
+      ],
+      "description": "Three separate suites outside the source tree.\ntests holds Rust integration tests that build the router in process and send real HTTP requests.\ne2e holds Playwright specs that drive the browser through the real UI.\nk6-tests holds JavaScript load scripts that hit the API directly.",
+      "files": [
+        {
+          "path": "tests/integration_tests.rs",
+          "role": "The main backend integration suite, 1228 lines covering auth, tweets, follows and comments"
+        },
+        {
+          "path": "tests/api_test.rs",
+          "role": "Endpoint level checks against the built router"
+        },
+        {
+          "path": "e2e/auth.spec.ts",
+          "role": "Register, login and logout through the browser"
+        },
+        {
+          "path": "e2e/helpers/auth.ts",
+          "role": "Shared helper that registers and logs in a test user"
+        },
+        {
+          "path": "k6-tests/stress-test.js",
+          "role": "Ramping load scenario with thresholds on latency and error rate"
+        }
+      ],
+      "pros": [
+        "Three levels of testing exist: in process HTTP, real browser and load.",
+        "The e2e suite is substantial at 13 spec files and 85 cases.",
+        "Playwright specs use page objects under e2e/pages, so a selector change is fixed in one file.",
+        "k6 scripts declare thresholds, so a load run fails rather than just printing numbers.",
+        "The Rust integration tests build the real router, so route wiring and middleware are covered, not mocked."
+      ],
+      "cons": [
+        {
+          "title": "One integration file holds 1228 lines",
+          "why": "tests/integration_tests.rs mixes auth, tweets, follows and comments, so a failure means reading the whole file to find the setup that applies.",
+          "fix": "Split it into tests/auth_test.rs, tests/tweets_test.rs, tests/follows_test.rs and tests/comments_test.rs, and move the shared setup into a common module."
+        },
+        {
+          "title": "Test credentials are written into the files",
+          "why": "The literal password123 appears in e2e/helpers/auth.ts:17 and across the k6 scripts, so the same string ends up in scripts that can be pointed at a real environment.",
+          "fix": "Read the test user and password from environment variables with a development default, and fail the run when they are missing against a non local host."
+        },
+        {
+          "title": "Nothing tests failure behaviour",
+          "why": "There is no test that stops the database or delays a response, so the code paths that handle an outage have never run.",
+          "fix": "Add a suite that starts the server against a stopped database and asserts the error status, then add a timeout case."
+        },
+        {
+          "title": "The k6 scripts report no test cases",
+          "why": "They measure thresholds rather than assert outcomes, so a run can pass while the API returns wrong data quickly.",
+          "fix": "Add response body checks to the k6 scripts alongside the latency thresholds so incorrect responses fail the run."
+        },
+        {
+          "title": "No test covers the feed under a large following list",
+          "why": "The feed query cost grows with the number of tweets returned, and no test exercises it beyond a handful of rows.",
+          "fix": "Add an integration test that seeds 500 tweets and asserts the number of database round trips stays constant."
+        }
+      ]
+    }
+  ],
+  "schema": {
+    "present": true,
+    "engine": "postgres",
+    "tableCount": 6,
+    "sizeNote": "n/a - table sizes are not reachable from a static scan. The scan found no database file or dump in the repository.",
+    "tables": [
+      {
+        "name": "users",
+        "purpose": "Accounts with the login credentials and profile fields",
+        "columns": 8,
+        "rows": "n/a",
+        "size": "n/a",
+        "source": "migrations/20260209000001_create_users.sql"
+      },
+      {
+        "name": "tweets",
+        "purpose": "Posts, limited to 280 characters and owned by one user",
+        "columns": 5,
+        "rows": "n/a",
+        "size": "n/a",
+        "source": "migrations/20260209000002_create_tweets.sql"
+      },
+      {
+        "name": "follows",
+        "purpose": "Directed follower to following pairs with a self follow check",
+        "columns": 3,
+        "rows": "n/a",
+        "size": "n/a",
+        "source": "migrations/20260209000003_create_follows.sql"
+      },
+      {
+        "name": "likes",
+        "purpose": "One row per user and tweet pair that was liked",
+        "columns": 3,
+        "rows": "n/a",
+        "size": "n/a",
+        "source": "migrations/20260209000004_create_likes.sql"
+      },
+      {
+        "name": "retweets",
+        "purpose": "One row per user and tweet pair that was retweeted",
+        "columns": 3,
+        "rows": "n/a",
+        "size": "n/a",
+        "source": "migrations/20260209000005_create_retweets.sql"
+      },
+      {
+        "name": "comments",
+        "purpose": "Replies attached to a tweet and a user",
+        "columns": 6,
+        "rows": "n/a",
+        "size": "n/a",
+        "source": "migrations/20260209000006_create_comments.sql"
+      }
+    ],
+    "worstQueries": [
+      {
+        "query": "SELECT username, display_name FROM users WHERE id = $1",
+        "path": "src/handlers/tweets.rs",
+        "line": 36,
+        "why": "This runs once per tweet inside enrich_tweet, together with four count queries. A 20 tweet feed sends about 121 queries.",
+        "fix": "Join users into the feed query and aggregate the counts with GROUP BY, so one query returns the whole page."
+      },
+      {
+        "query": "SELECT id, user_id, content, created_at, updated_at FROM tweets ORDER BY created_at DESC LIMIT $1 OFFSET $2",
+        "path": "src/handlers/tweets.rs",
+        "line": 205,
+        "why": "OFFSET makes the database walk and discard every earlier row, so page 500 is far slower than page 1.",
+        "fix": "Switch to keyset pagination: pass the created_at and id of the last row seen and use WHERE (created_at, id) < ($1, $2)."
+      },
+      {
+        "query": "SELECT u.id, u.username, u.email, u.password_hash, u.display_name, u.bio, u.created_at, u.updated_at FROM users u INNER JOIN follows f ON f.follower_id = u.id WHERE f.following_id = $1 ORDER BY f.created_at DESC",
+        "path": "src/handlers/users.rs",
+        "line": 105,
+        "why": "There is no LIMIT, so a popular account returns every follower in one response, and the password hash is read for each of them.",
+        "fix": "Add LIMIT and OFFSET parameters and drop password_hash and email from the column list."
+      },
+      {
+        "query": "SELECT id, user_id, tweet_id, content, created_at, updated_at FROM comments WHERE tweet_id = $1 ORDER BY created_at ASC",
+        "path": "src/handlers/comments.rs",
+        "line": 72,
+        "why": "Every comment on a tweet is returned at once, and the index on created_at is DESC while the query sorts ASC.",
+        "fix": "Add a LIMIT with pagination and change idx_comments_created_at to ASC so the index matches the sort."
+      },
+      {
+        "query": "SELECT id, username, email, password_hash, display_name, bio, created_at, updated_at FROM users WHERE username = $1 OR email = $1",
+        "path": "src/handlers/auth.rs",
+        "line": 55,
+        "why": "An OR across two columns cannot use either index well, so login does more work as the users table grows.",
+        "fix": "Split into two lookups, or add an expression index that covers both columns, and pick the branch from whether the input contains an @."
+      }
+    ],
+    "pros": [
+      "Six tables cover the whole product, so there is nothing unused to maintain.",
+      "Foreign keys are declared and cascade, so referential integrity is enforced by the database.",
+      "Composite primary keys on likes, follows and retweets make duplicates impossible.",
+      "Thirteen indexes exist and each one matches a column the handlers filter or sort on.",
+      "Content length is enforced at the column with VARCHAR(280), so bad data cannot be stored even if the API misses it."
+    ],
+    "cons": [
+      {
+        "title": "Two schemas define the same tables differently",
+        "why": "db/schema.sql:8 declares created_at as TIMESTAMP while the migration declares TIMESTAMPTZ, so time zone handling depends on which file was applied.",
+        "fix": "Delete db/schema.sql and point create-schema.sh and setup-test-db.sh at the migrations directory."
+      },
+      {
+        "title": "No counter is stored for likes or comments",
+        "why": "Every read counts rows with COUNT(*), so the cost of showing a tweet grows with how popular it is.",
+        "fix": "Add likes_count and comments_count columns to tweets and update them in the like and comment handlers inside the same transaction."
+      },
+      {
+        "title": "Ids are 32 bit",
+        "why": "SERIAL columns on tweets, likes and retweets run out at about 2.1 billion rows, which is reachable for these tables.",
+        "fix": "Add a migration altering those id columns and their foreign keys to BIGSERIAL and BIGINT."
+      },
+      {
+        "title": "No unique constraint on the tweet author and content",
+        "why": "The same tweet can be posted repeatedly, so a retrying client fills the timeline with duplicates.",
+        "fix": "Add an idempotency key column to tweets with a unique index, and have the create handler pass the client supplied key."
+      },
+      {
+        "title": "Nothing is partitioned or archived",
+        "why": "tweets and comments only grow, so every index and every scan gets slower over the life of the system.",
+        "fix": "Partition tweets and comments by created_at month and add a job that detaches partitions older than the retention window."
+      }
+    ]
+  },
+  "committers": [
+    {
+      "name": "diegopacheco",
+      "email": "diego.pacheco.it@gmail.com",
+      "login": null,
+      "commits": 10,
+      "firstCommit": "2026-02-10",
+      "lastCommit": "2026-02-11",
+      "areas": [
+        "e2e",
+        "k6-tests",
+        "src",
+        "src/models",
+        "e2e/pages",
+        "migrations",
+        "src/components",
+        "tests"
+      ],
+      "worksOn": "Sole author of every commit in this path. The commit file counts are highest in e2e and k6-tests,\nwhich matches a project where the application landed first and the effort then went into the\nPlaywright suite and the load scripts. Recent commit subjects are progress, improve e2e and added report.",
+      "profileUrl": "mailto:diego.pacheco.it@gmail.com",
+      "avatarUrl": "https://www.gravatar.com/avatar/fb8b94451149ab5842c8985936821d3f?s=104&d=404"
+    }
+  ],
+  "techDebt": [
+    {
+      "id": "n-plus-one-feed",
+      "module": "http-api",
+      "title": "Feed runs one query per tweet",
+      "severity": "high",
+      "whyBad": "get_feed loads a page of tweets and then calls enrich_tweet for every one of them.\nenrich_tweet runs six queries: the author, three counts, and two exists checks.\nA default page of 20 tweets costs about 121 database round trips, and the pool holds five connections.\nUnder concurrent load the pool is the first thing to run out.",
+      "howToFix": "Write one query that selects the tweet page joined to users for the author.\nAdd LEFT JOIN LATERAL aggregates, or grouped subqueries, for the like, retweet and comment counts.\nCompute is_liked and is_retweeted in the same statement using the current user id.\nDelete enrich_tweet and map the joined row straight into TweetResponse.\nAdd an integration test that seeds 500 tweets and asserts the round trip count stays flat.",
+      "antiPatterns": [
+        {
+          "name": "N+1 query",
+          "why": "One query per row in a result set turns a single page view into hundreds of round trips."
+        },
+        {
+          "name": "Counting on read",
+          "why": "COUNT(*) on every read makes the cost of showing a tweet grow with how popular it is."
+        }
+      ],
+      "examples": [
+        {
+          "path": "src/handlers/tweets.rs",
+          "line": 218,
+          "snippet": "for tweet in tweets {"
+        },
+        {
+          "path": "src/handlers/tweets.rs",
+          "line": 250,
+          "snippet": "for tweet in tweets {"
+        },
+        {
+          "path": "src/handlers/tweets.rs",
+          "line": 36,
+          "snippet": "\"SELECT username, display_name FROM users WHERE id = $1\""
+        }
+      ]
+    },
+    {
+      "id": "unbounded-pagination",
+      "module": "http-api",
+      "title": "Page size and offset are unbounded",
+      "severity": "medium",
+      "whyBad": "FeedQuery takes limit and offset straight from the query string with only a default of 20.\nA request for a limit of one million is accepted and executed.\nOFFSET also forces the database to walk and discard every earlier row, so deep pages get slower without bound.",
+      "howToFix": "Clamp limit to a maximum of 100 and reject a negative offset in FeedQuery.\nReturn 400 with a clear message instead of silently capping, so clients learn the limit.\nReplace OFFSET with keyset pagination using the created_at and id of the last row returned.",
+      "antiPatterns": [
+        {
+          "name": "Trusting client input",
+          "why": "A value taken from the request and passed to the database lets the caller decide how much work the server does."
+        },
+        {
+          "name": "OFFSET pagination",
+          "why": "The database reads and throws away every row before the offset, so cost grows with page number."
+        }
+      ],
+      "examples": [
+        {
+          "path": "src/handlers/tweets.rs",
+          "line": 19,
+          "snippet": "pub struct FeedQuery {"
+        },
+        {
+          "path": "src/handlers/tweets.rs",
+          "line": 205,
+          "snippet": "ORDER BY created_at DESC LIMIT $1 OFFSET $2"
+        }
+      ]
+    },
+    {
+      "id": "password-hash-selected",
+      "module": "http-api",
+      "title": "Follower queries read the password hash",
+      "severity": "medium",
+      "whyBad": "get_followers and get_following select u.password_hash out of the database and load it into the User struct.\nIt is not serialized today only because of a serde attribute on the model.\nOne removed attribute, or one debug log of the struct, sends every follower's hash to the client.",
+      "howToFix": "Remove password_hash and email from the SELECT lists in both queries.\nAdd a PublicUser struct with id, username, display_name and bio and use it as the response type.\nAdd a test asserting the follower response body contains no password field.",
+      "antiPatterns": [
+        {
+          "name": "SELECT everything",
+          "why": "Reading columns the caller does not need means one mistake elsewhere turns into a data leak."
+        },
+        {
+          "name": "Database entity as API response",
+          "why": "The response shape follows the table, so any new column is exposed by default."
+        }
+      ],
+      "examples": [
+        {
+          "path": "src/handlers/users.rs",
+          "line": 105,
+          "snippet": "SELECT u.id, u.username, u.email, u.password_hash, ... FROM users u"
+        },
+        {
+          "path": "src/handlers/users.rs",
+          "line": 125,
+          "snippet": "SELECT u.id, u.username, u.email, u.password_hash, ... FROM users u"
+        }
+      ]
+    },
+    {
+      "id": "validation-never-called",
+      "module": "domain-models",
+      "title": "Validation rules are declared but never run",
+      "severity": "high",
+      "whyBad": "RegisterRequest and UpdateUserRequest carry validator rules for username length, email format and password length.\nThe only calls to validate() in the whole repository are inside src/models/user_test.rs.\nThe API therefore accepts a one character username, a password of one character and a string that is not an email.\nThe tests pass, which makes the gap invisible.",
+      "howToFix": "Call payload.validate() as the first statement of register and update_user_profile.\nMap the validator error into AppError::BadRequest so it returns 400 with the field names.\nAdd the same call to any future handler that takes a Validate request struct.\nAdd a request level test posting an invalid email and asserting a 400.",
+      "antiPatterns": [
+        {
+          "name": "Declarative rule with no enforcement point",
+          "why": "An annotation that nothing reads looks like protection while providing none."
+        },
+        {
+          "name": "Testing the rule instead of the path",
+          "why": "A test that calls the validator directly passes even when the running code never does."
+        }
+      ],
+      "examples": [
+        {
+          "path": "src/models/user.rs",
+          "line": 23,
+          "snippet": "#[validate(length(min = 3, max = 50))]"
+        },
+        {
+          "path": "src/models/user_test.rs",
+          "line": 14,
+          "snippet": "assert!(request.validate().is_err());"
+        },
+        {
+          "path": "src/handlers/auth.rs",
+          "line": 1,
+          "snippet": "no call to validate() anywhere in this file"
+        }
+      ]
+    },
+    {
+      "id": "default-jwt-secret",
+      "module": "auth",
+      "title": "JWT secret falls back to a literal string",
+      "severity": "high",
+      "whyBad": "When JWT_SECRET is not set, Config::from_env uses the string your-secret-key and the server starts normally.\nAnyone who knows that value can sign a token for any user id and get full access.\nThe value is in a public source file, so it is known.",
+      "howToFix": "Change Config::from_env to return Result and produce an error when JWT_SECRET is missing or shorter than 32 bytes.\nPropagate that error in main.rs so the process exits before it binds the listener.\nGenerate the secret per environment and inject it as an environment variable.",
+      "antiPatterns": [
+        {
+          "name": "Insecure default",
+          "why": "A default that lets the system start hides a misconfiguration until it is exploited."
+        },
+        {
+          "name": "Secret in source control",
+          "why": "Anything committed to the repository is available to everyone who can read it, forever."
+        }
+      ],
+      "examples": [
+        {
+          "path": "src/config.rs",
+          "line": 15,
+          "snippet": ".unwrap_or_else(|_| \"your-secret-key\".to_string()),"
+        }
+      ]
+    },
+    {
+      "id": "token-in-localstorage",
+      "module": "auth",
+      "title": "Session token is kept in localStorage",
+      "severity": "high",
+      "whyBad": "The JWT is written to localStorage at login and read back on every request.\nlocalStorage is readable by any JavaScript running on the page, including anything injected through a cross site scripting bug.\nThe token is valid for seven days and cannot be revoked, so one leak is a week of access.",
+      "howToFix": "Have the login endpoint set the token in an HttpOnly, Secure, SameSite=Strict cookie.\nRemove the Authorization header logic from src/lib/api.ts and send credentials with the request instead.\nRead the cookie in auth_middleware as well as the header during the transition, then drop the header path.",
+      "antiPatterns": [
+        {
+          "name": "Credential in script readable storage",
+          "why": "Any script on the page can read it, so the token is only as safe as every dependency the page loads."
+        },
+        {
+          "name": "Long lived non revocable token",
+          "why": "With no server side record there is no way to end a session that has been stolen."
+        }
+      ],
+      "examples": [
+        {
+          "path": "src/lib/api.ts",
+          "line": 6,
+          "snippet": "return localStorage.getItem('token');"
+        },
+        {
+          "path": "src/contexts/AuthContext.tsx",
+          "line": 29,
+          "snippet": "localStorage.setItem('token', response.token);"
+        }
+      ]
+    },
+    {
+      "id": "wide-open-cors",
+      "module": "backend-core",
+      "title": "CORS allows every origin",
+      "severity": "high",
+      "whyBad": "The CORS layer is built with allow_origin(Any), allow_methods(Any) and allow_headers(Any).\nAny website a logged in user visits can call this API from their browser.\nCombined with a token in localStorage, a malicious page has a wide surface to work with.",
+      "howToFix": "Replace Any with an explicit list of allowed origins read from configuration.\nRestrict methods to GET, POST, PUT and DELETE and headers to content-type and authorization.\nAdd an integration test that asserts a request from an unknown origin is rejected.",
+      "antiPatterns": [
+        {
+          "name": "Permissive CORS in production code",
+          "why": "A development convenience left in the build removes a browser protection for every user."
+        }
+      ],
+      "examples": [
+        {
+          "path": "src/main.rs",
+          "line": 41,
+          "snippet": ".allow_origin(Any)"
+        }
+      ]
+    },
+    {
+      "id": "almost-no-logging",
+      "module": "backend-core",
+      "title": "The backend produces three log lines",
+      "severity": "medium",
+      "whyBad": "The whole Rust source has two tracing::error calls in src/error.rs and one tracing::info in src/main.rs.\nA request that fails validation, a rejected token or a slow query leaves no record.\nDiagnosing a production incident would mean adding logs and redeploying first.",
+      "howToFix": "Configure the existing TraceLayer with make_span_with and on_response so every request logs method, path, status and duration.\nAdd tracing::warn to auth_middleware for each rejection with the path and the reason.\nAdd a span per handler carrying the user id and the entity id so lines can be correlated.",
+      "antiPatterns": [
+        {
+          "name": "Logging only on crash",
+          "why": "Without a record of normal traffic there is no baseline to compare a failure against."
+        },
+        {
+          "name": "Unused instrumentation",
+          "why": "TraceLayer is installed but not configured, so the dependency is paid for without the benefit."
+        }
+      ],
+      "examples": [
+        {
+          "path": "src/error.rs",
+          "line": 34,
+          "snippet": "tracing::error!(\"Database error: {}\", self);"
+        },
+        {
+          "path": "src/main.rs",
+          "line": 51,
+          "snippet": "tracing::info!(\"Server running on http://0.0.0.0:8000\");"
+        }
+      ]
+    },
+    {
+      "id": "duplicate-schema",
+      "module": "database",
+      "title": "The schema is defined twice and the copies disagree",
+      "severity": "medium",
+      "whyBad": "db/schema.sql and the migrations directory both create all six tables.\ndb/schema.sql uses TIMESTAMP while the migrations use TIMESTAMPTZ, so timestamps behave differently depending on which one created the database.\nA developer using the setup script and a server running migrations get two different databases.",
+      "howToFix": "Delete db/schema.sql.\nChange create-schema.sh and setup-test-db.sh to run sqlx migrate run against the target database.\nAdd a check in the integration test setup that asserts the created_at column type is timestamptz.",
+      "antiPatterns": [
+        {
+          "name": "Two sources of truth",
+          "why": "When the same thing is defined in two places they drift, and nothing reports the difference."
+        },
+        {
+          "name": "Naive timestamp column",
+          "why": "TIMESTAMP without a time zone stores an ambiguous instant, so comparisons across regions are wrong."
+        }
+      ],
+      "examples": [
+        {
+          "path": "db/schema.sql",
+          "line": 8,
+          "snippet": "created_at TIMESTAMP NOT NULL DEFAULT NOW(),"
+        },
+        {
+          "path": "migrations/20260209000001_create_users.sql",
+          "line": 8,
+          "snippet": "created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),"
+        }
+      ]
+    },
+    {
+      "id": "giant-test-file",
+      "module": "test-suites",
+      "title": "One integration test file holds 1228 lines",
+      "severity": "medium",
+      "whyBad": "tests/integration_tests.rs covers auth, tweets, follows and comments in a single file.\nA failing test means scrolling through unrelated setup to find which state applies.\nThe two longest functions in the repository are inside it at 140 and 133 lines.",
+      "howToFix": "Split the file by feature into auth, tweets, follows and comments test files.\nMove the shared server and database setup into a tests/common module.\nBreak the two longest test functions into smaller cases with one assertion subject each.",
+      "antiPatterns": [
+        {
+          "name": "One file per suite",
+          "why": "A file that grows with the product stops being readable long before anyone decides to split it."
+        },
+        {
+          "name": "Long test function",
+          "why": "A 140 line test asserts many things, so a failure does not say which behaviour broke."
+        }
+      ],
+      "examples": [
+        {
+          "path": "tests/integration_tests.rs",
+          "line": 827,
+          "snippet": "async fn test_feed_generation() {"
+        },
+        {
+          "path": "tests/integration_tests.rs",
+          "line": 1096,
+          "snippet": "async fn test_complex_user_interaction_scenario() {"
+        }
+      ]
+    },
+    {
+      "id": "hardcoded-test-credentials",
+      "module": "test-suites",
+      "title": "Test passwords are written into the scripts",
+      "severity": "low",
+      "whyBad": "The literal password123 appears in the Playwright helper and across the k6 scripts.\nThose scripts take a base URL, so the same credentials can be pointed at a shared environment.\nThe scan matched 40 credential-shaped literals across test files and documentation.",
+      "howToFix": "Read the test user and password from environment variables with a local development default.\nFail the run when the target host is not localhost and the variables are unset.\nRemove the literal passwords from DEPLOYMENT.md and TEST_EXECUTION_GUIDE.md.",
+      "antiPatterns": [
+        {
+          "name": "Credentials in source",
+          "why": "A password in the repository is available to everyone with read access and stays in the history after removal."
+        }
+      ],
+      "examples": [
+        {
+          "path": "e2e/helpers/auth.ts",
+          "line": 17,
+          "snippet": "password: 'password123',"
+        },
+        {
+          "path": "k6-tests/load-test.js",
+          "line": 35,
+          "snippet": "password field with a literal test password"
+        }
+      ]
+    },
+    {
+      "id": "string-errors",
+      "module": "web-client",
+      "title": "API errors are thrown as untyped strings",
+      "severity": "medium",
+      "whyBad": "makeRequest throws a plain Error built from the response body text.\nCallers cannot tell an expired token from a server fault without parsing that text.\nBecause of that, an expired session leaves the app looking logged in with empty screens.",
+      "howToFix": "Add an ApiError class holding status, body and endpoint, and throw it from makeRequest.\nBranch on status 401 there: clear the stored token and user and send the browser to the login page.\nShow the message from an ApiError in the pages instead of a generic failure.",
+      "antiPatterns": [
+        {
+          "name": "Stringly typed errors",
+          "why": "Losing the status code forces every caller to guess what went wrong from text."
+        },
+        {
+          "name": "Ignoring 401",
+          "why": "Without a logout on an expired token the user sees a broken app rather than a login screen."
+        }
+      ],
+      "examples": [
+        {
+          "path": "src/lib/api.ts",
+          "line": 30,
+          "snippet": "throw new Error(error || `HTTP error! status: ${response.status}`);"
+        }
+      ]
+    }
+  ],
+  "observability": {
+    "logsScore": 18,
+    "logsVerdict": "The backend writes three log lines in total: two errors in src/error.rs and one startup line in src/main.rs.\nMost of what the scan counted as logging is console.log inside the k6 scripts, which never runs in production.\nTraceLayer is installed in main.rs but left at its default, so it emits nothing useful.\nThere is no request log, no correlation id and no log for a rejected token.",
+    "logsFindings": [
+      {
+        "title": "TraceLayer is installed but not configured",
+        "detail": "The layer is added with no make_span_with or on_response, so requests produce no line.",
+        "path": "src/main.rs"
+      },
+      {
+        "title": "Only two error logs exist",
+        "detail": "Database and internal errors are logged; every other AppError variant is silent.",
+        "path": "src/error.rs"
+      },
+      {
+        "title": "Authentication failures leave no trace",
+        "detail": "auth_middleware returns an error without logging the path or the reason.",
+        "path": "src/middleware/auth.rs"
+      },
+      {
+        "title": "No correlation id on any request",
+        "detail": "Nothing ties a log line to a request or a user, so lines cannot be joined.",
+        "path": "src/routes/mod.rs"
+      },
+      {
+        "title": "Log density is 1.94 lines per 1000 lines of code",
+        "detail": "Of 19 counted statements, 14 are console.log in load scripts and only 3 are in the Rust backend.",
+        "path": "k6-tests/stress-test.js"
+      }
+    ],
+    "dashboards": [],
+    "alerts": [],
+    "defensive": {
+      "score": 41,
+      "verdict": "The type system does most of the work. Path and query parameters are typed, sqlx binds every parameter,\nand errors are converted through one AppError rather than unwrapped.\nThe gap is input validation: the validator rules on the request structs are never executed by any handler,\nso length, email format and password rules are declared and then skipped.\nThere is no health endpoint, no rate limit and no size limit on a request body.",
+      "findings": [
+        {
+          "title": "validate() is never called outside tests",
+          "detail": "The rules on RegisterRequest and UpdateUserRequest do not run in the API path.",
+          "path": "src/models/user.rs"
+        },
+        {
+          "title": "Query parameters are not bounded",
+          "detail": "limit and offset are used as given, with only a default value.",
+          "path": "src/handlers/tweets.rs"
+        },
+        {
+          "title": "CORS allows any origin, method and header",
+          "detail": "The browser protection is disabled for every caller.",
+          "path": "src/main.rs"
+        },
+        {
+          "title": "JWT secret has a working fallback",
+          "detail": "A missing JWT_SECRET is replaced with a literal string and the server still starts.",
+          "path": "src/config.rs"
+        },
+        {
+          "title": "Stored user object is parsed without a check",
+          "detail": "AuthContext trusts whatever JSON is in localStorage as a User.",
+          "path": "src/contexts/AuthContext.tsx"
+        },
+        {
+          "title": "No rate limit on login",
+          "detail": "Nothing slows repeated attempts against the login endpoint.",
+          "path": "src/handlers/auth.rs"
+        },
+        {
+          "title": "Parameter binding is used everywhere",
+          "detail": "Every sqlx call binds its parameters, so SQL injection is not reachable.",
+          "path": "src/handlers/tweets.rs"
+        }
+      ]
+    }
+  },
+  "tests": {
+    "summary": "Four kinds of test exist across 29 files and 256 counted cases: Playwright end to end, Jest and Rust unit tests,\nRust integration tests that build the real router, and k6 load scripts.\nThe gaps are the failure paths: nothing tests an outage, a slow dependency, a contract or a rendered style.",
+    "types": [
+      {
+        "type": "e2e",
+        "files": 13,
+        "cases": 85,
+        "verdict": "The strongest suite: real browser, page objects, covers auth, feed, follow, comments and navigation."
+      },
+      {
+        "type": "unit",
+        "files": 12,
+        "cases": 157,
+        "verdict": "Split between Rust model and error tests and Jest component tests; only 2 of 8 React components are covered."
+      },
+      {
+        "type": "integration",
+        "files": 2,
+        "cases": 14,
+        "verdict": "Builds the real router and sends real requests, but 1228 of the 1445 lines sit in one file."
+      },
+      {
+        "type": "stress",
+        "files": 2,
+        "cases": 0,
+        "verdict": "k6 load and stress scripts with latency thresholds, but no assertions on the response bodies."
+      }
+    ],
+    "coverage": [
+      {
+        "area": "React components with a test",
+        "covered": 2,
+        "total": 8
+      },
+      {
+        "area": "Rust handler modules with an integration test",
+        "covered": 4,
+        "total": 5
+      },
+      {
+        "area": "Database tables exercised by a test",
+        "covered": 6,
+        "total": 6
+      },
+      {
+        "area": "REST endpoints reached by e2e or integration tests",
+        "covered": 18,
+        "total": 22
+      },
+      {
+        "area": "Test kinds present out of the ones this stack warrants",
+        "covered": 4,
+        "total": 9
+      }
+    ],
+    "issues": [
+      {
+        "title": "No chaos or failure injection test",
+        "why": "No test stops the database or delays a response, so the error handling code has never been executed.",
+        "fix": "Add a suite that runs the server against a stopped database and asserts the status and the log output.",
+        "path": "tests/integration_tests.rs",
+        "line": 1
+      },
+      {
+        "title": "No property based test",
+        "why": "The validation rules are checked with a handful of chosen strings, so edge cases such as unicode usernames are untested.",
+        "fix": "Add proptest to the dev dependencies and generate usernames and tweet bodies against the model rules.",
+        "path": "src/models/user_test.rs",
+        "line": 1
+      },
+      {
+        "title": "No visual or CSS regression test",
+        "why": "The UI is styled with Tailwind classes and nothing checks the rendered result, so a layout break ships silently.",
+        "fix": "Add Playwright screenshot assertions to the existing specs for the timeline and the profile page.",
+        "path": "e2e/feed.spec.ts",
+        "line": 1
+      },
+      {
+        "title": "No contract test between the SPA and the API",
+        "why": "The TypeScript types and the Rust structs are maintained by hand, so a renamed field is found only at runtime.",
+        "fix": "Generate the TypeScript types from the Rust models, or add a test that checks a sample response against src/types/index.ts.",
+        "path": "src/types/index.ts",
+        "line": 1
+      },
+      {
+        "title": "k6 scripts assert nothing about correctness",
+        "why": "They measure latency and error rate only, so the API can return wrong data quickly and the run passes.",
+        "fix": "Add k6 check() calls on the response bodies next to the existing thresholds.",
+        "path": "k6-tests/stress-test.js",
+        "line": 1
+      },
+      {
+        "title": "One integration file holds 1228 lines",
+        "why": "Auth, tweets, follows and comments share one file, so a failure requires reading unrelated setup.",
+        "fix": "Split by feature and move shared setup into a tests/common module.",
+        "path": "tests/integration_tests.rs",
+        "line": 827
+      },
+      {
+        "title": "Six of eight React components have no test",
+        "why": "CommentList, UserCard and the four pages are covered only by the end to end suite, which is slow to run.",
+        "fix": "Add a Jest test per component under src/components/__tests__ covering empty and populated states.",
+        "path": "src/components/CommentList.tsx",
+        "line": 1
+      },
+      {
+        "title": "Test credentials are literals in the scripts",
+        "why": "password123 is written into the Playwright helper and the k6 scripts, which accept a configurable target host.",
+        "fix": "Read the credentials from environment variables and refuse to run against a non local host without them.",
+        "path": "e2e/helpers/auth.ts",
+        "line": 17
+      },
+      {
+        "title": "The feed is never tested at scale",
+        "why": "No test seeds enough tweets to expose the per tweet query loop, so the N+1 pattern passes every run.",
+        "fix": "Seed 500 tweets in an integration test and assert the number of queries stays constant.",
+        "path": "tests/integration_tests.rs",
+        "line": 827
+      },
+      {
+        "title": "No test covers an expired token",
+        "why": "Token expiry is set to seven days and no test advances past it, so the client behaviour on expiry is unknown.",
+        "fix": "Add an integration test that signs a token with a past expiry and asserts a 401 with a clear message.",
+        "path": "src/middleware/auth_test.rs",
+        "line": 1
+      }
+    ]
+  },
+  "verification": {
+    "passes": 3,
+    "notes": [
+      "fixed: pass 1 recorded 23 risky queries from the scan -> pass 2 confirmed only 7 after the scanner stopped flagging primary key lookups as unbounded",
+      "fixed: pass 1 listed src/pages as its own module -> pass 2 folded it into web-client because it has 4 files and no independent build",
+      "fixed: pass 1 said integration tests contribute 0 cases -> pass 2 read the files and counted 28 #[tokio::test] functions",
+      "fixed: pass 2 checked every con and tech debt path against disk; src/handlers/tweets.rs:217 corrected to 218 and :249 to 250",
+      "fixed: pass 2 confirmed db/schema.sql:8 uses TIMESTAMP and migrations/20260209000001_create_users.sql:8 uses TIMESTAMPTZ",
+      "cut: pass 3 removed an empty catch block finding; the scan reported zero and pass 1 had inferred one",
+      "cut: pass 3 removed a claim that the backend has structured logging; grep found exactly 3 tracing calls",
+      "rewrote: pass 3 replaced metaphors in five con explanations with the mechanism that fails",
+      "rewrote: pass 3 shortened four fixes that ran past three lines",
+      "cut: pass 3 dropped a duplicate deps finding; the scan found no dependency declared in two build files",
+      "fixed: pass 3 confirmed validate() appears only in src/models/user_test.rs and never in a handler, raising that item to high severity",
+      "fixed: pass 3 rechecked the log density against facts.json; 2.53 -> 1.94 and 25 statements -> 19",
+      "fixed: pass 3 recounted test cases against facts.json; unit 158 -> 157 and integration 28 -> 14, total 271 -> 256"
+    ]
+  }
+}
