@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #ffffff; }
+  svg { display: block; font-family: Caveat, "Comic Sans MS", cursive; }
+  .box { filter: url(#wobble); stroke: #1f2430; stroke-width: 2.2; }
+  .edge { filter: url(#wobble); stroke: #1f2430; stroke-width: 2.2; fill: none; }
+  .t { fill: #1f2430; font-size: 26px; font-weight: 700; }
+  .s { fill: #4b5262; font-size: 20px; }
+  .title { fill: #1f2430; font-size: 40px; font-weight: 700; }
+  .cap { fill: #6b7280; font-size: 22px; }
+</style>
+</head>
+<body>
+<svg width="1280" height="800" viewBox="0 0 1280 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="11" markerHeight="11" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#1f2430"/>
+    </marker>
+  </defs>
+
+  <text x="50" y="52" class="title">/bug-triage</text>
+  <text x="286" y="52" class="cap">one bug in, one light-theme report out</text>
+
+  <rect class="box" x="50" y="96" width="290" height="62" rx="12" fill="#dbeafe"/>
+  <text x="72" y="134" class="t">current branch</text>
+
+  <rect class="box" x="50" y="180" width="290" height="62" rx="12" fill="#dbeafe"/>
+  <text x="72" y="218" class="t">Jira / Linear / GitHub url</text>
+
+  <rect class="box" x="50" y="264" width="290" height="62" rx="12" fill="#dbeafe"/>
+  <text x="72" y="302" class="t">bug id — PROJ-1234</text>
+
+  <rect class="box" x="50" y="348" width="290" height="62" rx="12" fill="#dbeafe"/>
+  <text x="72" y="386" class="t">plain description</text>
+
+  <path class="edge" d="M 344 127 Q 410 130 466 152" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 344 211 Q 410 200 466 172" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 344 295 Q 420 260 466 192" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 344 379 Q 430 310 466 210" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="470" y="120" width="330" height="92" rx="14" fill="#fef3c7"/>
+  <text x="494" y="158" class="t">1 · read the target</text>
+  <text x="494" y="188" class="s">git log · WebFetch the issue</text>
+
+  <path class="edge" d="M 635 216 Q 630 234 635 250" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="470" y="254" width="330" height="92" rx="14" fill="#fef3c7"/>
+  <text x="494" y="292" class="t">2 · read the codebase</text>
+  <text x="494" y="322" class="s">git diff · grep · open the files</text>
+
+  <path class="edge" d="M 635 350 Q 640 368 635 384" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="470" y="388" width="330" height="92" rx="14" fill="#fef3c7"/>
+  <text x="494" y="426" class="t">3 · find the cause</text>
+  <text x="494" y="456" class="s">the exact file and line</text>
+
+  <path class="edge" d="M 635 484 Q 630 502 635 518" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="470" y="522" width="330" height="92" rx="14" fill="#fef3c7"/>
+  <text x="494" y="560" class="t">4 · write the repro test</text>
+  <text x="494" y="590" class="s">run it — it fails today</text>
+
+  <path class="edge" d="M 635 618 Q 640 636 635 652" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="470" y="656" width="330" height="92" rx="14" fill="#ffe4e6"/>
+  <text x="494" y="694" class="t">5 · triage.json</text>
+  <text x="494" y="724" class="s">the 9 answers</text>
+
+  <path class="edge" d="M 806 702 Q 846 694 874 700" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="882" y="656" width="330" height="92" rx="14" fill="#dcfce7"/>
+  <text x="906" y="694" class="t">render.mjs</text>
+  <text x="906" y="724" class="s">no deps · template.html</text>
+
+  <path class="edge" d="M 1047 652 Q 1042 610 1047 572" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="882" y="454" width="330" height="112" rx="14" fill="#dcfce7"/>
+  <text x="906" y="496" class="t">index.html</text>
+  <text x="906" y="526" class="s">self-contained light report</text>
+  <text x="906" y="552" class="s">$TMPDIR/bug-triage-&lt;slug&gt;/</text>
+
+  <rect class="box" x="882" y="120" width="330" height="300" rx="14" fill="#f3f4f6"/>
+  <text x="906" y="158" class="t">the 9 answers</text>
+  <text x="906" y="192" class="s">1 name · 2 what it is</text>
+  <text x="906" y="222" class="s">3 files involved</text>
+  <text x="906" y="252" class="s">4 repro test</text>
+  <text x="906" y="282" class="s">5 why it is bad</text>
+  <text x="906" y="312" class="s">6 minimal fix</text>
+  <text x="906" y="342" class="s">7 files to touch</text>
+  <text x="906" y="372" class="s">8 breaking? DB / API</text>
+  <text x="906" y="402" class="s">9 is it safe?</text>
+
+</svg>
+</body>
+</html>

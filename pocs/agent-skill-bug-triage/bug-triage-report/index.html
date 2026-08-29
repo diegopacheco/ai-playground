@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A fixed coupon worth more than the cart charges the customer a negative amount — bug triage</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --ink: #16181d;
+    --ink-soft: #5b6270;
+    --line: #e3e6ec;
+    --accent: #3b5bdb;
+    --accent-soft: #edf1ff;
+    --good: #1f9254;
+    --good-soft: #e8f6ee;
+    --bad: #c0392f;
+    --bad-soft: #fdeceb;
+    --warn: #a86a00;
+    --warn-soft: #fdf3e2;
+    --code-bg: #fbfbfd;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  code, pre, .mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; }
+  .top {
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+    padding: 28px 32px 24px;
+  }
+  .top .kicker {
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .top h1 { margin: 8px 0 6px; font-size: 26px; line-height: 1.25; letter-spacing: -.01em; }
+  .top .sub { color: var(--ink-soft); font-size: 13px; }
+  .wrap { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 28px; max-width: 1180px; margin: 0 auto; padding: 28px 24px 72px; }
+  nav { position: sticky; top: 24px; align-self: start; display: flex; flex-direction: column; gap: 2px; }
+  nav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 8px;
+    color: var(--ink-soft); text-decoration: none; font-size: 13px;
+  }
+  nav a:hover { background: var(--accent-soft); color: var(--accent); }
+  nav .n {
+    width: 20px; height: 20px; flex: none;
+    display: grid; place-items: center;
+    border: 1px solid var(--line); border-radius: 6px;
+    font-size: 11px; font-weight: 600; color: var(--ink-soft); background: var(--panel);
+  }
+  main { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; scroll-margin-top: 20px; }
+  .card > header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .card h2 { margin: 0; font-size: 16px; letter-spacing: -.01em; }
+  .num {
+    width: 26px; height: 26px; flex: none;
+    display: grid; place-items: center;
+    border-radius: 8px; background: var(--accent-soft); color: var(--accent);
+    font-size: 12px; font-weight: 700;
+  }
+  .bugname { margin: 0 0 12px; font-size: 20px; line-height: 1.35; letter-spacing: -.01em; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .tracker {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-soft); color: var(--accent);
+    border: 1px solid #d7e0ff; border-radius: 999px;
+    padding: 5px 12px; font-size: 12px; font-weight: 600; text-decoration: none;
+  }
+  .tracker.none { background: var(--bg); color: var(--ink-soft); border-color: var(--line); font-weight: 500; }
+  .tracker .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .chip {
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 5px 12px; font-size: 12px; color: var(--ink-soft); background: var(--bg);
+  }
+  .sev-critical, .sev-high { background: var(--bad-soft); color: var(--bad); border-color: #f6cfcb; font-weight: 600; }
+  .sev-medium { background: var(--warn-soft); color: var(--warn); border-color: #f0dcb8; font-weight: 600; }
+  .sev-low { background: var(--good-soft); color: var(--good); border-color: #c9e7d6; font-weight: 600; }
+  .prose p { margin: 0 0 10px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .hint { color: var(--ink-soft); font-size: 13px; margin: 0 0 10px; }
+  .hint code { background: var(--bg); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 12px; }
+  .list { margin: 0; padding-left: 18px; }
+  .list li { margin-bottom: 7px; }
+  .list li:last-child { margin-bottom: 0; }
+  h4 { margin: 16px 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); }
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; display: block; overflow-x: auto; }
+  .tbl th {
+    text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line);
+    font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-soft); font-weight: 600; white-space: nowrap;
+  }
+  .tbl td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .tbl tr:last-child td { border-bottom: 0; }
+  .tbl .idx { color: var(--ink-soft); width: 28px; }
+  .tbl .path code { font-size: 12px; color: var(--accent); word-break: break-all; }
+  .tbl .range { color: var(--ink-soft); font-size: 12px; }
+  .tbl .role { color: var(--ink-soft); }
+  .code { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--code-bg); margin: 12px 0 0; }
+  .code-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 7px 12px; background: var(--bg); border-bottom: 1px solid var(--line);
+    font-size: 11px; color: var(--ink-soft); letter-spacing: .05em; text-transform: uppercase;
+  }
+  .code-body { display: flex; overflow-x: auto; }
+  .code pre { margin: 0; padding: 12px 0; font-size: 12.5px; line-height: 1.65; }
+  .gutter {
+    flex: none; padding-left: 14px; padding-right: 12px;
+    text-align: right; color: #a8afbd; border-right: 1px solid var(--line);
+    user-select: none; background: var(--bg);
+  }
+  .src { padding-left: 16px; padding-right: 16px; white-space: pre; }
+  .t-key { color: #7048b6; font-weight: 600; }
+  .t-str { color: #1f7a4d; }
+  .t-com { color: #97a0af; font-style: italic; }
+  .t-num { color: #b5561f; }
+  .t-ann { color: #3b5bdb; }
+  .src span[class^="d-"] { display: inline-block; width: 100%; }
+  .d-add { background: var(--good-soft); color: #14603a; }
+  .d-del { background: var(--bad-soft); color: #92251c; }
+  .d-head { color: var(--ink-soft); font-weight: 600; }
+  .d-hunk { color: var(--accent); }
+  .verdict { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 10px; margin-bottom: 12px; border: 1px solid; }
+  .verdict.good { background: var(--good-soft); border-color: #c9e7d6; color: var(--good); }
+  .verdict.bad { background: var(--bad-soft); border-color: #f6cfcb; color: var(--bad); }
+  .verdict.warn { background: var(--warn-soft); border-color: #f0dcb8; color: var(--warn); }
+  .v-label { font-size: 15px; font-weight: 700; }
+  .v-flags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .flag { font-size: 11px; padding: 4px 10px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); color: var(--ink-soft); }
+  .flag.on { color: var(--bad); border-color: #f6cfcb; font-weight: 600; }
+  .flag.on::before { content: "yes · "; }
+  .flag.off::before { content: "no · "; }
+  footer { text-align: center; color: var(--ink-soft); font-size: 12px; padding: 0 24px 40px; }
+  @media (max-width: 860px) {
+    .wrap { grid-template-columns: 1fr; padding-top: 20px; }
+    nav { position: static; flex-direction: row; flex-wrap: wrap; }
+    nav a { border: 1px solid var(--line); border-radius: 999px; }
+  }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="kicker">bug triage</div>
+  <h1>A fixed coupon worth more than the cart charges the customer a negative amount</h1>
+  <div class="sub">PIX-482 · bug triage report · generated 2026-08-29 20:18</div>
+</div>
+<div class="wrap">
+  <nav><a href="#name"><span class="n">1</span>Bug name</a><a href="#description"><span class="n">2</span>What the bug is</a><a href="#files"><span class="n">3</span>Files and classes involved</a><a href="#repro"><span class="n">4</span>Test that reproduces it</a><a href="#why"><span class="n">5</span>Why this bug is bad</a><a href="#solution"><span class="n">6</span>Minimal solution</a><a href="#touch"><span class="n">7</span>Files to touch</a><a href="#breaking"><span class="n">8</span>Breaking change?</a><a href="#safety"><span class="n">9</span>Is the fix safe?</a></nav>
+  <main><section id="name" class="card"><header><span class="num">1</span><h2>Bug name</h2></header><h3 class="bugname">A fixed coupon worth more than the cart charges the customer a negative amount</h3><div class="meta-row"><a class="tracker" href="https://pixel-pantry.atlassian.net/browse/PIX-482" target="_blank" rel="noreferrer"><span class="dot"></span>Jira · PIX-482</a><span class="chip sev-critical">severity critical</span><span class="chip">branch main</span><span class="chip">pixel-cart</span></div></section><section id="description" class="card"><header><span class="num">2</span><h2>What the bug is</h2></header><div class="prose"><p>A $25 fixed coupon on a $15 cart produces a total of -10.</p><p>Checkout does not clamp it, so it asks the payment provider for -10.80.</p><p>The discount is subtracted from the subtotal with no floor at zero.</p><p>Percent coupons never hit this because they can only ever remove 100% of the cart.</p><p>Every existing cart test passes, because none of them uses a coupon bigger than the cart.</p></div></section><section id="files" class="card"><header><span class="num">3</span><h2>Files and classes involved</h2></header><table class="tbl"><thead><tr><th>#</th><th>Full path</th><th>Why it is involved</th></tr></thead><tbody><tr><td class="idx">1</td><td class="path"><code>/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/agent-skill-bug-triage/sample/src/cart.mjs</code><span class="range">:17-20</span></td><td class="role">cartTotal subtracts the discount from the subtotal with no lower bound, so it returns a negative number</td></tr><tr><td class="idx">2</td><td class="path"><code>/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/agent-skill-bug-triage/sample/src/cart.mjs</code><span class="range">:11-15</span></td><td class="role">discountFor returns the raw coupon amount for a fixed coupon, never capped at the subtotal</td></tr><tr><td class="idx">3</td><td class="path"><code>/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/agent-skill-bug-triage/sample/src/checkout.mjs</code><span class="range">:6-10</span></td><td class="role">charge takes the negative total, applies tax to it, and hands the negative amountToCharge to the caller</td></tr><tr><td class="idx">4</td><td class="path"><code>/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/agent-skill-bug-triage/sample/test/cart.test.mjs</code><span class="range">:20-22</span></td><td class="role">the only fixed-coupon test uses a coupon smaller than the cart, which is why the suite stays green</td></tr></tbody></table></section><section id="repro" class="card"><header><span class="num">4</span><h2>Test that reproduces it</h2></header><p class="hint">Save as <code>/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/agent-skill-bug-triage/sample/test/repro-negative-total.test.mjs</code> · run <code>node --test test/repro-negative-total.test.mjs</code></p><div class="code"><div class="code-head"><span class="lang">javascript</span><span class="lines">16 lines</span></div><div class="code-body"><pre class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16</pre><pre class="src"><span class="t-key">import</span> { test } <span class="t-key">from</span> <span class="t-str">'node:test'</span>
+<span class="t-key">import</span> <span class="t-key">assert</span> <span class="t-key">from</span> <span class="t-str">'node:assert/strict'</span>
+<span class="t-key">import</span> { cartTotal } <span class="t-key">from</span> <span class="t-str">'../src/cart.mjs'</span>
+<span class="t-key">import</span> { charge } <span class="t-key">from</span> <span class="t-str">'../src/checkout.mjs'</span>
+
+<span class="t-key">const</span> cheapCart = [{ sku: <span class="t-str">'MS-9'</span>, price: <span class="t-num">15</span>, qty: <span class="t-num">1</span> }]
+<span class="t-key">const</span> coupon = { <span class="t-key">type</span>: <span class="t-str">'fixed'</span>, value: <span class="t-num">25</span> }
+
+test(<span class="t-str">'a fixed coupon larger than the cart never makes the total negative'</span>, () => {
+  <span class="t-key">assert</span>.equal(cartTotal(cheapCart, coupon), <span class="t-num">0</span>)
+})
+
+test(<span class="t-str">'checkout never charges a negative amount'</span>, () => {
+  <span class="t-key">const</span> { amountToCharge } = charge(cheapCart, coupon)
+  <span class="t-key">assert</span>.ok(amountToCharge >= <span class="t-num">0</span>, <span class="t-str">`amountToCharge was ${amountToCharge}`</span>)
+})</pre></div></div><p class="hint">Both tests fail today: cartTotal returns -10 where 0 is expected, and charge reports amountToCharge was -10.8.</p></section><section id="why" class="card"><header><span class="num">5</span><h2>Why this bug is bad</h2></header><ul class="list"><li>It moves money the wrong way: a negative charge is a refund, so a coupon can pay the customer out of the merchant's account.</li><li>It is trivially reachable — any published fixed coupon plus a small cart triggers it, no unusual state needed.</li><li>The payment provider, not the app, decides what a negative amount means, so the failure mode differs per provider and may not error at all.</li><li>Ledger rows written from amountToCharge go negative, so revenue reporting is wrong after the fact and has to be reconciled by hand.</li><li>The test suite stays green while it happens, so nothing alerts anyone.</li></ul></section><section id="solution" class="card"><header><span class="num">6</span><h2>Minimal solution</h2></header><div class="prose"><p>Clamp the discount to the subtotal in discountFor so a fixed coupon can never remove more than the cart holds. One line, one function, no change to any caller or signature.</p></div><div class="code"><div class="code-head"><span class="lang">diff</span><span class="lines">8 lines</span></div><div class="code-body"><pre class="gutter">1
+2
+3
+4
+5
+6
+7
+8</pre><pre class="src"><span class="d-head">--- a/src/cart.mjs</span>
+<span class="d-head">+++ b/src/cart.mjs</span>
+ export function discountFor(sub, coupon) {
+   if (!coupon) return 0
+   if (coupon.type === 'percent') return round2(sub * (coupon.value / 100))
+<span class="d-del">-  return round2(coupon.value)</span>
+<span class="d-add">+  return round2(Math.min(coupon.value, sub))</span>
+ }</pre></div></div><ul class="list"><li>Clamping in discountFor and not in cartTotal keeps the reported discount equal to the money actually taken off, so a receipt line cannot disagree with the total.</li><li>checkout.mjs is left alone: once the total cannot go below zero, the tax line and amountToCharge are correct as written.</li><li>Negative or malformed coupon values are a separate validation problem and are deliberately not touched here.</li></ul></section><section id="touch" class="card"><header><span class="num">7</span><h2>Files to touch</h2></header><table class="tbl"><thead><tr><th>Full path</th><th>Change</th></tr></thead><tbody><tr><td class="path"><code>/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/agent-skill-bug-triage/sample/src/cart.mjs</code></td><td class="role">line 14 — return round2(Math.min(coupon.value, sub))</td></tr><tr><td class="path"><code>/Users/diegopacheco/git/diegopacheco/ai-playground/pocs/agent-skill-bug-triage/sample/test/cart.test.mjs</code></td><td class="role">add the over-cart coupon case from the reproduction test so the suite fails if this regresses</td></tr></tbody></table></section><section id="breaking" class="card"><header><span class="num">8</span><h2>Breaking change?</h2></header><div class="verdict good"><span class="v-label">No</span><div class="v-flags"><span class="flag off">database schema</span><span class="flag off">public API / contract</span><span class="flag off">breaks consumers</span></div></div><div class="prose"><p>No schema, no migration, no signature change. discountFor keeps its arguments and its return type. The only behavior that changes is the case that is already broken: a fixed coupon larger than the cart now stops at the cart value instead of going past it. Any caller relying on a negative total was relying on the bug.</p></div></section><section id="safety" class="card"><header><span class="num">9</span><h2>Is the fix safe?</h2></header><div class="verdict good"><span class="v-label">Safe</span></div><div class="prose"><p>One expression inside one pure function, no state, no I/O, covered by the reproduction test, and undone by a revert. Every existing test keeps passing because they all use coupons smaller than the cart.</p></div><h4>Risks</h4><ul class="list"><li>Historic orders already written with a negative amount are not corrected by this change and still need a data check.</li><li>If a caller elsewhere reads discountFor to display a coupon's face value, it now shows the clamped amount, which is the amount actually applied.</li></ul><h4>How to verify</h4><ul class="list"><li>node --test test/repro-negative-total.test.mjs — both tests pass after the change.</li><li>npm test — the four existing tests stay green.</li><li>Query orders for amountToCharge &lt; 0 to size the historic damage.</li></ul></section></main>
+</div>
+<footer>self-contained report · no network, no tracking</footer>
+</body>
+</html>
