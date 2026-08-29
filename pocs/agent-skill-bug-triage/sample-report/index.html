@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nested jar URLs are parsed again on every cached resource lookup — bug triage</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --ink: #16181d;
+    --ink-soft: #5b6270;
+    --line: #e3e6ec;
+    --accent: #3b5bdb;
+    --accent-soft: #edf1ff;
+    --good: #1f9254;
+    --good-soft: #e8f6ee;
+    --bad: #c0392f;
+    --bad-soft: #fdeceb;
+    --warn: #a86a00;
+    --warn-soft: #fdf3e2;
+    --code-bg: #fbfbfd;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  code, pre, .mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; }
+  .top {
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+    padding: 28px 32px 24px;
+  }
+  .top .kicker {
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .top h1 { margin: 8px 0 6px; font-size: 26px; line-height: 1.25; letter-spacing: -.01em; }
+  .top .sub { color: var(--ink-soft); font-size: 13px; }
+  .wrap { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 28px; max-width: 1180px; margin: 0 auto; padding: 28px 24px 72px; }
+  nav { position: sticky; top: 24px; align-self: start; display: flex; flex-direction: column; gap: 2px; }
+  nav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 8px;
+    color: var(--ink-soft); text-decoration: none; font-size: 13px;
+  }
+  nav a:hover { background: var(--accent-soft); color: var(--accent); }
+  nav .n {
+    width: 20px; height: 20px; flex: none;
+    display: grid; place-items: center;
+    border: 1px solid var(--line); border-radius: 6px;
+    font-size: 11px; font-weight: 600; color: var(--ink-soft); background: var(--panel);
+  }
+  main { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; scroll-margin-top: 20px; }
+  .card > header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .card h2 { margin: 0; font-size: 16px; letter-spacing: -.01em; }
+  .num {
+    width: 26px; height: 26px; flex: none;
+    display: grid; place-items: center;
+    border-radius: 8px; background: var(--accent-soft); color: var(--accent);
+    font-size: 12px; font-weight: 700;
+  }
+  .bugname { margin: 0 0 12px; font-size: 20px; line-height: 1.35; letter-spacing: -.01em; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .tracker {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-soft); color: var(--accent);
+    border: 1px solid #d7e0ff; border-radius: 999px;
+    padding: 5px 12px; font-size: 12px; font-weight: 600; text-decoration: none;
+  }
+  .tracker.none { background: var(--bg); color: var(--ink-soft); border-color: var(--line); font-weight: 500; }
+  .tracker .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .chip {
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 5px 12px; font-size: 12px; color: var(--ink-soft); background: var(--bg);
+  }
+  .sev-critical, .sev-high { background: var(--bad-soft); color: var(--bad); border-color: #f6cfcb; font-weight: 600; }
+  .sev-medium { background: var(--warn-soft); color: var(--warn); border-color: #f0dcb8; font-weight: 600; }
+  .sev-low { background: var(--good-soft); color: var(--good); border-color: #c9e7d6; font-weight: 600; }
+  .prose p { margin: 0 0 10px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .hint { color: var(--ink-soft); font-size: 13px; margin: 0 0 10px; }
+  .hint code { background: var(--bg); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 12px; }
+  .list { margin: 0; padding-left: 18px; }
+  .list li { margin-bottom: 7px; }
+  .list li:last-child { margin-bottom: 0; }
+  h4 { margin: 16px 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); }
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; display: block; overflow-x: auto; }
+  .tbl th {
+    text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line);
+    font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-soft); font-weight: 600; white-space: nowrap;
+  }
+  .tbl td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .tbl tr:last-child td { border-bottom: 0; }
+  .tbl .idx { color: var(--ink-soft); width: 28px; }
+  .tbl .path code { font-size: 12px; color: var(--accent); word-break: break-all; }
+  .tbl .range { color: var(--ink-soft); font-size: 12px; }
+  .tbl .role { color: var(--ink-soft); }
+  .code { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--code-bg); margin: 12px 0 0; }
+  .code-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 7px 12px; background: var(--bg); border-bottom: 1px solid var(--line);
+    font-size: 11px; color: var(--ink-soft); letter-spacing: .05em; text-transform: uppercase;
+  }
+  .code-body { display: flex; overflow-x: auto; }
+  .code pre { margin: 0; padding: 12px 0; font-size: 12.5px; line-height: 1.65; }
+  .gutter {
+    flex: none; padding-left: 14px; padding-right: 12px;
+    text-align: right; color: #a8afbd; border-right: 1px solid var(--line);
+    user-select: none; background: var(--bg);
+  }
+  .src { padding-left: 16px; padding-right: 16px; white-space: pre; }
+  .t-key { color: #7048b6; font-weight: 600; }
+  .t-str { color: #1f7a4d; }
+  .t-com { color: #97a0af; font-style: italic; }
+  .t-num { color: #b5561f; }
+  .t-ann { color: #3b5bdb; }
+  .src span[class^="d-"] { display: inline-block; width: 100%; }
+  .d-add { background: var(--good-soft); color: #14603a; }
+  .d-del { background: var(--bad-soft); color: #92251c; }
+  .d-head { color: var(--ink-soft); font-weight: 600; }
+  .d-hunk { color: var(--accent); }
+  .verdict { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 10px; margin-bottom: 12px; border: 1px solid; }
+  .verdict.good { background: var(--good-soft); border-color: #c9e7d6; color: var(--good); }
+  .verdict.bad { background: var(--bad-soft); border-color: #f6cfcb; color: var(--bad); }
+  .verdict.warn { background: var(--warn-soft); border-color: #f0dcb8; color: var(--warn); }
+  .v-label { font-size: 15px; font-weight: 700; }
+  .v-flags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .flag { font-size: 11px; padding: 4px 10px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); color: var(--ink-soft); }
+  .flag.on { color: var(--bad); border-color: #f6cfcb; font-weight: 600; }
+  .flag.on::before { content: "yes · "; }
+  .flag.off::before { content: "no · "; }
+  footer { text-align: center; color: var(--ink-soft); font-size: 12px; padding: 0 24px 40px; }
+  @media (max-width: 860px) {
+    .wrap { grid-template-columns: 1fr; padding-top: 20px; }
+    nav { position: static; flex-direction: row; flex-wrap: wrap; }
+    nav a { border: 1px solid var(--line); border-radius: 999px; }
+  }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="kicker">bug triage</div>
+  <h1>Nested jar URLs are parsed again on every cached resource lookup</h1>
+  <div class="sub">#51503 · bug triage report · generated 2026-08-29 22:08</div>
+</div>
+<div class="wrap">
+  <nav><a href="#name"><span class="n">1</span>Bug name</a><a href="#description"><span class="n">2</span>What the bug is</a><a href="#files"><span class="n">3</span>Files and classes involved</a><a href="#repro"><span class="n">4</span>Test that reproduces it</a><a href="#why"><span class="n">5</span>Why this bug is bad</a><a href="#solution"><span class="n">6</span>Minimal solution</a><a href="#touch"><span class="n">7</span>Files to touch</a><a href="#breaking"><span class="n">8</span>Breaking change?</a><a href="#safety"><span class="n">9</span>Is the fix safe?</a></nav>
+  <main><section id="name" class="card"><header><span class="num">1</span><h2>Bug name</h2></header><h3 class="bugname">Nested jar URLs are parsed again on every cached resource lookup</h3><div class="meta-row"><a class="tracker" href="https://github.com/spring-projects/spring-boot/issues/51503" target="_blank" rel="noreferrer"><span class="dot"></span>GitHub · #51503</a><span class="chip sev-low">severity low</span><span class="chip">branch main @ cf5f3b9e</span><span class="chip">spring-projects/spring-boot</span></div></section><section id="description" class="card"><header><span class="num">2</span><h2>What the bug is</h2></header><div class="prose"><p>Every lookup of a resource inside a nested jar builds and parses a java.net.URL, even when the nested JarFile is already cached.</p><p>JarUrlConnection.open needs a cache key, not a URL, but it builds the URL first and then derives the key from it.</p><p>It then builds a second key in cacheIfAbsent, which on a cache hit only proves the entry is already there.</p><p>Nothing is wrong in the output. The cost is allocation and time on a path a starting application walks thousands of times while probing for optional classes and package-info.</p><p>Measured on this machine: 480 bytes and 158 ns per warm-cache lookup that could be 192 bytes and 70 ns.</p></div></section><section id="files" class="card"><header><span class="num">3</span><h2>Files and classes involved</h2></header><table class="tbl"><thead><tr><th>#</th><th>Full path</th><th>Why it is involved</th></tr></thead><tbody><tr><td class="idx">1</td><td class="path"><code>/var/folders/.../T/bug-triage-src-spring-projects-spring-boot/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarUrlConnection.java</code><span class="range">:334-353</span></td><td class="role">open(URL) builds `new URL(spec.substring(0, separator))` on line 340 before it ever consults the cache, and a second URL on line 342 for a runtime ref</td></tr><tr><td class="idx">2</td><td class="path"><code>/var/folders/.../T/bug-triage-src-spring-projects-spring-boot/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/UrlJarFiles.java</code><span class="range">:65-73, 92-97, 156-161, 182-193</span></td><td class="role">getOrCreate -&gt; Cache.get builds JarFileUrlKey number one; cacheIfAbsent -&gt; Cache.putIfAbsent builds JarFileUrlKey number two, which is wasted on a hit</td></tr><tr><td class="idx">3</td><td class="path"><code>/var/folders/.../T/bug-triage-src-spring-projects-spring-boot/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarFileUrlKey.java</code><span class="range">:39-45</span></td><td class="role">the key's only constructor takes a URL, which is why a URL has to exist before the cache can be read</td></tr><tr><td class="idx">4</td><td class="path"><code>/var/folders/.../T/bug-triage-src-spring-projects-spring-boot/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/nested/Handler.java</code><span class="range">:whole file</span></td><td class="role">the nested: handler that parseURL runs on every one of those URL constructions</td></tr></tbody></table></section><section id="repro" class="card"><header><span class="num">4</span><h2>Test that reproduces it</h2></header><p class="hint">Save as <code>$TMPDIR/bt-spring-repro/Repro.java (package org.springframework.boot.loader.net.protocol.jar)</code> · run <code>javac -d base $(find loader/spring-boot-loader/src/main/java -name '*.java' | grep -v '/launch/\|/jarmode/\|JarUrlClassLoader') &amp;&amp; java -cp base -Xms512m -Xmx512m ...Repro</code></p><div class="code"><div class="code-head"><span class="lang">java</span><span class="lines">48 lines</span></div><div class="code-body"><pre class="gutter">24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre><pre class="src"><span class="t-key">public</span> <span class="t-key">static</span> <span class="t-key">void</span> main(String[] args) <span class="t-key">throws</span> Exception {
+	File file = File.createTempFile(<span class="t-str">"bug-triage-51503"</span>, <span class="t-str">".jar"</span>);
+	file.deleteOnExit();
+	writeOuterJar(file);
+
+	Handlers.register();
+
+	URL missing = JarUrl.create(file, <span class="t-str">"nested.jar"</span>, <span class="t-str">"missing/does-not-exist.dat"</span>);
+	URL present = JarUrl.create(file, <span class="t-str">"nested.jar"</span>, <span class="t-str">"3.dat"</span>);
+
+	verify(present, missing);
+
+	Optimizations.enable(<span class="t-key">true</span>);
+	JarUrlConnection.open(missing);
+
+	<span class="t-key">for</span> (<span class="t-key">int</span> i = <span class="t-num">0</span>; i < WARMUP; i++) {
+		JarUrlConnection.open(missing);
+	}
+
+	ThreadMXBean threads = (ThreadMXBean) ManagementFactory.getThreadMXBean();
+	long id = Thread.currentThread().threadId();
+	long before = threads.getThreadAllocatedBytes(id);
+	long start = System.nanoTime();
+	<span class="t-key">for</span> (<span class="t-key">int</span> i = <span class="t-num">0</span>; i < MEASURE; i++) {
+		JarUrlConnection.open(missing);
+	}
+	long nanos = System.nanoTime() - start;
+	long allocated = threads.getThreadAllocatedBytes(id) - before;
+
+	System.out.printf(<span class="t-str">"allocated %d B/op%n"</span>, allocated / MEASURE);
+	System.out.printf(<span class="t-str">"time %.1f ns/op%n"</span>, (double) nanos / MEASURE);
+}
+
+<span class="t-key">private</span> <span class="t-key">static</span> <span class="t-key">void</span> verify(URL present, URL missing) <span class="t-key">throws</span> Exception {
+	<span class="t-key">if</span> (JarUrlConnection.open(present).getJarEntry() == <span class="t-key">null</span>) {
+		<span class="t-key">throw</span> <span class="t-key">new</span> IllegalStateException(<span class="t-str">"cold lookup lost 3.dat"</span>);
+	}
+	<span class="t-key">if</span> (JarUrlConnection.open(present).getJarEntry() == <span class="t-key">null</span>) {
+		<span class="t-key">throw</span> <span class="t-key">new</span> IllegalStateException(<span class="t-str">"warm lookup lost 3.dat"</span>);
+	}
+	<span class="t-key">try</span> {
+		JarUrlConnection.open(missing).getJarEntry();
+		<span class="t-key">throw</span> <span class="t-key">new</span> IllegalStateException(<span class="t-str">"missing entry was reported as found"</span>);
+	}
+	<span class="t-key">catch</span> (FileNotFoundException ex) {
+		System.out.println(<span class="t-str">"verify ok: cold hit, warm hit, missing entry not found"</span>);
+	}
+}</pre></div></div><p class="hint">Unpatched main at cf5f3b9e, three runs: 480 B/op at 157.8, 156.7 and 168.8 ns/op. With the fix below, same harness and same JVM: 192 B/op at 72.3, 70.0 and 75.2 ns/op. This is an allocation assertion, not a wall-clock one: 480 vs 192 bytes is exact and repeats to the byte, while the ns figures carry normal JIT noise.</p></section><section id="why" class="card"><header><span class="num">5</span><h2>Why this bug is bad</h2></header><ul class="list"><li>It is pure waste on a hot path: the URL that costs the allocation is thrown away as soon as the key is built, on every hit.</li><li>It scales with how hard a framework probes. Spring probes for optional classes and package-info across every nested jar at startup, so the cost lands where startup time is already scarce.</li><li>The reporter measured 1.03 GB of allocation on this path shrinking to 205 MB in a real application startup - garbage that the collector has to walk during the worst window for it.</li><li>Nothing surfaces it. Output is correct, no test fails, and the only symptom is allocation pressure that looks like the class loader being slow.</li><li>It is worse in memory-tight containers, where the extra garbage per lookup is what pushes a young collection during startup.</li></ul></section><section id="solution" class="card"><header><span class="num">6</span><h2>Minimal solution</h2></header><div class="prose"><p>Build the cache key straight from the already-parsed nested spec and only construct a URL when the cache misses. One new package-private factory on JarFileUrlKey, one cache read on UrlJarFiles, and the URL work moved inside the miss branch of JarUrlConnection.open. No signature changes, no new fields, no behavior change on a miss.</p></div><div class="code"><div class="code-head"><span class="lang">diff</span><span class="lines">62 lines</span></div><div class="code-body"><pre class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62</pre><pre class="src"><span class="d-head">--- a/.../jar/JarUrlConnection.java</span>
+<span class="d-head">+++ b/.../jar/JarUrlConnection.java</span>
+<span class="d-hunk">@@ -337,13 +337,17 @@ final class JarUrlConnection extends java.net.JarURLConnection {</span>
+ 			int separator = spec.indexOf("!/");
+ 			boolean specHasEntry = (separator != -1) &amp;&amp; (separator + 2 != spec.length());
+ 			if (specHasEntry) {
+<span class="d-del">-				URL jarFileUrl = new URL(spec.substring(0, separator));</span>
+<span class="d-del">-				if ("runtime".equals(url.getRef())) {</span>
+<span class="d-del">-					jarFileUrl = new URL(jarFileUrl, "#runtime");</span>
+<span class="d-add">+				boolean runtimeRef = "runtime".equals(url.getRef());</span>
+<span class="d-add">+				JarFile jarFile = jarFiles.getCached(JarFileUrlKey.forNestedSpec(spec, separator, runtimeRef));</span>
+<span class="d-add">+				if (jarFile == null) {</span>
+<span class="d-add">+					URL jarFileUrl = new URL(spec.substring(0, separator));</span>
+<span class="d-add">+					if (runtimeRef) {</span>
+<span class="d-add">+						jarFileUrl = new URL(jarFileUrl, "#runtime");</span>
+<span class="d-add">+					}</span>
+<span class="d-add">+					jarFile = jarFiles.getOrCreate(true, jarFileUrl);</span>
+<span class="d-add">+					jarFiles.cacheIfAbsent(true, jarFileUrl, jarFile);</span>
+ 				}
+ 				String entryName = UrlDecoder.decode(spec.substring(separator + 2));
+<span class="d-del">-				JarFile jarFile = jarFiles.getOrCreate(true, jarFileUrl);</span>
+<span class="d-del">-				jarFiles.cacheIfAbsent(true, jarFileUrl, jarFile);</span>
+ 				if (!hasEntry(jarFile, entryName)) {
+ 					return notFoundConnection(jarFile.getName(), entryName);
+ 				}
+
+<span class="d-head">--- a/.../jar/JarFileUrlKey.java</span>
+<span class="d-head">+++ b/.../jar/JarFileUrlKey.java</span>
+<span class="d-hunk">@@</span>
+<span class="d-add">+	private JarFileUrlKey(String protocol, String host, int port, String file, boolean runtimeRef) {</span>
+<span class="d-add">+		this.protocol = protocol;</span>
+<span class="d-add">+		this.host = host;</span>
+<span class="d-add">+		this.port = port;</span>
+<span class="d-add">+		this.file = file;</span>
+<span class="d-add">+		this.runtimeRef = runtimeRef;</span>
+<span class="d-add">+	}</span>
+<span class="d-add">+</span>
+<span class="d-add">+	static JarFileUrlKey forNestedSpec(String spec, int end, boolean runtimeRef) {</span>
+<span class="d-add">+		return new JarFileUrlKey("nested", "", -1, spec.substring("nested:".length(), end), runtimeRef);</span>
+<span class="d-add">+	}</span>
+<span class="d-add">+</span>
+ 	JarFileUrlKey(URL url) {
+
+<span class="d-head">--- a/.../jar/UrlJarFiles.java</span>
+<span class="d-head">+++ b/.../jar/UrlJarFiles.java</span>
+<span class="d-hunk">@@</span>
+<span class="d-add">+	JarFile getCached(JarFileUrlKey key) {</span>
+<span class="d-add">+		return this.cache.get(key);</span>
+<span class="d-add">+	}</span>
+<span class="d-add">+</span>
+ 	JarFile getOrCreate(boolean useCaches, URL jarFileUrl) throws IOException {
+<span class="d-hunk">@@</span>
+ 		JarFile get(URL jarFileUrl) {
+<span class="d-del">-			JarFileUrlKey urlKey = new JarFileUrlKey(jarFileUrl);</span>
+<span class="d-add">+			return get(new JarFileUrlKey(jarFileUrl));</span>
+<span class="d-add">+		}</span>
+<span class="d-add">+</span>
+<span class="d-add">+		JarFile get(JarFileUrlKey urlKey) {</span>
+ 			synchronized (this) {
+ 				return this.jarFileUrlToJarFile.get(urlKey);
+ 			}
+ 		}</pre></div></div><ul class="list"><li>The constants in forNestedSpec are not guesses. Parsing nested:/tmp/app.jar/!BOOT-INF/lib/spring-core.jar through the registered handler yields protocol nested, host "", port -1, default port -1, and file equal to the spec with the nested: prefix removed, so the direct key is equal to the URL-derived one by JarFileUrlKey's own equals.</li><li>The miss branch is unchanged: same URL construction, same runtime ref handling, same getOrCreate and cacheIfAbsent, so cold behavior and concurrent misses keep the semantics they have today.</li><li>The second key in cacheIfAbsent disappears on a hit because cacheIfAbsent is no longer reached on a hit. It is untouched on a miss, where it is what makes the put atomic.</li><li>The file paths above are a shallow temp checkout of spring-projects/spring-boot at cf5f3b9e under $TMPDIR/bug-triage-src-spring-projects-spring-boot/; in the repo they are loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/.</li><li>This is the reporter's own proposal. I did not invent an alternative; I implemented it in the temp clone to measure whether it removes the allocation it claims to remove.</li></ul></section><section id="touch" class="card"><header><span class="num">7</span><h2>Files to touch</h2></header><table class="tbl"><thead><tr><th>Full path</th><th>Change</th></tr></thead><tbody><tr><td class="path"><code>loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarUrlConnection.java</code></td><td class="role">lines 340-346 - read the cache by direct key first, move the URL construction into the miss branch</td></tr><tr><td class="path"><code>loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarFileUrlKey.java</code></td><td class="role">add a private field constructor and the static forNestedSpec(spec, end, runtimeRef) factory</td></tr><tr><td class="path"><code>loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/UrlJarFiles.java</code></td><td class="role">add getCached(JarFileUrlKey) and a Cache.get(JarFileUrlKey) overload that the URL overload delegates to</td></tr><tr><td class="path"><code>loader/spring-boot-loader/src/test/java/org/springframework/boot/loader/net/protocol/jar/JarFileUrlKeyTests.java</code></td><td class="role">assert forNestedSpec equals and hashes the same as new JarFileUrlKey(url) for the same spec, with and without the runtime ref</td></tr><tr><td class="path"><code>loader/spring-boot-loader/src/test/java/org/springframework/boot/loader/net/protocol/jar/JarUrlConnectionTests.java</code></td><td class="role">cover a warm-cache nested lookup and a cold-cache miss so the two paths cannot drift apart</td></tr></tbody></table></section><section id="breaking" class="card"><header><span class="num">8</span><h2>Breaking change?</h2></header><div class="verdict good"><span class="v-label">No</span><div class="v-flags"><span class="flag off">database schema</span><span class="flag off">public API / contract</span><span class="flag off">breaks consumers</span></div></div><div class="prose"><p>No schema and no migration - the loader touches no database. All three classes are package-private inside org.springframework.boot.loader.net.protocol.jar, so nothing here is a published signature; the public JarUrl and the JarURLConnection contract are untouched. Callers see the same JarFile for the same URL, the same FileNotFoundException for a missing entry, and the same cache identity, because the new key is equal to the key that a URL would have produced. The one thing to keep honest is that equality: if the nested handler's parsing of protocol, host or port ever changes, the direct key and the URL key would drift, which is exactly what the JarFileUrlKeyTests addition is for.</p></div></section><section id="safety" class="card"><header><span class="num">9</span><h2>Is the fix safe?</h2></header><div class="verdict good"><span class="v-label">Safe with a caveat</span></div><div class="prose"><p>The change is small, local, allocation-only, and reversible by a revert. I compiled unpatched main and the patched tree from the same sources and ran the same harness against both: 480 B/op before, 192 B/op after, with cold hit, warm hit and missing-entry behavior identical on both builds. The caveat is coverage, not design: my harness exercised cold, warm and missing on a synthetic two-entry nested jar. It did not exercise the runtime ref, a signed jar, a multi-release jar, or concurrent cold misses.</p></div><h4>Risks</h4><ul class="list"><li>forNestedSpec hard-codes what the nested handler produces today (protocol nested, host "", port -1). A change to that parsing would silently split the cache into two keys rather than fail loudly - a memory leak of duplicate JarFiles, not a wrong answer.</li><li>I could not exercise the runtime ref path: appending #runtime to a nested jar URL in my harness makes the loader look for a nested entry literally named nested.jar#runtime, and it fails that way on unpatched main too. That is a property of my synthetic fixture, not evidence about the fix, and it means the runtime ref branch is unmeasured here.</li><li>The measurement is one machine, one JVM (Corretto 25.0.2), one tiny nested jar. The direction matches the reporter's JMH numbers on a 168 MB jar; the absolute figures do not transfer.</li><li>I did not run Spring Boot's own test suite - no Gradle build was executed - so 'existing tests still pass' is not something this triage established.</li></ul><h4>How to verify</h4><ul class="list"><li>./gradlew :loader:spring-boot-loader:test - the module's 551 loader tests, which this triage did not run.</li><li>Add the JarFileUrlKeyTests case asserting forNestedSpec(spec, end, runtimeRef) equals new JarFileUrlKey(new URL(spec)) for both ref states; that is the single assertion the whole change rests on.</li><li>Re-run the allocation harness on both builds and expect the exact byte figures to repeat: 480 B/op unpatched, 192 B/op patched.</li><li>For the end-to-end claim, take the reporter's route: JFR on a real application startup, and compare sample-weighted allocation on the JarUrlConnection.open path rather than wall-clock startup, which the reporter's own data could not resolve.</li></ul></section></main>
+</div>
+<footer>self-contained report · no network, no tracking</footer>
+</body>
+</html>

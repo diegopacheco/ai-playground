@@ -1,0 +1,77 @@
+diff --git a/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarFileUrlKey.java b/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarFileUrlKey.java
+index cae978d1..0b68b2e8 100644
+--- a/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarFileUrlKey.java
++++ b/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarFileUrlKey.java
+@@ -36,6 +36,18 @@ final class JarFileUrlKey {
+ 
+ 	private final boolean runtimeRef;
+ 
++	private JarFileUrlKey(String protocol, String host, int port, String file, boolean runtimeRef) {
++		this.protocol = protocol;
++		this.host = host;
++		this.port = port;
++		this.file = file;
++		this.runtimeRef = runtimeRef;
++	}
++
++	static JarFileUrlKey forNestedSpec(String spec, int end, boolean runtimeRef) {
++		return new JarFileUrlKey("nested", "", -1, spec.substring("nested:".length(), end), runtimeRef);
++	}
++
+ 	JarFileUrlKey(URL url) {
+ 		this.protocol = url.getProtocol();
+ 		this.host = url.getHost();
+diff --git a/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarUrlConnection.java b/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarUrlConnection.java
+index ba6521de..7b26f029 100644
+--- a/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarUrlConnection.java
++++ b/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarUrlConnection.java
+@@ -337,13 +337,17 @@ final class JarUrlConnection extends java.net.JarURLConnection {
+ 			int separator = spec.indexOf("!/");
+ 			boolean specHasEntry = (separator != -1) && (separator + 2 != spec.length());
+ 			if (specHasEntry) {
+-				URL jarFileUrl = new URL(spec.substring(0, separator));
+-				if ("runtime".equals(url.getRef())) {
+-					jarFileUrl = new URL(jarFileUrl, "#runtime");
++				boolean runtimeRef = "runtime".equals(url.getRef());
++				JarFile jarFile = jarFiles.getCached(JarFileUrlKey.forNestedSpec(spec, separator, runtimeRef));
++				if (jarFile == null) {
++					URL jarFileUrl = new URL(spec.substring(0, separator));
++					if (runtimeRef) {
++						jarFileUrl = new URL(jarFileUrl, "#runtime");
++					}
++					jarFile = jarFiles.getOrCreate(true, jarFileUrl);
++					jarFiles.cacheIfAbsent(true, jarFileUrl, jarFile);
+ 				}
+ 				String entryName = UrlDecoder.decode(spec.substring(separator + 2));
+-				JarFile jarFile = jarFiles.getOrCreate(true, jarFileUrl);
+-				jarFiles.cacheIfAbsent(true, jarFileUrl, jarFile);
+ 				if (!hasEntry(jarFile, entryName)) {
+ 					return notFoundConnection(jarFile.getName(), entryName);
+ 				}
+diff --git a/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/UrlJarFiles.java b/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/UrlJarFiles.java
+index e2dbb3a2..0c3c2a64 100644
+--- a/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/UrlJarFiles.java
++++ b/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/UrlJarFiles.java
+@@ -62,6 +62,10 @@ class UrlJarFiles {
+ 	 * @return a new or existing {@link JarFile} instance
+ 	 * @throws IOException on I/O error
+ 	 */
++	JarFile getCached(JarFileUrlKey key) {
++		return this.cache.get(key);
++	}
++
+ 	JarFile getOrCreate(boolean useCaches, URL jarFileUrl) throws IOException {
+ 		if (useCaches) {
+ 			JarFile cached = getCached(jarFileUrl);
+@@ -154,7 +158,10 @@ class UrlJarFiles {
+ 		 * @return the cached {@link JarFile} or {@code null}
+ 		 */
+ 		JarFile get(URL jarFileUrl) {
+-			JarFileUrlKey urlKey = new JarFileUrlKey(jarFileUrl);
++			return get(new JarFileUrlKey(jarFileUrl));
++		}
++
++		JarFile get(JarFileUrlKey urlKey) {
+ 			synchronized (this) {
+ 				return this.jarFileUrlToJarFile.get(urlKey);
+ 			}

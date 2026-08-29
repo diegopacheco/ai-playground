@@ -1,0 +1,112 @@
+{
+  "bug": {
+    "name": "Nested jar URLs are parsed again on every cached resource lookup",
+    "id": "#51503",
+    "url": "https://github.com/spring-projects/spring-boot/issues/51503",
+    "tracker": "GitHub",
+    "severity": "low",
+    "branch": "main @ cf5f3b9e",
+    "repo": "spring-projects/spring-boot"
+  },
+  "description": [
+    "Every lookup of a resource inside a nested jar builds and parses a java.net.URL, even when the nested JarFile is already cached.",
+    "JarUrlConnection.open needs a cache key, not a URL, but it builds the URL first and then derives the key from it.",
+    "It then builds a second key in cacheIfAbsent, which on a cache hit only proves the entry is already there.",
+    "Nothing is wrong in the output. The cost is allocation and time on a path a starting application walks thousands of times while probing for optional classes and package-info.",
+    "Measured on this machine: 480 bytes and 158 ns per warm-cache lookup that could be 192 bytes and 70 ns."
+  ],
+  "files": [
+    {
+      "path": "/var/folders/.../T/bug-triage-src-spring-projects-spring-boot/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarUrlConnection.java",
+      "lines": "334-353",
+      "role": "open(URL) builds `new URL(spec.substring(0, separator))` on line 340 before it ever consults the cache, and a second URL on line 342 for a runtime ref"
+    },
+    {
+      "path": "/var/folders/.../T/bug-triage-src-spring-projects-spring-boot/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/UrlJarFiles.java",
+      "lines": "65-73, 92-97, 156-161, 182-193",
+      "role": "getOrCreate -> Cache.get builds JarFileUrlKey number one; cacheIfAbsent -> Cache.putIfAbsent builds JarFileUrlKey number two, which is wasted on a hit"
+    },
+    {
+      "path": "/var/folders/.../T/bug-triage-src-spring-projects-spring-boot/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarFileUrlKey.java",
+      "lines": "39-45",
+      "role": "the key's only constructor takes a URL, which is why a URL has to exist before the cache can be read"
+    },
+    {
+      "path": "/var/folders/.../T/bug-triage-src-spring-projects-spring-boot/loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/nested/Handler.java",
+      "lines": "whole file",
+      "role": "the nested: handler that parseURL runs on every one of those URL constructions"
+    }
+  ],
+  "repro": {
+    "path": "$TMPDIR/bt-spring-repro/Repro.java (package org.springframework.boot.loader.net.protocol.jar)",
+    "run": "javac -d base $(find loader/spring-boot-loader/src/main/java -name '*.java' | grep -v '/launch/\\|/jarmode/\\|JarUrlClassLoader') && java -cp base -Xms512m -Xmx512m ...Repro",
+    "language": "java",
+    "start_line": 24,
+    "code": "public static void main(String[] args) throws Exception {\n\tFile file = File.createTempFile(\"bug-triage-51503\", \".jar\");\n\tfile.deleteOnExit();\n\twriteOuterJar(file);\n\n\tHandlers.register();\n\n\tURL missing = JarUrl.create(file, \"nested.jar\", \"missing/does-not-exist.dat\");\n\tURL present = JarUrl.create(file, \"nested.jar\", \"3.dat\");\n\n\tverify(present, missing);\n\n\tOptimizations.enable(true);\n\tJarUrlConnection.open(missing);\n\n\tfor (int i = 0; i < WARMUP; i++) {\n\t\tJarUrlConnection.open(missing);\n\t}\n\n\tThreadMXBean threads = (ThreadMXBean) ManagementFactory.getThreadMXBean();\n\tlong id = Thread.currentThread().threadId();\n\tlong before = threads.getThreadAllocatedBytes(id);\n\tlong start = System.nanoTime();\n\tfor (int i = 0; i < MEASURE; i++) {\n\t\tJarUrlConnection.open(missing);\n\t}\n\tlong nanos = System.nanoTime() - start;\n\tlong allocated = threads.getThreadAllocatedBytes(id) - before;\n\n\tSystem.out.printf(\"allocated %d B/op%n\", allocated / MEASURE);\n\tSystem.out.printf(\"time %.1f ns/op%n\", (double) nanos / MEASURE);\n}\n\nprivate static void verify(URL present, URL missing) throws Exception {\n\tif (JarUrlConnection.open(present).getJarEntry() == null) {\n\t\tthrow new IllegalStateException(\"cold lookup lost 3.dat\");\n\t}\n\tif (JarUrlConnection.open(present).getJarEntry() == null) {\n\t\tthrow new IllegalStateException(\"warm lookup lost 3.dat\");\n\t}\n\ttry {\n\t\tJarUrlConnection.open(missing).getJarEntry();\n\t\tthrow new IllegalStateException(\"missing entry was reported as found\");\n\t}\n\tcatch (FileNotFoundException ex) {\n\t\tSystem.out.println(\"verify ok: cold hit, warm hit, missing entry not found\");\n\t}\n}",
+    "expectation": "Unpatched main at cf5f3b9e, three runs: 480 B/op at 157.8, 156.7 and 168.8 ns/op. With the fix below, same harness and same JVM: 192 B/op at 72.3, 70.0 and 75.2 ns/op. This is an allocation assertion, not a wall-clock one: 480 vs 192 bytes is exact and repeats to the byte, while the ns figures carry normal JIT noise."
+  },
+  "why_bad": [
+    "It is pure waste on a hot path: the URL that costs the allocation is thrown away as soon as the key is built, on every hit.",
+    "It scales with how hard a framework probes. Spring probes for optional classes and package-info across every nested jar at startup, so the cost lands where startup time is already scarce.",
+    "The reporter measured 1.03 GB of allocation on this path shrinking to 205 MB in a real application startup - garbage that the collector has to walk during the worst window for it.",
+    "Nothing surfaces it. Output is correct, no test fails, and the only symptom is allocation pressure that looks like the class loader being slow.",
+    "It is worse in memory-tight containers, where the extra garbage per lookup is what pushes a young collection during startup."
+  ],
+  "solution": {
+    "summary": "Build the cache key straight from the already-parsed nested spec and only construct a URL when the cache misses. One new package-private factory on JarFileUrlKey, one cache read on UrlJarFiles, and the URL work moved inside the miss branch of JarUrlConnection.open. No signature changes, no new fields, no behavior change on a miss.",
+    "language": "diff",
+    "code": "--- a/.../jar/JarUrlConnection.java\n+++ b/.../jar/JarUrlConnection.java\n@@ -337,13 +337,17 @@ final class JarUrlConnection extends java.net.JarURLConnection {\n \t\t\tint separator = spec.indexOf(\"!/\");\n \t\t\tboolean specHasEntry = (separator != -1) && (separator + 2 != spec.length());\n \t\t\tif (specHasEntry) {\n-\t\t\t\tURL jarFileUrl = new URL(spec.substring(0, separator));\n-\t\t\t\tif (\"runtime\".equals(url.getRef())) {\n-\t\t\t\t\tjarFileUrl = new URL(jarFileUrl, \"#runtime\");\n+\t\t\t\tboolean runtimeRef = \"runtime\".equals(url.getRef());\n+\t\t\t\tJarFile jarFile = jarFiles.getCached(JarFileUrlKey.forNestedSpec(spec, separator, runtimeRef));\n+\t\t\t\tif (jarFile == null) {\n+\t\t\t\t\tURL jarFileUrl = new URL(spec.substring(0, separator));\n+\t\t\t\t\tif (runtimeRef) {\n+\t\t\t\t\t\tjarFileUrl = new URL(jarFileUrl, \"#runtime\");\n+\t\t\t\t\t}\n+\t\t\t\t\tjarFile = jarFiles.getOrCreate(true, jarFileUrl);\n+\t\t\t\t\tjarFiles.cacheIfAbsent(true, jarFileUrl, jarFile);\n \t\t\t\t}\n \t\t\t\tString entryName = UrlDecoder.decode(spec.substring(separator + 2));\n-\t\t\t\tJarFile jarFile = jarFiles.getOrCreate(true, jarFileUrl);\n-\t\t\t\tjarFiles.cacheIfAbsent(true, jarFileUrl, jarFile);\n \t\t\t\tif (!hasEntry(jarFile, entryName)) {\n \t\t\t\t\treturn notFoundConnection(jarFile.getName(), entryName);\n \t\t\t\t}\n\n--- a/.../jar/JarFileUrlKey.java\n+++ b/.../jar/JarFileUrlKey.java\n@@\n+\tprivate JarFileUrlKey(String protocol, String host, int port, String file, boolean runtimeRef) {\n+\t\tthis.protocol = protocol;\n+\t\tthis.host = host;\n+\t\tthis.port = port;\n+\t\tthis.file = file;\n+\t\tthis.runtimeRef = runtimeRef;\n+\t}\n+\n+\tstatic JarFileUrlKey forNestedSpec(String spec, int end, boolean runtimeRef) {\n+\t\treturn new JarFileUrlKey(\"nested\", \"\", -1, spec.substring(\"nested:\".length(), end), runtimeRef);\n+\t}\n+\n \tJarFileUrlKey(URL url) {\n\n--- a/.../jar/UrlJarFiles.java\n+++ b/.../jar/UrlJarFiles.java\n@@\n+\tJarFile getCached(JarFileUrlKey key) {\n+\t\treturn this.cache.get(key);\n+\t}\n+\n \tJarFile getOrCreate(boolean useCaches, URL jarFileUrl) throws IOException {\n@@\n \t\tJarFile get(URL jarFileUrl) {\n-\t\t\tJarFileUrlKey urlKey = new JarFileUrlKey(jarFileUrl);\n+\t\t\treturn get(new JarFileUrlKey(jarFileUrl));\n+\t\t}\n+\n+\t\tJarFile get(JarFileUrlKey urlKey) {\n \t\t\tsynchronized (this) {\n \t\t\t\treturn this.jarFileUrlToJarFile.get(urlKey);\n \t\t\t}\n \t\t}",
+    "notes": [
+      "The constants in forNestedSpec are not guesses. Parsing nested:/tmp/app.jar/!BOOT-INF/lib/spring-core.jar through the registered handler yields protocol nested, host \"\", port -1, default port -1, and file equal to the spec with the nested: prefix removed, so the direct key is equal to the URL-derived one by JarFileUrlKey's own equals.",
+      "The miss branch is unchanged: same URL construction, same runtime ref handling, same getOrCreate and cacheIfAbsent, so cold behavior and concurrent misses keep the semantics they have today.",
+      "The second key in cacheIfAbsent disappears on a hit because cacheIfAbsent is no longer reached on a hit. It is untouched on a miss, where it is what makes the put atomic.",
+      "The file paths above are a shallow temp checkout of spring-projects/spring-boot at cf5f3b9e under $TMPDIR/bug-triage-src-spring-projects-spring-boot/; in the repo they are loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/.",
+      "This is the reporter's own proposal. I did not invent an alternative; I implemented it in the temp clone to measure whether it removes the allocation it claims to remove."
+    ]
+  },
+  "files_to_touch": [
+    {
+      "path": "loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarUrlConnection.java",
+      "change": "lines 340-346 - read the cache by direct key first, move the URL construction into the miss branch"
+    },
+    {
+      "path": "loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/JarFileUrlKey.java",
+      "change": "add a private field constructor and the static forNestedSpec(spec, end, runtimeRef) factory"
+    },
+    {
+      "path": "loader/spring-boot-loader/src/main/java/org/springframework/boot/loader/net/protocol/jar/UrlJarFiles.java",
+      "change": "add getCached(JarFileUrlKey) and a Cache.get(JarFileUrlKey) overload that the URL overload delegates to"
+    },
+    {
+      "path": "loader/spring-boot-loader/src/test/java/org/springframework/boot/loader/net/protocol/jar/JarFileUrlKeyTests.java",
+      "change": "assert forNestedSpec equals and hashes the same as new JarFileUrlKey(url) for the same spec, with and without the runtime ref"
+    },
+    {
+      "path": "loader/spring-boot-loader/src/test/java/org/springframework/boot/loader/net/protocol/jar/JarUrlConnectionTests.java",
+      "change": "cover a warm-cache nested lookup and a cold-cache miss so the two paths cannot drift apart"
+    }
+  ],
+  "breaking": {
+    "verdict": "No",
+    "db": false,
+    "api": false,
+    "consumers": false,
+    "detail": "No schema and no migration - the loader touches no database. All three classes are package-private inside org.springframework.boot.loader.net.protocol.jar, so nothing here is a published signature; the public JarUrl and the JarURLConnection contract are untouched. Callers see the same JarFile for the same URL, the same FileNotFoundException for a missing entry, and the same cache identity, because the new key is equal to the key that a URL would have produced. The one thing to keep honest is that equality: if the nested handler's parsing of protocol, host or port ever changes, the direct key and the URL key would drift, which is exactly what the JarFileUrlKeyTests addition is for."
+  },
+  "safety": {
+    "verdict": "Safe with a caveat",
+    "detail": "The change is small, local, allocation-only, and reversible by a revert. I compiled unpatched main and the patched tree from the same sources and ran the same harness against both: 480 B/op before, 192 B/op after, with cold hit, warm hit and missing-entry behavior identical on both builds. The caveat is coverage, not design: my harness exercised cold, warm and missing on a synthetic two-entry nested jar. It did not exercise the runtime ref, a signed jar, a multi-release jar, or concurrent cold misses.",
+    "risks": [
+      "forNestedSpec hard-codes what the nested handler produces today (protocol nested, host \"\", port -1). A change to that parsing would silently split the cache into two keys rather than fail loudly - a memory leak of duplicate JarFiles, not a wrong answer.",
+      "I could not exercise the runtime ref path: appending #runtime to a nested jar URL in my harness makes the loader look for a nested entry literally named nested.jar#runtime, and it fails that way on unpatched main too. That is a property of my synthetic fixture, not evidence about the fix, and it means the runtime ref branch is unmeasured here.",
+      "The measurement is one machine, one JVM (Corretto 25.0.2), one tiny nested jar. The direction matches the reporter's JMH numbers on a 168 MB jar; the absolute figures do not transfer.",
+      "I did not run Spring Boot's own test suite - no Gradle build was executed - so 'existing tests still pass' is not something this triage established."
+    ],
+    "verification": [
+      "./gradlew :loader:spring-boot-loader:test - the module's 551 loader tests, which this triage did not run.",
+      "Add the JarFileUrlKeyTests case asserting forNestedSpec(spec, end, runtimeRef) equals new JarFileUrlKey(new URL(spec)) for both ref states; that is the single assertion the whole change rests on.",
+      "Re-run the allocation harness on both builds and expect the exact byte figures to repeat: 480 B/op unpatched, 192 B/op patched.",
+      "For the end-to-end claim, take the reporter's route: JFR on a real application startup, and compare sample-weighted allocation on the JarUrlConnection.open path rather than wall-clock startup, which the reporter's own data could not resolve."
+    ]
+  }
+}

@@ -169,6 +169,39 @@ OK report written to a temp folder
 PASS report written to /var/folders/.../T/bug-triage-pix-482-2026-08-29-145712/index.html
 ```
 
+## A real run: Spring Boot issue #51503
+
+The skill was pointed at a live GitHub issue with no local copy of the project:
+
+```
+/bug-triage https://github.com/spring-projects/spring-boot/issues/51503
+```
+
+It read the issue with `gh`, shallow-cloned `spring-projects/spring-boot` into `$TMPDIR` in 5 seconds (landing on `cf5f3b9e`, the exact commit the reporter benchmarked), and read the loader classes from there. `JarUrlConnection.open` builds and parses a `java.net.URL` on every nested-jar lookup before it ever reads the cache, then builds a second cache key that a cache hit does not need.
+
+Rather than quote the reporter's numbers, the triage compiled the loader module twice from the same sources — unpatched `main` and the proposed change — and measured the same harness against both on Corretto 25.0.2:
+
+| Build | Allocation | Time | Correctness |
+|---|---:|---:|---|
+| unpatched `cf5f3b9e` | 480 B/op | 157.8 / 156.7 / 168.8 ns/op | cold hit, warm hit, missing entry all correct |
+| with the fix | 192 B/op | 72.3 / 70.0 / 75.2 ns/op | identical |
+
+-60% allocation, -55% time, byte figures repeating exactly across runs. The report says plainly what it did not establish: Spring Boot's own Gradle suite was never run, and the runtime-ref branch went unmeasured because the synthetic fixture cannot reach it (it fails the same way on unpatched `main`).
+
+The report and its evidence live in `sample-report/`:
+
+```
+sample-report/
+├── index.html          the report
+├── triage.json         what it was rendered from
+├── Repro.java          the allocation harness
+└── 51503-fix.patch     the change that was measured
+```
+
+![Spring Boot 51503 report](printscreens/spring-boot-51503-report.png)
+
+This is the one place a report sits outside a temp folder — it is checked in as a worked result of the skill. Every other run goes to `$TMPDIR`.
+
 ## The sample bug
 
 `sample/` is a tiny cart with one real money bug: `discountFor` in `sample/src/cart.mjs:14` returns a fixed coupon's full value with no cap, so a $25 coupon on a $15 cart makes the total `-10`, and `charge` in `sample/src/checkout.mjs:9` passes `-10.80` on as the amount to charge. Its four existing tests all pass, because none of them uses a coupon bigger than the cart — which is the point.
@@ -204,6 +237,7 @@ agent-skill-bug-triage/
 │   ├── src/                     cart.mjs, checkout.mjs, money.mjs
 │   ├── test/                    the green suite + the failing reproduction test
 │   └── triage.json              the triage of that bug
+├── sample-report/               a real run against spring-boot issue #51503
 ├── printscreens/                architecture diagram + report screenshots
 ├── install.sh / uninstall.sh    Claude Code, Codex, or both
 ├── test.sh                      end to end: checkout, suite, reproduction, render, checks
