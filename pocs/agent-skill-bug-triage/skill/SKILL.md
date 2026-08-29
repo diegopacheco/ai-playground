@@ -9,10 +9,12 @@ allowed-tools: [Bash, Read, Grep, Glob, WebFetch, AskUserQuestion]
 When invoked, you take one bug from whatever the user gives you, read the actual code to find its cause, and write a light-theme report to a temp folder. Every claim in the report comes from a file you read. You do not fix the bug — you triage it.
 
 ## Global Context
-- User request / scope: $ARGUMENTS — empty, a branch name, a git or issue URL, a Jira/Linear/GitHub issue id, or a plain description of the bug
+- User request / scope: $ARGUMENTS — empty, a branch name, a repo or PR URL, an issue URL, a Jira/Linear/GitHub issue id, or a plain description of the bug
+- Checkout: `scripts/checkout.sh` (puts a repo, a PR, or another branch in a temp folder — never touches the working tree)
 - Renderer: `scripts/render.mjs` (Node, no dependencies)
 - Template: `assets/template.html`
 - Output: `$TMPDIR/bug-triage-<slug>-<timestamp>/index.html` plus the `triage.json` it was rendered from
+- Source read: the repo you are in, or `$TMPDIR/bug-triage-src-<slug>/` when the bug came from a repo, a PR, or a branch you are not on
 
 ## Rules
 - Read the code before you write anything. Never describe a file you have not opened.
@@ -27,10 +29,24 @@ When invoked, you take one bug from whatever the user gives you, read the actual
 Read `$ARGUMENTS` and pick the case:
 
 - **Empty** — triage the branch you are on. Run `git status -sb`, `git log --oneline -15`, and `git diff main...HEAD` to find what changed, then ask the user which bug they mean if the branch shows more than one candidate.
-- **A branch name** — `git diff main...<branch>` and `git log --oneline main..<branch>` to read what that branch changed.
-- **A Jira / Linear / GitHub URL** — fetch it with WebFetch and pull out the title, the description, and the reproduction steps. If the fetch is blocked by a login, say so in one line and ask the user to paste the bug text. Keep the URL either way — it goes in the report as `bug.url`.
+- **A branch name** — check it out into a temp folder (Step 1b), then `git diff main...<branch>` and `git log --oneline main..<branch>` to read what that branch changed.
+- **A repo URL or a GitHub PR URL** — clone it into a temp folder (Step 1b). For a PR, `git diff origin/HEAD...HEAD` in that folder is what the PR changed.
+- **A Jira / Linear / GitHub issue URL** — fetch it with WebFetch and pull out the title, the description, and the reproduction steps. If the fetch is blocked by a login, say so in one line and ask the user to paste the bug text. Keep the URL either way — it goes in the report as `bug.url`. If the issue names a repo or a PR you do not have locally, take that url through Step 1b too.
 - **A bug id with no URL** (`PROJ-1234`, `ENG-88`) — search the repo for it (`git log --grep`, `grep -r`) and ask the user for the link or the description if nothing turns up.
-- **A plain description** — that is the bug. Use it as written.
+- **A plain description** — that is the bug. Use it as written, against the repo you are in.
+
+## Step 1b — Put the source in a temp folder
+Only when the code you need is not the working tree you are standing in:
+
+```bash
+"$HOME/.claude/skills/bug-triage/scripts/checkout.sh" <repo url | pr url | branch>
+```
+
+It prints `CHECKOUT <path>` and the head commit. A branch becomes a detached `git worktree` under `$TMPDIR`, so the user's checked-out branch and uncommitted work are never touched. A repo or PR url becomes a shallow clone under `$TMPDIR`; a PR is fetched as `pull/<n>/head`. It exits 1 with a plain message when the url is unreachable or the branch does not exist — relay that instead of triaging the wrong tree.
+
+Read the code from the printed path, and use that path in `files` and `files_to_touch` so every path in the report is the one you actually read. Say in `solution.notes` that the paths are a temp checkout of `<ref>` when they are.
+
+`checkout.sh --clean` prunes the worktrees and deletes every `bug-triage-src-*` folder. Run it when the user asks, not on your own — the report points at those paths.
 
 ## Step 2 — Find the cause in the code
 Search the codebase for the symptom: the error text, the endpoint, the function, the field. Follow the call path from the entry point to the line that is actually wrong. Read the tests around it — an existing test that passes while the bug is live tells you what the code believes it is doing.

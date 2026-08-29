@@ -4,6 +4,24 @@ set -uo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 OUT="$HERE/bug-triage-report"
 
+echo "== checkout into a temp folder =="
+CHECKOUT=$("$HERE/skill/scripts/checkout.sh" HEAD | grep "^CHECKOUT " | cut -d' ' -f2)
+if [ ! -d "$CHECKOUT" ]; then
+  echo "FAIL checkout did not produce a folder"
+  exit 1
+fi
+case "$CHECKOUT" in
+  "$HERE"*) echo "FAIL checkout landed inside the repo: $CHECKOUT"; exit 1 ;;
+esac
+echo "OK source checked out to $CHECKOUT"
+
+if "$HERE/skill/scripts/checkout.sh" no-such-branch-xyz >/dev/null 2>&1; then
+  echo "FAIL checkout accepted a branch that does not exist"
+  exit 1
+fi
+echo "OK checkout rejects an unknown branch"
+
+echo ""
 echo "== existing suite (green while the bug is live) =="
 node --test "$HERE/sample/test/cart.test.mjs" 2>&1 | grep -E "^# (pass|fail)|^. (pass|fail)|^ℹ (pass|fail)"
 SUITE=$?
