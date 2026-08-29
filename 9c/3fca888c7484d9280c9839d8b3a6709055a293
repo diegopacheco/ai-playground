@@ -1,0 +1,36 @@
+pocs/agent-skill-bug-triage/skill/SKILL.md
+  s_01d76a70d9dcbc::t_03ebdb4d5bae8c 12-13,17
+  s_01d76a70d9dcbc::t_d85137fa4043d6 32-34,36-49
+pocs/agent-skill-bug-triage/bug-triage-report/index.html
+  s_01d76a70d9dcbc::t_a9928b65d8a8c8 154
+pocs/agent-skill-bug-triage/README.md
+  s_01d76a70d9dcbc::t_4109ea8416bdb1 3,9,123
+  s_01d76a70d9dcbc::t_d508bbbbcc8e7e 10,28-29,46,77-79,127-136,149,154-157,204,213
+pocs/agent-skill-bug-triage/printscreens/architecture.html
+  s_01d76a70d9dcbc::t_c93b4aa4169cdd 36,49-73
+pocs/agent-skill-bug-triage/test.sh
+  s_01d76a70d9dcbc::t_df94d177d9a7f2 7-24
+pocs/agent-skill-bug-triage/skill/scripts/checkout.sh
+  s_01d76a70d9dcbc::t_dd522a2c7c43cb 1-12,20-29,31,33,38,43-56,61-76,82-86
+  s_01d76a70d9dcbc::t_36589619df045d 13-19
+  s_01d76a70d9dcbc::t_be3bf1bdabc211 30,32,77-81
+  s_01d76a70d9dcbc::t_2287e4b8a9ba67 34-37,39-42
+  s_01d76a70d9dcbc::t_e6c9dee6d52157 58-60
+  s_01d76a70d9dcbc::t_5045b3813975cf 57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "9c3fca888c7484d9280c9839d8b3a6709055a293",
+  "prompts": {},
+  "sessions": {
+    "s_01d76a70d9dcbc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "74fdd763-d625-4cab-a006-e76e9f10cb07",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
