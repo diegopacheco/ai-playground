@@ -22,7 +22,7 @@ When invoked, you take one bug from whatever the user gives you, read the actual
 - The reproduction test must run against the real code as it is today and fail because of this bug. No pseudo-code.
 - The fix is the smallest change that removes the cause. No refactors, no cleanups, no adjacent improvements.
 - If you cannot find the cause, say so in the report instead of guessing. A wrong triage costs more than an honest gap.
-- Do not modify the project. The only things you write are the report folder and, if the user asks, a scratch copy of the test.
+- Do not modify the project. Everything you write goes under `$TMPDIR` — the report folder, the working `triage.json`, and any scratch copy of the test. The repo being triaged gains no files.
 - Do not add comments to any command or file you produce.
 
 ## Step 1 — Work out what the bug is
@@ -57,7 +57,7 @@ You need to end this step with: the exact file and line where the behavior goes 
 Write a test in the project's own test framework (read `package.json`, `pom.xml`, `build.gradle`, `pyproject.toml`, `Cargo.toml` to find it). It must call the real code and fail today for this bug. Run it if you can, and use the real failure output as `repro.expectation`.
 
 ## Step 4 — Build the triage json
-Write `triage.json` in the scratch/temp folder. Shape:
+Write `triage.json` under `$TMPDIR`, never inside the repo. Shape:
 
 ```json
 {
@@ -117,7 +117,7 @@ Field rules:
 node "$HOME/.claude/skills/bug-triage/scripts/render.mjs" <triage.json>
 ```
 
-It validates the required fields, writes `index.html` and `triage.json` into a fresh temp folder, and prints `REPORT <path>`. Pass a second argument to choose the folder. If it exits with a missing-field error, fill the field in and run it again — never edit the HTML by hand.
+It validates the required fields, writes `index.html` and `triage.json` into a fresh `$TMPDIR/bug-triage-<slug>-<timestamp>/`, and prints `REPORT <path>`. The folder is not configurable — the report never lands in the repo being triaged, and triage never leaves a file behind for the user to delete. Write your working `triage.json` to a temp path too. If the renderer exits with a missing-field error, fill the field in and run it again — never edit the HTML by hand.
 
 ## Step 6 — Report back
 Give the user, in plain words: what the bug is, where it is (absolute path and line), the one-line fix, whether anything breaks, and whether it is safe. Then the report path exactly as the renderer printed it, and offer to open it:

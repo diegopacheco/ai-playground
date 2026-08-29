@@ -11,7 +11,7 @@ The report answers nine questions and nothing else: what the bug is called, what
 3. It searches and opens the real files until it can point at the exact file and line that is wrong.
 4. It writes a test that fails today because of this bug, and runs it.
 5. It fills a `triage.json` with the nine answers.
-6. `render.mjs` validates that json and renders `index.html` into `$TMPDIR/bug-triage-<slug>-<timestamp>/`.
+6. `render.mjs` validates that json and renders `index.html` into `$TMPDIR/bug-triage-<slug>-<timestamp>/`. The folder is not an argument — nothing is ever written into the repo you are triaging.
 
 Nothing in the report is estimated. If the cause cannot be found, the report says so instead of guessing.
 
@@ -33,7 +33,7 @@ Inputs on the left all collapse to the same thing: one bug. The middle is the re
 | Blast-radius answer (DB / public API / consumers) | Whether you can ship it now is a different question from whether the fix is right |
 | Safety verdict with risks and verification | "Safe" is only useful when it says what would make it unsafe |
 | Tracker link carried into the report | The report is shareable back into Jira or Linear without hunting for the ticket |
-| Renders to a temp folder | Triage is disposable; it never pollutes the repo you are debugging |
+| Renders to a temp folder, always | Triage is disposable; the repo you are debugging never gains a file, so there is nothing to clean up or accidentally commit |
 | Install into Claude Code, Codex, or both | One skill, whichever agent you are in that day |
 
 ## Stack
@@ -146,7 +146,7 @@ REPORT /var/folders/.../T/bug-triage-pix-482-2026-08-29-131359/index.html
 ./test.sh
 ```
 
-It checks out this repo into a temp folder and proves an unknown branch is rejected, runs the sample's existing suite (green while the bug is live), runs the reproduction test (must fail), renders the report, and checks all nine sections and the tracker link are in the HTML.
+It checks out this repo into a temp folder and proves an unknown branch is rejected, runs the sample's existing suite (green while the bug is live), runs the reproduction test (must fail), renders the report, asserts it landed in a temp folder and not in the repo, and checks all nine sections and the tracker link are in the HTML.
 
 Measured output:
 
@@ -165,12 +165,8 @@ OK checkout rejects an unknown branch
 OK reproduction test fails as expected
 
 == render report ==
-bug triage  A fixed coupon worth more than the cart charges the customer a negative amount
-  tracker https://pixel-pantry.atlassian.net/browse/PIX-482
-  files 4  to touch 2
-  breaking No  safe Safe
-REPORT .../bug-triage-report/index.html
-PASS report written to .../bug-triage-report/index.html
+OK report written to a temp folder
+PASS report written to /var/folders/.../T/bug-triage-pix-482-2026-08-29-145712/index.html
 ```
 
 ## The sample bug

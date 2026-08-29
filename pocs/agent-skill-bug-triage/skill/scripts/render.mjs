@@ -57,7 +57,7 @@ const need = (data, path) => {
 
 const input = process.argv[2]
 if (!input) {
-  console.error('usage: render.mjs <triage.json> [outdir]')
+  console.error('usage: render.mjs <triage.json>')
   process.exit(1)
 }
 
@@ -72,7 +72,7 @@ need(data, 'files_to_touch')
 need(data, 'breaking.verdict')
 need(data, 'safety.verdict')
 
-const outDir = resolve(process.argv[3] || join(tmpdir(), `bug-triage-${slug(data.bug.id || data.bug.name)}-${stamp()}`))
+const outDir = resolve(join(tmpdir(), `bug-triage-${slug(data.bug.id || data.bug.name)}-${stamp()}`))
 mkdirSync(outDir, { recursive: true })
 
 const bug = data.bug

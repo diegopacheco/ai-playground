@@ -2,7 +2,6 @@
 set -uo pipefail
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
-OUT="$HERE/bug-triage-report"
 
 echo "== checkout into a temp folder =="
 CHECKOUT=$("$HERE/skill/scripts/checkout.sh" HEAD | grep "^CHECKOUT " | cut -d' ' -f2)
@@ -39,12 +38,18 @@ echo "OK reproduction test fails as expected"
 
 echo ""
 echo "== render report =="
-rm -rf "$OUT"
-node "$HERE/skill/scripts/render.mjs" "$HERE/sample/triage.json" "$OUT"
+OUT=$(node "$HERE/skill/scripts/render.mjs" "$HERE/sample/triage.json" | grep "^REPORT " | cut -d' ' -f2)
+OUT="$(dirname "$OUT")"
 if [ ! -f "$OUT/index.html" ]; then
   echo "FAIL report not written"
   exit 1
 fi
+case "$OUT" in
+  "$HERE"*) echo "FAIL report landed inside the repo: $OUT"; exit 1 ;;
+  "${TMPDIR%/}"*|/tmp/*|/private/var/folders/*) ;;
+  *) echo "FAIL report is not in a temp folder: $OUT"; exit 1 ;;
+esac
+echo "OK report written to a temp folder"
 
 for anchor in id=\"name\" id=\"description\" id=\"files\" id=\"repro\" id=\"why\" id=\"solution\" id=\"touch\" id=\"breaking\" id=\"safety\"; do
   if ! grep -q "$anchor" "$OUT/index.html"; then
