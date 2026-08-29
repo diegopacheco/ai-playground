@@ -1,0 +1,16 @@
+[package]
+name = "monitor-stats"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.94"
+description = "CLI that detects every connected monitor and reports brand, size, max resolution and max refresh rate"
+license = "MIT"
+
+[[bin]]
+name = "monitor-stats"
+path = "src/main.rs"
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
