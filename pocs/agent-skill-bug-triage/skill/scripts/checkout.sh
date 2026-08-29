@@ -11,8 +11,8 @@ BASE="${TMPDIR:-/tmp}"
 BASE="${BASE%/}"
 
 if [ "$TARGET" = "--clean" ]; then
-  git worktree prune >/dev/null 2>&1 || true
   rm -rf "$BASE"/bug-triage-src-*
+  git worktree prune >/dev/null 2>&1 || true
   echo "CLEANED $BASE/bug-triage-src-*"
   exit 0
 fi

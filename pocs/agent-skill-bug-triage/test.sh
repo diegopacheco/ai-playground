@@ -58,4 +58,6 @@ if ! grep -q "atlassian.net/browse/PIX-482" "$OUT/index.html"; then
   exit 1
 fi
 
+"$HERE/skill/scripts/checkout.sh" --clean >/dev/null
+
 echo "PASS report written to $OUT/index.html"
