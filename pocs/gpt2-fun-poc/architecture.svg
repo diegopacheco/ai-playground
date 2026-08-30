@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1240" viewBox="0 0 1240 1240">
+  <defs>
+    <filter id="wob" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="ah" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#5a5a5a"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: "Caveat", "Bradley Hand", "Chalkboard SE", "Noteworthy", sans-serif; fill: #33312e; }
+    .t   { font-size: 25px; font-weight: 700; }
+    .s   { font-size: 19px; fill: #5f5b55; }
+    .band{ font-size: 27px; font-weight: 700; fill: #8a8580; }
+    .box { filter: url(#wob); stroke-width: 2.6; }
+    .conn{ fill: none; stroke: #5a5a5a; stroke-width: 2.4; marker-end: url(#ah); }
+    .dash{ stroke-dasharray: 8 7; }
+  </style>
+
+  <rect width="1240" height="1240" fill="#fdfcfa"/>
+  <g transform="translate(0,205)">
+
+  <text class="band" x="50" y="46">build.sh</text>
+  <rect class="box" x="50"  y="66" width="185" height="76" rx="12" fill="#FDE8D7" stroke="#E8A87C"/>
+  <text class="t" x="142" y="100" text-anchor="middle">git clone</text>
+  <text class="s" x="142" y="126" text-anchor="middle">upstream, pinned commit</text>
+
+  <rect class="box" x="330" y="66" width="255" height="76" rx="12" fill="#FDE8D7" stroke="#E8A87C"/>
+  <text class="t" x="457" y="100" text-anchor="middle">gen_tables.py</text>
+  <text class="s" x="457" y="126" text-anchor="middle">exp lookup table, Q16.16</text>
+
+  <rect class="box" x="680" y="66" width="255" height="76" rx="12" fill="#FDE8D7" stroke="#E8A87C"/>
+  <text class="t" x="807" y="100" text-anchor="middle">gen_model.py</text>
+  <text class="s" x="807" y="126" text-anchor="middle">weights + golden output</text>
+
+  <path class="conn" d="M 240 104 Q 285 96 325 104"/>
+  <path class="conn" d="M 590 104 Q 635 112 675 104"/>
+
+  <rect class="box" x="115" y="216" width="290" height="84" rx="12" fill="#E3F2E1" stroke="#7FB069"/>
+  <text class="t" x="260" y="250" text-anchor="middle">cmake/tables.cmake</text>
+  <text class="s" x="260" y="278" text-anchor="middle">801 exp entries, gelu constants</text>
+
+  <rect class="box" x="455" y="216" width="290" height="84" rx="12" fill="#E3F2E1" stroke="#7FB069"/>
+  <text class="t" x="600" y="250" text-anchor="middle">data/model.cmake</text>
+  <text class="s" x="600" y="278" text-anchor="middle">2 layers, 4 heads, 32-char vocab</text>
+
+  <rect class="box" x="795" y="216" width="290" height="84" rx="12" fill="#E3F2E1" stroke="#7FB069"/>
+  <text class="t" x="940" y="250" text-anchor="middle">data/expected.txt</text>
+  <text class="s" x="940" y="278" text-anchor="middle">python golden reference</text>
+
+  <path class="conn" d="M 420 148 Q 330 182 265 211"/>
+  <path class="conn" d="M 790 148 Q 690 182 605 211"/>
+  <path class="conn" d="M 860 148 Q 900 182 938 211"/>
+
+  <text class="band" x="50" y="392">run.sh</text>
+  <rect class="box" x="50" y="412" width="185" height="76" rx="12" fill="#DCE8F7" stroke="#6C9BD1"/>
+  <text class="t" x="142" y="446" text-anchor="middle">cmake -P</text>
+  <text class="s" x="142" y="472" text-anchor="middle">no compiler, no build dir</text>
+
+  <path class="conn dash" d="M 520 305 Q 340 360 200 407"/>
+
+  <rect class="box" x="330" y="392" width="755" height="200" rx="14" fill="#F3E1F5" stroke="#B07CC6"/>
+  <text class="s" x="707" y="422" text-anchor="middle">every number below is a 32-bit integer in Q16.16 fixed point</text>
+
+  <rect class="box" x="360" y="446" width="195" height="116" rx="12" fill="#fdfcfa" stroke="#B07CC6"/>
+  <text class="t" x="457" y="486" text-anchor="middle">tokenize</text>
+  <text class="s" x="457" y="512" text-anchor="middle">one char</text>
+  <text class="s" x="457" y="536" text-anchor="middle">one token</text>
+
+  <rect class="box" x="600" y="446" width="255" height="116" rx="12" fill="#fdfcfa" stroke="#B07CC6"/>
+  <text class="t" x="727" y="482" text-anchor="middle">transformer blocks</text>
+  <text class="s" x="727" y="508" text-anchor="middle">layernorm, causal attention</text>
+  <text class="s" x="727" y="532" text-anchor="middle">gelu, matvec</text>
+
+  <rect class="box" x="900" y="446" width="155" height="116" rx="12" fill="#fdfcfa" stroke="#B07CC6"/>
+  <text class="t" x="977" y="486" text-anchor="middle">argmax</text>
+  <text class="s" x="977" y="512" text-anchor="middle">greedy,</text>
+  <text class="s" x="977" y="536" text-anchor="middle">no sampling</text>
+
+  <path class="conn" d="M 240 450 Q 290 462 325 470"/>
+  <path class="conn" d="M 560 504 Q 578 496 595 504"/>
+  <path class="conn" d="M 860 504 Q 878 512 895 504"/>
+
+  <rect class="box" x="600" y="672" width="255" height="80" rx="12" fill="#DCE8F7" stroke="#6C9BD1"/>
+  <text class="t" x="727" y="706" text-anchor="middle">token ids + text</text>
+  <text class="s" x="727" y="732" text-anchor="middle">printed by message()</text>
+
+  <path class="conn" d="M 977 597 Q 900 640 838 668"/>
+
+  <text class="band" x="50" y="652">test.sh</text>
+  <rect class="box" x="50" y="672" width="420" height="80" rx="12" fill="#FFF3C4" stroke="#D4A72C"/>
+  <text class="t" x="260" y="706" text-anchor="middle">bit-for-bit compare</text>
+  <text class="s" x="260" y="732" text-anchor="middle">cmake output must equal the python golden</text>
+
+  <path class="conn" d="M 595 712 Q 540 720 478 712"/>
+  <path class="conn dash" d="M 1130 258 Q 1180 480 1130 700 Q 900 790 300 762"/>
+  </g>
+</svg>
