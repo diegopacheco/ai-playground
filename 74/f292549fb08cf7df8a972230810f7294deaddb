@@ -1,0 +1,57 @@
+pocs/promptfoo-poc/src/prompt-loader.test.js
+  s_361811b51fd26d::t_1046d5d7fcea91 1-47
+pocs/promptfoo-poc/build.sh
+  s_361811b51fd26d::t_c251495dfc7c3f 1-38
+pocs/promptfoo-poc/run.sh
+  s_361811b51fd26d::t_c251495dfc7c3f 1-7,21-23
+  s_361811b51fd26d::t_9d08af6fa83f90 8-20
+pocs/promptfoo-poc/README.md
+  s_361811b51fd26d::t_7d1d0c1b0239be 1-186
+pocs/promptfoo-poc/.gitignore
+  s_361811b51fd26d::t_505ceb65ea6ca0 4
+  s_361811b51fd26d::t_c251495dfc7c3f 1-3
+pocs/promptfoo-poc/design-doc.md
+  s_361811b51fd26d::t_2249b8f86ab8c4 5-80
+  s_361811b51fd26d::t_ab7c51ccdc10ea 1-4
+pocs/promptfoo-poc/prompts/classify-ticket-terse.md
+  s_361811b51fd26d::t_40ec3babcef20e 1-8
+pocs/promptfoo-poc/evals/gate.js
+  s_361811b51fd26d::t_aada0a5dee26db 1-3
+  s_361811b51fd26d::t_8d0e044be6492c 4-47
+pocs/promptfoo-poc/package.json
+  s_361811b51fd26d::t_b04e39f9e221dd 1-16
+pocs/promptfoo-poc/test.sh
+  s_361811b51fd26d::t_c251495dfc7c3f 1-9,23-26,28-30,32-34
+  s_361811b51fd26d::t_9d08af6fa83f90 10-22,27,31
+pocs/promptfoo-poc/evals/classify.yaml
+  s_361811b51fd26d::t_b8f41d431ce45f 21-22,25-26
+  s_361811b51fd26d::t_5592d0222d2241 1-20,23-24,27-70
+pocs/promptfoo-poc/prompts/extract-ticket-fields.md
+  s_361811b51fd26d::t_40ec3babcef20e 1-17
+pocs/promptfoo-poc/evals/prompts.js
+  s_361811b51fd26d::t_3607c73a9d3c5f 1-7
+pocs/promptfoo-poc/src/prompt-loader.js
+  s_361811b51fd26d::t_3607c73a9d3c5f 1-43
+pocs/promptfoo-poc/evals/extract.yaml
+  s_361811b51fd26d::t_931867adfff04b 1-61
+pocs/promptfoo-poc/prompts/classify-ticket-guided.md
+  s_361811b51fd26d::t_40ec3babcef20e 1-18
+pocs/promptfoo-poc/package-lock.json
+  s_361811b51fd26d::t_f9a599ea4015b6 1-14224
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "74f292549fb08cf7df8a972230810f7294deaddb",
+  "prompts": {},
+  "sessions": {
+    "s_361811b51fd26d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b4e7c25-fd13-47e4-9f49-e489fc98365e",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
