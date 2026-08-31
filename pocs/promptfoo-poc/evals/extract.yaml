@@ -1,0 +1,61 @@
+description: Can a local model return triage fields as strict JSON, graded by a local judge?
+
+prompts:
+  - id: file://prompts.js:extractFields
+    label: extract-fields
+
+providers:
+  - id: ollama:chat:llama3.2
+    label: llama3.2
+    config:
+      temperature: 0
+
+defaultTest:
+  vars:
+    max_summary_words: 15
+  options:
+    provider: ollama:chat:llama3.2
+  assert:
+    - type: is-json
+      metric: valid-json
+      value:
+        type: object
+        required: [category, severity, summary]
+        additionalProperties: false
+        properties:
+          category:
+            type: string
+            enum: [billing, bug, feature_request, account_access]
+          severity:
+            type: string
+            enum: [low, medium, high]
+          summary:
+            type: string
+    - type: javascript
+      metric: summary-length
+      value: JSON.parse(output).summary.trim().split(/\s+/).length <= 15
+
+tests:
+  - vars:
+      ticket_body: Production is down for all our users since the 3am deploy, nobody can check out.
+    assert:
+      - type: javascript
+        metric: accuracy
+        value: JSON.parse(output).category === 'bug' && JSON.parse(output).severity === 'high'
+
+  - vars:
+      ticket_body: Small thing, the invoice PDF shows the wrong billing address but the amount is right.
+    assert:
+      - type: javascript
+        metric: accuracy
+        value: JSON.parse(output).category === 'billing'
+
+  - vars:
+      ticket_body: We would love a dark mode for the admin console when you get a chance.
+    assert:
+      - type: javascript
+        metric: accuracy
+        value: JSON.parse(output).category === 'feature_request'
+      - type: llm-rubric
+        metric: judge
+        value: The summary field mentions a dark mode or theme request and does not invent facts absent from the ticket.

@@ -1,0 +1,70 @@
+description: Does prompt wording change triage accuracy more than model choice?
+
+prompts:
+  - id: file://prompts.js:classifyTerse
+    label: terse
+  - id: file://prompts.js:classifyGuided
+    label: guided
+
+providers:
+  - id: ollama:chat:llama3.2
+    label: llama3.2
+    config:
+      temperature: 0
+  - id: ollama:chat:qwen2.5-coder
+    label: qwen2.5-coder
+    config:
+      temperature: 0
+
+defaultTest:
+  options:
+    transform: >-
+      output.trim().toLowerCase().replace(/[.\s"'`]+$/, '')
+  assert:
+    - type: javascript
+      value: >-
+        ["billing", "bug", "feature_request", "account_access"].includes(output)
+      metric: label-only
+
+tests:
+  - vars:
+      ticket_body: I was charged twice for the same monthly subscription on my Visa.
+    assert:
+      - type: equals
+        value: billing
+        metric: accuracy
+
+  - vars:
+      ticket_body: The export button throws a 500 error every time I click it on Safari.
+    assert:
+      - type: equals
+        value: bug
+        metric: accuracy
+
+  - vars:
+      ticket_body: It would be great if the dashboard could show week-over-week trends.
+    assert:
+      - type: equals
+        value: feature_request
+        metric: accuracy
+
+  - vars:
+      ticket_body: I cannot log in, the password reset email never arrives.
+    assert:
+      - type: equals
+        value: account_access
+        metric: accuracy
+
+  - vars:
+      ticket_body: Please cancel my plan and refund the invoice from last month.
+    assert:
+      - type: equals
+        value: billing
+        metric: accuracy
+
+  - vars:
+      ticket_body: My team's SSO login loops back to the sign-in page forever.
+    assert:
+      - type: equals
+        value: account_access
+        metric: accuracy
