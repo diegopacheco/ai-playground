@@ -1,0 +1,21 @@
+{
+  "name": "sf-sidewalk-sessions",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "bash setup.sh",
+    "build": "bash build.sh",
+    "start": "node server.js",
+    "start-all": "bash start-all.sh",
+    "stop-all": "bash stop-all.sh",
+    "restart-all": "bash restart-all.sh",
+    "status": "bash status.sh",
+    "test": "node --test tests/game.test.js",
+    "test:browser": "npx playwright test",
+    "test:all": "bash test.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6f0">
+  <title>Sidewalk Sessions — San Francisco</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="./" aria-label="Sidewalk Sessions home"><img src="assets/logo.svg" alt="" width="43" height="43"><span>SIDEWALK<span>SESSIONS</span></span></a>
+    <span class="edition">A LITTLE AIR. A LOT OF SAN FRANCISCO.</span>
+    <button class="guide-button" id="guide-open">How to play <span>↗</span></button>
+  </header>
+  <main>
+    <section class="intro"><div><p class="eyebrow"><span class="sun">☀</span> SAN FRANCISCO, CA <span class="divider">/</span> THE WATERFRONT COLLECTION</p><h1>The city is your <span>skatepark.</span></h1><p class="subtitle">Pick your spot. Find your flow. Leave a little air between you and the pavement.</p></div><div class="stamp">GO OUTSIDE.<br><strong>GET SOME AIR.</strong><svg viewBox="0 0 90 22" aria-hidden="true"><path d="M6 5q9 17 18 8L74 8q10 0 11-7M23 14v4m46-6v5"/></svg></div></section>
+    <section class="session-layout" aria-label="Skate session">
+      <div class="game-column">
+        <div class="game-topline"><div><span class="live-dot"></span><strong id="spot-label">EMBARCADERO</strong><span class="spot-caption" id="spot-caption">Wide open. All yours.</span></div><span class="weather">☀ &nbsp; 64° &nbsp; A GOOD DAY TO SKATE</span></div>
+        <div class="game-stage" id="game-stage">
+          <canvas id="game" width="1200" height="650" tabindex="0" aria-label="Side-scrolling skate game. Space to jump, J to kickflip, K to heelflip, L to spin, P to pause."></canvas>
+          <div class="hud"><div><span>SESSION SCORE</span><strong id="score">00000</strong></div><div class="timer"><span>TIME LEFT</span><strong id="time">01:00</strong></div></div>
+          <div class="location-sign"><span>37.7955° N &nbsp; 122.3937° W</span><strong id="scene-name">The Embarcadero</strong><span id="scene-detail">BAY BREEZE. SMOOTH CONCRETE.</span></div>
+          <div class="start-overlay" id="start-overlay"><span class="tiny-label" id="overlay-kicker">THE STREETS ARE WAITING</span><h2 id="overlay-title">Make it a good session.</h2><p id="overlay-copy">60 seconds. Four iconic spots. Your own kind of flow.</p><button class="primary" id="start">Let’s skate <span>→</span></button><span class="start-hint">or press Enter to roll</span></div>
+          <div class="trick-toast" id="trick-toast" aria-live="polite"></div>
+          <button id="pause" class="pause" aria-label="Pause session" hidden>Ⅱ</button>
+          <div class="scene-tag">SF <span>↗</span><small>STREET<br>SESSIONS</small></div>
+        </div>
+        <div class="control-bar"><span class="controls-title">MAKE YOUR MOVE</span><span><kbd>SPACE</kbd> Ollie</span><span><kbd>J</kbd> Kickflip</span><span><kbd>K</kbd> Heelflip</span><span><kbd>L</kbd> 180 spin</span><span class="pause-hint"><kbd>P</kbd> Pause</span></div>
+        <div class="touch-controls"><button data-action="jump">↑ Ollie</button><button data-action="kickflip">Kickflip</button><button data-action="heelflip">Heelflip</button><button data-action="spin">180 spin</button></div>
+        <div class="below-game"><span><span class="orange-star">✳</span> Less scrolling. More rolling.</span><span>Land tricks to stack points. Clear obstacles to keep your flow.</span></div>
+      </div>
+      <aside class="session-panel">
+        <div class="panel-heading"><span class="eyebrow">MAKE IT YOUR SESSION</span><span>↙</span></div>
+        <div class="section-label"><h2>Your skater</h2><span>01 / PICK A RIDER</span></div>
+        <div class="riders"><button class="rider selected" data-rider="boy" aria-pressed="true"><canvas width="150" height="132" id="boy-preview" aria-hidden="true"></canvas><span>Boy <i>✓</i></span></button><button class="rider" data-rider="girl" aria-pressed="false"><canvas width="150" height="132" id="girl-preview" aria-hidden="true"></canvas><span>Girl <i>✓</i></span></button></div>
+        <div class="section-label spot-heading"><h2>Your spot</h2><span>02 / FIND YOUR FLOW</span></div>
+        <div class="spots" id="spots"></div>
+        <div class="best"><span>YOUR PERSONAL BEST<strong id="best">0 <small>PTS</small></strong></span><span class="best-art">✶</span></div>
+        <p class="saved-note"><span></span> Good sessions stay with you. Best score saved locally.</p>
+      </aside>
+    </section>
+    <section class="field-notes"><span class="eyebrow">A FIELD GUIDE TO GETTING AIR</span><div><span class="note-number">01</span><p><strong>Start with an ollie.</strong><br>Hit space to get off the ground.</p></div><div><span class="note-number">02</span><p><strong>Add a little style.</strong><br>Press J, K, or L while you’re in the air.</p></div><div><span class="note-number">03</span><p><strong>Stick the landing.</strong><br>Clear the obstacles. Bank your points.</p></div></section>
+  </main>
+  <footer><span>SIDEWALK SESSIONS <span class="footer-dot">●</span> MADE FOR THE JOY OF IT.</span><span>Four spots. Endless good lines. <span class="orange-star">↗</span></span></footer>
+  <dialog id="guide"><button id="guide-close" class="close" aria-label="Close instructions">×</button><p class="eyebrow">A LITTLE FIELD GUIDE</p><h2>Find your flow.</h2><p>Your skater rolls automatically. Press <kbd>Space</kbd> or <kbd>↑</kbd> to ollie over cones, benches, and planters.</p><p>While airborne, press <kbd>J</kbd> for a kickflip, <kbd>K</kbd> for a heelflip, or <kbd>L</kbd> for a 180. Mix different tricks in one jump to earn a combo bonus.</p><p>Land cleanly to bank points. Hitting an obstacle loses the airborne combo and 100 points. A run lasts 60 seconds.</p><p>Press <kbd>P</kbd> to pause. Touch controls work on phones. Changing a rider or spot starts a fresh setup. Your personal best saves on this device.</p><button class="primary" id="guide-ready">Got it. Let’s roll. →</button></dialog>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

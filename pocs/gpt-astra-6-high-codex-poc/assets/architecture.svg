@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="470" viewBox="0 0 1100 470">
+<defs><style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');text{font-family:'Caveat',cursive;fill:#414b40;font-size:23px}.small{font-size:18px}</style><filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" seed="5"/><feDisplacementMap in="SourceGraphic" scale="1.8"/></filter><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#657461" stroke-width="1.5"/></marker></defs>
+<rect width="1100" height="470" rx="14" fill="#f8f7f0"/>
+<text x="40" y="45" font-size="30" font-weight="700">Sidewalk Sessions · small modules, one smooth ride</text>
+<g filter="url(#wobble)" stroke="#73816c" stroke-width="2" fill="none"><rect x="40" y="100" width="220" height="94" rx="9" fill="#f5e0c6"/><rect x="330" y="100" width="210" height="94" rx="9" fill="#e5ebd4"/><rect x="620" y="100" width="205" height="94" rx="9" fill="#dae9df"/><rect x="620" y="290" width="205" height="100" rx="9" fill="#f1e0d4"/><rect x="330" y="290" width="210" height="100" rx="9" fill="#e9e3ef"/><rect x="895" y="100" width="165" height="94" rx="9" fill="#e6ecd3"/>
+<path d="M260 147H320M540 147H610M825 147H885M723 204V280M610 340H550M435 204V280" marker-end="url(#arrow)"/></g>
+<text x="150" y="137" text-anchor="middle">Keyboard + touch</text><text x="150" y="169" text-anchor="middle" class="small">index.html + style.css</text>
+<text x="435" y="137" text-anchor="middle">main.js</text><text x="435" y="169" text-anchor="middle" class="small">Input, UI, animation loop</text>
+<text x="722" y="137" text-anchor="middle">game.js</text><text x="722" y="169" text-anchor="middle" class="small">Physics + scoring + state</text>
+<text x="977" y="137" text-anchor="middle">Node tests</text><text x="977" y="169" text-anchor="middle" class="small">Gameplay contracts</text>
+<text x="722" y="326" text-anchor="middle">renderer.js</text><text x="722" y="360" text-anchor="middle" class="small">Four Canvas 2D scenes</text>
+<text x="435" y="326" text-anchor="middle">Browser</text><text x="435" y="360" text-anchor="middle" class="small">Canvas + local best score</text>
+<text x="42" y="433" class="small">server.js serves static files on localhost · Playwright verifies the browser and captures screenshots</text>
+</svg>
