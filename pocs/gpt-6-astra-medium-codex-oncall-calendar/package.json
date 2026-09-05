@@ -1,0 +1,25 @@
+{
+  "name": "oncall-calendar",
+  "private": true,
+  "packageManager": "bun@1.4.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit && pyright",
+    "test": "python3.14 -m unittest discover -s backend -v",
+    "test:ui": "npx playwright test"
+  },
+  "dependencies": {
+    "react": "19",
+    "react-dom": "19"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/react": "19",
+    "@types/react-dom": "19",
+    "pyright": "^1.1.413",
+    "typescript": "7",
+    "vite": "^8.2.2"
+  }
+}

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="480" viewBox="0 0 1100 480" role="img" aria-labelledby="title desc">
+<title id="title">Onward architecture</title>
+<desc id="desc">The React browser app sends rotation settings to the Python scheduler. The scheduler returns daily events. The browser displays them and exports them through a calendar file or authorized Google Calendar requests.</desc>
+<defs><filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="2" seed="8" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.6"/></filter><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0 0 8 4 0 8" fill="none" stroke="#526447" stroke-width="1.7"/></marker></defs>
+<style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&amp;display=swap');text{font-family:'Caveat',cursive;fill:#35452e;font-size:23px}.small{font-size:19px}.heading{font-size:33px;font-weight:600}.box{stroke:#67765b;stroke-width:1.6;filter:url(#wobble)}.line{fill:none;stroke:#526447;stroke-width:1.8;marker-end:url(#arrow);filter:url(#wobble)}</style>
+<rect width="1100" height="480" rx="18" fill="#fafbf6"/>
+<text class="heading" x="40" y="49">Two dates → a calendar that looks ahead</text>
+<rect class="box" x="40" y="148" width="245" height="132" rx="12" fill="#e3edbd"/>
+<text x="162" y="185" text-anchor="middle">React 19 + TypeScript 7</text><text class="small" x="162" y="218" text-anchor="middle">Dates · interval · time zone</text><text class="small" x="162" y="250" text-anchor="middle">Bun + Vite serve the UI</text>
+<rect class="box" x="420" y="148" width="245" height="132" rx="12" fill="#e7e4f7"/>
+<text x="542" y="185" text-anchor="middle">Python 3.14.6 API</text><text class="small" x="542" y="218" text-anchor="middle">Validate + expand rotation</text><text class="small" x="542" y="250" text-anchor="middle">Typed daily events · 4–6 AM</text>
+<path class="line" d="M287 186 Q348 181 417 186"/><text class="small" x="350" y="163" text-anchor="middle">GET settings</text>
+<path class="line" d="M418 250 Q352 255 289 250"/><text class="small" x="352" y="278" text-anchor="middle">JSON events</text>
+<rect class="box" x="811" y="80" width="249" height="100" rx="12" fill="#f9e9d5"/><text x="935" y="119" text-anchor="middle">Calendar file (.ics)</text><text class="small" x="935" y="150" text-anchor="middle">Import into your calendar</text>
+<path class="line" d="M667 184 Q737 178 737 133 L807 133"/>
+<rect class="box" x="811" y="325" width="249" height="100" rx="12" fill="#dbecea"/><text x="935" y="364" text-anchor="middle">Google Calendar</text><text class="small" x="935" y="395" text-anchor="middle">One event per duty day</text>
+<path class="line" d="M162 282 L162 375 Q165 387 180 387 L807 387"/><text class="small" x="480" y="369" text-anchor="middle">Browser → Google OAuth consent → Calendar API</text>
+<text class="small" x="40" y="448">Settings stay in the browser. No database. No stored Google tokens.</text>
+</svg>
