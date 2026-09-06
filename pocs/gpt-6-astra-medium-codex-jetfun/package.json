@@ -1,0 +1,19 @@
+{
+  "name": "gpt-6-astra-medium-codex-jetfun",
+  "version": "1.0.0",
+  "description": "Golden-hour jetski time trial through San Francisco Bay",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  }
+}
