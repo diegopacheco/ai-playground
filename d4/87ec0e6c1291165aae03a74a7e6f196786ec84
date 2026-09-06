@@ -1,0 +1,33 @@
+games/README.md
+  s_26558f2c25ec64::t_da9c23a99f19b0 82-85,88,91,94,97,100,103,106,109,112,115,118,123,126,129,132,135,138,143,146,149,152,155,158,161,166,169,172,175,178,181,184
+.github/workflows/agents-pages.yml
+  s_26558f2c25ec64::t_75cc86bf60591c 50
+pages/pages.md
+  s_26558f2c25ec64::t_87f25a641f588b 31,53,95,113
+games/jetfun/assets/logo.svg
+  s_26558f2c25ec64::t_7b41c1676d96cc 1
+games/index.html
+  s_26558f2c25ec64::t_036f6bed621ff1 208
+games/jetfun/index.html
+  s_26558f2c25ec64::t_7b41c1676d96cc 1-124
+games/jetfun/vendor/three.core.js
+  s_26558f2c25ec64::t_72df8912442a60 1-60007
+games/jetfun/vendor/three.module.js
+  s_26558f2c25ec64::t_e6116b9c664041 1-19610
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "d487ec0e6c1291165aae03a74a7e6f196786ec84",
+  "prompts": {},
+  "sessions": {
+    "s_26558f2c25ec64": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de569ef1-e0ee-430e-9e9a-50580cba4465",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
