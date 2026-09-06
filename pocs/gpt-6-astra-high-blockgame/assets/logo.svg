@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <path
+    d="M30 55V30"
+    fill="none"
+    stroke="#315f43"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+  <path d="M31 35C9 36 5 20 7 12c18-2 28 5 24 23Z" fill="#7fa365" />
+  <path d="M31 29C28 12 41 5 57 8c2 16-8 28-26 21Z" fill="#3d714d" />
+  <path
+    d="m31 35 16-16M30 36 17 22"
+    fill="none"
+    stroke="#f5f4dd"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+  <path
+    d="M17 57h27"
+    stroke="#d7b86d"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+</svg>

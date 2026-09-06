@@ -1,0 +1,2240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#f6f5ec" />
+    <meta
+      name="description"
+      content="Your own little Brazil. Explore, build, and unwind in a sunny 3D block world."
+    />
+    <title>Brisa — Your own little Brazil</title>
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap");
+      :root {
+        font-family: "DM Sans", sans-serif;
+        color: #294839;
+        background: #f6f5ef;
+        font-synthesis: none;
+        --green: #2d6146;
+        --muted: #839084;
+        --line: #e0e4d9;
+        --cream: #fafaf4;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+        color: inherit;
+      }
+      button:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid #d89b36;
+        outline-offset: 4px;
+      }
+      button {
+        transition:
+          background 0.18s,
+          transform 0.18s;
+      }
+      button:hover {
+        filter: brightness(0.97);
+      }
+      button:active {
+        transform: translateY(1px);
+      }
+      svg {
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .app {
+        display: grid;
+        grid-template-columns: 244px 1fr;
+        min-height: 100dvh;
+      }
+      .sidebar {
+        padding: 35px 24px 24px;
+        border-right: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .brand img {
+        width: 43px;
+        height: 43px;
+      }
+      .brand strong {
+        font-family: Outfit, sans-serif;
+        font-size: 42px;
+        letter-spacing: -2px;
+        font-weight: 600;
+        line-height: 1;
+      }
+      .brand small {
+        font-size: 10px;
+        vertical-align: top;
+        letter-spacing: 0;
+      }
+      .tagline {
+        font-size: 11px;
+        color: #7c8879;
+        margin: 10px 0 0 5px;
+        letter-spacing: 0.7px;
+      }
+      .eyebrow {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.8px;
+        color: #859180;
+        text-transform: uppercase;
+      }
+      .nav {
+        display: grid;
+        gap: 9px;
+        margin-top: 13px;
+      }
+      .nav button {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+        border: 0;
+        background: transparent;
+        border-radius: 10px;
+        padding: 13px 14px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .nav button.active {
+        background: #e5ebdb;
+        color: #315c3b;
+      }
+      .nav button span:last-child {
+        margin-left: auto;
+        font-size: 11px;
+        color: #678266;
+      }
+      .world-card {
+        background: #fffefa;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 15px;
+      }
+      .world-card .world-name {
+        font-family: Outfit;
+        font-weight: 600;
+        font-size: 16px;
+        margin: 11px 0 5px;
+      }
+      .world-card p {
+        font-size: 11px;
+        color: #839080;
+        margin: 0;
+      }
+      .mini-landscape {
+        height: 67px;
+        border-radius: 6px;
+        background: linear-gradient(#bce0e7 0 58%, #75bbc1 58% 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .mini-landscape:before,
+      .mini-landscape:after {
+        content: "";
+        position: absolute;
+        bottom: -23px;
+        width: 130px;
+        height: 75px;
+        background: #74975d;
+        transform: rotate(-28deg);
+        border-radius: 25px 5px 0 0;
+        left: -20px;
+        box-shadow: 45px 3px 0 #577c54;
+      }
+      .mini-landscape:after {
+        width: 70px;
+        height: 55px;
+        left: 125px;
+        background: #9eb779;
+        box-shadow: none;
+        transform: rotate(30deg);
+      }
+      .world-status {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 13px;
+        font-size: 10px;
+        color: #778271;
+      }
+      .live {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #75a162;
+        margin-right: 5px;
+      }
+      .quests {
+        display: grid;
+        gap: 16px;
+        margin-top: 17px;
+      }
+      .quest {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 12px;
+      }
+      .quest .check {
+        height: 18px;
+        width: 18px;
+        border: 1px solid #c9d2c0;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+      }
+      .quest.done .check {
+        background: #dbe7cc;
+        border-color: #dbe7cc;
+      }
+      .quest small {
+        display: block;
+        font-size: 10px;
+        color: #8b9386;
+        margin-top: 3px;
+      }
+      .sidebar-foot {
+        margin-top: auto;
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+        font-size: 11px;
+        line-height: 1.8;
+        color: #7a8878;
+      }
+      .sidebar-foot strong {
+        display: block;
+        color: #4e6950;
+        font-weight: 500;
+      }
+      .sidebar-foot .flower {
+        color: #d6a249;
+        font-size: 22px;
+      }
+      .main {
+        min-width: 0;
+        padding: 29px 30px 17px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 23px;
+      }
+      .topbar h1 {
+        font-family: Outfit, sans-serif;
+        font-size: 28px;
+        letter-spacing: -0.7px;
+        font-weight: 500;
+        margin: 6px 0 0;
+      }
+      .top-actions {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: 1px solid #dce1d3;
+        border-radius: 8px;
+        background: #fafbf6;
+        padding: 10px 13px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .button.primary {
+        background: var(--green);
+        color: white;
+        border-color: var(--green);
+      }
+      .icon-button {
+        padding: 10px;
+      }
+      .icon-button svg {
+        width: 17px;
+        height: 17px;
+      }
+      .game {
+        height: calc(100dvh - 219px);
+        min-height: 460px;
+        max-height: 850px;
+        border: 1px solid #d7e1d1;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        background: #bde1e6;
+        isolation: isolate;
+      }
+      .game canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        touch-action: none;
+        outline: none;
+      }
+      .game-top {
+        position: absolute;
+        top: 20px;
+        left: 21px;
+        right: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        pointer-events: none;
+        gap: 12px;
+      }
+      .location {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        background: #fffff0e8;
+        border: 1px solid #fff9;
+        border-radius: 10px;
+        padding: 10px 14px;
+        box-shadow: 0 3px 14px #506c5510;
+      }
+      .location .flag {
+        background: #528648;
+        color: #ffdc6e;
+        width: 29px;
+        height: 22px;
+        display: grid;
+        place-items: center;
+        border-radius: 3px;
+        font-size: 24px;
+        line-height: 1;
+      }
+      .location strong {
+        display: block;
+        font-size: 12px;
+      }
+      .location small {
+        display: block;
+        color: #818e77;
+        font-size: 10px;
+        margin-top: 2px;
+      }
+      .weather {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #fffff0db;
+        padding: 10px 13px;
+        border-radius: 30px;
+        font-size: 11px;
+      }
+      .weather svg {
+        color: #bc963b;
+        width: 17px;
+        height: 17px;
+      }
+      .world-tools {
+        position: absolute;
+        top: 94px;
+        right: 20px;
+        display: grid;
+        gap: 7px;
+      }
+      .world-tools button {
+        background: #fffff0e8;
+        border: 1px solid #fff8;
+        box-shadow: 0 2px 8px #47653f0b;
+        width: 37px;
+        height: 37px;
+        border-radius: 9px;
+        display: grid;
+        place-items: center;
+      }
+      .compass {
+        position: absolute;
+        left: 23px;
+        top: 92px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #42665d;
+        font-size: 9px;
+        letter-spacing: 1px;
+      }
+      .compass svg {
+        width: 30px;
+        height: 30px;
+        fill: #fff7;
+      }
+      .world-caption {
+        position: absolute;
+        left: 25px;
+        bottom: 118px;
+        pointer-events: none;
+        color: #fffef3;
+        text-shadow: 0 2px 15px #315d46;
+      }
+      .world-caption .eyebrow {
+        color: #fffbea;
+        letter-spacing: 2.8px;
+        font-size: 9px;
+      }
+      .world-caption h2 {
+        font-family: Outfit;
+        font-size: 38px;
+        letter-spacing: -1px;
+        font-weight: 500;
+        line-height: 1.1;
+        margin: 7px 0;
+      }
+      .world-caption p {
+        font-size: 11px;
+        letter-spacing: 0.3px;
+        margin: 0;
+      }
+      .hotbar-wrap {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .material-label {
+        background: #315d45c9;
+        color: #fffdef;
+        padding: 5px 13px;
+        border-radius: 20px;
+        font-size: 10px;
+        letter-spacing: 0.4px;
+        backdrop-filter: blur(8px);
+      }
+      .hotbar {
+        display: flex;
+        gap: 5px;
+        background: #fffef0f2;
+        border: 1px solid #fff;
+        padding: 7px;
+        border-radius: 12px;
+        box-shadow: 0 7px 25px #28513d25;
+      }
+      .slot {
+        position: relative;
+        width: 49px;
+        height: 52px;
+        background: #eceee2;
+        border: 1px solid transparent;
+        border-radius: 7px;
+        display: grid;
+        place-items: center;
+      }
+      .slot.selected {
+        border: 2px solid #44764b;
+        background: #e2ecd4;
+        box-shadow: 0 0 0 2px #44764b16;
+      }
+      .slot kbd {
+        position: absolute;
+        left: 5px;
+        top: 3px;
+        font-size: 9px;
+        color: #77826c;
+      }
+      .cube {
+        width: 24px;
+        height: 26px;
+        position: relative;
+        clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+        background: var(--block);
+        box-shadow: inset -12px -8px 0 #0002;
+        transform: translateY(3px);
+      }
+      .cube:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: #ffffff38;
+        clip-path: polygon(0 25%, 50% 0, 100% 25%, 50% 51%);
+      }
+      .slot:last-child .cube {
+        opacity: 0.7;
+      }
+      .mode-switch {
+        position: absolute;
+        bottom: 25px;
+        right: 20px;
+        display: flex;
+        gap: 3px;
+        padding: 4px;
+        border-radius: 8px;
+        background: #fffdefeb;
+      }
+      .mode-switch button {
+        border: 0;
+        border-radius: 5px;
+        background: transparent;
+        padding: 8px 9px;
+        font-size: 10px;
+      }
+      .mode-switch button.active {
+        background: #355f45;
+        color: white;
+      }
+      .game-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 1px;
+        gap: 10px;
+        font-size: 10px;
+        color: #84907d;
+      }
+      .controls {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+      .controls span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      kbd {
+        font-family: inherit;
+        font-size: 9px;
+      }
+      .controls kbd {
+        border: 1px solid #dce1d3;
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        min-width: 20px;
+        padding: 3px;
+        text-align: center;
+        color: #68765e;
+        background: #fffdf7;
+      }
+      .footer-line {
+        border-top: 1px solid var(--line);
+        padding-top: 13px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: #8b9384;
+      }
+      .footer-line span:first-child {
+        color: #6c7e66;
+      }
+      .toast {
+        position: absolute;
+        top: 85px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fffef3f5;
+        border: 1px solid #e6e8d4;
+        border-radius: 10px;
+        padding: 11px 17px;
+        font-size: 12px;
+        box-shadow: 0 5px 20px #37594312;
+        max-width: 85%;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+        z-index: 5;
+      }
+      .toast.visible {
+        opacity: 1;
+      }
+      .crosshair {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 16px;
+        height: 16px;
+        pointer-events: none;
+        display: none;
+      }
+      .crosshair:before,
+      .crosshair:after {
+        content: "";
+        position: absolute;
+        background: #fff;
+        box-shadow: 0 0 2px #274331;
+      }
+      .crosshair:before {
+        width: 16px;
+        height: 2px;
+        top: 7px;
+      }
+      .crosshair:after {
+        height: 16px;
+        width: 2px;
+        left: 7px;
+      }
+      .exploring .crosshair {
+        display: block;
+      }
+      .exploring .world-caption {
+        display: none;
+      }
+      .touch-controls {
+        display: none;
+        position: absolute;
+        left: 18px;
+        bottom: 110px;
+        gap: 5px;
+        grid-template-columns: repeat(3, 36px);
+      }
+      .touch-controls button {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        background: #fffef1cd;
+        border: 1px solid #fff;
+        color: #365d45;
+        touch-action: none;
+      }
+      .touch-controls button:first-child {
+        grid-column: 2;
+      }
+      .touch-controls button:nth-child(2) {
+        grid-column: 1;
+      }
+      .touch-action {
+        display: none;
+        position: absolute;
+        right: 16px;
+        bottom: 115px;
+        gap: 7px;
+      }
+      .touch-action button {
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        background: #fffef1df;
+        border: 1px solid #fff;
+        display: grid;
+        place-items: center;
+      }
+      .loading {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: #e6efe1;
+        z-index: 8;
+        text-align: center;
+        padding: 25px;
+      }
+      .loading strong {
+        font-family: Outfit;
+        font-size: 24px;
+      }
+      .loading p {
+        font-size: 12px;
+      }
+      dialog {
+        border: 1px solid #dfe4d5;
+        border-radius: 18px;
+        padding: 30px;
+        background: #fbfbf4;
+        color: #294839;
+        width: min(480px, calc(100% - 30px));
+        box-shadow: 0 25px 100px #16382030;
+      }
+      dialog::backdrop {
+        background: #24473050;
+        backdrop-filter: blur(4px);
+      }
+      dialog h2 {
+        font-family: Outfit;
+        font-weight: 500;
+        font-size: 26px;
+        margin: 0 0 12px;
+      }
+      dialog p {
+        font-size: 13px;
+        line-height: 1.7;
+        color: #677862;
+      }
+      dialog .dialog-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 22px;
+      }
+      .help-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 13px;
+        font-size: 12px;
+        margin: 23px 0;
+      }
+      .help-grid span:nth-child(odd) {
+        font-weight: 600;
+      }
+      .drawer-materials {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin: 23px 0;
+      }
+      .drawer-materials button {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 13px;
+        background: #edf0e4;
+        border: 1px solid #dfe4d3;
+        border-radius: 10px;
+        padding: 16px 7px;
+        font-size: 11px;
+      }
+      .stats {
+        font-size: 11px;
+        color: #8a937f;
+        margin-top: 16px;
+      }
+      .mobile-brand {
+        display: none;
+      }
+      .sound-on {
+        background: #e0ebd2 !important;
+      }
+      .saved {
+        font-size: 10px;
+        color: #8a9583;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .saved svg {
+        width: 13px;
+        height: 13px;
+      }
+      @media (min-width: 1600px) {
+        .main {
+          padding: 36px 40px;
+        }
+        .sidebar {
+          padding: 40px 28px;
+        }
+        .app {
+          grid-template-columns: 265px 1fr;
+        }
+        .game {
+          height: calc(100dvh - 238px);
+        }
+      }
+      @media (max-width: 1150px) {
+        .app {
+          grid-template-columns: 205px 1fr;
+        }
+        .sidebar {
+          padding: 30px 17px;
+        }
+        .main {
+          padding: 25px 20px 15px;
+        }
+        .mode-switch {
+          bottom: 112px;
+        }
+        .controls {
+          gap: 8px;
+        }
+        .controls span:nth-child(4) {
+          display: none;
+        }
+        .slot {
+          width: 43px;
+        }
+        .topbar h1 {
+          font-size: 25px;
+        }
+        .world-caption {
+          bottom: 117px;
+        }
+        .weather {
+          font-size: 10px;
+        }
+      }
+      @media (max-width: 760px) {
+        .app {
+          display: block;
+        }
+        .sidebar {
+          display: none;
+        }
+        .main {
+          padding: 17px 14px 12px;
+        }
+        .topbar {
+          margin-bottom: 16px;
+        }
+        .mobile-brand {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          font-family: Outfit;
+          font-size: 26px;
+          font-weight: 600;
+          letter-spacing: -1px;
+        }
+        .mobile-brand img {
+          width: 29px;
+        }
+        .topbar .eyebrow,
+        .topbar h1 {
+          display: none;
+        }
+        .top-actions {
+          gap: 6px;
+        }
+        .top-actions .button {
+          font-size: 11px;
+          padding: 9px;
+        }
+        .top-actions .button svg {
+          width: 15px;
+        }
+        .top-actions .button span {
+          display: none;
+        }
+        .game {
+          height: calc(100dvh - 153px);
+          min-height: 460px;
+          border-radius: 12px;
+        }
+        .game-top {
+          left: 13px;
+          top: 13px;
+          right: 13px;
+        }
+        .location {
+          padding: 8px 10px;
+        }
+        .weather {
+          padding: 9px;
+        }
+        .weather .weather-text {
+          display: none;
+        }
+        .compass {
+          left: 15px;
+          top: 80px;
+        }
+        .world-tools {
+          right: 13px;
+          top: 74px;
+        }
+        .world-tools button {
+          width: 32px;
+          height: 32px;
+        }
+        .world-caption {
+          left: 19px;
+          bottom: 185px;
+        }
+        .world-caption h2 {
+          font-size: 31px;
+        }
+        .world-caption p {
+          font-size: 10px;
+        }
+        .hotbar-wrap {
+          bottom: 17px;
+          gap: 7px;
+          width: 100%;
+          padding: 0 8px;
+        }
+        .hotbar {
+          gap: 4px;
+          padding: 5px;
+          max-width: 100%;
+          width: fit-content;
+        }
+        .slot {
+          width: 36px;
+          height: 44px;
+        }
+        .slot kbd {
+          font-size: 8px;
+        }
+        .cube {
+          width: 21px;
+          height: 24px;
+        }
+        .mode-switch {
+          bottom: 100px;
+          right: 15px;
+        }
+        .game-bottom {
+          padding: 12px 0;
+        }
+        .controls span {
+          display: none;
+        }
+        .controls span:first-child {
+          display: flex;
+          font-size: 9px;
+        }
+        .saved {
+          font-size: 9px;
+        }
+        .footer-line {
+          font-size: 9px;
+          padding-top: 10px;
+        }
+        .footer-line span:last-child {
+          display: none;
+        }
+        .touch-controls {
+          display: grid;
+        }
+        .touch-action {
+          display: flex;
+          bottom: 140px;
+        }
+        .toast {
+          top: 70px;
+          font-size: 11px;
+          width: 80%;
+        }
+        .exploring .touch-action {
+          bottom: 145px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg style="display: none" aria-hidden="true">
+      <defs>
+        <symbol id="i-world" viewBox="0 0 24 24">
+          <path d="m12 3 9 5v9l-9 5-9-5V8Z M3 8l9 5 9-5M12 13v9M7.5 5.5l9 5" />
+        </symbol>
+        <symbol id="i-grid" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1.5" />
+          <rect x="14" y="3" width="7" height="7" rx="1.5" />
+          <rect x="3" y="14" width="7" height="7" rx="1.5" />
+          <rect x="14" y="14" width="7" height="7" rx="1.5" />
+        </symbol>
+        <symbol id="i-help" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4M12 17h.01" />
+        </symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1"
+          />
+        </symbol>
+        <symbol id="i-save" viewBox="0 0 24 24">
+          <path d="M5 3h12l4 4v14H3V3Zm2 0v7h10V3M7 21v-7h10v7" />
+        </symbol>
+        <symbol id="i-camera" viewBox="0 0 24 24">
+          <path d="M3 6h4l2-3h6l2 3h4v14H3Z" />
+          <circle cx="12" cy="12" r="4" />
+        </symbol>
+        <symbol id="i-sound" viewBox="0 0 24 24">
+          <path d="m11 4-6 5H2v6h3l6 5ZM15 8c3 2 3 6 0 8m3-11c5 4 5 10 0 14" />
+        </symbol>
+        <symbol id="i-expand" viewBox="0 0 24 24">
+          <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+        </symbol>
+        <symbol id="i-reset" viewBox="0 0 24 24">
+          <path d="M3 4v6h6M3 10a9 9 0 1 1 1 8" />
+        </symbol>
+        <symbol id="i-check" viewBox="0 0 24 24">
+          <path d="m5 12 4 4L19 6" />
+        </symbol>
+        <symbol id="i-plus" viewBox="0 0 24 24">
+          <path d="M12 5v14M5 12h14" />
+        </symbol>
+        <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" /></symbol>
+      </defs>
+    </svg>
+    <div class="app">
+      <aside class="sidebar">
+        <div>
+          <div class="brand">
+            <img src="/assets/logo.svg" alt="Brisa leaf mark" /><strong
+              >brisa<small>™</small></strong
+            >
+          </div>
+          <p class="tagline">a little world. all yours.</p>
+        </div>
+        <div>
+          <div class="eyebrow">Make yourself at home</div>
+          <nav class="nav" aria-label="Main">
+            <button class="active" id="nav-world">
+              <svg><use href="#i-world" /></svg>My world<span>01</span></button
+            ><button id="nav-blocks">
+              <svg><use href="#i-grid" /></svg>Block collection</button
+            ><button id="nav-help">
+              <svg><use href="#i-help" /></svg>How to play
+            </button>
+          </nav>
+        </div>
+        <div>
+          <div class="eyebrow" style="margin-bottom: 13px">
+            Your current escape
+          </div>
+          <div class="world-card">
+            <div class="mini-landscape" aria-hidden="true"></div>
+            <div class="world-name">Costa do Sol</div>
+            <p>Rio de Janeiro, Brazil</p>
+            <div class="world-status">
+              <span><i class="live"></i>Creative world</span
+              ><span>∞ possibilities</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="eyebrow">A little inspiration</div>
+          <div class="quests">
+            <div class="quest done">
+              <span class="check">✓</span>
+              <div>
+                Find your sunny place<small>Welcome to Costa do Sol</small>
+              </div>
+            </div>
+            <div class="quest" id="quest-build">
+              <span class="check"></span>
+              <div>
+                Make it your own<small
+                  >Place your first 5 blocks <b id="build-count">0/5</b></small
+                >
+              </div>
+            </div>
+            <div class="quest" id="quest-explore">
+              <span class="check"></span>
+              <div>
+                Take the scenic route<small>Explore your little world</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-foot">
+          <span class="flower">✳</span
+          ><strong>No rush. No rules. Just a little brisa.</strong>Made for your
+          slower moments.
+        </div>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <div class="mobile-brand">
+              <img src="/assets/logo.svg" alt="" />brisa
+            </div>
+            <div class="eyebrow">A little imagination goes a long way</div>
+            <h1>Your own little Brazil.</h1>
+          </div>
+          <div class="top-actions">
+            <button
+              class="button icon-button"
+              id="sound"
+              aria-label="Enable ocean sound"
+              aria-pressed="false"
+            >
+              <svg><use href="#i-sound" /></svg></button
+            ><button class="button" id="photo" aria-label="Take a photo">
+              <svg><use href="#i-camera" /></svg
+              ><span>Take a photo</span></button
+            ><button class="button primary" id="save">
+              <svg><use href="#i-save" /></svg>Save world
+            </button>
+          </div>
+        </header>
+        <section
+          class="game"
+          id="game"
+          aria-label="Interactive 3D Brazilian block world"
+        >
+          <canvas
+            id="world"
+            tabindex="0"
+            aria-label="Block world. Drag to orbit, click to place a block, right-click to remove. Use Explore to move with WASD."
+          ></canvas>
+          <div class="game-top">
+            <div class="location">
+              <span class="flag" aria-label="Brazil">◆</span>
+              <div>
+                <strong>Costa do Sol</strong
+                ><small>A slice of Rio. A world of your own.</small>
+              </div>
+            </div>
+            <div class="weather">
+              <svg><use href="#i-sun" /></svg><span>26°</span
+              ><span class="weather-text"> · Forever sunny</span>
+            </div>
+          </div>
+          <div class="compass">
+            <svg viewBox="0 0 32 32">
+              <circle cx="16" cy="16" r="14" />
+              <path d="m16 6 4 14-4-3-4 3Z" fill="#42665d" /></svg
+            >N
+          </div>
+          <div class="world-tools">
+            <button id="zoom-in" aria-label="Zoom in">
+              <svg><use href="#i-plus" /></svg></button
+            ><button id="zoom-out" aria-label="Zoom out">
+              <svg><use href="#i-minus" /></svg></button
+            ><button id="home-view" aria-label="Reset camera">
+              <svg><use href="#i-reset" /></svg></button
+            ><button id="help-button" aria-label="How to play">
+              <svg><use href="#i-help" /></svg></button
+            ><button id="fullscreen" aria-label="Enter fullscreen">
+              <svg><use href="#i-expand" /></svg>
+            </button>
+          </div>
+          <div class="world-caption">
+            <div class="eyebrow">EXPLORE. BUILD. BREATHE.</div>
+            <h2>Life’s better in blocks.</h2>
+            <p>A little coastline. A lot of possibility.</p>
+          </div>
+          <div class="hotbar-wrap">
+            <button
+              class="material-label"
+              id="material-label"
+              aria-label="Open block collection"
+              style="border: 0"
+            >
+              Grass · Ready to build
+            </button>
+            <div
+              class="hotbar"
+              id="hotbar"
+              role="toolbar"
+              aria-label="Building materials"
+            ></div>
+          </div>
+          <div class="mode-switch">
+            <button id="build-mode" class="active" aria-pressed="true">
+              ⌑ Build</button
+            ><button id="explore-mode" aria-pressed="false">↗ Explore</button>
+          </div>
+          <div class="crosshair"></div>
+          <div class="touch-controls" aria-label="Movement controls">
+            <button data-move="w" aria-label="Move forward">↑</button
+            ><button data-move="a" aria-label="Move left">←</button
+            ><button data-move="s" aria-label="Move backward">↓</button
+            ><button data-move="d" aria-label="Move right">→</button>
+          </div>
+          <div class="touch-action">
+            <button id="touch-remove" aria-label="Remove targeted block">
+              <svg><use href="#i-minus" /></svg></button
+            ><button id="touch-place" aria-label="Place targeted block">
+              <svg><use href="#i-plus" /></svg>
+            </button>
+          </div>
+          <div class="toast" id="toast" role="status" aria-live="polite"></div>
+          <div class="loading" id="loading">
+            <div>
+              <strong>A little sunshine is loading…</strong>
+              <p>Growing palms. Finding the perfect sea breeze.</p>
+            </div>
+          </div>
+        </section>
+        <div class="game-bottom">
+          <div class="controls">
+            <span><kbd>↔</kbd> Drag to look</span
+            ><span><kbd>Click</kbd> Place</span
+            ><span><kbd>Right click</kbd> Break</span
+            ><span><kbd>1–8</kbd> Switch block</span
+            ><span><kbd>?</kbd> Help</span>
+          </div>
+          <span class="saved" id="save-status"
+            ><svg><use href="#i-check" /></svg> All good. You’re home.</span
+          >
+        </div>
+        <footer class="footer-line">
+          <span>☀ &nbsp; A sandbox for your sunny side.</span
+          ><span>Handcrafted pixels, Brazilian soul. &nbsp; · &nbsp; v1.0</span>
+        </footer>
+      </main>
+    </div>
+    <dialog id="help-dialog">
+      <h2>A world at your own pace.</h2>
+      <p>
+        Shape a little corner of Brazil. Every terrain block can be placed or
+        removed, and your changes stay in this browser.
+      </p>
+      <div class="help-grid">
+        <span>Drag / swipe</span><span>Orbit the world or look around</span
+        ><span>Click / tap</span><span>Place your selected block</span
+        ><span>Right click / −</span><span>Remove a targeted block</span
+        ><span>1–8 / block tray</span><span>Choose a material</span
+        ><span>Scroll / + and −</span><span>Zoom in and out in Build</span
+        ><span>Explore + WASD</span><span>Fly through the coastline</span
+        ><span>Space / Shift</span><span>Fly up / down</span
+        ><span>Touch arrows</span><span>Move; + and − edit at the center</span
+        ><span>Escape / Build</span><span>Return to the orbit view</span>
+      </div>
+      <p>
+        Creative mode has unlimited blocks. Hillside homes, palms, boats, and
+        the monument are scenery. Explore mode lets you fly freely.
+      </p>
+      <div class="dialog-actions">
+        <button class="button primary" data-close>Let’s make something</button>
+      </div>
+    </dialog>
+    <dialog id="blocks-dialog">
+      <h2>A little color. Endless possibilities.</h2>
+      <p>
+        Pick a block, then click the landscape to build. Your supply is
+        unlimited.
+      </p>
+      <div id="collection" class="drawer-materials"></div>
+      <button id="reset-world" class="button">Start a fresh world</button>
+      <div class="dialog-actions">
+        <button class="button primary" data-close>Back to the sunshine</button>
+      </div>
+    </dialog>
+    <dialog id="reset-dialog">
+      <h2>A fresh patch of sunshine?</h2>
+      <p>
+        This removes your placed blocks and restores the original coastline.
+        Your saved changes in this browser will be replaced.
+      </p>
+      <div class="dialog-actions">
+        <button class="button" data-close>Keep my world</button
+        ><button id="confirm-reset" class="button primary">Start fresh</button>
+      </div>
+    </dialog>
+    <script type="importmap">
+      { "imports": { "three": "/node_modules/three/build/three.module.js" } }
+    </script>
+    <script type="module">
+      import * as THREE from "/node_modules/three/build/three.module.js";
+      import { OrbitControls } from "/assets/OrbitControls.js";
+      const $ = (id) => document.getElementById(id);
+      const materials = [
+        { name: "Grass", color: "#81a858" },
+        { name: "Sand", color: "#ead195" },
+        { name: "Terracotta", color: "#d88f6b" },
+        { name: "Stone", color: "#a0aaa1" },
+        { name: "Wood", color: "#ad8254" },
+        { name: "Leaves", color: "#548858" },
+        { name: "Ocean blue", color: "#74bccc" },
+        { name: "Limestone", color: "#f0ecda" },
+      ];
+      let selected = 0,
+        mode = "build",
+        placed = 0,
+        explored = false,
+        editCount = 0,
+        saveTimer,
+        toastTimer;
+      let storageAvailable = true;
+      const edits = new Map(),
+        blocks = new Map(),
+        meshes = [],
+        keys = new Set();
+      const blockKey = (x, y, z) => `${x},${y},${z}`;
+      const inside = (x, y, z) =>
+        Number.isInteger(x) &&
+        Number.isInteger(y) &&
+        Number.isInteger(z) &&
+        Math.abs(x) <= 42 &&
+        Math.abs(z) <= 38 &&
+        y >= -2 &&
+        y <= 45;
+      function toast(message) {
+        $("toast").textContent = message;
+        $("toast").classList.add("visible");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(
+          () => $("toast").classList.remove("visible"),
+          3000,
+        );
+      }
+      function selectBlock(index) {
+        selected = index;
+        document.querySelectorAll(".slot").forEach((el, i) => {
+          el.classList.toggle("selected", i === index);
+          el.setAttribute("aria-pressed", String(i === index));
+        });
+        $("material-label").textContent =
+          `${materials[index].name} · Ready to build`;
+      }
+      materials.forEach((material, index) => {
+        const button = document.createElement("button");
+        button.className = "slot";
+        button.setAttribute("aria-label", material.name);
+        button.title = `${index + 1} · ${material.name}`;
+        button.innerHTML = `<kbd>${index + 1}</kbd><span class="cube" style="--block:${material.color}"></span>`;
+        button.onclick = () => selectBlock(index);
+        $("hotbar").append(button);
+        const choice = document.createElement("button");
+        choice.innerHTML = `<span class="cube" style="--block:${material.color}"></span>${material.name}`;
+        choice.onclick = () => {
+          selectBlock(index);
+          $("blocks-dialog").close();
+        };
+        $("collection").append(choice);
+      });
+      selectBlock(0);
+      let renderer;
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas: $("world"),
+          antialias: true,
+          preserveDrawingBuffer: true,
+          powerPreference: "high-performance",
+        });
+      } catch {
+        $("loading").innerHTML =
+          "<div><strong>Your world needs WebGL 2.</strong><p>Enable hardware acceleration or open this page in a browser with WebGL 2 support.</p></div>";
+        throw new Error("WebGL 2 is unavailable");
+      }
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.7));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.autoUpdate = false;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.setClearColor("#b9dfe3");
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color("#b9dfe3");
+      scene.fog = new THREE.Fog("#c3e1dd", 110, 230);
+      const camera = new THREE.PerspectiveCamera(43, 1, 0.1, 350);
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.07;
+      controls.minDistance = 14;
+      controls.maxDistance = 135;
+      controls.maxPolarAngle = Math.PI * 0.47;
+      controls.minPolarAngle = 0.18;
+      controls.enablePan = true;
+      controls.mouseButtons = {
+        LEFT: THREE.MOUSE.ROTATE,
+        MIDDLE: THREE.MOUSE.DOLLY,
+        RIGHT: THREE.MOUSE.PAN,
+      };
+      function homeView() {
+        camera.position.set(64, 49, 77);
+        controls.target.set(-2, 4, -1);
+        controls.update();
+      }
+      homeView();
+      scene.add(new THREE.HemisphereLight("#ffffe2", "#9aab91", 2.1));
+      const sun = new THREE.DirectionalLight("#fff4d3", 3.1);
+      sun.position.set(-35, 65, 30);
+      sun.castShadow = true;
+      sun.shadow.mapSize.set(2048, 2048);
+      sun.shadow.camera.left = -65;
+      sun.shadow.camera.right = 65;
+      sun.shadow.camera.top = 60;
+      sun.shadow.camera.bottom = -60;
+      sun.shadow.normalBias = 0.07;
+      sun.shadow.bias = -0.00015;
+      scene.add(sun);
+      scene.add(sun.target);
+      const cubeGeo = new THREE.BoxGeometry(1, 1, 1),
+        matrix = new THREE.Matrix4(),
+        tempColor = new THREE.Color();
+      const visualMats = new Map();
+      function mat(color) {
+        if (!visualMats.has(color))
+          visualMats.set(color, new THREE.MeshLambertMaterial({ color }));
+        return visualMats.get(color);
+      }
+      function box(x, y, z, w, h, d, color, parent = scene) {
+        const mesh = new THREE.Mesh(cubeGeo, mat(color));
+        mesh.position.set(x, y, z);
+        mesh.scale.set(w, h, d);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        parent.add(mesh);
+        return mesh;
+      }
+      function hash(x, z) {
+        return (Math.sin(x * 127.1 + z * 311.7) * 43758.5453) % 1;
+      }
+      function random(x, z) {
+        return Math.abs(hash(x, z));
+      }
+      function shore(z) {
+        return 13 + 7 * Math.sin((z + 12) / 19) + 2 * Math.cos(z / 7);
+      }
+      function height(x, z) {
+        const coast = shore(z);
+        if (x > coast) return -2;
+        const inland = coast - x;
+        const h1 = 18 * Math.exp(-((x + 22) ** 2 / 105 + (z + 13) ** 2 / 155));
+        const h2 = 24 * Math.exp(-((x + 10) ** 2 / 40 + (z + 23) ** 2 / 58));
+        const h3 = 8 * Math.exp(-((x + 28) ** 2 / 80 + (z - 18) ** 2 / 110));
+        return Math.max(
+          0,
+          Math.floor(
+            (h1 + h2 + h3) * Math.min(1, inland / 8) + (inland > 6 ? 1 : 0),
+          ),
+        );
+      }
+      function generate() {
+        blocks.clear();
+        for (let x = -38; x <= 33; x++)
+          for (let z = -32; z <= 34; z++) {
+            const h = height(x, z);
+            if (h < 0) continue;
+            const sand = shore(z) - x < 5;
+            for (let y = -2; y <= h; y++)
+              blocks.set(blockKey(x, y, z), {
+                x,
+                y,
+                z,
+                type: y === h ? (sand ? 1 : 0) : y > h - 3 ? 2 : 3,
+              });
+          }
+      }
+      function exposed(b) {
+        return [
+          [1, 0, 0],
+          [-1, 0, 0],
+          [0, 1, 0],
+          [0, -1, 0],
+          [0, 0, 1],
+          [0, 0, -1],
+        ].some(([x, y, z]) => !blocks.has(blockKey(b.x + x, b.y + y, b.z + z)));
+      }
+      function rebuild() {
+        renderer.shadowMap.needsUpdate = true;
+        for (const mesh of meshes) {
+          scene.remove(mesh);
+          mesh.dispose();
+        }
+        meshes.length = 0;
+        const groups = materials.map(() => []);
+        for (const b of blocks.values()) if (exposed(b)) groups[b.type].push(b);
+        groups.forEach((list, type) => {
+          if (!list.length) return;
+          const mesh = new THREE.InstancedMesh(
+            cubeGeo,
+            mat(materials[type].color),
+            list.length,
+          );
+          mesh.userData.blocks = list;
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+          list.forEach((b, i) => {
+            matrix.makeTranslation(b.x, b.y, b.z);
+            mesh.setMatrixAt(i, matrix);
+            tempColor
+              .set(materials[type].color)
+              .multiplyScalar(0.92 + random(b.x + b.y, b.z) * 0.16);
+            const base = new THREE.Color(materials[type].color);
+            tempColor.r /= base.r;
+            tempColor.g /= base.g;
+            tempColor.b /= base.b;
+            mesh.setColorAt(i, tempColor);
+          });
+          mesh.computeBoundingSphere();
+          scene.add(mesh);
+          meshes.push(mesh);
+        });
+      }
+      function updateQuests() {
+        const count = Math.min(placed, 5);
+        $("build-count").textContent = `${count}/5`;
+        $("quest-build").classList.toggle("done", count >= 5);
+        $("quest-build").querySelector(".check").textContent =
+          count >= 5 ? "✓" : "";
+        $("quest-explore").classList.toggle("done", explored);
+        $("quest-explore").querySelector(".check").textContent = explored
+          ? "✓"
+          : "";
+      }
+      function saveWorld(notify = false) {
+        clearTimeout(saveTimer);
+        try {
+          localStorage.setItem(
+            "brisa-world-v1",
+            JSON.stringify({ version: 1, edits: [...edits], placed, explored }),
+          );
+          $("save-status").innerHTML =
+            '<svg><use href="#i-check"/></svg> All changes saved';
+          storageAvailable = true;
+          if (notify) toast("A little piece of Brazil, saved.");
+        } catch {
+          storageAvailable = false;
+          $("save-status").textContent =
+            "Storage unavailable · changes are temporary";
+          if (notify)
+            toast(
+              "Browser storage is full or unavailable. Your world could not be saved.",
+            );
+        }
+      }
+      function scheduleSave() {
+        $("save-status").textContent = "Saving your sunshine…";
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => saveWorld(), 450);
+      }
+      generate();
+      try {
+        const raw = localStorage.getItem("brisa-world-v1");
+        if (raw) {
+          const data = JSON.parse(raw);
+          if (
+            data.version !== 1 ||
+            !Array.isArray(data.edits) ||
+            data.edits.length > 100000
+          )
+            throw new Error("Invalid save");
+          for (const entry of data.edits) {
+            if (
+              !Array.isArray(entry) ||
+              entry.length !== 2 ||
+              typeof entry[0] !== "string"
+            )
+              throw new Error("Invalid edit");
+            const [key, type] = entry;
+            const coords = key.split(",").map(Number);
+            if (
+              coords.length !== 3 ||
+              !inside(...coords) ||
+              !(
+                type === null ||
+                (Number.isInteger(type) && type >= 0 && type < 8)
+              )
+            )
+              throw new Error("Invalid block");
+            edits.set(key, type);
+          }
+          for (const [key, type] of edits) {
+            const [x, y, z] = key.split(",").map(Number);
+            if (type === null) blocks.delete(key);
+            else blocks.set(key, { x, y, z, type });
+          }
+          placed =
+            Number.isInteger(data.placed) && data.placed >= 0 ? data.placed : 0;
+          explored = data.explored === true;
+          $("save-status").textContent =
+            "Your saved world, right where you left it.";
+        }
+      } catch {
+        edits.clear();
+        generate();
+        toast(
+          "Your saved world could not be read. The original coastline is ready.",
+        );
+      }
+      rebuild();
+      updateQuests();
+      const ocean = new THREE.Mesh(
+        new THREE.PlaneGeometry(700, 700),
+        new THREE.MeshLambertMaterial({
+          color: "#69bcc5",
+          transparent: true,
+          opacity: 0.91,
+        }),
+      );
+      ocean.rotation.x = -Math.PI / 2;
+      ocean.position.y = -0.48;
+      ocean.receiveShadow = true;
+      scene.add(ocean);
+      const foamMat = new THREE.LineBasicMaterial({
+        color: "#eef7da",
+        transparent: true,
+        opacity: 0.76,
+      });
+      for (let i = 0; i < 5; i++) {
+        const points = [];
+        for (let z = -37; z <= 41; z += 0.5)
+          points.push(new THREE.Vector3(shore(z) + 1.2 + i * 1.7, -0.38, z));
+        scene.add(
+          new THREE.Line(
+            new THREE.BufferGeometry().setFromPoints(points),
+            foamMat,
+          ),
+        );
+      }
+      const ripples = new THREE.Group();
+      scene.add(ripples);
+      for (let i = 0; i < 170; i++) {
+        const x = 20 + random(i, 13) * 115,
+          z = -85 + random(i, 37) * 145;
+        if (x < shore(z) + 4) continue;
+        box(
+          x,
+          -0.35,
+          z,
+          0.5 + random(i, 10) * 2,
+          0.025,
+          0.055,
+          "#b9e2dd",
+          ripples,
+        );
+      }
+      function palm(x, z, size = 1) {
+        const y = height(Math.round(x), Math.round(z)) + 0.5;
+        if (y < 0) return;
+        const group = new THREE.Group();
+        group.position.set(x, y, z);
+        group.scale.setScalar(size);
+        scene.add(group);
+        for (let j = 0; j < 5; j++)
+          box(
+            j * 0.13,
+            j * 0.9 + 0.45,
+            0,
+            0.43,
+            0.96,
+            0.46,
+            j % 2 ? "#ac956a" : "#b6a078",
+            group,
+          );
+        for (let a = 0; a < 7; a++) {
+          const angle = (a * Math.PI * 2) / 7;
+          for (let j = 0; j < 3; j++) {
+            const radius = 0.5 + j * 0.73;
+            const leaf = box(
+              0.5 + Math.cos(angle) * radius,
+              4.7 - j * 0.28,
+              Math.sin(angle) * radius,
+              1.15,
+              0.25,
+              0.58,
+              j === 0 ? "#659847" : "#4c884f",
+              group,
+            );
+            leaf.rotation.y = -angle;
+            leaf.rotation.z = Math.cos(angle) * -0.15;
+          }
+        }
+        box(0.4, 4.2, 0.2, 0.35, 0.45, 0.4, "#87704d", group);
+      }
+      for (let i = 0; i < 27; i++) {
+        const z = -24 + i * 2.1;
+        const x = shore(z) - 5 - random(i, 3) * 3;
+        palm(x, z, 0.8 + random(i, 20) * 0.4);
+      }
+      for (let i = 0; i < 28; i++) {
+        const x = -34 + random(i, 52) * 31,
+          z = -29 + random(i, 67) * 59;
+        if (height(Math.round(x), Math.round(z)) > 2)
+          palm(x, z, 0.65 + random(i, 6) * 0.7);
+      }
+      function tree(x, z) {
+        const y = height(x, z);
+        if (y < 2) return;
+        box(x, y + 1, z, 0.45, 2, 0.45, "#8b8058");
+        box(x, y + 2.1, z, 2.3, 1.8, 2.2, "#648b4c");
+        box(x - 0.4, y + 3, z + 0.2, 1.5, 1.1, 1.6, "#7d9f53");
+      }
+      for (let i = 0; i < 75; i++) {
+        const x = Math.round(-36 + random(i, 50) * 37),
+          z = Math.round(-31 + random(i, 70) * 61);
+        if (random(i, 1) > 0.2) tree(x, z);
+      }
+      const houseColors = [
+        "#e7b777",
+        "#e8a38b",
+        "#f1d799",
+        "#87bec4",
+        "#d89874",
+        "#b9c58b",
+        "#e7d7b2",
+      ];
+      function house(x, z, w, d, h, color) {
+        const y = height(Math.round(x), Math.round(z)) + 0.5;
+        if (y < 1) return;
+        box(x, y + h / 2, z, w, h, d, color);
+        box(x, y + h + 0.15, z, w + 0.28, 0.3, d + 0.28, "#e8d8b4");
+        box(x, y + h + 0.34, z, w - 0.18, 0.14, d - 0.18, "#ca9474");
+        for (let j = 0; j < 2; j++) {
+          box(
+            x - w * 0.23 + j * w * 0.46,
+            y + h * 0.62,
+            z + d / 2 + 0.015,
+            0.38,
+            0.65,
+            0.04,
+            "#516f71",
+          );
+          box(
+            x + w / 2 + 0.015,
+            y + h * 0.65,
+            z - d * 0.2 + j * d * 0.4,
+            0.04,
+            0.65,
+            0.4,
+            "#607f7e",
+          );
+        }
+        box(x, y + 0.6, z + d / 2 + 0.02, 0.5, 1.15, 0.05, "#647d73");
+      }
+      for (let row = 0; row < 6; row++)
+        for (let col = 0; col < 5; col++) {
+          const x = -29 + col * 3.5 + (row % 2) * 1.1,
+            z = 2 + row * 3.6;
+          house(
+            x,
+            z,
+            2.5,
+            2.5,
+            1.8 + random(row, col) * 2.2,
+            houseColors[(row * 3 + col) % houseColors.length],
+          );
+        }
+      for (let i = 0; i < 9; i++) {
+        const z = -22 + i * 4,
+          x = shore(z) - 10;
+        house(x, z, 2.6, 2.8, 2.7 + random(i, 19) * 3, houseColors[i % 7]);
+      }
+      const monument = new THREE.Group();
+      const mx = -11,
+        mz = -23,
+        my = height(mx, mz) + 0.5;
+      monument.position.set(mx, my, mz);
+      scene.add(monument);
+      box(0, 0.3, 0, 3, 0.6, 3, "#c3bfa0", monument);
+      box(0, 1, 0, 1.8, 1.1, 1.8, "#d7cfb0", monument);
+      box(0, 3.3, 0, 1.1, 3.5, 0.8, "#f3efda", monument);
+      box(0, 5.8, 0, 0.85, 1, 0.85, "#f5f0dc", monument);
+      box(0, 4.65, 0, 5.5, 0.6, 0.7, "#f4efdb", monument);
+      box(0, 1.6, 0, 1.4, 0.6, 1, "#e2ddc3", monument);
+      function umbrella(x, z, color) {
+        const y = 0.55;
+        box(x, y + 0.85, z, 0.08, 1.7, 0.08, "#bc9970");
+        const canopy = new THREE.Mesh(
+          new THREE.ConeGeometry(0.9, 0.45, 8),
+          mat(color),
+        );
+        canopy.position.set(x, y + 1.8, z);
+        canopy.castShadow = true;
+        scene.add(canopy);
+        const towel = box(x + 0.8, 0.55, z + 0.5, 0.65, 0.035, 1.2, "#faf0cd");
+        towel.rotation.y = 0.3;
+      }
+      for (let i = 0; i < 17; i++) {
+        const z = -20 + i * 3.1,
+          x = shore(z) - 1.5 - random(i, 5) * 1.5;
+        umbrella(x, z, ["#f3d583", "#df967a", "#b3c991", "#f4ead0"][i % 4]);
+      }
+      const boats = [];
+      for (let i = 0; i < 9; i++) {
+        const group = new THREE.Group();
+        group.position.set(
+          28 + random(i, 33) * 47,
+          0,
+          -24 + random(i, 21) * 67,
+        );
+        group.rotation.y = random(i, 12) * 2;
+        scene.add(group);
+        box(0, 0, 0, 0.85, 0.4, 2.1, "#f7eed2", group);
+        box(0, 1.25, 0, 0.08, 2.8, 0.08, "#aa9874", group);
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute(
+          "position",
+          new THREE.Float32BufferAttribute(
+            [0.05, 0.4, 0, 0.05, 2.6, 0, 0.05, 0.4, 1.3],
+            3,
+          ),
+        );
+        geo.computeVertexNormals();
+        const sail = new THREE.Mesh(
+          geo,
+          new THREE.MeshLambertMaterial({
+            color: "#fff8df",
+            side: THREE.DoubleSide,
+          }),
+        );
+        group.add(sail);
+        boats.push(group);
+      }
+      const clouds = [];
+      for (let i = 0; i < 13; i++) {
+        const group = new THREE.Group();
+        group.position.set(
+          -75 + random(i, 7) * 135,
+          29 + random(i, 9) * 10,
+          -65 - random(i, 4) * 40,
+        );
+        for (let j = 0; j < 4; j++)
+          box(
+            j * 2,
+            random(j, i) * 1.2,
+            0,
+            3.8,
+            1.2 + random(i, j) * 1.4,
+            2.2,
+            "#fffbe8",
+            group,
+          );
+        group.scale.setScalar(1.3);
+        scene.add(group);
+        clouds.push(group);
+      }
+      const raycaster = new THREE.Raycaster(),
+        pointer = new THREE.Vector2(),
+        highlight = new THREE.LineSegments(
+          new THREE.EdgesGeometry(new THREE.BoxGeometry(1.025, 1.025, 1.025)),
+          new THREE.LineBasicMaterial({ color: "#fff6bd" }),
+        );
+      highlight.visible = false;
+      scene.add(highlight);
+      let target = null,
+        pointerInside = false,
+        lastRay = 0;
+      function aim(clientX, clientY) {
+        const rect = renderer.domElement.getBoundingClientRect();
+        pointer.set(
+          ((clientX - rect.left) / rect.width) * 2 - 1,
+          (-(clientY - rect.top) / rect.height) * 2 + 1,
+        );
+        pointerInside = true;
+      }
+      function findTarget(center = false) {
+        raycaster.setFromCamera(center ? new THREE.Vector2() : pointer, camera);
+        const hit = raycaster.intersectObjects(meshes, false)[0];
+        target = hit || null;
+        highlight.visible = !!hit;
+        if (hit) {
+          const b = hit.object.userData.blocks[hit.instanceId];
+          highlight.position.set(b.x, b.y, b.z);
+        }
+        return hit;
+      }
+      function editWorld(remove = false, center = false) {
+        const hit = findTarget(center);
+        if (!hit) {
+          toast("Aim at the coastline to shape your world.");
+          return false;
+        }
+        const b = hit.object.userData.blocks[hit.instanceId];
+        let { x, y, z } = b;
+        if (!remove) {
+          x += Math.round(hit.face.normal.x);
+          y += Math.round(hit.face.normal.y);
+          z += Math.round(hit.face.normal.z);
+        }
+        if (!inside(x, y, z)) {
+          toast("You’ve reached the edge of this little world.");
+          return false;
+        }
+        const key = blockKey(x, y, z);
+        if (remove) {
+          if (y === -2) {
+            toast("This is the foundation of your world.");
+            return false;
+          }
+          blocks.delete(key);
+          edits.set(key, null);
+        } else {
+          if (blocks.has(key)) return false;
+          blocks.set(key, { x, y, z, type: selected });
+          edits.set(key, selected);
+          placed++;
+        }
+        editCount++;
+        rebuild();
+        updateQuests();
+        scheduleSave();
+        return true;
+      }
+      let down = null;
+      const activePointers = new Set();
+      renderer.domElement.addEventListener("pointerdown", (event) => {
+        activePointers.add(event.pointerId);
+        if (event.button === 0) {
+          down = {
+            x: event.clientX,
+            y: event.clientY,
+            lastX: event.clientX,
+            lastY: event.clientY,
+            multi: activePointers.size > 1,
+            t: performance.now(),
+          };
+          if (mode === "explore")
+            renderer.domElement.setPointerCapture(event.pointerId);
+          renderer.domElement.focus({ preventScroll: true });
+        }
+        aim(event.clientX, event.clientY);
+      });
+      renderer.domElement.addEventListener("pointermove", (event) => {
+        aim(event.clientX, event.clientY);
+        if (mode === "explore" && down) {
+          yaw -= (event.clientX - down.lastX) * 0.004;
+          pitch -= (event.clientY - down.lastY) * 0.004;
+          down.lastX = event.clientX;
+          down.lastY = event.clientY;
+          pitch = Math.max(-1.35, Math.min(1.35, pitch));
+          camera.rotation.set(pitch, yaw, 0, "YXZ");
+        }
+      });
+      renderer.domElement.addEventListener("pointerup", (event) => {
+        activePointers.delete(event.pointerId);
+        if (
+          down &&
+          !down.multi &&
+          Math.hypot(event.clientX - down.x, event.clientY - down.y) < 5 &&
+          performance.now() - down.t < 500 &&
+          event.button === 0
+        )
+          editWorld(false, mode === "explore");
+        down = null;
+      });
+      renderer.domElement.addEventListener("pointerleave", () => {
+        pointerInside = false;
+        highlight.visible = false;
+      });
+      renderer.domElement.addEventListener("pointercancel", (event) => {
+        activePointers.delete(event.pointerId);
+        down = null;
+      });
+      renderer.domElement.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        aim(event.clientX, event.clientY);
+        editWorld(true, mode === "explore");
+      });
+      let yaw = 0,
+        pitch = 0;
+      function setMode(value) {
+        mode = value;
+        controls.enabled = value === "build";
+        $("game").classList.toggle("exploring", value === "explore");
+        $("build-mode").classList.toggle("active", value === "build");
+        $("explore-mode").classList.toggle("active", value === "explore");
+        $("build-mode").setAttribute("aria-pressed", String(value === "build"));
+        $("explore-mode").setAttribute(
+          "aria-pressed",
+          String(value === "explore"),
+        );
+        keys.clear();
+        if (value === "explore") {
+          camera.position.set(22, 10, 30);
+          camera.lookAt(-8, 8, -15);
+          const euler = new THREE.Euler().setFromQuaternion(
+            camera.quaternion,
+            "YXZ",
+          );
+          yaw = euler.y;
+          pitch = euler.x;
+          toast("WASD to fly · Drag to look · Space up · Shift down");
+        } else homeView();
+      }
+      $("build-mode").onclick = () => setMode("build");
+      $("explore-mode").onclick = () => setMode("explore");
+      window.addEventListener("keydown", (event) => {
+        if (document.querySelector("dialog[open]")) return;
+        if (event.key >= "1" && event.key <= "8")
+          selectBlock(Number(event.key) - 1);
+        if (event.key === "?") $("help-dialog").showModal();
+        if (event.key === "Escape") setMode("build");
+        if (
+          [
+            "w",
+            "a",
+            "s",
+            "d",
+            " ",
+            "shift",
+            "arrowup",
+            "arrowdown",
+            "arrowleft",
+            "arrowright",
+          ].includes(event.key.toLowerCase())
+        ) {
+          event.preventDefault();
+          keys.add(event.key.toLowerCase());
+        }
+      });
+      window.addEventListener("keyup", (event) =>
+        keys.delete(event.key.toLowerCase()),
+      );
+      window.addEventListener("blur", () => {
+        keys.clear();
+        down = null;
+      });
+      document.querySelectorAll("[data-move]").forEach((button) => {
+        button.addEventListener("pointerdown", (event) => {
+          event.preventDefault();
+          button.setPointerCapture(event.pointerId);
+          keys.add(button.dataset.move);
+        });
+        for (const type of ["pointerup", "pointercancel", "lostpointercapture"])
+          button.addEventListener(type, () => keys.delete(button.dataset.move));
+      });
+      $("touch-place").onclick = () => editWorld(false, true);
+      $("touch-remove").onclick = () => editWorld(true, true);
+      $("material-label").onclick = () => $("blocks-dialog").showModal();
+      $("help-button").onclick = () => $("help-dialog").showModal();
+      $("save").onclick = () => saveWorld(true);
+      $("nav-help").onclick = () => $("help-dialog").showModal();
+      $("nav-blocks").onclick = () => $("blocks-dialog").showModal();
+      $("nav-world").onclick = () => {
+        setMode("build");
+        toast("Welcome back to your sunny place.");
+      };
+      document
+        .querySelectorAll("[data-close]")
+        .forEach(
+          (button) => (button.onclick = () => button.closest("dialog").close()),
+        );
+      document
+        .querySelectorAll("dialog")
+        .forEach((dialog) =>
+          dialog.addEventListener("close", () => keys.clear()),
+        );
+      $("reset-world").onclick = () => {
+        $("blocks-dialog").close();
+        $("reset-dialog").showModal();
+      };
+      $("confirm-reset").onclick = () => {
+        edits.clear();
+        placed = 0;
+        explored = false;
+        editCount = 0;
+        generate();
+        rebuild();
+        updateQuests();
+        saveWorld();
+        setMode("build");
+        $("reset-dialog").close();
+        toast(
+          storageAvailable
+            ? "A fresh coastline. Make it yours."
+            : "Fresh coastline ready; browser storage is unavailable.",
+        );
+      };
+      $("home-view").onclick = () => setMode("build");
+      function zoom(scale) {
+        if (mode !== "build") {
+          toast("Switch to Build to zoom.");
+          return;
+        }
+        const offset = camera.position.clone().sub(controls.target);
+        offset.setLength(
+          THREE.MathUtils.clamp(offset.length() * scale, 14, 135),
+        );
+        camera.position.copy(controls.target).add(offset);
+        controls.update();
+      }
+      $("zoom-in").onclick = () => zoom(0.83);
+      $("zoom-out").onclick = () => zoom(1.2);
+      $("fullscreen").onclick = async () => {
+        try {
+          if (document.fullscreenElement) await document.exitFullscreen();
+          else if ($("game").requestFullscreen)
+            await $("game").requestFullscreen();
+          else toast("Fullscreen is unavailable in this browser.");
+        } catch {
+          toast("Fullscreen is unavailable in this browser.");
+        }
+      };
+      $("photo").onclick = () => {
+        highlight.visible = false;
+        renderer.render(scene, camera);
+        renderer.domElement.toBlob((blob) => {
+          if (!blob) {
+            toast("Could not capture your world.");
+            return;
+          }
+          const url = URL.createObjectURL(blob),
+            a = document.createElement("a");
+          a.href = url;
+          a.download = "brisa-costa-do-sol.png";
+          a.click();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+          toast("A little sunshine, captured.");
+        });
+      };
+      let audioContext,
+        audioSource,
+        audioGain,
+        soundOn = false;
+      $("sound").onclick = async () => {
+        try {
+          if (!audioContext) {
+            audioContext = new AudioContext();
+            const buffer = audioContext.createBuffer(
+                1,
+                audioContext.sampleRate * 4,
+                audioContext.sampleRate,
+              ),
+              data = buffer.getChannelData(0);
+            let last = 0;
+            for (let i = 0; i < data.length; i++) {
+              last = (last + Math.random() * 0.04 - 0.02) / 1.025;
+              data[i] = last * 3;
+            }
+            audioSource = audioContext.createBufferSource();
+            audioSource.buffer = buffer;
+            audioSource.loop = true;
+            const filter = audioContext.createBiquadFilter();
+            filter.type = "lowpass";
+            filter.frequency.value = 550;
+            audioGain = audioContext.createGain();
+            audioGain.gain.value = 0;
+            audioSource.connect(filter);
+            filter.connect(audioGain);
+            audioGain.connect(audioContext.destination);
+            audioSource.start();
+          }
+          await audioContext.resume();
+          soundOn = !soundOn;
+          audioGain.gain.setTargetAtTime(
+            soundOn ? 0.35 : 0,
+            audioContext.currentTime,
+            0.4,
+          );
+          $("sound").classList.toggle("sound-on", soundOn);
+          $("sound").setAttribute("aria-pressed", String(soundOn));
+          $("sound").setAttribute(
+            "aria-label",
+            soundOn ? "Mute ocean sound" : "Enable ocean sound",
+          );
+          toast(
+            soundOn ? "A soft sea breeze, just for you." : "Ocean sound off.",
+          );
+        } catch {
+          toast("Audio is unavailable in this browser.");
+        }
+      };
+      function resize() {
+        const rect = $("game").getBoundingClientRect();
+        renderer.setSize(rect.width, rect.height, false);
+        camera.aspect = rect.width / rect.height;
+        camera.updateProjectionMatrix();
+      }
+      new ResizeObserver(resize).observe($("game"));
+      resize();
+      let lastTime = performance.now();
+      function animate(time) {
+        requestAnimationFrame(animate);
+        const dt = Math.min((time - lastTime) / 1000, 0.05);
+        lastTime = time;
+        if (document.hidden) return;
+        if (mode === "build") controls.update();
+        const forward =
+            (keys.has("w") || keys.has("arrowup") ? 1 : 0) -
+            (keys.has("s") || keys.has("arrowdown") ? 1 : 0),
+          side =
+            (keys.has("d") || keys.has("arrowright") ? 1 : 0) -
+            (keys.has("a") || keys.has("arrowleft") ? 1 : 0);
+        if (
+          !document.querySelector("dialog[open]") &&
+          (forward || side || keys.has(" ") || keys.has("shift"))
+        ) {
+          if (mode === "explore") {
+            const speed = dt * 12;
+            camera.position.x +=
+              (Math.cos(yaw) * side - Math.sin(yaw) * forward) * speed;
+            camera.position.z +=
+              (-Math.sin(yaw) * side - Math.cos(yaw) * forward) * speed;
+            camera.position.y +=
+              (keys.has(" ") ? speed : 0) - (keys.has("shift") ? speed : 0);
+            camera.position.y = THREE.MathUtils.clamp(
+              camera.position.y,
+              0.7,
+              65,
+            );
+            camera.position.x = THREE.MathUtils.clamp(
+              camera.position.x,
+              -70,
+              100,
+            );
+            camera.position.z = THREE.MathUtils.clamp(
+              camera.position.z,
+              -80,
+              90,
+            );
+            if (!explored) {
+              explored = true;
+              updateQuests();
+              scheduleSave();
+            }
+          } else {
+            const delta = new THREE.Vector3(
+              side * dt * 10,
+              0,
+              -forward * dt * 10,
+            );
+            controls.target.add(delta);
+            camera.position.add(delta);
+          }
+        }
+        if (time - lastRay > 80 && (pointerInside || mode === "explore")) {
+          findTarget(mode === "explore");
+          lastRay = time;
+        }
+        boats.forEach((boat, i) => {
+          boat.position.y = Math.sin(time * 0.001 + i) * 0.09;
+          boat.rotation.z = Math.sin(time * 0.0008 + i) * 0.025;
+        });
+        ripples.position.x = Math.sin(time * 0.0003) * 0.35;
+        renderer.render(scene, camera);
+      }
+      renderer.shadowMap.needsUpdate = true;
+      requestAnimationFrame(animate);
+      $("loading").remove();
+      $("game").dataset.ready = "true";
+      window.addEventListener("pagehide", () => saveWorld());
+      window.brisa = {
+        getState: () => ({
+          selected,
+          mode,
+          placed,
+          explored,
+          editCount,
+          blocks: blocks.size,
+          edits: [...edits],
+          camera: camera.position.toArray(),
+          ready: true,
+        }),
+        projectBlock: (x, y, z) => {
+          const point = new THREE.Vector3(x, y, z).project(camera),
+            r = renderer.domElement.getBoundingClientRect();
+          return {
+            x: r.left + ((point.x + 1) / 2) * r.width,
+            y: r.top + ((1 - point.y) / 2) * r.height,
+          };
+        },
+      };
+    </script>
+  </body>
+</html>
