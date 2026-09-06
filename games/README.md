@@ -115,8 +115,8 @@ Website (Games Catalog): [games/index.html](https://diegopacheco.github.io/ai-pl
 35. **Fly Catcher** — A local 8-bit kitchen arcade game controlled by an iPhone accelerometer, with scoring chains and a 60-second clock.
     [pocs/fly-catcher-game-gpt-5.6-sol](https://github.com/diegopacheco/ai-playground/tree/main/pocs/fly-catcher-game-gpt-5.6-sol)
 
-36. **Jetfun** — A light-themed Three.js jetski time trial across a stylized San Francisco bay: seven gates from the Embarcadero to Sunset Beach against a three-minute clock.
-    [pocs/gpt-6-astra-medium-codex-jetfun](https://github.com/diegopacheco/ai-playground/tree/main/pocs/gpt-6-astra-medium-codex-jetfun)
+36. **Brisa** — A sunny cartoon-styled 3D block sandbox set on Costa do Sol, a fictional Brazilian coastline: build with eight materials, reshape the hills, or fly past palms and sailboats.
+    [pocs/gpt-6-astra-high-blockgame](https://github.com/diegopacheco/ai-playground/tree/main/pocs/gpt-6-astra-high-blockgame)
 
 ## Puzzle, Strategy & Board Games
 
@@ -183,3 +183,9 @@ Website (Games Catalog): [games/index.html](https://diegopacheco.github.io/ai-pl
 
 56. **Cursor Tetris** — A full-stack Tetris with a React + Vite frontend and a Rust + Actix backend, built with Cursor v3.
     [pocs/cursor-v3-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/cursor-v3-poc)
+
+## Catalog Screenshot
+
+![Brisa in the games catalog](printscreens/brisa-catalog.png)
+
+Brisa appears in Arcade & Action Games with its gameplay image and a link to the project.
