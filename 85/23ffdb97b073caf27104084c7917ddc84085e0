@@ -1,0 +1,19 @@
+games/README.md
+  s_86da67e847a718::t_a0d974779f26d0 115-117,120,123,126,129,132,135,140,143,146,149,152,155,158,163,166,169,172,175,178,181
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "8523ffdb97b073caf27104084c7917ddc84085e0",
+  "prompts": {},
+  "sessions": {
+    "s_86da67e847a718": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4a44dcd3-136a-4438-b121-494c2c942362",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
