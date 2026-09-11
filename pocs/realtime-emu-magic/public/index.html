@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f5ef">
+  <title>Realtime Emu Magic — Play outside the rules</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23294d36'/%3E%3Cpath d='M12 44V26h7v3c4-5 10-4 13 1 5-6 15-6 15 5v9h-7V34c0-5-6-5-6 0v10h-7V34c0-5-8-5-8 0v10z' fill='%23f5f5ef'/%3E%3Cpath d='m49 8 2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23d9f18c'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="/" aria-label="Realtime Emu Magic home"><span class="brand-mark" aria-hidden="true">m<span>✳</span></span><span>emu magic<small>REALTIME PLAY LAB</small></span></a>
+    <div class="header-right"><span class="local-tag"><i></i> LOCAL SESSION</span><span class="version">SNES / 01</span></div>
+  </header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">YOUR CARTRIDGE. A LITTLE MAGIC.</p><h1>Play outside <br>the <em>rules.</em><span class="spark" aria-hidden="true">✳</span></h1></div><p class="intro-copy">Keep the game running.<br>Tell Codex what you want to change.<br><strong>See what happens next.</strong></p></section>
+    <div class="workspace">
+      <section class="console" aria-label="SNES console">
+        <div class="console-top"><span><i class="led" id="gameLed"></i> SUPER NINTENDO</span><span id="gameStatus" role="status">AWAITING CARTRIDGE</span></div>
+        <div class="screen" id="screen">
+          <div class="empty-screen" id="emptyScreen">
+            <svg class="cartridge-art" viewBox="0 0 240 170" fill="none" aria-hidden="true"><path d="M44 34h152l15 19v100H29V53z" fill="#e4e8cd" stroke="#698065" stroke-width="2"/><path d="M53 34v58h134V34M43 107h154M43 115h154M43 123h154" stroke="#698065" stroke-width="2"/><path d="M75 34h90v49H75z" fill="#c4d49b"/><path d="m117 41-9 17h12l-5 18 18-23h-13l5-12z" fill="#506749"/><path d="M69 139h102v14H69z" fill="#b4c49e"/><path d="M44 21h28M182 15v13M175 21h14M213 77h15M220 70v14" stroke="#698065" stroke-width="2"/></svg>
+            <h2>A new way to play old favorites.</h2><p>Load your SNES cartridge to get started.</p>
+            <button class="load-button" id="loadButton">＋ Insert cartridge <span>.sfc / .smc</span></button>
+            <small>or drop a ROM anywhere on this page</small>
+          </div>
+          <iframe id="player" title="SNES game player" tabindex="0" allow="autoplay; fullscreen; gamepad; screen-wake-lock" hidden></iframe>
+        </div>
+        <div class="console-bottom"><span class="screen-note" id="screenNote">16-BIT POSSIBILITIES</span><div class="screen-actions"><button class="text-button" id="filterToggle" disabled>HD filter off</button><button class="text-button" id="fullscreen" disabled>Expand screen ↗</button></div></div>
+        <div class="cartridge-bar"><div class="mini-cart" aria-hidden="true">▥</div><div><strong id="gameName">No cartridge loaded</strong><small id="gameDetails">Your ROM stays in this browser</small></div><button class="text-button" id="changeRom">Browse files ↗</button></div>
+        <input type="file" id="romInput" accept=".sfc,.smc" hidden>
+        <div class="controls"><span><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> Move</span><span><kbd>Z</kbd><kbd>X</kbd><kbd>A</kbd><kbd>S</kbd> Action</span><span><kbd>Enter</kbd> Start</span><span>Remap in player settings</span></div>
+      </section>
+      <aside class="codex-panel" aria-label="Codex live changes">
+        <div class="codex-heading"><div class="codex-symbol" aria-hidden="true">✳</div><div><h2>A little help from Codex</h2><p>YOUR LIVE GAME CO-PILOT</p></div><span class="agent-dot" id="agentDot"></span></div>
+        <div class="conversation" id="conversation" role="log" aria-label="Codex conversation" aria-live="polite"><article class="message welcome"><span class="message-author">CODEX</span><p>Same game. Your rules.</p><p>Ask for more lives, a power-up, or a change you have a memory code for. I’ll work out what’s possible while you play.</p><div class="welcome-foot">Every change gets an undo checkpoint.</div></article></div>
+        <div class="suggestions" aria-label="Suggested requests"><button data-prompt="Give me more lives if you know the exact memory code for this cartridge.">More lives ↗</button><button data-prompt="Unlock all levels for this cartridge.">Unlock levels ↗</button><button data-prompt="Which live changes can you reliably make for this exact game?">What can I change? ↗</button></div>
+        <form id="promptForm"><label for="model">CODEX MODEL</label><select id="model"><option value="gpt-6-astra">gpt-6-astra · default</option><option value="gpt-5.6-sol">gpt-5.6-sol</option><option value="gpt-5.6-terra">gpt-5.6-terra</option><option value="gpt-5.6-luna">gpt-5.6-luna</option></select><label for="prompt">WHAT WOULD YOU CHANGE?</label><textarea id="prompt" rows="3" maxlength="2000" placeholder="What should change in this game?" required></textarea><div class="composer-footer"><span id="requestStatus">Load a game to begin</span><button type="button" class="text-button" id="cancel" hidden>Cancel</button><button id="send" class="send-button" disabled>Ask Codex <span>↗</span></button></div></form>
+        <p class="scope-note">Live memory changes depend on the game and revision. New levels, artwork, and mechanics need ROM development.</p>
+      </aside>
+    </div>
+    <section class="changes"><div class="changes-title"><div><p class="eyebrow">THE CURRENT MIX</p><h2>Live changes <span id="changeCount">00</span></h2></div><button id="inspectChanges" class="text-button">View codes</button><button id="undo" class="undo-button" disabled>↶ Undo last change</button></div><div id="activeChanges"><p class="no-changes">Nothing changed. Yet.<span>Your active memory codes will appear here.</span></p></div><p id="checkpointNote">Undo restores gameplay to the moment before a change. Up to five checkpoints stay in this tab.</p></section>
+    <footer><span>OLD SCHOOL HEART. NEW POSSIBILITIES.</span><span id="agentStatus">Checking local agent SDK…</span></footer>
+  </main>
+  <div id="notice" role="alert" hidden></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

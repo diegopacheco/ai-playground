@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "message": { "type": "string" },
+    "unsupported": { "type": "boolean" },
+    "cheats": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": { "label": { "type": "string" }, "code": { "type": "string" }, "once": { "type": "boolean" }, "count": { "type": "integer", "minimum": 1, "maximum": 256 }, "mask": { "type": ["string", "null"], "pattern": "^[0-9A-Fa-f]{2}$" } },
+        "required": ["label", "code", "once", "mask", "count"]
+      }
+    }
+  },
+  "required": ["message", "unsupported", "cheats"]
+}

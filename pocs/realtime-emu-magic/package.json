@@ -1,0 +1,13 @@
+{
+  "name": "realtime-emu-magic",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env.local server.mjs",
+    "test": "node --env-file-if-exists=.env.local --test test/*.test.mjs",
+    "test:browser": "npx playwright test",
+    "test:live": "LIVE_CODEX=1 npx playwright test --grep 'real Codex'"
+  },
+  "engines": { "node": ">=24" },
+  "devDependencies": { "@playwright/test": "1.62.1" }
+}
