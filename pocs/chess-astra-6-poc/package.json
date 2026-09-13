@@ -1,0 +1,24 @@
+{
+  "name": "the-wizards-gambit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --bun vite",
+    "build": "tsc --noEmit && bun --bun vite build",
+    "preview": "bun --bun vite preview",
+    "test": "bun test tests/engine.test.ts",
+    "test:browser": "npx playwright test"
+  },
+  "dependencies": {
+    "chess.js": "^1.4.0",
+    "three": "^0.186.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/bun": "^1.4.2",
+    "@types/three": "^0.186.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  }
+}
