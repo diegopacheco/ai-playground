@@ -2,7 +2,7 @@ import './style.css';
 import { GameAudio } from './audio';
 import { Chess, type Square, type Move } from 'chess.js';
 import { ChessScene, pieceColors, type PieceColor } from './scene';
-import { restoreGame, skipStuckTurn, type Difficulty, type SearchReply } from './engine';
+import { matchScore, outcome, rank, restoreGame, skipStuckTurn, type Difficulty, type Outcome, type SearchReply } from './engine';
 import { backgrounds, type Background } from './rooms';
 import { pieceStyles, type PieceStyle } from './pieceStyles';
 
@@ -42,6 +42,7 @@ app.innerHTML = `
           <div class="eyebrow">THE DUEL IS DECIDED</div>
           <h2 id="result-title">Checkmate</h2>
           <p id="result-winner"></p>
+          <p class="result-score" id="result-score"></p>
           <button class="primary-button" id="result-new-game">${icon('spark')} New game ${icon('arrow')}</button>
         </section>
         <div class="board-toolbar"><div class="turn-pill" id="board-turn"><span class="live-dot"></span> Your move, wizard.</div><div class="camera-actions"><button id="flip" title="Rotate board" aria-label="Rotate board">${icon('flip')}</button><button id="view" title="Switch to overhead view" aria-label="Switch to overhead view">${icon('view')}</button><button id="sound" title="Play library music and sound" aria-label="Play library music and sound" aria-pressed="false">${icon('sound')}<span class="sound-off"></span></button><button id="fullscreen" title="Enter game fullscreen" aria-label="Enter game fullscreen" aria-pressed="false">${icon('fullscreen')}</button></div></div>
@@ -49,7 +50,7 @@ app.innerHTML = `
       </section>
       <aside class="sidebar">
         <section class="match-card"><div class="section-label">YOUR OPPONENT <span>01</span></div><div class="opponent"><div class="avatar">♞<span>✧</span></div><div><h2>The Castle Guardian</h2><p>A worthy mind. An ancient magic.</p></div></div><label class="field-label" for="difficulty">CHOOSE YOUR CHALLENGE</label><div class="select-wrap"><select id="difficulty"><option value="apprentice">Apprentice</option><option value="wizard" selected>Wizard</option><option value="grandmaster">Grandmaster</option></select><span>⌄</span></div><p class="difficulty-note" id="difficulty-note">A thoughtful duel. Two moves deep.</p><fieldset class="piece-colors"><legend>YOUR PIECE COLOR</legend><div class="color-options">${Object.entries(pieceColors).map(([color, hex]) => `<label class="color-option"><input type="radio" name="piece-color" value="${color}" ${color === 'white' ? 'checked' : ''}/><span class="color-swatch" style="--swatch:${hex}"></span><span>${color[0].toUpperCase() + color.slice(1)}</span></label>`).join('')}</div><p>You move first · CPU: <span id="cpu-color">Green</span></p></fieldset><div class="look-options"><div><label class="field-label" for="piece-style">PIECE STYLE</label><div class="select-wrap"><select id="piece-style">${options(pieceStyles)}</select><span>⌄</span></div></div><div><label class="field-label" for="background">BACKGROUND</label><div class="select-wrap"><select id="background">${options(backgrounds)}</select><span>⌄</span></div></div></div><button class="primary-button" id="new-game">${icon('spark')} New game <span>↗</span></button></section>
-        <section class="chronicle"><div class="section-label">THE CHRONICLE <span id="move-count">0 MOVES</span></div><div class="history-head"><span>TURN</span><span id="human-heading">WHITE</span><span id="cpu-heading">GREEN</span></div><div id="history" aria-label="Move history"><div class="empty-history"><span>♙</span><p>Every great story<br>begins with a bold move.</p><small>Your first chapter awaits.</small></div></div><button class="undo-button" id="undo" disabled>${icon('undo')} Take back a turn</button></section>
+        <section class="chronicle"><div class="section-label"><div class="chronicle-tabs" role="tablist"><button role="tab" id="moves-tab" aria-controls="moves-panel" aria-selected="true">THE CHRONICLE</button><button role="tab" id="duels-tab" aria-controls="duels-panel" aria-selected="false">HISTORY</button></div><span id="move-count">0 MOVES</span></div><div class="tab-panel" id="moves-panel" role="tabpanel" aria-labelledby="moves-tab"><div class="history-head"><span>TURN</span><span id="human-heading">WHITE</span><span id="cpu-heading">GREEN</span></div><div id="history" aria-label="Move history"><div class="empty-history"><span>♙</span><p>Every great story<br>begins with a bold move.</p><small>Your first chapter awaits.</small></div></div><button class="undo-button" id="undo" disabled>${icon('undo')} Take back a turn</button></div><div class="tab-panel" id="duels-panel" role="tabpanel" aria-labelledby="duels-tab" hidden><div class="duels-summary" id="duels-summary"></div><div id="duels" aria-label="Match history"></div></div></section>
         <div class="status-card" role="status" aria-live="polite"><span class="status-spark">✧</span><div><strong id="status-title">The board is yours.</strong><p id="status-text">Select one of your pieces to see its possibilities.</p></div></div>
       </aside>
     </div>
@@ -74,7 +75,11 @@ let sound = false;
 const audio = new GameAudio();
 let scene: ChessScene | null = null;
 let promotion: { from: Square; to: Square } | null = null;
+let startedAt = 0;
+type Duel = { id: number; outcome: Outcome; difficulty: Difficulty; moves: number; seconds: number; score: number; endedAt: number };
+let duels: Duel[] = [];
 const storageKey = 'wizards-gambit-v1';
+const duelsKey = 'wizards-gambit-duels-v1';
 try {
   const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
   if (saved && Array.isArray(saved.history) && saved.history.every((move: unknown) => typeof move === 'string')) {
@@ -84,12 +89,37 @@ try {
     if (Object.hasOwn(pieceColors, saved.pieceColor)) pieceColor = saved.pieceColor;
     if (Object.hasOwn(pieceStyles, saved.pieceStyle)) pieceStyle = saved.pieceStyle;
     if (Object.hasOwn(backgrounds, saved.background)) background = saved.background;
+    if (game.history().length) startedAt = typeof saved.startedAt === 'number' ? saved.startedAt : Date.now();
   }
 } catch { localStorageSafeRemove(); }
+try {
+  const saved = JSON.parse(localStorage.getItem(duelsKey) || '[]');
+  if (Array.isArray(saved)) duels = saved.filter(duel => duel && typeof duel.id === 'number' && ['win', 'loss', 'draw'].includes(duel.outcome) && typeof duel.score === 'number');
+} catch { duels = []; }
 function localStorageSafeRemove() { try { localStorage.removeItem(storageKey); } catch {} }
 function save() {
-  try { localStorage.setItem(storageKey, JSON.stringify({ history: game.history(), difficulty, pieceColor, pieceStyle, background })); }
+  try { localStorage.setItem(storageKey, JSON.stringify({ history: game.history(), difficulty, pieceColor, pieceStyle, background, startedAt })); }
   catch { $('status-text').textContent = 'Browser storage is unavailable. This match will not survive a reload.'; }
+}
+function duration(seconds: number) {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor(seconds % 3600 / 60);
+  const s = seconds % 60;
+  return h ? `${h}h ${m}m` : m ? `${m}m ${s}s` : `${s}s`;
+}
+function renderDuels() {
+  const count = (result: Outcome) => duels.filter(duel => duel.outcome === result).length;
+  const average = duels.length ? Math.round(duels.reduce((sum, duel) => sum + duel.score, 0) / duels.length) : 0;
+  $('duels-summary').innerHTML = duels.length ? `<span><b>${count('win')}</b> W · <b>${count('loss')}</b> L · <b>${count('draw')}</b> D</span><span>Average <b>${average}%</b> · ${rank(average)}</span>` : '';
+  $('duels').innerHTML = duels.length ? duels.map(duel => `<div class="duel ${duel.outcome}"><div><strong>${{ win: 'Win', loss: 'Loss', draw: 'Draw' }[duel.outcome]}</strong> vs ${duel.difficulty[0].toUpperCase() + duel.difficulty.slice(1)}<small>${duel.moves} moves · ${duration(duel.seconds)} · ${new Date(duel.endedAt).toLocaleDateString()}</small></div><div class="duel-score"><b>${duel.score}%</b><small>${rank(duel.score)}</small></div><span class="score-bar" style="--score:${duel.score}%"></span></div>`).join('') : '<div class="empty-history"><span>♔</span><p>No duels recorded yet.</p><small>Finish a match to see it here.</small></div>';
+}
+function recordDuel() {
+  if (!game.isGameOver()) return;
+  const duel: Duel = { id: startedAt, outcome: outcome(game), difficulty, moves: game.history().length, seconds: Math.max(0, Math.round((Date.now() - startedAt) / 1000)), score: matchScore(game, difficulty), endedAt: Date.now() };
+  duels = [duel, ...duels.filter(entry => entry.id !== duel.id)].slice(0, 100);
+  try { localStorage.setItem(duelsKey, JSON.stringify(duels)); }
+  catch { report('Browser storage is unavailable.', 'This result will not survive a reload.'); }
+  renderDuels();
 }
 function report(title: string, text: string) { $('status-title').textContent = title; $('status-text').textContent = text; }
 function playSound(move: Move) {
@@ -145,6 +175,8 @@ function render(move?: Move, sync = true) {
   const wasHidden = result.hidden;
   $('result-title').textContent = game.isCheckmate() ? 'Checkmate' : 'Draw';
   $('result-winner').textContent = game.isCheckmate() ? game.turn() === 'b' ? 'You win. The Castle Guardian is defeated.' : 'The Castle Guardian wins. Try another duel.' : `${text} No one wins this duel.`;
+  const score = game.isGameOver() ? matchScore(game, difficulty) : 0;
+  $('result-score').textContent = game.isGameOver() ? `Score ${score}% · ${rank(score)}` : '';
   result.hidden = !game.isGameOver();
   if (wasHidden && !result.hidden) $('result-new-game').focus({ preventScroll: true });
   report(title, text);
@@ -166,6 +198,7 @@ function requestCPU() {
         const skipped = skipStuckTurn(game);
         selected = null;
         render(move);
+        recordDuel();
         playSound(move);
         if (skipped) cpuTimer = window.setTimeout(() => { if (!thinking) requestCPU(); }, 560);
       } catch { render(); report('The Guardian could not move.', 'Take back the turn and try again.'); }
@@ -177,10 +210,12 @@ function requestCPU() {
 function makeMove(input: string | { from: string; to: string; promotion?: string }) {
   if (thinking || game.turn() !== 'w' || game.isGameOver()) return;
   try {
+    if (!game.history().length) startedAt = Date.now();
     const move = game.move(input);
     skipStuckTurn(game);
     selected = null;
     render(move);
+    recordDuel();
     playSound(move);
     cpuTimer = window.setTimeout(() => { if (!thinking) requestCPU(); }, 560);
   } catch { report('That spell does not quite work.', 'Choose a highlighted square or enter a legal move such as e2e4.'); }
@@ -253,6 +288,15 @@ $('new-game').onclick = () => game.history().length ? $<HTMLDialogElement>('rest
 $('confirm-restart').onclick = restart;
 $('result-new-game').onclick = restart;
 $('cancel-restart').onclick = () => $<HTMLDialogElement>('restart').close();
+function showTab(duelsTab: boolean) {
+  $('moves-tab').setAttribute('aria-selected', String(!duelsTab));
+  $('duels-tab').setAttribute('aria-selected', String(duelsTab));
+  $('moves-panel').hidden = duelsTab;
+  $('duels-panel').hidden = !duelsTab;
+  $('move-count').hidden = duelsTab;
+}
+$('moves-tab').onclick = () => showTab(false);
+$('duels-tab').onclick = () => showTab(true);
 $('guide-button').onclick = () => $<HTMLDialogElement>('guide').showModal();
 for (const button of document.querySelectorAll<HTMLButtonElement>('.dialog-close, .dialog-done')) button.onclick = () => $<HTMLDialogElement>('guide').close();
 for (const button of document.querySelectorAll<HTMLButtonElement>('[data-piece]')) button.onclick = () => {
@@ -366,5 +410,6 @@ updatePieceColor();
 updateLook();
 updateDifficulty();
 render();
+renderDuels();
 updateFallback();
 requestCPU();

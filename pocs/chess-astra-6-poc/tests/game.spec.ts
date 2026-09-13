@@ -467,3 +467,27 @@ test.describe('on a phone held sideways', () => {
     await page.screenshot({ path: 'printscreens/phone-landscape.png' });
   });
 });
+
+test('history tab records wins and losses with duration and score, and keeps them after reload', async ({ page, context }) => {
+  await seed(page, ['e4', 'e5', 'Bc4', 'Nc6', 'Qh5', 'Nf6']);
+  await move(page, 'Qxf7#');
+  await expect(page.locator('#result-score')).toHaveText(/^Score \d+% · \w+$/);
+  await page.getByRole('tab', { name: 'HISTORY' }).click();
+  await expect(page.locator('#moves-panel')).toBeHidden();
+  await expect(page.locator('.duel')).toHaveCount(1);
+  await expect(page.locator('.duel').first()).toContainText('Win vs Wizard');
+  await expect(page.locator('.duel').first()).toContainText(/7 moves · \d+s/);
+  await page.evaluate(() => localStorage.setItem('wizards-gambit-v1', JSON.stringify({ history: ['f3', 'e5', 'g4'], difficulty: 'wizard' })));
+  await page.close();
+  const next = await context.newPage();
+  await next.goto('/');
+  await next.getByRole('tab', { name: 'HISTORY' }).click();
+  await expect(next.locator('.duel')).toHaveCount(2, { timeout: 15000 });
+  await expect(next.locator('.duel').first()).toContainText('Loss vs Wizard');
+  await expect(next.locator('#duels-summary')).toContainText('1 W · 1 L · 0 D');
+  const [loss, win] = (await next.locator('.duel-score b').allTextContents()).map(score => parseInt(score));
+  expect(win).toBeGreaterThan(loss);
+  await next.screenshot({ path: 'printscreens/history-tab.png', fullPage: true });
+  await next.getByRole('tab', { name: 'THE CHRONICLE' }).click();
+  await expect(next.locator('#move-count')).toBeVisible();
+});

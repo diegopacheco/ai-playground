@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { Chess } from 'chess.js';
-import { chooseMove, restoreGame, skipStuckTurn, type Difficulty } from '../src/engine';
+import { chooseMove, matchScore, outcome, rank, restoreGame, skipStuckTurn, type Difficulty } from '../src/engine';
 
 describe('Guardian search', () => {
   for (const difficulty of ['apprentice', 'wizard', 'grandmaster'] as Difficulty[]) {
@@ -105,5 +105,47 @@ describe('no stalemate: a stuck side skips its turn', () => {
     expect(() => game.move(move!)).not.toThrow();
     const stuck = new Chess('k7/2B5/1K6/6p1/6N1/pP6/P1P5/8 b - - 0 60');
     expect(chooseMove(stuck, 'wizard')).toBeNull();
+  });
+});
+
+describe('match score: 0% is a beginner, 100% plays like a grandmaster', () => {
+  const scholarsMate = () => restoreGame(['e4', 'e5', 'Bc4', 'Nc6', 'Qh5', 'Nf6', 'Qxf7#']);
+  const foolsMate = () => restoreGame(['f3', 'e5', 'g4', 'Qh4#']);
+  const crushingMate = () => new Chess('k7/1Q6/1K6/8/8/8/8/7R b - - 0 1');
+
+  test('the result belongs to the human, who always plays white', () => {
+    expect(outcome(scholarsMate())).toBe('win');
+    expect(outcome(foolsMate())).toBe('loss');
+    expect(outcome(new Chess('8/8/8/8/8/8/2k5/K7 w - - 0 1'))).toBe('draw');
+  });
+
+  test('beating a stronger Guardian is worth more than beating a weaker one', () => {
+    expect(matchScore(scholarsMate(), 'grandmaster')).toBeGreaterThan(matchScore(scholarsMate(), 'wizard'));
+    expect(matchScore(scholarsMate(), 'wizard')).toBeGreaterThan(matchScore(scholarsMate(), 'apprentice'));
+  });
+
+  test('a win always outscores a draw, and a draw outscores a loss, at the same level', () => {
+    const draw = new Chess('8/8/8/8/8/8/2k5/K7 w - - 0 1');
+    for (const difficulty of ['apprentice', 'wizard', 'grandmaster'] as Difficulty[]) {
+      expect(matchScore(scholarsMate(), difficulty)).toBeGreaterThan(matchScore(draw, difficulty));
+      expect(matchScore(draw, difficulty)).toBeGreaterThan(matchScore(foolsMate(), difficulty));
+    }
+  });
+
+  test('winning with a bigger material lead shows stronger play', () => {
+    expect(matchScore(crushingMate(), 'wizard')).toBeGreaterThan(matchScore(scholarsMate(), 'wizard'));
+  });
+
+  test('only a crushing win over the Grandmaster reaches the top rank, and an easy win never does', () => {
+    expect(rank(matchScore(crushingMate(), 'grandmaster'))).toBe('Grandmaster');
+    expect(rank(matchScore(crushingMate(), 'apprentice'))).not.toBe('Grandmaster');
+    expect(matchScore(foolsMate(), 'apprentice')).toBeLessThan(40);
+    for (const game of [scholarsMate(), foolsMate(), crushingMate()]) {
+      for (const difficulty of ['apprentice', 'wizard', 'grandmaster'] as Difficulty[]) {
+        const score = matchScore(game, difficulty);
+        expect(score).toBeGreaterThanOrEqual(0);
+        expect(score).toBeLessThanOrEqual(100);
+      }
+    }
   });
 });

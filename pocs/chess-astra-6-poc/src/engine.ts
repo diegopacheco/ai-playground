@@ -3,8 +3,11 @@ import { Chess, type Move, type PieceSymbol } from 'chess.js';
 export type Difficulty = 'apprentice' | 'wizard' | 'grandmaster';
 export type SearchRequest = { history: string[]; difficulty: Difficulty };
 export type SearchReply = { from: string; to: string; promotion?: string } | null;
+export type Outcome = 'win' | 'loss' | 'draw';
 const values: Record<PieceSymbol, number> = { p: 100, n: 320, b: 335, r: 500, q: 900, k: 0 };
 const depths: Record<Difficulty, number> = { apprentice: 1, wizard: 2, grandmaster: 3 };
+const strength: Record<Difficulty, number> = { apprentice: 0.4, wizard: 0.7, grandmaster: 1 };
+const points: Record<Outcome, number> = { win: 1, draw: 0.5, loss: 0 };
 
 export function restoreGame(history: string[]): Chess {
   const game = new Chess();
@@ -18,6 +21,21 @@ export function skipStuckTurn(game: Chess): boolean {
   if (game.moves().length) return true;
   game.undo();
   return false;
+}
+
+export function outcome(game: Chess): Outcome {
+  return game.isCheckmate() ? game.turn() === 'b' ? 'win' : 'loss' : 'draw';
+}
+
+export function matchScore(game: Chess, difficulty: Difficulty): number {
+  let edge = 0;
+  for (const row of game.board()) for (const piece of row) if (piece) edge += values[piece.type] * (piece.color === 'w' ? 1 : -1);
+  const material = Math.min(1, Math.max(0, 0.5 + edge / 3000));
+  return Math.round(strength[difficulty] * (points[outcome(game)] * 70 + material * 30));
+}
+
+export function rank(score: number): string {
+  return score >= 90 ? 'Grandmaster' : score >= 70 ? 'Wizard' : score >= 40 ? 'Apprentice' : 'Novice';
 }
 
 function evaluate(game: Chess): number {
