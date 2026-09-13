@@ -4,3 +4,8 @@ dist/
 test-results/
 playwright-report/
 .DS_Store
+macos/build/
+macos/app/config.json
+macos/app/logo.svg
+macos/test-results/
+macos/node_modules/

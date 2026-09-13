@@ -12,6 +12,14 @@ export function restoreGame(history: string[]): Chess {
   return game;
 }
 
+export function skipStuckTurn(game: Chess): boolean {
+  if (!game.isStalemate()) return false;
+  game.move('--');
+  if (game.moves().length) return true;
+  game.undo();
+  return false;
+}
+
 function evaluate(game: Chess): number {
   let score = 0;
   for (const row of game.board()) {
@@ -41,6 +49,12 @@ export function chooseMove(game: Chess, difficulty: Difficulty, budget = 1400): 
   const deadline = performance.now() + budget;
   const search = (depth: number, alpha: number, beta: number, ply: number): number => {
     if (game.isCheckmate()) return -100000 + ply;
+    if (game.isStalemate()) {
+      game.move('--');
+      const score = game.moves().length ? -search(depth, -beta, -alpha, ply + 1) : 0;
+      game.undo();
+      return score;
+    }
     if (game.isDraw()) return 0;
     if (depth === 0 || performance.now() > deadline) return evaluate(game);
     let best = -Infinity;

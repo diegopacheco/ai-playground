@@ -7,7 +7,13 @@ if owned_pid >/dev/null && [ -n "$(port_pid)" ]; then
   printf 'Frontend already running on %s.\n' "$FRONTEND"
   exit 0
 fi
-[ -z "$(port_pid)" ] || fail "Port $FRONTEND is occupied by another process"
+existing="$(port_pid)"
+if [ -n "$existing" ] && project_vite "$existing"; then
+  printf '%s\n' "$existing" >"$RUN/frontend.pid"
+  printf 'Frontend already running on %s, adopted PID %s.\n' "$FRONTEND" "$existing"
+  exit 0
+fi
+[ -z "$existing" ] || fail "Port $FRONTEND is occupied by another process: $(ps -p "$existing" -o command= 2>/dev/null)"
 nohup bun "$ROOT/node_modules/vite/bin/vite.js" >"$RUN/logs/frontend.log" 2>&1 </dev/null &
 pid=$!
 printf '%s\n' "$pid" >"$RUN/frontend.pid"

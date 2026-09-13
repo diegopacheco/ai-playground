@@ -1,0 +1,14 @@
+{
+  "name": "wizards-gambit-macos",
+  "productName": "Wizards Gambit",
+  "version": "1.0.0",
+  "private": true,
+  "main": "app/main.cjs",
+  "scripts": {
+    "test": "npx playwright test --config playwright.config.ts"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "electron": "44.3.0"
+  }
+}

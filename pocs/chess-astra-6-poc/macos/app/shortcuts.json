@@ -1,0 +1,68 @@
+[
+  {
+    "title": "Search & Help",
+    "color": "#6d4fb0",
+    "icon": "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm9 16-4-4",
+    "items": [
+      { "keys": ["⌘", "K"], "label": "Search anything and go there" },
+      { "keys": ["⌘", "/"], "label": "Show keyboard shortcuts" },
+      { "keys": ["↑", "↓"], "label": "Move through search results" },
+      { "keys": ["↩"], "label": "Go to the selected result" },
+      { "keys": ["Esc"], "label": "Clear the search, then close" }
+    ]
+  },
+  {
+    "title": "Rooms",
+    "color": "#2f7a5b",
+    "icon": "M4 20V9l8-5 8 5v11M9 20v-6h6v6",
+    "items": [
+      { "keys": ["⌘", "1"], "label": "The Library" },
+      { "keys": ["⌘", "2"], "label": "The Great Hall" },
+      { "keys": ["⌘", "3"], "label": "Dumbledore’s Office" }
+    ]
+  },
+  {
+    "title": "View",
+    "color": "#2f5d9a",
+    "icon": "M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zm10-3a3 3 0 1 0 0 6 3 3 0 0 0 0-6z",
+    "items": [
+      { "keys": ["⌘", "+"], "label": "Zoom in" },
+      { "keys": ["⌘", "−"], "label": "Zoom out" },
+      { "keys": ["⌘", "0"], "label": "Actual size" },
+      { "keys": ["⌘", "⇧", "↩"], "label": "Toggle full screen" },
+      { "keys": ["Double-click", "title bar"], "label": "Fill the screen, then restore" }
+    ]
+  },
+  {
+    "title": "Edit",
+    "color": "#b0691f",
+    "icon": "M4 20h4L19 9l-4-4L4 16v4zm9-13 4 4",
+    "items": [
+      { "keys": ["⌘", "C"], "label": "Copy" },
+      { "keys": ["⌘", "X"], "label": "Cut" },
+      { "keys": ["⌘", "V"], "label": "Paste" },
+      { "keys": ["⌘", "A"], "label": "Select all" },
+      { "keys": ["⌘", "Z"], "label": "Undo typing" },
+      { "keys": ["⌘", "⇧", "Z"], "label": "Redo typing" }
+    ]
+  },
+  {
+    "title": "Capture",
+    "color": "#b5433f",
+    "icon": "M4 8h3l2-3h6l2 3h3v11H4V8zm8 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6z",
+    "items": [
+      { "keys": ["⌘", "P"], "label": "Capture a screen area to the Desktop" }
+    ]
+  },
+  {
+    "title": "App",
+    "color": "#56645c",
+    "icon": "M12 3v9m6.4-5.4a8 8 0 1 1-12.8 0",
+    "items": [
+      { "keys": ["⌘", "M"], "label": "Minimize" },
+      { "keys": ["⌘", "H"], "label": "Hide" },
+      { "keys": ["⌘", "W"], "label": "Close the window and quit" },
+      { "keys": ["⌘", "Q"], "label": "Quit and stop the game server" }
+    ]
+  }
+]

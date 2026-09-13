@@ -150,14 +150,23 @@ test('restored repetition ends the match as a draw', async ({ page }) => {
   await expect(page.locator('#result-winner')).toHaveText('Draw by threefold repetition. No one wins this duel.');
 });
 
-test('stalemate shows a result card so the finished match never looks frozen', async ({ page }) => {
+test('a stuck Guardian skips its turn instead of stalemating, so the winning player keeps playing', async ({ page }) => {
   await seed(page, ['e3', 'a5', 'Qh5', 'Ra6', 'Qxa5', 'h5', 'h4', 'Rah6', 'Qxc7', 'f6', 'Qxd7+', 'Kf7', 'Qxb7', 'Qd3', 'Qxb8', 'Qh7', 'Qxc8', 'Kg6', 'Qe6']);
-  await expect(page.locator('#status-text')).toHaveText('Stalemate. There are no legal moves.');
-  await expect(page.getByRole('heading', { name: 'Stalemate', exact: true })).toBeVisible();
-  await expect(page.locator('#result-new-game')).toBeFocused();
-  await page.locator('#result-new-game').click();
-  await expect(page.locator('#move-count')).toHaveText('0 MOVES');
+  await expect(page.locator('#status-title')).toHaveText('The Guardian skips its turn.');
+  await expect(page.locator('#match-result'), 'stalemate must never end the duel').toBeHidden();
+  await expect(page.locator('#move-count')).toHaveText('20 MOVES');
+  await expect(page.locator('#history')).toContainText('skips');
+  await move(page, 'Ke2');
+  await expect(page.locator('#move-count')).not.toHaveText('20 MOVES', { timeout: 15000 });
   await expect(page.locator('#match-result')).toBeHidden();
+  await expect(page.getByRole('textbox', { name: 'Move notation' })).toBeEnabled({ timeout: 15000 });
+  await page.getByRole('button', { name: 'Take back a turn' }).click();
+  await expect(page.locator('#move-count'), 'taking back returns to your own last decision, past any skipped turns').toHaveText('20 MOVES');
+  await expect(page.locator('#status-title')).toHaveText('The Guardian skips its turn.');
+  await page.getByRole('button', { name: 'Take back a turn' }).click();
+  await expect(page.locator('#move-count')).toHaveText('18 MOVES');
+  await expect(page.getByRole('textbox', { name: 'Move notation' })).toBeEnabled();
+  await expect(page.getByRole('textbox', { name: 'Move notation' })).toBeEnabled();
 });
 
 test('the page stays fixed across desktop, mobile and landscape viewports', async ({ page }) => {

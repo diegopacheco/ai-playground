@@ -21,7 +21,8 @@ A playable, wizard-inspired 3D chess game for one human against a local CPU. Cho
 - The **fullscreen button** beside the camera and sound controls expands the board and sidebar together; use it again or press Escape to exit.
 - Three CPU levels use a background worker so the board stays responsive during search.
 - Checkmate displays a prominent result card over the board, identifies the winner, and offers an immediate **New game** button. It also appears when reopening a finished match and works in fullscreen and on mobile.
-- Full legal chess includes castling, en passant, promotion choices, checkmate, stalemate, and automatic draws.
+- Legal chess includes castling, en passant, promotion choices, checkmate, and automatic draws by repetition, the fifty-move rule, and insufficient material.
+- **There is no stalemate.** A side that is not in check but has no legal move skips its turn, and the other side moves again, so a winning player can always go on to checkmate. Skips appear as “skips” in the chronicle and are saved with the match. Only if neither side can move does the game end as a draw.
 - Click pieces and destinations, or enter coordinate moves and standard algebraic notation with a keyboard.
 - Orbit, zoom, rotate the board, or switch to an overhead camera. Near-side room walls cut away when the camera moves behind them so they do not obscure the board.
 - Undo a human/CPU turn, start a fresh match, and restore the current match after a reload.
@@ -41,7 +42,7 @@ A playable, wizard-inspired 3D chess game for one human against a local CPU. Cho
 6. Captures trigger the defeated piece’s magical exit, including en passant captures.
 7. The Guardian searches the position in a Web Worker and returns its chosen move.
 8. The browser saves the complete move history, challenge level, piece color, piece style, and background after each change.
-9. Checkmate shows the winner and a New game button over the board. Restart immediately, or undo to revisit the position; stalemates and draws show the same card with the reason, so a finished match never looks frozen.
+9. Checkmate shows the winner and a New game button over the board. Restart immediately, or undo to revisit the position; draws show the same card with the reason, so a finished match never looks frozen.
 
 ## Architecture
 
@@ -91,6 +92,32 @@ bun run preview
 
 Stop the development server before starting preview, since both use the configured port. The `dist/` directory can be served by a static host at its root. The current bundle is approximately 174 KB gzipped plus a 38 KB CPU worker before compression. Vite reports its normal 500 KB uncompressed chunk advisory because the main bundle includes the Three.js renderer.
 
+## macOS app
+
+`macos/` wraps the game in an Electron app named **Wizards Gambit**. It is a launcher for this project folder: opening it runs `scripts/start-all.sh` and shows each service booting (Bun runtime, dependencies, game server, game), then loads the game. Quitting with ⌘Q, closing the window, or quitting from the Dock runs `scripts/stop-all.sh`. If the port is held by this project’s own Vite server, start-all adopts it; any other process on the port shows its command on the boot screen with Try again and Quit buttons.
+
+```bash
+./scripts/install-macos.sh
+./scripts/uninstall-macos.sh
+```
+
+`install-macos.sh` always uninstalls first, so only one copy exists: it quits a running app (which stops the server), removes every bundle with the id `com.diegopacheco.wizardsgambit`, then installs Electron, renders the rounded icon from `public/logo.svg`, packages the app, and installs it at `/Applications/Wizards Gambit.app`. The install records this folder’s path and your shell `PATH`, so move the project or change your Bun install and you need to reinstall. After any change under `macos/`, run `./scripts/install-macos.sh` again instead of copying files over the app.
+
+- One window, one instance: opening it again focuses the running app.
+- Light theme, a draggable title bar, resizable window, and the last position, size, and full screen state restored on the next launch. Double-clicking the title bar fills the screen and restores the previous bounds.
+- ⌘K searches the game’s controls, challenge levels, piece colors and styles, and rooms; ↩ goes there. ⌘/ lists every shortcut grouped by area, with a filter, match count, and Esc to clear then close.
+- ⌘1–⌘3 switch rooms, ⌘+ ⌘− ⌘0 zoom, ⌘⇧↩ toggles full screen, ⌘P captures a screen area to the Desktop like ⌘⇧4, and ⌘C ⌘X ⌘V work in the move field.
+
+| Boot | Search | Shortcuts |
+|---|---|---|
+| ![Boot screen starting services](printscreens/macos-boot.png) | ![Search palette](printscreens/macos-search.png) | ![Keyboard shortcuts](printscreens/macos-shortcuts.png) |
+
+App tests launch the installed app with Playwright and a throwaway profile. They cover start-all on launch and stop-all on quit, single instance, search, the shortcut sheet, window memory, title-bar double-click, full screen restore, and cut and paste. They start and stop the same game server, so quit the app before running them:
+
+```bash
+cd macos && npm test
+```
+
 ## Tests
 
 ```bash
@@ -117,7 +144,7 @@ TypeScript validation passed
 Production build passed
 ```
 
-Engine tests cover legal CPU replies at all levels, mate selection, terminal positions, budget fallback, search state preservation, repetition restoration, castling, en passant, underpromotion, and invalid saved moves. Browser tests cover a complete human/CPU turn, 3D board clicks, camera controls, audio toggling, save/restore, invalid input, restart confirmation, capture effects, checkmate, the guide, mobile layout, reduced motion, corrupt storage, WebGL fallback, promotion, interrupted turns, repetition draws, page overflow at eight desktop/mobile/landscape sizes, the sequencer panel’s show, hide-on-play, and unload-on-mute behavior, capture and checkmate sound timing, stalemate results, all eight piece colors, piece styles and backgrounds that persist without disturbing the match, the library fire starting and stopping with sound and room changes, preference persistence during a match, fullscreen play with the restart dialog, live player/CPU checkmates, and restarting from the result card on mobile and in fullscreen. Phone tests emulate an iPhone with real touch events: tapping squares with finger jitter, swiping to orbit without selecting, 16px form fields, thumb-sized controls, reachable settings, and the landscape layout.
+Engine tests cover legal CPU replies at all levels, mate selection, terminal positions, budget fallback, search state preservation, repetition restoration, castling, en passant, underpromotion, invalid saved moves, and skipped turns: a stuck side passes only when not in check, skips replay from saved history, and the Guardian searches through skips instead of scoring them as draws. Browser tests cover a complete human/CPU turn, 3D board clicks, camera controls, audio toggling, save/restore, invalid input, restart confirmation, capture effects, checkmate, the guide, mobile layout, reduced motion, corrupt storage, WebGL fallback, promotion, interrupted turns, repetition draws, page overflow at eight desktop/mobile/landscape sizes, the sequencer panel’s show, hide-on-play, and unload-on-mute behavior, capture and checkmate sound timing, a stuck Guardian skipping its turn while the match continues and take-back stepping past skips, all eight piece colors, piece styles and backgrounds that persist without disturbing the match, the library fire starting and stopping with sound and room changes, preference persistence during a match, fullscreen play with the restart dialog, live player/CPU checkmates, and restarting from the result card on mobile and in fullscreen. Phone tests emulate an iPhone with real touch events: tapping squares with finger jitter, swiping to orbit without selecting, 16px form fields, thumb-sized controls, reachable settings, and the landscape layout.
 
 ## Contracts / APIs
 
@@ -129,6 +156,7 @@ There are no HTTP application APIs. These are the internal contracts:
 | CPU request | `{ history: string[], difficulty: 'apprentice' \| 'wizard' \| 'grandmaster' }` via `worker.postMessage`. |
 | CPU response | `{ move: { from, to, promotion? } \| null }`, or `{ error: string }`. The controller validates the returned move again. |
 | Saved match | Local storage key `wizards-gambit-v1` stores `{ history: string[], difficulty, pieceColor, pieceStyle, background }`, where `pieceColor` is a key of `pieceColors` in `src/scene.ts`, `pieceStyle` a key of `pieceStyles` in `src/pieceStyles.ts`, and `background` one of `'library' \| 'greatHall' \| 'office'`. Missing or invalid values default to white, classic, and library. |
+| Skipped turn | `skipStuckTurn(game)` plays chess.js’s null move `--` when the side to move is not in check and has no legal move, as long as the other side can then move. Saved histories contain `--`. |
 | Search | `chooseMove(game, difficulty, budget = 1400)` returns a legal move or `null` when the match is over, preserving the supplied game state. |
 | Scene update | `ChessScene.sync(game, move?)` mirrors the legal position and animates the latest move or capture. |
 
@@ -274,11 +302,13 @@ All scripts live in `scripts/` and run from any directory of the repository.
 | Script | What it does |
 |---|---|
 | `./scripts/setup.sh` | Installs locked dependencies and Playwright Chromium. |
-| `./scripts/start-all.sh` | Starts Vite in the background and checks HTTP readiness for up to 30 seconds. |
+| `./scripts/start-all.sh` | Starts Vite in the background and checks HTTP readiness for up to 30 seconds. If this project’s own Vite already holds the port without a PID file, it adopts that process. |
 | `./scripts/status.sh` | Shows the frontend’s port, UP/DOWN state, and listening PID; reporting DOWN is a successful status query. |
 | `./scripts/test-all.sh` | Runs engine tests, type validation, production build, and browser tests. |
 | `./scripts/ui.sh` | Opens the running frontend with the platform browser opener. |
-| `./scripts/stop-all.sh` | Stops only the Vite process recorded and owned by this project, waiting up to 30 seconds. |
+| `./scripts/stop-all.sh` | Stops only the Vite process recorded and owned by this project, waiting up to 30 seconds. The macOS app runs it on quit. |
+| `./scripts/install-macos.sh` | Uninstalls any existing copy, then builds and installs `/Applications/Wizards Gambit.app`. |
+| `./scripts/uninstall-macos.sh` | Quits the app (stopping the game server) and removes every installed copy and build output. |
 | `./scripts/common.sh` | Resolves paths, loads the port, and provides process ownership helpers. |
 
 Ports are declared in `scripts/ports.env`. PID files and logs are stored in `.run/`; the frontend log is `.run/logs/frontend.log`. Start and stop are safe to repeat. An occupied port belonging to another process produces an error and is never forcibly cleared. There is no SQL console because this app has no database.

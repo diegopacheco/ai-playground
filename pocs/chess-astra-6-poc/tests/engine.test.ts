@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { Chess } from 'chess.js';
-import { chooseMove, restoreGame, type Difficulty } from '../src/engine';
+import { chooseMove, restoreGame, skipStuckTurn, type Difficulty } from '../src/engine';
 
 describe('Guardian search', () => {
   for (const difficulty of ['apprentice', 'wizard', 'grandmaster'] as Difficulty[]) {
@@ -63,5 +63,47 @@ describe('rules and persisted match', () => {
   });
   test('corrupt saved moves fail loudly', () => {
     expect(() => restoreGame(['e4', 'invalid'])).toThrow();
+  });
+});
+
+describe('no stalemate: a stuck side skips its turn', () => {
+  const beforeStalemate = 'k7/2B5/2K5/6p1/6N1/pP6/P1P5/8 w - - 0 59';
+
+  test('a side with no legal move and no check passes, so a winning player keeps playing instead of drawing', () => {
+    const game = new Chess(beforeStalemate);
+    game.move('Kb6');
+    expect(skipStuckTurn(game)).toBe(true);
+    expect(game.turn()).toBe('w');
+    expect(game.isGameOver()).toBe(false);
+    expect(game.history()).toEqual(['Kb6', '--']);
+    game.move('Kb5');
+    expect(game.moves().length).toBeGreaterThan(0);
+  });
+
+  test('a side that can move or is in check never skips', () => {
+    const open = restoreGame(['e4']);
+    expect(skipStuckTurn(open)).toBe(false);
+    expect(open.history()).toEqual(['e4']);
+    const checked = new Chess('4k3/8/8/8/8/8/8/4R2K b - - 0 1');
+    expect(skipStuckTurn(checked)).toBe(false);
+  });
+
+  test('skips survive a save and reload because they replay from the history', () => {
+    const played = restoreGame(['e3', 'a5', 'Qh5', 'Ra6', 'Qxa5', 'h5', 'h4', 'Rah6', 'Qxc7', 'f6', 'Qxd7+', 'Kf7', 'Qxb7', 'Qd3', 'Qxb8', 'Qh7', 'Qxc8', 'Kg6', 'Qe6']);
+    expect(skipStuckTurn(played)).toBe(true);
+    played.move('Ke2');
+    const restored = restoreGame(played.history());
+    expect(restored.fen()).toBe(played.fen());
+    expect(restored.history().filter(move => move === '--')).toHaveLength(played.history().filter(move => move === '--').length);
+  });
+
+  test('the Guardian does not score a stuck opponent as a draw when it is losing', () => {
+    const game = new Chess('k7/2B5/2K5/6p1/6N1/pP6/P1P5/8 w - - 0 59');
+    const fen = game.fen();
+    const move = chooseMove(game, 'grandmaster');
+    expect(game.fen()).toBe(fen);
+    expect(() => game.move(move!)).not.toThrow();
+    const stuck = new Chess('k7/2B5/1K6/6p1/6N1/pP6/P1P5/8 b - - 0 60');
+    expect(chooseMove(stuck, 'wizard')).toBeNull();
   });
 });

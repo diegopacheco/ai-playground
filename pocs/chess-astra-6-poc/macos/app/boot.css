@@ -1,0 +1,164 @@
+:root {
+  color-scheme: light;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  color: #263f35;
+  background: #f7f5ef;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.boot {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 72px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.crest {
+  width: 72px;
+  height: 72px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2.4px;
+  color: #7d866f;
+}
+
+h1 {
+  margin: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 34px;
+}
+
+#dots {
+  animation: pulse 1.2s infinite;
+}
+
+.services {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  width: min(520px, 100%);
+  display: grid;
+  gap: 8px;
+}
+
+.services li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: #fffefa;
+  border: 1px solid #e3e3d8;
+  border-radius: 10px;
+}
+
+.services strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.services small {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  color: #7b8177;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 420px;
+}
+
+.state {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #d6d9cc;
+  box-sizing: border-box;
+}
+
+[data-status="loading"] .state {
+  border-color: #ac8d53;
+  border-right-color: transparent;
+  animation: spin .8s linear infinite;
+}
+
+[data-status="ready"] .state {
+  border-color: #3f7a55;
+  background: #3f7a55;
+  box-shadow: inset 0 0 0 3px #fffefa;
+}
+
+[data-status="failed"] .state {
+  border-color: #b5433f;
+  background: #b5433f;
+}
+
+[data-status="failed"] small {
+  color: #b5433f;
+}
+
+.log {
+  width: min(520px, 100%);
+  box-sizing: border-box;
+  flex: 1;
+  min-height: 60px;
+  margin: 0;
+  padding: 10px 12px;
+  overflow: auto;
+  font: 11px/1.6 ui-monospace, Menlo, monospace;
+  color: #65745c;
+  background: #f0f2e7;
+  border-radius: 8px;
+  white-space: pre-wrap;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions[hidden] {
+  display: none;
+}
+
+button {
+  font: inherit;
+  font-size: 13px;
+  padding: 9px 18px;
+  border-radius: 7px;
+  border: 1px solid #244e40;
+  background: #244e40;
+  color: #f5f1df;
+  cursor: pointer;
+}
+
+button.quiet {
+  background: transparent;
+  color: #244e40;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .3;
+  }
+}

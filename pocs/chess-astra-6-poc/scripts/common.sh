@@ -8,11 +8,17 @@ mkdir -p "$RUN/logs"
 fail() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 require() { command -v "$1" >/dev/null 2>&1 || fail "$1 is required"; }
 port_pid() { lsof -tiTCP:"$FRONTEND" -sTCP:LISTEN 2>/dev/null | head -1 || true; }
+project_vite() {
+  local command cwd
+  command="$(ps -p "$1" -o command= 2>/dev/null)" || return 1
+  cwd="$(lsof -a -p "$1" -d cwd -Fn 2>/dev/null | sed -n 's/^n//p')"
+  case "$command" in *vite*) [ "$cwd" = "$ROOT" ] ;; *) return 1 ;; esac
+}
 owned_pid() {
   [ -f "$RUN/frontend.pid" ] || return 1
-  local pid command
+  local pid
   pid="$(cat "$RUN/frontend.pid")"
   kill -0 "$pid" 2>/dev/null || return 1
-  command="$(ps -p "$pid" -o command=)"
-  case "$command" in *"$ROOT/node_modules/vite/bin/vite.js"*) printf '%s\n' "$pid" ;; *) return 1 ;; esac
+  project_vite "$pid" || return 1
+  printf '%s\n' "$pid"
 }

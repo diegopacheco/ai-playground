@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self'; script-src 'self'" />
+  <title>Wizards Gambit</title>
+  <link rel="stylesheet" href="boot.css" />
+</head>
+<body>
+  <main class="boot">
+    <img class="crest" src="logo.svg" alt="" />
+    <p class="eyebrow">THE WIZARD’S GAMBIT</p>
+    <h1>Opening the castle gates<span id="dots">…</span></h1>
+    <ul class="services" id="services" aria-live="polite">
+      <li data-id="runtime" data-status="waiting"><span class="state"></span><div><strong>Bun runtime</strong><small>Waiting</small></div></li>
+      <li data-id="dependencies" data-status="waiting"><span class="state"></span><div><strong>Dependencies</strong><small>Waiting</small></div></li>
+      <li data-id="frontend" data-status="waiting"><span class="state"></span><div><strong>Game server · scripts/start-all.sh</strong><small>Waiting</small></div></li>
+      <li data-id="game" data-status="waiting"><span class="state"></span><div><strong>The Wizard’s Gambit</strong><small>Waiting</small></div></li>
+    </ul>
+    <pre class="log" id="log"></pre>
+    <div class="actions" id="actions" hidden>
+      <button id="quit" class="quiet">Quit</button>
+      <button id="retry">Try again</button>
+    </div>
+  </main>
+  <script src="boot.js"></script>
+</body>
+</html>

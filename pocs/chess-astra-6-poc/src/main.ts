@@ -2,7 +2,7 @@ import './style.css';
 import { GameAudio } from './audio';
 import { Chess, type Square, type Move } from 'chess.js';
 import { ChessScene, pieceColors, type PieceColor } from './scene';
-import { restoreGame, type Difficulty, type SearchReply } from './engine';
+import { restoreGame, skipStuckTurn, type Difficulty, type SearchReply } from './engine';
 import { backgrounds, type Background } from './rooms';
 import { pieceStyles, type PieceStyle } from './pieceStyles';
 
@@ -55,7 +55,7 @@ app.innerHTML = `
     </div>
     <footer><span>CRAFTED FOR THE LOVE OF THE GAME.</span><span class="footer-center">Strategy is the real magic.</span><span>HUMAN <span class="footer-cross">×</span> CPU</span></footer>
   </main>
-  <dialog id="guide"><button class="dialog-close" aria-label="Close guide">×</button><div class="eyebrow">A SHORT SPELLBOOK</div><h2>The rules of the realm.</h2><p>Choose a color and a material for your pieces, and the room you play in: the Library, the Great Hall, or Dumbledore’s Office. The Guardian uses a contrasting color. You always move first; these choices only change appearance. Tap the speaker to play Hedwig’s Theme along with move, capture, and checkmate sounds, and a crackling fire in the Library.</p><ol><li>Select one of your pieces, then a golden ring to move. Drag the board to look around.</li><li>Protect your king and put the opposing king in checkmate. Legal moves, castling, and en passant are handled for you.</li><li>When a pawn reaches the far rank, choose its new piece. A check must be answered immediately.</li><li>Use the Move field with coordinates such as <strong>e2e4</strong>, or chess notation such as <strong>Nf3</strong>. Add q, r, b, or n for promotion.</li><li>Take back a turn to try another idea. Your match saves automatically in this browser when storage is available.</li></ol><p class="dialog-note">Apprentice searches 1 ply, Wizard 2, and Grandmaster up to 3 within a 1.4-second budget. This is a casual opponent, with no rating claim.</p><button class="primary-button dialog-done">Let the game begin ${icon('arrow')}</button></dialog>
+  <dialog id="guide"><button class="dialog-close" aria-label="Close guide">×</button><div class="eyebrow">A SHORT SPELLBOOK</div><h2>The rules of the realm.</h2><p>Choose a color and a material for your pieces, and the room you play in: the Library, the Great Hall, or Dumbledore’s Office. The Guardian uses a contrasting color. You always move first; these choices only change appearance. Tap the speaker to play Hedwig’s Theme along with move, capture, and checkmate sounds, and a crackling fire in the Library.</p><ol><li>Select one of your pieces, then a golden ring to move. Drag the board to look around.</li><li>Protect your king and put the opposing king in checkmate. Legal moves, castling, and en passant are handled for you.</li><li>When a pawn reaches the far rank, choose its new piece. A check must be answered immediately.</li><li>There is no stalemate. A side that is not in check but has no legal move skips its turn, and the other side moves again.</li><li>Use the Move field with coordinates such as <strong>e2e4</strong>, or chess notation such as <strong>Nf3</strong>. Add q, r, b, or n for promotion.</li><li>Take back a turn to try another idea. Your match saves automatically in this browser when storage is available.</li></ol><p class="dialog-note">Apprentice searches 1 ply, Wizard 2, and Grandmaster up to 3 within a 1.4-second budget. This is a casual opponent, with no rating claim.</p><button class="primary-button dialog-done">Let the game begin ${icon('arrow')}</button></dialog>
   <dialog id="restart"><div class="eyebrow">A FRESH CHAPTER</div><h2>Begin a new game?</h2><p>Your current match will be replaced.</p><div class="dialog-actions"><button class="quiet-button" id="cancel-restart">Keep playing</button><button class="primary-button" id="confirm-restart">New game</button></div></dialog>
   <dialog id="promotion"><div class="eyebrow">A LITTLE TRANSFORMATION</div><h2>Choose your new piece.</h2><div class="promotion-options"><button data-piece="q">♕<span>Queen</span></button><button data-piece="r">♖<span>Rook</span></button><button data-piece="b">♗<span>Bishop</span></button><button data-piece="n">♘<span>Knight</span></button></div></dialog>
 `;
@@ -79,6 +79,7 @@ try {
   const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
   if (saved && Array.isArray(saved.history) && saved.history.every((move: unknown) => typeof move === 'string')) {
     game = restoreGame(saved.history);
+    skipStuckTurn(game);
     if (['apprentice', 'wizard', 'grandmaster'].includes(saved.difficulty)) difficulty = saved.difficulty;
     if (Object.hasOwn(pieceColors, saved.pieceColor)) pieceColor = saved.pieceColor;
     if (Object.hasOwn(pieceStyles, saved.pieceStyle)) pieceStyle = saved.pieceStyle;
@@ -100,16 +101,17 @@ function playSound(move: Move) {
   catch { report('Sound is unavailable.', 'You can continue your match without sound.'); }
 }
 function highlights() {
-  const last = game.history({ verbose: true }).at(-1);
+  const last = game.history({ verbose: true }).filter(move => move.san !== '--').at(-1);
   scene?.highlight(selected, selected ? game.moves({ square: selected, verbose: true }).map(move => move.to) : [], last ? [last.from, last.to] : []);
 }
+function notation(san: string) { return san === '--' ? '<i>skips</i>' : san; }
 function render(move?: Move, sync = true) {
   if (sync) scene?.sync(game, move);
   highlights();
   const history = game.history();
   $('move-count').textContent = `${history.length} ${history.length === 1 ? 'MOVE' : 'MOVES'}`;
   if (history.length) {
-    $('history').innerHTML = Array.from({ length: Math.ceil(history.length / 2) }, (_, i) => `<div class="history-row"><span>${String(i + 1).padStart(2, '0')}</span><span>${history[i * 2]}</span><span>${history[i * 2 + 1] || '<i>···</i>'}</span></div>`).join('');
+    $('history').innerHTML = Array.from({ length: Math.ceil(history.length / 2) }, (_, i) => `<div class="history-row"><span>${String(i + 1).padStart(2, '0')}</span><span>${notation(history[i * 2])}</span><span>${history[i * 2 + 1] ? notation(history[i * 2 + 1]) : '<i>···</i>'}</span></div>`).join('');
     $('history').scrollTop = $('history').scrollHeight;
   } else $('history').innerHTML = '<div class="empty-history"><span>♙</span><p>Every great story<br>begins with a bold move.</p><small>Your first chapter awaits.</small></div>';
   $<HTMLButtonElement>('undo').disabled = history.length === 0;
@@ -117,17 +119,22 @@ function render(move?: Move, sync = true) {
   let title = 'The board is yours.';
   let text = 'Select one of your pieces to see its possibilities.';
   let turn = 'Your move, wizard.';
+  const skipped = history.at(-1) === '--';
+  if (skipped) {
+    title = game.turn() === 'w' ? 'The Guardian skips its turn.' : 'You skip this turn.';
+    text = game.turn() === 'w' ? 'It has no legal move and is not in check, so you move again.' : 'You have no legal move and are not in check, so the Guardian moves again.';
+  }
   if (game.isCheckmate()) {
     title = game.turn() === 'b' ? 'A magical victory.' : 'The Guardian prevails.';
     text = 'Checkmate. A fine chapter comes to a close.';
     turn = 'Checkmate';
   } else if (game.isDraw()) {
     title = 'An evenly matched duel.';
-    text = game.isStalemate() ? 'Stalemate. There are no legal moves.' : game.isThreefoldRepetition() ? 'Draw by threefold repetition.' : game.isInsufficientMaterial() ? 'Draw: insufficient material to checkmate.' : 'Draw by the fifty-move rule.';
+    text = game.isStalemate() ? 'Neither side has a legal move.' : game.isThreefoldRepetition() ? 'Draw by threefold repetition.' : game.isInsufficientMaterial() ? 'Draw: insufficient material to checkmate.' : 'Draw by the fifty-move rule.';
     turn = 'Match drawn';
   } else if (thinking) {
     title = 'An ancient mind at work.';
-    text = game.isCheck() ? 'The Guardian is finding a way out of check.' : 'The Guardian is considering its next move…';
+    text = skipped ? 'You have no legal move and are not in check, so the Guardian moves again.' : game.isCheck() ? 'The Guardian is finding a way out of check.' : 'The Guardian is considering its next move…';
     turn = 'The Guardian is thinking…';
   } else if (game.isCheck()) {
     title = 'Your king needs you.';
@@ -136,7 +143,7 @@ function render(move?: Move, sync = true) {
   }
   const result = $('match-result');
   const wasHidden = result.hidden;
-  $('result-title').textContent = game.isCheckmate() ? 'Checkmate' : game.isStalemate() ? 'Stalemate' : 'Draw';
+  $('result-title').textContent = game.isCheckmate() ? 'Checkmate' : 'Draw';
   $('result-winner').textContent = game.isCheckmate() ? game.turn() === 'b' ? 'You win. The Castle Guardian is defeated.' : 'The Castle Guardian wins. Try another duel.' : `${text} No one wins this duel.`;
   result.hidden = !game.isGameOver();
   if (wasHidden && !result.hidden) $('result-new-game').focus({ preventScroll: true });
@@ -156,9 +163,11 @@ function requestCPU() {
       if (data.error || !data.move) { render(); report('The Guardian lost its train of thought.', data.error || 'Take back the turn and try again.'); return; }
       try {
         const move = game.move(data.move);
+        const skipped = skipStuckTurn(game);
         selected = null;
         render(move);
         playSound(move);
+        if (skipped) cpuTimer = window.setTimeout(() => { if (!thinking) requestCPU(); }, 560);
       } catch { render(); report('The Guardian could not move.', 'Take back the turn and try again.'); }
     };
     worker.onerror = () => { cancelCPU(); render(); report('The Guardian is unavailable.', 'Take back the turn or start a new game.'); };
@@ -169,6 +178,7 @@ function makeMove(input: string | { from: string; to: string; promotion?: string
   if (thinking || game.turn() !== 'w' || game.isGameOver()) return;
   try {
     const move = game.move(input);
+    skipStuckTurn(game);
     selected = null;
     render(move);
     playSound(move);
@@ -224,8 +234,9 @@ $('move-form').addEventListener('submit', event => {
 $('undo').onclick = () => {
   cancelCPU();
   if (game.history().length) {
-    game.undo();
-    if (game.turn() === 'b') game.undo();
+    let undone;
+    do undone = game.undo();
+    while (undone && (undone.color === 'b' || undone.san === '--'));
   }
   selected = null;
   render();
