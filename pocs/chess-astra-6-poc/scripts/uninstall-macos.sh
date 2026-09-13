@@ -3,6 +3,7 @@ set -euo pipefail
 MACOS="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/macos"
 APP_NAME="Wizards Gambit"
 BUNDLE_ID="com.diegopacheco.wizardsgambit"
+LSREGISTER="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
 
 running() { pgrep -x "$APP_NAME" >/dev/null 2>&1; }
 
@@ -26,6 +27,7 @@ done < <(mdfind "kMDItemCFBundleIdentifier == '$BUNDLE_ID'" 2>/dev/null || true)
 
 for bundle in "${installed[@]}"; do
   if [ -d "$bundle" ]; then
+    "$LSREGISTER" -u "$bundle" >/dev/null 2>&1 || true
     rm -rf "$bundle"
     printf 'Removed %s\n' "$bundle"
   fi
