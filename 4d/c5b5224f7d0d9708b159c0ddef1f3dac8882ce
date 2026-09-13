@@ -1,0 +1,21 @@
+pocs/chess-astra-6-poc/scripts/install-macos.sh
+  s_d44d025b79b9a0::t_71e10aea3b745a 21-23,32,37
+pocs/chess-astra-6-poc/scripts/uninstall-macos.sh
+  s_d44d025b79b9a0::t_71e10aea3b745a 6,30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "4dc5b5224f7d0d9708b159c0ddef1f3dac8882ce",
+  "prompts": {},
+  "sessions": {
+    "s_d44d025b79b9a0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8a967636-9ff9-40f2-867f-7cd7a44c4c27",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
