@@ -51,7 +51,7 @@ function map(name: keyof typeof painters) {
 }
 
 const looks: Record<PieceStyle, () => THREE.MeshPhysicalMaterialParameters> = {
-  classic: () => ({ metalness: 0.25, roughness: 0.3 }),
+  classic: () => ({ metalness: 0.25, roughness: 0.32, clearcoat: 0.6, clearcoatRoughness: 0.2, envMapIntensity: 0.22 }),
   marble: () => ({ map: map('marble'), roughness: 0.14, clearcoat: 0.8, envMapIntensity: 0.6 }),
   wood: () => ({ map: map('wood'), roughness: 0.62, clearcoat: 0.2, envMapIntensity: 0.2 }),
   steel: () => ({ metalness: 1, roughness: 0.22, envMapIntensity: 1.3 }),

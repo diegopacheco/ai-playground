@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, devices, type Page } from '@playwright/test';
 
 async function move(page: Page, notation: string) {
   const input = page.getByRole('textbox', { name: 'Move notation' });
@@ -384,4 +384,77 @@ test('the fireplace crackles only while sound is on in the library', async ({ pa
   await expect.poll(playing).toBe(1);
   await page.getByRole('button', { name: 'Mute library music and sound' }).click();
   await expect.poll(playing).toBe(0);
+});
+
+async function touch(page: Page, path: { x: number; y: number }[]) {
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [path[0]] });
+  for (const point of path.slice(1)) await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [point] });
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+}
+
+async function overheadSquare(page: Page, file: number, rank: number) {
+  const rect = (await page.locator('#scene canvas').boundingBox())!;
+  const zoom = Math.min(Math.min(1.45, Math.max(1, 560 / rect.height)), rect.width / rect.height / 1.05);
+  const scale = rect.height * zoom / (2 * Math.tan(37 * Math.PI / 360) * 22.78);
+  return { x: rect.x + rect.width / 2 + (file - 3.5) * scale, y: rect.y + rect.height / 2 + (3.5 - rank) * scale };
+}
+
+test.describe('on a phone browser', () => {
+  const { defaultBrowserType, ...iPhone } = devices['iPhone 13'];
+  test.use(iPhone);
+
+  test('the board is big enough to tap, taps survive finger jitter, and a swipe orbits instead of moving', async ({ page }) => {
+    await page.goto('/');
+    const canvas = (await page.locator('#scene canvas').boundingBox())!;
+    expect(canvas.height / page.viewportSize()!.height, 'the board must dominate a phone screen so squares are tappable').toBeGreaterThan(0.36);
+    await page.getByRole('button', { name: 'Switch to overhead view' }).tap();
+    const e2 = await overheadSquare(page, 4, 1);
+    await touch(page, [e2, { x: e2.x + 7, y: e2.y + 7 }]);
+    await expect(page.locator('#status-title'), 'a finger never lands perfectly still').toHaveText('Pawn on e2.');
+    await touch(page, [await overheadSquare(page, 4, 3)]);
+    await expect(page.locator('#move-count')).toHaveText('2 MOVES', { timeout: 15000 });
+    const d2 = await overheadSquare(page, 3, 1);
+    await touch(page, [d2, { x: d2.x + 20, y: d2.y }, { x: d2.x + 45, y: d2.y }]);
+    await expect(page.locator('#status-title'), 'orbiting the camera must not select a piece').toHaveText('The board is yours.');
+    await expect(page.locator('#move-count')).toHaveText('2 MOVES');
+  });
+
+  test('controls are thumb-sized, never trigger iOS focus zoom, and every setting is reachable', async ({ page }) => {
+    await page.goto('/');
+    const sizes = await page.evaluate(() => [...document.querySelectorAll<HTMLElement>('input:not([type=radio]), select')].map(element => parseFloat(getComputedStyle(element).fontSize)));
+    expect(Math.min(...sizes), 'iOS Safari zooms the page when a field under 16px gets focus').toBeGreaterThanOrEqual(16);
+    for (const button of await page.locator('.camera-actions button').all()) expect((await button.boundingBox())!.width).toBeGreaterThanOrEqual(36);
+    await expect(page.locator('.hint-touch')).toBeVisible();
+    await expect(page.locator('.hint-mouse')).toBeHidden();
+    await page.getByRole('radio', { name: 'Orange', exact: true }).check();
+    await page.getByLabel('PIECE STYLE').selectOption('steel');
+    await page.getByLabel('BACKGROUND').selectOption('office');
+    await expect(page.locator('#room-name')).toHaveText('HOGWARTS · DUMBLEDORE’S OFFICE');
+    await page.locator('#new-game').scrollIntoViewIfNeeded();
+    await expect(page.locator('#new-game')).toBeInViewport();
+    expect(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight && document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.locator('.match-card').evaluate(card => { card.scrollTop = 0; });
+    await page.screenshot({ path: 'printscreens/phone-portrait.png' });
+  });
+});
+
+test.describe('on a phone held sideways', () => {
+  const { defaultBrowserType, ...iPhone } = devices['iPhone 13 landscape'];
+  test.use(iPhone);
+
+  test('the board sits beside the controls instead of shrinking to a strip', async ({ page }) => {
+    await page.goto('/');
+    const arena = (await page.locator('.arena').boundingBox())!;
+    const sidebar = (await page.locator('.sidebar').boundingBox())!;
+    const canvas = (await page.locator('#scene canvas').boundingBox())!;
+    expect(sidebar.x).toBeGreaterThanOrEqual(arena.x + arena.width);
+    expect(canvas.height / page.viewportSize()!.height).toBeGreaterThan(0.6);
+    await expect(page.getByRole('textbox', { name: 'Move notation' })).toBeInViewport();
+    await expect(page.getByRole('button', { name: 'Rotate board' })).toBeInViewport();
+    expect(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight && document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await move(page, 'e4');
+    await expect(page.locator('#move-count')).toHaveText('2 MOVES', { timeout: 15000 });
+    await page.screenshot({ path: 'printscreens/phone-landscape.png' });
+  });
 });

@@ -15,8 +15,8 @@ A playable, wizard-inspired 3D chess game for one human against a local CPU. Cho
   - **Dumbledore’s Office** — a round, portrait-lined room with bookcases, the Sorting Hat, a claw-footed desk with spinning silver instruments, a phoenix on a golden perch, and a glowing Pensieve.
 - Captured pieces rise and spin away as glowing fragments scatter through an expanding golden ring, with a falling magical swish and sparkle.
 - On checkmate the defeated king trembles, topples onto its side, and shatters into crimson fragments while a low toll, an impact thud timed to the fall, and a descending chime play.
-- Choose **white, green, brown, black, blue, orange, salmon, or gray** for your army at any time. The CPU uses green against white, and white against the other colors.
-- The **Piece style** selector sets both armies’ material: **Classic, Marble, Wood, Steel, Glass, Plastic, or Stone**. Marble veins, wood grain, and stone speckle are procedural canvas textures tinted by the chosen color; steel and glass reflect a generated room environment, and glass uses real light transmission.
+- Choose **white, green, brown, black, blue, orange, salmon, or gray** for your army at any time. Blue is a deep sapphire, orange a warm amber, and brown a polished rosewood. The CPU uses green against white, and white against the other colors.
+- The **Piece style** selector sets both armies’ material: **Classic, Marble, Wood, Steel, Glass, Plastic, or Stone**. Classic is a lacquered finish with a clear coat and soft reflections. Marble veins, wood grain, and stone speckle are procedural canvas textures tinted by the chosen color; steel and glass reflect a generated room environment, and glass uses real light transmission.
 - Color, style, and background survive reloads, undo, and new games.
 - The **fullscreen button** beside the camera and sound controls expands the board and sidebar together; use it again or press Escape to exit.
 - Three CPU levels use a background worker so the board stays responsive during search.
@@ -27,6 +27,7 @@ A playable, wizard-inspired 3D chess game for one human against a local CPU. Cho
 - Undo a human/CPU turn, start a fresh match, and restore the current match after a reload.
 - The speaker control opens the **Hedwig’s Theme** sequence from Online Sequencer over the board. Press its play button and the panel slides out of view while the music keeps playing, alongside locally synthesized move, capture, and checkmate sounds. In the library, a looping synthesized fire crackle plays too; it stops when you mute or leave the library. Tap the speaker again to mute and unload it. The page address lives in the `music` constant in `src/main.ts`, and music needs an internet connection.
 - The full interface fits the browser viewport. Move history and game panels scroll internally on smaller screens, while the outer page stays fixed.
+- **Phones:** the game plays in mobile browsers by touch. On phone screens the heading and footer give way so the board fills most of the screen, and the camera zooms in on small canvases so squares stay tappable. Held sideways, the board sits beside a stacked sidebar instead of shrinking to a strip. Taps tolerate a little finger movement, a swipe orbits without selecting a piece, and two fingers pinch to zoom. On touch screens, fields use 16px text so iOS Safari does not zoom the page on focus, camera buttons and swatches grow to thumb size, hover tints are disabled, the hint reads “Pinch to zoom”, and rendering resolution is capped at 1.5× to spare phone GPUs.
 - Reduced-motion preferences keep firelight, candles, the phoenix, instruments, and ambient effects still and suppress capture and king-fall animations.
 - A playable flat board appears when WebGL cannot initialize.
 
@@ -116,7 +117,7 @@ TypeScript validation passed
 Production build passed
 ```
 
-Engine tests cover legal CPU replies at all levels, mate selection, terminal positions, budget fallback, search state preservation, repetition restoration, castling, en passant, underpromotion, and invalid saved moves. Browser tests cover a complete human/CPU turn, 3D board clicks, camera controls, audio toggling, save/restore, invalid input, restart confirmation, capture effects, checkmate, the guide, mobile layout, reduced motion, corrupt storage, WebGL fallback, promotion, interrupted turns, repetition draws, page overflow at eight desktop/mobile/landscape sizes, the sequencer panel’s show, hide-on-play, and unload-on-mute behavior, capture and checkmate sound timing, stalemate results, all eight piece colors, piece styles and backgrounds that persist without disturbing the match, the library fire starting and stopping with sound and room changes, preference persistence during a match, fullscreen play with the restart dialog, live player/CPU checkmates, and restarting from the result card on mobile and in fullscreen.
+Engine tests cover legal CPU replies at all levels, mate selection, terminal positions, budget fallback, search state preservation, repetition restoration, castling, en passant, underpromotion, and invalid saved moves. Browser tests cover a complete human/CPU turn, 3D board clicks, camera controls, audio toggling, save/restore, invalid input, restart confirmation, capture effects, checkmate, the guide, mobile layout, reduced motion, corrupt storage, WebGL fallback, promotion, interrupted turns, repetition draws, page overflow at eight desktop/mobile/landscape sizes, the sequencer panel’s show, hide-on-play, and unload-on-mute behavior, capture and checkmate sound timing, stalemate results, all eight piece colors, piece styles and backgrounds that persist without disturbing the match, the library fire starting and stopping with sound and room changes, preference persistence during a match, fullscreen play with the restart dialog, live player/CPU checkmates, and restarting from the result card on mobile and in fullscreen. Phone tests emulate an iPhone with real touch events: tapping squares with finger jitter, swiping to orbit without selecting, 16px form fields, thumb-sized controls, reachable settings, and the landscape layout.
 
 ## Contracts / APIs
 
@@ -205,6 +206,14 @@ The guide explains selection, notation, special moves, persistence, and the CPU�
 The 390 × 844 layout fits the board, opponent controls, chronicle, and status inside one browser viewport. Smaller panels scroll internally; the page does not scroll. Reduced-motion preferences are enabled in this capture.
 
 <img src="printscreens/mobile.png" width="390" alt="The complete mobile chess interface" />
+
+### Phone browser
+
+Portrait gives the board most of the screen; landscape places it beside the controls. Both are played by touch.
+
+<img src="printscreens/phone-portrait.png" width="390" alt="The game on a phone in portrait with a large touch board" />
+
+![The game on a phone held sideways with the board beside the controls](printscreens/phone-landscape.png)
 
 ### Laptop viewport
 

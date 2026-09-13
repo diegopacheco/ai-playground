@@ -6,7 +6,7 @@ import { gold, jade, stone, mesh } from './parts';
 import { buildLibrary, buildGreatHall, buildOffice, type Background } from './rooms';
 import { applyPieceStyle, type PieceStyle } from './pieceStyles';
 
-export const pieceColors = { white: '#f9ecd2', green: '#31574d', brown: '#75472d', black: '#20272a', blue: '#2f5d8a', orange: '#d9772b', salmon: '#e8907a', gray: '#8a8d8f' } as const;
+export const pieceColors = { white: '#f9ecd2', green: '#31574d', brown: '#4b2c1a', black: '#20272a', blue: '#1f3a6e', orange: '#c7772e', salmon: '#e8907a', gray: '#8a8d8f' } as const;
 export type PieceColor = keyof typeof pieceColors;
 
 function cylinder(group: THREE.Group, top: number, bottom: number, height: number, y: number, material: THREE.Material) {
@@ -97,7 +97,7 @@ export class ChessScene {
 
   constructor(private container: HTMLElement, onSquare: (square: Square) => void) {
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio, matchMedia('(pointer: coarse)').matches ? 1.5 : 2));
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.setClearColor('#eee9df', 0);
@@ -158,7 +158,7 @@ export class ChessScene {
     let down = { x: 0, y: 0 };
     this.renderer.domElement.addEventListener('pointerdown', e => { down = { x: e.clientX, y: e.clientY }; });
     this.renderer.domElement.addEventListener('pointerup', e => {
-      if (Math.hypot(e.clientX - down.x, e.clientY - down.y) > 6) return;
+      if (Math.hypot(e.clientX - down.x, e.clientY - down.y) > (e.pointerType === 'touch' ? 14 : 6)) return;
       const rect = this.renderer.domElement.getBoundingClientRect();
       this.pointer.set((e.clientX - rect.left) / rect.width * 2 - 1, -(e.clientY - rect.top) / rect.height * 2 + 1);
       this.raycaster.setFromCamera(this.pointer, this.camera);
@@ -301,7 +301,7 @@ export class ChessScene {
   private resize() {
     const { width, height } = this.container.getBoundingClientRect();
     this.camera.aspect = width / height;
-    this.camera.zoom = Math.min(1, width / height / 1.05);
+    this.camera.zoom = Math.min(Math.min(1.45, Math.max(1, 560 / height)), width / height / 1.05);
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height);
   }
