@@ -42,7 +42,7 @@ test('renders the hall, plays against CPU, saves, undoes and restarts', async ({
 });
 
 test('board can be clicked, rotated, viewed overhead and muted', async ({ page }) => {
-  await page.route(/youtube/, route => route.abort());
+  await page.route(/onlinesequencer/, route => route.abort());
   await page.goto('/');
   await page.getByRole('button', { name: 'Switch to overhead view' }).click();
   await expect(page.getByRole('button', { name: 'Switch to perspective view' })).toBeVisible();
@@ -183,22 +183,29 @@ test('the page stays fixed across desktop, mobile and landscape viewports', asyn
   }
 });
 
-test('hedwig theme plays as hidden background audio from youtube and stops when muted', async ({ page }) => {
-  await page.route(/youtube/, route => route.abort());
+test('the sequencer stays until the player clicks into it, ignores its own focus grab, and unloads when muted', async ({ page }) => {
+  await page.route(/onlinesequencer/, () => {});
   await page.goto('/');
+  const panel = page.locator('#music-panel');
   const player = page.locator('#music-player');
-  await expect(player).toHaveAttribute('aria-hidden', 'true');
+  await expect(panel).toBeHidden();
   await page.getByRole('button', { name: 'Play library music and sound' }).click();
-  await expect(player).not.toBeInViewport();
-  const src = new URL((await player.getAttribute('src'))!);
-  expect(src.pathname).toBe('/embed/GUVOmm1UtzQ');
-  expect(src.searchParams.get('autoplay')).toBe('1');
-  expect(src.searchParams.get('loop')).toBe('1');
-  expect(src.searchParams.get('playlist')).toBe('GUVOmm1UtzQ');
+  await expect(panel).toBeInViewport();
+  await expect(player).toHaveAttribute('src', 'https://onlinesequencer.net/1073884');
+  const focusSequencer = () => page.evaluate(() => { document.getElementById('music-player')!.focus(); window.dispatchEvent(new Event('blur')); });
+  await focusSequencer();
+  await expect(panel).toBeInViewport();
+  await page.locator('#music-player').dispatchEvent('load');
+  await expect(page.locator('#sound')).toBeFocused();
+  await focusSequencer();
+  await expect(panel).not.toBeInViewport();
+  await expect(player).toHaveAttribute('src', 'https://onlinesequencer.net/1073884');
   await expect(page.locator('#music-status')).toHaveText('HEDWIG’S THEME · NOW PLAYING');
   await page.getByRole('button', { name: 'Mute library music and sound' }).click();
+  await expect(panel).toBeHidden();
   await expect(player).toHaveAttribute('src', 'about:blank');
-  await expect(page.locator('#sound')).toHaveAttribute('aria-pressed', 'false');
+  await page.getByRole('button', { name: 'Play library music and sound' }).click();
+  await expect(panel).toBeInViewport();
 });
 
 test('a capture and a fallen king play death sounds timed to their animations', async ({ page }) => {
@@ -217,7 +224,7 @@ test('a capture and a fallen king play death sounds timed to their animations', 
       return source.call(this, when, ...args);
     };
   });
-  await page.route(/youtube/, route => route.abort());
+  await page.route(/onlinesequencer/, route => route.abort());
   await seed(page, ['e4', 'e5', 'Qh5', 'Nc6', 'Bc4', 'Nf6']);
   await page.getByRole('button', { name: 'Play library music and sound' }).click();
   await expect(page.getByRole('button', { name: 'Mute library music and sound' })).toBeVisible();

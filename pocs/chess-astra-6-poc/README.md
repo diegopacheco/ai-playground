@@ -19,7 +19,7 @@ A playable, wizard-inspired 3D chess game for one human against a local CPU. Cho
 - Click pieces and destinations, or enter coordinate moves and standard algebraic notation with a keyboard.
 - Orbit, zoom, rotate the board, or switch to an overhead camera. Near-side library walls cut away when the camera moves behind them so they do not obscure the board.
 - Undo a human/CPU turn, start a fresh match, and restore the current match after a reload.
-- The speaker control plays **Hedwig’s Theme** as background audio from a hidden, looping YouTube player, alongside locally synthesized move, capture, and checkmate sounds. Tap again to mute and unload the player. The video id lives in the `song` constant in `src/main.ts`, and music needs an internet connection.
+- The speaker control opens the **Hedwig’s Theme** sequence from Online Sequencer over the board. Press its play button and the panel slides out of view while the music keeps playing, alongside locally synthesized move, capture, and checkmate sounds. Tap the speaker again to mute and unload it. The page address lives in the `music` constant in `src/main.ts`, and music needs an internet connection.
 - The full interface fits the browser viewport. Move history and game panels scroll internally on smaller screens, while the outer page stays fixed.
 - Reduced-motion preferences keep firelight and ambient effects still and suppress capture and king-fall animations.
 - A playable flat board appears when WebGL cannot initialize.
@@ -110,7 +110,7 @@ TypeScript validation passed
 Production build passed
 ```
 
-Engine tests cover legal CPU replies at all levels, mate selection, terminal positions, budget fallback, search state preservation, repetition restoration, castling, en passant, underpromotion, and invalid saved moves. Browser tests cover a complete human/CPU turn, 3D board clicks, camera controls, audio toggling, save/restore, invalid input, restart confirmation, capture effects, checkmate, the guide, mobile layout, reduced motion, corrupt storage, WebGL fallback, promotion, interrupted turns, repetition draws, page overflow at eight desktop/mobile/landscape sizes, the YouTube player’s looping embed and mute behavior, capture and checkmate sound timing, stalemate results, all four piece colors, preference persistence during a match, fullscreen play with the restart dialog, live player/CPU checkmates, and restarting from the result card on mobile and in fullscreen.
+Engine tests cover legal CPU replies at all levels, mate selection, terminal positions, budget fallback, search state preservation, repetition restoration, castling, en passant, underpromotion, and invalid saved moves. Browser tests cover a complete human/CPU turn, 3D board clicks, camera controls, audio toggling, save/restore, invalid input, restart confirmation, capture effects, checkmate, the guide, mobile layout, reduced motion, corrupt storage, WebGL fallback, promotion, interrupted turns, repetition draws, page overflow at eight desktop/mobile/landscape sizes, the sequencer panel’s show, hide-on-play, and unload-on-mute behavior, capture and checkmate sound timing, stalemate results, all four piece colors, preference persistence during a match, fullscreen play with the restart dialog, live player/CPU checkmates, and restarting from the result card on mobile and in fullscreen.
 
 ## Contracts / APIs
 
@@ -134,7 +134,7 @@ There are no HTTP application APIs. These are the internal contracts:
 - **Square identifiers:** algebraic squares such as `e4` connect chess state, raycast targets, highlights, and 3D coordinates.
 - **Dedicated CPU worker:** iterative deepening with negamax, alpha-beta pruning, material values, move ordering, and simple positional evaluation keeps search isolated from rendering.
 - **Bounded difficulty:** Apprentice searches one ply, Wizard two, Grandmaster up to three within a 1.4-second soft budget. These names are flavor, not chess ratings. The time budget is checked between search operations and is not a hard real-time deadline.
-- **Music and sound effects:** music streams from a hidden YouTube embedded player, which loops the video and is unloaded when muted. `src/audio.ts` synthesizes move, capture, and checkmate sounds with Web Audio oscillators and filtered noise, timing the checkmate impact to the king’s fall.
+- **Music and sound effects:** music plays inside an embedded Online Sequencer page; the game detects the first click into that frame through the window blur event, moves the panel off-screen without unloading it, and unloads it when muted. `src/audio.ts` synthesizes move, capture, and checkmate sounds with Web Audio oscillators and filtered noise, timing the checkmate impact to the king’s fall.
 - **Viewport layout:** a `100dvh` application shell allocates remaining height to the game grid. Explicit minimum sizes and internal overflow keep controls reachable on short screens.
 - **Short-lived effects:** defeated pieces and particles live independently of the updated board until their animation ends, then their geometry and effect materials are released.
 - **Cancellation:** undo, restart, and challenge changes terminate active search; pending CPU timers are also canceled.
