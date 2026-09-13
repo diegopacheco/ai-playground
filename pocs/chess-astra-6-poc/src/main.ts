@@ -27,7 +27,7 @@ app.innerHTML = `
     <div class="game-layout" id="game-layout">
       <section class="arena" aria-label="Chess table">
         <div class="arena-top"><span class="room-label"><span class="live-dot"></span> HOGWARTS · THE LIBRARY</span><span class="room-meta" id="music-status">HEDWIG’S THEME · SOUND OFF</span></div>
-        <iframe id="music-player" title="Hedwig’s Theme on YouTube" allow="autoplay; encrypted-media" hidden></iframe>
+        <iframe id="music-player" title="Hedwig’s Theme on YouTube" allow="autoplay; encrypted-media" aria-hidden="true" tabindex="-1"></iframe>
         <div id="scene"><div class="scene-caption"><span>✧</span> Among ancient books, a new story unfolds.</div></div>
         <section class="match-result" id="match-result" role="status" aria-labelledby="result-title" hidden>
           <span class="result-crown" aria-hidden="true">♔</span>
@@ -51,7 +51,7 @@ app.innerHTML = `
   <dialog id="restart"><div class="eyebrow">A FRESH CHAPTER</div><h2>Begin a new game?</h2><p>Your current match will be replaced.</p><div class="dialog-actions"><button class="quiet-button" id="cancel-restart">Keep playing</button><button class="primary-button" id="confirm-restart">New game</button></div></dialog>
   <dialog id="promotion"><div class="eyebrow">A LITTLE TRANSFORMATION</div><h2>Choose your new piece.</h2><div class="promotion-options"><button data-piece="q">♕<span>Queen</span></button><button data-piece="r">♖<span>Rook</span></button><button data-piece="b">♗<span>Bishop</span></button><button data-piece="n">♘<span>Knight</span></button></div></dialog>
 `;
-const song = '3mBk_rV-oww';
+const song = 'GUVOmm1UtzQ';
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 let game = new Chess();
 let selected: Square | null = null;
@@ -269,9 +269,7 @@ function updateSoundControl() {
   $('sound').setAttribute('title', label);
   $('sound').classList.toggle('active', sound);
   $('music-status').textContent = sound ? 'HEDWIG’S THEME · NOW PLAYING' : 'HEDWIG’S THEME · SOUND OFF';
-  const player = $<HTMLIFrameElement>('music-player');
-  player.hidden = !sound;
-  player.src = sound ? `https://www.youtube-nocookie.com/embed/${song}?autoplay=1&loop=1&playlist=${song}` : 'about:blank';
+  $<HTMLIFrameElement>('music-player').src = sound ? `https://www.youtube-nocookie.com/embed/${song}?autoplay=1&loop=1&playlist=${song}` : 'about:blank';
 }
 $('sound').onclick = async () => {
   sound = !sound;

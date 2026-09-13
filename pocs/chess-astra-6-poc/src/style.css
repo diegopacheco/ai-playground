@@ -300,14 +300,13 @@ p {
 
 #music-player {
   position:absolute;
-  top:62px;
-  right:26px;
-  z-index:1;
+  top:0;
+  left:-9999px;
   width:200px;
   height:113px;
-  border:1px solid #e1d7c4;
-  border-radius:6px;
-  box-shadow:0 8px 24px #263f3526
+  border:0;
+  opacity:0;
+  pointer-events:none
 }
 
 #scene {
@@ -1087,10 +1086,6 @@ dialog li {
   .arena-top {
     top:12px;
     left:14px
-  }
-  #music-player {
-    top:44px;
-    right:14px
   }
   .sidebar {
     display:grid;

@@ -183,21 +183,20 @@ test('the page stays fixed across desktop, mobile and landscape viewports', asyn
   }
 });
 
-test('hedwig theme streams from youtube in a looping player that stops when muted', async ({ page }) => {
+test('hedwig theme plays as hidden background audio from youtube and stops when muted', async ({ page }) => {
   await page.route(/youtube/, route => route.abort());
   await page.goto('/');
   const player = page.locator('#music-player');
-  await expect(player).toBeHidden();
+  await expect(player).toHaveAttribute('aria-hidden', 'true');
   await page.getByRole('button', { name: 'Play library music and sound' }).click();
-  await expect(player).toBeVisible();
+  await expect(player).not.toBeInViewport();
   const src = new URL((await player.getAttribute('src'))!);
-  expect(src.pathname).toBe('/embed/3mBk_rV-oww');
+  expect(src.pathname).toBe('/embed/GUVOmm1UtzQ');
   expect(src.searchParams.get('autoplay')).toBe('1');
   expect(src.searchParams.get('loop')).toBe('1');
-  expect(src.searchParams.get('playlist')).toBe('3mBk_rV-oww');
+  expect(src.searchParams.get('playlist')).toBe('GUVOmm1UtzQ');
   await expect(page.locator('#music-status')).toHaveText('HEDWIG’S THEME · NOW PLAYING');
   await page.getByRole('button', { name: 'Mute library music and sound' }).click();
-  await expect(player).toBeHidden();
   await expect(player).toHaveAttribute('src', 'about:blank');
   await expect(page.locator('#sound')).toHaveAttribute('aria-pressed', 'false');
 });
