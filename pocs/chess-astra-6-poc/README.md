@@ -2,38 +2,44 @@
 <h1 align="center">The Wizard’s Gambit</h1>
 <p align="center">A little magic. A game of minds.</p>
 
-A playable, wizard-inspired 3D chess game for one human against a local CPU. Choose white, green, brown, or black pieces and challenge the Castle Guardian’s contrasting army in a Hogwarts-inspired castle library with tall oak bookshelves, Gothic stonework, house-colored banners, and a glowing fireplace. Built with Three.js, Bun, Vite, and TypeScript.
+A playable, wizard-inspired 3D chess game for one human against a local CPU. Choose from eight piece colors and seven materials, then challenge the Castle Guardian’s contrasting army in one of three Hogwarts-inspired rooms: the castle library with its glowing fireplace, the Great Hall under floating candles, or Dumbledore’s Office. Built with Three.js, Bun, Vite, and TypeScript.
 
 ![The castle library with the full 3D board and match controls](printscreens/great-hall.png)
 
 ## Features
 
-- Sculpted 3D pieces, bronze trim, soft shadows, and drifting sparks sit among 540 colored books, vaulted stonework, a library ladder, and a carved fireplace. There are no floating candles.
+- Sculpted 3D pieces, bronze trim, soft shadows, and drifting sparks sit among 540 colored books, vaulted stonework, a library ladder, and a carved fireplace. There are no floating candles in the library.
+- The **Background** selector switches between three rooms at any time without touching the match:
+  - **The Library** — oak bookshelves, a Gothic window, banners, and a burning fireplace that crackles while sound is on.
+  - **The Great Hall** — 48 bobbing floating candles, starry arched windows, the four house banners, the staff table on its dais, and a long house table.
+  - **Dumbledore’s Office** — a round, portrait-lined room with bookcases, the Sorting Hat, a claw-footed desk with spinning silver instruments, a phoenix on a golden perch, and a glowing Pensieve.
 - Captured pieces rise and spin away as glowing fragments scatter through an expanding golden ring, with a falling magical swish and sparkle.
 - On checkmate the defeated king trembles, topples onto its side, and shatters into crimson fragments while a low toll, an impact thud timed to the fall, and a descending chime play.
-- Choose **white, green, brown, or black** for your army at any time. The CPU uses green against white, and white against the other colors. Your preference survives reloads, undo, and new games.
+- Choose **white, green, brown, black, blue, orange, salmon, or gray** for your army at any time. The CPU uses green against white, and white against the other colors.
+- The **Piece style** selector sets both armies’ material: **Classic, Marble, Wood, Steel, Glass, Plastic, or Stone**. Marble veins, wood grain, and stone speckle are procedural canvas textures tinted by the chosen color; steel and glass reflect a generated room environment, and glass uses real light transmission.
+- Color, style, and background survive reloads, undo, and new games.
 - The **fullscreen button** beside the camera and sound controls expands the board and sidebar together; use it again or press Escape to exit.
 - Three CPU levels use a background worker so the board stays responsive during search.
 - Checkmate displays a prominent result card over the board, identifies the winner, and offers an immediate **New game** button. It also appears when reopening a finished match and works in fullscreen and on mobile.
 - Full legal chess includes castling, en passant, promotion choices, checkmate, stalemate, and automatic draws.
 - Click pieces and destinations, or enter coordinate moves and standard algebraic notation with a keyboard.
-- Orbit, zoom, rotate the board, or switch to an overhead camera. Near-side library walls cut away when the camera moves behind them so they do not obscure the board.
+- Orbit, zoom, rotate the board, or switch to an overhead camera. Near-side room walls cut away when the camera moves behind them so they do not obscure the board.
 - Undo a human/CPU turn, start a fresh match, and restore the current match after a reload.
-- The speaker control opens the **Hedwig’s Theme** sequence from Online Sequencer over the board. Press its play button and the panel slides out of view while the music keeps playing, alongside locally synthesized move, capture, and checkmate sounds. Tap the speaker again to mute and unload it. The page address lives in the `music` constant in `src/main.ts`, and music needs an internet connection.
+- The speaker control opens the **Hedwig’s Theme** sequence from Online Sequencer over the board. Press its play button and the panel slides out of view while the music keeps playing, alongside locally synthesized move, capture, and checkmate sounds. In the library, a looping synthesized fire crackle plays too; it stops when you mute or leave the library. Tap the speaker again to mute and unload it. The page address lives in the `music` constant in `src/main.ts`, and music needs an internet connection.
 - The full interface fits the browser viewport. Move history and game panels scroll internally on smaller screens, while the outer page stays fixed.
-- Reduced-motion preferences keep firelight and ambient effects still and suppress capture and king-fall animations.
+- Reduced-motion preferences keep firelight, candles, the phoenix, instruments, and ambient effects still and suppress capture and king-fall animations.
 - A playable flat board appears when WebGL cannot initialize.
 
 ## How it Works?
 
-1. You control the side that moves first; choose its appearance with the four piece-color swatches.
+1. You control the side that moves first; choose its appearance with the eight piece-color swatches and the piece style selector, and pick a room with the background selector.
 2. Select a piece to display its legal destinations, then select a golden ring.
 3. Alternatively, enter `e2e4`, `Nf3`, or `O-O` in the Move field.
 4. A pawn reaching the final rank opens a queen, rook, bishop, or knight picker.
 5. The rules engine validates the move before the scene and chronicle change.
 6. Captures trigger the defeated piece’s magical exit, including en passant captures.
 7. The Guardian searches the position in a Web Worker and returns its chosen move.
-8. The browser saves the complete move history, challenge level, and selected piece color after each change.
+8. The browser saves the complete move history, challenge level, piece color, piece style, and background after each change.
 9. Checkmate shows the winner and a New game button over the board. Restart immediately, or undo to revisit the position; stalemates and draws show the same card with the reason, so a finished match never looks frozen.
 
 ## Architecture
@@ -110,7 +116,7 @@ TypeScript validation passed
 Production build passed
 ```
 
-Engine tests cover legal CPU replies at all levels, mate selection, terminal positions, budget fallback, search state preservation, repetition restoration, castling, en passant, underpromotion, and invalid saved moves. Browser tests cover a complete human/CPU turn, 3D board clicks, camera controls, audio toggling, save/restore, invalid input, restart confirmation, capture effects, checkmate, the guide, mobile layout, reduced motion, corrupt storage, WebGL fallback, promotion, interrupted turns, repetition draws, page overflow at eight desktop/mobile/landscape sizes, the sequencer panel’s show, hide-on-play, and unload-on-mute behavior, capture and checkmate sound timing, stalemate results, all four piece colors, preference persistence during a match, fullscreen play with the restart dialog, live player/CPU checkmates, and restarting from the result card on mobile and in fullscreen.
+Engine tests cover legal CPU replies at all levels, mate selection, terminal positions, budget fallback, search state preservation, repetition restoration, castling, en passant, underpromotion, and invalid saved moves. Browser tests cover a complete human/CPU turn, 3D board clicks, camera controls, audio toggling, save/restore, invalid input, restart confirmation, capture effects, checkmate, the guide, mobile layout, reduced motion, corrupt storage, WebGL fallback, promotion, interrupted turns, repetition draws, page overflow at eight desktop/mobile/landscape sizes, the sequencer panel’s show, hide-on-play, and unload-on-mute behavior, capture and checkmate sound timing, stalemate results, all eight piece colors, piece styles and backgrounds that persist without disturbing the match, the library fire starting and stopping with sound and room changes, preference persistence during a match, fullscreen play with the restart dialog, live player/CPU checkmates, and restarting from the result card on mobile and in fullscreen.
 
 ## Contracts / APIs
 
@@ -121,7 +127,7 @@ There are no HTTP application APIs. These are the internal contracts:
 | Move input | SAN such as `Nf3`, or coordinates such as `e2e4`; promotion can include a trailing `q`, `r`, `b`, or `n`. |
 | CPU request | `{ history: string[], difficulty: 'apprentice' \| 'wizard' \| 'grandmaster' }` via `worker.postMessage`. |
 | CPU response | `{ move: { from, to, promotion? } \| null }`, or `{ error: string }`. The controller validates the returned move again. |
-| Saved match | Local storage key `wizards-gambit-v1` stores `{ history: string[], difficulty, pieceColor: 'white' | 'green' | 'brown' | 'black' }`. Older saves without a valid color default to white. |
+| Saved match | Local storage key `wizards-gambit-v1` stores `{ history: string[], difficulty, pieceColor, pieceStyle, background }`, where `pieceColor` is a key of `pieceColors` in `src/scene.ts`, `pieceStyle` a key of `pieceStyles` in `src/pieceStyles.ts`, and `background` one of `'library' \| 'greatHall' \| 'office'`. Missing or invalid values default to white, classic, and library. |
 | Search | `chooseMove(game, difficulty, budget = 1400)` returns a legal move or `null` when the match is over, preserving the supplied game state. |
 | Scene update | `ChessScene.sync(game, move?)` mirrors the legal position and animates the latest move or capture. |
 
@@ -129,12 +135,13 @@ There are no HTTP application APIs. These are the internal contracts:
 
 - **One authoritative `Chess` instance:** the scene mirrors the rules engine and never decides whether a move is legal.
 - **SAN history:** persisting moves rather than only FEN preserves repetition detection and turn-by-turn undo after reload.
-- **Piece appearance:** dedicated player and CPU materials keep color changes separate from the board and library materials. Cosmetic colors do not change chess sides or turn order; the fallback board and chronicle use the same palette.
+- **Rooms:** `src/rooms.ts` builds each room as a back group and a side group with its own `animate` function and exactly one point light. All rooms are built once; switching only changes visibility, so the light count stays constant and shaders are not recompiled. Only the active room animates.
+- **Piece appearance:** dedicated player and CPU `MeshPhysicalMaterial`s keep color and style changes separate from the board and room materials. `applyPieceStyle` resets every physical property before applying a style, so switching styles never leaks transmission or textures from the previous one. Cosmetic colors do not change chess sides or turn order; the fallback board and chronicle use the same palette.
 - **Fullscreen:** the native Fullscreen API expands the game grid; the camera resizes with its container and the button follows fullscreen change events. Unsupported browsers keep the control disabled.
 - **Square identifiers:** algebraic squares such as `e4` connect chess state, raycast targets, highlights, and 3D coordinates.
 - **Dedicated CPU worker:** iterative deepening with negamax, alpha-beta pruning, material values, move ordering, and simple positional evaluation keeps search isolated from rendering.
 - **Bounded difficulty:** Apprentice searches one ply, Wizard two, Grandmaster up to three within a 1.4-second soft budget. These names are flavor, not chess ratings. The time budget is checked between search operations and is not a hard real-time deadline.
-- **Music and sound effects:** music plays inside an embedded Online Sequencer page; the game detects the first click into that frame through the window blur event, moves the panel off-screen without unloading it, and unloads it when muted. `src/audio.ts` synthesizes move, capture, and checkmate sounds with Web Audio oscillators and filtered noise, timing the checkmate impact to the king’s fall.
+- **Music and sound effects:** music plays inside an embedded Online Sequencer page; the game detects the first click into that frame through the window blur event, moves the panel off-screen without unloading it, and unloads it when muted. `src/audio.ts` synthesizes move, capture, and checkmate sounds with Web Audio oscillators and filtered noise, timing the checkmate impact to the king’s fall. The fire is a 4-second looping buffer of brown-noise rumble plus random decaying pops, started only while sound is on in the library.
 - **Viewport layout:** a `100dvh` application shell allocates remaining height to the game grid. Explicit minimum sizes and internal overflow keep controls reachable on short screens.
 - **Short-lived effects:** defeated pieces and particles live independently of the updated board until their animation ends, then their geometry and effect materials are released.
 - **Cancellation:** undo, restart, and challenge changes terminate active search; pending CPU timers are also canceled.
@@ -207,7 +214,7 @@ The 1366 × 768 view keeps the board and move input within the window. The sideb
 
 ### Piece colors
 
-The four swatches recolor your army immediately while keeping the opposing pieces distinct. These views show white, green, brown, and black without changing the starting position.
+The eight swatches recolor your army immediately while keeping the opposing pieces distinct. These views show white, green, brown, black, blue, orange, salmon, and gray without changing the starting position.
 
 | White | Green |
 |---|---|
@@ -216,6 +223,30 @@ The four swatches recolor your army immediately while keeping the opposing piece
 | Brown | Black |
 |---|---|
 | ![Brown player pieces against white](printscreens/pieces-brown.png) | ![Black player pieces against white](printscreens/pieces-black.png) |
+
+| Blue | Orange |
+|---|---|
+| ![Blue player pieces against white](printscreens/pieces-blue.png) | ![Orange player pieces against white](printscreens/pieces-orange.png) |
+
+| Salmon | Gray |
+|---|---|
+| ![Salmon player pieces against white](printscreens/pieces-salmon.png) | ![Gray player pieces against white](printscreens/pieces-gray.png) |
+
+### Backgrounds
+
+| The Great Hall | Dumbledore’s Office |
+|---|---|
+| ![The Great Hall with floating candles, house banners, and starry windows](printscreens/background-great-hall-room.png) | ![Dumbledore’s Office with portraits, the phoenix, the desk, and the Pensieve](printscreens/background-dumbledore-office.png) |
+
+### Piece styles
+
+| Marble | Wood | Steel |
+|---|---|---|
+| ![Marble pieces](printscreens/style-marble.png) | ![Wood pieces](printscreens/style-wood.png) | ![Steel pieces](printscreens/style-steel.png) |
+
+| Glass | Plastic | Stone |
+|---|---|---|
+| ![Glass pieces](printscreens/style-glass.png) | ![Plastic pieces](printscreens/style-plastic.png) | ![Stone pieces](printscreens/style-stone.png) |
 
 ### Game fullscreen
 

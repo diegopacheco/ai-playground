@@ -3,6 +3,8 @@ import { GameAudio } from './audio';
 import { Chess, type Square, type Move } from 'chess.js';
 import { ChessScene, pieceColors, type PieceColor } from './scene';
 import { restoreGame, type Difficulty, type SearchReply } from './engine';
+import { backgrounds, type Background } from './rooms';
+import { pieceStyles, type PieceStyle } from './pieceStyles';
 
 const icons = {
   spark: '<path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"/>',
@@ -15,6 +17,12 @@ const icons = {
   arrow: '<path d="M4 12h16m-6-6 6 6-6 6"/>',
 };
 const icon = (name: keyof typeof icons) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
+const rooms: Record<Background, { label: string; caption: string }> = {
+  library: { label: 'HOGWARTS · THE LIBRARY', caption: 'Among ancient books, a new story unfolds.' },
+  greatHall: { label: 'HOGWARTS · THE GREAT HALL', caption: 'Beneath a thousand candles, the houses watch.' },
+  office: { label: 'HOGWARTS · DUMBLEDORE’S OFFICE', caption: 'The portraits pretend to sleep. They are watching.' },
+};
+const options = (entries: Record<string, string>) => Object.entries(entries).map(([value, label]) => `<option value="${value}">${label}</option>`).join('');
 const app = document.querySelector<HTMLDivElement>('#app')!;
 app.innerHTML = `
   <header class="masthead">
@@ -26,9 +34,9 @@ app.innerHTML = `
     <div class="intro"><div><div class="eyebrow"><span></span> THE ENCHANTED CHESS CLUB</div><h1>Make your move.<br><em>Leave a little magic.</em></h1><p>A timeless game, in a world a little less ordinary.</p></div><div class="edition"><span>EST. IN ANOTHER REALM</span><div>32 pieces. Infinite possibilities.</div><span class="edition-line"></span></div></div>
     <div class="game-layout" id="game-layout">
       <section class="arena" aria-label="Chess table">
-        <div class="arena-top"><span class="room-label"><span class="live-dot"></span> HOGWARTS · THE LIBRARY</span><span class="room-meta" id="music-status">HEDWIG’S THEME · SOUND OFF</span></div>
+        <div class="arena-top"><span class="room-label"><span class="live-dot"></span> <span id="room-name">HOGWARTS · THE LIBRARY</span></span><span class="room-meta" id="music-status">HEDWIG’S THEME · SOUND OFF</span></div>
         <div class="music-panel" id="music-panel" hidden><p>Press play on the sequencer. This panel hides once you do.</p><iframe id="music-player" title="Hedwig’s Theme on Online Sequencer" allow="autoplay"></iframe></div>
-        <div id="scene"><div class="scene-caption"><span>✧</span> Among ancient books, a new story unfolds.</div></div>
+        <div id="scene"><div class="scene-caption"><span>✧</span> <i id="room-caption">Among ancient books, a new story unfolds.</i></div></div>
         <section class="match-result" id="match-result" role="status" aria-labelledby="result-title" hidden>
           <span class="result-crown" aria-hidden="true">♔</span>
           <div class="eyebrow">THE DUEL IS DECIDED</div>
@@ -40,14 +48,14 @@ app.innerHTML = `
         <div class="board-bottom"><span>Drag to orbit <b>·</b> Scroll to explore</span><form id="move-form"><label for="move-input">Move</label><input id="move-input" aria-label="Move notation" placeholder="e2e4" autocomplete="off" spellcheck="false" maxlength="8"/><button type="submit" aria-label="Play move">${icon('arrow')}</button></form></div>
       </section>
       <aside class="sidebar">
-        <section class="match-card"><div class="section-label">YOUR OPPONENT <span>01</span></div><div class="opponent"><div class="avatar">♞<span>✧</span></div><div><h2>The Castle Guardian</h2><p>A worthy mind. An ancient magic.</p></div></div><label class="field-label" for="difficulty">CHOOSE YOUR CHALLENGE</label><div class="select-wrap"><select id="difficulty"><option value="apprentice">Apprentice</option><option value="wizard" selected>Wizard</option><option value="grandmaster">Grandmaster</option></select><span>⌄</span></div><p class="difficulty-note" id="difficulty-note">A thoughtful duel. Two moves deep.</p><fieldset class="piece-colors"><legend>YOUR PIECE COLOR</legend><div class="color-options">${Object.entries(pieceColors).map(([color, hex]) => `<label class="color-option"><input type="radio" name="piece-color" value="${color}" ${color === 'white' ? 'checked' : ''}/><span class="color-swatch" style="--swatch:${hex}"></span><span>${color[0].toUpperCase() + color.slice(1)}</span></label>`).join('')}</div><p>You move first · CPU: <span id="cpu-color">Green</span></p></fieldset><button class="primary-button" id="new-game">${icon('spark')} New game <span>↗</span></button></section>
+        <section class="match-card"><div class="section-label">YOUR OPPONENT <span>01</span></div><div class="opponent"><div class="avatar">♞<span>✧</span></div><div><h2>The Castle Guardian</h2><p>A worthy mind. An ancient magic.</p></div></div><label class="field-label" for="difficulty">CHOOSE YOUR CHALLENGE</label><div class="select-wrap"><select id="difficulty"><option value="apprentice">Apprentice</option><option value="wizard" selected>Wizard</option><option value="grandmaster">Grandmaster</option></select><span>⌄</span></div><p class="difficulty-note" id="difficulty-note">A thoughtful duel. Two moves deep.</p><fieldset class="piece-colors"><legend>YOUR PIECE COLOR</legend><div class="color-options">${Object.entries(pieceColors).map(([color, hex]) => `<label class="color-option"><input type="radio" name="piece-color" value="${color}" ${color === 'white' ? 'checked' : ''}/><span class="color-swatch" style="--swatch:${hex}"></span><span>${color[0].toUpperCase() + color.slice(1)}</span></label>`).join('')}</div><p>You move first · CPU: <span id="cpu-color">Green</span></p></fieldset><div class="look-options"><div><label class="field-label" for="piece-style">PIECE STYLE</label><div class="select-wrap"><select id="piece-style">${options(pieceStyles)}</select><span>⌄</span></div></div><div><label class="field-label" for="background">BACKGROUND</label><div class="select-wrap"><select id="background">${options(backgrounds)}</select><span>⌄</span></div></div></div><button class="primary-button" id="new-game">${icon('spark')} New game <span>↗</span></button></section>
         <section class="chronicle"><div class="section-label">THE CHRONICLE <span id="move-count">0 MOVES</span></div><div class="history-head"><span>TURN</span><span id="human-heading">WHITE</span><span id="cpu-heading">GREEN</span></div><div id="history" aria-label="Move history"><div class="empty-history"><span>♙</span><p>Every great story<br>begins with a bold move.</p><small>Your first chapter awaits.</small></div></div><button class="undo-button" id="undo" disabled>${icon('undo')} Take back a turn</button></section>
         <div class="status-card" role="status" aria-live="polite"><span class="status-spark">✧</span><div><strong id="status-title">The board is yours.</strong><p id="status-text">Select one of your pieces to see its possibilities.</p></div></div>
       </aside>
     </div>
     <footer><span>CRAFTED FOR THE LOVE OF THE GAME.</span><span class="footer-center">Strategy is the real magic.</span><span>HUMAN <span class="footer-cross">×</span> CPU</span></footer>
   </main>
-  <dialog id="guide"><button class="dialog-close" aria-label="Close guide">×</button><div class="eyebrow">A SHORT SPELLBOOK</div><h2>The rules of the realm.</h2><p>Choose white, green, brown, or black for your pieces. The Guardian uses a contrasting color. You always move first; the color choice changes appearance. Tap the speaker to play Hedwig’s Theme from YouTube along with move, capture, and checkmate sounds.</p><ol><li>Select one of your pieces, then a golden ring to move. Drag the board to look around.</li><li>Protect your king and put the opposing king in checkmate. Legal moves, castling, and en passant are handled for you.</li><li>When a pawn reaches the far rank, choose its new piece. A check must be answered immediately.</li><li>Use the Move field with coordinates such as <strong>e2e4</strong>, or chess notation such as <strong>Nf3</strong>. Add q, r, b, or n for promotion.</li><li>Take back a turn to try another idea. Your match saves automatically in this browser when storage is available.</li></ol><p class="dialog-note">Apprentice searches 1 ply, Wizard 2, and Grandmaster up to 3 within a 1.4-second budget. This is a casual opponent, with no rating claim.</p><button class="primary-button dialog-done">Let the game begin ${icon('arrow')}</button></dialog>
+  <dialog id="guide"><button class="dialog-close" aria-label="Close guide">×</button><div class="eyebrow">A SHORT SPELLBOOK</div><h2>The rules of the realm.</h2><p>Choose a color and a material for your pieces, and the room you play in: the Library, the Great Hall, or Dumbledore’s Office. The Guardian uses a contrasting color. You always move first; these choices only change appearance. Tap the speaker to play Hedwig’s Theme along with move, capture, and checkmate sounds, and a crackling fire in the Library.</p><ol><li>Select one of your pieces, then a golden ring to move. Drag the board to look around.</li><li>Protect your king and put the opposing king in checkmate. Legal moves, castling, and en passant are handled for you.</li><li>When a pawn reaches the far rank, choose its new piece. A check must be answered immediately.</li><li>Use the Move field with coordinates such as <strong>e2e4</strong>, or chess notation such as <strong>Nf3</strong>. Add q, r, b, or n for promotion.</li><li>Take back a turn to try another idea. Your match saves automatically in this browser when storage is available.</li></ol><p class="dialog-note">Apprentice searches 1 ply, Wizard 2, and Grandmaster up to 3 within a 1.4-second budget. This is a casual opponent, with no rating claim.</p><button class="primary-button dialog-done">Let the game begin ${icon('arrow')}</button></dialog>
   <dialog id="restart"><div class="eyebrow">A FRESH CHAPTER</div><h2>Begin a new game?</h2><p>Your current match will be replaced.</p><div class="dialog-actions"><button class="quiet-button" id="cancel-restart">Keep playing</button><button class="primary-button" id="confirm-restart">New game</button></div></dialog>
   <dialog id="promotion"><div class="eyebrow">A LITTLE TRANSFORMATION</div><h2>Choose your new piece.</h2><div class="promotion-options"><button data-piece="q">♕<span>Queen</span></button><button data-piece="r">♖<span>Rook</span></button><button data-piece="b">♗<span>Bishop</span></button><button data-piece="n">♘<span>Knight</span></button></div></dialog>
 `;
@@ -57,6 +65,8 @@ let game = new Chess();
 let selected: Square | null = null;
 let difficulty: Difficulty = 'wizard';
 let pieceColor: PieceColor = 'white';
+let pieceStyle: PieceStyle = 'classic';
+let background: Background = 'library';
 let worker: Worker | null = null;
 let thinking = false;
 let cpuTimer: number | undefined;
@@ -71,11 +81,13 @@ try {
     game = restoreGame(saved.history);
     if (['apprentice', 'wizard', 'grandmaster'].includes(saved.difficulty)) difficulty = saved.difficulty;
     if (Object.hasOwn(pieceColors, saved.pieceColor)) pieceColor = saved.pieceColor;
+    if (Object.hasOwn(pieceStyles, saved.pieceStyle)) pieceStyle = saved.pieceStyle;
+    if (Object.hasOwn(backgrounds, saved.background)) background = saved.background;
   }
 } catch { localStorageSafeRemove(); }
 function localStorageSafeRemove() { try { localStorage.removeItem(storageKey); } catch {} }
 function save() {
-  try { localStorage.setItem(storageKey, JSON.stringify({ history: game.history(), difficulty, pieceColor })); }
+  try { localStorage.setItem(storageKey, JSON.stringify({ history: game.history(), difficulty, pieceColor, pieceStyle, background })); }
   catch { $('status-text').textContent = 'Browser storage is unavailable. This match will not survive a reload.'; }
 }
 function report(title: string, text: string) { $('status-title').textContent = title; $('status-text').textContent = text; }
@@ -292,7 +304,9 @@ $('sound').onclick = async () => {
     updateSoundControl();
     report('Music could not start.', 'Tap the music control to try again.');
   }
+  updateFire();
 };
+function updateFire() { audio.fire(sound && background === 'library'); }
 function updateDifficulty() {
   $<HTMLSelectElement>('difficulty').value = difficulty;
   $('difficulty-note').textContent = { apprentice: 'A gentler match. One move at a time.', wizard: 'A thoughtful duel. Two plies deep.', grandmaster: 'A sharper mind. Up to three plies deep.' }[difficulty];
@@ -318,7 +332,27 @@ for (const input of document.querySelectorAll<HTMLInputElement>('[name="piece-co
   updatePieceColor();
   save();
 };
+function updateLook() {
+  scene?.setPieceStyle(pieceStyle);
+  scene?.setBackground(background);
+  $<HTMLSelectElement>('piece-style').value = pieceStyle;
+  $<HTMLSelectElement>('background').value = background;
+  $('room-name').textContent = rooms[background].label;
+  $('room-caption').textContent = rooms[background].caption;
+  updateFire();
+}
+$('piece-style').onchange = () => {
+  pieceStyle = $<HTMLSelectElement>('piece-style').value as PieceStyle;
+  updateLook();
+  save();
+};
+$('background').onchange = () => {
+  background = $<HTMLSelectElement>('background').value as Background;
+  updateLook();
+  save();
+};
 updatePieceColor();
+updateLook();
 updateDifficulty();
 render();
 updateFallback();

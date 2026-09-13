@@ -715,6 +715,28 @@ p {
   color:#7e8874
 }
 
+.look-options {
+  display:grid;
+  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
+  gap:8px;
+  margin:4px 0 14px
+}
+
+.look-options .select-wrap {
+  margin-top:6px
+}
+
+.look-options select {
+  font-size:11px;
+  padding:9px 22px 9px 10px;
+  text-overflow:ellipsis
+}
+
+.look-options .select-wrap>span {
+  right:9px;
+  top:7px
+}
+
 .primary-button {
   display:flex;
   align-items:center;
@@ -1169,6 +1191,17 @@ dialog li {
   }
   .piece-colors p {
     display:none
+  }
+  .look-options {
+    grid-template-columns:minmax(0,1fr);
+    gap:4px;
+    margin:4px 0 0
+  }
+  .look-options select {
+    padding:6px 20px 6px 8px
+  }
+  .look-options .select-wrap>span {
+    top:4px
   }
   #new-game {
     margin-top:6px;

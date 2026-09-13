@@ -246,8 +246,9 @@ test('a capture and a fallen king play death sounds timed to their animations', 
 });
 
 test('piece colors update immediately, survive reload and keep the match intact', async ({ page }) => {
+  test.setTimeout(60000);
   await page.goto('/');
-  for (const color of ['White', 'Green', 'Brown', 'Black']) {
+  for (const color of ['White', 'Green', 'Brown', 'Black', 'Blue', 'Orange', 'Salmon', 'Gray']) {
     await page.getByRole('radio', { name: color, exact: true }).check();
     await expect(page.getByRole('radio', { name: color, exact: true })).toBeChecked();
     await expect(page.locator('#human-heading')).toHaveText(color.toUpperCase());
@@ -323,4 +324,64 @@ test('a CPU checkmate on mobile shows the result and restarts from its button', 
   await expect(page.locator('#match-result')).toBeHidden();
   await expect(page.locator('#move-count')).toHaveText('0 MOVES');
   await expect(page.getByRole('textbox', { name: 'Move notation' })).toBeEnabled();
+});
+
+test('piece styles and backgrounds restyle the table without touching the match, and survive reload', async ({ page }) => {
+  test.setTimeout(90000);
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/');
+  await move(page, 'e4');
+  await expect(page.locator('#move-count')).toHaveText('2 MOVES', { timeout: 15000 });
+  for (const [room, label, file] of [['greatHall', 'HOGWARTS · THE GREAT HALL', 'great-hall-room'], ['office', 'HOGWARTS · DUMBLEDORE’S OFFICE', 'dumbledore-office'], ['library', 'HOGWARTS · THE LIBRARY', 'library-room']]) {
+    await page.getByLabel('BACKGROUND').selectOption(room);
+    await expect(page.locator('#room-name')).toHaveText(label);
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: `printscreens/background-${file}.png`, fullPage: true });
+  }
+  for (const style of ['marble', 'wood', 'steel', 'glass', 'plastic', 'stone']) {
+    await page.getByLabel('PIECE STYLE').selectOption(style);
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: `printscreens/style-${style}.png`, fullPage: true });
+  }
+  await page.getByLabel('BACKGROUND').selectOption('office');
+  await page.getByLabel('PIECE STYLE').selectOption('glass');
+  await expect(page.locator('#move-count')).toHaveText('2 MOVES');
+  await page.reload();
+  await expect(page.getByLabel('PIECE STYLE')).toHaveValue('glass');
+  await expect(page.getByLabel('BACKGROUND')).toHaveValue('office');
+  await expect(page.locator('#room-name')).toHaveText('HOGWARTS · DUMBLEDORE’S OFFICE');
+  await expect(page.locator('#move-count')).toHaveText('2 MOVES');
+  expect(errors).toEqual([]);
+});
+
+test('the fireplace crackles only while sound is on in the library', async ({ page }) => {
+  await page.addInitScript(() => {
+    const fire = { playing: 0 };
+    Object.assign(window, { fireCheck: fire });
+    const start = AudioBufferSourceNode.prototype.start;
+    AudioBufferSourceNode.prototype.start = function (...args) {
+      if (this.loop) fire.playing++;
+      return start.apply(this, args);
+    };
+    const stop = AudioBufferSourceNode.prototype.stop;
+    AudioBufferSourceNode.prototype.stop = function (...args) {
+      if (this.loop) fire.playing--;
+      return stop.apply(this, args);
+    };
+  });
+  await page.route(/onlinesequencer/, route => route.abort());
+  await page.goto('/');
+  const playing = () => page.evaluate(() => (window as unknown as { fireCheck: { playing: number } }).fireCheck.playing);
+  expect(await playing()).toBe(0);
+  await page.getByRole('button', { name: 'Play library music and sound' }).click();
+  await expect.poll(playing).toBe(1);
+  await page.getByLabel('BACKGROUND').selectOption('greatHall');
+  await expect.poll(playing).toBe(0);
+  await page.getByLabel('BACKGROUND').selectOption('office');
+  await expect.poll(playing).toBe(0);
+  await page.getByLabel('BACKGROUND').selectOption('library');
+  await expect.poll(playing).toBe(1);
+  await page.getByRole('button', { name: 'Mute library music and sound' }).click();
+  await expect.poll(playing).toBe(0);
 });

@@ -3,6 +3,7 @@ export class GameAudio {
   private master: GainNode | null = null;
   private hiss: AudioBuffer | null = null;
   private enabled = false;
+  private crackle: AudioBufferSourceNode | null = null;
 
   async setEnabled(enabled: boolean) {
     this.enabled = enabled;
@@ -34,6 +35,37 @@ export class GameAudio {
     this.tone(120, 40, 0.9, 0.5, 0.3);
     this.noise(0.9, 0.9, 0.18, 4000, 300);
     [1319, 988, 784, 659, 494].forEach((frequency, i) => this.tone(frequency, frequency, 1 + i * 0.12, 1.2, 0.04));
+  }
+
+  fire(on: boolean) {
+    if (!on || !this.enabled || !this.context || !this.master) {
+      this.crackle?.stop();
+      this.crackle?.disconnect();
+      this.crackle = null;
+      return;
+    }
+    if (this.crackle) return;
+    const rate = this.context.sampleRate;
+    const buffer = this.context.createBuffer(1, rate * 4, rate);
+    const data = buffer.getChannelData(0);
+    let rumble = 0;
+    let pop = 0;
+    const decay = Math.exp(-1 / (0.004 * rate));
+    for (let i = 0; i < data.length; i++) {
+      const white = Math.random() * 2 - 1;
+      rumble = (rumble + white * 0.02) / 1.02;
+      if (Math.random() < 9 / rate) pop = 0.25 + Math.random() * 0.75;
+      pop *= decay;
+      data[i] = rumble * 2.2 + white * (0.012 + pop * 0.6);
+    }
+    const level = this.context.createGain();
+    level.gain.value = 0.45;
+    this.crackle = this.context.createBufferSource();
+    this.crackle.buffer = buffer;
+    this.crackle.loop = true;
+    this.crackle.connect(level).connect(this.master);
+    this.crackle.onended = () => level.disconnect();
+    this.crackle.start();
   }
 
   private tone(frequency: number, end: number, delay: number, length: number, volume: number, type: OscillatorType = 'sine') {
