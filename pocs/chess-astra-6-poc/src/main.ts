@@ -26,7 +26,8 @@ app.innerHTML = `
     <div class="intro"><div><div class="eyebrow"><span></span> THE ENCHANTED CHESS CLUB</div><h1>Make your move.<br><em>Leave a little magic.</em></h1><p>A timeless game, in a world a little less ordinary.</p></div><div class="edition"><span>EST. IN ANOTHER REALM</span><div>32 pieces. Infinite possibilities.</div><span class="edition-line"></span></div></div>
     <div class="game-layout" id="game-layout">
       <section class="arena" aria-label="Chess table">
-        <div class="arena-top"><span class="room-label"><span class="live-dot"></span> HOGWARTS · THE LIBRARY</span><span class="room-meta" id="music-status">CELESTA & STRINGS · SOUND OFF</span></div>
+        <div class="arena-top"><span class="room-label"><span class="live-dot"></span> HOGWARTS · THE LIBRARY</span><span class="room-meta" id="music-status">HEDWIG’S THEME · SOUND OFF</span></div>
+        <iframe id="music-player" title="Hedwig’s Theme on YouTube" allow="autoplay; encrypted-media" hidden></iframe>
         <div id="scene"><div class="scene-caption"><span>✧</span> Among ancient books, a new story unfolds.</div></div>
         <section class="match-result" id="match-result" role="status" aria-labelledby="result-title" hidden>
           <span class="result-crown" aria-hidden="true">♔</span>
@@ -46,10 +47,11 @@ app.innerHTML = `
     </div>
     <footer><span>CRAFTED FOR THE LOVE OF THE GAME.</span><span class="footer-center">Strategy is the real magic.</span><span>HUMAN <span class="footer-cross">×</span> CPU</span></footer>
   </main>
-  <dialog id="guide"><button class="dialog-close" aria-label="Close guide">×</button><div class="eyebrow">A SHORT SPELLBOOK</div><h2>The rules of the realm.</h2><p>Choose white, green, brown, or black for your pieces. The Guardian uses a contrasting color. You always move first; the color choice changes appearance. Tap the speaker for The Library Waltz, an original magical score for celesta, harp, and soft strings.</p><ol><li>Select one of your pieces, then a golden ring to move. Drag the board to look around.</li><li>Protect your king and put the opposing king in checkmate. Legal moves, castling, and en passant are handled for you.</li><li>When a pawn reaches the far rank, choose its new piece. A check must be answered immediately.</li><li>Use the Move field with coordinates such as <strong>e2e4</strong>, or chess notation such as <strong>Nf3</strong>. Add q, r, b, or n for promotion.</li><li>Take back a turn to try another idea. Your match saves automatically in this browser when storage is available.</li></ol><p class="dialog-note">Apprentice searches 1 ply, Wizard 2, and Grandmaster up to 3 within a 1.4-second budget. This is a casual opponent, with no rating claim.</p><button class="primary-button dialog-done">Let the game begin ${icon('arrow')}</button></dialog>
+  <dialog id="guide"><button class="dialog-close" aria-label="Close guide">×</button><div class="eyebrow">A SHORT SPELLBOOK</div><h2>The rules of the realm.</h2><p>Choose white, green, brown, or black for your pieces. The Guardian uses a contrasting color. You always move first; the color choice changes appearance. Tap the speaker to play Hedwig’s Theme from YouTube along with move, capture, and checkmate sounds.</p><ol><li>Select one of your pieces, then a golden ring to move. Drag the board to look around.</li><li>Protect your king and put the opposing king in checkmate. Legal moves, castling, and en passant are handled for you.</li><li>When a pawn reaches the far rank, choose its new piece. A check must be answered immediately.</li><li>Use the Move field with coordinates such as <strong>e2e4</strong>, or chess notation such as <strong>Nf3</strong>. Add q, r, b, or n for promotion.</li><li>Take back a turn to try another idea. Your match saves automatically in this browser when storage is available.</li></ol><p class="dialog-note">Apprentice searches 1 ply, Wizard 2, and Grandmaster up to 3 within a 1.4-second budget. This is a casual opponent, with no rating claim.</p><button class="primary-button dialog-done">Let the game begin ${icon('arrow')}</button></dialog>
   <dialog id="restart"><div class="eyebrow">A FRESH CHAPTER</div><h2>Begin a new game?</h2><p>Your current match will be replaced.</p><div class="dialog-actions"><button class="quiet-button" id="cancel-restart">Keep playing</button><button class="primary-button" id="confirm-restart">New game</button></div></dialog>
   <dialog id="promotion"><div class="eyebrow">A LITTLE TRANSFORMATION</div><h2>Choose your new piece.</h2><div class="promotion-options"><button data-piece="q">♕<span>Queen</span></button><button data-piece="r">♖<span>Rook</span></button><button data-piece="b">♗<span>Bishop</span></button><button data-piece="n">♘<span>Knight</span></button></div></dialog>
 `;
+const song = '3mBk_rV-oww';
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 let game = new Chess();
 let selected: Square | null = null;
@@ -122,8 +124,9 @@ function render(move?: Move, sync = true) {
   }
   const result = $('match-result');
   const wasHidden = result.hidden;
-  $('result-winner').textContent = game.turn() === 'b' ? 'You win. The Castle Guardian is defeated.' : 'The Castle Guardian wins. Try another duel.';
-  result.hidden = !game.isCheckmate();
+  $('result-title').textContent = game.isCheckmate() ? 'Checkmate' : game.isStalemate() ? 'Stalemate' : 'Draw';
+  $('result-winner').textContent = game.isCheckmate() ? game.turn() === 'b' ? 'You win. The Castle Guardian is defeated.' : 'The Castle Guardian wins. Try another duel.' : `${text} No one wins this duel.`;
+  result.hidden = !game.isGameOver();
   if (wasHidden && !result.hidden) $('result-new-game').focus({ preventScroll: true });
   report(title, text);
   $('board-turn').innerHTML = `<span class="live-dot ${thinking ? 'thinking' : ''}"></span>${turn}`;
@@ -265,15 +268,16 @@ function updateSoundControl() {
   $('sound').setAttribute('aria-label', label);
   $('sound').setAttribute('title', label);
   $('sound').classList.toggle('active', sound);
-  $('music-status').textContent = sound ? `${audio.title} · NOW PLAYING` : 'CELESTA & STRINGS · SOUND OFF';
+  $('music-status').textContent = sound ? 'HEDWIG’S THEME · NOW PLAYING' : 'HEDWIG’S THEME · SOUND OFF';
+  const player = $<HTMLIFrameElement>('music-player');
+  player.hidden = !sound;
+  player.src = sound ? `https://www.youtube-nocookie.com/embed/${song}?autoplay=1&loop=1&playlist=${song}` : 'about:blank';
 }
 $('sound').onclick = async () => {
   sound = !sound;
   updateSoundControl();
-  try {
-    await audio.setEnabled(sound);
-    updateSoundControl();
-  } catch {
+  try { await audio.setEnabled(sound); }
+  catch {
     sound = false;
     await audio.setEnabled(false);
     updateSoundControl();

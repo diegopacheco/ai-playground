@@ -4,5 +4,3 @@ dist/
 test-results/
 playwright-report/
 .DS_Store
-
-public/opening-theme.mp3

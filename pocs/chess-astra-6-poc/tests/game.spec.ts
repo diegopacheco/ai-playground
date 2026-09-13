@@ -42,6 +42,7 @@ test('renders the hall, plays against CPU, saves, undoes and restarts', async ({
 });
 
 test('board can be clicked, rotated, viewed overhead and muted', async ({ page }) => {
+  await page.route(/youtube/, route => route.abort());
   await page.goto('/');
   await page.getByRole('button', { name: 'Switch to overhead view' }).click();
   await expect(page.getByRole('button', { name: 'Switch to perspective view' })).toBeVisible();
@@ -145,6 +146,18 @@ test('restored repetition ends the match as a draw', async ({ page }) => {
   await seed(page, ['Nf3', 'Nf6', 'Ng1', 'Ng8', 'Nf3', 'Nf6', 'Ng1', 'Ng8']);
   await expect(page.locator('#status-text')).toHaveText('Draw by threefold repetition.');
   await expect(page.getByRole('textbox', { name: 'Move notation' })).toBeDisabled();
+  await expect(page.getByRole('heading', { name: 'Draw', exact: true })).toBeVisible();
+  await expect(page.locator('#result-winner')).toHaveText('Draw by threefold repetition. No one wins this duel.');
+});
+
+test('stalemate shows a result card so the finished match never looks frozen', async ({ page }) => {
+  await seed(page, ['e3', 'a5', 'Qh5', 'Ra6', 'Qxa5', 'h5', 'h4', 'Rah6', 'Qxc7', 'f6', 'Qxd7+', 'Kf7', 'Qxb7', 'Qd3', 'Qxb8', 'Qh7', 'Qxc8', 'Kg6', 'Qe6']);
+  await expect(page.locator('#status-text')).toHaveText('Stalemate. There are no legal moves.');
+  await expect(page.getByRole('heading', { name: 'Stalemate', exact: true })).toBeVisible();
+  await expect(page.locator('#result-new-game')).toBeFocused();
+  await page.locator('#result-new-game').click();
+  await expect(page.locator('#move-count')).toHaveText('0 MOVES');
+  await expect(page.locator('#match-result')).toBeHidden();
 });
 
 test('the page stays fixed across desktop, mobile and landscape viewports', async ({ page }) => {
@@ -170,35 +183,22 @@ test('the page stays fixed across desktop, mobile and landscape viewports', asyn
   }
 });
 
-test('library music contains audio, loops, and stops when muted', async ({ page }) => {
-  await page.addInitScript(() => {
-    const state = { starts: 0, stops: 0, duration: 0, peak: 0, loop: false };
-    Object.assign(window, { musicCheck: state });
-    const start = AudioBufferSourceNode.prototype.start;
-    const stop = AudioBufferSourceNode.prototype.stop;
-    AudioBufferSourceNode.prototype.start = function (...args) {
-      state.starts++;
-      state.duration = this.buffer?.duration || 0;
-      state.loop = this.loop;
-      const samples = this.buffer?.getChannelData(0);
-      if (samples) for (let i = 0; i < samples.length; i += 100) state.peak = Math.max(state.peak, Math.abs(samples[i]));
-      return start.apply(this, args);
-    };
-    AudioBufferSourceNode.prototype.stop = function (...args) {
-      state.stops++;
-      return stop.apply(this, args);
-    };
-  });
+test('hedwig theme streams from youtube in a looping player that stops when muted', async ({ page }) => {
+  await page.route(/youtube/, route => route.abort());
   await page.goto('/');
+  const player = page.locator('#music-player');
+  await expect(player).toBeHidden();
   await page.getByRole('button', { name: 'Play library music and sound' }).click();
-  const state = () => page.evaluate(() => (window as unknown as { musicCheck: { starts: number; stops: number; duration: number; peak: number; loop: boolean } }).musicCheck);
-  await expect.poll(async () => (await state()).starts).toBe(1);
-  expect((await state()).duration).toBeGreaterThan(20);
-  expect((await state()).peak).toBeGreaterThan(0.01);
-  expect((await state()).peak).toBeLessThan(1);
-  expect((await state()).loop).toBe(true);
+  await expect(player).toBeVisible();
+  const src = new URL((await player.getAttribute('src'))!);
+  expect(src.pathname).toBe('/embed/3mBk_rV-oww');
+  expect(src.searchParams.get('autoplay')).toBe('1');
+  expect(src.searchParams.get('loop')).toBe('1');
+  expect(src.searchParams.get('playlist')).toBe('3mBk_rV-oww');
+  await expect(page.locator('#music-status')).toHaveText('HEDWIG’S THEME · NOW PLAYING');
   await page.getByRole('button', { name: 'Mute library music and sound' }).click();
-  await expect.poll(async () => (await state()).stops).toBe(1);
+  await expect(player).toBeHidden();
+  await expect(player).toHaveAttribute('src', 'about:blank');
   await expect(page.locator('#sound')).toHaveAttribute('aria-pressed', 'false');
 });
 
@@ -218,6 +218,7 @@ test('a capture and a fallen king play death sounds timed to their animations', 
       return source.call(this, when, ...args);
     };
   });
+  await page.route(/youtube/, route => route.abort());
   await seed(page, ['e4', 'e5', 'Qh5', 'Nc6', 'Bc4', 'Nf6']);
   await page.getByRole('button', { name: 'Play library music and sound' }).click();
   await expect(page.getByRole('button', { name: 'Mute library music and sound' })).toBeVisible();

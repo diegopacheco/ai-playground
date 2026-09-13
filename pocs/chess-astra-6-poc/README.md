@@ -19,8 +19,7 @@ A playable, wizard-inspired 3D chess game for one human against a local CPU. Cho
 - Click pieces and destinations, or enter coordinate moves and standard algebraic notation with a keyboard.
 - Orbit, zoom, rotate the board, or switch to an overhead camera. Near-side library walls cut away when the camera moves behind them so they do not obscure the board.
 - Undo a human/CPU turn, start a fresh match, and restore the current match after a reload.
-- The speaker control plays **The Library Waltz**, an original 23-second looping score with celesta, harp arpeggios, bass, and soft strings, alongside move, capture, and checkmate sounds. Tap again to mute. Audio starts after this interaction; the score is synthesized locally and is not a film recording.
-- To play your own opening theme instead, place a copy you are licensed to use at `public/opening-theme.mp3`. It loops in place of the waltz and the label reads **OPENING THEME**. The file is gitignored so it is never published with the repository.
+- The speaker control opens a small looping YouTube player for **Hedwig’s Theme** in the corner of the board, alongside locally synthesized move, capture, and checkmate sounds. Tap again to mute and unload the player. The video id lives in the `song` constant in `src/main.ts`; the video must allow embedding for the player to start.
 - The full interface fits the browser viewport. Move history and game panels scroll internally on smaller screens, while the outer page stays fixed.
 - Reduced-motion preferences keep firelight and ambient effects still and suppress capture and king-fall animations.
 - A playable flat board appears when WebGL cannot initialize.
@@ -35,7 +34,7 @@ A playable, wizard-inspired 3D chess game for one human against a local CPU. Cho
 6. Captures trigger the defeated piece’s magical exit, including en passant captures.
 7. The Guardian searches the position in a Web Worker and returns its chosen move.
 8. The browser saves the complete move history, challenge level, and selected piece color after each change.
-9. Checkmate shows the winner and a New game button over the board. Restart immediately, or undo to revisit the position; draws keep the regular restart controls available.
+9. Checkmate shows the winner and a New game button over the board. Restart immediately, or undo to revisit the position; stalemates and draws show the same card with the reason, so a finished match never looks frozen.
 
 ## Architecture
 
@@ -111,7 +110,7 @@ TypeScript validation passed
 Production build passed
 ```
 
-Engine tests cover legal CPU replies at all levels, mate selection, terminal positions, budget fallback, search state preservation, repetition restoration, castling, en passant, underpromotion, and invalid saved moves. Browser tests cover a complete human/CPU turn, 3D board clicks, camera controls, audio toggling, save/restore, invalid input, restart confirmation, capture effects, checkmate, the guide, mobile layout, reduced motion, corrupt storage, WebGL fallback, promotion, interrupted turns, repetition draws, page overflow at eight desktop/mobile/landscape sizes, the music buffer’s audio signal, looping, and mute behavior, all four piece colors, preference persistence during a match, fullscreen play with the restart dialog, live player/CPU checkmates, and restarting from the result card on mobile and in fullscreen.
+Engine tests cover legal CPU replies at all levels, mate selection, terminal positions, budget fallback, search state preservation, repetition restoration, castling, en passant, underpromotion, and invalid saved moves. Browser tests cover a complete human/CPU turn, 3D board clicks, camera controls, audio toggling, save/restore, invalid input, restart confirmation, capture effects, checkmate, the guide, mobile layout, reduced motion, corrupt storage, WebGL fallback, promotion, interrupted turns, repetition draws, page overflow at eight desktop/mobile/landscape sizes, the YouTube player’s looping embed and mute behavior, capture and checkmate sound timing, stalemate results, all four piece colors, preference persistence during a match, fullscreen play with the restart dialog, live player/CPU checkmates, and restarting from the result card on mobile and in fullscreen.
 
 ## Contracts / APIs
 
@@ -135,7 +134,7 @@ There are no HTTP application APIs. These are the internal contracts:
 - **Square identifiers:** algebraic squares such as `e4` connect chess state, raycast targets, highlights, and 3D coordinates.
 - **Dedicated CPU worker:** iterative deepening with negamax, alpha-beta pruning, material values, move ordering, and simple positional evaluation keeps search isolated from rendering.
 - **Bounded difficulty:** Apprentice searches one ply, Wizard two, Grandmaster up to three within a 1.4-second soft budget. These names are flavor, not chess ratings. The time budget is checked between search operations and is not a hard real-time deadline.
-- **Local music buffer:** `src/audio.ts` renders a stereo waltz through `OfflineAudioContext`, wraps the reverb tail into the loop, and plays it through one stoppable audio source. Muting silences both music and move sounds; generation checks prevent overlapping playback after rapid toggles.
+- **Music and sound effects:** music streams from YouTube’s embedded player, which loops the video and is unloaded when muted. `src/audio.ts` synthesizes move, capture, and checkmate sounds with Web Audio oscillators and filtered noise, timing the checkmate impact to the king’s fall.
 - **Viewport layout:** a `100dvh` application shell allocates remaining height to the game grid. Explicit minimum sizes and internal overflow keep controls reachable on short screens.
 - **Short-lived effects:** defeated pieces and particles live independently of the updated board until their animation ends, then their geometry and effect materials are released.
 - **Cancellation:** undo, restart, and challenge changes terminate active search; pending CPU timers are also canceled.
