@@ -1,0 +1,34 @@
+pocs/chess-astra-6-poc/README.md
+  s_4995243c988c25::t_b8139abff010e1 29
+pocs/chess-astra-6-poc/tests/engine.test.ts
+  s_4995243c988c25::t_b9fee582f17b46 3,110-150
+  s_4995243c988c25::t_488989ed146e01 151
+pocs/chess-astra-6-poc/src/main.ts
+  s_4995243c988c25::t_a654502a1b4a7c 178-179
+  s_4995243c988c25::t_f24f22d992913a 5,45,53,78-80,82,92,95-98,101,104-123,201,213,218,291-299,413
+pocs/chess-astra-6-poc/tests/game.spec.ts
+  s_4995243c988c25::t_7992847d2d6a82 470,472-480,489,493
+  s_4995243c988c25::t_a18cb2e2e2baed 471,481-488,490-492
+pocs/chess-astra-6-poc/src/style.css
+  s_4995243c988c25::t_bea9121b5a673e 436-441,793-902
+  s_4995243c988c25::t_b8ff3fddc90386 903
+pocs/chess-astra-6-poc/src/engine.ts
+  s_4995243c988c25::t_819c6af59b55b1 6,9-10,26-39
+  s_4995243c988c25::t_3f7d9b04269eab 40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "229572261b6d6640aec33a0d4d2206a7125d6041",
+  "prompts": {},
+  "sessions": {
+    "s_4995243c988c25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a109b1ea-c95d-408a-841d-1b4f04f64e46",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
