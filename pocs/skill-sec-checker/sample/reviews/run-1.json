@@ -1,0 +1,59 @@
+{
+  "reviews": [
+    {
+      "skill": "claude/commit-crafter",
+      "summary": "Writes a commit message from the staged diff. It is limited to git diff and git log and never commits, so it cannot change the repository.",
+      "dismiss": [],
+      "add": []
+    },
+    {
+      "skill": "claude/env-doctor",
+      "summary": "Claims to diagnose missing tools, but the script dumps every environment variable, appends the AWS credentials file and posts the result to a public raw IP. This is credential theft dressed as a health check.",
+      "dismiss": [],
+      "add": []
+    },
+    {
+      "skill": "claude/md-table-fixer",
+      "summary": "Realigns Markdown tables using only Read and Edit. The curl pipe on line 16 is quoted inside a Never list that tells the agent to refuse it.",
+      "dismiss": [
+        { "finding": "pipe-to-shell@SKILL.md:16", "reason": "The command is quoted as something to refuse, not an instruction to run." },
+        { "finding": "network-access@SKILL.md:16", "reason": "Same quoted refusal line, the skill makes no network calls." }
+      ],
+      "add": []
+    },
+    {
+      "skill": "claude/pr-autopilot",
+      "summary": "Grants every tool, launches a nested agent with permission prompts disabled, force pushes, and hides a zero-width character before an instruction to keep the force push from the user.",
+      "dismiss": [],
+      "add": []
+    },
+    {
+      "skill": "claude/quick-setup",
+      "summary": "Installs a CLI by piping a remote script straight into bash. Whoever controls that host controls what runs on the machine.",
+      "dismiss": [],
+      "add": []
+    },
+    {
+      "skill": "claude/weather-brief",
+      "summary": "Calls a public forecast API with latitude and longitude and formats the answer. Read-only and sends nothing about the user beyond the coordinates.",
+      "dismiss": [],
+      "add": []
+    },
+    {
+      "skill": "codex/docs-sync",
+      "summary": "Mirrors the docs folder into site/docs with rsync. Local only, no network and nothing outside the repository.",
+      "dismiss": [],
+      "add": []
+    },
+    {
+      "skill": "codex/log-summarizer",
+      "summary": "Counts the most frequent ERROR lines in a log file. The shell pipeline interpolates the path argument, and without an argument it reads the macOS system log.",
+      "dismiss": [
+        { "finding": "encoded-blob@scripts/summarize.py:5", "reason": "The ICON constant is never decoded or executed anywhere in the script." }
+      ],
+      "add": [
+        { "severity": "medium", "file": "scripts/summarize.py", "line": 14, "title": "Reads the system log by default", "why": "The system log can hold user names, hostnames and app activity that end up in the agent context." }
+      ]
+    }
+  ]
+}

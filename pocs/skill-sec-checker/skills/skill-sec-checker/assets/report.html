@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skill Sec Checker</title>
+<style>
+:root {
+  --page: #f6f5f2;
+  --surface: #fcfcfb;
+  --card: #ffffff;
+  --line: #e4e2dc;
+  --line-strong: #cfccc4;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --ink-3: #85837d;
+  --accent: #2a78d6;
+  --accent-soft: #e8f1fc;
+  --good: #0ca30c;
+  --warning: #fab219;
+  --serious: #ec835a;
+  --critical: #d03b3b;
+  --good-soft: #e7f6e7;
+  --warning-soft: #fff4dc;
+  --serious-soft: #fdeee7;
+  --critical-soft: #fbe9e9;
+  --neutral-soft: #efeee9;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.5 var(--sans); }
+button, input, select { font: inherit; color: inherit; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 24px; padding-block: 28px 64px; }
+header.top { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; justify-content: space-between; margin-bottom: 22px; }
+.brand { display: flex; gap: 14px; align-items: center; }
+.logo { width: 46px; height: 46px; border-radius: 12px; background: var(--ink); display: grid; place-items: center; }
+.brand h1 { margin: 0; font-size: 24px; letter-spacing: -0.02em; }
+.brand p { margin: 2px 0 0; color: var(--ink-2); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12.5px; color: var(--ink-2); }
+.meta span { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+.meta b { color: var(--ink); font-weight: 600; }
+code, .mono { font-family: var(--mono); font-size: 12.5px; }
+.overview { align-items: start; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 16px; margin-bottom: 18px; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.tile, .panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+.tile { padding: 14px 16px; }
+.tile .k { color: var(--ink-2); font-size: 12.5px; display: flex; gap: 6px; align-items: center; }
+.tile .v { font-size: 30px; font-weight: 650; letter-spacing: -0.02em; line-height: 1.2; margin-top: 4px; }
+.tile .v small { font-size: 14px; color: var(--ink-3); font-weight: 500; }
+.panel { padding: 16px; }
+.panel h3 { margin: 0 0 2px; font-size: 14px; }
+.panel .sub { margin: 0 0 10px; color: var(--ink-2); font-size: 12.5px; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 16px; overflow-x: auto; }
+.tabs button { background: none; border: 0; padding: 10px 14px; cursor: pointer; color: var(--ink-2); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; font-weight: 550; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.tabs .count { background: var(--neutral-soft); border-radius: 999px; padding: 1px 7px; font-size: 11.5px; margin-left: 6px; color: var(--ink-2); }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+.search { flex: 1 1 260px; position: relative; }
+.search input { width: 100%; padding: 9px 12px 9px 34px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--card); }
+.search svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); }
+select { padding: 8px 10px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--card); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip-btn { border: 1px solid var(--line-strong); background: var(--card); border-radius: 999px; padding: 6px 11px; cursor: pointer; font-size: 12.5px; display: inline-flex; gap: 6px; align-items: center; }
+.chip-btn[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; cursor: pointer; text-align: left; display: flex; flex-direction: column; gap: 10px; transition: border-color .15s, box-shadow .15s; }
+.card:hover, .card:focus-visible { border-color: var(--line-strong); box-shadow: 0 4px 16px rgba(0,0,0,.06); outline: none; }
+.card-head { display: flex; gap: 12px; align-items: center; }
+.card-title { min-width: 0; flex: 1; }
+.card-title b { display: block; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-title .row { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+.ring { position: relative; width: 52px; height: 52px; flex: none; }
+.ring span { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 700; font-size: 17px; }
+.pill { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 1px 8px; font-size: 11.5px; font-weight: 600; border: 1px solid transparent; white-space: nowrap; }
+.pill.agent { background: var(--neutral-soft); color: var(--ink-2); }
+.pill.new { background: var(--accent-soft); color: #1c5cab; }
+.pill.changed { background: var(--serious-soft); color: #8f3a17; }
+.pill.unchanged { background: var(--neutral-soft); color: var(--ink-2); }
+.pill.removed { background: var(--critical-soft); color: #8c2020; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+.sev { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; text-transform: capitalize; }
+.band { display: inline-flex; gap: 6px; align-items: center; font-weight: 600; font-size: 12.5px; }
+.counts { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; color: var(--ink-2); }
+.hash { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); display: flex; justify-content: space-between; gap: 8px; }
+.summary { color: var(--ink-2); font-size: 13px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 0; }
+.table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; color: var(--ink-2); font-weight: 600; background: var(--surface); position: sticky; top: 0; }
+tr:last-child td { border-bottom: 0; }
+tr.click { cursor: pointer; }
+tr.click:hover td { background: var(--surface); }
+.empty { padding: 28px; text-align: center; color: var(--ink-2); background: var(--card); border: 1px dashed var(--line-strong); border-radius: 14px; }
+.code { font-family: var(--mono); font-size: 12.5px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; display: flex; overflow-x: auto; margin-top: 8px; }
+.code .ln { color: var(--ink-3); padding: 7px 10px; border-right: 1px solid var(--line); user-select: none; text-align: right; min-width: 44px; background: #f3f2ee; border-radius: 8px 0 0 8px; }
+.code pre { margin: 0; padding: 7px 12px; white-space: pre; }
+.t-str { color: #0d7a3f; }
+.t-flag { color: #7a4fb8; }
+.t-cmd { color: #1c5cab; font-weight: 600; }
+.t-url { color: #b24a12; }
+.t-var { color: #8c2020; }
+.t-inv { background: #fbe9e9; color: #8c2020; border-radius: 3px; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-bottom: 16px; }
+.chart { width: 100%; height: auto; display: block; overflow: visible; }
+.chart .grid-line { stroke: var(--line); stroke-width: 1; }
+.chart .axis-text { fill: var(--ink-3); font-size: 11px; }
+.chart .cross { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 3 3; }
+.chart-box { position: relative; }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: #fff; font-size: 12px; padding: 7px 9px; border-radius: 8px; white-space: nowrap; transform: translate(-50%, -110%); z-index: 5; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
+.tip b { font-weight: 650; }
+dialog { border: 0; padding: 0; border-radius: 16px; width: min(920px, calc(100vw - 32px)); max-height: calc(100vh - 48px); background: var(--page); color: var(--ink); box-shadow: 0 24px 64px rgba(0,0,0,.25); }
+dialog::backdrop { background: rgba(20, 20, 18, .45); }
+.modal-head { position: sticky; top: 0; background: var(--card); border-bottom: 1px solid var(--line); padding: 16px 20px; display: flex; gap: 14px; align-items: center; z-index: 2; }
+.modal-head h2 { margin: 0; font-size: 19px; }
+.modal-head .grow { flex: 1; min-width: 0; }
+.close { border: 1px solid var(--line-strong); background: var(--card); border-radius: 10px; width: 36px; height: 36px; cursor: pointer; font-size: 18px; }
+.modal-body { padding: 18px 20px 24px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.section h4 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); }
+.finding { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--line-strong); border-radius: 10px; padding: 11px 13px; }
+.finding + .finding { margin-top: 8px; }
+.finding .f-top { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.finding .f-title { font-weight: 600; }
+.finding .why { color: var(--ink-2); margin: 6px 0 0; font-size: 13px; }
+.finding.dismissed { opacity: .75; border-left-style: dashed; }
+.finding.dismissed .f-title { text-decoration: line-through; }
+.reason { margin: 6px 0 0; font-size: 13px; }
+.kv { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 4px 12px; font-size: 13px; }
+.kv dt { color: var(--ink-2); }
+.kv dd { margin: 0; word-break: break-all; }
+.diff { display: flex; flex-wrap: wrap; gap: 6px; }
+.diff code { padding: 2px 7px; border-radius: 6px; }
+.diff .a { background: var(--good-soft); }
+.diff .r { background: var(--critical-soft); }
+.diff .m { background: var(--warning-soft); }
+.note { font-size: 12.5px; color: var(--ink-2); }
+#m-chart { max-width: 560px; }
+.nowrap { white-space: nowrap; }
+.legend-row { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: var(--ink-2); margin-top: 8px; }
+footer { margin-top: 36px; color: var(--ink-3); font-size: 12px; }
+@media (max-width: 900px) {
+  .overview, .two { grid-template-columns: 1fr; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .wrap { padding-inline: 16px; }
+  .kv { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+      </div>
+      <div>
+        <h1>Skill Sec Checker</h1>
+        <p>Every installed agent skill, hashed and scored 0 to 10 for safety.</p>
+      </div>
+    </div>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <section class="overview">
+    <div class="tiles" id="tiles"></div>
+    <div class="panel">
+      <h3>Score distribution</h3>
+      <p class="sub">Skills per score. 10 is safest.</p>
+      <div class="chart-box" id="dist"></div>
+    </div>
+  </section>
+
+  <nav class="tabs" role="tablist" id="tabs"></nav>
+
+  <section id="p-skills" role="tabpanel">
+    <div class="toolbar">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#85837d" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search skills, hashes, findings, files" aria-label="Search skills">
+      </label>
+      <select id="agent" aria-label="Agent"></select>
+      <select id="status" aria-label="Status">
+        <option value="">Any status</option>
+        <option value="new">New</option>
+        <option value="changed">Changed</option>
+        <option value="unchanged">Unchanged</option>
+      </select>
+      <select id="sort" aria-label="Sort">
+        <option value="score">Riskiest first</option>
+        <option value="name">Name</option>
+        <option value="findings">Most findings</option>
+      </select>
+    </div>
+    <div class="toolbar chips" id="bands"></div>
+    <div class="grid" id="cards"></div>
+    <div id="removed-box"></div>
+  </section>
+
+  <section id="p-findings" role="tabpanel" hidden>
+    <div class="toolbar">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#85837d" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="fq" type="search" placeholder="Search findings" aria-label="Search findings">
+      </label>
+      <select id="fsev" aria-label="Severity"></select>
+    </div>
+    <div id="findings-table"></div>
+  </section>
+
+  <section id="p-history" role="tabpanel" hidden>
+    <div class="two">
+      <div class="panel">
+        <h3>Average score per run</h3>
+        <p class="sub">Hover a point for the run details.</p>
+        <div class="chart-box" id="trend"></div>
+      </div>
+      <div class="panel">
+        <h3>Skill changes per run</h3>
+        <p class="sub">New, changed and removed skills detected by hash.</p>
+        <div id="run-changes"></div>
+      </div>
+    </div>
+    <h3 style="margin: 6px 0 10px; font-size: 15px;">Runs</h3>
+    <div id="runs-table"></div>
+    <h3 style="margin: 22px 0 10px; font-size: 15px;">Hash timeline</h3>
+    <div id="changes-table"></div>
+  </section>
+
+  <section id="p-rules" role="tabpanel" hidden>
+    <div class="two">
+      <div class="panel">
+        <h3>How the score works</h3>
+        <p class="sub">Every skill starts at 10. Each distinct rule that fires takes its weight off once, no matter how many lines match. The score never goes below 0.</p>
+        <div id="weights"></div>
+      </div>
+      <div class="panel">
+        <h3>Bands</h3>
+        <p class="sub">What a score means.</p>
+        <div id="band-list"></div>
+      </div>
+    </div>
+    <div id="rules-table"></div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<dialog id="modal" aria-labelledby="m-title"></dialog>
+<div class="tip" id="tip" hidden></div>
+
+<script id="payload" type="application/json">__PAYLOAD__</script>
+<script>
+const D = JSON.parse(document.getElementById("payload").textContent);
+const SEV = ["critical", "high", "medium", "low"];
+const SEV_COLOR = { critical: "var(--critical)", high: "var(--serious)", medium: "var(--warning)", low: "var(--ink-3)" };
+const BAND_COLOR = { safe: "var(--good)", low: "var(--warning)", review: "var(--serious)", dangerous: "var(--critical)" };
+const BAND_SOFT = { safe: "var(--good-soft)", low: "var(--warning-soft)", review: "var(--serious-soft)", dangerous: "var(--critical-soft)" };
+const BAND_ICON = {
+  safe: '<path d="M5 12l4 4 10-10"/>',
+  low: '<path d="M6 12h12"/>',
+  review: '<path d="M12 3L2.5 20h19z" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 10v4"/><circle cx="12" cy="17" r=".5"/>',
+  dangerous: '<path d="M7 7l10 10M17 7L7 17"/>'
+};
+const state = { tab: "skills", q: "", agent: "", status: "", sort: "score", bands: new Set(), fq: "", fsev: "" };
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+const short = (h) => (h ? h.slice(0, 12) : "");
+const when = (iso) => { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleString(undefined, { year: "numeric", month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit" }); };
+const bytes = (n) => (n < 1024 ? n + " B" : n < 1048576 ? (n / 1024).toFixed(1) + " KB" : (n / 1048576).toFixed(1) + " MB");
+const byId = Object.fromEntries(D.skills.map((s) => [s.id, s]));
+const allFindings = D.skills.flatMap((s) => s.findings.map((f) => ({ ...f, skill: s.id })));
+
+function bandIcon(key, size = 14) {
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${BAND_COLOR[key]}" stroke-width="3" stroke-linecap="round" aria-hidden="true">${BAND_ICON[key]}</svg>`;
+}
+function bandTag(s) { return `<span class="band">${bandIcon(s.band)}${esc(s.bandLabel)}</span>`; }
+function sevTag(sev) { return `<span class="sev"><span class="dot" style="background:${SEV_COLOR[sev]}"></span>${esc(sev)}</span>`; }
+function ring(score, band, size = 52) {
+  const r = size / 2 - 5, c = 2 * Math.PI * r, off = c * (1 - score / 10);
+  return `<div class="ring" style="width:${size}px;height:${size}px"><svg width="${size}" height="${size}" aria-hidden="true"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${BAND_SOFT[band]}" stroke-width="5"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${BAND_COLOR[band]}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 ${size / 2} ${size / 2})"/></svg><span style="font-size:${size > 60 ? 24 : 17}px">${score}</span></div>`;
+}
+
+function highlight(text) {
+  const rules = [
+    [/^(&quot;[^]*?&quot;|&#39;[^]*?&#39;)/, "t-str"],
+    [/^&lt;U\+[0-9A-F]{4}&gt;/, "t-inv"],
+    [/^https?:\/\/[^\s&|;]+/, "t-url"],
+    [/^\$\{?[A-Za-z_][A-Za-z0-9_]*\}?/, "t-var"],
+    [/^--?[A-Za-z][\w-]*/, "t-flag"],
+    [/^(curl|wget|bash|sh|zsh|sudo|rm|eval|exec|git|npx|npm|pip3?|chmod|crontab|launchctl|base64|printenv|scp|nc|tee|sed|cat|python3?|node|claude|codex)\b/, "t-cmd"]
+  ];
+  let src = esc(text), out = "", prev = " ";
+  while (src.length) {
+    let hit = null;
+    if (/[\s|;(&`]/.test(prev) || prev === "") {
+      for (const [re, cls] of rules) { const m = src.match(re); if (m) { hit = [m[0], cls]; break; } }
+    } else {
+      for (const [re, cls] of rules.slice(0, 3)) { const m = src.match(re); if (m) { hit = [m[0], cls]; break; } }
+    }
+    if (hit) { out += `<span class="${hit[1]}">${hit[0]}</span>`; src = src.slice(hit[0].length); prev = "x"; }
+    else { const ch = src.startsWith("&") ? src.match(/^&[a-z#0-9]+;/)?.[0] || "&" : src[0]; out += ch; prev = ch; src = src.slice(ch.length); }
+  }
+  return out;
+}
+function codeLine(f) {
+  if (!f.excerpt) return "";
+  return `<div class="code"><div class="ln">${f.line || "&nbsp;"}</div><pre>${highlight(f.excerpt)}</pre></div>`;
+}
+
+function renderMeta() {
+  $("meta").innerHTML = [
+    `<span>Run <b>${esc(when(D.at))}</b></span>`,
+    `<span>Report <code>${esc(D.runDir)}</code></span>`,
+    ...D.roots.map((r) => `<span>${esc(r.agent)} <code>${esc(r.path)}</code>${r.exists ? "" : " (missing)"}</span>`)
+  ].join("");
+  $("foot").innerHTML = `History lives in <code>${esc(D.dataDir)}/history.json</code> · ${D.runs.length} run${D.runs.length === 1 ? "" : "s"} recorded · report <code>${esc(D.runDir)}/index.html</code>`;
+}
+
+function renderTiles() {
+  const s = D.summary;
+  const review = D.skills.filter((x) => x.band === "review").length;
+  const tiles = [
+    ["Skills scanned", s.skills, ""],
+    ["Average score", s.average == null ? "-" : s.average, "<small>/10</small>"],
+    [`${bandIcon("dangerous", 12)} Dangerous`, s.dangerous, ""],
+    [`${bandIcon("review", 12)} Needs review`, review, ""],
+    ["New", s.new, ""],
+    ["Changed", s.changed, ""],
+    ["Unchanged", s.unchanged, ""],
+    ["Removed", s.removed, ""]
+  ];
+  $("tiles").innerHTML = tiles.map(([k, v, suf]) => `<div class="tile"><div class="k">${k}</div><div class="v">${v}${suf}</div></div>`).join("");
+}
+
+function tipAt(box, x, y, html) {
+  const tip = $("tip"), r = box.getBoundingClientRect();
+  tip.innerHTML = html; tip.hidden = false;
+  tip.style.left = r.left + window.scrollX + x + "px";
+  tip.style.top = r.top + window.scrollY + y + "px";
+}
+function hideTip() { $("tip").hidden = true; }
+
+function renderDist() {
+  const counts = Array.from({ length: 11 }, (_, i) => D.skills.filter((s) => s.score === i).length);
+  const W = 420, H = 150, L = 26, B = 22, T = 8, max = Math.max(1, ...counts);
+  const bw = (W - L) / 11, ticks = max <= 4 ? Array.from({ length: max + 1 }, (_, i) => i) : [0, Math.round(max / 2), max];
+  let svg = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Skills per score">`;
+  ticks.forEach((t) => { const y = H - B - (t / max) * (H - B - T); svg += `<line class="grid-line" x1="${L}" x2="${W}" y1="${y}" y2="${y}"/><text class="axis-text" x="${L - 8}" y="${y + 4}" text-anchor="end">${t}</text>`; });
+  counts.forEach((c, i) => {
+    const h = (c / max) * (H - B - T), x = L + i * bw + 3, w = bw - 6, y = H - B - h;
+    const key = D.bands.find((b) => i >= b.floor).key;
+    if (c) svg += `<path d="M${x},${H - B} V${y + 4} Q${x},${y} ${x + 4},${y} H${x + w - 4} Q${x + w},${y} ${x + w},${y + 4} V${H - B} Z" fill="${BAND_COLOR[key]}"/>`;
+    svg += `<rect x="${L + i * bw}" y="${T}" width="${bw}" height="${H - B - T}" fill="transparent" data-i="${i}" data-c="${c}" data-x="${x + w / 2}" data-y="${Math.min(y, H - B - 4)}"/>`;
+    svg += `<text class="axis-text" x="${x + w / 2}" y="${H - 6}" text-anchor="middle">${i}</text>`;
+  });
+  svg += "</svg>";
+  const box = $("dist");
+  box.innerHTML = svg + `<div class="legend-row">${D.bands.map((b) => `<span class="band">${bandIcon(b.key, 12)}${esc(b.label)} ${b.floor}${b.floor === 9 ? "-10" : b.floor === 7 ? "-8" : b.floor === 4 ? "-6" : "-3"}</span>`).join("")}</div>`;
+  const svgEl = box.querySelector("svg");
+  svgEl.querySelectorAll("rect").forEach((r) => {
+    r.addEventListener("mousemove", () => {
+      const scale = svgEl.getBoundingClientRect().width / W;
+      tipAt(svgEl, +r.dataset.x * scale, +r.dataset.y * scale, `Score <b>${r.dataset.i}</b> · ${r.dataset.c} skill${r.dataset.c === "1" ? "" : "s"}`);
+    });
+    r.addEventListener("mouseleave", hideTip);
+  });
+}
+
+const TABS = [
+  ["skills", "Skills", () => D.skills.length],
+  ["findings", "Findings", () => allFindings.length],
+  ["history", "History", () => D.runs.length],
+  ["rules", "Rules", () => D.rules.length]
+];
+function renderTabs() {
+  $("tabs").innerHTML = TABS.map(([k, label, n]) => `<button role="tab" aria-selected="${state.tab === k}" data-tab="${k}">${label}<span class="count">${n()}</span></button>`).join("");
+  TABS.forEach(([k]) => { $("p-" + k).hidden = state.tab !== k; });
+}
+
+function statusPill(s) {
+  return `<span class="pill ${s.status}">${s.status === "new" ? "New" : s.status === "changed" ? "Changed" : "Unchanged"}</span>`;
+}
+function twins(s) { return D.skills.filter((o) => o.hash === s.hash && o.id !== s.id).map((o) => o.id); }
+
+function haystack(s) {
+  return [s.id, s.hash, s.summary, s.bandLabel, ...s.files.map((f) => f.path), ...s.findings.map((f) => f.title + " " + f.rule + " " + f.excerpt)].join(" ").toLowerCase();
+}
+
+function renderCards() {
+  const agents = [...new Set(D.skills.map((s) => s.agent))];
+  if (!$("agent").options.length) $("agent").innerHTML = `<option value="">All agents</option>` + agents.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join("");
+  $("bands").innerHTML = D.bands.map((b) => `<button class="chip-btn" aria-pressed="${state.bands.has(b.key)}" data-band="${b.key}">${bandIcon(b.key, 12)}${esc(b.label)} <span class="note">${D.skills.filter((s) => s.band === b.key).length}</span></button>`).join("");
+  const q = state.q.toLowerCase();
+  let list = D.skills.filter((s) => (!state.agent || s.agent === state.agent) && (!state.status || s.status === state.status) && (!state.bands.size || state.bands.has(s.band)) && (!q || haystack(s).includes(q)));
+  const sorts = { score: (a, b) => a.score - b.score || b.findings.length - a.findings.length || a.id.localeCompare(b.id), name: (a, b) => a.id.localeCompare(b.id), findings: (a, b) => b.findings.length - a.findings.length || a.score - b.score };
+  list.sort(sorts[state.sort]);
+  $("cards").innerHTML = list.length ? list.map((s) => {
+    const per = SEV.map((sev) => [sev, s.findings.filter((f) => f.severity === sev).length]).filter(([, n]) => n);
+    const same = twins(s);
+    return `<button class="card" data-skill="${esc(s.id)}">
+      <div class="card-head">${ring(s.score, s.band)}<div class="card-title"><b title="${esc(s.name)}">${esc(s.name)}</b><div class="row"><span class="pill agent">${esc(s.agent)}</span>${statusPill(s)}</div></div></div>
+      ${bandTag(s)}
+      <p class="summary">${esc(s.summary)}</p>
+      <div class="counts">${per.length ? per.map(([sev, n]) => `<span class="sev"><span class="dot" style="background:${SEV_COLOR[sev]}"></span>${n} ${sev}</span>`).join("") : "<span>No findings</span>"}${s.dismissed.length ? `<span>${s.dismissed.length} dismissed</span>` : ""}</div>
+      <div class="hash"><span>sha256 ${short(s.hash)}</span><span>${s.files.length} file${s.files.length === 1 ? "" : "s"}${same.length ? " · twin" : ""}</span></div>
+    </button>`;
+  }).join("") : `<div class="empty">No skill matches these filters.</div>`;
+  $("removed-box").innerHTML = D.removed.length ? `<h3 style="margin:22px 0 10px;font-size:15px">Removed since the last run</h3><div class="table-wrap"><table><thead><tr><th>Skill</th><th>Last score</th><th>Last hash</th><th>Last seen</th></tr></thead><tbody>${D.removed.map((r) => `<tr><td><span class="pill removed">Removed</span> ${esc(r.id)}</td><td>${r.lastScore}/10</td><td class="mono">${short(r.lastHash)}</td><td>${esc(when(r.lastSeen))}</td></tr>`).join("")}</tbody></table></div>` : "";
+}
+
+function renderFindings() {
+  if (!$("fsev").options.length) $("fsev").innerHTML = `<option value="">All severities</option>` + SEV.map((s) => `<option value="${s}">${s[0].toUpperCase() + s.slice(1)}</option>`).join("");
+  const q = state.fq.toLowerCase();
+  const list = allFindings.filter((f) => (!state.fsev || f.severity === state.fsev) && (!q || [f.skill, f.title, f.rule, f.file, f.excerpt].join(" ").toLowerCase().includes(q)))
+    .sort((a, b) => SEV.indexOf(a.severity) - SEV.indexOf(b.severity) || a.skill.localeCompare(b.skill));
+  $("findings-table").innerHTML = list.length ? `<div class="table-wrap"><table><thead><tr><th>Severity</th><th>Skill</th><th>Finding</th><th>Location</th><th>Evidence</th></tr></thead><tbody>${list.map((f) => `<tr class="click" data-skill="${esc(f.skill)}"><td>${sevTag(f.severity)}</td><td>${esc(f.skill)}</td><td>${esc(f.title)}${f.byReviewer ? ' <span class="pill agent">reviewer</span>' : ""}</td><td class="mono">${esc(f.file)}${f.line ? ":" + f.line : ""}</td><td class="mono" style="max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${highlight(f.excerpt || f.why)}</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">No findings match.</div>`;
+}
+
+function lineChart(points, opts) {
+  const W = opts.w || 520, H = opts.h || 190, L = 30, R = 16, T = 12, B = 26;
+  const n = points.length, xs = (i) => (n === 1 ? L + (W - L - R) / 2 : L + (i * (W - L - R)) / (n - 1)), ys = (v) => T + (1 - v / 10) * (H - T - B);
+  let svg = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opts.label)}">`;
+  [0, 5, 10].forEach((t) => { svg += `<line class="grid-line" x1="${L}" x2="${W - R}" y1="${ys(t)}" y2="${ys(t)}"/><text class="axis-text" x="${L - 8}" y="${ys(t) + 4}" text-anchor="end">${t}</text>`; });
+  const idx = n <= 6 ? points.map((_, i) => i) : [0, Math.floor((n - 1) / 2), n - 1];
+  idx.forEach((i) => { svg += `<text class="axis-text" x="${xs(i)}" y="${H - 6}" text-anchor="middle">${esc(points[i].label)}</text>`; });
+  svg += `<path d="${points.map((p, i) => (i ? "L" : "M") + xs(i) + "," + ys(p.v)).join(" ")}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>`;
+  points.forEach((p, i) => { svg += `<circle cx="${xs(i)}" cy="${ys(p.v)}" r="4.5" fill="var(--accent)" stroke="var(--card)" stroke-width="2"/>`; });
+  svg += `<line class="cross" x1="0" x2="0" y1="${T}" y2="${H - B}" visibility="hidden"/><rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent"/></svg>`;
+  return { svg, W, xs, ys };
+}
+function bindLine(box, points, chart, tipHtml) {
+  const svgEl = box.querySelector("svg"), cross = svgEl.querySelector(".cross"), rect = svgEl.querySelector("rect");
+  rect.addEventListener("mousemove", (e) => {
+    const r = svgEl.getBoundingClientRect(), scale = r.width / chart.W, x = (e.clientX - r.left) / scale;
+    let best = 0; points.forEach((_, i) => { if (Math.abs(chart.xs(i) - x) < Math.abs(chart.xs(best) - x)) best = i; });
+    cross.setAttribute("x1", chart.xs(best)); cross.setAttribute("x2", chart.xs(best)); cross.setAttribute("visibility", "visible");
+    tipAt(svgEl, chart.xs(best) * scale, chart.ys(points[best].v) * scale - 6, tipHtml(best));
+  });
+  rect.addEventListener("mouseleave", () => { cross.setAttribute("visibility", "hidden"); hideTip(); });
+}
+
+function renderHistory() {
+  const runs = D.runs.filter((r) => r.average != null);
+  const box = $("trend");
+  if (runs.length) {
+    const pts = runs.map((r) => ({ v: r.average, label: new Date(r.at).toLocaleDateString(undefined, { month: "short", day: "numeric" }) }));
+    const c = lineChart(pts, { label: "Average score per run" });
+    box.innerHTML = c.svg;
+    bindLine(box, pts, c, (i) => `<b>${runs[i].average}/10</b> average<br>${esc(when(runs[i].at))}<br>${runs[i].skills} skills · ${runs[i].dangerous} dangerous`);
+  } else box.innerHTML = `<div class="empty">No runs yet.</div>`;
+  $("run-changes").innerHTML = `<div class="table-wrap" style="border:0"><table><thead><tr><th>Run</th><th>New</th><th>Changed</th><th>Removed</th></tr></thead><tbody>${D.runs.slice().reverse().map((r) => `<tr><td>${esc(when(r.at))}</td><td>${r.new}</td><td>${r.changed}</td><td>${r.removed}</td></tr>`).join("")}</tbody></table></div>`;
+  $("runs-table").innerHTML = `<div class="table-wrap"><table><thead><tr><th>When</th><th>Skills</th><th>Average</th><th>Dangerous</th><th>Unchanged</th><th>Reviewed by agent</th><th>Report</th></tr></thead><tbody>${D.runs.slice().reverse().map((r) => `<tr><td>${esc(when(r.at))}</td><td>${r.skills}</td><td>${r.average == null ? "-" : r.average + "/10"}</td><td>${r.dangerous}</td><td>${r.unchanged}</td><td>${r.reviewed}</td><td class="mono">${esc(r.dir)}</td></tr>`).join("")}</tbody></table></div>`;
+  const rows = [];
+  D.skills.forEach((s) => s.timeline.forEach((e, i) => {
+    const prev = s.timeline.slice(0, i).reverse().find((x) => !x.removed);
+    rows.push({ id: s.id, at: e.at, removed: e.removed, hash: e.hash, score: e.score, prev });
+  }));
+  D.removed.forEach((r) => rows.push({ id: r.id, at: D.at, removed: true, prev: { hash: r.lastHash, score: r.lastScore } }));
+  rows.sort((a, b) => b.at.localeCompare(a.at) || a.id.localeCompare(b.id));
+  $("changes-table").innerHTML = `<div class="table-wrap"><table><thead><tr><th>When</th><th>Skill</th><th>Event</th><th>Hash</th><th>Score</th></tr></thead><tbody>${rows.map((r) => {
+    const ev = r.removed ? `<span class="pill removed">Removed</span>` : r.prev ? (r.prev.hash === r.hash ? `<span class="pill unchanged">Rescored</span>` : `<span class="pill changed">Changed</span>`) : `<span class="pill new">First seen</span>`;
+    const hash = r.removed ? `<span class="mono">${short(r.prev.hash)}</span>` : r.prev && r.prev.hash !== r.hash ? `<span class="mono">${short(r.prev.hash)} → ${short(r.hash)}</span>` : `<span class="mono">${short(r.hash)}</span>`;
+    const score = r.removed ? `${r.prev.score}/10` : r.prev && r.prev.score !== r.score ? `${r.prev.score} → <b>${r.score}</b>/10` : `${r.score}/10`;
+    return `<tr class="${byId[r.id] ? "click" : ""}" data-skill="${byId[r.id] ? esc(r.id) : ""}"><td>${esc(when(r.at))}</td><td>${esc(r.id)}</td><td>${ev}</td><td>${hash}</td><td>${score}</td></tr>`;
+  }).join("")}</tbody></table></div>`;
+}
+
+function renderRules() {
+  $("weights").innerHTML = `<div class="table-wrap" style="border:0"><table><thead><tr><th>Severity</th><th>Points off</th><th>Rules</th></tr></thead><tbody>${SEV.map((s) => `<tr><td>${sevTag(s)}</td><td>${D.rules.find((r) => r.severity === s).weight}</td><td>${D.rules.filter((r) => r.severity === s).length}</td></tr>`).join("")}</tbody></table></div><p class="note">The reviewing agent can dismiss a false positive with a written reason, or add a finding with a file and line. Both show up in the skill detail.</p>`;
+  $("band-list").innerHTML = `<div class="table-wrap" style="border:0"><table><tbody>${D.bands.map((b, i) => `<tr><td>${bandIcon(b.key)} <b>${esc(b.label)}</b></td><td>${b.floor} - ${i ? D.bands[i - 1].floor - 1 : 10}</td><td>${plural(D.skills.filter((s) => s.band === b.key).length, "skill")}</td></tr>`).join("")}</tbody></table></div>`;
+  $("rules-table").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Rule</th><th>Severity</th><th>What it catches</th><th>Why it matters</th><th>Hits</th></tr></thead><tbody>${D.rules.map((r) => `<tr><td class="mono nowrap">${esc(r.id)}</td><td>${sevTag(r.severity)}</td><td>${esc(r.title)}</td><td style="color:var(--ink-2)">${esc(r.why)}</td><td>${allFindings.filter((f) => f.rule === r.id).length}</td></tr>`).join("")}</tbody></table></div>`;
+}
+
+function openSkill(id) {
+  const s = byId[id];
+  if (!s) return;
+  const same = twins(s);
+  const fcard = (f, dismissed) => `<div class="finding ${dismissed ? "dismissed" : ""}" style="border-left-color:${SEV_COLOR[f.severity]}">
+    <div class="f-top"><span class="f-title">${esc(f.title)}${f.byReviewer ? ' <span class="pill agent">added by reviewer</span>' : ""}</span>${sevTag(f.severity)}</div>
+    <div class="note mono">${esc(f.file)}${f.line ? ":" + f.line : ""} · ${esc(f.rule)}</div>
+    ${codeLine(f)}
+    ${dismissed ? `<p class="reason"><b>Dismissed:</b> ${esc(f.reason)}</p>` : `<p class="why">${esc(f.why)}</p>`}
+  </div>`;
+  const ch = s.changes;
+  const tl = s.timeline.filter((e) => !e.removed);
+  const pts = tl.map((e) => ({ v: e.score, label: new Date(e.at).toLocaleDateString(undefined, { month: "short", day: "numeric" }) }));
+  const chart = pts.length > 1 ? lineChart(pts, { label: "Score over time", w: 560, h: 160 }) : null;
+  $("modal").innerHTML = `
+    <div class="modal-head">${ring(s.score, s.band, 64)}<div class="grow"><h2 id="m-title">${esc(s.name)}</h2><div class="row" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px"><span class="pill agent">${esc(s.agent)}</span>${statusPill(s)}${bandTag(s)}</div></div><button class="close" aria-label="Close">×</button></div>
+    <div class="modal-body">
+      <div class="panel section"><h4>Reviewer summary</h4><p style="margin:0">${esc(s.summary)}</p><p class="note" style="margin:8px 0 0">Reviewed ${esc(when(s.reviewedAt))}</p></div>
+      <div class="panel section"><h4>Identity</h4><dl class="kv"><dt>Skill id</dt><dd class="mono">${esc(s.id)}</dd><dt>Path</dt><dd class="mono">${esc(s.path)}</dd><dt>sha256</dt><dd class="mono">${esc(s.hash)}</dd>${s.previousHash && s.previousHash !== s.hash ? `<dt>Previous</dt><dd class="mono">${esc(s.previousHash)}</dd>` : ""}${same.length ? `<dt>Same hash as</dt><dd>${same.map(esc).join(", ")}</dd>` : ""}</dl></div>
+      ${ch ? `<div class="panel section"><h4>What changed since the last hash</h4><div class="diff">${ch.added.map((p) => `<code class="a">+ ${esc(p)}</code>`).join("")}${ch.modified.map((p) => `<code class="m">~ ${esc(p)}</code>`).join("")}${ch.removed.map((p) => `<code class="r">- ${esc(p)}</code>`).join("")}${!ch.added.length && !ch.modified.length && !ch.removed.length ? '<span class="note">Reinstalled with the same files.</span>' : ""}</div></div>` : ""}
+      <div class="section"><h4>Findings (${s.findings.length})</h4>${s.findings.length ? s.findings.map((f) => fcard(f, false)).join("") : `<div class="empty">No active findings.</div>`}</div>
+      ${s.dismissed.length ? `<div class="section"><h4>Dismissed by reviewer (${s.dismissed.length})</h4>${s.dismissed.map((f) => fcard(f, true)).join("")}</div>` : ""}
+      <div class="panel section"><h4>Score history</h4>${chart ? `<div class="chart-box" id="m-chart">${chart.svg}</div>` : ""}<div class="table-wrap" style="margin-top:8px"><table><thead><tr><th>When</th><th>Hash</th><th>Score</th></tr></thead><tbody>${s.timeline.slice().reverse().map((e) => `<tr><td>${esc(when(e.at))}</td><td class="mono">${e.removed ? "removed" : short(e.hash)}</td><td>${e.removed ? "-" : e.score + "/10"}</td></tr>`).join("")}</tbody></table></div></div>
+      <div class="section"><h4>Files (${s.files.length})</h4><div class="table-wrap"><table><thead><tr><th>Path</th><th>Kind</th><th>Size</th><th>sha256</th></tr></thead><tbody>${s.files.map((f) => `<tr><td class="mono">${esc(f.path)}</td><td>${esc(f.kind)}</td><td>${bytes(f.size)}</td><td class="mono">${short(f.sha256)}</td></tr>`).join("")}</tbody></table></div></div>
+    </div>`;
+  $("modal").querySelector(".close").addEventListener("click", () => $("modal").close());
+  if (!$("modal").open) $("modal").showModal();
+  if (chart) bindLine($("m-chart"), pts, chart, (i) => `<b>${tl[i].score}/10</b><br>${esc(when(tl[i].at))}<br><span class="mono">${short(tl[i].hash)}</span>`);
+  $("modal").scrollTop = 0;
+}
+
+document.addEventListener("click", (e) => {
+  const tab = e.target.closest("[data-tab]");
+  if (tab) { state.tab = tab.dataset.tab; renderTabs(); return; }
+  const band = e.target.closest("[data-band]");
+  if (band) { state.bands.has(band.dataset.band) ? state.bands.delete(band.dataset.band) : state.bands.add(band.dataset.band); renderCards(); return; }
+  const skill = e.target.closest("[data-skill]");
+  if (skill && skill.dataset.skill) openSkill(skill.dataset.skill);
+});
+$("modal").addEventListener("click", (e) => { if (e.target === $("modal")) $("modal").close(); });
+$("modal").addEventListener("close", hideTip);
+$("q").addEventListener("input", (e) => { state.q = e.target.value; renderCards(); });
+$("agent").addEventListener("change", (e) => { state.agent = e.target.value; renderCards(); });
+$("status").addEventListener("change", (e) => { state.status = e.target.value; renderCards(); });
+$("sort").addEventListener("change", (e) => { state.sort = e.target.value; renderCards(); });
+$("fq").addEventListener("input", (e) => { state.fq = e.target.value; renderFindings(); });
+$("fsev").addEventListener("change", (e) => { state.fsev = e.target.value; renderFindings(); });
+
+renderMeta();
+renderTiles();
+renderDist();
+renderTabs();
+renderCards();
+renderFindings();
+renderHistory();
+renderRules();
+const deep = new URLSearchParams(location.hash.slice(1));
+if (deep.get("tab")) { state.tab = deep.get("tab"); renderTabs(); }
+if (deep.get("skill")) openSkill(deep.get("skill"));
+</script>
+</body>
+</html>

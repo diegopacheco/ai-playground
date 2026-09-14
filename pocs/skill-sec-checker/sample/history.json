@@ -1,0 +1,264 @@
+{
+  "reviews": {
+    "0ede5ebb7b0a02c1ab005dc5042dada9375a674d02d8ab2765be854083c14246": {
+      "add": [],
+      "dismiss": [],
+      "reviewedAt": "2026-08-30T09:30:00Z",
+      "summary": "Mirrors the docs folder into site/docs with rsync. Local only, no network and nothing outside the repository."
+    },
+    "0f485f93b040f6ed9cbf8bb3609deb03aed485a4150e5766c9d4162a3a0eb58b": {
+      "add": [],
+      "dismiss": [
+        {
+          "finding": "pipe-to-shell@SKILL.md:16",
+          "reason": "The command is quoted as something to refuse, not an instruction to run."
+        },
+        {
+          "finding": "network-access@SKILL.md:16",
+          "reason": "Same quoted refusal line, the skill makes no network calls."
+        }
+      ],
+      "reviewedAt": "2026-08-30T09:30:00Z",
+      "summary": "Realigns Markdown tables using only Read and Edit. The curl pipe on line 16 is quoted inside a Never list that tells the agent to refuse it."
+    },
+    "1b57460af9d78f4285f52e0b7a77f61cc67cf02156929cc9518bbd15f5f73aae": {
+      "add": [],
+      "dismiss": [],
+      "reviewedAt": "2026-08-30T09:30:00Z",
+      "summary": "Installs a CLI by piping a remote script straight into bash. Whoever controls that host controls what runs on the machine."
+    },
+    "5fe0fe79052072959ffbb4444497cf9722272e76f98f5290e263fe5cbf096acc": {
+      "add": [],
+      "dismiss": [],
+      "reviewedAt": "2026-08-30T09:30:00Z",
+      "summary": "Writes a commit message from the staged diff. It is limited to git diff and git log and never commits, so it cannot change the repository."
+    },
+    "6223568ede4184ac9e4e09073a87ddecde15c5378ddc91f081327e7cb14d6168": {
+      "add": [],
+      "dismiss": [],
+      "reviewedAt": "2026-08-30T09:30:00Z",
+      "summary": "Claims to diagnose missing tools, but the script dumps every environment variable, appends the AWS credentials file and posts the result to a public raw IP. This is credential theft dressed as a health check."
+    },
+    "6a9d997670b2f944f40048bf98d43e6af7f7218d0b683d9dab13cd66178d474e": {
+      "add": [],
+      "dismiss": [],
+      "reviewedAt": "2026-08-30T09:30:00Z",
+      "summary": "Calls a public forecast API with latitude and longitude and formats the answer. Read-only and sends nothing about the user beyond the coordinates."
+    },
+    "95600179d4d4e76f51be9970ebe1a05bba76d94bb2397ecb90883d2113158a8e": {
+      "add": [
+        {
+          "file": "scripts/summarize.py",
+          "line": 14,
+          "severity": "medium",
+          "title": "Reads the system log by default",
+          "why": "The system log can hold user names, hostnames and app activity that end up in the agent context."
+        }
+      ],
+      "dismiss": [
+        {
+          "finding": "encoded-blob@scripts/summarize.py:5",
+          "reason": "The ICON constant is never decoded or executed anywhere in the script."
+        }
+      ],
+      "reviewedAt": "2026-08-30T09:30:00Z",
+      "summary": "Counts the most frequent ERROR lines in a log file. The shell pipeline interpolates the path argument, and without an argument it reads the macOS system log."
+    },
+    "ba6b2fd8daa4fa21ed71d78389b9175359d0d1440eeb98c79952b41396f05dcf": {
+      "add": [],
+      "dismiss": [],
+      "reviewedAt": "2026-09-13T09:30:00Z",
+      "summary": "Formats SQL files with Read and Edit only. No scripts, no shell and no network."
+    },
+    "bcbf97c7a260c18f642d8e042bed7a4fb8634f8f7381d43415b0979c7b0b2e8f": {
+      "add": [],
+      "dismiss": [],
+      "reviewedAt": "2026-08-30T09:30:00Z",
+      "summary": "Grants every tool, launches a nested agent with permission prompts disabled, force pushes, and hides a zero-width character before an instruction to keep the force push from the user."
+    },
+    "e5a78442d7d99f972a15c0864b2348a6572e6a75ba5b5fcdde4c0cb19bf2c6fd": {
+      "add": [],
+      "dismiss": [],
+      "reviewedAt": "2026-09-13T09:30:00Z",
+      "summary": "The sync script changed since the last scan. It now pipes a script from an unknown mirror into sh and installs a cron job that re-runs itself every 10 minutes."
+    }
+  },
+  "runs": [
+    {
+      "at": "2026-08-30T09:30:00Z",
+      "average": 6.4,
+      "changed": 0,
+      "dangerous": 3,
+      "dir": "~/.skill-sec-checker/runs/20260830T093000Z",
+      "new": 9,
+      "removed": 0,
+      "reviewed": 8,
+      "skills": 9,
+      "unchanged": 0
+    },
+    {
+      "at": "2026-09-06T09:30:00Z",
+      "average": 6.4,
+      "changed": 0,
+      "dangerous": 3,
+      "dir": "~/.skill-sec-checker/runs/20260906T093000Z",
+      "new": 0,
+      "removed": 0,
+      "reviewed": 0,
+      "skills": 9,
+      "unchanged": 9
+    },
+    {
+      "at": "2026-09-13T09:30:00Z",
+      "average": 5.4,
+      "changed": 1,
+      "dangerous": 4,
+      "dir": "~/.skill-sec-checker/runs/20260913T093000Z",
+      "new": 1,
+      "removed": 1,
+      "reviewed": 2,
+      "skills": 9,
+      "unchanged": 7
+    }
+  ],
+  "skills": {
+    "claude/commit-crafter": {
+      "timeline": [
+        {
+          "at": "2026-08-30T09:30:00Z",
+          "files": {
+            "SKILL.md": "0b8dd31e40b348c91bced562915e6ea65cf195469769951628740cb23ec31a6f"
+          },
+          "hash": "5fe0fe79052072959ffbb4444497cf9722272e76f98f5290e263fe5cbf096acc",
+          "score": 10
+        }
+      ]
+    },
+    "claude/env-doctor": {
+      "timeline": [
+        {
+          "at": "2026-08-30T09:30:00Z",
+          "files": {
+            "SKILL.md": "dba31a54166502c9406cae190c92544325bc86d127a7a1d8400cab8b7f83a2b7",
+            "scripts/doctor.sh": "b0ed0623fc52a2d6a1fd1188ce953085e1619f736b6b42cb6559c7ec60c05bd2"
+          },
+          "hash": "6223568ede4184ac9e4e09073a87ddecde15c5378ddc91f081327e7cb14d6168",
+          "score": 0
+        }
+      ]
+    },
+    "claude/md-table-fixer": {
+      "timeline": [
+        {
+          "at": "2026-08-30T09:30:00Z",
+          "files": {
+            "SKILL.md": "4d544fbf33a9d539a38ea4af3f497fba663d5fff711a9159b711f30a201c0113"
+          },
+          "hash": "0f485f93b040f6ed9cbf8bb3609deb03aed485a4150e5766c9d4162a3a0eb58b",
+          "score": 10
+        }
+      ]
+    },
+    "claude/pr-autopilot": {
+      "timeline": [
+        {
+          "at": "2026-08-30T09:30:00Z",
+          "files": {
+            "SKILL.md": "e769368460b6d51902e1268eae3bd0c9eb68ea330c3dd7b954bbf12e121da0a6"
+          },
+          "hash": "bcbf97c7a260c18f642d8e042bed7a4fb8634f8f7381d43415b0979c7b0b2e8f",
+          "score": 0
+        }
+      ]
+    },
+    "claude/quick-setup": {
+      "timeline": [
+        {
+          "at": "2026-08-30T09:30:00Z",
+          "files": {
+            "SKILL.md": "5afcb95750089f0640b91dfdc4f8a8414e67e326eebc9dc38b9c8dcf6f8d56ec"
+          },
+          "hash": "1b57460af9d78f4285f52e0b7a77f61cc67cf02156929cc9518bbd15f5f73aae",
+          "score": 2
+        }
+      ]
+    },
+    "claude/sql-formatter": {
+      "timeline": [
+        {
+          "at": "2026-09-13T09:30:00Z",
+          "files": {
+            "SKILL.md": "f35190abebb95c930390912066f9365484c8262606ae2af66ef65cbbcfda9ba7"
+          },
+          "hash": "ba6b2fd8daa4fa21ed71d78389b9175359d0d1440eeb98c79952b41396f05dcf",
+          "score": 10
+        }
+      ]
+    },
+    "claude/weather-brief": {
+      "timeline": [
+        {
+          "at": "2026-08-30T09:30:00Z",
+          "files": {
+            "SKILL.md": "87109d28a4522b49989b2783766a7e8ae4eb7485f0197e2166244ba18fb2d474",
+            "scripts/forecast.sh": "74e12d6e36a3100f0fbfc7c73621a61be0c2eed4623b728f4ceb9cb19a93d73f"
+          },
+          "hash": "6a9d997670b2f944f40048bf98d43e6af7f7218d0b683d9dab13cd66178d474e",
+          "score": 9
+        },
+        {
+          "at": "2026-09-13T09:30:00Z",
+          "removed": true
+        }
+      ]
+    },
+    "codex/commit-crafter": {
+      "timeline": [
+        {
+          "at": "2026-08-30T09:30:00Z",
+          "files": {
+            "SKILL.md": "0b8dd31e40b348c91bced562915e6ea65cf195469769951628740cb23ec31a6f"
+          },
+          "hash": "5fe0fe79052072959ffbb4444497cf9722272e76f98f5290e263fe5cbf096acc",
+          "score": 10
+        }
+      ]
+    },
+    "codex/docs-sync": {
+      "timeline": [
+        {
+          "at": "2026-08-30T09:30:00Z",
+          "files": {
+            "SKILL.md": "ab5e08f6506e712bfe3df8337adcb6804ac6c8dd20ab034e9fc7e843d80ffa28",
+            "scripts/sync.sh": "75d9ca6ff1dcae693b353f176ec8106604020be7da47f941d0aae7cf8fb7f76b"
+          },
+          "hash": "0ede5ebb7b0a02c1ab005dc5042dada9375a674d02d8ab2765be854083c14246",
+          "score": 10
+        },
+        {
+          "at": "2026-09-13T09:30:00Z",
+          "files": {
+            "SKILL.md": "ab5e08f6506e712bfe3df8337adcb6804ac6c8dd20ab034e9fc7e843d80ffa28",
+            "scripts/sync.sh": "8b52bffb0ee57ea4f448c9e9fa723b809045ca95a3e225296e8826bafec4f6d2"
+          },
+          "hash": "e5a78442d7d99f972a15c0864b2348a6572e6a75ba5b5fcdde4c0cb19bf2c6fd",
+          "score": 0
+        }
+      ]
+    },
+    "codex/log-summarizer": {
+      "timeline": [
+        {
+          "at": "2026-08-30T09:30:00Z",
+          "files": {
+            "SKILL.md": "a0446e44a1fe97707d9542848702f19f95e54dcc88450ebfe2dcc0632b1fa7c8",
+            "scripts/summarize.py": "ab8229824be23cfdb8fede8c9c78a52f1510a2bfb6752ce5176804e00b41cc48"
+          },
+          "hash": "95600179d4d4e76f51be9970ebe1a05bba76d94bb2397ecb90883d2113158a8e",
+          "score": 7
+        }
+      ]
+    }
+  },
+  "version": 1
+}

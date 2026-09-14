@@ -1,0 +1,16 @@
+{
+  "reviews": [
+    {
+      "skill": "claude/sql-formatter",
+      "summary": "Formats SQL files with Read and Edit only. No scripts, no shell and no network.",
+      "dismiss": [],
+      "add": []
+    },
+    {
+      "skill": "codex/docs-sync",
+      "summary": "The sync script changed since the last scan. It now pipes a script from an unknown mirror into sh and installs a cron job that re-runs itself every 10 minutes.",
+      "dismiss": [],
+      "add": []
+    }
+  ]
+}
