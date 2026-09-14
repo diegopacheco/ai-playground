@@ -1,0 +1,103 @@
+pocs/skill-sec-checker/scripts/stop-all.sh
+  s_080e2290203793::t_b5eddf18e04cd7 1-19
+pocs/skill-sec-checker/sample/skills/claude/weather-brief/SKILL.md
+  s_080e2290203793::t_2ce497093e22e0 1-9
+pocs/skill-sec-checker/scripts/test-all.sh
+  s_080e2290203793::t_b5eddf18e04cd7 1-8
+pocs/skill-sec-checker/sample/skills/claude/env-doctor/scripts/doctor.sh
+  s_080e2290203793::t_3772a2ddb75385 1-9
+pocs/skill-sec-checker/skills/skill-sec-checker/scripts/store.py
+  s_080e2290203793::t_fbbac5f3cc4a69 1-47
+pocs/skill-sec-checker/skills/skill-sec-checker/scripts/render.py
+  s_080e2290203793::t_d524ba83caf225 145,147-148
+  s_080e2290203793::t_bf006886b58854 1-144,146,149-188
+pocs/skill-sec-checker/tests/test_skill_sec_checker.py
+  s_080e2290203793::t_dc68634880afe8 116
+  s_080e2290203793::t_7745ae52b0d911 1-115,117-278
+pocs/skill-sec-checker/sample/skills/codex/log-summarizer/SKILL.md
+  s_080e2290203793::t_2ce497093e22e0 1-9
+pocs/skill-sec-checker/sample/skills/claude/weather-brief/scripts/forecast.sh
+  s_080e2290203793::t_2ce497093e22e0 1-3
+pocs/skill-sec-checker/sample/changes/claude/sql-formatter/SKILL.md
+  s_080e2290203793::t_2ce497093e22e0 1-11
+pocs/skill-sec-checker/sample/skills/codex/docs-sync/scripts/sync.sh
+  s_080e2290203793::t_2ce497093e22e0 1-4
+pocs/skill-sec-checker/scripts/status.sh
+  s_080e2290203793::t_b5eddf18e04cd7 1-16
+pocs/skill-sec-checker/sample/skills/codex/log-summarizer/scripts/summarize.py
+  s_080e2290203793::t_2ce497093e22e0 1-20
+pocs/skill-sec-checker/install.sh
+  s_080e2290203793::t_b5eddf18e04cd7 1-67
+pocs/skill-sec-checker/sample/build.sh
+  s_080e2290203793::t_17e3aac9be1c6e 1-32
+pocs/skill-sec-checker/sample/skills/codex/docs-sync/SKILL.md
+  s_080e2290203793::t_2ce497093e22e0 1-8
+pocs/skill-sec-checker/scripts/ports.env
+  s_080e2290203793::t_b5eddf18e04cd7 1
+pocs/skill-sec-checker/sample/skills/codex/commit-crafter/SKILL.md
+  s_080e2290203793::t_2ce497093e22e0 1-14
+pocs/skill-sec-checker/skills/skill-sec-checker/assets/report.html
+  s_080e2290203793::t_474ba80ed3082a 44,259,262-263,283
+  s_080e2290203793::t_2eea972cc7cba4 118
+  s_080e2290203793::t_a227ec6a60e79a 1-43,45-117,119-258,260-261,264-282,284-538
+pocs/skill-sec-checker/scripts/start-all.sh
+  s_080e2290203793::t_b5eddf18e04cd7 1-12
+pocs/skill-sec-checker/scripts/common.sh
+  s_080e2290203793::t_b5eddf18e04cd7 1-29
+pocs/skill-sec-checker/sample/changes/codex/docs-sync/scripts/sync.sh
+  s_080e2290203793::t_2ce497093e22e0 1-6
+pocs/skill-sec-checker/skills/skill-sec-checker/SKILL.md
+  s_080e2290203793::t_f67885b6cb4f36 1-57,59-98
+  s_080e2290203793::t_2ce497093e22e0 58
+pocs/skill-sec-checker/README.md
+  s_080e2290203793::t_3711b35f26d0c6 1-232
+pocs/skill-sec-checker/sample/skills/claude/pr-autopilot/SKILL.md
+  s_080e2290203793::t_2ce497093e22e0 1-11
+pocs/skill-sec-checker/scripts/ui.sh
+  s_080e2290203793::t_b5eddf18e04cd7 1-9
+pocs/skill-sec-checker/sample/index.html
+  s_080e2290203793::t_2eea972cc7cba4 118
+  s_080e2290203793::t_17e3aac9be1c6e 1-43,45-117,119-258,260-261,264-282,284-538
+  s_080e2290203793::t_474ba80ed3082a 44,259,262-263,283
+pocs/skill-sec-checker/sample/skills/claude/quick-setup/SKILL.md
+  s_080e2290203793::t_2ce497093e22e0 1-14
+pocs/skill-sec-checker/sample/history.json
+  s_080e2290203793::t_17e3aac9be1c6e 1-264
+pocs/skill-sec-checker/uninstall.sh
+  s_080e2290203793::t_b5eddf18e04cd7 1-63
+pocs/skill-sec-checker/scripts/setup.sh
+  s_080e2290203793::t_b5eddf18e04cd7 1-12
+pocs/skill-sec-checker/sample/reviews/run-3.json
+  s_080e2290203793::t_17e3aac9be1c6e 1-16
+pocs/skill-sec-checker/.gitignore
+  s_080e2290203793::t_b5eddf18e04cd7 1-4
+pocs/skill-sec-checker/sample/skills/claude/md-table-fixer/SKILL.md
+  s_080e2290203793::t_2ce497093e22e0 1-16
+pocs/skill-sec-checker/sample/reviews/run-1.json
+  s_080e2290203793::t_17e3aac9be1c6e 1-59
+pocs/skill-sec-checker/skills/skill-sec-checker/scripts/rules.py
+  s_080e2290203793::t_a89b7389c96a47 96,131
+  s_080e2290203793::t_e7fa5c441ac20f 1-95,97-130,132-202
+pocs/skill-sec-checker/skills/skill-sec-checker/scripts/scan.py
+  s_080e2290203793::t_5307fb331fab20 1-210
+pocs/skill-sec-checker/sample/skills/claude/commit-crafter/SKILL.md
+  s_080e2290203793::t_2ce497093e22e0 1-14
+pocs/skill-sec-checker/sample/skills/claude/env-doctor/SKILL.md
+  s_080e2290203793::t_2ce497093e22e0 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "7add7470b74ab54bad7a9be7a6471d9036e0912f",
+  "prompts": {},
+  "sessions": {
+    "s_080e2290203793": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b14dcd69-0a08-43ea-aa81-f44eb4f07228",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
