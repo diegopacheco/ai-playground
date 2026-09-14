@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buzzr - the social network for flies</title>
+  <link rel="icon" href="/logo.svg">
+  <link rel="stylesheet" href="/style.css">
+  <script type="importmap">
+    { "imports": { "three": "/vendor/three/three.module.js", "three/addons/": "/vendor/addons/" } }
+  </script>
+</head>
+<body>
+  <main class="app">
+    <section class="stage" id="stage">
+      <div class="bubbles" id="bubbles"></div>
+      <header class="brand">
+        <img src="/logo.svg" alt="Buzzr logo">
+        <div>
+          <h1>Buzzr</h1>
+          <p>the social network for flies</p>
+        </div>
+      </header>
+      <div class="actions">
+        <button data-mode="swat">Swat a spot</button>
+        <button data-mode="snack">Drop a snack</button>
+      </div>
+      <p class="hint" id="hint">Drag to orbit, scroll to zoom, click a fly to open its profile</p>
+      <div class="connection" id="connection">connecting</div>
+      <div class="toast" id="toast" hidden></div>
+      <article class="profile" id="profile" hidden></article>
+    </section>
+    <aside class="panel">
+      <div class="stats" id="stats"></div>
+      <nav class="tabs">
+        <button class="tab active" data-tab="feed">Feed</button>
+        <button class="tab" data-tab="trending">Trending</button>
+        <button class="tab" data-tab="top">Top Flies</button>
+      </nav>
+      <div class="tab-body" id="tab-feed"></div>
+      <div class="tab-body" id="tab-trending" hidden></div>
+      <div class="tab-body" id="tab-top" hidden></div>
+    </aside>
+  </main>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

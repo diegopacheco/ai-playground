@@ -1,0 +1,13 @@
+{
+  "name": "fly-social-fun",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node --test \"test/*.test.js\""
+  },
+  "dependencies": {
+    "three": "0.186.0"
+  }
+}
