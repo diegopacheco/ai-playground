@@ -1,0 +1,29 @@
+pocs/admin-console/frontend/scripts/render-svg.mjs
+  s_fa6084944458f4::t_e0ac4fda665482 1-15
+pocs/admin-console/stop.sh
+  s_fa6084944458f4::t_d3dacfa9c2a9ab 9,11
+pocs/admin-console/README.md
+  s_fa6084944458f4::t_481964074e7fdb 1-172
+pocs/admin-console/printscreens/architecture.svg
+  s_fa6084944458f4::t_5d8f235c7103f0 139-141
+pocs/admin-console/podman-compose.yml
+  s_fa6084944458f4::t_5e1dca1c55e4b6 11-12,18-20
+pocs/admin-console/start.sh
+  s_fa6084944458f4::t_09e8b808b5a45a 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "4a7a01eb706c117c9b8721b4da89cbc6c8ca42ff",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

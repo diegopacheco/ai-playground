@@ -1,0 +1,19 @@
+pocs/xmen97deck/index.html
+  s_5f21f161d502ac::t_6be3d8f210b893 77,123,221-224,286-287,355,811
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "07be5456963700f923a17cc6e19b74ad14def2f6",
+  "prompts": {},
+  "sessions": {
+    "s_5f21f161d502ac": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e110fcc4-16ef-44ff-85dd-cd585cc9a10e",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+games/index.html
+  s_c71345b21a12b7::t_a2db4cc547ffdd 179
+games/README.md
+  s_c71345b21a12b7::t_4825f02f8ce6ad 73
+  s_c71345b21a12b7::t_9b02c6b6403150 61
+  s_c71345b21a12b7::t_78b189f00f0479 78
+  s_c71345b21a12b7::t_0c005ea80334e9 67
+  s_c71345b21a12b7::t_f0e0401c41915a 64
+  s_c71345b21a12b7::t_9ad6fb28fc1191 58
+  s_c71345b21a12b7::t_920707c9c1378a 81
+  s_c71345b21a12b7::t_65f7fbacbf3b8b 70
+  s_c71345b21a12b7::t_935352d143a4e7 50-52
+  s_c71345b21a12b7::t_79277ef680ca05 55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a879565faa148d4209245216aec3caa9a01df564",
+  "prompts": {},
+  "sessions": {
+    "s_c71345b21a12b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f42a3a6d-ccb7-468d-b1ec-b266bc11c64e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

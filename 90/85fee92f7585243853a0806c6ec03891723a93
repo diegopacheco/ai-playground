@@ -1,0 +1,83 @@
+pocs/chess-astra-6-poc/scripts/start-all.sh
+  s_66880c18b8c3a5::t_ff9c2c51ff60d6 10-16
+pocs/chess-astra-6-poc/src/engine.ts
+  s_66880c18b8c3a5::t_44c0c7cc086826 15-22,52-57
+pocs/chess-astra-6-poc/macos/app/shortcuts.json
+  s_66880c18b8c3a5::t_91035f7aad011b 1-68
+pocs/chess-astra-6-poc/macos/app/preload.cjs
+  s_66880c18b8c3a5::t_a34f52855c3fe2 1-11
+pocs/chess-astra-6-poc/scripts/install-macos.sh
+  s_66880c18b8c3a5::t_1b6cd8c62cca08 1-36
+pocs/chess-astra-6-poc/macos/app/boot.css
+  s_66880c18b8c3a5::t_aa8c2d077b0393 1-164
+pocs/chess-astra-6-poc/macos/app/boot.js
+  s_66880c18b8c3a5::t_464f459dc1b7de 1-17
+pocs/chess-astra-6-poc/src/main.ts
+  s_66880c18b8c3a5::t_44c0c7cc086826 5,58,82,104,107,114,122,126,133,146,166,170,181,237-239
+  s_66880c18b8c3a5::t_dd296b75fd1cc1 123-125,137
+pocs/chess-astra-6-poc/tests/game.spec.ts
+  s_66880c18b8c3a5::t_69c5b2d1590040 164-165
+  s_66880c18b8c3a5::t_c49252c53b9035 162,166-168
+  s_66880c18b8c3a5::t_dd296b75fd1cc1 153,155-160,163,169
+pocs/chess-astra-6-poc/macos/package.json
+  s_66880c18b8c3a5::t_7b7e0c2b4b7e23 1-14
+pocs/chess-astra-6-poc/README.md
+  s_66880c18b8c3a5::t_26747f70b766ee 24-25,45,147,159
+  s_66880c18b8c3a5::t_1b6cd8c62cca08 100-101,104,310-311
+  s_66880c18b8c3a5::t_f95dc904cbe3ab 95-99,102-103,105-120,305,309
+pocs/chess-astra-6-poc/tests/engine.test.ts
+  s_66880c18b8c3a5::t_dd296b75fd1cc1 3,68-108
+  s_66880c18b8c3a5::t_9bb17733cdabb1 109
+pocs/chess-astra-6-poc/macos/app/main.cjs
+  s_66880c18b8c3a5::t_54433869adeb19 1-32,34-87,93-135
+  s_66880c18b8c3a5::t_1b6cd8c62cca08 33
+  s_66880c18b8c3a5::t_dc80bed6655221 88-92
+pocs/chess-astra-6-poc/macos/playwright.config.ts
+  s_66880c18b8c3a5::t_3f476df7eaa0f2 1-10
+pocs/chess-astra-6-poc/.gitignore
+  s_66880c18b8c3a5::t_1fc7113c88897d 7-9
+  s_66880c18b8c3a5::t_264e93779146c8 10-11
+pocs/chess-astra-6-poc/macos/app/windowState.cjs
+  s_66880c18b8c3a5::t_ad84642de4b8c4 17
+  s_66880c18b8c3a5::t_e230cab5cb57ec 1-16,18-28,33-46
+  s_66880c18b8c3a5::t_4860ee271ea3f7 29-32
+pocs/chess-astra-6-poc/scripts/common.sh
+  s_66880c18b8c3a5::t_ff9c2c51ff60d6 11-16,19,22-23
+pocs/chess-astra-6-poc/macos/app/boot.html
+  s_66880c18b8c3a5::t_2aec0a49ecdce8 1-28
+pocs/chess-astra-6-poc/scripts/uninstall-macos.sh
+  s_66880c18b8c3a5::t_1b6cd8c62cca08 1-34
+pocs/chess-astra-6-poc/macos/app/services.cjs
+  s_66880c18b8c3a5::t_5cf2c817256289 1-66
+pocs/chess-astra-6-poc/macos/app/overlay.css
+  s_66880c18b8c3a5::t_c9fc3c41e4d7a2 1-210
+pocs/chess-astra-6-poc/macos/tests/app.spec.ts
+  s_66880c18b8c3a5::t_1537249470c4b9 30
+  s_66880c18b8c3a5::t_92f96f753bc77f 139,150
+  s_66880c18b8c3a5::t_62c6d4efab5803 14
+  s_66880c18b8c3a5::t_a2423c1657d07c 13
+  s_66880c18b8c3a5::t_b4ba57bda6c9e3 3-11,16-28,34-55,57-66,68-111,113-123,125-129,131-135,137-138,140-149,151-152
+  s_66880c18b8c3a5::t_a9612ba2392bf1 2,12,15
+  s_66880c18b8c3a5::t_dc80bed6655221 1,29,31-33,56,67,112,124,130,136
+pocs/chess-astra-6-poc/macos/app/overlay.js
+  s_66880c18b8c3a5::t_b4ab225cb43519 1-198
+pocs/chess-astra-6-poc/macos/build-icon.mjs
+  s_66880c18b8c3a5::t_802a87c988b5eb 1-15,17-24
+  s_66880c18b8c3a5::t_18176529d29807 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "9085fee92f7585243853a0806c6ec03891723a93",
+  "prompts": {},
+  "sessions": {
+    "s_66880c18b8c3a5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e6805033-a2d8-49cf-859a-e98988194d99",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

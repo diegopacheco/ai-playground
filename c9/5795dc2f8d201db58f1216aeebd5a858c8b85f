@@ -1,0 +1,50 @@
+pocs/agent-reverse-postmortem/sample/config.yaml
+  s_2b6999c52d9da7::t_655efe79435705 1-16
+pocs/agent-reverse-postmortem/sample/db.go
+  s_2b6999c52d9da7::t_5eb47fd04a76dd 1-64
+pocs/agent-reverse-postmortem/reverse-post/SKILL.md
+  s_2b6999c52d9da7::t_eb41ff54a47e4b 1-209
+pocs/agent-reverse-postmortem/sample/main.go
+  s_2b6999c52d9da7::t_ad7436b884b2b5 1-47
+pocs/agent-reverse-postmortem/design-doc.md
+  s_2b6999c52d9da7::t_27b99e113b7f45 213,215-218,221,223-234,236-245
+  s_2b6999c52d9da7::t_d67728d81c2ff8 295-298,300-306
+  s_2b6999c52d9da7::t_4018dd80f94a73 1-212,214,219-220,222,235,246-294,299,307
+pocs/agent-reverse-postmortem/uninstall.sh
+  s_2b6999c52d9da7::t_90fa5ba88e98fd 1-15
+pocs/agent-reverse-postmortem/README.md
+  s_2b6999c52d9da7::t_5839107c1903dc 1-6,29-129
+  s_2b6999c52d9da7::t_cef263e6d6a867 7-28
+pocs/agent-reverse-postmortem/reverse-postmortem-site/index.html
+  s_2b6999c52d9da7::t_a1267c22b1bed1 1-436
+pocs/agent-reverse-postmortem/sample/payments.go
+  s_2b6999c52d9da7::t_1f0dfd3a7aea25 1-26
+pocs/agent-reverse-postmortem/sample/cache.go
+  s_2b6999c52d9da7::t_dcde8bab4e43c6 1-21
+pocs/agent-reverse-postmortem/sample/go.mod
+  s_2b6999c52d9da7::t_eaa8f26196625d 1-5
+pocs/agent-reverse-postmortem/sample/worker.go
+  s_2b6999c52d9da7::t_63736d75a7b6bf 1-32
+pocs/agent-reverse-postmortem/install.sh
+  s_2b6999c52d9da7::t_2b63e3d206c966 1-20
+pocs/agent-reverse-postmortem/reverse-postmortem.md
+  s_2b6999c52d9da7::t_ff904b627738e8 1-354
+pocs/agent-reverse-postmortem/reverse-post-site/SKILL.md
+  s_2b6999c52d9da7::t_f782b1ef3ee6de 1-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "c95795dc2f8d201db58f1216aeebd5a858c8b85f",
+  "prompts": {},
+  "sessions": {
+    "s_2b6999c52d9da7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a06f1071-fc30-4f76-9665-0b91be334cd4",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

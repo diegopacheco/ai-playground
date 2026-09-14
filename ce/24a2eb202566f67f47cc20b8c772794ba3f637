@@ -1,0 +1,34 @@
+games/index.html
+  s_8bc817327fa59f::t_b251c33d516400 108,220
+.github/workflows/agents-pages.yml
+  s_5bfd0cd37bb89d::t_e78b542135bbab 52
+  s_5bfd0cd37bb89d::t_823a4d064c90ca 45
+games/README.md
+  s_5bfd0cd37bb89d::t_823a4d064c90ca 186-191
+  s_8bc817327fa59f::t_b251c33d516400 119
+  s_5bfd0cd37bb89d::t_e78b542135bbab 118
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "ce24a2eb202566f67f47cc20b8c772794ba3f637",
+  "prompts": {},
+  "sessions": {
+    "s_5bfd0cd37bb89d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0787d-1ab7-7960-87ec-85997e361268",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_8bc817327fa59f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ddcb8d89-c9b2-4a2d-aa52-d264ca7ac102",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

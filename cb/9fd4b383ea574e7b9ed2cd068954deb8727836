@@ -1,0 +1,22 @@
+agents/landing-page.html
+  s_9171e1ac58a05b::t_2b27ee22ff72dd 102-145,147-175
+  s_9171e1ac58a05b::t_ab81d4810273b7 146,212,235
+  s_9171e1ac58a05b::t_1f28a26f6dfa02 204,207,210-211,213-214,217
+  s_9171e1ac58a05b::t_ca9507e324c149 180-181,185-186,190,195
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "cb9fd4b383ea574e7b9ed2cd068954deb8727836",
+  "prompts": {},
+  "sessions": {
+    "s_9171e1ac58a05b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f2f4c-3a7b-7920-b5d1-4469fb4306b0",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

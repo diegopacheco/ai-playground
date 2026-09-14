@@ -1,0 +1,23 @@
+pocs/llama-cpp-fun/.python-version
+  s_1cf590480e9112::t_b9b24831adeb2d 1
+pocs/llama-cpp-fun/main.py
+  s_1cf590480e9112::t_b9b24831adeb2d 1-63
+pocs/llama-cpp-fun/run.sh
+  s_1cf590480e9112::t_b9b24831adeb2d 1-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "9195f4daee326e7fda13720a0f893e1660ae0559",
+  "prompts": {},
+  "sessions": {
+    "s_1cf590480e9112": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019ffdbd-759a-7ce2-b380-37c402312401",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

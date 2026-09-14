@@ -1,0 +1,58 @@
+pocs/cc-auto-mode-poc/start.sh
+  s_179090566c0e0f::t_ebe1cdd515b364 1-16
+  s_179090566c0e0f::t_ef7436bc96b4be 17-19
+pocs/cc-auto-mode-poc/app/tsconfig.json
+  s_179090566c0e0f::t_3f572412119c9d 1-6
+pocs/cc-auto-mode-poc/app/.gitignore
+  s_179090566c0e0f::t_8accb3342dc319 1-5
+pocs/cc-auto-mode-poc/app/app.json
+  s_179090566c0e0f::t_d23e90d0911f07 1-15,19-25,28-30
+  s_179090566c0e0f::t_4fb5e9985bf5d5 16-18,26-27
+pocs/cc-auto-mode-poc/app/test/test-openai.mjs
+  s_179090566c0e0f::t_93ad05e7800498 1-57
+pocs/cc-auto-mode-poc/app/App.tsx
+  s_179090566c0e0f::t_31b08f86971671 1-58
+pocs/cc-auto-mode-poc/app/src/openai.ts
+  s_179090566c0e0f::t_96da445020eb24 1-45
+pocs/cc-auto-mode-poc/app/src/ResultOverlay.tsx
+  s_179090566c0e0f::t_cd60059899abe1 1-66
+pocs/cc-auto-mode-poc/app/env.example
+  s_179090566c0e0f::t_ca20a1bb833ccc 1
+pocs/cc-auto-mode-poc/app/package.json
+  s_179090566c0e0f::t_322e73d0af8b00 19
+  s_179090566c0e0f::t_e33710612d58e9 11
+  s_179090566c0e0f::t_ec798c12e35923 1-10,17-18,20-23
+  s_179090566c0e0f::t_740b55e3da605a 12-16
+pocs/cc-auto-mode-poc/design-doc.md
+  s_179090566c0e0f::t_59a3f81d033e4d 1,3-4,6,8,12,14-17,19,21,23-24,28-49,52,55-77,80,82-88,90,92,94,96-99,101,103,107-117,121,125-127,131,133,135,137,139,141-157,163-166,170-175,177,179-182,186-193
+  s_179090566c0e0f::t_ebbc5061a15901 2,5,7,9-11,13,18,20,22,25-27,50-51,53-54,78-79,81,89,91,93,95,100,102,104-106,118-120,122-124,128-130,132,134,136,138,140,158-162,167-169,176,178,183-185
+pocs/cc-auto-mode-poc/test.sh
+  s_179090566c0e0f::t_441bad8c5e7659 1-17
+pocs/cc-auto-mode-poc/app/package-lock.json
+  ai_agent 1-8867
+pocs/cc-auto-mode-poc/stop.sh
+  s_179090566c0e0f::t_48eb8ef8f67e1e 1,5,7
+  s_179090566c0e0f::t_16f7b99f27dbfc 2-4,6
+pocs/cc-auto-mode-poc/README.md
+  s_179090566c0e0f::t_b99ee3f6611fc9 49,51,53-61
+  s_179090566c0e0f::t_44f31fb11ad3ea 1-12,14-48,50,52,62-78
+  s_179090566c0e0f::t_4734058e9e0654 13
+pocs/cc-auto-mode-poc/app/src/CameraScreen.tsx
+  s_179090566c0e0f::t_a3982ae5f63ac0 1-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "6bd469813d6ff2d0d5de67ef7ebde2e2ec95825d",
+  "prompts": {},
+  "sessions": {
+    "s_179090566c0e0f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "96f448d0-db10-4c14-9180-efc4b5a369ff",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

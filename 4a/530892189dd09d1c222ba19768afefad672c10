@@ -1,0 +1,76 @@
+pocs/admin-console/frontend/src/console/ConsoleWorkspace.css
+  s_fa6084944458f4::t_f3ea39cb414103 12-13,15
+pocs/admin-console/frontend/src/design-system/Badge/Badge.css
+  s_fa6084944458f4::t_97215f6b0232ef 3,5-7,9,16,18,22,24,28,30
+pocs/admin-console/frontend/src/design-system/Button/Button.css
+  s_fa6084944458f4::t_bf02061eaea5a3 2-4,6-7,10,12-16,23-24,28,33,39-40,44,46-47,52,54,66-67,71-74
+  s_fa6084944458f4::t_ac923b73c36742 5,9,21-22,25,27,29,35,45,51,53,61-65
+  s_fa6084944458f4::t_ebbb97b21e174a 26
+pocs/admin-console/frontend/src/console/ConsolePane.css
+  s_fa6084944458f4::t_f3ea39cb414103 9-10,14,58-59,61,79
+pocs/admin-console/frontend/src/design-system/RowDetail/RowDetail.css
+  s_fa6084944458f4::t_e729b4b6ec2a40 1-150
+pocs/admin-console/frontend/src/design-system/EngineLogo/EngineLogo.css
+  s_fa6084944458f4::t_c9de9bdfdb9b80 1-6
+pocs/admin-console/frontend/src/console/ConsolePane.tsx
+  s_fa6084944458f4::t_7e0f7d4239dcaf 6,35,79
+  s_fa6084944458f4::t_6886a1d55f7860 180,184-192
+  s_fa6084944458f4::t_3fe42e274bb998 193
+pocs/admin-console/frontend/src/design-system/DataGrid/DataGrid.css
+  s_fa6084944458f4::t_f3ea39cb414103 34,43-44,50,59
+  s_fa6084944458f4::t_8ac8b0f86d653a 5,9-10,20,31-33,36-42,45-49,51-55,60,62-64,70,72-76,82,87,90
+  s_fa6084944458f4::t_0cd3d608bebae5 61
+pocs/admin-console/frontend/src/design-system/tokens/colors.ts
+  s_fa6084944458f4::t_e0fc9e9ceb2ccd 2-14
+pocs/admin-console/frontend/src/styles/global.css
+  s_fa6084944458f4::t_b1a559cac97f51 2-5,7-30,43-46,50,52,57,74-79,82,86-89,99-102,106-107,110-113,117,121,123,133-137,139,141,145,152,156-161,166-167
+  s_fa6084944458f4::t_779d8091bc563e 6,42,51,90-92,97,114,116,122,138,149-151,153-155,162-165,168-174
+  s_fa6084944458f4::t_a0caf9f7a1c017 115
+pocs/admin-console/frontend/src/design-system/RowDetail/RowDetail.test.tsx
+  s_fa6084944458f4::t_ba23b33ba22324 1-103
+pocs/admin-console/frontend/src/console/ConnectionPicker.css
+  s_fa6084944458f4::t_a761fc6ea8a17b 1-83,85-117,122-139
+  s_fa6084944458f4::t_a74bf9d1c8ab58 84
+  s_fa6084944458f4::t_dd922d7ea304e3 118-121
+pocs/admin-console/frontend/src/console/ConnectionPicker.test.tsx
+  s_fa6084944458f4::t_d0ecf647f41c00 1-138
+pocs/admin-console/frontend/src/design-system/DataGrid/DataGrid.tsx
+  s_fa6084944458f4::t_7ce084bb36fe97 9
+  s_fa6084944458f4::t_dbeac317d6ad2e 19,25
+  s_fa6084944458f4::t_2162cfc069ea9a 41-45
+pocs/admin-console/frontend/src/design-system/RowDetail/RowDetail.tsx
+  s_fa6084944458f4::t_ea3d430687a7b7 1-135
+pocs/admin-console/frontend/src/console/ConnectionPicker.tsx
+  s_fa6084944458f4::t_79c5cc7c7b7097 1-143
+pocs/admin-console/frontend/src/design-system/EngineLogo/EngineLogo.tsx
+  s_fa6084944458f4::t_f965feb1a778ce 1-96
+pocs/admin-console/frontend/src/console/ConsoleWorkspace.tsx
+  s_fa6084944458f4::t_d409c607fa44c9 82-86
+  s_fa6084944458f4::t_6898cb07b4af5e 5
+pocs/admin-console/frontend/src/navigation/CommandPalette.tsx
+  s_fa6084944458f4::t_d45c6988fe8911 1-167
+pocs/admin-console/frontend/src/console/QueryEditor.css
+  s_fa6084944458f4::t_f3ea39cb414103 5
+pocs/admin-console/.playwright-mcp/page-2026-07-18T09-51-21-097Z.yml
+  s_fa6084944458f4::t_0329e6e31d477a 1-21
+pocs/admin-console/.playwright-mcp/page-2026-07-18T09-52-40-220Z.yml
+  s_fa6084944458f4::t_1b8c8f77f1fdfc 1-21
+pocs/admin-console/.playwright-mcp/page-2026-07-18T09-55-55-251Z.yml
+  s_fa6084944458f4::t_9e4c985e2693ad 1-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "4a530892189dd09d1c222ba19768afefad672c10",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

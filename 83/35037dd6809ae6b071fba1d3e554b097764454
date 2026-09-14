@@ -1,0 +1,66 @@
+pocs/agent-skill-react-rerender/skills/rerender/assets/template.html
+  s_7c72a7fbbf3083::t_88bc10d4c70436 1
+pocs/agent-skill-react-rerender/sample/package.json
+  s_7c72a7fbbf3083::t_89f7b759d696a9 1-19
+pocs/agent-skill-react-rerender/sample/src/components/ProductCard.jsx
+  s_7c72a7fbbf3083::t_281bbcd740c32a 1-22
+pocs/agent-skill-react-rerender/sample/package-lock.json
+  s_7c72a7fbbf3083::t_3e5dba3c29f098 1-930
+pocs/agent-skill-react-rerender/sample/index.html
+  s_7c72a7fbbf3083::t_a33dc06927c69c 1-12
+pocs/agent-skill-react-rerender/sample/src/data.js
+  s_7c72a7fbbf3083::t_304cbc46958af2 1-61
+pocs/agent-skill-react-rerender/sample/src/main.jsx
+  s_7c72a7fbbf3083::t_69043591ddc7e6 1-10
+pocs/agent-skill-react-rerender/sample/src/components/StatBadge.jsx
+  s_7c72a7fbbf3083::t_797f331b78294a 1-20
+pocs/agent-skill-react-rerender/sample/vite.config.js
+  s_7c72a7fbbf3083::t_1ab343202399bd 1-7
+pocs/agent-skill-react-rerender/sample/stop.sh
+  s_7c72a7fbbf3083::t_1210ca2a2c3206 1-10
+pocs/agent-skill-react-rerender/sample/src/App.jsx
+  s_7c72a7fbbf3083::t_f814d60cd16228 1-57
+pocs/agent-skill-react-rerender/sample/src/styles.css
+  s_7c72a7fbbf3083::t_9bde4ba4f96af2 1-90
+pocs/agent-skill-react-rerender/sample/src/components/ActivityFeed.jsx
+  s_7c72a7fbbf3083::t_cc118a760ecf29 1-37
+pocs/agent-skill-react-rerender/skills/rerender/package.json
+  s_7c72a7fbbf3083::t_86b80562cec46c 1-10
+pocs/agent-skill-react-rerender/skills/rerender/scripts/rerender.mjs
+  s_7c72a7fbbf3083::t_1023770c33e08b 301
+  s_7c72a7fbbf3083::t_7aae65785b5535 273,278
+  s_7c72a7fbbf3083::t_6d89b680a7547a 1-90,94-96,105-272,274-277,279-300,302-326,328-329,335-436
+  s_7c72a7fbbf3083::t_d27a452a206f1a 91-93,97-104
+  s_7c72a7fbbf3083::t_005f11cabc39ab 327,330-334
+pocs/agent-skill-react-rerender/sample/src/components/SearchBar.jsx
+  s_7c72a7fbbf3083::t_fc6d5fc3e66a7e 1-41
+pocs/agent-skill-react-rerender/sample/src/components/PriceTag.jsx
+  s_7c72a7fbbf3083::t_dbff40a59b081d 1-14
+pocs/agent-skill-react-rerender/sample/rerender-report/data.json
+  s_7c72a7fbbf3083::t_5142a718e023b8 4,13-16,19-20,23-24,26,28,32-34,39-40,48,50,57,59-61,63-102,105,118-120,134,136,143,145-147,149-188,191,204-207,211-212,220,222,225-234,236-238,266-273,275,277-285,313,350,387
+  s_7c72a7fbbf3083::t_f390ef553116f7 1-3,5-12,17-18,21-22,25,27,29-31,35-38,41-47,49,51-56,58,62,103-104,106-117,121-133,135,137-142,144,148,189-190,192-203,208-210,213-219,221,223-224,235,239-265,274,276,286-312,314-349,351-386,388-399
+pocs/agent-skill-react-rerender/sample/src/components/MetricsTable.jsx
+  s_7c72a7fbbf3083::t_16b2bfdffd5806 1-60
+pocs/agent-skill-react-rerender/skills/rerender/package-lock.json
+  s_7c72a7fbbf3083::t_3e5dba3c29f098 1-976
+pocs/agent-skill-react-rerender/sample/rerender-report/index.html
+  s_7c72a7fbbf3083::t_5142a718e023b8 1
+pocs/agent-skill-react-rerender/sample/start.sh
+  s_7c72a7fbbf3083::t_500535a933cee7 1-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "8335037dd6809ae6b071fba1d3e554b097764454",
+  "prompts": {},
+  "sessions": {
+    "s_7c72a7fbbf3083": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "81fe48f1-a218-44ff-8ca9-0b008fff530f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

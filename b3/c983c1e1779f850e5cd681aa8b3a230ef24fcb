@@ -1,0 +1,83 @@
+pocs/tinyllama-pii-detection-fun/run.sh
+  s_bbd353b25db052::t_14b4d97f05856f 1-4
+pocs/tinyllama-synthetic-data-fun/requirements.txt
+  s_bbd353b25db052::t_98a3334e2d5195 1
+pocs/tinyllama-speculative-decoding-fun/run.sh
+  s_bbd353b25db052::t_ebb377b7f8f899 1-4
+pocs/tinyllama-pii-detection-fun/src/detectors.py
+  s_bbd353b25db052::t_c1d00c6533f726 1-12,14,16,18,21,27,31-32,45,47,49,51-56,58-59,62-63,87,89
+  s_bbd353b25db052::t_5c6474b782470b 13,15,17,19-20,22-26,28-30,33-44,46,48,50,57,60-61,64-86,88,90
+pocs/tinyllama-agent-router-fun/install-deps.sh
+  s_bbd353b25db052::t_381357d882f1ac 1-6
+pocs/tinyllama-agent-router-fun/src/main.py
+  s_bbd353b25db052::t_381357d882f1ac 1-63
+pocs/tinyllama-speculative-decoding-fun/README.md
+  s_bbd353b25db052::t_134f8f67030183 1-153
+pocs/tinyllama-synthetic-data-fun/src/main.py
+  s_bbd353b25db052::t_98a3334e2d5195 1-79
+pocs/tinyllama-speculative-decoding-fun/requirements.txt
+  s_bbd353b25db052::t_ebb377b7f8f899 1,3
+  s_bbd353b25db052::t_f2954e73f7cfe6 2
+pocs/tinyllama-synthetic-data-fun/.gitignore
+  s_bbd353b25db052::t_a55e1cf9050c73 1-3
+pocs/tinyllama-synthetic-data-fun/install-deps.sh
+  s_bbd353b25db052::t_98a3334e2d5195 1-6
+pocs/tinyllama-pii-detection-fun/.gitignore
+  s_bbd353b25db052::t_14b4d97f05856f 1-2
+pocs/tinyllama-speculative-decoding-fun/install-deps.sh
+  s_bbd353b25db052::t_ebb377b7f8f899 1-6
+pocs/tinyllama-pii-detection-fun/requirements.txt
+  s_bbd353b25db052::t_14b4d97f05856f 1
+pocs/tinyllama-pii-detection-fun/install-deps.sh
+  s_bbd353b25db052::t_14b4d97f05856f 1-6
+pocs/tinyllama-pii-detection-fun/src/main.py
+  s_bbd353b25db052::t_39e39ba0291cde 7,11,17,24,41-43,46-50,54-55,58-70,73-78
+  s_bbd353b25db052::t_14b4d97f05856f 1-6,8-10,12-16,18-23,25-40,44-45,51-53,56-57,71-72,79-82
+pocs/tinyllama-agent-router-fun/requirements.txt
+  s_bbd353b25db052::t_381357d882f1ac 1
+pocs/tinyllama-agent-router-fun/src/requests_data.py
+  s_bbd353b25db052::t_18cd83a53f49d6 1-43
+pocs/tinyllama-agent-router-fun/.gitignore
+  s_bbd353b25db052::t_381357d882f1ac 1-2
+pocs/tinyllama-agent-router-fun/src/router.py
+  s_bbd353b25db052::t_381357d882f1ac 1-6,8,11,17,21,24,37-38,51-53
+  s_bbd353b25db052::t_4577f852afc2ef 7,9-10,12-16,18-20,22-23,25-36,39-50,54-58
+pocs/tinyllama-synthetic-data-fun/run.sh
+  s_bbd353b25db052::t_98a3334e2d5195 1-4
+pocs/tinyllama-synthetic-data-fun/README.md
+  s_bbd353b25db052::t_a55e1cf9050c73 1-88
+pocs/tinyllama-synthetic-data-fun/src/person.py
+  s_bbd353b25db052::t_71f7ebae4195a0 1-72
+pocs/tinyllama-agent-router-fun/run.sh
+  s_bbd353b25db052::t_381357d882f1ac 1-4
+pocs/tinyllama-speculative-decoding-fun/src/main.py
+  s_bbd353b25db052::t_dbc889d2c6c8f6 5-6,12-21,24-33,35-39,41-44,46,57,61,66,71,73-74,78,83-84,103,106-116,121-122,126-127,133-138,140,146
+  s_bbd353b25db052::t_b4d203a0608f4a 8-9
+  s_bbd353b25db052::t_faa09f1e330baa 88-95
+  s_bbd353b25db052::t_ebb377b7f8f899 1-4,7,10-11,22-23,34,40,45,47-56,58-60,62-65,67-70,72,75-77,79-82,85-87,96-102,104-105,117-120,123-125,128-132,139,141-145,147-151
+pocs/tinyllama-pii-detection-fun/README.md
+  s_bbd353b25db052::t_ef3eb50d56d604 1-122
+pocs/tinyllama-agent-router-fun/README.md
+  s_bbd353b25db052::t_ebfb54b34f1775 1-145
+pocs/tinyllama-pii-detection-fun/src/samples.py
+  s_bbd353b25db052::t_c1d00c6533f726 1-3,46
+  s_bbd353b25db052::t_19d1f1c92e3d04 4-45
+pocs/tinyllama-speculative-decoding-fun/.gitignore
+  s_bbd353b25db052::t_ebb377b7f8f899 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "b3c983c1e1779f850e5cd681aa8b3a230ef24fcb",
+  "prompts": {},
+  "sessions": {
+    "s_bbd353b25db052": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "234cc578-a6cc-4d86-a56d-0f2eb438565f",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

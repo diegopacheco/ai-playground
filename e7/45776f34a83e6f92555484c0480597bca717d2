@@ -1,0 +1,19 @@
+pocs/codex-5.5-medium-rubrik/README.md
+  s_54ebad55692fc8::t_25941edaea8891 5-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e745776f34a83e6f92555484c0480597bca717d2",
+  "prompts": {},
+  "sessions": {
+    "s_54ebad55692fc8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f4480-daca-7b70-8892-06cce0e523c8",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

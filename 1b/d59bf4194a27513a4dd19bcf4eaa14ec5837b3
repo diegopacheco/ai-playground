@@ -1,0 +1,19 @@
+pocs/fable-5-game-stand/app.py
+  s_4bafca7a9bd150::t_aa53300003e929 154-155
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "1bd59bf4194a27513a4dd19bcf4eaa14ec5837b3",
+  "prompts": {},
+  "sessions": {
+    "s_4bafca7a9bd150": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5ade-466d-7471-9a2b-53241f182f34",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

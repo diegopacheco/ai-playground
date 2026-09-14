@@ -1,0 +1,35 @@
+pocs/12-rules-template-poc/rock-paper-ciszer/package.json
+  s_7ed731f5a32efb::t_d93dba5a67eba8 1-22
+pocs/12-rules-template-poc/rock-paper-ciszer/vite.config.ts
+  s_7ed731f5a32efb::t_0799623137540f 1-7
+pocs/12-rules-template-poc/rock-paper-ciszer/src/App.tsx
+  s_7ed731f5a32efb::t_378ccdc1a389a8 1-83
+pocs/12-rules-template-poc/rock-paper-ciszer/src/styles.css
+  s_7ed731f5a32efb::t_ba6ecc194a2b39 1-135
+pocs/12-rules-template-poc/rock-paper-ciszer/index.html
+  s_7ed731f5a32efb::t_ef2018077b2954 1-12
+pocs/12-rules-template-poc/rock-paper-ciszer/tsconfig.json
+  s_7ed731f5a32efb::t_4471f4619f079a 1-20
+pocs/12-rules-template-poc/rock-paper-ciszer/run.sh
+  s_7ed731f5a32efb::t_d5fff7f8b9291e 1-7
+pocs/12-rules-template-poc/rock-paper-ciszer/src/main.tsx
+  s_7ed731f5a32efb::t_fb12b80ed07b84 1-10
+pocs/12-rules-template-poc/rock-paper-ciszer/README.md
+  s_7ed731f5a32efb::t_4651ff5560d0d7 1-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "e486c46b479c717448682d79ea060843e9a07389",
+  "prompts": {},
+  "sessions": {
+    "s_7ed731f5a32efb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ad7b2f2-7c71-40ac-a1c7-58abe87daa6f",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

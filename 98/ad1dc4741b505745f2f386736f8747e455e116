@@ -1,0 +1,24 @@
+pocs/pdf-editor-simple/README.md
+  s_1e8c9dc45c6d50::t_2a88629086a27d 59-64,205,222,224-226
+pocs/pdf-editor-simple/src/textedit.py
+  s_1e8c9dc45c6d50::t_61baff0fa3e9ea 103
+pocs/pdf-editor-simple/test_textedit.py
+  s_1e8c9dc45c6d50::t_5013d7e3a7fa79 194-195
+  s_1e8c9dc45c6d50::t_51ab0227152c99 174-193,196-202
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "98ad1dc4741b505745f2f386736f8747e455e116",
+  "prompts": {},
+  "sessions": {
+    "s_1e8c9dc45c6d50": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f0849cd5-edaa-4d44-94a8-8cdf00b003db",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

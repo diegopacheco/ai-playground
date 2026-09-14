@@ -1,0 +1,69 @@
+pocs/gpt-6-astra-medium-codex-blender-scene/docs/Caveat-OFL.txt
+  s_3fbdcb9e401a6b::t_f63bb2cbcec151 1-93
+pocs/gpt-6-astra-medium-codex-blender-scene/tests/test_pipeline.py
+  s_3fbdcb9e401a6b::t_c38522c7a9539f 1-36
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/start-all.sh
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-4
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/test-all.sh
+  s_3fbdcb9e401a6b::t_c38522c7a9539f 1-13
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/stop-all.sh
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-4
+pocs/gpt-6-astra-medium-codex-blender-scene/.gitignore
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-5
+pocs/gpt-6-astra-medium-codex-blender-scene/README.md
+  s_3fbdcb9e401a6b::t_c4281ae6599ee0 1-116,119-146
+  s_3fbdcb9e401a6b::t_4542a940ac01c9 117-118
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/build.sh
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-6
+pocs/gpt-6-astra-medium-codex-blender-scene/scene/verify_video.py
+  s_3fbdcb9e401a6b::t_c38522c7a9539f 1-25
+pocs/gpt-6-astra-medium-codex-blender-scene/scene/job.py
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-54
+pocs/gpt-6-astra-medium-codex-blender-scene/scene/check_frames.py
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-25
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/ui.sh
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-6
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/setup.sh
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-18
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/export.sh
+  s_3fbdcb9e401a6b::t_c38522c7a9539f 9
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-8,10
+pocs/gpt-6-astra-medium-codex-blender-scene/scene/verify.py
+  s_3fbdcb9e401a6b::t_22a606c9a9cf9b 27-28
+  s_3fbdcb9e401a6b::t_c38522c7a9539f 1-26,29
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/common.sh
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-26
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/preview.sh
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-8
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/status.sh
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-4
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/render.sh
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-7
+pocs/gpt-6-astra-medium-codex-blender-scene/scripts/run.sh
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-6
+pocs/gpt-6-astra-medium-codex-blender-scene/scene/build.py
+  s_3fbdcb9e401a6b::t_4aaae1f0bd7021 1-38,40-44,47-284,290-309,311-314
+  s_3fbdcb9e401a6b::t_7fd1a97d7bad29 39,45-46,285-289,310
+pocs/gpt-6-astra-medium-codex-blender-scene/scene/soundtrack.py
+  s_3fbdcb9e401a6b::t_ce1fdb2afe12fb 1-55
+pocs/gpt-6-astra-medium-codex-blender-scene/docs/architecture.svg
+  s_3fbdcb9e401a6b::t_326da4a87a8ff2 1
+pocs/gpt-6-astra-medium-codex-blender-scene/docs/logo.svg
+  s_3fbdcb9e401a6b::t_20629deed4d9b5 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "ac7003d35fd6aeb0446895511c9201a2b093ba22",
+  "prompts": {},
+  "sessions": {
+    "s_3fbdcb9e401a6b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07338-0834-7110-bd53-41655214154a",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

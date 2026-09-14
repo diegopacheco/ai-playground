@@ -1,0 +1,27 @@
+pocs/oak-versioning/.gitignore
+  s_a4fac0e41899e5::t_1fd21fd5ca0903 1
+pocs/oak-versioning/test.sh
+  s_a4fac0e41899e5::t_acc487713c21d0 1-9
+pocs/oak-versioning/message.txt
+  s_a4fac0e41899e5::t_53c15d3467caff 1
+pocs/oak-versioning/README.md
+  s_a4fac0e41899e5::t_acc487713c21d0 1-72,74-188
+  s_a4fac0e41899e5::t_1fd21fd5ca0903 73
+  s_a4fac0e41899e5::t_9ae0b2bbff6535 189-201
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ad4163e1578cc6c4e870ea420b2eb5f1e2b52d6e",
+  "prompts": {},
+  "sessions": {
+    "s_a4fac0e41899e5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f2c05-0378-78c1-8920-398873097038",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

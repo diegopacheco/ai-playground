@@ -1,0 +1,47 @@
+pocs/air-fishing/stop.sh
+  s_add457de18d61a::t_c9697c0b5fbb1d 1-9
+pocs/air-fishing/web/game.js
+  s_add457de18d61a::t_48bb86d0d57fee 1-685
+pocs/air-fishing/test_client.py
+  s_add457de18d61a::t_4de72bec1b69f0 1-26
+pocs/air-fishing/web/index.html
+  s_add457de18d61a::t_68bb0f847f0966 1-68
+pocs/air-fishing/test.sh
+  s_add457de18d61a::t_8e94e853b37742 1-32
+pocs/air-fishing/server.py
+  s_add457de18d61a::t_71ec9a7cec2d71 1-96
+pocs/air-fishing/web/audio.js
+  s_add457de18d61a::t_f357385224e0af 1-98
+pocs/air-fishing/start.sh
+  s_add457de18d61a::t_501ccff61969aa 1-28
+pocs/air-fishing/web/style.css
+  s_add457de18d61a::t_53bf02bd312348 1-207,223
+  s_add457de18d61a::t_40c65f27547c65 208-222
+pocs/air-fishing/.gitignore
+  s_add457de18d61a::t_a9d18eb15761e5 1-6
+pocs/air-fishing/requirements.txt
+  s_add457de18d61a::t_a5f1cdbbf2ba6e 1-4
+pocs/air-fishing/diagram.html
+  s_add457de18d61a::t_81a805a48b5f6b 1-95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "34be9ced0c30575abeadbfb88489a4ee25cd21c6",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_add457de18d61a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5b0eb7d6-7b65-46f0-8cfb-877927fce60f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

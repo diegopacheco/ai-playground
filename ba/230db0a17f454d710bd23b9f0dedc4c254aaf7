@@ -1,0 +1,24 @@
+pocs/chrome-ext-hn-opennew/manifest.json
+  s_8c0871d12912a1::t_72d82ccee775c3 5
+pocs/chrome-ext-hn-opennew/README.md
+  s_8c0871d12912a1::t_83505457548462 88-89,93-94,96-100,102-103,106-108
+  s_8c0871d12912a1::t_1fcf8083ac93ce 72-74
+  s_8c0871d12912a1::t_89efbd4053302e 35-38
+  s_8c0871d12912a1::t_7baae8bb5336cc 10-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "ba230db0a17f454d710bd23b9f0dedc4c254aaf7",
+  "prompts": {},
+  "sessions": {
+    "s_8c0871d12912a1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a57e030-8d9d-42cc-b717-55829d317239",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

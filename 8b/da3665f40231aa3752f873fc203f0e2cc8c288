@@ -1,0 +1,61 @@
+pocs/fps-assets-gpt-sol-5.6/test.sh
+  s_102037e6fd3390::t_e728681a32099e 1-15,18-33
+  s_102037e6fd3390::t_5fd0c53657f894 16-17
+pocs/fps-assets-gpt-sol-5.6/stop.sh
+  s_102037e6fd3390::t_e728681a32099e 1-7,26-61
+  s_102037e6fd3390::t_9f8be969ed15bf 8-25
+pocs/fps-assets-gpt-sol-5.6/start.sh
+  s_102037e6fd3390::t_8f22ec37d5fe43 40-43,45
+  s_102037e6fd3390::t_5fd0c53657f894 13,15-28
+  s_102037e6fd3390::t_e728681a32099e 1-12,14,29-39,44,46-86
+pocs/fps-assets-gpt-sol-5.6/README.md
+  s_102037e6fd3390::t_e728681a32099e 1-76
+games/seagotchi/assets/index-BXv9IFwr.js
+  s_4214341c5c0b28::t_8cb34ff9a6f0d2 1-4135
+pocs/fps-assets-gpt-sol-5.6/.gitignore
+  s_102037e6fd3390::t_e728681a32099e 1-3
+games/seagotchi/index.html
+  s_4214341c5c0b28::t_8cb34ff9a6f0d2 12-13
+games/seagotchi/assets/index-BbXTr6bQ.css
+  s_4214341c5c0b28::t_8cb34ff9a6f0d2 1
+pocs/fps-assets-gpt-sol-5.6/assets/models/License.txt
+  s_102037e6fd3390::t_2236a728dcb9da 1-28
+pocs/fps-assets-gpt-sol-5.6/assets/utils/BufferGeometryUtils.js
+  s_102037e6fd3390::t_b7a666654ee8d0 1-1435
+pocs/fps-assets-gpt-sol-5.6/assets/vendor/GLTFLoader.js
+  s_4214341c5c0b28::t_58f467ca5af48a 1-4890
+pocs/fps-assets-gpt-sol-5.6/assets/vendor/three.core.min.js
+  s_102037e6fd3390::t_2150fbce25fc7e 1-6
+pocs/fps-assets-gpt-sol-5.6/assets/vendor/three.module.min.js
+  s_102037e6fd3390::t_bc0a148c995b3e 1-6
+pocs/fps-assets-gpt-sol-5.6/game.js
+  s_102037e6fd3390::t_0f9ca9c2485967 1-913
+pocs/fps-assets-gpt-sol-5.6/index.html
+  s_102037e6fd3390::t_edde9eab79729d 1-81
+pocs/fps-assets-gpt-sol-5.6/style.css
+  s_4214341c5c0b28::t_d2d1b30445b767 1-502
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "8bda3665f40231aa3752f873fc203f0e2cc8c288",
+  "prompts": {},
+  "sessions": {
+    "s_102037e6fd3390": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb9c3-d5dd-7371-b6c5-a66221fe6de1",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_4214341c5c0b28": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb9c0-e935-7670-b35f-db14d730de72",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

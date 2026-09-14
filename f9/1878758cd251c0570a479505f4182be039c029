@@ -1,0 +1,52 @@
+pocs/admin-console/frontend/src/navigation/CommandPalette.tsx
+  s_fa6084944458f4::t_0d4cd1e6d565fe 17
+pocs/admin-console/frontend/src/console/ConsolePane.tsx
+  s_fa6084944458f4::t_25cb5a8fac274a 11,154
+pocs/admin-console/frontend/src/ai/AskAi.test.tsx
+  s_fa6084944458f4::t_1c2961335efe4b 1-103
+pocs/admin-console/frontend/src/ai/AskAi.css
+  s_fa6084944458f4::t_ae3ac874eb7eb1 1-158
+pocs/admin-console/frontend/src/ai/AiSettingsPage.css
+  s_fa6084944458f4::t_ed9f502c4ba3bc 1-110
+pocs/admin-console/frontend/src/layouts/Shell.astro
+  s_fa6084944458f4::t_1bc5d55cfea0db 17
+pocs/admin-console/frontend/src/ai/AiSettingsPage.tsx
+  s_fa6084944458f4::t_d6297440d92554 1-110
+500-pocs.md
+  s_c01fef53eeec70::t_40ae509a94020e 123-158
+pocs/admin-console/frontend/src/ai/AskAi.tsx
+  s_fa6084944458f4::t_d1248731d8ed1b 1-144
+pocs/admin-console/frontend/src/lib/api.ts
+  s_fa6084944458f4::t_25cb5a8fac274a 1-10,87-107
+  s_fa6084944458f4::t_14ba8e34199ce5 108
+pocs/admin-console/frontend/src/pages/settings/ai.astro
+  s_fa6084944458f4::t_4ec1548f042430 1-8
+pocs/admin-console/frontend/src/lib/types.ts
+  s_fa6084944458f4::t_25cb5a8fac274a 50-66
+pocs/admin-console/.playwright-mcp/page-2026-07-18T10-23-16-184Z.yml
+  s_fa6084944458f4::t_f9af7b5a9a62e3 1-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "f91878758cd251c0570a479505f4182be039c029",
+  "prompts": {},
+  "sessions": {
+    "s_c01fef53eeec70": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a08d57da-60eb-492f-ab9f-4745e1399a6a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

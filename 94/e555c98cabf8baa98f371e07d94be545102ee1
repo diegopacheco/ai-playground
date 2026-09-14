@@ -1,0 +1,39 @@
+pocs/agent-skill-bug-cataloger/bug-cataloger/agents/openai.yaml
+  s_bcc52c09a2967a::t_56685f989ddb27 1-4
+pocs/agent-skill-bug-cataloger/bug-cataloger/scripts/collect_sessions.py
+  s_bcc52c09a2967a::t_4d2e79741f037a 14,116-117,144
+  s_bcc52c09a2967a::t_2fa3de1be5daa6 1-13,15-115,118-143,145-148
+pocs/agent-skill-bug-cataloger/bug-cataloger/SKILL.md
+  s_bcc52c09a2967a::t_4d2e79741f037a 16
+  s_bcc52c09a2967a::t_56685f989ddb27 1-2,4-7
+  s_bcc52c09a2967a::t_72e8e1d8c3ae6c 19
+  s_bcc52c09a2967a::t_2fa3de1be5daa6 3,8-15,17-18,20-46
+pocs/agent-skill-bug-cataloger/bug-cataloger/scripts/render_report.py
+  s_bcc52c09a2967a::t_4d2e79741f037a 10,12-15
+  s_bcc52c09a2967a::t_72e8e1d8c3ae6c 54
+  s_bcc52c09a2967a::t_2fa3de1be5daa6 1-9,11,16-53,55-68
+pocs/agent-skill-bug-cataloger/install.sh
+  s_bcc52c09a2967a::t_72e8e1d8c3ae6c 7-9,12
+  s_bcc52c09a2967a::t_2fa3de1be5daa6 1-6,10-11,13-17
+pocs/agent-skill-bug-cataloger/uninstall.sh
+  s_bcc52c09a2967a::t_2fa3de1be5daa6 1-5,9-10,12-14
+  s_bcc52c09a2967a::t_72e8e1d8c3ae6c 6-8,11
+pocs/agent-skill-bug-cataloger/README.md
+  s_bcc52c09a2967a::t_2fa3de1be5daa6 1-60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "94e555c98cabf8baa98f371e07d94be545102ee1",
+  "prompts": {},
+  "sessions": {
+    "s_bcc52c09a2967a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f35d1-bd4f-74e3-ae48-4f1fe58efab6",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

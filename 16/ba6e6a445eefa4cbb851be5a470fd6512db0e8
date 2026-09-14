@@ -1,0 +1,23 @@
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/federation/CrossEngineJoinIT.java
+  s_49062c8b22ecc5::t_026981479b2c3d 344-373
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedExecutor.java
+  s_49062c8b22ecc5::t_86855ea61624aa 95-97
+  s_49062c8b22ecc5::t_abf66bfe3e59a9 62,68-71
+  s_49062c8b22ecc5::t_7fb4780a9b38a6 89
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "16ba6e6a445eefa4cbb851be5a470fd6512db0e8",
+  "prompts": {},
+  "sessions": {
+    "s_49062c8b22ecc5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7431fe07-959e-4e94-8858-2979cac07db7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

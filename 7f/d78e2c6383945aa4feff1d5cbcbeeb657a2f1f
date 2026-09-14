@@ -1,0 +1,195 @@
+pocs/jit-testing-skill/samples/python-pricing/README.md
+  s_11f6c34756f189::t_eb042e06bb0c7d 3-4,11-12
+  s_11f6c34756f189::t_8cd5cbdef4613b 1-2,5-10
+pocs/jit-testing-skill/samples/nodejs-discount/src/discount.js
+  s_11f6c34756f189::t_1c3e74abec7122 1-8
+pocs/jit-testing-skill/design-doc.md
+  s_11f6c34756f189::t_dd227ceaa7c5d5 351-352
+  s_11f6c34756f189::t_46f5befe2a3d74 364-365
+  s_11f6c34756f189::t_7db6aef982d905 372-375,377
+  s_11f6c34756f189::t_9c5aab209919d8 252
+  s_11f6c34756f189::t_00dc2fe25f92f1 376
+  s_11f6c34756f189::t_5b9aed07fe70db 264-276,282-312
+  s_11f6c34756f189::t_ea8f1ab3cce582 236-238,244,246
+  s_11f6c34756f189::t_2b325c394b71ce 222-229
+  s_11f6c34756f189::t_a62d096bfdc4ab 150,153-154,157-158,163-170,173-190
+  s_11f6c34756f189::t_1f27ccfd04909e 334-336
+  s_11f6c34756f189::t_19f50479a627d1 192-221
+  s_11f6c34756f189::t_9de02cc4d81682 316-325
+  s_11f6c34756f189::t_c4c20123250083 356,359-361,367-371
+  s_11f6c34756f189::t_4c646bb9d3abb4 1-149,151-152,155-156,159-162,171-172,191,230-235,239-243,245,247-251,253-263,313-315,326-333,337-350,353-355,357-358,362-363,366
+  s_11f6c34756f189::t_7bcc3c7227bd5a 277-281
+pocs/jit-testing-skill/bin/jit
+  s_11f6c34756f189::t_63ccbe39317694 1-58
+pocs/jit-testing-skill/samples/scala-discount/build.sbt
+  s_11f6c34756f189::t_8b7636cbdc1849 1-3
+pocs/jit-testing-skill/SKILL.md
+  s_11f6c34756f189::t_6c49bde778e942 1,4-5,7-9,11,13,18-19,21-22,24,26,28,30,37-46
+  s_11f6c34756f189::t_f22893aef56101 2-3,6,12,23,25,27,29,31-36
+  s_11f6c34756f189::t_fba5033b40f1a4 10,14-17,20
+pocs/jit-testing-skill/README.md
+  s_11f6c34756f189::t_1ef33df2a608c6 97
+  s_11f6c34756f189::t_7cf4e506c62cc1 36-47
+  s_11f6c34756f189::t_90d91850d19ace 55
+  s_11f6c34756f189::t_1bd2ff3416e53c 146,148-178,181-225,228-234
+  s_11f6c34756f189::t_68cc6a0e526bdf 69,74
+  s_11f6c34756f189::t_5dccdf1d0a3a98 236-279
+  s_11f6c34756f189::t_a23020f94b1179 67-68,70,83,90-96,98-107
+  s_11f6c34756f189::t_4eeadf7f108146 135,227,235,280-287
+  s_11f6c34756f189::t_3739c3d08c3418 133-134,136-145,147,179-180,226,288-296
+  s_11f6c34756f189::t_b4f4e90eeb9753 1-35,48-54,56-66,71-73,75-82,84-89,108,119-132,297-309
+  s_4b07090ddf93a0::t_abdc549b1c36fa 109-118
+pocs/jit-testing-skill/samples/kotlin-discount/setup-git.sh
+  s_11f6c34756f189::t_5dd8a0831dcb48 1-26
+pocs/jit-testing-skill/lib/pipeline.py
+  s_11f6c34756f189::t_5b61af23ea0a03 1-16,19-32,39-46,51-72,75-83,85-94,106-153
+  s_11f6c34756f189::t_29ba61449e35b3 17-18,33-38,47-50
+  s_11f6c34756f189::t_dc4d4f8f7e9626 84
+  s_11f6c34756f189::t_09bb8222bba25b 95-105
+  s_11f6c34756f189::t_03116c48bdc905 73-74
+pocs/jit-testing-skill/samples/java-shipping/setup-git.sh
+  s_11f6c34756f189::t_6b3c27ef17126e 1-30
+pocs/jit-testing-skill/dashboard/index.html
+  s_11f6c34756f189::t_9c0fcb6e9a51e4 1-51
+pocs/jit-testing-skill/samples/nodejs-discount/README.md
+  s_11f6c34756f189::t_7bb636dc46367a 3-4,11-12
+  s_11f6c34756f189::t_b2e67103ecacfa 1-2,5-10
+pocs/jit-testing-skill/samples/scala-discount/.parent/INTENT
+  s_11f6c34756f189::t_baeeefb426a2f8 1
+pocs/jit-testing-skill/samples/kotlin-discount/.gradle/buildOutputCleanup/cache.properties
+  ai_agent 1-2
+pocs/jit-testing-skill/samples/python-pricing/setup-git.sh
+  s_11f6c34756f189::t_b26d947af8812f 1-24
+pocs/jit-testing-skill/dashboard/style.css
+  s_11f6c34756f189::t_f08b024c103720 1-235
+pocs/jit-testing-skill/samples/nodejs-discount/package.json
+  s_11f6c34756f189::t_16606dbe695538 1-5
+pocs/jit-testing-skill/samples/scala-discount/README.md
+  s_11f6c34756f189::t_99e01d91d37d7f 10-11
+  s_11f6c34756f189::t_e5999e69e3c70e 1-9
+pocs/jit-testing-skill/dashboard/app.js
+  s_11f6c34756f189::t_290ddbd169f5e1 1-156
+pocs/jit-testing-skill/samples/kotlin-discount/build.gradle.kts
+  s_11f6c34756f189::t_5434ec7035429d 1-8
+pocs/jit-testing-skill/samples/kotlin-discount/.parent/src/main/kotlin/example/Discount.kt
+  s_11f6c34756f189::t_9e6226035e8398 1-5
+pocs/jit-testing-skill/samples/java-shipping/README.md
+  s_11f6c34756f189::t_8981483e24fc0d 1-2,4,6-11
+  s_11f6c34756f189::t_f5b1cd610946d2 3,5,12-15
+pocs/jit-testing-skill/samples/java-shipping/.parent/src/main/java/com/example/ShippingPolicy.java
+  s_11f6c34756f189::t_66dbd293c377e5 1-9
+pocs/jit-testing-skill/lib/runners/__init__.py
+  s_11f6c34756f189::t_9644f49f663184 1-4,6-7,9-14,16-17,19-25
+  s_11f6c34756f189::t_4f2666220c4ed0 5,8,15,18
+pocs/jit-testing-skill/dashboard/server.py
+  s_11f6c34756f189::t_98ae78089bc7ab 1-190
+pocs/jit-testing-skill/test.sh
+  s_11f6c34756f189::t_39035b4df273df 1-9,18-19,21-23,30-33,36-37,39-40,45-48,54,56-58
+  s_11f6c34756f189::t_2afafd31764726 10-17,20,24-29,34-35,38,41-44,49-53,55
+pocs/jit-testing-skill/samples/java-shipping/.parent/INTENT
+  s_11f6c34756f189::t_76da85c51e19a7 1-3
+pocs/jit-testing-skill/lib/rubfake.py
+  s_11f6c34756f189::t_c95800969d949a 1-52
+pocs/jit-testing-skill/samples/nodejs-discount/setup-git.sh
+  s_11f6c34756f189::t_30fb5568012b98 1-24
+pocs/jit-testing-skill/samples/python-pricing/pricing.py
+  s_11f6c34756f189::t_6383117fb6c054 1-4
+pocs/jit-testing-skill/samples/java-shipping/.parent/src/main/java/com/example/Order.java
+  s_11f6c34756f189::t_b31979785ca9e2 1-14
+pocs/jit-testing-skill/lib/runners/scala3_sbt.py
+  s_11f6c34756f189::t_74902d92a97cd2 1-15
+pocs/jit-testing-skill/install.sh
+  s_11f6c34756f189::t_9a1da53df296ee 1-4,6-9,11-15,17-18,20-30,32-44
+  s_11f6c34756f189::t_f2b584a5bfbcf0 5,10,16,19,31,45-53
+pocs/jit-testing-skill/samples/scala-discount/project/build.properties
+  s_11f6c34756f189::t_2814bd29938d33 1
+pocs/jit-testing-skill/lib/runners/java8.py
+  s_11f6c34756f189::t_ea73bd3b5953ab 134-170
+  s_11f6c34756f189::t_df8b3fbe788a89 48
+  s_11f6c34756f189::t_0da30034392017 26-30
+  s_11f6c34756f189::t_654a8ec0cbdfd1 1-25,31-47,49-133,171-316
+pocs/jit-testing-skill/samples/python-pricing/.parent/INTENT
+  s_11f6c34756f189::t_0329d69b3484c3 1-3
+pocs/jit-testing-skill/samples/java-shipping/pom.xml
+  s_11f6c34756f189::t_6d4f9091d6da29 1-12
+pocs/jit-testing-skill/uninstall.sh
+  s_11f6c34756f189::t_e6b4377e90700f 1-3,5-8,10-17,19-24
+  s_11f6c34756f189::t_054230c11fd4f9 4,9,18
+pocs/jit-testing-skill/lib/runners/base.py
+  s_11f6c34756f189::t_7a4f10047e359b 1-3,7-8,11,13-14,16-17,19-22,28,30-42,66,74-78,82-84
+  s_11f6c34756f189::t_1c77dda091080f 4-6,9-10,12,15,18,23-27,29,43-65,67-73,79-81
+pocs/jit-testing-skill/lib/runners/java25.py
+  s_11f6c34756f189::t_bd1e3781196827 1-7
+pocs/jit-testing-skill/lib/detect.py
+  s_11f6c34756f189::t_3acd358d40208f 11-12,18-19,40-50
+  s_11f6c34756f189::t_285c8ee98cdf36 1-10,13-17,20-39,51-73
+pocs/jit-testing-skill/lib/runners/nodejs.py
+  s_11f6c34756f189::t_3fcbd4ecde0002 1-171
+pocs/jit-testing-skill/lib/runners/kotlin.py
+  s_11f6c34756f189::t_9984ddcb2821a6 1-15
+pocs/jit-testing-skill/samples/python-pricing/.parent/pricing.py
+  s_11f6c34756f189::t_e980e040a3a6a8 1-2
+pocs/jit-testing-skill/samples/scala-discount/.parent/src/main/scala/example/Discount.scala
+  s_11f6c34756f189::t_2d558f314a2c8a 1-5
+pocs/jit-testing-skill/samples/kotlin-discount/src/main/kotlin/example/Discount.kt
+  s_11f6c34756f189::t_3ed14abededcb5 1-6
+pocs/jit-testing-skill/lib/storage.py
+  s_11f6c34756f189::t_f62527d07564c9 1-41
+pocs/jit-testing-skill/samples/python-pricing/pyproject.toml
+  s_11f6c34756f189::t_0a078d8c20dd61 1-3
+pocs/jit-testing-skill/lib/runners/python3_django.py
+  s_11f6c34756f189::t_e0aadb3e44fa2d 1-4
+pocs/jit-testing-skill/samples/java-shipping/src/main/java/com/example/Order.java
+  s_11f6c34756f189::t_c0e0ecfdd8c181 1-14
+pocs/jit-testing-skill/samples/nodejs-discount/.parent/INTENT
+  s_11f6c34756f189::t_b51b458eb6744d 1-3
+pocs/jit-testing-skill/samples/scala-discount/src/main/scala/example/Discount.scala
+  s_11f6c34756f189::t_62c4e67eec73da 1-6
+pocs/jit-testing-skill/lib/runners/python3.py
+  s_11f6c34756f189::t_4bf7776c932b27 1-152
+pocs/jit-testing-skill/commands/jit-dashboard.md
+  s_11f6c34756f189::t_95e8048c22f5d5 10,16,20,23
+  s_11f6c34756f189::t_4232b3a8055abd 1-9,11-15,17-19,21-22,24-28
+pocs/jit-testing-skill/samples/nodejs-discount/.parent/src/discount.js
+  s_11f6c34756f189::t_0f76f379de36a2 1-5
+pocs/jit-testing-skill/samples/scala-discount/setup-git.sh
+  s_11f6c34756f189::t_35725645d9ce0a 1-26
+pocs/jit-testing-skill/samples/kotlin-discount/README.md
+  s_11f6c34756f189::t_356f70428bbf94 1-9
+  s_11f6c34756f189::t_3d2abfa7fcdb9f 10-11
+pocs/jit-testing-skill/samples/java-shipping/src/main/java/com/example/ShippingPolicy.java
+  s_11f6c34756f189::t_3bbef0eedefa27 1-12
+pocs/jit-testing-skill/lib/runners/scala2_bazel.py
+  s_11f6c34756f189::t_b648cc6c3b4c35 1-15
+pocs/jit-testing-skill/samples/kotlin-discount/.parent/INTENT
+  s_11f6c34756f189::t_eee889fff872b9 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "7fd78e2c6383945aa4feff1d5cbcbeeb657a2f1f",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_11f6c34756f189": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eb9d09b1-2dc3-473a-8e08-8f220462c9d3",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_4b07090ddf93a0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ff1ddff6-a93e-4ffa-af82-a2ac6c008e5b",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+pocs/tv-time-like/src/api/client.ts
+  s_40760ef814bad7::t_1fee9fdac2302c 21-23
+  s_40760ef814bad7::t_d3c9a501c799d2 1
+pocs/tv-time-like/tsconfig.server.tsbuildinfo
+  s_40760ef814bad7::t_2860a645b632e5 1
+pocs/tv-time-like/src/components/LibraryDetailDialog.tsx
+  s_40760ef814bad7::t_d3c9a501c799d2 7,11-12,17-19,39
+pocs/tv-time-like/server/episodes.ts
+  s_40760ef814bad7::t_8c23c54719f3e7 1-41,45-52,54-68,70-91,104-144,151,153-154
+  s_40760ef814bad7::t_84ce37f5536024 42-44,92-103
+  s_40760ef814bad7::t_a7a50f60c13ea7 53,69,145-150,152
+pocs/tv-time-like/tests/importer.test.ts
+  s_40760ef814bad7::t_84ce37f5536024 2,15-18
+  s_40760ef814bad7::t_957e8d9675ed32 19
+pocs/tv-time-like/desktop-app/install.sh
+  s_40760ef814bad7::t_4ce88e722bf893 28-39
+pocs/tv-time-like/desktop-app/test.sh
+  s_40760ef814bad7::t_4ce88e722bf893 6
+pocs/tv-time-like/server/index.ts
+  s_40760ef814bad7::t_8c23c54719f3e7 10,48-50,90-92
+pocs/tv-time-like/server/importer.ts
+  s_40760ef814bad7::t_84ce37f5536024 34-36
+pocs/tv-time-like/shared/types.ts
+  s_40760ef814bad7::t_8c23c54719f3e7 61-69
+pocs/tv-time-like/src/hooks/useLibrary.ts
+  s_40760ef814bad7::t_d3c9a501c799d2 20-22
+pocs/tv-time-like/src/pages/LibraryPage.tsx
+  s_40760ef814bad7::t_d3c9a501c799d2 41
+pocs/tv-time-like/desktop-app/build-icon.cjs
+  s_40760ef814bad7::t_4ce88e722bf893 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "f640ae9cf5a1e1e7796903545c146a59109fb067",
+  "prompts": {},
+  "sessions": {
+    "s_40760ef814bad7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5ad7-33ac-7d43-801c-a871c2377658",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

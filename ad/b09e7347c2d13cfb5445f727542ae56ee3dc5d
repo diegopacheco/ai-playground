@@ -1,0 +1,21 @@
+pocs/gpt-5.6-sol-assisted-poker/README.md
+  s_bbd9f09a541335::t_55e46659354057 3,5,7,9,11-52,58-72,74-76,82,88,90-92,98,104-308,310-321,330-333,341,350-358,360,362-371,373
+pocs/gpt-5.6-sol-assisted-poker/static/academy/style.css
+  s_bbd9f09a541335::t_a8d318b855f791 1590-1591,2704
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "adb09e7347c2d13cfb5445f727542ae56ee3dc5d",
+  "prompts": {},
+  "sessions": {
+    "s_bbd9f09a541335": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7bd9-135c-7fc1-9d99-a2a040ab8bd7",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

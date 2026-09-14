@@ -1,0 +1,39 @@
+pocs/port-doc/run.sh
+  s_d8c84483c086ea::t_83ab1892a4bd60 1-8
+pocs/port-doc/Cargo.lock
+  s_d8c84483c086ea::t_3abaf10553d16d 1-7
+pocs/port-doc/build.sh
+  s_d8c84483c086ea::t_84746cc2976aae 1-5
+pocs/port-doc/.gitignore
+  s_d8c84483c086ea::t_d79b790bfca0d9 1
+pocs/port-doc/Cargo.toml
+  s_d8c84483c086ea::t_f67be3f7fe474f 1-14
+pocs/port-doc/printscreens/architecture.svg
+  s_d8c84483c086ea::t_75e61be0c1aca9 1-69
+pocs/port-doc/src/main.rs
+  s_d8c84483c086ea::t_882f0a2c9d867a 1-373
+pocs/port-doc/README.md
+  s_d8c84483c086ea::t_22fb135663be64 1-8,38-101
+  h_8e2c3875396153 9-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "f07a1c8296136cd9fc70c43f5af9fe2d114fc9d0",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_d8c84483c086ea": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ec6398cd-64d4-4a92-ad69-9e5ae5cdc234",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

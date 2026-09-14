@@ -1,0 +1,28 @@
+games/blockrails/assets/index-DPhQxRIw.js
+  s_252351ce91ee92::t_9be6aaf3567d37 1-4108
+games/blockrails/assets/index-Co1JCuwo.css
+  s_252351ce91ee92::t_9be6aaf3567d37 1
+games/blockrails/index.html
+  s_252351ce91ee92::t_9be6aaf3567d37 1-83
+games/index.html
+  s_252351ce91ee92::t_3a9c70e05e6e5a 108,205,248,250
+games/README.md
+  s_252351ce91ee92::t_3a9c70e05e6e5a 73-75
+  s_252351ce91ee92::t_07bca5eef2f4d5 76,79,82,85,88,91,94,97,102,105,108,111,114,117,122,125,128,131,134,137,140,145,148,151,154,157,160,163
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "4607481ec585370f79f990371b13824d833d4d3b",
+  "prompts": {},
+  "sessions": {
+    "s_252351ce91ee92": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f8699-2c27-7de2-ac11-44a7e5a89c90",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

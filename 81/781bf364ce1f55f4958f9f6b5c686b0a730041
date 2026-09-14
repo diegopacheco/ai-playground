@@ -1,0 +1,57 @@
+pocs/agent-skill-branch-tombs/branch-graveyard-report/index.html
+  s_a4dcebc92084e4::t_b0476a9a3cb1e0 1-320
+pocs/agent-skill-branch-tombs/scripts/branch_tombs.py
+  s_31f15304012f75::t_eaf83d27a6567b 1-299
+pocs/agent-skill-branch-tombs/install.sh
+  s_31f15304012f75::t_42d28fbd47d561 1-27
+pocs/agent-skill-branch-tombs/assets/template.html
+  s_31f15304012f75::t_e9eea6800773d1 96
+  s_31f15304012f75::t_cc4e0240b98237 1-95,97-320
+pocs/agent-skill-branch-tombs/printscreens/architecture.svg
+  s_31f15304012f75::t_055dbee3708834 1-57
+pocs/agent-skill-branch-tombs/branch-graveyard-report/data.json
+  s_a4dcebc92084e4::t_b0476a9a3cb1e0 1-388
+pocs/agent-skill-branch-tombs/uninstall.sh
+  s_31f15304012f75::t_4a99dd9f29be0f 1-11
+pocs/agent-skill-branch-tombs/design-doc.md
+  s_31f15304012f75::t_17bc11096f511f 1-66
+pocs/agent-skill-branch-tombs/site/index.html
+  s_31f15304012f75::t_d81a4e1e50e0c7 1-147
+pocs/agent-skill-branch-tombs/.gitignore
+  s_31f15304012f75::t_0595ad52300242 1-3
+pocs/agent-skill-branch-tombs/README.md
+  s_31f15304012f75::t_de44598b087af8 1-124
+pocs/agent-skill-branch-tombs/sample/build-sample.sh
+  s_31f15304012f75::t_44f6353c1cf1bc 1-61
+pocs/agent-skill-branch-tombs/SKILL.md
+  s_31f15304012f75::t_cdb63f3b0cf149 1-103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "81781bf364ce1f55f4958f9f6b5c686b0a730041",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_31f15304012f75": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "456c7dec-ef61-43cc-a449-6237aae9429e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_a4dcebc92084e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "02f6dd67-2ad6-4d97-8cd7-ca8bad976c4f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

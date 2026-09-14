@@ -1,0 +1,19 @@
+pocs/agent-skill-bug-cataloger/README.md
+  s_feb55aa6799f41::t_e0064f99029f6a 3-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "03a21cab079d7d43f7a21dfe8b6e3cc0c565e840",
+  "prompts": {},
+  "sessions": {
+    "s_feb55aa6799f41": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f35e4-f689-79b1-b16a-d40696ddf988",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

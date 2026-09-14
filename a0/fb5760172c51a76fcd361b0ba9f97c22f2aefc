@@ -1,0 +1,28 @@
+pocs/gstack-poc/web/app/components/Playground.tsx
+  s_f005f9687aa625::t_ced690fcc6879c 252-253
+pocs/gstack-poc/web/app/api/generate/route.ts
+  s_f005f9687aa625::t_bb2aac56a239af 125-130
+pocs/gstack-poc/README.md
+  h_8e2c3875396153 33-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "a0fb5760172c51a76fcd361b0ba9f97c22f2aefc",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

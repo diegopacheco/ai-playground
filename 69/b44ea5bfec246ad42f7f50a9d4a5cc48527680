@@ -1,0 +1,19 @@
+pocs/gpt-5.6-terra-futebol-de-botao-game/README.md
+  s_ebdc30a949f588::t_c41269a8e8cfe2 5-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "69b44ea5bfec246ad42f7f50a9d4a5cc48527680",
+  "prompts": {},
+  "sessions": {
+    "s_ebdc30a949f588": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f58d0-3f8c-7182-a288-3e74aec3021f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

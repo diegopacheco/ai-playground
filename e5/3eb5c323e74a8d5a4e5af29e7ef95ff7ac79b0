@@ -1,0 +1,32 @@
+pocs/fable-5-train-ride-rs/main.js
+  s_8a84af130b7453::t_028c04f5be2458 578
+  s_8a84af130b7453::t_3f3fc0094f4afa 453
+  s_8a84af130b7453::t_bc56d4ce6f9ef4 624
+  s_8a84af130b7453::t_e5ea0d8aa58fbb 912-1072
+  s_8a84af130b7453::t_67537bad58eac8 1588
+  s_8a84af130b7453::t_e946b0bea5c142 231-397
+  s_8a84af130b7453::t_2eaccbc0d4702f 844-845
+  s_8a84af130b7453::t_a45314cad03c53 519
+  s_8a84af130b7453::t_49a6b787f02f25 714
+  s_8a84af130b7453::t_c2aad3d4445437 755
+  s_8a84af130b7453::t_9d4ff6078533de 673
+  s_8a84af130b7453::t_145f2293803745 1073
+pocs/fable-5-train-ride-rs/README.md
+  s_8a84af130b7453::t_0aef9d8d0a077d 42-49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e53eb5c323e74a8d5a4e5af29e7ef95ff7ac79b0",
+  "prompts": {},
+  "sessions": {
+    "s_8a84af130b7453": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d4e115c0-4270-498d-8bf5-9441001f6e29",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

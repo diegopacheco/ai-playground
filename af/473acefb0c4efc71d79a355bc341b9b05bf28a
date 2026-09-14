@@ -1,0 +1,41 @@
+pocs/agent-speech-to-map/frontend/src/index.css
+  s_71acb24160770a::t_cec8734b0a0838 154-163
+pocs/agent-speech-to-map/README.md
+  s_71acb24160770a::t_ae94e9cfcf2fc2 1-165
+pocs/agent-speech-to-map/printscreens/architecture.svg
+  s_71acb24160770a::t_1ba47a6914ea0c 1-92
+pocs/agent-speech-to-map/start.sh
+  s_71acb24160770a::t_e09f7c4cfb8d2b 13-35,46,49,52
+pocs/agent-speech-to-map/frontend/src/MapView.tsx
+  s_71acb24160770a::t_ace88697b795d6 10
+pocs/agent-speech-to-map/frontend/src/VoiceControl.tsx
+  s_71acb24160770a::t_71696e9930d339 73-78,82-83
+  s_71acb24160770a::t_05ff2e41e12840 106
+  s_71acb24160770a::t_51bb3d0fd545e3 172-173
+  s_71acb24160770a::t_229ffd955b8386 18-19,21,24-28
+  s_71acb24160770a::t_000969e1037e8c 52,57
+  s_71acb24160770a::t_6af195b8f580e6 3
+  s_71acb24160770a::t_d5db87458019b6 8
+pocs/agent-speech-to-map/.gitignore
+  s_71acb24160770a::t_269be32bac8494 5
+pocs/agent-speech-to-map/frontend/src/api.ts
+  s_71acb24160770a::t_8067a10f66d7a8 6-15
+pocs/agent-speech-to-map/frontend/src/App.tsx
+  s_71acb24160770a::t_ba8c0bf329ab2c 22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "af473acefb0c4efc71d79a355bc341b9b05bf28a",
+  "prompts": {},
+  "sessions": {
+    "s_71acb24160770a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c4ff2244-9168-4ec8-8d85-5ecd4685d66a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

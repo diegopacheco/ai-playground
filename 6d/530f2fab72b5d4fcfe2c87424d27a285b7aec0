@@ -1,0 +1,44 @@
+pocs/fable5-maze-viz/src/Trace.java
+  s_5d67f982f591d7::t_75b574f73a5def 1-22
+pocs/fable5-maze-viz/web/style.css
+  s_5d67f982f591d7::t_9746062bef68d6 1-405
+pocs/fable5-maze-viz/architecture.svg
+  s_5d67f982f591d7::t_cca27e1c5cf4b6 1-57
+pocs/fable5-maze-viz/.gitignore
+  s_5d67f982f591d7::t_f24d637afe7f3e 1-4
+pocs/fable5-maze-viz/src/Bfs.java
+  s_5d67f982f591d7::t_8fa116cec1f945 1-44
+pocs/fable5-maze-viz/start.sh
+  s_5d67f982f591d7::t_995f957a71423c 1-20
+pocs/fable5-maze-viz/src/Server.java
+  s_5d67f982f591d7::t_9124ce506a727c 1-131
+pocs/fable5-maze-viz/web/app.js
+  s_5d67f982f591d7::t_72c35fb4cca3ea 1-531
+pocs/fable5-maze-viz/src/Dfs.java
+  s_5d67f982f591d7::t_39be5ba4b6e2f4 1-44
+pocs/fable5-maze-viz/README.md
+  s_5d67f982f591d7::t_589e87fe6082de 1-60
+pocs/fable5-maze-viz/web/index.html
+  s_5d67f982f591d7::t_35f6c5074c4c1d 1-6,8-99
+  s_5d67f982f591d7::t_05bbea07bb7186 7
+pocs/fable5-maze-viz/src/Maze.java
+  s_5d67f982f591d7::t_53eac80e2d4277 1-68
+pocs/fable5-maze-viz/stop.sh
+  s_5d67f982f591d7::t_e24c8d7044aac4 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "6d530f2fab72b5d4fcfe2c87424d27a285b7aec0",
+  "prompts": {},
+  "sessions": {
+    "s_5d67f982f591d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc8aadcc-3960-49be-9e58-8050cb7a3932",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

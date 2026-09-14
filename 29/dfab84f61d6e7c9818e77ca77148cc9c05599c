@@ -1,0 +1,124 @@
+pocs/closed-loop-auto-tunning-agent/frontend/src/components/LiveMetrics.tsx
+  s_5141538a3e1b25::t_529f352e296323 1-44
+pocs/closed-loop-auto-tunning-agent/design-doc.md
+  s_5141538a3e1b25::t_b3748b58691bfe 1-325
+pocs/closed-loop-auto-tunning-agent/frontend/src/router.tsx
+  s_5141538a3e1b25::t_4c395f429b66ce 1-89
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/pattern/BreakerManager.java
+  s_5141538a3e1b25::t_414ac3699d37a5 1-109
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/tune/OpenAiClient.java
+  s_5141538a3e1b25::t_c04ec6dad6ef8c 1-74
+pocs/closed-loop-auto-tunning-agent/backend/src/test/java/com/diegopacheco/autotune/tune/TuningServiceTest.java
+  s_5141538a3e1b25::t_74408f9aac9676 1-45
+pocs/closed-loop-auto-tunning-agent/frontend/src/components/ScenarioControls.tsx
+  s_5141538a3e1b25::t_4931c1dfb5f21f 1-76
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/downstream/Scenario.java
+  s_5141538a3e1b25::t_5f756a07abcede 1-3
+pocs/closed-loop-auto-tunning-agent/frontend/src/useTrafficRunner.ts
+  s_5141538a3e1b25::t_6007959054bafd 1-109
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/config/CircuitBreakerSettings.java
+  s_5141538a3e1b25::t_5d3be318a86b9d 1-12
+pocs/closed-loop-auto-tunning-agent/frontend/tsconfig.json
+  s_5141538a3e1b25::t_b24ff344e0bf86 1-17
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/downstream/Downstream.java
+  s_5141538a3e1b25::t_b062408f377c93 1-36
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/pattern/CallResult.java
+  s_5141538a3e1b25::t_acc909657ae4cb 1-3
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/tune/TuneResult.java
+  s_5141538a3e1b25::t_86b5edf0f59499 1-17
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/config/ConfigController.java
+  s_5141538a3e1b25::t_2fff1d319a519b 1-31
+pocs/closed-loop-auto-tunning-agent/frontend/package.json
+  s_5141538a3e1b25::t_bb3f79fefad2d7 1-23
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/downstream/ScenarioState.java
+  s_5141538a3e1b25::t_ab28dad067d0e7 1-33
+pocs/closed-loop-auto-tunning-agent/frontend/src/pages/SimplePatternPage.tsx
+  s_5141538a3e1b25::t_b997f9ec2f8240 1-68
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/config/Clamp.java
+  s_5141538a3e1b25::t_8b7edeb7a34991 1-39
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/tune/Proposal.java
+  s_5141538a3e1b25::t_ed5805408b394e 1-13
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/tune/TuneController.java
+  s_5141538a3e1b25::t_57ba219d56b31c 5
+  s_5141538a3e1b25::t_b2c55e9084c4f4 1-4,6-24,30-43
+  s_5141538a3e1b25::t_e1cd83520bc2f8 25-29
+pocs/closed-loop-auto-tunning-agent/backend/pom.xml
+  s_5141538a3e1b25::t_a68655955883a6 1-66
+pocs/closed-loop-auto-tunning-agent/README.md
+  s_5141538a3e1b25::t_6690dd0770fb46 1-159
+pocs/closed-loop-auto-tunning-agent/frontend/src/components/LineChart.tsx
+  s_5141538a3e1b25::t_7981d1b33f4b34 1-38,40-69
+  s_5141538a3e1b25::t_091cf4192dc93b 39
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/metrics/MetricsController.java
+  s_5141538a3e1b25::t_76584693e29779 1-60
+pocs/closed-loop-auto-tunning-agent/frontend/src/main.tsx
+  s_5141538a3e1b25::t_c569ea0e745216 1-18
+pocs/closed-loop-auto-tunning-agent/backend/src/test/java/com/diegopacheco/autotune/PatternEndpointIT.java
+  s_5141538a3e1b25::t_d63e05f54b2362 1-98
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/Application.java
+  s_5141538a3e1b25::t_1ddf4caf71e47a 1-11
+pocs/closed-loop-auto-tunning-agent/stop.sh
+  s_5141538a3e1b25::t_74af58b1635448 1-26
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/metrics/CbMetrics.java
+  s_5141538a3e1b25::t_c15044e3352482 1-13
+pocs/closed-loop-auto-tunning-agent/test.sh
+  s_5141538a3e1b25::t_7ad39470e343d0 1-5
+pocs/closed-loop-auto-tunning-agent/.gitignore
+  s_5141538a3e1b25::t_4e2d0bece17623 1-5
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/pattern/PatternController.java
+  s_5141538a3e1b25::t_475231bd038b33 1-86
+pocs/closed-loop-auto-tunning-agent/frontend/src/components/TuningPanel.tsx
+  s_5141538a3e1b25::t_3390137bfe960c 78
+  s_5141538a3e1b25::t_5669aa949e142b 1-77,79-85
+pocs/closed-loop-auto-tunning-agent/frontend/src/styles.css
+  s_5141538a3e1b25::t_ae0ee140dfc68d 1-273,308-482
+  s_5141538a3e1b25::t_4bcb9edf42e006 274-307
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/tune/TuningService.java
+  s_5141538a3e1b25::t_3af40abec28d06 1-83
+pocs/closed-loop-auto-tunning-agent/frontend/index.html
+  s_5141538a3e1b25::t_2284578426a049 1-12
+pocs/closed-loop-auto-tunning-agent/frontend/src/types.ts
+  s_5141538a3e1b25::t_f783fc43186c05 1-83
+pocs/closed-loop-auto-tunning-agent/backend/src/main/resources/application.yml
+  s_5141538a3e1b25::t_ebfbb0f8940f0c 1-11
+pocs/closed-loop-auto-tunning-agent/frontend/src/components/OutcomeTally.tsx
+  s_5141538a3e1b25::t_cf160bc0078993 1-23
+pocs/closed-loop-auto-tunning-agent/frontend/src/components/CompareView.tsx
+  s_5141538a3e1b25::t_512a7b37bcadb0 1-72
+pocs/closed-loop-auto-tunning-agent/frontend/src/api.ts
+  s_5141538a3e1b25::t_03fa5376ddbf2e 50
+  s_5141538a3e1b25::t_e07524f7d38cb6 1-39,42-49,51-55
+  s_5141538a3e1b25::t_a3d40b149b1d45 40-41
+pocs/closed-loop-auto-tunning-agent/start.sh
+  s_5141538a3e1b25::t_257f4424839895 1-45
+pocs/closed-loop-auto-tunning-agent/frontend/src/components/ActiveConfig.tsx
+  s_5141538a3e1b25::t_708ef0449dd681 1-27
+pocs/closed-loop-auto-tunning-agent/backend/src/test/java/com/diegopacheco/autotune/config/ClampTest.java
+  s_5141538a3e1b25::t_a877eff51b0972 1-57
+pocs/closed-loop-auto-tunning-agent/frontend/src/pages/CircuitBreakerPage.tsx
+  s_5141538a3e1b25::t_18f1a471bf2944 7,24,37-38,51-57,64-65,71-74,80,82
+  s_5141538a3e1b25::t_c00b7c7a7e73f5 27
+  s_5141538a3e1b25::t_f66c6614012f7c 1-6,8-23,25-26,28-36,39-50,58-63,66-70,75-79,81,83-87
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/downstream/ScenarioController.java
+  s_5141538a3e1b25::t_69552816854738 1-29
+pocs/closed-loop-auto-tunning-agent/backend/src/main/java/com/diegopacheco/autotune/tune/RunSummary.java
+  s_5141538a3e1b25::t_bfbac9544eba39 1-12
+pocs/closed-loop-auto-tunning-agent/frontend/vite.config.ts
+  s_5141538a3e1b25::t_bbdca1ec7fb446 1-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "29dfab84f61d6e7c9818e77ca77148cc9c05599c",
+  "prompts": {},
+  "sessions": {
+    "s_5141538a3e1b25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8da423b2-90b7-4110-83d1-d204e7140f57",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+pocs/fly-catcher-game-gpt-5.6-sol/test.sh
+  s_540d41c2f50ea7::t_0642793a900abe 41,50-51
+  s_540d41c2f50ea7::t_1427388b66b622 29-30,42-45,56-58,64-66
+  s_540d41c2f50ea7::t_ee6ffb5ca1ff71 27-28,35-39,63
+  s_540d41c2f50ea7::t_9d6e1c6f372c57 26,31-34,40,46-49,67-68
+pocs/fly-catcher-game-gpt-5.6-sol/public/index.html
+  s_540d41c2f50ea7::t_035896ef84153c 42
+pocs/fly-catcher-game-gpt-5.6-sol/README.md
+  s_540d41c2f50ea7::t_b25fc74af51252 3,5,10-12,14,21-28,31-39,41-45,48-87,89,93-96,99,101-102,105,107,109,111-113,115,119,121,125-134,137,140,143,148,150,152,154,156-157,160,163,166,168-176
+  s_540d41c2f50ea7::t_1427388b66b622 29-30,91
+  s_540d41c2f50ea7::t_f36d968fd53017 114,117
+  s_540d41c2f50ea7::t_ee6ffb5ca1ff71 40,46-47,123
+  s_540d41c2f50ea7::t_9eef977dae1373 92
+pocs/fly-catcher-game-gpt-5.6-sol/public/game.js
+  s_540d41c2f50ea7::t_035896ef84153c 425
+  s_540d41c2f50ea7::t_b25fc74af51252 418
+pocs/fly-catcher-game-gpt-5.6-sol/public/controller.html
+  s_540d41c2f50ea7::t_035896ef84153c 1-37
+pocs/fly-catcher-game-gpt-5.6-sol/public/controller.css
+  s_540d41c2f50ea7::t_035896ef84153c 1-231
+pocs/fly-catcher-game-gpt-5.6-sol/server.js
+  s_540d41c2f50ea7::t_88b03f944dfa69 2-3,6,13,16,23-24,26,39-44,71-77,79-81,83-88,90,92-99
+  s_540d41c2f50ea7::t_0083c9d3e48c90 82,89
+  s_540d41c2f50ea7::t_f36d968fd53017 78,91
+  s_540d41c2f50ea7::t_9d6e1c6f372c57 163
+  s_540d41c2f50ea7::t_ee6ffb5ca1ff71 210,219,223-224,226-230,239-250,319,377-386
+  s_540d41c2f50ea7::t_6c64579a8b6124 194,196,209,225,231,233-237,255-302,304,311,316,322-329,335,339,349-376,387-448,466,487
+pocs/fly-catcher-game-gpt-5.6-sol/tests/layout.test.js
+  s_540d41c2f50ea7::t_9d6e1c6f372c57 6-7,13-14
+pocs/fly-catcher-game-gpt-5.6-sol/public/controller.js
+  s_540d41c2f50ea7::t_035896ef84153c 1-53,57-86,93-112
+  s_540d41c2f50ea7::t_9d6e1c6f372c57 54-56,87-92
+pocs/fly-catcher-game-gpt-5.6-sol/tests/ports.test.js
+  s_540d41c2f50ea7::t_1427388b66b622 10,12,19,35,39-53,55-75
+pocs/fly-catcher-game-gpt-5.6-sol/.gitignore
+  s_540d41c2f50ea7::t_88b03f944dfa69 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "5afc96eec71fd8b92a158dabb51c4872ce77897e",
+  "prompts": {},
+  "sessions": {
+    "s_540d41c2f50ea7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc5b8-d98d-7df3-9b00-a8f495c3a348",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

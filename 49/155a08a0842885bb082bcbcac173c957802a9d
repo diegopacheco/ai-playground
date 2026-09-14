@@ -1,0 +1,83 @@
+games/dustline/assets/buildings/License.txt
+  s_102037e6fd3390::t_aec5accee12c50 1-28
+pocs/chrome-ext-hn-opennew/popup.js
+  s_0dd206ae4e6555::t_09f358c35d40ca 1-107
+games/dustline/assets/models/License.txt
+  s_102037e6fd3390::t_aec5accee12c50 1-28
+pages/pages.md
+  s_102037e6fd3390::t_a2b1bbcca69663 28,49,90,107
+  s_102037e6fd3390::t_a1a9b0e8a54e7b 62
+games/dustline/assets/survivors/License.txt
+  s_102037e6fd3390::t_aec5accee12c50 1-27
+games/README.md
+  s_102037e6fd3390::t_a2b1bbcca69663 79-81
+  s_0dd206ae4e6555::t_0dfba9d1ecb03e 82,85,88,91,94,97,100,103,106,109,114,117,120,123,126,129,134,137,140,143,146,149,152,157,160,163,166,169,172,175
+games/dustline/style.css
+  s_102037e6fd3390::t_aec5accee12c50 1-508
+games/dustline/assets/utils/BufferGeometryUtils.js
+  s_102037e6fd3390::t_aec5accee12c50 1-1435
+games/dustline/assets/city/License.txt
+  s_102037e6fd3390::t_aec5accee12c50 1-28
+pocs/chrome-ext-hn-opennew/manifest.json
+  s_0dd206ae4e6555::t_745d48d38438d6 1-24
+pocs/chrome-ext-hn-opennew/icons/icon.svg
+  s_0dd206ae4e6555::t_ba12f46de3a3c9 1-8
+pocs/chrome-ext-hn-opennew/popup.html
+  s_0dd206ae4e6555::t_d17d4be763733d 1-18
+games/dustline/assets/characters/License.txt
+  s_102037e6fd3390::t_aec5accee12c50 1-28
+games/dustline/assets/roads/License.txt
+  s_102037e6fd3390::t_aec5accee12c50 1-28
+pocs/chrome-ext-hn-opennew/README.md
+  s_0dd206ae4e6555::t_35f2dd9946c9b2 1-89
+games/dustline/assets/survivors/Protagonists-License.txt
+  s_102037e6fd3390::t_aec5accee12c50 1-27
+games/dustline/assets/factory/License.txt
+  s_102037e6fd3390::t_aec5accee12c50 1-28
+pocs/chrome-ext-hn-opennew/popup.css
+  s_0dd206ae4e6555::t_8718d4262362ec 1-42,45-85
+  s_0dd206ae4e6555::t_8ac2efe17572c5 43-44
+games/dustline/game.js
+  s_102037e6fd3390::t_aec5accee12c50 1-1148
+games/index.html
+  s_102037e6fd3390::t_a2b1bbcca69663 108,207
+games/dustline/index.html
+  s_102037e6fd3390::t_aec5accee12c50 1-81
+.github/workflows/agents-pages.yml
+  s_102037e6fd3390::t_a2b1bbcca69663 49
+pocs/chrome-ext-hn-opennew/printscreens/architecture.svg
+  s_0dd206ae4e6555::t_48a1a756fac638 2-66,68
+  s_0dd206ae4e6555::t_7e789f91ef5b7c 1,67
+games/dustline/assets/vendor/FBXLoader.js
+  s_102037e6fd3390::t_726d8776a08442 1
+games/dustline/assets/vendor/GLTFLoader.js
+  s_102037e6fd3390::t_7c60c7c90d32f3 1-4890
+games/dustline/assets/vendor/three.core.min.js
+  s_102037e6fd3390::t_24db6a3e0a07e5 1-6
+games/dustline/assets/vendor/three.module.min.js
+  s_102037e6fd3390::t_8b79303cf1b235 1-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "49155a08a0842885bb082bcbcac173c957802a9d",
+  "prompts": {},
+  "sessions": {
+    "s_0dd206ae4e6555": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "246dd526-0ce0-4bb7-b0ce-23d9db8762c4",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_102037e6fd3390": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb9c3-d5dd-7371-b6c5-a66221fe6de1",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

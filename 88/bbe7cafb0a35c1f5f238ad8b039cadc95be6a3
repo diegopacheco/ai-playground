@@ -1,0 +1,30 @@
+pocs/admin-console/frontend/src/console/ConnectionPicker.test.tsx
+  s_fa6084944458f4::t_bf2b282ca368cf 151-157
+pocs/admin-console/design-doc.md
+  s_fa6084944458f4::t_9ac16199f7cdbc 327
+  s_fa6084944458f4::t_233ab5539fee37 321-324
+  s_fa6084944458f4::t_36a6e3cac70ef8 634-638
+  s_fa6084944458f4::t_1c25793718acb4 360-374,377-391,394
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/saved/SavedQuery.java
+  s_fa6084944458f4::t_c7ce08dc83fdf0 1-6
+pocs/admin-console/.playwright-mcp/page-2026-07-18T10-02-12-668Z.yml
+  s_fa6084944458f4::t_7216f88d927b8c 1-51
+pocs/admin-console/.playwright-mcp/page-2026-07-18T10-02-34-345Z.yml
+  s_fa6084944458f4::t_b81df3f0fc12a2 1-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "88bbe7cafb0a35c1f5f238ad8b039cadc95be6a3",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+pocs/apache-burr-poc/stop.sh
+  s_bb2cf4c3ef1817::t_4e13d2f37f6783 1-19
+pocs/apache-burr-poc/README.md
+  s_bb2cf4c3ef1817::t_72ad6b4fdc677d 1-112
+pocs/apache-burr-poc/chatbot.py
+  s_bb2cf4c3ef1817::t_54331f2ae11677 1-78
+pocs/apache-burr-poc/start.sh
+  s_bb2cf4c3ef1817::t_471e936b139e23 1-36
+pocs/apache-burr-poc/printscreens/architecture.svg
+  s_bb2cf4c3ef1817::t_4c4084a3d7a659 2-15,70-71
+  s_bb2cf4c3ef1817::t_b82e0c159498dc 1,16-69
+pocs/apache-burr-poc/.gitignore
+  s_bb2cf4c3ef1817::t_11e17f17926080 1-4
+pocs/apache-burr-poc/requirements.txt
+  s_bb2cf4c3ef1817::t_672a9ba37c09ae 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "231007ca07cc875d01c8018a33d489ed895d5ac1",
+  "prompts": {},
+  "sessions": {
+    "s_bb2cf4c3ef1817": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4d1a2663-6425-4d3d-b04c-91f387b3fb33",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

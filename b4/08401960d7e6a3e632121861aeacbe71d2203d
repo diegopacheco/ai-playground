@@ -1,0 +1,19 @@
+agents/landing-page.html
+  s_3c53e1df83d954::t_2f2a166e13f5ed 187
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "b408401960d7e6a3e632121861aeacbe71d2203d",
+  "prompts": {},
+  "sessions": {
+    "s_3c53e1df83d954": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d575d123-b276-4138-8ff8-10b2d459ef25",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

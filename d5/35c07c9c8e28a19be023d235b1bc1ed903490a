@@ -1,0 +1,32 @@
+500-pocs.md
+  s_9ade86b2f7acbd::t_d7ded98ca43fac 35
+  s_9ade86b2f7acbd::t_220bd0d330d520 27
+  s_9ade86b2f7acbd::t_5565061aceed3b 93
+  s_9ade86b2f7acbd::t_faa2a0cbc2542f 56-58
+  s_9ade86b2f7acbd::t_8af567d8d98407 49
+  s_9ade86b2f7acbd::t_d24b98f946291d 79
+  h_8e2c3875396153 3,8-11
+  s_9ade86b2f7acbd::t_7c2a88d2881bfd 100
+  s_9ade86b2f7acbd::t_6cb00723a40485 91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "d535c07c9c8e28a19be023d235b1bc1ed903490a",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_9ade86b2f7acbd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "08f33c6e-890c-432a-991d-1cdf85da9cfd",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+pocs/ai-postgresql-db/start.sh
+  s_56ef97e4a94f3a::t_53a5c429d6da0d 1-20
+pocs/ai-postgresql-db/Containerfile
+  s_56ef97e4a94f3a::t_2d878caf836b97 1-2
+pocs/ai-postgresql-db/README.md
+  s_56ef97e4a94f3a::t_5806ebd4076c44 61-93
+  h_8e2c3875396153 10-48
+  s_56ef97e4a94f3a::t_f986c04d0c865f 1-9,49-60,94-176
+pocs/ai-postgresql-db/init.sql
+  s_56ef97e4a94f3a::t_7d6bec7d423fee 1-41
+pocs/ai-postgresql-db/podman-compose.yml
+  s_56ef97e4a94f3a::t_dd2c0e46bb8175 1-14
+pocs/ai-postgresql-db/test.sh
+  s_56ef97e4a94f3a::t_b9e9119d9a5841 1-20
+pocs/ai-postgresql-db/diagram.svg
+  s_56ef97e4a94f3a::t_332bf925e9ee2c 2-11,59-60
+  s_56ef97e4a94f3a::t_5a784f9a1b0c2e 1,12-58
+pocs/ai-postgresql-db/stop.sh
+  s_56ef97e4a94f3a::t_011e327f964721 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "46e783099d6e012c0bba6e3ec8da82aed01b74b9",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_56ef97e4a94f3a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b2fd7cc0-bafc-4769-859a-03166a5bf866",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

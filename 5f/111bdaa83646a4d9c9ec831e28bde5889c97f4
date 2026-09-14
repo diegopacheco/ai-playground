@@ -1,0 +1,67 @@
+pocs/chrome-ext-render-html-md/install.sh
+  s_fe3342e066a440::t_92e62b51b54836 1-19
+pocs/chrome-ext-render-html-md/src/html-viewer.html
+  s_fe3342e066a440::t_9ececd17e97f09 1-11
+pocs/chrome-ext-render-html-md/src/content.css
+  s_fe3342e066a440::t_ba47a636b66708 111-117
+  s_fe3342e066a440::t_721fa300ce23ee 1-110,118-432
+pocs/chrome-ext-render-html-md/scripts/generate-icons.js
+  s_fe3342e066a440::t_53dbece8e3cc3d 1-76
+pocs/chrome-ext-render-html-md/src/background.js
+  s_fe3342e066a440::t_721fa300ce23ee 1-33
+pocs/chrome-ext-render-html-md/package.json
+  s_fe3342e066a440::t_92e62b51b54836 1-2,4-9
+  s_fe3342e066a440::t_9ececd17e97f09 3
+pocs/chrome-ext-render-html-md/test/renderer.test.js
+  s_fe3342e066a440::t_92e62b51b54836 1-39
+pocs/chrome-ext-render-html-md/test/package.test.js
+  s_fe3342e066a440::t_92e62b51b54836 1-19,22-24,32
+  s_fe3342e066a440::t_9ececd17e97f09 20-21,25-31
+pocs/chrome-ext-render-html-md/README.md
+  s_fe3342e066a440::t_53dbece8e3cc3d 89-90
+  s_fe3342e066a440::t_9ececd17e97f09 7-8,71,83-84
+  s_fe3342e066a440::t_92e62b51b54836 1-6,9-70,72-82,85-88,91-97
+pocs/chrome-ext-render-html-md/manifest.json
+  s_fe3342e066a440::t_9ececd17e97f09 4,16-24,53-64
+  s_fe3342e066a440::t_721fa300ce23ee 1-3,5-15,25-26,31,38-52,65-67
+  s_fe3342e066a440::t_92e62b51b54836 27-30,32-37
+pocs/chrome-ext-render-html-md/.gitignore
+  s_fe3342e066a440::t_92e62b51b54836 1-2
+pocs/chrome-ext-render-html-md/src/popup.css
+  s_fe3342e066a440::t_721fa300ce23ee 1-185
+pocs/chrome-ext-render-html-md/build.sh
+  s_fe3342e066a440::t_53dbece8e3cc3d 10
+  s_fe3342e066a440::t_92e62b51b54836 1-9,11-14,17-24
+  s_fe3342e066a440::t_9ececd17e97f09 15-16
+pocs/chrome-ext-render-html-md/src/content.js
+  s_fe3342e066a440::t_9ececd17e97f09 71,73-80
+  s_fe3342e066a440::t_721fa300ce23ee 1-70,72,81-106,113-157
+  s_fe3342e066a440::t_ba47a636b66708 107-112
+pocs/chrome-ext-render-html-md/src/html-viewer.js
+  s_fe3342e066a440::t_9ececd17e97f09 1-14
+pocs/chrome-ext-render-html-md/src/popup.html
+  s_fe3342e066a440::t_ba47a636b66708 20,24
+  s_fe3342e066a440::t_721fa300ce23ee 1-19,21-23,25-36
+pocs/chrome-ext-render-html-md/src/popup.js
+  s_fe3342e066a440::t_721fa300ce23ee 1-18
+pocs/chrome-ext-render-html-md/uninstall.sh
+  s_fe3342e066a440::t_92e62b51b54836 1-16
+pocs/chrome-ext-render-html-md/src/renderer.js
+  s_fe3342e066a440::t_721fa300ce23ee 1-200
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "5f111bdaa83646a4d9c9ec831e28bde5889c97f4",
+  "prompts": {},
+  "sessions": {
+    "s_fe3342e066a440": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7c92-af92-7780-ac7d-288e145cd228",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

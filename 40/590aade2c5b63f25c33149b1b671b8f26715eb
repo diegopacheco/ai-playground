@@ -1,0 +1,22 @@
+pocs/tv-time-like/src/components/Poster.tsx
+  s_14c66247f6f0c2::t_d13bb94832b0d1 1,6-8
+pocs/tv-time-like/server/media.ts
+  s_14c66247f6f0c2::t_61a4ddff37baed 94-105,107-112
+  s_14c66247f6f0c2::t_088779ba70d1ae 149-153
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "40590aade2c5b63f25c33149b1b671b8f26715eb",
+  "prompts": {},
+  "sessions": {
+    "s_14c66247f6f0c2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f5c906db-6dfa-4b33-a20f-761a78ec0655",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

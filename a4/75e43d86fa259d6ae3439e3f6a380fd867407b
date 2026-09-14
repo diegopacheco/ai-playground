@@ -1,0 +1,45 @@
+pocs/tv-time-like/server/db.ts
+  s_9eb489054de506::t_2fe68485d99b7d 121-124
+pocs/tv-time-like/src/styles.css
+  s_9eb489054de506::t_27343ac8ed3a12 124
+  s_9eb489054de506::t_c9b283b864e371 109
+pocs/tv-time-like/src/hooks/useLibrary.ts
+  s_9eb489054de506::t_e207b67b745dfa 10-13,15
+pocs/tv-time-like/server/index.ts
+  s_9eb489054de506::t_d471ea48ccab07 51-54
+  s_9eb489054de506::t_2e1ec2a3991555 5
+pocs/tv-time-like/server/ai.ts
+  s_9eb489054de506::t_04c903cd8fee26 24
+  s_9eb489054de506::t_fa1ff7d438e85e 79-80,83,89
+  s_9eb489054de506::t_9898db03a53a97 3
+pocs/tv-time-like/server/media.ts
+  s_9eb489054de506::t_2544dffd9b8351 118
+  s_9eb489054de506::t_c1989352af1dbc 2
+  s_9eb489054de506::t_528331f5f7ad9e 6-17,20-21,32-65,69,71-85,89
+  s_9eb489054de506::t_28798f06e6fde0 68
+  s_9eb489054de506::t_a57dc3d3402fef 66
+pocs/tv-time-like/server/trailer.ts
+  s_9eb489054de506::t_c1b1cd3c032827 1-14
+pocs/tv-time-like/src/components/LibraryDetailDialog.tsx
+  s_9eb489054de506::t_16ba12daf9f127 7-8,15-22,28,32-33
+pocs/tv-time-like/tsconfig.server.tsbuildinfo
+  s_9eb489054de506::t_9da7bd6c34cfcd 1
+pocs/tv-time-like/src/api/client.ts
+  s_9eb489054de506::t_3cb8e36ffee508 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a475e43d86fa259d6ae3439e3f6a380fd867407b",
+  "prompts": {},
+  "sessions": {
+    "s_9eb489054de506": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b1645edd-514f-4082-8f97-e8dc8bc52425",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,90 @@
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/kafka/ObserverConsumerFactory.java
+  s_fa6084944458f4::t_dd3e030693bc89 1-30
+pocs/admin-console/demo/seed/redis.sh
+  s_fa6084944458f4::t_23e0eb67dad487 1-20
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/elastic/ElasticRequest.java
+  s_fa6084944458f4::t_edfc74c950787b 1-3
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/engine/ElasticEngineIT.java
+  s_fa6084944458f4::t_b9e3507eff330a 1-118
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/redis/RedisEngine.java
+  s_fa6084944458f4::t_bed6dc0c642c2b 1-166
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/etcd/EtcdCommand.java
+  s_fa6084944458f4::t_1d0132b49b2cd9 1-3
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/redis/RedisCommandParser.java
+  s_fa6084944458f4::t_91a824516ae083 1-57
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/elastic/ElasticEndpointGuard.java
+  s_fa6084944458f4::t_bfb4cfc9cca8d5 1-28
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/elastic/ElasticCommandParser.java
+  s_fa6084944458f4::t_d829477b029102 1-35
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/engine/CassandraRedisEngineIT.java
+  s_fa6084944458f4::t_7a6c7aac57b7fd 1-126
+pocs/admin-console/demo/seed/cassandra.cql
+  s_fa6084944458f4::t_96cc2793a4dab9 1-23
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/etcd/PrefixTreeBuilder.java
+  s_fa6084944458f4::t_2f25997d1e7b5c 1-54
+pocs/admin-console/demo/seed/kafka.sh
+  s_fa6084944458f4::t_dcfd7c4b6a0f0d 20-21
+  s_fa6084944458f4::t_f81f700befefc4 1-4,6,10-19
+  s_fa6084944458f4::t_04900384834f09 5,7-9
+pocs/admin-console/demo/seed/elastic.sh
+  s_fa6084944458f4::t_f1fd0295831382 1-37
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/cassandra/CassandraEngine.java
+  s_fa6084944458f4::t_a61092ce8e7267 5
+  s_fa6084944458f4::t_b7ed8866aec232 91-92
+  s_fa6084944458f4::t_017dc078a3ad00 70
+  s_fa6084944458f4::t_db17e7abd18596 1-4,6-69,71-90,93-95
+pocs/admin-console/demo/seed/cassandra-rows.sh
+  s_fa6084944458f4::t_b0ca6d1c6c0648 1-17
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/etcd/EtcdCommandParser.java
+  s_fa6084944458f4::t_8179cbc6a77a90 1-43
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/etcd/EtcdReadOnlyGuard.java
+  s_fa6084944458f4::t_d943024238468e 1-19
+pocs/admin-console/demo/seed/etcd.sh
+  s_fa6084944458f4::t_ed1728a3cfe441 1-20
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/cassandra/CqlReadOnlyGuard.java
+  s_fa6084944458f4::t_01ffd1c2c9d3ed 1-25
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/engine/EtcdKafkaEngineIT.java
+  s_fa6084944458f4::t_8cc18ee9e4da50 1-140
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/redis/RedisReadOnlyGuard.java
+  s_fa6084944458f4::t_bafeb506f6c385 1-32
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/engine/kafka/ObserverConsumerFactoryTest.java
+  s_fa6084944458f4::t_5518fe8b7bba22 1-55
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/kafka/KafkaEngine.java
+  s_fa6084944458f4::t_5f5693c3d4dda3 81
+  s_fa6084944458f4::t_0a7c6cf9ed0861 1-46,48-80,82-274
+  s_fa6084944458f4::t_af39ef226e8360 47
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/kafka/KafkaCommand.java
+  s_fa6084944458f4::t_bee547d9fe0af0 1-3
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/jdbc/SqlReadOnlyGuard.java
+  s_fa6084944458f4::t_883c50e999f336 56
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/kafka/KafkaCommandParser.java
+  s_fa6084944458f4::t_f88737fa53a5d4 1-14,19-61
+  s_fa6084944458f4::t_c921aa52c70c91 15-18
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/elastic/ElasticEngine.java
+  s_fa6084944458f4::t_1b1d5312b49401 157
+  s_fa6084944458f4::t_b5441951c15b42 1-51,53-96,98,100-120,122-129,131-132,134-146,148-156,158-186
+  s_fa6084944458f4::t_70853c224fd6b8 99,133
+  s_fa6084944458f4::t_234dcc5b76c6c7 52,97,121,130,147
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/etcd/EtcdEngine.java
+  s_fa6084944458f4::t_48e672874f15d7 92,94-95
+  s_fa6084944458f4::t_c9644374921329 1-91,93,96-99
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/kafka/KafkaReadOnlyGuard.java
+  s_fa6084944458f4::t_dd4b5884d2ea04 11-13,16-19
+  s_fa6084944458f4::t_653bc84d6d13c5 1-10,14-15,20-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "af3fb6c26560dd97db6fb288e077a006e0e93f6c",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

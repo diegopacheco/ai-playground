@@ -1,0 +1,22 @@
+games/index.html
+  s_252351ce91ee92::t_d18fda6517e901 205
+games/README.md
+  s_252351ce91ee92::t_d18fda6517e901 70,73-74
+  s_252351ce91ee92::t_80cc0b73fd5805 75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "7b599404b52fe99a6e636d7a2f61cc5468346ba1",
+  "prompts": {},
+  "sessions": {
+    "s_252351ce91ee92": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f8699-2c27-7de2-ac11-44a7e5a89c90",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

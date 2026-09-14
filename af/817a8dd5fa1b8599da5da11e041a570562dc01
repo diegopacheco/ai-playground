@@ -1,0 +1,28 @@
+pocs/jurassic-runner-game/web/playtest.html
+  s_e43ffde4d4a54a::t_1abdebf72dc59b 1-72
+pocs/jurassic-runner-game/web/game.js
+  s_e43ffde4d4a54a::t_2478531f6cca09 21
+  s_e43ffde4d4a54a::t_1785e203093e61 667,669-672
+  s_e43ffde4d4a54a::t_b94b3ee908054d 582-584,586,591-593,596-599,603-608,611-614,616-629,631-632,634-635,637-642,644,646-650,653-661
+  s_e43ffde4d4a54a::t_5d325f33261343 798-801
+  s_e43ffde4d4a54a::t_2008edc11fff22 31
+  s_e43ffde4d4a54a::t_5071b4151dcb76 919-920
+pocs/jurassic-runner-game/web/style.css
+  s_e43ffde4d4a54a::t_302464870b9807 81-88,90-91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "af817a8dd5fa1b8599da5da11e041a570562dc01",
+  "prompts": {},
+  "sessions": {
+    "s_e43ffde4d4a54a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0d7c3bd6-6c3f-4976-b5fe-e6051a1eb54e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

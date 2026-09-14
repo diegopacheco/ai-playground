@@ -1,0 +1,20 @@
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/federation/CrossEngineJoinMatrixIT.java
+  s_49062c8b22ecc5::t_19f64b4c50ca96 170
+  s_49062c8b22ecc5::t_ccaeeeaed14f01 1-169,171-187
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "d1f969077fbf8f3d8b9f6728cd352aa42558385b",
+  "prompts": {},
+  "sessions": {
+    "s_49062c8b22ecc5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7431fe07-959e-4e94-8858-2979cac07db7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

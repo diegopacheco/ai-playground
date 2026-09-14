@@ -1,0 +1,110 @@
+pocs/gpt-6-astra-medium-codex-oncall-calendar/backend/server.py
+  s_a773bde41c48d6::t_1131a038dc4586 1-51
+pocs/gpt-6-astra-medium-codex-oncall-calendar/README.md
+  s_6bde77d3ffffc7::t_9feaeb5d2b80bc 142,146-147
+  s_6bde77d3ffffc7::t_f22fb6baf5b2a5 50,53,55-69,83,97,132
+  s_a773bde41c48d6::t_205f0311eb1ca2 36
+  s_a773bde41c48d6::t_e77a1f59749961 19
+  s_a773bde41c48d6::t_1e77b6c9393010 1-18,20-35,37-49,51-52,54,70-82,84-96,98-131,133-141,143-145,148-181
+pocs/gpt-6-astra-medium-codex-oncall-calendar/restart-all.sh
+  s_6bde77d3ffffc7::t_828a3200cce18c 1-4
+pocs/gpt-6-astra-medium-codex-oncall-calendar/test.sh
+  s_6bde77d3ffffc7::t_828a3200cce18c 3-4
+  s_a773bde41c48d6::t_59b7cf0f713007 1-2,5-8
+pocs/gpt-6-astra-medium-codex-oncall-calendar/public/logo.svg
+  s_a773bde41c48d6::t_d474a009b449ec 1
+pocs/gpt-6-astra-medium-codex-oncall-calendar/vite.config.ts
+  s_a773bde41c48d6::t_b4682a195e3b11 1,4
+  s_a773bde41c48d6::t_1131a038dc4586 2-3,5
+pocs/gpt-6-astra-medium-codex-oncall-calendar/src/google.ts
+  s_a773bde41c48d6::t_b4682a195e3b11 1,4-20,25-26,29,34-39,41-42,44-63,69-85,89-91,93-95,98-100
+  s_a773bde41c48d6::t_d474a009b449ec 2-3,21-24,27-28,30-33,40,43,64-68,86-88,92,96-97,101
+pocs/gpt-6-astra-medium-codex-oncall-calendar/tsconfig.json
+  s_a773bde41c48d6::t_1131a038dc4586 1-14
+pocs/gpt-6-astra-medium-codex-oncall-calendar/start.sh
+  s_6bde77d3ffffc7::t_828a3200cce18c 1
+pocs/gpt-6-astra-medium-codex-oncall-calendar/status.sh
+  s_6bde77d3ffffc7::t_828a3200cce18c 1-11
+pocs/gpt-6-astra-medium-codex-oncall-calendar/build.sh
+  s_6bde77d3ffffc7::t_828a3200cce18c 1-4
+pocs/gpt-6-astra-medium-codex-oncall-calendar/stop-all.sh
+  s_6bde77d3ffffc7::t_828a3200cce18c 1-21
+pocs/gpt-6-astra-medium-codex-oncall-calendar/stop.sh
+  s_6bde77d3ffffc7::t_828a3200cce18c 1
+pocs/gpt-6-astra-medium-codex-oncall-calendar/setup.sh
+  s_6bde77d3ffffc7::t_828a3200cce18c 1-8
+pocs/gpt-6-astra-medium-codex-oncall-calendar/start-all.sh
+  s_6bde77d3ffffc7::t_828a3200cce18c 1-3,5,7-28,31-39,41-55
+  s_6bde77d3ffffc7::t_38431c12113428 4,6,29-30,40
+pocs/gpt-6-astra-medium-codex-oncall-calendar/backend/schedule.py
+  s_a773bde41c48d6::t_1131a038dc4586 1-95
+pocs/gpt-6-astra-medium-codex-oncall-calendar/.python-version
+  s_a773bde41c48d6::t_1131a038dc4586 1
+pocs/gpt-6-astra-medium-codex-oncall-calendar/src/main.tsx
+  s_a773bde41c48d6::t_b4682a195e3b11 1-5,7-37,39-46,48-73,76,79-84,86-109,118-120,122-123,133,135-137,139-140,145-186,189-199,201-206,208-213,216-227,229-252,254-261,263-608,610-625,627-690,693-697
+  s_a773bde41c48d6::t_e77a1f59749961 609,626
+  s_a773bde41c48d6::t_d474a009b449ec 6,38,47,74-75,77-78,85,110-117,121,124-132,134,138,141-144,187-188,200,207,214-215,228,253,262,691-692
+pocs/gpt-6-astra-medium-codex-oncall-calendar/scripts/common.sh
+  s_6bde77d3ffffc7::t_828a3200cce18c 1-17
+pocs/gpt-6-astra-medium-codex-oncall-calendar/playwright.config.ts
+  s_a773bde41c48d6::t_b4682a195e3b11 1,4,6-11,13-24
+  s_a773bde41c48d6::t_6e47562d3230cc 2-3,5,12,25-26
+pocs/gpt-6-astra-medium-codex-oncall-calendar/pyproject.toml
+  s_a773bde41c48d6::t_1131a038dc4586 1-10
+pocs/gpt-6-astra-medium-codex-oncall-calendar/.gitignore
+  s_6bde77d3ffffc7::t_828a3200cce18c 10
+  s_a773bde41c48d6::t_1131a038dc4586 1-9
+pocs/gpt-6-astra-medium-codex-oncall-calendar/backend/test_schedule.py
+  s_a773bde41c48d6::t_59b7cf0f713007 1-76
+pocs/gpt-6-astra-medium-codex-oncall-calendar/index.html
+  s_a773bde41c48d6::t_b4682a195e3b11 7-10
+  s_a773bde41c48d6::t_1131a038dc4586 1-6,11-18
+pocs/gpt-6-astra-medium-codex-oncall-calendar/src/style.css
+  s_a773bde41c48d6::t_59b7cf0f713007 2
+  s_a773bde41c48d6::t_e77a1f59749961 846
+  s_a773bde41c48d6::t_b4682a195e3b11 1,3-845,847-1037
+pocs/gpt-6-astra-medium-codex-oncall-calendar/docs/architecture.svg
+  s_a773bde41c48d6::t_1e77b6c9393010 1-19
+pocs/gpt-6-astra-medium-codex-oncall-calendar/package.json
+  s_a773bde41c48d6::t_1131a038dc4586 1-3,5-11,24-25
+  s_a773bde41c48d6::t_1e77b6c9393010 4
+  s_a773bde41c48d6::t_fa202cc07fe29a 12-14,21-23
+  s_834b11e0af92d9::t_8197aedc22fc7d 15-20
+pocs/gpt-6-astra-medium-codex-oncall-calendar/tests/app.spec.ts
+  s_a773bde41c48d6::t_b4682a195e3b11 1-2,4-10,12-36,38-49,52-63,65,68-89,92-94,96-105,108-109,111-114,116,120-159,161-174
+  s_a773bde41c48d6::t_6e47562d3230cc 3,11,37,50-51,64,66-67,90-91,95,106-107,110,115,117-119,160,175
+pocs/gpt-6-astra-medium-codex-oncall-calendar/bun.lock
+  s_a773bde41c48d6::t_14b163d626290a 1-164
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "b6ab883041551ebf7b3d4b941203a1b62fc4dda2",
+  "prompts": {},
+  "sessions": {
+    "s_6bde77d3ffffc7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07316-e24b-72c0-ba1a-4d32cf902e33",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_834b11e0af92d9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a072fb-1494-7361-a131-0319df8e78a0",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_a773bde41c48d6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a072fb-144c-7152-849b-76f81c577a7a",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

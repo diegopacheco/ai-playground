@@ -1,0 +1,81 @@
+pocs/llm-ai-spreadsheet/env.sample
+  s_548ae517b803c2::t_054e61c20a7562 1-5
+pocs/llm-ai-spreadsheet/engine.test.mjs
+  s_548ae517b803c2::t_a4a9ee16b06521 18
+  s_548ae517b803c2::t_f1a8b85098c446 1-17,19-36,40-50,61-90
+  s_548ae517b803c2::t_d9535461fa75e8 51-60
+  s_548ae517b803c2::t_160fa48eb41ba0 37-39
+pocs/llm-ai-spreadsheet/public/app.js
+  s_548ae517b803c2::t_6b6efba17682b4 6-14
+  s_548ae517b803c2::t_7c465766556dec 95,97-101,109
+  s_548ae517b803c2::t_1fb08a892e30ba 1-5,15-43,45,53-94,96,102-104,106-107,112,114-115,119-194,201,206-213,215-216
+  s_548ae517b803c2::t_b1cd9bd443bff4 105,108,110-111,113,116-118
+  s_548ae517b803c2::t_9f90c9ecbce8bd 214
+  s_548ae517b803c2::t_1ba33b4d2ca252 44,47-52
+  s_548ae517b803c2::t_38ece27015ab5c 195-200,202-205
+  s_548ae517b803c2::t_014397689d5911 46
+pocs/llm-ai-spreadsheet/package.json
+  s_548ae517b803c2::t_02ffa8eb6b8201 1-10
+pocs/llm-ai-spreadsheet/start.sh
+  s_548ae517b803c2::t_4bb1b47046ffd5 1-9,11-13,18,21,27-29
+  s_548ae517b803c2::t_c2439e114fdd8f 10
+  s_548ae517b803c2::t_bbb0956d166f5a 14-17,19-20,22-26
+pocs/llm-ai-spreadsheet/public/index.html
+  s_548ae517b803c2::t_36221ebcaf4723 13
+  s_548ae517b803c2::t_5b835d002460c1 25-83
+  s_548ae517b803c2::t_7dc242675317eb 1-12,14-24,84-86
+pocs/llm-ai-spreadsheet/design-doc.md
+  s_548ae517b803c2::t_dc9514f88353e1 117
+  s_548ae517b803c2::t_2617cf91be0702 218
+  h_8e2c3875396153 298-299,301,303
+  s_548ae517b803c2::t_befe13b1f60fe5 1-116,118-217,219-243,245-297,300,302,304
+  s_548ae517b803c2::t_730665640b1d49 244
+pocs/llm-ai-spreadsheet/public/engine.js
+  s_548ae517b803c2::t_a439193b3422fe 384,387
+  s_548ae517b803c2::t_142f7303afa5e0 360
+  s_548ae517b803c2::t_f37c83b999a1a2 241,244-246,248-251
+  s_548ae517b803c2::t_e55aa688726d79 393-398,400-402
+  s_548ae517b803c2::t_4eed91e82d3831 1-240,242-243,247,252-359,361-383,385-386,388-392,399,403-481
+pocs/llm-ai-spreadsheet/server.js
+  s_548ae517b803c2::t_3a440d98c1296c 46-49
+  s_548ae517b803c2::t_bb9b98de242f0e 1-45,50-102
+pocs/llm-ai-spreadsheet/.gitignore
+  s_548ae517b803c2::t_b4c8f447a3eb59 1-5
+  s_548ae517b803c2::t_3c02f26ab2086a 6
+pocs/llm-ai-spreadsheet/stop.sh
+  s_548ae517b803c2::t_45d21ce7013687 1-3,11,15,23-26
+  s_548ae517b803c2::t_bc1012205a43ff 4-10,12-14,16-22
+pocs/llm-ai-spreadsheet/test.sh
+  s_548ae517b803c2::t_94940fc042dbdf 1-28
+pocs/llm-ai-spreadsheet/README.md
+  s_548ae517b803c2::t_7b138f087b9649 70-71,74-78
+  s_548ae517b803c2::t_9f05bca3cb8989 33-42
+  s_548ae517b803c2::t_1b8271269b8c55 81-82
+  s_548ae517b803c2::t_bf34dbc227e7d7 1-32,43-69,72-73,79,83-139
+  s_548ae517b803c2::t_7b695e24b899f8 80
+pocs/llm-ai-spreadsheet/public/styles.css
+  s_548ae517b803c2::t_22c58f416e404f 1-136,143,147,151-153,158
+  s_548ae517b803c2::t_c4e4c497290fb0 137-142,144-146,148-150,154-157
+  s_548ae517b803c2::t_5a3c3585e02b36 159-247
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "d524e55245a7cb48ccd4a84f0b49862bff3ef8ef",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_548ae517b803c2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "158e6705-1f49-43f9-ad5b-6109fee140f8",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

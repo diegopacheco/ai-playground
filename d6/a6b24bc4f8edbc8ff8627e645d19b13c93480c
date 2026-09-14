@@ -1,0 +1,21 @@
+pocs/gstack-poc/README.md
+  s_f005f9687aa625::t_4ddf50b2caf9ff 28-113
+pocs/gstack-poc/preview.html
+  s_f005f9687aa625::t_704e3e49d3964a 1-792
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "d6a6b24bc4f8edbc8ff8627e645d19b13c93480c",
+  "prompts": {},
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

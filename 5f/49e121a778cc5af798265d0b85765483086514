@@ -1,0 +1,30 @@
+pocs/gstack-poc/web/.next/trace
+  ai_agent 27-28
+pocs/gstack-poc/runner/src/prompts.ts
+  s_f005f9687aa625::t_0eed34cf937c0d 33
+pocs/gstack-poc/runner/test/index.test.ts
+  s_f005f9687aa625::t_6ddd7797e1a3ae 21
+pocs/gstack-poc/web/app/api/generate/route.ts
+  s_f005f9687aa625::t_474b16cabd7903 47-48
+  s_f005f9687aa625::t_f75218c82a415e 80-81
+pocs/gstack-poc/runner/src/defaults.ts
+  s_f005f9687aa625::t_cfe883f680b5a7 3
+pocs/gstack-poc/web/.next/server/app/api/generate/route.js
+  ai_agent 142,164
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "5f49e121a778cc5af798265d0b85765483086514",
+  "prompts": {},
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+pocs/gstack-poc/web/.next/trace
+  ai_agent 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "99b9cb82150cd4ec3d43068427aa74a6cae278b3",
+  "prompts": {}
+}

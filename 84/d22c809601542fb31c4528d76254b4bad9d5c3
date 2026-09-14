@@ -1,0 +1,47 @@
+pocs/seagotchi-gpt-5-6-sol/index.html
+  s_a0be13449099cc::t_e63cd486b1517a 87-91
+  s_a0be13449099cc::t_2ef9bffa433dcf 1-86,92-108
+pocs/seagotchi-gpt-5-6-sol/src/main.js
+  s_a0be13449099cc::t_2ef9bffa433dcf 1-5,7-134,136-482,484-492,494-668
+  s_a0be13449099cc::t_d674dbbe85e75f 483,493
+  s_a0be13449099cc::t_3c2a01e32f59ac 135
+  s_a0be13449099cc::t_ceba3e7fc272e2 6
+pocs/seagotchi-gpt-5-6-sol/start.sh
+  s_a0be13449099cc::t_2ef9bffa433dcf 1-6,15,22-23,25-26,29-32,34-39,41-42
+  s_a0be13449099cc::t_6e9ed340a25b71 16-21,24,27-28,33,40
+  s_a0be13449099cc::t_88778742d17766 7-14
+pocs/seagotchi-gpt-5-6-sol/package.json
+  s_a0be13449099cc::t_2ef9bffa433dcf 1-17
+pocs/seagotchi-gpt-5-6-sol/src/style.css
+  s_a0be13449099cc::t_e63cd486b1517a 348-376,523-527,577-580
+  s_a0be13449099cc::t_2ef9bffa433dcf 1-347,377-388,392,394-396,399-522,528-576,581-602
+  s_a0be13449099cc::t_e2b54ab37f7a26 389-391,393,397-398
+pocs/seagotchi-gpt-5-6-sol/README.md
+  s_a0be13449099cc::t_2ef9bffa433dcf 1-25,27-32,35-43
+  s_a0be13449099cc::t_6e9ed340a25b71 26,33-34
+pocs/seagotchi-gpt-5-6-sol/stop.sh
+  s_a0be13449099cc::t_2ef9bffa433dcf 1-4,6-9,13-14,16
+  s_a0be13449099cc::t_88778742d17766 10-12
+  s_a0be13449099cc::t_6e9ed340a25b71 5,15
+pocs/seagotchi-gpt-5-6-sol/.gitignore
+  s_a0be13449099cc::t_6e9ed340a25b71 5
+  s_a0be13449099cc::t_acbd5a9721d1f8 1-4
+pocs/seagotchi-gpt-5-6-sol/package-lock.json
+  s_a0be13449099cc::t_0ead4385c910ae 1-881
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "84d22c809601542fb31c4528d76254b4bad9d5c3",
+  "prompts": {},
+  "sessions": {
+    "s_a0be13449099cc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f9bac-b704-7921-8c17-c73169cc4d96",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

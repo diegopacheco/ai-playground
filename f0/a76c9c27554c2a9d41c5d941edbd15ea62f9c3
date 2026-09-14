@@ -1,0 +1,59 @@
+pocs/monitor-stats/build.sh
+  s_baa27aa709c95d::t_e1027f923d96cb 1-7
+pocs/monitor-stats/src/render.rs
+  s_baa27aa709c95d::t_8b070c4cc36923 1-6,11-30,41-130,136-201
+  s_baa27aa709c95d::t_ad681b7d714fb4 7-10,31-40,131-135
+pocs/monitor-stats/src/main.rs
+  s_baa27aa709c95d::t_ad681b7d714fb4 1-64
+pocs/monitor-stats/src/vendor.rs
+  s_baa27aa709c95d::t_de830a549a4b6f 91
+  s_baa27aa709c95d::t_1499abcda04544 1-90,92-98
+pocs/monitor-stats/src/monitor.rs
+  s_baa27aa709c95d::t_38d647863490c5 1-90,96-142
+  s_baa27aa709c95d::t_ad681b7d714fb4 91-95
+pocs/monitor-stats/test.sh
+  s_baa27aa709c95d::t_e1027f923d96cb 1-4
+pocs/monitor-stats/README.md
+  s_baa27aa709c95d::t_bdd6de3361a137 1-177
+pocs/monitor-stats/.gitignore
+  s_baa27aa709c95d::t_a6a1620ad2cd83 1
+pocs/monitor-stats/uninstall.sh
+  s_baa27aa709c95d::t_e1027f923d96cb 1-12
+pocs/monitor-stats/diagrams/architecture.svg
+  s_baa27aa709c95d::t_8ceafe96a69544 1-11
+pocs/monitor-stats/src/quartz.rs
+  s_baa27aa709c95d::t_ad681b7d714fb4 63,67-70
+  s_baa27aa709c95d::t_6963fb5d24af9f 1-62,64-66,71-106
+pocs/monitor-stats/diagrams/logo.svg
+  s_baa27aa709c95d::t_8ceafe96a69544 1-11
+pocs/monitor-stats/install.sh
+  s_baa27aa709c95d::t_e1027f923d96cb 1-15
+pocs/monitor-stats/rust-toolchain.toml
+  s_baa27aa709c95d::t_a6a1620ad2cd83 1-2
+pocs/monitor-stats/src/registry.rs
+  s_baa27aa709c95d::t_394e53847a19c7 1-26,32-99
+  s_baa27aa709c95d::t_ad681b7d714fb4 27-31
+pocs/monitor-stats/Cargo.toml
+  s_baa27aa709c95d::t_a6a1620ad2cd83 1-16
+pocs/monitor-stats/tests/cli.rs
+  s_baa27aa709c95d::t_8c64b97dee945c 1-6,11-15,20-30,35-41,46-61
+  s_baa27aa709c95d::t_ad681b7d714fb4 7-10,16-19,31-34,42-45
+pocs/monitor-stats/Cargo.lock
+  s_baa27aa709c95d::t_e7b73ab21f4585 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "f0a76c9c27554c2a9d41c5d941edbd15ea62f9c3",
+  "prompts": {},
+  "sessions": {
+    "s_baa27aa709c95d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "104862a2-6d1c-4af2-830a-3c914d21c651",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

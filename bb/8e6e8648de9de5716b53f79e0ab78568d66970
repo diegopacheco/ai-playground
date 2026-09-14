@@ -1,0 +1,21 @@
+pocs/tv-time-like/desktop-app/uninstall.sh
+  s_40760ef814bad7::t_1ef5bed87d8013 5
+pocs/tv-time-like/desktop-app/install.sh
+  s_40760ef814bad7::t_1ef5bed87d8013 22-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "bb8e6e8648de9de5716b53f79e0ab78568d66970",
+  "prompts": {},
+  "sessions": {
+    "s_40760ef814bad7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5ad7-33ac-7d43-801c-a871c2377658",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

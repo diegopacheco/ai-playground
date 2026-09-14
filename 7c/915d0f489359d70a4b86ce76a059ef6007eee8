@@ -1,0 +1,80 @@
+pocs/ai-guessing-game/lib/store.ts
+  s_9b5cd98b37fa21::t_57cd176a593111 1-27
+pocs/ai-guessing-game/lib/types.ts
+  s_9b5cd98b37fa21::t_98239ca2a1a35b 33
+  s_9b5cd98b37fa21::t_e2bcc66ce48a6a 1-32
+pocs/ai-guessing-game/.gitignore
+  s_9b5cd98b37fa21::t_60fcaa03926390 1-9
+  s_9b5cd98b37fa21::t_c6e217f8fc1236 10-12
+pocs/ai-guessing-game/package.json
+  s_9b5cd98b37fa21::t_e6052e02821cbe 1-23
+pocs/ai-guessing-game/app/icon.svg
+  s_9b5cd98b37fa21::t_6605b94ff5e071 1-16
+pocs/ai-guessing-game/printscreens/architecture.svg
+  s_9b5cd98b37fa21::t_3d816296295213 1-71
+pocs/ai-guessing-game/tsconfig.json
+  s_9b5cd98b37fa21::t_45e8e4536eaa15 1-3,9-17,19,25,29-30,41
+  s_9b5cd98b37fa21::t_39ef754d89faf2 4-8,18,20-24,26-28,31-40
+pocs/ai-guessing-game/package-lock.json
+  s_9b5cd98b37fa21::t_aac6519a70ac05 1-995
+pocs/ai-guessing-game/app/api/history/route.ts
+  s_9b5cd98b37fa21::t_7d9f88bf1011e2 1-24
+pocs/ai-guessing-game/app/globals.css
+  s_9b5cd98b37fa21::t_4d0a9f97566c16 219-238
+  s_9b5cd98b37fa21::t_34ec927d028203 1-218,239-602
+pocs/ai-guessing-game/start.sh
+  s_9b5cd98b37fa21::t_6a456fe8cb5828 1-31
+pocs/ai-guessing-game/lib/ai.ts
+  s_9b5cd98b37fa21::t_afc10e01569b1d 65-69,74-75
+  s_9b5cd98b37fa21::t_b0102663ae9468 88-89
+  s_9b5cd98b37fa21::t_9ce4b9587c19ff 2
+  s_9b5cd98b37fa21::t_214956041ccd7b 4-11
+  s_9b5cd98b37fa21::t_323ee9476998f6 24,26
+  s_9b5cd98b37fa21::t_c559865caa95fa 1,3,12-23,25,27-33,41-64,70-73,76-77,79-87,90-95
+  s_9b5cd98b37fa21::t_de195aeadaa15b 78
+  s_9b5cd98b37fa21::t_218fcbf7c5f621 34-40
+pocs/ai-guessing-game/stop.sh
+  s_9b5cd98b37fa21::t_448dd8e2871673 1-12
+pocs/ai-guessing-game/app/api/move/route.ts
+  s_9b5cd98b37fa21::t_dc593e28f41d4a 3
+  s_9b5cd98b37fa21::t_39262aa0c5410a 22
+  s_9b5cd98b37fa21::t_8e2c6fd54aa846 1-2,4-21,23-28
+pocs/ai-guessing-game/app/layout.tsx
+  s_9b5cd98b37fa21::t_6e7a7c5b216e32 1-30
+pocs/ai-guessing-game/app/history/page.tsx
+  s_9b5cd98b37fa21::t_f1318439295d31 1-9,11,13,15,17-68,70-95
+  s_9b5cd98b37fa21::t_aac6519a70ac05 10,12,14,16,69
+pocs/ai-guessing-game/README.md
+  s_9b5cd98b37fa21::t_8f540f781daa82 1-36,38,40,42-99
+  s_9b5cd98b37fa21::t_0282be8e5e1747 37,39,41
+pocs/ai-guessing-game/app/page.tsx
+  s_9b5cd98b37fa21::t_f75d5afe4cf17e 35
+  s_9b5cd98b37fa21::t_bc199f148b04d2 1-5,7-34,36-131,136-167,181-191,193-211,213-214,216-222,224-225,227-232,234-244,246-268,270,272,275-278,280-286
+  s_9b5cd98b37fa21::t_a6e7beebe57aaa 6
+  s_9b5cd98b37fa21::t_108cfabacb464f 132-133,135
+  s_9b5cd98b37fa21::t_aac6519a70ac05 134,168,173,192,212,215,223,226,233,245,269,271,273-274,279
+  s_9b5cd98b37fa21::t_88fa7a92a4be85 169-172,174-180
+pocs/ai-guessing-game/next.config.ts
+  s_9b5cd98b37fa21::t_9e6be0292e5a7d 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "7c915d0f489359d70a4b86ce76a059ef6007eee8",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_9b5cd98b37fa21": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6aaf900b-6745-4428-853b-503fffa90b3d",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

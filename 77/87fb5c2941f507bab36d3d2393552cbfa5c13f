@@ -1,0 +1,40 @@
+pocs/tv-time-like/src/pages/LibraryPage.tsx
+  s_15003fa393d682::t_d5c843efc84637 18
+pocs/tv-time-like/src/styles.css
+  s_15003fa393d682::t_e3adde34daad36 77
+pocs/tv-time-like/server/metadata.ts
+  s_15003fa393d682::t_ed76d29c41a6ae 48
+  s_15003fa393d682::t_8c246fca52bd09 150-161
+  s_15003fa393d682::t_8b7cca303c0215 163,167,170,178,180,184
+  s_15003fa393d682::t_7590a412e548ab 175
+  s_15003fa393d682::t_36715c11568808 3-4,12,20
+  s_15003fa393d682::t_ed8aa29bcc58dd 72
+pocs/tv-time-like/src/components/LibraryDetailDialog.tsx
+  s_15003fa393d682::t_aadadfedc6eff3 32
+pocs/tv-time-like/tv-time-like-bug-report-05_07_2026.html
+  s_93d212ad56c089::t_71ce0febce7743 1-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "7787fb5c2941f507bab36d3d2393552cbfa5c13f",
+  "prompts": {},
+  "sessions": {
+    "s_15003fa393d682": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e15998db-15c0-43f5-8e04-a008b0db20ad",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_93d212ad56c089": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0d5d5620-80e1-4293-834b-d9e03a463ecb",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

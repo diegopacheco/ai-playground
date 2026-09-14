@@ -1,0 +1,31 @@
+pocs/air-goalkeeper-game-cv/start.sh
+  s_de49c0bdaec642::t_42780032bdfdc7 20-21
+pocs/air-goalkeeper-game-cv/test_client.py
+  s_de49c0bdaec642::t_42780032bdfdc7 16
+pocs/air-goalkeeper-game-cv/web/game.js
+  s_de49c0bdaec642::t_42780032bdfdc7 407
+pocs/air-goalkeeper-game-cv/test.sh
+  s_de49c0bdaec642::t_42780032bdfdc7 20,25
+pocs/air-goalkeeper-game-cv/stop.sh
+  s_de49c0bdaec642::t_e3053e7f819121 5,9-13
+pocs/air-goalkeeper-game-cv/README.md
+  s_de49c0bdaec642::t_42780032bdfdc7 19
+pocs/air-goalkeeper-game-cv/server.py
+  s_de49c0bdaec642::t_42780032bdfdc7 19-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c848b5faaddb5cc957cef13da568b6d8c36d73ce",
+  "prompts": {},
+  "sessions": {
+    "s_de49c0bdaec642": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3b44-c257-7300-835c-5503812ec414",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

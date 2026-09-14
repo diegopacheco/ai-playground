@@ -1,0 +1,30 @@
+pocs/admin-console/frontend/src/saved/SavedQueries.css
+  s_fa6084944458f4::t_a8f9c2627e2cb1 1-163
+pocs/admin-console/frontend/src/lib/types.ts
+  s_fa6084944458f4::t_db014912cf1255 50-61
+pocs/admin-console/frontend/src/console/ConsolePane.tsx
+  s_fa6084944458f4::t_db014912cf1255 12,156-162
+pocs/admin-console/frontend/src/saved/SavedQueries.tsx
+  s_fa6084944458f4::t_726dbe88e880ea 1-168
+pocs/admin-console/frontend/src/saved/SavedQueries.test.tsx
+  s_fa6084944458f4::t_87b3779a223631 1-119
+pocs/admin-console/frontend/src/lib/api.ts
+  s_fa6084944458f4::t_db014912cf1255 8,88-94
+  s_fa6084944458f4::t_2ea0d3bac205f6 95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "9d3e81dea39b09dcd2e021a0f4a8d62f20df2ea0",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

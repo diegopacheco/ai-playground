@@ -1,0 +1,14 @@
+pocs/claude-design-poc/README.md
+  h_8e2c3875396153 5-6,13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.9",
+  "base_commit_sha": "20b269b9fe93409b28be31a4c1e97588c8a86e81",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

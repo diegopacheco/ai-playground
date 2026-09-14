@@ -1,0 +1,19 @@
+pocs/fable-5-train-ride-rs/README.md
+  s_06d3c2458af532::t_d0b54ae756faca 60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e5c48c5e1450bfdd3e116f2f0345adf8200b12f7",
+  "prompts": {},
+  "sessions": {
+    "s_06d3c2458af532": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3924-acef-7461-881f-f4bde6f34ccc",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

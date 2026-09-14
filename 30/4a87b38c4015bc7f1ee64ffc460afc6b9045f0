@@ -1,0 +1,25 @@
+pocs/fable-5-game-stand/desktop-app/assets/GameStand.svg
+  s_4bafca7a9bd150::t_5981ed0e067220 1-24
+pocs/fable-5-game-stand/desktop-app/package.json
+  s_4bafca7a9bd150::t_16ecec8f699160 3
+pocs/fable-5-game-stand/desktop-app/install.sh
+  s_4bafca7a9bd150::t_16ecec8f699160 4-17,40,46-48
+pocs/fable-5-game-stand/desktop-app/package-lock.json
+  s_4bafca7a9bd150::t_857afa176d5c6b 3,9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "304a87b38c4015bc7f1ee64ffc460afc6b9045f0",
+  "prompts": {},
+  "sessions": {
+    "s_4bafca7a9bd150": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5ade-466d-7471-9a2b-53241f182f34",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

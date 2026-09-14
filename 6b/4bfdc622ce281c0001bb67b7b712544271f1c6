@@ -1,0 +1,31 @@
+pocs/fable-5-train-ride-rs/index.html
+  s_4bb58163e4b9bf::t_b959e96ad2d8b4 25-29,31-33,38,47-52
+  s_4bb58163e4b9bf::t_a90246f8f16496 10,30
+pocs/fable-5-train-ride-rs/main.js
+  s_4bb58163e4b9bf::t_d48c6cd3be3359 940,947
+  s_4bb58163e4b9bf::t_2c2161aa616425 1122-1139,1142-1146,1159-1160,1164,1176-1177
+  s_4bb58163e4b9bf::t_edbc6cdae2aa0e 398-513,882,887,892,897,907
+  s_4bb58163e4b9bf::t_57d0e8fadacf40 924,959-960,973-974,1000,1007,1039,1043
+  s_4bb58163e4b9bf::t_c21f8eed307f64 1632-1653,1666
+  s_4bb58163e4b9bf::t_38ea9bf3624865 1374-1375,1378-1381,1384-1385,1391-1394,1423-1446,1454-1455,1457-1458,1461,1463-1464,1468
+  s_4bb58163e4b9bf::t_12fe0263b91d3f 877,902
+  s_4bb58163e4b9bf::t_a90246f8f16496 1819,1837,1862
+  s_4bb58163e4b9bf::t_9ed248d7670ff7 1694-1756
+  s_4bb58163e4b9bf::t_a310343955eb95 1140-1141,1208,1223
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6b4bfdc622ce281c0001bb67b7b712544271f1c6",
+  "prompts": {},
+  "sessions": {
+    "s_4bb58163e4b9bf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f38df-eda7-7251-8a00-6ed978bec7e1",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

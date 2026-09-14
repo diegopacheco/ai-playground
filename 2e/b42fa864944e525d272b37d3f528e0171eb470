@@ -1,0 +1,19 @@
+pocs/rtk-poc/README.md
+  s_e316e0d284e0a1::t_c186a9ecb8b9aa 27-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "2eb42fa864944e525d272b37d3f528e0171eb470",
+  "prompts": {},
+  "sessions": {
+    "s_e316e0d284e0a1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b1ba169c-5c7e-4cc5-9115-d55be7f4a8b2",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

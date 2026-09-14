@@ -1,0 +1,59 @@
+pocs/claude-opus-4.8-poc/package.json
+  s_486ede39e82409::t_3ac8ddad15d517 1-18,20-25
+  s_486ede39e82409::t_f43cf896c9972a 19
+pocs/claude-opus-4.8-poc/src/main.tsx
+  s_486ede39e82409::t_1f7bcb935b1c7b 1-9
+pocs/claude-opus-4.8-poc/design-doc.md
+  s_486ede39e82409::t_4a6c350294b7e1 1-125
+pocs/claude-opus-4.8-poc/src/game/types.ts
+  s_486ede39e82409::t_9fa154a9558856 1-28
+pocs/claude-opus-4.8-poc/src/components/ActivePiece.tsx
+  s_486ede39e82409::t_ef75c2e6b428ae 1-21
+pocs/claude-opus-4.8-poc/src/components/Block.tsx
+  s_486ede39e82409::t_6ea41d2d791ba7 1-37
+pocs/claude-opus-4.8-poc/src/game/store.ts
+  s_486ede39e82409::t_a3e6992c9f4240 135,138-141
+  s_486ede39e82409::t_8be8fb3ba835bd 1-134,136-137,142-202
+pocs/claude-opus-4.8-poc/src/components/Pit.tsx
+  s_486ede39e82409::t_b52cba4bcaba22 1-51
+pocs/claude-opus-4.8-poc/server.ts
+  s_486ede39e82409::t_3d45fb550713c9 1-11
+pocs/claude-opus-4.8-poc/src/components/Scene.tsx
+  s_486ede39e82409::t_05fbbdc6ad6f28 1-32
+pocs/claude-opus-4.8-poc/index.html
+  s_486ede39e82409::t_32c35fc24b7580 1-13
+pocs/claude-opus-4.8-poc/README.md
+  s_486ede39e82409::t_59bf7a3dcbd6ca 1-111
+pocs/claude-opus-4.8-poc/.gitignore
+  s_486ede39e82409::t_3f4cb66f2f119f 1-5
+pocs/claude-opus-4.8-poc/src/App.tsx
+  s_486ede39e82409::t_319e1ea8a5ac3a 1-100
+pocs/claude-opus-4.8-poc/src/styles.css
+  s_486ede39e82409::t_f5e96a15e61701 1-122
+pocs/claude-opus-4.8-poc/src/game/pieces.ts
+  s_486ede39e82409::t_e446255cdc74f5 1-31
+pocs/claude-opus-4.8-poc/stop.sh
+  s_486ede39e82409::t_a60cc6a7c30991 1-13
+pocs/claude-opus-4.8-poc/src/components/Hud.tsx
+  s_486ede39e82409::t_dc8b631a8abe58 1-60
+pocs/claude-opus-4.8-poc/start.sh
+  s_486ede39e82409::t_792c60423b7cc3 1-23
+pocs/claude-opus-4.8-poc/tsconfig.json
+  s_486ede39e82409::t_bcd13b82cafa71 1-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "2dda5ee27190bd19687ba1543127363fc5f7a0b3",
+  "prompts": {},
+  "sessions": {
+    "s_486ede39e82409": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3ec480bf-8794-45ed-8098-0724488bfaff",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

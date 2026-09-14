@@ -1,0 +1,35 @@
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedQueryParser.java
+  s_49062c8b22ecc5::t_56042463cfdb68 88-103
+  s_49062c8b22ecc5::t_f21ed8f94a850b 122-123
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/ai/PromptBuilder.java
+  s_49062c8b22ecc5::t_93c0895553c162 43,47-51
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedAiController.java
+  s_49062c8b22ecc5::t_e6a7cd16b80b4a 79,82
+  s_49062c8b22ecc5::t_f2a1e9e45a0dfd 31-32
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/federation/TypeProbeIT.java
+  s_49062c8b22ecc5::t_b8c2962bf5b46a 1-54
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/federation/CrossEngineJoinIT.java
+  s_49062c8b22ecc5::t_80c4a4d8cdbb03 86
+  s_49062c8b22ecc5::t_5b030a9d7888cd 273,278-282
+  s_49062c8b22ecc5::t_2e9da86d9b4925 294-296
+  s_49062c8b22ecc5::t_1a7cb5d504b4a3 388-397
+  s_49062c8b22ecc5::t_8079989ee88748 423-433,438
+  s_49062c8b22ecc5::t_98eff225daf1ce 92-95
+  s_49062c8b22ecc5::t_78d7c1985a0e3b 1-85,87-91,96-272,274-277,283-293,297-387,398-422,434-437,439-465
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "0f7a4bd8fe1931b1a8e2ccfaa5a0ed5aaeef83e0",
+  "prompts": {},
+  "sessions": {
+    "s_49062c8b22ecc5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7431fe07-959e-4e94-8858-2979cac07db7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

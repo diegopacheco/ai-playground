@@ -1,0 +1,27 @@
+pocs/fable-5-game-stand/README.md
+  s_cfa7c8703563ad::t_003837992e87c0 86-103
+pocs/fable-5-game-stand/desktop-app/install.sh
+  s_cfa7c8703563ad::t_58681a90ff9052 47-48
+pocs/fable-5-game-stand/desktop-app/package.json
+  s_cfa7c8703563ad::t_58681a90ff9052 3
+pocs/fable-5-game-stand/desktop-app/package-lock.json
+  s_cfa7c8703563ad::t_9e8a8e6430c3c8 3,9
+pocs/fable-5-game-stand/wip.json
+  s_cfa7c8703563ad::t_05fc91fca4386d 13-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "e048a2705896c52e653e5e7b275d7fe165893f93",
+  "prompts": {},
+  "sessions": {
+    "s_cfa7c8703563ad": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1475cfde-09fc-4576-8309-1c716c09257c",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+games/README.md
+  s_c71345b21a12b7::t_3f2c7ca504c6d4 61-67,70,73,76,79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "48765e0ebe71f247a2549c61d62e0a8ec0befbe8",
+  "prompts": {},
+  "sessions": {
+    "s_c71345b21a12b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f42a3a6d-ccb7-468d-b1ec-b266bc11c64e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

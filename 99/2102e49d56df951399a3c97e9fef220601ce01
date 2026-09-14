@@ -1,0 +1,26 @@
+pocs/agent-skill-bug-triage/skill/scripts/render.mjs
+  s_01d76a70d9dcbc::t_a68e3a07514018 60,75
+pocs/agent-skill-bug-triage/skill/SKILL.md
+  s_01d76a70d9dcbc::t_575816910ce55b 120
+  s_01d76a70d9dcbc::t_745285569c82a9 25,60
+pocs/agent-skill-bug-triage/test.sh
+  s_01d76a70d9dcbc::t_fd07e245e8e8c1 41-42,47-52
+pocs/agent-skill-bug-triage/README.md
+  s_01d76a70d9dcbc::t_575816910ce55b 14,36,149,168-169
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "992102e49d56df951399a3c97e9fef220601ce01",
+  "prompts": {},
+  "sessions": {
+    "s_01d76a70d9dcbc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "74fdd763-d625-4cab-a006-e76e9f10cb07",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

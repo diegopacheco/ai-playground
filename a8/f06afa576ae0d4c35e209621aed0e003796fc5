@@ -1,0 +1,218 @@
+pocs/realtime-emu-magic/scripts/start-all.sh
+  s_2903f50ce6273c::t_8bc0bc4701b688 1-8,14-15,17-34
+  s_15e983dba313e4::t_614554635352a4 16
+  s_2903f50ce6273c::t_3f9760e9a427bb 9-13
+pocs/realtime-emu-magic/docs/logo.svg
+  s_2903f50ce6273c::t_125e6f6566fee5 1
+pocs/realtime-emu-magic/playwright.config.js
+  s_15e983dba313e4::t_614554635352a4 13
+  s_2903f50ce6273c::t_8bc0bc4701b688 2,4-6,12
+  s_2903f50ce6273c::t_d6447b76eecbb6 1,3,7-11,14-15
+pocs/realtime-emu-magic/package.json
+  s_2903f50ce6273c::t_eaf9791d19f78d 1-5,8,10-13
+  s_2903f50ce6273c::t_3465de1f96d6b3 9
+  s_15e983dba313e4::t_614554635352a4 6-7
+pocs/realtime-emu-magic/agent.mjs
+  s_15e983dba313e4::t_62ad3e76f8fbac 29-32,37,46,50-51,54-57
+  s_15e983dba313e4::t_1d7a4e1a8f3522 24,47-49
+  s_15e983dba313e4::t_a8162154a9100e 53
+  s_15e983dba313e4::t_5f04651688f0ec 39,43-45
+  s_15e983dba313e4::t_3a2275cc9d7d5f 62
+  s_2903f50ce6273c::t_15ed8ad01b4106 92-96
+  s_15e983dba313e4::t_684dd78af2ef37 100-101
+  s_15e983dba313e4::t_d724ef7889d5c5 40
+  s_15e983dba313e4::t_c55b58b08295f3 33-36,38,41-42
+  s_15e983dba313e4::t_614554635352a4 4,10,63
+  s_15e983dba313e4::t_91aebc97320396 52
+  s_2903f50ce6273c::t_eaf9791d19f78d 1-3,5-6,8,11-18,20-21,23,25-28,58-60,64-77,79-90,97-99,102-105
+  s_2903f50ce6273c::t_c119a3d61dae27 9,19,22,61
+  s_15e983dba313e4::t_a9242a5db787ad 7
+  s_2903f50ce6273c::t_808fb537075d10 78,91
+pocs/realtime-emu-magic/public/player.js
+  s_15e983dba313e4::t_67e4db87430c1b 12,41,123
+  s_2903f50ce6273c::t_5f014ef37c05a2 42
+  s_15e983dba313e4::t_4032b85b107abb 116-118
+  s_2903f50ce6273c::t_8e9c707656be6e 135-142
+  s_2903f50ce6273c::t_a296c4af02b02a 1-3,5-6,11,13-23,28-35,39-40,54-64,121-122,126-128,130-134,143
+  s_2903f50ce6273c::t_1eb41935a1717f 43,115
+  s_2903f50ce6273c::t_e506e44f7f59ae 7-9,24,44,46-48,51,53,98-99,104-106,124
+  s_2903f50ce6273c::t_042c72eae10340 119
+  s_2903f50ce6273c::t_eeb02ec76527fc 107-114,125
+  s_2903f50ce6273c::t_4993816504e874 25,27,45,49-50,52,100-103
+  s_15e983dba313e4::t_c8a6f3efea92af 65-81,94
+  s_15e983dba313e4::t_ee5299b306be3d 129
+  s_2903f50ce6273c::t_dcc64f0365acdb 4,10
+  s_15e983dba313e4::t_3529a8f442d19d 26,36-38
+  s_2903f50ce6273c::t_8f002605923ce1 82-93,95-97,120
+pocs/realtime-emu-magic/scripts/status.sh
+  s_2903f50ce6273c::t_8bc0bc4701b688 1-8
+pocs/realtime-emu-magic/public/player.html
+  s_2903f50ce6273c::t_a296c4af02b02a 1-5
+pocs/realtime-emu-magic/scripts/ui.sh
+  s_2903f50ce6273c::t_8bc0bc4701b688 1-11
+pocs/realtime-emu-magic/scripts/common.sh
+  s_15e983dba313e4::t_614554635352a4 14
+  s_2903f50ce6273c::t_8bc0bc4701b688 1-13,15-18
+pocs/realtime-emu-magic/scripts/stop-all.sh
+  s_2903f50ce6273c::t_a2c80f5302b981 5-7,23-24
+  s_2903f50ce6273c::t_dfc96c35b02c54 11-22
+  s_2903f50ce6273c::t_8bc0bc4701b688 1-4,25-39
+  s_2903f50ce6273c::t_75aa672db92604 8-10
+pocs/realtime-emu-magic/docs/architecture.svg
+  s_2903f50ce6273c::t_125e6f6566fee5 1
+pocs/realtime-emu-magic/server.mjs
+  s_15e983dba313e4::t_67e4db87430c1b 12,31-32
+  s_2903f50ce6273c::t_0f961881cf2fb8 17-18,49,57,70-71,80-83
+  s_2903f50ce6273c::t_eaf9791d19f78d 1-4,7-11,13-14,16,19-30,33-37,39-41,43-45,47-48,50-51,53-56,58-69,72-79,84
+  s_2903f50ce6273c::t_9181c58ad67327 15
+  s_15e983dba313e4::t_e18a82844956ac 6,42
+  s_2903f50ce6273c::t_808fb537075d10 38,46
+  s_2903f50ce6273c::t_34711a9240d0ef 5,52
+pocs/realtime-emu-magic/test/browser/timing.spec.js
+  s_15e983dba313e4::t_b698d38ac3f3e4 1-34
+pocs/realtime-emu-magic/test/server.test.mjs
+  s_15e983dba313e4::t_fc1004dbb20c8b 3,77-90
+  s_2903f50ce6273c::t_aaefa7484346b4 24-35
+  s_2903f50ce6273c::t_3465de1f96d6b3 47
+  s_15e983dba313e4::t_53aee2a78324c8 36-46
+  s_2903f50ce6273c::t_d6447b76eecbb6 1-2,4-23,48-76,91-109
+pocs/realtime-emu-magic/README.md
+  s_15e983dba313e4::t_ff18bceceeff37 132-135
+  s_15e983dba313e4::t_5f04651688f0ec 20
+  s_2903f50ce6273c::t_317b16951f28f4 1-4,6,8,10,15-16,18,22,27-28,30-31,33-34,36-37,40-41,43,46-48,57-58,60-62,64,66-68,74-78,82,84,86,88,91,100,102,104-106,115-117,123,125,127,129,131,137,139,141,143-145,147
+  s_15e983dba313e4::t_48aa1ddfb9f639 5,7,9,11,13,21,23,25,29,32,35,38-39,42,44-45,51,53,56,59,63,65,69-73,79-80,83,85,87,89-90,92-99,101,103,107-109,111-114,118,120,122,124,126,128,130,136,138,140,142,146,148-155
+  s_15e983dba313e4::t_0c8e54ddc1defe 12
+  s_15e983dba313e4::t_c55b58b08295f3 17,19,110
+  s_15e983dba313e4::t_e7343de2e0c0d8 26
+  s_2903f50ce6273c::t_5f014ef37c05a2 14
+  s_2903f50ce6273c::t_096540a7cc63b2 81
+  s_15e983dba313e4::t_799f8d88352c3c 119,121
+  s_2903f50ce6273c::t_deb7f578ee3a4c 24,49-50,52,54-55
+pocs/realtime-emu-magic/scripts/test-all.sh
+  s_2903f50ce6273c::t_8bc0bc4701b688 1-5
+  s_2903f50ce6273c::t_3465de1f96d6b3 6
+pocs/realtime-emu-magic/scripts/setup.sh
+  s_2903f50ce6273c::t_8bc0bc4701b688 1-6,8
+  s_15e983dba313e4::t_614554635352a4 7
+pocs/realtime-emu-magic/test/color-rom.mjs
+  s_2903f50ce6273c::t_d6447b76eecbb6 1-7,9-10,12-13,15-17,19-27
+  s_15e983dba313e4::t_642cd34bd6876e 8,11,14,18
+pocs/realtime-emu-magic/test/browser/app.spec.js
+  s_2903f50ce6273c::t_8745d725e5dedd 133-136
+  s_2903f50ce6273c::t_5f014ef37c05a2 138-140
+  s_2903f50ce6273c::t_a552ad6d0431bf 141
+  s_2903f50ce6273c::t_d6447b76eecbb6 1-4,20,24,26-36,44-55,131-132,137,142,145,147,149-152,154-161,163-171,173-179,182-183,185,187-191
+  s_2903f50ce6273c::t_3465de1f96d6b3 180-181
+  s_15e983dba313e4::t_642cd34bd6876e 25
+  s_15e983dba313e4::t_a4cbd3be8a4ac8 56-102
+  s_2903f50ce6273c::t_4a3a1f1eb8d734 43,146,162,172,184
+  s_2903f50ce6273c::t_2b39a745bff673 5-19,143-144,148,153
+  s_2903f50ce6273c::t_4dc39e8688070b 186
+  s_15e983dba313e4::t_fd4f5d0234aea1 37-42
+  s_2903f50ce6273c::t_80d0f6ad18653b 21-23
+  s_15e983dba313e4::t_001c83f9a9233e 103-108,118,120-124,126-127,129-130
+  s_15e983dba313e4::t_c89ecb90554cdf 109-117,119,125,128
+pocs/realtime-emu-magic/public/app.js
+  s_2903f50ce6273c::t_4b6ef809384fab 190
+  s_15e983dba313e4::t_67e4db87430c1b 26,30,143,177
+  s_2903f50ce6273c::t_f50e62f2d159df 99
+  s_2903f50ce6273c::t_eeb02ec76527fc 16,248-250,252-256,258-259
+  s_2903f50ce6273c::t_cca00cc6eee9d2 1-15,17-25,27,29,31-61,63-97,105-119,121-140,144-148,150-151,157-176,178-187,189,191-192,194-199,201-203,205-223,225-230,232-241,260-272
+  s_15e983dba313e4::t_fa679833b748c5 62,231,251,257
+  s_2903f50ce6273c::t_8e9c707656be6e 142
+  s_2903f50ce6273c::t_c23fcc63209ac7 103,152-156,242-247
+  s_2903f50ce6273c::t_3a14773dc49712 120,188,193,204,224
+  s_2903f50ce6273c::t_dcc64f0365acdb 98,100-102,141
+  s_2903f50ce6273c::t_5f014ef37c05a2 28,104,149
+  s_15e983dba313e4::t_001c83f9a9233e 200
+pocs/realtime-emu-magic/test/contracts.test.mjs
+  s_15e983dba313e4::t_99b64b6e28bc22 18-26,40,42-44,46-47
+  s_15e983dba313e4::t_a9242a5db787ad 3,15
+  s_2903f50ce6273c::t_e2df8aad530127 71-72
+  s_15e983dba313e4::t_0cab69a5cf84ed 182-184,195,197-198
+  s_15e983dba313e4::t_200e8c4333b98c 78-79,81-83
+  s_15e983dba313e4::t_fe697a3f396b7f 126-133,135-147
+  s_2903f50ce6273c::t_04760129575685 85-86
+  s_15e983dba313e4::t_642cd34bd6876e 48-68
+  s_2903f50ce6273c::t_35b741e7dd8ef1 75-76
+  s_15e983dba313e4::t_3b3c7648cba135 192-194,199-205
+  s_15e983dba313e4::t_bfae196e3eea00 178-181,186-191
+  s_15e983dba313e4::t_1d7a4e1a8f3522 4,39,77,80,84,87-90,134,185,196
+  s_15e983dba313e4::t_ee5299b306be3d 110,113,115,117,120,148,153,159,162,167,173,175
+  s_15e983dba313e4::t_83a3df4273fae3 27-33
+  s_2903f50ce6273c::t_d6447b76eecbb6 1-2,6-14,16-17,69-70,73-74,91-92,95-109,111-112,114,116,118-119,121-125,149-152,154-158,160-161,163-166,168-172,174,176-177
+  s_15e983dba313e4::t_7e8cc895e9ca94 5,34-38,41,45,93-94
+pocs/realtime-emu-magic/scripts/ports.env
+  s_2903f50ce6273c::t_cca00cc6eee9d2 1
+pocs/realtime-emu-magic/public/contracts.js
+  s_2903f50ce6273c::t_49c2fb9a4d0755 1-2,5
+  s_15e983dba313e4::t_e18a82844956ac 3-4,7,12
+  s_15e983dba313e4::t_ba1ab477b53e31 9,14-22
+  s_15e983dba313e4::t_743cff2fd1f8dd 13
+  s_2903f50ce6273c::t_c119a3d61dae27 39
+  s_2903f50ce6273c::t_c9262d55067525 30-35
+  s_2903f50ce6273c::t_eaf9791d19f78d 6,8,10-11,23-29,36-38,40-43
+pocs/realtime-emu-magic/public/styles.css
+  s_15e983dba313e4::t_fa679833b748c5 4-7
+  s_2903f50ce6273c::t_10742d334310b6 2
+  s_2903f50ce6273c::t_a296c4af02b02a 1
+  s_2903f50ce6273c::t_6a04bf662c82e7 3
+pocs/realtime-emu-magic/.env.template
+  s_15e983dba313e4::t_614554635352a4 1
+pocs/realtime-emu-magic/public/patch-engine.js
+  s_2903f50ce6273c::t_0d4cdaf492a033 40
+  s_15e983dba313e4::t_743cff2fd1f8dd 48-57,61-66
+  s_15e983dba313e4::t_85dcb3da6aa840 58-59
+  s_15e983dba313e4::t_ee5299b306be3d 7,19,23,29,37-39,41,46,60,70,76,80,83-84
+  s_15e983dba313e4::t_844c4cc0c2f071 30-34,36
+  s_2903f50ce6273c::t_eaf9791d19f78d 2-4,6,9-18,20-21,24-28,42-44,47,69,71-74,77-79,81-82,85-94
+  s_15e983dba313e4::t_c89ecb90554cdf 67
+  s_15e983dba313e4::t_31520517f6564c 35
+  s_15e983dba313e4::t_e18a82844956ac 68,75
+  s_15e983dba313e4::t_67e4db87430c1b 5,45
+  s_15e983dba313e4::t_c8a6f3efea92af 8,22
+  s_15e983dba313e4::t_7e8cc895e9ca94 1
+pocs/realtime-emu-magic/.gitignore
+  s_2903f50ce6273c::t_eaf9791d19f78d 1-4
+  s_15e983dba313e4::t_614554635352a4 5-16
+pocs/realtime-emu-magic/public/memory.js
+  s_15e983dba313e4::t_7e8cc895e9ca94 1-29
+pocs/realtime-emu-magic/public/index.html
+  s_15e983dba313e4::t_fa679833b748c5 17,38-39,43
+  s_2903f50ce6273c::t_a296c4af02b02a 1-7,9-16,18-27,29,31-34,40-42,44-49
+  s_2903f50ce6273c::t_10742d334310b6 35-36
+  s_2903f50ce6273c::t_a7b7335993c5d5 37
+  s_2903f50ce6273c::t_042c72eae10340 28
+  s_2903f50ce6273c::t_e506e44f7f59ae 30
+  s_15e983dba313e4::t_1781503ce4d764 8
+pocs/realtime-emu-magic/reply.schema.json
+  s_15e983dba313e4::t_2fbbe7f4604bc2 13-14
+  s_15e983dba313e4::t_7ab0c570c154cb 9
+  s_2903f50ce6273c::t_eaf9791d19f78d 1-8,10-12,15-19
+pocs/realtime-emu-magic/package-lock.json
+  s_15e983dba313e4::t_cd56b29f05943b 1-79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "a8f06afa576ae0d4c35e209621aed0e003796fc5",
+  "prompts": {},
+  "sessions": {
+    "s_15e983dba313e4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08d62-6f60-7c80-941e-67dd6ff75521",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_2903f50ce6273c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08c09-10bb-7c01-9df8-464d2ee1bdb1",
+        "model": "gpt-reserve"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

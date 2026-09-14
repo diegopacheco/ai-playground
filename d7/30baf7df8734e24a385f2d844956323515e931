@@ -1,0 +1,75 @@
+pocs/air-lango-cv/web/index.html
+  s_18f7536b131f59::t_0f70e1220416b4 1-68
+pocs/air-lango-cv/design-doc.md
+  s_18f7536b131f59::t_34547be2cf63b3 99-100
+  s_18f7536b131f59::t_2450bb5713c40a 76
+  s_18f7536b131f59::t_7829c514629000 106-108
+  s_18f7536b131f59::t_6b861281541498 205
+  s_18f7536b131f59::t_31341a14b594c6 93-95
+  s_18f7536b131f59::t_8ae89c3022e08c 210-211
+  s_18f7536b131f59::t_aad8ee956b9a2a 167-176
+  s_18f7536b131f59::t_73b9599ac0eb0f 139-142
+pocs/air-lango-cv/diagram.html
+  s_18f7536b131f59::t_2e7207cd7f5d98 1-113
+pocs/air-lango-cv/web/fight.js
+  s_18f7536b131f59::t_2a1f2994c41136 320
+  s_18f7536b131f59::t_86bfd42bbb89c6 49
+  s_18f7536b131f59::t_94bdc0bdd105e6 396-452
+  s_18f7536b131f59::t_9838f71ba41764 236
+  s_18f7536b131f59::t_7467fbffcc7549 311-312
+  s_18f7536b131f59::t_981a1937a34649 485
+  s_18f7536b131f59::t_cae115cf9bd5f7 156-160,163,165-166
+  s_18f7536b131f59::t_8d11ed74d1019a 46
+  s_18f7536b131f59::t_3f194c77be5c3a 1-18,21-23,27-37,39-45,47-48,50-155,161-162,164,167-210,212-235,238-254,256-277,279-282,285-292,294-310,313-314,316-319,321-395,453-484,486-523,525,546-570,572-731
+  s_18f7536b131f59::t_84059f80e93f2e 38
+  s_18f7536b131f59::t_5fbe45766c16e6 255
+  s_18f7536b131f59::t_a0e6b429e529de 278,283-284
+  s_18f7536b131f59::t_ec410286361e4e 315
+  s_18f7536b131f59::t_e37c59df2d87e2 524,526-545
+  s_18f7536b131f59::t_b7328e74af2044 19
+  s_18f7536b131f59::t_5b2bf2aab2ac71 571
+  s_18f7536b131f59::t_940037ded1a73c 293
+  s_18f7536b131f59::t_e7a53d6a8b2981 211
+  s_18f7536b131f59::t_9953e880071728 237
+  s_18f7536b131f59::t_5155f30d55ee8e 24-26
+  s_18f7536b131f59::t_cfedae2574caf1 20
+pocs/air-lango-cv/server.py
+  s_18f7536b131f59::t_5a190173cc83b0 38-40
+  s_18f7536b131f59::t_372eb1cbcb59e6 1-37,41-100
+pocs/air-lango-cv/.gitignore
+  s_18f7536b131f59::t_43ab484036b4ac 1-6
+pocs/air-lango-cv/start.sh
+  s_18f7536b131f59::t_9edfb6c37ac3c9 1-28
+pocs/air-lango-cv/requirements.txt
+  s_18f7536b131f59::t_7a20db3e2e130a 1-4
+pocs/air-lango-cv/web/style.css
+  s_18f7536b131f59::t_43718814af7621 184-188
+  s_18f7536b131f59::t_546f6eeb526a75 1-183,189
+pocs/air-lango-cv/README.md
+  s_18f7536b131f59::t_3147f1f2973cec 1-137
+pocs/air-lango-cv/stop.sh
+  s_18f7536b131f59::t_c55ef62210bab9 1-9
+pocs/air-lango-cv/test_client.py
+  s_18f7536b131f59::t_bfc60ad9ba06f0 1-26
+pocs/air-lango-cv/test.sh
+  s_18f7536b131f59::t_17499aabccd3fc 1-32
+pocs/air-lango-cv/web/audio.js
+  s_18f7536b131f59::t_09bbee030bf08e 1-38,42-43,46,57-109
+  s_18f7536b131f59::t_af5a2a61761079 39-41,44-45,47-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "d730baf7df8734e24a385f2d844956323515e931",
+  "prompts": {},
+  "sessions": {
+    "s_18f7536b131f59": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6c0da974-47e5-48f3-9c57-e6589e743b81",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

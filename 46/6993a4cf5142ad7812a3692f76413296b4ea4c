@@ -1,0 +1,19 @@
+pocs/temporal-java-25-poc/README.md
+  s_5425b8e65ec774::t_2554ffa5dbc08f 108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "466993a4cf5142ad7812a3692f76413296b4ea4c",
+  "prompts": {},
+  "sessions": {
+    "s_5425b8e65ec774": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85032098-f2d8-4f2c-b83c-97c23c50c65a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

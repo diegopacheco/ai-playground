@@ -1,0 +1,23 @@
+pocs/fps-assets-gpt-sol-5.6/test.sh
+  s_102037e6fd3390::t_1e8f56add36047 29-32
+games/dustline/game.js
+  s_102037e6fd3390::t_fae28e7d0e1cb3 289-290
+pocs/fps-assets-gpt-sol-5.6/game.js
+  s_102037e6fd3390::t_062143a4fb515b 289-290
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "6704932cbcaa25a1bbb86114830c2e0c39c1f2d3",
+  "prompts": {},
+  "sessions": {
+    "s_102037e6fd3390": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb9c3-d5dd-7371-b6c5-a66221fe6de1",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

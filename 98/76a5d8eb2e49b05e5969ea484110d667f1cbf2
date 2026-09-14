@@ -1,0 +1,35 @@
+games/README.md
+  s_d71ffd81335ba6::t_f3399a789fb68b 41,44,47,50,53,56,59,64,67,70,73,76,79,82,85,88,93,96,99,102,107,110,113,116,119,122,125,130,133,136,139,142,145
+  s_d71ffd81335ba6::t_260a8e2e0a576a 36-38
+games/index.html
+  s_d71ffd81335ba6::t_68e9a15e3c2747 190
+  s_d71ffd81335ba6::t_6e9e5dcba08c79 106,108
+pocs/statue-game-cv/README.md
+  s_d71ffd81335ba6::t_2b5f1356190288 1-58
+pocs/statue-game-cv/start.sh
+  s_d71ffd81335ba6::t_135260d5209865 1-14
+pocs/statue-game-cv/index.html
+  s_d71ffd81335ba6::t_446d835b4d047a 1-236
+pocs/statue-game-cv/stop.sh
+  s_d71ffd81335ba6::t_758c985f19e435 1-8
+pocs/statue-game-cv/test.sh
+  s_d71ffd81335ba6::t_516de7c177c54f 1-24
+pocs/statue-game-cv/printscreens/diagram.svg
+  s_d71ffd81335ba6::t_c9e7249c22d781 1-60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9876a5d8eb2e49b05e5969ea484110d667f1cbf2",
+  "prompts": {},
+  "sessions": {
+    "s_d71ffd81335ba6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3d4216cd-7b60-4637-8d8c-b20c9267068a",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+pocs/fable-5-game-stand/templates/index.html
+  s_cfa7c8703563ad::t_ddfcd607f08757 435
+  s_cfa7c8703563ad::t_47c0a514e8f698 671-703,707-708,710,712-714,718,720-721
+  s_cfa7c8703563ad::t_8fc65cad7a6d12 832-835,839,842,849-850
+  s_cfa7c8703563ad::t_042a578885cd27 363-392
+  s_cfa7c8703563ad::t_74704cc71a75cf 539,542,557-558,560,562,573-590
+  s_cfa7c8703563ad::t_b16a70a3cd255d 514-515,519,526,531-536
+  s_cfa7c8703563ad::t_6285eb24c022c2 444
+  s_cfa7c8703563ad::t_3e6e1a1aa30c37 279-289
+  s_cfa7c8703563ad::t_13dfb90018afd4 312
+  s_cfa7c8703563ad::t_62a62695daab1b 537,591,725-726,731,735,740-746
+  s_cfa7c8703563ad::t_f3f47f15d349e8 412-414,417
+  s_cfa7c8703563ad::t_19264af7d6b745 618-626,628-631,634,641-652,654
+  s_cfa7c8703563ad::t_b346d97ec69bcf 799-826
+  s_cfa7c8703563ad::t_3e8f077cb5a33d 538
+  s_cfa7c8703563ad::t_9b77c29f705488 592
+  s_cfa7c8703563ad::t_00704a009b8ca5 747
+pocs/fable-5-game-stand/app.py
+  s_cfa7c8703563ad::t_7b46775606fdab 14
+  s_cfa7c8703563ad::t_72f630865530e6 37-48
+  s_cfa7c8703563ad::t_913a8a83f389f2 150-210
+pocs/fable-5-game-stand/wip.json
+  s_cfa7c8703563ad::t_7e52ed80ff9d00 1-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "49890ff2ce3aaeff2dddc607761a42b0b74b0359",
+  "prompts": {},
+  "sessions": {
+    "s_cfa7c8703563ad": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1475cfde-09fc-4576-8309-1c716c09257c",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

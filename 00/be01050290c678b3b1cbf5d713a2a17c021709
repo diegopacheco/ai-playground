@@ -1,0 +1,38 @@
+pocs/admin-console/frontend/src/federation/FederationPage.css
+  s_fa6084944458f4::t_6ee7c27512a5c4 218-272
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedAiController.java
+  s_fa6084944458f4::t_36ffb9f19d0923 58-67,83-84,86,88
+pocs/admin-console/design-doc.md
+  s_fa6084944458f4::t_b0da1c0b5caaec 629-637
+  s_fa6084944458f4::t_c7286d46b9fe1f 607-628,639
+pocs/admin-console/frontend/src/federation/qualify.ts
+  s_fa6084944458f4::t_44348cc9732ab5 1-29
+pocs/admin-console/README.md
+  s_fa6084944458f4::t_9cb0c78b9790d7 161-178
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/federation/FederatedQueryParserTest.java
+  s_fa6084944458f4::t_902dbc327d7a69 88
+pocs/admin-console/frontend/src/federation/FederationPage.tsx
+  s_fa6084944458f4::t_6ee7c27512a5c4 7,9,24,68,73-87,105,233-239,241-255
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/federation/FederatedQueryParser.java
+  s_fa6084944458f4::t_bab507b987715e 76-108
+  s_fa6084944458f4::t_49d58e4b0af061 29-40
+  s_fa6084944458f4::t_cc321404d8743b 43
+pocs/admin-console/frontend/src/federation/qualify.test.ts
+  s_fa6084944458f4::t_7a201d425a190c 1-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "00be01050290c678b3b1cbf5d713a2a17c021709",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

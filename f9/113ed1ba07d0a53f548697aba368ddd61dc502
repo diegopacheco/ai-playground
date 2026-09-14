@@ -1,0 +1,19 @@
+pocs/temporal-java-25-poc/start.sh
+  s_5425b8e65ec774::t_941e30e44ee4f6 32-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "f9113ed1ba07d0a53f548697aba368ddd61dc502",
+  "prompts": {},
+  "sessions": {
+    "s_5425b8e65ec774": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85032098-f2d8-4f2c-b83c-97c23c50c65a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

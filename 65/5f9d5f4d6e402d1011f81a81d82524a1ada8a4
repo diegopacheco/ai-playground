@@ -1,0 +1,34 @@
+pocs/dashboard-cv/README.md
+  s_9e47de5d2d6db9::t_d412c61a724a8d 15-16
+  s_9e47de5d2d6db9::t_3efecc5988aecb 62-64
+pocs/dashboard-cv/server.py
+  s_9e47de5d2d6db9::t_75b6425dabb300 38
+pocs/dashboard-cv/web/board.js
+  s_9e47de5d2d6db9::t_c144a8a553a727 320
+  s_9e47de5d2d6db9::t_eb447fb0a83d64 370
+pocs/dashboard-cv/diagram.html
+  s_9e47de5d2d6db9::t_a2bac282d9e76f 84
+pocs/dashboard-cv/design-doc.md
+  s_9e47de5d2d6db9::t_c765251e2a77a7 161-162
+  s_9e47de5d2d6db9::t_823ad15fd82e8c 127,129-133
+  s_9e47de5d2d6db9::t_5cae197ae3a397 13-15
+  s_9e47de5d2d6db9::t_a226107f080328 77-80,86,92,95-102
+  s_9e47de5d2d6db9::t_5bfd63b7b6e9be 65
+  s_9e47de5d2d6db9::t_de3fb3d27e3dee 72-73
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "655f9d5f4d6e402d1011f81a81d82524a1ada8a4",
+  "prompts": {},
+  "sessions": {
+    "s_9e47de5d2d6db9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "17c8e4e1-77c0-40ca-85a9-9fca1a8a9f05",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

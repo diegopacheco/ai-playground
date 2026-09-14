@@ -1,0 +1,108 @@
+pocs/localhost-radar/src/panel.css
+  s_2e65ea50443b1c::t_876b4cda1696d2 68-73,75-79,81,86-87
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-67,88-591
+  s_2e65ea50443b1c::t_06d4ae439867ac 74,80,82-85
+pocs/localhost-radar/src/launcher.html
+  s_2e65ea50443b1c::t_8bd1c3844f8457 1-33,42-57,59-64
+  s_2e65ea50443b1c::t_06d4ae439867ac 34,39,41,58
+  s_2e65ea50443b1c::t_876b4cda1696d2 35-38,40
+pocs/localhost-radar/src/panel.html
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-11,16-30,35-82
+  s_2e65ea50443b1c::t_876b4cda1696d2 12-13,15
+  s_2e65ea50443b1c::t_42251831cd0a14 32
+  s_2e65ea50443b1c::t_06d4ae439867ac 14
+  s_2e65ea50443b1c::t_f085b17d028060 31,33-34
+pocs/localhost-radar/tests/test_native_host.py
+  s_2e65ea50443b1c::t_944a2ca6af4608 38-42
+  s_2e65ea50443b1c::t_42251831cd0a14 44-45,49-54
+  s_2e65ea50443b1c::t_f085b17d028060 43,46-48,55
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-37,63-65
+  s_2e65ea50443b1c::t_d1bac52eed6165 56-62
+pocs/localhost-radar/assets/logo.svg
+  s_f55d3d0fbb2608::t_c9d448807437d8 6-15
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-5,16-19
+pocs/localhost-radar/native/com.diegopacheco.localhost_radar.json
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-9
+pocs/localhost-radar/src/panel.js
+  s_2e65ea50443b1c::t_f085b17d028060 18,210-221,223-224
+  s_2e65ea50443b1c::t_42251831cd0a14 222
+  s_2e65ea50443b1c::t_2eb84937587b50 238-250,252-254
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-17,19-209,225-237,251,255-257
+pocs/localhost-radar/src/devtools.js
+  s_2e65ea50443b1c::t_49199f9f65b5bf 1
+pocs/localhost-radar/manifest.json
+  s_2e65ea50443b1c::t_8bd1c3844f8457 16-23
+  s_2e65ea50443b1c::t_d1bac52eed6165 4
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-3,6-14,25-32
+  s_2e65ea50443b1c::t_06d4ae439867ac 5
+  s_2e65ea50443b1c::t_2eb84937587b50 15,24
+pocs/localhost-radar/tests/lib.test.js
+  s_2e65ea50443b1c::t_2eb84937587b50 22-25,27,29
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-21
+  s_2e65ea50443b1c::t_06d4ae439867ac 28
+  s_2e65ea50443b1c::t_8bd1c3844f8457 26
+pocs/localhost-radar/install.sh
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-22
+pocs/localhost-radar/package.json
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-5,7-9
+  s_2e65ea50443b1c::t_8503cc14e9ece4 6
+pocs/localhost-radar/uninstall.sh
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-15
+pocs/localhost-radar/scripts/generate-icons.js
+  s_f55d3d0fbb2608::t_a8346cfbbf0a03 5-10,32-34,38-39,54,60-61,64-69,72-115,126-129
+  s_2e65ea50443b1c::t_8503cc14e9ece4 1-4,11-31,35-37,40-53,55-59,62-63,70-71,116-125
+pocs/localhost-radar/README.md
+  s_2e65ea50443b1c::t_8bd1c3844f8457 97
+  s_2e65ea50443b1c::t_2eb84937587b50 98-100
+  s_2e65ea50443b1c::t_876b4cda1696d2 8
+  s_2e65ea50443b1c::t_06d4ae439867ac 7
+  s_2e65ea50443b1c::t_42251831cd0a14 18
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-6,9-17,19-96,101-159
+pocs/localhost-radar/test.sh
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-6
+pocs/localhost-radar/src/devtools.html
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-10
+pocs/localhost-radar/assets/logo-light.svg
+  s_f55d3d0fbb2608::t_27437e5a36a4b6 1-19
+pocs/localhost-radar/src/background.js
+  s_2e65ea50443b1c::t_f085b17d028060 2
+  s_2e65ea50443b1c::t_a1165acc0acae1 1,3-14
+pocs/localhost-radar/src/launcher.js
+  s_2e65ea50443b1c::t_8bd1c3844f8457 1-16
+pocs/localhost-radar/native/native_host.py
+  s_2e65ea50443b1c::t_42251831cd0a14 12,78-80,113-127,129-131,135-137
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-2,4-6,8-10,14-15,17-18,35,37,39-41,46-77,81-101,143-243,246-251,255-287
+  s_2e65ea50443b1c::t_944a2ca6af4608 7,16,30-34,36,38
+  s_2e65ea50443b1c::t_4326ea3bc8db79 42-45
+  s_2e65ea50443b1c::t_f085b17d028060 102-112,128,132-133,138-142,252
+  s_2e65ea50443b1c::t_d1bac52eed6165 3,11,13,19-29,134,244-245,253-254
+pocs/localhost-radar/assets/icon.svg
+  s_f55d3d0fbb2608::t_87ae128a44711e 2-11
+  s_2e65ea50443b1c::t_3c440004420dcd 1,12
+pocs/localhost-radar/src/lib.js
+  s_2e65ea50443b1c::t_a1165acc0acae1 1-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "b367ad0dcd6277f3e7a09a0e9bdd5da22d18cf60",
+  "prompts": {},
+  "sessions": {
+    "s_2e65ea50443b1c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f7cb6-c889-7ee1-a6dd-a0b8c49e7b42",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_f55d3d0fbb2608": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a3b4964c-6b1a-4cd8-9040-7f55f88f8003",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

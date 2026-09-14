@@ -1,0 +1,27 @@
+pocs/tv-time-like/server/metadata.ts
+  s_15003fa393d682::t_9d402d12549c99 19
+  s_15003fa393d682::t_eceb9d7cbeaae0 152
+  s_15003fa393d682::t_fb62dd1a19fb67 64
+pocs/tv-time-like/.playwright-mcp/page-2026-07-06T05-28-06-071Z.yml
+  s_15003fa393d682::t_1e808902656263 1-76
+pocs/tv-time-like/.playwright-mcp/page-2026-07-06T05-28-25-124Z.yml
+  s_15003fa393d682::t_cbabe6eb60cfd4 1-284
+pocs/tv-time-like/.playwright-mcp/page-2026-07-06T05-28-51-316Z.yml
+  s_15003fa393d682::t_9f46acf48b48af 1-339
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a3c28d0bc8a8fa82751b06f4e6ce7f57c49b8729",
+  "prompts": {},
+  "sessions": {
+    "s_15003fa393d682": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e15998db-15c0-43f5-8e04-a008b0db20ad",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

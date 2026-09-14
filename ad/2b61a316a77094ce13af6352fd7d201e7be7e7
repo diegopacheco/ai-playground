@@ -1,0 +1,65 @@
+pocs/gpt-6-astra-high-blockgame/index.html
+  s_6d0bc690379d7c::t_13d54bd9fc3308 1-2,2240
+  s_6d0bc690379d7c::t_596c1e15776821 3-1083,1085-2239
+  s_6d0bc690379d7c::t_a916a8ffc52f67 1084
+pocs/gpt-6-astra-high-blockgame/README.md
+  s_6d0bc690379d7c::t_a9755816840359 1-80,82,84-104,107-128
+  s_6d0bc690379d7c::t_3a3b79a489f89e 81,83
+  s_6d0bc690379d7c::t_4fbb2ae4dd86ff 105-106
+pocs/gpt-6-astra-high-blockgame/scripts/stop-all.sh
+  s_6d0bc690379d7c::t_0b004305f88538 1-14
+pocs/gpt-6-astra-high-blockgame/scripts/common.sh
+  s_6d0bc690379d7c::t_0b004305f88538 1-16
+pocs/gpt-6-astra-high-blockgame/playwright.config.mjs
+  s_6d0bc690379d7c::t_596c1e15776821 1-7,9-39
+  s_6d0bc690379d7c::t_ea4685878f70fd 8,40
+pocs/gpt-6-astra-high-blockgame/scripts/test-all.sh
+  s_6d0bc690379d7c::t_0b004305f88538 1-5
+pocs/gpt-6-astra-high-blockgame/assets/architecture.svg
+  s_6d0bc690379d7c::t_d62b2495a4d696 1-81
+pocs/gpt-6-astra-high-blockgame/scripts/ports.env
+  s_6d0bc690379d7c::t_dc6a01e2819bab 1
+pocs/gpt-6-astra-high-blockgame/.gitignore
+  s_6d0bc690379d7c::t_dc6a01e2819bab 1-5
+pocs/gpt-6-astra-high-blockgame/tests/server.test.mjs
+  s_6d0bc690379d7c::t_596c1e15776821 1-10,12-46
+  s_6d0bc690379d7c::t_ea4685878f70fd 11,47
+pocs/gpt-6-astra-high-blockgame/assets/logo.svg
+  s_6d0bc690379d7c::t_d62b2495a4d696 1-24
+pocs/gpt-6-astra-high-blockgame/scripts/start-all.sh
+  s_6d0bc690379d7c::t_0b004305f88538 1-15
+pocs/gpt-6-astra-high-blockgame/scripts/ui.sh
+  s_6d0bc690379d7c::t_0b004305f88538 1-5
+pocs/gpt-6-astra-high-blockgame/package.json
+  s_6d0bc690379d7c::t_da98ddb82371d6 11-16
+  s_6d0bc690379d7c::t_dc6a01e2819bab 1-10,17
+pocs/gpt-6-astra-high-blockgame/scripts/status.sh
+  s_6d0bc690379d7c::t_0b004305f88538 1-4
+pocs/gpt-6-astra-high-blockgame/server.mjs
+  s_6d0bc690379d7c::t_ea4685878f70fd 6-7,9,17,22,31-32,34-35,44-45,51-53,55-56
+  s_6d0bc690379d7c::t_596c1e15776821 1-5,8,10-16,18-21,23-30,33,36-43,46-50,54,57-59
+pocs/gpt-6-astra-high-blockgame/tests/game.spec.mjs
+  s_6d0bc690379d7c::t_596c1e15776821 1-31,33-63,65-109,112-130,132-145,149
+  s_6d0bc690379d7c::t_ea4685878f70fd 32,64,110,131,146,158
+  s_6d0bc690379d7c::t_88043d8f7b90a5 111,147-148,150-157
+pocs/gpt-6-astra-high-blockgame/scripts/setup.sh
+  s_6d0bc690379d7c::t_0b004305f88538 1-8
+pocs/gpt-6-astra-high-blockgame/package-lock.json
+  s_6d0bc690379d7c::t_e3ea6195c7247e 1-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "ad2b61a316a77094ce13af6352fd7d201e7be7e7",
+  "prompts": {},
+  "sessions": {
+    "s_6d0bc690379d7c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07821-ca4f-7b01-8b64-3fd7c757de3c",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

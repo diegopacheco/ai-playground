@@ -1,0 +1,34 @@
+pocs/gpt-5.6-sol-jungle/app.js
+  s_7f626316e6ddf5::t_ee154a438b98f0 42,53
+  s_7f626316e6ddf5::t_cbbe58fb6f135d 1-41,43-52,54-62
+pocs/gpt-5.6-sol-jungle/stop.sh
+  s_7f626316e6ddf5::t_cbbe58fb6f135d 1-6
+pocs/gpt-5.6-sol-jungle/index.html
+  s_7f626316e6ddf5::t_cbbe58fb6f135d 1-59
+pocs/gpt-5.6-sol-jungle/start.sh
+  s_7f626316e6ddf5::t_cbbe58fb6f135d 1-2,4-5,7
+  s_7f626316e6ddf5::t_17fd68bca0105a 3,6,9-10
+  s_7f626316e6ddf5::t_ee154a438b98f0 8,11-16
+pocs/gpt-5.6-sol-jungle/styles.css
+  s_7f626316e6ddf5::t_cbbe58fb6f135d 1-28,30-32
+  s_7f626316e6ddf5::t_ee154a438b98f0 29
+pocs/gpt-5.6-sol-jungle/README.md
+  s_7f626316e6ddf5::t_cbbe58fb6f135d 1-10,12-40
+  s_7f626316e6ddf5::t_17fd68bca0105a 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "9c2daff5eaa5b3c9c2080d76ae0f14dfc72d360a",
+  "prompts": {},
+  "sessions": {
+    "s_7f626316e6ddf5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f58bc-8b14-7570-90a6-caa1a2966395",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

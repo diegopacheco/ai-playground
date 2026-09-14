@@ -1,0 +1,25 @@
+pocs/gpt-5.6-terra-futebol-de-botao-game/game.js
+  s_ebdc30a949f588::t_fad141599de117 21-23,25,60-67,101,220-230,237,240,246,249,254-285
+  s_ebdc30a949f588::t_3f668890c5a9b9 286
+pocs/gpt-5.6-terra-futebol-de-botao-game/index.html
+  s_ebdc30a949f588::t_29c82e3c81e73f 34-46,93
+pocs/gpt-5.6-terra-futebol-de-botao-game/styles.css
+  s_ebdc30a949f588::t_29c82e3c81e73f 78-79,412-432,550-553
+  s_ebdc30a949f588::t_a22f401655e2d3 554
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "7de73aced0f525a80b08d0c17df8743b5d6033ae",
+  "prompts": {},
+  "sessions": {
+    "s_ebdc30a949f588": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f58d0-3f8c-7182-a288-3e74aec3021f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

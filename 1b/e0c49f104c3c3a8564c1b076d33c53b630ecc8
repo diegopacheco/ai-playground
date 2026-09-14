@@ -1,0 +1,20 @@
+.github/workflows/agents-pages.yml
+  s_d8014e634f6127::t_b7245e2a0ffc96 10,44-48
+  s_d8014e634f6127::t_4e27585e76a71b 49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "1be0c49f104c3c3a8564c1b076d33c53b630ecc8",
+  "prompts": {},
+  "sessions": {
+    "s_d8014e634f6127": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3b49-baab-7bc0-87c3-103594f38da6",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

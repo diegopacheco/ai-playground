@@ -1,0 +1,21 @@
+games/README.md
+  s_ab44b402ef8c4a::t_491247417e30fe 156-158
+games/index.html
+  s_ab44b402ef8c4a::t_491247417e30fe 108,233-234
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "2013b4df6db3061fa76cf18af1c9084294471cac",
+  "prompts": {},
+  "sessions": {
+    "s_ab44b402ef8c4a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f748f-5141-7eb2-89b6-f93934a3f1ff",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

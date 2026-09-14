@@ -1,0 +1,21 @@
+pocs/xmen97deck/index.html
+  s_5f21f161d502ac::t_31b08dab278e2c 130-131,133,135-140,142-151,153-156,158-164,166-173,175-180,183-187,190-193,195-219,222-271,274,276-280,284-304,307-315,317-321,329-334,336-341,343-345,347-348,351-353,359-361,366,368-369
+  s_5f21f161d502ac::t_fe2630a693f689 194,275,316,323-325,335
+  s_5f21f161d502ac::t_00b7a5a8db98c7 342
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "4a239af852756b36ba9a5a67f840910634d779f4",
+  "prompts": {},
+  "sessions": {
+    "s_5f21f161d502ac": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e110fcc4-16ef-44ff-85dd-cd585cc9a10e",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

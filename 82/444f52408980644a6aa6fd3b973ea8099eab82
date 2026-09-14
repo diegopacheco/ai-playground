@@ -1,0 +1,19 @@
+agents/landing-page.html
+  s_686042fc84f6b6::t_ba50cedcd6752b 124
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "82444f52408980644a6aa6fd3b973ea8099eab82",
+  "prompts": {},
+  "sessions": {
+    "s_686042fc84f6b6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f2991-3610-7920-8aef-6b425cfa8e55",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

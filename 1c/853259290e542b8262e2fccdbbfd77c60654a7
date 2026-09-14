@@ -1,0 +1,25 @@
+pocs/understand-anything/README.md
+  h_8e2c3875396153 1-18,20,23-33
+  s_1addcc75c41505::t_d2eb7ae88bac3a 19,21-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.9",
+  "base_commit_sha": "1c853259290e542b8262e2fccdbbfd77c60654a7",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_1addcc75c41505": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "96bbc415-0231-496c-a745-f449d41db89a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

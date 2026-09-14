@@ -1,0 +1,24 @@
+pocs/codebase-roast-map/skill/scripts/roast-map.mjs
+  s_9e52318d9bdef3::t_169c74f858618b 18,122
+  s_9e52318d9bdef3::t_2dc1b7ee13f18c 390,500,514-519,527-558
+  s_9e52318d9bdef3::t_0dd545bb31bbb0 117-121,123-143,145,185,195,198,201,203
+pocs/codebase-roast-map/README.md
+  s_9e52318d9bdef3::t_1245e77a16d2df 3-8,11-20
+  s_9e52318d9bdef3::t_b5c59c46d4664d 9-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "ed97875658ae3390489f498ce991593eb06d1d4f",
+  "prompts": {},
+  "sessions": {
+    "s_9e52318d9bdef3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e5d7e-8adf-73c2-8ab6-83c179e55464",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

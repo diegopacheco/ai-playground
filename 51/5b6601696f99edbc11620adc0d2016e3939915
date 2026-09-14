@@ -1,0 +1,40 @@
+pocs/cc-permissions-heatmap/printscreens/architecture.svg
+  s_e767f05ccaf5f5::t_f63bb802ca79cc 1-44
+pocs/cc-permissions-heatmap/README.md
+  s_e767f05ccaf5f5::t_810a394000fff5 1-71
+pocs/cc-permissions-heatmap/stop.sh
+  s_e767f05ccaf5f5::t_15f1f4dec484ca 1-18
+pocs/cc-permissions-heatmap/web/index.html
+  s_e767f05ccaf5f5::t_404950ab73bb83 1-75
+pocs/cc-permissions-heatmap/web/app.js
+  s_e767f05ccaf5f5::t_4b8c55710ecb3d 1-172
+pocs/cc-permissions-heatmap/web/data.json
+  s_e767f05ccaf5f5::t_87c7eb95c15434 1-2,4,10,12-13,16-36,39-43,46-50,53-57,60-62,67-69,74-78,81-104,106,109-111,113,116-120,130-134,137-141,144-148,151-218,220-225,227-232,234-239,241-296,299-301,304-306,309-311,314-316,319-326,329-332,334-337,339-342,344-347,349-388,391-393,396-398,401-403,406-408,411-413,416-417,421-422,424-428,431-432,436-438,441-442,444-445,451-453,456-463,466-468,471-475,486-487,489-492,494-497,499-603,609-660,666-667,669-697,699-702,704-1200,1202-1300,1302-1626,1632-1746,1748-1750,1752-1754,1759-1814,1819-1915,1920-2028
+  s_e767f05ccaf5f5::t_a1b4a7c606e64f 15,45,52,121-122,135-136,142-143,240,307,312,327-328,348,433-435,439-440,446-447,481-485,604-608,661-662,664-665,698,703,1201,1628-1630,1757-1758,1816-1818,1916-1919
+pocs/cc-permissions-heatmap/web/styles.css
+  s_e767f05ccaf5f5::t_5e46cb1b8dfa0c 1-125
+pocs/cc-permissions-heatmap/start.sh
+  s_e767f05ccaf5f5::t_e5f83b31d36659 1-27
+pocs/cc-permissions-heatmap/.gitignore
+  s_e767f05ccaf5f5::t_02a2f951c49ff9 1-4
+pocs/cc-permissions-heatmap/test.sh
+  s_e767f05ccaf5f5::t_37f56a868d9c0b 1-32
+pocs/cc-permissions-heatmap/server.js
+  s_e767f05ccaf5f5::t_711be403b74124 1-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "515b6601696f99edbc11620adc0d2016e3939915",
+  "prompts": {},
+  "sessions": {
+    "s_e767f05ccaf5f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "45af2756-03a7-47fb-a308-fc215718a272",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

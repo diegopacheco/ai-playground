@@ -1,0 +1,24 @@
+pocs/fable-5-game-stand/desktop-app/uninstall.sh
+  s_4bafca7a9bd150::t_87201a9049a1d5 18-23
+pocs/fable-5-game-stand/desktop-app/main.js
+  s_4bafca7a9bd150::t_87201a9049a1d5 8-12
+pocs/fable-5-game-stand/desktop-app/install.sh
+  s_4bafca7a9bd150::t_4bff05d110557d 26-27
+  s_4bafca7a9bd150::t_87201a9049a1d5 15-25,28-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "5b7f9a522209088951af451954af7ac4e6d6db0d",
+  "prompts": {},
+  "sessions": {
+    "s_4bafca7a9bd150": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5ade-466d-7471-9a2b-53241f182f34",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

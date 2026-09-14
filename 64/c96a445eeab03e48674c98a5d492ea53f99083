@@ -1,0 +1,34 @@
+pocs/dev-admin-console/frontend/start.sh
+  s_8b9f232a52361e::t_8e4d08f31787a0 6
+pocs/dev-admin-console/frontend/src/layouts/Shell.astro
+  s_8b9f232a52361e::t_bca4dc35fb712d 17-20,26-27
+  s_8b9f232a52361e::t_55e2cc2b9afdde 78-89
+  s_8b9f232a52361e::t_931f33e8f9f743 51-64
+pocs/dev-admin-console/frontend/src/styles/global.css
+  s_8b9f232a52361e::t_f06eea9a03ac45 230-279,281-285
+  s_8b9f232a52361e::t_b53d0ae56a1bd0 280
+pocs/dev-admin-console/backend/start.sh
+  s_8b9f232a52361e::t_75d387919a3f39 6,11,13
+pocs/dev-admin-console/.playwright-mcp/page-2026-07-19T07-38-16-999Z.yml
+  s_8b9f232a52361e::t_aa4641a15df414 1-25
+pocs/dev-admin-console/.playwright-mcp/page-2026-07-19T07-38-44-575Z.yml
+  s_8b9f232a52361e::t_f9b3cc4622eb3a 1-76
+pocs/dev-admin-console/frontend/.astro/dev.json
+  s_8b9f232a52361e::t_1279017c842aff 2,13-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "64c96a445eeab03e48674c98a5d492ea53f99083",
+  "prompts": {},
+  "sessions": {
+    "s_8b9f232a52361e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b99b44a1-6650-4324-a633-0b3357aea750",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,56 @@
+pocs/agent-skill-bundle-size/sample-app/src/main.jsx
+  s_a4dcebc92084e4::t_ae25020fbdd1e7 1-6
+pocs/agent-skill-bundle-size/skills/bundle-size/package.json
+  s_a4dcebc92084e4::t_361a173afbe3da 1-9
+pocs/agent-skill-bundle-size/sample-app/vite.config.js
+  s_a4dcebc92084e4::t_259aa97b22d5f9 1-6
+pocs/agent-skill-bundle-size/sample-app/index.html
+  s_a4dcebc92084e4::t_6ab8bdfd3fec8e 1-12
+pocs/agent-skill-bundle-size/skills/bundle-size/assets/template.html
+  s_a4dcebc92084e4::t_08390311a71620 1-387
+pocs/agent-skill-bundle-size/skills/bundle-size/scripts/bundlesize.mjs
+  s_a4dcebc92084e4::t_816bf949b5485e 1-196
+pocs/agent-skill-bundle-size/.gitignore
+  s_a4dcebc92084e4::t_14b17639ccc292 1-4
+pocs/agent-skill-bundle-size/sample-app/src/components/Notes.jsx
+  s_a4dcebc92084e4::t_c9a2971d574598 1-13
+pocs/agent-skill-bundle-size/sample-app/src/App.jsx
+  s_a4dcebc92084e4::t_c0590cafd8cbff 1-39
+pocs/agent-skill-bundle-size/skills/bundle-size/SKILL.md
+  s_a4dcebc92084e4::t_6ed91b0b8f663d 1-75
+pocs/agent-skill-bundle-size/sample-app/package.json
+  s_a4dcebc92084e4::t_13d78d5461de0f 1-22
+pocs/agent-skill-bundle-size/install.sh
+  s_a4dcebc92084e4::t_3f43ccdaf83c14 1-40
+pocs/agent-skill-bundle-size/design-doc.md
+  s_a4dcebc92084e4::t_9aebe06d27251f 1-58
+pocs/agent-skill-bundle-size/sample-app/src/styles.css
+  s_a4dcebc92084e4::t_868dc642d852de 1-33
+pocs/agent-skill-bundle-size/sample-app/src/components/StatsPanel.jsx
+  s_a4dcebc92084e4::t_b4d0ff54f0d5e6 1-28
+pocs/agent-skill-bundle-size/printscreens/architecture.svg
+  s_a4dcebc92084e4::t_473254dd1eade8 1,4,7
+  s_a4dcebc92084e4::t_9da0f2aead38b8 2-3,5-6
+pocs/agent-skill-bundle-size/uninstall.sh
+  s_a4dcebc92084e4::t_b159947e79ce63 1-21
+pocs/agent-skill-bundle-size/sample-app/src/data.js
+  s_a4dcebc92084e4::t_fa4499252c0230 1-19
+pocs/agent-skill-bundle-size/README.md
+  s_a4dcebc92084e4::t_a863e0d0405b59 1-110
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "5fa5b22ce0173b8e7982f6ac42fd53fc846b4b57",
+  "prompts": {},
+  "sessions": {
+    "s_a4dcebc92084e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "02f6dd67-2ad6-4d97-8cd7-ca8bad976c4f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

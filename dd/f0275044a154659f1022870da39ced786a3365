@@ -1,0 +1,30 @@
+games/README.md
+  s_c0c8c813cfa865::t_b91619f2b123be 112-114,117,120,123,126,129,132,137,140,143,146,149,152,155,160,163,166,169,172,175,178
+games/index.html
+  s_c0c8c813cfa865::t_b91619f2b123be 108
+  s_c0c8c813cfa865::t_033c7df16d6c57 218
+games/fly-catcher/index.html
+  s_c0c8c813cfa865::t_b41e81ac3deea6 1-68
+.github/workflows/agents-pages.yml
+  s_c0c8c813cfa865::t_b91619f2b123be 50
+games/fly-catcher/game.js
+  s_c0c8c813cfa865::t_a5477a0251492e 1-455
+games/fly-catcher/styles.css
+  s_c0c8c813cfa865::t_fbb8d6226d1cb1 1-564
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "ddf0275044a154659f1022870da39ced786a3365",
+  "prompts": {},
+  "sessions": {
+    "s_c0c8c813cfa865": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc5fa-443b-7a71-817a-1a708b4817f6",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+pocs/seagotchi-gpt-5-6-sol/src/main.js
+  s_4214341c5c0b28::t_2bd070246fe176 660-697
+  s_4214341c5c0b28::t_20bed700f06bad 116-139
+  s_4214341c5c0b28::t_3faa6c168f49d0 58
+  s_4214341c5c0b28::t_621b65ccb5eafb 1508-1510
+  s_4214341c5c0b28::t_b663804dc02aa0 10,14-17,57,59-60
+  s_4214341c5c0b28::t_914e88d41f19da 460-517
+  s_4214341c5c0b28::t_87352cef48ca03 1084,1100,1155,1174,1186,1189-1207
+  s_4214341c5c0b28::t_1761adde30e60a 848-991
+  s_4214341c5c0b28::t_bded5816b724a7 1302-1303,1401-1407,1410-1411
+  s_4214341c5c0b28::t_94e40018dab9c5 1208
+pocs/seagotchi-gpt-5-6-sol/src/style.css
+  s_4214341c5c0b28::t_e9acff82bbb41e 172-328,459,476-486
+  s_4214341c5c0b28::t_33012003fb3611 946,1004-1047,1050
+pocs/seagotchi-gpt-5-6-sol/index.html
+  s_4214341c5c0b28::t_428a2b4930c03f 40-71,126-130
+  s_4214341c5c0b28::t_624f1dc33ef851 131
+games/seagotchi/assets/index-nyWNOL5R.css
+  s_4214341c5c0b28::t_087964e3ca6c76 1
+games/seagotchi/assets/index-C4mznivs.js
+  s_4214341c5c0b28::t_92e10ef196abc3 1191-1200,1219,3426
+  s_4214341c5c0b28::t_087964e3ca6c76 1-1189,1201-1218,1220-3424,3427-4135
+games/seagotchi/index.html
+  s_4214341c5c0b28::t_087964e3ca6c76 12-13,42-73,128-132
+  s_4214341c5c0b28::t_3e6dedbe9ea96d 133
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "54b18fbb3dfc11220fd96908fc76c4f8e60bf4c1",
+  "prompts": {},
+  "sessions": {
+    "s_4214341c5c0b28": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb9c0-e935-7670-b35f-db14d730de72",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

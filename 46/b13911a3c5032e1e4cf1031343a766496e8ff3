@@ -1,0 +1,38 @@
+pocs/llammaindex-python3/requirements.txt
+  s_9298d430bb8fed::t_792b5fc4fbe7a9 1-4
+pocs/llammaindex-python3/static/index.html
+  s_9298d430bb8fed::t_726ec9d6d34f84 1-8,17-21,23-38,40-58,60-159
+  s_9298d430bb8fed::t_15a5cc1de5c552 59
+  s_9298d430bb8fed::t_c2f69d658a4c9b 39
+  s_9298d430bb8fed::t_77fac9afad9bf7 9-16,22
+pocs/llammaindex-python3/app.py
+  s_9298d430bb8fed::t_a467f4c7590d7b 1-90
+pocs/llammaindex-python3/.gitignore
+  s_9298d430bb8fed::t_e8ddd5847a9ec8 1-5
+pocs/llammaindex-python3/test.sh
+  s_9298d430bb8fed::t_d991ae7a386e58 1-22
+pocs/llammaindex-python3/start.sh
+  s_9298d430bb8fed::t_a40869fe296201 1-36
+pocs/llammaindex-python3/README.md
+  s_9298d430bb8fed::t_3d4350e8d70672 1-172
+pocs/llammaindex-python3/demo.sh
+  s_9298d430bb8fed::t_b37918c310f389 1-24
+pocs/llammaindex-python3/stop.sh
+  s_9298d430bb8fed::t_5ca165ade767b1 1-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "46b13911a3c5032e1e4cf1031343a766496e8ff3",
+  "prompts": {},
+  "sessions": {
+    "s_9298d430bb8fed": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c151f631-7d5a-45fb-9f3e-78c88d5359d3",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

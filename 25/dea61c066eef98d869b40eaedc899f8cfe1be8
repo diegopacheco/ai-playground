@@ -1,0 +1,51 @@
+pocs/snes-emu/start.sh
+  s_1d2a34edca3330::t_208cca95947c6f 15
+  s_1d2a34edca3330::t_7b2491d25b40f8 6
+  s_1d2a34edca3330::t_c3e057b72499c9 11
+  s_1d2a34edca3330::t_cac9ff5a650930 1-5,7-10,12-14,16-26
+pocs/snes-emu/server.mjs
+  s_1d2a34edca3330::t_7b2491d25b40f8 8
+  s_1d2a34edca3330::t_13416c4c309d92 7
+  s_1d2a34edca3330::t_195a02c3a81a26 9,34
+  s_1d2a34edca3330::t_cac9ff5a650930 1-6,10-33,35-57
+pocs/snes-emu/player.html
+  s_1d2a34edca3330::t_4e25bede103407 9,13
+  s_1d2a34edca3330::t_cac9ff5a650930 1-8,10-12,14-16
+pocs/snes-emu/player.js
+  s_1d2a34edca3330::t_4e25bede103407 20,43-45
+  s_1d2a34edca3330::t_cac9ff5a650930 1-7,9-19,25-28,33-42,46
+  s_1d2a34edca3330::t_b3129c767d3677 8,21-24,29-32
+pocs/snes-emu/.gitignore
+  s_1d2a34edca3330::t_cac9ff5a650930 1-2
+pocs/snes-emu/index.html
+  s_1d2a34edca3330::t_cac9ff5a650930 1-65,67-95,97-141
+  s_1d2a34edca3330::t_4e25bede103407 66,96
+pocs/snes-emu/app.js
+  s_1d2a34edca3330::t_cac9ff5a650930 1-16,18-61,63-85,87-124,130-131,133-141,144-146,154-156,158-162
+  s_1d2a34edca3330::t_195a02c3a81a26 86
+  s_1d2a34edca3330::t_4e25bede103407 17,62,125-129,132,142-143,147-153,157
+pocs/snes-emu/stop.sh
+  s_1d2a34edca3330::t_cac9ff5a650930 1-11,22-24
+  s_1d2a34edca3330::t_7299fc266b11a8 12-17
+  s_1d2a34edca3330::t_195a02c3a81a26 18-21
+pocs/snes-emu/styles.css
+  s_1d2a34edca3330::t_65b24b71168996 1-428,470-701,703-704,711-912,917-1085
+  s_1d2a34edca3330::t_4e25bede103407 429-469,913-916
+  s_1d2a34edca3330::t_b3129c767d3677 702,705-710
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "25dea61c066eef98d869b40eaedc899f8cfe1be8",
+  "prompts": {},
+  "sessions": {
+    "s_1d2a34edca3330": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f744c-c33f-7663-9fe4-743245f35577",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

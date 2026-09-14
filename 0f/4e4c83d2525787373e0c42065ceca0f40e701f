@@ -1,0 +1,21 @@
+pocs/temporal-java-25-poc/src/main/java/com/diegopacheco/temporalpoc/service/CodexCliService.java
+  s_5425b8e65ec774::t_cbaee32fb37b5c 65
+pocs/temporal-java-25-poc/src/test/java/com/diegopacheco/temporalpoc/service/CodexCliServiceTest.java
+  s_5425b8e65ec774::t_44bc2e14b82296 31-47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "0f4e4c83d2525787373e0c42065ceca0f40e701f",
+  "prompts": {},
+  "sessions": {
+    "s_5425b8e65ec774": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "85032098-f2d8-4f2c-b83c-97c23c50c65a",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

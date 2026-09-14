@@ -1,0 +1,31 @@
+pocs/agent-skill-weekly-review/README.md
+  s_df622a7790e64f::t_7857c387ee7aef 1-109
+pocs/agent-skill-weekly-review/weekly-review/scripts/weekly_review.py
+  s_df622a7790e64f::t_7f87f7c15507e4 1-555
+pocs/agent-skill-weekly-review/sample-calendar.ics
+  s_df622a7790e64f::t_381e4774e6ac38 1-80
+pocs/agent-skill-weekly-review/printscreens/architecture.html
+  s_df622a7790e64f::t_bb80ef9e7e450e 1-75
+pocs/agent-skill-weekly-review/install.sh
+  s_df622a7790e64f::t_c3a41e609e52fa 1-14
+pocs/agent-skill-weekly-review/uninstall.sh
+  s_df622a7790e64f::t_b65d944851f4b9 1-9
+pocs/agent-skill-weekly-review/weekly-review/SKILL.md
+  s_df622a7790e64f::t_f4f21abe168b71 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "d3e4de1d3b3693edcd5d121847d8ecb6e61e3c6e",
+  "prompts": {},
+  "sessions": {
+    "s_df622a7790e64f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "14c28e0f-0211-44f5-b07d-ad3e8e09aa85",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+games/seagotchi/index.html
+  s_4214341c5c0b28::t_fa1ca094cc89ef 12
+games/seagotchi/assets/index-D0TvY7JP.js
+  s_4214341c5c0b28::t_fa1ca094cc89ef 1-4135
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "a21b6fed40424851cb03b95f03598da31918317f",
+  "prompts": {},
+  "sessions": {
+    "s_4214341c5c0b28": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb9c0-e935-7670-b35f-db14d730de72",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

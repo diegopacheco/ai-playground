@@ -1,0 +1,39 @@
+games/angry-bode/styles.css
+  s_12912389fc7d29::t_7161b1e5d4f6e1 10,41,52,244-367,821-999
+pocs/angry-bode-gpt-5.6-sol/README.md
+  s_12912389fc7d29::t_6c3d731ba22cf2 34-36,50
+pocs/angry-bode-gpt-5.6-sol/tests/game.spec.js
+  s_12912389fc7d29::t_6c3d731ba22cf2 39-77
+games/angry-bode/index.html
+  s_12912389fc7d29::t_7161b1e5d4f6e1 5,73-86
+  s_12912389fc7d29::t_9808c026ee5ca3 87
+pocs/angry-bode-gpt-5.6-sol/index.html
+  s_12912389fc7d29::t_6c3d731ba22cf2 5,73-86
+  s_12912389fc7d29::t_33564ff6613d64 87
+pocs/angry-bode-gpt-5.6-sol/styles.css
+  s_12912389fc7d29::t_6c3d731ba22cf2 10,41,52,244-351,356-367,821-999
+  s_12912389fc7d29::t_2509ac03575328 352-355
+games/angry-bode/src/game.js
+  s_12912389fc7d29::t_7161b1e5d4f6e1 17-19,1243-1244,1256-1264,1301-1317,1319-1334,1361-1364,1373
+  s_12912389fc7d29::t_de236a4da9b76c 1318
+pocs/angry-bode-gpt-5.6-sol/src/game.js
+  s_12912389fc7d29::t_ba82c242c6f13b 1258-1259
+  s_12912389fc7d29::t_de236a4da9b76c 1318
+  s_12912389fc7d29::t_6c3d731ba22cf2 17-19,1243-1244,1256-1257,1260-1264,1301-1317,1319-1334,1361-1364,1373
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "2bc86f7674fe8e597c5465ba47f5b639dfa0d840",
+  "prompts": {},
+  "sessions": {
+    "s_12912389fc7d29": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa0f9-d1ba-7fd2-a6b6-2eef7d6c96e6",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

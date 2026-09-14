@@ -1,0 +1,38 @@
+pocs/auth0lab-openfga-agent-poc/README.md
+  h_8e2c3875396153 1-57
+pocs/auth0lab-openfga-agent-poc/app.py
+  s_187a96c20c1fec::t_48ce2ef645f22f 1-149
+pocs/auth0lab-openfga-agent-poc/documents.json
+  s_187a96c20c1fec::t_adf0e421f35613 1-22
+pocs/auth0lab-openfga-agent-poc/model.fga
+  s_187a96c20c1fec::t_b82b61b21302a3 1-24
+pocs/auth0lab-openfga-agent-poc/run.sh
+  s_187a96c20c1fec::t_6b56afef627fe6 1-8
+pocs/auth0lab-openfga-agent-poc/test.sh
+  s_187a96c20c1fec::t_6f89bf42826224 1-6
+pocs/auth0lab-openfga-agent-poc/tests.py
+  s_187a96c20c1fec::t_4dbf49ea885476 1-40
+pocs/auth0lab-openfga-agent-poc/tuples.json
+  s_187a96c20c1fec::t_9559d13eae8716 1-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c07da28ee0c5e3e4d2df42ae8c54c98ca8e1553b",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_187a96c20c1fec": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3a22-de51-7622-9e87-3334a211c27e",
+        "model": "gpt-5.5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

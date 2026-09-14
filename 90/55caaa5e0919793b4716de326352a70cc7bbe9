@@ -1,0 +1,67 @@
+pocs/bash-pipe-poc/java8-mvn-sb2/.start.env
+  s_57074cb4ff02dd::t_644971089ec05c 3
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/.tests.env
+  s_57074cb4ff02dd::t_644971089ec05c 6
+pocs/bash-pipe-poc/java25-mvn-sb4/.build.env
+  s_57074cb4ff02dd::t_644971089ec05c 2
+pocs/bash-pipe-poc/scala3-sbt/result.fragment.json
+  s_57074cb4ff02dd::t_644971089ec05c 4
+pocs/bash-pipe-poc/java8-mvn-sb2/.tests.env
+  s_57074cb4ff02dd::t_644971089ec05c 6
+pocs/bash-pipe-poc/java8-mvn-sb2/result.fragment.json
+  s_57074cb4ff02dd::t_644971089ec05c 3-4
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/result.fragment.json
+  s_57074cb4ff02dd::t_644971089ec05c 3-5
+pocs/bash-pipe-poc/django-python3/.start.env
+  s_57074cb4ff02dd::t_644971089ec05c 3
+pocs/bash-pipe-poc/java25-mvn-sb4/result.fragment.json
+  s_57074cb4ff02dd::t_644971089ec05c 2,4
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/.tests.env
+  s_57074cb4ff02dd::t_644971089ec05c 6
+pocs/bash-pipe-poc/django-python3/result.fragment.json
+  s_57074cb4ff02dd::t_644971089ec05c 4
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/.start.env
+  s_57074cb4ff02dd::t_644971089ec05c 3
+pocs/bash-pipe-poc/python3-plain/.start.env
+  s_57074cb4ff02dd::t_644971089ec05c 3
+pocs/bash-pipe-poc/scala2-bazel/.start.env
+  s_57074cb4ff02dd::t_644971089ec05c 3
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/.build.env
+  s_57074cb4ff02dd::t_644971089ec05c 2
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/result.fragment.json
+  s_57074cb4ff02dd::t_644971089ec05c 2-4
+pocs/bash-pipe-poc/python3-plain/result.fragment.json
+  s_57074cb4ff02dd::t_644971089ec05c 4
+pocs/bash-pipe-poc/scala2-bazel/result.fragment.json
+  s_57074cb4ff02dd::t_644971089ec05c 2,4
+pocs/bash-pipe-poc/scala3-sbt/.start.env
+  s_57074cb4ff02dd::t_644971089ec05c 3
+pocs/bash-pipe-poc/problems.md
+  s_57074cb4ff02dd::t_644971089ec05c 1
+pocs/bash-pipe-poc/scala2-bazel/.build.env
+  s_57074cb4ff02dd::t_644971089ec05c 2
+pocs/bash-pipe-poc/java25-scala3-sbt-sb4/.start.env
+  s_57074cb4ff02dd::t_644971089ec05c 3
+pocs/bash-pipe-poc/results.json
+  s_57074cb4ff02dd::t_644971089ec05c 3-4,9,16,22-23,28,30,36-38,42-44,51,56,58
+pocs/bash-pipe-poc/java25-mvn-sb4/.start.env
+  s_57074cb4ff02dd::t_644971089ec05c 3
+pocs/bash-pipe-poc/java25-kotlin-mvn-sb4/.hc.env
+  s_57074cb4ff02dd::t_644971089ec05c 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "9055caaa5e0919793b4716de326352a70cc7bbe9",
+  "prompts": {},
+  "sessions": {
+    "s_57074cb4ff02dd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac6ffc78-4993-4d35-9a0a-46aee68273ae",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

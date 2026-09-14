@@ -1,0 +1,23 @@
+sec/landing-page.html
+  s_3c53e1df83d954::t_99b5b932e6f72b 123
+mcp/index.html
+  s_3c53e1df83d954::t_e03430f8d60b27 84-85
+games/index.html
+  s_3c53e1df83d954::t_a7c0823999c14a 87-88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "0ede9a10c147b7016a42ee5d1116facaf0c7a9c3",
+  "prompts": {},
+  "sessions": {
+    "s_3c53e1df83d954": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d575d123-b276-4138-8ff8-10b2d459ef25",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

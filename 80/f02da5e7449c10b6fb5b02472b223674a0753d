@@ -1,0 +1,40 @@
+pocs/pdf-editor-simple/test_pages.py
+  s_1e8c9dc45c6d50::t_d635108311183f 1-49
+pocs/pdf-editor-simple/run.sh
+  s_1e8c9dc45c6d50::t_42f0b7567c4b16 1-4
+pocs/pdf-editor-simple/.gitignore
+  s_1e8c9dc45c6d50::t_42f0b7567c4b16 1-3
+pocs/pdf-editor-simple/requirements.txt
+  s_1e8c9dc45c6d50::t_42f0b7567c4b16 1
+pocs/pdf-editor-simple/test.sh
+  s_1e8c9dc45c6d50::t_42f0b7567c4b16 1-4
+pocs/pdf-editor-simple/src/pages.py
+  s_1e8c9dc45c6d50::t_f54d9894993299 1-6,8-32
+  s_1e8c9dc45c6d50::t_f53ce25bdaa3eb 7
+pocs/pdf-editor-simple/src/sample.py
+  s_1e8c9dc45c6d50::t_702ccae1dce137 1-51
+pocs/pdf-editor-simple/README.md
+  s_1e8c9dc45c6d50::t_b53da120b05967 1-155
+pocs/pdf-editor-simple/src/editor.py
+  s_1e8c9dc45c6d50::t_f54d9894993299 1-84
+pocs/pdf-editor-simple/install-deps.sh
+  s_1e8c9dc45c6d50::t_42f0b7567c4b16 1-6
+pocs/pdf-editor-simple/src/main.py
+  s_1e8c9dc45c6d50::t_d635108311183f 1-96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "80f02da5e7449c10b6fb5b02472b223674a0753d",
+  "prompts": {},
+  "sessions": {
+    "s_1e8c9dc45c6d50": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f0849cd5-edaa-4d44-94a8-8cdf00b003db",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

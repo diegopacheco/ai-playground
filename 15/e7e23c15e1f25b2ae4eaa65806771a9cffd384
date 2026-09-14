@@ -1,0 +1,45 @@
+pocs/google-gemini-veo-video-poc/frontend/src/styles.css
+  s_6852590dfc0aa1::t_78a00973ffafdb 2-9,18,25,27,31,35-37,43,49,52,57-58,66,71,74-75,83-84,94,96,98,108,113,116,118-119,121,125,136,138,142-143,158-161,166,171,179,182-183,186,191
+  s_6852590dfc0aa1::t_a039fb0d9218b7 1,10-17,19-24,26,28-30,32-34,38-42,44-48,50-51,53-56,59-65,67-70,72-73,76-82,85-93,95,97,99-107,109-112,114-115,117,120,122-124,126-135,137,139-141,144-157,162-165,167-170,172-178,180-181,184-185,187-190,192
+pocs/google-gemini-veo-video-poc/stop.sh
+  s_6852590dfc0aa1::t_017b07999fd9cc 1-16
+pocs/google-gemini-veo-video-poc/.gitignore
+  s_6852590dfc0aa1::t_0ef861e93e5a42 1-6
+pocs/google-gemini-veo-video-poc/frontend/package.json
+  s_6852590dfc0aa1::t_0c8915daa91a7b 1-19
+pocs/google-gemini-veo-video-poc/frontend/src/App.jsx
+  s_6852590dfc0aa1::t_e585a871f0bc07 1-132
+pocs/google-gemini-veo-video-poc/backend/server.js
+  s_6852590dfc0aa1::t_b35c23c94fd19f 1-75
+pocs/google-gemini-veo-video-poc/frontend/index.html
+  s_6852590dfc0aa1::t_9b84af8eb4e0e1 1-12
+pocs/google-gemini-veo-video-poc/backend/package.json
+  s_6852590dfc0aa1::t_5459fcaa6e6b1d 1-12
+pocs/google-gemini-veo-video-poc/frontend/src/main.jsx
+  s_6852590dfc0aa1::t_617dadb635634c 1-15
+pocs/google-gemini-veo-video-poc/start.sh
+  s_6852590dfc0aa1::t_bec26ce007646a 1-29
+pocs/google-gemini-veo-video-poc/README.md
+  s_6852590dfc0aa1::t_515ac48f3d44a1 1-44,65-123,125-132
+  s_6852590dfc0aa1::t_1a6cf3f7088957 133-163
+  s_6852590dfc0aa1::t_1f68d5db46c43c 124
+  s_6852590dfc0aa1::t_5c2945f3e20e96 45-64
+pocs/google-gemini-veo-video-poc/frontend/vite.config.js
+  s_6852590dfc0aa1::t_6ccefbee7db5f6 1-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "15e7e23c15e1f25b2ae4eaa65806771a9cffd384",
+  "prompts": {},
+  "sessions": {
+    "s_6852590dfc0aa1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "32fc387f-6669-40e4-9483-f5505c6b060a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

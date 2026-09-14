@@ -1,0 +1,20 @@
+pocs/gstack-poc/DESIGN.md
+  s_f005f9687aa625::t_16cad7743313cb 358,361-362,364-365
+  s_f005f9687aa625::t_262b660be045a8 259-344
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "b710d238c2967e71dc3e31a3d43b00e9b7280b77",
+  "prompts": {},
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

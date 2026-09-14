@@ -1,0 +1,19 @@
+pocs/kestra-fun/run.sh
+  s_d9291205103ffb::t_6b4ceec14fdcef 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "b6453eddc9a7b307cdd9125b75136ae87b35ca9c",
+  "prompts": {},
+  "sessions": {
+    "s_d9291205103ffb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019ffdd7-e2a5-7ad3-8fb3-4ee68cd2072b",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

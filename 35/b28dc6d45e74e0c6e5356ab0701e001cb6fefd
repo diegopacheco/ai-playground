@@ -1,0 +1,36 @@
+pocs/gstack-poc/web/app/components/Playground.tsx
+  s_f005f9687aa625::t_317f4bce935cca 544-546
+pocs/gstack-poc/web/.next/static/chunks/app/page.js
+  ai_agent 50
+pocs/gstack-poc/runner/src/parseAction.ts
+  s_f005f9687aa625::t_95990805d02542 8,11-27,30-33
+  s_f005f9687aa625::t_3d28c0724ec2dd 140-165
+pocs/gstack-poc/web/tsconfig.tsbuildinfo
+  ai_agent 1
+pocs/gstack-poc/web/.next/trace
+  ai_agent 22-24
+pocs/gstack-poc/web/.next/server/app/page.js
+  ai_agent 148
+pocs/gstack-poc/web/.next/static/chunks/webpack.js
+  ai_agent 193
+pocs/gstack-poc/runner/src/generate.ts
+  s_f005f9687aa625::t_24bf61531a04e1 109
+pocs/gstack-poc/web/.next/server/webpack-runtime.js
+  ai_agent 128
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "35b28dc6d45e74e0c6e5356ab0701e001cb6fefd",
+  "prompts": {},
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

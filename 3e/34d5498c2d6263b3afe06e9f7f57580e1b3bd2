@@ -1,0 +1,105 @@
+pocs/12-rules-template-poc/loan-app/frontend/index.html
+  s_7ed731f5a32efb::t_0242816320c6f3 1-12
+pocs/12-rules-template-poc/loan-app/start.sh
+  s_7ed731f5a32efb::t_f88a85b933bdf9 1-15
+pocs/12-rules-template-poc/loan-app/e2e/package.json
+  s_7ed731f5a32efb::t_d5c0efe6abda61 1-11
+pocs/12-rules-template-poc/loan-app/report/generate.ts
+  s_7ed731f5a32efb::t_f0e986216e00cc 116-122,129,132-135,140,146
+  s_7ed731f5a32efb::t_0e4c177491211b 1-115,123-128,130-131,136-139,141-145,147-257
+pocs/12-rules-template-poc/loan-app/backend/src/main/java/com/loan/domain/AutoLoanInput.java
+  s_7ed731f5a32efb::t_4a87539d35c63f 1-9
+pocs/12-rules-template-poc/loan-app/README.md
+  s_7ed731f5a32efb::t_01683d4645097f 111-129
+  s_7ed731f5a32efb::t_72816b17530cef 1-110,130-137
+pocs/12-rules-template-poc/loan-app/backend/src/test/java/com/loan/service/LoanServiceTest.java
+  s_7ed731f5a32efb::t_ea279d4c4e9416 1-82
+pocs/12-rules-template-poc/loan-app/frontend/src/api/client.test.ts
+  s_7ed731f5a32efb::t_29782d198377c5 1-45
+pocs/12-rules-template-poc/loan-app/frontend/src/api/mutations.test.ts
+  s_7ed731f5a32efb::t_cb70208205e8c5 1-57
+pocs/12-rules-template-poc/loan-app/backend/src/main/resources/graphql/schema.graphqls
+  s_7ed731f5a32efb::t_840f2ba1e81561 1-22
+pocs/12-rules-template-poc/loan-app/frontend/package.json
+  s_7ed731f5a32efb::t_222974ddb7ff33 1-8,11-17,19-21,25-27
+  s_7ed731f5a32efb::t_c3f387b59fe845 9-10
+  s_7ed731f5a32efb::t_3dcba6b330d3e2 18,22-23
+  s_7ed731f5a32efb::t_c470d44c6d3653 24
+pocs/12-rules-template-poc/loan-app/frontend/tsconfig.json
+  s_7ed731f5a32efb::t_fd7b26550f46de 1-20
+pocs/12-rules-template-poc/loan-app/frontend/src/api/mutations.ts
+  s_7ed731f5a32efb::t_1397ba1083ccf7 1-21
+pocs/12-rules-template-poc/loan-app/frontend/src/components/LoanForm.tsx
+  s_7ed731f5a32efb::t_e05420cf92e9f1 1-67
+pocs/12-rules-template-poc/loan-app/frontend/src/types/loan.ts
+  s_7ed731f5a32efb::t_1dfad09f65f91f 1-14
+pocs/12-rules-template-poc/loan-app/e2e/tests/loan.spec.ts
+  s_7ed731f5a32efb::t_146637edaadebf 1-50
+pocs/12-rules-template-poc/loan-app/backend/src/main/java/com/loan/service/LoanService.java
+  s_7ed731f5a32efb::t_11db5942bf4f1e 1-47
+pocs/12-rules-template-poc/loan-app/stress/loan.js
+  s_7ed731f5a32efb::t_875dd9d867c4bc 1-41
+pocs/12-rules-template-poc/loan-app/report/index.html
+  s_7ed731f5a32efb::t_772608c5b5c080 46-112
+pocs/12-rules-template-poc/loan-app/frontend/bun.lock
+  ai_agent 1-727
+pocs/12-rules-template-poc/loan-app/clean.sh
+  s_7ed731f5a32efb::t_83665638c4d643 1-12
+pocs/12-rules-template-poc/loan-app/backend/src/main/java/com/loan/graphql/LoanResolver.java
+  s_7ed731f5a32efb::t_4dff36405d5b94 1-29
+pocs/12-rules-template-poc/loan-app/backend/src/main/resources/application.yml
+  s_7ed731f5a32efb::t_ac71b04eb6e1d9 1-11
+pocs/12-rules-template-poc/loan-app/frontend/vite.config.ts
+  s_7ed731f5a32efb::t_0f18546951cd8c 1-7
+pocs/12-rules-template-poc/loan-app/report.sh
+  s_7ed731f5a32efb::t_62b064346f368e 1-14
+pocs/12-rules-template-poc/loan-app/backend/src/main/java/com/loan/domain/AutoLoanDecision.java
+  s_7ed731f5a32efb::t_bfe06f5224bf5b 1-8
+pocs/12-rules-template-poc/loan-app/frontend/jest.config.cjs
+  s_7ed731f5a32efb::t_5828255a6bc0b2 1-7,9-11,14-17
+  s_7ed731f5a32efb::t_0bf1e12570bf6d 8,12-13
+pocs/12-rules-template-poc/loan-app/backend/pom.xml
+  s_7ed731f5a32efb::t_2f45f7092fcce1 1-9,11-47
+  s_7ed731f5a32efb::t_d5f1ec3e5bd65f 10
+pocs/12-rules-template-poc/loan-app/tests.sh
+  s_7ed731f5a32efb::t_6e4e3eed645cc2 27
+  s_7ed731f5a32efb::t_cccff3b01ff334 1-26,28-109
+pocs/12-rules-template-poc/loan-app/backend/src/test/java/com/loan/graphql/LoanResolverIntegrationTest.java
+  s_7ed731f5a32efb::t_886ddc3d5b9f86 15
+  s_7ed731f5a32efb::t_ee6f357daf1d15 5-10,16-23,30,43,67-73
+  s_7ed731f5a32efb::t_7226dc5eed061c 24-26,31-39,44-66,74
+pocs/12-rules-template-poc/loan-app/backend/src/main/java/com/loan/LoanApplication.java
+  s_7ed731f5a32efb::t_c152bcb559a7d1 1-11
+pocs/12-rules-template-poc/loan-app/frontend/src/api/client.ts
+  s_7ed731f5a32efb::t_6af0a9df79af59 1-25
+pocs/12-rules-template-poc/loan-app/frontend/src/App.tsx
+  s_7ed731f5a32efb::t_245b3b2173686d 1-24
+pocs/12-rules-template-poc/loan-app/frontend/src/styles.css
+  s_7ed731f5a32efb::t_8122332910b680 1-123
+pocs/12-rules-template-poc/loan-app/e2e/playwright.config.ts
+  s_7ed731f5a32efb::t_7f1edbc6c47ed3 1-17
+pocs/12-rules-template-poc/loan-app/e2e/bun.lock
+  ai_agent 1-21
+pocs/12-rules-template-poc/loan-app/frontend/src/components/LoanResult.tsx
+  s_7ed731f5a32efb::t_654f6bc474b56f 1-18
+pocs/12-rules-template-poc/loan-app/frontend/src/main.tsx
+  s_7ed731f5a32efb::t_0b885e9ce2b3c4 1-15
+pocs/12-rules-template-poc/loan-app/stop.sh
+  s_7ed731f5a32efb::t_da758cff2a69b2 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "3e34d5498c2d6263b3afe06e9f7f57580e1b3bd2",
+  "prompts": {},
+  "sessions": {
+    "s_7ed731f5a32efb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0ad7b2f2-7c71-40ac-a1c7-58abe87daa6f",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

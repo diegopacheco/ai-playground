@@ -1,0 +1,14 @@
+pocs/gstack-poc/README.md
+  h_8e2c3875396153 19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "2f920e6f079d1cd61e380ab614531ca6741705da",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

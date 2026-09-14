@@ -1,0 +1,22 @@
+pocs/gstack-poc/runner/src/prompts.ts
+  s_f005f9687aa625::t_9b5d4e7a07f546 60-61
+pocs/gstack-poc/runner/src/generate.ts
+  s_f005f9687aa625::t_e9687b385df600 156
+  s_f005f9687aa625::t_a6518fbe18b4f7 137-148
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "92cd4664bc9b3de07d6c2c972f40d4dccf2f1735",
+  "prompts": {},
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

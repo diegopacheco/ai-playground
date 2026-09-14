@@ -1,0 +1,58 @@
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/legacy/CsvExporter.java
+  s_6b7679572578fa::t_2fb6a28313e22a 1-18
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/legacy/LegacyReportService.java
+  s_6b7679572578fa::t_310d03f77f617f 1-16
+pocs/agent-skill-dead-code-finder/skill/SKILL.md
+  s_6b7679572578fa::t_68fb50f5148782 1-35
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/api/OrderController.java
+  s_6b7679572578fa::t_82be0fc8061410 1-43
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/util/MoneyUtils.java
+  s_6b7679572578fa::t_5be1ff975456c0 1-15
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/service/PricingService.java
+  s_6b7679572578fa::t_b0608380c98cbb 1-23
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/service/CatalogService.java
+  s_6b7679572578fa::t_34ff273c5e39d9 1-21
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/model/OrderLine.java
+  s_6b7679572578fa::t_36bd849f826b1b 1-4
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/StoreApplication.java
+  s_6b7679572578fa::t_56ea08772e2964 1-12
+pocs/agent-skill-dead-code-finder/sample/pom.xml
+  s_6b7679572578fa::t_771db4920879a6 1-33
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/service/InventoryService.java
+  s_6b7679572578fa::t_be08e27a0dd84e 1-23
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/model/Order.java
+  s_6b7679572578fa::t_3da112f6786cc4 1-6
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/service/OrderService.java
+  s_6b7679572578fa::t_b43bd340c62353 1-40
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/service/NotificationService.java
+  s_6b7679572578fa::t_652fd9d030af94 1-15
+pocs/agent-skill-dead-code-finder/skill/find_dead_code.py
+  s_6b7679572578fa::t_50d88c29133a46 239
+  s_6b7679572578fa::t_0c317cc15e5fa2 1-238,240-446
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/model/Product.java
+  s_6b7679572578fa::t_11a0eef7323e71 1-4
+pocs/agent-skill-dead-code-finder/sample/src/main/java/com/store/util/StringUtils.java
+  s_6b7679572578fa::t_ea6a4189658542 1-15
+pocs/agent-skill-dead-code-finder/install.sh
+  s_6b7679572578fa::t_8a9c560d241feb 1-9
+pocs/agent-skill-dead-code-finder/sample/.gitignore
+  s_6b7679572578fa::t_1fbb682cb8a557 1-2
+pocs/agent-skill-dead-code-finder/uninstall.sh
+  s_6b7679572578fa::t_63319b58b8a154 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.7",
+  "base_commit_sha": "536262bb7a20f533adfe01cec02dc4fe2e52620b",
+  "prompts": {},
+  "sessions": {
+    "s_6b7679572578fa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4bfa9dec-5eab-4c00-afc1-b32e82475540",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

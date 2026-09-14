@@ -1,0 +1,19 @@
+pocs/agent-skill-git-history-fixer/README.md
+  s_04a9879c121682::t_7c149c6eb1dbde 1-123
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.8",
+  "base_commit_sha": "4b4949891e5eb99c16eec40f971dedbd0aea5fa3",
+  "prompts": {},
+  "sessions": {
+    "s_04a9879c121682": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cf255d45-6765-4794-a79b-966006b0a431",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

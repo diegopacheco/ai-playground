@@ -1,0 +1,86 @@
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/SchemaNode.java
+  s_fa6084944458f4::t_acd0180ea081df 1-9
+pocs/admin-console/demo/seed/mysql.sql
+  s_fa6084944458f4::t_0279b01ff38eb6 1-2
+  s_fa6084944458f4::t_ada4f300ce1ed3 3-39
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/engine/jdbc/JdbcEngineIT.java
+  s_fa6084944458f4::t_f4eb01e4f9177c 1-117
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/EngineRegistry.java
+  s_fa6084944458f4::t_f305e2b04d0778 1-25
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/project/SecretPayload.java
+  s_fa6084944458f4::t_0a5ebfe41cf956 1-32
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/audit/AuditEntry.java
+  s_fa6084944458f4::t_adef92f859108d 1-8
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/engine/jdbc/SqlReadOnlyGuardTest.java
+  s_fa6084944458f4::t_f64e56cf04a514 1-112
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/project/Project.java
+  s_fa6084944458f4::t_2faaf30a5d62be 1-5
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/project/ConnectionRepository.java
+  s_fa6084944458f4::t_f55baee21c90ac 1-77
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/config/OpenApiConfig.java
+  s_fa6084944458f4::t_cece372a685eef 1-17
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/ReadOnlyViolation.java
+  s_fa6084944458f4::t_ee5ff11cefb054 1-7
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/jdbc/SqlReadOnlyGuard.java
+  s_fa6084944458f4::t_34286a3f891e7f 1-28,30-32,54-130
+  s_fa6084944458f4::t_33092202ebc4b0 29,33-53
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/project/ConnectionView.java
+  s_fa6084944458f4::t_b75adfe60c9db9 1-26
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/config/SchedulingConfig.java
+  s_fa6084944458f4::t_3e8430ea10df18 1-9
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/jdbc/MysqlEngine.java
+  s_fa6084944458f4::t_3c4e6cca90bfef 1-39
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/project/ConnectionRepositoryIT.java
+  s_fa6084944458f4::t_f6608dcba41ce4 1-94
+pocs/admin-console/demo/seed/postgres.sql
+  s_fa6084944458f4::t_4d6ec85a136258 1-51
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/audit/AuditService.java
+  s_fa6084944458f4::t_f10ec3c7425d36 1-36
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/registry/RedisHandle.java
+  s_fa6084944458f4::t_fb2c9ac03f10ee 1-12
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/registry/ConnectionRegistry.java
+  s_fa6084944458f4::t_1213eeeb83302b 56
+  s_fa6084944458f4::t_ea51265441d19b 1-55,57-171
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/jdbc/JdbcEngine.java
+  s_fa6084944458f4::t_50da09c5cedf84 1-139
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/project/ProjectController.java
+  s_fa6084944458f4::t_6810a1f68360d2 1-109
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/project/ConnectionConfig.java
+  s_fa6084944458f4::t_cac7c0a52f4ef9 1-10
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/audit/AuditController.java
+  s_fa6084944458f4::t_c687d2876fc404 1-90
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/Engine.java
+  s_fa6084944458f4::t_d2289ec2c44155 1-20
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/jdbc/PostgresEngine.java
+  s_fa6084944458f4::t_a6e6880ee485db 1-39
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/QueryResult.java
+  s_fa6084944458f4::t_4630a57898035d 1-16
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/project/ConnectionKind.java
+  s_fa6084944458f4::t_aa694ed6e1eba9 1-34
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/project/ProjectRepository.java
+  s_fa6084944458f4::t_294bdf75b11a7b 1-47
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/audit/HistoryController.java
+  s_fa6084944458f4::t_b31f781a3e32b0 1-28
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/audit/AuditServiceTest.java
+  s_fa6084944458f4::t_2ff2b4a8017ef8 1-83
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/engine/PageRequest.java
+  s_fa6084944458f4::t_ea7e443727ccbc 1-11
+pocs/admin-console/backend/src/main/java/com/github/diegopacheco/adminconsole/audit/AuditRepository.java
+  s_fa6084944458f4::t_d91be6e66eb115 1-104
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "b5ba099a18018f3080c53c2ae81ea5ff356b2c4a",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

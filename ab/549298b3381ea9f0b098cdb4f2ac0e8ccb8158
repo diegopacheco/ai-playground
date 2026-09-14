@@ -1,0 +1,19 @@
+pocs/split-or-steal-agents/server.py
+  s_d71ffd81335ba6::t_0aa28cf295d40d 1-199
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "ab549298b3381ea9f0b098cdb4f2ac0e8ccb8158",
+  "prompts": {},
+  "sessions": {
+    "s_d71ffd81335ba6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3d4216cd-7b60-4637-8d8c-b20c9267068a",
+        "model": "claude-fable-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+pocs/fable-5-train-ride-rs/README.md
+  s_863a8e4f675ad3::t_2cef84b9ea4da3 56-61
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-44-08-922Z.yml
+  s_863a8e4f675ad3::t_7b93c38d6ca837 1-40
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-44-17-395Z.yml
+  s_863a8e4f675ad3::t_fe6502c38c4418 1-43
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-45-48-518Z.yml
+  s_863a8e4f675ad3::t_c02c354ccbe6d6 1-40
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-45-56-197Z.yml
+  s_863a8e4f675ad3::t_d4ee01ea536243 1-43
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-50-27-076Z.yml
+  s_863a8e4f675ad3::t_ef75617ecdb3cb 1-40
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-50-35-514Z.yml
+  s_863a8e4f675ad3::t_36044e6dc8c2f2 1-43
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-52-25-040Z.yml
+  s_863a8e4f675ad3::t_470a05050776b5 1-40
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-52-33-128Z.yml
+  s_863a8e4f675ad3::t_e9a8018a85759d 1-43
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-54-16-706Z.yml
+  s_863a8e4f675ad3::t_4d8d2cb4e003f5 1-40
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-54-25-673Z.yml
+  s_863a8e4f675ad3::t_bec11dc76ab919 1-43
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-58-15-456Z.yml
+  s_863a8e4f675ad3::t_751a3e27d0521a 1-40
+pocs/fable-5-train-ride-rs/.playwright-mcp/page-2026-07-06T20-58-22-676Z.yml
+  s_863a8e4f675ad3::t_83647284b1fe70 1-43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b9ae8b0184b8a2cd24c7bc9947718f4412a85619",
+  "prompts": {},
+  "sessions": {
+    "s_863a8e4f675ad3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e9022089-ec15-49f7-b1b6-eae7da19e797",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

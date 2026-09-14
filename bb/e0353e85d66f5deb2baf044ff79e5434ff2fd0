@@ -1,0 +1,19 @@
+pocs/dashboard-cv/server.py
+  s_cff149407a320d::t_d2e813412c78c8 41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "bbe0353e85d66f5deb2baf044ff79e5434ff2fd0",
+  "prompts": {},
+  "sessions": {
+    "s_cff149407a320d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8b46e48-5594-4eb8-9e06-b036767635a8",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

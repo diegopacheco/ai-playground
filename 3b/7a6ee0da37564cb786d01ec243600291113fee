@@ -1,0 +1,28 @@
+pocs/admin-console/podman-compose.yml
+  s_fa6084944458f4::t_7b09415ef125ea 12
+pocs/admin-console/destroy-all.sh
+  s_fa6084944458f4::t_9d9e460df6b531 1-48
+pocs/admin-console/demo/seed/elastic.sh
+  s_fa6084944458f4::t_d4609a452744b9 6,25,31
+pocs/admin-console/demo/demo-start.sh
+  s_fa6084944458f4::t_d3d1dc97626494 107
+  s_fa6084944458f4::t_d4609a452744b9 15,40-43,53-54
+pocs/admin-console/backend/src/test/java/com/github/diegopacheco/adminconsole/engine/ElasticEngineIT.java
+  s_fa6084944458f4::t_d3d1dc97626494 73-75,77-78,81,89,116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "3b7a6ee0da37564cb786d01ec243600291113fee",
+  "prompts": {},
+  "sessions": {
+    "s_fa6084944458f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5215abb7-9ac0-4550-b5c6-195e8f3682bc",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

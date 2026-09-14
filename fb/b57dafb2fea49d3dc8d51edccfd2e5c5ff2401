@@ -1,0 +1,51 @@
+pocs/gstack-poc/infra/Containerfile
+  s_f005f9687aa625::t_38a788c6378646 1-24
+pocs/gstack-poc/web/app/components/Playground.tsx
+  s_f005f9687aa625::t_77b729f7ec177a 92
+  s_f005f9687aa625::t_da9ab15c1a90d0 14-15
+  s_f005f9687aa625::t_9d9a7d8b715eff 48
+  s_f005f9687aa625::t_371d62c81b7202 552-553,557
+  s_f005f9687aa625::t_d67843b68cb7be 533,560
+  s_f005f9687aa625::t_64b4ef15c12745 33
+  s_f005f9687aa625::t_0abd4d3379e8f6 327,329,332-346
+pocs/gstack-poc/eval.sh
+  s_f005f9687aa625::t_db582da3ba66da 1-46
+pocs/gstack-poc/README.md
+  s_f005f9687aa625::t_9530b1c177edd4 162,164,166-172
+pocs/gstack-poc/runner/tsconfig.json
+  s_f005f9687aa625::t_7814f18a1c1476 22
+pocs/gstack-poc/infra/podman-compose.yml
+  s_f005f9687aa625::t_f323c4da688d3d 1-14
+pocs/gstack-poc/runner/eval/cases.ts
+  s_f005f9687aa625::t_fb279a0984743a 1-79
+pocs/gstack-poc/runner/src/playwrightAdapter.ts
+  s_f005f9687aa625::t_26067c77ebb11f 93-95,113-136
+  s_f005f9687aa625::t_13e0fe18ec6460 1,6-9
+  s_f005f9687aa625::t_a947bce2711472 28-29
+pocs/gstack-poc/runner/package.json
+  s_f005f9687aa625::t_707844f1fb8057 18-19
+pocs/gstack-poc/runner/eval/runEvals.ts
+  s_f005f9687aa625::t_3d38f5716068fb 1-140
+pocs/gstack-poc/web/app/api/generate/route.ts
+  s_f005f9687aa625::t_a95fdef06ad0bd 58-69
+pocs/gstack-poc/runner/test/evalCases.test.ts
+  s_f005f9687aa625::t_a866adfbc4f5df 1-37
+pocs/gstack-poc/web/tsconfig.tsbuildinfo
+  s_f005f9687aa625::t_b1e7c8ba95f11f 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "fbb57dafb2fea49d3dc8d51edccfd2e5c5ff2401",
+  "prompts": {},
+  "sessions": {
+    "s_f005f9687aa625": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4fc6814-9005-4d6c-b45c-f3d234114ded",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

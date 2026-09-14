@@ -1,0 +1,41 @@
+pocs/megaslop-runner/index.html
+  s_184d4f7b44415b::t_fe0301222784f3 1-29,32,35-46
+  s_184d4f7b44415b::t_7f836da12de95f 30-31,33-34
+pocs/megaslop-runner/eslint.config.mjs
+  s_184d4f7b44415b::t_5bbbdb96d55f0b 1-17
+pocs/megaslop-runner/stop.sh
+  s_184d4f7b44415b::t_cbc4cb9ae015c9 1-5
+pocs/megaslop-runner/README.md
+  s_184d4f7b44415b::t_500c55a53f5967 1-57
+pocs/megaslop-runner/run.sh
+  s_184d4f7b44415b::t_8b0d81a52841ee 1-21
+pocs/megaslop-runner/style.css
+  s_184d4f7b44415b::t_a230613dbbab6c 1-91
+pocs/megaslop-runner/game.js
+  s_184d4f7b44415b::t_0761caccf391f5 102-103
+  s_184d4f7b44415b::t_39f36ea0b1c862 561
+  s_184d4f7b44415b::t_36cd857012be56 18-24,26,28-40,44,47-48
+  s_184d4f7b44415b::t_ef11cc17562eb3 112,118,120-135
+  s_184d4f7b44415b::t_62534fee1f110c 180,182,184,186
+  s_184d4f7b44415b::t_09f404cdee395f 503-530
+  s_184d4f7b44415b::t_07acadcc59cb37 1-17,25,27,41-43,45-46,49-101,104-111,113-117,119,136-179,181,183,185,187-250,257-286,297-502,531-560,562-607,609
+  s_184d4f7b44415b::t_56e3ffde2c005d 251-256
+  s_184d4f7b44415b::t_d179f8edae0aa6 608
+  s_184d4f7b44415b::t_9ead42fd032676 287-296
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "52a9d6dc8b47b2ffbef2cc07e9dd9c721f43a5bf",
+  "prompts": {},
+  "sessions": {
+    "s_184d4f7b44415b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fdcf972a-7917-40f0-bd93-d20e4a737907",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

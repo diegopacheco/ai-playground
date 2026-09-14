@@ -1,0 +1,54 @@
+pocs/wristband-watch-astra-6/tests/watch.spec.cjs
+  s_e03db6955e7801::t_947bac64c82c5b 1-88
+pocs/wristband-watch-astra-6/README.md
+  s_e03db6955e7801::t_3aa18591fbe6f7 1-122
+pocs/wristband-watch-astra-6/playwright.config.cjs
+  s_e03db6955e7801::t_947bac64c82c5b 1-10
+pocs/wristband-watch-astra-6/assets/architecture.svg
+  s_e03db6955e7801::t_6f8138b9fa6c68 1
+pocs/wristband-watch-astra-6/assets/logo.svg
+  s_e03db6955e7801::t_6f8138b9fa6c68 1
+pocs/wristband-watch-astra-6/index.html
+  s_e03db6955e7801::t_2f1a9e7013222e 9,39,51-52
+  s_e03db6955e7801::t_2ca43c7dffde5c 1-8,10-38,40-50,53-65
+pocs/wristband-watch-astra-6/package.json
+  s_e03db6955e7801::t_2ca43c7dffde5c 1-13
+pocs/wristband-watch-astra-6/.gitignore
+  s_e03db6955e7801::t_2ca43c7dffde5c 1-4
+pocs/wristband-watch-astra-6/package-lock.json
+  s_e03db6955e7801::t_c0e835dd345a23 1-78
+pocs/wristband-watch-astra-6/scripts/common.sh
+  s_e03db6955e7801::t_9ccb4484aedc48 1-24
+pocs/wristband-watch-astra-6/scripts/ports.env
+  s_e03db6955e7801::t_094ef59e3a91e7 1
+pocs/wristband-watch-astra-6/scripts/setup.sh
+  s_e03db6955e7801::t_9e1a3f5f9266a2 1-9
+pocs/wristband-watch-astra-6/scripts/start-all.sh
+  s_e03db6955e7801::t_ac523f8c86c204 1-25
+pocs/wristband-watch-astra-6/scripts/status.sh
+  s_e03db6955e7801::t_53caf4b0ab3603 1-8
+pocs/wristband-watch-astra-6/scripts/stop-all.sh
+  s_e03db6955e7801::t_1448064d87899c 1-17
+pocs/wristband-watch-astra-6/scripts/test-all.sh
+  s_e03db6955e7801::t_b39a9a59a12e60 1-4
+pocs/wristband-watch-astra-6/scripts/ui.sh
+  s_e03db6955e7801::t_e279003f221650 1-11
+pocs/wristband-watch-astra-6/server.mjs
+  s_e03db6955e7801::t_0ae47f35eb8db4 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "ab72f06d6582c5e9ea30cbca5fa206f196795fec",
+  "prompts": {},
+  "sessions": {
+    "s_e03db6955e7801": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a09d3d-cefe-7811-b679-1c7edbab67e8",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}

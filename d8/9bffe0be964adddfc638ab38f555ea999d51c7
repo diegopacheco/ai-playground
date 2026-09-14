@@ -1,0 +1,52 @@
+pocs/open-can-enduro-game/README.md
+  s_e726cfa0dd2509::t_8555498e9409e4 1-122
+pocs/open-can-enduro-game/requirements.txt
+  s_e726cfa0dd2509::t_47b7fcbfd99d9c 1-4
+pocs/open-can-enduro-game/test.sh
+  s_e726cfa0dd2509::t_56156745643459 11-14
+  s_e726cfa0dd2509::t_bf213d4955981c 1-10,15-32
+pocs/open-can-enduro-game/stop.sh
+  s_e726cfa0dd2509::t_83536745e024e0 1-9
+pocs/open-can-enduro-game/server.py
+  s_e726cfa0dd2509::t_676f3a56219d94 1-11,14-15,19-23,29,31-38,42,44-79
+  s_e726cfa0dd2509::t_386c5e81e4725c 12-13,16-18,24-28,30,39-41,43
+pocs/open-can-enduro-game/test_client.py
+  s_e726cfa0dd2509::t_bf2e181c255e90 1-26
+pocs/open-can-enduro-game/.gitignore
+  s_e726cfa0dd2509::t_d68604774c0fcd 5-6
+  s_e726cfa0dd2509::t_14bec3bd7114e2 1-4
+pocs/open-can-enduro-game/start.sh
+  s_e726cfa0dd2509::t_0010bf07b5b450 1-10,15-26
+  s_e726cfa0dd2509::t_ff4b7ca24d4d3b 11-14
+pocs/open-can-enduro-game/web/game.js
+  s_e726cfa0dd2509::t_389dd221180630 1-248
+pocs/open-can-enduro-game/web/index.html
+  s_e726cfa0dd2509::t_8b0c763f702ea6 1-47
+pocs/open-can-enduro-game/diagram.html
+  s_e726cfa0dd2509::t_3bf3480ad918dc 1-18,21-81,83-91
+  s_e726cfa0dd2509::t_f3bee90fae32c1 19-20
+  s_e726cfa0dd2509::t_2ca456322b8e19 82
+pocs/open-can-enduro-game/web/style.css
+  s_e726cfa0dd2509::t_44d7ba02908b99 1-88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "d89bffe0be964adddfc638ab38f555ea999d51c7",
+  "prompts": {},
+  "humans": {
+    "h_8e2c3875396153": {
+      "author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_e726cfa0dd2509": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3139bd42-ee39-493e-8fca-aeb0cf4ea374",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
