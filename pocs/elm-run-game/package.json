@@ -1,0 +1,11 @@
+{
+  "name": "gooze-run",
+  "private": true,
+  "scripts": {
+    "build": "elm make src/Main.elm --optimize --output=public/elm.js",
+    "test": "elm-test"
+  },
+  "devDependencies": {
+    "elm-test": "0.19.1-revision17"
+  }
+}
