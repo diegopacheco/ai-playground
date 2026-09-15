@@ -1,0 +1,91 @@
+pocs/elm-run-game/src/Game/District.elm
+  s_21dbeb499d2857::t_e6c54d6bff38dd 1-40
+pocs/elm-run-game/src/Game/Goose.elm
+  s_21dbeb499d2857::t_4bc04d0e9ab2b3 1-131
+pocs/elm-run-game/scripts/ports.env
+  s_21dbeb499d2857::t_f1a97949f24992 1
+pocs/elm-run-game/src/Main.elm
+  s_21dbeb499d2857::t_4bc38bb609d60f 1-46
+pocs/elm-run-game/scripts/status.sh
+  s_21dbeb499d2857::t_f1a97949f24992 1-14
+pocs/elm-run-game/tests/WorldTest.elm
+  s_21dbeb499d2857::t_3cbf3159a263d8 1-53
+pocs/elm-run-game/src/View/Text.elm
+  s_21dbeb499d2857::t_a73e1ada5c5186 1-49
+pocs/elm-run-game/tests/InputTest.elm
+  s_21dbeb499d2857::t_3cbf3159a263d8 1-28
+pocs/elm-run-game/scripts/ui.sh
+  s_21dbeb499d2857::t_f1a97949f24992 1-12
+pocs/elm-run-game/src/View/Overlay.elm
+  s_21dbeb499d2857::t_67801caedc9db8 1-58
+pocs/elm-run-game/scripts/start-all.sh
+  s_21dbeb499d2857::t_f1a97949f24992 1-23
+pocs/elm-run-game/scripts/test-all.sh
+  s_21dbeb499d2857::t_f1a97949f24992 1-11
+pocs/elm-run-game/README.md
+  s_21dbeb499d2857::t_fc79db4a49853a 1-129,131-183
+  s_21dbeb499d2857::t_40e665c76ed968 130
+pocs/elm-run-game/src/Game/Input.elm
+  s_21dbeb499d2857::t_a63289391a8b4b 1-69
+pocs/elm-run-game/src/Game/Collision.elm
+  s_21dbeb499d2857::t_35eba420fc796b 1-24
+pocs/elm-run-game/src/Game/Spawner.elm
+  s_21dbeb499d2857::t_a6b66cc559b66d 1-58
+pocs/elm-run-game/src/View/Scene.elm
+  s_21dbeb499d2857::t_4bc38bb609d60f 7
+  s_21dbeb499d2857::t_e0735d8215df36 1-6,8-126
+pocs/elm-run-game/public/index.html
+  s_21dbeb499d2857::t_4bc38bb609d60f 1-22
+pocs/elm-run-game/scripts/stop-all.sh
+  s_21dbeb499d2857::t_f1a97949f24992 1-16
+pocs/elm-run-game/src/View/Skyline.elm
+  s_21dbeb499d2857::t_cda4e1e944c559 1-285
+pocs/elm-run-game/scripts/common.sh
+  s_21dbeb499d2857::t_f1a97949f24992 1-117
+pocs/elm-run-game/elm.json
+  s_21dbeb499d2857::t_d7995171747e61 14,23-28
+  s_21dbeb499d2857::t_aee679507364e2 1-13,15-22,29-30
+pocs/elm-run-game/src/View/Hud.elm
+  s_21dbeb499d2857::t_06db6e9935a7d4 1-43
+pocs/elm-run-game/src/View/Sprites.elm
+  s_21dbeb499d2857::t_b1c4903cd9f25e 1-255
+pocs/elm-run-game/src/Game/Config.elm
+  s_21dbeb499d2857::t_ca690c153825fd 1-140
+pocs/elm-run-game/src/View/Pixel.elm
+  s_21dbeb499d2857::t_b3845429147b2c 1-61
+pocs/elm-run-game/.gitignore
+  s_21dbeb499d2857::t_4bc38bb609d60f 1-4
+pocs/elm-run-game/tests/GooseTest.elm
+  s_21dbeb499d2857::t_3cbf3159a263d8 1-76
+pocs/elm-run-game/src/Game/Core.elm
+  s_21dbeb499d2857::t_16a283e3433d48 1-281
+pocs/elm-run-game/src/Game/Entity.elm
+  s_21dbeb499d2857::t_8ba2002062d578 1-57
+pocs/elm-run-game/tests/CoreTest.elm
+  s_21dbeb499d2857::t_3cbf3159a263d8 1-135
+pocs/elm-run-game/package.json
+  s_21dbeb499d2857::t_5ad33753e6b0e9 9
+  s_21dbeb499d2857::t_07fe187cbf01b7 1-8,10-11
+pocs/elm-run-game/scripts/setup.sh
+  s_21dbeb499d2857::t_f1a97949f24992 1-14
+pocs/elm-run-game/tests/CollisionTest.elm
+  s_21dbeb499d2857::t_3cbf3159a263d8 1-23
+pocs/elm-run-game/package-lock.json
+  s_21dbeb499d2857::t_c2022ac7360044 1-488
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "423b7e6c9c70eeb96bfd643149cd32e0a0053f8c",
+  "prompts": {},
+  "sessions": {
+    "s_21dbeb499d2857": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "34b9b9b4-7092-4e46-9ff7-12a729988a30",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
