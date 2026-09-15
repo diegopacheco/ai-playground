@@ -1,0 +1,154 @@
+pocs/doom-like-c/src/game.h
+  s_28fea3c777b89c::t_58ed9c61b98cb6 1-47
+pocs/doom-like-c/src/collision.h
+  s_28fea3c777b89c::t_58b65af4b44278 1-12
+pocs/doom-like-c/scripts/start-all.sh
+  s_28fea3c777b89c::t_d7241916c2559c 1-24
+pocs/doom-like-c/scripts/status.sh
+  s_28fea3c777b89c::t_848caf40e27c95 1-11
+pocs/doom-like-c/scripts/setup.sh
+  s_28fea3c777b89c::t_1900a1cb551778 1-19
+pocs/doom-like-c/src/sprite.c
+  s_28fea3c777b89c::t_91e708bf464e3d 1-254
+pocs/doom-like-c/tests/test_render.c
+  s_28fea3c777b89c::t_0cac1f2d2df76c 1-93
+pocs/doom-like-c/src/framebuffer.h
+  s_28fea3c777b89c::t_3e7db9341c538d 1-19
+pocs/doom-like-c/tests/test_game.c
+  s_28fea3c777b89c::t_af9c9efc242d62 1-100
+pocs/doom-like-c/src/pickup.c
+  s_28fea3c777b89c::t_f693a9843ad7a9 1-24
+pocs/doom-like-c/Makefile
+  s_28fea3c777b89c::t_3f37878d8b1183 1-39
+pocs/doom-like-c/src/enemy.c
+  s_28fea3c777b89c::t_1db6100823f898 1-88
+pocs/doom-like-c/src/platform.c
+  s_28fea3c777b89c::t_e079ba718d2c85 1-107
+pocs/doom-like-c/src/render_hud.c
+  s_28fea3c777b89c::t_77d40279866269 1-8,10-19,21-22,24-66
+  s_28fea3c777b89c::t_1b81f41a25abc7 9,20,23
+pocs/doom-like-c/tests/test_world.c
+  s_28fea3c777b89c::t_34b1e46dbd865d 1-83
+pocs/doom-like-c/scripts/stop-all.sh
+  s_28fea3c777b89c::t_75b61ddb74f68d 1-20
+pocs/doom-like-c/src/render_screens.c
+  s_28fea3c777b89c::t_03040da5cd3f0f 1-86
+pocs/doom-like-c/src/raycast.c
+  s_28fea3c777b89c::t_3d06693b480212 1-59
+pocs/doom-like-c/src/platform.h
+  s_28fea3c777b89c::t_61b8e21d6d4e10 1-17
+pocs/doom-like-c/src/texture.h
+  s_28fea3c777b89c::t_0b8f742b38bf59 1-21
+pocs/doom-like-c/tests/test_level.c
+  s_28fea3c777b89c::t_c903b9706e3655 1-76
+pocs/doom-like-c/src/render.c
+  s_28fea3c777b89c::t_c0de04d98fe261 1-21
+pocs/doom-like-c/src/map.h
+  s_28fea3c777b89c::t_0816a2c0200ef1 1-20
+pocs/doom-like-c/src/config.h
+  s_28fea3c777b89c::t_ffffacf5983af8 1-13
+pocs/doom-like-c/src/framebuffer.c
+  s_28fea3c777b89c::t_259e302f7c429f 1-53
+pocs/doom-like-c/src/projectile.h
+  s_28fea3c777b89c::t_6210c65e68c4d3 1-38
+pocs/doom-like-c/src/palette.h
+  s_28fea3c777b89c::t_42b38000cb6c3f 1-49
+pocs/doom-like-c/src/level.c
+  s_28fea3c777b89c::t_8e16efaa12e2ef 1-124
+pocs/doom-like-c/tests/test_combat.c
+  s_28fea3c777b89c::t_1b8f0acd08fb65 1-183
+pocs/doom-like-c/src/player.c
+  s_28fea3c777b89c::t_1491fdc75eaf5d 1-89
+pocs/doom-like-c/tools/shots.c
+  s_28fea3c777b89c::t_6c2e9696d6d8b5 5
+  s_28fea3c777b89c::t_f0f07ab165548e 89,91-92,99-104
+  s_28fea3c777b89c::t_ab8f5470ea2901 1-4,6-87,105-106,108-152,154-227
+  s_28fea3c777b89c::t_b757ee8690a18e 88,90,93-98,107,153
+pocs/doom-like-c/src/combat.c
+  s_28fea3c777b89c::t_bb4cf1e3c3b77a 1-2,5-49
+  s_28fea3c777b89c::t_97b91f87ca4e18 3-4
+pocs/doom-like-c/src/player.h
+  s_28fea3c777b89c::t_87bc04e884a0f1 1-39
+pocs/doom-like-c/src/splash.h
+  s_28fea3c777b89c::t_c886e01ac0fa62 1-25
+pocs/doom-like-c/scripts/test-all.sh
+  s_28fea3c777b89c::t_e53fc429274a3c 1-7
+pocs/doom-like-c/src/splash.c
+  s_28fea3c777b89c::t_0297a0d7d376b4 1-38
+pocs/doom-like-c/src/render_hud.h
+  s_28fea3c777b89c::t_c4c66949d70786 1-10
+pocs/doom-like-c/src/pickup.h
+  s_28fea3c777b89c::t_b24467e75dab6d 1-26
+pocs/doom-like-c/src/collision.c
+  s_28fea3c777b89c::t_1d0e22d8e0b013 1-24
+pocs/doom-like-c/src/level.h
+  s_28fea3c777b89c::t_9691a3596eb6ab 1-25
+pocs/doom-like-c/src/projectile.c
+  s_28fea3c777b89c::t_aa6fc33e15e4b3 1-66
+pocs/doom-like-c/src/palette.c
+  s_28fea3c777b89c::t_2083ce9fa1b275 1-108
+pocs/doom-like-c/.gitignore
+  s_28fea3c777b89c::t_b852d05f0ab3fe 1-2
+pocs/doom-like-c/src/render_world.c
+  s_28fea3c777b89c::t_93dbc9c784656d 1-32,34-204
+  s_28fea3c777b89c::t_1b81f41a25abc7 33
+pocs/doom-like-c/scripts/common.sh
+  s_28fea3c777b89c::t_740848371227d7 1-49
+pocs/doom-like-c/src/game.c
+  s_28fea3c777b89c::t_2c5c8835b647d2 1-126
+pocs/doom-like-c/src/render_world.h
+  s_28fea3c777b89c::t_3dee398a2ab759 1-9
+pocs/doom-like-c/tests/check.h
+  s_28fea3c777b89c::t_e835a21008ad89 1-33
+pocs/doom-like-c/src/render_screens.h
+  s_28fea3c777b89c::t_4a6edeb3a3370b 1-11
+pocs/doom-like-c/README.md
+  s_28fea3c777b89c::t_e49e19ae856d55 1-167
+pocs/doom-like-c/src/raycast.h
+  s_28fea3c777b89c::t_f033350f442854 1-21
+pocs/doom-like-c/src/rng.c
+  s_28fea3c777b89c::t_c7a8b23127d0bc 1-24
+pocs/doom-like-c/src/rng.h
+  s_28fea3c777b89c::t_36f4bc67128268 1-14
+pocs/doom-like-c/src/render.h
+  s_28fea3c777b89c::t_0d061d0c84a59e 1-9
+pocs/doom-like-c/src/enemy.h
+  s_28fea3c777b89c::t_06e5248a15bbc9 1-49
+pocs/doom-like-c/src/font.h
+  s_28fea3c777b89c::t_6aec1199a97eec 1-16
+pocs/doom-like-c/src/sprite.h
+  s_28fea3c777b89c::t_fb17fa9cb98c52 1-34
+pocs/doom-like-c/src/texture.c
+  s_28fea3c777b89c::t_18cd1b1791b554 1-90,92-128
+  s_28fea3c777b89c::t_1b81f41a25abc7 91
+pocs/doom-like-c/src/combat.h
+  s_28fea3c777b89c::t_5f111fdecf435d 1-17
+pocs/doom-like-c/src/font.c
+  s_28fea3c777b89c::t_112eb9ede10d6b 1-108
+pocs/doom-like-c/src/input.h
+  s_28fea3c777b89c::t_32d7cbf8d02496 1-17
+pocs/doom-like-c/src/vec.h
+  s_28fea3c777b89c::t_34af2610cf8009 1-53
+pocs/doom-like-c/src/map.c
+  s_28fea3c777b89c::t_75cb3523ae7b64 1-28
+pocs/doom-like-c/src/main.c
+  s_28fea3c777b89c::t_46041e9fa90025 1-54
+pocs/doom-like-c/tests/test_main.c
+  s_28fea3c777b89c::t_72ed4a7155195b 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "4c19ac440132e7b0ac15eea82ed5cf374e9a37a5",
+  "prompts": {},
+  "sessions": {
+    "s_28fea3c777b89c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "037ab45a-9dc6-416e-92ed-1109a2646cab",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
