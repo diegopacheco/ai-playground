@@ -1,0 +1,21 @@
+{
+  "name": "@fly-zord/agents",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@fly-zord/engine": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "@types/node": "24.10.1"
+  }
+}

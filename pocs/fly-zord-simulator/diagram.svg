@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="7"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M1 1 Q7 4 11 6 Q7 8 1 11" fill="none" stroke="#495057" stroke-width="2" stroke-linecap="round"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="1200" fill="#fffdf5"/>
+  <g font-family="Caveat, 'Comic Sans MS', cursive" text-anchor="middle">
+    <text x="600" y="70" font-size="56" fill="#343a40">FLY ZORD SIMULATOR - how one turn runs</text>
+    <text x="600" y="118" font-size="30" fill="#868e96">bun workspaces: next app, vite engine, typescript agents</text>
+
+    <g filter="url(#wobble)">
+      <rect x="60" y="150" width="480" height="300" rx="18" fill="#d0ebff" stroke="#1971c2" stroke-width="4"/>
+    </g>
+    <text x="300" y="205" font-size="40" fill="#343a40">Browser - Next.js page</text>
+    <text x="300" y="252" font-size="26" fill="#666">battlefield canvas 320x180</text>
+    <text x="300" y="288" font-size="26" fill="#666">driver cam + onboard fly view</text>
+    <text x="300" y="324" font-size="26" fill="#666">wing beat strip and telemetry</text>
+    <text x="300" y="360" font-size="26" fill="#666">move buttons when a human sits</text>
+    <text x="300" y="396" font-size="26" fill="#666">one rAF loop per canvas</text>
+
+    <g filter="url(#wobble)">
+      <rect x="660" y="150" width="480" height="300" rx="18" fill="#d3f9d8" stroke="#2f9e44" stroke-width="4"/>
+    </g>
+    <text x="900" y="205" font-size="40" fill="#343a40">@fly-zord/engine</text>
+    <text x="900" y="252" font-size="26" fill="#666">built by vite in library mode</text>
+    <text x="900" y="288" font-size="26" fill="#666">applyMove, legalMoves, winner</text>
+    <text x="900" y="324" font-size="26" fill="#666">seeded rng so a rematch replays</text>
+    <text x="900" y="360" font-size="26" fill="#666">sprites for zords, fly, ranger</text>
+    <text x="900" y="396" font-size="26" fill="#666">describeBattle writes the briefing</text>
+
+    <g filter="url(#wobble)">
+      <rect x="60" y="560" width="480" height="230" rx="18" fill="#ffe8cc" stroke="#e8590c" stroke-width="4"/>
+    </g>
+    <text x="300" y="615" font-size="40" fill="#343a40">POST /api/pilot</text>
+    <text x="300" y="662" font-size="26" fill="#666">next route, node runtime</text>
+    <text x="300" y="698" font-size="26" fill="#666">takes battle, side, provider, model</text>
+    <text x="300" y="734" font-size="26" fill="#666">answers move, taunt, reason, ms</text>
+
+    <g filter="url(#wobble)">
+      <rect x="660" y="560" width="480" height="230" rx="18" fill="#fff3bf" stroke="#f08c00" stroke-width="4"/>
+    </g>
+    <text x="900" y="615" font-size="40" fill="#343a40">@fly-zord/agents</text>
+    <text x="900" y="662" font-size="26" fill="#666">the copied agents-sdk classes</text>
+    <text x="900" y="698" font-size="26" fill="#666">buildPrompt, parseDecision</text>
+    <text x="900" y="734" font-size="26" fill="#666">instinct pilot when a cli is missing</text>
+
+    <g filter="url(#wobble)">
+      <rect x="360" y="900" width="480" height="230" rx="18" fill="#ffdeeb" stroke="#c2255c" stroke-width="4"/>
+    </g>
+    <text x="600" y="955" font-size="40" fill="#343a40">Provider CLI</text>
+    <text x="600" y="1002" font-size="26" fill="#666">claude -p --model</text>
+    <text x="600" y="1038" font-size="26" fill="#666">codex exec --model</text>
+    <text x="600" y="1074" font-size="26" fill="#666">agy -p --model</text>
+    <text x="600" y="1110" font-size="26" fill="#666">ollama run</text>
+
+    <g fill="none" stroke="#495057" stroke-width="4" stroke-linecap="round" filter="url(#wobble)">
+      <path d="M300 455 Q292 505 300 555" marker-end="url(#arrow)"/>
+      <path d="M120 555 Q112 505 120 455" marker-end="url(#arrow)"/>
+      <path d="M545 655 Q600 645 655 635" marker-end="url(#arrow)"/>
+      <path d="M545 250 Q600 240 655 230" marker-end="url(#arrow)"/>
+      <path d="M900 555 Q908 505 900 455" marker-end="url(#arrow)"/>
+      <path d="M800 795 Q790 850 780 895" marker-end="url(#arrow)"/>
+      <path d="M860 1000 Q1010 900 1010 795" marker-end="url(#arrow)"/>
+    </g>
+    <text x="410" y="515" font-size="26" fill="#1971c2">battle + side</text>
+    <text x="150" y="515" font-size="26" fill="#e8590c">decision json</text>
+    <text x="600" y="592" font-size="22" fill="#f08c00">flyDecision</text>
+    <text x="600" y="296" font-size="22" fill="#2f9e44">applyMove</text>
+    <text x="1010" y="515" font-size="26" fill="#2f9e44">legalMoves</text>
+    <text x="700" y="868" font-size="26" fill="#c2255c">argv, never a shell</text>
+    <text x="1080" y="880" font-size="26" fill="#c2255c">stdout json</text>
+  </g>
+</svg>

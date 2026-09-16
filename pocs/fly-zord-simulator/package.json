@@ -1,0 +1,16 @@
+{
+  "name": "fly-zord-simulator",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "build": "bun run --filter '@fly-zord/engine' build && bun run --filter '@fly-zord/agents' build && bun run --filter '@fly-zord/web' build",
+    "dev": "bun run --filter '@fly-zord/web' dev",
+    "test": "bun test packages",
+    "typecheck": "bun run --filter '*' typecheck"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "@types/node": "24.10.1"
+  }
+}

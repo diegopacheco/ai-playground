@@ -1,0 +1,25 @@
+{
+  "name": "@fly-zord/web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 3777",
+    "build": "next build",
+    "start": "next start --port 3777",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fly-zord/agents": "workspace:*",
+    "@fly-zord/engine": "workspace:*",
+    "next": "16.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "7.0.2"
+  }
+}
