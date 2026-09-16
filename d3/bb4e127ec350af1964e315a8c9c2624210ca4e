@@ -1,0 +1,23 @@
+pocs/fly-zord-simulator/apps/web/app/globals.css
+  s_00cdc4859a0050::t_7f1a404295304b 48-54
+pocs/fly-zord-simulator/README.md
+  s_00cdc4859a0050::t_d6d46596721183 49,146-147,154-156,162-164
+pocs/fly-zord-simulator/apps/web/next-env.d.ts
+  s_00cdc4859a0050::t_e603b274b0ad27 3-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d3bb4e127ec350af1964e315a8c9c2624210ca4e",
+  "prompts": {},
+  "sessions": {
+    "s_00cdc4859a0050": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2eddb996-467c-426e-89a3-77ff9c264cde",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
