@@ -92,7 +92,10 @@ export default function Page() {
   if (!battle) {
     return (
       <main className="arena">
-        <Header phase={phase} battle={null} />
+        <header className="head">
+          <h1>FLY ZORD SIMULATOR</h1>
+          <p>two megazords, two cockpits, one city block left standing</p>
+        </header>
         <Setup
           seats={seats}
           seed={seed}
@@ -132,32 +135,26 @@ export default function Page() {
     "the city shakes";
 
   return (
-    <main className="arena">
-      <Header phase={phase} battle={battle} />
-      <BattleStage battle={battle} action={action} onActionDone={finishAnimation} />
+    <main className="arena playing">
+      <header className="head bar">
+        <h1>FLY ZORD SIMULATOR</h1>
+        <span className="head-state">TURN {battle.turn} · {phase.toUpperCase()}</span>
+        <span className="head-hint">{hint}</span>
+        <button className="start" onClick={start}>REMATCH</button>
+        <button className="ghost" onClick={() => { setBattle(null); setPhase("setup"); }}>PILOTS</button>
+      </header>
       <div className="deck">
         <PilotPanel battle={battle} side="left" view={camFor("left")} action={action} telemetry={telemetryFor("left")} />
+        <div className="stage-column">
+          <BattleStage battle={battle} action={action} onActionDone={finishAnimation} />
+          <Controls legal={legalMoves(battle, battle.active)} enabled={humanTurn} onMove={move => commit(battle, move, "")} />
+        </div>
         <PilotPanel battle={battle} side="right" view={camFor("right")} action={action} telemetry={telemetryFor("right")} />
       </div>
-      {error ? <div className="error">{error} <button onClick={() => { setError(""); setPhase("thinking"); }}>try again</button></div> : null}
-      <Controls legal={legalMoves(battle, battle.active)} enabled={humanTurn} hint={hint} onMove={move => commit(battle, move, "")} />
-      <div className="lower">
-        <BattleLog battle={battle} />
-      </div>
-      <div className="footer-row">
-        <button className="start" onClick={start}>REMATCH</button>
-        <button className="ghost" onClick={() => { setBattle(null); setPhase("setup"); }}>CHANGE PILOTS</button>
-      </div>
+      {error
+        ? <div className="error">{error} <button onClick={() => { setError(""); setPhase("thinking"); }}>try again</button></div>
+        : <BattleLog battle={battle} />}
     </main>
-  );
-}
-
-function Header({ phase, battle }: { phase: Phase; battle: Battle | null }) {
-  return (
-    <header className="head">
-      <h1>FLY ZORD SIMULATOR</h1>
-      <p>{battle ? `TURN ${battle.turn} · ${phase.toUpperCase()}` : "two megazords, two cockpits, one city block left standing"}</p>
-    </header>
   );
 }
 
