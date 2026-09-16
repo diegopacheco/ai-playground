@@ -46,6 +46,7 @@ Three bun workspaces:
 * **Seeded battles.** The same seed replays the same city and the same damage rolls, so two agents can be compared on their choices alone.
 * **Never stalls.** A missing or logged out CLI falls back to the instinct pilot and the panel says which provider went quiet.
 * **Nothing is hidden.** Every taunt, reason, provider, model and latency the agent produced is on screen.
+* **One screen, no scrolling.** The arena is a `100dvh` grid: cockpit, stage, cockpit, move row and feed all size themselves to the viewport.
 
 ## Stack
 
@@ -142,24 +143,25 @@ choice, the right one flies on instinct. The city seed decides the skyline and t
 
 ![Fly thinking](printscreens/02-fly-thinking.png)
 
-Turn 1. The left driver cam is flashing `REC COMPUTING` while the agent CLI runs, its wing beat is up
-at 244 Hz with a spiky waveform, and the calm fly on the right sits at 186 Hz. Both onboard views
+Turn 1. The left cockpit column is flashing `REC COMPUTING` while the agent CLI runs, its wing beat is
+up at 244 Hz with a spiky waveform, and the calm fly on the right sits at 186 Hz. Both onboard views
 show the enemy zord filling the windshield with a `TGT` hull bar under it.
 
 ### The order comes back
 
 ![Claude fly orders](printscreens/03-claude-fly-orders.png)
 
-The agent answered, so the telemetry shows `LINK claude:claude-haiku-4-5-20251001`, `THINK 8885 ms`
-and `LAST Sky Saber`, with the reason it gave printed under the panel. The stage has already played
-the swing and both hulls are down to 83.
+The agent answered, so the telemetry shows `LINK claude:claude-haiku-4-5-20251001`, the think time in
+milliseconds and `LAST Sky Saber`, with the reason it gave printed under the panel and the decision
+loop stepping read, pick, swing. The stage between the two cockpits has already played the swing.
 
 ### Fly against fly
 
 ![Fly vs fly](printscreens/04-fly-vs-fly.png)
 
-Two instinct flies trade turns with no human in the loop. Each panel keeps its own view of the same
-fight: hull, core, the threat the other core holds, and the move it just made.
+Two instinct flies trade turns with no human in the loop. Each cockpit column keeps its own view of
+the same fight: hull, core, the threat the other core holds, and the move it just made. The move row
+sits under the stage and the feed runs along the bottom, so a whole duel stays in one screen.
 
 ### Last one standing
 

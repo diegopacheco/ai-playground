@@ -45,6 +45,13 @@ body::after {
   gap: 8px;
 }
 
+.arena:not(.playing) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1100px;
+}
+
 .head { text-align: center; }
 .head h1 {
   margin: 0;
