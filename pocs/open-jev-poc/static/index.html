@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SemIf POC</title>
+<style>
+  :root { --bg:#f7f6f2; --card:#fff; --ink:#1f2328; --muted:#6b7078; --line:#e3e1da; --accent:#3b6fd8; --win:#2f9e6a; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 -apple-system, "Segoe UI", sans-serif; }
+  header { padding:24px 32px 8px; }
+  h1 { margin:0; font-size:26px; }
+  header p { margin:4px 0 0; color:var(--muted); }
+  main { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:16px 32px 32px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px; }
+  label { display:block; font-weight:600; margin:14px 0 6px; }
+  textarea, input { width:100%; border:1px solid var(--line); border-radius:8px; padding:10px; font:inherit; background:#fcfcfa; }
+  textarea { resize:vertical; }
+  .hint { color:var(--muted); font-size:13px; font-weight:400; }
+  .samples { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { border:1px solid var(--line); background:#fcfcfa; border-radius:999px; padding:6px 12px; cursor:pointer; font:inherit; font-size:13px; }
+  .chip:hover { border-color:var(--accent); }
+  button.go { margin-top:18px; background:var(--accent); color:#fff; border:0; border-radius:8px; padding:11px 22px; font:inherit; font-weight:600; cursor:pointer; }
+  button.go:disabled { opacity:.6; cursor:wait; }
+  .decision { font-size:30px; font-weight:700; color:var(--win); margin:4px 0 12px; }
+  .row { margin:12px 0; }
+  .row .top { display:flex; justify-content:space-between; font-size:14px; }
+  .bar { height:12px; background:#eeece6; border-radius:6px; overflow:hidden; margin-top:4px; }
+  .bar div { height:100%; background:var(--accent); transition:width .4s; }
+  .row.best .bar div { background:var(--win); }
+  .meta { color:var(--muted); font-size:13px; margin-top:16px; }
+  .error { color:#c0392b; }
+  @media (max-width: 800px) { main { grid-template-columns:1fr; padding:16px; } header { padding:16px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>SemIf POC</h1>
+  <p>Semantic if: typed decisions read from option logits of a 4B model, no text generation.</p>
+</header>
+<main>
+  <section class="card">
+    <label>Samples</label>
+    <div class="samples" id="samples"></div>
+    <label for="state">State <span class="hint">the evidence</span></label>
+    <textarea id="state" rows="5"></textarea>
+    <label for="question">Question <span class="hint">the criterion</span></label>
+    <input id="question">
+    <label for="options">Options <span class="hint">one per line: id: description</span></label>
+    <textarea id="options" rows="4"></textarea>
+    <button class="go" id="go">Decide</button>
+  </section>
+  <section class="card" id="result">
+    <label>Result</label>
+    <p class="hint">Pick a sample or write your own decision and press Decide.</p>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+
+function fill(row) {
+  $("state").value = row.state;
+  $("question").value = row.question;
+  $("options").value = row.options.map(o => `${o.id}: ${o.description}`).join("\n");
+}
+
+function readRow() {
+  const options = $("options").value.split("\n").map(l => l.trim()).filter(Boolean).map(l => {
+    const at = l.indexOf(":");
+    return at < 0 ? { id: l, description: l } : { id: l.slice(0, at).trim(), description: l.slice(at + 1).trim() };
+  });
+  return { id: "ui", state: $("state").value.trim(), question: $("question").value.trim(), options };
+}
+
+function render(result) {
+  const rows = result.ranked.map((r, i) => `
+    <div class="row ${i === 0 ? "best" : ""}">
+      <div class="top"><span>${r.id}</span><span>${(r.probability * 100).toFixed(1)}%</span></div>
+      <div class="bar"><div style="width:${r.probability * 100}%"></div></div>
+    </div>`).join("");
+  $("result").innerHTML = `<label>Decision</label><div class="decision">${result.decision}</div>${rows}
+    <div class="meta">${result.input_tokens} input tokens, one forward pass in ${result.forward_ms} ms, 0 output tokens</div>`;
+}
+
+async function go() {
+  $("go").disabled = true;
+  try {
+    const response = await fetch("/api/decide", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(readRow()) });
+    const body = await response.json();
+    if (!response.ok) throw new Error(body.error);
+    render(body);
+  } catch (error) {
+    $("result").innerHTML = `<label>Error</label><p class="error">${error.message}</p>`;
+  } finally {
+    $("go").disabled = false;
+  }
+}
+
+fetch("/api/samples").then(r => r.json()).then(samples => {
+  samples.forEach(s => {
+    const chip = document.createElement("button");
+    chip.className = "chip";
+    chip.textContent = s.id;
+    chip.onclick = () => fill(s);
+    $("samples").appendChild(chip);
+  });
+  fill(samples[0]);
+});
+$("go").onclick = go;
+</script>
+</body>
+</html>

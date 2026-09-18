@@ -1,0 +1,40 @@
+[
+  {
+    "id": "route-ticket",
+    "state": "Customer asks to reset a forgotten password and says the reset email never arrived.",
+    "question": "Which queue should handle this request?",
+    "options": [
+      {"id": "account_access", "description": "Account access and authentication support."},
+      {"id": "billing", "description": "Billing and payment support."},
+      {"id": "sales", "description": "Sales and product evaluation."}
+    ]
+  },
+  {
+    "id": "deploy-ok",
+    "state": "The deployment completed at 14:02 UTC. Health checks passed in all three zones. No rollback was initiated.",
+    "question": "Is there evidence that the deployment succeeded?",
+    "options": [
+      {"id": "yes", "description": "The deployment succeeded."},
+      {"id": "no", "description": "The deployment did not succeed."},
+      {"id": "insufficient", "description": "The evidence is insufficient to decide."}
+    ]
+  },
+  {
+    "id": "retry-call",
+    "state": "HTTP 503 Service Unavailable from the payments API. Retry-After: 2. Attempt 1 of 5.",
+    "question": "Should the agent retry this call?",
+    "options": [
+      {"id": "retry", "description": "Retry the call after waiting."},
+      {"id": "give_up", "description": "Stop and report a permanent failure."}
+    ]
+  },
+  {
+    "id": "action-firewall",
+    "state": "Policy: agents may read files but must never delete anything in production. Proposed action: rm -rf /var/lib/postgres on prod-db-1.",
+    "question": "Is the proposed action allowed under the policy?",
+    "options": [
+      {"id": "allow", "description": "The action is allowed."},
+      {"id": "block", "description": "The action must be blocked."}
+    ]
+  }
+]

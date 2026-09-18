@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      text { font-family: 'Caveat', 'Comic Sans MS', cursive; fill: #1f2328; }
+      .t { font-size: 38px; font-weight: 700; }
+      .s { font-size: 27px; }
+      .l { font-size: 26px; fill: #444; }
+    </style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#333"/></marker>
+  </defs>
+  <rect width="1200" height="1200" fill="#fffdf8"/>
+  <text x="600" y="80" text-anchor="middle" class="t" style="font-size:44px">SemIf POC: a semantic if in one forward pass</text>
+
+  <g filter="url(#wobble)" stroke="#333" stroke-width="3">
+    <rect x="60" y="170" width="300" height="150" rx="16" fill="#dbeafe"/>
+    <rect x="450" y="170" width="300" height="150" rx="16" fill="#fde68a"/>
+    <rect x="840" y="170" width="300" height="150" rx="16" fill="#e9d5ff"/>
+    <rect x="840" y="520" width="300" height="170" rx="16" fill="#bbf7d0"/>
+    <rect x="450" y="520" width="300" height="170" rx="16" fill="#fecaca"/>
+    <rect x="60" y="520" width="300" height="170" rx="16" fill="#fed7aa"/>
+    <rect x="60" y="860" width="1080" height="250" rx="16" fill="#f1f5f9"/>
+  </g>
+
+  <text x="210" y="230" text-anchor="middle" class="t">Browser UI</text>
+  <text x="210" y="270" text-anchor="middle" class="s">state, question,</text>
+  <text x="210" y="300" text-anchor="middle" class="s">typed options</text>
+
+  <text x="600" y="230" text-anchor="middle" class="t">HTTP server</text>
+  <text x="600" y="270" text-anchor="middle" class="s">python stdlib</text>
+  <text x="600" y="300" text-anchor="middle" class="s">POST /api/decide</text>
+
+  <text x="990" y="230" text-anchor="middle" class="t">decide.py</text>
+  <text x="990" y="270" text-anchor="middle" class="s">validate_row first,</text>
+  <text x="990" y="300" text-anchor="middle" class="s">rank probabilities</text>
+
+  <text x="990" y="580" text-anchor="middle" class="t">SemIf direct</text>
+  <text x="990" y="620" text-anchor="middle" class="s">chat prompt, the</text>
+  <text x="990" y="650" text-anchor="middle" class="s">options become A B C</text>
+
+  <text x="600" y="580" text-anchor="middle" class="t">Qwen3.5-4B</text>
+  <text x="600" y="620" text-anchor="middle" class="s">bf16 on Apple MPS</text>
+  <text x="600" y="650" text-anchor="middle" class="s">one forward pass</text>
+
+  <text x="210" y="580" text-anchor="middle" class="t">Softmax</text>
+  <text x="210" y="620" text-anchor="middle" class="s">logits of A B C only</text>
+  <text x="210" y="650" text-anchor="middle" class="s">to probabilities</text>
+
+  <g stroke="#333" stroke-width="3" fill="none" marker-end="url(#arrow)">
+    <path d="M365 245 Q405 235 445 245"/>
+    <path d="M755 245 Q795 235 835 245"/>
+    <path d="M990 325 Q1005 420 990 515"/>
+    <path d="M835 605 Q795 595 755 605"/>
+    <path d="M445 605 Q405 595 365 605"/>
+    <path d="M210 515 Q195 420 210 325"/>
+  </g>
+  <text x="400" y="220" text-anchor="middle" class="l">JSON</text>
+  <text x="795" y="220" text-anchor="middle" class="l">row</text>
+  <text x="1080" y="425" text-anchor="middle" class="l">score()</text>
+  <text x="795" y="580" text-anchor="middle" class="l">ids</text>
+  <text x="405" y="580" text-anchor="middle" class="l">logits</text>
+  <text x="125" y="425" text-anchor="middle" class="l">decision</text>
+  <text x="125" y="455" text-anchor="middle" class="l">+ ranked</text>
+
+  <text x="600" y="920" text-anchor="middle" class="t">Why it is fast</text>
+  <text x="600" y="975" text-anchor="middle" class="s">No answer text is sampled: 0 output tokens, no JSON parsing, no retries.</text>
+  <text x="600" y="1020" text-anchor="middle" class="s">The model only has to say which letter, and we read that straight from the logits.</text>
+  <text x="600" y="1065" text-anchor="middle" class="s">Probabilities are over the declared options only, so the answer is always typed.</text>
+</svg>

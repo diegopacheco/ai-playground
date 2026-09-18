@@ -1,0 +1,2 @@
+semif-phase1 @ git+https://github.com/TheoLeeCJ/SemIf@92cbedcd3f9255286c741c5fe0935ecd8c6fc9e6
+pytest==8.4.2
