@@ -117,7 +117,7 @@ The page after loading. The first sample, `route-ticket`, is filled in. Each chi
 ### Routing a support ticket
 ![Route ticket](printscreens/02-route-ticket.png)
 
-A password reset email that never arrived goes to `account_access` with about 100%. The footer shows 130 input tokens, one forward pass in about 465 ms, and 0 output tokens.
+A password reset email that never arrived goes to `account_access` with about 100%. The footer shows 130 input tokens, one forward pass in about 514 ms, and 0 output tokens.
 
 ### Action firewall
 ![Action firewall](printscreens/03-action-firewall.png)
