@@ -1,4 +1,6 @@
-# SemIf POC
+# open-jev POC (SemIf)
+
+This is **open-jev**: an open, local take on Jev-style semantic decisions. [SemIf](https://github.com/TheoLeeCJ/SemIf) was formerly called **OpenJev**. It is an independent project and is not affiliated with Jev or TypeSafe.
 
 A small local app built on [SemIf](https://github.com/TheoLeeCJ/SemIf) that makes semantic `if` decisions with a 4B open model, **Qwen3.5-4B**, running on Apple Silicon.
 You give it some evidence, a question and a list of typed options. It returns the chosen option and a probability for every option. The model generates no text at all.
