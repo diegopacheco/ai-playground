@@ -1,0 +1,21 @@
+pocs/open-jev-poc/static/index.html
+  s_4074b16bba9871::t_271a70d9563061 6,38
+pocs/open-jev-poc/README.md
+  s_4074b16bba9871::t_bc5132318ed498 120
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "49c883d53afc0e19630850badf9ad1aa51ce0dcf",
+  "prompts": {},
+  "sessions": {
+    "s_4074b16bba9871": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "67242cf9-a3ee-4d0d-9c85-c07358374122",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
