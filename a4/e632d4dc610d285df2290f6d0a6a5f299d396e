@@ -1,0 +1,61 @@
+pocs/open-jev-poc/static/index.html
+  s_4074b16bba9871::t_edd9ba97a01e43 1-112
+pocs/open-jev-poc/scripts/setup.sh
+  s_4074b16bba9871::t_7312c15881a158 1-16
+pocs/open-jev-poc/architecture.svg
+  s_4074b16bba9871::t_3008a7cb561c21 13,38-39,61
+  s_4074b16bba9871::t_5b93c98749bf2f 1-12,14-37,40-60,62-69
+pocs/open-jev-poc/requirements.txt
+  s_4074b16bba9871::t_4910377573c945 1-2
+pocs/open-jev-poc/scripts/status.sh
+  s_4074b16bba9871::t_7312c15881a158 1-18
+pocs/open-jev-poc/tests/test_server.py
+  s_4074b16bba9871::t_c8fe292673b2c5 1-60
+pocs/open-jev-poc/scripts/common.sh
+  s_4074b16bba9871::t_7312c15881a158 1-117
+pocs/open-jev-poc/semif_poc/decide.py
+  s_4074b16bba9871::t_1b04a23dcd1c2b 1-22
+pocs/open-jev-poc/semif_poc/server.py
+  s_4074b16bba9871::t_8c2f89f537cb09 1-65
+pocs/open-jev-poc/tests/test_model.py
+  s_4074b16bba9871::t_ae6bb1954161be 1-32
+pocs/open-jev-poc/scripts/ui.sh
+  s_4074b16bba9871::t_7312c15881a158 1-11
+pocs/open-jev-poc/.gitignore
+  s_4074b16bba9871::t_0d82944ff912e4 1,3,6-7
+  s_4074b16bba9871::t_0a644179e2c365 2,4-5,8-15
+pocs/open-jev-poc/scripts/ports.env
+  s_4074b16bba9871::t_7312c15881a158 1
+pocs/open-jev-poc/tests/test_decide.py
+  s_4074b16bba9871::t_6e61d7754d942e 1-53
+pocs/open-jev-poc/semif_poc/samples.json
+  s_4074b16bba9871::t_42caa1a194cc55 1-40
+pocs/open-jev-poc/semif_poc/model.py
+  s_4074b16bba9871::t_acc2cbd64cab57 1-46
+pocs/open-jev-poc/scripts/stop-all.sh
+  s_4074b16bba9871::t_7312c15881a158 1-13
+pocs/open-jev-poc/scripts/start-all.sh
+  s_4074b16bba9871::t_0d82944ff912e4 12
+  s_4074b16bba9871::t_7312c15881a158 1-11,13-20
+pocs/open-jev-poc/scripts/test-all.sh
+  s_4074b16bba9871::t_7312c15881a158 1-10
+pocs/open-jev-poc/README.md
+  s_4074b16bba9871::t_84bd54c16a9c25 84
+  s_4074b16bba9871::t_b861a55612638b 1-83,85-151
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "a4e632d4dc610d285df2290f6d0a6a5f299d396e",
+  "prompts": {},
+  "sessions": {
+    "s_4074b16bba9871": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "67242cf9-a3ee-4d0d-9c85-c07358374122",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
