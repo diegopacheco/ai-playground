@@ -1,0 +1,131 @@
+pocs/http-proxy-semantic-cache/scripts/setup.sh
+  s_f1707569554547::t_09879fa24aaa76 1-14,17-27
+  s_f1707569554547::t_e90cb02ed072f8 15-16
+pocs/http-proxy-semantic-cache/scripts/start-all.sh
+  s_f1707569554547::t_09879fa24aaa76 1-24
+pocs/http-proxy-semantic-cache/backend/src/config.rs
+  s_f1707569554547::t_c4c13b8272bfa7 1-25
+pocs/http-proxy-semantic-cache/backend/tests/redis_ollama.rs
+  s_f1707569554547::t_f53aafefb74aba 1-66
+pocs/http-proxy-semantic-cache/ui/index.html
+  s_f1707569554547::t_4d819c093c45f7 1-13
+pocs/http-proxy-semantic-cache/ui/src/api/client.test.ts
+  s_f1707569554547::t_4d819c093c45f7 1-33
+pocs/http-proxy-semantic-cache/backend/src/lib.rs
+  s_f1707569554547::t_c4c13b8272bfa7 1-10
+pocs/http-proxy-semantic-cache/ui/src/api/client.ts
+  s_f1707569554547::t_4d819c093c45f7 1-28
+pocs/http-proxy-semantic-cache/ui/src/types.ts
+  s_f1707569554547::t_4d819c093c45f7 1-25
+pocs/http-proxy-semantic-cache/ui/vite.config.ts
+  s_f1707569554547::t_4d819c093c45f7 1-14
+pocs/http-proxy-semantic-cache/backend/src/routes.rs
+  s_f1707569554547::t_324c96a9482d92 1-118
+pocs/http-proxy-semantic-cache/scripts/sql-console.sh
+  s_f1707569554547::t_09879fa24aaa76 1-13
+pocs/http-proxy-semantic-cache/backend/src/agent_sdk/json.rs
+  s_f1707569554547::t_224c70647c3bf7 1-217
+pocs/http-proxy-semantic-cache/backend/src/service.rs
+  s_f1707569554547::t_324c96a9482d92 1-223
+pocs/http-proxy-semantic-cache/backend/src/redis.rs
+  s_f1707569554547::t_ac9631f124d182 1
+  s_f1707569554547::t_c4c13b8272bfa7 2-127
+pocs/http-proxy-semantic-cache/backend/tests/claude_e2e.rs
+  s_f1707569554547::t_f53aafefb74aba 1-8
+pocs/http-proxy-semantic-cache/ui/src/lib/format.ts
+  s_f1707569554547::t_4d819c093c45f7 1-18
+pocs/http-proxy-semantic-cache/scripts/ports.env
+  s_f1707569554547::t_09879fa24aaa76 1-3
+pocs/http-proxy-semantic-cache/scripts/test-all.sh
+  s_f1707569554547::t_09879fa24aaa76 1-17
+pocs/http-proxy-semantic-cache/scripts/ui.sh
+  s_f1707569554547::t_09879fa24aaa76 1-12
+pocs/http-proxy-semantic-cache/architecture.svg
+  s_f1707569554547::t_28d8fedaf045c2 30,35,61,63,66-69
+  s_f1707569554547::t_89e7c8b68a8417 1-29,31-34,36-60,62,64-65,70
+pocs/http-proxy-semantic-cache/backend/src/embedder.rs
+  s_f1707569554547::t_c4c13b8272bfa7 1-53
+pocs/http-proxy-semantic-cache/ui/tsconfig.json
+  s_f1707569554547::t_4d819c093c45f7 1-13,15-17
+  s_f1707569554547::t_43dc35103d80eb 14
+pocs/http-proxy-semantic-cache/backend/src/agent_sdk/mod.rs
+  s_f1707569554547::t_224c70647c3bf7 1-570
+pocs/http-proxy-semantic-cache/README.md
+  s_f1707569554547::t_378e5087209d8a 1-128
+pocs/http-proxy-semantic-cache/.gitignore
+  s_f1707569554547::t_09879fa24aaa76 1-4
+pocs/http-proxy-semantic-cache/podman-compose.yml
+  s_f1707569554547::t_ac9631f124d182 1-5,7-10
+  s_f1707569554547::t_09879fa24aaa76 6
+pocs/http-proxy-semantic-cache/scripts/common.sh
+  s_f1707569554547::t_09879fa24aaa76 1-109,113-144
+  s_f1707569554547::t_e90cb02ed072f8 110-112
+pocs/http-proxy-semantic-cache/backend/src/json_out.rs
+  s_f1707569554547::t_c4c13b8272bfa7 1-58
+pocs/http-proxy-semantic-cache/backend/src/main.rs
+  s_f1707569554547::t_324c96a9482d92 1-43
+pocs/http-proxy-semantic-cache/backend/Cargo.toml
+  s_f1707569554547::t_c4c13b8272bfa7 1-13
+pocs/http-proxy-semantic-cache/backend/src/llm.rs
+  s_f1707569554547::t_c4c13b8272bfa7 1-29
+pocs/http-proxy-semantic-cache/scripts/status.sh
+  s_f1707569554547::t_09879fa24aaa76 1-18
+pocs/http-proxy-semantic-cache/logo.svg
+  s_f1707569554547::t_89e7c8b68a8417 1-7
+pocs/http-proxy-semantic-cache/ui/src/lib/format.test.ts
+  s_f1707569554547::t_4d819c093c45f7 1-19
+pocs/http-proxy-semantic-cache/scripts/stop-all.sh
+  s_f1707569554547::t_09879fa24aaa76 1-22
+pocs/http-proxy-semantic-cache/backend/src/cache.rs
+  s_f1707569554547::t_324c96a9482d92 1-188
+pocs/http-proxy-semantic-cache/ui/package.json
+  s_f1707569554547::t_699a83c872d240 1-24
+pocs/http-proxy-semantic-cache/backend/src/http.rs
+  s_f1707569554547::t_c4c13b8272bfa7 1-105
+pocs/http-proxy-semantic-cache/backend/Cargo.lock
+  s_f1707569554547::t_3f19172320ce28 1-7
+pocs/http-proxy-semantic-cache/ui/bun.lock
+  s_f1707569554547::t_e66ce9a4633cd1 1-166
+pocs/http-proxy-semantic-cache/ui/src/App.tsx
+  s_f1707569554547::t_30dde3ca0d5f6c 1-36
+pocs/http-proxy-semantic-cache/ui/src/components/AnswerCard.tsx
+  s_f1707569554547::t_62eedfe3940e9e 1-19
+pocs/http-proxy-semantic-cache/ui/src/components/AskForm.tsx
+  s_f1707569554547::t_c3e34be4f3d732 1-15
+pocs/http-proxy-semantic-cache/ui/src/components/AskPanel.tsx
+  s_f1707569554547::t_8344f532207e0f 1-20
+pocs/http-proxy-semantic-cache/ui/src/components/CacheBadge.tsx
+  s_f1707569554547::t_4a01d7d862396a 1-3
+pocs/http-proxy-semantic-cache/ui/src/components/CachePanel.tsx
+  s_f1707569554547::t_ed3c6447cddcfe 1-55
+pocs/http-proxy-semantic-cache/ui/src/components/Header.tsx
+  s_f1707569554547::t_990d585198e537 1-18
+pocs/http-proxy-semantic-cache/ui/src/components/StatsBar.tsx
+  s_f1707569554547::t_cd634d5469cb40 1-26
+pocs/http-proxy-semantic-cache/ui/src/components/Tabs.tsx
+  s_f1707569554547::t_6f8ca2560aa75f 1-22
+pocs/http-proxy-semantic-cache/ui/src/hooks/useAsk.ts
+  s_f1707569554547::t_b702ccf4544573 1-28
+pocs/http-proxy-semantic-cache/ui/src/hooks/useRemote.ts
+  s_f1707569554547::t_ff3624b543a3bf 1-22
+pocs/http-proxy-semantic-cache/ui/src/main.tsx
+  s_f1707569554547::t_f3172458671aac 1-10
+pocs/http-proxy-semantic-cache/ui/src/styles.css
+  s_f1707569554547::t_82e670f1777979 1-315
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "55036aa34701bcd56dad7ee8d55ae7546079d0e3",
+  "prompts": {},
+  "sessions": {
+    "s_f1707569554547": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ed36cc93-51f7-4643-864e-9cce99e874f7",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
