@@ -1,0 +1,13 @@
+[package]
+name = "semantic-cache-proxy"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.98"
+
+[lib]
+name = "semantic_cache_proxy"
+path = "src/lib.rs"
+
+[[bin]]
+name = "semantic-cache-proxy"
+path = "src/main.rs"

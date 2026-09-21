@@ -1,0 +1,10 @@
+services:
+  redis:
+    image: docker.io/library/redis:8
+    container_name: semantic-cache-redis
+    ports:
+      - "${REDIS_PORT:-6380}:6379"
+    volumes:
+      - redis-data:/data
+volumes:
+  redis-data:

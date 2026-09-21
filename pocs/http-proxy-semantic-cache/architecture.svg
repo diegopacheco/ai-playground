@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      text { font-family: 'Caveat', 'Comic Sans MS', cursive; fill: #1f2328; }
+      .t { font-size: 38px; font-weight: 700; }
+      .s { font-size: 27px; }
+      .l { font-size: 26px; fill: #444; }
+      .r { font-size: 29px; }
+    </style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#333"/></marker>
+  </defs>
+  <rect width="1200" height="1200" fill="#fffdf8"/>
+  <text x="600" y="80" text-anchor="middle" class="t" style="font-size:44px">Semantic cache HTTP proxy in front of Claude Code</text>
+
+  <g filter="url(#wobble)" stroke="#333" stroke-width="3">
+    <rect x="60" y="170" width="300" height="150" rx="16" fill="#dbeafe"/>
+    <rect x="450" y="170" width="300" height="150" rx="16" fill="#fde68a"/>
+    <rect x="840" y="170" width="300" height="150" rx="16" fill="#fed7aa"/>
+    <rect x="840" y="560" width="300" height="150" rx="16" fill="#e9d5ff"/>
+    <rect x="450" y="560" width="300" height="150" rx="16" fill="#fecaca"/>
+    <rect x="60" y="560" width="300" height="150" rx="16" fill="#bbf7d0"/>
+    <rect x="60" y="840" width="1080" height="280" rx="16" fill="#f1f5f9"/>
+  </g>
+
+  <text x="210" y="230" text-anchor="middle" class="t">Browser UI</text>
+  <text x="210" y="270" text-anchor="middle" class="s">React 19.3 + TS 7</text>
+  <text x="210" y="300" text-anchor="middle" class="s">Ask and Cache tabs</text>
+
+  <text x="600" y="230" text-anchor="middle" class="t">Vite server</text>
+  <text x="600" y="270" text-anchor="middle" class="s">run by bun</text>
+  <text x="600" y="300" text-anchor="middle" class="s">/api to the proxy</text>
+
+  <text x="990" y="230" text-anchor="middle" class="t">Rust proxy</text>
+  <text x="990" y="270" text-anchor="middle" class="s">std only, no crates</text>
+  <text x="990" y="300" text-anchor="middle" class="s">QaService</text>
+
+  <text x="990" y="620" text-anchor="middle" class="t">Ollama</text>
+  <text x="990" y="660" text-anchor="middle" class="s">nomic-embed-text</text>
+  <text x="990" y="690" text-anchor="middle" class="s">768-dim vector</text>
+
+  <text x="600" y="620" text-anchor="middle" class="t">Redis 8 OSS</text>
+  <text x="600" y="660" text-anchor="middle" class="s">HNSW COSINE index</text>
+  <text x="600" y="690" text-anchor="middle" class="s">qa:* hashes</text>
+
+  <text x="210" y="620" text-anchor="middle" class="t">Claude Code</text>
+  <text x="210" y="660" text-anchor="middle" class="s">claude -p through</text>
+  <text x="210" y="690" text-anchor="middle" class="s">the copied agent-sdk</text>
+
+  <g stroke="#333" stroke-width="3" fill="none" marker-end="url(#arrow)">
+    <path d="M365 245 Q405 235 445 245"/>
+    <path d="M755 245 Q795 235 835 245"/>
+    <path d="M1000 325 Q1020 440 1000 555"/>
+    <path d="M900 325 Q800 450 700 555"/>
+    <path d="M850 310 Q540 400 250 555"/>
+    <path d="M365 635 Q405 625 445 635"/>
+  </g>
+  <text x="400" y="220" text-anchor="middle" class="l">ask</text>
+  <text x="795" y="220" text-anchor="middle" class="l">proxy</text>
+  <text x="1030" y="450" text-anchor="start" class="l">1 embed</text>
+  <text x="850" y="500" text-anchor="start" class="l">2 KNN</text>
+  <text x="470" y="385" text-anchor="middle" class="l">3 miss only</text>
+  <text x="405" y="690" text-anchor="middle" class="l">4 save</text>
+
+  <text x="100" y="900" class="t">Cache decision</text>
+  <text x="100" y="950" class="r">similarity 0.90 or more: HIT, answer from Redis in ~40 ms</text>
+  <text x="100" y="995" class="r">below 0.90: MISS, Claude answers in seconds, then saved</text>
+  <text x="100" y="1040" class="r">a failed Claude call is never cached</text>
+  <text x="100" y="1085" class="r">hit and miss counters live in Redis</text>
+</svg>
