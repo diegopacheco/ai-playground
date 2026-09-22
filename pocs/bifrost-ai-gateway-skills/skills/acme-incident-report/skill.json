@@ -1,0 +1,4 @@
+{
+  "description": "Writes an Acme incident report with severity, owner team and update cadence. Use when the user asks to write or format an Acme incident report.",
+  "version": "1.0.0"
+}

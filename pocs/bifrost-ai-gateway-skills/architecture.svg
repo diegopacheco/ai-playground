@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1400" viewBox="-100 0 1400 1400">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      text { font-family: 'Caveat', 'Comic Sans MS', cursive; fill: #1f2328; }
+      .t { font-size: 32px; font-weight: 700; }
+      .s { font-size: 22px; }
+      .l { font-size: 20px; fill: #444; }
+    </style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#333"/></marker>
+  </defs>
+  <rect x="-100" width="1400" height="1400" fill="#fffdf8"/>
+  <text x="600" y="80" text-anchor="middle" class="t" style="font-size:40px">Bifrost serving Agent Skills to CLI agents</text>
+
+  <g filter="url(#wobble)" stroke="#333" stroke-width="3">
+    <rect x="60" y="150" width="300" height="170" rx="16" fill="#dbeafe"/>
+    <rect x="450" y="150" width="300" height="170" rx="16" fill="#fde68a"/>
+    <rect x="840" y="150" width="300" height="170" rx="16" fill="#bbf7d0"/>
+    <rect x="60" y="440" width="300" height="170" rx="16" fill="#e2e8f0"/>
+    <rect x="450" y="440" width="300" height="170" rx="16" fill="#fbcfe8"/>
+    <rect x="840" y="440" width="300" height="170" rx="16" fill="#fef9c3"/>
+    <rect x="60" y="760" width="240" height="150" rx="16" fill="#fed7aa"/>
+    <rect x="340" y="760" width="240" height="150" rx="16" fill="#e9d5ff"/>
+    <rect x="620" y="760" width="240" height="150" rx="16" fill="#fecaca"/>
+    <rect x="900" y="760" width="240" height="150" rx="16" fill="#cffafe"/>
+    <rect x="60" y="1010" width="1080" height="340" rx="16" fill="#f1f5f9"/>
+  </g>
+
+  <text x="210" y="210" text-anchor="middle" class="t">Python 3.14 app</text>
+  <text x="210" y="250" text-anchor="middle" class="s">skill queries UI</text>
+  <text x="210" y="285" text-anchor="middle" class="s">port 8192</text>
+
+  <text x="600" y="210" text-anchor="middle" class="t">Bifrost gateway</text>
+  <text x="600" y="250" text-anchor="middle" class="s">4 CLI providers</text>
+  <text x="600" y="285" text-anchor="middle" class="s">routing, UI :8180</text>
+
+  <text x="990" y="210" text-anchor="middle" class="t">CLI bridge</text>
+  <text x="990" y="250" text-anchor="middle" class="s">syncs skills, runs CLI</text>
+  <text x="990" y="285" text-anchor="middle" class="s">agents SDK, :8191</text>
+
+  <text x="210" y="500" text-anchor="middle" class="t">skills/ folder</text>
+  <text x="210" y="540" text-anchor="middle" class="s">3 skill sources</text>
+  <text x="210" y="575" text-anchor="middle" class="s">publish.py</text>
+
+  <text x="600" y="500" text-anchor="middle" class="t">Skills Repository</text>
+  <text x="600" y="540" text-anchor="middle" class="s">inside Bifrost, SemVer</text>
+  <text x="600" y="575" text-anchor="middle" class="s">zip + marketplace</text>
+
+  <text x="990" y="500" text-anchor="middle" class="t">CLI workspace</text>
+  <text x="990" y="540" text-anchor="middle" class="s">.claude/skills</text>
+  <text x="990" y="575" text-anchor="middle" class="s">.agents/skills</text>
+
+  <text x="180" y="815" text-anchor="middle" class="t">claude -p</text>
+  <text x="180" y="855" text-anchor="middle" class="s">reads .claude/skills</text>
+  <text x="460" y="815" text-anchor="middle" class="t">codex exec</text>
+  <text x="460" y="855" text-anchor="middle" class="s">reads .agents/skills</text>
+  <text x="740" y="815" text-anchor="middle" class="t">agy -p</text>
+  <text x="740" y="855" text-anchor="middle" class="s">--add-dir workspace</text>
+  <text x="1020" y="815" text-anchor="middle" class="t">ollama run</text>
+  <text x="1020" y="855" text-anchor="middle" class="s">skills in the prompt</text>
+
+  <g fill="none" stroke="#333" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M362 225 Q405 212 446 225"/>
+    <path d="M752 225 Q795 212 836 225"/>
+    <path d="M362 525 Q405 512 446 525"/>
+    <path d="M752 480 Q860 400 950 324"/>
+    <path d="M990 324 Q1005 380 990 436"/>
+    <path d="M920 612 Q600 660 180 756"/>
+    <path d="M960 612 Q640 680 460 756"/>
+    <path d="M1000 612 Q820 690 740 756"/>
+    <path d="M1060 612 Q1045 690 1020 756"/>
+  </g>
+  <text x="404" y="200" text-anchor="middle" class="l">POST</text>
+  <text x="794" y="200" text-anchor="middle" class="l">OpenAI</text>
+  <text x="404" y="500" text-anchor="middle" class="l">POST</text>
+  <text x="890" y="400" text-anchor="middle" class="l">download.zip</text>
+  <text x="1070" y="385" text-anchor="middle" class="l">unzip</text>
+
+  <text x="100" y="1065" class="t">Flow</text>
+  <text x="100" y="1110" class="s">1. start-all.sh runs publish.py, which creates the 3 skills in Bifrost with POST /api/skills.</text>
+  <text x="100" y="1150" class="s">2. The app posts a question to Bifrost as claude-cli/claude-sonnet-5 (or codex, agy, ollama).</text>
+  <text x="100" y="1190" class="s">3. Bifrost routes it to the bridge, which pulls /api/skills/serve/all/download.zip from Bifrost.</text>
+  <text x="100" y="1230" class="s">4. The bridge unzips the served skills into .claude/skills and .agents/skills of the workspace.</text>
+  <text x="100" y="1270" class="s">5. The CLI runs in that workspace, finds the matching skill, and answers with its facts.</text>
+  <text x="100" y="1310" class="s">6. The answer ends with "skill: name", and the app shows which Bifrost skill answered.</text>
+</svg>

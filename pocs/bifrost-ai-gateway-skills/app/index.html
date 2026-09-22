@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bifrost Skills</title>
+<style>
+:root { --bg: #f6f7fb; --card: #ffffff; --ink: #1d2433; --muted: #667085; --line: #e4e7ec; --accent: #4f46e5; --bad: #b42318; --good: #067647; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, sans-serif; }
+main { max-width: 760px; margin: 0 auto; padding: 40px 16px; }
+h1 { margin: 0 0 4px; font-size: 24px; }
+p.sub { margin: 0 0 24px; color: var(--muted); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+select, input, textarea { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 8px; font: inherit; background: #fff; color: var(--ink); }
+textarea { min-height: 110px; resize: vertical; }
+button { margin-top: 12px; padding: 10px 18px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+button:disabled { opacity: .6; cursor: wait; }
+.meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.chip { font-size: 12px; padding: 2px 10px; border-radius: 999px; background: #eef2ff; color: var(--accent); }
+.answer { white-space: pre-wrap; }
+.error { color: var(--bad); }
+.presets { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.preset { margin: 0; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); font-size: 13px; font-weight: 500; }
+.preset:hover { border-color: var(--accent); color: var(--accent); }
+.card h2 { margin: 0 0 10px; font-size: 13px; color: var(--muted); font-weight: 600; }
+.skills { display: grid; gap: 10px; }
+.skill { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.skill b { font-family: ui-monospace, monospace; font-size: 13px; }
+.skill small { color: var(--muted); margin-left: 6px; }
+.skill p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+.skill.used { border-color: var(--good); background: #ecfdf3; }
+.chip.good { background: #ecfdf3; color: var(--good); }
+.chip.none { background: #fef3f2; color: var(--bad); }
+.route { font-family: ui-monospace, monospace; font-size: 12px; color: var(--muted); }
+@media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Bifrost Skills</h1>
+  <p class="sub">Python 3.14 app, then Bifrost on :8180. The CLI behind Bifrost answers with the Agent Skills served by the Bifrost Skills Repository.</p>
+  <section class="card">
+    <h2>Skills served by Bifrost</h2>
+    <div class="skills" id="skills"></div>
+  </section>
+  <form class="card" id="form">
+    <div class="row">
+      <div><label for="provider">Provider</label><select id="provider"></select></div>
+      <div><label for="model">Model</label><input id="model" required></div>
+    </div>
+    <label>Skill queries</label>
+    <div class="presets" id="presets"></div>
+    <label for="question">Question</label>
+    <textarea id="question" required>What is a blue freeze at Acme?</textarea>
+    <div class="route" id="route"></div>
+    <button id="ask" type="submit">Ask through Bifrost</button>
+  </form>
+  <section class="card" id="result" hidden>
+    <div class="meta" id="meta"></div>
+    <div class="answer" id="answer"></div>
+  </section>
+</main>
+<script>
+const defaults = { "claude-cli": "claude-sonnet-5", "codex-cli": "gpt-5.6-luna", "agy-cli": "gemini-3.8-flash-low", "ollama-cli": "llama3.2" };
+const queries = [
+  "What is a blue freeze at Acme?",
+  "At Acme, who works the owl shift and when?",
+  "How much does Acme charge to ship a 3.2 kg parcel to Zone B with express?",
+  "What is the Acme shipping price for 1 kg to Zone A?",
+  "Write an Acme incident report: login is failing for about 2500 customers since 10:05.",
+  "Write an Acme incident report: 40 customers see slow search results.",
+];
+const skillsBox = document.getElementById("skills");
+const renderSkills = (skills, used) => {
+  skillsBox.replaceChildren(...skills.map(skill => {
+    const item = document.createElement("div");
+    item.className = used.includes(skill.name) ? "skill used" : "skill";
+    const name = document.createElement("b");
+    name.textContent = skill.name;
+    const version = document.createElement("small");
+    version.textContent = `v${skill.version} · ${skill.files} extra file${skill.files === 1 ? "" : "s"}`;
+    const description = document.createElement("p");
+    description.textContent = skill.description;
+    item.append(name, version, description);
+    return item;
+  }));
+};
+let catalog = [];
+fetch("/api/skills").then(r => r.json()).then(data => {
+  if (data.error) throw new Error(data.error);
+  catalog = data.skills;
+  renderSkills(catalog, []);
+}).catch(failure => { skillsBox.textContent = failure.message; skillsBox.className = "skills error"; });
+const question = document.getElementById("question");
+const presets = document.getElementById("presets");
+queries.forEach(text => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "preset";
+  button.textContent = text.length > 38 ? `${text.slice(0, 36)}...` : text;
+  button.title = text;
+  button.addEventListener("click", () => { question.value = text; });
+  presets.append(button);
+});
+const provider = document.getElementById("provider");
+const model = document.getElementById("model");
+const route = document.getElementById("route");
+const showRoute = () => { route.textContent = `model sent to Bifrost: ${provider.value}/${model.value}`; };
+provider.addEventListener("change", () => { model.value = defaults[provider.value] || ""; showRoute(); });
+model.addEventListener("input", showRoute);
+fetch("/api/providers").then(r => r.json()).then(data => {
+  data.providers.forEach(name => provider.add(new Option(name, name)));
+  model.value = defaults[provider.value];
+  showRoute();
+});
+const chip = text => { const span = document.createElement("span"); span.className = "chip"; span.textContent = text; return span; };
+document.getElementById("form").addEventListener("submit", async event => {
+  event.preventDefault();
+  const button = document.getElementById("ask");
+  const result = document.getElementById("result");
+  const meta = document.getElementById("meta");
+  const answer = document.getElementById("answer");
+  button.disabled = true;
+  renderSkills(catalog, []);
+  button.textContent = "Waiting for the CLI...";
+  meta.replaceChildren();
+  answer.className = "answer";
+  answer.textContent = "";
+  try {
+    const response = await fetch("/api/ask", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ provider: provider.value, model: model.value, question: question.value }) });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error);
+    meta.append(chip(data.provider), chip(data.model), chip(`${data.latency_ms} ms`));
+    data.skills_used.forEach(name => { const used = chip(`skill used: ${name}`); used.classList.add("good"); meta.append(used); });
+    if (data.skills_used.length === 0) { const none = chip("no skill used"); none.classList.add("none"); meta.append(none); }
+    answer.textContent = data.answer;
+    renderSkills(catalog, data.skills_used);
+  } catch (failure) {
+    answer.className = "answer error";
+    answer.textContent = failure.message;
+  }
+  result.hidden = false;
+  button.disabled = false;
+  button.textContent = "Ask through Bifrost";
+});
+</script>
+</body>
+</html>

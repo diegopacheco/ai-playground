@@ -1,0 +1,4 @@
+{
+  "description": "Computes the price to ship an Acme parcel by zone and weight, with the express surcharge. Use when the user asks how much Acme shipping costs.",
+  "version": "1.0.0"
+}
