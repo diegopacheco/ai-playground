@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      text { font-family: 'Caveat', 'Comic Sans MS', cursive; fill: #1f2328; }
+      .t { font-size: 38px; font-weight: 700; }
+      .s { font-size: 27px; }
+      .l { font-size: 25px; fill: #444; }
+    </style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#333"/></marker>
+  </defs>
+  <rect width="1200" height="1200" fill="#fffdf8"/>
+  <text x="600" y="80" text-anchor="middle" class="t" style="font-size:44px">Bifrost routing to CLI agents through the agents SDK</text>
+
+  <g filter="url(#wobble)" stroke="#333" stroke-width="3">
+    <rect x="60" y="170" width="300" height="170" rx="16" fill="#dbeafe"/>
+    <rect x="450" y="170" width="300" height="170" rx="16" fill="#fde68a"/>
+    <rect x="840" y="170" width="300" height="170" rx="16" fill="#bbf7d0"/>
+    <rect x="60" y="460" width="300" height="150" rx="16" fill="#e2e8f0"/>
+    <rect x="60" y="760" width="240" height="130" rx="16" fill="#fed7aa"/>
+    <rect x="340" y="760" width="240" height="130" rx="16" fill="#e9d5ff"/>
+    <rect x="620" y="760" width="240" height="130" rx="16" fill="#fecaca"/>
+    <rect x="900" y="760" width="240" height="130" rx="16" fill="#cffafe"/>
+    <rect x="60" y="980" width="1080" height="170" rx="16" fill="#f1f5f9"/>
+  </g>
+
+  <text x="210" y="230" text-anchor="middle" class="t">Python 3.14 app</text>
+  <text x="210" y="270" text-anchor="middle" class="s">stdlib HTTP + UI</text>
+  <text x="210" y="305" text-anchor="middle" class="s">port 8092</text>
+
+  <text x="600" y="230" text-anchor="middle" class="t">Bifrost gateway</text>
+  <text x="600" y="270" text-anchor="middle" class="s">4 custom providers</text>
+  <text x="600" y="305" text-anchor="middle" class="s">logs, catalog, UI :8080</text>
+
+  <text x="990" y="230" text-anchor="middle" class="t">CLI bridge</text>
+  <text x="990" y="270" text-anchor="middle" class="s">OpenAI-compatible</text>
+  <text x="990" y="305" text-anchor="middle" class="s">agents SDK, :8091</text>
+
+  <text x="210" y="520" text-anchor="middle" class="t">Any OpenAI client</text>
+  <text x="210" y="560" text-anchor="middle" class="s">curl, SDKs, agents</text>
+  <text x="210" y="592" text-anchor="middle" class="s">/v1/chat/completions</text>
+
+  <text x="180" y="815" text-anchor="middle" class="t">claude -p</text>
+  <text x="180" y="855" text-anchor="middle" class="s">Claude Code</text>
+  <text x="460" y="815" text-anchor="middle" class="t">codex exec</text>
+  <text x="460" y="855" text-anchor="middle" class="s">Codex</text>
+  <text x="740" y="815" text-anchor="middle" class="t">agy -p</text>
+  <text x="740" y="855" text-anchor="middle" class="s">Antigravity</text>
+  <text x="1020" y="815" text-anchor="middle" class="t">ollama run</text>
+  <text x="1020" y="855" text-anchor="middle" class="s">local models</text>
+
+  <text x="90" y="1030" class="t">One request</text>
+  <text x="90" y="1072" class="s">model claude-cli/claude-sonnet-5 picks provider claude-cli in Bifrost,</text>
+  <text x="90" y="1106" class="s">which calls the bridge at /claude/v1/chat/completions,</text>
+  <text x="90" y="1140" class="s">which runs claude -p --model claude-sonnet-5 and wraps stdout as a chat completion.</text>
+
+  <g fill="none" stroke="#333" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M360 245 Q405 238 448 245"/>
+    <path d="M750 245 Q795 238 838 245"/>
+    <path d="M362 520 Q480 480 560 344"/>
+    <path d="M920 342 Q640 560 190 756"/>
+    <path d="M960 342 Q700 560 465 756"/>
+    <path d="M1000 342 Q880 560 745 756"/>
+    <path d="M1060 342 Q1030 560 1020 756"/>
+  </g>
+  <text x="404" y="222" text-anchor="middle" class="l">POST</text>
+  <text x="794" y="222" text-anchor="middle" class="l">HTTP</text>
+  <text x="1090" y="560" class="l">spawn,</text>
+  <text x="1090" y="588" class="l">no shell</text>
+</svg>
