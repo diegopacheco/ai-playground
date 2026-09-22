@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1400" viewBox="-100 0 1400 1400">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      text { font-family: 'Caveat', 'Comic Sans MS', cursive; fill: #1f2328; }
+      .t { font-size: 38px; font-weight: 700; }
+      .s { font-size: 27px; }
+      .l { font-size: 25px; fill: #444; }
+    </style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#333"/></marker>
+  </defs>
+  <rect x="-100" width="1400" height="1400" fill="#fffdf8"/>
+  <text x="600" y="80" text-anchor="middle" class="t" style="font-size:44px">Bifrost running a math MCP server for CLI agents</text>
+
+  <g filter="url(#wobble)" stroke="#333" stroke-width="3">
+    <rect x="60" y="170" width="300" height="170" rx="16" fill="#dbeafe"/>
+    <rect x="450" y="170" width="300" height="170" rx="16" fill="#fde68a"/>
+    <rect x="840" y="170" width="300" height="170" rx="16" fill="#bbf7d0"/>
+    <rect x="60" y="460" width="300" height="150" rx="16" fill="#e2e8f0"/>
+    <rect x="450" y="460" width="300" height="170" rx="16" fill="#fbcfe8"/>
+    <rect x="60" y="960" width="240" height="130" rx="16" fill="#fed7aa"/>
+    <rect x="340" y="960" width="240" height="130" rx="16" fill="#e9d5ff"/>
+    <rect x="620" y="960" width="240" height="130" rx="16" fill="#fecaca"/>
+    <rect x="900" y="960" width="240" height="130" rx="16" fill="#cffafe"/>
+    <rect x="60" y="1160" width="1080" height="200" rx="16" fill="#f1f5f9"/>
+  </g>
+
+  <text x="210" y="230" text-anchor="middle" class="t">Python 3.14 app</text>
+  <text x="210" y="270" text-anchor="middle" class="s">math queries UI</text>
+  <text x="210" y="305" text-anchor="middle" class="s">port 8092</text>
+
+  <text x="600" y="230" text-anchor="middle" class="t">Bifrost gateway</text>
+  <text x="600" y="270" text-anchor="middle" class="s">4 CLI providers, MCP</text>
+  <text x="600" y="305" text-anchor="middle" class="s">agent loop, UI :8080</text>
+
+  <text x="990" y="230" text-anchor="middle" class="t">CLI bridge</text>
+  <text x="990" y="270" text-anchor="middle" class="s">tools in, tool_calls out</text>
+  <text x="990" y="305" text-anchor="middle" class="s">agents SDK, :8091</text>
+
+  <text x="210" y="520" text-anchor="middle" class="t">Any OpenAI client</text>
+  <text x="210" y="560" text-anchor="middle" class="s">curl, SDKs, agents</text>
+  <text x="210" y="592" text-anchor="middle" class="s">/v1/chat/completions</text>
+
+  <text x="600" y="520" text-anchor="middle" class="t">Math MCP server</text>
+  <text x="600" y="560" text-anchor="middle" class="s">add subtract</text>
+  <text x="600" y="592" text-anchor="middle" class="s">multiply divide</text>
+  <text x="600" y="620" text-anchor="middle" class="l">HTTP JSON-RPC :8093</text>
+
+  <text x="180" y="1015" text-anchor="middle" class="t">claude -p</text>
+  <text x="180" y="1055" text-anchor="middle" class="s">Claude Code</text>
+  <text x="460" y="1015" text-anchor="middle" class="t">codex exec</text>
+  <text x="460" y="1055" text-anchor="middle" class="s">Codex</text>
+  <text x="740" y="1015" text-anchor="middle" class="t">agy -p</text>
+  <text x="740" y="1055" text-anchor="middle" class="s">Antigravity</text>
+  <text x="1020" y="1015" text-anchor="middle" class="t">ollama run</text>
+  <text x="1020" y="1055" text-anchor="middle" class="s">local models</text>
+
+  <text x="90" y="1210" class="t">One math question</text>
+  <text x="90" y="1252" class="s">Bifrost adds the MCP tools to the request, the bridge asks claude -p with them</text>
+  <text x="90" y="1286" class="s">and turns its JSON reply into tool_calls. Bifrost runs multiply on the MCP server,</text>
+  <text x="90" y="1320" class="s">feeds the result back, runs add, and returns the final answer 7006743 to the app.</text>
+
+  <g fill="none" stroke="#333" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M360 245 Q405 238 448 245"/>
+    <path d="M750 225 Q795 218 838 225"/>
+    <path d="M838 285 Q795 292 752 285"/>
+    <path d="M362 520 Q400 420 470 344"/>
+    <path d="M620 342 Q632 400 620 456"/>
+    <path d="M580 458 Q568 400 580 344"/>
+    <path d="M920 342 Q880 820 184 956"/>
+    <path d="M960 342 Q930 820 464 956"/>
+    <path d="M1000 342 Q1000 780 744 956"/>
+    <path d="M1060 342 Q1060 650 1022 956"/>
+  </g>
+  <text x="404" y="222" text-anchor="middle" class="l">POST</text>
+  <text x="794" y="205" text-anchor="middle" class="l">tools</text>
+  <text x="794" y="345" text-anchor="middle" class="l">tool_calls</text>
+  <text x="640" y="405" class="l">tools/call</text>
+  <text x="570" y="440" text-anchor="end" class="l">results</text>
+  <text x="1080" y="700" class="l">spawn,</text>
+  <text x="1080" y="728" class="l">no shell</text>
+</svg>

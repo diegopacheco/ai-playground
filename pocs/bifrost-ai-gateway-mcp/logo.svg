@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="140" viewBox="0 0 560 140">
+  <rect x="4" y="4" width="552" height="132" rx="24" fill="#f5f7ff" stroke="#4f46e5" stroke-width="4"/>
+  <path d="M40 96 Q74 30 108 96" fill="none" stroke="#4f46e5" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="40" cy="96" r="9" fill="#f59e0b"/>
+  <circle cx="108" cy="96" r="9" fill="#10b981"/>
+  <text x="130" y="68" font-family="Helvetica, Arial, sans-serif" font-size="36" font-weight="700" fill="#1d2433">Bifrost MCP Math</text>
+  <text x="130" y="104" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#667085">CLI agents calling a math MCP server via Bifrost</text>
+</svg>
