@@ -1,0 +1,80 @@
+pocs/bifrost-ai-gateway-mcp/.gitignore
+  s_58432fdc4b4fa5::t_44173d34e61f86 1-3
+pocs/bifrost-ai-gateway-mcp/bifrost/config.template.json
+  s_58432fdc4b4fa5::t_0a199bd01a0a9c 1-167
+pocs/bifrost-ai-gateway-mcp/architecture.svg
+  s_58432fdc4b4fa5::t_a3ddd3ee95bca1 1-76,78,80-81
+  s_58432fdc4b4fa5::t_a53994f05468c8 77,79
+  s_58432fdc4b4fa5::t_436a5acd7d0086 82
+pocs/bifrost-ai-gateway-mcp/bridge/bridge.py
+  s_58432fdc4b4fa5::t_30cf58ff4cd812 1-174
+pocs/bifrost-ai-gateway-mcp/mcp/tests/test_math_server.py
+  s_58432fdc4b4fa5::t_d4ee775ce172d9 1-72
+pocs/bifrost-ai-gateway-mcp/scripts/stop-all.sh
+  s_58432fdc4b4fa5::t_a21c1df3d7d5fa 1-19
+pocs/bifrost-ai-gateway-mcp/mcp/math_server.py
+  s_58432fdc4b4fa5::t_09189eedaf850f 1-187
+pocs/bifrost-ai-gateway-mcp/logo.svg
+  s_58432fdc4b4fa5::t_c54db0d5bdf254 6-7
+  s_58432fdc4b4fa5::t_a452be063cc137 3-5
+  s_58432fdc4b4fa5::t_0b1627ffc773f7 8
+  s_42d16663049141::t_649c2c17d5204c 1-2
+pocs/bifrost-ai-gateway-mcp/README.md
+  s_58432fdc4b4fa5::t_69e546b9c5a5aa 1-135,144,146-152
+  s_58432fdc4b4fa5::t_c585efc12b81f4 137
+  s_58432fdc4b4fa5::t_b5bcd80f3042dc 136,138-143,145,153-160
+pocs/bifrost-ai-gateway-mcp/scripts/start-all.sh
+  s_58432fdc4b4fa5::t_a21c1df3d7d5fa 1-35
+pocs/bifrost-ai-gateway-mcp/app/app.py
+  s_58432fdc4b4fa5::t_fe338ca6234fa4 1-125
+pocs/bifrost-ai-gateway-mcp/bridge/tests/test_bridge.py
+  s_58432fdc4b4fa5::t_d4ee775ce172d9 1-48,50-104,106-152
+  s_58432fdc4b4fa5::t_4b81bf99d66dad 49,105
+pocs/bifrost-ai-gateway-mcp/app/tests/test_app.py
+  s_58432fdc4b4fa5::t_d4ee775ce172d9 1-86
+pocs/bifrost-ai-gateway-mcp/app/index.html
+  s_58432fdc4b4fa5::t_f7471116bbcccb 66
+  s_58432fdc4b4fa5::t_e6aaf04276e17e 1-65,67-131
+pocs/bifrost-ai-gateway-mcp/tests/integration_test.py
+  s_42d16663049141::t_f7991dfb66f9a8 1-86
+pocs/bifrost-ai-gateway-mcp/scripts/test-all.sh
+  s_58432fdc4b4fa5::t_a21c1df3d7d5fa 1-27
+pocs/bifrost-ai-gateway-mcp/scripts/ports.env
+  s_58432fdc4b4fa5::t_0a199bd01a0a9c 1-4
+pocs/bifrost-ai-gateway-mcp/agent-sdk/agent_sdk.py
+  s_58432fdc4b4fa5::t_7a4d5fb658cf11 1-279
+pocs/bifrost-ai-gateway-mcp/agent-sdk/tests/test_agent.py
+  s_58432fdc4b4fa5::t_c107ea63b2e2cd 1-185
+pocs/bifrost-ai-gateway-mcp/scripts/common.sh
+  s_58432fdc4b4fa5::t_36b36fa8b5afef 1-118
+pocs/bifrost-ai-gateway-mcp/scripts/setup.sh
+  s_58432fdc4b4fa5::t_453296b174cdd5 1-29
+pocs/bifrost-ai-gateway-mcp/scripts/status.sh
+  s_58432fdc4b4fa5::t_e9a0cc57d80d62 1-18
+pocs/bifrost-ai-gateway-mcp/scripts/ui.sh
+  s_58432fdc4b4fa5::t_c189de52097d0f 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "200007a789aecc748d18b37e3085d1f0b8d0d246",
+  "prompts": {},
+  "sessions": {
+    "s_42d16663049141": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "258eb796-a632-4da3-9a27-c038dd4cd4b4",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_58432fdc4b4fa5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c7561a90-a98b-4f77-8889-1395a2fe8c12",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
