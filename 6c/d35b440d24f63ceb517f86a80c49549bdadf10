@@ -1,0 +1,101 @@
+pocs/bifrost-ai-gateway-guardrails/scripts/stop-all.sh
+  s_42d16663049141::t_3d6296a6a58e7d 1-18
+pocs/bifrost-ai-gateway-guardrails/scripts/setup.sh
+  s_42d16663049141::t_3d6296a6a58e7d 1-11,14-15,20-34
+  s_42d16663049141::t_7d973e26bfc0ba 12-13
+  s_42d16663049141::t_ac5752e1ab816a 16-19
+pocs/bifrost-ai-gateway-guardrails/scripts/common.sh
+  s_42d16663049141::t_83a42075ef8e34 106
+  s_42d16663049141::t_3d6296a6a58e7d 1-15,18-102,107-124
+  s_42d16663049141::t_ac5752e1ab816a 16-17,103-105
+pocs/bifrost-ai-gateway-guardrails/guardrails/main_test.go
+  s_42d16663049141::t_11ce2661983ade 1-78
+pocs/bifrost-ai-gateway-guardrails/logo.svg
+  s_42d16663049141::t_701eb4b5c61769 3-6
+  s_42d16663049141::t_3d6296a6a58e7d 1-2,7
+pocs/bifrost-ai-gateway-guardrails/architecture.svg
+  s_42d16663049141::t_abd38eafd11faf 8,12,18-29,32-35,37-42,44,46,48-61,64-66,73-78
+  s_42d16663049141::t_29cb553034f014 5-6,15,67-71,79-82
+  s_42d16663049141::t_3a44f4f3f04899 36,43,45,47
+  s_42d16663049141::t_3d6296a6a58e7d 1-4,7,9-11,13-14,16-17,30-31,62-63,72,83
+pocs/bifrost-ai-gateway-guardrails/scripts/start-all.sh
+  s_42d16663049141::t_ac5752e1ab816a 13,15
+  s_42d16663049141::t_3d6296a6a58e7d 1-12,14,16-30
+pocs/bifrost-ai-gateway-guardrails/tests/integration_test.py
+  s_42d16663049141::t_2bb3a889ac2280 7-8
+  s_42d16663049141::t_3d6296a6a58e7d 1-6,9-56,92-93
+  s_42d16663049141::t_7996b0c3a83c75 57-91
+pocs/bifrost-ai-gateway-guardrails/app/app.py
+  s_42d16663049141::t_152b5aac9e2487 3,15,17,26-32,35-41,64-68,71-72
+  s_42d16663049141::t_3d6296a6a58e7d 1-2,4-14,16,18-25,33-34,42-63,69-70,73-113,116-122
+  s_42d16663049141::t_2bb3a889ac2280 114-115
+pocs/bifrost-ai-gateway-guardrails/guardrails/go.mod
+  s_42d16663049141::t_d6617ddd7f56c6 6-231
+  s_58432fdc4b4fa5::t_3d234788d82777 1-5
+pocs/bifrost-ai-gateway-guardrails/guardrails/rules_test.go
+  s_42d16663049141::t_427a1fa4156294 1-78
+pocs/bifrost-ai-gateway-guardrails/agent-sdk/tests/test_agent.py
+  s_42d16663049141::t_3d6296a6a58e7d 1-185
+pocs/bifrost-ai-gateway-guardrails/scripts/test-all.sh
+  s_42d16663049141::t_3d6296a6a58e7d 1-28
+pocs/bifrost-ai-gateway-guardrails/agent-sdk/agent_sdk.py
+  s_42d16663049141::t_3d6296a6a58e7d 1-279
+pocs/bifrost-ai-gateway-guardrails/.gitignore
+  s_42d16663049141::t_3d6296a6a58e7d 1-2
+pocs/bifrost-ai-gateway-guardrails/bifrost/config.template.json
+  s_42d16663049141::t_7b7c2f846ee0a9 145-152
+  s_42d16663049141::t_3d6296a6a58e7d 1-144,153-154
+pocs/bifrost-ai-gateway-guardrails/guardrails/rules.go
+  s_42d16663049141::t_338eb47675a136 1-87
+pocs/bifrost-ai-gateway-guardrails/app/index.html
+  s_42d16663049141::t_21989852d56486 6,8,26-37,43-51,53-54,65,82-98,100-102,112-113,121-124,126
+  s_42d16663049141::t_3d6296a6a58e7d 1-5,7,9-25,38-42,52,55-64,66-81,99,103-111,114-120,125,127-137
+pocs/bifrost-ai-gateway-guardrails/app/tests/test_app.py
+  s_42d16663049141::t_2bb3a889ac2280 28,30
+  s_42d16663049141::t_3d6296a6a58e7d 1-27,29,31-45,67-81
+  s_42d16663049141::t_8ebe79f804b1bd 46-66
+pocs/bifrost-ai-gateway-guardrails/scripts/ports.env
+  s_42d16663049141::t_12e6aa05ffe670 1-3
+pocs/bifrost-ai-gateway-guardrails/bridge/tests/test_bridge.py
+  s_42d16663049141::t_3d6296a6a58e7d 1-91
+pocs/bifrost-ai-gateway-guardrails/scripts/status.sh
+  s_42d16663049141::t_3d6296a6a58e7d 1-18
+pocs/bifrost-ai-gateway-guardrails/README.md
+  s_42d16663049141::t_4557a06608c7a1 1,3,5,11-16,26-34,38-41,43,48,52,54,56,58-66,68,72,75,77-78,80,82,87-95,99,109,111,114-115,118-127,129,131,133,135,137,139,141-148,155-156,158,162
+  s_42d16663049141::t_3d6296a6a58e7d 2,4,6-9,17-25,35-37,42,44-47,49-51,53,55,57,67,69-71,73-74,76,79,81,83-86,96-98,100-108,110,112-113,116-117,128,130,132,134,136,138,140,149-154,157,159-161
+  s_42d16663049141::t_8e1e887cd48e9f 10
+  s_42d16663049141::t_03efa1f2cd77e8 163-170
+pocs/bifrost-ai-gateway-guardrails/scripts/ui.sh
+  s_42d16663049141::t_3d6296a6a58e7d 1-13
+pocs/bifrost-ai-gateway-guardrails/bridge/bridge.py
+  s_42d16663049141::t_3d6296a6a58e7d 1-113,115-122
+  s_42d16663049141::t_2bb3a889ac2280 114
+pocs/bifrost-ai-gateway-guardrails/guardrails/main.go
+  s_42d16663049141::t_5d960ef85bf021 1-90
+pocs/bifrost-ai-gateway-guardrails/guardrails/go.sum
+  s_58432fdc4b4fa5::t_97895059697f6d 1-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "6cd35b440d24f63ceb517f86a80c49549bdadf10",
+  "prompts": {},
+  "sessions": {
+    "s_42d16663049141": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "258eb796-a632-4da3-9a27-c038dd4cd4b4",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_58432fdc4b4fa5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c7561a90-a98b-4f77-8889-1395a2fe8c12",
+        "model": "claude-opus-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
