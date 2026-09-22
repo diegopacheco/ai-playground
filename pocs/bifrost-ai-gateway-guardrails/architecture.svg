@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      text { font-family: 'Caveat', 'Comic Sans MS', cursive; fill: #1f2328; }
+      .t { font-size: 31px; font-weight: 700; }
+      .s { font-size: 22px; }
+      .l { font-size: 25px; fill: #444; }
+      .bad { fill: #b42318; }
+    </style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#333"/></marker>
+    <marker id="redarrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#b42318"/></marker>
+  </defs>
+  <rect width="1200" height="1200" fill="#fffdf8"/>
+  <text x="600" y="70" text-anchor="middle" class="t" style="font-size:40px">Bifrost guardrails plugin in front of CLI agents</text>
+
+  <g filter="url(#wobble)" stroke="#333" stroke-width="3">
+    <rect x="40" y="150" width="270" height="170" rx="16" fill="#dbeafe"/>
+    <rect x="40" y="470" width="270" height="150" rx="16" fill="#e2e8f0"/>
+    <rect x="370" y="120" width="460" height="560" rx="16" fill="#fde68a"/>
+    <rect x="400" y="250" width="400" height="120" rx="14" fill="#fecaca"/>
+    <rect x="400" y="390" width="400" height="120" rx="14" fill="#fed7aa"/>
+    <rect x="400" y="530" width="400" height="120" rx="14" fill="#bbf7d0"/>
+    <rect x="890" y="150" width="270" height="170" rx="16" fill="#cffafe"/>
+    <rect x="40" y="780" width="250" height="120" rx="16" fill="#fed7aa"/>
+    <rect x="330" y="780" width="250" height="120" rx="16" fill="#e9d5ff"/>
+    <rect x="620" y="780" width="250" height="120" rx="16" fill="#fecaca"/>
+    <rect x="910" y="780" width="250" height="120" rx="16" fill="#cffafe"/>
+    <rect x="40" y="960" width="1120" height="200" rx="16" fill="#f1f5f9"/>
+  </g>
+
+  <text x="175" y="210" text-anchor="middle" class="t">Python 3.14 app</text>
+  <text x="175" y="250" text-anchor="middle" class="s">UI with presets</text>
+  <text x="175" y="285" text-anchor="middle" class="s">port 8192</text>
+
+  <text x="175" y="530" text-anchor="middle" class="t" style="font-size:28px">Any OpenAI client</text>
+  <text x="175" y="570" text-anchor="middle" class="s">curl, SDKs, agents</text>
+  <text x="175" y="602" text-anchor="middle" class="s">/v1/chat/completions</text>
+
+  <text x="600" y="175" text-anchor="middle" class="t">Bifrost gateway :8180</text>
+  <text x="600" y="215" text-anchor="middle" class="s">guardrails.so, a Go plugin, go1.27.0</text>
+
+  <text x="600" y="300" text-anchor="middle" class="t" style="font-size:27px">1. pii (input)</text>
+  <text x="600" y="340" text-anchor="middle" class="s">email, phone, SSN, card: 400</text>
+  <text x="600" y="440" text-anchor="middle" class="t" style="font-size:27px">2. prompt_injection (input)</text>
+  <text x="600" y="480" text-anchor="middle" class="s">override, prompt leak, jailbreak: 400</text>
+  <text x="600" y="580" text-anchor="middle" class="t" style="font-size:27px">3. secret_redaction (output)</text>
+  <text x="600" y="620" text-anchor="middle" class="s">AWS, OpenAI, GitHub, private keys</text>
+
+  <text x="1025" y="210" text-anchor="middle" class="t">CLI bridge</text>
+  <text x="1025" y="250" text-anchor="middle" class="s">OpenAI-compatible</text>
+  <text x="1025" y="285" text-anchor="middle" class="s">agents SDK, :8191</text>
+
+  <text x="165" y="835" text-anchor="middle" class="t">claude -p</text>
+  <text x="165" y="872" text-anchor="middle" class="s">Claude Code</text>
+  <text x="455" y="835" text-anchor="middle" class="t">codex exec</text>
+  <text x="455" y="872" text-anchor="middle" class="s">Codex</text>
+  <text x="745" y="835" text-anchor="middle" class="t">agy -p</text>
+  <text x="745" y="872" text-anchor="middle" class="s">Antigravity</text>
+  <text x="1035" y="835" text-anchor="middle" class="t">ollama run</text>
+  <text x="1035" y="872" text-anchor="middle" class="s">local models</text>
+
+  <g fill="none" stroke="#333" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M310 200 Q340 190 368 200"/>
+    <path d="M310 545 Q340 535 368 545"/>
+    <path d="M830 200 Q860 190 888 200"/>
+    <path d="M1025 320 Q1040 520 1030 720" marker-end="none"/>
+    <path d="M1030 720 Q600 710 165 776"/>
+    <path d="M1030 720 Q700 715 455 776"/>
+    <path d="M1030 720 Q850 720 745 776"/>
+    <path d="M1030 720 Q1036 750 1035 776"/>
+  </g>
+  <g fill="none" stroke="#b42318" stroke-width="3" marker-end="url(#redarrow)">
+    <path d="M398 310 Q340 330 312 290"/>
+  </g>
+  <text x="318" y="360" class="l bad">blocked</text>
+
+  <text x="70" y="1005" class="t">One request</text>
+  <text x="70" y="1045" class="s">PreLLMHook reads every message. PII or injection returns a 400 guardrail_* error</text>
+  <text x="70" y="1080" class="s">with no fallback, so the CLI never runs. Clean requests go on to the bridge and the CLI.</text>
+  <text x="70" y="1115" class="s">PostLLMHook masks secrets in the answer as [REDACTED:type] before Bifrost logs it,</text>
+  <text x="70" y="1150" class="s">and before the app shows it. The app shows BLOCKED, REDACTED or PASSED.</text>
+</svg>

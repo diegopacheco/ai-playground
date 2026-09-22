@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="140" viewBox="0 0 560 140">
+  <rect x="4" y="4" width="552" height="132" rx="24" fill="#f5f7ff" stroke="#4f46e5" stroke-width="4"/>
+  <path d="M74 28 L108 40 L108 72 Q108 100 74 114 Q40 100 40 72 L40 40 Z" fill="#eef2ff" stroke="#4f46e5" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M58 72 L70 84 L92 60" fill="none" stroke="#10b981" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="130" y="68" font-family="Helvetica, Arial, sans-serif" font-size="36" font-weight="700" fill="#1d2433">Bifrost Guardrails</text>
+  <text x="130" y="104" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#667085">PII, prompt injection and secret redaction</text>
+</svg>

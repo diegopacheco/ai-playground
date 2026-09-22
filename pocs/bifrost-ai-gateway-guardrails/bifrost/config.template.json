@@ -1,0 +1,154 @@
+{
+  "$schema": "https://www.getbifrost.ai/schema",
+  "client": {
+    "drop_excess_requests": false,
+    "enable_logging": true
+  },
+  "providers": {
+    "claude-cli": {
+      "keys": [
+        {
+          "name": "claude-cli-key",
+          "value": "bridge",
+          "models": [
+            "*"
+          ],
+          "weight": 1.0
+        }
+      ],
+      "network_config": {
+        "base_url": "http://127.0.0.1:__BRIDGE_PORT__/claude",
+        "default_request_timeout_in_seconds": 300,
+        "max_retries": 0
+      },
+      "custom_provider_config": {
+        "base_provider_type": "openai",
+        "allowed_requests": {
+          "list_models": true,
+          "text_completion": false,
+          "text_completion_stream": false,
+          "chat_completion": true,
+          "chat_completion_stream": false,
+          "responses": false,
+          "responses_stream": false,
+          "embedding": false,
+          "speech": false,
+          "speech_stream": false,
+          "transcription": false,
+          "transcription_stream": false
+        }
+      }
+    },
+    "codex-cli": {
+      "keys": [
+        {
+          "name": "codex-cli-key",
+          "value": "bridge",
+          "models": [
+            "*"
+          ],
+          "weight": 1.0
+        }
+      ],
+      "network_config": {
+        "base_url": "http://127.0.0.1:__BRIDGE_PORT__/codex",
+        "default_request_timeout_in_seconds": 300,
+        "max_retries": 0
+      },
+      "custom_provider_config": {
+        "base_provider_type": "openai",
+        "allowed_requests": {
+          "list_models": true,
+          "text_completion": false,
+          "text_completion_stream": false,
+          "chat_completion": true,
+          "chat_completion_stream": false,
+          "responses": false,
+          "responses_stream": false,
+          "embedding": false,
+          "speech": false,
+          "speech_stream": false,
+          "transcription": false,
+          "transcription_stream": false
+        }
+      }
+    },
+    "agy-cli": {
+      "keys": [
+        {
+          "name": "agy-cli-key",
+          "value": "bridge",
+          "models": [
+            "*"
+          ],
+          "weight": 1.0
+        }
+      ],
+      "network_config": {
+        "base_url": "http://127.0.0.1:__BRIDGE_PORT__/agy",
+        "default_request_timeout_in_seconds": 300,
+        "max_retries": 0
+      },
+      "custom_provider_config": {
+        "base_provider_type": "openai",
+        "allowed_requests": {
+          "list_models": true,
+          "text_completion": false,
+          "text_completion_stream": false,
+          "chat_completion": true,
+          "chat_completion_stream": false,
+          "responses": false,
+          "responses_stream": false,
+          "embedding": false,
+          "speech": false,
+          "speech_stream": false,
+          "transcription": false,
+          "transcription_stream": false
+        }
+      }
+    },
+    "ollama-cli": {
+      "keys": [
+        {
+          "name": "ollama-cli-key",
+          "value": "bridge",
+          "models": [
+            "*"
+          ],
+          "weight": 1.0
+        }
+      ],
+      "network_config": {
+        "base_url": "http://127.0.0.1:__BRIDGE_PORT__/ollama",
+        "default_request_timeout_in_seconds": 300,
+        "max_retries": 0
+      },
+      "custom_provider_config": {
+        "base_provider_type": "openai",
+        "allowed_requests": {
+          "list_models": true,
+          "text_completion": false,
+          "text_completion_stream": false,
+          "chat_completion": true,
+          "chat_completion_stream": false,
+          "responses": false,
+          "responses_stream": false,
+          "embedding": false,
+          "speech": false,
+          "speech_stream": false,
+          "transcription": false,
+          "transcription_stream": false
+        }
+      }
+    }
+  },
+  "plugins": [
+    {
+      "enabled": true,
+      "name": "guardrails",
+      "path": "__PLUGIN_PATH__",
+      "config": {}
+    }
+  ],
+  "source_of_truth": "config.json"
+}
