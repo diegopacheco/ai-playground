@@ -1,0 +1,82 @@
+pocs/claude-opsu-5-5-no-sloptober/.claude/skills/no-slop-pr/tests/fixtures/human.txt
+  s_ad7f94cb0cfd37::t_c8a7d068564c80 1-4
+pocs/claude-opsu-5-5-no-sloptober/web/scene.mjs
+  s_ad7f94cb0cfd37::t_eb701d1ef0dcd3 1-94
+pocs/claude-opsu-5-5-no-sloptober/logo.svg
+  s_ad7f94cb0cfd37::t_4785ba01fe0c9c 1-6
+pocs/claude-opsu-5-5-no-sloptober/index.html
+  s_ad7f94cb0cfd37::t_1ef492ae2398b8 97
+  s_ad7f94cb0cfd37::t_526290896dc650 1-11,13-24,26-32,34-96,98-110,112-121
+  s_ad7f94cb0cfd37::t_3837ff3dc9bf8d 12,25,33,111
+pocs/claude-opsu-5-5-no-sloptober/.claude/skills/no-slop-pr/SKILL.md
+  s_ad7f94cb0cfd37::t_48d6601c64ba82 1-50
+pocs/claude-opsu-5-5-no-sloptober/web/style.css
+  s_ad7f94cb0cfd37::t_1ef492ae2398b8 65-66,287-289,291-301
+  s_ad7f94cb0cfd37::t_36a69a1b09defe 1-64,67-286,290,302-370
+  s_ad7f94cb0cfd37::t_3837ff3dc9bf8d 371-387
+pocs/claude-opsu-5-5-no-sloptober/.gitignore
+  s_ad7f94cb0cfd37::t_cf59e277454af0 1-2
+pocs/claude-opsu-5-5-no-sloptober/tests/slop.test.mjs
+  s_ad7f94cb0cfd37::t_5bddbf9121be95 1-49
+pocs/claude-opsu-5-5-no-sloptober/.claude/skills/no-slop-pr/rules.json
+  s_ad7f94cb0cfd37::t_970729b0637572 1-15
+pocs/claude-opsu-5-5-no-sloptober/scripts/status.sh
+  s_ad7f94cb0cfd37::t_cf59e277454af0 1-18
+pocs/claude-opsu-5-5-no-sloptober/scripts/start-all.sh
+  s_ad7f94cb0cfd37::t_cf59e277454af0 1-15
+pocs/claude-opsu-5-5-no-sloptober/README.md
+  s_ad7f94cb0cfd37::t_a1eb42026010b7 1-141
+pocs/claude-opsu-5-5-no-sloptober/scripts/ui.sh
+  s_ad7f94cb0cfd37::t_cf59e277454af0 1-8
+pocs/claude-opsu-5-5-no-sloptober/.claude/skills/no-slop-pr/slop_check.py
+  s_ad7f94cb0cfd37::t_ca25482a037626 1-95
+pocs/claude-opsu-5-5-no-sloptober/scripts/setup.sh
+  s_ad7f94cb0cfd37::t_cf59e277454af0 1-15
+pocs/claude-opsu-5-5-no-sloptober/printscreens/architecture.svg
+  s_ad7f94cb0cfd37::t_bc101a12033216 71,75
+  s_ad7f94cb0cfd37::t_b0334bd6b1803f 1-70,72-74,76
+pocs/claude-opsu-5-5-no-sloptober/web/shader.mjs
+  s_ad7f94cb0cfd37::t_5a37a064950c68 1-59,61-63,68,74-219,221-246,248-255,257-305
+  s_ad7f94cb0cfd37::t_1ef492ae2398b8 256
+  s_ad7f94cb0cfd37::t_e0eb1691c8312b 60,247
+  s_ad7f94cb0cfd37::t_06efab889e2a72 64-67,69-73,220
+pocs/claude-opsu-5-5-no-sloptober/web/slop.mjs
+  s_ad7f94cb0cfd37::t_84f2668f77c2b0 1-34
+pocs/claude-opsu-5-5-no-sloptober/scripts/ports.env
+  s_ad7f94cb0cfd37::t_cf59e277454af0 1
+pocs/claude-opsu-5-5-no-sloptober/.claude/skills/no-slop-pr/tests/fixtures/slop.diff
+  s_ad7f94cb0cfd37::t_c8a7d068564c80 1-11
+pocs/claude-opsu-5-5-no-sloptober/scripts/stop-all.sh
+  s_ad7f94cb0cfd37::t_cf59e277454af0 1-7
+pocs/claude-opsu-5-5-no-sloptober/web/main.mjs
+  s_ad7f94cb0cfd37::t_1ef492ae2398b8 40
+  s_ad7f94cb0cfd37::t_1db2591727c230 1-39,41-135
+pocs/claude-opsu-5-5-no-sloptober/scripts/common.sh
+  s_ad7f94cb0cfd37::t_cf59e277454af0 1-122
+pocs/claude-opsu-5-5-no-sloptober/.claude/skills/no-slop-pr/tests/fixtures/suspect.txt
+  s_ad7f94cb0cfd37::t_c8a7d068564c80 1-7
+pocs/claude-opsu-5-5-no-sloptober/.claude/skills/no-slop-pr/tests/fixtures/slop.txt
+  s_ad7f94cb0cfd37::t_c8a7d068564c80 1-19
+pocs/claude-opsu-5-5-no-sloptober/.claude/skills/no-slop-pr/tests/fixtures/human.diff
+  s_ad7f94cb0cfd37::t_c8a7d068564c80 1-11
+pocs/claude-opsu-5-5-no-sloptober/.claude/skills/no-slop-pr/tests/test_slop_check.py
+  s_ad7f94cb0cfd37::t_9e0168611e6880 1-61
+pocs/claude-opsu-5-5-no-sloptober/scripts/test-all.sh
+  s_ad7f94cb0cfd37::t_cf59e277454af0 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "5747837a434b98dee8756f19af1cfdf9f80f382e",
+  "prompts": {},
+  "sessions": {
+    "s_ad7f94cb0cfd37": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3325a888-43a2-4353-8326-4d017d593362",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
