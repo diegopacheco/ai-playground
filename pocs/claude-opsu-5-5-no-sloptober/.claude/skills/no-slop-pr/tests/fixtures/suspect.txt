@@ -1,0 +1,7 @@
+## Summary
+
+Add retry to the uploader — a robust approach that should enhance reliability.
+
+## Test plan
+
+Ran the uploader against a flaky endpoint — it recovered every time.

@@ -1,0 +1,11 @@
+diff --git a/auth.py b/auth.py
++++ b/auth.py
+@@ -1,3 +1,12 @@
++# Import the cache module to enable caching
++import cache
++# Define the login function
++def login(user):
++    # Check the cache for the user token
++    token = cache.get(user)
++    # Return the token if it exists
++    return token

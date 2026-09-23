@@ -1,0 +1,15 @@
+{
+  "block_at": 50,
+  "suspect_at": 25,
+  "rules": [
+    { "id": "ai-coauthor", "label": "AI co-author trailer", "weight": 50, "cap": 50, "pattern": "co-authored-by:[^\\n]*(claude|copilot|cursor|codex|gemini|devin|openai|anthropic|aider|windsurf)" },
+    { "id": "generated-with", "label": "Generated-with footer", "weight": 50, "cap": 50, "pattern": "generated (with|by) \\[?(claude|copilot|cursor|codex|chatgpt|gemini|devin|ai)" },
+    { "id": "slop-phrases", "label": "LLM tell phrases", "weight": 6, "cap": 30, "pattern": "\\b(delve|delves|seamless(ly)?|robust|comprehensive|leverag(e|es|ing)|streamlin(e|es|ed|ing)|meticulous(ly)?|it'?s worth noting|in summary|this pr introduces|enhanc(e|es|ed|ing)|ensur(e|es|ing) that|elevate|game[- ]changer|holistic)\\b" },
+    { "id": "emoji-headings", "label": "Emoji bullets and headings", "weight": 5, "cap": 20, "pattern": "(^|\\n)\\s*(#+\\s*)?[-*]?\\s*(✨|🚀|✅|📝|🔧|🎉|💡|📋|🧪|🔒|📦|⚡)" },
+    { "id": "em-dashes", "label": "Em dash storm", "weight": 3, "cap": 15, "pattern": "—" },
+    { "id": "summary-headings", "label": "Boilerplate section headings", "weight": 5, "cap": 15, "pattern": "(^|\\n)#+\\s*(summary|key changes|overview|changes made|test plan|benefits|impact)\\s*(\\n|$)" }
+  ],
+  "diff_rules": [
+    { "id": "comment-cruft", "label": "Comment cruft in added code", "weight": 20, "min_ratio": 0.3 }
+  ]
+}

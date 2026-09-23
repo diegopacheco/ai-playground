@@ -1,0 +1,19 @@
+feat: enhance authentication flow
+
+## ✨ Summary
+
+This PR introduces a comprehensive and robust refactor that seamlessly streamlines the login flow — ensuring that every edge case is handled.
+
+## 🚀 Key Changes
+
+- ✅ Leverage the new token cache — a game-changer for latency
+- ✅ Enhanced error handling to ensure that users are never stuck
+- 📝 Meticulously documented every function
+
+## Test plan
+
+- [x] It's worth noting that all tests pass
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>

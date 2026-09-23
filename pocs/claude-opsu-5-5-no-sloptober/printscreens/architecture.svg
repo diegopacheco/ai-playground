@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1000" viewBox="0 0 1200 1000">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap'); text { font-family: 'Caveat', cursive; fill: #1f1a17; } .t { font-size: 30px; font-weight: 700; } .s { font-size: 22px; } .h { font-size: 40px; font-weight: 700; } .l { font-size: 21px; fill: #6b5a4e; }</style>
+    <filter id="w" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="4"/>
+      <feDisplacementMap in="SourceGraphic" scale="4"/>
+    </filter>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#1f1a17"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="1000" fill="#fffdf8"/>
+  <text x="600" y="62" text-anchor="middle" class="h">No Sloptober: landing page + no-slop-pr skill</text>
+
+  <text x="250" y="118" text-anchor="middle" class="l">landing page</text>
+  <text x="900" y="118" text-anchor="middle" class="l">Claude Code skill</text>
+
+  <g filter="url(#w)" stroke="#1f1a17" stroke-width="2.5">
+    <rect x="70" y="135" width="360" height="90" rx="14" fill="#ffe3c2"/>
+    <rect x="70" y="275" width="360" height="90" rx="14" fill="#ffd6de"/>
+    <rect x="70" y="415" width="360" height="110" rx="14" fill="#fff1b8"/>
+    <rect x="30" y="580" width="250" height="130" rx="14" fill="#d9ecff"/>
+    <rect x="310" y="580" width="220" height="130" rx="14" fill="#dff5d8"/>
+    <rect x="720" y="135" width="360" height="90" rx="14" fill="#e6dcff"/>
+    <rect x="720" y="275" width="360" height="90" rx="14" fill="#e6dcff"/>
+    <rect x="720" y="415" width="360" height="110" rx="14" fill="#dff5d8"/>
+    <rect x="720" y="580" width="360" height="110" rx="14" fill="#ffe3c2"/>
+    <rect x="420" y="770" width="360" height="90" rx="14" fill="#fff1b8"/>
+    <rect x="420" y="900" width="360" height="80" rx="14" fill="#ffd6de" stroke-dasharray="8 6"/>
+  </g>
+
+  <text x="250" y="175" text-anchor="middle" class="t">python3 http.server</text>
+  <text x="250" y="205" text-anchor="middle" class="s">serves the repo on port 8099</text>
+  <text x="250" y="315" text-anchor="middle" class="t">index.html + style.css</text>
+  <text x="250" y="345" text-anchor="middle" class="s">sections, meter, pledge</text>
+  <text x="250" y="455" text-anchor="middle" class="t">main.mjs</text>
+  <text x="250" y="485" text-anchor="middle" class="s">scroll, pointer, shockwave,</text>
+  <text x="250" y="510" text-anchor="middle" class="s">countdown, pledge state</text>
+  <text x="155" y="620" text-anchor="middle" class="t">scene.mjs</text>
+  <text x="155" y="648" text-anchor="middle" class="s">+ shader.mjs (WebGL)</text>
+  <text x="155" y="674" text-anchor="middle" class="s">raymarch: robot, ring,</text>
+  <text x="155" y="698" text-anchor="middle" class="s">tokens, brain, pool</text>
+  <text x="420" y="620" text-anchor="middle" class="t">slop.mjs</text>
+  <text x="420" y="650" text-anchor="middle" class="s">scores pasted</text>
+  <text x="420" y="676" text-anchor="middle" class="s">PR text live</text>
+
+  <text x="900" y="175" text-anchor="middle" class="t">/no-slop-pr 42</text>
+  <text x="900" y="205" text-anchor="middle" class="s">user asks Claude Code</text>
+  <text x="900" y="315" text-anchor="middle" class="t">SKILL.md</text>
+  <text x="900" y="345" text-anchor="middle" class="s">steps + ask before gh review</text>
+  <text x="900" y="455" text-anchor="middle" class="t">slop_check.py</text>
+  <text x="900" y="485" text-anchor="middle" class="s">score 0-100: PASS, SUSPECT,</text>
+  <text x="900" y="510" text-anchor="middle" class="s">BLOCK (exit 1)</text>
+  <text x="900" y="620" text-anchor="middle" class="t">gh CLI</text>
+  <text x="900" y="650" text-anchor="middle" class="s">pr view (title, body, commits)</text>
+  <text x="900" y="676" text-anchor="middle" class="s">+ pr diff</text>
+  <text x="600" y="810" text-anchor="middle" class="t">rules.json</text>
+  <text x="600" y="840" text-anchor="middle" class="s">one set of signals, weights, thresholds</text>
+  <text x="600" y="937" text-anchor="middle" class="t">tests: unittest + node --test</text>
+  <text x="600" y="964" text-anchor="middle" class="s">page and skill must agree</text>
+
+  <g fill="none" stroke="#1f1a17" stroke-width="2.5" marker-end="url(#a)" filter="url(#w)">
+    <path d="M250 228 Q256 250 250 270"/>
+    <path d="M250 368 Q256 390 250 410"/>
+    <path d="M200 528 Q170 550 160 575"/>
+    <path d="M300 528 Q340 550 400 575"/>
+    <path d="M900 228 Q906 250 900 270"/>
+    <path d="M900 368 Q906 390 900 410"/>
+    <path d="M900 528 Q906 552 900 575"/>
+    <path d="M420 713 Q450 745 500 765"/>
+    <path d="M716 480 Q600 600 700 765"/>
+    <path d="M600 863 Q606 880 600 895"/>
+  </g>
+  <text x="430" y="758" class="l">fetch</text>
+  <text x="600" y="640" class="l">load</text>
+</svg>

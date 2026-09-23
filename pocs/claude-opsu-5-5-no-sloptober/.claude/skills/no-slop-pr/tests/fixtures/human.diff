@@ -1,0 +1,11 @@
+diff --git a/auth.py b/auth.py
++++ b/auth.py
+@@ -10,6 +10,8 @@
+-    redirect(home)
+-    refresh(token)
++    token = refresh(token)
++    if token is None:
++        return redirect(login)
++    return redirect(home)
++
++TTL = 60

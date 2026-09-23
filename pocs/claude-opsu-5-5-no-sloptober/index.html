@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>No Sloptober</title>
+  <meta name="description" content="A month without LLM tools. A raymarched robot melts into slop and a human brain grows back.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="web/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%2213%22 fill=%22none%22 stroke=%22%23ff2a47%22 stroke-width=%224%22/%3E%3Cpath d=%22M7 7l18 18%22 stroke=%22%23ff2a47%22 stroke-width=%224%22/%3E%3C/svg%3E">
+</head>
+<body>
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <a class="brand" href="#top">NO<span>/</span>SLOP</a>
+    <div class="links">
+      <a href="#rules">Rules</a>
+      <a href="#why">Why</a>
+      <a href="#skill">PR gate</a>
+      <a href="#pledge-section">Pledge</a>
+      <a class="site" href="https://no-sloptober.com/" target="_blank" rel="noopener">no-sloptober.com</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="top" class="hero">
+      <p class="kicker">October 2026 &middot; a fast for your mind</p>
+      <h1 class="title">NO <span class="slop">SLOP</span>TOBER</h1>
+      <p class="equation"><span class="w-slop">slop</span> + <span class="w-oct">october</span> = <a href="https://no-sloptober.com/" target="_blank" rel="noopener">sloptober</a></p>
+      <p class="lead">This October we challenge you to abstain from LLM based tools entirely. Not a judgement of others, a personal challenge to you.</p>
+      <p id="countdown" class="countdown" aria-live="polite"></p>
+      <div class="cta">
+        <a class="btn primary" href="#pledge-section">Take the pledge</a>
+        <a class="btn" href="#skill">Block slop PRs</a>
+      </div>
+      <p class="hint">Scroll to lower the entropy. Click anywhere to send a shockwave.</p>
+    </section>
+
+    <section id="rules" class="panel reveal">
+      <p class="kicker">01 &middot; the hard core way</p>
+      <h2>Do it the hard (core) way.</h2>
+      <div class="cards">
+        <article class="card"><b>No AI tools</b><p>Nothing at home, nothing at work. Your hands, your head.</p></article>
+        <article class="card"><b>No AI search summary</b><p>Turn the overview off and read the actual sources.</p></article>
+        <article class="card"><b>No chat bots</b><p>No chats, no bot search, no rubber duck that talks back.</p></article>
+        <article class="card"><b>No agents</b><p>No code review bots, no Claude, OpenCode, Pi or any model.</p></article>
+      </div>
+    </section>
+
+    <section id="law" class="law reveal">
+      <p class="kicker">02 &middot; Onarheim's Law</p>
+      <blockquote>Agents can only maintain or <em>increase</em> entropy in a system. Humans are uniquely capable of <strong>decreasing</strong> it.</blockquote>
+    </section>
+
+    <section id="why" class="panel reveal">
+      <p class="kicker">03 &middot; why</p>
+      <h2>Stretch your brain. Don't be a meat proxy.</h2>
+      <ol class="why">
+        <li><b>Keep the skill.</b> Useful or not, know how to do it yourself.</li>
+        <li><b>Read real PRs.</b> Do you like reading LLM PR descriptions?</li>
+        <li><b>Mental health.</b> Step away from the slot machine.</li>
+        <li><b>Perspective.</b> See what was good and bad about the tools.</li>
+        <li><b>Learn again.</b> Learning takes effort and friction. That is the point.</li>
+        <li><b>Security.</b> Agents make wild choices and install malware by accident.</li>
+      </ol>
+    </section>
+
+    <section id="instead" class="panel reveal">
+      <p class="kicker">04 &middot; what to do instead</p>
+      <h2>Decrease the entropy.</h2>
+      <div class="chips">
+        <span>Clean up LLM cruft</span><span>Learn Zig</span><span>Learn Rust</span><span>Learn Go</span><span>Learn Lua</span>
+        <span>Join the Neovim cult</span><span>Try Astro</span><span>Try Effect.ts</span><span>Code katas</span>
+        <span>Make a game in Excalibur</span><span>Make a game in Godot</span><span>Write a blog post</span>
+      </div>
+    </section>
+
+    <section id="skill" class="panel wide reveal">
+      <p class="kicker">05 &middot; the PR gate</p>
+      <h2>Slop does not get merged.</h2>
+      <p class="sub">The <code>no-slop-pr</code> skill scores a pull request for AI tells and blocks the ones an agent wrote. The meter below runs the same rules, in your browser.</p>
+      <div class="meter">
+        <div class="meter-input">
+          <div class="meter-actions">
+            <button class="btn small" data-fixture="slop.txt">Load an agent PR</button>
+            <button class="btn small" data-fixture="suspect.txt">Load a suspect PR</button>
+            <button class="btn small" data-fixture="human.txt">Load a human PR</button>
+          </div>
+          <label for="pr-text" class="sr">Pull request text</label>
+          <textarea id="pr-text" spellcheck="false" placeholder="Paste a PR title, body and commit messages"></textarea>
+        </div>
+        <div class="meter-out">
+          <div class="gauge"><div id="meter-rest"></div></div>
+          <div class="readout"><span id="meter-score">0</span><small>/100</small><em id="meter-verdict" data-verdict="PASS">PASS</em></div>
+          <ul id="meter-hits" class="hits"></ul>
+        </div>
+      </div>
+      <pre class="code"><code>/no-slop-pr 42
+python3 .claude/skills/no-slop-pr/slop_check.py 42 --repo owner/name
+python3 .claude/skills/no-slop-pr/slop_check.py --text body.txt --diff change.diff</code></pre>
+    </section>
+
+    <section id="pledge-section" class="pledge reveal">
+      <p class="kicker">06 &middot; the pledge</p>
+      <h2>In the words of a toddler:</h2>
+      <button id="pledge" class="btn primary huge">I do by MYSELF</button>
+      <p class="sub">Join the challenge at <a href="https://no-sloptober.com/" target="_blank" rel="noopener">no-sloptober.com</a>. Post <b>#no-sloptober</b> on socials. Screenshot your lack of usage. Honor and glory.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>No Sloptober is a challenge by Erik Onarheim. Read the original at <a href="https://no-sloptober.com/">no-sloptober.com</a>.</p>
+  </footer>
+
+  <script type="module" src="web/main.mjs"></script>
+</body>
+</html>

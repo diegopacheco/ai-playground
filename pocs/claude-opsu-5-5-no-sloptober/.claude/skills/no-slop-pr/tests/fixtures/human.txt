@@ -1,0 +1,4 @@
+fix login loop when token expires
+
+Token refresh raced with the redirect, so users bounced between /login and /home.
+Refresh first, redirect after. Repro: set TTL=1s and reload twice.

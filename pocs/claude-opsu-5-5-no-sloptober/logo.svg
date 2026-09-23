@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+  <rect width="220" height="220" rx="36" fill="#07040a"/>
+  <text x="110" y="128" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="54" fill="#ff6a00">SLOP</text>
+  <circle cx="110" cy="110" r="86" fill="none" stroke="#ff2a47" stroke-width="16"/>
+  <path d="M49 49 L171 171" stroke="#ff2a47" stroke-width="16" stroke-linecap="round"/>
+</svg>
