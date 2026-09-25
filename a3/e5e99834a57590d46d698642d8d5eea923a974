@@ -1,0 +1,48 @@
+pocs/jev-25-loc-python3/src/main.py
+  s_1ef668794ec202::t_3278cbfb2ce05b 1-31
+pocs/jev-25-loc-python3/tests/test_jev.py
+  s_1ef668794ec202::t_3cd733f1b4e02e 1-77
+pocs/jev-25-loc-python3/README.md
+  s_1ef668794ec202::t_ae62e8b0af647a 1-125
+pocs/jev-25-loc-python3/scripts/common.sh
+  s_1ef668794ec202::t_50d7b69d0db481 1-13
+pocs/jev-25-loc-python3/install-deps.sh
+  s_1ef668794ec202::t_50d7b69d0db481 1-3
+pocs/jev-25-loc-python3/scripts/setup.sh
+  s_1ef668794ec202::t_50d7b69d0db481 1-16
+pocs/jev-25-loc-python3/run.sh
+  s_1ef668794ec202::t_50d7b69d0db481 3
+  s_1ef668794ec202::t_dacfa2ea9dadf5 1-2
+pocs/jev-25-loc-python3/printscreens/architecture.svg
+  s_1ef668794ec202::t_00df1b15f83ffa 1-7,37,40
+  s_1ef668794ec202::t_569c6a7d675273 8-36,38-39
+pocs/jev-25-loc-python3/.gitignore
+  s_1ef668794ec202::t_1972a0247e2120 1-3
+pocs/jev-25-loc-python3/requirements.txt
+  s_1ef668794ec202::t_1972a0247e2120 1-2
+  s_1ef668794ec202::t_b83b99bd4b1984 3
+pocs/jev-25-loc-python3/scripts/test-all.sh
+  s_1ef668794ec202::t_50d7b69d0db481 1-6
+pocs/jev-25-loc-python3/scripts/run.sh
+  s_1ef668794ec202::t_50d7b69d0db481 1-6
+pocs/jev-25-loc-python3/src/jev.py
+  s_1ef668794ec202::t_74db3b6118ba81 1-2,9
+  s_1ef668794ec202::t_25f179b61f5c97 8
+  s_1ef668794ec202::t_1e0cb2f6a8072d 3-7,10-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "a3e5e99834a57590d46d698642d8d5eea923a974",
+  "prompts": {},
+  "sessions": {
+    "s_1ef668794ec202": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e2be885c-d0a4-446b-ae54-2bbc492d199f",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
