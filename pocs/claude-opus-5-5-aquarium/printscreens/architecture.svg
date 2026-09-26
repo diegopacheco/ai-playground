@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');
+      text { font-family: 'Caveat', cursive; fill: #1e1e1e; }
+      .t { font-size: 27px; font-weight: 700; }
+      .s { font-size: 20px; }
+      .box { stroke: #1e1e1e; stroke-width: 2.2; }
+      .arrow { fill: none; stroke: #1e1e1e; stroke-width: 2; marker-end: url(#head); }
+    </style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.5"/></filter>
+    <marker id="head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#1e1e1e"/></marker>
+  </defs>
+  <rect width="1200" height="760" fill="#ffffff"/>
+  <g filter="url(#wobble)">
+    <rect class="box" x="40" y="40" width="250" height="90" rx="14" fill="#dbeafe"/>
+    <rect class="box" x="40" y="200" width="250" height="110" rx="14" fill="#fde68a"/>
+    <rect class="box" x="40" y="390" width="250" height="110" rx="14" fill="#fecdd3"/>
+    <rect class="box" x="40" y="580" width="250" height="90" rx="14" fill="#e5e7eb"/>
+    <rect class="box" x="440" y="280" width="290" height="140" rx="14" fill="#bbf7d0"/>
+    <rect class="box" x="880" y="30" width="290" height="110" rx="14" fill="#c7d2fe"/>
+    <rect class="box" x="880" y="165" width="290" height="100" rx="14" fill="#fbcfe8"/>
+    <rect class="box" x="880" y="290" width="290" height="120" rx="14" fill="#fed7aa"/>
+    <rect class="box" x="880" y="435" width="290" height="100" rx="14" fill="#a5f3fc"/>
+    <rect class="box" x="880" y="560" width="290" height="90" rx="14" fill="#ddd6fe"/>
+    <rect class="box" x="440" y="560" width="290" height="100" rx="14" fill="#e5e7eb"/>
+    <path class="arrow" d="M165 130 Q175 165 165 198"/>
+    <path class="arrow" d="M165 310 Q175 350 165 388"/>
+    <path class="arrow" d="M165 500 Q175 540 165 578"/>
+    <path class="arrow" d="M290 255 Q370 270 438 320"/>
+    <path class="arrow" d="M438 360 Q370 400 292 440"/>
+    <path class="arrow" d="M730 310 Q810 180 878 90"/>
+    <path class="arrow" d="M730 330 Q810 250 878 215"/>
+    <path class="arrow" d="M730 350 Q810 345 878 350"/>
+    <path class="arrow" d="M730 370 Q810 440 878 485"/>
+    <path class="arrow" d="M730 390 Q810 530 878 600"/>
+    <path class="arrow" d="M585 558 Q595 490 585 422"/>
+  </g>
+  <text class="t" x="60" y="78">index.html</text>
+  <text class="s" x="60" y="108">importmap: three.js 0.186.1 CDN</text>
+  <text class="t" x="60" y="238">ui.mjs  side panel</text>
+  <text class="s" x="60" y="266">colors, materials, fish +/-, grass,</text>
+  <text class="s" x="60" y="290">decor toggles, feed, shark, sound</text>
+  <text class="t" x="60" y="428">state.mjs  pure reducers</text>
+  <text class="s" x="60" y="456">addFish, setGrass, toggleDecor,</text>
+  <text class="s" x="60" y="480">restore() validates saved tanks</text>
+  <text class="t" x="60" y="618">localStorage</text>
+  <text class="s" x="60" y="648">tank setup survives reloads</text>
+  <text class="t" x="460" y="318">main.mjs  render loop</text>
+  <text class="s" x="460" y="348">diffs state into the scene,</text>
+  <text class="s" x="460" y="372">steps fish, shark, food, bubbles,</text>
+  <text class="s" x="460" y="396">orbit camera, WebGL renderer</text>
+  <text class="t" x="900" y="68">tank.mjs + materials.mjs</text>
+  <text class="s" x="900" y="96">rack, glass, water, sand, caustics,</text>
+  <text class="s" x="900" y="120">canvas textures from patterns.mjs</text>
+  <text class="t" x="900" y="203">fish.mjs</text>
+  <text class="s" x="900" y="231">10 species + shark from spheres,</text>
+  <text class="s" x="900" y="253">vertex-painted markings, fins</text>
+  <text class="t" x="900" y="328">decor.mjs + weather.mjs</text>
+  <text class="s" x="900" y="356">ship, car, plane wrecks, props,</text>
+  <text class="s" x="900" y="380">rust/algae/silt shader,</text>
+  <text class="s" x="900" y="402">layout.mjs plants grass</text>
+  <text class="t" x="900" y="473">swim.mjs</text>
+  <text class="s" x="900" y="501">wander, flee shark, chase food,</text>
+  <text class="s" x="900" y="525">shark patrol, sinking flakes</text>
+  <text class="t" x="900" y="598">sound.mjs</text>
+  <text class="s" x="900" y="628">WebAudio: water, bubbles, jaws</text>
+  <text class="t" x="460" y="598">catalog.mjs</text>
+  <text class="s" x="460" y="626">9 colors, 10 materials, 10 fish,</text>
+  <text class="s" x="460" y="650">9 decorations + seagrass</text>
+</svg>
