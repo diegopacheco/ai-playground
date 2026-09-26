@@ -1,0 +1,58 @@
+pocs/claude-opus-5-5-aquarium/tests/state.test.mjs
+  s_4b84675fca5dc3::t_2dce1da43b77a4 38-39,76-96
+pocs/claude-opus-5-5-aquarium/web/state.mjs
+  s_4b84675fca5dc3::t_ea59eb38fed020 1,10-11,62-72,90-91
+pocs/claude-opus-5-5-aquarium/web/plants.mjs
+  s_4b84675fca5dc3::t_9696ef2b2cdd08 56,179
+  s_4b84675fca5dc3::t_46fd9ec919efbd 1-55,57-102,104-113,115-122,126-178,180-200
+  s_4b84675fca5dc3::t_821f9fc7ddebe6 103,123,125
+  s_4b84675fca5dc3::t_6c3d3b57ed7851 114,124
+pocs/claude-opus-5-5-aquarium/web/coral.mjs
+  s_4b84675fca5dc3::t_3f101fba87abe5 1-58,61-64,68-132,134-135,137-193
+  s_4b84675fca5dc3::t_6c3d3b57ed7851 59-60,65-67,136
+  s_4b84675fca5dc3::t_748e5ad5dc3975 133
+pocs/claude-opus-5-5-aquarium/web/fish.mjs
+  s_4b84675fca5dc3::t_1f4890b865816f 8-21,31,113-127
+pocs/claude-opus-5-5-aquarium/web/ui.mjs
+  s_4b84675fca5dc3::t_ae160dfb5d7387 1,28,78-92,101,120-122
+pocs/claude-opus-5-5-aquarium/web/decor.mjs
+  s_4b84675fca5dc3::t_ae160dfb5d7387 2,5-8,499-501,503-511
+pocs/claude-opus-5-5-aquarium/web/style.css
+  s_4b84675fca5dc3::t_7f4c17e4f788bc 156-160
+pocs/claude-opus-5-5-aquarium/web/stones.mjs
+  s_4b84675fca5dc3::t_6c3d3b57ed7851 37
+  s_4b84675fca5dc3::t_e518ab5a032351 1-5,7-10,12-20,24-36,38-56
+  s_4b84675fca5dc3::t_821f9fc7ddebe6 6,11,21-23
+pocs/claude-opus-5-5-aquarium/web/patterns.mjs
+  s_4b84675fca5dc3::t_ea59eb38fed020 192-202
+pocs/claude-opus-5-5-aquarium/tests/catalog.test.mjs
+  s_4b84675fca5dc3::t_2dce1da43b77a4 3-5,61,64,76-115
+pocs/claude-opus-5-5-aquarium/web/catalog.mjs
+  s_4b84675fca5dc3::t_ea59eb38fed020 53,59-85
+  s_4b84675fca5dc3::t_7672b5b6fe036d 86
+pocs/claude-opus-5-5-aquarium/web/layout.mjs
+  s_4b84675fca5dc3::t_ea59eb38fed020 1,6-10,14,21,26-41
+pocs/claude-opus-5-5-aquarium/web/main.mjs
+  s_4b84675fca5dc3::t_ae160dfb5d7387 137-138,159-160
+pocs/claude-opus-5-5-aquarium/README.md
+  s_4b84675fca5dc3::t_2b55665ff85f33 5,11,16-18,29-32,47-48,65-66,72,79,95,99-100,108,147-170
+  s_4b84675fca5dc3::t_f29c6b27dc894e 171
+pocs/claude-opus-5-5-aquarium/web/tank.mjs
+  s_4b84675fca5dc3::t_6cf3df62eb2646 3,69,79,82,88,90-91,93,98-105,109-110,116-193,335-336,339,369-370,374-378
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "42f14d98f400d9cbdc475c8120e63385e899738b",
+  "prompts": {},
+  "sessions": {
+    "s_4b84675fca5dc3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c2097f68-2fcc-46c6-899f-c149fcf0a8a8",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
