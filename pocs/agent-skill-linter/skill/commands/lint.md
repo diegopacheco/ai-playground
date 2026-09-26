@@ -1,6 +1,6 @@
 ---
 description: Lint the target codebase and write .lint/report.json plus a history entry
-argument-hint: [path]
+argument-hint: "[path]"
 ---
 
 Lint the codebase at `$ARGUMENTS` (default: the current working directory). Steps:
