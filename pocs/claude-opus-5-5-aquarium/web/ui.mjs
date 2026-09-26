@@ -1,4 +1,4 @@
-import { RACK_COLORS, MATERIALS, FISH, DECOR, MAX_FISH, MAX_GRASS, byId } from './catalog.mjs';
+import { RACK_COLORS, MATERIALS, FISH, DECOR, SUBSTRATES, SCAPE, MAX_FISH, MAX_GRASS, byId } from './catalog.mjs';
 import { countFish } from './state.mjs';
 import { thumbnail } from './materials.mjs';
 
@@ -25,7 +25,7 @@ function fishSwatch(f) {
 }
 
 export function buildUI(root, actions) {
-  const refs = { colors: new Map(), materials: new Map(), fish: new Map(), decor: new Map() };
+  const refs = { colors: new Map(), materials: new Map(), fish: new Map(), decor: new Map(), substrates: new Map(), scape: new Map() };
 
   const colors = section('Rack color');
   const colorRow = el('div', { class: 'swatches' });
@@ -75,6 +75,21 @@ export function buildUI(root, actions) {
   }
   decor.node.append(grassRow, decorGrid);
 
+  const scape = section('Aquascape');
+  const substrateGrid = el('div', { class: 'grid' });
+  for (const d of SUBSTRATES) {
+    const b = el('button', { class: 'chip', onclick: () => actions.substrate(d.id) }, el('span', { class: `soil-dot soil-${d.id}` }), el('span', {}, d.name));
+    refs.substrates.set(d.id, b);
+    substrateGrid.append(b);
+  }
+  const scapeGrid = el('div', { class: 'grid' });
+  for (const d of SCAPE) {
+    const b = el('button', { class: 'chip toggle', onclick: () => actions.toggleScape(d.id) }, el('span', { class: 'tick' }), el('span', {}, d.name));
+    refs.scape.set(d.id, b);
+    scapeGrid.append(b);
+  }
+  scape.node.append(substrateGrid, scapeGrid);
+
   const extras = section('Extras');
   const shark = el('button', { class: 'switch', onclick: () => actions.toggleShark() }, el('span', { class: 'knob' }), el('span', {}, 'Small shark'));
   const sound = el('button', { class: 'switch', onclick: () => actions.toggleSound() }, el('span', { class: 'knob' }), el('span', {}, 'Sound'));
@@ -83,7 +98,7 @@ export function buildUI(root, actions) {
 
   root.append(
     el('header', {}, el('h1', {}, 'Aquarium'), el('p', {}, 'Drag to orbit, scroll to zoom')),
-    colors.node, materials.node, fish.node, decor.node, extras.node
+    colors.node, materials.node, fish.node, scape.node, decor.node, extras.node
   );
 
   return {
@@ -102,6 +117,9 @@ export function buildUI(root, actions) {
       fish.value.textContent = `${s.fish.length} / ${MAX_FISH}`;
       for (const [id, b] of refs.decor) b.classList.toggle('on', s.decor.includes(id));
       decor.value.textContent = `${s.decor.length + (s.grass > 0 ? 1 : 0)} / ${DECOR.length + 1}`;
+      for (const [id, b] of refs.substrates) b.classList.toggle('on', id === s.substrate);
+      for (const [id, b] of refs.scape) b.classList.toggle('on', s.scape.includes(id));
+      scape.value.textContent = byId(SUBSTRATES, s.substrate).name;
       grassCount.textContent = String(s.grass);
       grassRow.classList.toggle('on', s.grass > 0);
       grassMinus.disabled = s.grass === 0;

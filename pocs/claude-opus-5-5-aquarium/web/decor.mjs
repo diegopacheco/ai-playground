@@ -1,8 +1,11 @@
 import * as THREE from 'three';
-import { TANK, DECOR } from './catalog.mjs';
+import { DECOR, STONES } from './catalog.mjs';
 import { sandHeight, noise } from './patterns.mjs';
 import { weathered } from './weather.mjs';
-import { grassSpots, CLUMPS_PER_LEVEL } from './layout.mjs';
+import { AIR_STONE } from './layout.mjs';
+import { buildGrass, buildCarpet, buildBushes } from './plants.mjs';
+import { buildStones } from './stones.mjs';
+import { coral } from './coral.mjs';
 
 function mat(color, roughness = 0.85, metalness = 0, extra = {}) {
   return new THREE.MeshStandardMaterial({ color, roughness, metalness, ...extra });
@@ -395,48 +398,6 @@ function castle() {
   };
 }
 
-function branch(g, material, x, y, z, len, r, tilt, yaw, depth) {
-  const m = mesh(cyl(r * 0.7, r, len, 8), material);
-  m.geometry.translate(0, len / 2, 0);
-  const holder = new THREE.Group();
-  holder.position.set(x, y, z);
-  holder.rotation.set(0, yaw, tilt);
-  holder.add(m);
-  g.add(holder);
-  const tip = new THREE.Vector3(0, len, 0).applyEuler(holder.rotation).add(holder.position);
-  if (depth > 0) {
-    branch(g, material, tip.x, tip.y, tip.z, len * 0.7, r * 0.7, tilt + 0.5, yaw + 0.9, depth - 1);
-    branch(g, material, tip.x, tip.y, tip.z, len * 0.7, r * 0.7, tilt - 0.5, yaw - 0.7, depth - 1);
-  } else {
-    g.add(mesh(new THREE.SphereGeometry(r * 0.9, 8, 6), material, tip.x, tip.y, tip.z));
-  }
-}
-
-function coral() {
-  const g = new THREE.Group();
-  const pink = mat('#ff6f91', 0.7);
-  const purple = mat('#9b59d0', 0.7);
-  branch(g, pink, -0.015, 0, 0, 0.04, 0.006, 0.15, 0, 2);
-  branch(g, pink, 0.02, 0, 0.015, 0.03, 0.005, -0.25, 1, 2);
-  const brainGeo = new THREE.SphereGeometry(0.024, 32, 20);
-  const p = brainGeo.attributes.position;
-  for (let i = 0; i < p.count; i++) {
-    const v = new THREE.Vector3().fromBufferAttribute(p, i);
-    const k = 1 + 0.08 * Math.sin(v.x * 400 + Math.sin(v.z * 300) * 2);
-    p.setXYZ(i, v.x * k, Math.max(0, v.y) * k * 0.8, v.z * k);
-  }
-  brainGeo.computeVertexNormals();
-  g.add(mesh(brainGeo, mat('#f2a65a', 0.8), 0.035, 0, -0.02));
-  for (let i = 0; i < 5; i++) {
-    const h = 0.025 + Math.random() * 0.03;
-    g.add(mesh(cyl(0.0045, 0.004, h, 10), purple, -0.045 + i * 0.008, h / 2, 0.03 + (i % 2) * 0.008));
-  }
-  const fan = mesh(new THREE.CircleGeometry(0.035, 20, 0, Math.PI), mat('#e8483f', 0.8, 0, { side: THREE.DoubleSide, transparent: true, opacity: 0.9 }), -0.04, 0.0, -0.025);
-  fan.rotation.y = 0.4;
-  g.add(fan);
-  return g;
-}
-
 function rockGeometry(r, seed) {
   const geo = new THREE.IcosahedronGeometry(r, 2);
   const p = geo.attributes.position;
@@ -504,54 +465,6 @@ function helmet() {
   return g;
 }
 
-function buildGrass(scene) {
-  const greens = ['#3f8f3a', '#5aa845', '#2f7a42', '#6fbf52', '#4c9a3c'].map(c => mat(c, 0.7, 0, { side: THREE.DoubleSide }));
-  const geos = [0.09, 0.14, 0.2, 0.28, 0.36].map(h => {
-    const geo = new THREE.PlaneGeometry(0.008, h, 1, 8);
-    geo.translate(0, h / 2, 0);
-    const p = geo.attributes.position;
-    for (let i = 0; i < p.count; i++) {
-      const t = p.getY(i) / h;
-      p.setX(i, p.getX(i) * (1 - t * 0.7) + 0.03 * t * t);
-    }
-    geo.computeVertexNormals();
-    return geo;
-  });
-  const clumps = grassSpots().map(({ x, z }, n) => {
-    const clump = new THREE.Group();
-    const blades = [];
-    const depth = (z + TANK.depth / 2) / TANK.depth;
-    const tall = Math.round((1 - depth) * 3);
-    for (let i = 0; i < 6; i++) {
-      const bx = x + (Math.random() - 0.5) * 0.035;
-      const bz = z + (Math.random() - 0.5) * 0.025;
-      const b = mesh(geos[Math.min(4, tall + Math.floor(Math.random() * 2))], greens[(n + i) % greens.length], bx, sandHeight(bx, bz) - 0.004, bz);
-      b.rotation.y = Math.random() * Math.PI * 2;
-      b.castShadow = false;
-      blades.push({ m: b, phase: Math.random() * 6 });
-      clump.add(b);
-    }
-    clump.visible = false;
-    scene.add(clump);
-    return { clump, blades };
-  });
-  let shown = 0;
-  return {
-    setLevel(level) {
-      shown = Math.min(clumps.length, level * CLUMPS_PER_LEVEL);
-      clumps.forEach((c, i) => { c.clump.visible = i < shown; });
-    },
-    update(t) {
-      for (let i = 0; i < shown; i++) {
-        for (const b of clumps[i].blades) {
-          b.m.rotation.z = Math.sin(t * 1.1 + b.phase) * 0.12;
-          b.m.rotation.x = Math.sin(t * 0.8 + b.phase * 1.3) * 0.08;
-        }
-      }
-    }
-  };
-}
-
 const BUILDERS = { ship, car, plane, chest, castle, coral, anchor, helmet };
 
 export function buildDecor(scene) {
@@ -583,10 +496,19 @@ export function buildDecor(scene) {
     items.set(d.id, { root, updates });
   }
   const grass = buildGrass(scene);
+  const carpet = buildCarpet(scene);
+  const bushes = buildBushes(scene);
+  const stones = buildStones(scene);
   return {
-    show(ids, grassLevel) {
-      for (const [id, item] of items) item.root.visible = ids.includes(id);
-      grass.setLevel(grassLevel);
+    show(state) {
+      for (const [id, item] of items) item.root.visible = state.decor.includes(id);
+      const path = state.substrate === 'path';
+      const stonesOn = state.scape.includes('stones');
+      const blockers = [...DECOR.filter(d => state.decor.includes(d.id)).flatMap(d => d.spots), ...(stonesOn ? STONES : []), AIR_STONE];
+      grass.set(state.grass, path);
+      carpet.set(state.scape.includes('carpet'), blockers, path);
+      bushes.set(state.scape.includes('bushes'));
+      stones.set(stonesOn);
     },
     update(t) {
       for (const item of items.values()) if (item.root.visible) item.updates.forEach(u => u(t));

@@ -1,4 +1,4 @@
-import { RACK_COLORS, MATERIALS, FISH, DECOR, MAX_FISH, MAX_GRASS, byId } from './catalog.mjs';
+import { RACK_COLORS, MATERIALS, FISH, DECOR, SUBSTRATES, SCAPE, MAX_FISH, MAX_GRASS, byId } from './catalog.mjs';
 
 export function createState() {
   return {
@@ -7,6 +7,8 @@ export function createState() {
     fish: ['neon', 'neon', 'neon', 'neon', 'clown', 'clown', 'bluetang', 'yellowtang'],
     grass: 3,
     decor: ['rocks', 'ship'],
+    substrate: 'path',
+    scape: ['carpet', 'bushes', 'stones'],
     shark: false,
     sound: false
   };
@@ -57,6 +59,17 @@ export function setGrass(s, level) {
   return next === s.grass ? s : { ...s, grass: next };
 }
 
+export function setSubstrate(s, id) {
+  need(SUBSTRATES, id, 'substrate');
+  return { ...s, substrate: id };
+}
+
+export function toggleScape(s, id) {
+  need(SCAPE, id, 'aquascape');
+  const on = s.scape.includes(id);
+  return { ...s, scape: on ? s.scape.filter(d => d !== id) : [...s.scape, id] };
+}
+
 export function toggleShark(s) {
   return { ...s, shark: !s.shark };
 }
@@ -74,6 +87,8 @@ export function restore(saved) {
     fish: Array.isArray(saved.fish) ? saved.fish.filter(f => byId(FISH, f)).slice(0, MAX_FISH) : base.fish,
     grass: Number.isInteger(saved.grass) ? setGrass(base, saved.grass).grass : base.grass,
     decor: Array.isArray(saved.decor) ? [...new Set(saved.decor.filter(d => byId(DECOR, d)))] : base.decor,
+    substrate: byId(SUBSTRATES, saved.substrate) ? saved.substrate : base.substrate,
+    scape: Array.isArray(saved.scape) ? [...new Set(saved.scape.filter(d => byId(SCAPE, d)))] : base.scape,
     shark: saved.shark === true,
     sound: false
   };

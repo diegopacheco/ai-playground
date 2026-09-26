@@ -50,10 +50,38 @@ export const DECOR = [
   { id: 'plane', name: 'Sunken Plane', spots: [[0.3, -0.12, 0.1]] },
   { id: 'chest', name: 'Treasure Chest', spots: [[-0.44, 0.15, 0.05]] },
   { id: 'castle', name: 'Castle', spots: [[-0.01, -0.13, 0.08]] },
-  { id: 'coral', name: 'Coral Reef', spots: [[-0.2, 0.13, 0.06]] },
+  { id: 'coral', name: 'Coral Reef', spots: [[-0.2, 0.14, 0.1]] },
   { id: 'rocks', name: 'Rocks', spots: [[-0.53, -0.17, 0.04], [0.53, -0.01, 0.035], [0.17, 0.17, 0.03]] },
   { id: 'anchor', name: 'Anchor', spots: [[0.03, 0.15, 0.05]] },
   { id: 'helmet', name: 'Diver Helmet', spots: [[-0.09, 0.02, 0.04]] }
+];
+
+export const SUBSTRATES = [
+  { id: 'sand', name: 'Sand' },
+  { id: 'soil', name: 'Aqua soil' },
+  { id: 'path', name: 'Soil + sand path' }
+];
+
+export const SCAPE = [
+  { id: 'carpet', name: 'Carpet' },
+  { id: 'bushes', name: 'Bushes' },
+  { id: 'stones', name: 'Dragon stones' }
+];
+
+export const STONES = [
+  [0.13, 0.0, 0.055, 0.2],
+  [0.1, -0.2, 0.04, 0.15],
+  [0.46, -0.13, 0.05, 0.17],
+  [-0.13, -0.2, 0.045, 0.13]
+];
+
+export const BUSHES = [
+  { x: -0.47, z: -0.19, rx: 0.1, rz: 0.045, h: 0.32, kind: 'red' },
+  { x: -0.29, z: -0.2, rx: 0.09, rz: 0.04, h: 0.26, kind: 'green' },
+  { x: -0.11, z: -0.2, rx: 0.08, rz: 0.04, h: 0.2, kind: 'lime' },
+  { x: 0.08, z: -0.2, rx: 0.09, rz: 0.04, h: 0.29, kind: 'red' },
+  { x: 0.27, z: -0.2, rx: 0.1, rz: 0.04, h: 0.31, kind: 'green' },
+  { x: 0.43, z: -0.2, rx: 0.06, rz: 0.04, h: 0.23, kind: 'lime' }
 ];
 
 export function byId(list, id) {

@@ -5,21 +5,30 @@ const SHARK = { id: 'shark', len: 0.21, height: 0.28, width: 0.26, pattern: 'sha
 
 const bodies = new Map();
 
+function surface(f, nx, ny, nz) {
+  let taper = nx < 0 ? 1 - 0.62 * Math.pow(-nx, 1.6) : 1;
+  if (f.pattern === 'shark' && nx > 0.4) taper *= 1 - 0.5 * Math.pow((nx - 0.4) / 0.6, 2);
+  const hump = 1 + (ny > 0 ? 0.12 * (1 - nx * nx) : 0);
+  return new THREE.Vector3(nx * f.len / 2, ny * taper * hump * f.len * f.height / 2, nz * taper * f.len * f.width / 2);
+}
+
+function onSkin(f, nx, ny, side) {
+  const at = (x, y) => surface(f, x, y, side * Math.sqrt(Math.max(0, 1 - x * x - y * y)));
+  const p = at(nx, ny);
+  const normal = at(nx + 0.01, ny).sub(p).cross(at(nx, ny + 0.01).sub(p)).normalize().multiplyScalar(side);
+  return { p, normal };
+}
+
 function bodyGeometry(f) {
   if (bodies.has(f.id)) return bodies.get(f.id);
   const geo = new THREE.SphereGeometry(1, 36, 24);
   const pos = geo.attributes.position;
   const colors = [];
   const c = new THREE.Color();
-  const shark = f.pattern === 'shark';
   for (let i = 0; i < pos.count; i++) {
     const nx = pos.getX(i);
     const ny = pos.getY(i);
-    const nz = pos.getZ(i);
-    let taper = nx < 0 ? 1 - 0.62 * Math.pow(-nx, 1.6) : 1;
-    if (shark && nx > 0.4) taper *= 1 - 0.5 * Math.pow((nx - 0.4) / 0.6, 2);
-    const hump = 1 + (ny > 0 ? 0.12 * (1 - nx * nx) : 0);
-    pos.setXYZ(i, nx * f.len / 2, ny * taper * hump * f.len * f.height / 2, nz * taper * f.len * f.width / 2);
+    pos.setXYZ(i, ...surface(f, nx, ny, pos.getZ(i)).toArray());
     c.set(fishColor(f, nx, ny));
     colors.push(c.r, c.g, c.b);
   }
@@ -101,11 +110,21 @@ export function buildFish(f) {
   });
 
   const eyeMat = new THREE.MeshStandardMaterial({ color: '#050505', roughness: 0.1, metalness: 0.4 });
-  const ringMat = new THREE.MeshStandardMaterial({ color: def.pattern === 'shark' ? '#2c3136' : '#f4f1e6', roughness: 0.4 });
-  for (const side of [-1, 1]) {
-    const ex = L * (def.pattern === 'shark' ? 0.36 : 0.3);
-    const ey = L * def.height * (def.pattern === 'shark' ? 0.08 : 0.12);
-    const ez = side * L * def.width * (def.pattern === 'shark' ? 0.2 : 0.3);
+  if (def.pattern === 'shark') {
+    for (const side of [-1, 1]) {
+      const { p, normal } = onSkin(def, 0.64, 0.2, side);
+      const eye = new THREE.Mesh(new THREE.SphereGeometry(L * 0.022, 16, 12), eyeMat);
+      eye.scale.set(1.25, 0.7, 0.35);
+      eye.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), normal);
+      eye.position.copy(p).addScaledVector(normal, -L * 0.002);
+      body.add(eye);
+    }
+  }
+  const ringMat = new THREE.MeshStandardMaterial({ color: '#f4f1e6', roughness: 0.4 });
+  for (const side of def.pattern === 'shark' ? [] : [-1, 1]) {
+    const ex = L * 0.3;
+    const ey = L * def.height * 0.12;
+    const ez = side * L * def.width * 0.3;
     const ring = new THREE.Mesh(new THREE.SphereGeometry(L * 0.075, 12, 10), ringMat);
     ring.position.set(ex, ey, ez);
     const eye = new THREE.Mesh(new THREE.SphereGeometry(L * 0.05, 12, 10), eyeMat);

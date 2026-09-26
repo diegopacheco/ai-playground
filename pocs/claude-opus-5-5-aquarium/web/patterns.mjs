@@ -189,3 +189,14 @@ export function sandHeight(x, z) {
   const back = (-z / TANK.depth + 0.5) * 0.045;
   return 0.03 + back + 0.012 * (fbm(x * 6 + 10, z * 6 + 10, 64, 3) - 0.5);
 }
+
+export function pathCenter(z) {
+  return 0.03 + 0.07 * Math.sin(z * 9 + 0.6);
+}
+
+export function pathMask(x, z) {
+  const t = z / TANK.depth + 0.5;
+  const w = 0.022 + 0.03 * t + 0.006 * (noise(z * 60 + 3, 1, 64, 12) - 0.5);
+  const d = Math.abs(x - pathCenter(z));
+  return clamp01((w - d) / (w * 0.35));
+}

@@ -134,7 +134,8 @@ function apply() {
     applyRack(rackMaterial, byId(MATERIALS, state.material), byId(RACK_COLORS, state.rackColor).hex);
   }
   syncFish(state.fish);
-  decor.show(state.decor, state.grass);
+  tank.setSubstrate(state.substrate);
+  decor.show(state);
   shark.model.root.visible = state.shark;
   ui.render(state);
   applied = state;
@@ -155,6 +156,8 @@ const ui = buildUI(panel, {
   removeFish: id => dispatch(S.removeFish(state, id), sound.scoop),
   clearFish: () => dispatch(S.clearFish(state), sound.scoop),
   toggleDecor: id => dispatch(S.toggleDecor(state, id), sound.thunk),
+  substrate: id => dispatch(S.setSubstrate(state, id), sound.scoop),
+  toggleScape: id => dispatch(S.toggleScape(state, id), sound.thunk),
   grass: delta => dispatch(S.setGrass(state, state.grass + delta), delta > 0 ? sound.thunk : sound.scoop),
   feed,
   toggleShark: () => dispatch(S.toggleShark(state), () => { if (state.shark) sound.jaws(); else sound.scoop(); }),

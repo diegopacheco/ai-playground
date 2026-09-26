@@ -153,6 +153,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 
 .grass-row { margin-bottom: 8px; }
 .grass-dot { background: linear-gradient(90deg, #2f7a42, #6fbf52); }
+.soil-dot { width: 22px; height: 22px; border-radius: 6px; flex: none; }
+.soil-sand { background: radial-gradient(circle at 30% 30%, #efe0bd, #b89c70); }
+.soil-soil { background: radial-gradient(circle at 30% 30%, #5a3f2a, #1c130d); }
+.soil-path { background: linear-gradient(90deg, #2a1c13 35%, #e3d2ab 35% 65%, #2a1c13 65%); }
+.grid + .grid { margin-top: 6px; }
 
 .link {
   padding: 0;

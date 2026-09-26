@@ -35,6 +35,8 @@ test('unknown ids are rejected instead of corrupting the tank', () => {
   assert.throws(() => S.setRackColor(s, 'plaid'));
   assert.throws(() => S.addFish(s, 'kraken'));
   assert.throws(() => S.toggleDecor(s, 'volcano'));
+  assert.throws(() => S.setSubstrate(s, 'lava'));
+  assert.throws(() => S.toggleScape(s, 'cactus'));
 });
 
 test('state changes return new objects so the renderer can diff them', () => {
@@ -70,4 +72,25 @@ test('seagrass can be added and removed one level at a time within limits', () =
   assert.equal(s.grass, MAX_GRASS);
   assert.equal(S.restore({ grass: 99 }).grass, MAX_GRASS);
   assert.equal(S.restore({ grass: 'lots' }).grass, S.createState().grass);
+});
+
+test('the substrate switches and an old save without aquascape fields gets the planted defaults', () => {
+  const s = S.setSubstrate(S.createState(), 'sand');
+  assert.equal(s.substrate, 'sand');
+  const old = S.restore({ rackColor: 'cherry' });
+  assert.equal(old.substrate, S.createState().substrate);
+  assert.deepEqual(old.scape, S.createState().scape);
+  const bad = S.restore({ substrate: 'lava', scape: ['carpet', 'carpet', 'cactus'] });
+  assert.equal(bad.substrate, S.createState().substrate);
+  assert.deepEqual(bad.scape, ['carpet']);
+});
+
+test('aquascape items toggle on and off without duplicates', () => {
+  let s = S.createState();
+  const had = s.scape.includes('stones');
+  s = S.toggleScape(s, 'stones');
+  assert.equal(s.scape.includes('stones'), !had);
+  s = S.toggleScape(s, 'stones');
+  assert.equal(s.scape.includes('stones'), had);
+  assert.equal(new Set(s.scape).size, s.scape.length);
 });

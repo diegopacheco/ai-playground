@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { TANK } from './catalog.mjs';
-import { sandHeight, fbm, cellEdge } from './patterns.mjs';
+import { sandHeight, fbm, cellEdge, pathMask } from './patterns.mjs';
 
 export const RACK = { width: TANK.width + 0.1, height: 0.78, depth: TANK.depth + 0.1 };
 const GLASS = 0.008;
@@ -66,6 +66,7 @@ function sandGeometry() {
   geo.rotateX(-Math.PI / 2);
   const pos = geo.attributes.position;
   const colors = [];
+  const path = [];
   const light = new THREE.Color('#e3d2ab');
   const dark = new THREE.Color('#a58b62');
   const c = new THREE.Color();
@@ -75,28 +76,119 @@ function sandGeometry() {
     pos.setY(i, sandHeight(x, z));
     c.copy(dark).lerp(light, 0.35 + 0.65 * fbm(x * 40 + 5, z * 40 + 5, 64, 2));
     colors.push(c.r, c.g, c.b);
+    path.push(pathMask(x, z));
   }
   geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  geo.setAttribute('aPath', new THREE.Float32BufferAttribute(path, 1));
   geo.computeVertexNormals();
   return geo;
 }
 
 function sandSide(x0, z0, x1, z1, material) {
-  const n = 60;
+  const n = 120;
   const verts = [];
+  const colors = [];
+  const path = [];
   const idx = [];
+  const sand = new THREE.Color('#b89c70');
   for (let i = 0; i <= n; i++) {
     const t = i / n;
     const x = x0 + (x1 - x0) * t;
     const z = z0 + (z1 - z0) * t;
-    verts.push(x, GLASS, z, x, sandHeight(x, z), z);
-    if (i < n) idx.push(i * 2, i * 2 + 2, i * 2 + 1, i * 2 + 1, i * 2 + 2, i * 2 + 3);
+    const top = sandHeight(x, z);
+    verts.push(x, GLASS, z, x, top - 0.01, z, x, top, z);
+    colors.push(sand.r, sand.g, sand.b, sand.r, sand.g, sand.b, sand.r, sand.g, sand.b);
+    path.push(0, 0, pathMask(x, z));
+    if (i < n) {
+      const a = i * 3;
+      idx.push(a, a + 3, a + 1, a + 1, a + 3, a + 4, a + 1, a + 4, a + 2, a + 2, a + 4, a + 5);
+    }
   }
   const geo = new THREE.BufferGeometry();
   geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  geo.setAttribute('aPath', new THREE.Float32BufferAttribute(path, 1));
   geo.setIndex(idx);
   geo.computeVertexNormals();
   return new THREE.Mesh(geo, material);
+}
+
+function soilTexture() {
+  const size = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#1c130d';
+  ctx.fillRect(0, 0, size, size);
+  const tones = ['#3b281c', '#4a3322', '#2a1c13', '#5a3f2a', '#18110c', '#443024', '#2f2219'];
+  for (let i = 0; i < 14000; i++) {
+    const x = Math.random() * size;
+    const y = Math.random() * size;
+    const r = 1.2 + Math.random() * 2.6;
+    ctx.fillStyle = tones[i % tones.length];
+    for (const [dx, dy] of [[0, 0], [size, 0], [0, size], [-size, 0], [0, -size]]) {
+      ctx.beginPath();
+      ctx.ellipse(x + dx, y + dy, r, r * (0.7 + Math.random() * 0.3), Math.random() * 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    if (i % 5 === 0) {
+      ctx.fillStyle = 'rgba(160,120,90,0.35)';
+      ctx.fillRect(x - r * 0.4, y - r * 0.5, r * 0.5, r * 0.4);
+    }
+  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 8;
+  return tex;
+}
+
+function substrateMaterial() {
+  const uniforms = { uSoil: { value: 0 }, uPath: { value: 0 }, uSoilMap: { value: soilTexture() } };
+  const m = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1, side: THREE.DoubleSide });
+  m.onBeforeCompile = shader => {
+    Object.assign(shader.uniforms, uniforms);
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', '#include <common>\nattribute float aPath;\nvarying float vPath;\nvarying vec3 vSoilPos;\nvarying vec3 vSoilNor;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvPath = aPath;\nvSoilPos = (modelMatrix * vec4(position, 1.0)).xyz;\nvSoilNor = normalize(mat3(modelMatrix) * normal);');
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', '#include <common>\nuniform float uSoil;\nuniform float uPath;\nuniform sampler2D uSoilMap;\nvarying float vPath;\nvarying vec3 vSoilPos;\nvarying vec3 vSoilNor;')
+      .replace('#include <color_fragment>', `#include <color_fragment>
+vec2 soilUv = abs(vSoilNor.y) > 0.5 ? vSoilPos.xz : vec2(vSoilPos.x + vSoilPos.z, vSoilPos.y);
+vec3 soil = texture2D(uSoilMap, soilUv * 4.0).rgb;
+float soilDepth = abs(vSoilNor.y) > 0.5 ? 1.0 : 0.75 + 0.25 * smoothstep(0.0, 0.08, vSoilPos.y);
+diffuseColor.rgb = mix(diffuseColor.rgb, soil * soilDepth, uSoil * (1.0 - smoothstep(0.2, 0.8, vPath) * uPath));`);
+  };
+  m.customProgramCacheKey = () => 'substrate';
+  return { material: m, uniforms };
+}
+
+function buildPebbles() {
+  const spots = [];
+  for (let i = 0; spots.length < 70 && i < 5000; i++) {
+    const x = (Math.random() - 0.5) * IW;
+    const z = (Math.random() - 0.5) * (ID - 0.02);
+    const k = pathMask(x, z);
+    if (k > 0.05 && k < 0.7) spots.push([x, z]);
+  }
+  const mesh = new THREE.InstancedMesh(
+    new THREE.IcosahedronGeometry(1, 1),
+    new THREE.MeshStandardMaterial({ roughness: 0.8, flatShading: true }),
+    spots.length
+  );
+  const m = new THREE.Matrix4();
+  const q = new THREE.Quaternion();
+  const c = new THREE.Color();
+  spots.forEach(([x, z], i) => {
+    const r = 0.003 + Math.random() * 0.006;
+    q.setFromEuler(new THREE.Euler(Math.random() * 3, Math.random() * 3, 0));
+    m.compose(new THREE.Vector3(x, sandHeight(x, z) + r * 0.2, z), q, new THREE.Vector3(r * 1.3, r * 0.7, r));
+    mesh.setMatrixAt(i, m);
+    mesh.setColorAt(i, c.set(['#8a8378', '#b0a48c', '#6b6862', '#cfc3a8'][i % 4]));
+  });
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  return mesh;
 }
 
 function causticTexture(seed) {
@@ -240,11 +332,11 @@ export function buildTank(scene, onBubble) {
   backdrop.position.set(0, h / 2, -d / 2 - 0.002);
   group.add(backdrop);
 
-  const sandMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1 });
-  const sand = new THREE.Mesh(sandGeometry(), sandMat);
+  const substrate = substrateMaterial();
+  const sand = new THREE.Mesh(sandGeometry(), substrate.material);
   sand.receiveShadow = true;
   group.add(sand);
-  const sideMat = new THREE.MeshStandardMaterial({ color: '#b89c70', roughness: 1, side: THREE.DoubleSide });
+  const sideMat = substrate.material;
   group.add(sandSide(-IW / 2, ID / 2, IW / 2, ID / 2, sideMat));
   group.add(sandSide(-IW / 2, -ID / 2, IW / 2, -ID / 2, sideMat));
   group.add(sandSide(-IW / 2, -ID / 2, -IW / 2, ID / 2, sideMat));
@@ -274,9 +366,16 @@ export function buildTank(scene, onBubble) {
   group.add(bubbles.mesh);
   buildAirline(group);
   buildLamp(group);
+  const pebbles = buildPebbles();
+  group.add(pebbles);
   scene.add(group);
 
   return {
+    setSubstrate(id) {
+      substrate.uniforms.uSoil.value = id === 'sand' ? 0 : 1;
+      substrate.uniforms.uPath.value = id === 'path' ? 1 : 0;
+      pebbles.visible = id === 'path';
+    },
     update(dt, t) {
       caustics[0].offset.set(t * 0.012, t * 0.007);
       caustics[1].offset.set(-t * 0.009, t * 0.011);
