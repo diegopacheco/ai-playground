@@ -1,0 +1,109 @@
+pocs/claude-opus-5-5-aquarium/index.html
+  s_208bdc1bee3549::t_dd59708785dde3 1-24
+pocs/claude-opus-5-5-aquarium/web/state.mjs
+  s_208bdc1bee3549::t_2da78c388a5acd 1,8-9,55-59,75
+  s_208bdc1bee3549::t_80f4d9d1ec1b7d 2-7,10-54,60-74,76-80
+pocs/claude-opus-5-5-aquarium/scripts/setup.sh
+  s_208bdc1bee3549::t_713f90d5499859 1-11
+pocs/claude-opus-5-5-aquarium/tests/catalog.test.mjs
+  s_208bdc1bee3549::t_c7eaf316ed7475 1-2,5-38,41,44-58,75
+  s_208bdc1bee3549::t_585bde9bdb3b30 3-4,39-40,42-43,59-74
+pocs/claude-opus-5-5-aquarium/tests/swim.test.mjs
+  s_208bdc1bee3549::t_bbb55b57397994 58
+  s_208bdc1bee3549::t_585bde9bdb3b30 4,73-116
+  s_208bdc1bee3549::t_cbad5e4f05815e 1-3,5-57,59-72,117
+pocs/claude-opus-5-5-aquarium/web/style.css
+  s_208bdc1bee3549::t_a3f37bcf29e51a 1-70,72-73,76-141,157-231
+  s_208bdc1bee3549::t_c6d9066ba7c76b 71,74-75
+  s_208bdc1bee3549::t_273a603d7307bc 142-156
+pocs/claude-opus-5-5-aquarium/scripts/ports.env
+  s_208bdc1bee3549::t_713f90d5499859 1
+pocs/claude-opus-5-5-aquarium/web/decor.mjs
+  s_208bdc1bee3549::t_620896b91c72e8 4-5,23-92,95-96,99-117,119-127,129-132,134-181,189-219,221-234,236-272,280-295,297-338,507-510,514,520-528,531-532,534-538,540-543,545-549,555,572-575,585,587,589,593
+  s_208bdc1bee3549::t_950f82503e1dd9 97-98,118,186-188,278-279,343,374,465,486,578-580
+  s_208bdc1bee3549::t_91ea4b52afe426 1-3,6-18,20-22,93-94,128,133,182-185,220,235,273-277,296,339-342,344-347,349-352,354-373,375-379,381-383,385-398,400-431,433-464,467,469-485,487-488,490-506,511-513,515-519,529-530,533,539,544,550-554,556-571,576-577,581-584,586,588,590-592,594-596
+  s_208bdc1bee3549::t_de93a0fda55aca 19,348,353,380,384,399,432,466,468,489
+pocs/claude-opus-5-5-aquarium/web/patterns.mjs
+  s_208bdc1bee3549::t_b8ef9b389acb46 1-78,80,82-138,143-177,179-191
+  s_208bdc1bee3549::t_a9b8c0ea8c9819 139-142
+  s_208bdc1bee3549::t_88867f8b31d7e2 79,81
+  s_208bdc1bee3549::t_081d1e5cc0236e 178
+pocs/claude-opus-5-5-aquarium/web/materials.mjs
+  s_208bdc1bee3549::t_ea12a64537b969 41
+  s_208bdc1bee3549::t_c6031fc952fd24 1-9,12-40,42-53
+  s_208bdc1bee3549::t_b3df54ab173d4d 10-11
+pocs/claude-opus-5-5-aquarium/web/layout.mjs
+  s_208bdc1bee3549::t_86dcebf9c90ae5 1-20
+pocs/claude-opus-5-5-aquarium/printscreens/architecture.svg
+  s_208bdc1bee3549::t_640b99ef623843 1-70
+pocs/claude-opus-5-5-aquarium/web/swim.mjs
+  s_208bdc1bee3549::t_e7034c20d567e3 1-4,9-56,61-88,90-93,121-142
+  s_208bdc1bee3549::t_e82414ff18ff18 5-8,57-60,89,94-120
+pocs/claude-opus-5-5-aquarium/.gitignore
+  s_208bdc1bee3549::t_713f90d5499859 1
+  s_208bdc1bee3549::t_6f3998c8ff0194 2
+pocs/claude-opus-5-5-aquarium/web/main.mjs
+  s_208bdc1bee3549::t_28f24a40bbb1af 66
+  s_208bdc1bee3549::t_6f3998c8ff0194 23,193,200,202
+  s_208bdc1bee3549::t_b439eebde385ba 1-3,5,8-22,24-41,44-65,67-78,113-136,138-157,160-180,184-192,194-199,203-216,219,227-235
+  s_208bdc1bee3549::t_7ef466f944288e 42-43,181-183
+  s_208bdc1bee3549::t_c7967f979ee0b2 201
+  s_208bdc1bee3549::t_23f2f271e4df15 236-243
+  s_208bdc1bee3549::t_585bde9bdb3b30 80
+  s_208bdc1bee3549::t_93b8b45b54bd84 4,6-7,79,81-112,137,158-159,217-218,220-226
+pocs/claude-opus-5-5-aquarium/logo.svg
+  s_208bdc1bee3549::t_3efd9a0c39b3fe 1-13
+pocs/claude-opus-5-5-aquarium/web/weather.mjs
+  s_208bdc1bee3549::t_6b22732604b11c 1-41,43-45,47,50,52-63
+  s_208bdc1bee3549::t_950f82503e1dd9 42,46,48-49,51
+pocs/claude-opus-5-5-aquarium/scripts/ui.sh
+  s_208bdc1bee3549::t_713f90d5499859 1-8
+pocs/claude-opus-5-5-aquarium/web/catalog.mjs
+  s_208bdc1bee3549::t_a6491c7f254c65 1-4,9-61
+  s_208bdc1bee3549::t_2da78c388a5acd 5-8
+pocs/claude-opus-5-5-aquarium/web/tank.mjs
+  s_208bdc1bee3549::t_91a612e47772a9 1-255,257-311
+  s_208bdc1bee3549::t_950f82503e1dd9 256
+pocs/claude-opus-5-5-aquarium/scripts/common.sh
+  s_208bdc1bee3549::t_5d4c2b5359a518 1-25,27-114
+  s_208bdc1bee3549::t_713f90d5499859 26
+pocs/claude-opus-5-5-aquarium/web/sound.mjs
+  s_208bdc1bee3549::t_93b8b45b54bd84 116-119
+  s_208bdc1bee3549::t_c83d5c599c9c1b 1-115,120-144
+pocs/claude-opus-5-5-aquarium/scripts/status.sh
+  s_208bdc1bee3549::t_713f90d5499859 1-18
+pocs/claude-opus-5-5-aquarium/README.md
+  s_208bdc1bee3549::t_b85e6db6d012f9 1-171
+pocs/claude-opus-5-5-aquarium/tests/patterns.test.mjs
+  s_208bdc1bee3549::t_7bcd7476f63e85 1-61
+pocs/claude-opus-5-5-aquarium/scripts/start-all.sh
+  s_208bdc1bee3549::t_713f90d5499859 1-15
+pocs/claude-opus-5-5-aquarium/web/fish.mjs
+  s_208bdc1bee3549::t_1cfd30424395fc 1-128
+pocs/claude-opus-5-5-aquarium/scripts/test-all.sh
+  s_208bdc1bee3549::t_713f90d5499859 1-8
+pocs/claude-opus-5-5-aquarium/tests/state.test.mjs
+  s_208bdc1bee3549::t_1045a649c1040e 1-2,4-62,73
+  s_208bdc1bee3549::t_585bde9bdb3b30 3,63-72
+pocs/claude-opus-5-5-aquarium/web/ui.mjs
+  s_208bdc1bee3549::t_273a603d7307bc 1,61,63,66-69,76,104-109
+  s_208bdc1bee3549::t_ef4f289818986d 2-60,62,64-65,70-75,77-103,110-115
+pocs/claude-opus-5-5-aquarium/scripts/stop-all.sh
+  s_208bdc1bee3549::t_713f90d5499859 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "9125da552947be82398e2ca1c31afb5ebed70740",
+  "prompts": {},
+  "sessions": {
+    "s_208bdc1bee3549": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4771346c-046b-458b-9484-e7c49a469369",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
