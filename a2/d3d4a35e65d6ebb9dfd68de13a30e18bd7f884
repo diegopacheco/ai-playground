@@ -1,0 +1,19 @@
+.gitignore
+  s_62627016f75689::t_7d9d4941d4ba54 51-69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "a2d3d4a35e65d6ebb9dfd68de13a30e18bd7f884",
+  "prompts": {},
+  "sessions": {
+    "s_62627016f75689": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ed56ecf5-87ad-47df-a5d5-69c55901b100",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
