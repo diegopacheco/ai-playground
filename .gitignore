@@ -48,3 +48,22 @@ onnx_model/
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+.gradle/
+build/
+.bsp/
+.metals/
+.bloop/
+__pycache__/
+*.pyc
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+*.o
+*.so
+*.dylib
+*.out
+.terraform/
+*.tfstate
+*.tfstate.backup
+.scala-build/
