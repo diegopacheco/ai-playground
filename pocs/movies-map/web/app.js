@@ -3,8 +3,9 @@ const CELL = 110
 const SF_BOUNDS = L.latLngBounds([37.70, -122.53], [37.84, -122.35])
 const $ = id => document.getElementById(id)
 
-const state = { movies: [], byId: new Map(), points: [], address: null, activeTab: "map", focusId: null }
+const state = { movies: [], byId: new Map(), points: [], address: null, activeTab: "map", focusId: null, filters: { ...EMPTY_FILTERS } }
 
+const visible = movie => matchesFilters(movie, state.filters)
 const escapeHtml = text => String(text ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c])
 
 const spots = n => `${n} location${n === 1 ? "" : "s"}`
@@ -54,7 +55,7 @@ function clusterPoints() {
   const bounds = map.getBounds().pad(0.3)
   const cells = new Map()
   for (const point of state.points) {
-    if (state.focusId && point.movie.id !== state.focusId) continue
+    if (state.focusId ? point.movie.id !== state.focusId : !visible(point.movie)) continue
     if (!bounds.contains(point.latlng)) continue
     const px = map.project(point.latlng, zoom)
     const key = `${Math.floor(px.x / CELL)}:${Math.floor(px.y / CELL)}`
@@ -132,12 +133,12 @@ function resultItem(movie, subtitle) {
 
 function renderList(title, items) {
   $("list-title").textContent = title
-  $("results").innerHTML = items.length ? items.join("") : '<li class="empty">No movies were shot within this radius. Try a larger one.</li>'
+  $("results").innerHTML = items.length ? items.join("") : '<li class="empty">No titles match here. Try a larger radius or fewer filters.</li>'
 }
 
 function renderDefaultList() {
-  const top = [...state.movies].sort((a, b) => b.locations.length - a.locations.length).slice(0, 30)
-  renderList("Most filmed in San Francisco", top.map(m => resultItem(m, `${m.year || ""} · ${spots(m.locations.length)}`)))
+  const top = state.movies.filter(visible).sort((a, b) => b.locations.length - a.locations.length).slice(0, 30)
+  renderList(state.movies.every(visible) ? "Most filmed in San Francisco" : "Most filmed matching your filters", top.map(m => resultItem(m, `${m.year || ""} · ${spots(m.locations.length)}`)))
 }
 
 $("results").addEventListener("click", e => {
@@ -180,7 +181,7 @@ async function refreshNearby(fly) {
   L.circle([place.lat, place.lng], { radius: km * 1000, color: "#3b82f6", weight: 1, fillOpacity: 0.06 }).addTo(addressLayer)
   L.marker([place.lat, place.lng], { icon: L.divIcon({ className: "", html: '<div class="address-pin"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }), zIndexOffset: -1000 }).addTo(addressLayer)
   if (fly) map.flyToBounds(L.latLng(place.lat, place.lng).toBounds(km * 2000), { maxZoom: 17 })
-  const hits = await api(`/api/nearby?lat=${place.lat}&lng=${place.lng}&km=${km}`)
+  const hits = (await api(`/api/nearby?lat=${place.lat}&lng=${place.lng}&km=${km}`)).filter(h => visible(state.byId.get(h.id)))
   const short = place.label.split(",").slice(0, 2).join(",")
   renderList(`${hits.length} movies near ${short}`, hits.map(h => {
     const movie = state.byId.get(h.id)
@@ -217,7 +218,8 @@ function openDetail(id, focus) {
       <div>
         <h2>${escapeHtml(movie.title)}</h2>
         <div class="year">${movie.year || "Year unknown"}</div>
-        <div class="chips">${(movie.genres || []).map(g => `<span class="chip genre">${escapeHtml(g)}</span>`).join("") || '<span class="chip">Genre unknown</span>'}</div>
+        <div class="chips"><span class="chip type">${movie.type === "tv" ? "TV show" : "Movie"}</span></div>
+        <div class="chips">${(movie.categories || []).map(g => `<span class="chip genre">${escapeHtml(g)}</span>`).join("") || '<span class="chip">Genre unknown</span>'}</div>
       </div>
     </div>
     <div class="body">
@@ -265,18 +267,16 @@ $("tabs").addEventListener("click", e => {
 
 function renderGrid() {
   const q = $("grid-filter").value.trim().toLowerCase()
-  const decade = $("grid-decade").value
   const shown = state.movies.filter(m => {
-    if (decade && String(Math.floor((m.year || 0) / 10) * 10) !== decade) return false
+    if (!visible(m)) return false
     if (!q) return true
     return [m.title, m.director, ...(m.actors || []), ...(m.genres || [])].some(v => (v || "").toLowerCase().includes(q))
   })
-  $("grid-count").textContent = `${shown.length} of ${state.movies.length} titles`
+  $("grid-count").textContent = `${shown.length} shown`
   $("grid").innerHTML = shown.map(m => `<div class="tile" data-id="${escapeHtml(m.id)}">${posterHtml(m, "poster", true)}<strong>${escapeHtml(m.title)}</strong><span>${m.year || ""} · ${spots(m.locations.length)}</span></div>`).join("")
 }
 
 $("grid-filter").addEventListener("input", renderGrid)
-$("grid-decade").addEventListener("change", renderGrid)
 $("grid").addEventListener("click", e => {
   const tile = e.target.closest(".tile")
   if (tile) openDetail(tile.dataset.id)
@@ -427,6 +427,52 @@ async function loadMovies() {
   }
 }
 
+function renderFilterControls() {
+  const f = state.filters
+  const types = facetCounts(state.movies, f, "type")
+  const all = state.movies.filter(m => matchesFilters(m, f, "type")).length
+  $("filter-type").querySelectorAll("button").forEach(b => {
+    const label = { "": "All", movie: "Movies", tv: "TV shows" }[b.dataset.type]
+    b.innerHTML = `${label}<small>${b.dataset.type ? types.get(b.dataset.type) || 0 : all}</small>`
+    b.classList.toggle("active", b.dataset.type === f.type)
+  })
+  const genres = facetCounts(state.movies, f, "genre")
+  const genreNames = [...new Set([...genres.keys(), f.genre].filter(Boolean))].sort((a, b) => (genres.get(b) || 0) - (genres.get(a) || 0) || a.localeCompare(b))
+  $("filter-genre").innerHTML = '<option value="">All genres</option>' + genreNames.map(g => `<option value="${escapeHtml(g)}">${escapeHtml(g)} (${genres.get(g) || 0})</option>`).join("")
+  $("filter-genre").value = f.genre
+  const decades = facetCounts(state.movies, f, "decade")
+  const decadeNames = [...new Set([...decades.keys(), f.decade].filter(Boolean))].sort()
+  $("filter-decade").innerHTML = '<option value="">All decades</option>' + decadeNames.map(d => `<option value="${d}">${d}s (${decades.get(d) || 0})</option>`).join("")
+  $("filter-decade").value = f.decade
+  const shown = state.movies.filter(visible).length
+  $("filter-count").textContent = `${shown} of ${state.movies.length} titles`
+  $("filter-reset").hidden = !f.type && !f.genre && !f.decade
+}
+
+function applyFilters() {
+  renderFilterControls()
+  renderPosters()
+  if (state.address) refreshNearby(false)
+  else renderDefaultList()
+  renderGrid()
+}
+
+function setFilter(key, value) {
+  state.filters = { ...state.filters, [key]: value }
+  applyFilters()
+}
+
+$("filter-type").addEventListener("click", e => {
+  const b = e.target.closest("button[data-type]")
+  if (b) setFilter("type", b.dataset.type)
+})
+$("filter-genre").addEventListener("change", e => setFilter("genre", e.target.value))
+$("filter-decade").addEventListener("change", e => setFilter("decade", e.target.value))
+$("filter-reset").addEventListener("click", () => {
+  state.filters = { ...EMPTY_FILTERS }
+  applyFilters()
+})
+
 function showLoadError(err) {
   $("list-title").textContent = "Movies could not be loaded"
   $("results").innerHTML = `<li class="empty">${escapeHtml(err.message)}. Is the API running? <button class="link" id="retry-load">Retry</button></li>`
@@ -437,11 +483,7 @@ async function boot() {
   state.movies = await loadMovies()
   state.byId = new Map(state.movies.map(m => [m.id, m]))
   state.points = state.movies.flatMap(movie => movie.locations.map(location => ({ movie, location, latlng: L.latLng(location.lat, location.lng) })))
-  const decades = [...new Set(state.movies.map(m => Math.floor((m.year || 0) / 10) * 10).filter(Boolean))].sort()
-  $("grid-decade").innerHTML = '<option value="">All decades</option>' + decades.map(d => `<option value="${d}">${d}s</option>`).join("")
-  renderPosters()
-  renderDefaultList()
-  renderGrid()
+  applyFilters()
 }
 
 boot().catch(showLoadError)

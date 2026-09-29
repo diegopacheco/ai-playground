@@ -21,6 +21,18 @@
     </div>
   </header>
 
+  <div class="filters" id="filters">
+    <div class="segmented" id="filter-type">
+      <button data-type="" class="active">All</button>
+      <button data-type="movie">Movies</button>
+      <button data-type="tv">TV shows</button>
+    </div>
+    <select id="filter-genre" aria-label="Genre"></select>
+    <select id="filter-decade" aria-label="Decade"></select>
+    <button id="filter-reset" class="link" hidden>Reset filters</button>
+    <span id="filter-count"></span>
+  </div>
+
   <main>
     <section id="tab-map" class="tab active">
       <aside class="sidebar">
@@ -56,7 +68,6 @@
     <section id="tab-movies" class="tab">
       <div class="grid-tools">
         <input id="grid-filter" type="text" placeholder="Filter by title, actor, director or genre" autocomplete="off">
-        <select id="grid-decade"></select>
         <span id="grid-count"></span>
       </div>
       <div class="grid" id="grid"></div>
@@ -85,6 +96,7 @@
 
   <script src="vendor/leaflet/leaflet.js"></script>
   <script src="shortcuts.js"></script>
+  <script src="filters.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

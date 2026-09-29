@@ -85,13 +85,15 @@ export function searchTitle(title) {
 }
 
 const TV_TITLE = /\b(season|ep|episode|pilot)\b/i
-const TV_TEXT = /\b(television|tv|web|streaming) (series|show|program|programme|sitcom|miniseries|drama|anthology)|\bsitcom\b|\bminiseries\b|\bdocuseries\b/i
+const TV_TEXT = /\b(television|tv|web|streaming) (series|show|program|programme|sitcom|miniseries|drama|anthology)|\bsitcom\b|\bminiseries\b|\bdocuseries\b|\bseason of\b|\btelevision network\b/i
 
 export function titleType({ title, genres = [], description = "" }) {
   if (TV_TITLE.test(title)) return "tv"
   if (genres.some(g => /television/i.test(g))) return "tv"
   const firstSentence = description.split(/(?<=\.)\s/)[0] || ""
-  return TV_TEXT.test(firstSentence) ? "tv" : "movie"
+  const tvAt = firstSentence.search(TV_TEXT)
+  const filmAt = firstSentence.search(/\b(film|movie)\b/i)
+  return tvAt >= 0 && (filmAt < 0 || tvAt < filmAt) ? "tv" : "movie"
 }
 
 const GENRE_RULES = [

@@ -1,6 +1,6 @@
 {
  "source": "DataSF Film Locations in San Francisco",
- "builtAt": "2026-09-28T23:59:28.493Z",
+ "builtAt": "2026-09-29T05:59:56.388Z",
  "movies": [
   {
    "id": "180-2011",
@@ -82,6 +82,11 @@
    "genres": [
     "drama film",
     "romance film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Romance"
    ]
   },
   {
@@ -127,6 +132,12 @@
    "genres": [
     "romantic comedy",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -164,6 +175,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/50_First_Dates",
    "genres": [
     "romantic comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -206,6 +222,10 @@
    "genres": [
     "silent film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -377,6 +397,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/A_Man_on_the_Inside",
    "genres": [
     "comedy television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -435,6 +459,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/A_Night_Full_of_Rain",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -491,6 +519,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/A_Smile_Like_Yours",
    "genres": [
     "romantic comedy"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -638,6 +671,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/A_Taiwanese_Tale_of_Two_Cities",
    "genres": [
     "drama television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -741,6 +778,12 @@
     "thriller film",
     "spy film",
     "adventure film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Thriller",
+    "Adventure"
    ]
   },
   {
@@ -785,6 +828,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/About_a_Boy_(TV_series)",
    "genres": [
     "comedy television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -829,6 +876,12 @@
     "crime film",
     "drama film",
     "psychological thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -869,6 +922,13 @@
     "comedy thriller",
     "mystery film",
     "crime film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -937,6 +997,12 @@
     "fantasy film",
     "drama film",
     "melodrama"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Romance",
+    "Fantasy"
    ]
   },
   {
@@ -990,6 +1056,13 @@
     "science fiction television series",
     "crime television series",
     "thriller television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime",
+    "Science Fiction"
    ]
   },
   {
@@ -1043,6 +1116,13 @@
     "romantic comedy",
     "musical film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance",
+    "Musical"
    ]
   },
   {
@@ -1108,6 +1188,11 @@
    "genres": [
     "zombie film",
     "apocalyptic film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Science Fiction",
+    "Horror"
    ]
   },
   {
@@ -1146,6 +1231,11 @@
    "genres": [
     "drama film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy"
    ]
   },
   {
@@ -1295,6 +1385,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Always_Be_My_Maybe",
    "genres": [
     "romantic comedy"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -1342,6 +1437,13 @@
     "coming-of-age film",
     "romantic comedy film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance",
+    "Family"
    ]
   },
   {
@@ -1475,7 +1577,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "ant-man-2015",
@@ -1600,6 +1704,13 @@
     "superhero film",
     "adventure film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Action",
+    "Science Fiction",
+    "Adventure"
    ]
   },
   {
@@ -1801,6 +1912,13 @@
     "science fiction film",
     "adventure film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Action",
+    "Science Fiction",
+    "Adventure"
    ]
   },
   {
@@ -1856,6 +1974,14 @@
     "adventure film",
     "comedy film",
     "thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Action",
+    "Thriller",
+    "Science Fiction",
+    "Adventure"
    ]
   },
   {
@@ -1888,6 +2014,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Around_the_Fire",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -1924,6 +2054,13 @@
     "comedy horror film",
     "horror film",
     "science fiction film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Science Fiction",
+    "Horror",
+    "Musical"
    ]
   },
   {
@@ -2003,6 +2140,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Ballers",
    "genres": [
     "comedy television program"
+   ],
+   "type": "tv",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -2128,6 +2269,12 @@
     "erotic thriller",
     "erotic film",
     "thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -2203,6 +2350,11 @@
    "genres": [
     "drama film",
     "biographical film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Biography & History"
    ]
   },
   {
@@ -2272,6 +2424,14 @@
     "speculative fiction film",
     "comedy film",
     "LGBTQ-related film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance",
+    "Science Fiction",
+    "Fantasy",
+    "LGBTQ+"
    ]
   },
   {
@@ -2339,6 +2499,12 @@
     "science fiction film",
     "drama film",
     "children's film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Science Fiction",
+    "Family"
    ]
   },
   {
@@ -2442,6 +2608,12 @@
     "drama film",
     "romance film",
     "trial film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Romance",
+    "Biography & History"
    ]
   },
   {
@@ -2480,6 +2652,11 @@
    "genres": [
     "biographical film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Biography & History"
    ]
   },
   {
@@ -2526,6 +2703,12 @@
     "biographical film",
     "prison film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Crime",
+    "Biography & History"
    ]
   },
   {
@@ -2631,6 +2814,12 @@
     "action film",
     "biographical film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Biography & History"
    ]
   },
   {
@@ -2729,7 +2918,9 @@
    "poster": "https://upload.wikimedia.org/wikipedia/en/4/4d/Bitter_Melon_One-Sheet_Poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/4/4d/Bitter_Melon_One-Sheet_Poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Bitter_Melon_(film)",
-   "genres": []
+   "genres": [],
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "blindspotting-season-2-2023",
@@ -2774,6 +2965,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Blindspotting_(TV_series)",
    "genres": [
     "comedy drama"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy"
    ]
   },
   {
@@ -2813,6 +3009,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Blindspotting_(TV_series)",
    "genres": [
     "comedy drama"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy"
    ]
   },
   {
@@ -3040,6 +3241,11 @@
    "genres": [
     "comedy drama",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy"
    ]
   },
   {
@@ -3154,6 +3360,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Boys_and_Girls_(2000_film)",
    "genres": [
     "romantic comedy"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -3185,7 +3396,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "budding-prospects-pilot-2017",
@@ -3297,7 +3510,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "bullitt-1968",
@@ -3490,6 +3705,12 @@
     "crime film",
     "crime thriller film",
     "action film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -3550,6 +3771,12 @@
     "crime comedy film",
     "comedy film",
     "LGBTQ-related film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Crime",
+    "LGBTQ+"
    ]
   },
   {
@@ -3598,6 +3825,13 @@
     "LGBTQ-related film",
     "drama film",
     "romance film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Crime",
+    "Romance",
+    "LGBTQ+"
    ]
   },
   {
@@ -3637,6 +3871,12 @@
     "musical film",
     "LGBTQ-related film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Musical",
+    "LGBTQ+"
    ]
   },
   {
@@ -3728,7 +3968,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "casualties-of-war-1989",
@@ -3766,6 +4008,11 @@
     "war film",
     "trial film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "War"
    ]
   },
   {
@@ -3804,6 +4051,11 @@
    "genres": [
     "buddy film",
     "comedy drama"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy"
    ]
   },
   {
@@ -3860,7 +4112,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chance-season-1-pilot-2016",
@@ -4007,7 +4261,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chance-season-1ep105-2016",
@@ -4042,7 +4298,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chance-season-2-2017",
@@ -4266,7 +4524,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chance-season-1-ep102-2016",
@@ -4371,7 +4631,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chance-season-1-ep103-2016",
@@ -4476,7 +4738,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chance-season-1-ep104-2016",
@@ -4574,7 +4838,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chance-season-1-ep106-2016",
@@ -4651,7 +4917,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chance-season-1-ep107-2016",
@@ -4728,7 +4996,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chance-season-1-ep108-2016",
@@ -4784,7 +5054,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chance-season-1-ep109-2016",
@@ -4854,7 +5126,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chance-season-1-ep110-2016",
@@ -4924,7 +5198,9 @@
    "poster": "https://thumb.wikimedia.org/wikipedia/en/thumb/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png/330px-Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/78/Screenshot_of_Hulu%27s_Chance_TV_show_Titlecard.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Chance_(TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "chef-dynasty-house-of-fang-2022",
@@ -4980,7 +5256,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "cherish-2002",
@@ -5011,6 +5289,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Cherish_(film)",
    "genres": [
     "comedy drama"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy"
    ]
   },
   {
@@ -5059,6 +5342,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Chu_Chu_and_the_Philly_Flash",
    "genres": [
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -5098,6 +5385,12 @@
     "romance film",
     "fantasy film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Romance",
+    "Fantasy"
    ]
   },
   {
@@ -5150,6 +5443,10 @@
    "genres": [
     "drama film",
     "trial film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -5188,6 +5485,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Clickbait_(miniseries)",
    "genres": [
     "drama television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -5218,6 +5519,11 @@
    "genres": [
     "documentary film",
     "LGBTQ-related film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Documentary",
+    "LGBTQ+"
    ]
   },
   {
@@ -5342,6 +5648,12 @@
     "thriller film",
     "disaster film",
     "action film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Thriller"
    ]
   },
   {
@@ -5416,6 +5728,12 @@
     "mystery film",
     "crime film",
     "horror film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Crime",
+    "Mystery",
+    "Horror"
    ]
   },
   {
@@ -5460,6 +5778,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Crackers_(1984_film)",
    "genres": [
     "heist film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Crime"
    ]
   },
   {
@@ -5498,6 +5821,11 @@
    "genres": [
     "police procedural",
     "drama television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Crime"
    ]
   },
   {
@@ -5593,6 +5921,13 @@
     "crime thriller film",
     "drama film",
     "mystery film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -5646,6 +5981,13 @@
     "mystery film",
     "film noir",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -5722,6 +6064,14 @@
     "drama film",
     "thriller film",
     "adventure film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Thriller",
+    "Science Fiction",
+    "Adventure"
    ]
   },
   {
@@ -5975,6 +6325,12 @@
     "drama television series",
     "techno-thriller",
     "science fiction television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Science Fiction"
    ]
   },
   {
@@ -6022,7 +6378,9 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Dim_Sum%3A_A_Little_Bit_of_Heart",
    "genres": [
     "independent film"
-   ]
+   ],
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "dirty-harry-1971",
@@ -6160,6 +6518,12 @@
     "action thriller",
     "action film",
     "vigilante film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -6229,7 +6593,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "dopamine-2003",
@@ -6268,6 +6634,12 @@
    "genres": [
     "romantic comedy",
     "comedy drama"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -6380,7 +6752,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "dr-dolittle-2-2001",
@@ -6446,6 +6820,11 @@
    "genres": [
     "fantasy film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Fantasy"
    ]
   },
   {
@@ -6487,6 +6866,13 @@
     "romantic comedy",
     "LGBTQ-related film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance",
+    "LGBTQ+"
    ]
   },
   {
@@ -6523,6 +6909,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Dream_with_the_Fishes",
    "genres": [
     "comedy drama"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy"
    ]
   },
   {
@@ -6650,7 +7041,9 @@
    "poster": "https://upload.wikimedia.org/wikipedia/en/6/6e/Dreams_%282025_film%29_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/6/6e/Dreams_%282025_film%29_poster.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Dreams_(2025_film)",
-   "genres": []
+   "genres": [],
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "earth-mama-2023",
@@ -6678,7 +7071,9 @@
    "poster": "https://upload.wikimedia.org/wikipedia/en/7/7b/Earth_Mama_poster.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/7/7b/Earth_Mama_poster.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Earth_Mama",
-   "genres": []
+   "genres": [],
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "edtv-1999",
@@ -6771,6 +7166,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/EDtv",
    "genres": [
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -6810,6 +7209,12 @@
     "action film",
     "prison film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Crime"
    ]
   },
   {
@@ -7020,7 +7425,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "experiment-in-terror-1962",
@@ -7115,6 +7522,12 @@
     "crime thriller film",
     "film noir",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -7162,6 +7575,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Fairyland_(film)",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -7224,6 +7641,13 @@
     "comedy thriller",
     "comedy film",
     "thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -7262,6 +7686,11 @@
    "genres": [
     "war film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "War"
    ]
   },
   {
@@ -7355,6 +7784,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Fearless_(1993_film)",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -7424,6 +7857,13 @@
     "romance film",
     "thriller film",
     "erotic thriller"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime",
+    "Romance"
    ]
   },
   {
@@ -7469,6 +7909,12 @@
    "genres": [
     "romantic comedy",
     "musical film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance",
+    "Musical"
    ]
   },
   {
@@ -7508,6 +7954,12 @@
     "comedy film",
     "science fiction film",
     "fantasy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Science Fiction",
+    "Fantasy"
    ]
   },
   {
@@ -7549,6 +8001,13 @@
     "comedy film",
     "drama film",
     "historical drama"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Biography & History",
+    "Family"
    ]
   },
   {
@@ -7734,6 +8193,11 @@
    "genres": [
     "comedy film",
     "thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Thriller"
    ]
   },
   {
@@ -7858,6 +8322,13 @@
     "LGBTQ-related film",
     "drama film",
     "action film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Crime",
+    "LGBTQ+"
    ]
   },
   {
@@ -7916,6 +8387,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Fremont_(film)",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -7955,6 +8430,11 @@
     "biographical film",
     "drama film",
     "boxing film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Biography & History"
    ]
   },
   {
@@ -8021,6 +8501,11 @@
    "genres": [
     "comedy film",
     "action film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Action"
    ]
   },
   {
@@ -8121,6 +8606,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Getting_Even_with_Dad",
    "genres": [
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -8298,6 +8787,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Girlboss_(TV_series)",
    "genres": [
     "comedy television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -8324,7 +8817,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "godzilla-2014",
@@ -8468,6 +8963,11 @@
     "science fiction film",
     "kaiju",
     "action film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Science Fiction"
    ]
   },
   {
@@ -8530,6 +9030,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Golden_Gate_(film)",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -8586,7 +9090,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "goliath-season-4-2021",
@@ -8744,6 +9250,11 @@
     "drama television series",
     "legal drama",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "LGBTQ+"
    ]
   },
   {
@@ -8772,7 +9283,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "goodbye-mr-chips",
@@ -8810,6 +9323,10 @@
    "genres": [
     "drama film",
     "flashback film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -8862,6 +9379,10 @@
    "genres": [
     "drama film",
     "silent film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -8897,6 +9418,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Groove_(film)",
    "genres": [
     "LGBTQ-related film"
+   ],
+   "type": "movie",
+   "categories": [
+    "LGBTQ+"
    ]
   },
   {
@@ -8957,6 +9482,12 @@
     "comedy drama",
     "drama film",
     "romantic comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -8986,6 +9517,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Hard_to_Hold_(film)",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -9038,6 +9573,12 @@
     "comedy drama",
     "drama film",
     "social comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -9099,6 +9640,13 @@
     "comedy drama",
     "fantasy film",
     "ghost film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Fantasy",
+    "Horror"
    ]
   },
   {
@@ -9151,6 +9699,11 @@
    "genres": [
     "biographical film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Biography & History"
    ]
   },
   {
@@ -9178,7 +9731,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "herbie-rides-again-1974",
@@ -9233,6 +9788,14 @@
     "action film",
     "comedy film",
     "romantic comedy"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Action",
+    "Romance",
+    "Fantasy",
+    "Family"
    ]
   },
   {
@@ -9285,6 +9848,11 @@
    "genres": [
     "drama film",
     "fantasy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Fantasy"
    ]
   },
   {
@@ -9337,6 +9905,11 @@
    "genres": [
     "parody film",
     "mystery film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Mystery"
    ]
   },
   {
@@ -9420,6 +9993,13 @@
     "heist film",
     "mystery film",
     "crime film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -9459,6 +10039,13 @@
     "children's film",
     "romantic comedy",
     "adventure film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance",
+    "Adventure",
+    "Family"
    ]
   },
   {
@@ -9497,6 +10084,12 @@
     "female buddy film",
     "drama film",
     "romantic comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -9557,6 +10150,12 @@
     "action film",
     "science fiction film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Science Fiction"
    ]
   },
   {
@@ -9638,6 +10237,12 @@
     "biographical film",
     "LGBTQ-related film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Biography & History",
+    "LGBTQ+"
    ]
   },
   {
@@ -9689,6 +10294,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/I_Remember_Mama_(film)",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -9745,7 +10354,9 @@
    "poster": "",
    "posterLarge": "",
    "wikipedia": "https://en.wikipedia.org/wiki/I'm_a_Virgo",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "i-s-2011",
@@ -9769,7 +10380,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "indiana-jones-and-the-last-crusade-1989",
@@ -9808,6 +10421,12 @@
     "action comedy film",
     "adventure film",
     "treasure hunt film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Action",
+    "Adventure"
    ]
   },
   {
@@ -9861,6 +10480,11 @@
     "science fiction film",
     "science fiction comedy",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Science Fiction"
    ]
   },
   {
@@ -9923,6 +10547,13 @@
     "romance film",
     "vampire film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Romance",
+    "Fantasy",
+    "Horror"
    ]
   },
   {
@@ -10069,6 +10700,12 @@
     "horror film",
     "science fiction horror film",
     "thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Thriller",
+    "Science Fiction",
+    "Horror"
    ]
   },
   {
@@ -10119,6 +10756,12 @@
     "adventure film",
     "horror film",
     "natural horror film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Science Fiction",
+    "Horror",
+    "Adventure"
    ]
   },
   {
@@ -10215,6 +10858,13 @@
     "crime film",
     "action film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -10262,6 +10912,13 @@
     "trial film",
     "crime film",
     "mystery film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -10341,6 +10998,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/The_Joy_Luck_Club_(film)",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -10421,6 +11082,12 @@
     "comedy film",
     "science fiction film",
     "romantic comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance",
+    "Science Fiction"
    ]
   },
   {
@@ -10450,6 +11117,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Just_One_Night_(film)",
    "genres": [
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -10479,6 +11150,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Kamikaze_Hearts",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -10531,6 +11206,11 @@
    "genres": [
     "drama film",
     "political thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller"
    ]
   },
   {
@@ -10555,7 +11235,9 @@
    "poster": "",
    "posterLarge": "",
    "wikipedia": "https://en.wikipedia.org/wiki/Live_Nude_Girls_Unite!",
-   "genres": []
+   "genres": [],
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "looking-2014",
@@ -10848,6 +11530,12 @@
    "genres": [
     "comedy drama",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "LGBTQ+"
    ]
   },
   {
@@ -11002,7 +11690,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "looking-season-2-ep-202-2015",
@@ -11099,6 +11789,12 @@
    "genres": [
     "comedy drama",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "LGBTQ+"
    ]
   },
   {
@@ -11182,6 +11878,12 @@
    "genres": [
     "comedy drama",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "LGBTQ+"
    ]
   },
   {
@@ -11293,6 +11995,12 @@
    "genres": [
     "comedy drama",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "LGBTQ+"
    ]
   },
   {
@@ -11362,6 +12070,12 @@
    "genres": [
     "comedy drama",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "LGBTQ+"
    ]
   },
   {
@@ -11410,6 +12124,12 @@
    "genres": [
     "comedy drama",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "LGBTQ+"
    ]
   },
   {
@@ -11465,6 +12185,12 @@
    "genres": [
     "comedy drama",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "LGBTQ+"
    ]
   },
   {
@@ -11527,6 +12253,12 @@
    "genres": [
     "comedy drama",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "LGBTQ+"
    ]
   },
   {
@@ -11610,6 +12342,12 @@
    "genres": [
     "comedy drama",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "LGBTQ+"
    ]
   },
   {
@@ -11700,6 +12438,12 @@
    "genres": [
     "comedy drama",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "LGBTQ+"
    ]
   },
   {
@@ -11740,7 +12484,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "magnum-force-1973",
@@ -11869,6 +12615,12 @@
    "genres": [
     "action film",
     "crime thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -11952,6 +12704,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Maintenance_Required_(film)",
    "genres": [
     "romantic comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -11993,6 +12750,13 @@
     "thriller film",
     "drama film",
     "psychological drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -12046,6 +12810,13 @@
     "fantasy film",
     "romantic comedy",
     "ghost film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance",
+    "Fantasy",
+    "Horror"
    ]
   },
   {
@@ -12086,6 +12857,12 @@
     "science fiction film",
     "comedy film",
     "horror film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Science Fiction",
+    "Horror"
    ]
   },
   {
@@ -12125,6 +12902,12 @@
     "buddy cop film",
     "action film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Crime"
    ]
   },
   {
@@ -12163,6 +12946,11 @@
    "genres": [
     "drama film",
     "mystery film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Mystery"
    ]
   },
   {
@@ -12279,6 +13067,12 @@
     "biographical film",
     "drama film",
     "LGBTQ-related film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Biography & History",
+    "LGBTQ+"
    ]
   },
   {
@@ -12312,7 +13106,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "mother-1996",
@@ -12356,6 +13152,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Mother_(1996_film)",
    "genres": [
     "comedy drama"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy"
    ]
   },
   {
@@ -12438,6 +13239,12 @@
     "screwball comedy film",
     "LGBTQ-related film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "LGBTQ+"
    ]
   },
   {
@@ -12636,6 +13443,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Murder_in_the_First_(TV_series)",
    "genres": [
     "crime film"
+   ],
+   "type": "tv",
+   "categories": [
+    "Crime"
    ]
   },
   {
@@ -12785,6 +13596,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Murder_in_the_First_(TV_series)",
    "genres": [
     "crime film"
+   ],
+   "type": "tv",
+   "categories": [
+    "Crime"
    ]
   },
   {
@@ -12913,6 +13728,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Murder_in_the_First_(TV_series)",
    "genres": [
     "crime film"
+   ],
+   "type": "tv",
+   "categories": [
+    "Crime"
    ]
   },
   {
@@ -12983,7 +13802,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "nash-bridges-2021",
@@ -13207,7 +14028,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "nash-bridges-2022",
@@ -13235,7 +14058,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "need-for-speed-2014",
@@ -13288,6 +14113,13 @@
     "thriller film",
     "drama film",
     "crime film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -13314,7 +14146,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "nine-months-1995",
@@ -13449,6 +14283,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Nine_Months",
    "genres": [
     "romantic comedy"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -13477,7 +14316,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "nora-prentiss-1947",
@@ -13515,6 +14356,12 @@
    "genres": [
     "drama film",
     "film noir"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -13576,6 +14423,12 @@
     "adventure film",
     "drama film",
     "LGBTQ-related film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Adventure",
+    "LGBTQ+"
    ]
   },
   {
@@ -13749,6 +14602,11 @@
    "genres": [
     "drama film",
     "LGBTQ-related film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "LGBTQ+"
    ]
   },
   {
@@ -13800,6 +14658,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Pacific_Heights_(film)",
    "genres": [
     "thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Thriller"
    ]
   },
   {
@@ -13850,6 +14712,11 @@
    "genres": [
     "musical film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Musical"
    ]
   },
   {
@@ -13897,7 +14764,9 @@
    "poster": "https://upload.wikimedia.org/wikipedia/en/d/d1/Parks_and_Recreation_Season_6_Box_Art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/d/d1/Parks_and_Recreation_Season_6_Box_Art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Parks_and_Recreation_season_6",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "patch-adams-1998",
@@ -13951,6 +14820,12 @@
     "comedy drama",
     "comedy film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Biography & History"
    ]
   },
   {
@@ -13996,6 +14871,11 @@
    "genres": [
     "biographical film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Biography & History"
    ]
   },
   {
@@ -14075,6 +14955,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Petulia",
    "genres": [
     "romance film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Romance"
    ]
   },
   {
@@ -14115,6 +14999,13 @@
     "science fiction film",
     "drama film",
     "romance film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Romance",
+    "Science Fiction",
+    "Fantasy"
    ]
   },
   {
@@ -14188,6 +15079,11 @@
    "genres": [
     "romantic comedy",
     "parody film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -14225,6 +15121,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Playing_Mona_Lisa",
    "genres": [
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -14268,6 +15168,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/The_Pleasure_of_His_Company",
    "genres": [
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -14316,6 +15220,13 @@
     "drama film",
     "crime thriller film",
     "action film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -14480,7 +15391,9 @@
    "poster": "https://upload.wikimedia.org/wikipedia/en/6/61/Pushing_dead.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/6/61/Pushing_dead.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Pushing_Dead",
-   "genres": []
+   "genres": [],
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "quicksilver-1986",
@@ -14513,6 +15426,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Quicksilver_(film)",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -14637,6 +15554,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Quitters",
    "genres": [
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -14663,7 +15584,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "red-widow-2013",
@@ -14768,7 +15691,9 @@
    "poster": "",
    "posterLarge": "",
    "wikipedia": "https://en.wikipedia.org/wiki/Red_Widow",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "rent-2005",
@@ -14806,6 +15731,11 @@
    "genres": [
     "musical film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Musical"
    ]
   },
   {
@@ -14852,6 +15782,12 @@
     "martial arts film",
     "romance film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Romance"
    ]
   },
   {
@@ -15037,6 +15973,10 @@
    "genres": [
     "disaster film",
     "action film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action"
    ]
   },
   {
@@ -15083,6 +16023,12 @@
     "disaster film",
     "drama film",
     "musical film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Musical"
    ]
   },
   {
@@ -15112,6 +16058,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Sausalito_(film)",
    "genres": [
     "romance film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Romance"
    ]
   },
   {
@@ -15305,6 +16255,12 @@
     "science fiction television series",
     "drama television series",
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Science Fiction",
+    "LGBTQ+"
    ]
   },
   {
@@ -15452,7 +16408,9 @@
    "poster": "https://upload.wikimedia.org/wikipedia/en/b/b0/Sense8_season_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/b/b0/Sense8_season_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Sense8_season_2",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "serial-1980",
@@ -15481,6 +16439,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Serial_(1980_film)",
    "genres": [
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -15518,6 +16480,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Seven_Girlfriends",
    "genres": [
     "romantic comedy"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -15556,6 +16523,11 @@
    "genres": [
     "comedy film",
     "crime film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Crime"
    ]
   },
   {
@@ -15678,6 +16650,10 @@
    "genres": [
     "martial arts film",
     "superhero film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action"
    ]
   },
   {
@@ -15839,7 +16815,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "shoot-the-moon-1982",
@@ -15876,6 +16854,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Shoot_the_Moon",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -15911,7 +16893,9 @@
    "poster": "https://upload.wikimedia.org/wikipedia/en/4/42/Silicon_Valley_Season_4.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/4/42/Silicon_Valley_Season_4.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Silicon_Valley_season_4",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "sister-act-1992",
@@ -15949,6 +16933,11 @@
    "genres": [
     "musical film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Musical"
    ]
   },
   {
@@ -16015,6 +17004,11 @@
    "genres": [
     "musical film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Musical"
    ]
   },
   {
@@ -16211,7 +17205,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "sneakers-1992",
@@ -16259,6 +17255,14 @@
     "comedy thriller",
     "black comedy film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Action",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -16389,6 +17393,12 @@
     "comedy horror",
     "comedy film",
     "crime film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Crime",
+    "Horror"
    ]
   },
   {
@@ -16458,6 +17468,14 @@
     "action film",
     "science fiction film",
     "fantasy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Action",
+    "Science Fiction",
+    "Fantasy",
+    "Family"
    ]
   },
   {
@@ -16496,6 +17514,12 @@
     "adventure film",
     "mystery film",
     "time-travel film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Mystery",
+    "Science Fiction",
+    "Adventure"
    ]
   },
   {
@@ -16536,6 +17560,13 @@
     "thriller film",
     "science fiction film",
     "adventure film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Thriller",
+    "Science Fiction",
+    "Adventure"
    ]
   },
   {
@@ -16646,6 +17677,12 @@
     "science fiction comedy",
     "adventure film",
     "time-travel film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Science Fiction",
+    "Adventure"
    ]
   },
   {
@@ -16685,6 +17722,12 @@
     "action film",
     "science fiction film",
     "adventure film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Science Fiction",
+    "Adventure"
    ]
   },
   {
@@ -16800,6 +17843,11 @@
    "genres": [
     "biographical film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Biography & History"
    ]
   },
   {
@@ -16837,6 +17885,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Stigmata_(film)",
    "genres": [
     "horror film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Horror"
    ]
   },
   {
@@ -16894,6 +17946,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Sudden_Fear",
    "genres": [
     "film noir"
+   ],
+   "type": "movie",
+   "categories": [
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -17002,6 +18059,10 @@
    "genres": [
     "rape and revenge film",
     "action film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action"
    ]
   },
   {
@@ -17131,6 +18192,11 @@
    "genres": [
     "drama film",
     "LGBTQ-related film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "LGBTQ+"
    ]
   },
   {
@@ -17236,7 +18302,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "super-pumped-the-battle-for-uber-2021",
@@ -17271,7 +18339,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "superman-1978",
@@ -17310,6 +18380,11 @@
     "action film",
     "science fiction film",
     "superhero film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Science Fiction"
    ]
   },
   {
@@ -17527,7 +18602,9 @@
    "poster": "https://upload.wikimedia.org/wikipedia/en/c/c9/Surface_TV_poster.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/c/c9/Surface_TV_poster.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Surface_(2022_TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "surface-season-1-2022",
@@ -17569,7 +18646,9 @@
    "poster": "https://upload.wikimedia.org/wikipedia/en/c/c9/Surface_TV_poster.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/c/c9/Surface_TV_poster.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Surface_(2022_TV_series)",
-   "genres": []
+   "genres": [],
+   "type": "tv",
+   "categories": []
   },
   {
    "id": "susan-slade-1961",
@@ -17607,6 +18686,11 @@
    "genres": [
     "romance film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Romance"
    ]
   },
   {
@@ -17701,6 +18785,12 @@
     "romance film",
     "drama film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -17736,6 +18826,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Swing_(2003_film)",
    "genres": [
     "romantic comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -17766,6 +18861,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Swingin'_Along",
    "genres": [
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy"
    ]
   },
   {
@@ -17818,6 +18917,12 @@
    "genres": [
     "heist film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Action",
+    "Crime"
    ]
   },
   {
@@ -17972,6 +19077,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/Tales_of_the_City_(2019_miniseries)",
    "genres": [
     "LGBT-related television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "LGBTQ+"
    ]
   },
   {
@@ -18174,6 +19283,12 @@
     "time-travel film",
     "dystopian film",
     "thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Thriller",
+    "Science Fiction"
    ]
   },
   {
@@ -18220,6 +19335,12 @@
     "thriller film",
     "drama film",
     "biographical film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Biography & History"
    ]
   },
   {
@@ -18341,6 +19462,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/The_Bachelor_(1999_film)",
    "genres": [
     "romantic comedy"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -18382,6 +19508,13 @@
     "mystery film",
     "natural horror film",
     "thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Thriller",
+    "Mystery",
+    "Horror",
+    "Adventure"
    ]
   },
   {
@@ -18410,6 +19543,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/The_Bridge_(2006_documentary_film)",
    "genres": [
     "documentary film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Documentary"
    ]
   },
   {
@@ -18456,6 +19593,11 @@
     "war film",
     "trial film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "War"
    ]
   },
   {
@@ -18494,6 +19636,11 @@
    "genres": [
     "comedy drama",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy"
    ]
   },
   {
@@ -18537,6 +19684,12 @@
     "romance film",
     "musical film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Romance",
+    "Musical"
    ]
   },
   {
@@ -18648,6 +19801,13 @@
     "drama film",
     "mystery film",
     "crime film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -18687,6 +19847,11 @@
     "action film",
     "science fiction film",
     "disaster film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Science Fiction"
    ]
   },
   {
@@ -18923,6 +20088,13 @@
     "action film",
     "thriller film",
     "detective film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -19061,6 +20233,12 @@
     "drama film",
     "romantic comedy",
     "romance film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -19156,6 +20334,12 @@
     "action film",
     "thriller film",
     "crime film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -19190,7 +20374,9 @@
    "poster": "https://upload.wikimedia.org/wikipedia/en/e/ee/Thefanmovieposter.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/e/ee/Thefanmovieposter.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/The_Fan_(1996_film)",
-   "genres": []
+   "genres": [],
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "the-game-1997",
@@ -19322,6 +20508,14 @@
     "mystery film",
     "drama film",
     "action film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -19370,6 +20564,13 @@
     "drama film",
     "romantic comedy film",
     "independent film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance",
+    "Family"
    ]
   },
   {
@@ -19429,6 +20630,12 @@
    "genres": [
     "drama film",
     "film noir"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -19488,6 +20695,11 @@
    "genres": [
     "comedy film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy"
    ]
   },
   {
@@ -19527,6 +20739,12 @@
     "musical film",
     "drama film",
     "melodrama"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Romance",
+    "Musical"
    ]
   },
   {
@@ -19586,6 +20804,12 @@
    "genres": [
     "drama film",
     "film noir"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -19845,6 +21069,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/The_Last_Black_Man_in_San_Francisco",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -19903,6 +21131,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/The_Last_Thing_He_Told_Me_(TV_series)",
    "genres": [
     "thriller television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Thriller"
    ]
   },
   {
@@ -19984,6 +21216,12 @@
     "drama film",
     "crime film",
     "film noir"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -20030,6 +21268,12 @@
     "comedy film",
     "romantic comedy",
     "fantasy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance",
+    "Fantasy"
    ]
   },
   {
@@ -20085,6 +21329,14 @@
     "film noir",
     "treasure hunt film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime",
+    "Mystery",
+    "Adventure"
    ]
   },
   {
@@ -20122,6 +21374,10 @@
    "wikipedia": "https://en.wikipedia.org/wiki/The_Master_(2012_film)",
    "genres": [
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama"
    ]
   },
   {
@@ -20162,6 +21418,12 @@
     "cyberpunk",
     "action thriller",
     "post-apocalyptic film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Thriller",
+    "Science Fiction"
    ]
   },
   {
@@ -20342,6 +21604,11 @@
     "science fiction film",
     "action film",
     "superhero film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Science Fiction"
    ]
   },
   {
@@ -20405,7 +21672,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "the-net-1995",
@@ -20451,6 +21720,11 @@
     "thriller film",
     "techno-thriller",
     "mystery film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Thriller",
+    "Mystery"
    ]
   },
   {
@@ -20639,6 +21913,14 @@
     "science fiction television series",
     "LGBT-related television series",
     "fantasy television series"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Mystery",
+    "Science Fiction",
+    "Fantasy",
+    "LGBTQ+"
    ]
   },
   {
@@ -20691,6 +21973,12 @@
    "genres": [
     "romantic comedy",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -20731,6 +22019,13 @@
     "comedy drama",
     "romantic comedy film",
     "family film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance",
+    "Family"
    ]
   },
   {
@@ -21018,7 +22313,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "the-presidio-1988",
@@ -21157,6 +22454,14 @@
     "mystery film",
     "action film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -21240,6 +22545,13 @@
     "teen film",
     "children's film",
     "comedy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance",
+    "Family"
    ]
   },
   {
@@ -21299,6 +22611,11 @@
    "genres": [
     "biographical film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Biography & History"
    ]
   },
   {
@@ -21352,6 +22669,12 @@
     "adventure film",
     "drama film",
     "historical film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Adventure",
+    "Biography & History"
    ]
   },
   {
@@ -21435,6 +22758,12 @@
     "buddy film",
     "buddy cop film",
     "prison film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -21473,6 +22802,11 @@
    "genres": [
     "romantic comedy",
     "female buddy film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -21513,6 +22847,12 @@
     "adventure film",
     "historical film",
     "sword-and-sandal film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Adventure",
+    "Biography & History"
    ]
   },
   {
@@ -21550,6 +22890,11 @@
    "genres": [
     "documentary film",
     "LGBTQ-related film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Documentary",
+    "LGBTQ+"
    ]
   },
   {
@@ -21632,6 +22977,12 @@
     "drama film",
     "thriller film",
     "action film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Action",
+    "Thriller"
    ]
   },
   {
@@ -21719,6 +23070,12 @@
    "genres": [
     "romantic comedy",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -21773,6 +23130,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/The_Woman_in_Red_(1984_film)",
    "genres": [
     "romantic comedy"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -21829,7 +23191,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "time-after-time-1979",
@@ -22021,6 +23385,10 @@
    "genres": [
     "science fiction film",
     "time-travel film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Science Fiction"
    ]
   },
   {
@@ -22059,6 +23427,11 @@
    "genres": [
     "biographical film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Biography & History"
    ]
   },
   {
@@ -22161,6 +23534,12 @@
     "crime thriller film",
     "thriller film",
     "mystery film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Thriller",
+    "Crime",
+    "Mystery"
    ]
   },
   {
@@ -22200,6 +23579,13 @@
     "romantic comedy film",
     "LGBTQ-related film",
     "comedy drama"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Romance",
+    "LGBTQ+"
    ]
   },
   {
@@ -22240,6 +23626,11 @@
     "science fiction film",
     "post-apocalyptic film",
     "cyberpunk"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Science Fiction"
    ]
   },
   {
@@ -22303,7 +23694,9 @@
    "description": "",
    "poster": "",
    "posterLarge": "",
-   "wikipedia": ""
+   "wikipedia": "",
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "venom-2018",
@@ -22516,6 +23909,11 @@
    "genres": [
     "superhero film",
     "thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action",
+    "Thriller"
    ]
   },
   {
@@ -22621,6 +24019,10 @@
    "genres": [
     "action film",
     "superhero film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Action"
    ]
   },
   {
@@ -22767,6 +24169,13 @@
     "drama film",
     "romance film",
     "psychological thriller film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Mystery",
+    "Romance"
    ]
   },
   {
@@ -22806,6 +24215,12 @@
     "romance film",
     "fantasy film",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Romance",
+    "Fantasy"
    ]
   },
   {
@@ -22841,6 +24256,12 @@
    "genres": [
     "comedy drama",
     "science fiction film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Comedy",
+    "Science Fiction"
    ]
   },
   {
@@ -22920,6 +24341,11 @@
    "wikipedia": "https://en.wikipedia.org/wiki/What's_Up%2C_Doc%3F_(1972_film)",
    "genres": [
     "romantic comedy"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance"
    ]
   },
   {
@@ -23007,6 +24433,11 @@
    "genres": [
     "drama film",
     "romance film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Romance"
    ]
   },
   {
@@ -23147,6 +24578,12 @@
    "wikipedia": "https://en.wikipedia.org/wiki/When_We_Rise",
    "genres": [
     "docudrama"
+   ],
+   "type": "tv",
+   "categories": [
+    "Drama",
+    "Biography & History",
+    "Documentary"
    ]
   },
   {
@@ -23219,6 +24656,12 @@
     "crime film",
     "film noir",
     "drama film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime"
    ]
   },
   {
@@ -23255,6 +24698,12 @@
    "genres": [
     "romantic comedy",
     "LGBTQ-related film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Comedy",
+    "Romance",
+    "LGBTQ+"
    ]
   },
   {
@@ -23406,7 +24855,9 @@
    "poster": "https://upload.wikimedia.org/wikipedia/en/5/5f/Women_Is_Losers_poster.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "posterLarge": "https://upload.wikimedia.org/wikipedia/en/5/5f/Women_Is_Losers_poster.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
    "wikipedia": "https://en.wikipedia.org/wiki/Women_Is_Losers",
-   "genres": []
+   "genres": [],
+   "type": "movie",
+   "categories": []
   },
   {
    "id": "zodiac-2007",
@@ -23446,6 +24897,15 @@
     "mystery film",
     "drama film",
     "police procedural film"
+   ],
+   "type": "movie",
+   "categories": [
+    "Drama",
+    "Thriller",
+    "Crime",
+    "Mystery",
+    "Biography & History",
+    "Documentary"
    ]
   }
  ]

@@ -61,3 +61,9 @@ test("static files are revalidated so an updated app never runs stale html or js
   const res = await fetch(`${base}/app.js`)
   assert.equal(res.headers.get("cache-control"), "no-cache")
 })
+
+test("every title carries a type and broad genres for the filters", () => {
+  assert.ok(movies.every(m => m.type === "movie" || m.type === "tv"))
+  assert.ok(movies.filter(m => m.type === "tv").length > 30)
+  assert.ok(movies.every(m => Array.isArray(m.categories)))
+})

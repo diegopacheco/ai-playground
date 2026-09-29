@@ -1,7 +1,7 @@
 import fs from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import { groupRows, claimIds, isScreenWork, mergeActors, searchTitle } from "./enrich.mjs"
+import { groupRows, claimIds, isScreenWork, mergeActors, searchTitle, titleType, broadGenres } from "./enrich.mjs"
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const OUT = path.join(ROOT, "data", "movies.json")
@@ -124,6 +124,8 @@ async function main() {
     movie.poster = movie.poster || ""
     movie.posterLarge = movie.posterLarge || ""
     movie.wikipedia = movie.wikipedia || ""
+    movie.type = titleType(movie)
+    movie.categories = broadGenres(movie.genres)
   }
   fs.mkdirSync(path.dirname(OUT), { recursive: true })
   fs.writeFileSync(OUT, JSON.stringify({ source: "DataSF Film Locations in San Francisco", builtAt: new Date().toISOString(), movies }, null, 1))
