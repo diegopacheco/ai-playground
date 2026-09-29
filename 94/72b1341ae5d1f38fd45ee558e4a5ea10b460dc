@@ -1,0 +1,26 @@
+pocs/movies-map/web/app.js
+  s_134c318b654487::t_8b1c3cfebd66b2 17,20,247
+  s_134c318b654487::t_37865ceb0e80c1 391-407,409,419
+pocs/movies-map/desktop/boot.html
+  s_134c318b654487::t_cc7e86ba7b46c5 23-26,41-42,50-52,54
+pocs/movies-map/desktop/main.cjs
+  s_134c318b654487::t_cc7e86ba7b46c5 72-92,94-97,110-111,190-192,206
+pocs/movies-map/desktop/preload.cjs
+  s_134c318b654487::t_cc7e86ba7b46c5 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "9472b1341ae5d1f38fd45ee558e4a5ea10b460dc",
+  "prompts": {},
+  "sessions": {
+    "s_134c318b654487": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "348403c1-ce39-478e-ab41-9235053843ed",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
