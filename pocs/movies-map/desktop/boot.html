@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Movies Map</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #faf7f2; color: #23253a; font: 14px -apple-system, BlinkMacSystemFont, sans-serif; }
+    body { display: grid; place-items: center; -webkit-app-region: drag; user-select: none; }
+    .card { width: 420px; text-align: center; }
+    img { width: 110px; height: 110px; }
+    h1 { margin: 14px 0 4px; font-size: 24px; }
+    p { margin: 0 0 24px; color: #6b6f85; }
+    ul { list-style: none; margin: 0; padding: 0; text-align: left; background: #fff; border: 1px solid #ebe5dc; border-radius: 14px; box-shadow: 0 10px 30px rgba(35,37,58,.08); }
+    li { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-top: 1px solid #f1ede6; }
+    li:first-child { border-top: 0; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; background: #d8d3ca; flex: none; }
+    li.loading .dot { background: #f59e0b; animation: pulse 0.9s infinite alternate; }
+    li.ready .dot { background: #22c55e; }
+    li.failed .dot { background: #ef4444; }
+    li strong { display: block; }
+    li small { color: #6b6f85; }
+    .status { margin-left: auto; font-size: 12px; color: #6b6f85; text-transform: lowercase; }
+    @keyframes pulse { from { opacity: 0.35; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="../web/logo.svg" alt="">
+    <h1>Movies Map</h1>
+    <p>Starting services for San Francisco film locations</p>
+    <ul id="steps">
+      <li id="node"><span class="dot"></span><div><strong>Node.js</strong><small>waiting</small></div><span class="status">pending</span></li>
+      <li id="data"><span class="dot"></span><div><strong>Movie data</strong><small>waiting</small></div><span class="status">pending</span></li>
+      <li id="api"><span class="dot"></span><div><strong>Movies API</strong><small>waiting</small></div><span class="status">pending</span></li>
+      <li id="tiles"><span class="dot"></span><div><strong>Map tiles</strong><small>waiting</small></div><span class="status">pending</span></li>
+    </ul>
+  </div>
+  <script>
+    window.moviesMap.onBootStep(({ id, status, detail }) => {
+      const li = document.getElementById(id)
+      li.className = status
+      li.querySelector(".status").textContent = status
+      li.querySelector("small").textContent = detail || (status === "loading" ? "starting" : status)
+    })
+  </script>
+</body>
+</html>

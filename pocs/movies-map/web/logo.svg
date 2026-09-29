@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffb347"/>
+      <stop offset="1" stop-color="#ff5e62"/>
+    </linearGradient>
+    <linearGradient id="pin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#fdf1e6"/>
+    </linearGradient>
+  </defs>
+  <rect x="32" y="32" width="960" height="960" rx="220" fill="url(#bg)"/>
+  <path d="M120 760 C 300 700, 420 820, 560 760 S 820 700, 904 760" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="28" stroke-linecap="round"/>
+  <path d="M512 180 C 365 180 260 288 260 430 C 260 610 512 850 512 850 C 512 850 764 610 764 430 C 764 288 659 180 512 180 Z" fill="url(#pin)"/>
+  <circle cx="512" cy="430" r="150" fill="#2b2d42"/>
+  <circle cx="512" cy="430" r="30" fill="#ffffff"/>
+  <circle cx="512" cy="350" r="34" fill="#ffffff"/>
+  <circle cx="512" cy="510" r="34" fill="#ffffff"/>
+  <circle cx="432" cy="430" r="34" fill="#ffffff"/>
+  <circle cx="592" cy="430" r="34" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L10 6 L1 11" fill="none" stroke="#3b3b4f" stroke-width="2"/></marker>
+    <style>
+      text { font-family: "Caveat", "Bradley Hand", "Chalkboard SE", cursive; fill: #2b2d42; }
+      .t { font-size: 34px; font-weight: 700; }
+      .s { font-size: 24px; }
+      .l { font-size: 22px; fill: #555; }
+      .box { stroke: #3b3b4f; stroke-width: 2.5; filter: url(#wobble); }
+      .edge { fill: none; stroke: #3b3b4f; stroke-width: 2.5; marker-end: url(#arrow); filter: url(#wobble); }
+      .dash { stroke-dasharray: 8 7; }
+    </style>
+  </defs>
+  <rect width="1200" height="1200" fill="#ffffff"/>
+  <text x="600" y="70" text-anchor="middle" class="t" style="font-size:46px">Movies Map architecture</text>
+
+  <rect x="80" y="130" width="460" height="190" rx="18" fill="#ffe3d3" class="box"/>
+  <text x="310" y="180" text-anchor="middle" class="t">Electron app (macOS)</text>
+  <text x="310" y="220" text-anchor="middle" class="s">boot screen, single instance,</text>
+  <text x="310" y="252" text-anchor="middle" class="s">window state, menus, Cmd+P capture</text>
+  <text x="310" y="288" text-anchor="middle" class="s">desktop/main.cjs</text>
+
+  <rect x="660" y="130" width="430" height="190" rx="18" fill="#dcecff" class="box"/>
+  <text x="875" y="180" text-anchor="middle" class="t">Web UI (renderer)</text>
+  <text x="875" y="220" text-anchor="middle" class="s">Leaflet map, poster pins,</text>
+  <text x="875" y="252" text-anchor="middle" class="s">address search, details, Cmd+K</text>
+  <text x="875" y="288" text-anchor="middle" class="s">web/app.js</text>
+
+  <rect x="80" y="440" width="460" height="150" rx="18" fill="#fff4c2" class="box"/>
+  <text x="310" y="495" text-anchor="middle" class="t">scripts/start-all.sh</text>
+  <text x="310" y="535" text-anchor="middle" class="s">stop-all.sh on quit</text>
+
+  <rect x="660" y="440" width="430" height="190" rx="18" fill="#d9f5dc" class="box"/>
+  <text x="875" y="490" text-anchor="middle" class="t">Node API (no framework)</text>
+  <text x="875" y="530" text-anchor="middle" class="s">/api/movies  /api/search</text>
+  <text x="875" y="562" text-anchor="middle" class="s">/api/nearby  /api/geocode</text>
+  <text x="875" y="598" text-anchor="middle" class="s">server/server.mjs</text>
+
+  <rect x="660" y="760" width="430" height="130" rx="18" fill="#efe1ff" class="box"/>
+  <text x="875" y="815" text-anchor="middle" class="t">data/movies.json</text>
+  <text x="875" y="853" text-anchor="middle" class="s">299 titles, 2121 SF locations</text>
+
+  <rect x="80" y="760" width="460" height="130" rx="18" fill="#ffe0ec" class="box"/>
+  <text x="310" y="815" text-anchor="middle" class="t">tools/build-data.mjs</text>
+  <text x="310" y="853" text-anchor="middle" class="s">runs once in setup.sh</text>
+
+  <rect x="80" y="1010" width="300" height="120" rx="18" fill="#f1f1f1" class="box"/>
+  <text x="230" y="1060" text-anchor="middle" class="t">DataSF</text>
+  <text x="230" y="1096" text-anchor="middle" class="s">film locations + coords</text>
+
+  <rect x="420" y="1010" width="360" height="120" rx="18" fill="#f1f1f1" class="box"/>
+  <text x="600" y="1060" text-anchor="middle" class="t" style="font-size:30px">Wikipedia + Wikidata</text>
+  <text x="600" y="1096" text-anchor="middle" class="s">poster, genres, cast, plot</text>
+
+  <rect x="830" y="1010" width="290" height="120" rx="18" fill="#f1f1f1" class="box"/>
+  <text x="975" y="1060" text-anchor="middle" class="t">OpenStreetMap</text>
+  <text x="975" y="1096" text-anchor="middle" class="s">tiles + Nominatim</text>
+
+  <path d="M540 225 Q600 205 655 225" class="edge"/>
+  <text x="598" y="200" text-anchor="middle" class="l">loads</text>
+
+  <path d="M310 320 Q290 380 310 435" class="edge"/>
+  <text x="250" y="385" text-anchor="middle" class="l">spawns</text>
+
+  <path d="M540 515 Q600 495 655 520" class="edge"/>
+  <text x="598" y="490" text-anchor="middle" class="l">starts</text>
+
+  <path d="M890 320 Q870 380 890 435" class="edge"/>
+  <text x="950" y="385" text-anchor="middle" class="l">fetch JSON</text>
+
+  <path d="M890 630 Q870 695 890 755" class="edge"/>
+  <text x="940" y="700" text-anchor="middle" class="l">reads</text>
+
+  <path d="M540 825 Q600 805 655 825" class="edge"/>
+  <text x="598" y="800" text-anchor="middle" class="l">writes</text>
+
+  <path d="M230 1005 Q250 950 260 895" class="edge dash"/>
+  <path d="M600 1005 Q560 950 460 895" class="edge dash"/>
+  <path d="M1060 1005 Q1160 800 1095 600" class="edge dash"/>
+  <text x="1150" y="720" text-anchor="middle" class="l" transform="rotate(-80 1150 720)">geocode</text>
+</svg>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Movies Map</title>
+  <link rel="icon" href="logo.svg">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="titlebar" id="titlebar">
+    <div class="brand"><img src="logo.svg" alt=""><span>Movies Map</span><small>San Francisco</small></div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="map" class="active">Map <kbd>&#8984;1</kbd></button>
+      <button data-tab="movies">Movies <kbd>&#8984;2</kbd></button>
+    </nav>
+    <div class="actions">
+      <button id="open-search" title="Search">Search <kbd>&#8984;K</kbd></button>
+      <button id="open-help" title="Shortcuts"><kbd>&#8984;/</kbd></button>
+    </div>
+  </header>
+
+  <main>
+    <section id="tab-map" class="tab active">
+      <aside class="sidebar">
+        <form id="address-form" class="address">
+          <label for="address">Find movies shot near an address</label>
+          <div class="row">
+            <input id="address" type="text" placeholder="e.g. Lombard Street, Alcatraz, 1 Ferry Building" autocomplete="off">
+            <button type="submit">Go</button>
+          </div>
+          <div class="row radius">
+            <span>Within</span>
+            <select id="radius">
+              <option value="0.5">500 m</option>
+              <option value="1" selected>1 km</option>
+              <option value="2">2 km</option>
+              <option value="5">5 km</option>
+            </select>
+            <button type="button" id="clear-address" class="link">Clear</button>
+          </div>
+        </form>
+        <div class="places" id="places"></div>
+        <h3 id="list-title">Most filmed in San Francisco</h3>
+        <ul class="results" id="results"></ul>
+      </aside>
+      <div id="map"></div>
+    </section>
+
+    <section id="tab-movies" class="tab">
+      <div class="grid-tools">
+        <input id="grid-filter" type="text" placeholder="Filter by title, actor, director or genre" autocomplete="off">
+        <select id="grid-decade"></select>
+        <span id="grid-count"></span>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+  </main>
+
+  <aside class="detail" id="detail" aria-hidden="true"></aside>
+
+  <div class="modal" id="search-modal" hidden>
+    <div class="card search-card">
+      <input id="search-input" type="text" placeholder="Search movies, actors, genres, locations or type an address" autocomplete="off">
+      <ul id="search-results"></ul>
+      <footer><kbd>&uarr;</kbd><kbd>&darr;</kbd> move <kbd>Enter</kbd> go <kbd>Esc</kbd> close</footer>
+    </div>
+  </div>
+
+  <div class="modal" id="help-modal" hidden>
+    <div class="card help-card">
+      <input id="help-input" type="text" placeholder="Filter shortcuts" autocomplete="off">
+      <p id="help-count"></p>
+      <div id="help-groups"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="shortcuts.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
