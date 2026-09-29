@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>California Offroad Rally</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23111%22/%3E%3Cpath d=%22M4 22h24l-3-8H9z%22 fill=%22%23ffb31a%22/%3E%3Ccircle cx=%229%22 cy=%2224%22 r=%224%22 fill=%22%23e2581d%22/%3E%3Ccircle cx=%2223%22 cy=%2224%22 r=%224%22 fill=%22%23e2581d%22/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="importmap">
+    { "imports": { "three": "/vendor/three/build/three.module.js", "three/addons/": "/vendor/three/examples/jsm/" } }
+  </script>
+</head>
+<body>
+  <canvas id="view"></canvas>
+
+  <section id="menu" class="screen">
+    <header class="brand">
+      <div class="logo">CALIFORNIA <span>OFFROAD</span> RALLY</div>
+      <div class="tag">Mud. Rain. Snow. Four legendary California stages. Three laps against three CPU rivals.</div>
+    </header>
+    <nav class="steps" id="steps"></nav>
+    <div class="panel" id="panel"></div>
+    <footer class="menu-footer">
+      <button class="ghost" id="back">Back</button>
+      <div class="summary" id="summary"></div>
+      <button class="primary" id="next">Next</button>
+    </footer>
+  </section>
+
+  <section id="loading" class="screen hidden">
+    <div class="loading-box">
+      <div class="logo small">CALIFORNIA <span>OFFROAD</span> RALLY</div>
+      <div id="loading-text">Building the stage</div>
+      <div class="bar"><div id="loading-bar"></div></div>
+    </div>
+  </section>
+
+  <section id="hud" class="hidden">
+    <div class="hud-top-left">
+      <div class="pos"><span id="hud-pos">4</span><small>/4</small></div>
+      <div class="lap">LAP <b id="hud-lap">1</b>/3</div>
+      <div class="times">
+        <div><label>TIME</label><span id="hud-time">0:00.00</span></div>
+        <div><label>LAST</label><span id="hud-last">-</span></div>
+        <div><label>BEST</label><span id="hud-best">-</span></div>
+      </div>
+      <ol class="board" id="hud-board"></ol>
+    </div>
+    <div class="hud-top-right">
+      <canvas id="minimap" width="220" height="220"></canvas>
+      <div class="perf"><span id="hud-fps">60</span> FPS <span class="dot">|</span> <span id="hud-quality">High</span> <span class="dot">|</span> <span id="hud-cam">Chase cam</span></div>
+    </div>
+    <div class="hud-center" id="hud-message"></div>
+    <div class="hud-bottom-right">
+      <canvas id="gauge" width="280" height="280"></canvas>
+    </div>
+    <div class="controls" id="controls">
+      <div class="controls-title">CONTROLS <small>H to hide</small></div>
+      <div class="row"><kbd>W</kbd><kbd>&uarr;</kbd><span>Accelerate</span></div>
+      <div class="row"><kbd>S</kbd><kbd>&darr;</kbd><span>Brake / Reverse</span></div>
+      <div class="row"><kbd>A</kbd><kbd>D</kbd><kbd>&larr;</kbd><kbd>&rarr;</kbd><span>Steer</span></div>
+      <div class="row"><kbd>Space</kbd><span>Handbrake</span></div>
+      <div class="row"><kbd>C</kbd><span>Change camera</span></div>
+      <div class="row"><kbd>R</kbd><span>Reset to track</span></div>
+      <div class="row"><kbd>M</kbd><span>Mute</span></div>
+      <div class="row"><kbd>P</kbd><kbd>Esc</kbd><span>Pause</span></div>
+      <div class="row auto">Automatic gearbox</div>
+    </div>
+  </section>
+
+  <section id="pause" class="screen overlay hidden">
+    <div class="modal">
+      <h2>PAUSED</h2>
+      <button class="primary" id="resume">Resume</button>
+      <button class="ghost" id="restart">Restart race</button>
+      <button class="ghost" id="quit">Main menu</button>
+    </div>
+  </section>
+
+  <section id="results" class="screen overlay hidden">
+    <div class="modal wide">
+      <h2 id="results-title">FINISH</h2>
+      <table id="results-table"></table>
+      <div class="modal-actions">
+        <button class="primary" id="again">Race again</button>
+        <button class="ghost" id="menu-btn">Main menu</button>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

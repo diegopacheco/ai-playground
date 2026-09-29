@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" width="1200" height="1200">
+<defs><filter id="w"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+<marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker></defs>
+<rect width="1200" height="1200" fill="#fffdf7"/>
+<text x="600" y="58" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="40" fill="#222">California Offroad Rally - architecture</text>
+<g filter="url(#w)"><rect x="50" y="100" width="330" height="100" rx="14" fill="#ffe8a3" stroke="#333" stroke-width="2.5"/></g>
+<text x="215.0" y="144.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">play.sh / stop.sh</text>
+<text x="215.0" y="172.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">scripts/*.sh</text>
+<g filter="url(#w)"><rect x="435" y="100" width="330" height="100" rx="14" fill="#ffd6e0" stroke="#333" stroke-width="2.5"/></g>
+<text x="600.0" y="144.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">Menu + Showroom</text>
+<text x="600.0" y="172.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">track, 4x4, paint, weather</text>
+<g filter="url(#w)"><rect x="820" y="100" width="330" height="100" rx="14" fill="#e8dcff" stroke="#333" stroke-width="2.5"/></g>
+<text x="985.0" y="144.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">input.js</text>
+<text x="985.0" y="172.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">keyboard, steer ramp</text>
+<g filter="url(#w)"><rect x="50" y="320" width="330" height="120" rx="14" fill="#cfe8ff" stroke="#333" stroke-width="2.5"/></g>
+<text x="215.0" y="360.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">server.js</text>
+<text x="215.0" y="388.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">Node static server</text>
+<text x="215.0" y="416.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">port 7707</text>
+<g filter="url(#w)"><rect x="435" y="320" width="330" height="120" rx="14" fill="#d8f5d0" stroke="#333" stroke-width="2.5"/></g>
+<text x="600.0" y="374.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">main.js game loop</text>
+<text x="600.0" y="402.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">rAF + quality governor</text>
+<g filter="url(#w)"><rect x="820" y="300" width="330" height="160" rx="14" fill="#cfe8ff" stroke="#333" stroke-width="2.5"/></g>
+<text x="985.0" y="360.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">render/ (three.js)</text>
+<text x="985.0" y="388.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">world, cars, showroom</text>
+<text x="985.0" y="416.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">rain, snow, mud, ruts</text>
+<g filter="url(#w)"><rect x="50" y="570" width="330" height="120" rx="14" fill="#d8f5d0" stroke="#333" stroke-width="2.5"/></g>
+<text x="215.0" y="610.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">ui.js HUD</text>
+<text x="215.0" y="638.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">gauge, minimap,</text>
+<text x="215.0" y="666.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">standings, results</text>
+<g filter="url(#w)"><rect x="435" y="550" width="330" height="160" rx="14" fill="#fff1c9" stroke="#333" stroke-width="2.5"/></g>
+<text x="600.0" y="610.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">core/ (pure JS)</text>
+<text x="600.0" y="638.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">tracks, terrain, vehicle</text>
+<text x="600.0" y="666.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">ai, race, sim 120 Hz</text>
+<g filter="url(#w)"><rect x="820" y="570" width="330" height="120" rx="14" fill="#ffe8a3" stroke="#333" stroke-width="2.5"/></g>
+<text x="985.0" y="610.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">WebGL canvas</text>
+<text x="985.0" y="638.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">ACES tone mapping</text>
+<text x="985.0" y="666.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">PCF shadows</text>
+<g filter="url(#w)"><rect x="50" y="850" width="330" height="120" rx="14" fill="#ffd6e0" stroke="#333" stroke-width="2.5"/></g>
+<text x="215.0" y="890.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">audio.js Web Audio</text>
+<text x="215.0" y="918.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">engine synth, tires,</text>
+<text x="215.0" y="946.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">rain, wind, impacts</text>
+<g filter="url(#w)"><rect x="435" y="850" width="330" height="120" rx="14" fill="#e8dcff" stroke="#333" stroke-width="2.5"/></g>
+<text x="600.0" y="890.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">node --test</text>
+<text x="600.0" y="918.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">51 tests on the</text>
+<text x="600.0" y="946.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">same core modules</text>
+<g filter="url(#w)"><path d="M215.0,200.0 Q245.0,260.0 215.0,320.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="234.0" y="263.0" text-anchor="start" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12">starts</text>
+<g filter="url(#w)"><path d="M380.0,380.0 Q407.5,350.0 435.0,380.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="410.5" y="368.25" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12" dy="-22">serves</text>
+<g filter="url(#w)"><path d="M600.0,200.0 Q630.0,260.0 600.0,320.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="619.0" y="263.0" text-anchor="start" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12">config</text>
+<g filter="url(#w)"><path d="M820.0,150.0 Q792.5,180.0 765.0,150.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="795.5" y="143.75" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12" dy="-18">keys</text>
+<g filter="url(#w)"><path d="M985.0,200.0 Q1015.0,250.0 985.0,300.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<g filter="url(#w)"><path d="M600.0,440.0 Q630.0,495.0 600.0,550.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="618.5" y="498.0" text-anchor="start" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12">stepSim</text>
+<g filter="url(#w)"><path d="M765.0,380.0 Q792.5,350.0 820.0,380.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="795.5" y="368.25" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12" dy="-22">frame</text>
+<g filter="url(#w)"><path d="M435.0,630.0 Q407.5,660.0 380.0,630.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="410.5" y="623.75" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12" dy="-20">state</text>
+<g filter="url(#w)"><path d="M520.0,710.0 Q476.0,830.0 380.0,910.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="473.0" y="820.0" text-anchor="start" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12">rpm, slip</text>
+<g filter="url(#w)"><path d="M640.0,710.0 Q670.0,780.0 640.0,850.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="660.0" y="783.0" text-anchor="start" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12">verified by</text>
+<g filter="url(#w)"><path d="M985.0,460.0 Q1015.0,515.0 985.0,570.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="1003.5" y="518.0" text-anchor="start" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12">draws</text>
+</svg>
