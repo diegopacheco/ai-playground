@@ -32,7 +32,6 @@ export const SHORTCUT_GROUPS = [
   ] },
   { title: "Map", icon: "map", color: "#ea580c", rows: [
     [["Click logo"], "Show the company address"],
-    [["Click bubble"], "Zoom into a group of companies"],
     [["Scroll"], "Zoom the map"],
     [["Drag"], "Pan the map"],
     [["⇧", "Drag"], "Zoom into a box"],

@@ -23,7 +23,7 @@
 
   <text x="820" y="165" font-size="38" font-weight="700" text-anchor="middle">Web UI (Leaflet)</text>
   <text x="820" y="205" font-size="27" text-anchor="middle">web/app.js</text>
-  <text x="820" y="245" font-size="25" text-anchor="middle">logo pins, clusters, tabs, directory,</text>
+  <text x="820" y="245" font-size="25" text-anchor="middle">spread logo pins, tabs, directory,</text>
   <text x="820" y="277" font-size="25" text-anchor="middle">Cmd+K search, Cmd+/ shortcuts</text>
 
   <text x="280" y="485" font-size="38" font-weight="700" text-anchor="middle">Node server :8097</text>

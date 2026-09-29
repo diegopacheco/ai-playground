@@ -39,3 +39,8 @@ test("every company has a logo on disk so the map plots logos, only companies wi
   const missing = companies.filter(c => !fs.existsSync(path.join(LOGO_DIR, `${c.id}.png`))).map(c => c.id);
   assert.deepEqual(missing, NO_PUBLIC_LOGO);
 });
+
+test("every logo file is a real PNG because the server labels them image/png and strict browsers drop anything else", () => {
+  const notPng = fs.readdirSync(LOGO_DIR).filter(file => fs.readFileSync(path.join(LOGO_DIR, file)).subarray(0, 4).toString("hex") !== "89504e47");
+  assert.deepEqual(notPng, []);
+});

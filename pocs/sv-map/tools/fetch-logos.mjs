@@ -1,5 +1,7 @@
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { readCompanies, LOGO_DIR, USER_AGENT } from "./dataset.mjs";
 
 const GOOD_SCORE = 96;
@@ -64,7 +66,7 @@ async function wikidataLogo(company) {
     const ids = found.search.map(hit => hit.id).join("|");
     if (!ids) return [];
     const { entities } = await wikidata({ action: "wbgetentities", ids, props: "claims" });
-    const root = company.domain.split(".").slice(-2).join(".");
+    const root = rootDomain(company.domain);
     for (const entity of Object.values(entities)) {
       const sites = (entity.claims?.P856 || []).map(c => c.mainsnak.datavalue?.value || "");
       const logo = entity.claims?.P154?.[0]?.mainsnak.datavalue?.value;
@@ -78,6 +80,52 @@ async function wikidataLogo(company) {
   return [];
 }
 
+const SIMPLE_ICONS = "https://cdn.jsdelivr.net/npm/simple-icons@latest";
+let simpleIndex = null;
+
+function rootDomain(domain) {
+  return domain.split(".").slice(-2).join(".");
+}
+
+function renderSvg(svg) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "sv-map-logo-"));
+  try {
+    fs.writeFileSync(path.join(dir, "icon.svg"), svg);
+    execFileSync("qlmanage", ["-t", "-s", "256", "-o", dir, path.join(dir, "icon.svg")], { stdio: "ignore" });
+    return new Uint8Array(fs.readFileSync(path.join(dir, "icon.svg.png")));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+function brandColor(hex) {
+  const [r, g, b] = [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16));
+  return 0.299 * r + 0.587 * g + 0.114 * b > 200 ? "111827" : hex;
+}
+
+async function simpleIconLogo(company) {
+  try {
+    simpleIndex ??= await (await fetch(`${SIMPLE_ICONS}/data/simple-icons.json`, { signal: AbortSignal.timeout(20000) })).json();
+    const root = rootDomain(company.domain);
+    const names = [company.name, company.name.replace(/\s*\(.*\)/, ""), company.name.split(" ")[0]].map(n => n.toLowerCase());
+    const icon = simpleIndex.find(i => names.includes(i.title.toLowerCase()) && `${i.source} ${i.guidelines || ""}`.includes(root));
+    if (!icon) return null;
+    const res = await fetch(`${SIMPLE_ICONS}/icons/${icon.slug}.svg`, { signal: AbortSignal.timeout(8000) });
+    if (!res.ok) return null;
+    const svg = (await res.text()).replace("<svg ", `<svg fill="#${brandColor(icon.hex)}" width="256" height="256" `);
+    return { bytes: renderSvg(svg), score: 256, source: `simple-icons ${icon.slug}` };
+  } catch {
+    return null;
+  }
+}
+
+function normalizePng(file) {
+  const size = imageSize(new Uint8Array(fs.readFileSync(file)));
+  const isPng = fs.readFileSync(file).subarray(0, 4).toString("hex") === "89504e47";
+  if (isPng && size && size.width <= 256) return;
+  execFileSync("sips", ["-s", "format", "png", "-Z", "256", file, "--out", file], { stdio: "ignore" });
+}
+
 async function bestLogo(company) {
   const domain = company.domain;
   let best = null;
@@ -86,6 +134,10 @@ async function bestLogo(company) {
     const image = await fetchImage(url);
     if (image && (!best || image.score > best.score)) best = image;
     if (best && best.score >= GOOD_SCORE) break;
+  }
+  if (!best || best.score < GOOD_SCORE) {
+    const icon = await simpleIconLogo(company);
+    if (icon && (!best || icon.score > best.score)) best = icon;
   }
   return best;
 }
@@ -103,10 +155,11 @@ for (const company of readCompanies()) {
   const logo = await bestLogo(company);
   if (logo && logo.score > current) {
     fs.writeFileSync(file, logo.bytes);
-    console.log(`logo ${company.id} score ${logo.score}`);
+    console.log(`logo ${company.id} score ${logo.score}${logo.source ? ` from ${logo.source}` : ""}`);
   } else if (!current) {
     missing.push(company.id);
   }
 }
+for (const file of fs.readdirSync(LOGO_DIR)) normalizePng(path.join(LOGO_DIR, file));
 if (missing.length) console.log(`no logo for: ${missing.join(", ")} (initials badge is used)`);
 console.log("logos ready");

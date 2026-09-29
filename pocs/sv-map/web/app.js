@@ -1,5 +1,5 @@
 import { CATEGORIES, searchCompanies } from "./search.js";
-import { clusterPoints } from "./cluster.js";
+import { spreadPoints } from "./spread.js";
 import { escapeHtml, logoHtml } from "./html.js";
 import { createPalette } from "./palette.js";
 import { createHelp } from "./help.js";
@@ -10,8 +10,7 @@ const TABS = [
   ...Object.entries(CATEGORIES).map(([id, c]) => ({ id, label: c.label, color: c.color })),
   { id: "directory", label: "Directory" }
 ];
-const CLUSTER_RADIUS = 30;
-const CLUSTER_UNTIL_ZOOM = 17;
+const PIN_GAP = 2;
 
 const $ = id => document.getElementById(id);
 const state = { companies: [], tab: "all", query: "", selected: null, rebuilding: false };
@@ -45,8 +44,14 @@ function popupHtml(c) {
   </div></div>`;
 }
 
-function pinIcon(c) {
-  const size = map.getZoom() >= 15 ? 42 : 32;
+function pinSize() {
+  const zoom = map.getZoom();
+  if (zoom >= 15) return 42;
+  if (zoom >= 13) return 34;
+  return 28;
+}
+
+function pinIcon(c, size) {
   return L.divIcon({
     className: `pin${state.selected === c.id ? " selected" : ""}`,
     html: logoHtml(c),
@@ -56,46 +61,31 @@ function pinIcon(c) {
   });
 }
 
-function dominantColor(members) {
-  const counts = {};
-  for (const m of members) counts[m.company.category] = (counts[m.company.category] || 0) + 1;
-  const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
-  return CATEGORIES[top].color;
-}
-
-function clusterIcon(members) {
-  const size = Math.min(30 + Math.sqrt(members.length) * 4, 46);
-  return L.divIcon({
-    className: "pin",
-    html: `<div class="cluster" style="background:${dominantColor(members)}">${members.length}</div>`,
-    iconSize: [size, size],
-    iconAnchor: [size / 2, size / 2]
-  });
-}
-
-function addPin(c) {
-  const marker = L.marker([c.lat, c.lon], { icon: pinIcon(c), title: c.name, riseOnHover: true })
+function addPin(c, latLng, size) {
+  const marker = L.marker(latLng, { icon: pinIcon(c, size), title: c.name, riseOnHover: true })
     .bindPopup(popupHtml(c), { maxWidth: 360 })
     .on("click", () => { state.selected = c.id; renderList(); })
     .addTo(markerLayer);
   if (state.selected === c.id) marker.openPopup();
 }
 
+function addLeader(c, anchor, placed) {
+  const color = CATEGORIES[c.category].color;
+  L.polyline([anchor, placed], { color, weight: 1.5, opacity: 0.8, interactive: false }).addTo(markerLayer);
+  L.circleMarker(anchor, { radius: 3, color: "#fff", weight: 1, fillColor: color, fillOpacity: 1, interactive: false }).addTo(markerLayer);
+}
+
 function renderMarkers() {
   state.rebuilding = true;
   markerLayer.clearLayers();
   state.rebuilding = false;
+  const size = pinSize();
   const points = visibleCompanies().map(company => ({ company, ...map.latLngToLayerPoint([company.lat, company.lon]) }));
-  const radius = map.getZoom() >= CLUSTER_UNTIL_ZOOM ? 1 : CLUSTER_RADIUS;
-  for (const group of clusterPoints(points, radius)) {
-    const selectedInside = group.members.some(m => m.company.id === state.selected);
-    if (group.members.length === 1 || selectedInside) {
-      group.members.forEach(m => addPin(m.company));
-      continue;
-    }
-    L.marker(map.layerPointToLatLng([group.x, group.y]), { icon: clusterIcon(group.members) })
-      .on("click", () => map.fitBounds(L.latLngBounds(group.members.map(m => [m.company.lat, m.company.lon])), { padding: [60, 60], maxZoom: 18 }))
-      .addTo(markerLayer);
+  for (const p of spreadPoints(points, size + PIN_GAP)) {
+    const anchor = L.latLng(p.company.lat, p.company.lon);
+    const placed = map.layerPointToLatLng([p.x, p.y]);
+    if (Math.hypot(p.x - p.anchorX, p.y - p.anchorY) > 4) addLeader(p.company, anchor, placed);
+    addPin(p.company, placed, size);
   }
 }
 

@@ -8,9 +8,9 @@ SV Map is a macOS desktop app (Electron) that puts 133 big tech companies, tech 
 
 1. `data/companies.json` holds every company: name, category, street address, city, domain and coordinates.
 2. `tools/geocode.mjs` geocoded each street address once with OpenStreetMap Nominatim. It rejects any hit more than 2.5 km from the expected spot, so a wrong match can't move a pin across the valley.
-3. `tools/fetch-logos.mjs` downloaded one logo per company into `data/logos/`. It prefers square icons (apple-touch-icon, the homepage's declared icons, the Wikidata logo when the official site matches, then Google and DuckDuckGo favicons).
+3. `tools/fetch-logos.mjs` downloaded one logo per company into `data/logos/`. It prefers square icons: apple-touch-icon, the homepage's declared icons, the Wikidata logo when the official site matches, and Google and DuckDuckGo favicons. When all of those are low resolution, it renders the brand's Simple Icons mark in the official brand color, but only if the Simple Icons entry points at the company's own domain. Every file is then normalized to a real PNG of at most 256px.
 4. `server/server.mjs` is a zero-dependency Node server. It serves the UI, Leaflet, the logos and a small JSON API.
-5. The UI draws OpenStreetMap tiles with Leaflet and plots a round logo pin per company. Pins that crowd together merge into count bubbles until you zoom in.
+5. The UI draws OpenStreetMap tiles with Leaflet and plots a round logo pin for every company at every zoom level. Logos that would overlap are pushed apart, and a thin line in the category color leads back to a dot at the real address.
 6. The Electron shell shows a boot screen, runs `scripts/start-all.sh`, checks each service, loads the UI, and runs `scripts/stop-all.sh` on quit.
 
 ## Architecture
@@ -20,7 +20,7 @@ SV Map is a macOS desktop app (Electron) that puts 133 big tech companies, tech 
 ## Features
 
 * **Logo pins at real addresses**: you can recognize a company without reading a label.
-* **Radius clustering**: dense areas like SoMa collapse into count bubbles, so logos never pile up. Clicking a bubble zooms into it.
+* **Every logo always visible**: no count bubbles hiding companies. Crowded logos (SoMa, Santa Clara) spread apart without overlapping, with a leader line to the true address.
 * **Type to find**: the sidebar and the ⌘K palette match name, city, street or domain, and rank exact and prefix matches first.
 * **Click for the address**: the popup shows the street, city, category, website and an "Open in OpenStreetMap" link.
 * **Category tabs**: All, Big Tech, Tech, AI Labs, AI Startups (⌘1..⌘5) filter both the map and the list.
@@ -35,7 +35,7 @@ SV Map is a macOS desktop app (Electron) that puts 133 big tech companies, tech 
 * **Leaflet 1.9**: the only runtime library; a small, proven renderer for OSM raster tiles.
 * **OpenStreetMap tiles and Nominatim**: free map data and geocoding, no API key.
 * **Node.js `http`**: the server needs no framework to serve static files and three JSON routes.
-* **Vanilla ES modules**: search, clustering and modals are small, pure functions shared by the UI and the tests.
+* **Vanilla ES modules**: search, logo spreading and modals are small, pure functions shared by the UI and the tests.
 * **`node --test`**: the built-in test runner, no test framework dependency.
 * **Bash scripts**: setup, start, stop, status, test, install and uninstall.
 
@@ -58,8 +58,9 @@ Company record:
 ## Design decisions
 
 * **Data is committed, not fetched at startup.** Geocoding and logo scraping are slow and rate-limited. They ran once, and the app only needs the network for map tiles.
-* **Greedy radius clustering instead of a grid.** A grid splits neighbors that sit on a cell border into two overlapping bubbles. Measuring the distance to each cluster's first point avoids that. It is 13 lines, so no plugin is needed.
-* **Square logos beat wordmarks.** A wide wordmark shrinks to a sliver inside a round pin, so the logo picker scores square icons above wide ones.
+* **Spread logos instead of clustering them.** Count bubbles hid most logos at valley zoom. `web/spread.js` pushes overlapping pins apart pairwise until none overlap (about 15ms for 133 pins), and leader lines keep the real address readable. It is about 25 lines, so no plugin is needed.
+* **Square logos beat wordmarks.** A wide wordmark shrinks to a sliver inside a round pin, so the logo picker scores square icons above wide ones. Brands whose only official mark is a wordmark (AMD, Cisco, eBay, Intel) still look small.
+* **Logos are real PNGs.** The server labels every logo `image/png`. Favicons often arrive as `.ico`, which Chromium tolerates but stricter renderers drop, so every file is converted with `sips`.
 * **The API reports `logo: false`** for a company with no public logo (Safe Superintelligence), so the UI draws initials instead of requesting a missing file.
 * **Every port lives in `scripts/ports.env`.** The Electron shell reads the port from there too.
 
@@ -99,9 +100,9 @@ tools/make-icon.sh
 
 `./scripts/test-all.sh` runs 27 tests in 6 files:
 
-* `data.test.mjs`: every pin sits inside the SF to San Jose corridor, ids are unique, each category is populated, and every company has a logo (only an explicit no-public-logo list may fall back to initials).
+* `data.test.mjs`: every pin sits inside the SF to San Jose corridor, ids are unique, each category is populated, every company has a logo (only an explicit no-public-logo list may fall back to initials), and every logo file is a real PNG.
 * `search.test.mjs`: ranking, loose typing, city/street search, category filter.
-* `cluster.test.mjs`: close pins merge, pins near a border merge, far pins stay apart.
+* `spread.test.mjs`: 60 stacked logos end with no overlap, companies at identical addresses separate, non-overlapping logos stay on their address.
 * `help.test.mjs`: shortcut filtering rules and the required shortcuts are all listed.
 * `server.test.mjs`: health, search, category filter, logo flag, 404s and path traversal blocked.
 * `dataset.test.mjs`: the geocoder's distance guard.
@@ -112,11 +113,11 @@ tools/make-icon.sh
 
 ![Boot](printscreens/00-boot.png)
 
-**The whole valley.** Every company from San Francisco to San Jose. Isolated companies show their logo, like Netflix in Los Gatos and Stripe in South San Francisco. Crowded areas show count bubbles colored by their dominant category.
+**The whole valley.** All 133 companies from San Francisco to San Jose, each as its logo. The San Francisco group fans out around the city and the Santa Clara group around its campuses.
 
 ![Valley](printscreens/01-valley.png)
 
-**San Francisco.** After a click on the SF bubble, the map zooms into the city and SoMa and Mission Bay break apart into logos: OpenAI, Uber, Pinterest, Lyft, Discord and more.
+**San Francisco.** City zoom with OpenAI selected. Every SoMa, Mission Bay and Financial District company shows its logo, and the thin lines lead to each real address.
 
 ![San Francisco](printscreens/02-san-francisco.png)
 

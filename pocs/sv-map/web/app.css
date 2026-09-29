@@ -150,7 +150,7 @@ kbd {
   font-size: 11px;
   color: var(--ring, #334155);
 }
-.logo img { width: 72%; height: 72%; object-fit: contain; }
+.logo img { width: 80%; height: 80%; object-fit: contain; }
 
 .stage { flex: 1; position: relative; min-width: 0; }
 .map { position: absolute; inset: 0; }
@@ -159,25 +159,13 @@ kbd {
 .pin .logo {
   width: 100%;
   height: 100%;
-  border-width: 3px;
-  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.25);
+  border-width: 2px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
   transition: transform 0.12s;
 }
-.leaflet-container .leaflet-marker-pane .pin .logo img { width: 72%; height: 72%; }
+.leaflet-container .leaflet-marker-pane .pin .logo img { width: 80%; height: 80%; }
 .pin:hover .logo, .pin.selected .logo { transform: scale(1.18); }
 .pin.selected .logo { box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.35), 0 3px 10px rgba(15, 23, 42, 0.25); }
-
-.cluster {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  color: #fff;
-  font-weight: 700;
-  border: 3px solid #fff;
-  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.3);
-}
 
 .popup { display: flex; gap: 12px; min-width: 240px; }
 .popup .logo { width: 48px; height: 48px; }
