@@ -1,0 +1,122 @@
+pocs/sv-map/tests/dataset.test.mjs
+  s_d4343b0244e73b::t_94108f97f997dd 1-12
+pocs/sv-map/web/html.js
+  s_d4343b0244e73b::t_10eee457d54725 1-12,15
+  s_d4343b0244e73b::t_870a92d3c55cc2 13-14
+pocs/sv-map/web/app.css
+  s_d4343b0244e73b::t_e87d310d1d830a 166
+  s_d4343b0244e73b::t_08aae0a483b520 71
+  s_d4343b0244e73b::t_ca7a5047222148 1-70,72-165,167-271
+  s_d4343b0244e73b::t_b4a0dfc7867567 272
+pocs/sv-map/scripts/setup.sh
+  s_d4343b0244e73b::t_57f6e207a6d637 1-11
+pocs/sv-map/scripts/uninstall.sh
+  s_d4343b0244e73b::t_06bf510a557144 1-25
+pocs/sv-map/scripts/ui.sh
+  s_d4343b0244e73b::t_57f6e207a6d637 1-6
+pocs/sv-map/tools/fetch-logos.mjs
+  s_d4343b0244e73b::t_32e9d6d5fcfa30 6,40-55,85-86
+  s_d4343b0244e73b::t_7950f9a5d918fe 56-82,84,103
+  s_d4343b0244e73b::t_897c4550de819b 8-10,26-32,35-37,83,90-92,105,108-109
+  s_d4343b0244e73b::t_a466d8494c5567 1-4,7,11-13,38-39,89,95-100,110-112
+  s_d4343b0244e73b::t_b4a0dfc7867567 5,14-25,33-34,87-88,93-94,101-102,104,106-107
+pocs/sv-map/tests/search.test.mjs
+  s_d4343b0244e73b::t_94108f97f997dd 1-39
+pocs/sv-map/scripts/start-all.sh
+  s_d4343b0244e73b::t_57f6e207a6d637 1-21
+pocs/sv-map/scripts/status.sh
+  s_d4343b0244e73b::t_57f6e207a6d637 1-18
+pocs/sv-map/tests/cluster.test.mjs
+  s_d4343b0244e73b::t_94108f97f997dd 1-4,7-11,14-15,24,26
+  s_d4343b0244e73b::t_635b8fa486a142 5-6,12-13,16-23,25
+pocs/sv-map/tools/geocode.mjs
+  s_d4343b0244e73b::t_2033ecf352003d 1-32
+pocs/sv-map/package.json
+  s_d4343b0244e73b::t_07b25eb6282604 1-12,14-21
+  s_d4343b0244e73b::t_a3c44368ea2193 13
+pocs/sv-map/web/app.js
+  s_d4343b0244e73b::t_cc226400dff3f5 13,49
+  s_d4343b0244e73b::t_635b8fa486a142 67,89-90
+  s_d4343b0244e73b::t_08aae0a483b520 130
+  s_d4343b0244e73b::t_d6bad5ff43016a 1-12,14-16,18-48,50-66,68-78,80-84,86,88,91-129,131-153,155-161,165-184,186-233
+  s_d4343b0244e73b::t_e87d310d1d830a 17,79,85,87,154,162-164,185
+pocs/sv-map/web/logo.svg
+  s_d4343b0244e73b::t_a638b9db3e520d 1-15
+pocs/sv-map/README.md
+  s_d4343b0244e73b::t_1a82522690f444 1-170
+pocs/sv-map/.gitignore
+  s_d4343b0244e73b::t_b2fe2bb1f7abe8 4
+  s_d4343b0244e73b::t_07b25eb6282604 1-2
+  s_d4343b0244e73b::t_493e74eb23f534 3
+pocs/sv-map/desktop/main.cjs
+  s_d4343b0244e73b::t_0054a7ab25489e 1-208
+pocs/sv-map/desktop/boot.html
+  s_d4343b0244e73b::t_608044135de56f 1-47
+pocs/sv-map/web/help.js
+  s_d4343b0244e73b::t_31f77fa38d34e0 1-11,16-17,24-25,32-33,40-41,46-47,49-57,59-63,65-87
+  s_d4343b0244e73b::t_9f66be3b8c1635 12-15,18-23,26-31,34-39,42-45,48,58,64
+pocs/sv-map/server/server.mjs
+  s_d4343b0244e73b::t_e706bb45da1ed7 1-22,25-74
+  s_d4343b0244e73b::t_870a92d3c55cc2 23-24
+pocs/sv-map/tools/make-icon.sh
+  s_d4343b0244e73b::t_cb2b7bbfaa7a31 1-15
+pocs/sv-map/scripts/test-all.sh
+  s_d4343b0244e73b::t_a3c44368ea2193 6
+  s_d4343b0244e73b::t_57f6e207a6d637 1-5,7
+pocs/sv-map/web/index.html
+  s_d4343b0244e73b::t_83a16253206853 1-52
+pocs/sv-map/scripts/common.sh
+  s_d4343b0244e73b::t_30b31181ecdebc 28
+  s_d4343b0244e73b::t_bf1645795322d5 1-27,29-116
+pocs/sv-map/tests/server.test.mjs
+  s_d4343b0244e73b::t_94108f97f997dd 1-27,34-45
+  s_d4343b0244e73b::t_870a92d3c55cc2 28-33
+pocs/sv-map/scripts/ports.env
+  s_d4343b0244e73b::t_07b25eb6282604 1
+pocs/sv-map/tests/help.test.mjs
+  s_d4343b0244e73b::t_9f66be3b8c1635 22
+  s_d4343b0244e73b::t_94108f97f997dd 1-21,23-24
+pocs/sv-map/data/companies.json
+  s_d4343b0244e73b::t_f5ea9f841c0464 1-3,5,7-22,24-31,33-34,36-40,42-48,50,56-57,59-73,75-86,90-91,93-97,102,105,111-112,120,125,137-138
+  s_d4343b0244e73b::t_1ae0c1ca3f1204 4,6,23,32,35,41,49,51-55,58,74,87-89,92,98-101,103-104,106-110,113-119,121-124,126-136
+pocs/sv-map/docs/architecture.svg
+  s_d4343b0244e73b::t_67503083259e60 1-59,62-66
+  s_d4343b0244e73b::t_b1a72cc905c6f2 60-61
+pocs/sv-map/web/palette.js
+  s_d4343b0244e73b::t_8b0117f9290428 1,3-11,13-37
+  s_d4343b0244e73b::t_a5c460e1f186b1 2,12
+pocs/sv-map/scripts/install.sh
+  s_d4343b0244e73b::t_06bf510a557144 1-37
+pocs/sv-map/web/cluster.js
+  s_d4343b0244e73b::t_635b8fa486a142 1-2,4-6,8
+  s_d4343b0244e73b::t_211b884ca088a3 3,7,9-13
+pocs/sv-map/scripts/stop-all.sh
+  s_d4343b0244e73b::t_57f6e207a6d637 1-7
+pocs/sv-map/web/search.js
+  s_d4343b0244e73b::t_f5e9756b9ffccf 1-39
+pocs/sv-map/tools/dataset.mjs
+  s_d4343b0244e73b::t_7cb90c708e3177 1-33
+pocs/sv-map/desktop/preload.cjs
+  s_d4343b0244e73b::t_9792c36effab37 1-7
+pocs/sv-map/tests/data.test.mjs
+  s_d4343b0244e73b::t_afda737dc4428d 9,38,40
+  s_d4343b0244e73b::t_94108f97f997dd 1-8,10-37,39,41
+pocs/sv-map/package-lock.json
+  s_d4343b0244e73b::t_bfedcba9111555 1-183
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "3dbc396ce304474d74d222a9b3470142b60e041b",
+  "prompts": {},
+  "sessions": {
+    "s_d4343b0244e73b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "da95577b-84cd-40f2-ac3f-5d4cbc3828a8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
