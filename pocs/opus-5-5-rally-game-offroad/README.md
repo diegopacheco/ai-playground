@@ -2,18 +2,30 @@
 
 # California Offroad Rally
 
-A 3D off-road rally game that runs in the browser. You pick one of four muddy California stages (San Francisco, Los Angeles, Lake Tahoe, Yosemite), one of 7 off-road 4x4s, a paint color and finish, and the weather (clear, rain or snow). Then you race 3 laps against 3 CPU drivers, with an automatic gearbox, a synthesized engine sound, mud spray, tire ruts, jumps and puddles.
+A 3D off-road rally game that runs in the browser, raced on **the real ground of four California places**. The terrain comes from real USGS elevation data and the land cover and far scenery come from real Sentinel-2 satellite imagery. You race at:
+- Crissy Field under the Golden Gate Bridge.
+- Griffith Park below the Hollywood Sign.
+- The Lake Tahoe south shore.
+- The Yosemite Valley floor.
+
+Pick one of 7 off-road 4x4s modeled on the real vehicles, a paint color and finish, and the weather (clear, rain or snow). Then race 3 laps on a mud track against 3 CPU drivers. The car has an automatic gearbox, a synthesized engine sound, and a co-driver who calls the pace notes.
 
 ## How it Works
 
-1. `./play.sh` starts a zero-dependency Node static server and opens the game in the browser.
-2. The menu has 4 steps (track, vehicle, paint, conditions). A 3D showroom turntable shows the chosen 4x4 with its real paint finish.
-3. When the race starts, the track is built from a closed Catmull-Rom spline. It is resampled every 2 m and carved into a seeded Perlin heightfield, with smoothed road height, kicker jumps and puddles.
-4. A fixed 120 Hz simulation steps every car: engine torque curve, 6-speed automatic gearbox, tire grip per surface and weather, weight transfer, suspension, airtime and collisions.
-5. CPU drivers follow the racing line. They brake from a curvature-based speed profile, slow down for jumps, overtake, and reverse out when stuck.
-6. three.js renders the stage: sky, fog, terrain, mud road with normal and roughness maps, forests, landmarks, rain, snow, mud spray and tire marks.
-7. Web Audio synthesizes each engine from its rpm and throttle, plus tire, gravel, slide, wind and rain noise, with 3D panning for the rivals.
-8. A quality governor watches the FPS every second. It lowers resolution, shadows and particles until the game holds at least 30 FPS, and raises them again when there is headroom.
+1. `./play.sh` starts a zero-dependency Node static server and opens the game.
+2. `tools/fetch-geo.mjs` downloaded real data for each place into `public/geo/`:
+   - AWS Terrain Tiles elevation (USGS 3DEP / SRTM), decoded from PNG in pure Node.
+   - Sentinel-2 cloudless satellite tiles.
+
+   The data is committed, so the game runs offline.
+3. Each place has two height grids: a fine 4 m grid over 1.6 km for driving, and a coarse 62 m grid over 24 km for the horizon.
+4. Tracks are drawn on the real flat ground: Crissy Field, the Griffith Park flats, the Pope Beach shore, and the Yosemite Valley floor. The road is carved into the real terrain with a smoothed profile.
+5. Satellite pixels are classified into forest, meadow, dry grass, sand and rock to paint the ground near the track. The same forest mask decides where trees grow, so the forests are where the real forests are.
+6. The far terrain is draped with the satellite imagery. Landmarks sit at their real latitude/longitude and size.
+7. A fixed 120 Hz simulation steps every car: torque curve, 6-speed automatic gearbox, grip per surface and weather, weight transfer, suspension, airtime and collisions.
+8. At speed, the steering asks for a share of the tire grip instead of snapping to the limit. That makes keyboard driving progressive.
+9. Pace notes are computed from the track curvature (such as "LEFT 3, 120 m"). They show on the HUD, are spoken by a co-driver voice, and are backed by chevron boards on the corners.
+10. A quality governor lowers resolution, shadows and particles until the game holds at least 30 FPS.
 
 ## Architecture
 
@@ -21,25 +33,29 @@ A 3D off-road rally game that runs in the browser. You pick one of four muddy Ca
 
 The source is `docs/architecture.svg`.
 
-- `server.js` serves `public/` and `node_modules/three`, so the game runs fully offline once set up.
-- `public/js/core/` holds pure JavaScript with no DOM and no three.js: tracks, terrain, vehicle physics, AI, race rules, simulation and quality levels. The browser and the tests run the same modules.
-- `public/js/render/` holds everything three.js: world, car models, showroom, effects and procedural textures.
-- `public/js/main.js` runs the game loop and the quality governor. `ui.js` draws the menu, HUD and results. `audio.js` is the engine synth. `input.js` handles the keyboard.
+- `server.js` serves `public/` and `node_modules/three`.
+- `public/js/core/` holds pure JavaScript with no DOM and no three.js: geo, tracks, terrain, vehicle physics, pace notes, controls, AI, race, simulation and quality. The browser and the tests run the same modules on the same real terrain.
+- `public/js/render/` holds everything three.js: the world, the landmarks, the car models (`cars/` with the builder, wheels and the 7 styles), the showroom, effects and textures.
+- `public/js/geoLoader.js` loads the height grids and stitches the satellite tiles.
+- `tools/fetch-geo.mjs` is the one-time data download.
 
 ## Features
 
-- **4 California stages**: Presidio Mud Run (SF, with the Golden Gate Bridge and skyline), Griffith Canyon Rally (LA, with the observatory, palms and downtown), Emerald Bay Trail (Lake Tahoe, with the lake, pines, boathouse and Sierra peaks) and Yosemite Valley Floor (El Capitan, Half Dome, Yosemite Falls and sequoias).
-- **7 off-road 4x4s**: Jeep Wrangler Rubicon, Ford Bronco Raptor, Toyota Land Cruiser 70, Land Rover Defender 110, Ford F-150 Raptor R, Hummer H1 Alpha and a Baja Trophy Truck. Each has its own mass, torque, grip, gearing, dimensions and body.
-- **Paint**: 10 colors plus a custom color picker, and 6 finishes (Gloss, Metallic, Matte, Pearl, Camo, Carbon) built with physically based clearcoat, iridescence and procedural textures.
-- **Weather**: clear, rain or snow. Each changes grip (rain -16%, snow -34%), the sky, fog, road wetness, snow cover, particles and sound.
-- **Muddy track**: rutted mud texture with normal and roughness maps, glossy puddles that slow you down and splash, tire ruts left behind every car, and mud building up on the paint.
-- **3 laps vs 3 CPU drivers**: live standings with gaps, lap and best-lap times, a minimap, a countdown, final-lap and wrong-way warnings, and a results table.
-- **Fully automatic**: a 6-speed automatic gearbox with launch slip and upshift/downshift logic. Holding brake at a standstill engages reverse.
-- **Engine noise**: a synthesized engine per car (V6 or V8 firing frequency, burble, intake roar, distortion), plus tire, gravel, slide, wind, rain and impact sounds.
-- **Jumps and airtime**: two kickers per stage, placed on straights so you land on the road.
-- **30 FPS floor**: 5 quality levels (Ultra to Potato), stepped down automatically when frames drop.
-- **4 cameras**: chase, far chase, hood and bumper.
-- **On-screen shortcuts**: the controls panel is always on the HUD. Press H to hide it.
+- **Real places**:
+  - Crissy Field (San Francisco), with the Golden Gate Bridge at its true position and height (227 m towers), the Marin Headlands, Alcatraz, the Palace of Fine Arts and the downtown skyline with Transamerica and Salesforce Tower.
+  - Griffith Park (Los Angeles), with the Hollywood Sign on Mount Lee, the Griffith Observatory and downtown LA.
+  - Pope Beach Trail (Lake Tahoe), with the lake at 1897 m, pine forest and Mount Tallac.
+  - Yosemite Valley Floor, with the real granite walls of El Capitan and Half Dome from the elevation data, plus Yosemite Falls and Bridalveil Fall.
+- **7 recognizable 4x4s**: Jeep Wrangler Rubicon, Ford Bronco Raptor, Toyota Land Cruiser 70, Land Rover Defender 110, Ford F-150 Raptor R, Hummer H1 Alpha and a Baja Trophy Truck. They are built from real side silhouettes with their signature grilles, lights, flares, spares and roof lines, on all-terrain tires with per-car rims.
+- **Paint**: 10 colors plus a custom picker, and 6 finishes (Gloss, Metallic, Matte, Pearl, Camo, Carbon).
+- **Weather**: clear, rain or snow changes grip, sky, fog, road wetness, snow cover, particles and sound.
+- **Muddy track**: rutted mud with normal and roughness maps, puddles that slow you down and splash, tire ruts, mud building up on the paint, and two jumps per stage.
+- **Drivable on a keyboard**: progressive steering, consistent grip, pace notes with a red BRAKE warning, a co-driver voice, and chevron boards.
+- **3 laps vs 3 CPU drivers**: live standings, lap and best times, minimap, countdown and results.
+- **Fully automatic**: a 6-speed automatic gearbox. Hold brake to reverse.
+- **Engine noise**: a synthesized V6 or V8 per car, plus tire, gravel, slide, wind, rain and impact sounds.
+- **5 cameras and look-back**: chase, far chase, hood, bumper and helicopter. Hold B to look back.
+- **30 FPS floor**: 5 quality levels, stepped down automatically.
 
 ## Controls
 
@@ -49,9 +65,10 @@ The source is `docs/architecture.svg`.
 | `S` / `Down` | Brake, hold to reverse |
 | `A` `D` / `Left` `Right` | Steer |
 | `Space` | Handbrake |
-| `C` | Change camera |
+| `B` | Look back (hold) |
+| `C` | Camera: chase, far, hood, bumper, helicopter |
 | `R` | Reset to track |
-| `M` | Mute |
+| `M` | Mute sound and co-driver |
 | `P` / `Esc` | Pause |
 | `H` | Hide or show the controls panel |
 | `Enter` | Next step in the menu |
@@ -59,11 +76,18 @@ The source is `docs/architecture.svg`.
 ## Stack
 
 - **three.js 0.186**: the only runtime library. It provides WebGL rendering, PBR materials, shadows and the Sky shader.
-- **Vanilla ES modules + import map**: no bundler and no framework, so the code runs as written.
-- **Web Audio API**: every sound is synthesized, with no audio files.
-- **Canvas 2D**: procedural mud, grass, camo, carbon, tread, water and cloud textures, plus the gauge and minimap.
-- **Node.js (`node:http`)**: a static server with no dependencies.
-- **`node --test`**: the built-in test runner, so there is no test framework to install.
+- **Vanilla ES modules + import map**: no bundler and no framework.
+- **Web Audio API and Speech Synthesis**: the engine sound is synthesized and the co-driver uses the browser voice, with no audio files.
+- **Canvas 2D**: satellite mosaics, procedural mud, grass, camo, carbon, chevrons, gauge and minimap.
+- **Node.js (`node:http`, `node:zlib`)**: the static server and the PNG elevation decoder, with no dependencies.
+- **`node --test`**: the built-in test runner.
+
+## Data sources
+
+- Terrain: AWS Terrain Tiles (Mapzen / Tilezen). United States 3DEP (formerly NED) and SRTM terrain data courtesy of the U.S. Geological Survey, and ETOPO1 from NOAA.
+- Imagery: Sentinel-2 cloudless - https://s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016), CC BY 4.0.
+
+The credit line is shown on the in-game HUD. To download the data again, run `node tools/fetch-geo.mjs`.
 
 ## Contracts / APIs
 
@@ -71,20 +95,21 @@ There is no backend API. The server only serves static files:
 
 | Path | Served from |
 |---|---|
-| `GET /` and `GET /*` | `public/` |
+| `GET /`, `GET /js/*`, `GET /geo/<place>/*` | `public/` |
 | `GET /vendor/three/*` | `node_modules/three/` |
 
 Paths that resolve outside those folders return `403`. Everything is served with `Cache-Control: no-cache`.
 
 ## Key data structures and design decisions
 
-- **Track**: `Float32Array`s of `xs`, `zs`, `heading`, `curvature` and `vmaxUnit` sampled every 2 m, plus a spatial hash (24 m cells) for fast nearest-point lookup. `vmaxUnit` is `sqrt(g / curvature)`, the cornering speed at grip 1 that the AI scales by surface grip.
-- **Terrain**: a 301x301 heightfield (4 m cells) that blends the raw Perlin terrain into the smoothed road profile. Physics samples it with the same triangle split the mesh uses, so wheels sit exactly on the rendered ground.
-- **Vehicle model**: a bicycle-model body with longitudinal and lateral velocity kept in world space. Drift happens naturally when lateral grip saturates. The 4 wheel contact heights drive pitch, roll, suspension compression and airtime.
-- **Fixed-step simulation**: `stepSim` runs 120 Hz steps from a frame accumulator, so physics does not change with frame rate. That is also what lets the quality governor trade resolution for FPS safely.
-- **Lap rule**: a lap counts only after passing the far side of the loop, so reversing over the line never scores.
-- **Quality governor**: it drops a level below 36 FPS and climbs back after 4 seconds above 58 FPS. It skips the first window after each change and doubles its cooldown after every drop, so it never flickers between two levels.
-- **Pure core, thin render**: everything that decides the outcome of a race is in `core/` and tested headlessly. That includes 3-lap CPU races on all four stages.
+- **Geo grids**: each place has `near.bin` (401x401) and `far.bin` (385x385) as `Int16` quarter-meters, plus a `manifest.json` describing the Web Mercator imagery tiles. Local coordinates are meters east (x) and south (z) of a center lat/lon.
+- **Tracks on real ground**: each track is a normalized shape placed by a frame (center, angle, half-length, half-width). Every loop was scored against the real elevation for tightest radius, grade, side slope and water crossings before it was accepted.
+- **Terrain**: the real elevation is blended into a smoothed road profile. Physics samples the same triangles the mesh draws. Ground at or below lake level becomes lake bed.
+- **Vehicle model**: a bicycle model with world-space velocity. Lateral grip (1.25x grip) is consistent with the yaw limit (1.15x grip), so a car inside its limits turns instead of sliding wide. The steering input scales the yaw limit, so small keyboard taps give small corrections.
+- **Pace notes**: corners are grouped by curvature sign. The severity (1 = hairpin to 6 = flat) comes from the tightest radius, and the advised speed is 82% of the grip limit. Distance to the next note is lap-wrap safe.
+- **Fixed-step simulation**: `stepSim` runs 120 Hz steps from an accumulator, so physics does not change with frame rate.
+- **Two-layer forest**: detailed trees within 180 m of the road (these are the collision obstacles) plus cheap low-poly fill beyond it, both placed by the satellite forest mask.
+- **Quality governor**: it drops a level below 36 FPS and climbs back after 4 s above 58 FPS. It skips the first window after a change and doubles its cooldown after every drop.
 
 ## How to run
 
@@ -93,7 +118,7 @@ Paths that resolve outside those folders return `403`. Everything is served with
 ./stop.sh
 ```
 
-`play.sh` installs dependencies on first run, starts the server on `http://localhost:7707` and opens the browser. `stop.sh` stops it.
+`play.sh` installs dependencies on first run, starts the server on `http://localhost:7707` and opens the browser.
 
 Tests:
 
@@ -102,67 +127,83 @@ Tests:
 ```
 
 ```
-ℹ tests 51
-ℹ pass 51
+ℹ tests 67
+ℹ pass 67
 ℹ fail 0
 ```
 
-The tests cover:
-- Track geometry: tightest radius, no self-overlap, a flat road cross-section, and the road staying above the lakes.
-- Tree and rock placement kept off the racing line.
-- Grid slots.
-- Gearbox upshifts and downshifts.
-- Top speed.
-- Reverse.
-- Snow grip.
-- Handbrake rotation.
-- Steering direction.
-- Jumps.
-- Lap rules and standings.
-- A full 3-lap CPU race in rain on every stage.
-- The countdown freeze.
-- The quality governor settling at 30+ FPS without flicker.
-- Server path-traversal refusal.
+The tests run on the real terrain data. They cover:
+- The real geography: Yosemite floor about 1210 m, Half Dome about 2690 m, the El Capitan rim, Lake Tahoe at 1897 m, Mount Tallac, the Golden Gate strait below sea level, and Mount Lee above the Griffith flats.
+- Track geometry: tightest corner over 40 m, no self-overlap, a flat road cross-section, and the road staying above the water.
+- A **keyboard driver** with digital keys and a 150 ms reaction delay, following the pace notes on every stage in clear (F-150 Raptor R) and snow (Wrangler). It must stay on the road over 95% of the lap.
+- Pace-note direction and severity.
+- Progressive steering.
+- Physics: gearbox, top speed, reverse, handbrake and jumps.
+- Lap rules.
+- Full 3-lap CPU races on every stage.
+- The quality governor.
+- Server path safety.
 
 ## Printscreens
 
-The in-race shots were taken in a headless browser without a GPU. That is why the HUD shows the governor at the `Potato` level holding 30 FPS. On a real GPU it climbs to High or Ultra.
+The in-race shots were taken in a headless browser with no GPU. That is why the HUD shows the governor at `Potato` holding 30 FPS. On a real GPU it climbs to High or Ultra.
 
-**1. Track selection**: the four California stages, each with a map thumbnail of its layout. The 3D showroom turntable is on the right.
+**1. Track selection**: the four real California stages, with the 3D showroom turntable.
 ![Track selection](printscreens/01-track-select.png)
 
-**2. Vehicle selection**: the 7 off-road 4x4s with torque, acceleration, grip and top-speed bars. The Ford Bronco Raptor is selected and shown in the showroom.
-![Vehicle selection](printscreens/02-vehicle-select.png)
+**2. Jeep Wrangler Rubicon**: the 7-slot grille, round lamps, trapezoid flares, black hardtop and rear spare.
+![Wrangler](printscreens/02-vehicle-wrangler.png)
 
-**3. Paint, camo finish**: Sarge Green with the Camo finish. The procedural camouflage pattern is wrapped on the body.
-![Camo paint](printscreens/03-paint-camo.png)
+**3. Ford F-150 Raptor R**: the crew cab with the open bed, box flares and running boards.
+![Raptor](printscreens/03-vehicle-raptor.png)
 
-**4. Paint, pearl finish**: Hydro Blue with the Pearl finish (iridescent clearcoat) under the showroom spotlights.
-![Pearl paint](printscreens/04-paint-pearl.png)
+**4. Land Rover Defender 110**: the rounded boxy body with the contrast roof and alpine windows.
+![Defender](printscreens/04-vehicle-defender.png)
 
-**5. Conditions**: pick clear, rain or snow. The summary at the bottom shows the full race setup.
-![Conditions](printscreens/05-conditions.png)
+**5. Paint, camo finish**: a procedural camouflage pattern on the body.
+![Camo paint](printscreens/05-paint-camo.png)
 
-**6. San Francisco, clear**: the Jeep, already dirty, kicks up dust and mud clumps on the Presidio stage among Monterey cypress. Rivals are ahead on the rutted mud road. The HUD shows position, lap, times, live standings with gaps, the minimap, FPS and quality, the rpm and speed gauge in D2, and the controls panel.
-![San Francisco race](printscreens/06-race-sf-clear.png)
+**6. Conditions**: clear, rain or snow, with the race summary.
+![Conditions](printscreens/06-conditions.png)
 
-**7. Yosemite, snow**: the Hummer H1 on a slush-covered mud road. There are snowflakes, fog, snow cover on the meadows and giant sequoias.
-![Yosemite snow race](printscreens/07-race-yosemite-snow.png)
+**7. San Francisco from the helicopter cam (looking back)**: the Golden Gate Bridge at its real position across the bay, the Marin Headlands behind it, and the Presidio cypress and Crissy Field below. The pace note calls "LEFT 3" and chevrons mark the corner.
+![Golden Gate](printscreens/07-sf-golden-gate.png)
 
-**8. Lake Tahoe, rain**: the Defender in a downpour under an overcast sky. The road is soaked, with glossy ruts and splashes, and pine forest on both sides.
-![Lake Tahoe rain race](printscreens/08-race-tahoe-rain.png)
+**8. San Francisco, look back (B)**: the Wrangler's front with the bridge towers and the start arch behind.
+![SF look back](printscreens/08-sf-look-back.png)
 
-**9. Los Angeles, clear**: the F-150 Raptor R in the dusty Griffith canyon at golden hour, with palms on the ridges.
-![Los Angeles race](printscreens/09-race-la-clear.png)
+**9. Los Angeles, Griffith Park**: dry golden grass, oaks and palms on the real Griffith flats, with the real hills on the horizon.
+![Griffith Park](printscreens/09-la-griffith.png)
 
-**10. Hood cam**: press `C` to cycle cameras. This is the hood view over the glossy paint, following the CPU drivers into the pines.
-![Hood cam](printscreens/10-hood-cam.png)
+**10. Lake Tahoe, look back**: the Defender (the DEFENDER grille) in the south-shore pine forest.
+![Tahoe Defender](printscreens/10-tahoe-defender.png)
 
-**11. Pause**: `P` or `Esc` pauses the race and the audio, with resume, restart and main menu.
-![Pause](printscreens/11-pause.png)
+**11. Lake Tahoe from the helicopter**: dense pine forest placed from the satellite forest mask, with the glare of the lake on the horizon.
+![Tahoe lake](printscreens/11-tahoe-lake.png)
 
-**12. Results**: the finish table with position, driver, vehicle, total time and best lap. A driver who did not finish shows the laps completed. This shot uses a sample race state rendered by the real `showResults`, because a full 3-lap race takes about 5 minutes.
-![Results](printscreens/12-results.png)
+**12. Yosemite Valley**: the Bronco under the real granite valley wall, among the ponderosa pines of the valley floor.
+![Yosemite Valley](printscreens/12-yosemite-valley.png)
+
+**13. Yosemite from the helicopter**: the track winding through the valley-floor forest past the start arch.
+![Yosemite helicopter](printscreens/13-yosemite-heli.png)
+
+**14. Yosemite in snow**: the Hummer H1 on a snow-covered floor among snowy pines.
+![Yosemite snow](printscreens/14-yosemite-snow.png)
+
+**15. Lake Tahoe in rain**: the Land Cruiser in a downpour under an overcast sky, on a soaked road.
+![Tahoe rain](printscreens/15-tahoe-rain.png)
+
+**16. San Francisco in rain**: the Baja Trophy Truck with its headlights on in the storm, from the far chase cam.
+![SF rain](printscreens/16-sf-rain.png)
+
+**17. Hood cam**: the view over the hood, following the rivals into the Tahoe pines.
+![Hood cam](printscreens/17-hood-cam.png)
+
+**18. Pause**: resume, restart or main menu.
+![Pause](printscreens/18-pause.png)
+
+**19. Results**: position, driver, vehicle, total time and best lap. This shot uses a sample race state rendered by the real `showResults`, because a full 3-lap race takes a few minutes.
+![Results](printscreens/19-results.png)
 
 ## Scripts
 
