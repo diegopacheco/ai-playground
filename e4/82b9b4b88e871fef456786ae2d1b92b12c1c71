@@ -1,0 +1,46 @@
+pocs/movies-map/server/server.mjs
+  s_d4343b0244e73b::t_05731fc1e00227 46
+pocs/movies-map/tests/api.test.mjs
+  s_d4343b0244e73b::t_05731fc1e00227 59-63
+pocs/movies-map/web/styles.css
+  s_134c318b654487::t_7d05c09333d840 208-210,214-223,226-237
+  s_134c318b654487::t_93ba08b9e6bc9a 211-213,224-225
+pocs/movies-map/web/app.js
+  s_134c318b654487::t_7d05c09333d840 6,57,106-116,119-127,149,234,249,311
+  s_134c318b654487::t_6e3659464f3caf 3,117-118
+  s_134c318b654487::t_f9c6cce7494533 259
+  s_134c318b654487::t_780a8340fce5b4 260
+pocs/movies-map/desktop/main.cjs
+  s_134c318b654487::t_aa18416c5f2283 1,118
+pocs/movies-map/web/index.html
+  s_134c318b654487::t_7d05c09333d840 49-53
+pocs/movies-map/README.md
+  s_d4343b0244e73b::t_c28082150f9418 28,102,132-134
+  s_134c318b654487::t_5ad11d91072a0a 135
+pocs/movies-map/web/shortcuts.js
+  s_134c318b654487::t_f9c6cce7494533 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "e482b9b4b88e871fef456786ae2d1b92b12c1c71",
+  "prompts": {},
+  "sessions": {
+    "s_134c318b654487": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "348403c1-ce39-478e-ab41-9235053843ed",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_d4343b0244e73b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "da95577b-84cd-40f2-ac3f-5d4cbc3828a8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
