@@ -20,6 +20,10 @@
     li strong { display: block; }
     li small { color: #6b6f85; }
     .status { margin-left: auto; font-size: 12px; color: #6b6f85; text-transform: lowercase; }
+    #retry { display: none; margin: 20px auto 0; border: 0; background: #ff6f4f; color: #fff; font: 600 14px -apple-system, sans-serif; padding: 10px 22px; border-radius: 10px; cursor: pointer; -webkit-app-region: no-drag; }
+    #retry.show { display: block; }
+    #hint { display: none; margin-top: 12px; font-size: 12px; }
+    #hint.show { display: block; }
     @keyframes pulse { from { opacity: 0.35; } to { opacity: 1; } }
   </style>
 </head>
@@ -34,6 +38,8 @@
       <li id="api"><span class="dot"></span><div><strong>Movies API</strong><small>waiting</small></div><span class="status">pending</span></li>
       <li id="tiles"><span class="dot"></span><div><strong>Map tiles</strong><small>waiting</small></div><span class="status">pending</span></li>
     </ul>
+    <button id="retry">Retry</button>
+    <p id="hint">Details are in .run/logs/desktop.log and .run/logs/api.log</p>
   </div>
   <script>
     window.moviesMap.onBootStep(({ id, status, detail }) => {
@@ -41,7 +47,11 @@
       li.className = status
       li.querySelector(".status").textContent = status
       li.querySelector("small").textContent = detail || (status === "loading" ? "starting" : status)
+      const blocking = status === "failed" && id !== "tiles"
+      document.getElementById("retry").classList.toggle("show", blocking)
+      document.getElementById("hint").classList.toggle("show", blocking)
     })
+    document.getElementById("retry").addEventListener("click", () => window.moviesMap.retryBoot())
   </script>
 </body>
 </html>

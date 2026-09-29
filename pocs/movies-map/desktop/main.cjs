@@ -69,8 +69,32 @@ function run(script) {
   })
 }
 
+function log(line) {
+  try {
+    fs.mkdirSync(path.join(ROOT, ".run", "logs"), { recursive: true })
+    fs.appendFileSync(path.join(ROOT, ".run", "logs", "desktop.log"), `${new Date().toISOString()} ${line}\n`)
+  } catch {}
+}
+
+async function startApi() {
+  let last = ""
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const started = await run("start-all.sh")
+    last = started.output.trim().split("\n").pop() || `start-all.sh exited ${started.code}`
+    log(`start-all attempt ${attempt} code ${started.code}: ${started.output.trim().replace(/\n/g, " | ")}`)
+    const health = started.code === 0 && await fetch(`http://localhost:${port()}/api/health`).then(r => r.ok).catch(() => false)
+    if (health) return null
+    if (started.code === 0) last = "API did not answer /api/health"
+    await new Promise(r => setTimeout(r, 1000))
+  }
+  return last
+}
+
 async function bootServices() {
-  const step = (id, status, detail) => send("boot-step", { id, status, detail })
+  const step = (id, status, detail) => {
+    log(`boot ${id} ${status} ${detail || ""}`)
+    send("boot-step", { id, status, detail })
+  }
   step("node", "loading")
   const node = spawnSync("node", ["-v"], { env: ENV, encoding: "utf8" })
   if (node.status !== 0) return step("node", "failed", "Node.js was not found in PATH")
@@ -83,10 +107,8 @@ async function bootServices() {
   step("data", "ready", `${movies.length} titles, ${movies.reduce((n, m) => n + m.locations.length, 0)} SF locations`)
 
   step("api", "loading")
-  const started = await run("start-all.sh")
-  if (started.code !== 0) return step("api", "failed", started.output.trim().split("\n").pop())
-  const health = await fetch(`http://localhost:${port()}/api/health`).then(r => r.json()).catch(() => null)
-  if (!health) return step("api", "failed", "API did not answer /api/health")
+  const error = await startApi()
+  if (error) return step("api", "failed", error)
   step("api", "ready", `API ready on port ${port()}`)
 
   step("tiles", "loading")
@@ -165,7 +187,9 @@ function createWindow() {
   win.on("leave-full-screen", saveState)
   win.on("close", saveState)
   win.loadFile(path.join(__dirname, "boot.html"))
-  win.webContents.once("did-finish-load", bootServices)
+  win.webContents.on("did-finish-load", () => {
+    if (win.webContents.getURL().endsWith("boot.html")) bootServices()
+  })
 }
 
 if (!app.requestSingleInstanceLock()) {
@@ -179,6 +203,7 @@ if (!app.requestSingleInstanceLock()) {
     win.focus()
   })
   ipcMain.on("toggle-maximize", toggleMaximize)
+  ipcMain.on("retry-boot", () => win && win.loadFile(path.join(__dirname, "boot.html")))
   app.whenReady().then(() => {
     buildMenu()
     createWindow()

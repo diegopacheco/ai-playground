@@ -14,10 +14,10 @@ function hue(text) {
   return h
 }
 
-function posterHtml(movie, cls) {
+function posterHtml(movie, cls, lazy = false) {
   const fallback = `<div class="${cls} fallback" style="background:linear-gradient(160deg,hsl(${hue(movie.title)},70%,62%),hsl(${(hue(movie.title) + 40) % 360},65%,45%))">${escapeHtml(movie.title)}</div>`
   if (!movie.poster) return fallback
-  return `<img class="${cls}" src="${escapeHtml(movie.poster)}" alt="${escapeHtml(movie.title)} poster" loading="lazy" data-fallback="${escapeHtml(fallback)}">`
+  return `<img class="${cls}" src="${escapeHtml(movie.poster)}" alt="${escapeHtml(movie.title)} poster"${lazy ? ' loading="lazy"' : ""} data-fallback="${escapeHtml(fallback)}">`
 }
 
 document.addEventListener("error", e => {
@@ -244,7 +244,7 @@ function renderGrid() {
     return [m.title, m.director, ...(m.actors || []), ...(m.genres || [])].some(v => (v || "").toLowerCase().includes(q))
   })
   $("grid-count").textContent = `${shown.length} of ${state.movies.length} titles`
-  $("grid").innerHTML = shown.map(m => `<div class="tile" data-id="${escapeHtml(m.id)}">${posterHtml(m, "poster")}<strong>${escapeHtml(m.title)}</strong><span>${m.year || ""} · ${spots(m.locations.length)}</span></div>`).join("")
+  $("grid").innerHTML = shown.map(m => `<div class="tile" data-id="${escapeHtml(m.id)}">${posterHtml(m, "poster", true)}<strong>${escapeHtml(m.title)}</strong><span>${m.year || ""} · ${spots(m.locations.length)}</span></div>`).join("")
 }
 
 $("grid-filter").addEventListener("input", renderGrid)
@@ -388,8 +388,25 @@ $("titlebar").addEventListener("dblclick", e => {
 
 window.moviesMap?.onToast?.(toast)
 
+async function loadMovies() {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await api("/api/movies")
+    } catch (err) {
+      if (attempt >= 5) throw err
+      await new Promise(r => setTimeout(r, 1000))
+    }
+  }
+}
+
+function showLoadError(err) {
+  $("list-title").textContent = "Movies could not be loaded"
+  $("results").innerHTML = `<li class="empty">${escapeHtml(err.message)}. Is the API running? <button class="link" id="retry-load">Retry</button></li>`
+  $("retry-load").addEventListener("click", () => location.reload())
+}
+
 async function boot() {
-  state.movies = await api("/api/movies")
+  state.movies = await loadMovies()
   state.byId = new Map(state.movies.map(m => [m.id, m]))
   state.points = state.movies.flatMap(movie => movie.locations.map(location => ({ movie, location, latlng: L.latLng(location.lat, location.lng) })))
   const decades = [...new Set(state.movies.map(m => Math.floor((m.year || 0) / 10) * 10).filter(Boolean))].sort()
@@ -399,4 +416,4 @@ async function boot() {
   renderGrid()
 }
 
-boot().catch(err => toast(`Could not load movies: ${err.message}`))
+boot().catch(showLoadError)
