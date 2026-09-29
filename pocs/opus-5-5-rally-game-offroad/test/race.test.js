@@ -2,7 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createRace, updateEntry, standings, positionOf, formatTime } from '../public/js/core/race.js';
 import { TRACKS } from '../public/js/core/tracks.js';
-import { createWorld, createSim, stepSim } from '../public/js/core/sim.js';
+import { createSim, stepSim } from '../public/js/core/sim.js';
+import { worldFor } from './geo-fixture.js';
 import { CARS } from '../public/js/core/vehicle.js';
 
 const fakeTrack = { count: 1000 };
@@ -55,7 +56,7 @@ test('lap times are shown as m:ss.cc', () => {
 
 for (const def of TRACKS) {
   test(`${def.city}: 3 CPU rivals finish 3 laps in rain without getting stuck off the road`, () => {
-    const world = createWorld(def);
+    const world = worldFor(def);
     const sim = createSim({ world, weather: 'rain', specs: [CARS[1], CARS[3], CARS[5], CARS[0]], playerIndex: -1 });
     let off = 0;
     let frames = 0;
@@ -70,7 +71,7 @@ for (const def of TRACKS) {
 }
 
 test('the player car stays on the grid during the countdown, then the race clock starts', () => {
-  const world = createWorld(TRACKS[0]);
+  const world = worldFor(TRACKS[0]);
   const sim = createSim({ world, weather: 'clear', specs: [CARS[0], CARS[1], CARS[2], CARS[3]] });
   const start = { x: sim.cars[3].x, z: sim.cars[3].z };
   for (let t = 0; t < 2.5; t += 1 / 60) stepSim(sim, 1 / 60, { throttle: 1, brake: 0, steer: 0 });

@@ -53,16 +53,19 @@
       <div class="perf"><span id="hud-fps">60</span> FPS <span class="dot">|</span> <span id="hud-quality">High</span> <span class="dot">|</span> <span id="hud-cam">Chase cam</span></div>
     </div>
     <div class="hud-center" id="hud-message"></div>
+    <div class="pacenote hidden" id="hud-note"><span class="arrow" id="note-arrow"></span><span id="note-text"></span><small id="note-dist"></small></div>
     <div class="hud-bottom-right">
       <canvas id="gauge" width="280" height="280"></canvas>
     </div>
+    <div class="credits">Terrain: USGS 3DEP / SRTM via Mapzen Terrain Tiles &middot; Imagery: Sentinel-2 cloudless - s2maps.eu by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016)</div>
     <div class="controls" id="controls">
       <div class="controls-title">CONTROLS <small>H to hide</small></div>
       <div class="row"><kbd>W</kbd><kbd>&uarr;</kbd><span>Accelerate</span></div>
       <div class="row"><kbd>S</kbd><kbd>&darr;</kbd><span>Brake / Reverse</span></div>
       <div class="row"><kbd>A</kbd><kbd>D</kbd><kbd>&larr;</kbd><kbd>&rarr;</kbd><span>Steer</span></div>
       <div class="row"><kbd>Space</kbd><span>Handbrake</span></div>
-      <div class="row"><kbd>C</kbd><span>Change camera</span></div>
+      <div class="row"><kbd>C</kbd><span>Camera: chase, far, hood, bumper, helicopter</span></div>
+      <div class="row"><kbd>B</kbd><span>Look back</span></div>
       <div class="row"><kbd>R</kbd><span>Reset to track</span></div>
       <div class="row"><kbd>M</kbd><span>Mute</span></div>
       <div class="row"><kbd>P</kbd><kbd>Esc</kbd><span>Pause</span></div>

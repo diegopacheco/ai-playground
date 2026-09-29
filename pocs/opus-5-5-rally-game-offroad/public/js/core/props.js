@@ -14,19 +14,32 @@ function scatter(rand, count, tries, accept) {
   return out;
 }
 
-export function placeProps(track, terrain) {
+function clusterForest(track) {
+  const seed = track.def.seed;
+  return (x, z) => (Math.sin(x * 0.013 + seed) * Math.cos(z * 0.011 - seed) > -0.15 ? 0.9 : 0.2);
+}
+
+export function placeProps(track, terrain, forestAt = clusterForest(track)) {
   const rand = mulberry32(track.def.seed * 31 + 7);
   const half = track.halfWidth;
   const aboveWater = (y) => terrain.water === null || y > terrain.water + 1.2;
-  const trees = scatter(rand, track.def.trees.count, track.def.trees.count * 8, (x, z) => {
+  const NEAR_BAND = 180;
+  const trees = scatter(rand, track.def.trees.count, track.def.trees.count * 14, (x, z) => {
     const d = roadDistanceAt(terrain, x, z);
-    if (d < half + 9) return null;
+    if (d < half + 9 || d > NEAR_BAND) return null;
     const y = terrain.heightAt(x, z);
     if (!aboveWater(y) || slopeAt(terrain, x, z) > 0.75) return null;
-    const cluster = Math.sin(x * 0.013 + track.def.seed) * Math.cos(z * 0.011 - track.def.seed) > -0.15;
-    if (!cluster && rand() > 0.25) return null;
+    if (rand() > forestAt(x, z)) return null;
     const scale = 0.75 + rand() * 0.6;
     return { x, y, z, scale, rot: rand() * Math.PI * 2, r: 0.5 * scale + 0.3 };
+  });
+  const forest = scatter(rand, track.def.trees.fill, track.def.trees.fill * 6, (x, z) => {
+    const d = roadDistanceAt(terrain, x, z);
+    if (d <= NEAR_BAND) return null;
+    const y = terrain.heightAt(x, z);
+    if (!aboveWater(y) || slopeAt(terrain, x, z) > 0.9) return null;
+    if (rand() > forestAt(x, z)) return null;
+    return { x, y, z, scale: 0.8 + rand() * 0.6, rot: rand() * Math.PI * 2 };
   });
   const rocks = scatter(rand, 420, 5000, (x, z) => {
     const d = roadDistanceAt(terrain, x, z);
@@ -56,7 +69,7 @@ export function placeProps(track, terrain) {
     }
   }
   const obstacles = [...trees, ...rocks.filter((r) => r.scale > 1.1)];
-  return { trees, rocks, grass, markers, obstacles, obstacleHash: hashObstacles(obstacles) };
+  return { trees, forest, rocks, grass, markers, obstacles, obstacleHash: hashObstacles(obstacles) };
 }
 
 function hashObstacles(list) {

@@ -1,24 +1,31 @@
-import { createNoise2D, fbm, lerp, smoothstep, clamp } from './math.js';
+import { createNoise2D, lerp, smoothstep, clamp } from './math.js';
 import { nearbyDistance } from './tracks.js';
+import { NEAR } from './geo.js';
 
-export const HALF_EXTENT = 600;
+export const HALF_EXTENT = NEAR.half;
 export const CELL = 4;
 export const GRID = HALF_EXTENT * 2 / CELL + 1;
 export const ROAD_OFFSET = 0.06;
 
-export function rawHeightFn(def) {
-  const noise = createNoise2D(def.seed);
+export function rawHeightFn(def, geo) {
   const detail = createNoise2D(def.seed + 101);
-  return (x, z) => def.macro(x, z) + fbm(noise, x / def.hillScale, z / def.hillScale, 5) * def.hills + detail(x / 18, z / 18) * 0.5;
+  const base = Math.round(geo.elevation(0, 0));
+  const lake = def.water === null ? -Infinity : def.water + 0.25;
+  const fn = (x, z) => {
+    const e = geo.elevation(x, z);
+    return e - base + detail(x / 14, z / 14) * 0.3 - (e <= lake ? 2.5 : 0);
+  };
+  fn.base = base;
+  return fn;
 }
 
-function roadProfile(track, raw) {
+function roadProfile(track, raw, water) {
   const n = track.count;
   let ys = new Float32Array(n);
   for (let i = 0; i < n; i++) ys[i] = raw(track.xs[i], track.zs[i]);
   for (let pass = 0; pass < 3; pass++) {
     const out = new Float32Array(n);
-    const r = 22;
+    const r = 12;
     for (let i = 0; i < n; i++) {
       let sum = 0;
       for (let k = -r; k <= r; k++) sum += ys[(i + k + n) % n];
@@ -26,7 +33,7 @@ function roadProfile(track, raw) {
     }
     ys = out;
   }
-  const floor = track.def.water === null ? -Infinity : track.def.water + 2;
+  const floor = water === null ? -Infinity : water + 1.2;
   const rampLen = 18 / track.spacing;
   for (let i = 0; i < n; i++) {
     ys[i] = Math.max(ys[i], floor);
@@ -43,9 +50,10 @@ function roadProfile(track, raw) {
   return ys;
 }
 
-export function buildTerrain(track) {
-  const raw = rawHeightFn(track.def);
-  const roadY = roadProfile(track, raw);
+export function buildTerrain(track, geo) {
+  const raw = rawHeightFn(track.def, geo);
+  const water = track.def.water === null ? null : track.def.water - raw.base;
+  const roadY = roadProfile(track, raw, water);
   const heights = new Float32Array(GRID * GRID);
   const roadDist = new Float32Array(GRID * GRID);
   const half = track.halfWidth;
@@ -55,13 +63,13 @@ export function buildTerrain(track) {
       const x = -HALF_EXTENT + gx * CELL;
       const { dist, index } = nearbyDistance(track, x, z);
       const r = raw(x, z);
-      const w = index < 0 ? 1 : smoothstep(half + 1.5, half + 20, dist);
+      const w = index < 0 ? 1 : smoothstep(half + 1.5, half + 14, dist);
       const idx = gz * GRID + gx;
       heights[idx] = index < 0 ? r : lerp(roadY[index], r, w);
       roadDist[idx] = dist;
     }
   }
-  const terrain = { raw, roadY, heights, roadDist, water: track.def.water };
+  const terrain = { raw, base: raw.base, roadY, heights, roadDist, water };
   terrain.heightAt = (x, z) => sampleGrid(terrain, heights, x, z, raw);
   return terrain;
 }

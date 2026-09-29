@@ -5,7 +5,7 @@ export const G = 9.81;
 export const CARS = [
   { id: 'wrangler', name: 'Jeep Wrangler Rubicon', style: 'wrangler', mass: 2050, torque: 470, grip: 1.0, finalDrive: 4.1, topSpeed: 50, length: 4.3, width: 1.9, height: 1.85, wheelbase: 2.46, track: 1.62, wheelR: 0.42, clearance: 0.58, cylinders: 6, accent: 'Trail rated legend, short wheelbase, flicks through hairpins.' },
   { id: 'bronco', name: 'Ford Bronco Raptor', style: 'bronco', mass: 2300, torque: 595, grip: 1.02, finalDrive: 4.0, topSpeed: 53, length: 4.8, width: 2.2, height: 1.95, wheelbase: 2.95, track: 1.77, wheelR: 0.46, clearance: 0.62, cylinders: 6, accent: 'Twin turbo V6, wide stance, long-travel suspension.' },
-  { id: 'cruiser', name: 'Toyota Land Cruiser 70', style: 'cruiser', mass: 2250, torque: 430, grip: 0.98, finalDrive: 4.3, topSpeed: 46, length: 4.9, width: 1.87, height: 1.94, wheelbase: 2.98, track: 1.55, wheelR: 0.4, clearance: 0.54, cylinders: 8, accent: 'Unkillable V8 diesel workhorse, stable on rough ground.' },
+  { id: 'cruiser', name: 'Toyota Land Cruiser 70', style: 'cruiser', mass: 2250, torque: 430, grip: 0.98, finalDrive: 4.3, topSpeed: 46, length: 4.91, width: 1.87, height: 1.94, wheelbase: 2.73, track: 1.55, wheelR: 0.4, clearance: 0.54, cylinders: 8, accent: 'Unkillable V8 diesel workhorse, stable on rough ground.' },
   { id: 'defender', name: 'Land Rover Defender 110', style: 'defender', mass: 2350, torque: 550, grip: 1.03, finalDrive: 3.9, topSpeed: 52, length: 5.0, width: 2.0, height: 1.97, wheelbase: 3.02, track: 1.7, wheelR: 0.42, clearance: 0.56, cylinders: 6, accent: 'Air suspension and torque vectoring, calm and precise.' },
   { id: 'raptor', name: 'Ford F-150 Raptor R', style: 'raptor', mass: 2700, torque: 868, grip: 1.0, finalDrive: 4.1, topSpeed: 58, length: 5.9, width: 2.2, height: 2.0, wheelbase: 3.7, track: 1.83, wheelR: 0.46, clearance: 0.6, cylinders: 8, accent: 'Supercharged V8 desert truck, brutal on the straights.' },
   { id: 'hummer', name: 'Hummer H1 Alpha', style: 'hummer', mass: 3100, torque: 700, grip: 1.06, finalDrive: 4.3, topSpeed: 45, length: 4.7, width: 2.2, height: 1.9, wheelbase: 3.3, track: 1.82, wheelR: 0.45, clearance: 0.52, cylinders: 8, accent: 'Portal axles and huge track width, a tank that never tips.' },
@@ -18,15 +18,15 @@ const REDLINE = 6400;
 const REVERSE_RATIO = 3.5;
 
 export const SURFACES = {
-  mud: { grip: 0.78, rolling: 0.035, name: 'mud' },
-  offroad: { grip: 0.62, rolling: 0.07, name: 'offroad' },
-  puddle: { grip: 0.55, rolling: 0.16, name: 'puddle' },
+  mud: { grip: 0.95, rolling: 0.035, name: 'mud' },
+  offroad: { grip: 0.78, rolling: 0.06, name: 'offroad' },
+  puddle: { grip: 0.72, rolling: 0.14, name: 'puddle' },
 };
 
 export const WEATHER = {
   clear: { grip: 1.0 },
-  rain: { grip: 0.84 },
-  snow: { grip: 0.66 },
+  rain: { grip: 0.88 },
+  snow: { grip: 0.74 },
 };
 
 export function createCar(spec, x, z, heading, y) {
@@ -139,7 +139,7 @@ export function stepCar(car, input, env, dt) {
     }
   }
 
-  let latGrip = mu * G * (input.handbrake ? 0.42 : 1);
+  const latGrip = mu * G * (input.handbrake ? 0.5 : 1.25);
   if (traction) {
     lat -= G * slopeR * 0.5 * dt;
     const want = -lat * clamp(12 * dt, 0, 1);
@@ -148,13 +148,13 @@ export function stepCar(car, input, env, dt) {
   }
   car.slip = clamp(Math.abs(lat) / 6, 0, 1);
 
-  const speedFactor = 1 + Math.abs(u) / 20;
+  const speedFactor = 1 + Math.abs(u) / 26;
   const steerAngle = (-input.steer * 0.6) / speedFactor;
   car.steerAngle += (steerAngle - car.steerAngle) * clamp(dt * 10, 0, 1);
   if (traction) {
-    let yawTarget = (u * Math.tan(car.steerAngle)) / s.wheelbase;
-    const yawMax = (mu * G * 1.2) / Math.max(Math.abs(u), 2);
-    yawTarget = clamp(yawTarget, -yawMax, yawMax);
+    const yawMax = ((mu * G * 1.15) / Math.max(Math.abs(u), 2)) * Math.min(1, Math.abs(input.steer) + 0.05);
+    const yawTarget0 = clamp((u * Math.tan(car.steerAngle)) / s.wheelbase, -yawMax, yawMax);
+    let yawTarget = yawTarget0;
     if (input.handbrake && Math.abs(u) > 4) yawTarget *= 1.7;
     car.yawRate += (yawTarget - car.yawRate) * clamp(dt * 7 * clamp(mu, 0.4, 1.2), 0, 1);
   } else {

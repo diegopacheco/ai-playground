@@ -1,89 +1,89 @@
-import { smoothstep, wrapAngle, mulberry32 } from './math.js';
+import { wrapAngle, mulberry32 } from './math.js';
 
-const edge = (x, z, from, to) => smoothstep(from, to, Math.max(Math.abs(x), Math.abs(z)));
+const TWISTY = [[-1, 0], [-0.85, 0.8], [-0.45, 0.95], [-0.15, 0.45], [0.15, 0.95], [0.55, 0.9], [0.92, 0.6], [1, -0.1], [0.8, -0.85], [0.35, -0.95], [0.05, -0.45], [-0.3, -0.95], [-0.7, -0.9]];
+const FLOWING = [[-1, 0], [-0.9, 0.75], [-0.6, 1], [-0.2, 0.85], [0.25, 1], [0.65, 0.95], [0.93, 0.7], [1, 0], [0.93, -0.7], [0.6, -1], [0.2, -0.75], [-0.25, -1], [-0.65, -0.95], [-0.93, -0.7]];
+const SHORE = [[-1, 0], [-0.85, 0.85], [-0.4, 1], [0, 0.6], [0.35, 1], [0.8, 0.9], [1, 0.2], [0.85, -0.55], [0.5, -0.3], [0.2, -0.95], [-0.35, -0.95], [-0.8, -0.8]];
 
 export const TRACKS = [
   {
     id: 'sf',
-    name: 'Presidio Mud Run',
+    name: 'Crissy Field Mud Run',
     city: 'San Francisco',
-    blurb: 'Foggy cypress ridges above the bay, Golden Gate on the horizon.',
+    blurb: 'Bayfront flats below the Presidio, the Golden Gate Bridge towering to the northwest and Alcatraz out in the bay.',
     seed: 11,
-    width: 13,
-    hills: 30,
-    hillScale: 260,
+    width: 16,
     water: 0,
+    frame: { cx: 70, cz: -105, angle: 0, hu: 560, hv: 100 },
+    shape: FLOWING,
     jumps: [0.2, 0.63],
     puddles: 26,
-    sun: { elevation: 9, azimuth: 235 },
-    fog: { color: '#aeb9c2', density: 0.0034 },
-    palette: { grass: '#56663a', dry: '#8b7d52', rock: '#6d675e', dirt: '#5b4431', snow: '#eef2f5' },
-    trees: { kind: 'cypress', count: 1500 },
-    landmarks: ['goldenGate', 'sfSkyline'],
-    points: [[-380, 130], [-300, 320], [-110, 380], [40, 280], [140, 380], [320, 340], [410, 170], [300, 20], [390, -150], [270, -330], [80, -250], [-60, -380], [-260, -350], [-380, -190], [-250, -30]],
-    macro: (x, z) => 18 - smoothstep(-560, -760, z) * 36 + edge(x, z, 620, 900) * 120 * (1 - smoothstep(-450, -560, z)) * (1 - 0.8 * smoothstep(400, 800, x)) + smoothstep(-1250, -1550, z) * 190,
+    sun: { elevation: 9, azimuth: 250 },
+    fog: { color: '#b4c0c8', density: 0.00022 },
+    palette: { grass: '#5c7d3c', dry: '#9e8f5e', forest: '#4a3f2e', sand: '#cdb892', rock: '#6d675e', dirt: '#5b4431', snow: '#eef2f5' },
+    trees: { kind: 'cypress', count: 1800, fill: 9000 },
+    landmarks: ['goldenGate', 'sfSkyline', 'alcatraz', 'palaceOfFineArts'],
   },
   {
     id: 'la',
-    name: 'Griffith Canyon Rally',
+    name: 'Griffith Park Rally',
     city: 'Los Angeles',
-    blurb: 'Dusty chaparral canyons, palms and the downtown skyline at golden hour.',
+    blurb: 'Dusty flats of Griffith Park under the Hollywood Sign hills and the Observatory, downtown towers on the southern horizon.',
     seed: 23,
-    width: 13,
-    hills: 38,
-    hillScale: 300,
+    width: 16,
     water: null,
+    frame: { cx: 330, cz: -60, angle: 90, hu: 520, hv: 230 },
+    shape: TWISTY,
     jumps: [0.34, 0.8],
     puddles: 14,
-    sun: { elevation: 6, azimuth: 250 },
-    fog: { color: '#d9c3a0', density: 0.0022 },
-    palette: { grass: '#7a7440', dry: '#a58a58', rock: '#8a7560', dirt: '#6e4f33', snow: '#f1f1ee' },
-    trees: { kind: 'palm', count: 900 },
-    landmarks: ['observatory', 'laSkyline'],
-    points: [[-400, -60], [-370, 200], [-210, 390], [0, 300], [150, 400], [360, 310], [410, 90], [250, -40], [390, -220], [230, -390], [20, -310], [-160, -400], [-350, -300]],
-    macro: (x, z) => 20 + edge(x, z, 560, 900) * 160 + smoothstep(300, 900, x) * 25,
+    sun: { elevation: 7, azimuth: 255 },
+    fog: { color: '#d8c6a6', density: 0.00016 },
+    palette: { grass: '#6f7340', dry: '#a88f5c', forest: '#5a4a34', sand: '#c2a87a', rock: '#8a7560', dirt: '#6e4f33', snow: '#f1f1ee' },
+    trees: { kind: 'palm', count: 700, fill: 5000 },
+    landmarks: ['hollywoodSign', 'observatory', 'laSkyline'],
   },
   {
     id: 'tahoe',
-    name: 'Emerald Bay Trail',
+    name: 'Pope Beach Trail',
     city: 'Lake Tahoe',
-    blurb: 'Alpine pine forest on the shore of a sapphire lake ringed by Sierra peaks.',
+    blurb: 'Pine forest on the south shore right beside the lake, Mount Tallac rising behind and the Sierra ringing the water.',
     seed: 37,
-    width: 12,
-    hills: 26,
-    hillScale: 220,
-    water: 0,
+    width: 16,
+    water: 1897.5,
+    frame: { cx: 0, cz: 150, angle: 13, hu: 600, hv: 160 },
+    shape: SHORE,
     jumps: [0.27, 0.71],
     puddles: 30,
-    sun: { elevation: 22, azimuth: 210 },
-    fog: { color: '#b8c8d6', density: 0.0018 },
-    palette: { grass: '#3f5a32', dry: '#6b6a45', rock: '#6a6d70', dirt: '#4e3b2b', snow: '#f3f6fa' },
-    trees: { kind: 'pine', count: 2600 },
+    sun: { elevation: 24, azimuth: 215 },
+    fog: { color: '#b8c8d6', density: 0.00012 },
+    palette: { grass: '#4f6b35', dry: '#7b7449', forest: '#3d4a2a', sand: '#c9b894', rock: '#6a6d70', dirt: '#4e3b2b', snow: '#f3f6fa' },
+    trees: { kind: 'pine', count: 6000, fill: 22000 },
     landmarks: ['boathouse'],
-    points: [[-420, 0], [-330, 280], [-80, 400], [160, 320], [360, 380], [430, 150], [300, -40], [420, -280], [180, -420], [-40, -300], [-220, -410], [-400, -240]],
-    macro: (x, z) => 16 - smoothstep(520, 700, x) * 40 + edge(x, z, 600, 900) * (x > 520 ? 0 : 210) + smoothstep(2200, 2900, x) * 420,
   },
   {
     id: 'yosemite',
     name: 'Yosemite Valley Floor',
     city: 'Yosemite',
-    blurb: 'Meadows and giant sequoias under El Capitan and Half Dome granite walls.',
+    blurb: 'Meadows on the valley floor between El Capitan and Yosemite Falls, Half Dome at the head of the valley.',
     seed: 53,
-    width: 12,
-    hills: 16,
-    hillScale: 200,
+    width: 16,
     water: null,
+    frame: { cx: 120, cz: 120, angle: -45, hu: 560, hv: 150 },
+    shape: TWISTY,
     jumps: [0.15, 0.55],
     puddles: 22,
-    sun: { elevation: 28, azimuth: 160 },
-    fog: { color: '#c3cfd8', density: 0.0014 },
-    palette: { grass: '#4f6a34', dry: '#86804f', rock: '#9c978d', dirt: '#5a4632', snow: '#f4f7fa' },
-    trees: { kind: 'sequoia', count: 1800 },
-    landmarks: ['halfDome', 'elCapitan', 'yosemiteFalls'],
-    points: [[-440, -120], [-420, 160], [-250, 300], [-60, 200], [120, 330], [330, 260], [440, 60], [380, -200], [190, -140], [40, -330], [-150, -240], [-300, -350]],
-    macro: (x, z) => 10 + smoothstep(470, 640, Math.abs(z)) * 260 + smoothstep(560, 760, Math.abs(x)) * 140,
+    sun: { elevation: 30, azimuth: 200 },
+    fog: { color: '#c3cfd8', density: 0.00009 },
+    palette: { grass: '#62803a', dry: '#8c8250', forest: '#3e4a2b', sand: '#b9ab8c', rock: '#a9a49a', dirt: '#5a4632', snow: '#f4f7fa' },
+    trees: { kind: 'pine', count: 6000, fill: 20000 },
+    landmarks: ['yosemiteFalls', 'bridalveilFall'],
   },
 ];
+
+export function trackPoints(def) {
+  const { cx, cz, angle, hu, hv } = def.frame;
+  const a = (angle * Math.PI) / 180;
+  return def.shape.map(([u, v]) => [cx + u * hu * Math.cos(a) - v * hv * Math.sin(a), cz + u * hu * Math.sin(a) + v * hv * Math.cos(a)]);
+}
 
 export const SPACING = 2;
 const HASH_CELL = 24;
@@ -145,7 +145,7 @@ function smoothLoop(values, radius) {
 }
 
 export function buildTrack(def) {
-  const { xs, zs, length, count } = resample(denseLoop(def.points));
+  const { xs, zs, length, count } = resample(denseLoop(trackPoints(def)));
   const heading = new Float32Array(count);
   for (let i = 0; i < count; i++) {
     const a = (i - 1 + count) % count;

@@ -1,13 +1,15 @@
 import * as THREE from 'three';
 import { TRACKS } from './core/tracks.js';
-import { CARS } from './core/vehicle.js';
+import { CARS, SURFACES, WEATHER } from './core/vehicle.js';
 import { createWorld, createSim, stepSim, resetCarToTrack } from './core/sim.js';
+import { paceNotes } from './core/pacenotes.js';
+import { loadPlace } from './geoLoader.js';
 import { wrapAngle, mulberry32 } from './core/math.js';
-import { buildWorld } from './render/world.js';
+import { buildWorld, imagerySampler, coverOf } from './render/world.js';
 import { buildCar, updateCarVisual, COLORS } from './render/cars.js';
 import { createWeather, createSpray, createTireMarks } from './render/effects.js';
 
-export const CAMERAS = ['Chase cam', 'Far chase', 'Hood cam', 'Bumper cam'];
+export const CAMERAS = ['Chase cam', 'Far chase', 'Hood cam', 'Bumper cam', 'Helicopter cam'];
 const PLAYER = 3;
 
 export function raceConfig(choice) {
@@ -24,11 +26,20 @@ export function raceConfig(choice) {
   return { ...choice, def: TRACKS[choice.track], cars, paints };
 }
 
-export function createRaceScene(renderer, config, quality) {
+function forestFrom(sat) {
+  return (x, z) => {
+    const k = coverOf(sat(x, z));
+    return Math.min(0.95, k.forest * 1.1 + k.meadow * 0.03 + 0.01);
+  };
+}
+
+export async function createRaceScene(renderer, config, quality) {
   const scene = new THREE.Scene();
-  const world = createWorld(config.def);
+  const place = await loadPlace(config.def.id);
+  const world = createWorld(config.def, place.geo, forestFrom(imagerySampler(place.geo.place, place.imagery.near)));
   const sim = createSim({ world, weather: config.weather, specs: config.cars, playerIndex: PLAYER });
-  const view = buildWorld(scene, renderer, world, config.weather, quality);
+  sim.notes = paceNotes(world.track, SURFACES.mud.grip * WEATHER[config.weather].grip);
+  const view = await buildWorld(scene, renderer, world, config.weather, quality, place.imagery);
   const visuals = sim.cars.map((car, k) => {
     const v = buildCar(car.spec, config.paints[k].color, config.paints[k].finish);
     scene.add(v.root);
@@ -44,7 +55,7 @@ export function createRaceScene(renderer, config, quality) {
   const weatherFx = createWeather(scene, config.weather, quality);
   const spray = createSpray(scene, quality);
   const marks = createTireMarks(scene, config.weather);
-  const camera = new THREE.PerspectiveCamera(62, 1, 0.1, 9000);
+  const camera = new THREE.PerspectiveCamera(62, 1, 0.1, 40000);
   camera.userData.tmp = new THREE.Vector3();
   const heightAt = world.terrain.heightAt;
   let camMode = 0;
@@ -55,27 +66,29 @@ export function createRaceScene(renderer, config, quality) {
   const look = new THREE.Vector3();
   const target = new THREE.Vector3();
 
-  function updateCamera(dt, aspect) {
+  function updateCamera(dt, aspect, back) {
     const car = player;
     const speed = Math.abs(car.u);
     const velHeading = speed > 3 ? Math.atan2(car.vx, car.vz) : car.heading;
     const blend = car.gear === -1 ? car.heading : car.heading + wrapAngle(velHeading - car.heading) * 0.35;
     camHeading += wrapAngle(blend - camHeading) * Math.min(1, dt * 4.5);
-    const fx = Math.sin(camHeading);
-    const fz = Math.cos(camHeading);
+    const flip = back ? -1 : 1;
+    const fx = Math.sin(camHeading) * flip;
+    const fz = Math.cos(camHeading) * flip;
     const bump = (Math.random() - 0.5) * shake;
     shake = Math.max(0, shake - dt * 2.5);
-    if (camMode <= 1) {
-      const dist = camMode === 0 ? 7.2 + speed * 0.03 : 12 + speed * 0.04;
-      const up = camMode === 0 ? 2.6 : 4.4;
+    if (camMode <= 1 || camMode === 4) {
+      const heli = camMode === 4;
+      const dist = heli ? 55 : camMode === 0 ? 7.2 + speed * 0.03 : 12 + speed * 0.04;
+      const up = heli ? 32 : camMode === 0 ? 2.6 : 4.4;
       target.set(car.x - fx * dist, car.y + up, car.z - fz * dist);
       target.y = Math.max(target.y, heightAt(target.x, target.z) + 1.2);
       camPos.lerp(target, 1 - Math.exp(-dt * 7));
       camera.position.copy(camPos);
       camera.position.y += bump;
-      look.set(car.x + fx * 4, car.y + 1.3, car.z + fz * 4);
+      look.set(car.x + fx * (heli ? 60 : 4), car.y + (heli ? -4 : 1.3), car.z + fz * (heli ? 60 : 4));
       camera.lookAt(look);
-      camera.fov = 60 + Math.min(18, speed * 0.32);
+      camera.fov = heli ? 58 : 60 + Math.min(18, speed * 0.32);
     } else {
       const root = visuals[PLAYER].root;
       const eyeY = camMode === 2 ? car.spec.height * 0.8 : 0.95;
@@ -124,7 +137,7 @@ export function createRaceScene(renderer, config, quality) {
       });
       spray.update(dt);
       marks.update(sim.cars, heightAt);
-      updateCamera(dt, aspect);
+      updateCamera(dt, aspect, input.lookBack);
       weatherFx.update(dt, camera);
       view.update(dt, visuals[PLAYER].root.position);
       const entry = sim.race.entries[PLAYER];

@@ -41,7 +41,7 @@
 <text x="215.0" y="946.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">rain, wind, impacts</text>
 <g filter="url(#w)"><rect x="435" y="850" width="330" height="120" rx="14" fill="#e8dcff" stroke="#333" stroke-width="2.5"/></g>
 <text x="600.0" y="890.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">node --test</text>
-<text x="600.0" y="918.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">51 tests on the</text>
+<text x="600.0" y="918.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">67 tests on the</text>
 <text x="600.0" y="946.0" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">same core modules</text>
 <g filter="url(#w)"><path d="M215.0,200.0 Q245.0,260.0 215.0,320.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
 <text x="234.0" y="263.0" text-anchor="start" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12">starts</text>
@@ -64,4 +64,12 @@
 <text x="660.0" y="783.0" text-anchor="start" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12">verified by</text>
 <g filter="url(#w)"><path d="M985.0,460.0 Q1015.0,515.0 985.0,570.0" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
 <text x="1003.5" y="518.0" text-anchor="start" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12">draws</text>
+<g filter="url(#w)"><rect x="820" y="850" width="330" height="120" rx="14" fill="#d8f5d0" stroke="#333" stroke-width="2.5"/></g>
+<text x="985" y="886" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="26" fill="#222" font-weight="bold">public/geo/ real places</text>
+<text x="985" y="914" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">USGS elevation + Sentinel-2</text>
+<text x="985" y="942" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#222">from tools/fetch-geo.mjs</text>
+<g filter="url(#w)"><path d="M820,880 Q780,780 765,680" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="790" y="770" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12">real terrain</text>
+<g filter="url(#w)"><path d="M985,850 Q1040,770 985,690" fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#a)"/></g>
+<text x="1030" y="780" font-family="Caveat, 'Comic Sans MS', cursive" font-size="21" fill="#8a3b12">imagery</text>
 </svg>

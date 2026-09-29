@@ -11,11 +11,11 @@ export const COUNTDOWN = 3;
 const CAR_RADIUS = 1.9;
 const IDLE_INPUT = { throttle: 0, brake: 0, steer: 0, handbrake: false };
 
-export function createWorld(trackDef) {
+export function createWorld(trackDef, geo, forestAt) {
   const track = buildTrack(trackDef);
-  const terrain = buildTerrain(track);
-  const props = placeProps(track, terrain);
-  return { track, terrain, props };
+  const terrain = buildTerrain(track, geo);
+  const props = placeProps(track, terrain, forestAt);
+  return { track, terrain, props, geo };
 }
 
 export function createSim({ world, weather, specs, playerIndex = specs.length - 1, laps = LAPS }) {

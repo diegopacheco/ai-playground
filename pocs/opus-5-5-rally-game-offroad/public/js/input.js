@@ -1,4 +1,4 @@
-import { clamp } from './core/math.js';
+import { createControls, rampControls } from './core/controls.js';
 
 const THROTTLE = ['KeyW', 'ArrowUp'];
 const BRAKE = ['KeyS', 'ArrowDown'];
@@ -8,7 +8,7 @@ const GAME_KEYS = new Set([...THROTTLE, ...BRAKE, ...LEFT, ...RIGHT, 'Space']);
 
 export function createInput(onAction) {
   const down = new Set();
-  const state = { throttle: 0, brake: 0, steer: 0, handbrake: false };
+  const state = createControls();
   addEventListener('keydown', (e) => {
     if (GAME_KEYS.has(e.code)) e.preventDefault();
     if (!e.repeat) onAction(e.code);
@@ -19,17 +19,11 @@ export function createInput(onAction) {
   const any = (keys) => keys.some((k) => down.has(k));
   return {
     read(dt, speed) {
-      const target = (any(RIGHT) ? 1 : 0) - (any(LEFT) ? 1 : 0);
-      const rate = target === 0 ? 5 : Math.sign(target) !== Math.sign(state.steer) ? 7 : 3.2 - Math.min(1.6, speed / 25);
-      state.steer += clamp(target - state.steer, -rate * dt, rate * dt);
-      state.throttle += clamp((any(THROTTLE) ? 1 : 0) - state.throttle, -dt * 8, dt * 5);
-      state.brake += clamp((any(BRAKE) ? 1 : 0) - state.brake, -dt * 10, dt * 6);
-      state.handbrake = down.has('Space');
-      return state;
+      return rampControls(state, { throttle: any(THROTTLE), brake: any(BRAKE), left: any(LEFT), right: any(RIGHT), handbrake: down.has('Space'), lookBack: down.has('KeyB') }, dt, speed);
     },
     clear() {
       down.clear();
-      Object.assign(state, { throttle: 0, brake: 0, steer: 0, handbrake: false });
+      Object.assign(state, createControls());
     },
   };
 }

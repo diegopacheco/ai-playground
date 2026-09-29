@@ -259,6 +259,40 @@ button.ghost:hover { border-color: var(--ink); }
 .hud-center.warn { color: #ff5a3d; font-size: 60px; }
 .hud-center.info { font-size: 54px; color: var(--accent); }
 
+.pacenote {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 22px;
+  background: var(--glass);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.pacenote .arrow { font-size: 44px; color: var(--accent); }
+.pacenote small { font-size: 22px; color: var(--muted); font-weight: 600; }
+.pacenote.brake { border-color: #ff3b2f; background: rgba(120, 12, 8, 0.72); }
+.pacenote.brake small { color: #ffd2cc; }
+
+.credits {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--body);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.55);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+}
+
 .hud-bottom-right { position: absolute; right: 18px; bottom: 12px; }
 #gauge { width: 280px; height: 280px; }
 

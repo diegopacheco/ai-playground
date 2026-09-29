@@ -1,14 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { TRACKS, buildTrack, project, gridSlots } from '../public/js/core/tracks.js';
-import { buildTerrain } from '../public/js/core/terrain.js';
-import { placeProps } from '../public/js/core/props.js';
+import { TRACKS, project, gridSlots } from '../public/js/core/tracks.js';
+import { worldFor } from './geo-fixture.js';
 
-const built = TRACKS.map((def) => {
-  const track = buildTrack(def);
-  const terrain = buildTerrain(track);
-  return { def, track, terrain, props: placeProps(track, terrain) };
-});
+const built = TRACKS.map((def) => ({ def, ...worldFor(def) }));
 
 test('the game ships one track per California location the player asked for', () => {
   assert.deepEqual(TRACKS.map((t) => t.city), ['San Francisco', 'Los Angeles', 'Lake Tahoe', 'Yosemite']);
@@ -18,7 +13,7 @@ for (const { def, track, terrain, props } of built) {
   test(`${def.city}: no hairpin is tighter than a 4x4 can take, so every corner is driveable`, () => {
     let minRadius = Infinity;
     for (let i = 0; i < track.count; i++) minRadius = Math.min(minRadius, 1 / Math.max(Math.abs(track.curvature[i]), 1e-6));
-    assert.ok(minRadius > 20, `tightest radius ${minRadius.toFixed(1)}m`);
+    assert.ok(minRadius > 40, `tightest radius ${minRadius.toFixed(1)}m`);
   });
 
   test(`${def.city}: separate parts of the loop never touch, so nobody can shortcut across`, () => {
@@ -51,7 +46,7 @@ for (const { def, track, terrain, props } of built) {
 
   test(`${def.city}: the road stays above the lake so the race never goes underwater`, () => {
     if (def.water === null) return;
-    for (let i = 0; i < track.count; i++) assert.ok(terrain.roadY[i] > def.water + 1);
+    for (let i = 0; i < track.count; i++) assert.ok(terrain.roadY[i] > terrain.water + 1);
   });
 
   test(`${def.city}: trees and rocks are never planted on the racing line`, () => {

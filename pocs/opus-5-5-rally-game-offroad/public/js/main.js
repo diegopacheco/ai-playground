@@ -47,7 +47,7 @@ const input = createInput((code) => {
   if (mode !== 'race') return;
   if (code === 'KeyC') race.cycleCamera();
   if (code === 'KeyR') race.reset();
-  if (code === 'KeyM') audio?.toggleMute();
+  if (code === 'KeyM' && audio) hud.setVoice(!audio.toggleMute());
   if (code === 'KeyH') hud.toggleControls();
 });
 
@@ -86,14 +86,20 @@ function startRace(cfg) {
   setLoading(`Building ${cfg.def.name}, ${cfg.def.city}`, 25);
   mode = 'loading';
   setTimeout(() => {
-    setLoading('Planting forests, digging mud ruts, filling puddles', 70);
-    setTimeout(() => {
-      race = createRaceScene(renderer, cfg, quality);
+    setLoading('Loading real terrain and satellite imagery, planting forests, digging mud ruts', 70);
+    setTimeout(async () => {
+      try {
+        race = await createRaceScene(renderer, cfg, quality);
+      } catch (err) {
+        setLoading(`Could not load the stage: ${err.message}`, 100);
+        return;
+      }
       renderer.compile(race.scene, race.camera);
       audio.setupRace(race.sim.cars, race.sim.playerIndex, cfg.weather);
       renderer.toneMappingExposure = cfg.weather === 'clear' ? 0.95 : 1.15;
       $('loading').classList.add('hidden');
       input.clear();
+      hud.reset();
       hud.show();
       mode = 'race';
       finishedAt = 0;

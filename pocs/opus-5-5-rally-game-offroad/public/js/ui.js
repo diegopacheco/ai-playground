@@ -2,6 +2,7 @@ import { TRACKS, buildTrack } from './core/tracks.js';
 import { CARS } from './core/vehicle.js';
 import { COLORS, FINISHES } from './render/cars.js';
 import { formatTime, standings, progressOf } from './core/race.js';
+import { nextNote } from './core/pacenotes.js';
 
 const $ = (id) => document.getElementById(id);
 const STEPS = ['Track', 'Vehicle', 'Paint', 'Conditions'];
@@ -30,19 +31,14 @@ function trackThumb(def) {
   g.addColorStop(1, def.palette.dirt);
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 192, 144);
-  if (def.water !== null) {
-    ctx.fillStyle = '#23516a';
-    if (def.id === 'sf') ctx.fillRect(0, 0, 192, 18);
-    else ctx.fillRect(170, 0, 22, 144);
-  }
   ctx.strokeStyle = '#1a120c';
   ctx.lineWidth = 9;
   ctx.lineJoin = 'round';
   ctx.beginPath();
   for (let i = 0; i <= t.count; i += 4) {
     const k = i % t.count;
-    const x = 96 + t.xs[k] * 0.16;
-    const y = 72 + t.zs[k] * 0.14;
+    const x = 96 + (t.xs[k] - def.frame.cx) * 0.14;
+    const y = 72 + (t.zs[k] - def.frame.cz) * 0.14;
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
   }
@@ -242,9 +238,23 @@ function drawMinimap(ctx, sim) {
   const { track } = sim.world;
   const W = 220;
   ctx.clearRect(0, 0, W, W);
-  const scale = (W * 0.84) / 960;
-  const tx = (x) => W / 2 + x * scale;
-  const tz = (z) => W / 2 + z * scale;
+  if (!track.bounds) {
+    let minX = Infinity;
+    let maxX = -Infinity;
+    let minZ = Infinity;
+    let maxZ = -Infinity;
+    for (let i = 0; i < track.count; i++) {
+      minX = Math.min(minX, track.xs[i]);
+      maxX = Math.max(maxX, track.xs[i]);
+      minZ = Math.min(minZ, track.zs[i]);
+      maxZ = Math.max(maxZ, track.zs[i]);
+    }
+    track.bounds = { cx: (minX + maxX) / 2, cz: (minZ + maxZ) / 2, span: Math.max(maxX - minX, maxZ - minZ) };
+  }
+  const { cx, cz, span } = track.bounds;
+  const scale = (W * 0.8) / span;
+  const tx = (x) => W / 2 + (x - cx) * scale;
+  const tz = (z) => W / 2 + (z - cz) * scale;
   ctx.lineJoin = 'round';
   ctx.beginPath();
   for (let i = 0; i <= track.count; i += 3) {
@@ -281,12 +291,55 @@ function drawMinimap(ctx, sim) {
   });
 }
 
+const WORDS = ['', 'one', 'two', 'three', 'four', 'five', 'six'];
+
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = 1.25;
+  u.pitch = 0.9;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+function updatePaceNote(sim, called, voice) {
+  const car = sim.cars[sim.playerIndex];
+  const next = nextNote(sim.world.track, sim.notes, car.proj.i);
+  const el = $('hud-note');
+  if (!next || next.distance > 320) {
+    el.classList.add('hidden');
+    return;
+  }
+  const { note, distance } = next;
+  const u = Math.max(car.u, 0);
+  const brake = u > note.speed + 1.5 && distance < (u * u - note.speed * note.speed) / 12 + 40;
+  el.classList.remove('hidden');
+  el.classList.toggle('brake', brake);
+  $('note-arrow').textContent = note.dir === 'LEFT' ? '\u25C0' : '\u25B6';
+  $('note-text').textContent = `${note.dir} ${note.severity}`;
+  $('note-dist').textContent = brake ? `BRAKE  ${Math.round(distance)} m` : `${Math.round(distance)} m  ${Math.round(note.speed * 2.23694)} mph`;
+  const key = `${sim.race.entries[sim.playerIndex].lap}:${note.i}`;
+  if (voice && !called.has(key) && distance < Math.max(70, u * 3.5)) {
+    called.add(key);
+    speak(`${note.dir.toLowerCase()} ${WORDS[note.severity]}${brake ? ', brake' : ''}`);
+  }
+}
+
 export function createHud() {
   const gauge = $('gauge').getContext('2d');
   const minimap = $('minimap').getContext('2d');
+  const called = new Set();
+  let voice = true;
   let messageUntil = 0;
   let clock = 0;
   return {
+    setVoice(on) {
+      voice = on;
+      if (!on && 'speechSynthesis' in window) speechSynthesis.cancel();
+    },
+    reset() {
+      called.clear();
+    },
     show() {
       $('hud').classList.remove('hidden');
     },
@@ -323,6 +376,7 @@ export function createHud() {
         const gap = k === 0 ? 'LEADER' : `+${Math.round((lead - progressOf(race, e)) * sim.world.track.spacing)} m`;
         return `<li class="${e.id === sim.playerIndex ? 'me' : ''}"><span>${k + 1}. ${names[e.id]}</span><span class="gap">${e.finished ? formatTime(e.finishTime) : gap}</span></li>`;
       }).join('');
+      if (sim.phase !== 'countdown') updatePaceNote(sim, called, voice);
       drawGauge(gauge, sim.cars[sim.playerIndex]);
       drawMinimap(minimap, sim);
     },
