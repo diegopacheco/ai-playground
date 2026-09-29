@@ -3,7 +3,7 @@ const SHORTCUT_GROUPS = [
     title: "Navigation",
     color: "#2563eb",
     icon: '<path d="M3 12h18M12 3l9 9-9 9"/>',
-    items: [["⌘ 1", "Go to Map tab"], ["⌘ 2", "Go to Movies tab"], ["Esc", "Close details or modal"]]
+    items: [["⌘ 1", "Go to Map tab"], ["⌘ 2", "Go to Movies tab"], ["Esc", "Close details and show all movies"]]
   },
   {
     title: "Search",

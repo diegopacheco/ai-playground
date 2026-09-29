@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain, screen, shell, clipboard } = require("electron")
+const { app, BrowserWindow, Menu, ipcMain, screen, shell, clipboard, session } = require("electron")
 const { spawn, spawnSync } = require("node:child_process")
 const fs = require("node:fs")
 const os = require("node:os")
@@ -115,6 +115,7 @@ async function bootServices() {
   const tiles = await fetch(TILE_URL, { method: "HEAD", headers: { "User-Agent": "MoviesMap/1.0" } }).then(r => r.ok).catch(() => false)
   step("tiles", tiles ? "ready" : "failed", tiles ? "Map tiles reachable" : "Map tiles offline, posters still load")
 
+  await session.defaultSession.clearCache()
   setTimeout(() => win && !win.isDestroyed() && win.loadURL(`http://localhost:${port()}/`), 500)
 }
 

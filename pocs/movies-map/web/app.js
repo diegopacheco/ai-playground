@@ -1,8 +1,9 @@
 const SF_CENTER = [37.7749, -122.4294]
 const CELL = 110
+const SF_BOUNDS = L.latLngBounds([37.70, -122.53], [37.84, -122.35])
 const $ = id => document.getElementById(id)
 
-const state = { movies: [], byId: new Map(), points: [], address: null, activeTab: "map" }
+const state = { movies: [], byId: new Map(), points: [], address: null, activeTab: "map", focusId: null }
 
 const escapeHtml = text => String(text ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c])
 
@@ -53,6 +54,7 @@ function clusterPoints() {
   const bounds = map.getBounds().pad(0.3)
   const cells = new Map()
   for (const point of state.points) {
+    if (state.focusId && point.movie.id !== state.focusId) continue
     if (!bounds.contains(point.latlng)) continue
     const px = map.project(point.latlng, zoom)
     const key = `${Math.floor(px.x / CELL)}:${Math.floor(px.y / CELL)}`
@@ -101,6 +103,28 @@ function clickGroup(group, movieIds, marker) {
 }
 
 map.on("moveend zoomend", renderPosters)
+map.on("click", () => {
+  if (state.focusId) closeDetail()
+})
+
+function focusMovie(movie) {
+  state.focusId = movie.id
+  showTab("map")
+  $("focus-title").textContent = `${movie.title}${movie.year ? ` (${movie.year})` : ""}`
+  $("focus-banner").hidden = false
+  map.closePopup()
+  renderPosters()
+  const inSf = movie.locations.filter(l => SF_BOUNDS.contains([l.lat, l.lng]))
+  const bounds = L.latLngBounds((inSf.length ? inSf : movie.locations).map(l => [l.lat, l.lng]))
+  map.flyToBounds(bounds, { paddingTopLeft: [60, 80], paddingBottomRight: [460, 60], maxZoom: 16 })
+}
+
+function clearFocus() {
+  if (!state.focusId) return
+  state.focusId = null
+  $("focus-banner").hidden = true
+  renderPosters()
+}
 
 function resultItem(movie, subtitle) {
   return `<li data-id="${escapeHtml(movie.id)}">${posterHtml(movie, "thumb")}<div class="meta"><strong>${escapeHtml(movie.title)}</strong><span>${escapeHtml(subtitle)}</span></div></li>`
@@ -122,7 +146,7 @@ $("results").addEventListener("click", e => {
   const movie = state.byId.get(li.dataset.id)
   const spot = li.dataset.spot ? movie.locations[Number(li.dataset.spot)] : movie.locations[0]
   openDetail(movie.id, spot)
-  map.flyTo([spot.lat, spot.lng], Math.max(map.getZoom(), 16))
+  map.flyTo([spot.lat, spot.lng], 16)
 })
 
 async function findAddress(text) {
@@ -207,6 +231,7 @@ function openDetail(id, focus) {
       <ul class="spots">${spotItems}</ul>
       ${movie.wikipedia ? `<h4>More</h4><p><a href="${escapeHtml(movie.wikipedia)}" target="_blank" rel="noopener">Read on Wikipedia</a></p>` : ""}
     </div>`
+  focusMovie(movie)
   $("detail").classList.add("open")
   $("detail").setAttribute("aria-hidden", "false")
   $("detail").scrollTop = 0
@@ -221,6 +246,7 @@ function openDetail(id, focus) {
 function closeDetail() {
   $("detail").classList.remove("open")
   $("detail").setAttribute("aria-hidden", "true")
+  clearFocus()
 }
 
 function showTab(name) {
@@ -229,6 +255,8 @@ function showTab(name) {
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.id === `tab-${name}`))
   if (name === "map") setTimeout(() => map.invalidateSize(), 0)
 }
+
+$("focus-clear").addEventListener("click", closeDetail)
 
 $("tabs").addEventListener("click", e => {
   const b = e.target.closest("button[data-tab]")
@@ -280,7 +308,7 @@ async function runSearch() {
       if (items.length > 20) break
       if (!p.location.name.toLowerCase().includes(lower) || seen.has(p.location.name)) continue
       seen.add(p.location.name)
-      items.push({ kind: "Place", html: `<span class="icon">&#9679;</span><div><strong>${escapeHtml(p.location.name)}</strong><br><small>${escapeHtml(p.movie.title)}</small></div>`, go: () => { showTab("map"); map.flyTo(p.latlng, 17); openDetail(p.movie.id, p.location) } })
+      items.push({ kind: "Place", html: `<span class="icon">&#9679;</span><div><strong>${escapeHtml(p.location.name)}</strong><br><small>${escapeHtml(p.movie.title)}</small></div>`, go: () => { openDetail(p.movie.id, p.location); map.flyTo(p.latlng, 17) } })
     }
     items.push({ kind: "Address", html: `<span class="icon">&#8982;</span><div><strong>Find movies near “${escapeHtml(q)}”</strong><br><small>Look up this address in San Francisco or California</small></div>`, go: () => { showTab("map"); $("address").value = q; findAddress(q) } })
   } else {

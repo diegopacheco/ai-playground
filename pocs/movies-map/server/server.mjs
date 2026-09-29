@@ -43,7 +43,7 @@ function serveStatic(pathname, res) {
     const rel = pathname.slice(prefix.length) || "index.html"
     const file = path.join(dir, rel)
     if (!file.startsWith(dir) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) continue
-    res.writeHead(200, { "Content-Type": TYPES[path.extname(file)] || "application/octet-stream" })
+    res.writeHead(200, { "Content-Type": TYPES[path.extname(file)] || "application/octet-stream", "Cache-Control": "no-cache" })
     fs.createReadStream(file).pipe(res)
     return true
   }

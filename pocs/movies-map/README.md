@@ -25,6 +25,7 @@ Movies Map is a macOS desktop app (Electron) that plots movies and TV shows film
 * **Address search**: type any SF or California address. The search is bounded to San Francisco first, then California, so "Lombard Street" means the one in SF.
 * **Radius filter (500 m to 5 km)**: controls how far from the address the list reaches.
 * **Movie details**: poster, year, genres, actors, description, director, writer, studio, distributor, all SF locations with fun facts, and a Wikipedia link.
+* **Focus on one movie**: clicking a movie anywhere (the grid, the list, a poster pin, or Cmd+K) opens the map with only that movie's locations. Clicking the empty map, pressing Esc, closing the details panel or clicking **Show all** brings every movie back.
 * **Location jump**: click a location in the details panel to fly the map to that exact spot.
 * **Movies tab**: a poster grid of all 299 titles, filtered by title, actor, director, genre or decade.
 * **Cmd+K search**: finds movies, actors, genres, places, or runs an address lookup, all from the keyboard.
@@ -98,7 +99,7 @@ Run it in a browser without installing:
 ./scripts/ui.sh
 ```
 
-Run the tests: 23 tests covering data grouping, Wikidata matching, distance and nearby, search ranking, geocode bounds, the shortcut filter, and the live API over the real dataset.
+Run the tests: 24 tests covering data grouping, Wikidata matching, distance and nearby, search ranking, geocode bounds, the shortcut filter, and the live API over the real dataset (including no-cache static files).
 
 ```bash
 ./scripts/test-all.sh
@@ -127,6 +128,10 @@ After searching "Lombard Street", the matching SF streets are listed and the fir
 ### Movie details
 ![Movie details](printscreens/03-movie-details.png)
 Clicking a poster opens the details panel: *Vertigo* (1958) with its genres, Wikipedia description, cast, credits and, below them, every SF location it used.
+
+### Focus on one movie
+![Focus on one movie](printscreens/08-focus-movie.png)
+Clicking *Vertigo* in the Movies tab switches to the map and shows only its SF filming locations. The banner says what is shown; clicking the map or **Show all** restores every movie.
 
 ### Movies tab
 ![Movies tab](printscreens/04-movies-grid.png)

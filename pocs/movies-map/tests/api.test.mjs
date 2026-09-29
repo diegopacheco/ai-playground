@@ -56,3 +56,8 @@ test("the ui and the map library are served", async () => {
   assert.match(html, /Movies Map/)
   assert.equal((await fetch(`${base}/vendor/leaflet/leaflet.js`)).status, 200)
 })
+
+test("static files are revalidated so an updated app never runs stale html or js", async () => {
+  const res = await fetch(`${base}/app.js`)
+  assert.equal(res.headers.get("cache-control"), "no-cache")
+})

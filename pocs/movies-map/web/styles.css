@@ -205,6 +205,36 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); box-shadow
   border-top-color: #fff;
 }
 
+.focus-banner {
+  position: absolute;
+  top: 14px;
+  left: 400px;
+  max-width: calc(100% - 860px);
+  min-width: 300px;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: 8px 8px 8px 18px;
+  box-shadow: var(--shadow);
+}
+.focus-banner span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.focus-banner small, .focus-banner button { white-space: nowrap; flex: none; }
+.focus-banner[hidden] { display: none; }
+.focus-banner small { color: var(--muted); }
+.focus-banner button {
+  border: 0;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 99px;
+  cursor: pointer;
+}
+
 .address-pin {
   width: 18px;
   height: 18px;
