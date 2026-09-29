@@ -83,3 +83,37 @@ export function mergeActors(fromDataset, fromWikidata, limit = 10) {
 export function searchTitle(title) {
   return title.replace(/\s*[-–:,]?\s*\b(season|ep|episode|pilot|part)\b.*$/i, "").replace(/["“”]/g, "").trim() || title
 }
+
+const TV_TITLE = /\b(season|ep|episode|pilot)\b/i
+const TV_TEXT = /\b(television|tv|web|streaming) (series|show|program|programme|sitcom|miniseries|drama|anthology)|\bsitcom\b|\bminiseries\b|\bdocuseries\b/i
+
+export function titleType({ title, genres = [], description = "" }) {
+  if (TV_TITLE.test(title)) return "tv"
+  if (genres.some(g => /television/i.test(g))) return "tv"
+  const firstSentence = description.split(/(?<=\.)\s/)[0] || ""
+  return TV_TEXT.test(firstSentence) ? "tv" : "movie"
+}
+
+const GENRE_RULES = [
+  ["Drama", /drama|melodrama|trial film/i],
+  ["Comedy", /comedy|parody|sitcom/i],
+  ["Action", /action|martial arts|heist|superhero|buddy cop|disaster|kaiju|spy/i],
+  ["Thriller", /thriller|noir/i],
+  ["Crime", /crime|heist|police procedural|detective|vigilante|noir|prison/i],
+  ["Mystery", /mystery|detective/i],
+  ["Romance", /romance|romantic|remarriage/i],
+  ["Science Fiction", /science fiction|cyberpunk|time-travel|dystopian|apocalyptic|alien|speculative|kaiju/i],
+  ["Fantasy", /fantasy|ghost|vampire/i],
+  ["Horror", /horror|zombie|monster|vampire|ghost/i],
+  ["Adventure", /adventure|treasure hunt|road movie|sword-and-sandal/i],
+  ["Biography & History", /biographical|historical|docudrama/i],
+  ["Documentary", /documentary|docudrama|docuseries/i],
+  ["Musical", /musical/i],
+  ["Family", /children|family|teen|coming-of-age/i],
+  ["War", /\bwar film/i],
+  ["LGBTQ+", /lgbt/i]
+]
+
+export function broadGenres(genres = []) {
+  return GENRE_RULES.filter(([, rule]) => genres.some(g => rule.test(g))).map(([name]) => name)
+}
