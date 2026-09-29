@@ -1,0 +1,21 @@
+pocs/opus-5-5-rally-game-offroad/README.md
+  s_a2f10b51c7c2af::t_529b31b80f7623 27
+  s_a2f10b51c7c2af::t_f28b5f7063ce8b 181
+  s_a2f10b51c7c2af::t_88f70f71a6d77b 5-11,15-26,28,36-40,44-58,68-69,71,79-90,98,105-112,121,130-131,135-145,149,151,154-176,178-179,182,184-185,187-188,190-191,193-194,196-197,199-200,202-203,205-206
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "129fc3d0e615c2abdc152a4f1edd78ad8098fe29",
+  "prompts": {},
+  "sessions": {
+    "s_a2f10b51c7c2af": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5a223596-7721-4f6a-aba6-3da4c1f1bd45",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
