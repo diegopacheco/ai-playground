@@ -1,0 +1,19 @@
+pocs/movies-map/data/movies.json
+  s_134c318b654487::t_d1f6d8bef2362d 1-23452
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "0bf2d1f44d5ffd1d29a9bf5c4f32011d3d333fb9",
+  "prompts": {},
+  "sessions": {
+    "s_134c318b654487": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "348403c1-ce39-478e-ab41-9235053843ed",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
