@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SV Map</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #f8fafc; color: #0f172a; font: 14px -apple-system, BlinkMacSystemFont, sans-serif; }
+    body { display: grid; place-items: center; -webkit-app-region: drag; user-select: none; }
+    .card { width: 420px; background: #fff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 28px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1); }
+    .head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .head img { width: 56px; height: 56px; }
+    h1 { margin: 0; font-size: 20px; }
+    p { margin: 2px 0 0; color: #64748b; }
+    ul { list-style: none; margin: 0; padding: 0; }
+    li { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid #f1f5f9; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; flex: none; }
+    .wait .dot { background: #f59e0b; animation: pulse 1s infinite; }
+    .ok .dot { background: #10b981; }
+    .warn .dot { background: #f59e0b; }
+    .fail .dot { background: #ef4444; }
+    .label { font-weight: 600; }
+    .detail { margin-left: auto; color: #64748b; font-size: 12px; max-width: 220px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    @keyframes pulse { 50% { opacity: 0.35; } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="head"><img src="../web/logo.svg" alt=""><div><h1>SV Map</h1><p>Starting services</p></div></div>
+    <ul id="steps">
+      <li id="node"><span class="dot"></span><span class="label">Node.js runtime</span><span class="detail">checking</span></li>
+      <li id="server"><span class="dot"></span><span class="label">Map server and API</span><span class="detail">pending</span></li>
+      <li id="data"><span class="dot"></span><span class="label">Company data</span><span class="detail">pending</span></li>
+      <li id="logos"><span class="dot"></span><span class="label">Company logos</span><span class="detail">pending</span></li>
+      <li id="tiles"><span class="dot"></span><span class="label">OpenStreetMap tiles</span><span class="detail">pending</span></li>
+    </ul>
+  </div>
+  <script>
+    const LABELS = { ok: "ready", wait: "loading", warn: "warning", fail: "failed" };
+    window.svmap.onBoot(({ id, status, detail }) => {
+      const row = document.getElementById(id);
+      row.className = status;
+      row.querySelector(".detail").textContent = detail || LABELS[status];
+      row.querySelector(".detail").title = detail || "";
+    });
+  </script>
+</body>
+</html>

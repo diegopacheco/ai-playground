@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1100" width="1100" height="1100">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap'); text { font-family: 'Caveat', 'Bradley Hand', 'Comic Sans MS', cursive; fill: #1e293b; }</style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#334155"/></marker>
+  </defs>
+  <rect width="1100" height="1100" fill="#ffffff"/>
+  <text x="550" y="70" font-size="52" font-weight="700" text-anchor="middle">SV Map architecture</text>
+
+  <g filter="url(#wobble)" stroke="#334155" stroke-width="2.5">
+    <rect x="60" y="120" width="440" height="200" rx="18" fill="#dbeafe"/>
+    <rect x="600" y="120" width="440" height="200" rx="18" fill="#ede9fe"/>
+    <rect x="60" y="440" width="440" height="220" rx="18" fill="#dcfce7"/>
+    <rect x="600" y="440" width="440" height="220" rx="18" fill="#ffedd5"/>
+    <rect x="60" y="800" width="440" height="220" rx="18" fill="#fef9c3"/>
+    <rect x="600" y="800" width="440" height="220" rx="18" fill="#fce7f3"/>
+  </g>
+
+  <text x="280" y="165" font-size="38" font-weight="700" text-anchor="middle">Electron shell</text>
+  <text x="280" y="205" font-size="27" text-anchor="middle">desktop/main.cjs</text>
+  <text x="280" y="245" font-size="25" text-anchor="middle">single instance, window state,</text>
+  <text x="280" y="277" font-size="25" text-anchor="middle">boot screen, menu, Cmd+P capture</text>
+
+  <text x="820" y="165" font-size="38" font-weight="700" text-anchor="middle">Web UI (Leaflet)</text>
+  <text x="820" y="205" font-size="27" text-anchor="middle">web/app.js</text>
+  <text x="820" y="245" font-size="25" text-anchor="middle">logo pins, clusters, tabs, directory,</text>
+  <text x="820" y="277" font-size="25" text-anchor="middle">Cmd+K search, Cmd+/ shortcuts</text>
+
+  <text x="280" y="485" font-size="38" font-weight="700" text-anchor="middle">Node server :8097</text>
+  <text x="280" y="525" font-size="27" text-anchor="middle">server/server.mjs (no deps)</text>
+  <text x="280" y="565" font-size="25" text-anchor="middle">/api/companies  /api/search</text>
+  <text x="280" y="597" font-size="25" text-anchor="middle">/api/health  /logos  /vendor/leaflet</text>
+  <text x="280" y="629" font-size="25" text-anchor="middle">started by scripts/start-all.sh</text>
+
+  <text x="820" y="485" font-size="38" font-weight="700" text-anchor="middle">OpenStreetMap</text>
+  <text x="820" y="525" font-size="27" text-anchor="middle">tile.openstreetmap.org</text>
+  <text x="820" y="565" font-size="25" text-anchor="middle">raster map tiles at runtime,</text>
+  <text x="820" y="597" font-size="25" text-anchor="middle">Nominatim geocoding at build time</text>
+
+  <text x="280" y="845" font-size="38" font-weight="700" text-anchor="middle">data/</text>
+  <text x="280" y="885" font-size="27" text-anchor="middle">companies.json (133 companies)</text>
+  <text x="280" y="925" font-size="25" text-anchor="middle">name, category, address, city,</text>
+  <text x="280" y="957" font-size="25" text-anchor="middle">lat, lon, domain + logos/*.png</text>
+
+  <text x="820" y="845" font-size="38" font-weight="700" text-anchor="middle">tools/</text>
+  <text x="820" y="885" font-size="27" text-anchor="middle">geocode.mjs, fetch-logos.mjs</text>
+  <text x="820" y="925" font-size="25" text-anchor="middle">run once, results are committed,</text>
+  <text x="820" y="957" font-size="25" text-anchor="middle">app works offline except tiles</text>
+
+  <g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M500 200 Q550 185 598 200"/>
+    <path d="M250 322 Q235 380 250 436"/>
+    <path d="M720 322 Q640 390 502 520"/>
+    <path d="M880 438 Q900 380 880 324"/>
+    <path d="M280 798 Q300 730 280 664"/>
+    <path d="M598 900 Q550 915 502 900"/>
+    <path d="M880 798 Q900 730 880 664"/>
+  </g>
+  <text x="550" y="178" font-size="24" text-anchor="middle">loads</text>
+  <text x="140" y="385" font-size="24" text-anchor="middle">starts/stops</text>
+  <text x="545" y="350" font-size="24" text-anchor="middle">fetch JSON + logos</text>
+  <text x="960" y="385" font-size="24" text-anchor="middle">tiles</text>
+  <text x="200" y="735" font-size="24" text-anchor="middle">reads</text>
+  <text x="550" y="885" font-size="24" text-anchor="middle">writes</text>
+  <text x="970" y="735" font-size="24" text-anchor="middle">Nominatim</text>
+</svg>

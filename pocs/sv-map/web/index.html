@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SV Map</title>
+  <link rel="icon" href="logo.svg">
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="titlebar" id="titlebar">
+    <div class="brand"><img src="logo.svg" alt=""><span>SV Map</span></div>
+    <nav class="tabs" id="tabs"></nav>
+    <button class="kbd-hint" id="open-palette" type="button">Search <kbd>⌘K</kbd></button>
+    <button class="kbd-hint" id="open-help" type="button">Shortcuts <kbd>⌘/</kbd></button>
+  </header>
+  <main class="layout">
+    <aside class="sidebar">
+      <input id="search" class="search" type="search" placeholder="Type a company, city or street" autocomplete="off" spellcheck="false">
+      <div class="legend" id="legend"></div>
+      <div class="count" id="count"></div>
+      <ul class="list" id="list"></ul>
+    </aside>
+    <section class="stage">
+      <div id="map" class="map"></div>
+      <div id="directory" class="directory" hidden></div>
+    </section>
+  </main>
+
+  <div class="overlay" id="palette" hidden>
+    <div class="card palette-card" role="dialog" aria-label="Search companies">
+      <input id="palette-input" class="search big" type="search" placeholder="Go to company..." autocomplete="off" spellcheck="false">
+      <ul class="palette-list" id="palette-list"></ul>
+      <div class="palette-foot"><kbd>↑</kbd><kbd>↓</kbd> move <kbd>↵</kbd> go <kbd>esc</kbd> close</div>
+    </div>
+  </div>
+
+  <div class="overlay" id="help" hidden>
+    <div class="card help-card" role="dialog" aria-label="Keyboard shortcuts">
+      <input id="help-input" class="search big" type="search" placeholder="Filter shortcuts..." autocomplete="off" spellcheck="false">
+      <div class="help-count" id="help-count"></div>
+      <div class="help-grid" id="help-grid"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="/vendor/leaflet/leaflet.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
