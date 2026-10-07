@@ -1,0 +1,74 @@
+pocs/younap/public/js/playlist.js
+  s_d4623e0c5bee4a::t_bde1369baa492c 1-39
+pocs/younap/public/logo.svg
+  s_d4623e0c5bee4a::t_df4e6b8e32090e 1-5
+pocs/younap/printscreens/architecture.svg
+  s_d4623e0c5bee4a::t_4025814e3f4713 1-48
+pocs/younap/public/js/app.js
+  s_d4623e0c5bee4a::t_3ab8fef7229706 1-2,4-7,15-18,20-22,24-26,28-38,40,42-90,100-108,110-115,120-128,130-139,141-142,149-158,160-172,175-246,260-275,277,282-298,301-305,312-313,315-317
+  s_d4623e0c5bee4a::t_6f95f10558e44b 3,27,39,41,91-99,116-119,129,173-174,247-259,299-300,314
+  s_d4623e0c5bee4a::t_867ef7102892da 8-14,19
+  s_d4623e0c5bee4a::t_635c424df55059 306-311
+  s_d4623e0c5bee4a::t_0c74b8e8372ec9 276,278-281
+  s_d4623e0c5bee4a::t_ae01a4746fc7a1 23,109,140,143-148,159
+pocs/younap/package.json
+  s_d4623e0c5bee4a::t_c7e8c523df13aa 1-10
+pocs/younap/scripts/start-all.sh
+  s_d4623e0c5bee4a::t_ea57bd84b90ade 1-18
+pocs/younap/scripts/ui.sh
+  s_d4623e0c5bee4a::t_ea57bd84b90ade 1-12
+pocs/younap/scripts/common.sh
+  s_d4623e0c5bee4a::t_ea57bd84b90ade 1-114
+pocs/younap/server/youtube.js
+  s_d4623e0c5bee4a::t_428ee5fba7e959 1-47
+pocs/younap/public/style.css
+  s_d4623e0c5bee4a::t_32ae75d7954d2d 326
+  s_d4623e0c5bee4a::t_9647466a07f189 1-257,259-321,323,333-359
+  s_d4623e0c5bee4a::t_6f95f10558e44b 258,322,324-325,327-332
+pocs/younap/public/js/player.js
+  s_d4623e0c5bee4a::t_53f4d6c8e99f88 1-24
+pocs/younap/test/youtube.test.js
+  s_d4623e0c5bee4a::t_acc7cb3971ccbd 1-46
+pocs/younap/scripts/setup.sh
+  s_d4623e0c5bee4a::t_ea57bd84b90ade 1-15
+pocs/younap/.gitignore
+  s_d4623e0c5bee4a::t_ea57bd84b90ade 1
+pocs/younap/scripts/test-all.sh
+  s_d4623e0c5bee4a::t_ea57bd84b90ade 1-10
+pocs/younap/public/index.html
+  s_d4623e0c5bee4a::t_6f95f10558e44b 69-78,109,114-115
+  s_d4623e0c5bee4a::t_6c44bead1392e8 1-68,79-108,110-113,116-122
+pocs/younap/test/playlist.test.js
+  s_d4623e0c5bee4a::t_ddc85006e71133 1-81
+pocs/younap/test/server.test.js
+  s_d4623e0c5bee4a::t_7871e5d0736edc 1-59
+pocs/younap/public/js/visualizer.js
+  s_d4623e0c5bee4a::t_c0eb308bb7301a 1-2,5-108,110,115,118-119
+  s_d4623e0c5bee4a::t_6d188e36b37487 3-4,109,111-114,116-117,120-124
+pocs/younap/server/server.js
+  s_d4623e0c5bee4a::t_b9e4097e4938c0 1-58
+pocs/younap/scripts/ports.env
+  s_d4623e0c5bee4a::t_ea57bd84b90ade 1
+pocs/younap/README.md
+  s_d4623e0c5bee4a::t_d26ac0f05cfba2 1-159
+pocs/younap/scripts/stop-all.sh
+  s_d4623e0c5bee4a::t_ea57bd84b90ade 1-16
+pocs/younap/scripts/status.sh
+  s_d4623e0c5bee4a::t_9322637cfc86a5 1-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5fb0135e892c933d5eac1919a1d9f2fe817734e8",
+  "prompts": {},
+  "sessions": {
+    "s_d4623e0c5bee4a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffebf8fe-74c2-4530-85e4-3ec76dc8abf5",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
