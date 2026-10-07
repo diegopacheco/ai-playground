@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Younap</title>
+  <link rel="icon" href="logo.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="desk">
+    <div class="column">
+      <section class="win" id="main">
+        <header class="titlebar">
+          <img src="logo.svg" alt="">
+          <span class="grip"></span>
+          <h1>YOUNAP</h1>
+          <span class="grip"></span>
+        </header>
+        <div class="display">
+          <div class="display-left">
+            <div class="status" id="status">STOP</div>
+            <div class="clock" id="clock">00:00</div>
+            <canvas id="visualizer" width="190" height="36"></canvas>
+          </div>
+          <div class="display-right">
+            <div class="marquee" id="title"></div>
+            <div class="meta">
+              <span>TRACK</span>
+              <span class="value" id="position">00/00</span>
+              <span>SOURCE</span>
+              <span class="value">YOUTUBE</span>
+            </div>
+            <label class="slider">
+              <span>VOL</span>
+              <input type="range" id="volume" min="0" max="100" aria-label="Volume">
+            </label>
+          </div>
+        </div>
+        <input type="range" id="seek" class="seek" min="0" max="1000" value="0" aria-label="Seek">
+        <div class="controls">
+          <button id="previous" class="btn" title="Previous (Z)" aria-label="Previous">
+            <svg viewBox="0 0 16 16"><path d="M2 2h2v12H2zM14 2v12L5 8z"/></svg>
+          </button>
+          <button id="play" class="btn" title="Play (X)" aria-label="Play">
+            <svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg>
+          </button>
+          <button id="pause" class="btn" title="Pause (C)" aria-label="Pause">
+            <svg viewBox="0 0 16 16"><path d="M3 2h4v12H3zM9 2h4v12H9z"/></svg>
+          </button>
+          <button id="stop" class="btn" title="Stop (V)" aria-label="Stop">
+            <svg viewBox="0 0 16 16"><path d="M3 3h10v10H3z"/></svg>
+          </button>
+          <button id="next" class="btn" title="Next (B)" aria-label="Next">
+            <svg viewBox="0 0 16 16"><path d="M12 2h2v12h-2zM2 2l9 6-9 6z"/></svg>
+          </button>
+          <button id="eject" class="btn" title="Search YouTube" aria-label="Search YouTube">
+            <svg viewBox="0 0 16 16"><path d="M8 2l6 7H2zM2 11h12v3H2z"/></svg>
+          </button>
+          <span class="spacer"></span>
+          <button id="shuffle" class="btn toggle" aria-pressed="false">SHUFFLE</button>
+          <button id="repeat" class="btn toggle" aria-pressed="false">REPEAT</button>
+        </div>
+      </section>
+
+      <section class="win">
+        <header class="titlebar">
+          <span class="grip"></span>
+          <h2>VISUALIZER</h2>
+          <span class="grip"></span>
+        </header>
+        <div class="screen stage"><canvas id="stage" width="544" height="150" title="Click for the next visualization"></canvas></div>
+        <footer class="bar" id="modes"></footer>
+      </section>
+
+      <section class="win">
+        <header class="titlebar">
+          <span class="grip"></span>
+          <h2>PLAYLIST EDITOR</h2>
+          <span class="grip"></span>
+        </header>
+        <ol class="list" id="playlist"></ol>
+        <footer class="bar">
+          <button id="remove" class="btn text">REMOVE</button>
+          <button id="clear" class="btn text">CLEAR</button>
+          <span class="spacer"></span>
+          <span class="readout" id="summary"></span>
+        </footer>
+      </section>
+    </div>
+
+    <div class="column">
+      <section class="win">
+        <header class="titlebar">
+          <span class="grip"></span>
+          <h2>VIDEO</h2>
+          <span class="grip"></span>
+        </header>
+        <div class="screen"><div id="video"></div></div>
+      </section>
+
+      <section class="win">
+        <header class="titlebar">
+          <span class="grip"></span>
+          <h2>YOUTUBE SEARCH</h2>
+          <span class="grip"></span>
+        </header>
+        <form class="bar" id="search">
+          <input type="search" id="query" placeholder="BAND OR SONG" autocomplete="off" aria-label="Search YouTube">
+          <button class="btn text">SEARCH</button>
+        </form>
+        <ol class="list" id="results"></ol>
+        <footer class="bar">
+          <span class="readout" id="search-status">TYPE A BAND OR SONG AND HIT ENTER</span>
+          <button id="add-all" class="btn text">ADD ALL</button>
+        </footer>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
