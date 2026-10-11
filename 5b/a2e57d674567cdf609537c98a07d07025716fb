@@ -1,0 +1,104 @@
+pocs/qdrant-rust-videos-rag/scripts/setup.sh
+  s_1bc681744e4baa::t_56d52b6f885294 1-24
+pocs/qdrant-rust-videos-rag/ui/src/App.tsx
+  s_1bc681744e4baa::t_714e0cf9c22a10 1-44
+pocs/qdrant-rust-videos-rag/ui/src/main.tsx
+  s_1bc681744e4baa::t_8451ffd1af49cd 1-10
+pocs/qdrant-rust-videos-rag/README.md
+  s_1bc681744e4baa::t_b9ecb8d9fe9d0b 1-173
+pocs/qdrant-rust-videos-rag/ui/package.json
+  s_1bc681744e4baa::t_7e92887c05cfa0 1-15,17-23
+  s_1bc681744e4baa::t_e6a1a72bc8cce0 16
+pocs/qdrant-rust-videos-rag/ui/src/types.ts
+  s_1bc681744e4baa::t_dcd4e77ea2ff6e 1-31
+pocs/qdrant-rust-videos-rag/scripts/start-all.sh
+  s_1bc681744e4baa::t_48634517fe5c29 29-32
+  s_1bc681744e4baa::t_12e83a8b8668f3 1-28
+pocs/qdrant-rust-videos-rag/ui/src/components/VideoCard.tsx
+  s_1bc681744e4baa::t_26e2a38399cf64 1-33
+pocs/qdrant-rust-videos-rag/backend/src/config.rs
+  s_1bc681744e4baa::t_73a9450c61cfff 1-28
+pocs/qdrant-rust-videos-rag/ui/index.html
+  s_1bc681744e4baa::t_bf05b2b79b21ee 1-13
+pocs/qdrant-rust-videos-rag/.gitignore
+  s_1bc681744e4baa::t_3f20c232b43692 1-4
+pocs/qdrant-rust-videos-rag/backend/src/ollama.rs
+  s_1bc681744e4baa::t_fa9466767c5632 1-68
+pocs/qdrant-rust-videos-rag/backend/src/store.rs
+  s_1bc681744e4baa::t_5f01c70dbe3f36 1-199,201-241
+  s_1bc681744e4baa::t_9ef711aa2926ab 200
+pocs/qdrant-rust-videos-rag/backend/src/rag.rs
+  s_1bc681744e4baa::t_b8761c28082079 12-14
+  s_1bc681744e4baa::t_d41028fb45c06b 1-11,15-92
+pocs/qdrant-rust-videos-rag/scripts/test-all.sh
+  s_1bc681744e4baa::t_c4dd1c94a7adc7 1-14
+pocs/qdrant-rust-videos-rag/ui/src/api.ts
+  s_1bc681744e4baa::t_ae31991b1ba5c8 1-34
+pocs/qdrant-rust-videos-rag/backend/src/ingest.rs
+  s_1bc681744e4baa::t_290803d06aa89f 1-83
+pocs/qdrant-rust-videos-rag/ui/tsconfig.json
+  s_1bc681744e4baa::t_1eec4af997f949 1-17
+pocs/qdrant-rust-videos-rag/ui/src/components/Tabs.tsx
+  s_1bc681744e4baa::t_3c29db3c8d0ea5 1-28
+pocs/qdrant-rust-videos-rag/ui/src/components/SimilarPanel.tsx
+  s_1bc681744e4baa::t_f86589dec326c4 1-55
+pocs/qdrant-rust-videos-rag/ui/vite.config.ts
+  s_1bc681744e4baa::t_4f72c1feb1f5e7 1-14
+pocs/qdrant-rust-videos-rag/ui/src/styles.css
+  s_1bc681744e4baa::t_35f7cfa0b9e051 1-311
+pocs/qdrant-rust-videos-rag/scripts/ports.env
+  s_1bc681744e4baa::t_11bfd6ac5d368e 1-5
+pocs/qdrant-rust-videos-rag/backend/src/api.rs
+  s_1bc681744e4baa::t_dc0d697f7850cb 1-193
+pocs/qdrant-rust-videos-rag/backend/Cargo.toml
+  s_1bc681744e4baa::t_e7f0d9c166b18a 1-14
+pocs/qdrant-rust-videos-rag/ui/src/components/AskPanel.tsx
+  s_1bc681744e4baa::t_800fd5e3447b03 1-62
+pocs/qdrant-rust-videos-rag/scripts/ingest.sh
+  s_1bc681744e4baa::t_c0c63083fc8946 1-10
+pocs/qdrant-rust-videos-rag/scripts/common.sh
+  s_1bc681744e4baa::t_1f13c6c2ae4903 40-45
+  s_1bc681744e4baa::t_ea94378e8648cb 37-39
+  s_1bc681744e4baa::t_235a8aea9559d3 46-48
+  s_1bc681744e4baa::t_94b9205d67daf8 1-36,49-148
+pocs/qdrant-rust-videos-rag/backend/src/main.rs
+  s_1bc681744e4baa::t_2c79f1d817c89d 1-17
+pocs/qdrant-rust-videos-rag/ui/src/components/Header.tsx
+  s_1bc681744e4baa::t_9b70e710c23d49 1-15
+pocs/qdrant-rust-videos-rag/podman-compose.yml
+  s_1bc681744e4baa::t_448959f7e2b08f 1-12
+pocs/qdrant-rust-videos-rag/ui/src/components/SearchPanel.tsx
+  s_1bc681744e4baa::t_1c868ab6b23cb8 1-72
+pocs/qdrant-rust-videos-rag/backend/src/youtube.rs
+  s_1bc681744e4baa::t_030fd72db037fa 1-5,7-52,63-209,213-348,360-390
+  s_1bc681744e4baa::t_e592aecbcdc26d 53-62
+  s_1bc681744e4baa::t_42d1bd7b18a150 6
+  s_1bc681744e4baa::t_c15ebd8e5963b8 349-359
+  s_1bc681744e4baa::t_81f938aa4829b9 210-212
+pocs/qdrant-rust-videos-rag/backend/Cargo.lock
+  s_1bc681744e4baa::t_c5dd768a05d3c9 1-2113
+pocs/qdrant-rust-videos-rag/scripts/status.sh
+  s_1bc681744e4baa::t_35febeefb3a8ff 1-18
+pocs/qdrant-rust-videos-rag/scripts/stop-all.sh
+  s_1bc681744e4baa::t_ee5bf3d1d447be 1-18
+pocs/qdrant-rust-videos-rag/scripts/ui.sh
+  s_1bc681744e4baa::t_61d9debdccd0a0 1-12
+pocs/qdrant-rust-videos-rag/ui/bun.lock
+  s_1bc681744e4baa::t_5b894c31902afd 1-166
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5ba2e57d674567cdf609537c98a07d07025716fb",
+  "prompts": {},
+  "sessions": {
+    "s_1bc681744e4baa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "169392b9-7d6c-4738-bb53-ca74b26a33a3",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
