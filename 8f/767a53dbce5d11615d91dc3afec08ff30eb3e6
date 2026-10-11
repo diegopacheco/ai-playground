@@ -1,0 +1,125 @@
+pocs/qdrant-python-blog-rag/ui/src/api.ts
+  s_1bc681744e4baa::t_27019bb3bec80b 1-25
+pocs/qdrant-python-blog-rag/backend/blograg/server.py
+  s_1bc681744e4baa::t_3351f810160d98 1-61
+pocs/qdrant-python-blog-rag/scripts/common.sh
+  s_1bc681744e4baa::t_77de5935931ae6 1-145
+pocs/qdrant-python-blog-rag/ui/index.html
+  s_1bc681744e4baa::t_f91c7b42981d56 1-12
+pocs/qdrant-python-blog-rag/ui/tsconfig.json
+  s_1bc681744e4baa::t_99dba6276d4150 1-17
+pocs/qdrant-python-blog-rag/scripts/ui.sh
+  s_1bc681744e4baa::t_785ed47d9a9077 1-12
+pocs/qdrant-python-blog-rag/ui/src/styles.css
+  s_1bc681744e4baa::t_35a6654f437771 1-277
+pocs/qdrant-python-blog-rag/backend/blograg/ollama.py
+  s_1bc681744e4baa::t_29d746d5a66928 1-41
+pocs/qdrant-python-blog-rag/backend/blograg/store.py
+  s_1bc681744e4baa::t_ce8a2e310cc728 1-120
+pocs/qdrant-python-blog-rag/scripts/stop-all.sh
+  s_1bc681744e4baa::t_53537d0e3f3b2e 1-18
+pocs/qdrant-python-blog-rag/backend/tests/test_chunker.py
+  s_1bc681744e4baa::t_d80226c6f76692 1-32
+pocs/qdrant-python-blog-rag/backend/tests/test_blogger.py
+  s_1bc681744e4baa::t_c748e4a44a6dce 1-44,46-55
+  s_1bc681744e4baa::t_8c57d80f4a341e 45
+pocs/qdrant-python-blog-rag/ui/src/components/Header.tsx
+  s_1bc681744e4baa::t_ba3115511471ab 1-28
+pocs/qdrant-python-blog-rag/scripts/status.sh
+  s_1bc681744e4baa::t_2a0fd1ae923de6 1-18
+pocs/qdrant-python-blog-rag/README.md
+  s_1bc681744e4baa::t_d3a471ec98ca21 1-161
+pocs/qdrant-python-blog-rag/ui/src/useRequest.ts
+  s_1bc681744e4baa::t_6e72bb001540a5 1-29
+pocs/qdrant-python-blog-rag/ui/vite.config.ts
+  s_1bc681744e4baa::t_c206731ecbd980 1-14
+pocs/qdrant-python-blog-rag/backend/tests/test_api.py
+  s_1bc681744e4baa::t_10f2940004cc36 1-31,33-48,51-118,120-124
+  s_1bc681744e4baa::t_9c887040b51706 119
+  s_1bc681744e4baa::t_47a97fe85bb2ee 49-50
+  s_1bc681744e4baa::t_f5d91cc2bb11a1 32
+pocs/qdrant-python-blog-rag/backend/blograg/rag.py
+  s_1bc681744e4baa::t_731db8582c4801 1-10,14-65
+  s_1bc681744e4baa::t_9ad789a4619777 11-13
+pocs/qdrant-python-blog-rag/ui/src/components/SearchPanel.tsx
+  s_1bc681744e4baa::t_185b69c7f3afb6 1-39
+pocs/qdrant-python-blog-rag/scripts/setup.sh
+  s_1bc681744e4baa::t_57567409720584 1-20
+pocs/qdrant-python-blog-rag/.gitignore
+  s_1bc681744e4baa::t_0b8604241a3f41 1-6
+pocs/qdrant-python-blog-rag/ui/src/components/FilterBar.tsx
+  s_1bc681744e4baa::t_01eb2f3e5e781a 1-37
+pocs/qdrant-python-blog-rag/backend/blograg/blogger.py
+  s_1bc681744e4baa::t_011fceca9ec3a9 1-82
+pocs/qdrant-python-blog-rag/scripts/ingest.sh
+  s_1bc681744e4baa::t_3e544c65cd24bb 1-9
+pocs/qdrant-python-blog-rag/podman-compose.yml
+  s_1bc681744e4baa::t_fe3b16ac402d40 1-10
+pocs/qdrant-python-blog-rag/backend/blograg/ingest.py
+  s_1bc681744e4baa::t_83c8b4ba11ab8d 1-42
+pocs/qdrant-python-blog-rag/ui/src/components/AskPanel.tsx
+  s_1bc681744e4baa::t_93cdeedee072b6 1-47
+pocs/qdrant-python-blog-rag/ui/src/format.ts
+  s_1bc681744e4baa::t_5cc45824c7435f 1-16
+pocs/qdrant-python-blog-rag/backend/blograg/config.py
+  s_1bc681744e4baa::t_5e89792cb937ca 1-25
+pocs/qdrant-python-blog-rag/backend/tests/test_store.py
+  s_1bc681744e4baa::t_c453566c620d25 1-47
+pocs/qdrant-python-blog-rag/ui/src/components/QueryForm.tsx
+  s_1bc681744e4baa::t_f78b58e491fbcd 1-44
+pocs/qdrant-python-blog-rag/ui/src/format.test.ts
+  s_1bc681744e4baa::t_6c5717d2383529 1-22
+pocs/qdrant-python-blog-rag/scripts/test-all.sh
+  s_1bc681744e4baa::t_2fdfa7e16c5a9e 1-15
+pocs/qdrant-python-blog-rag/scripts/start-all.sh
+  s_1bc681744e4baa::t_6c76e37792b27e 32-35
+  s_1bc681744e4baa::t_49252259bf0794 1-31
+pocs/qdrant-python-blog-rag/backend/pyproject.toml
+  s_1bc681744e4baa::t_e4c32852dbbce8 1-15
+pocs/qdrant-python-blog-rag/ui/src/components/Tabs.tsx
+  s_1bc681744e4baa::t_845889655f2d99 1-27
+pocs/qdrant-python-blog-rag/backend/blograg/chunker.py
+  s_1bc681744e4baa::t_35de6d9312ebce 1-7
+pocs/qdrant-python-blog-rag/scripts/ports.env
+  s_1bc681744e4baa::t_8234bf72e6d017 1-4
+pocs/qdrant-python-blog-rag/backend/blograg/api.py
+  s_1bc681744e4baa::t_c29b8f41bb806b 1-62
+pocs/qdrant-python-blog-rag/ui/src/App.tsx
+  s_1bc681744e4baa::t_00ef94f5547b2d 1-37
+pocs/qdrant-python-blog-rag/ui/package.json
+  s_1bc681744e4baa::t_c66e6ec095dd7b 1-24
+pocs/qdrant-python-blog-rag/ui/src/types.ts
+  s_1bc681744e4baa::t_4de63f95e27456 1-36
+pocs/qdrant-python-blog-rag/ui/src/main.tsx
+  s_1bc681744e4baa::t_e8cb3b3c519eb8 1-10
+pocs/qdrant-python-blog-rag/ui/src/components/PostCard.tsx
+  s_1bc681744e4baa::t_3d9377831d049f 1-28
+pocs/qdrant-python-blog-rag/backend/uv.lock
+  s_1bc681744e4baa::t_fef19af6b28975 1-590
+pocs/qdrant-python-blog-rag/ui/bun.lock
+  s_67c7271ef64785::t_ffa67bcc8c90f8 1-166
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8f767a53dbce5d11615d91dc3afec08ff30eb3e6",
+  "prompts": {},
+  "sessions": {
+    "s_1bc681744e4baa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "169392b9-7d6c-4738-bb53-ca74b26a33a3",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_67c7271ef64785": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ajava-amazon-258471a226a5f3cb",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
