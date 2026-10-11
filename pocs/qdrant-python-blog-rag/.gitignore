@@ -1,0 +1,6 @@
+.run/
+backend/.venv/
+backend/.mypy_cache/
+__pycache__/
+ui/node_modules/
+ui/dist/

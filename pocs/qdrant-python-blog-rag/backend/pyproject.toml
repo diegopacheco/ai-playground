@@ -1,0 +1,15 @@
+[project]
+name = "blograg"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = ["qdrant-client>=1.19,<2"]
+
+[dependency-groups]
+dev = ["mypy>=1.18"]
+
+[tool.uv]
+package = false
+
+[tool.mypy]
+strict = true
+files = ["blograg", "tests"]

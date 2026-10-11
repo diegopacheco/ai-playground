@@ -1,0 +1,10 @@
+services:
+  qdrant:
+    image: docker.io/qdrant/qdrant:v1.19.2
+    container_name: qdrant-python-blog-rag
+    ports:
+      - "${QDRANT_PORT:-6333}:6333"
+    volumes:
+      - qdrant-data:/qdrant/storage
+volumes:
+  qdrant-data:
