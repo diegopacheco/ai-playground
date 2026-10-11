@@ -1,0 +1,119 @@
+pocs/qdrant-java-amazon-rag/ui/vite.config.ts
+  s_1bc681744e4baa::t_badce25d15755f 1-17
+pocs/qdrant-java-amazon-rag/backend/src/main/java/com/github/diegopacheco/qdrant/amazon/ProductCleaner.java
+  s_1bc681744e4baa::t_efeccb39fa42e9 1-86
+pocs/qdrant-java-amazon-rag/ui/index.html
+  s_1bc681744e4baa::t_78c9a08f9d566b 1-13
+pocs/qdrant-java-amazon-rag/backend/pom.xml
+  s_1bc681744e4baa::t_9bd6831d9ab45f 1-41
+pocs/qdrant-java-amazon-rag/backend/src/main/java/com/github/diegopacheco/qdrant/amazon/Application.java
+  s_1bc681744e4baa::t_e74763db6bd099 1-19
+pocs/qdrant-java-amazon-rag/ui/src/components/ProductCard.tsx
+  s_1bc681744e4baa::t_df07182d0832d9 1-29
+pocs/qdrant-java-amazon-rag/ui/src/styles.css
+  s_1bc681744e4baa::t_9130aaff0a6dd3 1-248
+pocs/qdrant-java-amazon-rag/ui/src/components/AskPanel.tsx
+  s_1bc681744e4baa::t_c2cc70dd6c1bf4 1-39
+pocs/qdrant-java-amazon-rag/backend/src/test/java/com/github/diegopacheco/qdrant/amazon/SearchServiceTest.java
+  s_1bc681744e4baa::t_a5038d693e184c 1-46
+pocs/qdrant-java-amazon-rag/ui/src/components/Tabs.tsx
+  s_1bc681744e4baa::t_4485e9a34e79ca 1-28
+pocs/qdrant-java-amazon-rag/ui/src/components/Header.tsx
+  s_1bc681744e4baa::t_e3c03194b2a3bf 1-15
+pocs/qdrant-java-amazon-rag/ui/src/components/FilterBar.tsx
+  s_1bc681744e4baa::t_3b4a54fac7b3f5 1-45
+pocs/qdrant-java-amazon-rag/backend/src/main/java/com/github/diegopacheco/qdrant/amazon/RagService.java
+  s_1bc681744e4baa::t_345fbadd1a7a9f 1-46
+pocs/qdrant-java-amazon-rag/backend/src/main/java/com/github/diegopacheco/qdrant/amazon/DatasetClient.java
+  s_1bc681744e4baa::t_7c55afe51b66f9 1-28
+pocs/qdrant-java-amazon-rag/ui/tsconfig.json
+  s_1bc681744e4baa::t_198ad8a0d80464 1-17
+pocs/qdrant-java-amazon-rag/ui/src/components/SearchPanel.tsx
+  s_1bc681744e4baa::t_28add69b4f82b2 1-38
+pocs/qdrant-java-amazon-rag/backend/src/main/resources/application.properties
+  s_1bc681744e4baa::t_6950673ccf56a2 1-6
+pocs/qdrant-java-amazon-rag/podman-compose.yml
+  s_1bc681744e4baa::t_9ae764197175d9 1-11
+pocs/qdrant-java-amazon-rag/ui/package.json
+  s_1bc681744e4baa::t_042ca1450af831 1-22
+pocs/qdrant-java-amazon-rag/backend/src/main/java/com/github/diegopacheco/qdrant/amazon/SearchService.java
+  s_1bc681744e4baa::t_d78adf94a6a9fb 1-44
+pocs/qdrant-java-amazon-rag/scripts/common.sh
+  s_1bc681744e4baa::t_4b7ad89eed0a06 1-160
+pocs/qdrant-java-amazon-rag/ui/src/api.ts
+  s_1bc681744e4baa::t_31ab1e2482a78a 1-38
+pocs/qdrant-java-amazon-rag/backend/src/main/java/com/github/diegopacheco/qdrant/amazon/OllamaClient.java
+  s_1bc681744e4baa::t_2f9161be6bede9 25
+  s_1bc681744e4baa::t_c93d661c2a4a13 1-24,26-48
+pocs/qdrant-java-amazon-rag/scripts/ingest.sh
+  s_1bc681744e4baa::t_e731c02ee905ca 1-18
+pocs/qdrant-java-amazon-rag/backend/src/test/java/com/github/diegopacheco/qdrant/amazon/ProductCleanerTest.java
+  s_1bc681744e4baa::t_cd7d8bfec30821 1-143
+pocs/qdrant-java-amazon-rag/backend/src/main/java/com/github/diegopacheco/qdrant/amazon/ApiController.java
+  s_1bc681744e4baa::t_79bae40b933a61 5-6,23,77
+  s_1bc681744e4baa::t_96d26c78d38a27 1-4,7-22,24-76,78-86
+pocs/qdrant-java-amazon-rag/ui/src/components/QueryForm.tsx
+  s_1bc681744e4baa::t_79bea61068c6cc 1-27
+pocs/qdrant-java-amazon-rag/README.md
+  s_1bc681744e4baa::t_65475d65fc45c4 1-166
+pocs/qdrant-java-amazon-rag/ui/src/types.ts
+  s_1bc681744e4baa::t_37fa5fb1151419 1-37
+pocs/qdrant-java-amazon-rag/backend/src/test/java/com/github/diegopacheco/qdrant/amazon/RagServiceTest.java
+  s_1bc681744e4baa::t_b13e4035a8e708 1-50
+pocs/qdrant-java-amazon-rag/.gitignore
+  s_1bc681744e4baa::t_845a9bbf1b4512 1-5
+pocs/qdrant-java-amazon-rag/backend/src/test/java/com/github/diegopacheco/qdrant/amazon/ApiControllerTest.java
+  s_1bc681744e4baa::t_048aad761611fe 1-64
+pocs/qdrant-java-amazon-rag/scripts/setup.sh
+  s_1bc681744e4baa::t_ecabbb4cf4a6df 1-27
+pocs/qdrant-java-amazon-rag/backend/src/main/java/com/github/diegopacheco/qdrant/amazon/Records.java
+  s_1bc681744e4baa::t_be3ae54a465954 1-25
+pocs/qdrant-java-amazon-rag/scripts/ports.env
+  s_1bc681744e4baa::t_91bfbd2ca42682 1-4
+pocs/qdrant-java-amazon-rag/ui/src/App.tsx
+  s_1bc681744e4baa::t_9369eb1479658d 1-40
+pocs/qdrant-java-amazon-rag/scripts/start-all.sh
+  s_1bc681744e4baa::t_0124bdf8fad51d 1-34
+pocs/qdrant-java-amazon-rag/backend/src/main/java/com/github/diegopacheco/qdrant/amazon/QdrantClient.java
+  s_1bc681744e4baa::t_5c5cfd2e5b1601 1-107
+pocs/qdrant-java-amazon-rag/backend/src/main/java/com/github/diegopacheco/qdrant/amazon/IngestService.java
+  s_1bc681744e4baa::t_06bea60b089172 1-60
+pocs/qdrant-java-amazon-rag/scripts/test-all.sh
+  s_1bc681744e4baa::t_104e9fc05b03ee 1-15
+pocs/qdrant-java-amazon-rag/ui/src/main.tsx
+  s_1bc681744e4baa::t_4d35fc1ee1b527 1-10
+pocs/qdrant-java-amazon-rag/ui/src/components/ProductList.tsx
+  s_1bc681744e4baa::t_34d493cd873e1e 1-16
+pocs/qdrant-java-amazon-rag/scripts/status.sh
+  s_1bc681744e4baa::t_0f6ea5e8066d46 1-18
+pocs/qdrant-java-amazon-rag/scripts/stop-all.sh
+  s_1bc681744e4baa::t_fa1fdaf4aa3081 1-18
+pocs/qdrant-java-amazon-rag/scripts/ui.sh
+  s_1bc681744e4baa::t_75846151deabc7 1-12
+pocs/qdrant-java-amazon-rag/ui/bun.lock
+  s_67c7271ef64785::t_cd240d46419cf6 1-157
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4c34a22a6745d26466a0f8d2c88b6f525e65e771",
+  "prompts": {},
+  "sessions": {
+    "s_1bc681744e4baa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "169392b9-7d6c-4738-bb53-ca74b26a33a3",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    },
+    "s_67c7271ef64785": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ajava-amazon-258471a226a5f3cb",
+        "model": "unknown"
+      },
+      "human_author": "diegopacheco <diego.pacheco.it@gmail.com>"
+    }
+  }
+}
