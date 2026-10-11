@@ -1,0 +1,12 @@
+services:
+  qdrant:
+    image: docker.io/qdrant/qdrant:v1.19.2
+    container_name: qdrant-rust-videos-rag
+    ports:
+      - "${QDRANT_PORT:-6343}:6333"
+      - "${QDRANT_GRPC_PORT:-6344}:6334"
+    volumes:
+      - qdrant-rust-videos-rag-storage:/qdrant/storage
+
+volumes:
+  qdrant-rust-videos-rag-storage:
