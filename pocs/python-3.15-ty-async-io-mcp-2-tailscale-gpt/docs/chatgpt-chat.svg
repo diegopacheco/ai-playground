@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000"><defs><style>text{font-family:"Caveat","Comic Sans MS",cursive;fill:#1e1e1e}</style><filter id="w"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1e1e1e"/></marker></defs><rect width="1000" height="1000" fill="#fff"/>
+<text x="500" y="70" font-size="44" text-anchor="middle">ChatGPT calling the local tools</text>
+<g filter="url(#w)" stroke="#1e1e1e" stroke-width="2.5">
+<rect x="80" y="110" width="840" height="830" rx="18" fill="#f8f9fa"/>
+<rect x="240" y="150" width="640" height="80" rx="16" fill="#dbe4ff"/>
+<rect x="120" y="270" width="760" height="560" rx="16" fill="#fff"/>
+<rect x="160" y="420" width="680" height="70" rx="10" fill="#d3f9d8"/>
+<rect x="160" y="510" width="680" height="70" rx="10" fill="#d3f9d8"/>
+<rect x="160" y="600" width="680" height="70" rx="10" fill="#d3f9d8"/>
+<rect x="120" y="860" width="760" height="60" rx="14" fill="#fff"/>
+</g>
+<text x="560" y="200" font-size="30" text-anchor="middle">@Local Calculator MCP what can it do?</text>
+<text x="160" y="320" font-size="30">Connected. 7 tools: add, subtract, multiply,</text>
+<text x="160" y="360" font-size="30">divide, evaluate, polish, english</text>
+<text x="160" y="400" font-size="26" fill="#495057">Live calls</text>
+<text x="190" y="465" font-size="30">add(10, 20)</text>
+<text x="810" y="465" font-size="30" text-anchor="end">30</text>
+<text x="190" y="555" font-size="30">evaluate("(10 + 20) * 3")</text>
+<text x="810" y="555" font-size="30" text-anchor="end">90</text>
+<text x="190" y="645" font-size="30">english("ten divided by four")</text>
+<text x="810" y="645" font-size="30" text-anchor="end">2.5</text>
+<text x="160" y="730" font-size="26" fill="#495057">each call shows up in .run/logs/mcp.log</text>
+<text x="160" y="770" font-size="26" fill="#495057">as POST /mcp from the Funnel proxy</text>
+<text x="150" y="900" font-size="28" fill="#868e96">Type @ to pick the plugin...</text>
+</svg>

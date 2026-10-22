@@ -1,0 +1,29 @@
+[project]
+name = "calculator-mcp"
+version = "0.1.0"
+description = "MCP 2.0 calculator server with infix, Polish notation and basic English"
+readme = "README.md"
+requires-python = ">=3.15"
+dependencies = [
+    "mcp>=2.3.0",
+]
+
+[project.scripts]
+calculator-server = "calculator.server:main"
+calculator-client = "calculator.client:main"
+
+[build-system]
+requires = ["uv_build>=0.10.4,<0.11"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "calculator"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ty>=0.0.90",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

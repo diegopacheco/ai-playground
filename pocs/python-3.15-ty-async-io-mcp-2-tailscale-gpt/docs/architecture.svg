@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&amp;display=swap'); text{font-family:'Caveat','Comic Sans MS',cursive;fill:#1e1e1e}</style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1e1e1e"/></marker>
+  </defs>
+  <rect width="1000" height="1000" fill="#ffffff"/>
+  <text x="500" y="70" font-size="46" text-anchor="middle">Calculator MCP 2.0 server</text>
+  <g filter="url(#wobble)" stroke="#1e1e1e" stroke-width="2.5">
+    <rect x="40" y="130" width="290" height="110" rx="14" fill="#dbe4ff"/>
+    <rect x="355" y="130" width="290" height="110" rx="14" fill="#dbe4ff"/>
+    <rect x="670" y="130" width="290" height="110" rx="14" fill="#dbe4ff"/>
+    <rect x="170" y="340" width="660" height="130" rx="14" fill="#d3f9d8"/>
+    <rect x="170" y="550" width="660" height="110" rx="14" fill="#fff3bf"/>
+    <rect x="40" y="760" width="290" height="140" rx="14" fill="#ffe8cc"/>
+    <rect x="355" y="760" width="290" height="140" rx="14" fill="#ffe8cc"/>
+    <rect x="670" y="760" width="290" height="140" rx="14" fill="#ffe8cc"/>
+    <path d="M185 240 Q260 300 380 340" fill="none" marker-end="url(#arrow)"/>
+    <path d="M500 240 Q510 290 500 340" fill="none" marker-end="url(#arrow)"/>
+    <path d="M815 240 Q740 300 620 340" fill="none" marker-end="url(#arrow)"/>
+    <path d="M500 470 Q490 510 500 550" fill="none" marker-end="url(#arrow)"/>
+    <path d="M380 660 Q260 700 185 760" fill="none" marker-end="url(#arrow)"/>
+    <path d="M500 660 Q510 710 500 760" fill="none" marker-end="url(#arrow)"/>
+    <path d="M620 660 Q740 700 815 760" fill="none" marker-end="url(#arrow)"/>
+  </g>
+  <text x="185" y="180" font-size="28" text-anchor="middle">Claude / any MCP</text>
+  <text x="185" y="215" font-size="28" text-anchor="middle">client (stdio)</text>
+  <text x="500" y="180" font-size="28" text-anchor="middle">calculator-client</text>
+  <text x="500" y="215" font-size="28" text-anchor="middle">asyncio CLI (HTTP)</text>
+  <text x="815" y="180" font-size="28" text-anchor="middle">pytest in-process</text>
+  <text x="815" y="215" font-size="28" text-anchor="middle">mcp.Client(server)</text>
+  <text x="500" y="385" font-size="34" text-anchor="middle">MCPServer (mcp 2.3) - async tools</text>
+  <text x="500" y="420" font-size="28" text-anchor="middle">add subtract multiply divide</text>
+  <text x="500" y="452" font-size="28" text-anchor="middle">evaluate polish english</text>
+  <text x="500" y="598" font-size="32" text-anchor="middle">calculate(): CalculatorError -&gt; ToolError</text>
+  <text x="500" y="635" font-size="28" text-anchor="middle">Fraction in, int | float out</text>
+  <text x="185" y="810" font-size="32" text-anchor="middle">infix.py</text>
+  <text x="185" y="848" font-size="26" text-anchor="middle">recursive descent</text>
+  <text x="185" y="880" font-size="26" text-anchor="middle">(1 + 2) * 3</text>
+  <text x="500" y="810" font-size="32" text-anchor="middle">polish.py</text>
+  <text x="500" y="848" font-size="26" text-anchor="middle">right-to-left stack</text>
+  <text x="500" y="880" font-size="26" text-anchor="middle">* + 1 2 3</text>
+  <text x="815" y="810" font-size="32" text-anchor="middle">english.py</text>
+  <text x="815" y="848" font-size="26" text-anchor="middle">words -&gt; infix tokens</text>
+  <text x="815" y="880" font-size="26" text-anchor="middle">one plus two</text>
+  <text x="500" y="960" font-size="26" text-anchor="middle" fill="#495057">HTTP: streamable-http on /mcp, port from scripts/ports.env</text>
+</svg>
