@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&amp;display=swap'); text{font-family:'Caveat','Comic Sans MS',cursive;fill:#1e1e1e}</style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1e1e1e"/></marker>
+  </defs>
+  <rect width="1000" height="1000" fill="#ffffff"/>
+  <text x="500" y="72" font-size="46" text-anchor="middle">Calculator MCP App</text>
+  <g filter="url(#wobble)" stroke="#1e1e1e" stroke-width="2.5">
+    <rect x="60" y="120" width="400" height="110" rx="14" fill="#dbe4ff"/>
+    <rect x="540" y="120" width="400" height="110" rx="14" fill="#dbe4ff"/>
+    <rect x="150" y="310" width="700" height="110" rx="14" fill="#d3f9d8"/>
+    <rect x="60" y="500" width="400" height="120" rx="14" fill="#fff3bf"/>
+    <rect x="540" y="500" width="400" height="120" rx="14" fill="#fff3bf"/>
+    <rect x="60" y="700" width="400" height="120" rx="14" fill="#ffe8cc"/>
+    <rect x="540" y="700" width="400" height="120" rx="14" fill="#ffe8cc"/>
+    <path d="M260 230 Q300 280 380 310" fill="none" marker-end="url(#arrow)"/>
+    <path d="M740 230 Q700 280 620 310" fill="none" marker-end="url(#arrow)"/>
+    <path d="M380 420 Q300 460 260 500" fill="none" marker-end="url(#arrow)"/>
+    <path d="M620 420 Q700 460 740 500" fill="none" marker-end="url(#arrow)"/>
+    <path d="M260 620 Q250 660 260 700" fill="none" marker-end="url(#arrow)"/>
+    <path d="M740 620 Q750 660 740 700" fill="none" marker-end="url(#arrow)"/>
+  </g>
+  <text x="260" y="165" font-size="30" text-anchor="middle">ChatGPT (custom MCP)</text>
+  <text x="260" y="205" font-size="24" text-anchor="middle">https via Tailscale Funnel :8443</text>
+  <text x="740" y="165" font-size="30" text-anchor="middle">Local host page  /</text>
+  <text x="740" y="205" font-size="26" text-anchor="middle">React 19 + AppBridge</text>
+  <text x="500" y="355" font-size="32" text-anchor="middle">Granian ASGI :8710  (Python 3.15)</text>
+  <text x="500" y="395" font-size="26" text-anchor="middle">/mcp streamable HTTP · Host allowlist · CORS</text>
+  <text x="260" y="548" font-size="30" text-anchor="middle">tool: calculate</text>
+  <text x="260" y="588" font-size="26" text-anchor="middle">_meta.ui.resourceUri</text>
+  <text x="740" y="548" font-size="30" text-anchor="middle">ui://calculator/view.html</text>
+  <text x="740" y="588" font-size="26" text-anchor="middle">text/html;profile=mcp-app</text>
+  <text x="260" y="748" font-size="27" text-anchor="middle">lexer → parser → evaluator</text>
+  <text x="260" y="788" font-size="26" text-anchor="middle">exact Fraction math + steps</text>
+  <text x="740" y="748" font-size="30" text-anchor="middle">React 19 view in iframe</text>
+  <text x="740" y="788" font-size="26" text-anchor="middle">keypad · steps · history</text>
+  <text x="500" y="890" font-size="26" text-anchor="middle">view ⇄ host over postMessage JSON-RPC:</text>
+  <text x="500" y="930" font-size="26" text-anchor="middle">ui/initialize · tool-input · tool-result · tools/call · update-model-context</text>
+</svg>

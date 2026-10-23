@@ -1,0 +1,246 @@
+:root {
+  --body: #f3efe6;
+  --ink: #23201b;
+  --muted: #7a7266;
+  --device: #2b2a28;
+  --device-edge: #191817;
+  --lcd: #c9d6b0;
+  --lcd-ink: #1f2a14;
+  --key: #3b3a37;
+  --key-ink: #f4f1ea;
+  --key-op: #55524c;
+  --accent: #f29f3a;
+  --accent-ink: #2b1a05;
+  --danger: #a3261c;
+  --panel: #fffdf8;
+  --line: #e2dccf;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--body);
+  color: var(--ink);
+  font-family: var(--sans);
+}
+
+.calculator {
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(200px, 1fr);
+  gap: 16px;
+  padding: 16px;
+  align-items: start;
+}
+
+@media (max-width: 560px) {
+  .calculator {
+    grid-template-columns: 1fr;
+  }
+}
+
+.device {
+  background: linear-gradient(160deg, var(--device), var(--device-edge));
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 18px 30px -18px rgba(0, 0, 0, 0.55);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #c9c3b7;
+  font: 600 11px/1 var(--mono);
+  letter-spacing: 0.18em;
+  margin-bottom: 12px;
+}
+
+.brand .status {
+  margin-left: auto;
+  letter-spacing: 0.06em;
+  font-weight: 400;
+  color: #8f897d;
+}
+
+.led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6b2a22;
+}
+
+.led.on {
+  background: #7ddc5c;
+  box-shadow: 0 0 8px #7ddc5c;
+}
+
+.display {
+  background: var(--lcd);
+  color: var(--lcd-ink);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35);
+  font-family: var(--mono);
+  text-align: right;
+  min-height: 92px;
+}
+
+.display-previous {
+  min-height: 16px;
+  font-size: 12px;
+  opacity: 0.65;
+  overflow-wrap: anywhere;
+}
+
+.display-main {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.display-main.error {
+  font-size: 15px;
+  color: var(--danger);
+  padding-top: 8px;
+}
+
+.display-busy {
+  min-height: 14px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.key {
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 0;
+  font: 600 18px/1 var(--mono);
+  background: var(--key);
+  color: var(--key-ink);
+  cursor: pointer;
+  box-shadow: 0 2px 0 var(--device-edge);
+  transition: transform 80ms ease, filter 120ms ease;
+}
+
+.key:hover {
+  filter: brightness(1.18);
+}
+
+.key:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.key:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.key-operator,
+.key-paren,
+.key-back {
+  background: var(--key-op);
+}
+
+.key-clear {
+  background: #7a3a2c;
+}
+
+.key-equals {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.key-wide {
+  grid-column: span 3;
+}
+
+.key:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.tape {
+  display: grid;
+  gap: 12px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.panel h2 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.empty {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.steps {
+  margin: 0;
+  padding-left: 22px;
+  font-family: var(--mono);
+  font-size: 14px;
+}
+
+.steps li {
+  padding: 3px 0;
+  animation: rise 260ms ease both;
+}
+
+.history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.history button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border: 0;
+  border-bottom: 1px dashed var(--line);
+  background: transparent;
+  padding: 6px 2px;
+  font: 13px var(--mono);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.history button:hover {
+  color: #b5650d;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
