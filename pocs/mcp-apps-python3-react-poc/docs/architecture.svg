@@ -22,7 +22,7 @@
     <path d="M740 620 Q750 660 740 700" fill="none" marker-end="url(#arrow)"/>
   </g>
   <text x="260" y="165" font-size="30" text-anchor="middle">ChatGPT (custom MCP)</text>
-  <text x="260" y="205" font-size="24" text-anchor="middle">https via Tailscale Funnel :8443</text>
+  <text x="260" y="205" font-size="24" text-anchor="middle">https via Tailscale Funnel :443</text>
   <text x="740" y="165" font-size="30" text-anchor="middle">Local host page  /</text>
   <text x="740" y="205" font-size="26" text-anchor="middle">React 19 + AppBridge</text>
   <text x="500" y="355" font-size="32" text-anchor="middle">Granian ASGI :8710  (Python 3.15)</text>

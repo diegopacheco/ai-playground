@@ -1,3 +1,4 @@
+import logging
 import os
 
 from mcp.server.transport_security import TransportSecuritySettings
@@ -33,4 +34,5 @@ def create_app(public_host: str = "") -> Starlette:
     return app
 
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s")
 app = create_app(os.environ.get("MCP_PUBLIC_HOST", ""))

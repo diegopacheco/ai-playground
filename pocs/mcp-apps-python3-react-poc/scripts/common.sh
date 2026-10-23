@@ -116,9 +116,19 @@ public_host() {
 }
 
 public_url() {
-  printf "https://%s:%s/mcp\n" "$1" "$(service_port funnel)"
+  if [ "$(service_port funnel)" = "443" ]; then
+    printf "https://%s/mcp\n" "$1"
+  else
+    printf "https://%s:%s/mcp\n" "$1" "$(service_port funnel)"
+  fi
+}
+
+serve_proxy() {
+  tailscale serve status --json 2>/dev/null | python3 -c 'import json,sys;d=json.load(sys.stdin);h=(d.get("Web") or {}).get(sys.argv[1]+":"+sys.argv[2]) or {};print(((h.get("Handlers") or {}).get("/") or {}).get("Proxy",""))' "$1" "$2" 2>/dev/null || true
 }
 
 funnel_up() {
-  command -v tailscale >/dev/null 2>&1 && tailscale funnel status 2>/dev/null | grep -q ":$(service_port funnel) (Funnel on)"
+  local host
+  host="$(public_host)"
+  [ -n "$host" ] && command -v tailscale >/dev/null 2>&1 && tailscale funnel status --json 2>/dev/null | grep -q "\"$host:$(service_port funnel)\": true"
 }

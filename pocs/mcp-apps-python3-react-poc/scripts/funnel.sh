@@ -13,6 +13,10 @@ case "${1:-on}" in
       printf "MCP_PUBLIC_HOST=%s\n" "$host" >"$SCRIPTS/tailscale.env"
       log "wrote scripts/tailscale.env"
     fi
+    owner="$(serve_proxy "$host" "$(service_port funnel)")"
+    if [ -n "$owner" ] && [ "$owner" != "http://127.0.0.1:$(service_port calculator)" ]; then
+      fail "port $(service_port funnel) already serves $owner, stop that service first or change funnel in scripts/ports.env"
+    fi
     tailscale funnel --bg --https="$(service_port funnel)" "$(service_port calculator)" >/dev/null || fail "tailscale funnel failed, approve Funnel in the Tailscale admin console"
     "$SCRIPTS/stop-all.sh"
     "$SCRIPTS/start-all.sh" >/dev/null

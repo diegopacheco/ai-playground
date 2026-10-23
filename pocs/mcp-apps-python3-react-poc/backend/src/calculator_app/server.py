@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 from mcp.server import MCPServer
@@ -10,6 +11,8 @@ from starlette.responses import HTMLResponse, JSONResponse, Response
 from calculator_app.calculator import Calculation, calculate
 from calculator_app.tokens import CalculatorError
 from calculator_app.views import HOST_FILE, VIEW_FILE, VIEW_URI, dist_dir, read_page
+
+logger = logging.getLogger("calculator_app")
 
 INSTRUCTIONS = (
     "Visual calculator. Call calculate with an arithmetic expression using + - * / % ^ and parentheses; "
@@ -27,6 +30,7 @@ def build_apps(dist: Path) -> Apps:
         description="Evaluate an arithmetic expression such as '(2 + 3) * 4 ^ 2' and show it on a visual calculator",
     )
     async def calculate_expression(expression: str) -> Calculation:
+        logger.info("tools/call calculate expression=%r", expression)
         try:
             return calculate(expression)
         except CalculatorError as error:

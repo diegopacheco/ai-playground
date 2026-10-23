@@ -43,7 +43,7 @@ A visual calculator built as an [MCP App](https://apps.extensions.modelcontextpr
 - **@modelcontextprotocol/client 2.3**: the host's streamable HTTP MCP client.
 - **Vite 8 + vite-plugin-singlefile**: bundles each page into one HTML file, because an MCP App resource is a single document.
 - **bun**: installs packages and runs the frontend tests.
-- **Tailscale Funnel**: public HTTPS for ChatGPT, on its own port 8443.
+- **Tailscale Funnel**: public HTTPS for ChatGPT on port 443, so nothing is deployed to the cloud.
 
 ## Contracts / APIs
 
@@ -80,7 +80,7 @@ Resource `ui://calculator/view.html`: `text/html;profile=mcp-app`, with `_meta.u
 - **AST, then evaluator**: `tokens.py`, `parser.py` (frozen dataclasses `Number`, `Negate`, `Binary`) and `evaluator.py` are separate. The steps tape falls out of the post-order walk.
 - **Pure keypad logic**: `keypad.ts` has no React, so its rules are unit tested. Those rules are: no dangling operators, one dot per number, and a leading `.` becomes `0.`.
 - **Host allowlist plus CORS**: DNS-rebinding protection allows only localhost and `MCP_PUBLIC_HOST`. CORS allows only local origins and exposes `mcp-session-id`.
-- **Funnel on 8443**: port 443 may already carry other tailnet services. Using 8443 publishes only this app.
+- **Funnel port guard**: `funnel.sh on` refuses a Funnel port that already serves another target, so turning the tunnel on never makes another tailnet service public.
 
 ## How to Run
 
@@ -94,24 +94,79 @@ Resource `ui://calculator/view.html`: `text/html;profile=mcp-app`, with `_meta.u
 
 Tests: 39 backend (pytest) plus 16 frontend (bun test). `ty` and `tsc` also run.
 
-## ChatGPT Step by Step
+## Tailscale Tunnel On / Off
 
-1. Install Tailscale, sign in, and check that `tailscale status` works. Funnel is included in the free Personal plan.
-2. Run `./scripts/funnel.sh on`. It reads your MagicDNS name and writes it to the gitignored `scripts/tailscale.env` as `MCP_PUBLIC_HOST`. It then opens Funnel on 8443, restarts the server with that host allowed, and prints the URL. On the first run, Tailscale asks you to approve Funnel in the admin console.
-3. In ChatGPT, go to **Plugins > + > Add custom MCP server** and use `https://<your-mac>.<your-tailnet>.ts.net:8443/mcp` with no authentication.
-4. Check that the `calculate` tool is discovered, then ask: *"use the calculator to compute (2 + 3) * 4 ^ 2"*. ChatGPT renders the calculator inline, and the keypad works inside the chat.
-5. When you are done, run `./scripts/funnel.sh off`.
+ChatGPT runs in the cloud and cannot reach `localhost`. Tailscale Funnel gives the local server a public HTTPS URL. Your real hostname is stored only in the gitignored `scripts/tailscale.env`, and it never goes into git.
+
+**One-time setup**
+
+1. Install the Tailscale macOS app, sign in, and check that the CLI works: `tailscale status`.
+2. The free Personal plan includes Funnel. On the first `funnel.sh on`, Tailscale may open the admin console to approve Funnel and HTTPS certificates.
+
+**Turn the tunnel on**
+
+```bash
+./scripts/start-all.sh
+./scripts/funnel.sh on
+./scripts/status.sh
+```
+
+`funnel.sh on` reads your MagicDNS name from `tailscale status`, writes it to `scripts/tailscale.env`, and opens Funnel on port 443. It then restarts the server with that hostname allowed and prints the URL to paste into ChatGPT: `https://<your-mac>.<your-tailnet>.ts.net/mcp`. `status.sh` should show both `calculator` and `funnel` as `UP`.
+
+If another service already uses port 443 on your Tailscale node, `funnel.sh on` stops with an error instead of making it public. Stop that service first, or set another Funnel port (`8443` or `10000`) in `scripts/ports.env`.
+
+**Check that the internet can find it**
+
+```bash
+dig +short @1.1.1.1 <your-mac>.<your-tailnet>.ts.net
+```
+
+It must print IP addresses (Tailscale's Funnel relays). If it prints nothing, wait. Tailscale says public DNS can take up to 10 minutes.
+
+**Turn the tunnel off**
+
+```bash
+./scripts/funnel.sh off
+./scripts/stop-all.sh
+./scripts/status.sh
+```
+
+`status.sh` should show `calculator` and `funnel` as `DOWN`. Turn the tunnel off when you are done: while it is on, anyone with the URL can call `calculate`.
+
+## Load it into ChatGPT Step by Step
+
+1. Turn the tunnel on (previous section) and copy the URL that `funnel.sh on` prints.
+2. Open `https://chatgpt.com/plugins`.
+3. Click **Add** (top right), then **Add custom MCP server**.
+4. Fill in the form:
+   - **Name**: any name, for example `calc mcp`
+   - **Connection**: **Server URL**, then paste `https://<your-mac>.<your-tailnet>.ts.net/mcp`
+   - **Authentication**: **No authentication**
+5. Tick **I understand and want to continue**, then click **Create as a plugin**.
+6. Check that ChatGPT discovered one tool, `calculate`.
+7. Open a **new chat**. A chat started before the plugin existed does not see its tools.
+8. Type `@` and pick your plugin, then send: `use the calculate tool to compute (2 + 3) * 4 ^ 2`.
+9. ChatGPT calls `calculate`, and the calculator renders inside the chat with the result and the evaluation steps.
+10. Use the keypad inside ChatGPT. Pressing `=` calls the server again through ChatGPT.
+
+Every call reaches your machine and shows up in `.run/logs/calculator.log` as a `tools/call calculate expression=...` line.
 
 | Symptom | Fix |
 |---|---|
 | `Failed to fetch` | ChatGPT cannot reach `localhost`. Use the Funnel URL. |
-| `Couldn't reach the MCP server` | Public DNS has no record for the Funnel host yet. `dig +short @1.1.1.1 <your-mac>.<your-tailnet>.ts.net` must print an IP. Tailscale says this can take up to 10 minutes. Retry once it resolves. |
+| `Couldn't reach the MCP server` | Public DNS has no record yet. Run the `dig` check above and retry once it prints an IP. |
+| `Couldn't load plugin settings` | The saved plugin entry is broken. Remove it and add it again with **Add custom MCP server**. |
+| ChatGPT draws its own calculator, or says it cannot access the tools | No `tools/call` line in the log means ChatGPT never called the tool. Start a new chat, select the plugin with `@`, and ask it to use the `calculate` tool. |
 | `421 Misdirected Request` in `.run/logs/calculator.log` | `MCP_PUBLIC_HOST` is missing. Run `./scripts/funnel.sh on` again. |
 | ChatGPT times out | `./scripts/status.sh` shows `funnel DOWN` or `calculator DOWN`. |
 
-Funnel is public, so anyone with the URL can call `calculate`. That is fine for a calculator, but add authentication before you expose tools that touch files or data.
-
 ## Printscreens
+
+### Running inside ChatGPT
+
+![MCP App running inside ChatGPT](printscreens/05-chatgpt-renders-mcp-app.png)
+
+The real thing: ChatGPT web with the plugin added as a custom MCP server through the Tailscale tunnel. ChatGPT called `calculate`, read the `ui://calculator/view.html` resource, and rendered the React calculator inline in the chat. The history shows the model's call `(2 + 3) * 4 ^ 2 = 80` and `805×5 = 4025`, typed on the keypad inside ChatGPT. That second call went back to the local server through ChatGPT's MCP Apps bridge. The image is cropped to the chat column, so no account details are shown.
 
 ### Host ready
 
@@ -151,7 +206,7 @@ All scripts live in `scripts/` and run from any directory of the repository.
 | `./scripts/funnel.sh on\|off` | Opens or closes the Tailscale Funnel for ChatGPT |
 | `./scripts/stop-all.sh` | Stops every service |
 
-Ports are declared in `scripts/ports.env` (`calculator=8710`, `funnel=8443`).
+Ports are declared in `scripts/ports.env` (`calculator=8710`, `funnel=443`).
 
 ```bash
 ./scripts/setup.sh
