@@ -7,7 +7,7 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/common.sh"
 port="$(service_port calculator)"
 public_host="$(public_host)"
 log "starting"
-MCP_PUBLIC_HOST="$public_host" start_bg calculator "$ROOT/backend" uv run granian --interface asgi --host 127.0.0.1 --port "$port" calculator_app.app:app
+MCP_PUBLIC_HOST="$public_host" start_bg calculator "$ROOT/backend" uv run granian --interface asgi --access-log --host 127.0.0.1 --port "$port" calculator_app.app:app
 wait_port_up "$port" 60 || fail "calculator did not open port $port, see $LOGS/calculator.log"
 
 "$SCRIPTS/status.sh"

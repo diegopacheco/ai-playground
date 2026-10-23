@@ -105,6 +105,7 @@ Tests: 39 backend (pytest) plus 16 frontend (bun test). `ty` and `tsc` also run.
 | Symptom | Fix |
 |---|---|
 | `Failed to fetch` | ChatGPT cannot reach `localhost`. Use the Funnel URL. |
+| `Couldn't reach the MCP server` | Public DNS has no record for the Funnel host yet. `dig +short @1.1.1.1 <your-mac>.<your-tailnet>.ts.net` must print an IP. Tailscale says this can take up to 10 minutes. Retry once it resolves. |
 | `421 Misdirected Request` in `.run/logs/calculator.log` | `MCP_PUBLIC_HOST` is missing. Run `./scripts/funnel.sh on` again. |
 | ChatGPT times out | `./scripts/status.sh` shows `funnel DOWN` or `calculator DOWN`. |
 
