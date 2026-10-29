@@ -2,6 +2,44 @@
 
 A Claude Code plugin marketplace called `dev-trio`. It holds three plugins that you install separately: `code`, `debug` and `troubleshoot`. Each plugin has three skills. Install and uninstall scripts let you choose which plugins to install and which to skip.
 
+## Plugin vs Skill vs Subagent vs MCP
+
+These four are not alternatives to each other. Each one does a different job, and a plugin is the package that ships the other three.
+
+| Concept | Think of it as | What it is | Lives in |
+|---|---|---|---|
+| Plugin | Package, the unit you deploy | An installable, versioned bundle of skills, subagents, MCP servers and hooks | `.claude-plugin/plugin.json` |
+| Marketplace | Package registry, like npm or Maven Central | A catalog of plugins that you add from a git repo, a folder or a URL | `.claude-plugin/marketplace.json` |
+| Skill | A written procedure | Instructions that teach Claude how to do one task. They load only when invoked or when the `description` matches | `skills/<name>/SKILL.md` |
+| Subagent | A specialist worker | A separate Claude with its own context window, prompt and tools. The main session hands work to it and gets back a summary | `agents/<name>.md` |
+| MCP server | An integration layer | A process that gives Claude new tools and data, such as GitHub, Postgres or an internal API | `.mcp.json` |
+| Hook | An event handler | A shell command that runs on an event, such as after a file edit or before a tool call | `hooks/hooks.json` |
+
+In short:
+
+* A skill says how to do a task.
+* A subagent is who does the work.
+* An MCP server provides the external tools and data.
+* A hook says when automation runs.
+* A plugin packages all of these and shares them.
+
+| Your goal | Use |
+|---|---|
+| Reuse a procedure, such as reviewing a PR or reading logs | Skill |
+| Run independent investigations in parallel without filling the main context | Subagent |
+| Query a database or call an external API | MCP server |
+| Run a linter after every edit | Hook |
+| Share any of the above across many repos or people | Plugin |
+| Let people choose which plugins to install | Marketplace |
+
+A few things that are easy to miss:
+
+* You don't need a plugin to use a skill, subagent, MCP server or hook. Each one also works on its own from `.claude/`.
+* Claude Code installs a whole plugin at once. You can't pick 3 of the 9 skills during install. That is why this project splits the skills into three small plugins, and the plugin becomes the smallest unit you can choose.
+* Every enabled plugin has a cost. Skill descriptions go into every session (about 170 to 190 tokens per plugin here, from `claude plugin details`), MCP servers start processes, and hooks run with your permissions.
+
+This project uses only skills, so you can see the plugin and marketplace mechanics clearly. Subagents, MCP servers and hooks would go into the same plugin folders, at the paths in the table above.
+
 ## How it Works
 
 1. `.claude-plugin/marketplace.json` is the catalog. It lists the three plugins and the folder each one lives in.
