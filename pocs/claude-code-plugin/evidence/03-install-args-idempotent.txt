@@ -1,0 +1,6 @@
+$ ./scripts/install.sh debug code
+marketplace dev-trio already added
+Installing plugin "debug@dev-trio"...✔ Successfully installed plugin: debug@dev-trio (scope: user)
+code@dev-trio already installed
+installed: debug code
+restart Claude Code or run /reload-plugins to load the skills

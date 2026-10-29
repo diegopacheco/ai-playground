@@ -1,0 +1,7 @@
+$ ./scripts/install.sh all
+Adding marketplace…✔ Successfully added marketplace: dev-trio (declared in user settings)
+Installing plugin "code@dev-trio"...✔ Successfully installed plugin: code@dev-trio (scope: user)
+Installing plugin "debug@dev-trio"...✔ Successfully installed plugin: debug@dev-trio (scope: user)
+Installing plugin "troubleshoot@dev-trio"...✔ Successfully installed plugin: troubleshoot@dev-trio (scope: user)
+installed:code debug troubleshoot
+restart Claude Code or run /reload-plugins to load the skills

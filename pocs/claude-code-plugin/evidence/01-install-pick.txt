@@ -1,0 +1,9 @@
+spawn bash -c ./scripts/install.sh | cat
+install code? [y/N] y
+install debug? [y/N] n
+install troubleshoot? [y/N] y
+Adding marketplace…✔ Successfully added marketplace: dev-trio (declared in user settings)
+Installing plugin "code@dev-trio"...✔ Successfully installed plugin: code@dev-trio (scope: user)
+Installing plugin "troubleshoot@dev-trio"...✔ Successfully installed plugin: troubleshoot@dev-trio (scope: user)
+installed: code troubleshoot
+restart Claude Code or run /reload-plugins to load the skills

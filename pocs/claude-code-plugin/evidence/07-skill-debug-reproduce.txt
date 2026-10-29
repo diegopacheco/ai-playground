@@ -1,0 +1,36 @@
+$ claude -p "/debug:reproduce average([10, 20, 30]) in samples/cart.py returns 16.66 instead of 20"
+
+I reproduced the bug. I didn't fix anything or create any files.
+
+**Expected vs. actual**
+- **Expected:** `average([10, 20, 30])` should return `20.0`, which is (10+20+30)/3.
+- **Actual:** it returns `16.666666666666668`, which is 50/3.
+
+**Smallest input:** a list with one non-zero item. `average([10])` returns `0.0` when it should return `10`. The shortest list leaves only the first price, and the code drops it.
+
+**Reproduction command** (run from `samples/`):
+```bash
+python3 -c "
+from cart import average, total
+print('average([10,20,30]) =', average([10,20,30]))
+print('total([10,20,30],0) =', total([10,20,30],0))
+print('average([10]) =', average([10]))
+assert average([10]) == 10, 'average([10]) expected 10, got %r' % average([10])
+"
+```
+
+**Output** (exit code 1):
+```
+average([10,20,30]) = 16.666666666666668
+total([10,20,30],0) = 50.0
+average([10]) = 0.0
+AssertionError: average([10]) expected 10, got 0.0
+```
+
+It fails for the reason in the report. The sum is wrong (50 instead of 60), while the divisor is right (`len(prices)` = 3).
+
+**Where it goes wrong:** `samples/cart.py:3`, in `total()`, called by `average()` at `samples/cart.py:9`:
+```python
+for i in range(1, len(prices)):
+```
+The loop starts at index 1, so `prices[0]` is never added to the sum. This means `total()` itself is also wrong, even when there's no discount.

@@ -1,0 +1,8 @@
+{
+  "name": "troubleshoot",
+  "description": "Skills to inspect logs, ports and the local environment",
+  "version": "1.0.0",
+  "author": {
+    "name": "Diego Pacheco"
+  }
+}

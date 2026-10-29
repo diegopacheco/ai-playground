@@ -1,0 +1,28 @@
+$ ./scripts/uninstall.sh debug
+✔ Successfully uninstalled plugin: debug (scope: user)
+uninstalled: debug
+
+$ ./scripts/status.sh
+marketplace dev-trio ADDED
+code@dev-trio INSTALLED
+debug@dev-trio NOT INSTALLED
+troubleshoot@dev-trio INSTALLED
+
+$ ./scripts/uninstall.sh all
+✔ Successfully uninstalled plugin: code (scope: user)
+debug@dev-trio not installed
+✔ Successfully uninstalled plugin: troubleshoot (scope: user)
+✔ Successfully removed marketplace: dev-trio
+uninstalled:code debug troubleshoot
+
+$ ./scripts/status.sh
+marketplace dev-trio MISSING
+code@dev-trio NOT INSTALLED
+debug@dev-trio NOT INSTALLED
+troubleshoot@dev-trio NOT INSTALLED
+
+$ ./scripts/uninstall.sh all
+code@dev-trio not installed
+debug@dev-trio not installed
+troubleshoot@dev-trio not installed
+uninstalled:code debug troubleshoot

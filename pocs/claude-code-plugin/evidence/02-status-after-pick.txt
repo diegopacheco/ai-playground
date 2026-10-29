@@ -1,0 +1,4 @@
+marketplace dev-trio ADDED
+code@dev-trio INSTALLED
+debug@dev-trio NOT INSTALLED
+troubleshoot@dev-trio INSTALLED

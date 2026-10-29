@@ -1,0 +1,7 @@
+$ ./scripts/install.sh bogus
+unknown plugin: bogus (valid: code debug troubleshoot all)
+exit=1
+
+$ ./scripts/install.sh < /dev/null
+no plugins given and no terminal to ask; pass names or all: code debug troubleshoot
+exit=1

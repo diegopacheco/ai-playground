@@ -1,0 +1,34 @@
+$ claude plugin marketplace list --json
+[
+  {
+    "name": "dev-trio",
+    "source": "directory",
+    "path": ".",
+    "installLocation": "."
+  }
+]
+
+$ claude plugin list --json
+[
+  {
+    "id": "code@dev-trio",
+    "version": "1.0.0",
+    "scope": "user",
+    "enabled": true,
+    "installPath": "<CLAUDE_HOME>/plugins/cache/dev-trio/code/1.0.0"
+  },
+  {
+    "id": "debug@dev-trio",
+    "version": "1.0.0",
+    "scope": "user",
+    "enabled": true,
+    "installPath": "<CLAUDE_HOME>/plugins/cache/dev-trio/debug/1.0.0"
+  },
+  {
+    "id": "troubleshoot@dev-trio",
+    "version": "1.0.0",
+    "scope": "user",
+    "enabled": true,
+    "installPath": "<CLAUDE_HOME>/plugins/cache/dev-trio/troubleshoot/1.0.0"
+  }
+]

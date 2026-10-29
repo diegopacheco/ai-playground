@@ -1,0 +1,30 @@
+{
+  "name": "dev-trio",
+  "owner": {
+    "name": "Diego Pacheco"
+  },
+  "metadata": {
+    "description": "Three independently installable plugins: code, debug and troubleshoot",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "code",
+      "source": "./plugins/code",
+      "description": "Skills to review, refactor and write tests for code",
+      "version": "1.0.0"
+    },
+    {
+      "name": "debug",
+      "source": "./plugins/debug",
+      "description": "Skills to reproduce, bisect and trace bugs",
+      "version": "1.0.0"
+    },
+    {
+      "name": "troubleshoot",
+      "source": "./plugins/troubleshoot",
+      "description": "Skills to inspect logs, ports and the local environment",
+      "version": "1.0.0"
+    }
+  ]
+}

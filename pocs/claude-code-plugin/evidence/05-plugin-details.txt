@@ -1,0 +1,72 @@
+$ claude plugin details code@dev-trio
+code 1.0.0
+  Description: Skills to review, refactor and write tests for code
+  Source: code@dev-trio
+
+Component inventory
+  Skills (3)  refactor, review, write-tests
+  Agents (0)
+  Hooks (0)
+  MCP servers (0)
+  LSP servers (0)
+
+Projected token cost
+  Always-on:   ~170 tok   added to every session
+
+Per-component (rounded)
+  component    always-on  on-invoke
+  write-tests        ~60       ~170
+  review             ~50       ~210
+  refactor           ~60       ~190
+
+  On-invoke cost is paid each time a skill or agent fires.
+  Token counts are estimates and may differ from actual usage.
+
+$ claude plugin details debug@dev-trio
+debug 1.0.0
+  Description: Skills to reproduce, bisect and trace bugs
+  Source: debug@dev-trio
+
+Component inventory
+  Skills (3)  bisect, reproduce, trace
+  Agents (0)
+  Hooks (0)
+  MCP servers (0)
+  LSP servers (0)
+
+Projected token cost
+  Always-on:   ~186 tok   added to every session
+
+Per-component (rounded)
+  component  always-on  on-invoke
+  reproduce        ~60       ~160
+  trace            ~70       ~160
+  bisect           ~60       ~180
+
+  On-invoke cost is paid each time a skill or agent fires.
+  Token counts are estimates and may differ from actual usage.
+
+$ claude plugin details troubleshoot@dev-trio
+troubleshoot 1.0.0
+  Description: Skills to inspect logs, ports and the local environment
+  Source: troubleshoot@dev-trio
+
+Component inventory
+  Skills (3)  env-check, logs, ports
+  Agents (0)
+  Hooks (0)
+  MCP servers (0)
+  LSP servers (0)
+
+Projected token cost
+  Always-on:   ~203 tok   added to every session
+
+Per-component (rounded)
+  component  always-on  on-invoke
+  logs             ~60       ~190
+  env-check        ~80       ~200
+  ports            ~60       ~160
+
+  On-invoke cost is paid each time a skill or agent fires.
+  Token counts are estimates and may differ from actual usage.
+

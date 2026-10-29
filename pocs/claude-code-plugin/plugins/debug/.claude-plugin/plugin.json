@@ -1,0 +1,8 @@
+{
+  "name": "debug",
+  "description": "Skills to reproduce, bisect and trace bugs",
+  "version": "1.0.0",
+  "author": {
+    "name": "Diego Pacheco"
+  }
+}

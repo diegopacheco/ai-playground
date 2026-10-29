@@ -1,0 +1,16 @@
+$ claude -p "/troubleshoot:logs samples/app.log"
+
+I read `samples/app.log`, which has 9 lines. 7 of them are WARN, ERROR or FATAL, and they reduce to 4 distinct problems. Lines 1–2 are INFO: the server started on port 8080 and connected to the orders database.
+
+| # | Level | Error | Count | First timestamp | Likely cause |
+|---|---|---|---|---|---|
+| 1 | WARN | slow query on orders (2300ms, then 4100ms) | 2 | 2026-10-28 10:02:11 | A query on the `orders` table is getting slower, probably a missing index or a growing table, and it holds connections longer. |
+| 2 | ERROR | connection pool exhausted max=10 | 1 | 2026-10-28 10:03:40 | The slow `orders` queries hold all 10 connections, and new requests can't get one. |
+| 3 | ERROR | request /checkout failed: timeout acquiring connection | 3 | 2026-10-28 10:03:41 | `/checkout` requests wait on the full pool and time out. This follows directly from #2. |
+| 4 | FATAL | health check failed 3 times, shutting down | 1 | 2026-10-28 10:05:12 | The health check can't get a connection either, so after 3 failures the service shuts itself down. |
+
+**Root cause:** these four entries look like one chain, not separate bugs. The slow `orders` query fills the 10-connection pool, `/checkout` times out, and then the health check fails and the service stops. The query went from 2300ms to 4100ms within two minutes.
+
+**Where to start:** I'd look at the `orders` query first, with `EXPLAIN` and a check for a missing index. Raising the pool size above 10 or adding a query timeout would only delay the failure.
+
+The log only has 9 lines, so this chain is an inference from timing and messages. Nothing in the log names the query or proves it held the connections.

@@ -1,0 +1,18 @@
+$ claude -p "/code:review samples/cart.py"
+
+## Review of `samples/cart.py`
+
+I found 5 problems. I ran the first two to confirm them; the rest come from reading the code.
+
+1. **`samples/cart.py:3`**: The loop starts at index 1, so it always leaves out the first price. `total([10,20,30], 0)` returns `50.0` instead of `60`, and `total([10], 0)` returns `0.0`. **Fix:** sum every item with `result = sum(prices)`.
+
+2. **`samples/cart.py:9`**: `average([])` raises `ZeroDivisionError` when the cart is empty. **Fix:** return `0` for an empty list, or raise a clear `ValueError` if an empty cart should be an error.
+
+3. **`samples/cart.py:5`**: Nothing checks that `discount` is between 0 and 100. Once bug 1 is fixed, `total([100], 150)` returns `-50`, and a negative discount raises the price. **Fix:** raise `ValueError` when `discount` is outside 0–100.
+
+4. **`samples/cart.py:5`**: The code does money math with floats, so totals can come out with rounding errors like `0.30000000000000004`. **Fix:** use `decimal.Decimal` or integer cents, and round to 2 decimal places only at the end.
+
+5. **`samples/cart.py:1-9`**: The repo has no tests, which is how bug 1 went unnoticed. **Fix:** add tests for:
+   - a cart with one item, and the full sum of a cart with several items, which proves no item is skipped;
+   - an empty cart for both `total` and `average`;
+   - discounts of 0, 100 and out-of-range values.

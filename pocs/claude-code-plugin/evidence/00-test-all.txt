@@ -1,0 +1,23 @@
+PASS marketplace manifest is valid
+PASS code is listed in the marketplace so it can be picked on its own
+PASS code plugin manifest is valid
+PASS code plugin.json name matches the marketplace entry
+PASS code ships exactly 3 skills
+PASS code:refactor has a name matching its folder and a description for auto selection
+PASS code:review has a name matching its folder and a description for auto selection
+PASS code:write-tests has a name matching its folder and a description for auto selection
+PASS debug is listed in the marketplace so it can be picked on its own
+PASS debug plugin manifest is valid
+PASS debug plugin.json name matches the marketplace entry
+PASS debug ships exactly 3 skills
+PASS debug:bisect has a name matching its folder and a description for auto selection
+PASS debug:reproduce has a name matching its folder and a description for auto selection
+PASS debug:trace has a name matching its folder and a description for auto selection
+PASS troubleshoot is listed in the marketplace so it can be picked on its own
+PASS troubleshoot plugin manifest is valid
+PASS troubleshoot plugin.json name matches the marketplace entry
+PASS troubleshoot ships exactly 3 skills
+PASS troubleshoot:env-check has a name matching its folder and a description for auto selection
+PASS troubleshoot:logs has a name matching its folder and a description for auto selection
+PASS troubleshoot:ports has a name matching its folder and a description for auto selection
+all tests passed
