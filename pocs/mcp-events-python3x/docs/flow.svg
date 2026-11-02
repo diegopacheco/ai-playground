@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1010" viewBox="0 0 1500 1010">
+<defs>
+<style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');</style>
+<filter id="wobble" filterUnits="userSpaceOnUse" x="0" y="0" width="1500" height="1010"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker>
+</defs>
+<rect width="1500" height="1010" fill="#fffdf7"/>
+<text x="750" y="52" font-family="Caveat, 'Comic Sans MS', cursive" font-size="40" font-weight="700" text-anchor="middle" fill="#222">Flow: push stream, agent tool call, poll bridge, replay</text>
+<rect x="40" y="85" width="300" height="52" rx="14" fill="#dbe8ff" stroke="#3b5bdb" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="54" y="117" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#3b5bdb">Browser UI</text>
+<path d="M190,140 Q193,560 190,985" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="7 7"/>
+<rect x="410" y="85" width="300" height="52" rx="14" fill="#ece3ff" stroke="#5f3dc4" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="424" y="117" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#5f3dc4">Claude Code / Codex</text>
+<path d="M560,140 Q563,560 560,985" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="7 7"/>
+<rect x="780" y="85" width="300" height="52" rx="14" fill="#dff5e1" stroke="#2b8a3e" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="794" y="117" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#2b8a3e">MCP server</text>
+<path d="M930,140 Q933,560 930,985" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="7 7"/>
+<rect x="1140" y="85" width="300" height="52" rx="14" fill="#ffe8cc" stroke="#d9480f" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="1154" y="117" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#d9480f">Deployer + EventLog</text>
+<path d="M1290,140 Q1293,560 1290,985" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="7 7"/>
+<path d="M200,190 Q559.0,185.0 918,190" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="560.0" y="180" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">events/stream {name, cursor: null}</text>
+<circle cx="166" cy="190" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="166" y="196" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">1</text>
+<path d="M920,246 Q561.0,251.0 202,246" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="560.0" y="236" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">notifications/events/active {cursor: c_0}</text>
+<circle cx="954" cy="246" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="954" y="252" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">2</text>
+<path d="M570,302 Q744.0,297.0 918,302" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="745.0" y="292" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">tools/call deploy_service {service, env}</text>
+<circle cx="536" cy="302" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="536" y="308" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">3</text>
+<path d="M940,358 Q1109.0,353.0 1278,358" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="1110.0" y="348" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">start deploy, append queued (c_1)</text>
+<circle cx="906" cy="358" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="906" y="364" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">4</text>
+<path d="M920,414 Q746.0,419.0 572,414" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="745.0" y="404" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">{deployId, cursor: c_0}</text>
+<circle cx="954" cy="414" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="954" y="420" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">5</text>
+<path d="M1280,470 Q1111.0,475.0 942,470" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="1110.0" y="460" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">change signal</text>
+<circle cx="1314" cy="470" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="1314" y="476" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">6</text>
+<path d="M920,526 Q561.0,531.0 202,526" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="560.0" y="516" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">events/event queued {cursor: c_1}</text>
+<circle cx="954" cy="526" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="954" y="532" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">7</text>
+<path d="M570,582 Q744.0,577.0 918,582" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="745.0" y="572" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">tools/call poll_events {cursor: c_0, waitMs}</text>
+<circle cx="536" cy="582" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="536" y="588" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">8</text>
+<path d="M920,638 Q746.0,643.0 572,638" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="745.0" y="628" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">{events: [queued], cursor: c_1}</text>
+<circle cx="954" cy="638" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="954" y="644" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">9</text>
+<path d="M1280,694 Q1111.0,699.0 942,694" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="1110.0" y="684" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">building, testing, deployed (1.2s apart)</text>
+<circle cx="1314" cy="694" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="1314" y="700" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">10</text>
+<path d="M920,750 Q561.0,755.0 202,750" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="560.0" y="740" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">events/event x3 {cursor: c_4}</text>
+<circle cx="954" cy="750" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="954" y="756" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">11</text>
+<path d="M920,806 Q561.0,811.0 202,806" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="560.0" y="796" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">events/heartbeat {cursor} when quiet</text>
+<circle cx="954" cy="806" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="954" y="812" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">12</text>
+<path d="M200,862 Q559.0,857.0 918,862" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="560.0" y="852" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">disconnect ... later events/stream {cursor: c_4}</text>
+<circle cx="166" cy="862" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="166" y="868" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">13</text>
+<path d="M920,918 Q561.0,923.0 202,918" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="560.0" y="908" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#222">active {cursor: c_4} + replay of missed events</text>
+<circle cx="954" cy="918" r="14" fill="#fff" stroke="#c2255c" stroke-width="2"/>
+<text x="954" y="924" font-family="Caveat, 'Comic Sans MS', cursive" font-size="19" font-weight="700" text-anchor="middle" fill="#c2255c">14</text>
+</svg>

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="830" viewBox="0 0 1500 830">
+<defs>
+<style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap');</style>
+<filter id="wobble" filterUnits="userSpaceOnUse" x="0" y="0" width="1500" height="830"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker>
+</defs>
+<rect width="1500" height="830" fill="#fffdf7"/>
+<text x="750" y="52" font-family="Caveat, 'Comic Sans MS', cursive" font-size="40" font-weight="700" text-anchor="middle" fill="#222">MCP Events POC - architecture</text>
+<rect x="40" y="110" width="340" height="200" rx="14" fill="#dbe8ff" stroke="#3b5bdb" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="54" y="142" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#3b5bdb">Browser UI :5290</text>
+<text x="54" y="170" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">React 19 + TanStack</text>
+<text x="54" y="194" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">McpClient: fetch + SSE parser</text>
+<text x="54" y="218" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">events/list, events/poll</text>
+<text x="54" y="242" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">events/stream (push)</text>
+<text x="54" y="266" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">tools/call deploy_service</text>
+<rect x="40" y="350" width="340" height="120" rx="14" fill="#ece3ff" stroke="#5f3dc4" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="54" y="382" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#5f3dc4">Claude Code</text>
+<text x="54" y="410" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">claude mcp add --transport http</text>
+<text x="54" y="434" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">bridge tools over tools/call</text>
+<rect x="40" y="510" width="340" height="120" rx="14" fill="#ece3ff" stroke="#5f3dc4" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="54" y="542" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#5f3dc4">Codex</text>
+<text x="54" y="570" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">codex mcp add --url</text>
+<text x="54" y="594" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">same bridge tools</text>
+<rect x="40" y="670" width="340" height="110" rx="14" fill="#f1f1ee" stroke="#555555" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="54" y="702" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#555555">scripts/install.sh</text>
+<text x="54" y="730" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">y/N picker, registers mcp-events</text>
+<text x="54" y="754" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">in Claude Code and Codex</text>
+<rect x="450" y="150" width="230" height="110" rx="14" fill="#fff3c4" stroke="#b08800" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="464" y="182" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#b08800">Vite proxy</text>
+<text x="464" y="210" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">/mcp and /api</text>
+<text x="464" y="234" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">to :8730</text>
+<rect x="740" y="85" width="730" height="720" rx="14" fill="#f1f1ee" stroke="#555555" stroke-width="2.5" stroke-dasharray="10 7" filter="url(#wobble)"/>
+<text x="754" y="117" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#555555">Python 3.15 + Granian ASGI :8730</text>
+<rect x="775" y="140" width="310" height="125" rx="14" fill="#dff5e1" stroke="#2b8a3e" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="789" y="172" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#2b8a3e">McpHttpApp</text>
+<text x="789" y="200" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">POST /mcp: JSON or SSE</text>
+<text x="789" y="224" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">Origin check, sessions</text>
+<text x="789" y="248" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">GET /api/clients</text>
+<rect x="1130" y="140" width="310" height="125" rx="14" fill="#dff5e1" stroke="#2b8a3e" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="1144" y="172" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#2b8a3e">Protocol</text>
+<text x="1144" y="200" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">initialize, ping</text>
+<text x="1144" y="224" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">tools/list, tools/call</text>
+<text x="1144" y="248" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">events/list, events/poll</text>
+<rect x="775" y="320" width="310" height="140" rx="14" fill="#ffe0ea" stroke="#c2255c" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="789" y="352" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#c2255c">EventsService</text>
+<text x="789" y="380" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">poll: cursor in, cursor out</text>
+<text x="789" y="404" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">stream: active, event,</text>
+<text x="789" y="428" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">heartbeat with cursor</text>
+<text x="789" y="452" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">filters from Catalog</text>
+<rect x="1130" y="320" width="310" height="125" rx="14" fill="#ffe8cc" stroke="#d9480f" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="1144" y="352" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#d9480f">Tools (bridge)</text>
+<text x="1144" y="380" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">deploy_service</text>
+<text x="1144" y="404" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">list_event_types</text>
+<text x="1144" y="428" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">poll_events + waitMs</text>
+<rect x="775" y="520" width="310" height="115" rx="14" fill="#fff3c4" stroke="#b08800" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="789" y="552" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#b08800">Catalog</text>
+<text x="789" y="580" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">deploy.status_changed</text>
+<text x="789" y="604" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">alert.raised + schemas</text>
+<rect x="1130" y="500" width="310" height="130" rx="14" fill="#dbe8ff" stroke="#3b5bdb" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="1144" y="532" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#3b5bdb">EventLog</text>
+<text x="1144" y="560" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">ring buffer of 500</text>
+<text x="1144" y="584" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">cursor c_N = sequence</text>
+<text x="1144" y="608" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">change signal wakes waiters</text>
+<rect x="775" y="675" width="310" height="110" rx="14" fill="#ece3ff" stroke="#5f3dc4" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="789" y="707" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#5f3dc4">Sessions</text>
+<text x="789" y="735" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">clientInfo.name per session</text>
+<text x="789" y="759" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">becomes triggeredBy</text>
+<rect x="1130" y="675" width="310" height="110" rx="14" fill="#ffe8cc" stroke="#d9480f" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="1144" y="707" font-family="Caveat, 'Comic Sans MS', cursive" font-size="27" font-weight="700" fill="#d9480f">Deployer</text>
+<text x="1144" y="735" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">asyncio task per deploy</text>
+<text x="1144" y="759" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" fill="#2a2a2a">queued to deployed | failed</text>
+<path d="M380,205 Q415.0,211.0 450,205" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<path d="M680,205 Q727.8,208.5 775,200" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<path d="M380,410 Q565.9,299.8 775,245" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="560" y="300" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#333">Streamable HTTP</text>
+<path d="M380,570 Q552.6,381.2 775,255" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<path d="M210,670 Q216.0,650.0 210,630" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<path d="M1085,200 Q1107.5,204.0 1130,200" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<path d="M930,265 Q924.0,292.5 930,320" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="995" y="298" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#333">events/stream</text>
+<path d="M1285,265 Q1279.0,292.5 1285,320" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="1340" y="298" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#333">tools/call</text>
+<path d="M1130,250 Q1100.5,286.1 1085,330" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<path d="M1130,400 Q1107.5,396.0 1085,400" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="1108" y="390" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#333">poll</text>
+<path d="M930,460 Q924.0,490.0 930,520" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<path d="M1085,450 Q1116.5,493.2 1130,545" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="1112" y="486" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#333">read</text>
+<path d="M1285,675 Q1291.0,652.5 1285,630" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="1330" y="660" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#333">append</text>
+<path d="M1440,420 Q1470.0,560.0 1440,700" fill="none" stroke="#333" stroke-width="2.4" marker-end="url(#arrow)" filter="url(#wobble)"/>
+<text x="1400" y="480" font-family="Caveat, 'Comic Sans MS', cursive" font-size="22" text-anchor="middle" fill="#333">start</text>
+</svg>

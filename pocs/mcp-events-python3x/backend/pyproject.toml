@@ -1,0 +1,24 @@
+[project]
+name = "mcp-events"
+version = "0.1.0"
+description = "MCP Events (poll and push) server with deploy simulation, served by Granian"
+requires-python = ">=3.15"
+dependencies = [
+    "granian>=2.8.5",
+]
+
+[build-system]
+requires = ["uv_build>=0.10.4,<0.11"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "mcp_events"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ty>=0.0.90",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
