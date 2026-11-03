@@ -1,4 +1,4 @@
-# Lessons Learned After 500+ AI POCs
+# Lessons Learned After 600+ AI POCs
 
 Over two years, from summer 2024 to summer 2026, I built more than 500 AI POCs and more than 100 agent POCs. The work covered local models, RAG, embeddings, MCP, coding agents, Spring AI, LangChain, LangChain4j, Rust agents, Java agents, Python agents, computer vision, games, classical ML, deep learning, UI apps, and full-stack systems.
 
@@ -130,7 +130,7 @@ When the project is visible, it has to be easier to run, explain, and inspect. T
 
 32. Write down what broke while it is still fresh.
 
-The compounding asset across 500 POCs was not the code, it was the log of failures: the port that clashes, the wheel that drops a module, the mount that fails, the space an emoji eats. Recorded failures turn the same wall from a lost afternoon into a two-minute fix. Memory of what broke is worth more than memory of what worked.
+The compounding asset across 600 POCs was not the code, it was the log of failures: the port that clashes, the wheel that drops a module, the mount that fails, the space an emoji eats. Recorded failures turn the same wall from a lost afternoon into a two-minute fix. Memory of what broke is worth more than memory of what worked.
 
 33. Repetition builds better taste than one big project.
 

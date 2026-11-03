@@ -1,7 +1,7 @@
 # ai-playground
 
-Over 2 years (summer-24 - summer-26) 500+ pocs. 100+ agents. <br/><br/>
-<img src="500-ai-pocs.png" width="500" height="300">
+Over 2 years (summer-24 - summer-26) 600+ pocs. 100+ agents. <br/><br/>
+<img src="600-plus-ai-pocs.png" width="500" height="321">
 
 Summary of Agentic Pocs [100+ Agent Pocs](https://github.com/diegopacheco/ai-playground/blob/main/agents/agents-pocs.md)
 
@@ -26,7 +26,7 @@ https://github.com/diegopacheco/ai-playground/blob/main/AI.Explained.DiegoPachec
 
 ## Diego's AI POCs
 
-More than 500+ AI POCs covering ML, NLP, LLMs, Vision, Reinforcement Learning, RAG, Embeddings, and more.
+More than 600+ AI POCs covering ML, NLP, LLMs, Vision, Reinforcement Learning, RAG, Embeddings, and more.
 https://github.com/diegopacheco/ai-playground/tree/main/pocs
 
 ## Diego's AI Agents

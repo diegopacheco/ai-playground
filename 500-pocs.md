@@ -1,8 +1,8 @@
-# 500+ POCs: What did I learned?
+# 600+ POCs: What did I learned?
 
-Two years. Summer 2024 (300 POCS) to summer 2026. 500+ POCs, 170+ agents, 20+ Claude skills, MCP servers, CV games, RL agents, full-stack clones, local models, and one auction house where AI agents bid on a haunted rubber duck.
+Two years. Summer 2024 (300 POCS) to summer 2026. 600+ POCs, 170+ agents, 20+ Claude skills, MCP servers, CV games, RL agents, full-stack clones, local models, and one auction house where AI agents bid on a haunted rubber duck.
 
-Here is the thing nobody tells you about building 500 things: the code is the least valuable output. The code rots in weeks — frameworks rename packages, wheels drop modules, endpoints change defaults. What compounds is something else entirely, and it compounds along exactly four dimensions:
+Here is the thing nobody tells you about building 600 things: the code is the least valuable output. The code rots in weeks — frameworks rename packages, wheels drop modules, endpoints change defaults. What compounds is something else entirely, and it compounds along exactly four dimensions:
 
 ```
 🧠 Skill & Judgment   —> Getting Better
@@ -85,7 +85,7 @@ Two rewirings happen at once. First: your ambition ceiling was miscalibrated —
 
 ### Lesson 7: Feed Your Passion — learn by doing, spike curiosity, and try; it's fun
 
-Nobody sustains 500 POCs on discipline. Discipline gets you to POC 30; *delight* gets you to 500. The trick is that fun projects are secretly the hardest technical tests — a CV game must react every frame, a music toy must survive real-time audio, a platform shooter needs collision, spawning, and state machines with zero libraries. Weak abstractions that survive a request-response POC collapse instantly under continuous pressure. So the playful POCs are doing double duty: they keep you going, *and* they stress-test harder than any enterprise CRUD ever will.
+Nobody sustains 600 POCs on discipline. Discipline gets you to POC 30; *delight* gets you to 600. The trick is that fun projects are secretly the hardest technical tests — a CV game must react every frame, a music toy must survive real-time audio, a platform shooter needs collision, spawning, and state machines with zero libraries. Weak abstractions that survive a request-response POC collapse instantly under continuous pressure. So the playful POCs are doing double duty: they keep you going, *and* they stress-test harder than any enterprise CRUD ever will.
 
 **Proof from the repo:**
 - [`pocs/ai-rpg`](pocs/ai-rpg) — an LLM as Dungeon Master: a text RPG where the world does not exist until you walk into it, generated in real time and streamed token by token over SSE, with every campaign persisted. A toy on the surface; underneath, a stateful real-time streaming system that would pass for a serious product architecture.
@@ -109,9 +109,9 @@ These four dimensions are not a list — they are a flywheel:
 
 **Motion** (❤️) produces experiments. Experiments produce **patterns** (⚡). Patterns produce **taste** (🧠). Taste produces better **method** (🔬). Method makes motion cheaper — and around it goes, each loop faster than the last.
 
-The 500 POCs are not the achievement. They are the *exhaust* of the flywheel. The achievement is the flywheel itself: a person who can now learn any tool by cornering it, spot a pattern by the third repetition, tell good from bad on sight, say NO in milliseconds, and convert confusion into clarity by building.
+The 600 POCs are not the achievement. They are the *exhaust* of the flywheel. The achievement is the flywheel itself: a person who can now learn any tool by cornering it, spot a pattern by the third repetition, tell good from bad on sight, say NO in milliseconds, and convert confusion into clarity by building.
 
-You do not need 500 POCs to start the flywheel.
+You do not need 600 POCs to start the flywheel.
 
 You need one. Today. Small enough to finish, real enough to break.
 
