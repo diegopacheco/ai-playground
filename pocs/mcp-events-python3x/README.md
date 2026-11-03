@@ -210,6 +210,102 @@ Codex:       Severity: P2
              Message: deploy of search to staging failed in testing
 ```
 
+## Step by step: install in Claude Code and watch the events
+
+Requirements: `uv`, `bun` and the `claude` CLI on your `PATH`. All commands run from `pocs/mcp-events-python3x`.
+
+**1. Install the dependencies**
+
+```bash
+./scripts/setup.sh
+```
+
+**2. Start the MCP server and the UI**
+
+```bash
+./scripts/start-all.sh
+```
+
+It prints the links. The MCP server is `http://localhost:8730/mcp` and the UI is `http://localhost:5290/`.
+Run `./scripts/status.sh` to check that `backend` and `ui` are both `UP`.
+
+**3. Register the MCP server in Claude Code**
+
+```bash
+./scripts/install.sh claude
+```
+
+This runs `claude mcp add --transport http --scope user mcp-events http://localhost:8730/mcp`. The `user` scope means every
+Claude Code session on this machine sees it, from any folder. Without arguments, `./scripts/install.sh` asks y/N for Claude Code and for Codex.
+
+**4. Check that Claude Code can reach it**
+
+```bash
+claude mcp list
+```
+
+`mcp-events` must show `mcp-events: http://localhost:8730/mcp (HTTP) - ✔ Connected`. If it shows `Failed to connect` (or a session reports `ECONNREFUSED`), the backend is down:
+run `./scripts/start-all.sh`, then type `/mcp` inside Claude Code and reconnect `mcp-events`. The server must be up **before** Claude
+Code connects, because the event log lives in the server process.
+
+**5. Open the UI and subscribe**
+
+```bash
+./scripts/ui.sh
+```
+
+On the **Live (push)** tab, click **Subscribe from now** on both panels: `deploy.status_changed` and `alert.raised`.
+Each panel now holds an open `events/stream`. Grey heartbeat rows show up every 15 s while nothing happens.
+
+**6. Trigger events from Claude Code**
+
+```bash
+./scripts/test-mcp-event.sh
+```
+
+It runs `claude -p` with `deploy_service` and `poll_events` pre-approved, asking Claude Code to deploy `payments` to `prod` and poll
+`deploy.status_changed` until the deploy ends. It fails fast if the backend is down.
+
+To do the same by hand, open an interactive session with `claude` in any folder, ask the prompt below and approve both tool calls:
+
+```
+Use the mcp-events MCP server. Deploy the service payments to prod with deploy_service.
+Then call poll_events for deploy.status_changed with the cursor it returned and waitMs 5000,
+keep the newest cursor and repeat until the status is deployed or failed.
+```
+
+**7. Watch the events**
+
+Only `deploy_service` creates events. A prompt that does not call it (for example `claude -p "hello"`) connects to the server but adds nothing to the Live panels.
+
+* In the UI, the `deploy.status_changed` panel shows `queued`, `building`, `testing`, `deployed`, about 1.2 s apart, each with `triggeredBy: claude-code`, its `eventId` and its cursor.
+* In Claude Code, the agent gets the same events through `poll_events` and reports the final status, the deploy id and the newest cursor.
+* The **Claude Code / Codex** tab lists the `claude-code` session the server saw.
+
+**8. See an alert**
+
+Ask Claude Code:
+
+```
+Use the mcp-events MCP server. Call deploy_service with service search, env staging and simulate_failure true.
+Then call poll_events for alert.raised with the cursor deploy_service returned and waitMs 10000,
+repeating with the newest cursor until you get an alert. Reply with the alert severity and message.
+```
+
+The deploy panel ends with `failed`, and the `alert.raised` panel shows a `P2` alert (staging is `P2`, prod is `P1`, dev is `P3`).
+
+**9. See replay from cursor**
+
+Click **Disconnect** on the deploy panel. Ask Claude Code for another deploy (step 6). Then click **Resume from cursor**: the server
+replays exactly the events you missed while offline, then keeps streaming live.
+
+**10. Uninstall and stop**
+
+```bash
+./scripts/uninstall.sh claude
+./scripts/stop-all.sh
+```
+
 ## Printscreens
 
 ### 1. Live tab, before subscribing
@@ -269,6 +365,7 @@ All scripts live in `scripts/` and run from any directory of the repository.
 | `./scripts/stop-all.sh` | Stops every service |
 | `./scripts/install.sh` | Registers the MCP server in Claude Code and/or Codex (y/N picker or `claude` / `codex` args) |
 | `./scripts/uninstall.sh` | Removes the MCP server from Claude Code and/or Codex |
+| `./scripts/test-mcp-event.sh` | Asks Claude Code to deploy `payments` to `prod` through the MCP, so the events show up in the UI |
 
 Ports are declared in `scripts/ports.env` (`backend=8730`, `ui=5290`). The Vite config reads the same file.
 
