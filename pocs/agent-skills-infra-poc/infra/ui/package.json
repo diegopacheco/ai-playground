@@ -1,0 +1,27 @@
+{
+  "name": "agentinfra-evals-ui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test src"
+  },
+  "dependencies": {
+    "@tanstack/react-form": "1.33.5",
+    "@tanstack/react-query": "5.105.3",
+    "@tanstack/react-router": "1.170.46",
+    "@tanstack/react-table": "8.21.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.2.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.5"
+  }
+}

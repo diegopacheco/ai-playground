@@ -1,0 +1,127 @@
+{
+  "uid": "agent-infra",
+  "title": "Agent Infra",
+  "tags": ["agentinfra"],
+  "timezone": "browser",
+  "refresh": "10s",
+  "time": { "from": "now-1h", "to": "now" },
+  "schemaVersion": 39,
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Log lines in range",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "datasource": { "type": "loki", "uid": "loki-agents" },
+      "targets": [{ "refId": "A", "expr": "sum(count_over_time({service_name=\"agentinfra\"}[$__range]))", "queryType": "instant" }],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "value", "graphMode": "none" },
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "#0c8599" } }, "overrides": [] }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "State keys",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "pg-agentinfra" },
+      "targets": [{ "refId": "A", "format": "table", "rawQuery": true, "editorMode": "code", "rawSql": "SELECT count(*) AS keys FROM kv WHERE tenant NOT LIKE 'itest-%'" }],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "value", "graphMode": "none" },
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "#2f9e44" } }, "overrides": [] }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Eval runs",
+      "gridPos": { "x": 12, "y": 0, "w": 6, "h": 4 },
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "pg-agentinfra" },
+      "targets": [{ "refId": "A", "format": "table", "rawQuery": true, "editorMode": "code", "rawSql": "SELECT count(*) AS runs FROM eval_runs WHERE tenant NOT LIKE 'itest-%' AND suite NOT LIKE 'itest-%'" }],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "value", "graphMode": "none" },
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "#e8590c" } }, "overrides": [] }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Warnings in range",
+      "gridPos": { "x": 18, "y": 0, "w": 6, "h": 4 },
+      "datasource": { "type": "loki", "uid": "loki-agents" },
+      "targets": [{ "refId": "A", "expr": "sum(count_over_time({service_name=\"agentinfra\", level=~\"warn|error\"}[$__range]))", "queryType": "instant" }],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "value", "graphMode": "none" },
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "#e8a317" } }, "overrides": [] }
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Log lines per tenant",
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "datasource": { "type": "loki", "uid": "loki-agents" },
+      "targets": [{ "refId": "A", "expr": "sum by (__tenant_id__) (count_over_time({service_name=\"agentinfra\"}[1m]))", "legendFormat": "{{__tenant_id__}}", "queryType": "range" }],
+      "fieldConfig": { "defaults": { "custom": { "drawStyle": "bars", "fillOpacity": 70, "stacking": { "mode": "normal" } } }, "overrides": [] }
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "Log lines per level",
+      "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+      "datasource": { "type": "loki", "uid": "loki-agents" },
+      "targets": [{ "refId": "A", "expr": "sum by (level) (count_over_time({service_name=\"agentinfra\"}[1m]))", "legendFormat": "{{level}}", "queryType": "range" }],
+      "fieldConfig": { "defaults": { "custom": { "drawStyle": "bars", "fillOpacity": 70, "stacking": { "mode": "normal" } } }, "overrides": [] }
+    },
+    {
+      "id": 7,
+      "type": "bargauge",
+      "title": "State keys per tenant",
+      "gridPos": { "x": 0, "y": 12, "w": 8, "h": 8 },
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "pg-agentinfra" },
+      "targets": [{ "refId": "A", "format": "table", "rawQuery": true, "editorMode": "code", "rawSql": "SELECT tenant, count(*) AS keys FROM kv WHERE tenant NOT LIKE 'itest-%' GROUP BY tenant ORDER BY tenant" }],
+      "options": { "orientation": "horizontal", "displayMode": "gradient", "reduceOptions": { "values": true, "calcs": [] } },
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "#2f9e44" } }, "overrides": [] }
+    },
+    {
+      "id": 8,
+      "type": "table",
+      "title": "Latest eval score per tenant suite",
+      "gridPos": { "x": 8, "y": 12, "w": 8, "h": 8 },
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "pg-agentinfra" },
+      "targets": [{ "refId": "A", "format": "table", "rawQuery": true, "editorMode": "code", "rawSql": "SELECT DISTINCT ON (tenant, suite) tenant, suite, score, passed, failed, created_at FROM eval_runs WHERE tenant NOT LIKE 'itest-%' AND suite NOT LIKE 'itest-%' ORDER BY tenant, suite, created_at DESC" }],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "score" },
+            "properties": [
+              { "id": "unit", "value": "percentunit" },
+              { "id": "custom.cellOptions", "value": { "type": "color-background" } },
+              { "id": "thresholds", "value": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "orange", "value": 0.6 }, { "color": "green", "value": 0.9 }] } }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Eval score over time",
+      "gridPos": { "x": 16, "y": 12, "w": 8, "h": 8 },
+      "datasource": { "type": "grafana-postgresql-datasource", "uid": "pg-agentinfra" },
+      "targets": [{ "refId": "A", "format": "time_series", "rawQuery": true, "editorMode": "code", "rawSql": "SELECT created_at AS time, tenant || '/' || suite AS metric, score::float AS score FROM eval_runs WHERE $__timeFilter(created_at) AND tenant NOT LIKE 'itest-%' AND suite NOT LIKE 'itest-%' ORDER BY 1" }],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "min": 0, "max": 1, "custom": { "drawStyle": "line", "showPoints": "always", "pointSize": 6 } }, "overrides": [] }
+    },
+    {
+      "id": 10,
+      "type": "logs",
+      "title": "Audit trail (warn and error)",
+      "gridPos": { "x": 0, "y": 20, "w": 12, "h": 10 },
+      "datasource": { "type": "loki", "uid": "loki-agents" },
+      "targets": [{ "refId": "A", "expr": "{service_name=\"agentinfra\", level=~\"warn|error\"}", "queryType": "range" }],
+      "options": { "showTime": true, "wrapLogMessage": true, "sortOrder": "Descending", "enableLogDetails": true }
+    },
+    {
+      "id": 11,
+      "type": "logs",
+      "title": "All log lines",
+      "gridPos": { "x": 12, "y": 20, "w": 12, "h": 10 },
+      "datasource": { "type": "loki", "uid": "loki-agents" },
+      "targets": [{ "refId": "A", "expr": "{service_name=\"agentinfra\"}", "queryType": "range" }],
+      "options": { "showTime": true, "wrapLogMessage": true, "sortOrder": "Descending", "enableLogDetails": true }
+    }
+  ]
+}

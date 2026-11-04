@@ -1,0 +1,20 @@
+[project]
+name = "agentinfra"
+version = "0.1.0"
+description = "Generic infra for skills and MCP servers: OAuth 2, tenant state, centralized logs, evals"
+requires-python = ">=3.15"
+dependencies = [
+    "granian>=2.8.7",
+    "psycopg[binary]>=3.3.7",
+]
+
+[dependency-groups]
+dev = [
+    "ty>=0.0.90",
+]
+
+[tool.uv]
+package = false
+
+[tool.ty.environment]
+python-version = "3.15"

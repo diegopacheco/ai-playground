@@ -1,0 +1,8 @@
+.run/
+infra/.secrets/
+infra/.venv/
+infra/ui/node_modules/
+infra/ui/dist/
+__pycache__/
+.claude/skills/
+.mcp.json

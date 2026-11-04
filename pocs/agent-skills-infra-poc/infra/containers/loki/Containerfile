@@ -1,0 +1,3 @@
+FROM docker.io/grafana/loki:3.5.0
+COPY loki.yaml /etc/loki/loki.yaml
+CMD ["-config.file=/etc/loki/loki.yaml"]

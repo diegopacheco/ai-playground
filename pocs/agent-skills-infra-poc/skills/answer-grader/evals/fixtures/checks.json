@@ -1,0 +1,6 @@
+[
+  {"type": "contains", "value": "Breaking changes"},
+  {"type": "regex", "value": "^# Release \\d+\\.\\d+\\.\\d+"},
+  {"type": "not_contains", "value": "TODO"},
+  {"type": "max_length", "value": 1200}
+]

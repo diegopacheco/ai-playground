@@ -1,0 +1,37 @@
+{
+  "suite": "answer-grader-smoke",
+  "cases": [
+    {
+      "name": "a release note meeting every criterion scores 1",
+      "command": ["python3.15", "../scripts/grade.py", "grade", "--suite", "eval-release-notes", "--answer", "fixtures/good.md", "--checks", "fixtures/checks.json"],
+      "checks": [
+        {"type": "json_field_equals", "value": {"path": "score", "equals": 1.0}},
+        {"type": "json_field_equals", "value": {"path": "failed_checks", "equals": []}}
+      ]
+    },
+    {
+      "name": "a weak release note scores 0 and names the failed checks",
+      "command": ["python3.15", "../scripts/grade.py", "grade", "--suite", "eval-release-notes", "--answer", "fixtures/bad.md", "--checks", "fixtures/checks.json"],
+      "checks": [
+        {"type": "json_field_equals", "value": {"path": "score", "equals": 0.0}},
+        {"type": "json_field_equals", "value": {"path": "trend", "equals": "worse"}},
+        {"type": "contains", "value": "present: TODO"}
+      ]
+    },
+    {
+      "name": "history keeps the best score after a regression",
+      "command": ["python3.15", "../scripts/grade.py", "history", "--suite", "eval-release-notes"],
+      "checks": [
+        {"type": "json_field_equals", "value": {"path": "best", "equals": 1.0}}
+      ]
+    },
+    {
+      "name": "the shared evaluator catalog is reachable",
+      "command": ["python3.15", "../scripts/grade.py", "evaluators"],
+      "checks": [
+        {"type": "contains", "value": "json_field_equals"},
+        {"type": "max_latency_ms", "value": 5000}
+      ]
+    }
+  ]
+}

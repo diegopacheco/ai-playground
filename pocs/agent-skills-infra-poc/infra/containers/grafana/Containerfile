@@ -1,0 +1,4 @@
+FROM docker.io/grafana/grafana:12.1.0
+COPY datasource.yaml /etc/grafana/provisioning/datasources/datasource.yaml
+COPY dashboards.yaml /etc/grafana/provisioning/dashboards/dashboards.yaml
+COPY agent-infra.json /var/lib/grafana/dashboards/agent-infra.json

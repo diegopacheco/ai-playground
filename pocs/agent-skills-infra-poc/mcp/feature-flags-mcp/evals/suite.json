@@ -1,0 +1,41 @@
+{
+  "suite": "feature-flags-mcp-smoke",
+  "cases": [
+    {
+      "name": "set creates a flag at 50 percent",
+      "command": ["bash", "../run.sh", "--call", "set_flag", "{\"name\": \"eval-new-ui\", \"enabled\": true, \"rollout_percent\": 50, \"description\": \"eval flag\"}"],
+      "checks": [
+        {"type": "json_field_equals", "value": {"path": "rollout_percent", "equals": 50}},
+        {"type": "max_latency_ms", "value": 5000}
+      ]
+    },
+    {
+      "name": "evaluation is deterministic for the same user",
+      "command": ["bash", "-c", "a=$(bash ../run.sh --call evaluate_flag '{\"name\":\"eval-new-ui\",\"user_id\":\"u-42\"}'); b=$(bash ../run.sh --call evaluate_flag '{\"name\":\"eval-new-ui\",\"user_id\":\"u-42\"}'); [ \"$a\" = \"$b\" ] && echo same || echo different"],
+      "checks": [
+        {"type": "exact_match", "value": "same"}
+      ]
+    },
+    {
+      "name": "a disabled flag is off for everyone",
+      "command": ["bash", "-c", "bash ../run.sh --call set_flag '{\"name\":\"eval-new-ui\",\"enabled\":false}' >/dev/null && bash ../run.sh --call evaluate_flag '{\"name\":\"eval-new-ui\",\"user_id\":\"u-42\"}'"],
+      "checks": [
+        {"type": "json_field_equals", "value": {"path": "on", "equals": false}}
+      ]
+    },
+    {
+      "name": "rollout above 100 is rejected",
+      "command": ["bash", "../run.sh", "--call", "set_flag", "{\"name\": \"eval-new-ui\", \"enabled\": true, \"rollout_percent\": 150}"],
+      "checks": [
+        {"type": "contains", "value": "between 0 and 100"}
+      ]
+    },
+    {
+      "name": "delete removes the flag",
+      "command": ["bash", "../run.sh", "--call", "delete_flag", "{\"name\": \"eval-new-ui\"}"],
+      "checks": [
+        {"type": "json_field_equals", "value": {"path": "deleted", "equals": "eval-new-ui"}}
+      ]
+    }
+  ]
+}

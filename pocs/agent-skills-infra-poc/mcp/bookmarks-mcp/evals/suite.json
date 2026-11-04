@@ -1,0 +1,41 @@
+{
+  "suite": "bookmarks-mcp-smoke",
+  "cases": [
+    {
+      "name": "save normalizes tags",
+      "command": ["bash", "../run.sh", "--call", "save_bookmark", "{\"url\": \"https://eval.local/loki\", \"title\": \"Eval Loki docs\", \"tags\": [\"Logs\", \"logs\", \" eval \"]}"],
+      "checks": [
+        {"type": "json_field_equals", "value": {"path": "tags", "equals": ["eval", "logs"]}},
+        {"type": "max_latency_ms", "value": 5000}
+      ]
+    },
+    {
+      "name": "list by tag returns the saved bookmark",
+      "command": ["bash", "../run.sh", "--call", "list_bookmarks", "{\"tag\": \"eval\"}"],
+      "checks": [
+        {"type": "contains", "value": "https://eval.local/loki"}
+      ]
+    },
+    {
+      "name": "search matches the title case insensitive",
+      "command": ["bash", "../run.sh", "--call", "search_bookmarks", "{\"query\": \"eval LOKI\"}"],
+      "checks": [
+        {"type": "json_field_equals", "value": {"path": "count", "equals": 1}}
+      ]
+    },
+    {
+      "name": "a non http url is rejected",
+      "command": ["bash", "../run.sh", "--call", "save_bookmark", "{\"url\": \"file:///etc/passwd\"}"],
+      "checks": [
+        {"type": "contains", "value": "must start with http"}
+      ]
+    },
+    {
+      "name": "delete removes it",
+      "command": ["bash", "../run.sh", "--call", "delete_bookmark", "{\"url\": \"https://eval.local/loki\"}"],
+      "checks": [
+        {"type": "json_field_equals", "value": {"path": "deleted", "equals": "https://eval.local/loki"}}
+      ]
+    }
+  ]
+}

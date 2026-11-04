@@ -1,0 +1,52 @@
+{
+  "suite": "decision-log-smoke",
+  "cases": [
+    {
+      "name": "add records an accepted decision with a slug id",
+      "command": ["python3.15", "../scripts/decision.py", "add", "--title", "Eval Use RLS", "--decision", "State uses Postgres RLS", "--why", "isolation even with app bugs"],
+      "checks": [
+        {"type": "json_valid"},
+        {"type": "json_field_equals", "value": {"path": "id", "equals": "eval-use-rls"}},
+        {"type": "json_field_equals", "value": {"path": "status", "equals": "accepted"}},
+        {"type": "max_latency_ms", "value": 5000}
+      ]
+    },
+    {
+      "name": "show returns the stored reason",
+      "command": ["python3.15", "../scripts/decision.py", "show", "eval-use-rls"],
+      "checks": [
+        {"type": "json_field_equals", "value": {"path": "why", "equals": "isolation even with app bugs"}}
+      ]
+    },
+    {
+      "name": "supersede marks the old decision and links the new one",
+      "command": ["bash", "-c", "python3.15 ../scripts/decision.py add --title 'Eval Use RLS v2' --decision 'RLS plus audit' --why 'audit trail' >/dev/null && python3.15 ../scripts/decision.py supersede eval-use-rls --by eval-use-rls-v2"],
+      "checks": [
+        {"type": "json_field_equals", "value": {"path": "status", "equals": "superseded"}},
+        {"type": "json_field_equals", "value": {"path": "superseded_by", "equals": "eval-use-rls-v2"}}
+      ]
+    },
+    {
+      "name": "list filters by status",
+      "command": ["python3.15", "../scripts/decision.py", "list", "--status", "superseded"],
+      "checks": [
+        {"type": "contains", "value": "eval-use-rls"},
+        {"type": "not_contains", "value": "eval-use-rls-v2"}
+      ]
+    },
+    {
+      "name": "show of an unknown id fails with not_found",
+      "command": ["python3.15", "../scripts/decision.py", "show", "never-recorded"],
+      "checks": [
+        {"type": "contains", "value": "not_found"}
+      ]
+    },
+    {
+      "name": "cleanup removes eval decisions",
+      "command": ["bash", "-c", "python3.15 ../scripts/decision.py remove eval-use-rls >/dev/null && python3.15 ../scripts/decision.py remove eval-use-rls-v2"],
+      "checks": [
+        {"type": "contains", "value": "eval-use-rls-v2"}
+      ]
+    }
+  ]
+}

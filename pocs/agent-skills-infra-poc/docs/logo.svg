@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="140" viewBox="0 0 560 140">
+  <rect x="10" y="10" width="120" height="120" rx="26" fill="#16181d"/>
+  <rect x="34" y="34" width="32" height="32" rx="8" fill="#a5d8ff"/>
+  <rect x="74" y="34" width="32" height="32" rx="8" fill="#b2f2bb"/>
+  <rect x="34" y="74" width="32" height="32" rx="8" fill="#ffec99"/>
+  <rect x="74" y="74" width="32" height="32" rx="8" fill="#ffc9c9"/>
+  <text x="156" y="72" font-family="Helvetica, Arial, sans-serif" font-size="46" font-weight="700" fill="#16181d">agent infra</text>
+  <text x="158" y="108" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#687082">auth · state · logs · evals for skills and MCP</text>
+</svg>

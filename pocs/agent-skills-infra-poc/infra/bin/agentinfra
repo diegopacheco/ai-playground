@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+INFRA="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+PYTHON="$INFRA/.venv/bin/python"
+if [ ! -x "$PYTHON" ]; then
+  echo "agentinfra: run scripts/setup.sh first" >&2
+  exit 2
+fi
+PYTHONPATH="$INFRA" exec "$PYTHON" -m cli "$@"
