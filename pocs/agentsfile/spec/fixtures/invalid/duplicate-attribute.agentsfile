@@ -1,0 +1,3 @@
+# expect: line 3, col 1: duplicate attribute "version" in file
+version = "1"
+version = "1"

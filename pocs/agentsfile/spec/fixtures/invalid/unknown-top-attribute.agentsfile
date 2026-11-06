@@ -1,0 +1,3 @@
+# expect: line 3, col 1: unknown attribute "name" in file
+version = "1"
+name = "x"

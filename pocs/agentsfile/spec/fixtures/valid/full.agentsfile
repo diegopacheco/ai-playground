@@ -1,0 +1,54 @@
+# Two profiles that cover every block kind
+version = "1"
+
+profile "dev" {
+  description = "Everyday coding setup"
+
+  skill "code-review" {
+    source      = "./skills/code-review"
+    description = "Reviews the current diff"
+  }
+
+  skill "release-notes" {
+    source = "https://github.com/acme/skills/release-notes"
+  }
+
+  agent "tester" {
+    source = "./agents/tester.md"
+    model  = "claude-sonnet-5-5"
+    tools  = ["Read", "Grep", "Bash",]
+  }
+
+  command "ship" {
+    source      = "./commands/ship.md"
+    description = "Runs tests and opens a PR"
+  }
+
+  mcp "github" {
+    transport = "stdio"
+    command   = "npx"
+    args      = ["-y", "@modelcontextprotocol/server-github"]
+    env       = {
+      GITHUB_TOKEN = "${GITHUB_TOKEN}"
+      LOG_LEVEL    = "info",
+    }
+  }
+}
+
+profile "ci" {
+  agent "reviewer" {
+    source      = "./agents/reviewer.md"
+    description = "Says \"no\" to\tsloppy code"
+  }
+
+  mcp "docs" {
+    transport = "http"
+    url       = "https://mcp.acme.dev/docs"
+    headers   = { Authorization = "Bearer ${DOCS_TOKEN}" }
+  }
+
+  mcp "events" {
+    transport = "sse"
+    url       = "https://mcp.acme.dev/events"
+  }
+}

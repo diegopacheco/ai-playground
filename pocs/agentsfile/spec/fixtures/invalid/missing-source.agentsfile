@@ -1,0 +1,7 @@
+# expect: line 4, col 3: missing required attribute "source" in command "ship"
+version = "1"
+profile "dev" {
+  command "ship" {
+    description = "no source"
+  }
+}

@@ -1,0 +1,3 @@
+# expect: line 3, col 15: expected '{', found identifier
+version = "1"
+profile "dev" skill

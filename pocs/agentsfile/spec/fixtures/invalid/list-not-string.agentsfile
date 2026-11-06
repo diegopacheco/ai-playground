@@ -1,0 +1,8 @@
+# expect: line 6, col 14: expected string, found '['
+version = "1"
+profile "dev" {
+  agent "a" {
+    source = "./a.md"
+    tools = [["Read"]]
+  }
+}

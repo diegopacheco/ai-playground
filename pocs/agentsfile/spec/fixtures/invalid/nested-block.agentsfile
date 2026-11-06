@@ -1,0 +1,8 @@
+# expect: line 5, col 5: unknown block "skill" in skill
+version = "1"
+profile "dev" {
+  skill "a" {
+    skill "b" {
+    }
+  }
+}

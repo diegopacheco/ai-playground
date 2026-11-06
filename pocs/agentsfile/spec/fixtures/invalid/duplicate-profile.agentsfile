@@ -1,0 +1,6 @@
+# expect: line 5, col 1: duplicate profile "dev"
+version = "1"
+profile "dev" {
+}
+profile "dev" {
+}

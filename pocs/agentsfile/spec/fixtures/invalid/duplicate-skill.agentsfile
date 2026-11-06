@@ -1,0 +1,10 @@
+# expect: line 7, col 3: duplicate skill "a" in profile "dev"
+version = "1"
+profile "dev" {
+  skill "a" {
+    source = "./a"
+  }
+  skill "a" {
+    source = "./b"
+  }
+}

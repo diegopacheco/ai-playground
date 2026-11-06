@@ -1,0 +1,9 @@
+# expect: line 7, col 15: expected '=', found string
+version = "1"
+profile "dev" {
+  mcp "m" {
+    transport = "stdio"
+    command = "x"
+    env = { A "1" }
+  }
+}

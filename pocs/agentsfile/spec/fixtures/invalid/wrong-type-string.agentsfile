@@ -1,0 +1,2 @@
+# expect: line 2, col 1: attribute "version" must be a string
+version = ["1"]

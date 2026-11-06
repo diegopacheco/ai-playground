@@ -1,0 +1,9 @@
+# expect: line 6, col 5: attribute "env" must be a map
+version = "1"
+profile "dev" {
+  mcp "m" {
+    command = "x"
+    env = ["A"]
+    transport = "stdio"
+  }
+}

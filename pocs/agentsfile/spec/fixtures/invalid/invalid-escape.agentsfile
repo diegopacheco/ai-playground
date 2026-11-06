@@ -1,0 +1,2 @@
+# expect: line 2, col 13: invalid escape '\q'
+version = "1\q"
