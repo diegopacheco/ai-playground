@@ -1,0 +1,11 @@
+# expect: line 8, col 7: unknown block "stage" in on
+version = "1"
+factory "x" {
+  stage "a" {
+    run = "test"
+    on "passed" {
+      to = "a"
+      stage "b" {}
+    }
+  }
+}

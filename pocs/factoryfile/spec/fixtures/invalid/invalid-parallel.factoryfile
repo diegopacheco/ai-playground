@@ -1,0 +1,8 @@
+# expect: line 6, col 16: invalid parallel "0", expected an integer from 1 to 999999
+version = "1"
+factory "x" {
+  stage "a" {
+    agents   = []
+    parallel = "0"
+  }
+}

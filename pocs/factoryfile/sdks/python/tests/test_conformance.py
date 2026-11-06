@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from factoryfile import Agent, Factory, Factoryfile, FactoryfileError, Stage, load, parse
+from factoryfile import Agent, Exhausted, Factory, Factoryfile, FactoryfileError, Route, Stage, load, parse
 
 FIXTURES = Path(__file__).resolve().parents[3] / "spec" / "fixtures"
 INVALID = sorted((FIXTURES / "invalid").glob("*.factoryfile"))
@@ -38,8 +38,13 @@ def full() -> Factoryfile:
     return load(FIXTURES / "valid" / "full.factoryfile")
 
 
+@pytest.fixture(scope="module")
+def gate() -> Factory:
+    return load(FIXTURES / "valid" / "routes.factoryfile").factories[0]
+
+
 def test_every_invalid_fixture_is_collected() -> None:
-    assert len(INVALID) == 63
+    assert len(INVALID) == 82
 
 
 @pytest.mark.parametrize("path", INVALID, ids=[path.stem for path in INVALID])
@@ -129,3 +134,58 @@ def test_a_cycle_through_next_is_legal_for_a_parser() -> None:
         '  stage "b" { agents = [] next = ["a"] }\n}\n'
     )
     assert parse(text).factories[0].stages[1].next == ("a",)
+
+
+def test_v11_factory_carries_title_flow_backlog_and_agent_providers(gate: Factory, full: Factoryfile) -> None:
+    assert (gate.title, gate.flow, gate.backlog) == ("Approval Gate", "pull", "optional")
+    assert _agent(gate, "maker").provider == "codex"
+    assert _agent(gate, "approver").provider == "claude"
+    assert full.factories[0].title is None, "a v1 factory has no title"
+
+
+def test_v11_command_stages_need_no_agents_and_keep_their_run_and_end(gate: Factory, full: Factoryfile) -> None:
+    test = _stage(gate, "test")
+    assert (test.run, test.agents, test.label) == ("test", (), "Test")
+    assert _stage(gate, "ship").script == "scripts/ship.sh"
+    done = _stage(gate, "done")
+    assert (done.end, done.at) == ("succeeded", (1, 1))
+    assert _stage(full.factories[0], "build").at == (), "a stage without at"
+
+
+def test_v11_agent_stages_carry_their_prompt_file_skills_output_check_and_verdict(gate: Factory) -> None:
+    implement = _stage(gate, "implement")
+    assert implement.source == "prompts/implement.md"
+    assert implement.skills == ("skills/tdd.md", "skills/git.md")
+    assert implement.visits == 4
+    approve = _stage(gate, "approve")
+    assert (approve.output, approve.check) == ("approval.json", "verdict")
+    assert approve.verdict == {
+        "field": "approved",
+        "yes": "approved",
+        "no": "rejected",
+        "list": "reasons",
+        "notes": "notes",
+    }
+    build = _stage(gate, "build")
+    assert (build.tasks, build.parallel, build.verdict) == ("split", 10, None)
+
+
+def test_v11_routes_branch_by_outcome_and_fall_back_when_their_target_is_exhausted(gate: Factory) -> None:
+    assert _stage(gate, "test").routes == (
+        Route("passed", "approve", label="pass"),
+        Route("failed", "implement", label="fail", reason="the tests failed"),
+    )
+    assert _stage(gate, "approve").routes[1] == Route("rejected", "implement", cycle=True)
+    assert _stage(gate, "implement").routes == (
+        Route(
+            "next",
+            "test",
+            exhausted=Exhausted(
+                "approve",
+                label="first fallback",
+                reason="test already ran as often as allowed",
+                exhausted=Exhausted("done", label="last fallback"),
+            ),
+        ),
+    )
+    assert _stage(gate, "split").routes == (), "a stage with only next has no routes"

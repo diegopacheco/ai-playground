@@ -1,0 +1,8 @@
+# expect: line 6, col 14: unknown stage "split" in stage "a"
+version = "1"
+factory "x" {
+  stage "a" {
+    agents = []
+    tasks  = "split"
+  }
+}

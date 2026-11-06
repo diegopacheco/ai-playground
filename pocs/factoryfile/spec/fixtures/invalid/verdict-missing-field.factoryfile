@@ -1,0 +1,8 @@
+# expect: line 6, col 15: verdict requires "field"
+version = "1"
+factory "x" {
+  stage "a" {
+    agents  = []
+    verdict = { yes = "go", no = "stop" }
+  }
+}

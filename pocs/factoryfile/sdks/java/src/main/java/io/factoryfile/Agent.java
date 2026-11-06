@@ -7,6 +7,7 @@ public record Agent(
         String name,
         Optional<String> description,
         Optional<String> role,
+        Optional<String> provider,
         Optional<String> model,
         List<String> tools,
         Optional<String> source,

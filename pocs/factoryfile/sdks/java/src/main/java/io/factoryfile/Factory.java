@@ -5,8 +5,11 @@ import java.util.Optional;
 
 public record Factory(
         String name,
+        Optional<String> title,
         Optional<String> description,
         Optional<String> entry,
+        Optional<String> flow,
+        Optional<String> backlog,
         List<Agent> agents,
         List<Stage> stages,
         List<Loop> loops) {

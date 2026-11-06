@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>gated-release · Factoryfile</title>
+<style>
+:root{--bg:#f7fbfb;--surface:#fff;--ink:#1f2a3a;--body:#5d6a7c;--line:#e2ebee;--a:#0d9488;--b:#4f6bff;--loop:#8b5cf6;--warn:#dc2626}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.5}
+code,pre{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12px}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px 24px;background:rgba(247,251,251,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top h1{font-size:16px;margin:0;letter-spacing:-.01em}
+.top h1 span{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--line);background:var(--surface);color:var(--body);border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer}
+.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.factory{padding:24px}
+.factory header h2{margin:0;font-size:28px;letter-spacing:-.02em}
+.lede{margin:4px 0 0;color:var(--body);max-width:760px}
+.stats{margin:6px 0 0;color:var(--body);font-size:13px}
+.stage-area{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:20px;margin-top:20px}
+.canvas{align-self:start;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:auto;box-shadow:0 10px 30px rgba(15,42,51,.06)}
+.graph{display:block;margin:0 auto;max-width:100%;height:auto}
+.edge{fill:none;stroke:#94a3b8;stroke-width:1.6}
+.edge.route{stroke:var(--a)}
+.fallback{fill:none;stroke:#94a3b8;stroke-width:1.4;stroke-dasharray:4 4}
+.edge-label{font-size:11px;fill:var(--body);paint-order:stroke;stroke:#fff;stroke-width:4px}
+.back.bounded path{stroke:var(--loop)}
+.back.bounded circle{stroke:var(--loop)}
+.back.bounded text{fill:var(--loop)}
+.loop path{fill:none;stroke:var(--loop);stroke-width:1.6;stroke-dasharray:5 4}
+.loop,.back{cursor:pointer}
+.loop circle,.back circle{fill:#fff;stroke:var(--loop);stroke-width:1.6}
+.loop text,.back text{fill:var(--loop);font-size:12px;font-weight:700}
+.back path{fill:none;stroke:var(--warn);stroke-width:1.6;stroke-dasharray:6 5}
+.back circle,.loop.open circle{stroke:var(--warn)}
+.back text,.loop.open text{fill:var(--warn)}
+.loop.open path{stroke:var(--warn)}
+.loop:hover path{stroke-width:3}
+.legend{list-style:none;margin:0;padding:14px 18px;border-top:1px solid var(--line);display:grid;gap:8px;font-size:13px;color:var(--body)}
+.legend li{cursor:pointer}
+.legend li:hover b{color:var(--b)}
+.legend i{display:inline-grid;place-items:center;width:20px;height:20px;margin-right:8px;border-radius:50%;border:1.6px solid var(--loop);color:var(--loop);font-style:normal;font-weight:700;font-size:11px}
+.legend b{color:var(--ink)}
+.node{cursor:pointer;outline:none}
+.node rect{fill:#fff;stroke:var(--line);stroke-width:1.5;transition:stroke .2s}
+.node.entry rect{stroke:var(--a);stroke-width:2.5}
+.node:hover rect,.node:focus rect,.node.sel rect{stroke:var(--b);stroke-width:2.5}
+.node .name{font-weight:700;font-size:14px;fill:var(--ink)}
+.node .roles{font-size:12px;fill:var(--a)}
+.node .meta{font-size:11px;fill:var(--body)}
+aside{position:sticky;top:76px;align-self:start;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;max-height:calc(100vh - 96px);overflow:auto}
+.hint{color:var(--body);font-size:14px}
+.detail h3{margin:0 0 8px;font-size:20px}
+.detail h3 small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--a)}
+.detail p{color:var(--body);margin:0 0 10px}
+.row{display:flex;gap:10px;margin:6px 0;font-size:13px}
+.row>span{width:72px;flex:none;color:var(--body)}
+.row code{background:#eef6f6;border-radius:6px;padding:1px 6px}
+.none{color:#a0aab8}
+.warn{color:var(--warn);font-weight:600}
+pre{white-space:pre-wrap;background:#0f2a33;color:#d7f5f0;border-radius:10px;padding:10px 12px;margin:8px 0}
+.agent{border-top:1px solid var(--line);padding:12px 0 4px;margin-top:12px}
+.agent b{display:block}
+.agent>span{font-size:12px;color:var(--body)}
+@media (max-width:900px){.stage-area{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top"><h1><span>Factoryfile</span> · gated-release</h1><nav class="tabs"><button data-tab="f0" class="on">gated-release</button></nav></div>
+<section class="factory" id="f0"><header><h2>gated-release</h2><p class="lede">Plan, build in parallel and test until green, then a fresh approver gates the release; a denial or a failed release ends in a postmortem before the next cycle</p><p class="stats">entry <code>plan</code> · 9 stages · 4 agents · 0 loops</p></header><div class="stage-area"><div class="canvas"><svg class="graph" viewBox="0 0 2336 358" width="2336" height="358" role="img" aria-label="gated-release factory graph"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs><g class="edge"><path d="M258 70 L438 70" marker-end="url(#arrow)"/></g><g class="edge"><path d="M668 70 L848 70" marker-end="url(#arrow)"/></g><g class="edge"><path d="M1078 70 L1258 70" marker-end="url(#arrow)"/></g><g class="edge route"><path d="M1488 70 L1668 70" marker-end="url(#arrow)"/><text class="edge-label" x="1578" y="74" text-anchor="middle">passed · green</text></g><g class="edge route"><path d="M1783 112 L1783 246" marker-end="url(#arrow)"/><text class="edge-label" x="1836" y="183" text-anchor="middle">approved · yes</text></g><g class="edge route"><path d="M1898 288 L2078 288" marker-end="url(#arrow)"/><text class="edge-label" x="1988" y="292" text-anchor="middle">shipped</text></g><g class="edge route"><path d="M1696 246 L1696 163 Q1696 153 1686 153 L1060 153 Q1050 153 1050 163 L1050 246" marker-end="url(#arrow)"/><text class="edge-label" x="1470" y="157" text-anchor="middle">failed · release failed</text></g><g class="edge route"><path d="M1724 112 L1724 169 Q1724 179 1714 179 L1032 179 Q1022 179 1022 189 L1022 246" marker-end="url(#arrow)"/><text class="edge-label" x="1479" y="183" text-anchor="middle">rejected · no</text></g><g class="edge route"><path d="M1361 112 L1361 246" marker-end="url(#arrow)"/><text class="edge-label" x="1314" y="203" text-anchor="middle">failed · red</text></g><g class="back bounded"><title>bounded on next · next cycle postmortem → plan</title><path d="M876 246 L876 215 Q876 205 866 205 L240 205 Q230 205 230 195 L230 112" marker-end="url(#arrow)"/><text class="edge-label" x="553" y="209" text-anchor="middle">next · next cycle</text></g><g class="back bounded"><title>bounded on next · retest fix → test</title><path d="M1385 246 L1385 112" marker-end="url(#arrow)"/><text class="edge-label" x="1435" y="204" text-anchor="middle">next · retest</text></g><g class="fallback"><path d="M1258 288 L1078 288" marker-end="url(#arrow)"/><text class="edge-label" x="1168" y="292" text-anchor="middle">still red</text></g><g class="node entry" data-target="f0-stage-0" tabindex="0"><rect x="28" y="28" width="230" height="84" rx="14"/><text class="name" x="44" y="56">▶ plan</text><text class="roles" x="44" y="78">planner</text><text class="meta" x="44" y="98">1 agent</text></g><g class="node" data-target="f0-stage-1" tabindex="0"><rect x="438" y="28" width="230" height="84" rx="14"/><text class="name" x="454" y="56">build</text><text class="roles" x="454" y="78">developer</text><text class="meta" x="454" y="98">1 agent</text></g><g class="node" data-target="f0-stage-2" tabindex="0"><rect x="848" y="28" width="230" height="84" rx="14"/><text class="name" x="864" y="56">merge</text><text class="roles" x="864" y="78">run merge</text><text class="meta" x="864" y="98">command</text></g><g class="node" data-target="f0-stage-3" tabindex="0"><rect x="1258" y="28" width="230" height="84" rx="14"/><text class="name" x="1274" y="56">test</text><text class="roles" x="1274" y="78">run test</text><text class="meta" x="1274" y="98">command</text></g><g class="node" data-target="f0-stage-4" tabindex="0"><rect x="1258" y="246" width="230" height="84" rx="14"/><text class="name" x="1274" y="274">fix</text><text class="roles" x="1274" y="296">developer</text><text class="meta" x="1274" y="316">1 agent</text></g><g class="node" data-target="f0-stage-5" tabindex="0"><rect x="1668" y="28" width="230" height="84" rx="14"/><text class="name" x="1684" y="56">approve</text><text class="roles" x="1684" y="78">approver</text><text class="meta" x="1684" y="98">1 agent</text></g><g class="node" data-target="f0-stage-6" tabindex="0"><rect x="1668" y="246" width="230" height="84" rx="14"/><text class="name" x="1684" y="274">ship</text><text class="roles" x="1684" y="296">run script scripts/ship.sh</text><text class="meta" x="1684" y="316">command</text></g><g class="node" data-target="f0-stage-7" tabindex="0"><rect x="848" y="246" width="230" height="84" rx="14"/><text class="name" x="864" y="274">postmortem</text><text class="roles" x="864" y="296">postmortem lead</text><text class="meta" x="864" y="316">1 agent</text></g><g class="node" data-target="f0-stage-8" tabindex="0"><rect x="2078" y="246" width="230" height="84" rx="14"/><text class="name" x="2094" y="274">done</text><text class="roles" x="2094" y="296">run finish</text><text class="meta" x="2094" y="316">command</text></g></svg></div><aside><p class="hint">Click a stage or a loop to see its agents, prompts and exit condition.</p><article class="detail" id="f0-stage-0" hidden><h3><small>stage</small>plan</h3><div class="row"><span>next</span><div><code>build</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><pre>Write tasks.json with one entry per task: id, title, details and tests.</pre><div class="agent"><b>planner</b><span>planner · <code>claude-opus-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Write</code></div></div><pre>You split the backlog items into small tasks with their tests, and write them as JSON.</pre></div></article><article class="detail" id="f0-stage-1" hidden><h3><small>stage</small>build</h3><div class="row"><span>next</span><div><code>merge</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><pre>Implement the task you were given in its own branch.</pre><div class="agent"><b>maker</b><span>developer · <code>gpt-5.6-sol</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Edit</code> <code>Bash</code></div></div><pre>You implement one task test first, keep the build green and leave a short note.</pre></div></article><article class="detail" id="f0-stage-2" hidden><h3><small>stage</small>merge</h3><div class="row"><span>run</span><div><code>run merge</code></div></div><div class="row"><span>next</span><div><code>test</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div></article><article class="detail" id="f0-stage-3" hidden><h3><small>stage</small>test</h3><div class="row"><span>run</span><div><code>run test</code></div></div><div class="row"><span>next</span><div><span class="none">none</span></div></div><div class="row"><span>routes</span><div><code>passed → approve</code> <code>failed → fix</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div></article><article class="detail" id="f0-stage-4" hidden><h3><small>stage</small>fix</h3><div class="row"><span>next</span><div><span class="none">none</span></div></div><div class="row"><span>routes</span><div><code>next → test</code></div></div><div class="row"><span>fallbacks</span><div><code>postmortem</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><pre>Read the failing tests and fix the code, never the tests.</pre><div class="agent"><b>maker</b><span>developer · <code>gpt-5.6-sol</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Edit</code> <code>Bash</code></div></div><pre>You implement one task test first, keep the build green and leave a short note.</pre></div></article><article class="detail" id="f0-stage-5" hidden><h3><small>stage</small>approve</h3><div class="row"><span>next</span><div><span class="none">none</span></div></div><div class="row"><span>routes</span><div><code>approved → ship</code> <code>rejected → postmortem</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><pre>Write approval.json with approved true or false and the reasons.</pre><div class="agent"><b>approver</b><span>approver · <code>claude-opus-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code></div></div><pre>You review the change with fresh context and approve it only when it is ready to ship.</pre></div></article><article class="detail" id="f0-stage-6" hidden><h3><small>stage</small>ship</h3><div class="row"><span>run</span><div><code>run script scripts/ship.sh</code></div></div><div class="row"><span>next</span><div><span class="none">none</span></div></div><div class="row"><span>routes</span><div><code>shipped → done</code> <code>failed → postmortem</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div></article><article class="detail" id="f0-stage-7" hidden><h3><small>stage</small>postmortem</h3><div class="row"><span>next</span><div><span class="none">none</span></div></div><div class="row"><span>routes</span><div><code>next → plan</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><pre>Write postmortem.md and change the harness rules so this failure cannot repeat.</pre><div class="agent"><b>postmortem</b><span>postmortem lead · <code>claude-sonnet-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Write</code></div></div><pre>You find why the cycle failed and change the harness so it cannot fail that way again.</pre></div></article><article class="detail" id="f0-stage-8" hidden><h3><small>stage</small>done</h3><div class="row"><span>run</span><div><code>run finish</code></div></div><div class="row"><span>next</span><div><span class="none">none</span></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div></article></aside></div></section>
+<script>
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".factory").forEach(s=>s.hidden=s.id!==b.dataset.tab);
+}));
+document.querySelectorAll("[data-target]").forEach(el=>{
+  const show=()=>{
+    const section=el.closest(".factory");
+    section.querySelectorAll(".detail").forEach(d=>d.hidden=d.id!==el.dataset.target);
+    section.querySelector(".hint").hidden=true;
+    section.querySelectorAll(".node").forEach(n=>n.classList.toggle("sel",n===el));
+  };
+  el.addEventListener("click",show);
+  el.addEventListener("keydown",e=>{if(e.key==="Enter")show();});
+});
+</script>
+</body>
+</html>

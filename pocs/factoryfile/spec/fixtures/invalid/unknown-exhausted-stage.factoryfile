@@ -1,0 +1,11 @@
+# expect: line 8, col 7: unknown stage "postmortem" in stage "a"
+version = "1"
+factory "x" {
+  stage "a" {
+    run = "test"
+    on "failed" {
+      to = "a"
+      exhausted "postmortem" { reason = "out of attempts" }
+    }
+  }
+}

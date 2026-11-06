@@ -1,0 +1,9 @@
+# expect: line 7, col 5: duplicate on "passed" in stage "a"
+version = "1"
+factory "x" {
+  stage "a" {
+    run = "test"
+    on "passed" { to = "a" }
+    on "passed" { to = "a" }
+  }
+}

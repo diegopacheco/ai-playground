@@ -1,4 +1,4 @@
-# expect: line 5, col 3: stage "b" requires "agents"
+# expect: line 5, col 3: stage "b" requires "agents" or "run"
 version = "1"
 factory "x" {
   stage "a" { agents = [] next = ["nowhere"] }

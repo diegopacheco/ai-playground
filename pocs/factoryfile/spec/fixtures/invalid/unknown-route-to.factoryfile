@@ -1,0 +1,8 @@
+# expect: line 6, col 24: unknown stage "deploy" in stage "a"
+version = "1"
+factory "x" {
+  stage "a" {
+    run = "test"
+    on "passed" { to = "deploy" }
+  }
+}

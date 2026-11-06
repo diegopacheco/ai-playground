@@ -1,0 +1,160 @@
+version = "1"
+
+factory "gated-release" {
+  title       = "Gated Release"
+  description = "Plan, build in parallel and test until green, then a fresh approver gates the release; a denial or a failed release ends in a postmortem before the next cycle"
+  entry       = "plan"
+  flow        = "pull"
+
+  agent "planner" {
+    role     = "planner"
+    provider = "claude"
+    model    = "claude-opus-5-5"
+    tools    = ["Read", "Write"]
+    content  = "You split the backlog items into small tasks with their tests, and write them as JSON."
+  }
+
+  agent "maker" {
+    role     = "developer"
+    provider = "codex"
+    model    = "gpt-5.6-sol"
+    tools    = ["Read", "Edit", "Bash"]
+    content  = "You implement one task test first, keep the build green and leave a short note."
+  }
+
+  agent "approver" {
+    role     = "approver"
+    provider = "claude"
+    model    = "claude-opus-5-5"
+    tools    = ["Read"]
+    content  = "You review the change with fresh context and approve it only when it is ready to ship."
+  }
+
+  agent "postmortem" {
+    role     = "postmortem lead"
+    provider = "claude"
+    model    = "claude-sonnet-5-5"
+    tools    = ["Read", "Write"]
+    content  = "You find why the cycle failed and change the harness so it cannot fail that way again."
+  }
+
+  stage "plan" {
+    label   = "Plan"
+    agents  = ["planner"]
+    output  = "tasks.json"
+    check   = "output"
+    content = "Write tasks.json with one entry per task: id, title, details and tests."
+    at      = ["0", "0"]
+    next    = ["build"]
+  }
+
+  stage "build" {
+    label    = "Build"
+    agents   = ["maker"]
+    tasks    = "plan"
+    parallel = "4"
+    content  = "Implement the task you were given in its own branch."
+    at       = ["1", "0"]
+    next     = ["merge"]
+  }
+
+  stage "merge" {
+    label = "Merge"
+    run   = "merge"
+    at    = ["2", "0"]
+    next  = ["test"]
+  }
+
+  stage "test" {
+    label  = "Test"
+    run    = "test"
+    visits = "3"
+    at     = ["3", "0"]
+
+    on "passed" {
+      to    = "approve"
+      label = "green"
+    }
+
+    on "failed" {
+      to     = "fix"
+      label  = "red"
+      reason = "the suite failed after the merge"
+    }
+  }
+
+  stage "fix" {
+    label   = "Fix"
+    agents  = ["maker"]
+    content = "Read the failing tests and fix the code, never the tests."
+    at      = ["3", "1"]
+
+    on "next" {
+      to    = "test"
+      label = "retest"
+
+      exhausted "postmortem" {
+        label  = "still red"
+        reason = "the tests kept failing after every fix"
+      }
+    }
+  }
+
+  stage "approve" {
+    label   = "Approved?"
+    agents  = ["approver"]
+    output  = "approval.json"
+    check   = "verdict"
+    verdict = { field = "approved", yes = "approved", no = "rejected", list = "reasons" }
+    content = "Write approval.json with approved true or false and the reasons."
+    at      = ["4", "0"]
+
+    on "approved" {
+      to    = "ship"
+      label = "yes"
+    }
+
+    on "rejected" {
+      to     = "postmortem"
+      label  = "no"
+      reason = "the approver denied the change"
+    }
+  }
+
+  stage "ship" {
+    label  = "Ship"
+    run    = "script"
+    script = "scripts/ship.sh"
+    at     = ["4", "1"]
+
+    on "shipped" { to = "done" }
+
+    on "failed" {
+      to     = "postmortem"
+      label  = "release failed"
+      reason = "the release script failed"
+    }
+  }
+
+  stage "postmortem" {
+    label   = "Postmortem"
+    agents  = ["postmortem"]
+    output  = "postmortem.md"
+    check   = "harness"
+    content = "Write postmortem.md and change the harness rules so this failure cannot repeat."
+    at      = ["2", "1"]
+
+    on "next" {
+      to    = "plan"
+      label = "next cycle"
+      cycle = "true"
+    }
+  }
+
+  stage "done" {
+    label = "Done"
+    run   = "finish"
+    end   = "succeeded"
+    at    = ["5", "1"]
+  }
+}

@@ -2,16 +2,18 @@ from pathlib import Path
 
 from factoryfile.errors import FactoryfileError
 from factoryfile.lexer import tokenize
-from factoryfile.model import Agent, Factory, Factoryfile, Loop, Stage
+from factoryfile.model import Agent, Exhausted, Factory, Factoryfile, Loop, Route, Stage
 from factoryfile.parser import parse_statements
 from factoryfile.schema import build
 
 __all__ = [
     "Agent",
+    "Exhausted",
     "Factory",
     "Factoryfile",
     "FactoryfileError",
     "Loop",
+    "Route",
     "Stage",
     "load",
     "parse",

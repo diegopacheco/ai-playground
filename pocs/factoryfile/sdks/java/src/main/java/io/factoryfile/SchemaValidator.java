@@ -20,7 +20,8 @@ import java.util.regex.Pattern;
 public final class SchemaValidator {
     private enum Kind {
         STRING("a string"),
-        LIST("a list");
+        LIST("a list"),
+        MAP("a map");
 
         private final String article;
 
@@ -32,7 +33,7 @@ public final class SchemaValidator {
             return switch (value) {
                 case StringValue _ -> this == STRING;
                 case ListValue _ -> this == LIST;
-                case MapValue _ -> false;
+                case MapValue _ -> this == MAP;
             };
         }
     }
@@ -41,13 +42,23 @@ public final class SchemaValidator {
     }
 
     private static final Map<String, Kind> FILE = Map.of("version", Kind.STRING);
-    private static final Map<String, Kind> FACTORY = Map.of("description", Kind.STRING, "entry", Kind.STRING);
+    private static final Map<String, Kind> FACTORY = Map.of(
+            "title", Kind.STRING, "description", Kind.STRING, "entry", Kind.STRING, "flow", Kind.STRING,
+            "backlog", Kind.STRING);
     private static final Map<String, Kind> AGENT = Map.of(
-            "description", Kind.STRING, "role", Kind.STRING, "model", Kind.STRING, "tools", Kind.LIST,
-            "source", Kind.STRING, "content", Kind.STRING);
-    private static final Map<String, Kind> STAGE = Map.of(
-            "description", Kind.STRING, "agents", Kind.LIST, "next", Kind.LIST, "artifacts", Kind.LIST,
-            "content", Kind.STRING);
+            "description", Kind.STRING, "role", Kind.STRING, "provider", Kind.STRING, "model", Kind.STRING,
+            "tools", Kind.LIST, "source", Kind.STRING, "content", Kind.STRING);
+    private static final Map<String, Kind> STAGE = Map.ofEntries(
+            Map.entry("label", Kind.STRING), Map.entry("description", Kind.STRING),
+            Map.entry("agents", Kind.LIST), Map.entry("run", Kind.STRING), Map.entry("script", Kind.STRING),
+            Map.entry("next", Kind.LIST), Map.entry("artifacts", Kind.LIST), Map.entry("output", Kind.STRING),
+            Map.entry("check", Kind.STRING), Map.entry("verdict", Kind.MAP), Map.entry("source", Kind.STRING),
+            Map.entry("content", Kind.STRING), Map.entry("skills", Kind.LIST), Map.entry("tasks", Kind.STRING),
+            Map.entry("parallel", Kind.STRING), Map.entry("visits", Kind.STRING), Map.entry("end", Kind.STRING),
+            Map.entry("at", Kind.LIST));
+    private static final Map<String, Kind> ON = Map.of(
+            "to", Kind.STRING, "label", Kind.STRING, "reason", Kind.STRING, "cycle", Kind.STRING);
+    private static final Map<String, Kind> EXHAUSTED = Map.of("label", Kind.STRING, "reason", Kind.STRING);
     private static final Map<String, Kind> LOOP = Map.of(
             "description", Kind.STRING, "from", Kind.STRING, "to", Kind.STRING, "until", Kind.STRING,
             "max", Kind.STRING);
@@ -56,16 +67,20 @@ public final class SchemaValidator {
             "factory.entry", "stage",
             "stage.agents", "agent",
             "stage.next", "stage",
+            "stage.tasks", "stage",
+            "on.to", "stage",
             "loop.from", "stage",
             "loop.to", "stage");
     private static final Pattern MAX = Pattern.compile("[1-9][0-9]{0,5}");
+    private static final Pattern AT = Pattern.compile("0|[1-9][0-9]{0,2}");
+    private static final Set<String> VERDICT_KEYS = Set.of("field", "yes", "no", "list", "notes");
 
     private final List<Reference> references = new ArrayList<>();
 
     public Factoryfile validate(List<Statement> statements) {
         List<Factory> factories = new ArrayList<>();
         Set<String> names = new HashSet<>();
-        Attributes attributes = walk("file", "", statements, FILE, block -> {
+        Attributes attributes = walk("file", "file \"\"", statements, FILE, block -> {
             if (!block.name().equals("factory")) {
                 throw unknownBlock(block, "file");
             }
@@ -85,7 +100,7 @@ public final class SchemaValidator {
         List<Stage> stages = new ArrayList<>();
         List<Loop> loops = new ArrayList<>();
         Map<String, Set<String>> defined = new HashMap<>();
-        Attributes attributes = walk("factory", block.label(), block.body(), FACTORY, child -> {
+        Attributes attributes = walk("factory", owner(block), block.body(), FACTORY, child -> {
             if (!FACTORY_KINDS.contains(child.name())) {
                 throw unknownBlock(child, "factory");
             }
@@ -101,7 +116,8 @@ public final class SchemaValidator {
         });
         checkReferences(defined);
         Optional<String> entry = attributes.string("entry").or(() -> stages.stream().findFirst().map(Stage::name));
-        return new Factory(block.label(), attributes.string("description"), entry, agents, stages, loops);
+        return new Factory(block.label(), attributes.string("title"), attributes.string("description"), entry,
+                attributes.string("flow"), attributes.string("backlog"), agents, stages, loops);
     }
 
     private void checkReferences(Map<String, Set<String>> defined) {
@@ -127,17 +143,76 @@ public final class SchemaValidator {
             throw error(block, "agent \"" + block.label() + "\" cannot set both \"source\" and \"content\"");
         }
         return new Agent(block.label(), attributes.string("description"), attributes.string("role"),
-                attributes.string("model"), attributes.list("tools"), attributes.string("source"),
+                attributes.string("provider"), attributes.string("model"), attributes.list("tools"), attributes.string("source"),
                 attributes.string("content"));
     }
 
     private Stage stage(Block block) {
-        Attributes attributes = leaf(block, STAGE);
-        if (!attributes.has("agents")) {
-            throw missing(block, "\"agents\"");
+        String owner = owner(block);
+        List<Route> routes = new ArrayList<>();
+        Set<String> outcomes = new HashSet<>();
+        Attributes attributes = walk("stage", owner, block.body(), STAGE, child -> {
+            if (!child.name().equals("on")) {
+                throw unknownBlock(child, "stage");
+            }
+            if (!outcomes.add(child.label())) {
+                throw error(child, "duplicate on \"" + child.label() + "\" in stage \"" + block.label() + "\"");
+            }
+            routes.add(route(child, owner));
+        });
+        if (!attributes.has("agents") && !attributes.has("run")) {
+            throw missing(block, "\"agents\" or \"run\"");
         }
-        return new Stage(block.label(), attributes.string("description"), attributes.list("agents"),
-                attributes.list("next"), attributes.list("artifacts"), attributes.string("content"));
+        if (attributes.has("source") && attributes.has("content")) {
+            throw error(block, "stage \"" + block.label() + "\" cannot set both \"source\" and \"content\"");
+        }
+        if (attributes.has("next") && outcomes.contains("next")) {
+            throw error(block, "stage \"" + block.label() + "\" cannot set both \"next\" and on \"next\"");
+        }
+        if (attributes.has("next") || outcomes.contains("next")) {
+            routes.stream().filter(r -> !r.outcome().equals("next")).findFirst().ifPresent(r -> {
+                throw error(block, "stage \"" + block.label() + "\" cannot mix the next route with on \""
+                        + r.outcome() + "\"");
+            });
+        }
+        return new Stage(block.label(), attributes.string("label"), attributes.string("description"),
+                attributes.list("agents"), attributes.string("run"), attributes.string("script"),
+                attributes.list("next"), attributes.list("artifacts"), attributes.string("output"),
+                attributes.string("check"), attributes.map("verdict"), attributes.string("source"),
+                attributes.string("content"), attributes.list("skills"), attributes.string("tasks"),
+                attributes.number("parallel"), attributes.number("visits"), attributes.string("end"),
+                attributes.list("at").stream().map(Integer::parseInt).toList(), routes);
+    }
+
+    private Route route(Block block, String owner) {
+        List<Exhausted> fallback = new ArrayList<>();
+        Attributes attributes = walk("on", owner, block.body(), ON, exhaustedBlock(block, owner, fallback));
+        if (!attributes.has("to")) {
+            throw missing(block, "\"to\"");
+        }
+        return new Route(block.label(), attributes.string("to").orElseThrow(), attributes.string("label"),
+                attributes.string("reason"), attributes.string("cycle").filter("true"::equals).isPresent(),
+                fallback.stream().findFirst());
+    }
+
+    private Consumer<Block> exhaustedBlock(Block parent, String owner, List<Exhausted> into) {
+        return child -> {
+            if (!child.name().equals("exhausted")) {
+                throw unknownBlock(child, parent.name());
+            }
+            if (!into.isEmpty()) {
+                throw error(child, "duplicate exhausted in " + parent.name() + " \"" + parent.label() + "\"");
+            }
+            references.add(new Reference("stage", List.of(child.label()), owner, child.line(), child.col()));
+            into.add(exhausted(child, owner));
+        };
+    }
+
+    private Exhausted exhausted(Block block, String owner) {
+        List<Exhausted> next = new ArrayList<>();
+        Attributes attributes = walk("exhausted", owner, block.body(), EXHAUSTED, exhaustedBlock(block, owner, next));
+        return new Exhausted(block.label(), attributes.string("label"), attributes.string("reason"),
+                next.stream().findFirst());
     }
 
     private Loop loop(Block block) {
@@ -149,23 +224,27 @@ public final class SchemaValidator {
         }
         return new Loop(block.label(), attributes.string("description"), attributes.string("from").orElseThrow(),
                 attributes.string("to").orElseThrow(), attributes.string("until"),
-                attributes.string("max").map(Integer::parseInt));
+                attributes.number("max"));
     }
 
     private Attributes leaf(Block block, Map<String, Kind> allowed) {
-        return walk(block.name(), block.label(), block.body(), allowed, child -> {
+        return walk(block.name(), owner(block), block.body(), allowed, child -> {
             throw unknownBlock(child, block.name());
         });
     }
 
-    private Attributes walk(String context, String label, List<Statement> body, Map<String, Kind> allowed,
+    private static String owner(Block block) {
+        return block.name() + " \"" + block.label() + "\"";
+    }
+
+    private Attributes walk(String context, String owner, List<Statement> body, Map<String, Kind> allowed,
                             Consumer<Block> onBlock) {
         Attributes attributes = new Attributes(context, allowed);
         for (Statement statement : body) {
             switch (statement) {
                 case Attribute attribute -> {
                     attributes.add(attribute);
-                    collectReference(context, label, attribute);
+                    collectReference(context, owner, attribute);
                 }
                 case Block block -> onBlock.accept(block);
             }
@@ -173,7 +252,7 @@ public final class SchemaValidator {
         return attributes;
     }
 
-    private void collectReference(String context, String label, Attribute attribute) {
+    private void collectReference(String context, String owner, Attribute attribute) {
         String target = REFERENCES.get(context + "." + attribute.name());
         if (target == null) {
             return;
@@ -184,7 +263,7 @@ public final class SchemaValidator {
             case ListValue list -> list.items().stream().map(StringValue::value).toList();
             case MapValue _ -> List.of();
         };
-        references.add(new Reference(target, names, context + " \"" + label + "\"", value.line(), value.col()));
+        references.add(new Reference(target, names, owner, value.line(), value.col()));
     }
 
     private static FactoryfileException missing(Block block, String what) {
@@ -226,17 +305,50 @@ public final class SchemaValidator {
         }
 
         private void checkValue(Attribute attribute) {
-            if (!(attribute.value() instanceof StringValue value)) {
-                return;
+            Value value = attribute.value();
+            switch (context + "." + attribute.name()) {
+                case "file.version" -> {
+                    String version = ((StringValue) value).value();
+                    if (!version.equals("1")) {
+                        throw invalid(value, "unsupported version \"" + version + "\"");
+                    }
+                }
+                case "loop.max", "stage.parallel", "stage.visits" -> {
+                    String number = ((StringValue) value).value();
+                    if (!MAX.matcher(number).matches()) {
+                        throw invalid(value, "invalid " + attribute.name() + " \"" + number
+                                + "\", expected an integer from 1 to 999999");
+                    }
+                }
+                case "stage.at" -> {
+                    List<StringValue> items = ((ListValue) value).items();
+                    if (items.size() != 2 || !items.stream().allMatch(i -> AT.matcher(i.value()).matches())) {
+                        throw invalid(value, "invalid at, expected two integers from 0 to 999");
+                    }
+                }
+                case "on.cycle" -> {
+                    String cycle = ((StringValue) value).value();
+                    if (!cycle.equals("true") && !cycle.equals("false")) {
+                        throw invalid(value, "invalid cycle \"" + cycle + "\", expected \"true\" or \"false\"");
+                    }
+                }
+                case "stage.verdict" -> {
+                    Map<String, StringValue> entries = ((MapValue) value).entries();
+                    entries.keySet().stream().sorted().filter(k -> !VERDICT_KEYS.contains(k)).findFirst()
+                            .ifPresent(k -> {
+                                throw invalid(value, "unknown key \"" + k + "\" in verdict");
+                            });
+                    if (!entries.containsKey("field")) {
+                        throw invalid(value, "verdict requires \"field\"");
+                    }
+                }
+                default -> {
+                }
             }
-            if (context.equals("file") && attribute.name().equals("version") && !value.value().equals("1")) {
-                throw new FactoryfileException(value.line(), value.col(),
-                        "unsupported version \"" + value.value() + "\"");
-            }
-            if (context.equals("loop") && attribute.name().equals("max") && !MAX.matcher(value.value()).matches()) {
-                throw new FactoryfileException(value.line(), value.col(),
-                        "invalid max \"" + value.value() + "\", expected an integer from 1 to 999999");
-            }
+        }
+
+        private static FactoryfileException invalid(Value value, String message) {
+            return new FactoryfileException(value.line(), value.col(), message);
         }
 
         boolean has(String name) {
@@ -245,6 +357,18 @@ public final class SchemaValidator {
 
         Optional<String> string(String name) {
             return Optional.ofNullable(values.get(name)).map(v -> ((StringValue) v).value());
+        }
+
+        Optional<Integer> number(String name) {
+            return string(name).map(Integer::parseInt);
+        }
+
+        Optional<Map<String, String>> map(String name) {
+            return Optional.ofNullable((MapValue) values.get(name)).map(v -> {
+                Map<String, String> out = new LinkedHashMap<>();
+                v.entries().forEach((key, entry) -> out.put(key, entry.value()));
+                return out;
+            });
         }
 
         List<String> list(String name) {

@@ -20,8 +20,8 @@ function failure(run: () => unknown): FactoryfileError {
 const fixtures = readdirSync(dir).filter((name) => name.endsWith(".factoryfile")).sort();
 
 describe("invalid fixtures", () => {
-  test("all 63 fixtures are present", () => {
-    expect(fixtures.length).toBe(63);
+  test("all 82 fixtures are present", () => {
+    expect(fixtures.length).toBe(82);
   });
 
   for (const name of fixtures) {

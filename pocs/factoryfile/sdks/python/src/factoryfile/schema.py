@@ -3,33 +3,55 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 from factoryfile.errors import FactoryfileError
-from factoryfile.model import Agent, Factory, Factoryfile, Loop, Stage
+from factoryfile.model import Agent, Exhausted, Factory, Factoryfile, Loop, Route, Stage
 from factoryfile.parser import Attribute, Block, ListValue, MapValue, Statement, StringValue, Value
 
-type ValueType = type[StringValue] | type[ListValue]
+type ValueType = type[StringValue] | type[ListValue] | type[MapValue]
 type Kinds = dict[str, ValueType]
 type Children = dict[str, Callable[[Block], None]]
 type Attrs = dict[str, Value]
 
-KIND_NAMES: dict[ValueType, str] = {StringValue: "a string", ListValue: "a list"}
+KIND_NAMES: dict[ValueType, str] = {StringValue: "a string", ListValue: "a list", MapValue: "a map"}
 
 FILE: Kinds = {"version": StringValue}
-FACTORY: Kinds = {"description": StringValue, "entry": StringValue}
+FACTORY: Kinds = {
+    "title": StringValue,
+    "description": StringValue,
+    "entry": StringValue,
+    "flow": StringValue,
+    "backlog": StringValue,
+}
 AGENT: Kinds = {
     "description": StringValue,
     "role": StringValue,
+    "provider": StringValue,
     "model": StringValue,
     "tools": ListValue,
     "source": StringValue,
     "content": StringValue,
 }
 STAGE: Kinds = {
+    "label": StringValue,
     "description": StringValue,
     "agents": ListValue,
+    "run": StringValue,
+    "script": StringValue,
     "next": ListValue,
     "artifacts": ListValue,
+    "output": StringValue,
+    "check": StringValue,
+    "verdict": MapValue,
+    "source": StringValue,
     "content": StringValue,
+    "skills": ListValue,
+    "tasks": StringValue,
+    "parallel": StringValue,
+    "visits": StringValue,
+    "end": StringValue,
+    "at": ListValue,
 }
+ON: Kinds = {"to": StringValue, "label": StringValue, "reason": StringValue, "cycle": StringValue}
+EXHAUSTED: Kinds = {"label": StringValue, "reason": StringValue}
 LOOP: Kinds = {
     "description": StringValue,
     "from": StringValue,
@@ -44,11 +66,17 @@ REFERENCES = {
     ("factory", "entry"): "stage",
     ("stage", "agents"): "agent",
     ("stage", "next"): "stage",
+    ("stage", "tasks"): "stage",
+    ("on", "to"): "stage",
     ("loop", "from"): "stage",
     ("loop", "to"): "stage",
 }
 
+NUMBERS = {("loop", "max"), ("stage", "parallel"), ("stage", "visits")}
+VERDICT_KEYS = {"field", "yes", "no", "list", "notes"}
+
 MAX_PATTERN = re.compile(r"[1-9][0-9]{0,5}")
+AT_PATTERN = re.compile(r"0|[1-9][0-9]{0,2}")
 
 
 @dataclass(frozen=True)
@@ -76,25 +104,49 @@ def _check_attribute(attribute: Attribute, ctx: str, kinds: Kinds, attrs: Attrs)
         )
 
 
-def _check_value(ctx: str, attribute: Attribute) -> None:
-    value = attribute.value
-    if not isinstance(value, StringValue):
-        return
-    if (ctx, attribute.name) == ("file", "version") and value.value != "1":
+def _check_string(key: tuple[str, str], value: StringValue) -> None:
+    name = key[1]
+    if key == ("file", "version") and value.value != "1":
         raise FactoryfileError(value.line, value.col, f'unsupported version "{value.value}"')
-    if (ctx, attribute.name) == ("loop", "max") and not is_valid_max(value.value):
+    if key in NUMBERS and not is_valid_max(value.value):
         raise FactoryfileError(
-            value.line, value.col, f'invalid max "{value.value}", expected an integer from 1 to 999999'
+            value.line, value.col, f'invalid {name} "{value.value}", expected an integer from 1 to 999999'
         )
+    if key == ("on", "cycle") and value.value not in ("true", "false"):
+        raise FactoryfileError(value.line, value.col, f'invalid cycle "{value.value}", expected "true" or "false"')
 
 
-def _collect_reference(ctx: str, label: str, attribute: Attribute, refs: list[_Reference]) -> None:
+def _check_at(value: ListValue) -> None:
+    if len(value.items) != 2 or not all(AT_PATTERN.fullmatch(item) for item in value.items):
+        raise FactoryfileError(value.line, value.col, "invalid at, expected two integers from 0 to 999")
+
+
+def _check_verdict(value: MapValue) -> None:
+    for key in sorted(value.entries):
+        if key not in VERDICT_KEYS:
+            raise FactoryfileError(value.line, value.col, f'unknown key "{key}" in verdict')
+    if "field" not in value.entries:
+        raise FactoryfileError(value.line, value.col, 'verdict requires "field"')
+
+
+def _check_value(ctx: str, attribute: Attribute) -> None:
+    key = (ctx, attribute.name)
+    value = attribute.value
+    if isinstance(value, StringValue):
+        _check_string(key, value)
+    elif key == ("stage", "at") and isinstance(value, ListValue):
+        _check_at(value)
+    elif key == ("stage", "verdict") and isinstance(value, MapValue):
+        _check_verdict(value)
+
+
+def _collect_reference(ctx: str, owner: str, attribute: Attribute, refs: list[_Reference]) -> None:
     target = REFERENCES.get((ctx, attribute.name))
     value = attribute.value
     if target is None or isinstance(value, MapValue):
         return
     names = (value.value,) if isinstance(value, StringValue) else value.items
-    refs.append(_Reference(target, names, f'{ctx} "{label}"', value.line, value.col))
+    refs.append(_Reference(target, names, owner, value.line, value.col))
 
 
 def _check_references(refs: list[_Reference], defined: set[tuple[str, str]]) -> None:
@@ -107,7 +159,7 @@ def _check_references(refs: list[_Reference], defined: set[tuple[str, str]]) -> 
 def _scan(
     statements: tuple[Statement, ...],
     ctx: str,
-    label: str,
+    owner: str,
     kinds: Kinds,
     children: Children,
     refs: list[_Reference],
@@ -117,7 +169,7 @@ def _scan(
         if isinstance(statement, Attribute):
             _check_attribute(statement, ctx, kinds, attrs)
             _check_value(ctx, statement)
-            _collect_reference(ctx, label, statement, refs)
+            _collect_reference(ctx, owner, statement, refs)
             attrs[statement.name] = statement.value
         else:
             child = children.get(statement.kind)
@@ -137,8 +189,12 @@ def _list(attrs: Attrs, name: str) -> tuple[str, ...]:
     return value.items if isinstance(value, ListValue) else ()
 
 
+def _owner(block: Block) -> str:
+    return f'{block.kind} "{block.label}"'
+
+
 def _leaf(block: Block, kinds: Kinds, refs: list[_Reference]) -> Attrs:
-    return _scan(block.body, block.kind, block.label, kinds, {}, refs)
+    return _scan(block.body, block.kind, _owner(block), kinds, {}, refs)
 
 
 def _require(block: Block, attrs: Attrs, name: str) -> None:
@@ -159,6 +215,7 @@ def _agent(block: Block, refs: list[_Reference]) -> Agent:
         block.label,
         _string(attrs, "description"),
         _string(attrs, "role"),
+        _string(attrs, "provider"),
         _string(attrs, "model"),
         _list(attrs, "tools"),
         _string(attrs, "source"),
@@ -166,16 +223,104 @@ def _agent(block: Block, refs: list[_Reference]) -> Agent:
     )
 
 
+def _number(attrs: Attrs, name: str) -> int | None:
+    value = _string(attrs, name)
+    return None if value is None else int(value)
+
+
+def _verdict(attrs: Attrs) -> dict[str, str] | None:
+    value = attrs.get("verdict")
+    return value.entries if isinstance(value, MapValue) else None
+
+
+def _exhausted_child(parent: Block, owner: str, refs: list[_Reference], found: list[Exhausted]) -> Children:
+    def child(item: Block) -> None:
+        if found:
+            raise FactoryfileError(item.line, item.col, f'duplicate exhausted in {_owner(parent)}')
+        refs.append(_Reference("stage", (item.label,), owner, item.line, item.col))
+        found.append(_exhausted(item, owner, refs))
+
+    return {"exhausted": child}
+
+
+def _exhausted(block: Block, owner: str, refs: list[_Reference]) -> Exhausted:
+    found: list[Exhausted] = []
+    attrs = _scan(block.body, "exhausted", owner, EXHAUSTED, _exhausted_child(block, owner, refs, found), refs)
+    return Exhausted(
+        block.label,
+        _string(attrs, "label"),
+        _string(attrs, "reason"),
+        found[0] if found else None,
+    )
+
+
+def _route(block: Block, owner: str, refs: list[_Reference]) -> Route:
+    found: list[Exhausted] = []
+    attrs = _scan(block.body, "on", owner, ON, _exhausted_child(block, owner, refs, found), refs)
+    _require(block, attrs, "to")
+    return Route(
+        block.label,
+        _string(attrs, "to") or "",
+        _string(attrs, "label"),
+        _string(attrs, "reason"),
+        _string(attrs, "cycle") == "true",
+        found[0] if found else None,
+    )
+
+
+def _check_stage(block: Block, attrs: Attrs, outcomes: list[str]) -> None:
+    if "agents" not in attrs and "run" not in attrs:
+        raise FactoryfileError(block.line, block.col, f'stage "{block.label}" requires "agents" or "run"')
+    if "source" in attrs and "content" in attrs:
+        raise FactoryfileError(
+            block.line, block.col, f'stage "{block.label}" cannot set both "source" and "content"'
+        )
+    if "next" in attrs and "next" in outcomes:
+        raise FactoryfileError(
+            block.line, block.col, f'stage "{block.label}" cannot set both "next" and on "next"'
+        )
+    if "next" in attrs or "next" in outcomes:
+        for outcome in outcomes:
+            if outcome != "next":
+                raise FactoryfileError(
+                    block.line, block.col, f'stage "{block.label}" cannot mix the next route with on "{outcome}"'
+                )
+
+
 def _stage(block: Block, refs: list[_Reference]) -> Stage:
-    attrs = _leaf(block, STAGE, refs)
-    _require(block, attrs, "agents")
+    owner = _owner(block)
+    routes: list[Route] = []
+    outcomes: list[str] = []
+
+    def on(item: Block) -> None:
+        if item.label in outcomes:
+            raise FactoryfileError(item.line, item.col, f'duplicate on "{item.label}" in {owner}')
+        outcomes.append(item.label)
+        routes.append(_route(item, owner, refs))
+
+    attrs = _scan(block.body, "stage", owner, STAGE, {"on": on}, refs)
+    _check_stage(block, attrs, outcomes)
     return Stage(
         block.label,
-        _string(attrs, "description"),
-        _list(attrs, "agents"),
-        _list(attrs, "next"),
-        _list(attrs, "artifacts"),
-        _string(attrs, "content"),
+        label=_string(attrs, "label"),
+        description=_string(attrs, "description"),
+        agents=_list(attrs, "agents"),
+        run=_string(attrs, "run"),
+        script=_string(attrs, "script"),
+        next=_list(attrs, "next"),
+        artifacts=_list(attrs, "artifacts"),
+        output=_string(attrs, "output"),
+        check=_string(attrs, "check"),
+        verdict=_verdict(attrs),
+        source=_string(attrs, "source"),
+        content=_string(attrs, "content"),
+        skills=_list(attrs, "skills"),
+        tasks=_string(attrs, "tasks"),
+        parallel=_number(attrs, "parallel"),
+        visits=_number(attrs, "visits"),
+        end=_string(attrs, "end"),
+        at=tuple(int(item) for item in _list(attrs, "at")),
+        routes=tuple(routes),
     )
 
 
@@ -215,15 +360,18 @@ def _factory(block: Block) -> Factory:
             case _:
                 loops.append(_loop(item, refs))
 
-    attrs = _scan(block.body, "factory", block.label, FACTORY, {kind: child for kind in FACTORY_KINDS}, refs)
+    attrs = _scan(block.body, "factory", _owner(block), FACTORY, {kind: child for kind in FACTORY_KINDS}, refs)
     _check_references(refs, seen)
     entry = _string(attrs, "entry")
     if entry is None and stages:
         entry = stages[0].name
     return Factory(
         block.label,
+        _string(attrs, "title"),
         _string(attrs, "description"),
         entry,
+        _string(attrs, "flow"),
+        _string(attrs, "backlog"),
         tuple(agents),
         tuple(stages),
         tuple(loops),

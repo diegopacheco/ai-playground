@@ -1,0 +1,11 @@
+# expect: line 8, col 15: invalid cycle "yes", expected "true" or "false"
+version = "1"
+factory "x" {
+  stage "a" {
+    run = "test"
+    on "next" {
+      to    = "a"
+      cycle = "yes"
+    }
+  }
+}

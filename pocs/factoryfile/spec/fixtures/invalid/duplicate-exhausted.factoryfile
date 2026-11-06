@@ -1,0 +1,12 @@
+# expect: line 9, col 7: duplicate exhausted in on "failed"
+version = "1"
+factory "x" {
+  stage "a" {
+    run = "test"
+    on "failed" {
+      to = "a"
+      exhausted "a" {}
+      exhausted "a" {}
+    }
+  }
+}

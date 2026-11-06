@@ -7,8 +7,11 @@ type Factoryfile struct {
 
 type Factory struct {
 	Name        string
+	Title       *string
 	Description *string
 	Entry       *string
+	Flow        *string
+	Backlog     *string
 	Agents      []Agent
 	Stages      []Stage
 	Loops       []Loop
@@ -18,6 +21,7 @@ type Agent struct {
 	Name        string
 	Description *string
 	Role        *string
+	Provider    *string
 	Model       *string
 	Tools       []string
 	Source      *string
@@ -26,11 +30,41 @@ type Agent struct {
 
 type Stage struct {
 	Name        string
+	Label       *string
 	Description *string
 	Agents      []string
+	Run         *string
+	Script      *string
 	Next        []string
 	Artifacts   []string
+	Output      *string
+	Check       *string
+	Verdict     map[string]string
+	Source      *string
 	Content     *string
+	Skills      []string
+	Tasks       *string
+	Parallel    *int
+	Visits      *int
+	End         *string
+	At          []int
+	Routes      []Route
+}
+
+type Route struct {
+	Outcome   string
+	To        string
+	Label     *string
+	Reason    *string
+	Cycle     bool
+	Exhausted *Exhausted
+}
+
+type Exhausted struct {
+	To        string
+	Label     *string
+	Reason    *string
+	Exhausted *Exhausted
 }
 
 type Loop struct {

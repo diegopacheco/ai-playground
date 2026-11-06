@@ -142,21 +142,58 @@ fn check_unused_agents(items: &[&Block], stages: &[&Block], out: &mut Vec<Diagno
     }
 }
 
+struct Edge<'a> {
+    to: &'a str,
+    bounded: bool,
+    fallback: bool,
+    via: String,
+    line: usize,
+    col: usize,
+}
+
 struct Graph<'a> {
     entry: Option<&'a str>,
-    next: HashMap<&'a str, Vec<&'a str>>,
+    next: HashMap<&'a str, Vec<Edge<'a>>>,
     loops: HashMap<&'a str, Vec<&'a str>>,
+}
+
+fn stage_edges<'a>(stage: &'a Block) -> Vec<Edge<'a>> {
+    let mut edges = Vec::new();
+    if let Some((attr, targets)) = list_attr(stage, "next") {
+        for to in targets {
+            edges.push(Edge { to, bounded: false, fallback: false, via: "\"next\"".to_string(), line: attr.value_line, col: attr.value_col });
+        }
+    }
+    let routes: Vec<&Block> = blocks(&stage.body).filter(|b| b.kind == "on").collect();
+    for route in &routes {
+        if let Some((_, to)) = string_attr(route, "to") {
+            let cycle = string_attr(route, "cycle").is_some_and(|(_, c)| c == "true");
+            let bounded = cycle || !fallbacks(route).is_empty();
+            let via = format!("on \"{}\"", route.label);
+            edges.push(Edge { to, bounded, fallback: false, via, line: route.line, col: route.col });
+        }
+    }
+    for e in routes.iter().flat_map(|r| fallbacks(r)) {
+        edges.push(Edge { to: &e.label, bounded: true, fallback: true, via: String::new(), line: e.line, col: e.col });
+    }
+    edges
+}
+
+fn fallbacks(block: &Block) -> Vec<&Block> {
+    match blocks(&block.body).find(|b| b.kind == "exhausted") {
+        Some(e) => std::iter::once(e).chain(fallbacks(e)).collect(),
+        None => Vec::new(),
+    }
 }
 
 impl<'a> Graph<'a> {
     fn new(factory: &'a Block, stages: &[&'a Block], items: &[&'a Block]) -> Self {
         let known: HashSet<&str> = stages.iter().map(|s| s.label.as_str()).collect();
-        let mut next: HashMap<&str, Vec<&str>> = HashMap::new();
+        let mut next: HashMap<&str, Vec<Edge>> = HashMap::new();
         for stage in stages {
-            let targets = list_attr(stage, "next").map(|(_, n)| n).unwrap_or_default();
             next.entry(stage.label.as_str())
                 .or_default()
-                .extend(targets.iter().map(String::as_str).filter(|t| known.contains(t)));
+                .extend(stage_edges(stage).into_iter().filter(|e| known.contains(e.to)));
         }
         let mut loops: HashMap<&str, Vec<&str>> = HashMap::new();
         for l in items.iter().filter(|b| b.kind == "loop") {
@@ -174,9 +211,9 @@ impl<'a> Graph<'a> {
     }
 
     fn successors(&self, stage: &str) -> impl Iterator<Item = &'a str> + '_ {
-        let next = self.next.get(stage).into_iter().flatten();
-        let loops = self.loops.get(stage).into_iter().flatten();
-        next.chain(loops).copied()
+        let next = self.next.get(stage).into_iter().flatten().map(|e| e.to);
+        let loops = self.loops.get(stage).into_iter().flatten().copied();
+        next.chain(loops)
     }
 }
 
@@ -202,37 +239,33 @@ fn check_reachable(graph: &Graph<'_>, stages: &[&Block], out: &mut Vec<Diagnosti
 }
 
 fn check_cycles(graph: &Graph<'_>, stages: &[&Block], out: &mut Vec<Diagnostic>) {
-    let by_name: HashMap<&str, &Block> = stages.iter().map(|s| (s.label.as_str(), *s)).collect();
     let mut state: HashMap<&str, bool> = HashMap::new();
     let roots = graph.entry.into_iter().chain(stages.iter().map(|s| s.label.as_str()));
     for root in roots {
         if !state.contains_key(root) {
-            visit(root, graph, &by_name, &mut state, out);
+            visit(root, graph, &mut state, out);
         }
     }
 }
 
-fn visit<'a>(
-    stage: &'a str,
-    graph: &Graph<'a>,
-    by_name: &HashMap<&str, &Block>,
-    state: &mut HashMap<&'a str, bool>,
-    out: &mut Vec<Diagnostic>,
-) {
+fn visit<'a>(stage: &'a str, graph: &Graph<'a>, state: &mut HashMap<&'a str, bool>, out: &mut Vec<Diagnostic>) {
     state.insert(stage, true);
-    for target in graph.next.get(stage).into_iter().flatten().copied() {
-        match state.get(target) {
+    for edge in graph.next.get(stage).into_iter().flatten().filter(|e| !e.fallback) {
+        match state.get(edge.to) {
             Some(true) => {
-                let Some((attr, _)) = by_name.get(stage).and_then(|b| list_attr(b, "next")) else { continue };
+                if edge.bounded {
+                    continue;
+                }
+                let advice = if edge.via == "\"next\"" { "use a loop with a max" } else { "use a loop, a cycle or an exhausted fallback" };
                 out.push(Diagnostic::warning(
                     "W007",
-                    attr.value_line,
-                    attr.value_col,
-                    format!("stage \"{stage}\" goes back to \"{target}\" through \"next\", use a loop with a max"),
+                    edge.line,
+                    edge.col,
+                    format!("stage \"{stage}\" goes back to \"{}\" through {}, {advice}", edge.to, edge.via),
                 ));
             }
             Some(false) => {}
-            None => visit(target, graph, by_name, state, out),
+            None => visit(edge.to, graph, state, out),
         }
     }
     state.insert(stage, false);

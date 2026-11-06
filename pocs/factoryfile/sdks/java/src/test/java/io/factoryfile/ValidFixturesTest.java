@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -103,6 +104,66 @@ class ValidFixturesTest {
                 + "  stage \"a\" { agents = [] next = [\"b\"] }\n"
                 + "  stage \"b\" { agents = [] next = [\"a\"] }\n}\n");
         assertEquals(List.of("a"), file.factories().getFirst().stages().get(1).next());
+    }
+
+    @Test
+    void v11FactoryCarriesTitleFlowBacklogAndAgentProviders() {
+        Factory gate = Factoryfile.load(Fixtures.valid("routes.factoryfile")).factories().getFirst();
+        assertEquals(Optional.of("Approval Gate"), gate.title());
+        assertEquals(Optional.of("pull"), gate.flow());
+        assertEquals(Optional.of("optional"), gate.backlog());
+        assertEquals(Optional.of("codex"), gate.agent("maker").orElseThrow().provider());
+        assertEquals(Optional.of("claude"), gate.agent("approver").orElseThrow().provider());
+        assertEquals(Optional.empty(), scrum.title(), "a v1 factory has no title");
+    }
+
+    @Test
+    void v11CommandStagesNeedNoAgentsAndKeepTheirRunAndEnd() {
+        Factory gate = Factoryfile.load(Fixtures.valid("routes.factoryfile")).factories().getFirst();
+        Stage test = gate.stage("test").orElseThrow();
+        assertEquals(Optional.of("test"), test.run());
+        assertEquals(List.of(), test.agents());
+        assertEquals(Optional.of("Test"), test.label());
+        assertEquals(Optional.of("scripts/ship.sh"), gate.stage("ship").orElseThrow().script());
+        Stage done = gate.stage("done").orElseThrow();
+        assertEquals(Optional.of("succeeded"), done.end());
+        assertEquals(List.of(1, 1), done.at());
+        assertEquals(List.of(), scrum.stage("build").orElseThrow().at(), "a stage without at");
+    }
+
+    @Test
+    void v11AgentStagesCarryTheirPromptFileSkillsOutputCheckAndVerdict() {
+        Factory gate = Factoryfile.load(Fixtures.valid("routes.factoryfile")).factories().getFirst();
+        Stage implement = gate.stage("implement").orElseThrow();
+        assertEquals(Optional.of("prompts/implement.md"), implement.source());
+        assertEquals(List.of("skills/tdd.md", "skills/git.md"), implement.skills());
+        assertEquals(Optional.of(4), implement.visits());
+        Stage approve = gate.stage("approve").orElseThrow();
+        assertEquals(Optional.of("approval.json"), approve.output());
+        assertEquals(Optional.of("verdict"), approve.check());
+        assertEquals(Optional.of(Map.of("field", "approved", "yes", "approved", "no", "rejected", "list", "reasons",
+                "notes", "notes")), approve.verdict());
+        Stage build = gate.stage("build").orElseThrow();
+        assertEquals(Optional.of("split"), build.tasks());
+        assertEquals(Optional.of(10), build.parallel());
+        assertEquals(Optional.empty(), build.verdict());
+    }
+
+    @Test
+    void v11RoutesBranchByOutcomeAndFallBackWhenTheirTargetIsExhausted() {
+        Factory gate = Factoryfile.load(Fixtures.valid("routes.factoryfile")).factories().getFirst();
+        assertEquals(List.of(
+                new Route("passed", "approve", Optional.of("pass"), Optional.empty(), false, Optional.empty()),
+                new Route("failed", "implement", Optional.of("fail"), Optional.of("the tests failed"), false,
+                        Optional.empty())), gate.stage("test").orElseThrow().routes());
+        assertEquals(new Route("rejected", "implement", Optional.empty(), Optional.empty(), true, Optional.empty()),
+                gate.stage("approve").orElseThrow().routes().get(1));
+        Exhausted last = new Exhausted("done", Optional.of("last fallback"), Optional.empty(), Optional.empty());
+        Exhausted first = new Exhausted("approve", Optional.of("first fallback"),
+                Optional.of("test already ran as often as allowed"), Optional.of(last));
+        assertEquals(List.of(new Route("next", "test", Optional.empty(), Optional.empty(), false, Optional.of(first))),
+                gate.stage("implement").orElseThrow().routes());
+        assertEquals(List.of(), gate.stage("split").orElseThrow().routes(), "a stage with only next has no routes");
     }
 
     @Test

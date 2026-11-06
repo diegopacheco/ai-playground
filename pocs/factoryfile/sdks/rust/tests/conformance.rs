@@ -1,9 +1,11 @@
 use std::fs;
 use std::path::PathBuf;
 
-use factoryfile::{Factoryfile, parse, parse_file};
+use std::collections::BTreeMap;
 
-const INVALID_FIXTURES: usize = 63;
+use factoryfile::{Exhausted, Factory, Factoryfile, Route, parse, parse_file};
+
+const INVALID_FIXTURES: usize = 82;
 
 fn fixtures(kind: &str) -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../spec/fixtures").join(kind)
@@ -123,4 +125,83 @@ fn a_cycle_through_next_is_legal_for_a_parser() {
     let src = "version = \"1\"\nfactory \"x\" {\n  stage \"a\" { agents = [] next = [\"b\"] }\n  stage \"b\" { agents = [] next = [\"a\"] }\n}\n";
     let file = parse(src).unwrap();
     assert_eq!(file.factories[0].stages[1].next, ["a"]);
+}
+
+fn gate() -> Factory {
+    parse_file(fixtures("valid").join("routes.factoryfile")).unwrap().factories.remove(0)
+}
+
+fn text(s: &str) -> Option<String> {
+    Some(s.to_string())
+}
+
+#[test]
+fn v11_factory_carries_title_flow_backlog_and_agent_providers() {
+    let gate = gate();
+    assert_eq!(gate.title, text("Approval Gate"));
+    assert_eq!(gate.flow, text("pull"));
+    assert_eq!(gate.backlog, text("optional"));
+    assert_eq!(gate.agent("maker").unwrap().provider, text("codex"));
+    assert_eq!(gate.agent("approver").unwrap().provider, text("claude"));
+    assert_eq!(full().factories[0].title, None, "a v1 factory has no title");
+}
+
+#[test]
+fn v11_command_stages_need_no_agents_and_keep_their_run_and_end() {
+    let gate = gate();
+    let test = gate.stage("test").unwrap();
+    assert_eq!(test.run, text("test"));
+    assert!(test.agents.is_empty());
+    assert_eq!(test.label, text("Test"));
+    assert_eq!(gate.stage("ship").unwrap().script, text("scripts/ship.sh"));
+    let done = gate.stage("done").unwrap();
+    assert_eq!(done.end, text("succeeded"));
+    assert_eq!(done.at, [1, 1]);
+    assert!(full().factories[0].stage("build").unwrap().at.is_empty(), "a stage without at");
+}
+
+#[test]
+fn v11_agent_stages_carry_their_prompt_file_skills_output_check_and_verdict() {
+    let gate = gate();
+    let implement = gate.stage("implement").unwrap();
+    assert_eq!(implement.source, text("prompts/implement.md"));
+    assert_eq!(implement.skills, ["skills/tdd.md", "skills/git.md"]);
+    assert_eq!(implement.visits, Some(4));
+    let approve = gate.stage("approve").unwrap();
+    assert_eq!(approve.output, text("approval.json"));
+    assert_eq!(approve.check, text("verdict"));
+    let verdict: BTreeMap<String, String> = [("field", "approved"), ("yes", "approved"), ("no", "rejected"), ("list", "reasons"), ("notes", "notes")]
+        .map(|(k, v)| (k.to_string(), v.to_string()))
+        .into();
+    assert_eq!(approve.verdict, Some(verdict));
+    let build = gate.stage("build").unwrap();
+    assert_eq!(build.tasks, text("split"));
+    assert_eq!(build.parallel, Some(10));
+    assert_eq!(build.verdict, None);
+}
+
+#[test]
+fn v11_routes_branch_by_outcome_and_fall_back_when_their_target_is_exhausted() {
+    let gate = gate();
+    let route = |outcome: &str, to: &str| Route { outcome: outcome.to_string(), to: to.to_string(), ..Route::default() };
+    assert_eq!(
+        gate.stage("test").unwrap().routes,
+        [
+            Route { label: text("pass"), ..route("passed", "approve") },
+            Route { label: text("fail"), reason: text("the tests failed"), ..route("failed", "implement") },
+        ]
+    );
+    assert_eq!(gate.stage("approve").unwrap().routes[1], Route { cycle: true, ..route("rejected", "implement") });
+    let last = Exhausted { to: "done".to_string(), label: text("last fallback"), ..Exhausted::default() };
+    let first = Exhausted {
+        to: "approve".to_string(),
+        label: text("first fallback"),
+        reason: text("test already ran as often as allowed"),
+        exhausted: Some(Box::new(last)),
+    };
+    assert_eq!(
+        gate.stage("implement").unwrap().routes,
+        [Route { exhausted: Some(Box::new(first)), ..route("next", "test") }]
+    );
+    assert!(gate.stage("split").unwrap().routes.is_empty(), "a stage with only next has no routes");
 }

@@ -16,7 +16,7 @@ This repo contains:
 - parsers in Python, Rust, Java, Go and TypeScript;
 - a linter written in Rust;
 - a visualizer (`factory-cli`) that draws the graph in the terminal or as a web page;
-- seven sample factories (RUP, XP, Scrum, XGH, Kanban, Waterfall, Spiral);
+- eight sample factories (RUP, XP, Scrum, XGH, Kanban, Waterfall, Spiral, and the v1.1 Gated Release);
 - a landing page.
 
 ```hcl
@@ -72,7 +72,7 @@ factory "xp" {
 3. `next` holds forward edges. A stage with no `next` ends the factory. A `loop` is a back edge: when `from` finishes and `until` is not yet true, work goes back to `to`, at most `max` times.
 4. References are checked when the factory has been fully read, so names can be used before the block that defines them. Every `agents`, `next`, `entry`, `from` and `to` name must exist in the same factory.
 5. Every SDK runs the same three steps from `spec/SPEC.md`: a lexer, a parser that builds statements, and a schema validator that builds the typed model and resolves references.
-6. A parser stops at the first error and reports it as `line L, col C: message`. The spec fixes the message, so all five SDKs report the same error at the same position. The 63 files in `spec/fixtures/invalid/` pin this down.
+6. A parser stops at the first error and reports it as `line L, col C: message`. The spec fixes the message, so all five SDKs report the same error at the same position. The 82 files in `spec/fixtures/invalid/` pin this down.
 7. `factoryfile-lint` reports every error, not only the first. It also adds graph warnings: stages that cannot be reached, idle agents, cycles through `next` that no loop bounds, and loops with no `max`.
 8. `factory-cli` places the stages in layers by their longest path from the entry. It splits off the edges that close a cycle, then draws the graph as terminal boxes (`--render`) or as an SVG page (`--render-ui`).
 
@@ -87,9 +87,10 @@ factory "xp" {
 - **Several factories per file**: tools pick the one they need, and `factory-cli --factory NAME` draws just that one.
 - **Terminal visualizer**: `factory-cli --render` prints the layers as boxes. It marks the entry with `▶`, shows the agents and artifacts, lists the edges under each box, and lists every loop with `until` and `max`.
 - **Web visualizer**: `factory-cli --render-ui` writes one self-contained HTML page and opens it. The page has an SVG graph, numbered loop lanes, a loop legend and tabs for each factory. Clicking a stage or loop opens a detail panel with its agents, prompts and exit condition.
-- **Identical errors in every SDK**: the message and position are pinned by the spec and 63 fixtures.
+- **Identical errors in every SDK**: the message and position are pinned by the spec and 82 fixtures.
 - **Linter with codes**: errors `E001`-`E010` and warnings `W001`-`W008`. It exits 1 on any error, so it fits in CI.
-- **Seven sample factories**: RUP, XP, Scrum, XGH (eXtreme Go Horse), Kanban, Waterfall and Spiral. Each one is also published as a page in `landing/factories/`.
+- **Eight sample factories**: RUP, XP, Scrum, XGH (eXtreme Go Horse), Kanban, Waterfall, Spiral and Gated Release. Each one is also published as a page in `landing/factories/`.
+- **Spec v1.1, nothing lost**: command stages (`run`), outcome routes (`on "passed" { to = ... }`), `exhausted` fallbacks, `verdict` gates, parallel `tasks`, prompt `source` files, `skills`, `visits` and `at` layout. Every addition is optional, so v1 files still parse. With them a Factoryfile carries a whole runnable loop: Softorio runs its factories from the Factoryfile and generates its `factory.yaml` from it.
 - **Dogfooded**: the root `Factoryfile` describes how a spec change reaches every SDK, the linter and the visualizer, and it lints clean.
 - **No runtime dependencies**: each SDK, the linter and the CLI use only their language and its standard library.
 

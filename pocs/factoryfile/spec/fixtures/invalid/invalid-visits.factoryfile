@@ -1,0 +1,8 @@
+# expect: line 6, col 14: invalid visits "two", expected an integer from 1 to 999999
+version = "1"
+factory "x" {
+  stage "a" {
+    agents = []
+    visits = "two"
+  }
+}

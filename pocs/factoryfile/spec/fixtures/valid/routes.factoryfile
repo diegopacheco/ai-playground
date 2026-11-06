@@ -1,0 +1,100 @@
+# a v1.1 file that touches every statement added by v1.1
+version = "1"
+
+factory "gate" {
+  title   = "Approval Gate"
+  entry   = "implement"
+  flow    = "pull"
+  backlog = "optional"
+
+  agent "maker" {
+    provider = "codex"
+    model    = "gpt-5.6-sol"
+    source   = "agents/maker.md"
+  }
+
+  agent "approver" {
+    provider = "claude"
+    content  = "You approve or reject the change."
+  }
+
+  stage "implement" {
+    label  = "Implement"
+    agents = ["maker"]
+    source = "prompts/implement.md"
+    skills = ["skills/tdd.md", "skills/git.md"]
+    visits = "4"
+    at     = ["0", "0"]
+
+    on "next" {
+      to = "test"
+
+      exhausted "approve" {
+        label  = "first fallback"
+        reason = "test already ran as often as allowed"
+
+        exhausted "done" { label = "last fallback" }
+      }
+    }
+  }
+
+  stage "test" {
+    label = "Test"
+    run   = "test"
+    at    = ["1", "0"]
+
+    on "passed" {
+      to    = "approve"
+      label = "pass"
+    }
+
+    on "failed" {
+      to     = "implement"
+      label  = "fail"
+      reason = "the tests failed"
+    }
+  }
+
+  stage "approve" {
+    agents  = ["approver"]
+    output  = "approval.json"
+    check   = "verdict"
+    verdict = { field = "approved", yes = "approved", no = "rejected", list = "reasons", notes = "notes" }
+    at      = ["2", "0"]
+
+    on "approved" { to = "split" }
+    on "rejected" {
+      to    = "implement"
+      cycle = "true"
+    }
+  }
+
+  stage "split" {
+    agents = ["maker"]
+    output = "tasks.json"
+    check  = "output"
+    next   = ["build"]
+    at     = ["3", "0"]
+  }
+
+  stage "build" {
+    agents   = ["maker"]
+    tasks    = "split"
+    parallel = "10"
+    next     = ["ship"]
+    at       = ["3", "1"]
+  }
+
+  stage "ship" {
+    run    = "script"
+    script = "scripts/ship.sh"
+    next   = ["done"]
+    at     = ["2", "1"]
+  }
+
+  stage "done" {
+    run = "finish"
+    end = "succeeded"
+    at  = ["1", "1"]
+  }
+}

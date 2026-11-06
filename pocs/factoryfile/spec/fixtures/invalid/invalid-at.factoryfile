@@ -1,0 +1,8 @@
+# expect: line 6, col 14: invalid at, expected two integers from 0 to 999
+version = "1"
+factory "x" {
+  stage "a" {
+    agents = []
+    at     = ["1", "01"]
+  }
+}

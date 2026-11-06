@@ -1,0 +1,9 @@
+# expect: line 4, col 3: stage "a" cannot set both "source" and "content"
+version = "1"
+factory "x" {
+  stage "a" {
+    agents  = []
+    source  = "a.md"
+    content = "do it"
+  }
+}

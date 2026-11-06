@@ -1,0 +1,10 @@
+# expect: line 4, col 3: stage "a" cannot set both "next" and on "next"
+version = "1"
+factory "x" {
+  stage "a" {
+    agents = []
+    next   = ["b"]
+    on "next" { to = "b" }
+  }
+  stage "b" { agents = [] }
+}

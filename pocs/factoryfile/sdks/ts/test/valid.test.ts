@@ -100,3 +100,71 @@ describe("graph rules", () => {
     expect(file.factories[0]?.loops[0]?.from).toBe("a");
   });
 });
+
+describe("routes.factoryfile", () => {
+  const gate = load(join(dir, "routes.factoryfile")).factories[0];
+  const scrum = load(join(dir, "full.factoryfile")).factories[0];
+
+  test("a v1.1 factory carries its title, flow, backlog and agent providers", () => {
+    expect(gate?.title).toBe("Approval Gate");
+    expect(gate?.flow).toBe("pull");
+    expect(gate?.backlog).toBe("optional");
+    expect(agent(gate, "maker")?.provider).toBe("codex");
+    expect(agent(gate, "approver")?.provider).toBe("claude");
+    expect(scrum !== undefined && "title" in scrum).toBe(false);
+  });
+
+  test("command stages need no agents and keep their run and end", () => {
+    const test = stage(gate, "test");
+    expect(test?.run).toBe("test");
+    expect(test?.agents).toEqual([]);
+    expect(test?.label).toBe("Test");
+    expect(stage(gate, "ship")?.script).toBe("scripts/ship.sh");
+    expect(stage(gate, "done")?.end).toBe("succeeded");
+    expect(stage(gate, "done")?.at).toEqual([1, 1]);
+    expect(stage(scrum, "build")?.at).toEqual([]);
+  });
+
+  test("agent stages carry their prompt file, skills, output, check and verdict", () => {
+    const implement = stage(gate, "implement");
+    expect(implement?.source).toBe("prompts/implement.md");
+    expect(implement?.skills).toEqual(["skills/tdd.md", "skills/git.md"]);
+    expect(implement?.visits).toBe(4);
+    const approve = stage(gate, "approve");
+    expect(approve?.output).toBe("approval.json");
+    expect(approve?.check).toBe("verdict");
+    expect(approve?.verdict).toStrictEqual({
+      field: "approved",
+      yes: "approved",
+      no: "rejected",
+      list: "reasons",
+      notes: "notes",
+    });
+    const build = stage(gate, "build");
+    expect(build?.tasks).toBe("split");
+    expect(build?.parallel).toBe(10);
+    expect(build !== undefined && "verdict" in build).toBe(false);
+  });
+
+  test("routes branch by outcome and fall back when their target is exhausted", () => {
+    expect(stage(gate, "test")?.routes).toStrictEqual([
+      { outcome: "passed", to: "approve", label: "pass", cycle: false },
+      { outcome: "failed", to: "implement", label: "fail", reason: "the tests failed", cycle: false },
+    ]);
+    expect(stage(gate, "approve")?.routes[1]).toStrictEqual({ outcome: "rejected", to: "implement", cycle: true });
+    expect(stage(gate, "implement")?.routes).toStrictEqual([
+      {
+        outcome: "next",
+        to: "test",
+        cycle: false,
+        exhausted: {
+          to: "approve",
+          label: "first fallback",
+          reason: "test already ran as often as allowed",
+          exhausted: { to: "done", label: "last fallback" },
+        },
+      },
+    ]);
+    expect(stage(gate, "split")?.routes).toEqual([]);
+  });
+});

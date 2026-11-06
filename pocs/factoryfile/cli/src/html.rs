@@ -1,10 +1,12 @@
 use factoryfile::{Factory, Stage};
 
-use crate::layout::{Layout, count, layout};
+use crate::grid::draw;
+use crate::layout::{Layout, count, grid, layout, route_text, work};
 
-const W: usize = 230;
-const H: usize = 84;
+pub(crate) const W: usize = 230;
+pub(crate) const H: usize = 84;
 const COL_GAP: usize = 40;
+const ARC: usize = 56;
 const ROW_GAP: usize = 64;
 const PAD: usize = 28;
 const LANE: usize = 34;
@@ -21,10 +23,10 @@ fn truncate(s: &str, max: usize) -> String {
     format!("{}…", s.chars().take(max - 1).collect::<String>())
 }
 
-struct Placed {
-    x: usize,
-    y: usize,
-    layer: usize,
+pub(crate) struct Placed {
+    pub(crate) x: usize,
+    pub(crate) y: usize,
+    pub(crate) layer: usize,
 }
 
 struct Geometry {
@@ -35,8 +37,8 @@ struct Geometry {
 }
 
 fn geometry(factory: &Factory, graph: &Layout) -> Geometry {
-    let cols = graph.layers.iter().map(Vec::len).max().unwrap_or(0);
     let left = PAD + if graph.backward.is_empty() { 0 } else { BULGE + LANE * graph.backward.len() };
+    let cols = graph.layers.iter().map(Vec::len).max().unwrap_or(0);
     let mut places: Vec<Placed> = factory.stages.iter().map(|_| Placed { x: 0, y: 0, layer: 0 }).collect();
     for (layer, stages) in graph.layers.iter().enumerate() {
         let offset = (cols - stages.len()) * (W + COL_GAP) / 2;
@@ -65,7 +67,17 @@ fn lanes_by_span(spans: &[usize]) -> Vec<usize> {
 
 pub fn svg(factory: &Factory) -> String {
     let graph = layout(factory);
-    let g = geometry(factory, &graph);
+    let (g, edges) = match grid(factory) {
+        Some(cells) => {
+            let drawn = draw(factory, &graph, &cells);
+            (Geometry { places: drawn.places, left: PAD, right: drawn.right, height: drawn.height }, drawn.edges)
+        }
+        None => {
+            let g = geometry(factory, &graph);
+            let edges = layered_edges(factory, &graph, &g);
+            (g, edges)
+        }
+    };
     let loops: Vec<(usize, usize, usize)> = factory
         .loops
         .iter()
@@ -80,15 +92,7 @@ pub fn svg(factory: &Factory) -> String {
         escape(&factory.name)
     );
     out.push_str("<defs><marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0 0L10 5L0 10z\" fill=\"context-stroke\"/></marker></defs>");
-    for (from, to) in &graph.forward {
-        out.push_str(&forward_edge(&g.places[*from], &g.places[*to]));
-    }
-    let back_spans: Vec<usize> = graph.backward.iter().map(|(f, t)| g.places[*f].layer.abs_diff(g.places[*t].layer)).collect();
-    for ((from, to), lane) in graph.backward.iter().zip(lanes_by_span(&back_spans)) {
-        let x = g.left - BULGE - LANE * lane;
-        let title = format!("unbounded next {} → {}", factory.stages[*from].name, factory.stages[*to].name);
-        out.push_str(&lane_edge(&g.places[*from], &g.places[*to], x, false, "back", "!", &title, ""));
-    }
+    out.push_str(&edges);
     let loop_spans: Vec<usize> = loops.iter().map(|(_, f, t)| g.places[*f].layer.abs_diff(g.places[*t].layer)).collect();
     for ((i, from, to), lane) in loops.iter().zip(lanes_by_span(&loop_spans)) {
         let l = &factory.loops[*i];
@@ -104,19 +108,71 @@ pub fn svg(factory: &Factory) -> String {
     out
 }
 
+fn layered_edges(factory: &Factory, graph: &Layout, g: &Geometry) -> String {
+    let mut out = String::new();
+    for e in &graph.forward {
+        let label = route_text(&factory.stages[e.from], e);
+        let class = if label.is_some() { "edge route" } else { "edge" };
+        out.push_str(&forward_edge(&g.places[e.from], &g.places[e.to], class, label.as_deref()));
+    }
+    for (i, stage) in factory.stages.iter().enumerate() {
+        for route in &stage.routes {
+            for fallback in route.fallbacks().into_iter().filter_map(|f| Some((f, index(factory, &f.to)?))) {
+                let label = fallback.0.label.clone().unwrap_or_else(|| "exhausted".to_string());
+                out.push_str(&forward_edge(&g.places[i], &g.places[fallback.1], "fallback", Some(&label)));
+            }
+        }
+    }
+    let back_spans: Vec<usize> = graph.backward.iter().map(|e| g.places[e.from].layer.abs_diff(g.places[e.to].layer)).collect();
+    for (e, lane) in graph.backward.iter().zip(lanes_by_span(&back_spans)) {
+        let from = &factory.stages[e.from];
+        let via = route_text(from, e).map_or("next".to_string(), |r| format!("on {r}"));
+        let (class, badge, bound) = if e.bounded { ("back bounded", "↻", "bounded") } else { ("back", "!", "unbounded") };
+        let title = format!("{bound} {via} {} → {}", from.name, factory.stages[e.to].name);
+        out.push_str(&lane_edge(&g.places[e.from], &g.places[e.to], g.left - BULGE - LANE * lane, false, class, badge, &title, ""));
+    }
+    out
+}
+
 fn index(factory: &Factory, name: &str) -> Option<usize> {
     factory.stages.iter().position(|s| s.name == name)
 }
 
-fn forward_edge(a: &Placed, b: &Placed) -> String {
-    if b.layer == a.layer + 1 {
+fn same_row(a: &Placed, b: &Placed) -> bool {
+    a.layer == b.layer && a.x != b.x
+}
+
+fn edge_label(x: usize, y: usize, label: Option<&str>) -> String {
+    label.map(|l| format!("<text class=\"edge-label\" x=\"{x}\" y=\"{y}\" text-anchor=\"middle\">{}</text>", escape(l))).unwrap_or_default()
+}
+
+fn arc(a: &Placed, b: &Placed, label: Option<&str>) -> String {
+    let (x1, x2) = (a.x + W / 2, b.x + W / 2);
+    let (y, ctrl, ly) = (a.y + H, a.y + H + ARC, a.y + H + ARC * 3 / 4 + 12);
+    format!(
+        "<path d=\"M{x1} {y} C{x1} {ctrl} {x2} {ctrl} {x2} {y}\" marker-end=\"url(#arrow)\"/>{}",
+        edge_label((x1 + x2) / 2, ly, label)
+    )
+}
+
+fn forward_edge(a: &Placed, b: &Placed, class: &str, label: Option<&str>) -> String {
+    if same_row(a, b) && a.x.abs_diff(b.x) > W + COL_GAP {
+        return format!("<g class=\"{class}\">{}</g>", arc(a, b, label));
+    }
+    let (d, lx, ly) = if b.layer == a.layer + 1 {
         let (x1, y1, x2, y2) = (a.x + W / 2, a.y + H, b.x + W / 2, b.y);
         let mid = (y1 + y2) / 2;
-        return format!("<path class=\"edge\" d=\"M{x1} {y1} C{x1} {mid} {x2} {mid} {x2} {y2}\" marker-end=\"url(#arrow)\"/>");
-    }
-    let (x1, y1, x2, y2) = (a.x + W, a.y + H / 2, b.x + W, b.y + H / 2);
-    let bend = a.x.max(b.x) + W + BULGE * 3 / 4;
-    format!("<path class=\"edge\" d=\"M{x1} {y1} C{bend} {y1} {bend} {y2} {x2} {y2}\" marker-end=\"url(#arrow)\"/>")
+        (format!("M{x1} {y1} C{x1} {mid} {x2} {mid} {x2} {y2}"), (x1 + x2) / 2, mid)
+    } else if same_row(a, b) {
+        let y = a.y + H / 2;
+        let (x1, x2) = if b.x > a.x { (a.x + W, b.x) } else { (a.x, b.x + W) };
+        (format!("M{x1} {y} H{x2}"), (x1 + x2) / 2, y - 8)
+    } else {
+        let (x1, y1, x2, y2) = (a.x + W, a.y + H / 2, b.x + W, b.y + H / 2);
+        let bend = a.x.max(b.x) + W + BULGE * 3 / 4;
+        (format!("M{x1} {y1} C{bend} {y1} {bend} {y2} {x2} {y2}"), a.x.max(b.x) + W + BULGE / 2, (y1 + y2) / 2)
+    };
+    format!("<path class=\"{class}\" d=\"{d}\" marker-end=\"url(#arrow)\"/>{}", edge_label(lx, ly, label))
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -145,7 +201,8 @@ fn node(factory: &Factory, stage: &Stage, at: &Placed, i: usize) -> String {
         .iter()
         .map(|a| factory.agent(a).and_then(|agent| agent.role.clone()).unwrap_or_else(|| a.clone()))
         .collect();
-    let roles = if roles.is_empty() { "no agents".to_string() } else { roles.join(", ") };
+    let roles = if stage.run.is_some() || roles.is_empty() { work(stage) } else { roles.join(", ") };
+    let kind = if stage.run.is_some() { "command".to_string() } else { format!("{} agent{}", stage.agents.len(), if stage.agents.len() == 1 { "" } else { "s" }) };
     let artifacts = match stage.artifacts.len() {
         0 => String::new(),
         1 => "1 artifact".to_string(),
@@ -163,7 +220,7 @@ fn node(factory: &Factory, stage: &Stage, at: &Placed, i: usize) -> String {
         escape(&truncate(&roles, 30)),
         at.x + 16,
         at.y + 70,
-        escape(&format!("{} agent{}{}", stage.agents.len(), if stage.agents.len() == 1 { "" } else { "s" }, if artifacts.is_empty() { String::new() } else { format!(" · {artifacts}") })),
+        escape(&format!("{kind}{}", if artifacts.is_empty() { String::new() } else { format!(" · {artifacts}") })),
     )
 }
 
@@ -185,7 +242,18 @@ fn details(factory: &Factory, slug: &str) -> String {
         if let Some(d) = &stage.description {
             body.push_str(&format!("<p>{}</p>", escape(d)));
         }
+        if stage.run.is_some() {
+            body.push_str(&row("run", &list(&[work(stage)])));
+        }
         body.push_str(&row("next", &list(&stage.next)));
+        if !stage.routes.is_empty() {
+            let routes: Vec<String> = stage.routes.iter().map(|r| format!("{} → {}", r.outcome, r.to)).collect();
+            body.push_str(&row("routes", &list(&routes)));
+            let fallbacks: Vec<String> = stage.routes.iter().flat_map(|r| r.fallbacks()).map(|f| f.to.clone()).collect();
+            if !fallbacks.is_empty() {
+                body.push_str(&row("fallbacks", &list(&fallbacks)));
+            }
+        }
         body.push_str(&row("artifacts", &list(&stage.artifacts)));
         let loops: Vec<String> = factory.loops.iter().filter(|l| l.from == stage.name || l.to == stage.name).map(|l| l.name.clone()).collect();
         body.push_str(&row("loops", &list(&loops)));
@@ -322,8 +390,14 @@ code,pre{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12px}
 .stats{margin:6px 0 0;color:var(--body);font-size:13px}
 .stage-area{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:20px;margin-top:20px}
 .canvas{align-self:start;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:auto;box-shadow:0 10px 30px rgba(15,42,51,.06)}
-.graph{display:block;margin:0 auto}
+.graph{display:block;margin:0 auto;max-width:100%;height:auto}
 .edge{fill:none;stroke:#94a3b8;stroke-width:1.6}
+.edge.route{stroke:var(--a)}
+.fallback{fill:none;stroke:#94a3b8;stroke-width:1.4;stroke-dasharray:4 4}
+.edge-label{font-size:11px;fill:var(--body);paint-order:stroke;stroke:#fff;stroke-width:4px}
+.back.bounded path{stroke:var(--loop)}
+.back.bounded circle{stroke:var(--loop)}
+.back.bounded text{fill:var(--loop)}
 .loop path{fill:none;stroke:var(--loop);stroke-width:1.6;stroke-dasharray:5 4}
 .loop,.back{cursor:pointer}
 .loop circle,.back circle{fill:#fff;stroke:var(--loop);stroke-width:1.6}

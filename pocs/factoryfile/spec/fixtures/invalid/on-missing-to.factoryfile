@@ -1,0 +1,8 @@
+# expect: line 6, col 5: on "passed" requires "to"
+version = "1"
+factory "x" {
+  stage "a" {
+    run = "test"
+    on "passed" { label = "pass" }
+  }
+}

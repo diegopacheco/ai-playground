@@ -7,7 +7,7 @@ pub mod schema;
 use std::path::Path;
 
 pub use error::{Error, LoadError};
-pub use model::{Agent, Factory, Factoryfile, Loop, Stage};
+pub use model::{Agent, Exhausted, Factory, Factoryfile, Loop, Route, Stage};
 pub use parser::{Attribute, Block, Statement, Value};
 pub use schema::{Issue, IssueKind};
 

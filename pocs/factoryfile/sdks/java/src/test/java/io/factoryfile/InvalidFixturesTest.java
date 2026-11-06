@@ -22,7 +22,7 @@ class InvalidFixturesTest {
 
     @Test
     void everyInvalidFixtureIsDiscoveredSoNoneIsSilentlySkipped() {
-        assertEquals(63, fixtures().size());
+        assertEquals(82, fixtures().size());
     }
 
     @ParameterizedTest(name = "{0}")

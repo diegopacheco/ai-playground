@@ -13,7 +13,7 @@ import (
 
 const fixtures = "../../spec/fixtures"
 
-const invalidFixtures = 63
+const invalidFixtures = 82
 
 func TestInvalidFixturesReportTheExactSpecError(t *testing.T) {
 	paths, err := filepath.Glob(filepath.Join(fixtures, "invalid", "*.factoryfile"))
@@ -176,4 +176,64 @@ func TestACycleThroughNextIsLegalForAParser(t *testing.T) {
 		t.Fatal(err)
 	}
 	equal(t, "next", file.Factories[0].Stages[1].Next, []string{"a"})
+}
+
+func TestV11FactoryCarriesTitleFlowBacklogAndAgentProviders(t *testing.T) {
+	gate := parseValid(t, "routes.factoryfile").Factories[0]
+	equal(t, "title", gate.Title, text("Approval Gate"))
+	equal(t, "flow", gate.Flow, text("pull"))
+	equal(t, "backlog", gate.Backlog, text("optional"))
+	equal(t, "maker provider", gate.Agent("maker").Provider, text("codex"))
+	equal(t, "approver provider", gate.Agent("approver").Provider, text("claude"))
+	equal(t, "a v1 factory has no title", parseValid(t, "full.factoryfile").Factories[0].Title, (*string)(nil))
+}
+
+func TestV11CommandStagesNeedNoAgentsAndKeepTheirRunAndEnd(t *testing.T) {
+	gate := parseValid(t, "routes.factoryfile").Factories[0]
+	test := gate.Stage("test")
+	equal(t, "test run", test.Run, text("test"))
+	equal(t, "test agents", test.Agents, []string{})
+	equal(t, "test label", test.Label, text("Test"))
+	ship := gate.Stage("ship")
+	equal(t, "ship script", ship.Script, text("scripts/ship.sh"))
+	done := gate.Stage("done")
+	equal(t, "done end", done.End, text("succeeded"))
+	equal(t, "done at", done.At, []int{1, 1})
+	equal(t, "a stage without at", parseValid(t, "full.factoryfile").Factories[0].Stage("build").At, []int{})
+}
+
+func TestV11AgentStagesCarryTheirPromptFileSkillsOutputCheckAndVerdict(t *testing.T) {
+	gate := parseValid(t, "routes.factoryfile").Factories[0]
+	implement := gate.Stage("implement")
+	equal(t, "source", implement.Source, text("prompts/implement.md"))
+	equal(t, "skills", implement.Skills, []string{"skills/tdd.md", "skills/git.md"})
+	equal(t, "visits", implement.Visits, number(4))
+	approve := gate.Stage("approve")
+	equal(t, "output", approve.Output, text("approval.json"))
+	equal(t, "check", approve.Check, text("verdict"))
+	equal(t, "verdict", approve.Verdict, map[string]string{"field": "approved", "yes": "approved", "no": "rejected", "list": "reasons", "notes": "notes"})
+	build := gate.Stage("build")
+	equal(t, "tasks", build.Tasks, text("split"))
+	equal(t, "parallel", build.Parallel, number(10))
+	equal(t, "no verdict", build.Verdict, map[string]string(nil))
+}
+
+func TestV11RoutesBranchByOutcomeAndFallBackWhenTheirTargetIsExhausted(t *testing.T) {
+	gate := parseValid(t, "routes.factoryfile").Factories[0]
+	equal(t, "test routes", gate.Stage("test").Routes, []factoryfile.Route{
+		{Outcome: "passed", To: "approve", Label: text("pass")},
+		{Outcome: "failed", To: "implement", Label: text("fail"), Reason: text("the tests failed")},
+	})
+	equal(t, "cycle", gate.Stage("approve").Routes[1], factoryfile.Route{Outcome: "rejected", To: "implement", Cycle: true})
+	equal(t, "chained exhausted", gate.Stage("implement").Routes, []factoryfile.Route{{
+		Outcome: "next",
+		To:      "test",
+		Exhausted: &factoryfile.Exhausted{
+			To:        "approve",
+			Label:     text("first fallback"),
+			Reason:    text("test already ran as often as allowed"),
+			Exhausted: &factoryfile.Exhausted{To: "done", Label: text("last fallback")},
+		},
+	}})
+	equal(t, "a stage with only next has no routes", gate.Stage("split").Routes, []factoryfile.Route{})
 }

@@ -1,0 +1,8 @@
+# expect: line 6, col 5: unknown block "route" in stage
+version = "1"
+factory "x" {
+  stage "a" {
+    agents = []
+    route "passed" { to = "a" }
+  }
+}

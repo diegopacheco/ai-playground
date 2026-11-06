@@ -1,0 +1,8 @@
+# expect: line 6, col 15: unknown key "maybe" in verdict
+version = "1"
+factory "x" {
+  stage "a" {
+    agents  = []
+    verdict = { field = "ok", yes = "go", zebra = "z", maybe = "m" }
+  }
+}
