@@ -11,6 +11,10 @@ Browse Pocs here: [AI POCS](https://github.com/diegopacheco/ai-playground/tree/m
 
 Website (Agent Pocs Catalog) [Agents Catalog Website](https://diegopacheco.github.io/ai-playground/)
 
+Agentsfile POC [Agentsfile Website](https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/) - [Source](https://github.com/diegopacheco/ai-playground/tree/main/pocs/agentsfile)
+
+Factoryfile POC [Factoryfile Website](https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/) - [Source](https://github.com/diegopacheco/ai-playground/tree/main/pocs/factoryfile)
+
 AI POCS: ML, NLP, KAN, Reinforcement Learning, audio, translation, object-detection, GAN, LLM, Vision, Stable Diffusion, Classification, Clustering, XGBoost, NM, RNN, CNN, Pytorch, DJL, DeepLearning4J, ONNX, Keras, Tensorflow, OpenCV, nltk, transformers, transformers.js, sentense-transformers, gradio, chroma, langchain, langchain4j, spring-ai, sklearn, gensim, BERTopic, gymnasium, seaborn, matplotlib, pandas, numpy, scipy, scikit-learn, stable-difussion, anthropic, aws bedrock, cohere, flax, superlinked, hmmlearn, gluonnlp, LM Studio, LocalAI, streamlit, Pinecone, claude-code, MCP, FastMCP, codex, copilot, gemini, grok, openai, GPT, agents, crewai, DSPy, ollama, openrouter, mastra, langgraph, langflow, litellm, portkey, jax, tinygrad, micrograd, diffusers, deepface, faiss, pgvector, pyspark, brain.js, SHAP, XAI, strands, dapr-agents, google-adk, A2A, spring-boot, swarms, klaw, beeai, mesa, n8n. And more... All things AI POCS.
 
 ## Diego's AI Explained: Making Sense of AI (Essay)
