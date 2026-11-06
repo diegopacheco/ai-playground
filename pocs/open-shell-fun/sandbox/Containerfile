@@ -1,0 +1,6 @@
+FROM docker.io/library/ubuntu:24.04
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates iproute2 && rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /sandbox && chown 1000:1000 /sandbox
+USER ubuntu
+WORKDIR /sandbox
+CMD ["sleep", "infinity"]

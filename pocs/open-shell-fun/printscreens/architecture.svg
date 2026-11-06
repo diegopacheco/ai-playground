@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="660" viewBox="0 0 1280 660">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&amp;display=block');
+      text { font-family: 'Caveat', 'Chalkboard SE', cursive; fill: #1e1e1e; }
+      .t { font-size: 27px; font-weight: 700; }
+      .s { font-size: 20px; }
+      .a { font-size: 19px; fill: #444; }
+    </style>
+    <filter id="w"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.5"/></filter>
+    <marker id="h" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><path d="M1,1 Q6,5 10,6 Q6,7 1,11" fill="none" stroke="#1e1e1e" stroke-width="2"/></marker>
+  </defs>
+  <rect width="1280" height="660" fill="#ffffff"/>
+  <g filter="url(#w)" stroke="#1e1e1e" stroke-width="2.2">
+    <rect x="30" y="60" width="230" height="160" rx="14" fill="#d0ebff"/>
+    <rect x="320" y="60" width="250" height="160" rx="14" fill="#d3f9d8"/>
+    <rect x="630" y="60" width="210" height="160" rx="14" fill="#fff3bf"/>
+    <rect x="900" y="60" width="340" height="160" rx="14" fill="#e5dbff"/>
+    <rect x="320" y="300" width="760" height="320" rx="18" fill="#f8f9fa" stroke-dasharray="9 6"/>
+    <rect x="350" y="370" width="200" height="200" rx="12" fill="#ffe8cc"/>
+    <rect x="600" y="370" width="230" height="200" rx="12" fill="#ffc9c9"/>
+    <rect x="870" y="370" width="180" height="200" rx="12" fill="#c5f6fa"/>
+    <rect x="1110" y="400" width="150" height="130" rx="14" fill="#ebfbee"/>
+  </g>
+  <g fill="none" stroke="#1e1e1e" stroke-width="2.2" filter="url(#w)" marker-end="url(#h)">
+    <path d="M262,140 Q290,132 316,140"/>
+    <path d="M572,140 Q600,132 626,140"/>
+    <path d="M842,140 Q870,132 896,140"/>
+    <path d="M1070,222 Q1080,262 1060,296"/>
+    <path d="M552,470 Q575,462 596,470"/>
+    <path d="M760,368 Q960,330 1150,396"/>
+  </g>
+  <g fill="none" stroke="#2b8a3e" stroke-width="2.2" filter="url(#w)" marker-end="url(#h)" stroke-dasharray="7 5">
+    <path d="M900,200 Q600,270 160,224"/>
+  </g>
+  <text x="70" y="40" class="t" font-size="30">OpenShell Policy Lab</text>
+  <text x="50" y="100" class="t">React UI</text>
+  <text x="50" y="130" class="s">xterm.js terminal</text>
+  <text x="50" y="155" class="s">TanStack Router/Query</text>
+  <text x="50" y="185" class="s">Vite :5191 proxy /api</text>
+  <text x="340" y="100" class="t">Bun backend :8091</text>
+  <text x="340" y="130" class="s">REST + WebSocket</text>
+  <text x="340" y="155" class="s">Bun PTY terminal</text>
+  <text x="340" y="185" class="s">attack lab, OCSF parser</text>
+  <text x="650" y="100" class="t">openshell CLI</text>
+  <text x="650" y="130" class="s">Bun.spawn, args array</text>
+  <text x="650" y="155" class="s">exec --tty bash</text>
+  <text x="650" y="180" class="s">policy / logs</text>
+  <text x="920" y="100" class="t">OpenShell gateway</text>
+  <text x="920" y="130" class="s">brew service, mTLS :17670</text>
+  <text x="920" y="155" class="s">control plane: sandboxes,</text>
+  <text x="920" y="180" class="s">policy revisions, logs</text>
+  <text x="340" y="340" class="t">Sandbox container (podman)</text>
+  <text x="625" y="340" class="s">ubuntu + curl, uid 1000</text>
+  <text x="370" y="405" class="t">agent command</text>
+  <text x="370" y="440" class="s">sh -c "curl ..."</text>
+  <text x="370" y="470" class="s">or touch, cat ...</text>
+  <text x="370" y="510" class="s">no real secrets</text>
+  <text x="370" y="535" class="s">inside the box</text>
+  <text x="620" y="405" class="t">policy proxy</text>
+  <text x="620" y="440" class="s">default deny egress</text>
+  <text x="620" y="470" class="s">L4: OPA host + binary</text>
+  <text x="620" y="500" class="s">L7: TLS terminate,</text>
+  <text x="620" y="525" class="s">check HTTP method/path</text>
+  <text x="620" y="552" class="s">hot reload, no restart</text>
+  <text x="890" y="405" class="t">kernel</text>
+  <text x="890" y="440" class="s">Landlock FS</text>
+  <text x="890" y="470" class="s">read only /usr</text>
+  <text x="890" y="500" class="s">seccomp</text>
+  <text x="890" y="530" class="s">syscall filter</text>
+  <text x="1125" y="445" class="t">internet</text>
+  <text x="1125" y="478" class="s">api.github.com</text>
+  <text x="1125" y="505" class="s">pypi.org ...</text>
+  <text x="270" y="125" class="a">/api ws</text>
+  <text x="583" y="125" class="a">spawn</text>
+  <text x="853" y="125" class="a">gRPC</text>
+  <text x="1082" y="262" class="a">supervisor +</text>
+  <text x="1082" y="284" class="a">OCSF audit logs</text>
+  <text x="560" y="455" class="a">all</text>
+  <text x="560" y="495" class="a">egress</text>
+  <text x="1090" y="335" class="a">allowed only</text>
+    <text x="430" y="275" class="a" fill="#2b8a3e">decision log: ALLOWED / DENIED back to the UI</text>
+</svg>
