@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap'); text{font-family:'Caveat','Comic Sans MS',cursive;fill:#1e1e1e}</style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1,1 L10,6 L1,11" fill="none" stroke="#1e1e1e" stroke-width="2"/></marker>
+  </defs>
+  <rect width="900" height="900" fill="#ffffff"/>
+  <text x="450" y="70" font-size="44" font-weight="700" text-anchor="middle">Skills Gateway Router</text>
+
+  <g filter="url(#wobble)" stroke="#1e1e1e" stroke-width="2.5">
+    <rect x="230" y="110" width="440" height="110" rx="14" fill="#d0ebff"/>
+    <rect x="230" y="290" width="440" height="100" rx="14" fill="#e5dbff"/>
+    <rect x="190" y="460" width="520" height="130" rx="14" fill="#fff3bf"/>
+    <rect x="70" y="680" width="320" height="160" rx="14" fill="#d3f9d8"/>
+    <rect x="510" y="680" width="320" height="160" rx="14" fill="#ffd8e8"/>
+    <path d="M450 222 Q456 255 450 286" fill="none" marker-end="url(#arrow)"/>
+    <path d="M450 392 Q456 425 450 456" fill="none" marker-end="url(#arrow)"/>
+    <path d="M330 592 Q250 630 230 676" fill="none" marker-end="url(#arrow)"/>
+    <path d="M570 592 Q650 630 670 676" fill="none" marker-end="url(#arrow)"/>
+  </g>
+
+  <text x="450" y="160" font-size="32" font-weight="700" text-anchor="middle">Claude Code</text>
+  <text x="450" y="195" font-size="24" text-anchor="middle">sees one skill description only</text>
+
+  <text x="450" y="333" font-size="30" font-weight="700" text-anchor="middle">skills-gateway SKILL.md</text>
+  <text x="450" y="368" font-size="23" text-anchor="middle">.claude/skills, the only registered skill</text>
+  <text x="470" y="435" font-size="22">node gateway.js route | list | load</text>
+
+  <text x="450" y="503" font-size="30" font-weight="700" text-anchor="middle">gateway.js + router.js</text>
+  <text x="450" y="538" font-size="23" text-anchor="middle">list: scan sources, prefix source__skill</text>
+  <text x="450" y="570" font-size="23" text-anchor="middle">route: rank by request words, load: split prefix</text>
+
+  <text x="150" y="640" font-size="22">text__*</text>
+  <text x="680" y="640" font-size="22">dev__*</text>
+
+  <text x="230" y="730" font-size="30" font-weight="700" text-anchor="middle">text-skills</text>
+  <text x="230" y="770" font-size="24" text-anchor="middle">word-count</text>
+  <text x="230" y="802" font-size="24" text-anchor="middle">slugify</text>
+
+  <text x="670" y="730" font-size="30" font-weight="700" text-anchor="middle">dev-skills</text>
+  <text x="670" y="770" font-size="24" text-anchor="middle">json-format</text>
+  <text x="670" y="802" font-size="24" text-anchor="middle">commit-message</text>
+</svg>
