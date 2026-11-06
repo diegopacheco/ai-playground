@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap'); text{font-family:'Caveat','Comic Sans MS',cursive;fill:#1e1e1e}</style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1,1 L10,6 L1,11" fill="none" stroke="#1e1e1e" stroke-width="2"/></marker>
+  </defs>
+  <rect width="900" height="900" fill="#ffffff"/>
+  <text x="450" y="70" font-size="44" font-weight="700" text-anchor="middle">MCP Gateway Router</text>
+
+  <g filter="url(#wobble)" stroke="#1e1e1e" stroke-width="2.5">
+    <rect x="230" y="120" width="440" height="110" rx="14" fill="#d0ebff"/>
+    <rect x="190" y="350" width="520" height="150" rx="14" fill="#fff3bf"/>
+    <rect x="70" y="650" width="320" height="160" rx="14" fill="#d3f9d8"/>
+    <rect x="510" y="650" width="320" height="160" rx="14" fill="#ffd8e8"/>
+    <path d="M450 232 Q456 290 450 346" fill="none" marker-end="url(#arrow)"/>
+    <path d="M330 502 Q250 580 230 646" fill="none" marker-end="url(#arrow)"/>
+    <path d="M570 502 Q650 580 670 646" fill="none" marker-end="url(#arrow)"/>
+  </g>
+
+  <text x="450" y="170" font-size="32" font-weight="700" text-anchor="middle">MCP client</text>
+  <text x="450" y="205" font-size="24" text-anchor="middle">Claude Code / Codex / any client</text>
+  <text x="470" y="295" font-size="22">POST /mcp  JSON-RPC</text>
+
+  <text x="450" y="395" font-size="32" font-weight="700" text-anchor="middle">gateway :8100</text>
+  <text x="450" y="432" font-size="23" text-anchor="middle">tools/list: fan out, prefix upstream__tool</text>
+  <text x="450" y="465" font-size="23" text-anchor="middle">tools/call: split prefix, route, strip</text>
+
+  <text x="150" y="590" font-size="22">math__*</text>
+  <text x="680" y="590" font-size="22">text__*</text>
+
+  <text x="230" y="700" font-size="30" font-weight="700" text-anchor="middle">math-mcp :8101</text>
+  <text x="230" y="740" font-size="24" text-anchor="middle">add</text>
+  <text x="230" y="772" font-size="24" text-anchor="middle">multiply</text>
+
+  <text x="670" y="700" font-size="30" font-weight="700" text-anchor="middle">text-mcp :8102</text>
+  <text x="670" y="740" font-size="24" text-anchor="middle">uppercase, reverse</text>
+  <text x="670" y="772" font-size="24" text-anchor="middle">word_count</text>
+
+  <text x="450" y="860" font-size="22" text-anchor="middle" fill="#555">mcp-servers/ hold the upstreams, the gateway sits at the project root</text>
+</svg>

@@ -1,0 +1,10 @@
+{
+  "name": "mcp-server-gateway-router-poc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node --test"
+  }
+}
