@@ -31,6 +31,8 @@ That repository has no workflow. It serves `index.html` with classic GitHub Page
 | `diegopacheco/ai-playground` | `games/jetfun/index.html`, `games/jetfun/vendor/` and `games/jetfun/assets/` | `https://diegopacheco.github.io/ai-playground/games/jetfun/` |
 | `diegopacheco/ai-playground` | `mcp/index.html` | `https://diegopacheco.github.io/ai-playground/mcp/` |
 | `diegopacheco/ai-playground` | `macos-chrome-apps/index.html` | `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` |
+| `diegopacheco/ai-playground` | `pocs/agentsfile/landing/index.html`, `pocs/agentsfile/logo.svg`, `pocs/agentsfile/spec/SPEC.md` and `pocs/agentsfile/printscreens/` | `https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/` |
+| `diegopacheco/ai-playground` | `pocs/factoryfile/landing/`, `pocs/factoryfile/logo.svg`, `pocs/factoryfile/spec/SPEC.md` and `pocs/factoryfile/printscreens/render-ui-xp.png` | `https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/` |
 
 ## Artifact Mapping
 
@@ -53,6 +55,10 @@ The aggregate workflow currently creates these entry points:
 | `games/jetfun/` | `_site/games/jetfun/` |
 | `mcp/index.html` | `_site/mcp/index.html` |
 | `macos-chrome-apps/index.html` | `_site/macos-chrome-apps/index.html` |
+| `pocs/agentsfile/landing/` | `_site/pocs/agentsfile/landing/` |
+| `pocs/agentsfile/logo.svg`, `pocs/agentsfile/spec/SPEC.md` and the three printscreens it uses | `_site/pocs/agentsfile/` |
+| `pocs/factoryfile/landing/` | `_site/pocs/factoryfile/landing/` |
+| `pocs/factoryfile/logo.svg`, `pocs/factoryfile/spec/SPEC.md` and `printscreens/render-ui-xp.png` | `_site/pocs/factoryfile/` |
 
 The workflow also copies every media file required by these pages. Source files used by the workflow must be tracked by Git. Ignored build output must not be used as a published asset.
 
@@ -95,6 +101,8 @@ The workflow also copies every media file required by these pages. Source files 
 - `_site/games/jetfun/index.html` exists.
 - `_site/mcp/index.html` exists.
 - `_site/macos-chrome-apps/index.html` exists.
+- `_site/pocs/agentsfile/landing/index.html` exists.
+- `_site/pocs/factoryfile/landing/index.html` exists.
 - No existing route or asset is missing from the artifact.
 
 ## Required Checks After Push
@@ -113,6 +121,8 @@ The workflow also copies every media file required by these pages. Source files 
 - `https://diegopacheco.github.io/ai-playground/games/jetfun/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/mcp/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` returns HTTP 200.
+- `https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/` returns HTTP 200.
+- `https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/` returns HTTP 200.
 
 ## Recovery
 

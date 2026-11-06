@@ -9,6 +9,8 @@ on:
       - games/**
       - macos-chrome-apps/**
       - mcp/**
+      - pocs/agentsfile/**
+      - pocs/factoryfile/**
       - sec/**
       - .github/workflows/agents-pages.yml
   workflow_dispatch:
@@ -85,6 +87,16 @@ jobs:
           cp pocs/flowprint/assets/icon-128.png _site/pocs/flowprint/assets/icon-128.png
           cp pocs/localhost-radar/assets/icon-128.png _site/pocs/localhost-radar/assets/icon-128.png
           cp pocs/tv-time-like/docs/screenshots/library.png _site/pocs/tv-time-like/docs/screenshots/library.png
+          mkdir -p _site/pocs/agentsfile/printscreens _site/pocs/agentsfile/spec
+          cp -R pocs/agentsfile/landing _site/pocs/agentsfile/landing
+          cp pocs/agentsfile/logo.svg _site/pocs/agentsfile/logo.svg
+          cp pocs/agentsfile/spec/SPEC.md _site/pocs/agentsfile/spec/SPEC.md
+          cp pocs/agentsfile/printscreens/agentsfile-hero.png pocs/agentsfile/printscreens/conformance.png pocs/agentsfile/printscreens/lint.png _site/pocs/agentsfile/printscreens/
+          mkdir -p _site/pocs/factoryfile/printscreens _site/pocs/factoryfile/spec
+          cp -R pocs/factoryfile/landing _site/pocs/factoryfile/landing
+          cp pocs/factoryfile/logo.svg _site/pocs/factoryfile/logo.svg
+          cp pocs/factoryfile/spec/SPEC.md _site/pocs/factoryfile/spec/SPEC.md
+          cp pocs/factoryfile/printscreens/render-ui-xp.png _site/pocs/factoryfile/printscreens/
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
