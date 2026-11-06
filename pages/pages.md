@@ -14,11 +14,14 @@ The `diegopacheco/diegopacheco.github.io` repository is a separate site. Changes
 
 That repository has no workflow. It serves `index.html` with classic GitHub Pages from its `master` branch, so pushing `master` publishes it. Its deployment is independent of the `ai-playground` artifact and cannot add or remove any `ai-playground` route.
 
+The `diegopacheco/agent-skills` repository is also a separate site. It has no workflow. It serves `docs/index.html` with classic GitHub Pages from the `/docs` folder of its `main` branch, so pushing `main` publishes it. It cannot add or remove any `ai-playground` route. The `ai-playground` hub pages link to it from their navigation as `Skills`.
+
 ## Published Pages
 
 | Repository | Path in repository | Public URL |
 |---|---|---|
 | `diegopacheco/diegopacheco.github.io` | `index.html` | `https://diegopacheco.github.io/` |
+| `diegopacheco/agent-skills` | `docs/index.html` | `https://diegopacheco.github.io/agent-skills/` |
 | `diegopacheco/ai-playground` | `agents/landing-page.html` | `https://diegopacheco.github.io/ai-playground/` |
 | `diegopacheco/ai-playground` | `agents/landing-page.html` | `https://diegopacheco.github.io/ai-playground/agents/` |
 | `diegopacheco/ai-playground` | `sec/index.html` and `sec/landing-page.html` | `https://diegopacheco.github.io/ai-playground/sec/` |
@@ -109,6 +112,7 @@ The workflow also copies every media file required by these pages. Source files 
 
 - The `Publish Agent Atlas` workflow completed successfully.
 - `https://diegopacheco.github.io/` returns HTTP 200.
+- `https://diegopacheco.github.io/agent-skills/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/agents/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/sec/` returns HTTP 200.
