@@ -93,7 +93,7 @@
     <div class="hero-copy">
       <div class="eyebrow">Model Context Protocol - Servers - Agents</div>
       <h1>MCP <em>POCs</em></h1>
-      <p>Small, focused MCP builds for Postgres, Flux, Playwright, FastMCP, LLM judges, repository browsing and CLI generation.</p>
+      <p>Small, focused MCP builds for Postgres, Flux, Playwright, FastMCP, LLM judges, repository browsing, gateway routing and CLI generation.</p>
       <div class="hero-actions">
         <a href="#servers">Explore POCs &darr;</a>
         <a href="https://github.com/diegopacheco/ai-playground/tree/main/mcp" target="_blank" rel="noreferrer">Open GitHub &nearr;</a>
@@ -102,7 +102,7 @@
     <div class="hero-side">
       <span class="hero-side-label">Catalog index</span>
       <div class="stats">
-        <div class="stat"><strong>7</strong><span>POCs</span></div>
+        <div class="stat"><strong>8</strong><span>POCs</span></div>
         <div class="stat"><strong>3</strong><span>Sections</span></div>
         <div class="stat"><strong>5</strong><span>Local dirs</span></div>
       </div>
@@ -153,6 +153,7 @@ const items=[
 {cat:"server",t:"FastMCP Fun",c:"Python 3.13 - FastMCP",d:"Python MCP server and client with calculator tools, a greeting resource template and a math prompt.",mark:"FM",bg:"linear-gradient(135deg,#138a63,#315f95)",href:"https://github.com/diegopacheco/ai-playground/tree/main/mcp/fastmcp-fun"},
 {cat:"server",t:"LLM Judges",c:"Rust - Multi-Judge",d:"MCP server that sends content to multiple judge CLIs and returns a consolidated PASS, FAIL or SPLIT verdict.",mark:"LLM",bg:"linear-gradient(135deg,#151817,#c94f3d)",href:"https://github.com/diegopacheco/ai-playground/tree/main/mcp/llm-judges"},
 {cat:"server",t:"Repo MCP",c:"Git - Repository Browser",d:"MCP server for registering local git repositories, reading files, searching content and inspecting history.",mark:"GIT",bg:"linear-gradient(135deg,#315f95,#151817)",href:"https://github.com/diegopacheco/ai-playground/tree/main/pocs/repo-mcp-poc"},
+{cat:"server",t:"MCP Gateway Router",c:"Node - Gateway - Router",d:"One MCP server in front of many: merges upstream tools into one catalog with upstream__tool names, routes each call by prefix, and registers new servers at runtime from code or plain-English md.",mark:"GW",bg:"linear-gradient(135deg,#14201b,#138a63)",href:"https://github.com/diegopacheco/ai-playground/tree/main/pocs/mcp-server-gateway-router-poc"},
 {cat:"integration",t:"Flux Kanban MCP",c:"Flux - Task Board",d:"Registers Flux MCP in Claude Code and connects a local Flux board to agent-managed software work.",img:"flux-kanban-mcp/flux-board.png",href:"https://github.com/diegopacheco/ai-playground/tree/main/mcp/flux-kanban-mcp"},
 {cat:"integration",t:"Claude Code Playwright MCP",c:"Playwright - UI Tests",d:"Uses Playwright MCP from Claude Code to validate a product manager UI and produce generated test coverage.",img:"claude-code-mcp-playwright-fun/.playwright-mcp/test-report-screenshot.png",href:"https://github.com/diegopacheco/ai-playground/tree/main/mcp/claude-code-mcp-playwright-fun"},
 {cat:"tooling",t:"CliHub",c:"CLI Generator",d:"Turns an MCP server into a compiled CLI binary so commands can be sent without the original client environment.",mark:"CLI",bg:"linear-gradient(135deg,#f2be4b,#138a63)",href:"https://github.com/diegopacheco/ai-playground/tree/main/pocs/clihub-fun"}
