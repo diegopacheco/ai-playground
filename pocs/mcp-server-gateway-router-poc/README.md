@@ -78,6 +78,44 @@ Error codes: `-32601` unknown method, `-32602` unknown tool or upstream, `-32603
 * **Stateless**: no `Mcp-Session-Id`, no SSE. Every request stands alone, which keeps the gateway trivially horizontally scalable.
 * **Trade-offs**: one extra hop per call, the gateway is a single point of failure, `tools/list` is not cached, and only the tools part of MCP is implemented. See `design-doc.md`.
 
+## MCP Gateway Router Discovery of MCPs
+
+The gateway finds its upstream MCPs from configuration read once at startup. It finds their tools by asking each upstream on every `tools/list`. There is no service registry and no file scanning.
+
+### Where the upstream MCPs are
+
+1. Ports are declared in `scripts/ports.env`:
+   ```
+   math=8101
+   text=8102
+   gateway=8100
+   ```
+2. `scripts/start-all.sh` builds the `UPSTREAMS` env var from those ports when it starts the gateway:
+   ```bash
+   start_service gateway env UPSTREAMS="math=$(service_url math),text=$(service_url text)" node gateway.js
+   ```
+   `service_url` in `scripts/common.sh` turns a name into a URL, so the value becomes:
+   ```
+   math=http://localhost:8101/mcp,text=http://localhost:8102/mcp
+   ```
+3. `gateway.js` reads it at startup with `parseUpstreams(process.env.UPSTREAMS)`. `parseUpstreams` in `router.js` splits it into `{name, url}` pairs. The gateway exits with an error if `UPSTREAMS` is missing or malformed.
+4. `createRouter` in `router.js` keeps those pairs in a `Map` from upstream name to URL. This map is how `math__add` finds the math upstream.
+
+To move an upstream or add a new one, change `UPSTREAMS` and restart the gateway. The gateway code has no upstream names or URLs in it.
+
+### Which tools each MCP has
+
+1. When a client sends `tools/list`, the router sends `tools/list` to every upstream in parallel.
+2. Each upstream answers from its own `tools.js` (`mcp-servers/math-mcp/tools.js`, `mcp-servers/text-mcp/tools.js`) with the name, description and input schema of each tool.
+3. The router adds the prefix `<upstream>__` to each name and `[<upstream>]` to each description, then joins all the lists into one.
+4. An upstream that fails is skipped, so its tools are missing from that list.
+
+Nothing is cached, so a tool added to an upstream shows up on the next `tools/list` without a gateway change. Clients such as Claude Code fetch the list once per session, so they see a new tool only after reconnecting.
+
+### How a call finds its MCP
+
+`callTool` in `router.js` splits `math__add` at the first `__` into `math` and `add`, looks up the math URL in the map, and sends `tools/call` with the name `add`.
+
 ## How to Run
 
 ```bash
