@@ -18,17 +18,32 @@ export function splitToolName(qualified) {
   return { upstream: qualified.slice(0, index), tool: qualified.slice(index + SEPARATOR.length) };
 }
 
+export function validName(name) {
+  return typeof name === "string" && /^[A-Za-z0-9-]+(_[A-Za-z0-9-]+)*$/.test(name) && !name.includes(SEPARATOR);
+}
+
 export function createRouter(upstreams, call = rpc) {
   const byName = new Map(upstreams.map((upstream) => [upstream.name, upstream]));
 
+  function listUpstream(upstream) {
+    if (upstream.local) return upstream.local.listTools();
+    return call(upstream.url, "tools/list", {}).then(({ tools }) => tools);
+  }
+
+  function callUpstream(upstream, tool, args) {
+    if (upstream.local) return upstream.local.callTool(tool, args);
+    return call(upstream.url, "tools/call", { name: tool, arguments: args });
+  }
+
   async function listTools() {
+    const all = [...byName.values()];
     const lists = await Promise.allSettled(
-      upstreams.map(async ({ name, url }) => {
-        const { tools } = await call(url, "tools/list", {});
+      all.map(async (upstream) => {
+        const tools = await listUpstream(upstream);
         return tools.map((tool) => ({
           ...tool,
-          name: `${name}${SEPARATOR}${tool.name}`,
-          description: `[${name}] ${tool.description ?? ""}`.trim(),
+          name: `${upstream.name}${SEPARATOR}${tool.name}`,
+          description: `[${upstream.name}] ${tool.description ?? ""}`.trim(),
         }));
       }),
     );
@@ -39,8 +54,21 @@ export function createRouter(upstreams, call = rpc) {
     const parts = splitToolName(qualified);
     const upstream = parts && byName.get(parts.upstream);
     if (!upstream) throw new McpError(ERRORS.INVALID_PARAMS, `no upstream for tool: ${qualified}`);
-    return call(upstream.url, "tools/call", { name: parts.tool, arguments: args });
+    return callUpstream(upstream, parts.tool, args);
   }
 
-  return { listTools, callTool };
+  function add(upstream) {
+    if (!validName(upstream.name)) throw new McpError(ERRORS.INVALID_PARAMS, `invalid upstream name: ${upstream.name}`);
+    byName.set(upstream.name, upstream);
+  }
+
+  function remove(name) {
+    return byName.delete(name);
+  }
+
+  function servers() {
+    return [...byName.values()].map(({ name, url, kind, source }) => ({ name, kind: kind ?? "url", url, source }));
+  }
+
+  return { listTools, callTool, add, remove, get: (name) => byName.get(name), servers };
 }

@@ -2,6 +2,20 @@
 
 Records the user-visible changes of the MCP server gateway router POC.
 
+## 1.1.0 - 2026-11-06
+
+### Added
+
+- The gateway watches `MCP_DIR` (`dynamic-mcps/` in `start-all.sh`) and registers or drops servers while it runs, with no restart.
+- Code servers are `tools.js` folders loaded in process. Markdown servers are `.md` files whose tools are written in plain English and carried out by `claude -p`.
+- `GET /servers`, `POST /servers` (url, markdown or module) and `DELETE /servers/<name>`.
+- Sample servers `dynamic-mcps/hash-mcp` (`sha256`) and `dynamic-mcps/writer.md` (`summarize`, `translate`).
+
+### Verified
+
+- `node --test` ran 27 tests three times: 27 passed, 0 failed, 0 skipped.
+- On a live gateway with the real claude CLI, `writer__translate` returned "O gateway roteia todas as chamadas de ferramentas." in 3.3 s. A `live.md` written while the gateway ran was listed, and `live__shout` returned `ROUTER!`. Once the file was deleted, the tool was gone from the list.
+
 ## 1.0.0 - 2026-11-05
 
 ### Added

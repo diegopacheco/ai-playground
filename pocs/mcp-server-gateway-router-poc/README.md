@@ -5,6 +5,7 @@ One MCP server that acts as a gateway and router in front of two other MCP serve
 * `mcp-servers/math-mcp`: upstream MCP with `add` and `multiply`.
 * `mcp-servers/text-mcp`: upstream MCP with `uppercase`, `reverse` and `word_count`.
 * `gateway.js` + `router.js` (project root): the gateway and router MCP.
+* `dynamic-mcps/`: servers the gateway loads while it runs. `hash-mcp/tools.js` is a code server, and `writer.md` is a server written in plain English whose tools are carried out by `claude -p`.
 
 ## How it Works
 
@@ -80,7 +81,7 @@ Error codes: `-32601` unknown method, `-32602` unknown tool or upstream, `-32603
 
 ## MCP Gateway Router Discovery of MCPs
 
-The gateway finds its upstream MCPs from configuration read once at startup. It finds their tools by asking each upstream on every `tools/list`. There is no service registry and no file scanning.
+The gateway finds upstream MCPs in three places: `UPSTREAMS` read at startup, the `MCP_DIR` folder watched while it runs, and the `/servers` API. It finds their tools by asking each upstream on every `tools/list`.
 
 ### Where the upstream MCPs are
 
@@ -101,7 +102,45 @@ The gateway finds its upstream MCPs from configuration read once at startup. It 
 3. `gateway.js` reads it at startup with `parseUpstreams(process.env.UPSTREAMS)`. `parseUpstreams` in `router.js` splits it into `{name, url}` pairs. The gateway exits with an error if `UPSTREAMS` is missing or malformed.
 4. `createRouter` in `router.js` keeps those pairs in a `Map` from upstream name to URL. This map is how `math__add` finds the math upstream.
 
-To move an upstream or add a new one, change `UPSTREAMS` and restart the gateway. The gateway code has no upstream names or URLs in it.
+To move an `UPSTREAMS` entry, change it and restart the gateway. To add a server without a restart, use the folder or the API below. The gateway code has no upstream names or URLs in it.
+
+### Servers added while the gateway runs
+
+`start-all.sh` sets `MCP_DIR=dynamic-mcps`. The gateway scans that folder at startup and watches it after that. A change is picked up within about 150 ms.
+
+| In the folder | Server name | Runs |
+|---|---|---|
+| `<name>-mcp/tools.js` or `<name>/tools.js` exporting `tools` | `<name>` | in the gateway process, same shape as `math-mcp/tools.js` |
+| `<name>.md` | `<name>` | each tool through `claude -p --strict-mcp-config` |
+
+When a file is deleted, its tools disappear. A folder server never replaces a server of the same name that came from `UPSTREAMS` or the API.
+
+A markdown server has one `## tool_name` section per tool. The first line of a section is the description. Each `- arg (type[, required]): text` line is an argument (`string`, `number`, `integer` or `boolean`). The rest of the section, in plain English, is what claude does:
+
+```md
+## translate
+Translates a text into another language.
+- text (string, required): the text to translate
+- language (string, required): the target language
+
+Translate the text into the language. Answer with the translation only.
+```
+
+Arguments are checked against the schema before claude runs, so a bad call costs nothing. `CLAUDE_BIN` picks the binary, and `MD_TOOL_TIMEOUT_MS` sets the timeout (default 120000).
+
+### Registration API
+
+| Method | Path | Body | Result |
+|---|---|---|---|
+| GET | `/servers` | | `{servers:[{name, kind, url, source}]}`, where `kind` is url/code/md and `source` is env/dir/api |
+| POST | `/servers` | `{name, url}`, `{name, markdown}` or `{name, module: "/abs/path/tools.js"}` | `201` with the tool names, `400` on a bad name or body |
+| DELETE | `/servers/<name>` | | `204`, or `404` |
+
+```bash
+curl -X POST localhost:8100/servers -d '{"name":"notes","markdown":"## tidy\nTidies a note.\n- note (string, required): the note\n"}'
+```
+
+`module` loads JavaScript into the gateway, and markdown tools run claude. The gateway only listens on 127.0.0.1 for that reason.
 
 ### Which tools each MCP has
 
@@ -132,8 +171,10 @@ Then ask Claude Code something like "use the gateway to multiply 6 by 7 and reve
 ./scripts/test-all.sh
 ```
 
-16 tests:
+27 tests:
 * tool logic of both upstreams
+* markdown server parsing, argument checks before claude runs, and the prompt claude receives
+* dynamic e2e: folder servers at startup, a code server and an .md server hot-added and removed, the `/servers` API, name clashes (uses `tests/fixtures/fake-claude.sh` as `CLAUDE_BIN`)
 * router unit tests: namespacing, prefix splitting, unknown upstream, upstream down
 * end-to-end tests: real HTTP servers for both upstreams and the gateway, with calls routed through the gateway
 

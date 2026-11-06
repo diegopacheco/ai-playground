@@ -15,7 +15,7 @@ start_service() {
 
 start_service math node mcp-servers/math-mcp/server.js
 start_service text node mcp-servers/text-mcp/server.js
-start_service gateway env UPSTREAMS="math=$(service_url math),text=$(service_url text)" node gateway.js
+start_service gateway env MCP_DIR="$ROOT/dynamic-mcps" UPSTREAMS="math=$(service_url math),text=$(service_url text)" node gateway.js
 
 "$SCRIPTS/status.sh"
 

@@ -81,12 +81,12 @@ export function toolRegistry(tools) {
   };
 }
 
-function sendJson(res, status, body) {
+export function sendJson(res, status, body) {
   res.writeHead(status, { "Content-Type": "application/json" });
   res.end(JSON.stringify(body));
 }
 
-function readBody(req) {
+export function readBody(req) {
   return new Promise((resolve, reject) => {
     let data = "";
     req.on("data", (chunk) => (data += chunk));
@@ -95,8 +95,9 @@ function readBody(req) {
   });
 }
 
-export function createHttpServer(dispatch) {
+export function createHttpServer(dispatch, routes) {
   return http.createServer(async (req, res) => {
+    if (routes && (await routes(req, res))) return;
     if (req.method === "GET" && req.url === "/health") return sendJson(res, 200, { status: "UP" });
     if (req.url !== "/mcp") return sendJson(res, 404, { error: "not found" });
     if (req.method !== "POST") return sendJson(res, 405, { error: "method not allowed" });
