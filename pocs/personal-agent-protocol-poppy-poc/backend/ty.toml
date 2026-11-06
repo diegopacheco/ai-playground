@@ -1,0 +1,6 @@
+[environment]
+python = ".venv"
+root = ["./src", "./tests"]
+
+[src]
+include = ["src", "tests"]

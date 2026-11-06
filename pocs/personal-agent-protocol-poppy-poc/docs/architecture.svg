@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+<defs><filter id="w"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+<marker id="h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#343a40"/></marker></defs>
+<rect width="1200" height="1200" fill="#fffdf8"/>
+<g font-family="Caveat, 'Comic Sans MS', 'Chalkboard SE', cursive" fill="#212529">
+<text x="265.0" y="70" font-size="30" text-anchor="middle">Atlas Personal Agent</text>
+<text x="265.0" y="104" font-size="22" text-anchor="middle" fill="#495057">browser, TypeScript + React</text>
+<text x="935.0" y="70" font-size="30" text-anchor="middle">Willow Inn Company</text>
+<text x="935.0" y="104" font-size="22" text-anchor="middle" fill="#495057">Python 3.15 + Granian</text>
+<g filter="url(#w)"><rect x="50" y="150" width="430" height="104" rx="16" fill="#ffe8d6" stroke="#343a40" stroke-width="2.5"/></g>
+<text x="265.0" y="194" font-size="28" text-anchor="middle">Root + delegated key</text>
+<text x="265.0" y="228" font-size="21" text-anchor="middle" fill="#495057">WebCrypto ES256, delegation JWT</text>
+<g filter="url(#w)"><rect x="50" y="330" width="430" height="104" rx="16" fill="#e3f2fd" stroke="#343a40" stroke-width="2.5"/></g>
+<text x="265.0" y="374" font-size="28" text-anchor="middle">Discover</text>
+<text x="265.0" y="408" font-size="21" text-anchor="middle" fill="#495057">GET /.well-known/poppy.json</text>
+<g filter="url(#w)"><rect x="50" y="510" width="430" height="104" rx="16" fill="#fff3bf" stroke="#343a40" stroke-width="2.5"/></g>
+<text x="265.0" y="554" font-size="28" text-anchor="middle">Sign Poppy-Session</text>
+<text x="265.0" y="588" font-size="21" text-anchor="middle" fill="#495057">fresh JWT: htm, htu, sub, jti</text>
+<g filter="url(#w)"><rect x="50" y="690" width="430" height="104" rx="16" fill="#e6f4ea" stroke="#343a40" stroke-width="2.5"/></g>
+<text x="265.0" y="734" font-size="28" text-anchor="middle">Rooms, Chat, Feedback</text>
+<text x="265.0" y="768" font-size="21" text-anchor="middle" fill="#495057">TanStack Query, Form, Table</text>
+<g filter="url(#w)"><rect x="50" y="1010" width="430" height="104" rx="16" fill="#f1f3f5" stroke="#343a40" stroke-width="2.5"/></g>
+<text x="265.0" y="1054" font-size="28" text-anchor="middle">Inspector tab</text>
+<text x="265.0" y="1088" font-size="21" text-anchor="middle" fill="#495057">paste any poppy.json</text>
+<g filter="url(#w)"><rect x="720" y="150" width="430" height="104" rx="16" fill="#ffe8d6" stroke="#343a40" stroke-width="2.5"/></g>
+<text x="935.0" y="194" font-size="28" text-anchor="middle">Agent host</text>
+<text x="935.0" y="228" font-size="21" text-anchor="middle" fill="#495057">agent.json with jwks</text>
+<g filter="url(#w)"><rect x="720" y="330" width="430" height="104" rx="16" fill="#e3f2fd" stroke="#343a40" stroke-width="2.5"/></g>
+<text x="935.0" y="374" font-size="28" text-anchor="middle">Discovery docs</text>
+<text x="935.0" y="408" font-size="21" text-anchor="middle" fill="#495057">poppy.json, excluded tasks</text>
+<g filter="url(#w)"><rect x="720" y="510" width="430" height="104" rx="16" fill="#fde2e4" stroke="#343a40" stroke-width="2.5"/></g>
+<text x="935.0" y="554" font-size="28" text-anchor="middle">Session verifier</text>
+<text x="935.0" y="588" font-size="21" text-anchor="middle" fill="#495057">delegation, ES256, jti replay</text>
+<g filter="url(#w)"><rect x="720" y="690" width="430" height="104" rx="16" fill="#e6f4ea" stroke="#343a40" stroke-width="2.5"/></g>
+<text x="935.0" y="734" font-size="28" text-anchor="middle">Rooms API</text>
+<text x="935.0" y="768" font-size="21" text-anchor="middle" fill="#495057">holds keyed by pairwise sub</text>
+<g filter="url(#w)"><rect x="720" y="850" width="430" height="104" rx="16" fill="#ede7f6" stroke="#343a40" stroke-width="2.5"/></g>
+<text x="935.0" y="894" font-size="28" text-anchor="middle">Conversations</text>
+<text x="935.0" y="928" font-size="21" text-anchor="middle" fill="#495057">Company Agent, cursor reads</text>
+<g filter="url(#w)"><rect x="720" y="1010" width="430" height="104" rx="16" fill="#f1f3f5" stroke="#343a40" stroke-width="2.5"/></g>
+<text x="935.0" y="1054" font-size="28" text-anchor="middle">Feedback + Inspector</text>
+<text x="935.0" y="1088" font-size="21" text-anchor="middle" fill="#495057">reports, draft 0.4 checks</text>
+<g filter="url(#w)"><path d="M484,202 Q600.0,186 714,202" fill="none" stroke="#343a40" stroke-width="2.5" marker-end="url(#h)"/></g>
+<text x="600.0" y="176" font-size="22" text-anchor="middle" fill="#c2410c">PUT agent.json</text>
+<g filter="url(#w)"><path d="M484,382 Q600.0,366 714,382" fill="none" stroke="#343a40" stroke-width="2.5" marker-end="url(#h)"/></g>
+<text x="600.0" y="356" font-size="22" text-anchor="middle" fill="#c2410c">GET, no Session</text>
+<g filter="url(#w)"><path d="M484,562 Q600.0,546 714,562" fill="none" stroke="#343a40" stroke-width="2.5" marker-end="url(#h)"/></g>
+<text x="600.0" y="520" font-size="22" text-anchor="middle" fill="#c2410c">Poppy-Session</text>
+<text x="600.0" y="546" font-size="22" text-anchor="middle" fill="#c2410c">+ Poppy-Version</text>
+<g filter="url(#w)"><path d="M265.0,686 Q287.0,650 265.0,620" fill="none" stroke="#343a40" stroke-width="2.5" marker-end="url(#h)"/></g>
+<text x="375.0" y="660" font-size="22" text-anchor="middle" fill="#c2410c">every call signs</text>
+<g filter="url(#w)"><path d="M1130,618 Q1160,652 1130,686" fill="none" stroke="#343a40" stroke-width="2.5" marker-end="url(#h)"/></g>
+<g filter="url(#w)"><path d="M1144,614 Q1190,740 1146,868" fill="none" stroke="#343a40" stroke-width="2.5" marker-end="url(#h)"/></g>
+<g filter="url(#w)"><path d="M1144,614 Q1220,820 1146,1030" fill="none" stroke="#343a40" stroke-width="2.5" marker-end="url(#h)"/></g>
+<g filter="url(#w)"><path d="M484,1062 Q600.0,1046 714,1062" fill="none" stroke="#343a40" stroke-width="2.5" marker-end="url(#h)"/></g>
+<text x="600.0" y="1034" font-size="22" text-anchor="middle" fill="#c2410c">POST validate</text>
+<text x="265.0" y="880" font-size="22" text-anchor="middle" fill="#495057">The Company only sees a pairwise</text>
+<text x="265.0" y="910" font-size="22" text-anchor="middle" fill="#495057">User ID, never who the User is</text>
+</g></svg>

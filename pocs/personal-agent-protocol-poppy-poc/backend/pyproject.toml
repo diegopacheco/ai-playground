@@ -1,0 +1,25 @@
+[project]
+name = "poppy-company"
+version = "0.1.0"
+description = "Willow Inn, a Personal Agent Protocol (Poppy) draft 0.4 Company served by Granian"
+requires-python = ">=3.15"
+dependencies = [
+    "granian>=2.8.5",
+    "cryptography>=46.0.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.10.4,<0.11"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "poppy_company"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ty>=0.0.90",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
