@@ -87,9 +87,25 @@ The workflow also copies every media file required by these pages. Source files 
 5. Never add a separate Pages workflow.
 6. Never deploy only the new route.
 
+## POC Counters
+
+Every page that shows a count of POCs must match its source of truth. Whenever a POC is added or removed on any page, recount every counter below and fix the ones that drifted, in the same change.
+
+| Counter | Where it lives | Source of truth |
+|---|---|---|
+| Agentic AI Projects | `diegopacheco.github.io/index.html` spotlight `Collection 01` | `const projects` plus every `projects.push(` in `agents/landing-page.html` |
+| AI POCs on GitHub | `diegopacheco.github.io/index.html` spotlight `Collection 02` and `agents/landing-page.html` `600+` stat | directories in `pocs/`, rounded down to the hundred with `+` |
+| MCP Servers | `diegopacheco.github.io/index.html` spotlight `Collection 03` and the `POCs` and `Local dirs` stats in `mcp/index.html` | `const items` in `mcp/index.html`, and its `href` values under `/tree/main/mcp/` |
+| Security Projects | `diegopacheco.github.io/index.html` spotlight `Collection 04` and the `Projects` stat in `sec/landing-page.html` | `const projects` in `sec/landing-page.html` |
+| AI & CV Games | `diegopacheco.github.io/index.html` spotlight `Collection 05` and the `Games` stat in `games/index.html` | `const games` in `games/index.html` |
+| Skills, night agents, patterns | stats in `diegopacheco/agent-skills` `docs/index.html` | skill folders, `night-agents/skills/`, and `patterns/NN-*` in `diegopacheco/agent-skills` |
+
+Spotlight counts use the exact number with `+`. Page stats use the exact number. A counter change in `diegopacheco.github.io` is pushed from that repository, never from this one.
+
 ## Required Checks Before Push
 
 - `git diff --check` passes.
+- Every counter in `POC Counters` matches its source of truth.
 - The workflow YAML parses successfully.
 - Every source and asset copied by the workflow is tracked by Git.
 - The complete aggregate build succeeds locally.
