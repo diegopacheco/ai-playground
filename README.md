@@ -1,6 +1,6 @@
 # ai-playground
 
-Over 2 years (summer-24 - summer-26) 600+ pocs. 100+ agents. <br/><br/>
+Over 2 years (summer-24 - summer-26) 600+ pocs. 100+ agents. First 300+ pocs done the summer of 2024 - <br/><br/>
 <img src="600-plus-ai-pocs.png" width="500" height="321">
 
 Summary of Agentic Pocs [100+ Agent Pocs](https://github.com/diegopacheco/ai-playground/blob/main/agents/agents-pocs.md)
