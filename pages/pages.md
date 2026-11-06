@@ -98,7 +98,7 @@ Every page that shows a count of POCs must match its source of truth. Whenever a
 | MCP Servers | `diegopacheco.github.io/index.html` spotlight `Collection 03` and the `POCs` and `Local dirs` stats in `mcp/index.html` | `const items` in `mcp/index.html`, and its `href` values under `/tree/main/mcp/` |
 | Security Projects | `diegopacheco.github.io/index.html` spotlight `Collection 04` and the `Projects` stat in `sec/landing-page.html` | `const projects` in `sec/landing-page.html` |
 | AI & CV Games | `diegopacheco.github.io/index.html` spotlight `Collection 05` and the `Games` stat in `games/index.html` | `const games` in `games/index.html` |
-| Skills, night agents, patterns | stats in `diegopacheco/agent-skills` `docs/index.html` | skill folders, `night-agents/skills/`, and `patterns/NN-*` in `diegopacheco/agent-skills` |
+| Skills, night agents, patterns | `diegopacheco.github.io/index.html` spotlight `Collection 06` (their sum) and the stats in `diegopacheco/agent-skills` `docs/index.html` | skill folders, `night-agents/skills/`, and `patterns/NN-*` in `diegopacheco/agent-skills` |
 
 Spotlight counts use the exact number with `+`. Page stats use the exact number. A counter change in `diegopacheco.github.io` is pushed from that repository, never from this one.
 
