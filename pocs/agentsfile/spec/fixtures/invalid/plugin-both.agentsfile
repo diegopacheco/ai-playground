@@ -1,0 +1,10 @@
+# expect: line 4, col 3: plugin "p" cannot set both "source" and inline items
+version = "1"
+profile "dev" {
+  plugin "p" {
+    source = "https://github.com/acme/p"
+    skill "a" {
+      content = "x"
+    }
+  }
+}

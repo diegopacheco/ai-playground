@@ -7,7 +7,7 @@ pub mod schema;
 use std::path::Path;
 
 pub use error::{Error, LoadError};
-pub use model::{Agent, Agentsfile, Command, Mcp, Profile, Skill, Transport};
+pub use model::{Agent, Agentsfile, Command, Items, Mcp, Plugin, Profile, Skill, SkillFile, Transport};
 pub use parser::{Attribute, Block, Statement, Value};
 pub use schema::{Issue, IssueKind};
 

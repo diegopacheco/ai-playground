@@ -37,6 +37,8 @@ ESCAPES = {'"': '"', "\\": "\\", "n": "\n", "t": "\t"}
 
 WHITESPACE = " \t\r\n"
 
+HEREDOC_BLANK = " \t\r"
+
 
 def _is_identifier_start(char: str) -> bool:
     return char == "_" or ("a" <= char <= "z") or ("A" <= char <= "Z")
@@ -83,6 +85,8 @@ class _Lexer:
                 self.advance()
             elif char == '"':
                 result.append(self.string())
+            elif char == "<" and self.text.startswith("<<", self.index):
+                result.append(self.heredoc())
             elif _is_identifier_start(char):
                 result.append(self.identifier())
             else:
@@ -117,6 +121,48 @@ class _Lexer:
                 self.advance()
             else:
                 chars.append(self.advance())
+
+    def heredoc(self) -> Token:
+        line, col = self.line, self.col
+        self.advance()
+        self.advance()
+        start = self.index
+        while _is_marker_part(self.peek()):
+            self.advance()
+        marker = self.text[start : self.index]
+        if marker == "" or not _is_identifier_start(marker[0]):
+            raise AgentsfileError(line, col, "invalid heredoc marker")
+        while self.peek() in (" ", "\t", "\r"):
+            self.advance()
+        if self.peek() == "":
+            raise AgentsfileError(line, col, "unterminated heredoc")
+        if self.advance() != "\n":
+            raise AgentsfileError(line, col, "invalid heredoc marker")
+        lines: list[str] = []
+        while self.peek() != "":
+            start = self.index
+            while self.peek() not in ("", "\n"):
+                self.advance()
+            text = self.text[start : self.index]
+            if self.peek() == "\n":
+                self.advance()
+            if text.strip(HEREDOC_BLANK) == marker:
+                return Token(TokenKind.STRING, _dedent(lines), line, col)
+            lines.append(text)
+        raise AgentsfileError(line, col, "unterminated heredoc")
+
+
+def _is_marker_part(char: str) -> bool:
+    return char != "" and (char == "_" or (char.isascii() and char.isalnum()))
+
+
+def _is_blank(text: str) -> bool:
+    return text.strip(HEREDOC_BLANK) == ""
+
+
+def _dedent(lines: list[str]) -> str:
+    indent = min((len(text) - len(text.lstrip(" \t")) for text in lines if not _is_blank(text)), default=0)
+    return "\n".join("" if _is_blank(text) else text[indent:].rstrip("\r") for text in lines)
 
 
 def tokenize(text: str) -> list[Token]:

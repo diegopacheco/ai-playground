@@ -1,0 +1,9 @@
+# expect: line 4, col 3: mcp "m" cannot set both "source" and "transport"
+version = "1"
+profile "dev" {
+  mcp "m" {
+    source = "./m.json"
+    transport = "stdio"
+    command = "x"
+  }
+}

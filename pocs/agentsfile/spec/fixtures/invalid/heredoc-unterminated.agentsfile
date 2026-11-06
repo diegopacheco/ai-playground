@@ -1,0 +1,3 @@
+# expect: line 2, col 11: unterminated heredoc
+version = <<EOT
+1

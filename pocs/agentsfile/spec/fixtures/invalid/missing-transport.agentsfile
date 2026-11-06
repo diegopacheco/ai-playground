@@ -1,7 +1,0 @@
-# expect: line 4, col 3: missing required attribute "transport" in mcp "m"
-version = "1"
-profile "dev" {
-  mcp "m" {
-    command = "x"
-  }
-}

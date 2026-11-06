@@ -119,9 +119,9 @@ footer{margin-top:110px;border-top:1px solid var(--line);padding:28px 24px;text-
 <div class="glow"></div><div class="pan"></div>
 <div class="pill rise" style="animation-delay:0ms"><span class="dot"></span><span class="mono">spec v1 · 5 SDKs · 1 linter</span></div>
 <h1 class="rise" style="animation-delay:120ms">The <span class="grad">Dockerfile for agents</span></h1>
-<p class="sub rise" style="animation-delay:240ms">One <code>Agentsfile</code> declares the skills, agents, custom commands and MCP servers of a project, grouped into named profiles. Parse it from Python, Rust, Java, Go or TypeScript, and validate it with <code>agentsfile-lint</code>.</p>
+<p class="sub rise" style="animation-delay:240ms">One <code>Agentsfile</code> declares the skills, agents, custom commands, MCP servers and plugins of a project, grouped into named profiles. Write each one in full inside the file, or point to external files. Parse it from Python, Rust, Java, Go or TypeScript, and validate it with <code>agentsfile-lint</code>.</p>
 <div class="ctas rise" style="animation-delay:360ms"><a class="btn primary" href="#spec">Read the spec</a><a class="btn ghost" href="#linter">Run the linter</a></div>
-<div class="shot" id="shot"><img src="../printscreens/agentsfile.png" alt="The Agentsfile of this repository with a dev and a ci profile"></div>
+<div class="shot" id="shot"><img src="../printscreens/agentsfile-hero.png" alt="The dev profile of this repository with an inline skill, its bundled script and an inline agent"></div>
 </header>
 <div class="band">
 <div class="wrap">
@@ -131,21 +131,21 @@ footer{margin-top:110px;border-top:1px solid var(--line);padding:28px 24px;text-
 </div>
 <section class="wrap" id="format">
 <p class="kicker mono">what goes in a profile</p>
-<h2 class="reveal">Four building blocks</h2>
-<p class="lead reveal">A profile is a named set of blocks. A tool loads the profile it needs, such as <code>dev</code> or <code>ci</code>, and ignores the rest.</p>
+<h2 class="reveal">Five building blocks, inline or by reference</h2>
+<p class="lead reveal">Each item is either written in full with <code>content</code>, or points to a path, a URL or a published plugin with <code>source</code>. Setting both, or neither, is an error.</p>
 <div class="cards stagger">
-<div class="card"><span class="badge mono">skill</span><h3>Skills</h3><p>A folder or URL with a skill definition, plus an optional description.</p></div>
-<div class="card"><span class="badge mono">agent</span><h3>Agents</h3><p>The agent definition source, an optional model and the list of tools it may use.</p></div>
-<div class="card"><span class="badge mono">command</span><h3>Custom commands</h3><p>Slash commands backed by a prompt file, declared once and reused across profiles.</p></div>
-<div class="card"><span class="badge mono">mcp</span><h3>MCP servers</h3><p>stdio servers with command, args and env, or http and sse servers with url and headers.</p></div>
-<div class="card"><span class="badge mono">${NAME}</span><h3>No secrets in the file</h3><p>Values like <code>${GITHUB_TOKEN}</code> stay literal; the tool that applies the profile resolves them.</p></div>
-<div class="card"><span class="badge mono">profile</span><h3>Many profiles</h3><p>Names are unique per file, and item names are unique per kind inside a profile.</p></div>
+<div class="card"><span class="badge mono">skill</span><h3>Skills</h3><p>The whole SKILL.md body in <code>content</code>, plus nested <code>file</code> blocks for scripts and references.</p></div>
+<div class="card"><span class="badge mono">agent</span><h3>Agents</h3><p>The full system prompt inline, with its model, tools and description next to it.</p></div>
+<div class="card"><span class="badge mono">command</span><h3>Custom commands</h3><p>The prompt inline, with <code>argument-hint</code>, <code>model</code> and the tools the command may use.</p></div>
+<div class="card"><span class="badge mono">mcp</span><h3>MCP servers</h3><p>A full stdio, http or sse server definition, or a <code>source</code> pointing to one.</p></div>
+<div class="card"><span class="badge mono">plugin</span><h3>Plugins</h3><p>Version, author and its own skills, agents, commands and MCP servers, or a published plugin by <code>source</code>.</p></div>
+<div class="card"><span class="badge mono">&lt;&lt;EOT</span><h3>Heredocs</h3><p>Multi-line prompts and scripts without escaping. The shared indentation is stripped, and <code>${NAME}</code> stays literal.</p></div>
 </div>
 </section>
 <section class="wrap">
 <p class="kicker mono">syntax</p>
 <h2 class="reveal">Blocks like main.tf, strict like a compiler</h2>
-<p class="lead reveal">Strings, lists of strings and maps of strings. Every SDK reports the first error with the same message and position.</p>
+<p class="lead reveal">Strings, heredocs, lists and maps. Every SDK reports the first error with the same message and position.</p>
 <div class="split reveal">
 <pre class="src">version = "1"
 
@@ -153,58 +153,55 @@ profile "dev" {
   description = "Working on the Agentsfile spec and its SDKs"
 
   skill "agentsfile-lint" {
-    source      = "./.agents/skills/agentsfile-lint"
-    description = "Lints every Agentsfile in the repo"
-  }
+    description = "Lints every Agentsfile in the repo and fixes the errors"
+    content     = &lt;&lt;SKILL
+      Run scripts/lint.sh.
+      Fix every error[...] line, then run it again until it prints 0 error(s).
+      Treat warning[...] lines as suggestions.
+      SKILL
 
-  agent "spec-guardian" {
-    source = "./.agents/agents/spec-guardian.md"
-    model  = "claude-opus-5-5"
-    tools  = ["Read", "Grep", "Bash"]
+    file "scripts/lint.sh" {
+      content = &lt;&lt;SH
+        #!/usr/bin/env bash
+        set -euo pipefail
+        cargo run -q --manifest-path linter/Cargo.toml -- Agentsfile spec/fixtures/valid/*.agentsfile
+        SH
+    }
   }
-
-  command "conformance" {
-    source      = "./.agents/commands/conformance.md"
-    description = "Runs the conformance suite of every SDK"
-  }
-
-  mcp "filesystem" {
-    transport = "stdio"
-    command   = "npx"
-    args      = ["-y", "@modelcontextprotocol/server-filesystem", "."]
-  }
-}
+  ...
 }</pre>
 <pre class="src wrapl">from agentsfile import load
 
 file = load("Agentsfile")
 dev = file.profiles[0]
-for mcp in dev.mcps:
-    print(mcp.name, mcp.transport, mcp.command)
+for skill in dev.skills:
+    print(skill.name, skill.content or skill.source)
+    for file in skill.files:
+        print("  ", file.path)
 
 <span class="err">line 6, col 5: attribute "tools" must be a list</span>
-<span class="err">line 4, col 3: missing required attribute "source" in command "ship"</span>
-<span class="err">line 5, col 17: invalid transport "grpc", expected stdio, http or sse</span></pre>
+<span class="err">line 4, col 3: command "ship" requires "source" or "content"</span>
+<span class="err">line 4, col 3: skill "a" cannot set both "source" and "content"</span></pre>
 </div>
 </section>
 <section class="wrap" id="sdks">
 <p class="kicker mono">sdks</p>
 <h2 class="reveal">Same model in every language</h2>
-<p class="lead reveal">Each SDK has a lexer, a parser and a schema validator, with no runtime dependencies. Every one runs the same 32 conformance fixtures.</p>
+<p class="lead reveal">Each SDK has a lexer, a parser and a schema validator, with no runtime dependencies. Every one runs the same 54 conformance fixtures.</p>
 <div class="table reveal">
 <div class="row mono"><span>SDK</span><span>Tests</span><span>Entry point</span></div>
-<div class="row"><span>Python</span><span class="mono">45</span><span class="mono">agentsfile.parse(text) · load(path)</span></div>
-<div class="row"><span>Rust</span><span class="mono">7</span><span class="mono">agentsfile::parse(src) · parse_file(path)</span></div>
-<div class="row"><span>Java</span><span class="mono">41</span><span class="mono">Agentsfile.parse(String) · load(Path)</span></div>
-<div class="row"><span>Go</span><span class="mono">40</span><span class="mono">agentsfile.Parse(src) · ParseFile(path)</span></div>
-<div class="row"><span>TypeScript</span><span class="mono">44</span><span class="mono">parse(src) · load(path)</span></div>
+<div class="row"><span>Python</span><span class="mono">71</span><span class="mono">agentsfile.parse(text) · load(path)</span></div>
+<div class="row"><span>Rust</span><span class="mono">12</span><span class="mono">agentsfile::parse(src) · parse_file(path)</span></div>
+<div class="row"><span>Java</span><span class="mono">66</span><span class="mono">Agentsfile.parse(String) · load(Path)</span></div>
+<div class="row"><span>Go</span><span class="mono">70</span><span class="mono">agentsfile.Parse(src) · ParseFile(path)</span></div>
+<div class="row"><span>TypeScript</span><span class="mono">73</span><span class="mono">parse(src) · load(path)</span></div>
 </div>
 </section>
 <section class="wrap">
 <p class="kicker mono">gallery</p>
 <h2 class="reveal">Real output from this repository</h2>
 <div class="gallery stagger" style="margin-top:40px">
-<div class="frame"><div class="img"><img src="../printscreens/lint.png" alt="agentsfile-lint output with errors and warnings"></div><div class="cap"><span class="badge mono">lint</span>A broken file gets 2 errors and 5 warnings and exit 1. The repository's own file is clean.</div></div>
+<div class="frame"><div class="img"><img src="../printscreens/lint.png" alt="agentsfile-lint output with errors and warnings"></div><div class="cap"><span class="badge mono">lint</span>A broken file gets 3 errors and 6 warnings and exit 1. The repository's own file is clean.</div></div>
 <div class="frame"><div class="img"><img src="../printscreens/conformance.png" alt="test-all.sh output for every SDK"></div><div class="cap"><span class="badge mono">conformance</span><code>scripts/test-all.sh</code> runs the five SDK suites, the linter suite and a lint of the Agentsfile.</div></div>
 </div>
 </section>
@@ -220,14 +217,16 @@ for mcp in dev.mcps:
 <div class="row"><span class="mono code">E004</span><span class="err">error</span><span>duplicate attribute</span></div>
 <div class="row"><span class="mono code">E005</span><span class="err">error</span><span>wrong attribute kind</span></div>
 <div class="row"><span class="mono code">E006</span><span class="err">error</span><span>unsupported version or invalid transport</span></div>
-<div class="row"><span class="mono code">E007</span><span class="err">error</span><span>duplicate profile or duplicate item in a profile</span></div>
-<div class="row"><span class="mono code">E008</span><span class="err">error</span><span>missing required attribute</span></div>
+<div class="row"><span class="mono code">E007</span><span class="err">error</span><span>duplicate profile or duplicate item</span></div>
+<div class="row"><span class="mono code">E008</span><span class="err">error</span><span>missing <code>version</code>, or neither <code>source</code> nor the inline definition</span></div>
 <div class="row"><span class="mono code">E009</span><span class="err">error</span><span>transport requirement not met</span></div>
+<div class="row"><span class="mono code">E010</span><span class="err">error</span><span>both <code>source</code> and the inline definition</span></div>
 <div class="row"><span class="mono code">W001</span><span class="warn">warning</span><span>profile declares nothing</span></div>
-<div class="row"><span class="mono code">W002</span><span class="warn">warning</span><span>local <code>source</code> path does not exist next to the Agentsfile</span></div>
+<div class="row"><span class="mono code">W002</span><span class="warn">warning</span><span>a <code>source</code> starting with <code>.</code> or <code>/</code> does not exist next to the Agentsfile</span></div>
 <div class="row"><span class="mono code">W003</span><span class="warn">warning</span><span><code>env</code> or <code>headers</code> value looks like a hardcoded secret; use <code>${NAME}</code></span></div>
 <div class="row"><span class="mono code">W004</span><span class="warn">warning</span><span>block name is not kebab-case</span></div>
 <div class="row"><span class="mono code">W005</span><span class="warn">warning</span><span>attribute ignored by the chosen transport</span></div>
+<div class="row"><span class="mono code">W006</span><span class="warn">warning</span><span>inline <code>content</code> is empty</span></div>
 </div>
 </section>
 <section class="wrap" id="spec">
@@ -239,7 +238,7 @@ for mcp in dev.mcps:
 <div class="term"><div class="bar"><i></i><i></i><i></i></div><pre id="term"></pre></div>
 </div>
 </section>
-<footer><div class="mono">Agentsfile spec v1 · Python · Rust · Java · Go · TypeScript</div><div class="mono">agentsfile-lint · 30 invalid fixtures · 2 valid fixtures</div></footer>
+<footer><div class="mono">Agentsfile spec v1 · Python · Rust · Java · Go · TypeScript</div><div class="mono">agentsfile-lint · 51 invalid fixtures · 3 valid fixtures</div></footer>
 <script>
 const root=document.documentElement;
 const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -251,7 +250,7 @@ document.querySelectorAll(".reveal,.stagger").forEach(el=>io.observe(el));
 const shot=document.getElementById("shot");
 setTimeout(()=>shot.classList.add("flat"),reduced?0:700);
 if(!reduced){let tx=0,ty=0,x=0,y=0;addEventListener("pointermove",e=>{tx=e.clientX/innerWidth*2-1;ty=e.clientY/innerHeight*2-1});const tick=()=>{x+=(tx-x)*.08;y+=(ty-y)*.08;root.style.setProperty("--px",x.toFixed(4));root.style.setProperty("--py",y.toFixed(4));root.style.setProperty("--mx",`${(x+1)*50}%`);root.style.setProperty("--my",`${(y+1)*50}%`);requestAnimationFrame(tick)};tick()}
-const lines=[["t-p","$ agentsfile-lint Agentsfile"],["t-w","Agentsfile:3:1: warning[W004]: profile name \"Review\" is not kebab-case"],["t-e","Agentsfile:8:3: error[E008]: missing required attribute \"source\" in agent \"reviewer\""],["t-e","Agentsfile:10:5: error[E005]: attribute \"tools\" must be a list"],["t-w","Agentsfile:17:17: warning[W003]: env \"GITHUB_TOKEN\" looks like a hardcoded secret, use ${NAME}"],["","1 file(s), 2 error(s), 5 warning(s)"],["t-p","$ agentsfile-lint Agentsfile"],["t-ok","1 file(s), 0 error(s), 0 warning(s)"]];
+const lines=[["t-p","$ agentsfile-lint Agentsfile"],["t-w","Agentsfile:3:1: warning[W004]: profile name \"Review\" is not kebab-case"],["t-e","Agentsfile:4:3: error[E010]: skill \"code-review\" cannot set both \"source\" and \"content\""],["t-e","Agentsfile:9:3: error[E008]: agent \"reviewer\" requires \"source\" or \"content\""],["t-e","Agentsfile:11:5: error[E005]: attribute \"tools\" must be a list"],["t-w","Agentsfile:23:17: warning[W003]: env \"GITHUB_TOKEN\" looks like a hardcoded secret, use ${NAME}"],["","1 file(s), 3 error(s), 6 warning(s)"],["t-p","$ agentsfile-lint Agentsfile"],["t-ok","1 file(s), 0 error(s), 0 warning(s)"]];
 const term=document.getElementById("term");
 const render=n=>{term.innerHTML=lines.slice(0,n).map(([c,t])=>`<span class="${c}">${t.replace(/</g,"&lt;")}</span>`).join("\n")+(n<lines.length||!reduced?'\n<span class="cursor"></span>':"")};
 if(reduced){render(lines.length)}else{const to=new IntersectionObserver(es=>{if(es[0].isIntersecting){to.disconnect();let n=0;const step=()=>{render(++n);if(n<lines.length)setTimeout(step,420)};step()}},{threshold:.4});to.observe(term);render(0)}

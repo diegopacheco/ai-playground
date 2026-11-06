@@ -1,0 +1,9 @@
+# expect: line 6, col 5: duplicate file "x.sh" in skill "a"
+version = "1"
+profile "dev" {
+  skill "a" {
+    file "x.sh" { content = "1" }
+    file "x.sh" { content = "2" }
+    content = "x"
+  }
+}

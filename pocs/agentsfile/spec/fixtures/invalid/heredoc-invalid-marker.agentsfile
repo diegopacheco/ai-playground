@@ -1,0 +1,4 @@
+# expect: line 2, col 11: invalid heredoc marker
+version = <<EOT extra
+1
+EOT

@@ -1,0 +1,10 @@
+# expect: line 6, col 7: unknown block "file" in file
+version = "1"
+profile "dev" {
+  skill "a" {
+    file "x" {
+      file "y" {
+      }
+    }
+  }
+}

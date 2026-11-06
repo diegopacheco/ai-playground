@@ -1,0 +1,9 @@
+# expect: line 7, col 5: duplicate skill "a" in plugin "p"
+version = "1"
+profile "dev" {
+  plugin "p" {
+    skill "a" { content = "x" }
+    command "b" { content = "y" }
+    skill "a" { content = "z" }
+  }
+}

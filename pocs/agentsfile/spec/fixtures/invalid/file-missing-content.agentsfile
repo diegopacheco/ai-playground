@@ -1,0 +1,9 @@
+# expect: line 5, col 5: file "x.sh" requires "source" or "content"
+version = "1"
+profile "dev" {
+  skill "a" {
+    file "x.sh" {
+    }
+    content = "x"
+  }
+}

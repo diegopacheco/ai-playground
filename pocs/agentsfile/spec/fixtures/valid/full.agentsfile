@@ -1,12 +1,28 @@
-# Two profiles that cover every block kind
+# Profiles that cover every block kind, written inline and by reference
 version = "1"
 
 profile "dev" {
   description = "Everyday coding setup"
 
   skill "code-review" {
-    source      = "./skills/code-review"
     description = "Reviews the current diff"
+    content     = <<EOT
+      # Code review
+      Read the diff and list bugs first.
+
+      Then list style issues.
+      EOT
+
+    file "scripts/diff.sh" {
+      content = <<SH
+        #!/usr/bin/env bash
+        git diff --stat
+      SH
+    }
+
+    file "checklist.md" {
+      source = "./skills/code-review/checklist.md"
+    }
   }
 
   skill "release-notes" {
@@ -14,14 +30,23 @@ profile "dev" {
   }
 
   agent "tester" {
-    source = "./agents/tester.md"
-    model  = "claude-sonnet-5-5"
-    tools  = ["Read", "Grep", "Bash",]
+    description = "Writes and runs tests"
+    model       = "claude-sonnet-5-5"
+    tools       = ["Read", "Grep", "Bash",]
+    content     = <<PROMPT
+    You write tests first.
+      Keep each test small.
+    PROMPT
   }
 
   command "ship" {
-    source      = "./commands/ship.md"
-    description = "Runs tests and opens a PR"
+    description   = "Runs tests and opens a PR"
+    argument-hint = "<branch>"
+    model         = "claude-haiku-5-5"
+    tools         = ["Bash"]
+    content       = <<MD
+      Run the tests, then open a PR for $ARGUMENTS.
+    MD
   }
 
   mcp "github" {
@@ -41,6 +66,10 @@ profile "ci" {
     description = "Says \"no\" to\tsloppy code"
   }
 
+  command "fix" {
+    source = "./commands/fix.md"
+  }
+
   mcp "docs" {
     transport = "http"
     url       = "https://mcp.acme.dev/docs"
@@ -50,5 +79,36 @@ profile "ci" {
   mcp "events" {
     transport = "sse"
     url       = "https://mcp.acme.dev/events"
+  }
+
+  mcp "shared" {
+    source = "./mcp/shared.json"
+  }
+
+  plugin "toolkit" {
+    version     = "1.2.0"
+    description = "Shared team tooling"
+    author      = "Platform team"
+
+    skill "lint" {
+      content = "Run the linter and fix every error."
+    }
+
+    agent "fixer" {
+      source = "./agents/fixer.md"
+    }
+
+    command "fix" {
+      source = "./commands/fix.md"
+    }
+
+    mcp "search" {
+      transport = "http"
+      url       = "https://mcp.acme.dev/search"
+    }
+  }
+
+  plugin "security" {
+    source = "https://github.com/acme/plugins/security"
   }
 }

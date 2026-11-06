@@ -1,0 +1,22 @@
+version = <<V
+  1
+V
+
+profile "edge" {
+  description = <<EMPTY
+EMPTY
+
+  skill "tabs" {
+    content = <<T
+	first
+	  second
+
+T
+  }
+
+  skill "raw" {
+    content = <<R   
+"quoted" \n ${HOME} # not a comment
+    R
+  }
+}

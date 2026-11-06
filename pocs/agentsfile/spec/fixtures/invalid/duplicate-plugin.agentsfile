@@ -1,0 +1,10 @@
+# expect: line 7, col 3: duplicate plugin "p" in profile "dev"
+version = "1"
+profile "dev" {
+  plugin "p" {
+    source = "a"
+  }
+  plugin "p" {
+    source = "b"
+  }
+}

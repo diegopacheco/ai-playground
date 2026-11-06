@@ -20,7 +20,7 @@
       <rect x="625" y="830" width="330" height="110" rx="14" fill="#ffe0e0"/>
     </g>
     <text x="500" y="130" font-size="30">Agentsfile</text>
-    <text x="500" y="158" font-size="20">version + profiles</text>
+    <text x="500" y="158" font-size="20">profiles: inline or source</text>
     <text x="500" y="278" font-size="28">spec/SPEC.md: same pipeline in every SDK</text>
     <text x="500" y="316" font-size="24">lexer  ->  parser  ->  schema validator</text>
     <text x="107" y="466" font-size="26">Python</text>
@@ -34,13 +34,13 @@
     <text x="880" y="466" font-size="26">TypeScript</text>
     <text x="880" y="494" font-size="18">TS 7 + Bun</text>
     <text x="300" y="660" font-size="28">typed model</text>
-    <text x="300" y="692" font-size="20">Profile: skills, agents, commands, mcps</text>
+    <text x="300" y="692" font-size="20">Profile: skills, agents, commands, mcps, plugins</text>
     <text x="300" y="716" font-size="20">or "line L, col C: message"</text>
     <text x="790" y="660" font-size="28">agentsfile-lint (Rust)</text>
     <text x="790" y="692" font-size="20">every schema error</text>
-    <text x="790" y="716" font-size="20">+ warnings W001..W005</text>
+    <text x="790" y="716" font-size="20">+ warnings W001..W006</text>
     <text x="300" y="870" font-size="28">spec/fixtures</text>
-    <text x="300" y="902" font-size="20">30 invalid with # expect, 2 valid</text>
+    <text x="300" y="902" font-size="20">51 invalid with # expect, 3 valid</text>
     <text x="300" y="926" font-size="20">run by the tests of every SDK</text>
     <text x="790" y="870" font-size="28">diagnostics</text>
     <text x="790" y="902" font-size="20">path:line:col: level[CODE]</text>

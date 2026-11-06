@@ -8,8 +8,9 @@ import java.util.Optional;
 
 public record Mcp(
         String name,
-        Transport transport,
         Optional<String> description,
+        Optional<String> source,
+        Optional<Transport> transport,
         Optional<String> command,
         List<String> args,
         Map<String, String> env,

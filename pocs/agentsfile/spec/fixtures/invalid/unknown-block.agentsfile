@@ -1,6 +1,6 @@
-# expect: line 4, col 3: unknown block "plugin" in profile
+# expect: line 4, col 3: unknown block "hook" in profile
 version = "1"
 profile "dev" {
-  plugin "x" {
+  hook "x" {
   }
 }

@@ -1,0 +1,7 @@
+# expect: line 4, col 3: plugin "p" requires "source" or inline items
+version = "1"
+profile "dev" {
+  plugin "p" {
+    version = "1.0.0"
+  }
+}

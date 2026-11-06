@@ -1,0 +1,8 @@
+# expect: line 5, col 5: unknown attribute "homepage" in plugin
+version = "1"
+profile "dev" {
+  plugin "p" {
+    homepage = "https://acme.dev"
+    source = "https://github.com/acme/p"
+  }
+}

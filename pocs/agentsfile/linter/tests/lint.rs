@@ -41,13 +41,17 @@ fn reports_every_schema_error_not_only_the_first() {
 profile "dev" {
   skill "a" {
   }
+  skill "b" {
+    source = "https://x"
+    content = "y"
+  }
   mcp "m" {
     transport = "http"
     color = "red"
   }
 }
 "#;
-    assert_eq!(codes(src), ["E006", "E008", "E009", "E002"]);
+    assert_eq!(codes(src), ["E006", "E008", "E010", "E009", "E002"]);
 }
 
 #[test]
@@ -68,12 +72,17 @@ fn warns_on_missing_local_source_but_not_on_urls_or_existing_paths() {
 profile "dev" {
   skill "a" { source = "./missing-skill" }
   skill "b" { source = "https://github.com/acme/skills/b" }
-  skill "c" { source = "valid/full.agentsfile" }
+  skill "c" { source = "./valid/full.agentsfile" }
+  plugin "d" { source = "security@acme-marketplace" }
+  skill "e" {
+    content = "x"
+    file "f.sh" { source = "./missing-file.sh" }
+  }
 }
 "#;
     let diagnostics = lint(src, &fixtures());
     let w002: Vec<String> = diagnostics.iter().filter(|d| d.code == "W002").map(|d| d.message.clone()).collect();
-    assert_eq!(w002, ["source \"./missing-skill\" does not exist"]);
+    assert_eq!(w002, ["source \"./missing-skill\" does not exist", "source \"./missing-file.sh\" does not exist"]);
 }
 
 #[test]
@@ -131,4 +140,36 @@ profile "dev" {
 fn renders_path_line_col_level_and_code() {
     let diagnostics = lint("version = \"1\"\nprofile \"dev\" {\n}\n", Path::new("."));
     assert_eq!(diagnostics[0].render("Agentsfile"), "Agentsfile:2:1: warning[W001]: profile \"dev\" declares nothing");
+}
+
+#[test]
+fn warns_on_empty_inline_content() {
+    let src = "version = \"1\"\nprofile \"dev\" {\n  command \"c\" {\n    content = <<EOT\n    EOT\n  }\n}\n";
+    let diagnostics = lint(src, Path::new("."));
+    assert_eq!(diagnostics.len(), 1);
+    assert_eq!(diagnostics[0].code, "W006");
+    assert_eq!(diagnostics[0].message, "content of command \"c\" is empty");
+}
+
+#[test]
+fn checks_items_nested_inside_plugins() {
+    let src = r#"version = "1"
+profile "dev" {
+  plugin "kit" {
+    mcp "Search" {
+      transport = "stdio"
+      command = "x"
+      env = { API_KEY = "abc" }
+    }
+  }
+}
+"#;
+    assert_eq!(codes(src), ["W004", "W003"]);
+}
+
+#[test]
+fn conflict_between_source_and_inline_is_e010() {
+    let diagnostics = lint("version = \"1\"\nprofile \"dev\" {\n  mcp \"m\" {\n    source = \"https://x\"\n    transport = \"stdio\"\n    command = \"x\"\n  }\n}\n", Path::new("."));
+    assert_eq!(diagnostics.len(), 1);
+    assert_eq!(diagnostics[0].code, "E010");
 }

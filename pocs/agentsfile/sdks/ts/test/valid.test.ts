@@ -8,46 +8,84 @@ describe("full.agentsfile", () => {
   const file = load(join(dir, "full.agentsfile"));
   const [dev, ci] = file.profiles;
 
-  test("version and profile order", () => {
+  test("profiles and items keep file order", () => {
     expect(file.version).toBe("1");
     expect(file.profiles.map((p) => p.name)).toEqual(["dev", "ci"]);
     expect(dev?.description).toBe("Everyday coding setup");
     expect(ci?.description).toBeUndefined();
+    expect(dev?.skills.map((s) => s.name)).toEqual(["code-review", "release-notes"]);
+    expect(ci?.mcps.map((m) => m.name)).toEqual(["docs", "events", "shared"]);
+    expect(ci?.plugins.map((p) => p.name)).toEqual(["toolkit", "security"]);
+    expect(dev?.plugins).toEqual([]);
   });
 
-  test("dev skills keep order and optional description", () => {
+  test("inline skill carries its dedented body and extra files", () => {
     expect(dev?.skills).toStrictEqual([
-      { name: "code-review", source: "./skills/code-review", description: "Reviews the current diff" },
-      { name: "release-notes", source: "https://github.com/acme/skills/release-notes", description: undefined },
-    ]);
-    expect(ci?.skills).toEqual([]);
-  });
-
-  test("dev agent accepts a trailing comma in tools", () => {
-    expect(dev?.agents).toStrictEqual([
       {
-        name: "tester",
-        source: "./agents/tester.md",
+        name: "code-review",
+        description: "Reviews the current diff",
+        source: undefined,
+        content: "# Code review\nRead the diff and list bugs first.\n\nThen list style issues.",
+        files: [
+          { path: "scripts/diff.sh", source: undefined, content: "#!/usr/bin/env bash\ngit diff --stat" },
+          { path: "checklist.md", source: "./skills/code-review/checklist.md", content: undefined },
+        ],
+      },
+      {
+        name: "release-notes",
         description: undefined,
-        model: "claude-sonnet-5-5",
-        tools: ["Read", "Grep", "Bash"],
+        source: "https://github.com/acme/skills/release-notes",
+        content: undefined,
+        files: [],
       },
     ]);
   });
 
-  test("dev command", () => {
-    expect(dev?.commands).toStrictEqual([
-      { name: "ship", source: "./commands/ship.md", description: "Runs tests and opens a PR" },
+  test("inline agent keeps the indentation beyond the common one", () => {
+    expect(dev?.agents).toStrictEqual([
+      {
+        name: "tester",
+        description: "Writes and runs tests",
+        model: "claude-sonnet-5-5",
+        tools: ["Read", "Grep", "Bash"],
+        source: undefined,
+        content: "You write tests first.\n  Keep each test small.",
+      },
     ]);
-    expect(ci?.commands).toEqual([]);
   });
 
-  test("stdio mcp keeps ${GITHUB_TOKEN} literal and defaults headers", () => {
+  test("commands are inline or referenced", () => {
+    expect(dev?.commands).toStrictEqual([
+      {
+        name: "ship",
+        description: "Runs tests and opens a PR",
+        argumentHint: "<branch>",
+        model: "claude-haiku-5-5",
+        tools: ["Bash"],
+        source: undefined,
+        content: "Run the tests, then open a PR for $ARGUMENTS.",
+      },
+    ]);
+    expect(ci?.commands).toStrictEqual([
+      {
+        name: "fix",
+        description: undefined,
+        argumentHint: undefined,
+        model: undefined,
+        tools: [],
+        source: "./commands/fix.md",
+        content: undefined,
+      },
+    ]);
+  });
+
+  test("stdio mcp keeps ${GITHUB_TOKEN} literal", () => {
     expect(dev?.mcps).toStrictEqual([
       {
         name: "github",
-        transport: "stdio",
         description: undefined,
+        source: undefined,
+        transport: "stdio",
         command: "npx",
         args: ["-y", "@modelcontextprotocol/server-github"],
         env: { GITHUB_TOKEN: "${GITHUB_TOKEN}", LOG_LEVEL: "info" },
@@ -55,27 +93,15 @@ describe("full.agentsfile", () => {
         headers: {},
       },
     ]);
-    expect(Object.keys(dev?.mcps[0]?.env ?? {})).toEqual(["GITHUB_TOKEN", "LOG_LEVEL"]);
   });
 
-  test("ci agent decodes escapes and defaults tools", () => {
-    expect(ci?.agents).toStrictEqual([
-      {
-        name: "reviewer",
-        source: "./agents/reviewer.md",
-        description: 'Says "no" to\tsloppy code',
-        model: undefined,
-        tools: [],
-      },
-    ]);
-  });
-
-  test("http and sse mcps default args, env and headers", () => {
+  test("http, sse and referenced mcps default args, env and headers", () => {
     expect(ci?.mcps).toStrictEqual([
       {
         name: "docs",
-        transport: "http",
         description: undefined,
+        source: undefined,
+        transport: "http",
         command: undefined,
         args: [],
         env: {},
@@ -84,15 +110,86 @@ describe("full.agentsfile", () => {
       },
       {
         name: "events",
-        transport: "sse",
         description: undefined,
+        source: undefined,
+        transport: "sse",
         command: undefined,
         args: [],
         env: {},
         url: "https://mcp.acme.dev/events",
         headers: {},
       },
+      {
+        name: "shared",
+        description: undefined,
+        source: "./mcp/shared.json",
+        transport: undefined,
+        command: undefined,
+        args: [],
+        env: {},
+        url: undefined,
+        headers: {},
+      },
     ]);
+  });
+
+  test("quoted strings decode escapes", () => {
+    expect(ci?.agents).toStrictEqual([
+      {
+        name: "reviewer",
+        description: 'Says "no" to\tsloppy code',
+        model: undefined,
+        tools: [],
+        source: "./agents/reviewer.md",
+        content: undefined,
+      },
+    ]);
+  });
+
+  test("plugins are inline bundles or referenced", () => {
+    const [toolkit, security] = ci?.plugins ?? [];
+    expect(toolkit?.version).toBe("1.2.0");
+    expect(toolkit?.author).toBe("Platform team");
+    expect(toolkit?.description).toBe("Shared team tooling");
+    expect(toolkit?.source).toBeUndefined();
+    expect(toolkit?.skills.map((s) => [s.name, s.content])).toEqual([["lint", "Run the linter and fix every error."]]);
+    expect(toolkit?.agents.map((a) => [a.name, a.source])).toEqual([["fixer", "./agents/fixer.md"]]);
+    expect(toolkit?.commands.map((c) => [c.name, c.source])).toEqual([["fix", "./commands/fix.md"]]);
+    expect(toolkit?.mcps.map((m) => [m.name, m.transport, m.url])).toEqual([
+      ["search", "http", "https://mcp.acme.dev/search"],
+    ]);
+    expect(security).toStrictEqual({
+      name: "security",
+      description: undefined,
+      version: undefined,
+      author: undefined,
+      source: "https://github.com/acme/plugins/security",
+      skills: [],
+      agents: [],
+      commands: [],
+      mcps: [],
+    });
+  });
+});
+
+describe("heredoc.agentsfile", () => {
+  const file = load(join(dir, "heredoc.agentsfile"));
+  const edge = file.profiles[0];
+
+  test("a dedented heredoc version is accepted", () => {
+    expect(file.version).toBe("1");
+  });
+
+  test("an empty body is the empty string", () => {
+    expect(edge?.description).toBe("");
+  });
+
+  test("tabs are common indentation and a trailing blank line stays", () => {
+    expect(edge?.skills[0]?.content).toBe("first\n  second\n");
+  });
+
+  test("nothing inside a heredoc is special", () => {
+    expect(edge?.skills[1]?.content).toBe('"quoted" \\n ${HOME} # not a comment');
   });
 });
 

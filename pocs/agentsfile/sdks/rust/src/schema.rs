@@ -1,7 +1,7 @@
 use std::collections::{BTreeMap, HashSet};
 
 use crate::error::Error;
-use crate::model::{Agent, Agentsfile, Command, Mcp, Profile, Skill, Transport};
+use crate::model::{Agent, Agentsfile, Command, Items, Mcp, Plugin, Profile, Skill, SkillFile, Transport};
 use crate::parser::{Attribute, Block, Statement, Value};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -14,6 +14,7 @@ pub enum IssueKind {
     DuplicateName,
     MissingRequired,
     TransportRequirement,
+    Conflict,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -31,47 +32,69 @@ enum Kind {
 
 const FILE_ATTRS: &[(&str, Kind)] = &[("version", Kind::Str)];
 const PROFILE_ATTRS: &[(&str, Kind)] = &[("description", Kind::Str)];
-const SKILL_ATTRS: &[(&str, Kind)] = &[("source", Kind::Str), ("description", Kind::Str)];
-const COMMAND_ATTRS: &[(&str, Kind)] = SKILL_ATTRS;
+const SKILL_ATTRS: &[(&str, Kind)] = &[("description", Kind::Str), ("source", Kind::Str), ("content", Kind::Str)];
+const SKILL_FILE_ATTRS: &[(&str, Kind)] = &[("source", Kind::Str), ("content", Kind::Str)];
 const AGENT_ATTRS: &[(&str, Kind)] = &[
-    ("source", Kind::Str),
     ("description", Kind::Str),
     ("model", Kind::Str),
     ("tools", Kind::List),
+    ("source", Kind::Str),
+    ("content", Kind::Str),
+];
+const COMMAND_ATTRS: &[(&str, Kind)] = &[
+    ("description", Kind::Str),
+    ("argument-hint", Kind::Str),
+    ("model", Kind::Str),
+    ("tools", Kind::List),
+    ("source", Kind::Str),
+    ("content", Kind::Str),
 ];
 const MCP_ATTRS: &[(&str, Kind)] = &[
-    ("transport", Kind::Str),
     ("description", Kind::Str),
+    ("source", Kind::Str),
+    ("transport", Kind::Str),
     ("command", Kind::Str),
     ("args", Kind::List),
     ("env", Kind::Map),
     ("url", Kind::Str),
     ("headers", Kind::Map),
 ];
+const PLUGIN_ATTRS: &[(&str, Kind)] = &[
+    ("description", Kind::Str),
+    ("version", Kind::Str),
+    ("author", Kind::Str),
+    ("source", Kind::Str),
+];
+const PROFILE_KINDS: &[&str] = &["skill", "agent", "command", "mcp", "plugin"];
+const PLUGIN_KINDS: &[&str] = &["skill", "agent", "command", "mcp"];
 
 struct Attrs<'a>(Vec<&'a Attribute>);
 
 impl Attrs<'_> {
-    fn get(&self, name: &str) -> Option<&Attribute> {
-        self.0.iter().copied().find(|a| a.name == name)
+    fn has(&self, name: &str) -> bool {
+        self.0.iter().any(|a| a.name == name)
+    }
+
+    fn value(&self, name: &str) -> Option<&Value> {
+        self.0.iter().find(|a| a.name == name).map(|a| &a.value)
     }
 
     fn str(&self, name: &str) -> Option<String> {
-        match self.get(name).map(|a| &a.value) {
+        match self.value(name) {
             Some(Value::Str(s)) => Some(s.clone()),
             _ => None,
         }
     }
 
     fn list(&self, name: &str) -> Vec<String> {
-        match self.get(name).map(|a| &a.value) {
+        match self.value(name) {
             Some(Value::List(items)) => items.clone(),
             _ => Vec::new(),
         }
     }
 
     fn map(&self, name: &str) -> BTreeMap<String, String> {
-        match self.get(name).map(|a| &a.value) {
+        match self.value(name) {
             Some(Value::Map(m)) => m.clone(),
             _ => BTreeMap::new(),
         }
@@ -109,26 +132,50 @@ impl Validator {
             }
             profiles.push(v.profile(b));
         });
-        let version = attrs.str("version");
-        if attrs.get("version").is_none() {
+        if !attrs.has("version") {
             self.report(IssueKind::MissingRequired, 1, 1, "missing required attribute \"version\"".to_string());
         }
         Agentsfile {
-            version: version.unwrap_or_default(),
+            version: attrs.str("version").unwrap_or_default(),
             profiles,
         }
     }
 
     fn profile(&mut self, block: &Block) -> Profile {
-        let mut p = Profile {
+        let (attrs, items) = self.container(block, PROFILE_ATTRS, PROFILE_KINDS);
+        Profile {
             name: block.label.clone(),
-            ..Profile::default()
-        };
+            description: attrs.str("description"),
+            skills: items.skills,
+            agents: items.agents,
+            commands: items.commands,
+            mcps: items.mcps,
+            plugins: items.plugins,
+        }
+    }
+
+    fn plugin(&mut self, b: &Block) -> Plugin {
+        let (attrs, items) = self.container(b, PLUGIN_ATTRS, PLUGIN_KINDS);
+        self.exactly_one(b, attrs.has("source"), !items.is_empty(), "inline items");
+        Plugin {
+            name: b.label.clone(),
+            description: attrs.str("description"),
+            version: attrs.str("version"),
+            author: attrs.str("author"),
+            source: attrs.str("source"),
+            skills: items.skills,
+            agents: items.agents,
+            commands: items.commands,
+            mcps: items.mcps,
+        }
+    }
+
+    fn container<'a>(&mut self, owner: &'a Block, allowed: &[(&str, Kind)], kinds: &[&str]) -> (Attrs<'a>, Items) {
+        let mut items = Items::default();
         let mut seen: HashSet<(String, String)> = HashSet::new();
-        let attrs = self.walk("profile", &block.body, PROFILE_ATTRS, |v, b| {
-            let known = ["skill", "agent", "command", "mcp"].contains(&b.kind.as_str());
-            if !known {
-                v.unknown_block(b, "profile");
+        let attrs = self.walk(&owner.kind, &owner.body, allowed, |v, b| {
+            if !kinds.contains(&b.kind.as_str()) {
+                v.unknown_block(b, &owner.kind);
                 return;
             }
             if !seen.insert((b.kind.clone(), b.label.clone())) {
@@ -136,56 +183,92 @@ impl Validator {
                     IssueKind::DuplicateName,
                     b.line,
                     b.col,
-                    format!("duplicate {} \"{}\" in profile \"{}\"", b.kind, b.label, block.label),
+                    format!("duplicate {} \"{}\" in {} \"{}\"", b.kind, b.label, owner.kind, owner.label),
                 );
             }
             match b.kind.as_str() {
-                "skill" => p.skills.push(v.skill(b)),
-                "agent" => p.agents.push(v.agent(b)),
-                "command" => p.commands.push(v.command(b)),
-                _ => p.mcps.push(v.mcp(b)),
+                "skill" => items.skills.push(v.skill(b)),
+                "agent" => items.agents.push(v.agent(b)),
+                "command" => items.commands.push(v.command(b)),
+                "mcp" => items.mcps.push(v.mcp(b)),
+                _ => items.plugins.push(v.plugin(b)),
             }
         });
-        p.description = attrs.str("description");
-        p
+        (attrs, items)
     }
 
     fn skill(&mut self, b: &Block) -> Skill {
-        let attrs = self.leaf(b, SKILL_ATTRS);
+        let mut files = Vec::new();
+        let mut seen = HashSet::new();
+        let attrs = self.walk("skill", &b.body, SKILL_ATTRS, |v, child| {
+            if child.kind != "file" {
+                v.unknown_block(child, "skill");
+                return;
+            }
+            if !seen.insert(child.label.clone()) {
+                v.report(
+                    IssueKind::DuplicateName,
+                    child.line,
+                    child.col,
+                    format!("duplicate file \"{}\" in skill \"{}\"", child.label, b.label),
+                );
+            }
+            files.push(v.skill_file(child));
+        });
+        self.source_or_content(b, &attrs);
         Skill {
             name: b.label.clone(),
-            source: self.require(&attrs, b, "source"),
             description: attrs.str("description"),
+            source: attrs.str("source"),
+            content: attrs.str("content"),
+            files,
         }
     }
 
-    fn command(&mut self, b: &Block) -> Command {
-        let attrs = self.leaf(b, COMMAND_ATTRS);
-        Command {
-            name: b.label.clone(),
-            source: self.require(&attrs, b, "source"),
-            description: attrs.str("description"),
+    fn skill_file(&mut self, b: &Block) -> SkillFile {
+        let attrs = self.leaf(b, SKILL_FILE_ATTRS);
+        self.source_or_content(b, &attrs);
+        SkillFile {
+            path: b.label.clone(),
+            source: attrs.str("source"),
+            content: attrs.str("content"),
         }
     }
 
     fn agent(&mut self, b: &Block) -> Agent {
         let attrs = self.leaf(b, AGENT_ATTRS);
+        self.source_or_content(b, &attrs);
         Agent {
             name: b.label.clone(),
-            source: self.require(&attrs, b, "source"),
             description: attrs.str("description"),
             model: attrs.str("model"),
             tools: attrs.list("tools"),
+            source: attrs.str("source"),
+            content: attrs.str("content"),
+        }
+    }
+
+    fn command(&mut self, b: &Block) -> Command {
+        let attrs = self.leaf(b, COMMAND_ATTRS);
+        self.source_or_content(b, &attrs);
+        Command {
+            name: b.label.clone(),
+            description: attrs.str("description"),
+            argument_hint: attrs.str("argument-hint"),
+            model: attrs.str("model"),
+            tools: attrs.list("tools"),
+            source: attrs.str("source"),
+            content: attrs.str("content"),
         }
     }
 
     fn mcp(&mut self, b: &Block) -> Mcp {
         let attrs = self.leaf(b, MCP_ATTRS);
-        let raw = self.require(&attrs, b, "transport");
-        let transport = Transport::from_name(&raw);
+        self.exactly_one(b, attrs.has("source"), attrs.has("transport"), "\"transport\"");
+        let transport = attrs.str("transport").and_then(|t| Transport::from_name(&t));
         if let Some(t) = transport {
             let needed = if t == Transport::Stdio { "command" } else { "url" };
-            if attrs.get(needed).is_none() {
+            if !attrs.has(needed) {
                 self.report(
                     IssueKind::TransportRequirement,
                     b.line,
@@ -196,8 +279,9 @@ impl Validator {
         }
         Mcp {
             name: b.label.clone(),
-            transport: transport.unwrap_or(Transport::Stdio),
             description: attrs.str("description"),
+            source: attrs.str("source"),
+            transport,
             command: attrs.str("command"),
             args: attrs.list("args"),
             env: attrs.map("env"),
@@ -206,21 +290,30 @@ impl Validator {
         }
     }
 
-    fn leaf<'a>(&mut self, b: &'a Block, allowed: &[(&str, Kind)]) -> Attrs<'a> {
-        let ctx = b.kind.clone();
-        self.walk(&ctx, &b.body, allowed, |v, child| v.unknown_block(child, &ctx))
+    fn source_or_content(&mut self, b: &Block, attrs: &Attrs<'_>) {
+        self.exactly_one(b, attrs.has("source"), attrs.has("content"), "\"content\"");
     }
 
-    fn require(&mut self, attrs: &Attrs<'_>, b: &Block, name: &str) -> String {
-        if attrs.get(name).is_none() {
+    fn exactly_one(&mut self, b: &Block, has_source: bool, has_inline: bool, inline: &str) {
+        if !has_source && !has_inline {
             self.report(
                 IssueKind::MissingRequired,
                 b.line,
                 b.col,
-                format!("missing required attribute \"{name}\" in {} \"{}\"", b.kind, b.label),
+                format!("{} \"{}\" requires \"source\" or {inline}", b.kind, b.label),
+            );
+        } else if has_source && has_inline {
+            self.report(
+                IssueKind::Conflict,
+                b.line,
+                b.col,
+                format!("{} \"{}\" cannot set both \"source\" and {inline}", b.kind, b.label),
             );
         }
-        attrs.str(name).unwrap_or_default()
+    }
+
+    fn leaf<'a>(&mut self, b: &'a Block, allowed: &[(&str, Kind)]) -> Attrs<'a> {
+        self.walk(&b.kind, &b.body, allowed, |v, child| v.unknown_block(child, &b.kind))
     }
 
     fn unknown_block(&mut self, b: &Block, ctx: &str) {

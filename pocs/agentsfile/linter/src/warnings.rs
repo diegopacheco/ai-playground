@@ -4,7 +4,8 @@ use agentsfile::{Attribute, Block, Statement, Value};
 
 use crate::diagnostic::Diagnostic;
 
-const ITEM_KINDS: [&str; 4] = ["skill", "agent", "command", "mcp"];
+const PROFILE_KINDS: [&str; 5] = ["skill", "agent", "command", "mcp", "plugin"];
+const PLUGIN_KINDS: [&str; 4] = ["skill", "agent", "command", "mcp"];
 const SECRET_KEY_HINTS: [&str; 5] = ["TOKEN", "SECRET", "PASSWORD", "KEY", "AUTHORIZATION"];
 const SECRET_VALUE_PREFIXES: [&str; 5] = ["sk-", "ghp_", "github_pat_", "xox", "AKIA"];
 
@@ -12,7 +13,7 @@ pub fn check(statements: &[Statement], base: &Path) -> Vec<Diagnostic> {
     let mut out = Vec::new();
     for profile in blocks(statements).filter(|b| b.kind == "profile") {
         check_name(profile, &mut out);
-        let items: Vec<&Block> = blocks(&profile.body).filter(|b| ITEM_KINDS.contains(&b.kind.as_str())).collect();
+        let items: Vec<&Block> = blocks(&profile.body).filter(|b| PROFILE_KINDS.contains(&b.kind.as_str())).collect();
         if items.is_empty() {
             out.push(Diagnostic::warning(
                 "W001",
@@ -22,15 +23,34 @@ pub fn check(statements: &[Statement], base: &Path) -> Vec<Diagnostic> {
             ));
         }
         for item in items {
-            check_name(item, &mut out);
-            check_source(item, base, &mut out);
-            if item.kind == "mcp" {
-                check_secrets(item, &mut out);
-                check_ignored(item, &mut out);
-            }
+            check_item(item, base, &mut out);
         }
     }
     out
+}
+
+fn check_item(item: &Block, base: &Path, out: &mut Vec<Diagnostic>) {
+    check_name(item, out);
+    check_source(item, base, out);
+    check_content(item, out);
+    match item.kind.as_str() {
+        "mcp" => {
+            check_secrets(item, out);
+            check_ignored(item, out);
+        }
+        "skill" => {
+            for file in blocks(&item.body).filter(|b| b.kind == "file") {
+                check_source(file, base, out);
+                check_content(file, out);
+            }
+        }
+        "plugin" => {
+            for child in blocks(&item.body).filter(|b| PLUGIN_KINDS.contains(&b.kind.as_str())) {
+                check_item(child, base, out);
+            }
+        }
+        _ => {}
+    }
 }
 
 fn blocks(statements: &[Statement]) -> impl Iterator<Item = &Block> {
@@ -59,6 +79,10 @@ pub fn is_kebab_case(name: &str) -> bool {
         && name.split('-').all(|part| !part.is_empty() && part.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit()))
 }
 
+pub fn is_local_path(source: &str) -> bool {
+    source.starts_with('.') || source.starts_with('/')
+}
+
 fn check_name(block: &Block, out: &mut Vec<Diagnostic>) {
     if !is_kebab_case(&block.label) {
         out.push(Diagnostic::warning(
@@ -72,7 +96,7 @@ fn check_name(block: &Block, out: &mut Vec<Diagnostic>) {
 
 fn check_source(block: &Block, base: &Path, out: &mut Vec<Diagnostic>) {
     let Some((attr, source)) = string_attr(block, "source") else { return };
-    if source.contains("://") || base.join(source).exists() {
+    if !is_local_path(source) || base.join(source).exists() {
         return;
     }
     out.push(Diagnostic::warning(
@@ -81,6 +105,18 @@ fn check_source(block: &Block, base: &Path, out: &mut Vec<Diagnostic>) {
         attr.value_col,
         format!("source \"{source}\" does not exist"),
     ));
+}
+
+fn check_content(block: &Block, out: &mut Vec<Diagnostic>) {
+    let Some((attr, content)) = string_attr(block, "content") else { return };
+    if content.trim().is_empty() {
+        out.push(Diagnostic::warning(
+            "W006",
+            attr.value_line,
+            attr.value_col,
+            format!("content of {} \"{}\" is empty", block.kind, block.label),
+        ));
+    }
 }
 
 pub fn looks_like_secret(key: &str, value: &str) -> bool {

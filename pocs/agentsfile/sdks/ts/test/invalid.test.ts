@@ -20,8 +20,8 @@ function failure(run: () => unknown): AgentsfileError {
 const fixtures = readdirSync(dir).filter((name) => name.endsWith(".agentsfile")).sort();
 
 describe("invalid fixtures", () => {
-  test("all 30 fixtures are present", () => {
-    expect(fixtures.length).toBe(30);
+  test("all 51 fixtures are present", () => {
+    expect(fixtures.length).toBe(51);
   });
 
   for (const name of fixtures) {
@@ -58,12 +58,30 @@ describe("error positions", () => {
 
   test("missing version is reported after every profile", () => {
     const error = failure(() => parse('profile "p" {\n  skill "s" {\n  }\n}'));
-    expect(error.message).toBe('line 2, col 3: missing required attribute "source" in skill "s"');
+    expect(error.message).toBe('line 2, col 3: skill "s" requires "source" or "content"');
+  });
+
+  test("positions after a heredoc follow its closing line", () => {
+    const error = failure(() => parse("version = <<V\n1\nV\n  @"));
+    expect(error.message).toBe("line 4, col 3: unexpected character '@'");
+  });
+
+  test("a single '<' is still an unexpected character", () => {
+    const error = failure(() => parse("version = <V"));
+    expect(error.message).toBe("line 1, col 11: unexpected character '<'");
+  });
+
+  test("a mcp conflict is reported before its transport rule", () => {
+    const error = failure(() => parse('version = "1"\nprofile "p" {\n  mcp "m" {\n    source = "a"\n    transport = "stdio"\n  }\n}'));
+    expect(error.message).toBe('line 3, col 3: mcp "m" cannot set both "source" and "transport"');
   });
 
   test("the same name in different kinds is not a duplicate", () => {
-    const file = parse('version = "1"\nprofile "p" {\n  skill "x" { source = "a" }\n  command "x" { source = "b" }\n}');
+    const file = parse(
+      'version = "1"\nprofile "p" {\n  skill "x" { source = "a" }\n  command "x" { source = "b" }\n  plugin "x" { source = "c" }\n}',
+    );
     expect(file.profiles[0]?.skills[0]?.source).toBe("a");
     expect(file.profiles[0]?.commands[0]?.source).toBe("b");
+    expect(file.profiles[0]?.plugins[0]?.source).toBe("c");
   });
 });

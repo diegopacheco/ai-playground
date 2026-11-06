@@ -1,0 +1,8 @@
+# expect: line 5, col 5: unknown attribute "argument_hint" in command
+version = "1"
+profile "dev" {
+  command "c" {
+    argument_hint = "<x>"
+    content = "x"
+  }
+}

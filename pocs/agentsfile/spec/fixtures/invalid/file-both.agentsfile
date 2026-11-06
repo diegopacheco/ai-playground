@@ -1,0 +1,11 @@
+# expect: line 5, col 5: file "x.sh" cannot set both "source" and "content"
+version = "1"
+profile "dev" {
+  skill "a" {
+    file "x.sh" {
+      source = "./x.sh"
+      content = "echo"
+    }
+    content = "x"
+  }
+}

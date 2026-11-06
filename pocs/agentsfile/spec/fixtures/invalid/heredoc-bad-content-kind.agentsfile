@@ -1,0 +1,7 @@
+# expect: line 5, col 5: attribute "content" must be a string
+version = "1"
+profile "dev" {
+  skill "a" {
+    content = ["x"]
+  }
+}

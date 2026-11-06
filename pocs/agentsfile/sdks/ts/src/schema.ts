@@ -1,5 +1,5 @@
 import { AgentsfileError } from "./errors";
-import type { Agent, Agentsfile, Command, Mcp, Profile, Skill, Transport } from "./model";
+import type { Agent, Agentsfile, Command, Mcp, Plugin, Profile, Skill, SkillFile, Transport } from "./model";
 import type { Attribute, Block, Statement, Value } from "./parser";
 
 type Kind = Value["kind"];
@@ -14,20 +14,42 @@ const FILE: Rules = { ctx: "file", attributes: { version: "string" }, blocks: ["
 const PROFILE: Rules = {
   ctx: "profile",
   attributes: { description: "string" },
+  blocks: ["skill", "agent", "command", "mcp", "plugin"],
+};
+const PLUGIN: Rules = {
+  ctx: "plugin",
+  attributes: { description: "string", version: "string", author: "string", source: "string" },
   blocks: ["skill", "agent", "command", "mcp"],
 };
-const SKILL: Rules = { ctx: "skill", attributes: { source: "string", description: "string" }, blocks: [] };
-const COMMAND: Rules = { ctx: "command", attributes: { source: "string", description: "string" }, blocks: [] };
+const SKILL: Rules = {
+  ctx: "skill",
+  attributes: { description: "string", source: "string", content: "string" },
+  blocks: ["file"],
+};
+const SKILL_FILE: Rules = { ctx: "file", attributes: { source: "string", content: "string" }, blocks: [] };
 const AGENT: Rules = {
   ctx: "agent",
-  attributes: { source: "string", description: "string", model: "string", tools: "list" },
+  attributes: { description: "string", model: "string", tools: "list", source: "string", content: "string" },
+  blocks: [],
+};
+const COMMAND: Rules = {
+  ctx: "command",
+  attributes: {
+    description: "string",
+    "argument-hint": "string",
+    model: "string",
+    tools: "list",
+    source: "string",
+    content: "string",
+  },
   blocks: [],
 };
 const MCP: Rules = {
   ctx: "mcp",
   attributes: {
-    transport: "string",
     description: "string",
+    source: "string",
+    transport: "string",
     command: "string",
     args: "list",
     env: "map",
@@ -41,6 +63,14 @@ const ARTICLES: Readonly<Record<Kind, string>> = { string: "a string", list: "a 
 const TRANSPORTS: readonly Transport[] = ["stdio", "http", "sse"];
 
 type Attributes = ReadonlyMap<string, Attribute>;
+
+interface Items {
+  readonly skills: Skill[];
+  readonly agents: Agent[];
+  readonly commands: Command[];
+  readonly mcps: Mcp[];
+  readonly plugins: Plugin[];
+}
 
 const isTransport = (value: string): value is Transport => (TRANSPORTS as readonly string[]).includes(value);
 
@@ -86,6 +116,21 @@ function scan(statements: readonly Statement[], rules: Rules, onBlock: (block: B
   return attributes;
 }
 
+function unique(owner: Block): (child: Block) => void {
+  const seen = new Set<string>();
+  return (child) => {
+    const id = `${child.keyword}\u0000${child.label}`;
+    if (seen.has(id)) {
+      throw new AgentsfileError(
+        child.line,
+        child.col,
+        `duplicate ${child.keyword} "${child.label}" in ${owner.keyword} "${owner.label}"`,
+      );
+    }
+    seen.add(id);
+  };
+}
+
 function str(attributes: Attributes, name: string): string | undefined {
   const value = attributes.get(name)?.value;
   return value?.kind === "string" ? value.value : undefined;
@@ -101,61 +146,93 @@ function map(attributes: Attributes, name: string): Readonly<Record<string, stri
   return value?.kind === "map" ? Object.fromEntries(value.entries.map((entry) => [entry.key, entry.value.value])) : {};
 }
 
-function required(attributes: Attributes, name: string, block: Block): string {
-  const value = str(attributes, name);
-  if (value === undefined) {
-    throw new AgentsfileError(block.line, block.col, `missing required attribute "${name}" in ${block.keyword} "${block.label}"`);
+function exactlyOne(block: Block, hasSource: boolean, hasInline: boolean, inline: string): void {
+  if (!hasSource && !hasInline) {
+    throw new AgentsfileError(block.line, block.col, `${block.keyword} "${block.label}" requires "source" or ${inline}`);
   }
-  return value;
+  if (hasSource && hasInline) {
+    throw new AgentsfileError(
+      block.line,
+      block.col,
+      `${block.keyword} "${block.label}" cannot set both "source" and ${inline}`,
+    );
+  }
+}
+
+function sourceOrContent(block: Block, attributes: Attributes): void {
+  exactlyOne(block, attributes.has("source"), attributes.has("content"), `"content"`);
 }
 
 function leaf(block: Block, rules: Rules): Attributes {
   return scan(block.body, rules, () => undefined);
 }
 
-function toSkill(block: Block): Skill {
-  const attributes = leaf(block, SKILL);
-  return {
-    name: block.label,
-    source: required(attributes, "source", block),
-    description: str(attributes, "description"),
-  };
+function toSkillFile(block: Block): SkillFile {
+  const attributes = leaf(block, SKILL_FILE);
+  sourceOrContent(block, attributes);
+  return { path: block.label, source: str(attributes, "source"), content: str(attributes, "content") };
 }
 
-function toCommand(block: Block): Command {
-  const attributes = leaf(block, COMMAND);
+function toSkill(block: Block): Skill {
+  const files: SkillFile[] = [];
+  const check = unique(block);
+  const attributes = scan(block.body, SKILL, (child) => {
+    check(child);
+    files.push(toSkillFile(child));
+  });
+  sourceOrContent(block, attributes);
   return {
     name: block.label,
-    source: required(attributes, "source", block),
     description: str(attributes, "description"),
+    source: str(attributes, "source"),
+    content: str(attributes, "content"),
+    files,
   };
 }
 
 function toAgent(block: Block): Agent {
   const attributes = leaf(block, AGENT);
+  sourceOrContent(block, attributes);
   return {
     name: block.label,
-    source: required(attributes, "source", block),
     description: str(attributes, "description"),
     model: str(attributes, "model"),
     tools: list(attributes, "tools"),
+    source: str(attributes, "source"),
+    content: str(attributes, "content"),
+  };
+}
+
+function toCommand(block: Block): Command {
+  const attributes = leaf(block, COMMAND);
+  sourceOrContent(block, attributes);
+  return {
+    name: block.label,
+    description: str(attributes, "description"),
+    argumentHint: str(attributes, "argument-hint"),
+    model: str(attributes, "model"),
+    tools: list(attributes, "tools"),
+    source: str(attributes, "source"),
+    content: str(attributes, "content"),
   };
 }
 
 function toMcp(block: Block): Mcp {
   const attributes = leaf(block, MCP);
-  const transport = required(attributes, "transport", block);
-  if (!isTransport(transport)) {
-    throw new AgentsfileError(block.line, block.col, `invalid transport "${transport}", expected stdio, http or sse`);
-  }
-  const needed = transport === "stdio" ? "command" : "url";
-  if (str(attributes, needed) === undefined) {
-    throw new AgentsfileError(block.line, block.col, `mcp "${block.label}" with ${transport} transport requires "${needed}"`);
+  exactlyOne(block, attributes.has("source"), attributes.has("transport"), `"transport"`);
+  const name = str(attributes, "transport");
+  const transport = name !== undefined && isTransport(name) ? name : undefined;
+  if (transport !== undefined) {
+    const needed = transport === "stdio" ? "command" : "url";
+    if (!attributes.has(needed)) {
+      throw new AgentsfileError(block.line, block.col, `mcp "${block.label}" with ${transport} transport requires "${needed}"`);
+    }
   }
   return {
     name: block.label,
-    transport,
     description: str(attributes, "description"),
+    source: str(attributes, "source"),
+    transport,
     command: str(attributes, "command"),
     args: list(attributes, "args"),
     env: map(attributes, "env"),
@@ -164,33 +241,54 @@ function toMcp(block: Block): Mcp {
   };
 }
 
-function toProfile(block: Block): Profile {
-  const skills: Skill[] = [];
-  const agents: Agent[] = [];
-  const commands: Command[] = [];
-  const mcps: Mcp[] = [];
-  const seen = new Set<string>();
-  const attributes = scan(block.body, PROFILE, (child) => {
-    const id = `${child.keyword}\u0000${child.label}`;
-    if (seen.has(id)) {
-      throw new AgentsfileError(
-        child.line,
-        child.col,
-        `duplicate ${child.keyword} "${child.label}" in profile "${block.label}"`,
-      );
-    }
-    seen.add(id);
+function container(block: Block, rules: Rules): { attributes: Attributes; items: Items } {
+  const items: Items = { skills: [], agents: [], commands: [], mcps: [], plugins: [] };
+  const check = unique(block);
+  const attributes = scan(block.body, rules, (child) => {
+    check(child);
     if (child.keyword === "skill") {
-      skills.push(toSkill(child));
+      items.skills.push(toSkill(child));
     } else if (child.keyword === "agent") {
-      agents.push(toAgent(child));
+      items.agents.push(toAgent(child));
     } else if (child.keyword === "command") {
-      commands.push(toCommand(child));
+      items.commands.push(toCommand(child));
+    } else if (child.keyword === "mcp") {
+      items.mcps.push(toMcp(child));
     } else {
-      mcps.push(toMcp(child));
+      items.plugins.push(toPlugin(child));
     }
   });
-  return { name: block.label, description: str(attributes, "description"), skills, agents, commands, mcps };
+  return { attributes, items };
+}
+
+function toPlugin(block: Block): Plugin {
+  const { attributes, items } = container(block, PLUGIN);
+  const inline = items.skills.length + items.agents.length + items.commands.length + items.mcps.length > 0;
+  exactlyOne(block, attributes.has("source"), inline, "inline items");
+  return {
+    name: block.label,
+    description: str(attributes, "description"),
+    version: str(attributes, "version"),
+    author: str(attributes, "author"),
+    source: str(attributes, "source"),
+    skills: items.skills,
+    agents: items.agents,
+    commands: items.commands,
+    mcps: items.mcps,
+  };
+}
+
+function toProfile(block: Block): Profile {
+  const { attributes, items } = container(block, PROFILE);
+  return {
+    name: block.label,
+    description: str(attributes, "description"),
+    skills: items.skills,
+    agents: items.agents,
+    commands: items.commands,
+    mcps: items.mcps,
+    plugins: items.plugins,
+  };
 }
 
 export function validate(statements: readonly Statement[]): Agentsfile {

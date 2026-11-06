@@ -2,7 +2,7 @@ from pathlib import Path
 
 from agentsfile.errors import AgentsfileError
 from agentsfile.lexer import tokenize
-from agentsfile.model import Agent, Agentsfile, Command, Mcp, Profile, Skill, Transport
+from agentsfile.model import Agent, Agentsfile, Command, Mcp, Plugin, Profile, Skill, SkillFile, Transport
 from agentsfile.parser import parse_statements
 from agentsfile.schema import build
 
@@ -12,8 +12,10 @@ __all__ = [
     "AgentsfileError",
     "Command",
     "Mcp",
+    "Plugin",
     "Profile",
     "Skill",
+    "SkillFile",
     "Transport",
     "load",
     "parse",

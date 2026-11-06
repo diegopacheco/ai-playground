@@ -12,6 +12,7 @@ pub fn from_issue(issue: &Issue) -> Diagnostic {
         IssueKind::DuplicateName => "E007",
         IssueKind::MissingRequired => "E008",
         IssueKind::TransportRequirement => "E009",
+        IssueKind::Conflict => "E010",
     };
     Diagnostic::error(code, issue.error.line, issue.error.col, issue.error.message.clone())
 }

@@ -14,6 +14,16 @@ const ESCAPES: Readonly<Record<string, string>> = { '"': '"', "\\": "\\", n: "\n
 
 const isIdentifierStart = (c: string): boolean => /^[A-Za-z_]$/.test(c);
 const isIdentifierPart = (c: string): boolean => /^[A-Za-z0-9_-]$/.test(c);
+const isMarkerPart = (c: string): boolean => /^[A-Za-z0-9_]$/.test(c);
+const isBlank = (line: string): boolean => /^[ \t\r]*$/.test(line);
+
+function dedent(lines: readonly string[]): string {
+  const indents = lines.filter((line) => !isBlank(line)).map((line) => /^[ \t]*/.exec(line)?.[0].length ?? 0);
+  const indent = indents.length === 0 ? 0 : Math.min(...indents);
+  return lines
+    .map((line) => (isBlank(line) ? "" : Array.from(line).slice(indent).join("").replace(/\r$/, "")))
+    .join("\n");
+}
 
 export function describe(token: Token): string {
   switch (token.kind) {
@@ -79,6 +89,48 @@ export function tokenize(src: string): Token[] {
     }
   };
 
+  const readLine = (): string => {
+    let text = "";
+    while (i < chars.length && chars[i] !== "\n") {
+      text += advance();
+    }
+    advance();
+    return text;
+  };
+
+  const readHeredoc = (startLine: number, startCol: number): string => {
+    advance();
+    advance();
+    let marker = "";
+    while (i < chars.length && isMarkerPart(chars[i] ?? "")) {
+      marker += advance();
+    }
+    if (!isIdentifierStart(marker.charAt(0))) {
+      throw new AgentsfileError(startLine, startCol, "invalid heredoc marker");
+    }
+    while (chars[i] === " " || chars[i] === "\t" || chars[i] === "\r") {
+      advance();
+    }
+    if (chars[i] === undefined) {
+      throw new AgentsfileError(startLine, startCol, "unterminated heredoc");
+    }
+    if (chars[i] !== "\n") {
+      throw new AgentsfileError(startLine, startCol, "invalid heredoc marker");
+    }
+    advance();
+    const lines: string[] = [];
+    for (;;) {
+      if (i >= chars.length) {
+        throw new AgentsfileError(startLine, startCol, "unterminated heredoc");
+      }
+      const text = readLine();
+      if (text.replace(/^[ \t\r]+|[ \t\r]+$/g, "") === marker) {
+        return dedent(lines);
+      }
+      lines.push(text);
+    }
+  };
+
   while (i < chars.length) {
     const c = chars[i] ?? "";
     const startLine = line;
@@ -94,6 +146,8 @@ export function tokenize(src: string): Token[] {
       tokens.push({ kind: c as Punctuation, line: startLine, col: startCol });
     } else if (c === '"') {
       tokens.push({ kind: "string", value: readString(startLine, startCol), line: startLine, col: startCol });
+    } else if (c === "<" && chars[i + 1] === "<") {
+      tokens.push({ kind: "string", value: readHeredoc(startLine, startCol), line: startLine, col: startCol });
     } else if (isIdentifierStart(c)) {
       let value = "";
       while (i < chars.length && isIdentifierPart(chars[i] ?? "")) {

@@ -48,6 +48,10 @@ impl Cursor {
         self.chars.get(self.pos).copied()
     }
 
+    fn peek_at(&self, offset: usize) -> Option<char> {
+        self.chars.get(self.pos + offset).copied()
+    }
+
     fn bump(&mut self) -> Option<char> {
         let c = self.peek()?;
         self.pos += 1;
@@ -87,6 +91,7 @@ pub fn tokenize(src: &str) -> Result<Vec<Token>, Error> {
                 punctuation(c)
             }
             '"' => TokenKind::Str(read_string(&mut cur)?),
+            '<' if cur.peek_at(1) == Some('<') => TokenKind::Str(read_heredoc(&mut cur)?),
             c if c.is_ascii_alphabetic() || c == '_' => TokenKind::Ident(read_ident(&mut cur)),
             other => return Err(Error::new(line, col, format!("unexpected character '{other}'"))),
         };
@@ -150,4 +155,65 @@ fn read_string(cur: &mut Cursor) -> Result<String, Error> {
             }
         }
     }
+}
+
+fn read_heredoc(cur: &mut Cursor) -> Result<String, Error> {
+    let (line, col) = (cur.line, cur.col);
+    let invalid = || Error::new(line, col, "invalid heredoc marker");
+    let unterminated = || Error::new(line, col, "unterminated heredoc");
+    cur.bump();
+    cur.bump();
+    let mut marker = String::new();
+    while let Some(c) = cur.peek().filter(|c| c.is_ascii_alphanumeric() || *c == '_') {
+        marker.push(c);
+        cur.bump();
+    }
+    if !marker.starts_with(|c: char| c.is_ascii_alphabetic() || c == '_') {
+        return Err(invalid());
+    }
+    while cur.peek().is_some_and(|c| c == ' ' || c == '\t' || c == '\r') {
+        cur.bump();
+    }
+    match cur.bump() {
+        Some('\n') => {}
+        None => return Err(unterminated()),
+        Some(_) => return Err(invalid()),
+    }
+    let mut lines = Vec::new();
+    loop {
+        if cur.peek().is_none() {
+            return Err(unterminated());
+        }
+        let mut text = String::new();
+        while let Some(c) = cur.peek().filter(|c| *c != '\n') {
+            text.push(c);
+            cur.bump();
+        }
+        cur.bump();
+        if text.trim_matches([' ', '\t', '\r']) == marker {
+            return Ok(dedent(&lines));
+        }
+        lines.push(text);
+    }
+}
+
+fn dedent(lines: &[String]) -> String {
+    let blank = |l: &str| l.chars().all(|c| c == ' ' || c == '\t' || c == '\r');
+    let indent = lines
+        .iter()
+        .filter(|l| !blank(l))
+        .map(|l| l.chars().take_while(|c| *c == ' ' || *c == '\t').count())
+        .min()
+        .unwrap_or(0);
+    lines
+        .iter()
+        .map(|l| {
+            if blank(l) {
+                String::new()
+            } else {
+                l.chars().skip(indent).collect::<String>().trim_end_matches('\r').to_string()
+            }
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
 }

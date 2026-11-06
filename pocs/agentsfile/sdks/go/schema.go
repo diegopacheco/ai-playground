@@ -19,29 +19,43 @@ var profileSchema = schema{
 
 var skillSchema = schema{
 	context: "skill",
-	attrs:   map[string]valueKind{"source": valueString, "description": valueString},
+	attrs:   map[string]valueKind{"description": valueString, "source": valueString, "content": valueString},
+}
+
+var skillFileSchema = schema{
+	context: "file",
+	attrs:   map[string]valueKind{"source": valueString, "content": valueString},
 }
 
 var agentSchema = schema{
 	context: "agent",
 	attrs: map[string]valueKind{
-		"source":      valueString,
 		"description": valueString,
 		"model":       valueString,
 		"tools":       valueList,
+		"source":      valueString,
+		"content":     valueString,
 	},
 }
 
 var commandSchema = schema{
 	context: "command",
-	attrs:   map[string]valueKind{"source": valueString, "description": valueString},
+	attrs: map[string]valueKind{
+		"description":   valueString,
+		"argument-hint": valueString,
+		"model":         valueString,
+		"tools":         valueList,
+		"source":        valueString,
+		"content":       valueString,
+	},
 }
 
 var mcpSchema = schema{
 	context: "mcp",
 	attrs: map[string]valueKind{
-		"transport":   valueString,
 		"description": valueString,
+		"source":      valueString,
+		"transport":   valueString,
 		"command":     valueString,
 		"args":        valueList,
 		"env":         valueMap,
@@ -50,6 +64,20 @@ var mcpSchema = schema{
 	},
 	check: checkTransport,
 }
+
+var pluginSchema = schema{
+	context: "plugin",
+	attrs: map[string]valueKind{
+		"description": valueString,
+		"version":     valueString,
+		"author":      valueString,
+		"source":      valueString,
+	},
+}
+
+var profileKinds = []string{"skill", "agent", "command", "mcp", "plugin"}
+
+var pluginKinds = []string{"skill", "agent", "command", "mcp"}
 
 var transportRequirement = map[Transport]string{
 	Stdio: "command",
@@ -117,12 +145,27 @@ func unknownBlock(s statement, context string) *Error {
 	return newError(s.line, s.col, "unknown block \"%s\" in %s", s.name, context)
 }
 
-func (a attributes) require(block statement, name string) (string, error) {
-	s, ok := a[name]
-	if !ok {
-		return "", newError(block.line, block.col, "missing required attribute \"%s\" in %s \"%s\"", name, block.name, block.label)
+func duplicate(s statement, owner statement) *Error {
+	return newError(s.line, s.col, "duplicate %s \"%s\" in %s \"%s\"", s.name, s.label, owner.name, owner.label)
+}
+
+func exactlyOne(block statement, hasSource, hasInline bool, inline string) error {
+	if !hasSource && !hasInline {
+		return newError(block.line, block.col, "%s \"%s\" requires \"source\" or %s", block.name, block.label, inline)
 	}
-	return s.value.str, nil
+	if hasSource && hasInline {
+		return newError(block.line, block.col, "%s \"%s\" cannot set both \"source\" and %s", block.name, block.label, inline)
+	}
+	return nil
+}
+
+func sourceOrContent(block statement, attrs attributes) error {
+	return exactlyOne(block, attrs.has("source"), attrs.has("content"), "\"content\"")
+}
+
+func (a attributes) has(name string) bool {
+	_, ok := a[name]
+	return ok
 }
 
 func (a attributes) optional(name string) *string {
@@ -146,6 +189,64 @@ func (a attributes) mapping(name string) map[string]string {
 		return s.value.entries
 	}
 	return map[string]string{}
+}
+
+type items struct {
+	skills   []Skill
+	agents   []Agent
+	commands []Command
+	mcps     []Mcp
+	plugins  []Plugin
+}
+
+func (it items) empty() bool {
+	return len(it.skills)+len(it.agents)+len(it.commands)+len(it.mcps)+len(it.plugins) == 0
+}
+
+func (it *items) add(s statement) error {
+	switch s.name {
+	case "skill":
+		item, err := buildSkill(s)
+		it.skills = append(it.skills, item)
+		return err
+	case "agent":
+		item, err := buildAgent(s)
+		it.agents = append(it.agents, item)
+		return err
+	case "command":
+		item, err := buildCommand(s)
+		it.commands = append(it.commands, item)
+		return err
+	case "mcp":
+		item, err := buildMcp(s)
+		it.mcps = append(it.mcps, item)
+		return err
+	default:
+		item, err := buildPlugin(s)
+		it.plugins = append(it.plugins, item)
+		return err
+	}
+}
+
+func buildContainer(owner statement, sc schema, kinds []string) (attributes, items, error) {
+	it := items{skills: []Skill{}, agents: []Agent{}, commands: []Command{}, mcps: []Mcp{}, plugins: []Plugin{}}
+	seen := map[string]map[string]bool{}
+	for _, kind := range kinds {
+		seen[kind] = map[string]bool{}
+	}
+	onBlock := func(s statement) error {
+		names, known := seen[s.name]
+		if !known {
+			return unknownBlock(s, sc.context)
+		}
+		if names[s.label] {
+			return duplicate(s, owner)
+		}
+		names[s.label] = true
+		return it.add(s)
+	}
+	attrs, err := walk(sc, owner.body, onBlock)
+	return attrs, it, err
 }
 
 func buildFile(stmts []statement) (*Agentsfile, error) {
@@ -179,61 +280,82 @@ func buildFile(stmts []statement) (*Agentsfile, error) {
 }
 
 func buildProfile(block statement) (Profile, error) {
-	p := Profile{
-		Name:     block.label,
-		Skills:   []Skill{},
-		Agents:   []Agent{},
-		Commands: []Command{},
-		Mcps:     []Mcp{},
-	}
-	seen := map[string]map[string]bool{"skill": {}, "agent": {}, "command": {}, "mcp": {}}
-	onBlock := func(s statement) error {
-		names, known := seen[s.name]
-		if !known {
-			return unknownBlock(s, profileSchema.context)
-		}
-		if names[s.label] {
-			return newError(s.line, s.col, "duplicate %s \"%s\" in profile \"%s\"", s.name, s.label, block.label)
-		}
-		names[s.label] = true
-		return p.add(s)
-	}
-	attrs, err := walk(profileSchema, block.body, onBlock)
+	attrs, it, err := buildContainer(block, profileSchema, profileKinds)
 	if err != nil {
-		return p, err
+		return Profile{}, err
 	}
-	p.Description = attrs.optional("description")
-	return p, nil
+	return Profile{
+		Name:        block.label,
+		Description: attrs.optional("description"),
+		Skills:      it.skills,
+		Agents:      it.agents,
+		Commands:    it.commands,
+		Mcps:        it.mcps,
+		Plugins:     it.plugins,
+	}, nil
 }
 
-func (p *Profile) add(s statement) error {
-	switch s.name {
-	case "skill":
-		item, err := buildSkill(s)
-		p.Skills = append(p.Skills, item)
-		return err
-	case "agent":
-		item, err := buildAgent(s)
-		p.Agents = append(p.Agents, item)
-		return err
-	case "command":
-		item, err := buildCommand(s)
-		p.Commands = append(p.Commands, item)
-		return err
-	default:
-		item, err := buildMcp(s)
-		p.Mcps = append(p.Mcps, item)
-		return err
+func buildPlugin(block statement) (Plugin, error) {
+	attrs, it, err := buildContainer(block, pluginSchema, pluginKinds)
+	if err != nil {
+		return Plugin{}, err
 	}
+	if err := exactlyOne(block, attrs.has("source"), !it.empty(), "inline items"); err != nil {
+		return Plugin{}, err
+	}
+	return Plugin{
+		Name:        block.label,
+		Description: attrs.optional("description"),
+		Version:     attrs.optional("version"),
+		Author:      attrs.optional("author"),
+		Source:      attrs.optional("source"),
+		Skills:      it.skills,
+		Agents:      it.agents,
+		Commands:    it.commands,
+		Mcps:        it.mcps,
+	}, nil
 }
 
 func buildSkill(block statement) (Skill, error) {
-	attrs, err := walk(skillSchema, block.body, nil)
+	files := []SkillFile{}
+	paths := map[string]bool{}
+	onBlock := func(s statement) error {
+		if s.name != "file" {
+			return unknownBlock(s, skillSchema.context)
+		}
+		if paths[s.label] {
+			return duplicate(s, block)
+		}
+		paths[s.label] = true
+		file, err := buildSkillFile(s)
+		files = append(files, file)
+		return err
+	}
+	attrs, err := walk(skillSchema, block.body, onBlock)
 	if err != nil {
 		return Skill{}, err
 	}
-	source, err := attrs.require(block, "source")
-	return Skill{Name: block.label, Source: source, Description: attrs.optional("description")}, err
+	if err := sourceOrContent(block, attrs); err != nil {
+		return Skill{}, err
+	}
+	return Skill{
+		Name:        block.label,
+		Description: attrs.optional("description"),
+		Source:      attrs.optional("source"),
+		Content:     attrs.optional("content"),
+		Files:       files,
+	}, nil
+}
+
+func buildSkillFile(block statement) (SkillFile, error) {
+	attrs, err := walk(skillFileSchema, block.body, nil)
+	if err != nil {
+		return SkillFile{}, err
+	}
+	if err := sourceOrContent(block, attrs); err != nil {
+		return SkillFile{}, err
+	}
+	return SkillFile{Path: block.label, Source: attrs.optional("source"), Content: attrs.optional("content")}, nil
 }
 
 func buildAgent(block statement) (Agent, error) {
@@ -241,14 +363,17 @@ func buildAgent(block statement) (Agent, error) {
 	if err != nil {
 		return Agent{}, err
 	}
-	source, err := attrs.require(block, "source")
+	if err := sourceOrContent(block, attrs); err != nil {
+		return Agent{}, err
+	}
 	return Agent{
 		Name:        block.label,
-		Source:      source,
 		Description: attrs.optional("description"),
 		Model:       attrs.optional("model"),
 		Tools:       attrs.list("tools"),
-	}, err
+		Source:      attrs.optional("source"),
+		Content:     attrs.optional("content"),
+	}, nil
 }
 
 func buildCommand(block statement) (Command, error) {
@@ -256,8 +381,18 @@ func buildCommand(block statement) (Command, error) {
 	if err != nil {
 		return Command{}, err
 	}
-	source, err := attrs.require(block, "source")
-	return Command{Name: block.label, Source: source, Description: attrs.optional("description")}, err
+	if err := sourceOrContent(block, attrs); err != nil {
+		return Command{}, err
+	}
+	return Command{
+		Name:         block.label,
+		Description:  attrs.optional("description"),
+		ArgumentHint: attrs.optional("argument-hint"),
+		Model:        attrs.optional("model"),
+		Tools:        attrs.list("tools"),
+		Source:       attrs.optional("source"),
+		Content:      attrs.optional("content"),
+	}, nil
 }
 
 func buildMcp(block statement) (Mcp, error) {
@@ -265,18 +400,23 @@ func buildMcp(block statement) (Mcp, error) {
 	if err != nil {
 		return Mcp{}, err
 	}
-	transport, err := attrs.require(block, "transport")
-	if err != nil {
+	if err := exactlyOne(block, attrs.has("source"), attrs.has("transport"), "\"transport\""); err != nil {
 		return Mcp{}, err
 	}
-	required := transportRequirement[Transport(transport)]
-	if _, ok := attrs[required]; !ok {
-		return Mcp{}, newError(block.line, block.col, "mcp \"%s\" with %s transport requires \"%s\"", block.label, transport, required)
+	var transport *Transport
+	if s, ok := attrs["transport"]; ok {
+		t := Transport(s.value.str)
+		transport = &t
+		required := transportRequirement[t]
+		if !attrs.has(required) {
+			return Mcp{}, newError(block.line, block.col, "mcp \"%s\" with %s transport requires \"%s\"", block.label, t, required)
+		}
 	}
 	return Mcp{
 		Name:        block.label,
-		Transport:   Transport(transport),
 		Description: attrs.optional("description"),
+		Source:      attrs.optional("source"),
+		Transport:   transport,
 		Command:     attrs.optional("command"),
 		Args:        attrs.list("args"),
 		Env:         attrs.mapping("env"),

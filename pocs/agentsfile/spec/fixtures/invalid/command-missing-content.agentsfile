@@ -1,0 +1,7 @@
+# expect: line 4, col 3: command "ship" requires "source" or "content"
+version = "1"
+profile "dev" {
+  command "ship" {
+    description = "no body"
+  }
+}

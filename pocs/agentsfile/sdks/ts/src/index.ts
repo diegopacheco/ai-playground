@@ -5,7 +5,7 @@ import { parseStatements } from "./parser";
 import { validate } from "./schema";
 
 export { AgentsfileError } from "./errors";
-export type { Agent, Agentsfile, Command, Mcp, Profile, Skill, Transport } from "./model";
+export type { Agent, Agentsfile, Command, Mcp, Plugin, Profile, Skill, SkillFile, Transport } from "./model";
 
 export function parse(src: string): Agentsfile {
   return validate(parseStatements(tokenize(src)));

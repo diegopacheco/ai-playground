@@ -4,25 +4,62 @@ profile "dev" {
   description = "Working on the Agentsfile spec and its SDKs"
 
   skill "agentsfile-lint" {
-    source      = "./.agents/skills/agentsfile-lint"
-    description = "Lints every Agentsfile in the repo"
+    description = "Lints every Agentsfile in the repo and fixes the errors"
+    content     = <<SKILL
+      Run scripts/lint.sh.
+      Fix every error[...] line, then run it again until it prints 0 error(s).
+      Treat warning[...] lines as suggestions.
+      SKILL
+
+    file "scripts/lint.sh" {
+      content = <<SH
+        #!/usr/bin/env bash
+        set -euo pipefail
+        cargo run -q --manifest-path linter/Cargo.toml -- Agentsfile spec/fixtures/valid/*.agentsfile
+        SH
+    }
   }
 
   agent "spec-guardian" {
-    source = "./.agents/agents/spec-guardian.md"
-    model  = "claude-opus-5-5"
-    tools  = ["Read", "Grep", "Bash"]
+    description = "Keeps the five SDKs and the linter in line with spec/SPEC.md"
+    model       = "claude-opus-5-5"
+    tools       = ["Read", "Grep", "Bash"]
+    content     = <<PROMPT
+      You guard spec/SPEC.md.
+      When a parser changes, check that its error messages and positions still match the spec,
+      and that every fixture under spec/fixtures still passes in every SDK.
+      PROMPT
   }
 
   command "conformance" {
-    source      = "./.agents/commands/conformance.md"
-    description = "Runs the conformance suite of every SDK"
+    description   = "Runs the conformance suite of every SDK"
+    argument-hint = "[sdk]"
+    tools         = ["Bash"]
+    content       = <<MD
+      Run ./scripts/test-all.sh and report each suite that failed with its first failing test.
+      If $ARGUMENTS names an SDK, report only that suite.
+      MD
   }
 
   mcp "filesystem" {
     transport = "stdio"
     command   = "npx"
     args      = ["-y", "@modelcontextprotocol/server-filesystem", "."]
+  }
+
+  plugin "spec-kit" {
+    version     = "0.1.0"
+    description = "Everything needed to change the spec safely"
+    author      = "Agentsfile maintainers"
+
+    command "new-fixture" {
+      description   = "Adds an invalid fixture for a new error message"
+      argument-hint = "<error message>"
+      content       = <<MD
+        Create spec/fixtures/invalid/<name>.agentsfile whose first line is
+        "# expect: line L, col C: $ARGUMENTS", then run ./scripts/test-all.sh.
+        MD
+    }
   }
 }
 

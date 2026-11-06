@@ -52,6 +52,9 @@ public final class Lexer {
         if (c == '"') {
             return string(startLine, startCol);
         }
+        if (c == '<' && pos + 1 < chars.length && chars[pos + 1] == '<') {
+            return heredoc(startLine, startCol);
+        }
         if (isIdentifierStart(c)) {
             return identifier(startLine, startCol);
         }
@@ -100,6 +103,62 @@ public final class Lexer {
         }
     }
 
+    private Token heredoc(int startLine, int startCol) {
+        advance();
+        advance();
+        StringBuilder marker = new StringBuilder();
+        while (pos < chars.length && isMarkerPart(chars[pos])) {
+            marker.appendCodePoint(chars[pos]);
+            advance();
+        }
+        if (marker.isEmpty() || !isIdentifierStart(marker.charAt(0))) {
+            throw new AgentsfileException(startLine, startCol, "invalid heredoc marker");
+        }
+        while (pos < chars.length && (chars[pos] == ' ' || chars[pos] == '\t' || chars[pos] == '\r')) {
+            advance();
+        }
+        if (pos >= chars.length) {
+            throw new AgentsfileException(startLine, startCol, "unterminated heredoc");
+        }
+        if (chars[pos] != '\n') {
+            throw new AgentsfileException(startLine, startCol, "invalid heredoc marker");
+        }
+        advance();
+        List<String> lines = new ArrayList<>();
+        while (pos < chars.length) {
+            String text = restOfLine();
+            if (stripBlanks(text).equals(marker.toString())) {
+                return new Token(TokenKind.STRING, Heredoc.dedent(lines), startLine, startCol);
+            }
+            lines.add(text);
+        }
+        throw new AgentsfileException(startLine, startCol, "unterminated heredoc");
+    }
+
+    private String restOfLine() {
+        StringBuilder text = new StringBuilder();
+        while (pos < chars.length && chars[pos] != '\n') {
+            text.appendCodePoint(chars[pos]);
+            advance();
+        }
+        if (pos < chars.length) {
+            advance();
+        }
+        return text.toString();
+    }
+
+    private static String stripBlanks(String text) {
+        int start = 0;
+        int end = text.length();
+        while (start < end && Heredoc.isBlankChar(text.charAt(start))) {
+            start++;
+        }
+        while (end > start && Heredoc.isBlankChar(text.charAt(end - 1))) {
+            end--;
+        }
+        return text.substring(start, end);
+    }
+
     private char escape() {
         int escapeLine = line;
         int escapeCol = col;
@@ -131,6 +190,10 @@ public final class Lexer {
 
     private static boolean isIdentifierStart(int c) {
         return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_';
+    }
+
+    private static boolean isMarkerPart(int c) {
+        return isIdentifierStart(c) || (c >= '0' && c <= '9');
     }
 
     private static boolean isIdentifierPart(int c) {

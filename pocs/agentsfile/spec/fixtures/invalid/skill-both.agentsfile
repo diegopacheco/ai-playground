@@ -1,0 +1,8 @@
+# expect: line 4, col 3: skill "a" cannot set both "source" and "content"
+version = "1"
+profile "dev" {
+  skill "a" {
+    source = "./a"
+    content = "x"
+  }
+}

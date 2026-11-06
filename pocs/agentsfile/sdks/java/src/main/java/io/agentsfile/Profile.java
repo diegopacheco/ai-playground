@@ -9,11 +9,13 @@ public record Profile(
         List<Skill> skills,
         List<Agent> agents,
         List<Command> commands,
-        List<Mcp> mcps) {
+        List<Mcp> mcps,
+        List<Plugin> plugins) {
     public Profile {
         skills = List.copyOf(skills);
         agents = List.copyOf(agents);
         commands = List.copyOf(commands);
         mcps = List.copyOf(mcps);
+        plugins = List.copyOf(plugins);
     }
 }
