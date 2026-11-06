@@ -1,0 +1,2 @@
+# expect: line 2, col 13: expected identifier or '}', found string
+version = { "a" = "b" }

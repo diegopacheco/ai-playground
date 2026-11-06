@@ -1,0 +1,68 @@
+version = "1"
+
+factory "spiral" {
+  description = "Spiral model: every turn plans, analyses risk, builds and evaluates"
+  entry       = "determine-objectives"
+
+  agent "planner" {
+    role    = "planner"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Write"]
+    content = "You set the objectives, alternatives and constraints of this turn of the spiral."
+  }
+
+  agent "risk-analyst" {
+    role    = "risk analyst"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "WebSearch"]
+    content = "You list the risks, rank them and build a prototype for the top one."
+  }
+
+  agent "engineer" {
+    role    = "engineer"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read", "Edit", "Bash"]
+    content = "You build and test this turn's increment."
+  }
+
+  agent "customer" {
+    role    = "customer"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read"]
+    content = "You evaluate the increment and decide whether the next turn is worth it."
+  }
+
+  stage "determine-objectives" {
+    agents    = ["planner"]
+    next      = ["risk-analysis"]
+    artifacts = ["objectives.md"]
+  }
+
+  stage "risk-analysis" {
+    agents    = ["risk-analyst"]
+    next      = ["prototype", "develop-and-test"]
+    artifacts = ["risks.md"]
+  }
+
+  stage "prototype" {
+    agents = ["risk-analyst", "engineer"]
+    next   = ["develop-and-test"]
+  }
+
+  stage "develop-and-test" {
+    agents = ["engineer"]
+    next   = ["evaluate"]
+  }
+
+  stage "evaluate" {
+    agents    = ["customer", "planner"]
+    artifacts = ["next-turn-plan.md"]
+  }
+
+  loop "spiral-turn" {
+    from  = "evaluate"
+    to    = "determine-objectives"
+    until = "the customer accepts the product"
+    max   = "6"
+  }
+}

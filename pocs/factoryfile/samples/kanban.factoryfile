@@ -1,0 +1,69 @@
+version = "1"
+
+factory "kanban" {
+  description = "Kanban: a pull system with work-in-progress limits on every column"
+  entry       = "backlog"
+
+  agent "service-manager" {
+    role    = "service delivery manager"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read"]
+    content = "You watch flow, lead time and WIP limits, and you stop starting to start finishing."
+  }
+
+  agent "developer" {
+    role    = "developer"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read", "Edit", "Bash"]
+    content = "You pull the next card only when your column is under its WIP limit."
+  }
+
+  agent "reviewer" {
+    role    = "reviewer"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Grep"]
+    content = "You review pull requests and send back cards that are not done."
+  }
+
+  stage "backlog" {
+    agents = ["service-manager"]
+    next   = ["ready"]
+  }
+
+  stage "ready" {
+    description = "WIP limit 5"
+    agents      = ["service-manager"]
+    next        = ["in-progress"]
+  }
+
+  stage "in-progress" {
+    description = "WIP limit 3"
+    agents      = ["developer"]
+    next        = ["review"]
+  }
+
+  stage "review" {
+    description = "WIP limit 2"
+    agents      = ["reviewer"]
+    next        = ["done"]
+  }
+
+  stage "done" {
+    agents    = ["service-manager"]
+    artifacts = ["cumulative-flow.md"]
+  }
+
+  loop "rework" {
+    from  = "review"
+    to    = "in-progress"
+    until = "the reviewer approves"
+    max   = "3"
+  }
+
+  loop "pull" {
+    from  = "done"
+    to    = "ready"
+    until = "the backlog is empty"
+    max   = "999"
+  }
+}

@@ -1,0 +1,7 @@
+# expect: line 5, col 3: duplicate attribute "entry" in factory
+version = "1"
+factory "x" {
+  entry = "a"
+  entry = "a"
+  stage "a" { agents = [] }
+}

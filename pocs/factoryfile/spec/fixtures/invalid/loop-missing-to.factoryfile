@@ -1,0 +1,8 @@
+# expect: line 5, col 3: loop "l" requires "to"
+version = "1"
+factory "x" {
+  stage "a" { agents = [] }
+  loop "l" {
+    from = "a"
+  }
+}

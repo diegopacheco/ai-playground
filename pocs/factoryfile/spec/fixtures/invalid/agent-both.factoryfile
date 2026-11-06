@@ -1,0 +1,8 @@
+# expect: line 4, col 3: agent "dev" cannot set both "source" and "content"
+version = "1"
+factory "x" {
+  agent "dev" {
+    source  = "./agents/dev.md"
+    content = "code"
+  }
+}

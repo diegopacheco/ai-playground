@@ -1,0 +1,2 @@
+# expect: line 2, col 11: unsupported version "2"
+version = "2"

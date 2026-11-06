@@ -1,0 +1,2 @@
+# expect: line 2, col 1: expected identifier, found '='
+= "1"

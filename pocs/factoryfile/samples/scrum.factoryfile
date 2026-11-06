@@ -1,0 +1,85 @@
+version = "1"
+
+factory "scrum" {
+  description = "Scrum: a product owner, a scrum master and a team working in sprints"
+  entry       = "backlog-refinement"
+
+  agent "product-owner" {
+    role    = "product owner"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Write"]
+    content = <<PROMPT
+      You own the product backlog. Every item has a value, a size
+      and acceptance criteria. You accept or reject the increment.
+      PROMPT
+  }
+
+  agent "scrum-master" {
+    role    = "scrum master"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read"]
+    content = "You run the events, keep them time-boxed and remove impediments."
+  }
+
+  agent "developer" {
+    role    = "developer"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read", "Edit", "Bash", "Grep"]
+    content = "You turn sprint backlog items into a done, tested increment."
+  }
+
+  agent "tester" {
+    role    = "developer, quality"
+    model   = "claude-haiku-5-5"
+    tools   = ["Read", "Bash"]
+    content = "You check every item against the definition of done."
+  }
+
+  stage "backlog-refinement" {
+    agents    = ["product-owner", "developer"]
+    next      = ["sprint-planning"]
+    artifacts = ["product-backlog.md"]
+  }
+
+  stage "sprint-planning" {
+    agents    = ["product-owner", "scrum-master", "developer"]
+    next      = ["development"]
+    artifacts = ["sprint-goal.md", "sprint-backlog.md"]
+  }
+
+  stage "development" {
+    agents = ["developer", "tester"]
+    next   = ["daily-scrum"]
+  }
+
+  stage "daily-scrum" {
+    agents  = ["scrum-master", "developer"]
+    next    = ["sprint-review"]
+    content = "Fifteen minutes: progress toward the sprint goal and the impediments."
+  }
+
+  stage "sprint-review" {
+    agents    = ["product-owner", "developer", "tester"]
+    next      = ["retrospective"]
+    artifacts = ["increment"]
+  }
+
+  stage "retrospective" {
+    agents    = ["scrum-master", "developer", "tester"]
+    artifacts = ["improvements.md"]
+  }
+
+  loop "day" {
+    from  = "daily-scrum"
+    to    = "development"
+    until = "the sprint time-box ends"
+    max   = "10"
+  }
+
+  loop "sprint" {
+    from  = "retrospective"
+    to    = "backlog-refinement"
+    until = "the product goal is met"
+    max   = "26"
+  }
+}

@@ -1,0 +1,8 @@
+# expect: line 6, col 5: duplicate attribute "content" in agent
+version = "1"
+factory "x" {
+  agent "dev" {
+    content = "one"
+    content = "two"
+  }
+}

@@ -1,0 +1,8 @@
+# expect: line 6, col 5: attribute "next" must be a list
+version = "1"
+factory "x" {
+  stage "a" {
+    agents = []
+    next   = "ghost"
+  }
+}

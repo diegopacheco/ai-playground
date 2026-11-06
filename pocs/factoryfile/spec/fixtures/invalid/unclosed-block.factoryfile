@@ -1,0 +1,3 @@
+# expect: line 4, col 1: expected identifier or '}', found end of file
+version = "1"
+factory "x" {

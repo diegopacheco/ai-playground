@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>xgh · Factoryfile</title>
+<style>
+:root{--bg:#f7fbfb;--surface:#fff;--ink:#1f2a3a;--body:#5d6a7c;--line:#e2ebee;--a:#0d9488;--b:#4f6bff;--loop:#8b5cf6;--warn:#dc2626}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.5}
+code,pre{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12px}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px 24px;background:rgba(247,251,251,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top h1{font-size:16px;margin:0;letter-spacing:-.01em}
+.top h1 span{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--line);background:var(--surface);color:var(--body);border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer}
+.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.factory{padding:24px}
+.factory header h2{margin:0;font-size:28px;letter-spacing:-.02em}
+.lede{margin:4px 0 0;color:var(--body);max-width:760px}
+.stats{margin:6px 0 0;color:var(--body);font-size:13px}
+.stage-area{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:20px;margin-top:20px}
+.canvas{align-self:start;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:auto;box-shadow:0 10px 30px rgba(15,42,51,.06)}
+.graph{display:block;margin:0 auto}
+.edge{fill:none;stroke:#94a3b8;stroke-width:1.6}
+.loop path{fill:none;stroke:var(--loop);stroke-width:1.6;stroke-dasharray:5 4}
+.loop,.back{cursor:pointer}
+.loop circle,.back circle{fill:#fff;stroke:var(--loop);stroke-width:1.6}
+.loop text,.back text{fill:var(--loop);font-size:12px;font-weight:700}
+.back path{fill:none;stroke:var(--warn);stroke-width:1.6;stroke-dasharray:6 5}
+.back circle,.loop.open circle{stroke:var(--warn)}
+.back text,.loop.open text{fill:var(--warn)}
+.loop.open path{stroke:var(--warn)}
+.loop:hover path{stroke-width:3}
+.legend{list-style:none;margin:0;padding:14px 18px;border-top:1px solid var(--line);display:grid;gap:8px;font-size:13px;color:var(--body)}
+.legend li{cursor:pointer}
+.legend li:hover b{color:var(--b)}
+.legend i{display:inline-grid;place-items:center;width:20px;height:20px;margin-right:8px;border-radius:50%;border:1.6px solid var(--loop);color:var(--loop);font-style:normal;font-weight:700;font-size:11px}
+.legend b{color:var(--ink)}
+.node{cursor:pointer;outline:none}
+.node rect{fill:#fff;stroke:var(--line);stroke-width:1.5;transition:stroke .2s}
+.node.entry rect{stroke:var(--a);stroke-width:2.5}
+.node:hover rect,.node:focus rect,.node.sel rect{stroke:var(--b);stroke-width:2.5}
+.node .name{font-weight:700;font-size:14px;fill:var(--ink)}
+.node .roles{font-size:12px;fill:var(--a)}
+.node .meta{font-size:11px;fill:var(--body)}
+aside{position:sticky;top:76px;align-self:start;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;max-height:calc(100vh - 96px);overflow:auto}
+.hint{color:var(--body);font-size:14px}
+.detail h3{margin:0 0 8px;font-size:20px}
+.detail h3 small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--a)}
+.detail p{color:var(--body);margin:0 0 10px}
+.row{display:flex;gap:10px;margin:6px 0;font-size:13px}
+.row>span{width:72px;flex:none;color:var(--body)}
+.row code{background:#eef6f6;border-radius:6px;padding:1px 6px}
+.none{color:#a0aab8}
+.warn{color:var(--warn);font-weight:600}
+pre{white-space:pre-wrap;background:#0f2a33;color:#d7f5f0;border-radius:10px;padding:10px 12px;margin:8px 0}
+.agent{border-top:1px solid var(--line);padding:12px 0 4px;margin-top:12px}
+.agent b{display:block}
+.agent>span{font-size:12px;color:var(--body)}
+@media (max-width:900px){.stage-area{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top"><h1><span>Factoryfile</span> · xgh</h1><nav class="tabs"><button data-tab="f0" class="on">xgh</button></nav></div>
+<section class="factory" id="f0"><header><h2>xgh</h2><p class="lede">eXtreme Go Horse: think, and it is not XGH anymore</p><p class="stats">entry <code>receive-task</code> · 7 stages · 3 agents · 1 loop</p></header><div class="stage-area"><div class="canvas"><svg class="graph" viewBox="0 0 736 880" width="736" height="880" role="img" aria-label="xgh factory graph"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs><path class="edge" d="M233 112 C233 144 368 144 368 176" marker-end="url(#arrow)"/><path class="edge" d="M368 260 C368 292 368 292 368 324" marker-end="url(#arrow)"/><path class="edge" d="M368 408 C368 440 368 440 368 472" marker-end="url(#arrow)"/><path class="edge" d="M368 556 C368 588 368 588 368 620" marker-end="url(#arrow)"/><path class="edge" d="M368 704 C368 736 368 736 368 768" marker-end="url(#arrow)"/><g class="back"><title>unbounded next firefight → hack</title><path d="M253 824 H74 Q62 824 62 812 V364 Q62 352 74 352 H253" marker-end="url(#arrow)"/><circle cx="62" cy="588" r="11"/><text x="62" y="592" text-anchor="middle">!</text></g><g class="loop open" data-target="f0-loop-0"><title>go-horse-forever · no max</title><path d="M483 824 H662 Q674 824 674 812 V216 Q674 204 662 204 H483" marker-end="url(#arrow)"/><circle cx="674" cy="514" r="11"/><text x="674" y="518" text-anchor="middle">1</text></g><g class="node entry" data-target="f0-stage-0" tabindex="0"><rect x="118" y="28" width="230" height="84" rx="14"/><text class="name" x="134" y="56">▶ receive-task</text><text class="roles" x="134" y="78">go horse developer</text><text class="meta" x="134" y="98">1 agent</text></g><g class="node" data-target="f0-stage-1" tabindex="0"><rect x="253" y="176" width="230" height="84" rx="14"/><text class="name" x="269" y="204">google-it</text><text class="roles" x="269" y="226">senior consultant, go horse d…</text><text class="meta" x="269" y="246">2 agents</text></g><g class="node" data-target="f0-stage-2" tabindex="0"><rect x="253" y="324" width="230" height="84" rx="14"/><text class="name" x="269" y="352">hack</text><text class="roles" x="269" y="374">go horse developer</text><text class="meta" x="269" y="394">1 agent · 1 artifact</text></g><g class="node" data-target="f0-stage-3" tabindex="0"><rect x="253" y="472" width="230" height="84" rx="14"/><text class="name" x="269" y="500">commit-to-main</text><text class="roles" x="269" y="522">go horse developer</text><text class="meta" x="269" y="542">1 agent</text></g><g class="node" data-target="f0-stage-4" tabindex="0"><rect x="253" y="620" width="230" height="84" rx="14"/><text class="name" x="269" y="648">friday-deploy</text><text class="roles" x="269" y="670">go horse developer</text><text class="meta" x="269" y="690">1 agent</text></g><g class="node" data-target="f0-stage-5" tabindex="0"><rect x="253" y="768" width="230" height="84" rx="14"/><text class="name" x="269" y="796">firefight</text><text class="roles" x="269" y="818">go horse developer, senior co…</text><text class="meta" x="269" y="838">2 agents · 1 artifact</text></g><g class="node" data-target="f0-stage-6" tabindex="0"><rect x="388" y="28" width="230" height="84" rx="14"/><text class="name" x="404" y="56">write-tests</text><text class="roles" x="404" y="78">go horse developer</text><text class="meta" x="404" y="98">1 agent</text></g></svg><ol class="legend"><li data-target="f0-loop-0" tabindex="0"><i>1</i><b>go-horse-forever</b> <code>firefight → google-it</code> · until the client stops calling · <b class="warn">no max</b></li></ol></div><aside><p class="hint">Click a stage or a loop to see its agents, prompts and exit condition.</p><article class="detail" id="f0-stage-0" hidden><h3><small>stage</small>receive-task</h3><div class="row"><span>next</span><div><code>google-it</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><pre>The deadline is sacred. Scope is whatever fits before Friday.</pre><div class="agent"><b>go-horse</b><span>go horse developer · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>Edit</code> <code>Bash</code></div></div><pre>There are three ways to solve a problem: the right one, the wrong one
+and the XGH one, which is like the wrong one but faster.
+Do not think. Do not read the code around it. Copy what compiles.</pre></div></article><article class="detail" id="f0-stage-1" hidden><h3><small>stage</small>google-it</h3><div class="row"><span>next</span><div><code>hack</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><code>go-horse-forever</code></div></div><div class="agent"><b>stack-overflow</b><span>senior consultant · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>WebSearch</code></div></div><pre>You paste the first answer that has a green check mark, without reading the question.</pre></div><div class="agent"><b>go-horse</b><span>go horse developer · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>Edit</code> <code>Bash</code></div></div><pre>There are three ways to solve a problem: the right one, the wrong one
+and the XGH one, which is like the wrong one but faster.
+Do not think. Do not read the code around it. Copy what compiles.</pre></div></article><article class="detail" id="f0-stage-2" hidden><h3><small>stage</small>hack</h3><div class="row"><span>next</span><div><code>commit-to-main</code></div></div><div class="row"><span>artifacts</span><div><code>it works on my machine</code></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><div class="agent"><b>go-horse</b><span>go horse developer · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>Edit</code> <code>Bash</code></div></div><pre>There are three ways to solve a problem: the right one, the wrong one
+and the XGH one, which is like the wrong one but faster.
+Do not think. Do not read the code around it. Copy what compiles.</pre></div></article><article class="detail" id="f0-stage-3" hidden><h3><small>stage</small>commit-to-main</h3><div class="row"><span>next</span><div><code>friday-deploy</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><pre>Commit before you update. If it breaks, it was the other one's fault.</pre><div class="agent"><b>go-horse</b><span>go horse developer · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>Edit</code> <code>Bash</code></div></div><pre>There are three ways to solve a problem: the right one, the wrong one
+and the XGH one, which is like the wrong one but faster.
+Do not think. Do not read the code around it. Copy what compiles.</pre></div></article><article class="detail" id="f0-stage-4" hidden><h3><small>stage</small>friday-deploy</h3><div class="row"><span>next</span><div><code>firefight</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><div class="agent"><b>go-horse</b><span>go horse developer · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>Edit</code> <code>Bash</code></div></div><pre>There are three ways to solve a problem: the right one, the wrong one
+and the XGH one, which is like the wrong one but faster.
+Do not think. Do not read the code around it. Copy what compiles.</pre></div></article><article class="detail" id="f0-stage-5" hidden><h3><small>stage</small>firefight</h3><div class="row"><span>next</span><div><code>hack</code></div></div><div class="row"><span>artifacts</span><div><code>more bugs</code></div></div><div class="row"><span>loops</span><div><code>go-horse-forever</code></div></div><pre>The more XGH you do, the more XGH you need.</pre><div class="agent"><b>go-horse</b><span>go horse developer · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>Edit</code> <code>Bash</code></div></div><pre>There are three ways to solve a problem: the right one, the wrong one
+and the XGH one, which is like the wrong one but faster.
+Do not think. Do not read the code around it. Copy what compiles.</pre></div><div class="agent"><b>stack-overflow</b><span>senior consultant · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>WebSearch</code></div></div><pre>You paste the first answer that has a green check mark, without reading the question.</pre></div></article><article class="detail" id="f0-stage-6" hidden><h3><small>stage</small>write-tests</h3><div class="row"><span>next</span><div><span class="none">none</span></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><div class="agent"><b>go-horse</b><span>go horse developer · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>Edit</code> <code>Bash</code></div></div><pre>There are three ways to solve a problem: the right one, the wrong one
+and the XGH one, which is like the wrong one but faster.
+Do not think. Do not read the code around it. Copy what compiles.</pre></div></article><article class="detail" id="f0-loop-0" hidden><h3><small>loop</small>go-horse-forever</h3><div class="row"><span>from</span><div><code>firefight</code></div></div><div class="row"><span>back to</span><div><code>google-it</code></div></div><div class="row"><span>until</span><div>the client stops calling</div></div><div class="row"><span>max</span><div><span class="warn">no max, it may never end</span></div></div></article></aside></div></section>
+<script>
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".factory").forEach(s=>s.hidden=s.id!==b.dataset.tab);
+}));
+document.querySelectorAll("[data-target]").forEach(el=>{
+  const show=()=>{
+    const section=el.closest(".factory");
+    section.querySelectorAll(".detail").forEach(d=>d.hidden=d.id!==el.dataset.target);
+    section.querySelector(".hint").hidden=true;
+    section.querySelectorAll(".node").forEach(n=>n.classList.toggle("sel",n===el));
+  };
+  el.addEventListener("click",show);
+  el.addEventListener("keydown",e=>{if(e.key==="Enter")show();});
+});
+</script>
+</body>
+</html>

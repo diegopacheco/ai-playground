@@ -1,0 +1,73 @@
+# a full file that touches every part of the schema
+version = "1"
+
+factory "scrum" {
+  description = "Two week sprints with a product owner"
+  entry       = "refinement"
+
+  agent "product-owner" {
+    description = "Owns the backlog"
+    role        = "product owner"
+    model       = "claude-opus-5-5"
+    tools       = ["Read", "Write"]
+    content     = <<PROMPT
+      You keep the backlog ordered by value.
+
+      Every story has acceptance criteria.
+      PROMPT
+  }
+
+  agent "developer" {
+    role   = "developer"
+    tools  = ["Read", "Edit", "Bash"]
+    source = "./agents/developer.md"
+  }
+
+  loop "sprint" {
+    description = "One sprint per pass"
+    from        = "review"
+    to          = "planning"
+    until       = "the backlog is empty"
+    max         = "26"
+  }
+
+  stage "refinement" {
+    description = "Split and estimate stories"
+    agents      = ["product-owner"]
+    next        = ["planning"]
+    artifacts   = ["backlog.md"]
+  }
+
+  stage "planning" {
+    agents  = ["product-owner", "developer"]
+    next    = ["build"]
+    content = "Pick the stories for the sprint goal."
+  }
+
+  stage "build" {
+    agents    = ["developer"]
+    next      = ["review", "retro"]
+    artifacts = ["src/", "tests/"]
+  }
+
+  stage "review" {
+    agents = ["product-owner"]
+  }
+
+  stage "retro" {
+    agents = []
+  }
+
+  loop "daily" {
+    from = "build"
+    to   = "build"
+  }
+}
+
+factory "solo" {
+  agent "hacker" { content = "Ship it." }
+  stage "code" { agents = ["hacker"] }
+}
+
+factory "empty" {
+}

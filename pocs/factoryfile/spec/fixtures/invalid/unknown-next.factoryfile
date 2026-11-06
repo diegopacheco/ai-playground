@@ -1,0 +1,9 @@
+# expect: line 6, col 14: unknown stage "deploy" in stage "a"
+version = "1"
+factory "x" {
+  stage "a" {
+    agents = []
+    next   = ["b", "deploy"]
+  }
+  stage "b" { agents = [] }
+}

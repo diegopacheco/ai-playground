@@ -1,0 +1,4 @@
+# expect: line 3, col 1: unknown block "profile" in file
+version = "1"
+profile "dev" {
+}

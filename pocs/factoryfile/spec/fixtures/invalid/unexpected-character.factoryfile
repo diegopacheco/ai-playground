@@ -1,0 +1,3 @@
+# expect: line 3, col 1: unexpected character '@'
+version = "1"
+@

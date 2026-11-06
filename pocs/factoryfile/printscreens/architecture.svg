@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 620" width="1100" height="620" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker>
+  </defs>
+  <rect width="1100" height="620" fill="#f7fbfb"/>
+  <text x="550" y="44" text-anchor="middle" font-size="24" font-weight="700" fill="#1f2a3a">Factoryfile architecture</text>
+
+  <g font-size="14" fill="#1f2a3a">
+    <rect x="40" y="90" width="230" height="150" rx="14" fill="#fff" stroke="#0d9488" stroke-width="2"/>
+    <text x="155" y="118" text-anchor="middle" font-weight="700">Inputs</text>
+    <text x="60" y="148">Factoryfile (repo root)</text>
+    <text x="60" y="172">samples/*.factoryfile</text>
+    <text x="60" y="196" fill="#5d6a7c">rup, xp, scrum, xgh,</text>
+    <text x="60" y="216" fill="#5d6a7c">kanban, waterfall, spiral</text>
+
+    <rect x="40" y="300" width="230" height="150" rx="14" fill="#fff" stroke="#4f6bff" stroke-width="2"/>
+    <text x="155" y="328" text-anchor="middle" font-weight="700">spec/</text>
+    <text x="60" y="358">SPEC.md v1</text>
+    <text x="60" y="382">fixtures/invalid: 63 files</text>
+    <text x="60" y="406">fixtures/valid: 3 files</text>
+    <text x="60" y="430" fill="#5d6a7c"># expect: line L, col C: msg</text>
+
+    <rect x="350" y="90" width="300" height="360" rx="14" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="500" y="118" text-anchor="middle" font-weight="700">SDKs: same three steps</text>
+    <rect x="375" y="138" width="250" height="40" rx="10" fill="#ecfdf9" stroke="#0d9488"/>
+    <text x="500" y="163" text-anchor="middle">1. lexer: tokens, heredocs</text>
+    <rect x="375" y="194" width="250" height="40" rx="10" fill="#ecfdf9" stroke="#0d9488"/>
+    <text x="500" y="219" text-anchor="middle">2. parser: statements</text>
+    <rect x="375" y="250" width="250" height="40" rx="10" fill="#ecfdf9" stroke="#0d9488"/>
+    <text x="500" y="275" text-anchor="middle">3. schema + references</text>
+    <path d="M500 178 Q503 186 500 194" stroke="#64748b" fill="none" marker-end="url(#a)"/>
+    <path d="M500 234 Q503 242 500 250" stroke="#64748b" fill="none" marker-end="url(#a)"/>
+    <text x="500" y="322" text-anchor="middle" font-weight="700">Rust (reference)</text>
+    <text x="500" y="350" text-anchor="middle" fill="#5d6a7c">Python 3.15 · Java 25 · Go 1.26</text>
+    <text x="500" y="374" text-anchor="middle" fill="#5d6a7c">TypeScript 7 on Bun</text>
+    <text x="500" y="410" text-anchor="middle" font-size="12" fill="#5d6a7c">Factoryfile { factories[] }</text>
+    <text x="500" y="430" text-anchor="middle" font-size="12" fill="#5d6a7c">Factory { agents, stages, loops }</text>
+
+    <rect x="740" y="90" width="320" height="110" rx="14" fill="#fff" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="900" y="118" text-anchor="middle" font-weight="700">factoryfile-lint (Rust)</text>
+    <text x="760" y="148">every schema error E001-E010</text>
+    <text x="760" y="172">graph warnings W001-W008</text>
+
+    <rect x="740" y="240" width="320" height="210" rx="14" fill="#fff" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="900" y="268" text-anchor="middle" font-weight="700">factory-cli (Rust)</text>
+    <text x="760" y="298">layout: longest path layers,</text>
+    <text x="760" y="320">back edges split by DFS</text>
+    <text x="760" y="352" font-weight="700">--render</text>
+    <text x="760" y="374" fill="#5d6a7c">boxes and loops in the terminal</text>
+    <text x="760" y="404" font-weight="700">--render-ui</text>
+    <text x="760" y="426" fill="#5d6a7c">one HTML page with an SVG graph</text>
+
+    <rect x="740" y="490" width="320" height="90" rx="14" fill="#fff" stroke="#0d9488" stroke-width="2"/>
+    <text x="900" y="518" text-anchor="middle" font-weight="700">landing/</text>
+    <text x="760" y="546">index.html + factories/*.html</text>
+    <text x="760" y="568" fill="#5d6a7c">pages written by render-all.sh</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="1.6" fill="none">
+    <path d="M270 165 C310 165 310 200 350 200" marker-end="url(#a)"/>
+    <path d="M270 375 C310 375 310 330 350 330" marker-end="url(#a)"/>
+    <path d="M650 200 C700 200 700 145 740 145" marker-end="url(#a)"/>
+    <path d="M650 300 C700 300 700 330 740 330" marker-end="url(#a)"/>
+    <path d="M900 450 L900 490" marker-end="url(#a)"/>
+  </g>
+  <g font-size="12" fill="#5d6a7c">
+    <text x="300" y="150">parse</text>
+    <text x="282" y="400">conformance</text>
+    <text x="670" y="160">statements</text>
+    <text x="680" y="335">model</text>
+  </g>
+</svg>

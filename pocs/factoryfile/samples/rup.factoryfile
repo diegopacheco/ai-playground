@@ -1,0 +1,106 @@
+version = "1"
+
+factory "rup" {
+  description = "Rational Unified Process: four phases, each one iterative, driven by use cases and architecture"
+  entry       = "inception"
+
+  agent "project-manager" {
+    role    = "project manager"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Write"]
+    content = "You plan the phases and iterations and check every milestone before the next phase."
+  }
+
+  agent "business-analyst" {
+    role    = "system analyst"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Write"]
+    content = <<PROMPT
+      You find the actors and the use cases, write the vision
+      and keep the use-case model current.
+      PROMPT
+  }
+
+  agent "architect" {
+    role    = "software architect"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Write", "Grep"]
+    content = "You make the architecturally significant decisions and keep the software architecture document."
+  }
+
+  agent "developer" {
+    role    = "implementer"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read", "Edit", "Bash"]
+    content = "You implement use-case realizations on top of the executable architecture."
+  }
+
+  agent "tester" {
+    role    = "test designer"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read", "Bash"]
+    content = "You write test cases from the use cases and run them every iteration."
+  }
+
+  agent "deployment-manager" {
+    role    = "deployment manager"
+    model   = "claude-haiku-5-5"
+    tools   = ["Read", "Bash"]
+    content = "You package, install and support the release in the users' environment."
+  }
+
+  stage "inception" {
+    description = "Scope and business case, milestone: lifecycle objectives"
+    agents      = ["project-manager", "business-analyst"]
+    next        = ["elaboration"]
+    artifacts   = ["vision.md", "business-case.md", "use-case-survey.md"]
+  }
+
+  stage "elaboration" {
+    description = "Baseline the architecture, milestone: lifecycle architecture"
+    agents      = ["architect", "business-analyst", "developer"]
+    next        = ["construction"]
+    artifacts   = ["software-architecture.md", "use-case-model.md", "executable architecture"]
+  }
+
+  stage "construction" {
+    description = "Build the product, milestone: initial operational capability"
+    agents      = ["developer", "tester", "architect"]
+    next        = ["transition"]
+    artifacts   = ["beta release", "test-results.md"]
+  }
+
+  stage "transition" {
+    description = "Hand over to users, milestone: product release"
+    agents      = ["deployment-manager", "tester", "project-manager"]
+    artifacts   = ["release", "user-manual.md"]
+  }
+
+  loop "inception-iteration" {
+    from  = "inception"
+    to    = "inception"
+    until = "stakeholders agree on scope and cost"
+    max   = "2"
+  }
+
+  loop "elaboration-iteration" {
+    from  = "elaboration"
+    to    = "elaboration"
+    until = "the architecture is stable and the main risks are retired"
+    max   = "3"
+  }
+
+  loop "construction-iteration" {
+    from  = "construction"
+    to    = "construction"
+    until = "every use case is implemented and tested"
+    max   = "6"
+  }
+
+  loop "transition-iteration" {
+    from  = "transition"
+    to    = "transition"
+    until = "users accept the release"
+    max   = "2"
+  }
+}

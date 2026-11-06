@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Factoryfile</title>
+<link rel="icon" href="../logo.svg">
+<style>
+:root{--bg:#f7fbfb;--surface:#fff;--ink:#1f2a3a;--body:#5d6a7c;--line:#e2ebee;--a:#0d9488;--b:#4f6bff;--loop:#8b5cf6;--deep:#0f2a33;--px:0;--py:0;--mx:50%;--my:30%}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.6;overflow-x:hidden}
+code,pre,.mono{font-family:"SF Mono",Menlo,Consolas,monospace}
+a{color:inherit;text-decoration:none}
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--a),var(--b),var(--loop));z-index:60}
+.field{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.42}
+.o1{width:520px;height:520px;background:#5eead4;top:-120px;left:6%;transform:translate(calc(var(--px)*40px),calc(var(--py)*30px))}
+.o2{width:460px;height:460px;background:#a5b4ff;top:40px;right:6%;transform:translate(calc(var(--px)*-55px),calc(var(--py)*-35px))}
+.o3{width:380px;height:380px;background:#ddd6fe;top:520px;left:40%;transform:translate(calc(var(--px)*25px),calc(var(--py)*50px))}
+.grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;-webkit-mask:radial-gradient(260px circle at var(--mx) var(--my),#000,transparent 70%);mask:radial-gradient(260px circle at var(--mx) var(--my),#000,transparent 70%)}
+.halo{position:absolute;width:420px;height:420px;left:calc(var(--mx) - 210px);top:calc(var(--my) - 210px);background:radial-gradient(circle,rgba(79,107,255,.12),transparent 65%)}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(247,251,251,.75);border-bottom:1px solid var(--line)}
+.nav{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em}
+.brand img{width:28px;height:28px}
+.links{display:flex;gap:28px;font-size:14px;color:var(--body)}
+.links a{position:relative}
+.links a::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:100%;background:var(--a);transform:scaleX(0);transform-origin:0 50%;transition:transform .3s}
+.links a:hover::after{transform:scaleX(1)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.hero{position:relative;text-align:center;padding:88px 24px 40px}
+.glow{position:absolute;inset:-40px 10% auto;height:420px;background:conic-gradient(from 90deg,#99f6e4,#c7d2fe,#ddd6fe,#99f6e4);filter:blur(90px);opacity:.5;z-index:-1;animation:drift 18s ease-in-out infinite alternate}
+.pan{position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(13,148,136,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(13,148,136,.08) 1px,transparent 1px);background-size:56px 56px;-webkit-mask:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 70%);mask:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 70%);animation:pan 30s linear infinite}
+@keyframes drift{to{transform:translate(40px,30px) rotate(25deg)}}
+@keyframes pan{to{background-position:56px 56px}}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:13px;color:var(--body)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--a);box-shadow:0 0 0 0 rgba(13,148,136,.5);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(13,148,136,0)}100%{box-shadow:0 0 0 0 rgba(13,148,136,0)}}
+h1{font-size:clamp(40px,6.4vw,76px);line-height:1.04;letter-spacing:-.035em;margin:22px auto 18px;max-width:940px}
+.grad{background:linear-gradient(90deg,var(--a),var(--b),var(--loop),var(--a));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 6s linear infinite}
+@keyframes shimmer{to{background-position:200% center}}
+.sub{font-size:19px;color:var(--body);max-width:700px;margin:0 auto 32px}
+.ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;padding:13px 24px;border-radius:12px;font-weight:600;font-size:15px}
+.primary{color:#fff;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 10px 30px -10px rgba(79,107,255,.6)}
+.primary::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:swipe 4.5s ease-in-out infinite}
+@keyframes swipe{60%,100%{left:130%}}
+.ghost{border:1px solid var(--line);background:var(--surface)}
+.rise{opacity:0;filter:blur(10px);transform:translateY(18px);animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes rise{to{opacity:1;filter:blur(0);transform:none}}
+.shot{margin:56px auto -80px;max-width:1040px;perspective:1600px;position:relative;z-index:2;text-align:left}
+.win{border-radius:20px;background:var(--surface);border:1px solid var(--line);box-shadow:0 50px 100px -30px rgba(15,42,51,.45);overflow:hidden;transform:rotateX(14deg) scale(.96);transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.shot.flat .win{transform:rotateX(calc(var(--py)*-1.5deg)) rotateY(calc(var(--px)*1.5deg))}
+.winbar{display:flex;align-items:center;gap:7px;padding:12px 16px;border-bottom:1px solid var(--line);background:#fbfdfd}
+.winbar i{flex:none;width:11px;height:11px;border-radius:50%;background:#e3e9ec}
+.winbar i:nth-child(1){background:#ff8f8f}.winbar i:nth-child(2){background:#ffd27a}.winbar i:nth-child(3){background:#7ee2a8}
+.winbar .tab{margin-left:12px;font-size:12px;color:var(--body);padding:4px 10px;border-radius:8px;background:var(--surface);border:1px solid var(--line)}
+.winbar .side{margin-left:auto;font-size:12px;color:var(--body)}
+.panes{display:grid;grid-template-columns:1.15fr .85fr}
+.panes>*{min-width:0}
+.panes pre{margin:0;padding:20px 22px;font-size:12.5px;line-height:1.65;white-space:pre-wrap;color:var(--ink);border-right:1px solid var(--line)}
+.graph{padding:18px;display:flex;align-items:flex-start;justify-content:center;background:radial-gradient(circle at 50% 40%,#f2f5ff,transparent 70%)}
+.graph svg{width:100%;max-width:380px;height:auto}
+.k{color:var(--a);font-weight:600}.s{color:var(--b)}.n{color:#7a3fe0}.c{color:#8a97a8}
+.edge{stroke:var(--a);stroke-width:1.6;fill:none}
+.back{stroke:var(--loop);stroke-width:1.6;fill:none;stroke-dasharray:5 5;animation:flow 1.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-20}}
+.node rect{fill:#fff;stroke:#cfdde2}
+.node text{font:11.5px "SF Mono",Menlo,Consolas,monospace;fill:var(--ink)}
+.node.entry rect{fill:url(#ng);stroke:none}
+.node.entry text{fill:#fff}
+.node.hot rect{stroke:var(--loop);stroke-width:1.4}
+.lbl{font:10px "SF Mono",Menlo,Consolas,monospace;fill:var(--loop)}
+.pulse{fill:var(--a)}
+section.wrap{padding:96px 24px 20px}
+.band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:120px 0 60px}
+.kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--a);text-align:center}
+h2{font-size:clamp(30px,4vw,44px);letter-spacing:-.03em;text-align:center;margin:8px 0 14px;line-height:1.1}
+.lead{text-align:center;color:var(--body);max-width:660px;margin:0 auto 44px}
+.marquee{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.track{display:flex;gap:18px;width:max-content;animation:scroll 32s linear infinite}
+.track.rev{animation-direction:reverse}
+.marquee:hover .track{animation-play-state:paused}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.chip{padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:14px;color:var(--body);white-space:nowrap}
+.chip b{color:var(--ink);font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{position:relative;display:block;padding:26px;border-radius:18px;background:var(--surface);border:1px solid var(--line);transition:transform .35s,box-shadow .35s}
+.card::before{content:"";position:absolute;inset:-1px;border-radius:18px;padding:1px;background:linear-gradient(120deg,var(--a),var(--b),var(--loop),var(--a));background-size:200% 200%;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .35s;animation:shimmer 4s linear infinite}
+.card:hover{transform:translateY(-6px);box-shadow:0 24px 50px -24px rgba(15,42,51,.35)}
+.card:hover::before{opacity:1}
+.badge{display:inline-block;font-size:11px;padding:4px 10px;border-radius:8px;background:#e6f6f4;color:var(--a);margin-bottom:14px}
+.badge.v{background:#f1ebff;color:#7a3fe0}
+.card h3{margin:0 0 6px;font-size:18px;letter-spacing:-.02em}
+.card p{margin:0;color:var(--body);font-size:15px}
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.fgrid .card{padding:22px;display:flex;flex-direction:column}
+.fgrid .card p{font-size:14px;flex:1}
+.fgrid .badge{align-self:flex-start}
+.go{margin-top:14px;font-size:13px;color:var(--a);font-weight:600}
+.go::after{content:"\2192";display:inline-block;margin-left:6px;transition:transform .3s}
+.card:hover .go::after{transform:translateX(4px)}
+.note{display:inline-block;margin-top:10px;font-size:12px;color:#b7791f}
+.live{margin-top:44px;border-radius:20px;border:1px solid var(--line);background:var(--surface);overflow:hidden;box-shadow:0 30px 70px -40px rgba(15,42,51,.4)}
+.livebar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--line);background:#fbfdfd}
+.livebar .tabs{display:flex;gap:6px;flex-wrap:wrap}
+.livebar button{border:1px solid var(--line);background:var(--surface);color:var(--body);border-radius:999px;padding:6px 13px;font:inherit;font-size:13px;cursor:pointer;transition:background .2s,color .2s}
+.livebar button:hover{color:var(--ink)}
+.livebar button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.livebar a{margin-left:auto;font-size:13px;color:var(--a);font-weight:600;white-space:nowrap}
+.live iframe{display:block;width:100%;height:680px;border:0;background:var(--bg)}
+.table{border:1px solid var(--line);border-radius:18px;background:var(--surface);overflow:hidden}
+.row{display:grid;grid-template-columns:90px 100px 1fr;gap:16px;padding:14px 24px;border-top:1px solid var(--line);font-size:15px;transition:transform .25s,background .25s}
+.row:first-child{border-top:0;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--body)}
+.row:not(:first-child):hover{transform:translateX(6px);background:#f3fbfa}
+.sdk .row{grid-template-columns:130px 220px 1fr}
+.code{color:var(--a)}
+.err{color:#d6455d}.warn{color:#b7791f}
+pre.src{margin:0;padding:22px;border-radius:18px;background:var(--surface);border:1px solid var(--line);font-size:12.5px;overflow:auto;color:var(--ink)}
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start}
+.steps{display:grid;gap:14px}
+.step{display:grid;grid-template-columns:38px 1fr;gap:14px;padding:18px 20px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.step>span{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--a),var(--b))}
+.step:nth-child(3)>span,.step:nth-child(4)>span{background:linear-gradient(135deg,var(--b),var(--loop))}
+.step h3{margin:0 0 2px;font-size:16px}
+.step p{margin:0;color:var(--body);font-size:14px;overflow-wrap:anywhere}
+.step>*{min-width:0}
+.term{background:#0a1d24;border-radius:16px;border:1px solid rgba(255,255,255,.08);font-size:13px;overflow:hidden}
+.term .bar{display:flex;align-items:center;gap:7px;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+.term .bar i{width:11px;height:11px;border-radius:50%;background:#2c4a55}
+.term .bar em{margin-left:8px;font-style:normal;font-size:12px;color:#6f8f99}
+.term pre{margin:0;padding:16px 18px;color:#d4e6ea;overflow:auto;line-height:1.35}
+.term.tall pre{max-height:640px;font-size:12px;line-height:1.22}
+.typed pre{white-space:pre-wrap;min-height:200px;line-height:1.6}
+.cursor{display:inline-block;width:8px;height:16px;background:#5eead4;vertical-align:-3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.t-p{color:#5eead4}.t-e{color:#ff9aa8}.t-w{color:#ffd58a}.t-ok{color:#86efac}.t-l{color:#c4b5fd}.t-d{color:#6f8f99}
+.frame{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.frame .img{overflow:hidden}
+.frame img{width:100%;display:block;transition:transform .6s}
+.frame:hover img{transform:scale(1.04)}
+.cap{padding:16px 20px;color:var(--body);font-size:14px}
+.cap .badge{margin:0 10px 0 0}
+.cap code{color:var(--ink);font-size:12.5px}
+.stack{display:grid;gap:18px}
+.cta{margin:20px auto 0;max-width:1000px;border-radius:26px;background:linear-gradient(160deg,var(--deep),#1d2450);color:#e6f2f4;padding:56px;display:grid;grid-template-columns:1fr 1.25fr;gap:40px;align-items:center}
+.cta h2{text-align:left;color:#fff}
+.cta p{color:#a8c4cb}
+.cta code{color:#e6f2f4}
+footer{margin-top:110px;border-top:1px solid var(--line);padding:28px 24px;text-align:center;color:var(--body);font-size:13px;line-height:1.9}
+.split>*,.cards>*,.fgrid>*,.cta>*,.row>*,.stack>*{min-width:0}
+.row>*{overflow-wrap:anywhere}
+.reveal{opacity:0;filter:blur(8px);transform:translateY(24px);transition:opacity .9s,filter .9s,transform .9s}
+.reveal.in{opacity:1;filter:none;transform:none}
+.stagger>*{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}
+.stagger.in>*{opacity:1;transform:none}
+@media (max-width:1000px){.fgrid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:900px){.links{display:none}.cards,.split,.cta,.panes{grid-template-columns:1fr}.panes pre{border-right:0;border-bottom:1px solid var(--line)}.cta{padding:32px}.row{grid-template-columns:70px 80px 1fr;padding:12px 16px}.sdk .row{grid-template-columns:90px 1fr;}.sdk .row>:nth-child(2){display:none}.shot{margin-bottom:-40px}.live iframe{height:560px}.livebar a{margin-left:0}}
+@media (max-width:560px){.fgrid{grid-template-columns:1fr}.pill{font-size:11px;padding:6px 12px}.winbar .side{display:none}.hero{padding-top:64px}.sub{font-size:17px}.panes pre{font-size:11.5px;padding:16px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rise,.reveal,.stagger>*{opacity:1!important;filter:none!important;transform:none!important}.win{transform:none!important}.progress{display:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="field" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grid"></div><div class="halo"></div></div>
+<nav><div class="nav"><a class="brand" href="#top"><img src="../logo.svg" alt="Factoryfile logo">Factoryfile</a><div class="links"><a href="#how">How it works</a><a href="#visualizer">Visualizer</a><a href="#factories">Factories</a><a href="#linter">Linter</a><a href="#sdks">SDKs</a></div></div></nav>
+<header class="hero" id="top">
+<div class="glow"></div><div class="pan"></div>
+<div class="pill rise" style="animation-delay:0ms"><span class="dot"></span><span class="mono">spec v1 · 7 factories · 5 SDKs · 2 tools</span></div>
+<h1 class="rise" style="animation-delay:120ms">Your software process, <span class="grad">as a graph agents run</span></h1>
+<p class="sub rise" style="animation-delay:240ms">One <code>Factoryfile</code> declares a software factory for coding agents: the agents, the stages they work, the <code>next</code> edges between stages, and loops that go back with an exit condition and a <code>max</code>. Parse it from five languages, lint it, and draw it.</p>
+<div class="ctas rise" style="animation-delay:360ms"><a class="btn primary" href="#factories">Browse the factories</a><a class="btn ghost" href="../spec/SPEC.md">Read the spec</a></div>
+<div class="shot" id="shot"><div class="win">
+<div class="winbar"><i></i><i></i><i></i><span class="tab mono">samples/xp.factoryfile</span><span class="side mono">8 stages · 4 agents · 3 loops</span></div>
+<div class="panes">
+<pre><span class="a">version</span> = <span class="s">"1"</span>
+
+<span class="k">factory</span> <span class="n">"xp"</span> {
+  description = <span class="s">"Extreme Programming: short iterations, pairs, test first, the customer on site"</span>
+  entry       = <span class="s">"release-planning"</span>
+
+  <span class="k">agent</span> <span class="n">"driver"</span> {
+    role    = <span class="s">"pair driver"</span>
+    model   = <span class="s">"claude-sonnet-5-5"</span>
+    tools   = [<span class="s">"Read"</span>, <span class="s">"Edit"</span>, <span class="s">"Bash"</span>]
+    content = <span class="s">"You hold the keyboard. You write the smallest failing test, then the simplest code that passes."</span>
+  }
+
+  <span class="k">stage</span> <span class="n">"write-test"</span> {
+    description = <span class="s">"Red"</span>
+    agents      = [<span class="s">"driver"</span>, <span class="s">"navigator"</span>]
+    next        = [<span class="s">"make-it-pass"</span>]
+  }
+  <span class="c">...</span>
+  <span class="k">loop</span> <span class="n">"tdd"</span> {
+    description = <span class="s">"Red, green, refactor"</span>
+    from        = <span class="s">"refactor"</span>
+    to          = <span class="s">"write-test"</span>
+    until       = <span class="s">"every story of the iteration has passing tests"</span>
+    max         = <span class="s">"50"</span>
+  }
+}</pre>
+<div class="graph"><svg viewBox="0 0 360 470" role="img" aria-label="The xp factory as a graph of 8 stages and 3 loops">
+<defs>
+<linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d9488"/><stop offset="1" stop-color="#4f6bff"/></linearGradient>
+<marker id="ma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0d9488"/></marker>
+<marker id="mb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8b5cf6"/></marker>
+</defs>
+<path class="edge" d="M150 46V74" marker-end="url(#ma)"/><path class="edge" d="M150 102V130" marker-end="url(#ma)"/><path class="edge" d="M150 158V186" marker-end="url(#ma)"/><path class="edge" d="M150 214V242" marker-end="url(#ma)"/><path class="edge" d="M150 270V298" marker-end="url(#ma)"/><path class="edge" d="M150 326V354" marker-end="url(#ma)"/><path class="edge" d="M150 382V410" marker-end="url(#ma)"/>
+<path class="back" d="M240 257C282 257 282 145 242 145" marker-end="url(#mb)"/>
+<path class="back" d="M240 313C326 313 326 153 242 153" marker-end="url(#mb)"/>
+<path class="back" d="M60 369C12 369 12 89 58 89" marker-end="url(#mb)"/>
+<text class="lbl" x="284" y="205">tdd</text><text class="lbl" x="284" y="217">max 50</text>
+<text class="lbl" x="316" y="262">build</text><text class="lbl" x="316" y="274">max 5</text>
+<text class="lbl" x="4" y="226">iteration</text><text class="lbl" x="4" y="238">max 12</text>
+<circle class="pulse" r="4"><animateMotion dur="7s" repeatCount="indefinite" path="M150 46V412"/></circle>
+<g class="node entry"><rect x="60" y="20" width="180" height="26" rx="8"/><text x="72" y="37">▶ release-planning</text></g>
+<g class="node hot"><rect x="60" y="76" width="180" height="26" rx="8"/><text x="72" y="93">iteration-planning</text></g>
+<g class="node hot"><rect x="60" y="132" width="180" height="26" rx="8"/><text x="72" y="149">write-test</text></g>
+<g class="node"><rect x="60" y="188" width="180" height="26" rx="8"/><text x="72" y="205">make-it-pass</text></g>
+<g class="node hot"><rect x="60" y="244" width="180" height="26" rx="8"/><text x="72" y="261">refactor</text></g>
+<g class="node hot"><rect x="60" y="300" width="180" height="26" rx="8"/><text x="72" y="317">continuous-integration</text></g>
+<g class="node hot"><rect x="60" y="356" width="180" height="26" rx="8"/><text x="72" y="373">acceptance-test</text></g>
+<g class="node"><rect x="60" y="412" width="180" height="26" rx="8"/><text x="72" y="429">small-release</text></g>
+</svg></div>
+</div>
+</div></div>
+</header>
+<div class="band">
+<div class="wrap">
+<p class="kicker mono">one format, five parsers, two tools</p>
+<div class="marquee" style="margin-top:26px"><div class="track" id="track"><span class="chip mono"><b>Python</b> 3.15</span><span class="chip mono"><b>Rust</b> reference</span><span class="chip mono"><b>Java</b> 25</span><span class="chip mono"><b>Go</b> 1.26</span><span class="chip mono"><b>TypeScript</b> 7 · Bun</span><span class="chip mono"><b>factoryfile-lint</b> E001-E010 · W001-W008</span><span class="chip mono"><b>factory-cli</b> --render · --render-ui</span><span class="chip mono"><b>63</b> invalid fixtures</span><span class="chip mono"><b>3</b> valid fixtures</span><span class="chip mono"><b>identical</b> error messages</span></div></div>
+</div>
+</div>
+<section class="wrap" id="how">
+<p class="kicker mono">how it works</p>
+<h2 class="reveal">A factory is a graph</h2>
+<p class="lead reveal">Stages are the nodes, <code>next</code> lists are the forward edges, and loops are named back edges that stop when <code>until</code> is met or after <code>max</code> passes. One file can hold several factories, and a tool picks the one it needs.</p>
+<div class="cards stagger">
+<div class="card"><span class="badge mono">factory</span><h3>Factories</h3><p>A named graph with a <code>description</code> and an <code>entry</code> stage. Without <code>entry</code>, work starts at the first stage.</p></div>
+<div class="card"><span class="badge mono">agent</span><h3>Agents</h3><p>A <code>role</code>, a <code>model</code> and <code>tools</code>, with the system prompt inline in <code>content</code> or by <code>source</code>, exactly one of them.</p></div>
+<div class="card"><span class="badge mono">stage</span><h3>Stages</h3><p>The <code>agents</code> that work it, the <code>artifacts</code> it produces and its own <code>content</code> instructions.</p></div>
+<div class="card"><span class="badge mono">next</span><h3>Forward edges</h3><p>The stages that follow. An empty <code>next</code> ends the factory. Going back through <code>next</code> is a warning.</p></div>
+<div class="card"><span class="badge v mono">loop</span><h3>Bounded back edges</h3><p>When <code>from</code> finishes and <code>until</code> is not met, work goes back to <code>to</code>, at most <code>max</code> times.</p></div>
+<div class="card"><span class="badge mono">&lt;&lt;PROMPT</span><h3>Heredocs</h3><p>Multi-line prompts without escaping. The shared indentation is stripped, and <code>${NAME}</code> stays literal.</p></div>
+</div>
+</section>
+<section class="wrap">
+<p class="kicker mono">the shape</p>
+<h2 class="reveal">Blocks like main.tf, checked like a compiler</h2>
+<p class="lead reveal">References resolve anywhere in the factory, before or after the block that uses them. A parser stops at the first error and reports it as <code>line L, col C: message</code>.</p>
+<div class="split reveal">
+<pre class="src"><span class="a">version</span> = <span class="s">"1"</span>
+
+<span class="k">factory</span> <span class="n">"xp"</span> {
+  description = <span class="s">"Extreme Programming with pairs of agents"</span>
+  entry       = <span class="s">"test-first"</span>
+
+  <span class="k">agent</span> <span class="n">"pair"</span> {
+    role    = <span class="s">"driver and navigator"</span>
+    tools   = [<span class="s">"Read"</span>, <span class="s">"Edit"</span>, <span class="s">"Bash"</span>]
+    content = <span class="s">&lt;&lt;PROMPT
+      You write the test first, then the code that makes it pass.
+      PROMPT</span>
+  }
+
+  <span class="k">stage</span> <span class="n">"test-first"</span> {
+    agents = [<span class="s">"pair"</span>]
+    next   = [<span class="s">"acceptance"</span>]
+  }
+
+  <span class="k">stage</span> <span class="n">"acceptance"</span> {
+    agents  = [<span class="s">"pair"</span>]
+    content = <span class="s">"Run the acceptance tests of every story."</span>
+  }
+
+  <span class="k">loop</span> <span class="n">"tdd"</span> {
+    from  = <span class="s">"test-first"</span>
+    to    = <span class="s">"test-first"</span>
+    until = <span class="s">"every test is green and the code is clean"</span>
+    max   = <span class="s">"20"</span>
+  }
+}</pre>
+<div class="steps stagger">
+<div class="step"><span class="mono">1</span><div><h3>Start at the entry</h3><p><code>entry</code> names the first stage. Agents named in <code>agents</code> must exist in the same factory.</p></div></div>
+<div class="step"><span class="mono">2</span><div><h3>Follow next</h3><p>Stages are laid out in layers by their longest distance from the entry over <code>next</code> edges.</p></div></div>
+<div class="step"><span class="mono">3</span><div><h3>Loop back, bounded</h3><p>A loop may point a stage at itself. <code>max</code> is an integer from 1 to 999999.</p></div></div>
+<div class="step"><span class="mono">4</span><div><h3>Fail with the same message</h3><p>Misspell <code>"acceptance"</code> in <code>next</code> and all five SDKs say <span class="err mono">line 17, col 14: unknown stage "acceptence" in stage "test-first"</span></p></div></div>
+</div>
+</div>
+</section>
+<section class="wrap" id="visualizer">
+<p class="kicker mono">factory-cli</p>
+<h2 class="reveal">See the factory before you run it</h2>
+<p class="lead reveal"><code>--render</code> draws the stages layer by layer in the terminal with their agents, artifacts, <code>next</code> edges and loops. <code>--render-ui</code> writes one self-contained HTML page with an SVG graph and opens it.</p>
+<div class="split reveal">
+<div class="term tall"><div class="bar"><i></i><i></i><i></i><em class="mono">factory-cli --render samples/scrum.factoryfile --no-color</em></div><pre><span class="t-ok">factory scrum</span>
+<span class="t-d">Scrum: a product owner, a scrum master and a team working in sprints</span>
+<span class="t-d">entry backlog-refinement · 6 stages · 4 agents · 2 loops</span>
+
+      ┌──────────────────────────┐
+<span class="t-p">L1</span>    │ ▶ backlog-refinement     │
+      │ product-owner, developer │
+      │ ▸ product-backlog.md     │
+      └──────────────────────────┘
+        └▶ sprint-planning
+        │
+        ▼
+      ┌────────────────────────────────────────┐
+<span class="t-p">L2</span>    │ sprint-planning                        │
+      │ product-owner, scrum-master, developer │
+      │ ▸ sprint-goal.md                       │
+      │ ▸ sprint-backlog.md                    │
+      └────────────────────────────────────────┘
+        └▶ development
+        │
+        ▼
+      ┌───────────────────┐
+<span class="t-p">L3</span>    │ development       │
+      │ developer, tester │
+      └───────────────────┘
+        └▶ daily-scrum
+        │
+        ▼
+      ┌─────────────────────────┐
+<span class="t-p">L4</span>    │ daily-scrum             │
+      │ scrum-master, developer │
+      └─────────────────────────┘
+        └▶ sprint-review
+        │
+        ▼
+      ┌──────────────────────────────────┐
+<span class="t-p">L5</span>    │ sprint-review                    │
+      │ product-owner, developer, tester │
+      │ ▸ increment                      │
+      └──────────────────────────────────┘
+        └▶ retrospective
+        │
+        ▼
+      ┌─────────────────────────────────┐
+<span class="t-p">L6</span>    │ retrospective                   │
+      │ scrum-master, developer, tester │
+      │ ▸ improvements.md               │
+      └─────────────────────────────────┘
+
+<span class="t-l">loops
+  ↺ day     daily-scrum ──▶ development  until the sprint time-box ends  max 10
+  ↺ sprint  retrospective ──▶ backlog-refinement  until the product goal is met  max 26</span></pre></div>
+<div class="stack">
+<a class="frame" href="factories/xp.html"><div class="img"><img src="../printscreens/render-ui-xp.png" alt="The xp factory drawn by factory-cli --render-ui as an SVG graph"></div><div class="cap"><span class="badge mono">--render-ui</span>The xp factory as a web page: stages in layers, loops as back edges with <code>until</code> and <code>max</code>.</div></a>
+<pre class="src mono" style="font-size:12px">factory-cli --render [path] [--factory NAME] [--no-color]
+factory-cli --render-ui [path] [--factory NAME] [--out FILE] [--no-open]</pre>
+</div>
+</div>
+</section>
+<section class="wrap" id="factories">
+<p class="kicker mono">gallery</p>
+<h2 class="reveal">Seven processes, one file format</h2>
+<p class="lead reveal">Every sample in <code>samples/</code> plus the repository's own <code>Factoryfile</code>, rendered by <code>factory-cli --render-ui</code>. Open one, or switch between them below.</p>
+<div class="fgrid stagger">
+<a class="card" href="factories/rup.html"><span class="badge mono">4 stages · 4 loops</span><h3>rup</h3><p>Rational Unified Process: four phases, each one iterative, driven by use cases and architecture.</p><span class="go">Open graph</span></a>
+<a class="card" href="factories/xp.html"><span class="badge mono">8 stages · 3 loops</span><h3>xp</h3><p>Extreme Programming: short iterations, pairs, test first, the customer on site.</p><span class="go">Open graph</span></a>
+<a class="card" href="factories/scrum.html"><span class="badge mono">6 stages · 2 loops</span><h3>scrum</h3><p>A product owner, a scrum master and a team working in sprints, with a daily loop.</p><span class="go">Open graph</span></a>
+<a class="card" href="factories/xgh.html"><span class="badge mono">7 stages · 1 loop</span><h3>xgh</h3><p>eXtreme Go Horse: think, and it is not XGH anymore.<br><span class="note mono">lints with 4 warnings, on purpose</span></p><span class="go">Open graph</span></a>
+<a class="card" href="factories/kanban.html"><span class="badge mono">5 stages · 2 loops</span><h3>kanban</h3><p>A pull system with work-in-progress limits on every column.</p><span class="go">Open graph</span></a>
+<a class="card" href="factories/waterfall.html"><span class="badge mono">5 stages · 0 loops</span><h3>waterfall</h3><p>Each phase ends before the next one starts. No back edges at all.</p><span class="go">Open graph</span></a>
+<a class="card" href="factories/spiral.html"><span class="badge mono">5 stages · 1 loop</span><h3>spiral</h3><p>Every turn plans, analyses risk, builds and evaluates.</p><span class="go">Open graph</span></a>
+<a class="card" href="factories/factoryfile.html"><span class="badge v mono">dogfooded · 5 stages</span><h3>factoryfile</h3><p>How a change to the spec reaches every SDK, the linter and the visualizer.</p><span class="go">Open graph</span></a>
+</div>
+<div class="live reveal">
+<div class="livebar"><div class="tabs" id="tabs" role="tablist"><button class="mono" data-f="rup">rup</button><button class="mono" data-f="xp">xp</button><button class="mono on" data-f="scrum">scrum</button><button class="mono" data-f="xgh">xgh</button><button class="mono" data-f="kanban">kanban</button><button class="mono" data-f="waterfall">waterfall</button><button class="mono" data-f="spiral">spiral</button><button class="mono" data-f="factoryfile">factoryfile</button></div><a id="open" href="factories/scrum.html">Open full page</a></div>
+<iframe id="live" src="factories/scrum.html" title="Live view of the scrum factory" loading="lazy"></iframe>
+</div>
+</section>
+<section class="wrap" id="linter">
+<p class="kicker mono">factoryfile-lint</p>
+<h2 class="reveal">Every rule, with a code</h2>
+<p class="lead reveal">Written in Rust on top of the Rust SDK. It reports every schema error, not only the first, and adds graph warnings a parser should not reject: unreachable stages, unbounded cycles and loops without a <code>max</code>.</p>
+<div class="table reveal">
+<div class="row mono"><span>Code</span><span>Level</span><span>Rule</span></div>
+<div class="row"><span class="mono code">E001</span><span class="err">error</span><span>lexical or syntax error</span></div>
+<div class="row"><span class="mono code">E002</span><span class="err">error</span><span>unknown attribute</span></div>
+<div class="row"><span class="mono code">E003</span><span class="err">error</span><span>unknown block</span></div>
+<div class="row"><span class="mono code">E004</span><span class="err">error</span><span>duplicate attribute</span></div>
+<div class="row"><span class="mono code">E005</span><span class="err">error</span><span>wrong attribute kind</span></div>
+<div class="row"><span class="mono code">E006</span><span class="err">error</span><span>unsupported version or invalid <code>max</code></span></div>
+<div class="row"><span class="mono code">E007</span><span class="err">error</span><span>duplicate factory or duplicate item</span></div>
+<div class="row"><span class="mono code">E008</span><span class="err">error</span><span>missing <code>version</code>, <code>agents</code>, <code>from</code>, <code>to</code>, or neither <code>source</code> nor <code>content</code></span></div>
+<div class="row"><span class="mono code">E009</span><span class="err">error</span><span>unknown stage or agent reference</span></div>
+<div class="row"><span class="mono code">E010</span><span class="err">error</span><span>both <code>source</code> and <code>content</code></span></div>
+<div class="row"><span class="mono code">W001</span><span class="warn">warning</span><span>the factory declares no stage</span></div>
+<div class="row"><span class="mono code">W002</span><span class="warn">warning</span><span>a <code>source</code> starting with <code>.</code> or <code>/</code> does not exist next to the Factoryfile</span></div>
+<div class="row"><span class="mono code">W003</span><span class="warn">warning</span><span>a stage cannot be reached from the entry</span></div>
+<div class="row"><span class="mono code">W004</span><span class="warn">warning</span><span>a block name is not kebab-case</span></div>
+<div class="row"><span class="mono code">W005</span><span class="warn">warning</span><span>an agent is not used by any stage</span></div>
+<div class="row"><span class="mono code">W006</span><span class="warn">warning</span><span>an inline <code>content</code> is empty</span></div>
+<div class="row"><span class="mono code">W007</span><span class="warn">warning</span><span><code>next</code> goes back to an earlier stage, a cycle that no loop bounds</span></div>
+<div class="row"><span class="mono code">W008</span><span class="warn">warning</span><span>a loop has no <code>max</code>, so it may never end</span></div>
+</div>
+</section>
+<section class="wrap" id="sdks">
+<p class="kicker mono">sdks</p>
+<h2 class="reveal">Same model in every language</h2>
+<p class="lead reveal">Each SDK has a lexer, a parser and a schema validator, and returns the same typed model. Every one runs the same 63 invalid and 3 valid conformance fixtures and must produce the exact same error string.</p>
+<div class="table sdk reveal">
+<div class="row mono"><span>SDK</span><span>Runtime</span><span>Entry point</span></div>
+<div class="row"><span>Python</span><span class="mono">3.15 · uv</span><span class="mono">factoryfile.parse(text) · load(path)</span></div>
+<div class="row"><span>Rust</span><span class="mono">reference · cargo</span><span class="mono">factoryfile::parse(src) · parse_file(path)</span></div>
+<div class="row"><span>Java</span><span class="mono">25 · Maven</span><span class="mono">Factoryfile.parse(String) · load(Path)</span></div>
+<div class="row"><span>Go</span><span class="mono">1.26</span><span class="mono">factoryfile.Parse(src) · ParseFile(path)</span></div>
+<div class="row"><span>TypeScript</span><span class="mono">7 · Bun</span><span class="mono">parse(src) · load(path)</span></div>
+</div>
+<div class="split reveal" style="margin-top:24px">
+<pre class="src"><span class="k">from</span> factoryfile <span class="k">import</span> load
+
+xp = load(<span class="s">"samples/xp.factoryfile"</span>).factories[0]
+print(xp.entry)
+<span class="k">for</span> loop <span class="k">in</span> xp.loops:
+    print(loop.name, loop.from_, <span class="s">"-&gt;"</span>, loop.to, <span class="s">"max"</span>, loop.max)</pre>
+<div class="term"><div class="bar"><i></i><i></i><i></i><em class="mono">uv run python</em></div><pre><span class="t-ok">release-planning</span>
+tdd refactor -&gt; write-test max 50
+fix-the-build continuous-integration -&gt; write-test max 5
+iteration acceptance-test -&gt; iteration-planning max 12</pre></div>
+</div>
+</section>
+<section class="wrap">
+<div class="cta reveal">
+<div><h2>Lint your Factoryfile</h2><p>The spec lives in <code>spec/SPEC.md</code>. The fixtures in <code>spec/fixtures</code> pin every error message, so a new SDK can prove it conforms. The xgh factory breaks the rules on purpose.</p><a class="btn primary" href="../spec/SPEC.md">Open SPEC.md</a></div>
+<div class="term typed"><div class="bar"><i></i><i></i><i></i></div><pre id="term"></pre></div>
+</div>
+</section>
+<footer><div class="mono">Factoryfile spec v1 · Python · Rust · Java · Go · TypeScript</div><div class="mono">factoryfile-lint · factory-cli · 63 invalid fixtures · 3 valid fixtures</div></footer>
+<script>
+const root=document.documentElement;
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const bar=document.getElementById("progress");
+addEventListener("scroll",()=>{const h=document.body.scrollHeight-innerHeight;bar.style.transform=`scaleX(${h>0?scrollY/h:0})`},{passive:true});
+const track=document.getElementById("track");
+track.innerHTML+=track.innerHTML;
+document.querySelectorAll(".stagger").forEach(g=>[...g.children].forEach((c,i)=>c.style.transitionDelay=`${i*80}ms`));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll(".reveal,.stagger").forEach(el=>io.observe(el));
+const shot=document.getElementById("shot");
+setTimeout(()=>shot.classList.add("flat"),reduced?0:700);
+if(!reduced){let tx=0,ty=0,x=0,y=0;addEventListener("pointermove",e=>{tx=e.clientX/innerWidth*2-1;ty=e.clientY/innerHeight*2-1});const tick=()=>{x+=(tx-x)*.08;y+=(ty-y)*.08;root.style.setProperty("--px",x.toFixed(4));root.style.setProperty("--py",y.toFixed(4));root.style.setProperty("--mx",`${(x+1)*50}%`);root.style.setProperty("--my",`${(y+1)*50}%`);requestAnimationFrame(tick)};tick()}
+const live=document.getElementById("live"),open=document.getElementById("open");
+document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));const url=`factories/${b.dataset.f}.html`;live.src=url;open.href=url;live.title=`Live view of the ${b.dataset.f} factory`});
+const lines=[["t-p","$ factoryfile-lint samples/xgh.factoryfile"],["t-w","samples/xgh.factoryfile:25:3: warning[W005]: agent \"tester\" is not used by any stage"],["t-w","samples/xgh.factoryfile:61:17: warning[W007]: stage \"firefight\" goes back to \"hack\" through \"next\", use a loop with a max"],["t-w","samples/xgh.factoryfile:66:3: warning[W003]: stage \"write-tests\" cannot be reached from the entry \"receive-task\""],["t-w","samples/xgh.factoryfile:70:3: warning[W008]: loop \"go-horse-forever\" has no \"max\", it may never end"],["t-ok","1 file(s), 0 error(s), 4 warning(s)"],["t-p","$ echo $?"],["t-ok","0"]];
+const term=document.getElementById("term");
+const render=n=>{term.innerHTML=lines.slice(0,n).map(([c,t])=>`<span class="${c}">${t.replace(/</g,"&lt;")}</span>`).join("\n")+(n<lines.length||!reduced?'\n<span class="cursor"></span>':"")};
+if(reduced){render(lines.length)}else{const to=new IntersectionObserver(es=>{if(es[0].isIntersecting){to.disconnect();let n=0;const step=()=>{render(++n);if(n<lines.length)setTimeout(step,420)};step()}},{threshold:.4});to.observe(term);render(0)}
+</script>
+</body>
+</html>

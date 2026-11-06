@@ -1,0 +1,70 @@
+version = "1"
+
+factory "factoryfile" {
+  description = "How a change to the Factoryfile spec reaches every SDK, the linter and the visualizer"
+  entry       = "spec-change"
+
+  agent "spec-guardian" {
+    role    = "spec owner"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Edit", "Grep"]
+    content = <<PROMPT
+      You own spec/SPEC.md. Every new rule gets an exact error message,
+      a position and an invalid fixture whose first line is "# expect: <error>".
+      PROMPT
+  }
+
+  agent "rust-dev" {
+    role    = "reference implementer"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read", "Edit", "Bash"]
+    content = "You change sdks/rust first. It is the reference, and the linter and factory-cli are built on it."
+  }
+
+  agent "sdk-porter" {
+    source = "./agents/sdk-porter.md"
+  }
+
+  agent "reviewer" {
+    role    = "reviewer"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Grep", "Bash"]
+    content = "You run factoryfile-lint on every sample and render each one with factory-cli before you approve."
+  }
+
+  stage "spec-change" {
+    agents    = ["spec-guardian"]
+    next      = ["reference-sdk"]
+    artifacts = ["spec/SPEC.md", "spec/fixtures/"]
+  }
+
+  stage "reference-sdk" {
+    agents    = ["rust-dev"]
+    next      = ["port-sdks", "tooling"]
+    artifacts = ["sdks/rust/"]
+  }
+
+  stage "port-sdks" {
+    agents    = ["sdk-porter"]
+    next      = ["conformance"]
+    artifacts = ["sdks/python/", "sdks/java/", "sdks/go/", "sdks/ts/"]
+  }
+
+  stage "tooling" {
+    agents    = ["rust-dev"]
+    next      = ["conformance"]
+    artifacts = ["linter/", "cli/"]
+  }
+
+  stage "conformance" {
+    agents  = ["reviewer"]
+    content = "Run ./scripts/test-all.sh, then factoryfile-lint samples/*.factoryfile and factory-cli --render on each sample."
+  }
+
+  loop "until-green" {
+    from  = "conformance"
+    to    = "port-sdks"
+    until = "every suite of ./scripts/test-all.sh passes"
+    max   = "5"
+  }
+}

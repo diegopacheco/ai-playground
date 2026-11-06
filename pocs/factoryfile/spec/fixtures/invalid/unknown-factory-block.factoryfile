@@ -1,0 +1,6 @@
+# expect: line 4, col 3: unknown block "pipeline" in factory
+version = "1"
+factory "x" {
+  pipeline "p" {
+  }
+}

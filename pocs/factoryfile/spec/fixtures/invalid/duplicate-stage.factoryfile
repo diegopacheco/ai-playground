@@ -1,0 +1,6 @@
+# expect: line 5, col 3: duplicate stage "a" in factory "x"
+version = "1"
+factory "x" {
+  stage "a" { agents = [] }
+  stage "a" { agents = [] }
+}

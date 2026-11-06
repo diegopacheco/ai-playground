@@ -1,0 +1,4 @@
+# expect: line 3, col 3: unknown attribute "owner" in factory
+factory "x" {
+  owner = "me"
+}

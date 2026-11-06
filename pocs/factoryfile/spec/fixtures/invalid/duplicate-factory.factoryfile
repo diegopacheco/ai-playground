@@ -1,0 +1,6 @@
+# expect: line 5, col 1: duplicate factory "x"
+version = "1"
+factory "x" {
+}
+factory "x" {
+}

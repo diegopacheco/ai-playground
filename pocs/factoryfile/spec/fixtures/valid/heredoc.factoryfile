@@ -1,0 +1,26 @@
+version = <<V
+  1
+V
+
+factory "edge" {
+  description = <<EMPTY
+EMPTY
+
+  agent "tabs" {
+    content = <<T
+	first
+	  second
+
+T
+  }
+
+  agent "raw" {
+    content = <<R   
+"quoted" \n ${HOME} # not a comment
+    R
+  }
+
+  stage "only" {
+    agents = ["tabs", "raw",]
+  }
+}

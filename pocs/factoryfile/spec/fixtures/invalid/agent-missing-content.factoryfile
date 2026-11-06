@@ -1,0 +1,7 @@
+# expect: line 4, col 3: agent "dev" requires "source" or "content"
+version = "1"
+factory "x" {
+  agent "dev" {
+    model = "claude-opus-5-5"
+  }
+}

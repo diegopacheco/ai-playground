@@ -1,0 +1,2 @@
+# expect: line 2, col 17: expected string, found '['
+version = { a = ["x"] }

@@ -1,0 +1,10 @@
+# expect: line 8, col 12: invalid max "05", expected an integer from 1 to 999999
+version = "1"
+factory "x" {
+  stage "a" { agents = [] }
+  loop "l" {
+    from = "a"
+    to   = "a"
+    max  = "05"
+  }
+}

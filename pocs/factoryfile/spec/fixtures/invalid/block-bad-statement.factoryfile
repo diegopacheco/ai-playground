@@ -1,0 +1,5 @@
+# expect: line 4, col 3: expected identifier or '}', found string
+version = "1"
+factory "x" {
+  "stage"
+}

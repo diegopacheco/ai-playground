@@ -1,0 +1,7 @@
+# expect: line 6, col 3: duplicate loop "l" in factory "x"
+version = "1"
+factory "x" {
+  stage "a" { agents = [] }
+  loop "l" { from = "a" to = "a" }
+  loop "l" { from = "a" to = "a" }
+}

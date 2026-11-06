@@ -1,0 +1,9 @@
+# expect: line 4, col 21: unknown stage "late" in loop "l"
+version = "1"
+factory "x" {
+  loop "l" { from = "late" to = "a" }
+  entry = "nowhere"
+  stage "a" {
+    agents = ["ghost"]
+  }
+}

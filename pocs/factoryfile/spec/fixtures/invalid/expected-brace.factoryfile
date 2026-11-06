@@ -1,0 +1,3 @@
+# expect: line 3, col 13: expected '{', found '='
+version = "1"
+factory "x" =

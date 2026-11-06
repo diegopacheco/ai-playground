@@ -1,0 +1,110 @@
+version = "1"
+
+factory "xp" {
+  description = "Extreme Programming: short iterations, pairs, test first, the customer on site"
+  entry       = "release-planning"
+
+  agent "customer" {
+    role    = "on-site customer"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Write"]
+    content = <<PROMPT
+      You are the on-site customer. You write user stories on cards,
+      order them by business value and write the acceptance test of each one.
+      PROMPT
+  }
+
+  agent "coach" {
+    role    = "xp coach"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read"]
+    content = "You keep the team on the twelve XP practices and call out every skipped one."
+  }
+
+  agent "driver" {
+    role    = "pair driver"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read", "Edit", "Bash"]
+    content = "You hold the keyboard. You write the smallest failing test, then the simplest code that passes."
+  }
+
+  agent "navigator" {
+    role    = "pair navigator"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Grep"]
+    content = "You review every line the driver writes and think about the next test and the design."
+  }
+
+  stage "release-planning" {
+    description = "The planning game for the release"
+    agents      = ["customer", "coach"]
+    next        = ["iteration-planning"]
+    artifacts   = ["release-plan.md"]
+  }
+
+  stage "iteration-planning" {
+    agents    = ["customer", "driver", "navigator"]
+    next      = ["write-test"]
+    artifacts = ["iteration-stories.md"]
+    content   = "Pick the stories that fit one week. Developers estimate, the customer chooses."
+  }
+
+  stage "write-test" {
+    description = "Red"
+    agents      = ["driver", "navigator"]
+    next        = ["make-it-pass"]
+  }
+
+  stage "make-it-pass" {
+    description = "Green"
+    agents      = ["driver", "navigator"]
+    next        = ["refactor"]
+  }
+
+  stage "refactor" {
+    description = "Clean"
+    agents      = ["navigator", "driver"]
+    next        = ["continuous-integration"]
+  }
+
+  stage "continuous-integration" {
+    agents    = ["driver"]
+    next      = ["acceptance-test"]
+    artifacts = ["main branch, green build"]
+    content   = "Integrate to main, run the whole suite, never leave the build red."
+  }
+
+  stage "acceptance-test" {
+    agents    = ["customer"]
+    next      = ["small-release"]
+    artifacts = ["acceptance-report.md"]
+  }
+
+  stage "small-release" {
+    agents    = ["coach", "driver"]
+    artifacts = ["release notes"]
+  }
+
+  loop "tdd" {
+    description = "Red, green, refactor"
+    from        = "refactor"
+    to          = "write-test"
+    until       = "every story of the iteration has passing tests"
+    max         = "50"
+  }
+
+  loop "fix-the-build" {
+    from  = "continuous-integration"
+    to    = "write-test"
+    until = "the build is green"
+    max   = "5"
+  }
+
+  loop "iteration" {
+    description = "One week per pass"
+    from        = "acceptance-test"
+    to          = "iteration-planning"
+    until       = "the release plan is done"
+    max         = "12"
+  }
+}

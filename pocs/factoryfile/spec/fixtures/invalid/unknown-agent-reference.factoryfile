@@ -1,0 +1,8 @@
+# expect: line 6, col 14: unknown agent "qa" in stage "a"
+version = "1"
+factory "x" {
+  agent "dev" { content = "code" }
+  stage "a" {
+    agents = ["dev", "qa"]
+  }
+}

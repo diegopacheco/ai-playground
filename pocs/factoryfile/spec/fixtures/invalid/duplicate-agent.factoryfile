@@ -1,0 +1,6 @@
+# expect: line 5, col 3: duplicate agent "dev" in factory "x"
+version = "1"
+factory "x" {
+  agent "dev" { content = "a" }
+  agent "dev" { content = "b" }
+}

@@ -1,0 +1,2 @@
+# expect: line 2, col 12: expected string, found identifier
+version = [a]

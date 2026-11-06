@@ -1,0 +1,9 @@
+# expect: line 5, col 5: unknown block "file" in agent
+version = "1"
+factory "x" {
+  agent "dev" {
+    file "a.md" {
+    }
+    content = "code"
+  }
+}

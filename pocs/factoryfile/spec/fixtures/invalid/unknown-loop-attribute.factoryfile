@@ -1,0 +1,10 @@
+# expect: line 8, col 5: unknown attribute "while" in loop
+version = "1"
+factory "x" {
+  stage "a" { agents = [] }
+  loop "l" {
+    from  = "a"
+    to    = "a"
+    while = "red"
+  }
+}

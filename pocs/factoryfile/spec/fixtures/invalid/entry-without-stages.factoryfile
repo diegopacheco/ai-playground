@@ -1,0 +1,5 @@
+# expect: line 4, col 11: unknown stage "a" in factory "x"
+version = "1"
+factory "x" {
+  entry = "a"
+}

@@ -1,0 +1,10 @@
+# expect: line 7, col 5: unknown attribute "owner" in stage
+version = "1"
+factory "x" {
+  entry = "nowhere"
+  stage "a" { agents = [] }
+  stage "b" {
+    owner  = "me"
+    agents = []
+  }
+}

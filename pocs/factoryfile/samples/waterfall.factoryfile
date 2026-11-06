@@ -1,0 +1,69 @@
+version = "1"
+
+factory "waterfall" {
+  description = "Waterfall: each phase ends before the next one starts"
+  entry       = "requirements"
+
+  agent "analyst" {
+    role    = "requirements analyst"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Write"]
+    content = "You write a complete, signed-off requirements specification."
+  }
+
+  agent "designer" {
+    role    = "system designer"
+    model   = "claude-opus-5-5"
+    tools   = ["Read", "Write"]
+    content = "You turn the requirements into a full design before any code is written."
+  }
+
+  agent "programmer" {
+    role    = "programmer"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read", "Edit", "Bash"]
+    content = "You implement the design exactly as written."
+  }
+
+  agent "qa" {
+    role    = "qa engineer"
+    model   = "claude-sonnet-5-5"
+    tools   = ["Read", "Bash"]
+    content = "You verify the whole system against the requirements specification."
+  }
+
+  agent "operator" {
+    role    = "operations"
+    model   = "claude-haiku-5-5"
+    tools   = ["Bash"]
+    content = "You deploy and maintain the system."
+  }
+
+  stage "requirements" {
+    agents    = ["analyst"]
+    next      = ["design"]
+    artifacts = ["srs.md"]
+  }
+
+  stage "design" {
+    agents    = ["designer"]
+    next      = ["implementation"]
+    artifacts = ["design.md"]
+  }
+
+  stage "implementation" {
+    agents    = ["programmer"]
+    next      = ["verification"]
+    artifacts = ["src/"]
+  }
+
+  stage "verification" {
+    agents    = ["qa"]
+    next      = ["maintenance"]
+    artifacts = ["test-report.md"]
+  }
+
+  stage "maintenance" {
+    agents = ["operator"]
+  }
+}

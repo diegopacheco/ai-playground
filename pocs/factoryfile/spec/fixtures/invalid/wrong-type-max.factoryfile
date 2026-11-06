@@ -1,0 +1,10 @@
+# expect: line 8, col 5: attribute "max" must be a string
+version = "1"
+factory "x" {
+  stage "a" { agents = [] }
+  loop "l" {
+    from = "a"
+    to   = "a"
+    max  = ["3"]
+  }
+}

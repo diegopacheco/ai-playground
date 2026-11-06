@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>scrum · Factoryfile</title>
+<style>
+:root{--bg:#f7fbfb;--surface:#fff;--ink:#1f2a3a;--body:#5d6a7c;--line:#e2ebee;--a:#0d9488;--b:#4f6bff;--loop:#8b5cf6;--warn:#dc2626}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.5}
+code,pre{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12px}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px 24px;background:rgba(247,251,251,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top h1{font-size:16px;margin:0;letter-spacing:-.01em}
+.top h1 span{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--line);background:var(--surface);color:var(--body);border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer}
+.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.factory{padding:24px}
+.factory header h2{margin:0;font-size:28px;letter-spacing:-.02em}
+.lede{margin:4px 0 0;color:var(--body);max-width:760px}
+.stats{margin:6px 0 0;color:var(--body);font-size:13px}
+.stage-area{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:20px;margin-top:20px}
+.canvas{align-self:start;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:auto;box-shadow:0 10px 30px rgba(15,42,51,.06)}
+.graph{display:block;margin:0 auto}
+.edge{fill:none;stroke:#94a3b8;stroke-width:1.6}
+.loop path{fill:none;stroke:var(--loop);stroke-width:1.6;stroke-dasharray:5 4}
+.loop,.back{cursor:pointer}
+.loop circle,.back circle{fill:#fff;stroke:var(--loop);stroke-width:1.6}
+.loop text,.back text{fill:var(--loop);font-size:12px;font-weight:700}
+.back path{fill:none;stroke:var(--warn);stroke-width:1.6;stroke-dasharray:6 5}
+.back circle,.loop.open circle{stroke:var(--warn)}
+.back text,.loop.open text{fill:var(--warn)}
+.loop.open path{stroke:var(--warn)}
+.loop:hover path{stroke-width:3}
+.legend{list-style:none;margin:0;padding:14px 18px;border-top:1px solid var(--line);display:grid;gap:8px;font-size:13px;color:var(--body)}
+.legend li{cursor:pointer}
+.legend li:hover b{color:var(--b)}
+.legend i{display:inline-grid;place-items:center;width:20px;height:20px;margin-right:8px;border-radius:50%;border:1.6px solid var(--loop);color:var(--loop);font-style:normal;font-weight:700;font-size:11px}
+.legend b{color:var(--ink)}
+.node{cursor:pointer;outline:none}
+.node rect{fill:#fff;stroke:var(--line);stroke-width:1.5;transition:stroke .2s}
+.node.entry rect{stroke:var(--a);stroke-width:2.5}
+.node:hover rect,.node:focus rect,.node.sel rect{stroke:var(--b);stroke-width:2.5}
+.node .name{font-weight:700;font-size:14px;fill:var(--ink)}
+.node .roles{font-size:12px;fill:var(--a)}
+.node .meta{font-size:11px;fill:var(--body)}
+aside{position:sticky;top:76px;align-self:start;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;max-height:calc(100vh - 96px);overflow:auto}
+.hint{color:var(--body);font-size:14px}
+.detail h3{margin:0 0 8px;font-size:20px}
+.detail h3 small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--a)}
+.detail p{color:var(--body);margin:0 0 10px}
+.row{display:flex;gap:10px;margin:6px 0;font-size:13px}
+.row>span{width:72px;flex:none;color:var(--body)}
+.row code{background:#eef6f6;border-radius:6px;padding:1px 6px}
+.none{color:#a0aab8}
+.warn{color:var(--warn);font-weight:600}
+pre{white-space:pre-wrap;background:#0f2a33;color:#d7f5f0;border-radius:10px;padding:10px 12px;margin:8px 0}
+.agent{border-top:1px solid var(--line);padding:12px 0 4px;margin-top:12px}
+.agent b{display:block}
+.agent>span{font-size:12px;color:var(--body)}
+@media (max-width:900px){.stage-area{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top"><h1><span>Factoryfile</span> · scrum</h1><nav class="tabs"><button data-tab="f0" class="on">scrum</button></nav></div>
+<section class="factory" id="f0"><header><h2>scrum</h2><p class="lede">Scrum: a product owner, a scrum master and a team working in sprints</p><p class="stats">entry <code>backlog-refinement</code> · 6 stages · 4 agents · 2 loops</p></header><div class="stage-area"><div class="canvas"><svg class="graph" viewBox="0 0 410 880" width="410" height="880" role="img" aria-label="scrum factory graph"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs><path class="edge" d="M143 112 C143 144 143 144 143 176" marker-end="url(#arrow)"/><path class="edge" d="M143 260 C143 292 143 292 143 324" marker-end="url(#arrow)"/><path class="edge" d="M143 408 C143 440 143 440 143 472" marker-end="url(#arrow)"/><path class="edge" d="M143 556 C143 588 143 588 143 620" marker-end="url(#arrow)"/><path class="edge" d="M143 704 C143 736 143 736 143 768" marker-end="url(#arrow)"/><g class="loop" data-target="f0-loop-0"><title>day · max 10</title><path d="M258 528 H302 Q314 528 314 516 V364 Q314 352 302 352 H258" marker-end="url(#arrow)"/><circle cx="314" cy="440" r="11"/><text x="314" y="444" text-anchor="middle">1</text></g><g class="loop" data-target="f0-loop-1"><title>sprint · max 26</title><path d="M258 824 H336 Q348 824 348 812 V68 Q348 56 336 56 H258" marker-end="url(#arrow)"/><circle cx="348" cy="440" r="11"/><text x="348" y="444" text-anchor="middle">2</text></g><g class="node entry" data-target="f0-stage-0" tabindex="0"><rect x="28" y="28" width="230" height="84" rx="14"/><text class="name" x="44" y="56">▶ backlog-refinement</text><text class="roles" x="44" y="78">product owner, developer</text><text class="meta" x="44" y="98">2 agents · 1 artifact</text></g><g class="node" data-target="f0-stage-1" tabindex="0"><rect x="28" y="176" width="230" height="84" rx="14"/><text class="name" x="44" y="204">sprint-planning</text><text class="roles" x="44" y="226">product owner, scrum master, …</text><text class="meta" x="44" y="246">3 agents · 2 artifacts</text></g><g class="node" data-target="f0-stage-2" tabindex="0"><rect x="28" y="324" width="230" height="84" rx="14"/><text class="name" x="44" y="352">development</text><text class="roles" x="44" y="374">developer, developer, quality</text><text class="meta" x="44" y="394">2 agents</text></g><g class="node" data-target="f0-stage-3" tabindex="0"><rect x="28" y="472" width="230" height="84" rx="14"/><text class="name" x="44" y="500">daily-scrum</text><text class="roles" x="44" y="522">scrum master, developer</text><text class="meta" x="44" y="542">2 agents</text></g><g class="node" data-target="f0-stage-4" tabindex="0"><rect x="28" y="620" width="230" height="84" rx="14"/><text class="name" x="44" y="648">sprint-review</text><text class="roles" x="44" y="670">product owner, developer, dev…</text><text class="meta" x="44" y="690">3 agents · 1 artifact</text></g><g class="node" data-target="f0-stage-5" tabindex="0"><rect x="28" y="768" width="230" height="84" rx="14"/><text class="name" x="44" y="796">retrospective</text><text class="roles" x="44" y="818">scrum master, developer, deve…</text><text class="meta" x="44" y="838">3 agents · 1 artifact</text></g></svg><ol class="legend"><li data-target="f0-loop-0" tabindex="0"><i>1</i><b>day</b> <code>daily-scrum → development</code> · until the sprint time-box ends · max 10</li><li data-target="f0-loop-1" tabindex="0"><i>2</i><b>sprint</b> <code>retrospective → backlog-refinement</code> · until the product goal is met · max 26</li></ol></div><aside><p class="hint">Click a stage or a loop to see its agents, prompts and exit condition.</p><article class="detail" id="f0-stage-0" hidden><h3><small>stage</small>backlog-refinement</h3><div class="row"><span>next</span><div><code>sprint-planning</code></div></div><div class="row"><span>artifacts</span><div><code>product-backlog.md</code></div></div><div class="row"><span>loops</span><div><code>sprint</code></div></div><div class="agent"><b>product-owner</b><span>product owner · <code>claude-opus-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Write</code></div></div><pre>You own the product backlog. Every item has a value, a size
+and acceptance criteria. You accept or reject the increment.</pre></div><div class="agent"><b>developer</b><span>developer · <code>claude-sonnet-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Edit</code> <code>Bash</code> <code>Grep</code></div></div><pre>You turn sprint backlog items into a done, tested increment.</pre></div></article><article class="detail" id="f0-stage-1" hidden><h3><small>stage</small>sprint-planning</h3><div class="row"><span>next</span><div><code>development</code></div></div><div class="row"><span>artifacts</span><div><code>sprint-goal.md</code> <code>sprint-backlog.md</code></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><div class="agent"><b>product-owner</b><span>product owner · <code>claude-opus-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Write</code></div></div><pre>You own the product backlog. Every item has a value, a size
+and acceptance criteria. You accept or reject the increment.</pre></div><div class="agent"><b>scrum-master</b><span>scrum master · <code>claude-sonnet-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code></div></div><pre>You run the events, keep them time-boxed and remove impediments.</pre></div><div class="agent"><b>developer</b><span>developer · <code>claude-sonnet-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Edit</code> <code>Bash</code> <code>Grep</code></div></div><pre>You turn sprint backlog items into a done, tested increment.</pre></div></article><article class="detail" id="f0-stage-2" hidden><h3><small>stage</small>development</h3><div class="row"><span>next</span><div><code>daily-scrum</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><code>day</code></div></div><div class="agent"><b>developer</b><span>developer · <code>claude-sonnet-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Edit</code> <code>Bash</code> <code>Grep</code></div></div><pre>You turn sprint backlog items into a done, tested increment.</pre></div><div class="agent"><b>tester</b><span>developer, quality · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Bash</code></div></div><pre>You check every item against the definition of done.</pre></div></article><article class="detail" id="f0-stage-3" hidden><h3><small>stage</small>daily-scrum</h3><div class="row"><span>next</span><div><code>sprint-review</code></div></div><div class="row"><span>artifacts</span><div><span class="none">none</span></div></div><div class="row"><span>loops</span><div><code>day</code></div></div><pre>Fifteen minutes: progress toward the sprint goal and the impediments.</pre><div class="agent"><b>scrum-master</b><span>scrum master · <code>claude-sonnet-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code></div></div><pre>You run the events, keep them time-boxed and remove impediments.</pre></div><div class="agent"><b>developer</b><span>developer · <code>claude-sonnet-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Edit</code> <code>Bash</code> <code>Grep</code></div></div><pre>You turn sprint backlog items into a done, tested increment.</pre></div></article><article class="detail" id="f0-stage-4" hidden><h3><small>stage</small>sprint-review</h3><div class="row"><span>next</span><div><code>retrospective</code></div></div><div class="row"><span>artifacts</span><div><code>increment</code></div></div><div class="row"><span>loops</span><div><span class="none">none</span></div></div><div class="agent"><b>product-owner</b><span>product owner · <code>claude-opus-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Write</code></div></div><pre>You own the product backlog. Every item has a value, a size
+and acceptance criteria. You accept or reject the increment.</pre></div><div class="agent"><b>developer</b><span>developer · <code>claude-sonnet-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Edit</code> <code>Bash</code> <code>Grep</code></div></div><pre>You turn sprint backlog items into a done, tested increment.</pre></div><div class="agent"><b>tester</b><span>developer, quality · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Bash</code></div></div><pre>You check every item against the definition of done.</pre></div></article><article class="detail" id="f0-stage-5" hidden><h3><small>stage</small>retrospective</h3><div class="row"><span>next</span><div><span class="none">none</span></div></div><div class="row"><span>artifacts</span><div><code>improvements.md</code></div></div><div class="row"><span>loops</span><div><code>sprint</code></div></div><div class="agent"><b>scrum-master</b><span>scrum master · <code>claude-sonnet-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code></div></div><pre>You run the events, keep them time-boxed and remove impediments.</pre></div><div class="agent"><b>developer</b><span>developer · <code>claude-sonnet-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Edit</code> <code>Bash</code> <code>Grep</code></div></div><pre>You turn sprint backlog items into a done, tested increment.</pre></div><div class="agent"><b>tester</b><span>developer, quality · <code>claude-haiku-5-5</code></span><div class="row"><span>tools</span><div><code>Read</code> <code>Bash</code></div></div><pre>You check every item against the definition of done.</pre></div></article><article class="detail" id="f0-loop-0" hidden><h3><small>loop</small>day</h3><div class="row"><span>from</span><div><code>daily-scrum</code></div></div><div class="row"><span>back to</span><div><code>development</code></div></div><div class="row"><span>until</span><div>the sprint time-box ends</div></div><div class="row"><span>max</span><div>10</div></div></article><article class="detail" id="f0-loop-1" hidden><h3><small>loop</small>sprint</h3><div class="row"><span>from</span><div><code>retrospective</code></div></div><div class="row"><span>back to</span><div><code>backlog-refinement</code></div></div><div class="row"><span>until</span><div>the product goal is met</div></div><div class="row"><span>max</span><div>26</div></div></article></aside></div></section>
+<script>
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".factory").forEach(s=>s.hidden=s.id!==b.dataset.tab);
+}));
+document.querySelectorAll("[data-target]").forEach(el=>{
+  const show=()=>{
+    const section=el.closest(".factory");
+    section.querySelectorAll(".detail").forEach(d=>d.hidden=d.id!==el.dataset.target);
+    section.querySelector(".hint").hidden=true;
+    section.querySelectorAll(".node").forEach(n=>n.classList.toggle("sel",n===el));
+  };
+  el.addEventListener("click",show);
+  el.addEventListener("keydown",e=>{if(e.key==="Enter")show();});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+version = "1"
+
+factory "xgh" {
+  description = "eXtreme Go Horse: think, and it is not XGH anymore"
+  entry       = "receive-task"
+
+  agent "go-horse" {
+    role    = "go horse developer"
+    model   = "claude-haiku-5-5"
+    tools   = ["Edit", "Bash"]
+    content = <<PROMPT
+      There are three ways to solve a problem: the right one, the wrong one
+      and the XGH one, which is like the wrong one but faster.
+      Do not think. Do not read the code around it. Copy what compiles.
+      PROMPT
+  }
+
+  agent "stack-overflow" {
+    role    = "senior consultant"
+    model   = "claude-haiku-5-5"
+    tools   = ["WebSearch"]
+    content = "You paste the first answer that has a green check mark, without reading the question."
+  }
+
+  agent "tester" {
+    role    = "quality assurance"
+    tools   = ["Bash"]
+    content = "In XGH nobody calls you. If it compiled, it works."
+  }
+
+  stage "receive-task" {
+    agents  = ["go-horse"]
+    next    = ["google-it"]
+    content = "The deadline is sacred. Scope is whatever fits before Friday."
+  }
+
+  stage "google-it" {
+    agents = ["stack-overflow", "go-horse"]
+    next   = ["hack"]
+  }
+
+  stage "hack" {
+    agents    = ["go-horse"]
+    next      = ["commit-to-main"]
+    artifacts = ["it works on my machine"]
+  }
+
+  stage "commit-to-main" {
+    agents  = ["go-horse"]
+    next    = ["friday-deploy"]
+    content = "Commit before you update. If it breaks, it was the other one's fault."
+  }
+
+  stage "friday-deploy" {
+    agents = ["go-horse"]
+    next   = ["firefight"]
+  }
+
+  stage "firefight" {
+    agents    = ["go-horse", "stack-overflow"]
+    next      = ["hack"]
+    artifacts = ["more bugs"]
+    content   = "The more XGH you do, the more XGH you need."
+  }
+
+  stage "write-tests" {
+    agents = ["go-horse"]
+  }
+
+  loop "go-horse-forever" {
+    from  = "firefight"
+    to    = "google-it"
+    until = "the client stops calling"
+  }
+}
