@@ -2,6 +2,8 @@
 
 # Factoryfile
 
+Website: [Factoryfile Landing Page](https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/)
+
 `Factoryfile` does for an agent software factory what `Dockerfile` does for an image or `main.tf` does for infrastructure. One file declares
 how work moves through a team of coding agents. A factory is a graph:
 - **stages** are the nodes;

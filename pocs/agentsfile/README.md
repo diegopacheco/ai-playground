@@ -2,6 +2,8 @@
 
 # Agentsfile
 
+Website: [Agentsfile Landing Page](https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/)
+
 `Agentsfile` is to agents what a `Dockerfile` is to images, or `main.tf` is to infrastructure. It
 is one file that declares the skills, agents, custom commands, MCP servers and plugins of a project,
 grouped into named profiles such as `dev` or `ci`. Each item can be written in full inside the file
