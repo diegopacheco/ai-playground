@@ -1,5 +1,6 @@
 pub mod banner;
 pub mod catalog;
+pub mod detail;
 pub mod cli;
 pub mod error;
 pub mod fetch;
@@ -10,4 +11,5 @@ pub mod picker;
 pub mod report;
 pub mod spinner;
 pub mod style;
+pub mod text;
 pub mod tui;

@@ -19,8 +19,9 @@ and plugins. You check the ones you want with the keyboard or the mouse and they
 1. Plays a rainbow gradient ASCII banner, then fetches the repo with `git clone --depth 1` into `~/.cache/ram`. Later runs fetch and hard reset, so you always get the newest commit.
 2. Scans the checkout by convention: every folder with `SKILL.md` is a skill, every `*.md` in a `commands/` folder or a `command.md` next to a skill is a command, every `*.md` in an `agents/` folder is an agent, and every plugin listed in `.claude-plugin/marketplace.json` is a plugin.
 3. Asks for the target: Claude, Codex or Both.
-4. Opens a full-screen picker. Type to search, move with the arrows, toggle with space or a mouse click, select everything visible with `ctrl+a`, install with enter.
-5. Installs every chosen item for every target at the same time on a tokio `JoinSet`, runs `npm install` for skills that ship a `package.json`, and prints one line per result.
+4. Opens a full-screen picker. Type to search, `tab` to filter by kind, move with the arrows, toggle with space or a click on the checkbox, select everything visible with `ctrl+a`, install with enter.
+5. Press `→` or click a name to open its details: where it installs for each target, its files, and its full markdown, scrollable.
+6. Installs every chosen item for every target at the same time on a tokio `JoinSet`, runs `npm install` for skills that ship a `package.json`, and prints one line per result.
 
 ## Architecture
 
@@ -31,7 +32,9 @@ and plugins. You check the ones you want with the keyboard or the mouse and they
 * **Always fresh**: every run fetches the latest commit, so new skills show up with no release step.
 * **Claude, Codex or both**: one choice decides where everything goes.
 * **Search as you type**: filters by name, kind, repo path and description, and name matches rank first.
-* **Checkboxes with mouse support**: click a row to toggle it. Selections survive changing the search.
+* **Kind filter**: `tab` cycles all, skills, commands, agents and plugins, combined with the search.
+* **Checkboxes with mouse support**: click the checkbox to toggle it. Selections survive changing the search or the filter.
+* **Details view**: read the whole `SKILL.md` or command before installing, see every file and the exact destination, and toggle it from there.
 * **Parallel installs**: copies and `npm install` runs happen concurrently, results print in the order you picked.
 * **Clean reinstall**: a skill folder is replaced whole, so files removed upstream do not linger.
 * **Non-interactive mode**: `ram install <name>... --target claude|codex|both` for scripts and CI.
@@ -85,17 +88,29 @@ ram install <name|kind:name>... --target claude|codex|both
 
 ![target](printscreens/01-target.png)
 
-**2. Picker**: the full catalog with a colored kind, the name and a one-line description. The header shows the target and how many items are visible and selected.
+**2. Picker**: the full catalog with the kind filter chips, the search box, a colored kind, the name and a one-line description.
 
 ![picker](printscreens/02-picker.png)
 
-**3. Search and select**: typing `agent` narrows 50 items to 16. Three are checked, one of them with a mouse click.
+**3. Kind filter**: `tab` switches the filter to commands, so only the 5 commands are listed.
 
-![search](printscreens/03-search-select.png)
+![filter](printscreens/03-filter-commands.png)
 
-**4. Installed**: after enter, every pick installs in parallel and gets a line with its destination.
+**4. Search and select**: typing `agent` narrows the list, one item is checked with space and one with a click on its checkbox.
 
-![installed](printscreens/04-installed.png)
+![search](printscreens/04-search-select.png)
+
+**5. Skill details**: clicking a name opens the skill: its repo path, where it lands in `~/.claude`, its files, and the full `SKILL.md` with the frontmatter and headings highlighted. `pgup`/`pgdn` scroll, the footer shows the position.
+
+![skill details](printscreens/05-details-skill.png)
+
+**6. Command details**: `→` on a command shows the prompt exactly as it will run and its destination in `~/.claude/commands`. Space checks it from here.
+
+![command details](printscreens/06-details-command.png)
+
+**7. Installed**: enter installs every pick in parallel and prints a line with each destination.
+
+![installed](printscreens/07-installed.png)
 
 ## Scripts
 

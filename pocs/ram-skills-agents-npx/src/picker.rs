@@ -1,5 +1,6 @@
 pub struct Entry {
     pub name: String,
+    pub tag: String,
     pub haystack: String,
 }
 
@@ -7,6 +8,7 @@ pub struct Picker {
     entries: Vec<Entry>,
     selected: Vec<bool>,
     query: String,
+    tag: Option<String>,
     visible: Vec<usize>,
     cursor: usize,
 }
@@ -14,13 +16,22 @@ pub struct Picker {
 impl Picker {
     pub fn new(entries: Vec<Entry>) -> Self {
         let selected = vec![false; entries.len()];
-        let mut picker = Picker { entries, selected, query: String::new(), visible: Vec::new(), cursor: 0 };
+        let mut picker = Picker { entries, selected, query: String::new(), tag: None, visible: Vec::new(), cursor: 0 };
         picker.refilter();
         picker
     }
 
     pub fn query(&self) -> &str {
         &self.query
+    }
+
+    pub fn tag(&self) -> Option<&str> {
+        self.tag.as_deref()
+    }
+
+    pub fn set_tag(&mut self, tag: Option<String>) {
+        self.tag = tag;
+        self.refilter();
     }
 
     pub fn visible(&self) -> &[usize] {
@@ -89,6 +100,7 @@ impl Picker {
         let lowered = self.query.to_lowercase();
         let terms: Vec<&str> = lowered.split_whitespace().collect();
         let mut visible: Vec<usize> = (0..self.entries.len())
+            .filter(|&i| self.tag.as_ref().is_none_or(|tag| &self.entries[i].tag == tag))
             .filter(|&i| terms.iter().all(|term| self.entries[i].haystack.contains(term)))
             .collect();
         visible.sort_by_key(|&i| self.rank(i, &terms));

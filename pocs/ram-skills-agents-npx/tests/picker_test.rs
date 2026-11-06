@@ -1,7 +1,8 @@
 use ram::picker::{Entry, Picker};
 
 fn entry(name: &str, haystack: &str) -> Entry {
-    Entry { name: name.into(), haystack: haystack.into() }
+    let tag = haystack.split(' ').next().unwrap_or_default();
+    Entry { name: name.into(), tag: tag.into(), haystack: haystack.into() }
 }
 
 fn picker() -> Picker {
@@ -78,7 +79,27 @@ fn no_match_means_toggle_selects_nothing() {
 
 #[test]
 fn emoji_descriptions_are_cut_by_terminal_columns_so_rows_never_wrap() {
-    let cut = ram::tui::truncate("🏛️ Architect night agent reviews everything", 12);
+    let cut = ram::text::truncate("🏛️ Architect night agent reviews everything", 12);
     assert_eq!(cut, "🏛 Architec…");
-    assert_eq!(ram::tui::truncate("short", 12), "short");
+    assert_eq!(ram::text::truncate("short", 12), "short");
+}
+
+#[test]
+fn kind_filter_and_search_combine_so_users_can_narrow_to_commands_only() {
+    let mut p = picker();
+    p.set_tag(Some("command".into()));
+    assert_eq!(p.visible(), &[2]);
+    p.type_char('b');
+    assert!(p.visible().is_empty());
+    p.set_tag(None);
+    assert_eq!(p.visible(), &[0]);
+}
+
+#[test]
+fn kind_filter_keeps_selections_made_under_another_filter() {
+    let mut p = picker();
+    p.toggle();
+    p.set_tag(Some("command".into()));
+    p.toggle();
+    assert_eq!(p.chosen(), vec![0, 2]);
 }

@@ -22,6 +22,7 @@ impl Item {
     pub fn entry(&self) -> Entry {
         Entry {
             name: self.name.clone(),
+            tag: self.kind.label().to_string(),
             haystack: format!("{} {} {} {}", self.kind.label(), self.name, self.path, self.description).to_lowercase(),
         }
     }

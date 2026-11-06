@@ -42,7 +42,7 @@ async fn run(args: &[String]) -> Result<ExitCode> {
             return Ok(ExitCode::SUCCESS);
         }
         Action::Install { selectors, targets } => (select(&items, &selectors)?, targets),
-        _ => match pick(&items, &label)? {
+        _ => match pick(&items, &label, &home)? {
             Some(pair) => pair,
             None => {
                 println!("   {}", paint("nothing installed, bye", Color::DarkGrey));
@@ -57,12 +57,12 @@ async fn run(args: &[String]) -> Result<ExitCode> {
     Ok(if failed == 0 { ExitCode::SUCCESS } else { ExitCode::FAILURE })
 }
 
-fn pick(items: &[Item], label: &str) -> Result<Option<(Vec<Item>, Vec<Target>)>> {
+fn pick(items: &[Item], label: &str, home: &std::path::Path) -> Result<Option<(Vec<Item>, Vec<Target>)>> {
     let Some(targets) = tui::choose_targets(label, items.len())? else {
         return Ok(None);
     };
     let available: Vec<Item> = items.iter().filter(|i| targets.iter().any(|t| t.supports(i.kind))).cloned().collect();
-    let Some(indexes) = tui::choose_items(&available, &targets)? else {
+    let Some(indexes) = tui::choose_items(&available, &targets, home)? else {
         return Ok(None);
     };
     Ok(Some((indexes.into_iter().map(|i| available[i].clone()).collect(), targets)))
