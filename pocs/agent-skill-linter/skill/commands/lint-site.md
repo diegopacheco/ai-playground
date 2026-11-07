@@ -1,6 +1,6 @@
 ---
 description: Render the latest lint report as a modern web report in Podman
-argument-hint: [path]
+argument-hint: "[path]"
 ---
 
 Render the lint report for the codebase at `$ARGUMENTS` (default: current working
