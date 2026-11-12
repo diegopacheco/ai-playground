@@ -307,7 +307,12 @@ export function paintWindStreak(): HTMLCanvasElement {
     ctx.moveTo(10, 40);
     ctx.bezierCurveTo(80, 10, 150, 60, 200, 28);
     ctx.quadraticCurveTo(240, 10, 225, 40);
-    ink(ctx, 8, "rgba(255,255,255,0.95)");
+    ink(ctx, 14, "rgba(60,110,170,0.85)");
+    ctx.beginPath();
+    ctx.moveTo(10, 40);
+    ctx.bezierCurveTo(80, 10, 150, 60, 200, 28);
+    ctx.quadraticCurveTo(240, 10, 225, 40);
+    ink(ctx, 7, "#ffffff");
   });
 }
 

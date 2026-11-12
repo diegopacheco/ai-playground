@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="5"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3b2416"/>
+    </marker>
+    <style>
+      text { font-family: Caveat, 'Comic Sans MS', cursive; fill: #2b1a10; }
+      .title { font-size: 44px; font-weight: 700; }
+      .h { font-size: 30px; font-weight: 700; }
+      .s { font-size: 22px; }
+      .box { stroke: #3b2416; stroke-width: 3; }
+      .line { stroke: #3b2416; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1200" height="1200" fill="#fffdf7"/>
+  <text x="600" y="70" text-anchor="middle" class="title">Pop-up Book: how a page comes alive</text>
+  <g filter="url(#wobble)">
+    <rect class="box" x="70" y="130" width="460" height="130" rx="18" fill="#d8ecff"/>
+    <rect class="box" x="670" y="130" width="460" height="130" rx="18" fill="#ffe3ec"/>
+    <rect class="box" x="370" y="350" width="460" height="150" rx="18" fill="#fff1c9"/>
+    <rect class="box" x="70" y="600" width="460" height="150" rx="18" fill="#e3f6dc"/>
+    <rect class="box" x="670" y="600" width="460" height="150" rx="18" fill="#efe3ff"/>
+    <rect class="box" x="70" y="850" width="460" height="150" rx="18" fill="#ffe8d6"/>
+    <rect class="box" x="670" y="850" width="460" height="150" rx="18" fill="#dff3f3"/>
+    <path class="line" d="M300,262 Q330,310 420,348"/>
+    <path class="line" d="M900,262 Q870,310 780,348"/>
+    <path class="line" d="M480,502 Q400,550 330,598"/>
+    <path class="line" d="M720,502 Q800,550 870,598"/>
+    <path class="line" d="M900,848 Q880,800 900,752"/>
+    <path class="line" d="M300,848 Q450,800 820,752"/>
+    <path class="line" d="M668,925 Q600,905 532,925"/>
+  </g>
+  <text x="300" y="185" text-anchor="middle" class="h">TanStack Router</text>
+  <text x="300" y="222" text-anchor="middle" class="s">/page/$page picks the spread</text>
+  <text x="900" y="185" text-anchor="middle" class="h">React overlay</text>
+  <text x="900" y="222" text-anchor="middle" class="s">caption, arrows, dots, keyboard</text>
+  <text x="600" y="400" text-anchor="middle" class="h">Stage (three.js)</text>
+  <text x="600" y="437" text-anchor="middle" class="s">renderer, shadows, camera parallax</text>
+  <text x="600" y="470" text-anchor="middle" class="s">turnFrame: fold, turn, unfold</text>
+  <text x="300" y="650" text-anchor="middle" class="h">Book</text>
+  <text x="300" y="687" text-anchor="middle" class="s">leather covers, page halves</text>
+  <text x="300" y="720" text-anchor="middle" class="s">curling Leaf mesh for the turn</text>
+  <text x="900" y="650" text-anchor="middle" class="h">PopupScene x 12</text>
+  <text x="900" y="687" text-anchor="middle" class="s">2D cutouts fold on hinges</text>
+  <text x="900" y="720" text-anchor="middle" class="s">3D houses grow, particles play</text>
+  <text x="300" y="900" text-anchor="middle" class="h">Canvas 2D painters</text>
+  <text x="300" y="937" text-anchor="middle" class="s">pigs, wolf, trees, sky panels</text>
+  <text x="300" y="970" text-anchor="middle" class="s">and the painted page backdrops</text>
+  <text x="900" y="900" text-anchor="middle" class="h">Web textures</text>
+  <text x="900" y="937" text-anchor="middle" class="s">wood table, bricks, grass,</text>
+  <text x="900" y="970" text-anchor="middle" class="s">sparkle sprites (three.js repo)</text>
+  <text x="600" y="1090" text-anchor="middle" class="s">Each turn: old pop-ups fold flat, the leaf curls over the spine, new pop-ups spring up in layers</text>
+</svg>

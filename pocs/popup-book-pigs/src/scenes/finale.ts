@@ -15,7 +15,7 @@ export const roof: SceneBuilder = (ctx) => {
   const house = brickHouse(ctx.assets.bricks);
   house.group.scale.setScalar(1.3);
   scene.solid(house.group, 0.2, -0.6, 0.15);
-  const wolf = scene.cutout(paintWolf("sly"), 1.15, 0.2, -0.6, { delay: 0.5 });
+  const wolf = scene.cutout(paintWolf("sly"), 1.05, 0.2, -0.45, { delay: 0.5 });
   const plotter = scene.cutout(pig("bricks", "smile"), 1.1, 2.6, 0.9);
   scene.cutout(paintBush(12), 0.55, -2.2, 1.5);
   sparkles(scene, ctx.assets, [-3.8, 3.8, 1.5, 3.4], ["#fff7c2", "#ffffff"]);
@@ -26,7 +26,7 @@ export const roof: SceneBuilder = (ctx) => {
     const drop = smooth(c, 4.2, 5.0);
     const back = smooth(c, 6.4, 7);
     wolf.position.x = -1.1 + walk * (chimneyX + 1.1) - back * walk * (chimneyX + 1.1);
-    wolf.position.y = 2.72 + Math.abs(Math.sin(t * 6)) * 0.08 * (1 - drop) + (c > 3.6 && c < 4.2 ? Math.sin(((c - 3.6) / 0.6) * Math.PI) * 0.45 : 0) - drop * 1.6;
+    wolf.position.y = 2.55 + Math.abs(Math.sin(t * 6)) * 0.08 * (1 - drop) + (c > 3.6 && c < 4.2 ? Math.sin(((c - 3.6) / 0.6) * Math.PI) * 0.25 : 0) - drop * 1.6;
     wolf.rotation.z = Math.sin(t * 6) * 0.06;
     wolf.visible = drop < 0.95 || back > 0.5;
     plotter.rotation.z = Math.sin(t * 2.5) * 0.08;
@@ -121,7 +121,7 @@ export const theEnd: SceneBuilder = (ctx) => {
   sky(scene, "day");
   trees(scene, [[-3.3, -1.5, 2.3], [3.4, -1.5, 2.3]]);
   const banner = scene.cutout(paintBanner(["The End"], "#e8505b"), 1.05, 0, -1.9, { delay: 0.05 });
-  banner.position.y = 2.15;
+  banner.position.y = 1.85;
   const house = brickHouse(ctx.assets.bricks);
   scene.solid(house.group, 0, -0.9, 0.2);
   const dancers = (["straw", "sticks", "bricks"] as const).map((name, i) => scene.cutout(pig(name, "joy", true), 1.15, -1.5 + i * 1.5, 1.0));

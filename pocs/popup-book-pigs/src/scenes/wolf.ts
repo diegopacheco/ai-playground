@@ -58,7 +58,7 @@ interface BlowSetup {
 }
 
 function blowLoop(scene: PopupScene, wolf: Cutout, faces: Record<string, Texture>, setup: BlowSetup): void {
-  const gust = wind(scene, -1.6, 1.45, 0.3, 1);
+  const gust = wind(scene, -1.5, 1.75, 0.3, 1);
   const flying = debris(scene, toTexture(setup.bits), 1.0, 0.4, -0.5, 1);
   const { house, runners, sturdy } = setup;
   const roofHome = house.roof.position.clone();
@@ -102,7 +102,7 @@ function blowScene(ctx: Parameters<SceneBuilder>[0], mood: "day" | "dusk", build
   const house = build();
   scene.solid(house.group, 1.0, -0.5, 0.15);
   const faces = wolfFaces(["sly", "puff", "tired"]);
-  const wolf = scene.cutout(paintWolf("sly"), 2.0, -2.4, 0.3);
+  const wolf = scene.cutout(paintWolf("sly"), 2.4, -2.5, 0.3);
   const runners = runnerNames.map((name, i) => scene.cutout(pig(name, "scared"), 1.0, 1.9 + i * 0.6, 0.7 + i * 0.5));
   scene.cutout(paintBush(4), 0.5, -0.6, 1.8);
   blowLoop(scene, wolf, faces, { house, bits, runners, sturdy });

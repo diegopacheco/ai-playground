@@ -132,7 +132,7 @@ export function wind(scene: PopupScene, x: number, y: number, z: number, dir: 1 
       p.sprite.position.set(x, y + (rand() - 0.5) * 0.7, z + (rand() - 0.5) * 0.8);
       p.velocity.set(dir * (3.2 + rand() * 1.6), (rand() - 0.5) * 0.4, 0);
       p.life = 0.7 + rand() * 0.4;
-      p.size = 0.45 + rand() * 0.3;
+      p.size = 0.75 + rand() * 0.45;
       p.sprite.material.rotation = dir > 0 ? 0 : Math.PI;
     },
   });
@@ -148,7 +148,7 @@ export function debris(scene: PopupScene, texture: Texture, x: number, y: number
       p.sprite.position.set(x + (rand() - 0.5) * 1.2, y + rand() * 1.4, z + (rand() - 0.5) * 0.8);
       p.velocity.set(dir * (2 + rand() * 2.5), 1 + rand() * 1.8, (rand() - 0.2) * 1.2);
       p.life = 1.2 + rand() * 0.8;
-      p.size = 0.16 + rand() * 0.16;
+      p.size = 0.3 + rand() * 0.25;
       p.spin = (rand() - 0.5) * 14;
     },
   });
