@@ -31,8 +31,10 @@ The story runs for 12 spreads, each with a 2 line caption at the bottom.
 * **Real pop-up mechanics** - cutouts fold on hinges with a springy overshoot, like paper that bounces when it stands up.
 * **2D + 3D mix** - flat paper characters stand next to lit, shadowed 3D houses, so the page reads as a pop-up and not a game.
 * **Curling page turn** - the page bends over the spine and shows the next spread on its back.
-* **Animated scenes** - the wolf puffs his cheeks, wind streaks fly, straw and sticks scatter, the brick house only shakes.
+* **Animated scenes** - the wolf puffs his cheeks, wind streaks fly, straw and sticks scatter while the pigs hide inside, then run out when the house falls; the brick house only shakes.
 * **Short captions** - each page has a 2 line caption in a storybook font, so the picture tells most of the story.
+* **Narration** - a toggle in the top right reads each page aloud with the browser's built-in speech (Web Speech API). It is hidden when the browser has no speech support.
+* **Full screen** - a toggle next to narration puts the whole book in full screen (Fullscreen API). Esc also leaves it. It is hidden when the browser cannot go full screen.
 * **Deep links** - `/page/7` opens straight on the huff and puff scene.
 * **Mouse parallax** - the camera drifts with the mouse, so you can look at the scene from slightly different angles.
 
@@ -41,7 +43,7 @@ The story runs for 12 spreads, each with a 2 line caption at the bottom.
 * **TypeScript 7** - typed scene builders, painters and engine.
 * **Bun 1.4.4** - package manager and test runner (the stack names Bun 2.x, which is not released yet; 1.4.4 is the latest stable).
 * **Vite 8** - dev server and production bundle.
-* **React 19.3** - the overlay UI: caption, arrows, page dots.
+* **React 19.3** - the overlay UI: caption, arrows, page dots, narration and full screen toggles.
 * **TanStack Router 1.x** - one route per page, so every spread has a URL.
 * **three.js 0.187** - WebGL rendering, shadows, sprites and geometry. No other 3D library.
 

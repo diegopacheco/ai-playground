@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { PAGES } from "./pages";
 import { clampPage, nextPage, parsePageParam, prevPage } from "./navigation";
+import { narrationText } from "./narration";
 
 describe("story pages", () => {
   test("the book has at least ten pages so the whole tale fits", () => {
@@ -58,5 +59,31 @@ describe("navigation", () => {
     expect(parsePageParam("99", total)).toBe(total);
     expect(parsePageParam("-3", total)).toBe(1);
     expect(clampPage(Number.NaN, total)).toBe(1);
+  });
+});
+
+describe("narration", () => {
+  test("the narrator reads the page title and every caption line, so the voice never drifts from the text on screen", () => {
+    for (const page of PAGES) {
+      const spoken = narrationText(page).toLowerCase();
+      expect(spoken.startsWith(page.title.toLowerCase())).toBe(true);
+      for (const line of page.lines) expect(spoken).toContain(line.toLowerCase());
+    }
+  });
+
+  test("caption lines are read in the order they are printed", () => {
+    for (const page of PAGES) {
+      const spoken = narrationText(page).toLowerCase();
+      const positions = page.lines.map((line) => spoken.indexOf(line.toLowerCase()));
+      expect(positions).toEqual([...positions].sort((a, b) => a - b));
+    }
+  });
+
+  test("the title ends in a full stop so the narrator pauses before the story starts", () => {
+    for (const page of PAGES) expect(narrationText(page).startsWith(`${page.title}. `)).toBe(true);
+  });
+
+  test("shouted words like WHOOSH are not left in capitals, so the voice says them instead of spelling them out", () => {
+    for (const page of PAGES) expect(narrationText(page)).not.toMatch(/\b[A-Z]{2,}\b/);
   });
 });

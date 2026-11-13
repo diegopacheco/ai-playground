@@ -102,6 +102,31 @@ body,
   right: 24px;
 }
 
+.tools {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  display: flex;
+  gap: 10px;
+}
+
+.tool {
+  padding: 8px 16px;
+  border: 2px solid #e3b955;
+  border-radius: 999px;
+  background: rgba(94, 18, 34, 0.75);
+  color: #fff4cf;
+  font: 0.95rem Fredoka, sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s;
+}
+
+.tool:hover,
+.tool[aria-pressed="true"] {
+  background: rgba(142, 34, 52, 0.95);
+}
+
 .caption {
   position: absolute;
   left: 50%;
@@ -168,6 +193,13 @@ body,
   }
   .chapter {
     font-size: 1.5rem;
+  }
+  .tools {
+    top: auto;
+    right: 16px;
+    bottom: 210px;
+    flex-direction: column;
+    align-items: flex-end;
   }
   .turn {
     width: 48px;

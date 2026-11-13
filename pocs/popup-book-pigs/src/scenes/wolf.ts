@@ -3,6 +3,7 @@ import { toTexture } from "../art/canvas";
 import { type WolfMood, paintWolf } from "../art/characters";
 import { paintBubble, paintBush, paintStrawBits } from "../art/props";
 import type { PopupScene } from "../engine/popup";
+import { BLOW_LOOP, collapse, escape, pigShowing } from "./blowTimeline";
 import { type HouseParts, brickHouse, hayBale, stickHouse, strawHouse } from "./houses";
 import { type SceneBuilder, bob, createScene, debris, loop, pig, sky, smooth, trees, wind } from "./kit";
 
@@ -62,9 +63,8 @@ function blowLoop(scene: PopupScene, wolf: Cutout, faces: Record<string, Texture
   const flying = debris(scene, toTexture(setup.bits), 1.0, 0.4, -0.5, 1);
   const { house, runners, sturdy } = setup;
   const roofHome = house.roof.position.clone();
-  const runnerHome = runners.map((r) => r.position.x);
   scene.onUpdate((t) => {
-    const c = loop(t, 7.5);
+    const c = loop(t, BLOW_LOOP);
     const inhale = smooth(c, 0, 1.4);
     const blowing = c > 1.4 && c < 4.2;
     const blowAmount = smooth(c, 1.4, 1.8) * (1 - smooth(c, 3.9, 4.2));
@@ -78,7 +78,7 @@ function blowLoop(scene: PopupScene, wolf: Cutout, faces: Record<string, Texture
       return;
     }
     setFace(wolf, faces, blowing || c > 0.8 ? "puff" : "sly");
-    const fly = smooth(c, 2.2, 3.4) * (1 - smooth(c, 6.8, 7.4));
+    const fly = collapse(c);
     const shake = blowAmount * (1 - fly) * Math.sin(t * 45) * 0.08;
     house.walls.rotation.z = shake - fly * 0.4;
     house.walls.scale.y = 1 - fly * 0.85;
@@ -87,10 +87,12 @@ function blowLoop(scene: PopupScene, wolf: Cutout, faces: Record<string, Texture
     house.roof.scale.setScalar(1 - fly * 0.5);
     flying.emitting = c > 1.8 && c < 3.6;
     runners.forEach((runner, i) => {
-      const run = smooth(c, 2.4 + i * 0.2, 4.6) * (1 - smooth(c, 6.8, 7.4));
-      runner.position.x = runnerHome[i]! + run * 2.6;
+      const run = escape(c, i);
+      const tremble = run > 0 ? 0 : Math.sin(t * 40 + i) * 0.02;
+      runner.position.x = run * 2.8 + tremble;
+      runner.position.z = run * 1.4;
       runner.position.y = Math.abs(Math.sin(t * 14 + i)) * 0.15 * Math.sign(run);
-      runner.visible = run < 0.98;
+      runner.visible = pigShowing(c, i);
     });
   });
 }
@@ -103,7 +105,8 @@ function blowScene(ctx: Parameters<SceneBuilder>[0], mood: "day" | "dusk", build
   scene.solid(house.group, 1.0, -0.5, 0.15);
   const faces = wolfFaces(["sly", "puff", "tired"]);
   const wolf = scene.cutout(paintWolf("sly"), 2.4, -2.5, 0.3);
-  const runners = runnerNames.map((name, i) => scene.cutout(pig(name, "scared"), 1.0, 1.9 + i * 0.6, 0.7 + i * 0.5));
+  const hideouts = runnerNames.length > 1 ? [0.75, 1.25] : [1.0];
+  const runners = runnerNames.map((name, i) => scene.cutout(pig(name, "scared"), 0.82, hideouts[i]!, -0.55 + i * 0.05));
   scene.cutout(paintBush(4), 0.5, -0.6, 1.8);
   blowLoop(scene, wolf, faces, { house, bits, runners, sturdy });
   return scene;
