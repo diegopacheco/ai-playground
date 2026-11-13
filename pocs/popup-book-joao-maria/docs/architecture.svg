@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="830" viewBox="0 0 1400 830">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap'); .t{font-family:Caveat,cursive;font-size:30px;font-weight:700;fill:#2b2118;text-anchor:middle} .s{font-family:Caveat,cursive;font-size:21px;font-weight:500;fill:#4a3a2a;text-anchor:middle} .e{fill:none;stroke:#5a4a3a;stroke-width:2.6;marker-end:url(#a)}</style>
+    <filter id="w"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#5a4a3a"/></marker>
+  </defs>
+  <rect width="1400" height="830" fill="#fffdf7"/>
+  <g filter="url(#w)">
+    <rect x="40" y="50" width="260" height="100" rx="14" fill="#ffe8a3" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="380" y="50" width="260" height="100" rx="14" fill="#d6e4ff" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="720" y="50" width="300" height="100" rx="14" fill="#d6e4ff" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="1090" y="50" width="280" height="100" rx="14" fill="#ffd6e0" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="40" y="250" width="260" height="100" rx="14" fill="#fff0c8" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="520" y="245" width="380" height="110" rx="14" fill="#c8f0d8" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="1090" y="250" width="280" height="100" rx="14" fill="#e8dcff" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="40" y="450" width="260" height="100" rx="14" fill="#c8f0d8" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="520" y="445" width="380" height="110" rx="14" fill="#c8f0d8" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="1090" y="450" width="280" height="100" rx="14" fill="#ffd6e0" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="160" y="660" width="330" height="110" rx="14" fill="#ffe8a3" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="545" y="660" width="330" height="110" rx="14" fill="#ffe8a3" stroke="#2b2118" stroke-width="2.5"/>
+    <rect x="930" y="660" width="330" height="110" rx="14" fill="#e8dcff" stroke="#2b2118" stroke-width="2.5"/>
+    <path class="e" d="M300 100 Q340 92 378 100"/>
+    <path class="e" d="M640 100 Q680 92 718 100"/>
+    <path class="e" d="M1020 100 Q1055 92 1088 100"/>
+    <path class="e" d="M300 285 Q520 200 750 152"/>
+    <path class="e" d="M300 305 Q410 290 518 300"/>
+    <path class="e" d="M870 150 Q860 200 800 243"/>
+    <path class="e" d="M900 300 Q995 290 1088 300"/>
+    <path class="e" d="M600 355 Q450 420 302 495"/>
+    <path class="e" d="M710 355 Q700 400 710 443"/>
+    <path class="e" d="M900 500 Q995 490 1088 500"/>
+    <path class="e" d="M600 555 Q450 600 360 658"/>
+    <path class="e" d="M710 555 Q700 610 710 658"/>
+    <path class="e" d="M820 555 Q960 600 1060 658"/>
+  </g>
+  <text class="t" x="170" y="92">Input</text>
+  <text class="s" x="170" y="125">arrows · dots · keys · swipe · URL</text>
+  <text class="t" x="510" y="92">TanStack Router</text>
+  <text class="s" x="510" y="125">/page/$page</text>
+  <text class="t" x="870" y="92">BookView (React)</text>
+  <text class="s" x="870" y="125">caption · dots · narration · full screen</text>
+  <text class="t" x="1230" y="88">Narrator</text>
+  <text class="s" x="1230" y="116">Web Speech API · pt-BR voice</text>
+  <text class="s" x="1230" y="138">read sentence by sentence</text>
+  <text class="t" x="170" y="292">story/pages.ts</text>
+  <text class="s" x="170" y="325">10 pages of Portuguese text</text>
+  <text class="t" x="710" y="288">Stage (three.js)</text>
+  <text class="s" x="710" y="318">renderer · lights · shadows · camera</text>
+  <text class="s" x="710" y="342">page-turn loop · scene cache</text>
+  <text class="t" x="1230" y="292">turnFrame()</text>
+  <text class="s" x="1230" y="325">pure fold → curl → unfold</text>
+  <text class="t" x="170" y="492">Book</text>
+  <text class="s" x="170" y="525">covers · pages · curling leaf</text>
+  <text class="t" x="710" y="488">SCENES</text>
+  <text class="s" x="710" y="518">10 PopupScene builders</text>
+  <text class="s" x="710" y="542">2D pieces fold · 3D pieces grow</text>
+  <text class="t" x="1230" y="492">Particles</text>
+  <text class="s" x="1230" y="525">smoke · fireflies · sparks · coins</text>
+  <text class="t" x="325" y="702">art/ (Canvas 2D)</text>
+  <text class="s" x="325" y="732">João · Maria · Bruxa · Lenhador</text>
+  <text class="s" x="325" y="756">birds · owl · props · backdrops</text>
+  <text class="t" x="710" y="702">models.ts (3D)</text>
+  <text class="s" x="710" y="732">candy house · cage · oven</text>
+  <text class="s" x="710" y="756">treasure chest · lollipops</text>
+  <text class="t" x="1095" y="702">timelines.ts</text>
+  <text class="s" x="1095" y="732">crumb trail · oven push</text>
+  <text class="s" x="1095" y="756">pure functions, unit tested</text>
+</svg>
