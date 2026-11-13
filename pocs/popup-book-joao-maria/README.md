@@ -4,7 +4,7 @@
 
 A 3D pop-up book of *João e Maria* (Hansel and Gretel), written and narrated in Brazilian Portuguese and rendered with three.js in the browser.
 The book lies open on a wooden table. Each spread mixes 2D paper cutouts (João, Maria, the witch, the woodcutter, birds, an owl, trees, speech bubbles)
-with real 3D models (a gingerbread house with a chocolate roof, lollipops, candy canes, an iron cage, a brick oven with a swinging door, a treasure chest).
+with real 3D models (a gingerbread house with a chocolate roof, lollipops, candy canes, an iron cage, a brick oven with a swinging door, a treasure chest full of coins and gems).
 When you turn a page the cutouts fold flat, the page curls over the spine, and the next scene springs up in layers.
 Every scene plays its own loop: birds eat the bread crumbs, an owl blinks, the witch opens her door, Maria pushes her into the oven.
 The story runs for 10 spreads, each with a 2 line caption in Portuguese.
@@ -128,7 +128,7 @@ Ran 43 tests across 4 files.
 **O Forno** - Maria runs in and pushes the witch into the glowing 3D oven; the iron door slams shut and sparks burst from the chimney.
 ![O Forno](printscreens/09-forno.png)
 
-**Felizes Para Sempre** - the woodcutter opens his arms, the children dance, the treasure chest opens and spills coins under fireworks and hearts.
+**Felizes Para Sempre** - the woodcutter opens his arms, the children dance, and the witch's 3D treasure chest (plank wood, gold trims, curved lid) swings open on a glowing heap of coins, gems and a pearl necklace, under fireworks and hearts.
 ![Felizes Para Sempre](printscreens/10-fim.png)
 
 **Mobile** - on a phone the camera moves in so the book fills the width, the toggles sit under the title, and pages turn with a swipe.

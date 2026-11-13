@@ -94,8 +94,8 @@ export const theEnd: SceneBuilder = (ctx) => {
   const father = scene.cutout(paintFather("joy"), 1.7, -0.5, 0.1);
   const kids = [scene.cutout(child("joao", "joy", { wave: true }), 1.1, 0.5, 0.95), scene.cutout(child("maria", "joy", { wave: true }), 1.05, 1.3, 1.2)];
   const chest = treasureChest();
-  chest.group.scale.setScalar(1.2);
-  scene.solid(chest.group, 2.6, 0.5, 0.5, -0.3);
+  chest.group.scale.setScalar(1.35);
+  scene.solid(chest.group, 2.5, 0.7, 0.5, -0.45);
   scene.solid(mushroom(), -3.0, 1.7, 0.6);
   const coins = particles(scene, {
     texture: toTexture(paintCoin()),
@@ -103,13 +103,27 @@ export const theEnd: SceneBuilder = (ctx) => {
     rate: 0,
     gravity: 3,
     spawn: (p, rand) => {
-      p.sprite.position.set(2.6 + (rand() - 0.5) * 0.3, 0.95, 0.5);
-      p.velocity.set((rand() - 0.5) * 1.4, 1.8 + rand() * 1.2, (rand() - 0.2) * 0.8);
-      p.life = 1.1 + rand() * 0.4;
-      p.size = 0.14;
+      p.sprite.position.set(2.5 + (rand() - 0.5) * 0.4, 1.0, 0.7);
+      p.velocity.set((rand() - 0.5) * 1.0, 1.6 + rand() * 0.9, (rand() - 0.2) * 0.6);
+      p.life = 0.9 + rand() * 0.4;
+      p.size = 0.11;
       p.spin = (rand() - 0.5) * 8;
     },
   });
+  const shine = particles(scene, {
+    texture: ctx.assets.spark,
+    count: 40,
+    rate: 16,
+    additive: true,
+    colors: ["#ffe27a", "#fff3b0", "#ffc93c"],
+    spawn: (p, rand) => {
+      p.sprite.position.set(2.5 + (rand() - 0.5) * 0.9, 1.0, 0.7 + (rand() - 0.5) * 0.5);
+      p.velocity.set((rand() - 0.5) * 0.15, 0.35 + rand() * 0.3, 0);
+      p.life = 0.8 + rand() * 0.6;
+      p.size = 0.1 + rand() * 0.12;
+    },
+  });
+  shine.emitting = false;
   particles(scene, {
     texture: toTexture(paintHeart()),
     count: 30,
@@ -150,9 +164,11 @@ export const theEnd: SceneBuilder = (ctx) => {
     }
     const c = loop(t, 5);
     const open = smooth(c, 0.3, 1.0) * (1 - smooth(c, 4.2, 4.9));
-    chest.lid.rotation.x = -1.4 * open;
+    chest.lid.rotation.x = -1.95 * open;
+    chest.glow.intensity = open * 4;
+    shine.emitting = open > 0.6;
     if (open > 0.9 && !spilled) {
-      coins.burst(25);
+      coins.burst(12);
       spilled = true;
     }
     if (open < 0.1) spilled = false;

@@ -9,7 +9,9 @@ import {
   LatheGeometry,
   Mesh,
   MeshStandardMaterial,
+  OctahedronGeometry,
   Path,
+  PointLight,
   RepeatWrapping,
   Shape,
   SphereGeometry,
@@ -475,41 +477,151 @@ export function oven(bricks: Texture): Oven {
 export interface Chest {
   group: Group;
   lid: Group;
+  glow: PointLight;
+}
+
+function plankTexture(): CanvasTexture {
+  const rand = seeded(17);
+  return toTexture(
+    paint(256, 256, (ctx, w, h) => {
+      const plank = h / 4;
+      for (let i = 0; i < 4; i++) {
+        const y = i * plank;
+        ctx.fillStyle = linear(ctx, y, y + plank, ["#b06a32", "#8a4a20", "#6e3818"]);
+        ctx.fillRect(0, y, w, plank);
+        ctx.strokeStyle = "rgba(60,25,8,0.35)";
+        ctx.lineWidth = 2;
+        for (let k = 0; k < 5; k++) {
+          const gy = y + 8 + rand() * (plank - 16);
+          ctx.beginPath();
+          ctx.moveTo(0, gy);
+          ctx.bezierCurveTo(w * 0.3, gy + (rand() - 0.5) * 8, w * 0.7, gy + (rand() - 0.5) * 8, w, gy);
+          ctx.stroke();
+        }
+        ctx.fillStyle = "#3b1d0c";
+        ctx.fillRect(0, y + plank - 4, w, 4);
+      }
+    }),
+  );
 }
 
 export function treasureChest(): Chest {
+  const W = 0.9;
+  const H = 0.42;
+  const D = 0.56;
+  const R = D / 2;
+  const T = 0.04;
   const g = new Group();
-  const wood = new MeshStandardMaterial({ map: repeat(logTexture(), 1, 1), roughness: 0.8 });
-  const gold = new MeshStandardMaterial({ color: "#ffc93c", metalness: 0.8, roughness: 0.3 });
-  const box = new Mesh(new BoxGeometry(0.8, 0.45, 0.5), wood);
-  box.position.y = 0.225;
-  g.add(box);
-  for (const x of [-0.3, 0.3]) {
-    const band = new Mesh(new BoxGeometry(0.06, 0.47, 0.52), gold);
-    band.position.set(x, 0.225, 0);
-    g.add(band);
+  const wood = new MeshStandardMaterial({ map: plankTexture(), roughness: 0.75, side: 2 });
+  const gold = new MeshStandardMaterial({ color: "#f5b82e", emissive: "#8a5a00", emissiveIntensity: 0.35, metalness: 0.85, roughness: 0.28 });
+  const dark = new MeshStandardMaterial({ color: "#1d120a", roughness: 0.9 });
+  const walls: [number, number, number, number, number, number][] = [
+    [W, H, T, 0, H / 2, D / 2 - T / 2],
+    [W, H, T, 0, H / 2, -D / 2 + T / 2],
+    [T, H, D, W / 2 - T / 2, H / 2, 0],
+    [T, H, D, -W / 2 + T / 2, H / 2, 0],
+    [W, T, D, 0, T / 2, 0],
+  ];
+  for (const [w, h, d, x, y, z] of walls) {
+    const wall = new Mesh(new BoxGeometry(w, h, d), wood);
+    wall.position.set(x, y, z);
+    g.add(wall);
   }
-  const coins = new Mesh(new SphereGeometry(0.36, 20, 8, 0, Math.PI * 2, 0, Math.PI / 2), gold);
-  coins.scale.set(1, 0.45, 0.62);
-  coins.position.y = 0.43;
-  g.add(coins);
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    const post = new Mesh(new BoxGeometry(0.06, H + 0.01, 0.06), gold);
+    post.position.set(sx * W / 2, H / 2, sz * D / 2);
+    g.add(post);
+  }
+  for (const y of [0.025, H - 0.02]) {
+    for (const sz of [-1, 1]) {
+      const rim = new Mesh(new BoxGeometry(W + 0.02, 0.04, 0.05), gold);
+      rim.position.set(0, y, sz * D / 2);
+      g.add(rim);
+    }
+    for (const sx of [-1, 1]) {
+      const rim = new Mesh(new BoxGeometry(0.05, 0.04, D + 0.02), gold);
+      rim.position.set(sx * W / 2, y, 0);
+      g.add(rim);
+    }
+  }
+  for (const x of [-0.27, 0.27]) {
+    const strap = new Mesh(new BoxGeometry(0.05, H, 0.02), gold);
+    strap.position.set(x, H / 2, D / 2 + 0.012);
+    g.add(strap);
+  }
+  const plate = new Mesh(new BoxGeometry(0.13, 0.15, 0.03), gold);
+  plate.position.set(0, H - 0.1, D / 2 + 0.018);
+  const hole = new Mesh(new CylinderGeometry(0.016, 0.016, 0.02, 12), dark);
+  hole.rotation.x = Math.PI / 2;
+  hole.position.set(0, H - 0.085, D / 2 + 0.035);
+  const slot = new Mesh(new BoxGeometry(0.012, 0.04, 0.02), dark);
+  slot.position.set(0, H - 0.115, D / 2 + 0.035);
+  g.add(plate, hole, slot);
+  const bed = new Mesh(new BoxGeometry(W - 2 * T, 0.02, D - 2 * T), gold);
+  bed.position.y = H - 0.07;
+  g.add(bed);
   const rand = seeded(13);
-  for (let i = 0; i < 6; i++) {
-    const gem = new Mesh(new DodecahedronGeometry(0.05, 0), new MeshStandardMaterial({ color: CANDY[i] ?? "#ff5d8f", emissive: CANDY[i] ?? "#ff5d8f", emissiveIntensity: 0.4, roughness: 0.2, flatShading: true }));
-    gem.position.set(-0.25 + rand() * 0.5, 0.5, -0.1 + rand() * 0.2);
+  const coin = new CylinderGeometry(0.042, 0.042, 0.012, 18);
+  for (let i = 0; i < 110; i++) {
+    const x = (rand() - 0.5) * (W - 0.14);
+    const z = (rand() - 0.5) * (D - 0.14);
+    const mound = Math.max(0, 1 - (x / (W / 2)) ** 2 - (z / (D / 2)) ** 2);
+    const piece = new Mesh(coin, gold);
+    piece.position.set(x, H - 0.055 + mound * 0.13 * (0.6 + rand() * 0.4), z);
+    piece.rotation.set((rand() - 0.5) * 1.1, rand() * Math.PI, (rand() - 0.5) * 1.1);
+    g.add(piece);
+  }
+  const gems = ["#e8203c", "#2f9fe8", "#3ccf6a", "#b04ae8", "#ffffff"];
+  for (let i = 0; i < 7; i++) {
+    const color = gems[i % gems.length] ?? "#e8203c";
+    const gem = new Mesh(new OctahedronGeometry(0.045, 0), new MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.35, metalness: 0.2, roughness: 0.1, flatShading: true }));
+    const x = (rand() - 0.5) * (W - 0.3);
+    const z = (rand() - 0.5) * (D - 0.25);
+    gem.position.set(x, H + 0.06 * Math.max(0, 1 - (x / (W / 2)) ** 2), z);
+    gem.rotation.set(rand(), rand(), rand());
     g.add(gem);
   }
+  const necklace = new CatmullRomCurve3([
+    new Vector3(-0.22, H + 0.03, 0.02),
+    new Vector3(-0.1, H + 0.03, D / 2 - 0.02),
+    new Vector3(0.02, H - 0.03, D / 2 + 0.04),
+    new Vector3(0.14, H - 0.16, D / 2 + 0.045),
+    new Vector3(0.24, H - 0.05, D / 2 + 0.04),
+    new Vector3(0.3, H + 0.02, D / 2 - 0.04),
+  ]);
+  const pearl = new MeshStandardMaterial({ color: "#fff8ee", roughness: 0.15, metalness: 0.1 });
+  for (const point of necklace.getSpacedPoints(26)) {
+    const bead = new Mesh(new SphereGeometry(0.016, 10, 8), pearl);
+    bead.position.copy(point);
+    g.add(bead);
+  }
+  for (let i = 0; i < 7; i++) {
+    const loose = new Mesh(coin, gold);
+    loose.position.set(-0.35 + rand() * 0.7, 0.007 + (i === 2 ? 0.013 : 0), D / 2 + 0.1 + rand() * 0.22);
+    loose.rotation.y = rand() * Math.PI;
+    g.add(loose);
+  }
   const lid = new Group();
-  const top = new Mesh(new CylinderGeometry(0.25, 0.25, 0.8, 20, 1, false, 0, Math.PI), wood);
-  top.rotation.z = Math.PI / 2;
-  top.rotation.y = Math.PI / 2;
-  top.position.set(0, 0, 0.25);
-  const lock = new Mesh(new BoxGeometry(0.1, 0.12, 0.04), gold);
-  lock.position.set(0, -0.02, 0.51);
-  lid.add(top, lock);
-  lid.position.set(0, 0.45, -0.25);
+  const shell = new Mesh(new CylinderGeometry(R, R, W, 28, 1, false, 0, Math.PI), wood);
+  shell.rotation.z = Math.PI / 2;
+  shell.position.set(0, 0, R);
+  lid.add(shell);
+  for (const x of [-W / 2 + 0.02, -0.27, 0.27, W / 2 - 0.02]) {
+    const band = new Mesh(new CylinderGeometry(R + 0.012, R + 0.012, 0.05, 28, 1, true, 0, Math.PI), gold);
+    band.material.side = 2;
+    band.rotation.z = Math.PI / 2;
+    band.position.set(x, 0, R);
+    lid.add(band);
+  }
+  const hasp = new Mesh(new BoxGeometry(0.08, 0.1, 0.025), gold);
+  hasp.position.set(0, -0.02, D + 0.018);
+  lid.add(hasp);
+  lid.position.set(0, H, -D / 2);
   g.add(lid);
-  return { group: g, lid };
+  const glow = new PointLight("#ffc85a", 0, 2.2, 1.5);
+  glow.position.set(0, H + 0.35, 0.1);
+  g.add(glow);
+  return { group: g, lid, glow };
 }
 
 export function stump(): Group {
