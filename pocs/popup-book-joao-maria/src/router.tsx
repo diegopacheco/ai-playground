@@ -1,4 +1,4 @@
-import { createRootRoute, createRoute, createRouter, redirect } from "@tanstack/react-router";
+import { createHashHistory, createRootRoute, createRoute, createRouter, redirect } from "@tanstack/react-router";
 import { parsePageParam } from "./story/navigation";
 import { PAGES } from "./story/pages";
 import { BookView } from "./ui/BookView";
@@ -24,7 +24,7 @@ function PageScreen() {
   return <BookView page={parsePageParam(page, PAGES.length)} />;
 }
 
-export const router = createRouter({ routeTree: rootRoute.addChildren([indexRoute, pageRoute]) });
+export const router = createRouter({ routeTree: rootRoute.addChildren([indexRoute, pageRoute]), history: createHashHistory() });
 
 declare module "@tanstack/react-router" {
   interface Register {

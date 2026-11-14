@@ -2,6 +2,8 @@
 
 # João e Maria - Livro Pop-up
 
+<p align="center"><img src="docs/popup-book-joao-maria.gif" alt="Pop-up book animation"/></p>
+
 A 3D pop-up book of *João e Maria* (Hansel and Gretel), written and narrated in Brazilian Portuguese and rendered with three.js in the browser.
 The book lies open on a wooden table. Each spread mixes 2D paper cutouts (João, Maria, the witch, the woodcutter, birds, an owl, trees, speech bubbles)
 with real 3D models (a gingerbread house with a chocolate roof, lollipops, candy canes, an iron cage, a brick oven with a swinging door, a treasure chest full of coins and gems).
@@ -11,7 +13,7 @@ The story runs for 10 spreads, each with a 2 line caption in Portuguese.
 
 ## How it Works
 
-1. TanStack Router maps `/page/$page` to the spread to show. Arrows, dots, the keyboard, a swipe and the URL all navigate.
+1. TanStack Router maps `#/page/$page` to the spread to show. Arrows, dots, the keyboard, a swipe and the URL all navigate.
 2. `Stage` owns the three.js renderer, lights, soft shadows, the wooden table and a camera that follows the mouse and fits phone screens.
 3. Every scene is a `PopupScene`. A 2D cutout sits on a hinge at its base and folds with the page; 3D models grow out of the page.
 4. A page turn has 3 phases set by the pure `turnFrame()`: fold the old scene, curl the leaf, unfold the new scene.
@@ -34,7 +36,7 @@ The story runs for 10 spreads, each with a 2 line caption in Portuguese.
 * **Native narration** - prefers natural pt-BR voices (Google português do Brasil, Microsoft Francisca/Thalita/Antonio, Luciana Premium) and never picks the robotic novelty voices macOS lists for pt-BR (Eddy, Flo, Reed, Rocko, Sandy, Shelley, Grandma, Grandpa).
 * **Works on mobile** - narration is unlocked by the tap on the toggle (required by iOS and Android), the camera moves in on portrait screens, and you can swipe to turn pages.
 * **Full screen** - a toggle next to narration puts the book in full screen (Fullscreen API).
-* **Deep links** - `/page/9` opens straight on the oven scene.
+* **Deep links** - `#/page/9` opens straight on the oven scene.
 
 ## Stack
 
@@ -68,8 +70,8 @@ There is no backend and no REST API. The only contract is the route:
 
 | Route | What it shows |
 |---|---|
-| `/` | Redirects to `/page/1` |
-| `/page/$page` | Spread `$page` (1 to 10). A bad value falls back to the nearest valid page |
+| `/` | Redirects to `#/page/1` |
+| `#/page/$page` | Spread `$page` (1 to 10). A bad value falls back to the nearest valid page |
 
 ## How to Run
 

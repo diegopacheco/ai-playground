@@ -2,6 +2,8 @@
 
 # Jack and the Beanstalk - A Pop-up World
 
+<p align="center"><img src="docs/popup-book-jack.gif" alt="Pop-up book animation"/></p>
+
 A pop-up story of *Jack and the Beanstalk* in English, rendered with three.js in the browser.
 There is one book, and it travels. It starts open on a meadow. When you turn the page, the pop-up folds flat, the book lifts off and flies through a 3D world, and the page curls over inside the same book while it flies.
 It lands at the place where the next page happens: the cottage, the road to market, a cloud island above the sky, the giant's kitchen, a giant leaf halfway down the beanstalk, and back to the ground. Then the new scene springs up.
@@ -10,7 +12,7 @@ On page 10 Jack chops that same beanstalk and it crashes down in a huge dust clo
 
 ## How it Works
 
-1. TanStack Router maps `/page/$page` to a station. Arrows, dots, the keyboard, a swipe and the URL all navigate.
+1. TanStack Router maps `#/page/$page` to a station. Arrows, dots, the keyboard, a swipe and the URL all navigate.
 2. `World` builds the sky, the lights, a paper forest, stars, shooting stars and an instanced sea of 3D clouds. The sky color follows the camera altitude and the time of day.
 3. `STATIONS` gives every page a landing spot in the world (x, y, z), a base (meadow, cloud island or a leaf of the beanstalk) and a day or night mood. One `Book` flies between them.
 4. Every scene is a `PopupScene` riding inside the book. 2D cutouts fold on hinges and stand on a folded paper tab with a soft contact shadow. 3D models grow out of the paper.
@@ -39,7 +41,7 @@ On page 10 Jack chops that same beanstalk and it crashes down in a huge dust clo
 * **Smooth image** - MSAA, alpha-to-coverage cutout edges, SMAA and soft shadows remove the jagged edges. Bloom makes the magic glow.
 * **English narration** - prefers natural voices (Microsoft Jenny/Aria Natural, Google US English, Ava/Samantha Premium) and never picks the novelty macOS voices.
 * **Works on mobile** - the camera moves back on portrait screens, toggles sit under the title, and you can swipe to turn pages.
-* **Full screen and deep links** - `/page/5` opens straight on the growing beanstalk.
+* **Full screen and deep links** - `#/page/5` opens straight on the growing beanstalk.
 
 ## Stack
 
@@ -76,8 +78,8 @@ There is no backend and no REST API. The only contract is the route:
 
 | Route | What it shows |
 |---|---|
-| `/` | Redirects to `/page/1` |
-| `/page/$page` | Station `$page` (1 to 10). A bad value falls back to the nearest valid page |
+| `/` | Redirects to `#/page/1` |
+| `#/page/$page` | Station `$page` (1 to 10). A bad value falls back to the nearest valid page |
 
 ## How to Run
 

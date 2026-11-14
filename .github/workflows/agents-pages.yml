@@ -51,6 +51,9 @@ jobs:
           cp -R games/gull-about-town _site/games/gull-about-town
           cp -R games/dustline _site/games/dustline
           cp -R games/jetfun _site/games/jetfun
+          cp -R games/popup-book-pigs _site/games/popup-book-pigs
+          cp -R games/popup-book-joao-maria _site/games/popup-book-joao-maria
+          cp -R games/popup-book-jack _site/games/popup-book-jack
           grep -oE '\.\./pocs/[^"]+\.(png|jpg|jpeg|gif|svg|mp4|webm)' games/index.html | sort -u | sed 's#^\.\./##' | while read -r f; do
             mkdir -p "_site/$(dirname "$f")"
             cp "$f" "_site/$f"

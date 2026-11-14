@@ -38,10 +38,10 @@ function loadImage(url: string): Promise<HTMLImageElement> {
 async function loadAssets(): Promise<Assets> {
   const loader = new TextureLoader();
   const [grass, bricks, spark, disc] = await Promise.all([
-    loadImage("/assets/grasslight-big.jpg"),
-    loader.loadAsync("/assets/brick_diffuse.jpg"),
-    loader.loadAsync("/assets/spark1.png"),
-    loader.loadAsync("/assets/disc.png"),
+    loadImage("assets/grasslight-big.jpg"),
+    loader.loadAsync("assets/brick_diffuse.jpg"),
+    loader.loadAsync("assets/spark1.png"),
+    loader.loadAsync("assets/disc.png"),
   ]);
   bricks.colorSpace = SRGBColorSpace;
   return { grass, bricks, spark, disc };

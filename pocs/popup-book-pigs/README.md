@@ -2,6 +2,8 @@
 
 # The Three Little Pigs - Pop-up Book
 
+<p align="center"><img src="docs/popup-book-pigs.gif" alt="Pop-up book animation"/></p>
+
 A 3D pop-up book of *The Three Little Pigs and the Big Bad Wolf*, rendered with three.js in the browser.
 The book lies open on a wooden table. Each spread mixes 2D paper cutouts (pigs, wolf, trees, sky panels,
 speech bubbles) with real 3D models (houses of straw, sticks and bricks, a fireplace, a cauldron).
@@ -11,7 +13,7 @@ The story runs for 12 spreads, each with a 2 line caption at the bottom.
 
 ## How it Works
 
-1. TanStack Router maps `/page/$page` to the spread to show. Arrows, dots, the keyboard and the URL all navigate.
+1. TanStack Router maps `#/page/$page` to the spread to show. Arrows, dots, the keyboard and the URL all navigate.
 2. `Stage` owns the three.js renderer, the lights, the soft shadows, the wooden table and the camera that follows the mouse.
 3. Every scene is a `PopupScene`. A 2D cutout sits on a hinge at its base, and its fold angle comes from the page openness.
 4. 3D pieces (houses, rocks, logs) grow out of the page with an overshoot instead of folding.
@@ -35,7 +37,7 @@ The story runs for 12 spreads, each with a 2 line caption at the bottom.
 * **Short captions** - each page has a 2 line caption in a storybook font, so the picture tells most of the story.
 * **Narration** - a toggle in the top right reads each page aloud with the browser's built-in speech (Web Speech API). It is hidden when the browser has no speech support.
 * **Full screen** - a toggle next to narration puts the whole book in full screen (Fullscreen API). Esc also leaves it. It is hidden when the browser cannot go full screen.
-* **Deep links** - `/page/7` opens straight on the huff and puff scene.
+* **Deep links** - `#/page/7` opens straight on the huff and puff scene.
 * **Mouse parallax** - the camera drifts with the mouse, so you can look at the scene from slightly different angles.
 
 ## Stack
@@ -68,8 +70,8 @@ There is no backend and no REST API. The only contract is the route:
 
 | Route | What it shows |
 |---|---|
-| `/` | Redirects to `/page/1` |
-| `/page/$page` | Spread `$page` (1 to 12). A bad value falls back to the nearest valid page |
+| `/` | Redirects to `#/page/1` |
+| `#/page/$page` | Spread `$page` (1 to 12). A bad value falls back to the nearest valid page |
 
 ## How to Run
 

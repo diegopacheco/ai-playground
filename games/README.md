@@ -184,6 +184,23 @@ Website (Games Catalog): [games/index.html](https://diegopacheco.github.io/ai-pl
 56. **Cursor Tetris** — A full-stack Tetris with a React + Vite frontend and a Rust + Actix backend, built with Cursor v3.
     [pocs/cursor-v3-poc](https://github.com/diegopacheco/ai-playground/tree/main/pocs/cursor-v3-poc)
 
+## Pop-up Books
+
+57. **The Three Little Pigs** — A 3D pop-up book with three.js: 12 spreads where paper cutouts fold up, pages curl over the spine, the wolf huffs and puffs and straw flies.
+    [Play The Three Little Pigs](https://diegopacheco.github.io/ai-playground/games/popup-book-pigs/) · [pocs/popup-book-pigs](https://github.com/diegopacheco/ai-playground/tree/main/pocs/popup-book-pigs)
+
+    ![The Three Little Pigs](../pocs/popup-book-pigs/docs/popup-book-pigs.gif)
+
+58. **João e Maria** — A 3D pop-up book of Hansel and Gretel in Brazilian Portuguese with 10 animated spreads, a candy house, a witch's oven and native pt-BR narration.
+    [Play João e Maria](https://diegopacheco.github.io/ai-playground/games/popup-book-joao-maria/) · [pocs/popup-book-joao-maria](https://github.com/diegopacheco/ai-playground/tree/main/pocs/popup-book-joao-maria)
+
+    ![João e Maria](../pocs/popup-book-joao-maria/docs/popup-book-joao-maria.gif)
+
+59. **Jack and the Beanstalk** — One flying pop-up book that travels through a 3D world, turns its pages mid-flight and grows a giant beanstalk up into the clouds.
+    [Play Jack and the Beanstalk](https://diegopacheco.github.io/ai-playground/games/popup-book-jack/) · [pocs/popup-book-jack](https://github.com/diegopacheco/ai-playground/tree/main/pocs/popup-book-jack)
+
+    ![Jack and the Beanstalk](../pocs/popup-book-jack/docs/popup-book-jack.gif)
+
 ## Catalog Screenshot
 
 ![Brisa in the games catalog](printscreens/brisa-catalog.png)

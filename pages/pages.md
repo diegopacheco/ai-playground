@@ -32,6 +32,9 @@ The `diegopacheco/agent-skills` repository is also a separate site. It has no wo
 | `diegopacheco/ai-playground` | `games/gull-about-town/index.html` and `games/gull-about-town/assets/` | `https://diegopacheco.github.io/ai-playground/games/gull-about-town/` |
 | `diegopacheco/ai-playground` | `games/dustline/index.html` and `games/dustline/assets/` | `https://diegopacheco.github.io/ai-playground/games/dustline/` |
 | `diegopacheco/ai-playground` | `games/jetfun/index.html`, `games/jetfun/vendor/` and `games/jetfun/assets/` | `https://diegopacheco.github.io/ai-playground/games/jetfun/` |
+| `diegopacheco/ai-playground` | `games/popup-book-pigs/index.html` and `games/popup-book-pigs/assets/` | `https://diegopacheco.github.io/ai-playground/games/popup-book-pigs/` |
+| `diegopacheco/ai-playground` | `games/popup-book-joao-maria/index.html` and `games/popup-book-joao-maria/assets/` | `https://diegopacheco.github.io/ai-playground/games/popup-book-joao-maria/` |
+| `diegopacheco/ai-playground` | `games/popup-book-jack/index.html` and `games/popup-book-jack/assets/` | `https://diegopacheco.github.io/ai-playground/games/popup-book-jack/` |
 | `diegopacheco/ai-playground` | `mcp/index.html` | `https://diegopacheco.github.io/ai-playground/mcp/` |
 | `diegopacheco/ai-playground` | `macos-chrome-apps/index.html` | `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` |
 | `diegopacheco/ai-playground` | `pocs/agentsfile/landing/index.html`, `pocs/agentsfile/logo.svg`, `pocs/agentsfile/spec/SPEC.md` and `pocs/agentsfile/printscreens/` | `https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/` |
@@ -56,12 +59,17 @@ The aggregate workflow currently creates these entry points:
 | `games/gull-about-town/` | `_site/games/gull-about-town/` |
 | `games/dustline/` | `_site/games/dustline/` |
 | `games/jetfun/` | `_site/games/jetfun/` |
+| `games/popup-book-pigs/` | `_site/games/popup-book-pigs/` |
+| `games/popup-book-joao-maria/` | `_site/games/popup-book-joao-maria/` |
+| `games/popup-book-jack/` | `_site/games/popup-book-jack/` |
 | `mcp/index.html` | `_site/mcp/index.html` |
 | `macos-chrome-apps/index.html` | `_site/macos-chrome-apps/index.html` |
 | `pocs/agentsfile/landing/` | `_site/pocs/agentsfile/landing/` |
 | `pocs/agentsfile/logo.svg`, `pocs/agentsfile/spec/SPEC.md` and the three printscreens it uses | `_site/pocs/agentsfile/` |
 | `pocs/factoryfile/landing/` | `_site/pocs/factoryfile/landing/` |
 | `pocs/factoryfile/logo.svg`, `pocs/factoryfile/spec/SPEC.md` and `printscreens/render-ui-xp.png` | `_site/pocs/factoryfile/` |
+
+The `games/popup-book-*` routes are the committed `vite build` output of `pocs/popup-book-*`. They use hash routing (`#/page/N`) and relative asset paths so they work under any subpath. Rebuild and copy `dist/` into `games/<book>/` after changing a book.
 
 The workflow also copies every media file required by these pages. Source files used by the workflow must be tracked by Git. Ignored build output must not be used as a published asset.
 
@@ -118,6 +126,9 @@ Spotlight counts use the exact number with `+`. Page stats use the exact number.
 - `_site/games/gull-about-town/index.html` exists.
 - `_site/games/dustline/index.html` exists.
 - `_site/games/jetfun/index.html` exists.
+- `_site/games/popup-book-pigs/index.html` exists.
+- `_site/games/popup-book-joao-maria/index.html` exists.
+- `_site/games/popup-book-jack/index.html` exists.
 - `_site/mcp/index.html` exists.
 - `_site/macos-chrome-apps/index.html` exists.
 - `_site/pocs/agentsfile/landing/index.html` exists.
@@ -139,6 +150,9 @@ Spotlight counts use the exact number with `+`. Page stats use the exact number.
 - `https://diegopacheco.github.io/ai-playground/games/gull-about-town/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/games/dustline/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/games/jetfun/` returns HTTP 200.
+- `https://diegopacheco.github.io/ai-playground/games/popup-book-pigs/` returns HTTP 200.
+- `https://diegopacheco.github.io/ai-playground/games/popup-book-joao-maria/` returns HTTP 200.
+- `https://diegopacheco.github.io/ai-playground/games/popup-book-jack/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/mcp/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/` returns HTTP 200.
