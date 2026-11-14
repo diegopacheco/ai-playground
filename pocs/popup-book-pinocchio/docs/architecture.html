@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fffdf7}
+#arch{width:1200px;height:720px;display:block}
+text{font-family:Caveat;fill:#2b2b2b}
+.t{font-size:28px;font-weight:700}
+.s{font-size:21px}
+.box{stroke:#2b2b2b;stroke-width:2.5;filter:url(#wobble)}
+.line{fill:none;stroke:#2b2b2b;stroke-width:2.5;filter:url(#wobble);marker-end:url(#arrow)}
+</style>
+</head>
+<body>
+<svg id="arch" viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2b2b2b"/></marker>
+  </defs>
+  <text x="600" y="48" class="t" text-anchor="middle" style="font-size:38px">Pinocchio Puppet Theater - architecture</text>
+
+  <rect x="40" y="90" width="300" height="150" rx="14" fill="#dbeafe" class="box"/>
+  <text x="190" y="128" class="t" text-anchor="middle">React UI</text>
+  <text x="190" y="160" class="s" text-anchor="middle">TheaterView: caption, arrows,</text>
+  <text x="190" y="186" class="s" text-anchor="middle">dots, swipe, keyboard</text>
+  <text x="190" y="212" class="s" text-anchor="middle">narration + full screen</text>
+
+  <rect x="40" y="300" width="300" height="120" rx="14" fill="#fde68a" class="box"/>
+  <text x="190" y="338" class="t" text-anchor="middle">TanStack Router</text>
+  <text x="190" y="370" class="s" text-anchor="middle">#/page/$page</text>
+  <text x="190" y="396" class="s" text-anchor="middle">12 scenes, clamped</text>
+
+  <rect x="40" y="480" width="300" height="190" rx="14" fill="#fbcfe8" class="box"/>
+  <text x="190" y="518" class="t" text-anchor="middle">Story + Narrator</text>
+  <text x="190" y="550" class="s" text-anchor="middle">PAGES: title + caption lines</text>
+  <text x="190" y="576" class="s" text-anchor="middle">narrationParts: one sentence</text>
+  <text x="190" y="602" class="s" text-anchor="middle">per utterance</text>
+  <text x="190" y="628" class="s" text-anchor="middle">Web Speech API, English voice</text>
+
+  <rect x="450" y="90" width="320" height="200" rx="14" fill="#ddd6fe" class="box"/>
+  <text x="610" y="128" class="t" text-anchor="middle">Stage</text>
+  <text x="610" y="160" class="s" text-anchor="middle">WebGL renderer + bloom</text>
+  <text x="610" y="186" class="s" text-anchor="middle">scene cache, camera fit</text>
+  <text x="610" y="212" class="s" text-anchor="middle">changeFrame(): close curtains,</text>
+  <text x="610" y="238" class="s" text-anchor="middle">fold, swap backdrop, open, rise</text>
+
+  <rect x="450" y="380" width="320" height="230" rx="14" fill="#fecaca" class="box"/>
+  <text x="610" y="418" class="t" text-anchor="middle">Theater</text>
+  <text x="610" y="450" class="s" text-anchor="middle">velvet curtains (vertex pleats)</text>
+  <text x="610" y="476" class="s" text-anchor="middle">valance, proscenium, marquee</text>
+  <text x="610" y="502" class="s" text-anchor="middle">chasing bulbs, footlights</text>
+  <text x="610" y="528" class="s" text-anchor="middle">2 follow spots + light cones</text>
+  <text x="610" y="554" class="s" text-anchor="middle">painted backdrop, audience</text>
+
+  <rect x="860" y="90" width="300" height="230" rx="14" fill="#bbf7d0" class="box"/>
+  <text x="1010" y="128" class="t" text-anchor="middle">PopupScene x 12</text>
+  <text x="1010" y="160" class="s" text-anchor="middle">2D cutouts fold up on hinges</text>
+  <text x="1010" y="186" class="s" text-anchor="middle">3D models grow from the floor</text>
+  <text x="1010" y="212" class="s" text-anchor="middle">marionette strings, particles</text>
+  <text x="1010" y="238" class="s" text-anchor="middle">mood: spot colors + ambient</text>
+  <text x="1010" y="264" class="s" text-anchor="middle">focus: where the spots aim</text>
+
+  <rect x="860" y="400" width="300" height="210" rx="14" fill="#fed7aa" class="box"/>
+  <text x="1010" y="438" class="t" text-anchor="middle">Art + Timelines</text>
+  <text x="1010" y="470" class="s" text-anchor="middle">Canvas 2D puppets + backdrops</text>
+  <text x="1010" y="496" class="s" text-anchor="middle">three.js primitive models</text>
+  <text x="1010" y="522" class="s" text-anchor="middle">pure loops: nose, ears,</text>
+  <text x="1010" y="548" class="s" text-anchor="middle">shark jaws, field theft, sneeze</text>
+
+  <path class="line" d="M190 240 Q180 270 190 296"/>
+  <path class="line" d="M190 420 Q180 450 190 476"/>
+  <path class="line" d="M340 150 Q395 140 446 170"/>
+  <path class="line" d="M610 290 Q600 335 610 376"/>
+  <path class="line" d="M770 170 Q815 150 856 190"/>
+  <path class="line" d="M1010 320 Q1000 360 1010 396"/>
+  <path class="line" d="M856 520 Q815 500 774 510"/>
+</svg>
+</body>
+</html>
