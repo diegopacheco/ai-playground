@@ -14,7 +14,6 @@ import {
   PlaneGeometry,
   Points,
   PointsMaterial,
-  RepeatWrapping,
   SRGBColorSpace,
   Scene,
   type Texture,
@@ -28,6 +27,7 @@ import { SCENES } from "../scenes";
 import type { Assets } from "../scenes/kit";
 import { PAGES } from "../story/pages";
 import { Book, halfTexture } from "./book";
+import { forestFloorTexture } from "./forestFloor";
 import type { PopupScene } from "./popup";
 import { FOLD_TIME, TOTAL_TURN_TIME, TURN_TIME, turnFrame } from "./timeline";
 
@@ -86,8 +86,8 @@ export class Stage {
     this.renderer.toneMappingExposure = 1.1;
     this.renderer.outputColorSpace = SRGBColorSpace;
     host.appendChild(this.renderer.domElement);
-    this.scene.background = new Color("#1b100b");
-    this.scene.fog = new FogExp2("#1b100b", 0.035);
+    this.scene.background = new Color("#14241f");
+    this.scene.fog = new FogExp2("#14241f", 0.035);
     this.scene.add(this.book.group);
     this.lights();
     window.addEventListener("resize", this.resize);
@@ -101,7 +101,7 @@ export class Stage {
     await document.fonts.load("italic 44px 'IM Fell English'");
     this.assets = await loadAssets();
     if (this.disposed) return;
-    this.table();
+    this.forestFloor();
     this.dust = this.motes(this.assets.disc);
     this.current = page - 1;
     this.target = this.current;
@@ -128,7 +128,7 @@ export class Stage {
   }
 
   private lights(): void {
-    this.scene.add(new HemisphereLight("#ffe9c7", "#3a2414", 1.1));
+    this.scene.add(new HemisphereLight("#ffe9c7", "#1f3320", 1.1));
     const sun = new DirectionalLight("#fff1d6", 2.6);
     sun.position.set(-5, 11, 7);
     sun.castShadow = true;
@@ -146,15 +146,8 @@ export class Stage {
     this.scene.add(rim);
   }
 
-  private table(): void {
-    const loader = new TextureLoader();
-    const wood: Texture = loader.load("assets/hardwood2_diffuse.jpg");
-    wood.colorSpace = SRGBColorSpace;
-    wood.wrapS = RepeatWrapping;
-    wood.wrapT = RepeatWrapping;
-    wood.repeat.set(4, 4);
-    wood.anisotropy = 8;
-    const mesh = new Mesh(new PlaneGeometry(40, 40), new MeshStandardMaterial({ map: wood, roughness: 0.55, color: "#c9a07a" }));
+  private forestFloor(): void {
+    const mesh = new Mesh(new PlaneGeometry(40, 40), new MeshStandardMaterial({ map: forestFloorTexture(), roughness: 0.95 }));
     mesh.rotation.x = -Math.PI / 2;
     mesh.receiveShadow = true;
     this.scene.add(mesh);
@@ -170,7 +163,7 @@ export class Stage {
     }
     const geometry = new BufferGeometry();
     geometry.setAttribute("position", new BufferAttribute(positions, 3));
-    const points = new Points(geometry, new PointsMaterial({ map: texture, size: 0.06, color: "#ffe2a8", transparent: true, opacity: 0.7, depthWrite: false, blending: AdditiveBlending }));
+    const points = new Points(geometry, new PointsMaterial({ map: texture, size: 0.06, color: "#d8ff8a", transparent: true, opacity: 0.8, depthWrite: false, blending: AdditiveBlending }));
     this.scene.add(points);
     return points;
   }

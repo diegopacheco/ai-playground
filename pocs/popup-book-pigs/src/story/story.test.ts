@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { PAGES } from "./pages";
 import { clampPage, nextPage, parsePageParam, prevPage } from "./navigation";
-import { narrationText } from "./narration";
+import { narrationParts, narrationText } from "./narration";
 
 describe("story pages", () => {
   test("the book has at least ten pages so the whole tale fits", () => {
@@ -85,5 +85,14 @@ describe("narration", () => {
 
   test("shouted words like WHOOSH are not left in capitals, so the voice says them instead of spelling them out", () => {
     for (const page of PAGES) expect(narrationText(page)).not.toMatch(/\b[A-Z]{2,}\b/);
+  });
+
+  test("the narration is split into short sentences, so mobile voices never cut off a long page", () => {
+    for (const page of PAGES) {
+      const parts = narrationParts(page);
+      expect(parts.join(" ")).toBe(narrationText(page));
+      expect(parts.length).toBeGreaterThanOrEqual(2);
+      for (const part of parts) expect(part.length).toBeLessThanOrEqual(120);
+    }
   });
 });

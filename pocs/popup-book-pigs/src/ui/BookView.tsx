@@ -2,10 +2,10 @@ import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Stage } from "../engine/stage";
 import { nextPage, prevPage } from "../story/navigation";
-import { NARRATION_DELAY_MS, narrationText } from "../story/narration";
+import { NARRATION_DELAY_MS, narrationParts } from "../story/narration";
 import { PAGES } from "../story/pages";
 import { canFullscreen, useFullscreen } from "./fullscreen";
-import { canNarrate, hush, speak } from "./narrator";
+import { canNarrate, hush, speak, unlock } from "./narrator";
 
 interface BookViewProps {
   page: number;
@@ -28,6 +28,11 @@ export function BookView({ page }: BookViewProps) {
     [navigate],
   );
 
+  const toggleNarration = useCallback(() => {
+    if (!narrating) unlock();
+    setNarrating(!narrating);
+  }, [narrating]);
+
   useEffect(() => {
     if (!host.current) return;
     const instance = new Stage(host.current, () => setReady(true));
@@ -45,7 +50,7 @@ export function BookView({ page }: BookViewProps) {
 
   useEffect(() => {
     if (!narrating || !ready || !story) return;
-    const timer = window.setTimeout(() => speak(narrationText(story)), NARRATION_DELAY_MS);
+    const timer = window.setTimeout(() => speak(narrationParts(story)), NARRATION_DELAY_MS);
     return () => {
       window.clearTimeout(timer);
       hush();
@@ -73,7 +78,7 @@ export function BookView({ page }: BookViewProps) {
       </header>
       <div className="tools">
         {canNarrate && (
-          <button className="tool" aria-pressed={narrating} onClick={() => setNarrating((on) => !on)}>
+          <button className="tool" aria-pressed={narrating} onClick={toggleNarration}>
             {narrating ? "🔊 Narration on" : "🔈 Narration off"}
           </button>
         )}

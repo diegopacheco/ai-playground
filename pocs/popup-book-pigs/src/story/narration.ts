@@ -9,3 +9,10 @@ function speakable(text: string): string {
 export function narrationText(page: StoryPage): string {
   return speakable([`${page.title}.`, ...page.lines].join(" "));
 }
+
+export function narrationParts(page: StoryPage): string[] {
+  return narrationText(page)
+    .split(/(?<=[.!?])\s+/)
+    .map((part) => part.trim())
+    .filter((part) => part.length > 0);
+}

@@ -5,7 +5,7 @@
 <p align="center"><img src="docs/popup-book-joao-maria.gif" alt="Pop-up book animation"/></p>
 
 A 3D pop-up book of *João e Maria* (Hansel and Gretel), written and narrated in Brazilian Portuguese and rendered with three.js in the browser.
-The book lies open on a wooden table. Each spread mixes 2D paper cutouts (João, Maria, the witch, the woodcutter, birds, an owl, trees, speech bubbles)
+The book lies open on an enchanted forest floor at dusk: moss, fallen autumn leaves, the white pebbles of the trail and fireflies. Each spread mixes 2D paper cutouts (João, Maria, the witch, the woodcutter, birds, an owl, trees, speech bubbles)
 with real 3D models (a gingerbread house with a chocolate roof, lollipops, candy canes, an iron cage, a brick oven with a swinging door, a treasure chest full of coins and gems).
 When you turn a page the cutouts fold flat, the page curls over the spine, and the next scene springs up in layers.
 Every scene plays its own loop: birds eat the bread crumbs, an owl blinks, the witch opens her door, Maria pushes her into the oven.
@@ -14,7 +14,7 @@ The story runs for 10 spreads, each with a 2 line caption in Portuguese.
 ## How it Works
 
 1. TanStack Router maps `#/page/$page` to the spread to show. Arrows, dots, the keyboard, a swipe and the URL all navigate.
-2. `Stage` owns the three.js renderer, lights, soft shadows, the wooden table and a camera that follows the mouse and fits phone screens.
+2. `Stage` owns the three.js renderer, lights, soft shadows, the forest floor (painted at runtime on Canvas 2D) and a camera that follows the mouse and fits phone screens.
 3. Every scene is a `PopupScene`. A 2D cutout sits on a hinge at its base and folds with the page; 3D models grow out of the page.
 4. A page turn has 3 phases set by the pure `turnFrame()`: fold the old scene, curl the leaf, unfold the new scene.
 5. All characters, props and backdrops are painted at runtime on Canvas 2D, with a white paper border and a drop shadow.
@@ -50,7 +50,7 @@ The story runs for 10 spreads, each with a 2 line caption in Portuguese.
 
 ## Assets
 
-* Wood table, brick, grass and sparkle sprite textures come from the three.js repository examples (`examples/textures`).
+* Brick, grass and sparkle sprite textures come from the three.js repository examples (`examples/textures`).
 * Fonts come from Google Fonts: Lobster (titles), Fredoka (speech bubbles), IM Fell English (captions).
 * All characters and props are drawn in code on Canvas 2D (`src/art`). All 3D models are built from three.js primitives (`src/scenes/models.ts`).
 

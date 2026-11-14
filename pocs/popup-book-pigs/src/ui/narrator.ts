@@ -8,20 +8,38 @@ function loadVoice(): void {
   voice = pickVoice(window.speechSynthesis.getVoices());
 }
 
-if (canNarrate) {
-  loadVoice();
-  window.speechSynthesis.addEventListener("voiceschanged", loadVoice);
+function currentVoice(): SpeechSynthesisVoice | undefined {
+  if (!voice) loadVoice();
+  return voice;
 }
 
-export function speak(text: string): void {
+if (canNarrate) {
+  loadVoice();
+  window.speechSynthesis.onvoiceschanged = loadVoice;
+}
+
+export function unlock(): void {
   if (!canNarrate) return;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = voice?.lang ?? "en-US";
-  utterance.rate = 0.95;
-  utterance.pitch = 1;
-  if (voice) utterance.voice = voice;
-  window.speechSynthesis.speak(utterance);
+  const silent = new SpeechSynthesisUtterance(" ");
+  silent.volume = 0;
+  silent.lang = "en-US";
+  window.speechSynthesis.speak(silent);
+}
+
+export function speak(parts: string[]): void {
+  if (!canNarrate) return;
+  const synth = window.speechSynthesis;
+  synth.cancel();
+  synth.resume();
+  const chosen = currentVoice();
+  for (const part of parts) {
+    const utterance = new SpeechSynthesisUtterance(part);
+    utterance.lang = chosen?.lang.replace("_", "-") ?? "en-US";
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+    if (chosen) utterance.voice = chosen;
+    synth.speak(utterance);
+  }
 }
 
 export function hush(): void {
