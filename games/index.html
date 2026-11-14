@@ -81,10 +81,10 @@
       <a href="#cv">CV Games</a>
       <a href="#agents">AI Agents</a>
       <a href="#arcade">Arcade</a>
+      <a href="#popup">Pop-up</a>
       <a href="#puzzle">Puzzle</a>
       <a href="#rl">RL</a>
       <a href="#simple">Simple</a>
-      <a href="#popup">Pop-up</a>
       <a href="https://diegopacheco.github.io/ai-playground/mcp/">MCP ↗</a>
       <a href="https://diegopacheco.github.io/ai-playground/sec/">Security ↗</a>
       <a href="https://diegopacheco.github.io/agent-skills/">Skills ↗</a>
@@ -146,6 +146,15 @@
     <div class="grid" data-cat="arcade"></div>
   </section>
 
+  <section class="section" id="popup">
+    <div class="section-head">
+      <span class="section-kicker">Turn the page</span>
+      <h2>Pop-up Books</h2>
+      <p class="section-note">3D storybooks in three.js where paper cutouts fold up, pages curl over the spine and every scene plays its own animation.</p>
+    </div>
+    <div class="grid" data-cat="popup"></div>
+  </section>
+
   <section class="section" id="puzzle">
     <div class="section-head">
       <span class="section-kicker">Think it through</span>
@@ -171,15 +180,6 @@
       <p class="section-note">Small single-purpose game POCs — quick Rock-Paper-Scissors builds across different stacks.</p>
     </div>
     <div class="grid" data-cat="simple"></div>
-  </section>
-
-  <section class="section" id="popup">
-    <div class="section-head">
-      <span class="section-kicker">Turn the page</span>
-      <h2>Pop-up Books</h2>
-      <p class="section-note">3D storybooks in three.js where paper cutouts fold up, pages curl over the spine and every scene plays its own animation.</p>
-    </div>
-    <div class="grid" data-cat="popup"></div>
   </section>
 
   <footer>
@@ -230,6 +230,10 @@ const games=[
 {n:20,cat:"arcade",t:"Fly Catcher",c:"8-bit · iPhone Controller",d:"A local kitchen arcade game controlled by an iPhone accelerometer, with scoring chains and a 60-second clock.",img:"../pocs/fly-catcher-game-gpt-5.6-sol/public/assets/fly-catcher-logo.png",r:"fly-catcher-game-gpt-5.6-sol"},
 {n:21,cat:"arcade",t:"Brisa",c:"3D · Block Sandbox",d:"A sunny cartoon block sandbox on Costa do Sol, a fictional Brazilian coastline: build with eight materials, reshape the hills, or fly past palms and sailboats.",img:"../pocs/gpt-6-astra-high-blockgame/printscreens/desktop.png",r:"gpt-6-astra-high-blockgame"},
 
+{n:57,cat:"popup",t:"The Three Little Pigs",c:"3D · Pop-up Book",d:"12 spreads where paper cutouts fold up, pages curl over the spine, the wolf huffs and puffs and straw flies.",gif:"../pocs/popup-book-pigs/docs/popup-book-pigs.gif",url:"popup-book-pigs/"},
+{n:58,cat:"popup",t:"João e Maria",c:"3D · Pop-up Book · pt-BR",d:"Hansel and Gretel in Brazilian Portuguese: 10 animated spreads, a candy house, a witch's oven and native pt-BR narration.",gif:"../pocs/popup-book-joao-maria/docs/popup-book-joao-maria.gif",url:"popup-book-joao-maria/"},
+{n:59,cat:"popup",t:"Jack and the Beanstalk",c:"3D · Flying Pop-up Book",d:"One pop-up book flies through a 3D world, turns its pages mid-flight and grows a giant beanstalk up into the clouds.",gif:"../pocs/popup-book-jack/docs/popup-book-jack.gif",url:"popup-book-jack/"},
+
 {n:24,cat:"puzzle",t:"Pokemon Collector",c:"Cards · Opus 4.5",d:"A Pokemon trading-card collector built with Claude Opus 4.5.",img:"../pocs/claude-opus-4.5-pokemon-poc/opus-4.5-polemon-cards-1.png",r:"claude-opus-4.5-pokemon-poc"},
 {n:25,cat:"puzzle",t:"Rubik's Cube",c:"3D Puzzle · Fable 5",d:"A colorful 3D cube built with CSS transforms, animated layer turns, scrambling and automatic solving in one HTML file.",img:"../pocs/cc-fable-5-rubiks-cube-poc/printscreens/03-scrambled.png",r:"cc-fable-5-rubiks-cube-poc"},
 {n:26,cat:"puzzle",t:"Riverlight Poker School",c:"Poker · Python · Django",d:"A light-themed Texas Hold'em learning app that teaches the deck, hand strength, equity and street-by-street decisions, with heads-up play against local CLI agents.",img:"../pocs/gpt-5.6-sol-assisted-poker/docs/screenshots/cards-tab.png",r:"gpt-5.6-sol-assisted-poker"},
@@ -251,11 +255,7 @@ const games=[
 {n:34,cat:"simple",t:"Rock · Paper · Scissors",c:"React · CDN",d:"A single-file React Rock-Paper-Scissors game running via CDN, no build step.",img:"../pocs/opus-4.7-high-paper-game/screenshots/01-draw.png",r:"opus-4.7-high-paper-game"},
 {n:35,cat:"simple",t:"Rock Paper Sizer",c:"React · GPT-5 Codex",d:"A React Rock-Paper-Scissors game with round results, score tracking and win rate against the CPU.",img:"../pocs/openai-codex-5.3-poc-fun/result.png",r:"openai-codex-5.3-poc-fun"},
 {n:36,cat:"simple",t:"Codex Tetris",c:"React 19 · Codex App",d:"A classic Tetris with a configurable admin panel for themes, difficulty and timeouts, built with the Codex Mac app.",img:"../pocs/codex-app-agent-fun/codex-app-result.png",r:"codex-app-agent-fun"},
-{n:37,cat:"simple",t:"Cursor Tetris",c:"React · Rust · Cursor v3",d:"A full-stack Tetris with a React + Vite frontend and a Rust + Actix backend, built with Cursor v3.",img:"../pocs/cursor-v3-poc/browser-cursor.png",r:"cursor-v3-poc"},
-
-{n:57,cat:"popup",t:"The Three Little Pigs",c:"3D · Pop-up Book",d:"12 spreads where paper cutouts fold up, pages curl over the spine, the wolf huffs and puffs and straw flies.",gif:"../pocs/popup-book-pigs/docs/popup-book-pigs.gif",url:"popup-book-pigs/"},
-{n:58,cat:"popup",t:"João e Maria",c:"3D · Pop-up Book · pt-BR",d:"Hansel and Gretel in Brazilian Portuguese: 10 animated spreads, a candy house, a witch's oven and native pt-BR narration.",gif:"../pocs/popup-book-joao-maria/docs/popup-book-joao-maria.gif",url:"popup-book-joao-maria/"},
-{n:59,cat:"popup",t:"Jack and the Beanstalk",c:"3D · Flying Pop-up Book",d:"One pop-up book flies through a 3D world, turns its pages mid-flight and grows a giant beanstalk up into the clouds.",gif:"../pocs/popup-book-jack/docs/popup-book-jack.gif",url:"popup-book-jack/"}
+{n:37,cat:"simple",t:"Cursor Tetris",c:"React · Rust · Cursor v3",d:"A full-stack Tetris with a React + Vite frontend and a Rust + Actix backend, built with Cursor v3.",img:"../pocs/cursor-v3-poc/browser-cursor.png",r:"cursor-v3-poc"}
 ];
 games.forEach((g,i)=>g.n=i+1);
 
