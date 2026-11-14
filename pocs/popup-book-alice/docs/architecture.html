@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fffdf7}
+#arch{width:1200px;height:720px;display:block}
+text{font-family:Caveat;fill:#2b2b2b}
+.t{font-size:28px;font-weight:700}
+.s{font-size:21px}
+.box{stroke:#2b2b2b;stroke-width:2.5;filter:url(#wobble)}
+.line{fill:none;stroke:#2b2b2b;stroke-width:2.5;filter:url(#wobble);marker-end:url(#arrow)}
+</style>
+</head>
+<body>
+<svg id="arch" viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2b2b2b"/></marker>
+  </defs>
+  <text x="600" y="48" class="t" text-anchor="middle" style="font-size:38px">Alice Tunnel Book - architecture</text>
+
+  <rect x="40" y="90" width="300" height="150" rx="14" fill="#dbeafe" class="box"/>
+  <text x="190" y="128" class="t" text-anchor="middle">React UI</text>
+  <text x="190" y="160" class="s" text-anchor="middle">BookView: caption, arrows,</text>
+  <text x="190" y="186" class="s" text-anchor="middle">dots, swipe, keyboard</text>
+  <text x="190" y="212" class="s" text-anchor="middle">narration + full screen</text>
+
+  <rect x="40" y="300" width="300" height="120" rx="14" fill="#fde68a" class="box"/>
+  <text x="190" y="338" class="t" text-anchor="middle">TanStack Router</text>
+  <text x="190" y="370" class="s" text-anchor="middle">#/page/$page</text>
+  <text x="190" y="396" class="s" text-anchor="middle">10 chambers, clamped</text>
+
+  <rect x="40" y="480" width="300" height="190" rx="14" fill="#fbcfe8" class="box"/>
+  <text x="190" y="518" class="t" text-anchor="middle">Story + Narrator</text>
+  <text x="190" y="550" class="s" text-anchor="middle">PAGES: title + 2 caption lines</text>
+  <text x="190" y="576" class="s" text-anchor="middle">narrationParts: one sentence</text>
+  <text x="190" y="602" class="s" text-anchor="middle">per utterance</text>
+  <text x="190" y="628" class="s" text-anchor="middle">Web Speech API, English voice</text>
+
+  <rect x="450" y="90" width="320" height="200" rx="14" fill="#ddd6fe" class="box"/>
+  <text x="610" y="128" class="t" text-anchor="middle">Stage</text>
+  <text x="610" y="160" class="s" text-anchor="middle">one camera travels down -z</text>
+  <text x="610" y="186" class="s" text-anchor="middle">through every chamber</text>
+  <text x="610" y="212" class="s" text-anchor="middle">key light + soft shadows</text>
+  <text x="610" y="238" class="s" text-anchor="middle">travelFrame(): push, open next</text>
+
+  <rect x="450" y="380" width="320" height="230" rx="14" fill="#fecaca" class="box"/>
+  <text x="610" y="418" class="t" text-anchor="middle">Tunnel</text>
+  <text x="610" y="450" class="s" text-anchor="middle">paper layers at depths</text>
+  <text x="610" y="476" class="s" text-anchor="middle">accordionZ(): layers spring</text>
+  <text x="610" y="502" class="s" text-anchor="middle">open like a pulled accordion</text>
+  <text x="610" y="528" class="s" text-anchor="middle">pleated paper side walls</text>
+  <text x="610" y="554" class="s" text-anchor="middle">layerFade(), box clipping</text>
+
+  <rect x="860" y="90" width="300" height="230" rx="14" fill="#bbf7d0" class="box"/>
+  <text x="1010" y="128" class="t" text-anchor="middle">Scenes x 10</text>
+  <text x="1010" y="160" class="s" text-anchor="middle">cut-paper frames + cutouts</text>
+  <text x="1010" y="186" class="s" text-anchor="middle">3D cups, bottle, cake, cards</text>
+  <text x="1010" y="212" class="s" text-anchor="middle">scaleSet(): Drink Me grows</text>
+  <text x="1010" y="238" class="s" text-anchor="middle">the world, Eat Me shrinks it</text>
+  <text x="1010" y="264" class="s" text-anchor="middle">the fall loops forever</text>
+
+  <rect x="860" y="400" width="300" height="210" rx="14" fill="#fed7aa" class="box"/>
+  <text x="1010" y="438" class="t" text-anchor="middle">Art + Timelines</text>
+  <text x="1010" y="470" class="s" text-anchor="middle">Canvas 2D painted paper</text>
+  <text x="1010" y="496" class="s" text-anchor="middle">with cut windows</text>
+  <text x="1010" y="522" class="s" text-anchor="middle">pure loops: rabbit, sizes,</text>
+  <text x="1010" y="548" class="s" text-anchor="middle">grin, seats, roses</text>
+
+  <path class="line" d="M190 240 Q180 270 190 296"/>
+  <path class="line" d="M190 420 Q180 450 190 476"/>
+  <path class="line" d="M340 150 Q395 140 446 170"/>
+  <path class="line" d="M610 290 Q600 335 610 376"/>
+  <path class="line" d="M770 170 Q815 150 856 190"/>
+  <path class="line" d="M1010 320 Q1000 360 1010 396"/>
+  <path class="line" d="M856 520 Q815 500 774 510"/>
+</svg>
+</body>
+</html>

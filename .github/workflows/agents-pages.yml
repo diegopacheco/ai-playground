@@ -56,6 +56,7 @@ jobs:
           cp -R games/popup-book-jack _site/games/popup-book-jack
           cp -R games/popup-book-pinocchio _site/games/popup-book-pinocchio
           cp -R games/popup-book-ali-baba _site/games/popup-book-ali-baba
+          cp -R games/popup-book-alice _site/games/popup-book-alice
           grep -oE '\.\./pocs/[^"]+\.(png|jpg|jpeg|gif|svg|mp4|webm)' games/index.html | sort -u | sed 's#^\.\./##' | while read -r f; do
             mkdir -p "_site/$(dirname "$f")"
             cp "$f" "_site/$f"
