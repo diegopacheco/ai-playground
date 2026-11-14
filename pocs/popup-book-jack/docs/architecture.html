@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#fff}
+svg{display:block;font-family:Caveat,cursive}
+</style>
+</head>
+<body>
+<svg width="1200" height="760" viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#3b3b3b"/></marker>
+</defs>
+<rect width="1200" height="760" fill="#fff"/>
+<text x="600" y="50" text-anchor="middle" font-size="42" fill="#222">Jack and the Beanstalk - architecture</text>
+<g filter="url(#wobble)" stroke="#3b3b3b" stroke-width="2.5" font-size="26" fill="#222">
+<rect x="40" y="90" width="300" height="120" rx="14" fill="#ffe8cc"/>
+<rect x="450" y="90" width="300" height="120" rx="14" fill="#d8f0ff"/>
+<rect x="860" y="90" width="300" height="120" rx="14" fill="#e6dcff"/>
+<rect x="40" y="300" width="300" height="140" rx="14" fill="#dff5d8"/>
+<rect x="450" y="300" width="300" height="140" rx="14" fill="#fff4b8"/>
+<rect x="860" y="300" width="300" height="140" rx="14" fill="#ffd8e4"/>
+<rect x="40" y="540" width="300" height="150" rx="14" fill="#d8f0ff"/>
+<rect x="450" y="540" width="300" height="150" rx="14" fill="#dff5d8"/>
+<rect x="860" y="540" width="300" height="150" rx="14" fill="#ffe8cc"/>
+<path d="M340 150 Q395 140 450 150" fill="none" marker-end="url(#arrow)"/>
+<path d="M750 150 Q805 140 860 150" fill="none" marker-end="url(#arrow)"/>
+<path d="M600 210 Q590 255 600 300" fill="none" marker-end="url(#arrow)"/>
+<path d="M450 370 Q395 360 340 370" fill="none" marker-end="url(#arrow)"/>
+<path d="M750 370 Q805 360 860 370" fill="none" marker-end="url(#arrow)"/>
+<path d="M470 440 Q330 480 300 540" fill="none" marker-end="url(#arrow)"/>
+<path d="M600 440 Q590 490 600 540" fill="none" marker-end="url(#arrow)"/>
+<path d="M1010 440 Q1000 490 1010 540" fill="none" marker-end="url(#arrow)"/>
+<path d="M750 640 Q805 630 860 640" fill="none" marker-end="url(#arrow)"/>
+</g>
+<g font-size="27" fill="#222" text-anchor="middle">
+<text x="190" y="140">TanStack Router</text><text x="190" y="175" font-size="22">/page/$page, keys, swipe</text>
+<text x="600" y="140">BookView (React)</text><text x="600" y="175" font-size="22">caption, dots, narration</text>
+<text x="1010" y="140">Narrator</text><text x="1010" y="175" font-size="22">Web Speech, English voice picker</text>
+<text x="190" y="350">World</text><text x="190" y="385" font-size="22">altitude sky, night, stars, meteors,</text><text x="190" y="412" font-size="22">3D cloud sea, paper forest</text>
+<text x="600" y="350">Stage</text><text x="600" y="385" font-size="22">one book carried: fold, fly, land,</text><text x="600" y="412" font-size="22">MSAA + bloom + SMAA post FX</text>
+<text x="1010" y="350">StalkWorld</text><text x="1010" y="385" font-size="22">34 unit stalk, dirt burst, leaf swirl,</text><text x="1010" y="412" font-size="22">bird flock, crash dust cloud</text>
+<text x="190" y="590">flight.ts + transition.ts</text><text x="190" y="625" font-size="22">camera arc, fold, page turn in flight,</text><text x="190" y="652" font-size="22">book banking, pure, unit tested</text>
+<text x="600" y="590">10 Stations, 1 Book</text><text x="600" y="625" font-size="22">landing spots: meadow, cloud islands,</text><text x="600" y="652" font-size="22">a stalk leaf; pop-ups on paper tabs</text>
+<text x="1010" y="590">timelines.ts</text><text x="1010" y="625" font-size="22">grow, eggs, chase, chop, fall</text><text x="1010" y="652" font-size="22">pure, unit tested</text>
+</g>
+</svg>
+</body>
+</html>
