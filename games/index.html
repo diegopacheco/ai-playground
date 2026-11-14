@@ -107,7 +107,7 @@
     <div class="hero-side">
       <span class="hero-side-label">Catalog index</span>
       <div class="stats">
-        <div class="stat"><strong>60</strong><span>Games</span></div>
+        <div class="stat"><strong>61</strong><span>Games</span></div>
         <div class="stat"><strong>7</strong><span>Categories</span></div>
         <div class="stat"><strong>10</strong><span>CV Games</span></div>
       </div>
@@ -234,6 +234,7 @@ const games=[
 {n:58,cat:"popup",t:"João e Maria",c:"3D · Pop-up Book · pt-BR",d:"Hansel and Gretel in Brazilian Portuguese: 10 animated spreads, a candy house, a witch's oven and native pt-BR narration.",gif:"../pocs/popup-book-joao-maria/docs/popup-book-joao-maria.gif",url:"popup-book-joao-maria/"},
 {n:59,cat:"popup",t:"Jack and the Beanstalk",c:"3D · Flying Pop-up Book",d:"One pop-up book flies through a 3D world, turns its pages mid-flight and grows a giant beanstalk up into the clouds.",gif:"../pocs/popup-book-jack/docs/popup-book-jack.gif",url:"popup-book-jack/"},
 {n:60,cat:"popup",t:"Pinocchio",c:"3D · Pop-up Puppet Theater",d:"12 scenes on a 3D puppet stage: velvet curtains close between acts, follow spots chase marionettes, the nose grows and a shark swallows Pinocchio.",gif:"../pocs/popup-book-pinocchio/docs/popup-book-pinocchio.gif",url:"popup-book-pinocchio/"},
+{n:61,cat:"popup",t:"Ali Baba",c:"3D · Shadow Theater",d:"Ali Baba and the Forty Thieves as real lamp shadows on a paper screen: colored filters, a moving lamp that makes shadows loom, 12 scenes and a peek behind the screen.",gif:"../pocs/popup-book-ali-baba/docs/popup-book-ali-baba.gif",url:"popup-book-ali-baba/"},
 
 {n:24,cat:"puzzle",t:"Pokemon Collector",c:"Cards · Opus 4.5",d:"A Pokemon trading-card collector built with Claude Opus 4.5.",img:"../pocs/claude-opus-4.5-pokemon-poc/opus-4.5-polemon-cards-1.png",r:"claude-opus-4.5-pokemon-poc"},
 {n:25,cat:"puzzle",t:"Rubik's Cube",c:"3D Puzzle · Fable 5",d:"A colorful 3D cube built with CSS transforms, animated layer turns, scrambling and automatic solving in one HTML file.",img:"../pocs/cc-fable-5-rubiks-cube-poc/printscreens/03-scrambled.png",r:"cc-fable-5-rubiks-cube-poc"},
@@ -268,7 +269,8 @@ function media(g){
   return '<div class="art ph" style="background:'+g.bg+'">'+rank+'<span class="ph-emoji">'+g.ph+'</span></div>';
 }
 function card(g){
-  return '<a class="card" href="'+(g.url||base+g.r)+'">'+media(g)+
+  const tab=g.cat==='popup'?' target="_blank" rel="noreferrer"':'';
+  return '<a class="card" href="'+(g.url||base+g.r)+'"'+tab+'>'+media(g)+
     '<div class="body"><div class="category">'+g.c+'</div><h3>'+g.t+'</h3><p>'+g.d+'</p>'+
     '<div class="open"><span>'+(g.url?'Play game':'Open POC')+'</span><span class="arr">&rarr;</span></div></div></a>';
 }

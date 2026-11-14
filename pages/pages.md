@@ -36,6 +36,7 @@ The `diegopacheco/agent-skills` repository is also a separate site. It has no wo
 | `diegopacheco/ai-playground` | `games/popup-book-joao-maria/index.html` and `games/popup-book-joao-maria/assets/` | `https://diegopacheco.github.io/ai-playground/games/popup-book-joao-maria/` |
 | `diegopacheco/ai-playground` | `games/popup-book-jack/index.html` and `games/popup-book-jack/assets/` | `https://diegopacheco.github.io/ai-playground/games/popup-book-jack/` |
 | `diegopacheco/ai-playground` | `games/popup-book-pinocchio/index.html` and `games/popup-book-pinocchio/assets/` | `https://diegopacheco.github.io/ai-playground/games/popup-book-pinocchio/` |
+| `diegopacheco/ai-playground` | `games/popup-book-ali-baba/index.html` and `games/popup-book-ali-baba/assets/` | `https://diegopacheco.github.io/ai-playground/games/popup-book-ali-baba/` |
 | `diegopacheco/ai-playground` | `mcp/index.html` | `https://diegopacheco.github.io/ai-playground/mcp/` |
 | `diegopacheco/ai-playground` | `macos-chrome-apps/index.html` | `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` |
 | `diegopacheco/ai-playground` | `pocs/agentsfile/landing/index.html`, `pocs/agentsfile/logo.svg`, `pocs/agentsfile/spec/SPEC.md` and `pocs/agentsfile/printscreens/` | `https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/` |
@@ -64,6 +65,7 @@ The aggregate workflow currently creates these entry points:
 | `games/popup-book-joao-maria/` | `_site/games/popup-book-joao-maria/` |
 | `games/popup-book-jack/` | `_site/games/popup-book-jack/` |
 | `games/popup-book-pinocchio/` | `_site/games/popup-book-pinocchio/` |
+| `games/popup-book-ali-baba/` | `_site/games/popup-book-ali-baba/` |
 | `mcp/index.html` | `_site/mcp/index.html` |
 | `macos-chrome-apps/index.html` | `_site/macos-chrome-apps/index.html` |
 | `pocs/agentsfile/landing/` | `_site/pocs/agentsfile/landing/` |
@@ -132,6 +134,7 @@ Spotlight counts use the exact number with `+`. Page stats use the exact number.
 - `_site/games/popup-book-joao-maria/index.html` exists.
 - `_site/games/popup-book-jack/index.html` exists.
 - `_site/games/popup-book-pinocchio/index.html` exists.
+- `_site/games/popup-book-ali-baba/index.html` exists.
 - `_site/mcp/index.html` exists.
 - `_site/macos-chrome-apps/index.html` exists.
 - `_site/pocs/agentsfile/landing/index.html` exists.
@@ -157,6 +160,7 @@ Spotlight counts use the exact number with `+`. Page stats use the exact number.
 - `https://diegopacheco.github.io/ai-playground/games/popup-book-joao-maria/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/games/popup-book-jack/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/games/popup-book-pinocchio/` returns HTTP 200.
+- `https://diegopacheco.github.io/ai-playground/games/popup-book-ali-baba/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/mcp/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/` returns HTTP 200.
