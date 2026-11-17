@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#333"/></marker>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700');text{font-family:Caveat,'Comic Sans MS',cursive;fill:#222}.t{font-size:26px;font-weight:700}.s{font-size:18px}</style>
+  </defs>
+  <rect width="1000" height="1000" fill="#fffdf8"/>
+  <text x="500" y="70" text-anchor="middle" class="t" style="font-size:40px">pstack Router Lab</text>
+  <g filter="url(#wobble)" stroke="#333" stroke-width="2.5">
+    <rect x="60" y="130" width="380" height="150" rx="14" fill="#fde2c8"/>
+    <rect x="560" y="130" width="380" height="150" rx="14" fill="#e0ecff"/>
+    <rect x="60" y="420" width="380" height="170" rx="14" fill="#e3f6e0"/>
+    <rect x="560" y="420" width="380" height="170" rx="14" fill="#f3e3ff"/>
+    <rect x="260" y="740" width="480" height="170" rx="14" fill="#fff4c2"/>
+  </g>
+  <text x="250" y="180" text-anchor="middle" class="t">.claude/skills</text>
+  <text x="250" y="215" text-anchor="middle" class="s">58 pstack skills, installed locally</text>
+  <text x="250" y="245" text-anchor="middle" class="s">poteto-mode SKILL.md + playbooks/*.md</text>
+  <text x="750" y="180" text-anchor="middle" class="t">tools/extract.ts</text>
+  <text x="750" y="215" text-anchor="middle" class="s">parses steps and principles</text>
+  <text x="750" y="245" text-anchor="middle" class="s">writes src/data/pstack.json</text>
+  <text x="250" y="470" text-anchor="middle" class="t">domain/router.ts</text>
+  <text x="250" y="505" text-anchor="middle" class="s">task text to one playbook</text>
+  <text x="250" y="535" text-anchor="middle" class="s">or figure-it-out, plus fixed triggers</text>
+  <text x="250" y="565" text-anchor="middle" class="s">/how /architect /unslop ...</text>
+  <text x="750" y="470" text-anchor="middle" class="t">domain/run.ts</text>
+  <text x="750" y="505" text-anchor="middle" class="s">todo list copied word for word</text>
+  <text x="750" y="535" text-anchor="middle" class="s">done needs evidence, skip needs reason</text>
+  <text x="750" y="565" text-anchor="middle" class="s">gate: no report without proof</text>
+  <text x="500" y="790" text-anchor="middle" class="t">React UI + TanStack Router</text>
+  <text x="500" y="825" text-anchor="middle" class="s">Lab, Playbooks, Principles tabs</text>
+  <text x="500" y="855" text-anchor="middle" class="s">served by Vite on Bun</text>
+  <g fill="none" stroke="#333" stroke-width="2.5" marker-end="url(#arrow)">
+    <path d="M440 205 Q500 185 556 205"/>
+    <path d="M700 284 Q560 350 330 416"/>
+    <path d="M780 284 Q800 350 760 416"/>
+    <path d="M440 505 Q500 480 556 505"/>
+    <path d="M250 594 Q300 690 360 736"/>
+    <path d="M750 594 Q700 690 640 736"/>
+  </g>
+  <text x="500" y="175" text-anchor="middle" class="s">read</text>
+  <text x="430" y="345" class="s">catalog json</text>
+  <text x="500" y="470" text-anchor="middle" class="s">start run</text>
+</svg>
