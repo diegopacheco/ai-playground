@@ -19,5 +19,5 @@ const catalog: Catalog = {
   principles: parsePrinciples(readFileSync(join(poteto, "SKILL.md"), "utf8")),
 };
 
-writeFileSync(join(root, "src", "data", "pstack.json"), JSON.stringify(catalog, null, 2) + "\n");
+writeFileSync(join(root, "src", "catalog", "pstack.json"), JSON.stringify(catalog, null, 2) + "\n");
 console.log(`extracted ${catalog.skills.length} skills, ${catalog.playbooks.length} playbooks, ${catalog.principles.length} principles`);

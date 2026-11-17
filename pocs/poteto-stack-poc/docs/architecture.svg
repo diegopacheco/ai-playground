@@ -18,7 +18,7 @@
   <text x="250" y="245" text-anchor="middle" class="s">poteto-mode SKILL.md + playbooks/*.md</text>
   <text x="750" y="180" text-anchor="middle" class="t">tools/extract.ts</text>
   <text x="750" y="215" text-anchor="middle" class="s">parses steps and principles</text>
-  <text x="750" y="245" text-anchor="middle" class="s">writes src/data/pstack.json</text>
+  <text x="750" y="245" text-anchor="middle" class="s">writes src/catalog/pstack.json</text>
   <text x="250" y="470" text-anchor="middle" class="t">domain/router.ts</text>
   <text x="250" y="505" text-anchor="middle" class="s">task text to one playbook</text>
   <text x="250" y="535" text-anchor="middle" class="s">or figure-it-out, plus fixed triggers</text>

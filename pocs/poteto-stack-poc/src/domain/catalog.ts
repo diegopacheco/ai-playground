@@ -1,4 +1,4 @@
-import data from "../data/pstack.json";
+import data from "../catalog/pstack.json";
 import type { Catalog, Playbook } from "./types";
 
 export const catalog = data as Catalog;

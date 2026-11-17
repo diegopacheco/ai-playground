@@ -9,7 +9,7 @@ The pstack skills are installed in this folder only (`.claude/skills` and `.clau
 ## How it Works
 
 1. `.claude/skills` holds pstack 0.15.43 (MIT): 58 skills, including `poteto-mode` with its 22 playbooks and principle index.
-2. `tools/extract.ts` parses those markdown files and writes `src/data/pstack.json`. Nothing is copied by hand, so the UI shows what the installed skills actually say ("Build the Lever").
+2. `tools/extract.ts` parses those markdown files and writes `src/catalog/pstack.json`. Nothing is copied by hand, so the UI shows what the installed skills actually say ("Build the Lever").
 3. `domain/router.ts` matches the task against a keyword table and picks one playbook. Broad work (migrate, rewrite, across the codebase) or a task no playbook fits goes to `figure-it-out`, as poteto-mode does.
 4. The same file fires the fixed triggers: `/how` for nontrivial changes, `/architect` across a boundary, `/interrogate` for contested design, `benchmark-checklist` for numbers, `unslop` always.
 5. `domain/run.ts` models each step as a typed state: `todo`, `done` with evidence, or `skipped` with a reason.
@@ -40,7 +40,7 @@ The pstack skills are installed in this folder only (`.claude/skills` and `.clau
 
 ## Contracts
 
-There is no HTTP API. The contract is the extracted catalog in `src/data/pstack.json`:
+There is no HTTP API. The contract is the extracted catalog in `src/catalog/pstack.json`:
 
 ```ts
 type Catalog = {
