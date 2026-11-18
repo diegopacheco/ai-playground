@@ -1,0 +1,18 @@
+{
+  "name": "restate-agent-service",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/main.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@restatedev/restate-sdk": "1.18.4"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "typescript": "7.0.2"
+  }
+}
