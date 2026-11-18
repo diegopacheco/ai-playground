@@ -1,0 +1,19 @@
+{
+  "name": "triggerdev-agent-tasks",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "trigger dev",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@trigger.dev/sdk": "4.8.5"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.4",
+    "trigger.dev": "4.8.5",
+    "typescript": "7.0.2"
+  }
+}

@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: docker.io/library/postgres:17
+    container_name: dbos-poc-fun-py-postgres
+    environment:
+      POSTGRES_USER: dbos
+      POSTGRES_PASSWORD: dbos
+      POSTGRES_DB: dbos_agent
+    ports:
+      - "5434:5432"
+    volumes:
+      - dbos-pg-data:/var/lib/postgresql/data
+volumes:
+  dbos-pg-data: {}
