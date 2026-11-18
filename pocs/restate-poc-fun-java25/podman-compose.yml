@@ -1,0 +1,13 @@
+services:
+  restate:
+    image: docker.restate.dev/restatedev/restate:1.8.1
+    container_name: restate-poc-fun-java25
+    environment:
+      RESTATE_BASE_DIR: /restate-data
+    ports:
+      - "${RESTATE_INGRESS_PORT}:8080"
+      - "${RESTATE_ADMIN_PORT}:9070"
+    volumes:
+      - restate-data:/restate-data
+volumes:
+  restate-data: {}
