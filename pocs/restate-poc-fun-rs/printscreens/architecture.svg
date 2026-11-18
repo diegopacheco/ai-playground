@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap'); text { font-family: 'Caveat', 'Comic Sans MS', cursive; fill: #1f2937; }</style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#374151"/></marker>
+  </defs>
+  <rect width="1200" height="1200" fill="#fffdf7"/>
+  <text x="600" y="90" font-size="56" font-weight="700" text-anchor="middle">restate-poc-fun-rs</text>
+  <text x="600" y="135" font-size="30" text-anchor="middle">React UI, Restate server, Rust durable workflow, CLI agents</text>
+
+  <g filter="url(#wobble)" stroke="#374151" stroke-width="3">
+    <rect x="40" y="220" width="320" height="200" rx="18" fill="#dbeafe"/>
+    <rect x="440" y="220" width="320" height="200" rx="18" fill="#fde68a"/>
+    <rect x="840" y="220" width="320" height="200" rx="18" fill="#e9d5ff"/>
+    <rect x="370" y="560" width="460" height="260" rx="18" fill="#fecaca"/>
+    <rect x="80" y="900" width="1060" height="200" rx="18" fill="#bbf7d0"/>
+  </g>
+
+  <text x="200" y="285" font-size="36" font-weight="700" text-anchor="middle">React UI</text>
+  <text x="200" y="330" font-size="24" text-anchor="middle">Vite + TanStack</text>
+  <text x="200" y="370" font-size="24" text-anchor="middle">polls status every 1.5s</text>
+
+  <text x="600" y="285" font-size="36" font-weight="700" text-anchor="middle">Restate server</text>
+  <text x="600" y="330" font-size="24" text-anchor="middle">ingress + admin (podman)</text>
+  <text x="600" y="370" font-size="24" text-anchor="middle">journal, K/V state, retries</text>
+
+  <text x="1000" y="285" font-size="36" font-weight="700" text-anchor="middle">Restate UI</text>
+  <text x="1000" y="330" font-size="24" text-anchor="middle">invocation journal</text>
+  <text x="1000" y="370" font-size="24" text-anchor="middle">deep link per run</text>
+
+  <text x="600" y="620" font-size="36" font-weight="700" text-anchor="middle">agent-service (Rust)</text>
+  <text x="600" y="665" font-size="24" text-anchor="middle">restate-sdk 0.13 + Tokio</text>
+  <text x="600" y="710" font-size="24" text-anchor="middle">AgentWorkflow.run / .status</text>
+  <text x="600" y="755" font-size="24" text-anchor="middle">plan, task 1..4, summarize</text>
+  <text x="600" y="795" font-size="24" text-anchor="middle">each step is a journaled ctx.run</text>
+
+  <text x="600" y="965" font-size="36" font-weight="700" text-anchor="middle">Agent CLIs (one picked in scripts/agent.conf)</text>
+  <text x="600" y="1015" font-size="30" text-anchor="middle">claude -p   |   codex exec   |   agy -p   |   ollama run</text>
+  <text x="600" y="1060" font-size="24" text-anchor="middle">prompts loaded from prompts/*.md with $params</text>
+
+  <g fill="none" stroke="#374151" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M362,330 Q400,320 438,330"/>
+    <path d="M762,330 Q800,320 838,330"/>
+    <path d="M560,422 Q535,490 560,556"/>
+    <path d="M640,556 Q665,490 640,424"/>
+    <path d="M600,822 Q580,860 600,896"/>
+  </g>
+  <text x="400" y="205" font-size="24" text-anchor="middle">/ingress + /admin</text>
+  <text x="440" y="495" font-size="26" text-anchor="middle">invokes handlers</text>
+  <text x="760" y="495" font-size="26" text-anchor="middle">journal + state</text>
+  <text x="720" y="870" font-size="26" text-anchor="middle">spawns process</text>
+</svg>
