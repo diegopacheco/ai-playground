@@ -1,0 +1,13 @@
+services:
+  temporal:
+    image: docker.io/temporalio/temporal:1.10.1
+    container_name: temporal-poc-fun-py
+    user: "0:0"
+    command: ["server", "start-dev", "--ip", "0.0.0.0", "--ui-ip", "0.0.0.0", "--db-filename", "/data/temporal.db"]
+    ports:
+      - "7233:7233"
+      - "8233:8233"
+    volumes:
+      - temporal-data:/data
+volumes:
+  temporal-data: {}

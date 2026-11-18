@@ -1,0 +1,18 @@
+[project]
+name = "temporal-agent-service"
+version = "1.0.0"
+requires-python = ">=3.15"
+dependencies = ["temporalio==1.36.1", "granian==2.8.8"]
+
+[dependency-groups]
+dev = ["pytest==9.2.0", "ty==0.0.105"]
+
+[build-system]
+requires = ["uv_build>=0.10,<0.11"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "agent_service"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

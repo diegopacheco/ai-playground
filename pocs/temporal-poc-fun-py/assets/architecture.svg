@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1100" viewBox="0 0 1100 1100">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap'); text { font-family: 'Caveat', 'Comic Sans MS', cursive; fill: #1f2937; } .t { font-size: 30px; font-weight: 700; } .s { font-size: 23px; } .l { font-size: 21px; fill: #374151; }</style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f2937"/></marker>
+  </defs>
+  <rect width="1100" height="1100" fill="#ffffff"/>
+  <text x="550" y="60" text-anchor="middle" class="t" style="font-size:38px">Temporal agentic workflow POC</text>
+
+  <g filter="url(#wobble)" stroke="#1f2937" stroke-width="2.5">
+    <rect x="50" y="120" width="300" height="190" rx="16" fill="#dbeafe"/>
+    <rect x="470" y="120" width="580" height="150" rx="18" fill="#e0e7ff"/>
+    <rect x="470" y="370" width="580" height="210" rx="18" fill="#dcfce7"/>
+    <rect x="50" y="700" width="300" height="130" rx="16" fill="#f3e8ff"/>
+    <rect x="50" y="880" width="300" height="150" rx="16" fill="#fce7f3"/>
+    <rect x="470" y="680" width="580" height="350" rx="18" fill="#fef3c7"/>
+    <rect x="500" y="800" width="520" height="200" rx="12" fill="#ffffff"/>
+  </g>
+
+  <text x="200" y="165" text-anchor="middle" class="t">Browser UI :5195</text>
+  <text x="200" y="200" text-anchor="middle" class="s">Vite + React 19 + TanStack</text>
+  <text x="200" y="232" text-anchor="middle" class="s">start a goal, live steps</text>
+  <text x="200" y="264" text-anchor="middle" class="l">"See it running in Temporal"</text>
+  <text x="200" y="292" text-anchor="middle" class="l">opens the Temporal Web UI</text>
+
+  <text x="760" y="162" text-anchor="middle" class="t">agent-api :9083</text>
+  <text x="760" y="198" text-anchor="middle" class="s">Python 3.15 on host, Granian ASGI</text>
+  <text x="760" y="232" text-anchor="middle" class="s">start_workflow, list, describe + memo</text>
+
+  <text x="760" y="412" text-anchor="middle" class="t">Temporal 1.10.1 (podman)</text>
+  <text x="760" y="448" text-anchor="middle" class="s">server :7233 + Web UI :8233</text>
+  <text x="760" y="482" text-anchor="middle" class="s">event history of every workflow</text>
+  <text x="760" y="516" text-anchor="middle" class="s">timers, retries, heartbeat timeouts</text>
+  <text x="760" y="550" text-anchor="middle" class="l">SQLite file on a podman volume</text>
+
+  <text x="200" y="742" text-anchor="middle" class="t">prompts/</text>
+  <text x="200" y="776" text-anchor="middle" class="s">plan-goal, execute-task,</text>
+  <text x="200" y="808" text-anchor="middle" class="s">summarize-run</text>
+
+  <text x="200" y="922" text-anchor="middle" class="t">agent CLI on host</text>
+  <text x="200" y="958" text-anchor="middle" class="l">claude | codex | agy | ollama</text>
+  <text x="200" y="992" text-anchor="middle" class="l">picked by scripts/agent.conf</text>
+
+  <text x="760" y="722" text-anchor="middle" class="t">worker (Python 3.15 on host)</text>
+  <text x="760" y="758" text-anchor="middle" class="s">polls the agent-tasks queue</text>
+  <text x="760" y="836" text-anchor="middle" class="t">AgentWorkflow (@workflow.defn)</text>
+  <text x="760" y="872" text-anchor="middle" class="s">read_config -&gt; plan_goal -&gt; execute_task</text>
+  <text x="760" y="904" text-anchor="middle" class="s">x N -&gt; summarize_run, each an activity</text>
+  <text x="760" y="938" text-anchor="middle" class="s">activities heartbeat every 2s, 3 attempts</text>
+  <text x="760" y="972" text-anchor="middle" class="s">upsert_memo("state") for live progress</text>
+
+  <g fill="none" stroke="#1f2937" stroke-width="2.5" marker-end="url(#arrow)">
+    <path d="M352,210 Q410,190 466,200"/>
+    <path d="M760,272 Q780,320 760,366"/>
+    <path d="M660,582 Q640,630 660,676"/>
+    <path d="M880,676 Q900,630 880,584"/>
+    <path d="M352,765 Q410,770 466,780"/>
+    <path d="M466,960 Q410,965 352,955"/>
+  </g>
+  <text x="410" y="180" text-anchor="middle" class="l">HTTP</text>
+  <text x="785" y="328" class="l">gRPC client</text>
+  <text x="635" y="636" text-anchor="end" class="l">workflow + activity tasks</text>
+  <text x="905" y="636" class="l">commands, results</text>
+  <text x="410" y="752" text-anchor="middle" class="l">load</text>
+  <text x="410" y="945" text-anchor="middle" class="l">spawn</text>
+</svg>
