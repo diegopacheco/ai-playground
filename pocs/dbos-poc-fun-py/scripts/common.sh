@@ -162,6 +162,13 @@ start_agent_service() {
   wait_http_ok "$(service_url agent-service)/health" 60 || fail "agent-service did not start, see $LOGS/agent-service.log"
 }
 
+start_dashboard() {
+  start_bg dashboard-api "$ROOT/dashboard" env DATABASE_URL="$DATABASE_URL" PORT="$(service_port dashboard-api)" bun server/main.ts
+  wait_http_ok "$(service_url dashboard-api)/api/health" 30 || fail "dashboard-api did not start, see $LOGS/dashboard-api.log"
+  start_bg dashboard "$ROOT/dashboard" bun run dev --port "$(service_port dashboard)" --strictPort
+  wait_port_up "$(service_port dashboard)" 30 || fail "dashboard did not start, see $LOGS/dashboard.log"
+}
+
 kill_agent_service() {
   local pid
   pid="$(cat "$RUN/agent-service.pid")"

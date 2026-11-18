@@ -71,9 +71,6 @@ class Api:
                 return Response(200, await asyncio.to_thread(self.store.runs))
             case "GET", ["runs", run_id]:
                 return Response(200, await asyncio.to_thread(self.store.state, run_id))
-            case "GET", ["runs", run_id, "journal"]:
-                journal = await asyncio.to_thread(self.store.journal, run_id)
-                return Response(404, {"error": f"no workflow {run_id}"}) if journal is None else Response(200, journal)
             case _:
                 return Response(404, {"error": f"no route {method} {path}"})
 

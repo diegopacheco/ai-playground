@@ -10,10 +10,15 @@ log "postgres up"
 start_agent_service
 log "agent-service up, DBOS launched and recovered any pending workflow"
 
+start_dashboard
+log "dbos dashboard up"
+
 start_bg ui "$ROOT/ui" bun run dev --port "$(service_port ui)" --strictPort
 wait_port_up "$(service_port ui)" 30 || fail "ui did not start, see $LOGS/ui.log"
 
 log ""
 log "ui              $(service_url ui)"
+log "dashboard       $(service_url dashboard)"
 log "agent-service   $(service_url agent-service)"
+log "dashboard-api   $(service_url dashboard-api)"
 log "postgres        $DATABASE_URL"

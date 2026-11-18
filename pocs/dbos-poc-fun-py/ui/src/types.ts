@@ -23,20 +23,3 @@ export interface RunRow {
   status: string;
   created_at: number;
 }
-
-export interface JournalStep {
-  id: number;
-  name: string;
-  output: string;
-  error: string;
-  started_at: number | null;
-  completed_at: number | null;
-}
-
-export interface Journal {
-  run_id: string;
-  status: string;
-  executor: string;
-  app_version: string;
-  steps: JournalStep[];
-}

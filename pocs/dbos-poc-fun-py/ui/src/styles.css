@@ -34,8 +34,4 @@ td { padding: 10px 6px; border-top: 1px solid var(--line); vertical-align: middl
 .summary { border-left: 4px solid var(--ok); background: #f0fdf4; padding: 12px 16px; border-radius: 8px; }
 .summary p { margin: 0; white-space: pre-wrap; }
 th { text-align: left; font-size: 12px; color: var(--muted); padding: 6px; }
-.journal tr.internal td { color: var(--muted); font-size: 13px; }
-.journal code { font-size: 13px; }
-.journal details summary { cursor: pointer; color: #374151; }
-.journal pre { white-space: pre-wrap; background: #f3f4f8; padding: 10px; border-radius: 8px; font-size: 13px; }
 @media (max-width: 600px) { td { display: block; border: 0; padding: 4px 0; } tr { display: block; border-top: 1px solid var(--line); padding: 8px 0; } .right { text-align: left; } }

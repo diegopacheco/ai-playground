@@ -11,6 +11,7 @@ const ports = Object.fromEntries(
 
 export default defineConfig({
   plugins: [react()],
+  define: { "import.meta.env.VITE_DASHBOARD_URL": JSON.stringify(`http://localhost:${ports.dashboard}`) },
   server: {
     proxy: {
       "/api": { target: `http://localhost:${ports["agent-service"]}`, rewrite: path => path.replace(/^\/api/, "") },

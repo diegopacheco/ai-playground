@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { fetchRuns, startRun } from "../api.ts";
 import { pillClass } from "../dbos.ts";
-import { JournalButton } from "../JournalButton.tsx";
+import { DashboardButton } from "../DashboardButton.tsx";
 
 export function RunsPage() {
   const [goal, setGoal] = useState("Plan a 3 day trip to Lisbon for a food lover");
@@ -36,7 +36,7 @@ export function RunsPage() {
                 <td><Link to="/runs/$runId" params={{ runId: run.run_id }}>{run.run_id}</Link></td>
                 <td><span className={`pill ${pillClass(run.status)}`}>{run.status}</span></td>
                 <td className="muted">{new Date(run.created_at).toLocaleString()}</td>
-                <td className="right"><JournalButton runId={run.run_id} label="Open DBOS journal" /></td>
+                <td className="right"><DashboardButton runId={run.run_id} label="Open in DBOS dashboard" /></td>
               </tr>
             ))}
           </tbody>

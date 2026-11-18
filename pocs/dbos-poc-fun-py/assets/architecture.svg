@@ -14,13 +14,14 @@
     <rect x="50" y="370" width="300" height="150" rx="16" fill="#f3e8ff"/>
     <rect x="50" y="680" width="300" height="170" rx="16" fill="#fce7f3"/>
     <rect x="470" y="640" width="580" height="230" rx="18" fill="#dcfce7"/>
+    <rect x="50" y="920" width="420" height="150" rx="16" fill="#e0f2fe"/>
   </g>
 
   <text x="200" y="175" text-anchor="middle" class="t">Browser UI :5193</text>
   <text x="200" y="210" text-anchor="middle" class="s">Vite + React 19 + TanStack</text>
   <text x="200" y="242" text-anchor="middle" class="s">start a goal, live steps</text>
   <text x="200" y="274" text-anchor="middle" class="s">"See it running in DBOS"</text>
-  <text x="200" y="302" text-anchor="middle" class="l">opens the journal page</text>
+  <text x="200" y="302" text-anchor="middle" class="l">opens the DBOS Dashboard</text>
 
   <text x="760" y="152" text-anchor="middle" class="t">agent-service :9081</text>
   <text x="760" y="186" text-anchor="middle" class="s">Python 3.15 on host, Granian ASGI, no framework</text>
@@ -29,7 +30,7 @@
   <text x="760" y="316" text-anchor="middle" class="s">read config -&gt; plan -&gt; task 1..4 -&gt; summarize</text>
   <text x="760" y="350" text-anchor="middle" class="s">each agent call is a @DBOS.step with retries</text>
   <text x="760" y="410" text-anchor="middle" class="s">DBOS.set_event("state") publishes live progress</text>
-  <text x="760" y="444" text-anchor="middle" class="s">DBOS.list_workflow_steps feeds the journal page</text>
+  <text x="760" y="444" text-anchor="middle" class="s">AgentJsonSerializer stores every value as JSON</text>
 
   <text x="200" y="412" text-anchor="middle" class="t">prompts/</text>
   <text x="200" y="446" text-anchor="middle" class="s">plan-goal.md</text>
@@ -47,12 +48,19 @@
   <text x="760" y="790" text-anchor="middle" class="s">operation_outputs: one row per finished step</text>
   <text x="760" y="824" text-anchor="middle" class="s">workflow_events: the published RunState</text>
 
+  <text x="260" y="962" text-anchor="middle" class="t">DBOS Dashboard :5196</text>
+  <text x="260" y="996" text-anchor="middle" class="s">Bun.serve + Bun.sql API :9084</text>
+  <text x="260" y="1028" text-anchor="middle" class="s">workflows, timeline, steps, events</text>
+  <text x="260" y="1058" text-anchor="middle" class="l">read only SQL on schema dbos</text>
+
   <g fill="none" stroke="#1f2937" stroke-width="2.5" marker-end="url(#arrow)">
     <path d="M352,225 Q410,205 466,215"/>
     <path d="M352,440 Q410,440 466,430"/>
     <path d="M466,470 Q380,580 300,676"/>
     <path d="M860,494 Q880,565 860,636"/>
     <path d="M660,636 Q640,565 660,494"/>
+    <path d="M474,985 Q640,960 700,874"/>
+    <path d="M40,300 Q10,620 46,960"/>
   </g>
   <text x="410" y="196" text-anchor="middle" class="l">HTTP</text>
   <text x="410" y="425" text-anchor="middle" class="l">load</text>
@@ -60,4 +68,6 @@
   <text x="885" y="570" class="l">checkpoint each step</text>
   <text x="635" y="555" text-anchor="end" class="l">recover pending</text>
   <text x="635" y="582" text-anchor="end" class="l">runs on restart</text>
+  <text x="640" y="990" class="l">SELECT</text>
+  <text x="24" y="640" class="l" transform="rotate(-90 24 640)">new tab</text>
 </svg>

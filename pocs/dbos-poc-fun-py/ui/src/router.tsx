@@ -1,5 +1,4 @@
 import { Link, Outlet, createRootRoute, createRoute, createRouter } from "@tanstack/react-router";
-import { JournalPage } from "./pages/JournalPage.tsx";
 import { RunPage } from "./pages/RunPage.tsx";
 import { RunsPage } from "./pages/RunsPage.tsx";
 
@@ -19,9 +18,7 @@ const runsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/", comp
 
 export const runRoute = createRoute({ getParentRoute: () => rootRoute, path: "/runs/$runId", component: RunPage });
 
-export const journalRoute = createRoute({ getParentRoute: () => rootRoute, path: "/runs/$runId/journal", component: JournalPage });
-
-export const router = createRouter({ routeTree: rootRoute.addChildren([runsRoute, runRoute, journalRoute]) });
+export const router = createRouter({ routeTree: rootRoute.addChildren([runsRoute, runRoute]) });
 
 declare module "@tanstack/react-router" {
   interface Register {

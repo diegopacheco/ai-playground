@@ -1,4 +1,4 @@
-import type { Journal, RunRow, RunState } from "./types.ts";
+import type { RunRow, RunState } from "./types.ts";
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, { ...init, headers: { "content-type": "application/json", accept: "application/json" } });
@@ -17,8 +17,4 @@ export function fetchStatus(runId: string): Promise<RunState | null> {
 
 export function fetchRuns(): Promise<RunRow[]> {
   return request<RunRow[]>("/api/runs");
-}
-
-export function fetchJournal(runId: string): Promise<Journal> {
-  return request<Journal>(`/api/runs/${encodeURIComponent(runId)}/journal`);
 }

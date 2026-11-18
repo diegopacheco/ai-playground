@@ -11,5 +11,6 @@ agent_env
 require "$(printf "%s" "$AGENT_PROVIDER")"
 (cd "$ROOT/agent-service" && uv sync)
 (cd "$ROOT/ui" && bun install)
+(cd "$ROOT/dashboard" && bun install)
 podman-compose -f "$ROOT/podman-compose.yml" pull
 log "setup done"

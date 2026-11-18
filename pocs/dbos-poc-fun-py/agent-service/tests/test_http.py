@@ -3,7 +3,7 @@ import json
 
 from agent_service.http import Api, base36, parse_goal, to_json
 from agent_service.run_state import RunState, start_run
-from agent_service.runs import Journal, JournalStep, RunRow, describe
+from agent_service.runs import RunRow
 
 
 class FakeStore:
@@ -18,11 +18,6 @@ class FakeStore:
 
     def state(self, run_id: str) -> RunState | None:
         return start_run("g", "claude", "m") if run_id == "run-1" else None
-
-    def journal(self, run_id: str) -> Journal | None:
-        if run_id != "run-1":
-            return None
-        return Journal("run-1", "PENDING", "local", "v1", (JournalStep(1, "plan", '["a"]', "", 1, 2),))
 
 
 def call(api: Api, method: str, path: str, body: bytes = b"") -> tuple[int, object]:
@@ -53,17 +48,11 @@ def test_state_is_null_until_the_workflow_publishes_it() -> None:
     assert call(api, "GET", "/runs/run-2") == (200, None)
 
 
-def test_the_journal_exposes_the_recorded_dbos_steps_and_404s_unknown_runs() -> None:
-    api = Api(FakeStore())
-    status, body = call(api, "GET", "/runs/run-1/journal")
-    assert status == 200 and isinstance(body, dict)
-    assert body["steps"][0]["name"] == "plan"
-    assert call(api, "GET", "/runs/nope/journal")[0] == 404
-    assert call(api, "DELETE", "/runs")[0] == 404
+def test_unknown_routes_are_404() -> None:
+    assert call(Api(FakeStore()), "DELETE", "/runs")[0] == 404
+    assert call(Api(FakeStore()), "GET", "/runs/run-1/journal")[0] == 404
 
 
-def test_run_ids_sort_by_time_and_step_outputs_are_bounded() -> None:
+def test_run_ids_sort_by_time_and_a_non_string_goal_is_rejected() -> None:
     assert base36(0) == "0" and base36(35) == "z" and base36(36) == "10"
     assert parse_goal(b'{"goal": 1}') == ""
-    assert describe(["a"]) == '["a"]'
-    assert len(describe("x" * 10_000)) == 4000

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { fetchStatus } from "../api.ts";
 import { isFinal, progress } from "../dbos.ts";
-import { JournalButton } from "../JournalButton.tsx";
+import { DashboardButton } from "../DashboardButton.tsx";
 import { runRoute } from "../router.tsx";
 
 export function RunPage() {
@@ -23,7 +23,7 @@ export function RunPage() {
             <h2>{runId}</h2>
             {state && <p className="muted">{state.provider} / {state.model}</p>}
           </div>
-          <JournalButton runId={runId} />
+          <DashboardButton runId={runId} />
         </div>
         {status.error && <p className="error">{status.error.message}</p>}
         {!state && !status.error && <p className="muted">Waiting for the workflow to start.</p>}
