@@ -27,23 +27,59 @@ done
 [ "$tries" -gt 0 ] || fail "the agent did not finish its first task within 120s: $VIEW"
 log "agent planned the goal and finished its first task"
 
-stop_tree trigger-dev KILL
-log "trigger dev worker killed with SIGKILL mid run"
-start_trigger_dev
+descendants() {
+  local child
+  for child in $(pgrep -P "$1" 2>/dev/null || true); do
+    printf "%s\n" "$child"
+    descendants "$child"
+  done
+}
+
+agent_cli_pid() {
+  local pid
+  for pid in $(descendants "$(cat "$RUN/trigger-dev.pid")"); do
+    if [ "$(basename "$(ps -o comm= -p "$pid" 2>/dev/null || true)")" = "$AGENT_PROVIDER" ]; then
+      printf "%s\n" "$pid"
+      return 0
+    fi
+  done
+  return 1
+}
+
+tries=60
+while [ "$tries" -gt 0 ]; do
+  CLI_PID="$(agent_cli_pid || true)"
+  [ -n "$CLI_PID" ] && break
+  sleep 1
+  tries=$((tries - 1))
+done
+[ -n "$CLI_PID" ] || fail "no $AGENT_PROVIDER process found under the trigger dev worker"
+kill -KILL "$CLI_PID"
+log "killed the $AGENT_PROVIDER CLI (pid $CLI_PID) in the middle of task 2"
 
 tries=420
 while [ "$tries" -gt 0 ]; do
   VIEW="$(curl -sf "$API/runs/$RUN_ID" || printf '{}')"
   STATUS="$(printf "%s" "$VIEW" | json_field "v.get('status', '')" 2>/dev/null || true)"
   if [ "$STATUS" = "COMPLETED" ] && printf "%s" "$VIEW" | grep -q '"phase": "done"'; then break; fi
-  case "$STATUS" in FAILED|CRASHED|SYSTEM_FAILURE|CANCELED|EXPIRED|TIMED_OUT) fail "workflow ended $STATUS after the crash: $VIEW" ;; esac
+  case "$STATUS" in FAILED|CRASHED|SYSTEM_FAILURE|CANCELED|EXPIRED|TIMED_OUT) fail "workflow ended $STATUS after the killed step: $VIEW" ;; esac
   sleep 1
   tries=$((tries - 1))
 done
-[ "$tries" -gt 0 ] || fail "the workflow did not complete within 420s after the crash: $VIEW"
-log "trigger.dev retried the workflow and it completed"
+[ "$tries" -gt 0 ] || fail "the workflow did not complete within 420s after the killed step: $VIEW"
+log "the workflow completed"
 
-PLANS="$(curl -sf -G "$TRIGGER_API_URL/api/v1/runs" -H "authorization: Bearer $TRIGGER_SECRET_KEY" \
-  --data-urlencode "filter[tag]=wf_$RUN_ID" --data-urlencode "filter[taskIdentifier]=plan-goal" | json_field "len(v['data'])")" || fail "could not list the plan runs"
+runs_of() {
+  curl -sf -G "$TRIGGER_API_URL/api/v1/runs" -H "authorization: Bearer $TRIGGER_SECRET_KEY" \
+    --data-urlencode "filter[tag]=wf_$RUN_ID" --data-urlencode "filter[taskIdentifier]=$1" --data-urlencode "page[size]=50"
+}
+
+PLANS="$(runs_of plan-goal | json_field "len(v['data'])")" || fail "could not list the plan runs"
 [ "$PLANS" = "1" ] || fail "the plan task ran $PLANS times, the idempotency key should keep it at 1"
-log "the plan task ran once: its result was reused through the idempotency key, not called again"
+log "the plan task ran once: no step before the failure was called again"
+
+ATTEMPTS="$(runs_of execute-task | json_field "' '.join(r['id'] for r in v['data'])" | tr ' ' '\n' | while read -r child; do
+  curl -sf "$TRIGGER_API_URL/api/v3/runs/$child" -H "authorization: Bearer $TRIGGER_SECRET_KEY" | json_field "v['attemptCount']"
+done | sort -n | tail -1)"
+[ "${ATTEMPTS:-0}" -ge 2 ] || fail "no execute-task run was retried, max attempts $ATTEMPTS"
+log "the killed task was retried by trigger.dev (attempt $ATTEMPTS) and finished"

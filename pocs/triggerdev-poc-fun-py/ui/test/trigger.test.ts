@@ -19,10 +19,11 @@ describe("trigger helpers used by the UI", () => {
     expect(isFinalRun(undefined)).toBe(false);
   });
 
-  test("polling stops once trigger.dev finished the run and the final state is published", () => {
+  test("polling stops on a crashed or failed run, and on a completed run once the final state is published", () => {
     expect(isFinalRun(view("COMPLETED", { ...base, phase: "done" }))).toBe(true);
     expect(isFinalRun(view("COMPLETED", { ...base, phase: "summarizing" }))).toBe(false);
     expect(isFinalRun(view("FAILED", null))).toBe(true);
+    expect(isFinalRun(view("CRASHED", { ...base, phase: "working" }))).toBe(true);
   });
 
   test("run statuses map to done, failed or running pills", () => {

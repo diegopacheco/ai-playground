@@ -10,7 +10,8 @@ export function progress(state: RunState): number {
 }
 
 export function isFinalRun(view: RunView | undefined): boolean {
-  return view !== undefined && FINAL_RUN_STATUSES.has(view.status) && (view.state === null || view.state.phase === "done" || view.state.phase === "failed");
+  if (view === undefined || !FINAL_RUN_STATUSES.has(view.status)) return false;
+  return view.status !== "COMPLETED" || view.state === null || view.state.phase === "done";
 }
 
 export function pillClass(status: string): string {

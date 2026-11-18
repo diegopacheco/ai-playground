@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1100" viewBox="0 0 1100 1100">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;display=swap'); text { font-family: 'Caveat', 'Comic Sans MS', cursive; fill: #1f2937; } .t { font-size: 30px; font-weight: 700; } .s { font-size: 23px; } .l { font-size: 21px; fill: #374151; }</style>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f2937"/></marker>
+  </defs>
+  <rect width="1100" height="1100" fill="#ffffff"/>
+  <text x="550" y="60" text-anchor="middle" class="t" style="font-size:38px">Trigger.dev agentic workflow POC</text>
+
+  <g filter="url(#wobble)" stroke="#1f2937" stroke-width="2.5">
+    <rect x="50" y="120" width="300" height="190" rx="16" fill="#dbeafe"/>
+    <rect x="470" y="120" width="580" height="150" rx="18" fill="#e0e7ff"/>
+    <rect x="50" y="380" width="300" height="190" rx="16" fill="#fef9c3"/>
+    <rect x="470" y="370" width="580" height="240" rx="18" fill="#dcfce7"/>
+    <rect x="50" y="700" width="300" height="130" rx="16" fill="#f3e8ff"/>
+    <rect x="50" y="880" width="300" height="150" rx="16" fill="#fce7f3"/>
+    <rect x="470" y="710" width="580" height="320" rx="18" fill="#fef3c7"/>
+    <rect x="500" y="840" width="520" height="160" rx="12" fill="#ffffff"/>
+  </g>
+
+  <text x="200" y="165" text-anchor="middle" class="t">Browser UI :5194</text>
+  <text x="200" y="200" text-anchor="middle" class="s">Vite + React 19 + TanStack</text>
+  <text x="200" y="232" text-anchor="middle" class="s">start a goal, live steps</text>
+  <text x="200" y="264" text-anchor="middle" class="l">"See it running in Trigger.dev"</text>
+  <text x="200" y="292" text-anchor="middle" class="l">opens the dashboard run page</text>
+
+  <text x="760" y="162" text-anchor="middle" class="t">agent-api :9082</text>
+  <text x="760" y="198" text-anchor="middle" class="s">Python 3.15 on host, Granian ASGI, urllib</text>
+  <text x="760" y="232" text-anchor="middle" class="s">triggers runs, reads status + metadata</text>
+
+  <text x="200" y="422" text-anchor="middle" class="t">bootstrap.ts</text>
+  <text x="200" y="458" text-anchor="middle" class="s">seeds a local user + token</text>
+  <text x="200" y="490" text-anchor="middle" class="s">creates org + project</text>
+  <text x="200" y="522" text-anchor="middle" class="s">over the REST API</text>
+  <text x="200" y="552" text-anchor="middle" class="l">no signup, no cloud</text>
+
+  <text x="760" y="412" text-anchor="middle" class="t">Trigger.dev 4.8.5 (podman) :8030</text>
+  <text x="760" y="448" text-anchor="middle" class="s">webapp: API, run engine, queues, dashboard</text>
+  <text x="760" y="482" text-anchor="middle" class="s">postgres + redis: runs, waits, idempotency keys</text>
+  <text x="760" y="516" text-anchor="middle" class="s">clickhouse: run replication for the dashboard</text>
+  <text x="760" y="550" text-anchor="middle" class="s">electric + s2: realtime, minio: big payloads</text>
+  <text x="760" y="584" text-anchor="middle" class="l">no worker or registry: tasks run in dev mode on the host</text>
+
+  <text x="200" y="742" text-anchor="middle" class="t">prompts/</text>
+  <text x="200" y="776" text-anchor="middle" class="s">plan-goal, execute-task,</text>
+  <text x="200" y="808" text-anchor="middle" class="s">summarize-run</text>
+
+  <text x="200" y="922" text-anchor="middle" class="t">agent CLI on host</text>
+  <text x="200" y="958" text-anchor="middle" class="l">claude | codex | agy | ollama</text>
+  <text x="200" y="992" text-anchor="middle" class="l">picked by scripts/agent.conf</text>
+
+  <text x="760" y="752" text-anchor="middle" class="t">trigger dev worker (Node 24 on host)</text>
+  <text x="760" y="788" text-anchor="middle" class="s">TypeScript tasks, as the platform requires</text>
+  <text x="760" y="820" text-anchor="middle" class="l">tasks/src/trigger/agent-workflow.ts</text>
+  <text x="760" y="876" text-anchor="middle" class="t">agent-workflow (parent task)</text>
+  <text x="760" y="910" text-anchor="middle" class="s">plan-goal -&gt; execute-task x N -&gt; summarize-run</text>
+  <text x="760" y="944" text-anchor="middle" class="s">triggerAndWait + idempotency key per step</text>
+  <text x="760" y="978" text-anchor="middle" class="s">metadata.set("state") publishes live progress</text>
+
+  <g fill="none" stroke="#1f2937" stroke-width="2.5" marker-end="url(#arrow)">
+    <path d="M352,210 Q410,190 466,200"/>
+    <path d="M760,272 Q780,320 760,366"/>
+    <path d="M352,470 Q410,470 466,480"/>
+    <path d="M880,706 Q900,660 880,614"/>
+    <path d="M660,614 Q640,660 660,706"/>
+    <path d="M352,765 Q410,770 466,780"/>
+    <path d="M466,960 Q410,965 352,955"/>
+  </g>
+  <text x="410" y="180" text-anchor="middle" class="l">HTTP</text>
+  <text x="785" y="328" class="l">trigger + read runs</text>
+  <text x="410" y="455" text-anchor="middle" class="l">seed</text>
+  <text x="905" y="666" class="l">results, metadata</text>
+  <text x="635" y="666" text-anchor="end" class="l">dequeue runs</text>
+  <text x="410" y="752" text-anchor="middle" class="l">load</text>
+  <text x="410" y="945" text-anchor="middle" class="l">spawn</text>
+</svg>
