@@ -22,6 +22,7 @@ The `diegopacheco/agent-skills` repository is also a separate site. It has no wo
 |---|---|---|
 | `diegopacheco/diegopacheco.github.io` | `index.html` | `https://diegopacheco.github.io/` |
 | `diegopacheco/agent-skills` | `docs/index.html` | `https://diegopacheco.github.io/agent-skills/` |
+| `diegopacheco/agent-skills` | `docs/stacks-skill/catalog/` (built from `stacks-skill/stack-site`) | `https://diegopacheco.github.io/agent-skills/stacks-skill/catalog/` |
 | `diegopacheco/ai-playground` | `agents/landing-page.html` | `https://diegopacheco.github.io/ai-playground/` |
 | `diegopacheco/ai-playground` | `agents/landing-page.html` | `https://diegopacheco.github.io/ai-playground/agents/` |
 | `diegopacheco/ai-playground` | `sec/index.html` and `sec/landing-page.html` | `https://diegopacheco.github.io/ai-playground/sec/` |
@@ -149,6 +150,7 @@ Spotlight counts use the exact number with `+`. Page stats use the exact number.
 - The `Publish Agent Atlas` workflow completed successfully.
 - `https://diegopacheco.github.io/` returns HTTP 200.
 - `https://diegopacheco.github.io/agent-skills/` returns HTTP 200.
+- `https://diegopacheco.github.io/agent-skills/stacks-skill/catalog/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/agents/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/sec/` returns HTTP 200.
