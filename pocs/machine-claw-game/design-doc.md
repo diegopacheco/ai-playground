@@ -49,7 +49,8 @@ Player contract:
   really lands in the chute.
 * Finger geometry and cabinet boxes are declared once in `layout.ts` and used by both physics and
   rendering, so what is drawn is what collides.
-* Physics steps with the frame time, clamped to 1/30 s, so motion stays smooth on 60 Hz and 120 Hz screens.
+* Physics runs at a fixed 120 steps per second, fed by the frame time, so the grab behaves the same on
+  every screen and resting toys do not jitter. An earlier version stepped with the raw frame time.
 * Toys are round plush balls with one ball collider each. A two-ball body plus head toy was tried first
   and measured: it is taller than the claw cage, so the fingers squeezed it out instead of cupping it.
 * One coin is one try. A won toy is replaced by a new one falling from the top.

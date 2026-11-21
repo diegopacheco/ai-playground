@@ -3,9 +3,11 @@ import { createSfx } from "../audio/sfx";
 import { logger } from "../logger";
 import { initPhysics } from "../physics/arena";
 import { buildCabinet } from "../render/cabinet";
+import { buildArcadeHall } from "../render/arcadeHall";
 import { createCameraRig } from "../render/cameraRig";
 import { createClawRig } from "../render/clawRig";
 import { createCoinToss, createConfetti } from "../render/effects";
+import { attachOrbitInput } from "../render/orbitInput";
 import { createPlush } from "../render/plushMesh";
 import { createStage } from "../render/stage";
 import { CLAW } from "./layout";
@@ -34,7 +36,8 @@ export type Engine = {
 };
 
 const RESULT_SECONDS = 2.6;
-const MAX_STEP = 1 / 30;
+const STEP = 1 / 120;
+const MAX_FRAME = 1 / 20;
 
 function bannerFor(phase: Phase): Banner {
   if (phase === "idle") return "insert";
@@ -51,7 +54,8 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
   const coin = createCoinToss(cabinet.slot);
   const cameraRig = createCameraRig(stage.camera);
   const sfx = createSfx();
-  stage.scene.add(cabinet.group, rig.group, confetti.points, coin.mesh);
+  const detachOrbit = attachOrbitInput(canvas, cameraRig);
+  stage.scene.add(buildArcadeHall(), cabinet.group, rig.group, confetti.points, coin.mesh);
 
   const plush = new Map<number, THREE.Group>();
   const listeners = new Set<() => void>();
@@ -65,6 +69,7 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
   let shelf: readonly number[] = [];
   let hud: HudState = { phase: "idle", credits: 0, seconds: 0, prizes: 0, banner: "insert", shelf };
   let last = performance.now();
+  let owed = 0;
   let frameId = 0;
 
   function react(events: readonly SimEvent[]): void {
@@ -143,12 +148,16 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
   }
 
   function frame(now: number): void {
-    const dt = Math.min((now - last) / 1000, MAX_STEP);
+    const dt = Math.min((now - last) / 1000, MAX_FRAME);
     last = now;
     if (dt > 0) {
-      react(sim.step({ moveX, moveZ, drop: pendingDrop, coin: pendingCoin }, dt));
-      pendingDrop = false;
-      pendingCoin = false;
+      owed += dt;
+      while (owed >= STEP) {
+        react(sim.step({ moveX, moveZ, drop: pendingDrop, coin: pendingCoin }, STEP));
+        pendingDrop = false;
+        pendingCoin = false;
+        owed -= STEP;
+      }
       resultLeft -= dt;
       if (resultLeft <= 0) result = undefined;
       const phase = sim.state().phase;
@@ -159,8 +168,7 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
       cabinet.animate(now / 1000, moveX, moveZ, phase === "aiming");
       confetti.update(dt);
       coin.update(dt);
-      const claw = sim.claw();
-      cameraRig.update(dt, claw.x, claw.z);
+      cameraRig.update(dt);
       stage.render();
       publish();
     }
@@ -203,6 +211,7 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
     dispose: () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener("resize", resize);
+      detachOrbit();
       sfx.dispose();
       stage.dispose();
     },

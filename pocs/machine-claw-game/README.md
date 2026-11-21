@@ -71,7 +71,7 @@ There is no backend and no REST API. The app is one web page.
   so what is drawn is what collides.
 * Toys are round with one ball collider. A taller two-ball toy was measured first and the claw
   squeezed it out instead of cupping it.
-* Physics steps with the frame time, clamped to 1/30 s, for smooth motion on 60 Hz and 120 Hz screens.
+* Physics runs at a fixed 120 steps per second, so the grab behaves the same on every screen.
 * More detail in `design-doc.md`.
 
 ## How to run
