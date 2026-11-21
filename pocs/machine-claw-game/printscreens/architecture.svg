@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="1000" height="640">
+  <defs>
+    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.5"/>
+    </filter>
+    <marker id="tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+    <style>
+      text { font-family: Caveat, 'Bradley Hand', 'Comic Sans MS', cursive; fill: #222; text-anchor: middle; }
+      .title { font-size: 26px; font-weight: bold; }
+      .note { font-size: 18px; fill: #555; }
+      .box { stroke: #333; stroke-width: 2.5; }
+      .line { stroke: #333; stroke-width: 2.5; fill: none; }
+    </style>
+  </defs>
+  <rect width="1000" height="640" fill="#fffdf7"/>
+  <g filter="url(#wobble)">
+    <rect class="box" x="40" y="50" width="190" height="90" rx="14" fill="#ffe3ec"/>
+    <rect class="box" x="320" y="50" width="220" height="90" rx="14" fill="#e3f2ff"/>
+    <rect class="box" x="640" y="50" width="240" height="90" rx="14" fill="#fff3c4"/>
+    <rect class="box" x="110" y="290" width="250" height="90" rx="14" fill="#dff7e3"/>
+    <rect class="box" x="440" y="290" width="230" height="90" rx="14" fill="#ece3ff"/>
+    <rect class="box" x="750" y="290" width="200" height="90" rx="14" fill="#ffe9d6"/>
+    <rect class="box" x="40" y="500" width="210" height="90" rx="14" fill="#dff7e3"/>
+    <rect class="box" x="330" y="500" width="230" height="90" rx="14" fill="#dff7e3"/>
+    <path class="line" marker-end="url(#tip)" d="M230,95 Q275,82 318,95"/>
+    <path class="line" marker-end="url(#tip)" d="M540,85 Q590,72 638,85"/>
+    <path class="line" marker-end="url(#tip)" d="M638,112 Q590,126 542,112"/>
+    <path class="line" marker-end="url(#tip)" d="M680,140 Q440,190 250,288"/>
+    <path class="line" marker-end="url(#tip)" d="M740,140 Q650,210 570,288"/>
+    <path class="line" marker-end="url(#tip)" d="M810,140 Q850,210 850,288"/>
+    <path class="line" marker-end="url(#tip)" d="M190,380 Q150,440 145,498"/>
+    <path class="line" marker-end="url(#tip)" d="M290,380 Q380,430 440,498"/>
+    <path class="line" stroke-dasharray="8 7" marker-end="url(#tip)" d="M362,335 Q400,322 438,335"/>
+  </g>
+  <text class="title" x="135" y="90">Player</text>
+  <text class="note" x="135" y="118">keys / touch</text>
+  <text class="title" x="430" y="90">React HUD</text>
+  <text class="note" x="430" y="118">joystick, coin, drop</text>
+  <text class="title" x="760" y="90">Engine</text>
+  <text class="note" x="760" y="118">frame loop + HUD snapshot</text>
+  <text class="note" x="590" y="62">input</text>
+  <text class="note" x="590" y="146">state</text>
+  <text class="title" x="235" y="330">Simulation</text>
+  <text class="note" x="235" y="358">headless, runs in tests</text>
+  <text class="title" x="555" y="330">Three.js scene</text>
+  <text class="note" x="555" y="358">cabinet, plush, claw</text>
+  <text class="title" x="850" y="330">WebAudio</text>
+  <text class="note" x="850" y="358">sound effects</text>
+  <text class="note" x="400" y="312">poses</text>
+  <text class="title" x="145" y="540">Round rules</text>
+  <text class="note" x="145" y="568">pure state machine</text>
+  <text class="title" x="445" y="540">Rapier arena</text>
+  <text class="note" x="445" y="568">toys, claw, cabinet</text>
+  <text class="note" x="420" y="205">step(input, dt)</text>
+  <text class="note" x="690" y="222">draw</text>
+  <text class="note" x="895" y="222">events</text>
+</svg>
