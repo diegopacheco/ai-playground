@@ -1,0 +1,12 @@
+{
+  "name": "meeting-limiter-desktop",
+  "private": true,
+  "version": "1.0.0",
+  "main": "main.cjs",
+  "scripts": {
+    "app": "electron ."
+  },
+  "devDependencies": {
+    "electron": "44.5.1"
+  }
+}

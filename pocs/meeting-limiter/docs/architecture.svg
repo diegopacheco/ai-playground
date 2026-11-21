@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#1e1e1e"/>
+    </marker>
+    <style>
+      text { font-family: "Caveat", "Bradley Hand", "Comic Sans MS", cursive; fill: #1e1e1e; }
+      .title { font-size: 30px; font-weight: 700; }
+      .label { font-size: 24px; font-weight: 700; }
+      .small { font-size: 19px; }
+      .edge { font-size: 18px; fill: #444; }
+    </style>
+  </defs>
+  <rect width="1000" height="1000" fill="#ffffff"/>
+  <text class="title" x="500" y="60" text-anchor="middle">Meeting Limiter - how a booking flows</text>
+  <g filter="url(#wobble)" stroke="#1e1e1e" stroke-width="2.5">
+    <rect x="40" y="110" width="320" height="110" rx="16" fill="#d0ebff"/>
+    <rect x="640" y="110" width="320" height="110" rx="16" fill="#d0ebff"/>
+    <rect x="290" y="290" width="420" height="130" rx="16" fill="#d3f9d8"/>
+    <rect x="290" y="500" width="420" height="120" rx="16" fill="#fff3bf"/>
+    <rect x="300" y="690" width="400" height="140" rx="16" fill="#ffe8cc"/>
+    <rect x="70" y="880" width="330" height="90" rx="16" fill="#e5dbff"/>
+    <rect x="600" y="880" width="330" height="90" rx="16" fill="#ffc9c9"/>
+    <path d="M200 220 Q 240 270 295 315" fill="none" marker-end="url(#arrow)"/>
+    <path d="M800 220 Q 760 270 705 315" fill="none" marker-end="url(#arrow)"/>
+    <path d="M500 420 Q 515 460 500 495" fill="none" marker-end="url(#arrow)"/>
+    <path d="M500 620 Q 485 655 500 685" fill="none" marker-end="url(#arrow)"/>
+    <path d="M420 830 Q 330 850 260 875" fill="none" marker-end="url(#arrow)"/>
+    <path d="M580 830 Q 670 850 740 875" fill="none" marker-end="url(#arrow)"/>
+  </g>
+  <text class="label" x="200" y="155" text-anchor="middle">macOS Electron app</text>
+  <text class="small" x="200" y="185" text-anchor="middle">boot screen, start-all on launch</text>
+  <text class="small" x="200" y="208" text-anchor="middle">stop-all on quit</text>
+  <text class="label" x="800" y="155" text-anchor="middle">Browser / iPhone</text>
+  <text class="small" x="800" y="185" text-anchor="middle">same responsive UI</text>
+  <text class="label" x="500" y="330" text-anchor="middle">React 19 UI (Vite :5191)</text>
+  <text class="small" x="500" y="360" text-anchor="middle">Calendar, Meetings, Wallets, Rankings</text>
+  <text class="small" x="500" y="385" text-anchor="middle">TanStack Router, Query, Form, Table</text>
+  <text class="small" x="500" y="408" text-anchor="middle">live cost quote before booking</text>
+  <text class="label" x="500" y="540" text-anchor="middle">Go API (net/http :8191)</text>
+  <text class="small" x="500" y="570" text-anchor="middle">/api/meetings, /quote, /wallets, /rankings</text>
+  <text class="small" x="500" y="598" text-anchor="middle">402 Payment Required when funds are short</text>
+  <text class="label" x="500" y="730" text-anchor="middle">calendar.Service - money rules</text>
+  <text class="small" x="500" y="760" text-anchor="middle">cost = minutes x role rate, everyone pays</text>
+  <text class="small" x="500" y="785" text-anchor="middle">balance = weekly budget - week charges</text>
+  <text class="small" x="500" y="810" text-anchor="middle">quote + insert under one lock</text>
+  <text class="label" x="235" y="918" text-anchor="middle">people.Directory</text>
+  <text class="small" x="235" y="948" text-anchor="middle">roles: 5h / 10h / 15h a week</text>
+  <text class="label" x="765" y="918" text-anchor="middle">FileStore</text>
+  <text class="small" x="765" y="948" text-anchor="middle">data/meetings.json</text>
+  <text class="edge" x="215" y="268">loads UI</text>
+  <text class="edge" x="725" y="268">opens UI</text>
+  <text class="edge" x="525" y="465">/api proxy</text>
+  <text class="edge" x="515" y="660">Book / Quote</text>
+</svg>
