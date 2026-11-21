@@ -37,6 +37,8 @@ Player contract:
 | Move claw | Arrows or `WASD` | Joystick |
 | Drop claw | `Space` | DROP button |
 | Switch camera | `V` | VIEW button |
+| Look around | Drag with the mouse | Drag with one finger |
+| Zoom | Scroll wheel | Pinch |
 
 ## Important design decisions
 * Real grab, no magnet. The fingers are kinematic bodies with capsule colliders and the toys are
@@ -53,6 +55,10 @@ Player contract:
   every screen and resting toys do not jitter. An earlier version stepped with the raw frame time.
 * Toys are round plush balls with one ball collider each. A two-ball body plus head toy was tried first
   and measured: it is taller than the claw cage, so the fingers squeezed it out instead of cupping it.
+* The camera orbits a fixed point inside the cabinet. Yaw is limited so the player never ends up behind
+  the mirrored back wall, and zoom is limited so the camera stays inside the hall.
+* The arcade hall is decoration only: generated textures, instanced bulbs and prizes, no shadows.
+* The production build uses relative asset paths so it can be served from any subpath.
 * One coin is one try. A won toy is replaced by a new one falling from the top.
 * The random source is injected into the simulation so tests are deterministic.
 

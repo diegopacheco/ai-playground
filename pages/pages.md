@@ -39,6 +39,7 @@ The `diegopacheco/agent-skills` repository is also a separate site. It has no wo
 | `diegopacheco/ai-playground` | `games/popup-book-pinocchio/index.html` and `games/popup-book-pinocchio/assets/` | `https://diegopacheco.github.io/ai-playground/games/popup-book-pinocchio/` |
 | `diegopacheco/ai-playground` | `games/popup-book-ali-baba/index.html` and `games/popup-book-ali-baba/assets/` | `https://diegopacheco.github.io/ai-playground/games/popup-book-ali-baba/` |
 | `diegopacheco/ai-playground` | `games/popup-book-alice/index.html` and `games/popup-book-alice/assets/` | `https://diegopacheco.github.io/ai-playground/games/popup-book-alice/` |
+| `diegopacheco/ai-playground` | `games/machine-claw-game/index.html` and `games/machine-claw-game/assets/` | `https://diegopacheco.github.io/ai-playground/games/machine-claw-game/` |
 | `diegopacheco/ai-playground` | `mcp/index.html` | `https://diegopacheco.github.io/ai-playground/mcp/` |
 | `diegopacheco/ai-playground` | `macos-chrome-apps/index.html` | `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` |
 | `diegopacheco/ai-playground` | `pocs/agentsfile/landing/index.html`, `pocs/agentsfile/logo.svg`, `pocs/agentsfile/spec/SPEC.md` and `pocs/agentsfile/printscreens/` | `https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/` |
@@ -69,6 +70,7 @@ The aggregate workflow currently creates these entry points:
 | `games/popup-book-pinocchio/` | `_site/games/popup-book-pinocchio/` |
 | `games/popup-book-ali-baba/` | `_site/games/popup-book-ali-baba/` |
 | `games/popup-book-alice/` | `_site/games/popup-book-alice/` |
+| `games/machine-claw-game/` | `_site/games/machine-claw-game/` |
 | `mcp/index.html` | `_site/mcp/index.html` |
 | `macos-chrome-apps/index.html` | `_site/macos-chrome-apps/index.html` |
 | `pocs/agentsfile/landing/` | `_site/pocs/agentsfile/landing/` |
@@ -77,6 +79,8 @@ The aggregate workflow currently creates these entry points:
 | `pocs/factoryfile/logo.svg`, `pocs/factoryfile/spec/SPEC.md` and `printscreens/render-ui-xp.png` | `_site/pocs/factoryfile/` |
 
 The `games/popup-book-*` routes are the committed `vite build` output of `pocs/popup-book-*`. They use hash routing (`#/page/N`) and relative asset paths so they work under any subpath. Rebuild and copy `dist/` into `games/<book>/` after changing a book.
+
+The `games/machine-claw-game` route is the committed `vite build` output of `pocs/machine-claw-game`, built with relative asset paths. Rebuild and copy `dist/` into `games/machine-claw-game/` after changing the game.
 
 The workflow also copies every media file required by these pages. Source files used by the workflow must be tracked by Git. Ignored build output must not be used as a published asset.
 
@@ -139,6 +143,7 @@ Spotlight counts use the exact number with `+`. Page stats use the exact number.
 - `_site/games/popup-book-pinocchio/index.html` exists.
 - `_site/games/popup-book-ali-baba/index.html` exists.
 - `_site/games/popup-book-alice/index.html` exists.
+- `_site/games/machine-claw-game/index.html` exists.
 - `_site/mcp/index.html` exists.
 - `_site/macos-chrome-apps/index.html` exists.
 - `_site/pocs/agentsfile/landing/index.html` exists.
@@ -167,6 +172,7 @@ Spotlight counts use the exact number with `+`. Page stats use the exact number.
 - `https://diegopacheco.github.io/ai-playground/games/popup-book-pinocchio/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/games/popup-book-ali-baba/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/games/popup-book-alice/` returns HTTP 200.
+- `https://diegopacheco.github.io/ai-playground/games/machine-claw-game/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/mcp/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/` returns HTTP 200.

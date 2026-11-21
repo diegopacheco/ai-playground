@@ -1,5 +1,7 @@
 import * as THREE from "three";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { BARRIER_BOXES, CABINET, CHUTE_BOXES, FLOOR_BOXES, type Box } from "../game/layout";
+import { fitText, paintTexture } from "./canvasTexture";
 
 export type Cabinet = {
   readonly group: THREE.Group;
@@ -7,240 +9,229 @@ export type Cabinet = {
   animate(time: number, moveX: number, moveZ: number, armed: boolean): void;
 };
 
-const OUTER = CABINET.half + CABINET.wallThickness;
+const T = CABINET.wallThickness;
+const OUTER = CABINET.half + T;
 const WIDTH = OUTER * 2;
+const INNER = CABINET.half * 2;
+const FONT = "'Arial Black', Impact, sans-serif";
 
-function mesh(
-  geometry: THREE.BufferGeometry,
-  material: THREE.Material,
-  x: number,
-  y: number,
-  z: number,
-): THREE.Mesh {
-  const made = new THREE.Mesh(geometry, material);
+function at<M extends THREE.Object3D>(made: M, x: number, y: number, z: number): M {
   made.position.set(x, y, z);
   return made;
 }
 
-function slab(material: THREE.Material, w: number, h: number, d: number, x: number, y: number, z: number): THREE.Mesh {
-  return mesh(new THREE.BoxGeometry(w, h, d), material, x, y, z);
+function slab(material: THREE.Material, w: number, h: number, d: number): THREE.Mesh {
+  return new THREE.Mesh(new THREE.BoxGeometry(w, h, d), material);
+}
+
+function soft(material: THREE.Material, w: number, h: number, d: number, radius: number): THREE.Mesh {
+  return new THREE.Mesh(new RoundedBoxGeometry(w, h, d, 5, radius), material);
 }
 
 function fromBox(box: Box, material: THREE.Material): THREE.Mesh {
-  return slab(material, box.hx * 2, box.hy * 2, box.hz * 2, box.cx, box.cy, box.cz);
+  return at(slab(material, box.hx * 2, box.hy * 2, box.hz * 2), box.cx, box.cy, box.cz);
 }
 
 function marquee(): THREE.CanvasTexture {
-  const canvas = document.createElement("canvas");
-  canvas.width = 1024;
-  canvas.height = 256;
-  const context = canvas.getContext("2d");
-  if (!context) throw new Error("2d canvas is not available");
-  const gradient = context.createLinearGradient(0, 0, 1024, 256);
-  gradient.addColorStop(0, "#ff2d95");
-  gradient.addColorStop(0.5, "#7a2dff");
-  gradient.addColorStop(1, "#19d3ff");
-  context.fillStyle = gradient;
-  context.fillRect(0, 0, 1024, 256);
-  context.font = "900 150px 'Arial Black', Impact, sans-serif";
-  context.textAlign = "center";
-  context.textBaseline = "middle";
-  context.shadowColor = "#fff36b";
-  context.shadowBlur = 40;
-  context.fillStyle = "#fffbe0";
-  context.fillText("LUCKY CLAW", 512, 136);
-  context.lineWidth = 5;
-  context.strokeStyle = "#2a0845";
-  context.shadowBlur = 0;
-  context.strokeText("LUCKY CLAW", 512, 136);
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 8;
-  return texture;
+  return paintTexture(1024, 256, (context) => {
+    const gradient = context.createLinearGradient(0, 0, 1024, 256);
+    gradient.addColorStop(0, "#ff2d95");
+    gradient.addColorStop(0.5, "#7a2dff");
+    gradient.addColorStop(1, "#19d3ff");
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 1024, 256);
+    context.fillStyle = "rgba(255,255,255,0.85)";
+    for (let i = 0; i < 26; i += 1) {
+      context.beginPath();
+      context.arc(28 + i * 38.7, 22, 7, 0, Math.PI * 2);
+      context.arc(28 + i * 38.7, 234, 7, 0, Math.PI * 2);
+      context.fill();
+    }
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    fitText(context, "LUCKY CLAW", FONT, 150, 880);
+    context.shadowColor = "#fff36b";
+    context.shadowBlur = 36;
+    context.fillStyle = "#fffbe0";
+    context.fillText("LUCKY CLAW", 512, 132);
+    context.shadowBlur = 0;
+    context.lineWidth = 5;
+    context.strokeStyle = "#2a0845";
+    context.strokeText("LUCKY CLAW", 512, 132);
+  });
 }
 
-function room(): THREE.Group {
-  const group = new THREE.Group();
-  const ground = mesh(
-    new THREE.PlaneGeometry(30, 30),
-    new THREE.MeshStandardMaterial({ color: 0x1a1426, roughness: 0.28, metalness: 0.65 }),
-    0,
-    -CABINET.baseDepth,
-    0,
-  );
-  ground.rotation.x = -Math.PI / 2;
-  ground.receiveShadow = true;
-  group.add(ground);
-  const wall = mesh(
-    new THREE.PlaneGeometry(30, 12),
-    new THREE.MeshStandardMaterial({ color: 0x150f24, roughness: 0.9 }),
-    0,
-    4,
-    -4.5,
-  );
-  group.add(wall);
-  const neon: readonly (readonly [number, number, number, number])[] = [
-    [0xff2d95, -3.2, 1.9, 2.6],
-    [0x19d3ff, 3.1, 2.4, 2.2],
-    [0xfff36b, -1.2, 3.3, 1.4],
-    [0x7a2dff, 1.6, 0.9, 1.8],
-  ];
-  for (const [color, x, y, length] of neon) {
-    const bar = slab(new THREE.MeshBasicMaterial({ color, toneMapped: false }), length, 0.05, 0.05, x, y, -4.4);
-    bar.rotation.z = (x * y) % 0.6;
-    group.add(bar);
-    const glow = new THREE.PointLight(color, 5, 9, 2);
-    glow.position.set(x, y, -3.8);
-    group.add(glow);
-  }
-  return group;
+function paint(): THREE.CanvasTexture {
+  return paintTexture(64, 256, (context) => {
+    const gradient = context.createLinearGradient(0, 0, 0, 256);
+    gradient.addColorStop(0, "#ff4f9a");
+    gradient.addColorStop(0.55, "#e0187a");
+    gradient.addColorStop(1, "#7a1fd0");
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 64, 256);
+  });
 }
 
 export function buildCabinet(): Cabinet {
   const group = new THREE.Group();
-  group.add(room());
-
-  const shell = new THREE.MeshStandardMaterial({ color: 0xf0206e, roughness: 0.32, metalness: 0.15 });
-  const dark = new THREE.MeshStandardMaterial({ color: 0x120c1c, roughness: 0.8 });
-  const chrome = new THREE.MeshStandardMaterial({ color: 0xe9eef5, roughness: 0.16, metalness: 1 });
+  const shell = new THREE.MeshPhysicalMaterial({ map: paint(), roughness: 0.35, clearcoat: 0.9, clearcoatRoughness: 0.15 });
+  const dark = new THREE.MeshStandardMaterial({ color: 0x15101f, roughness: 0.7 });
+  const chrome = new THREE.MeshStandardMaterial({ color: 0xdfe6f0, roughness: 0.2, metalness: 1 });
+  const lining = new THREE.MeshStandardMaterial({ color: 0x8c96ad, roughness: 0.42, metalness: 0.85 });
   const felt = new THREE.MeshStandardMaterial({ color: 0x0f8f9c, roughness: 0.95 });
   const acrylic = new THREE.MeshPhysicalMaterial({
-    color: 0x9af4ff,
+    color: 0xbdf6ff,
     transparent: true,
-    opacity: 0.28,
-    roughness: 0.05,
+    opacity: 0.2,
+    roughness: 0.04,
     depthWrite: false,
   });
   const glass = new THREE.MeshPhysicalMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.07,
+    opacity: 0.06,
     roughness: 0,
-    envMapIntensity: 2.2,
+    envMapIntensity: 2,
     side: THREE.DoubleSide,
     depthWrite: false,
   });
 
-  const baseY = -CABINET.baseDepth / 2 - CABINET.floorThickness / 2;
+  const baseTop = -CABINET.floorThickness;
   const baseH = CABINET.baseDepth - CABINET.floorThickness;
-  const t = CABINET.wallThickness;
+  const baseY = baseTop - baseH / 2;
   for (const side of [-1, 1]) {
-    group.add(slab(shell, t, baseH, WIDTH, side * (OUTER - t / 2), baseY, 0));
-    group.add(slab(shell, WIDTH, baseH, t, 0, baseY, side * (OUTER - t / 2)));
+    group.add(at(slab(shell, WIDTH, baseH, T), 0, baseY, side * (OUTER - T / 2)));
+    group.add(at(slab(shell, T, baseH, INNER), side * (OUTER - T / 2), baseY, 0));
+    group.add(at(soft(chrome, WIDTH + 0.02, CABINET.floorThickness, T + 0.01, 0.012), 0, baseTop / 2, side * (OUTER - T / 2)));
+    group.add(at(soft(chrome, T + 0.01, CABINET.floorThickness, INNER, 0.012), side * (OUTER - T / 2), baseTop / 2, 0));
   }
+  group.add(at(soft(dark, WIDTH + 0.02, 0.07, WIDTH + 0.02, 0.015), 0, -CABINET.baseDepth + 0.035, 0));
   for (const box of FLOOR_BOXES) {
     const floor = fromBox(box, felt);
     floor.receiveShadow = true;
     group.add(floor);
   }
-  for (const box of CHUTE_BOXES) group.add(fromBox(box, dark));
-  for (const box of BARRIER_BOXES) group.add(fromBox(box, acrylic));
-  group.add(slab(dark, WIDTH - 0.1, 0.02, WIDTH - 0.1, 0, -CABINET.baseDepth + 0.02, 0));
+  for (const box of CHUTE_BOXES) group.add(fromBox(box, lining));
+  for (const box of BARRIER_BOXES) {
+    const wall = fromBox(box, acrylic);
+    wall.renderOrder = 1;
+    group.add(wall);
+  }
 
-  const back = slab(
-    new THREE.MeshStandardMaterial({ color: 0xbfa9ff, roughness: 0.12, metalness: 1 }),
-    CABINET.half * 2,
-    CABINET.wallHeight,
-    0.02,
-    0,
-    CABINET.wallHeight / 2,
-    -CABINET.half - 0.01,
+  group.add(
+    at(
+      slab(new THREE.MeshStandardMaterial({ color: 0xb9a6ff, roughness: 0.1, metalness: 1 }), INNER, CABINET.wallHeight, 0.02),
+      0,
+      CABINET.wallHeight / 2,
+      -CABINET.half - 0.01,
+    ),
   );
-  group.add(back);
-  const pane = new THREE.PlaneGeometry(CABINET.half * 2, CABINET.wallHeight);
-  const front = mesh(pane, glass, 0, CABINET.wallHeight / 2, CABINET.half);
-  const left = mesh(pane, glass, -CABINET.half, CABINET.wallHeight / 2, 0);
-  const right = mesh(pane, glass, CABINET.half, CABINET.wallHeight / 2, 0);
+  const pane = new THREE.PlaneGeometry(INNER, CABINET.wallHeight);
+  const front = at(new THREE.Mesh(pane, glass), 0, CABINET.wallHeight / 2, CABINET.half);
+  const left = at(new THREE.Mesh(pane, glass), -CABINET.half, CABINET.wallHeight / 2, 0);
+  const right = at(new THREE.Mesh(pane, glass), CABINET.half, CABINET.wallHeight / 2, 0);
   left.rotation.y = Math.PI / 2;
   right.rotation.y = Math.PI / 2;
-  group.add(front, left, right);
+  for (const sheet of [front, left, right]) {
+    sheet.renderOrder = 2;
+    group.add(sheet);
+  }
 
   const leds: THREE.MeshBasicMaterial[] = [];
+  function led(w: number, h: number, d: number, x: number, y: number, z: number): void {
+    const material = new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false });
+    leds.push(material);
+    group.add(at(soft(material, w, h, d, 0.004), x, y, z));
+  }
+
   for (const sx of [-1, 1]) {
     for (const sz of [-1, 1]) {
-      const x = sx * (OUTER - t / 2);
-      const z = sz * (OUTER - t / 2);
-      group.add(slab(chrome, t, CABINET.wallHeight, t, x, CABINET.wallHeight / 2, z));
-      if (sz === 1) {
-        const led = new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false });
-        leds.push(led);
-        group.add(slab(led, 0.014, CABINET.wallHeight - 0.08, 0.004, x, CABINET.wallHeight / 2, z + t / 2));
-      }
+      const x = sx * (OUTER - T / 2);
+      const z = sz * (OUTER - T / 2);
+      group.add(at(soft(chrome, T, CABINET.wallHeight, T, 0.012), x, CABINET.wallHeight / 2, z));
+      if (sz === 1) led(0.02, CABINET.wallHeight - 0.1, 0.01, x, CABINET.wallHeight / 2, z + T / 2);
     }
   }
 
-  const headY = CABINET.wallHeight + 0.2;
-  group.add(slab(shell, WIDTH, 0.4, WIDTH, 0, headY, 0));
-  const sign = mesh(
-    new THREE.PlaneGeometry(WIDTH - 0.12, 0.3),
-    new THREE.MeshBasicMaterial({ map: marquee(), toneMapped: false }),
-    0,
-    headY,
-    OUTER + 0.002,
+  const headH = 0.42;
+  const headY = CABINET.wallHeight + headH / 2;
+  const headHalf = OUTER + 0.02;
+  group.add(at(soft(shell, headHalf * 2, headH, headHalf * 2, 0.03), 0, headY, 0));
+  group.add(at(soft(chrome, WIDTH - 0.08, 0.34, 0.02, 0.008), 0, headY, headHalf));
+  group.add(
+    at(
+      new THREE.Mesh(new THREE.PlaneGeometry(WIDTH - 0.12, 0.3), new THREE.MeshBasicMaterial({ map: marquee(), toneMapped: false })),
+      0,
+      headY,
+      headHalf + 0.012,
+    ),
   );
-  group.add(sign);
-  const ceiling = mesh(
-    new THREE.PlaneGeometry(CABINET.half * 2, CABINET.half * 2),
-    new THREE.MeshBasicMaterial({ color: 0xd9cfc0, toneMapped: false }),
-    0,
-    CABINET.wallHeight - 0.001,
-    0,
-  );
+  led(WIDTH - 0.06, 0.02, 0.01, 0, CABINET.wallHeight + 0.02, headHalf);
+  const ceiling = at(new THREE.Mesh(new THREE.PlaneGeometry(INNER, INNER), dark), 0, CABINET.wallHeight - 0.002, 0);
   ceiling.rotation.x = Math.PI / 2;
-  group.add(ceiling);
+  const panel = at(
+    new THREE.Mesh(new THREE.PlaneGeometry(0.86, 0.86), new THREE.MeshBasicMaterial({ color: 0xfff1d6, toneMapped: false })),
+    0,
+    CABINET.wallHeight - 0.006,
+    0,
+  );
+  panel.rotation.x = Math.PI / 2;
+  group.add(ceiling, panel);
   for (const side of [-1, 1]) {
-    group.add(slab(chrome, 0.03, 0.03, CABINET.half * 2, side * (CABINET.half - 0.03), CABINET.railY, 0));
+    group.add(at(soft(chrome, 0.03, 0.03, INNER - 0.01, 0.008), side * (CABINET.half - 0.03), CABINET.railY, 0));
   }
 
   const deckZ = OUTER + 0.14;
-  group.add(slab(shell, WIDTH, 0.1, 0.28, 0, -0.13, deckZ));
-  const deckLed = new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false });
-  leds.push(deckLed);
-  group.add(slab(deckLed, WIDTH, 0.012, 0.004, 0, -0.13, deckZ + 0.142));
+  group.add(at(soft(shell, WIDTH + 0.02, 0.1, 0.3, 0.03), 0, -0.13, deckZ));
+  led(WIDTH - 0.06, 0.016, 0.01, 0, -0.13, deckZ + 0.15);
 
   const joystick = new THREE.Group();
   joystick.position.set(-0.18, -0.08, deckZ);
-  joystick.add(mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.12, 12), chrome, 0, 0.06, 0));
+  joystick.add(at(new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.12, 16), chrome), 0, 0.06, 0));
   joystick.add(
-    mesh(
-      new THREE.SphereGeometry(0.035, 24, 16),
-      new THREE.MeshStandardMaterial({ color: 0xff2030, roughness: 0.2 }),
+    at(
+      new THREE.Mesh(
+        new THREE.SphereGeometry(0.035, 32, 20),
+        new THREE.MeshPhysicalMaterial({ color: 0xff2030, roughness: 0.2, clearcoat: 1 }),
+      ),
       0,
       0.13,
       0,
     ),
   );
   group.add(joystick);
-  group.add(mesh(new THREE.CylinderGeometry(0.05, 0.055, 0.012, 24), dark, -0.18, -0.076, deckZ));
+  group.add(at(new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.055, 0.012, 32), dark), -0.18, -0.076, deckZ));
 
   const buttonGlow = new THREE.MeshStandardMaterial({ color: 0xff2030, emissive: 0xff2030, emissiveIntensity: 0.2, roughness: 0.3 });
-  group.add(mesh(new THREE.CylinderGeometry(0.06, 0.065, 0.012, 24), chrome, 0.2, -0.076, deckZ));
-  const button = mesh(new THREE.CylinderGeometry(0.048, 0.048, 0.03, 24), buttonGlow, 0.2, -0.06, deckZ);
+  group.add(at(new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.065, 0.012, 32), chrome), 0.2, -0.076, deckZ));
+  const button = at(new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.048, 0.03, 32), buttonGlow), 0.2, -0.06, deckZ);
   group.add(button);
 
-  const slot = new THREE.Vector3(0.42, -0.36, OUTER + 0.012);
-  group.add(slab(chrome, 0.12, 0.18, 0.02, slot.x, slot.y, OUTER + 0.004));
-  group.add(slab(dark, 0.012, 0.09, 0.022, slot.x, slot.y, OUTER + 0.005));
+  const slot = new THREE.Vector3(0.42, -0.42, OUTER + 0.016);
+  group.add(at(soft(chrome, 0.13, 0.19, 0.02, 0.008), slot.x, slot.y, OUTER + 0.004));
+  group.add(at(slab(dark, 0.012, 0.09, 0.006), slot.x, slot.y, OUTER + 0.013));
 
-  group.add(slab(chrome, 0.4, 0.3, 0.02, -0.41, -0.48, OUTER + 0.004));
-  group.add(slab(dark, 0.34, 0.24, 0.022, -0.41, -0.48, OUTER + 0.006));
+  group.add(at(soft(chrome, 0.42, 0.3, 0.02, 0.008), -0.38, -0.5, OUTER + 0.004));
+  group.add(at(slab(dark, 0.36, 0.24, 0.006), -0.38, -0.5, OUTER + 0.013));
 
   const lamp = new THREE.SpotLight(0xfff1dc, 7, 4, 0.85, 0.5, 1.4);
   lamp.position.set(0, CABINET.wallHeight - 0.02, 0.15);
   lamp.target.position.set(0, 0, 0);
   lamp.castShadow = true;
-  lamp.shadow.mapSize.set(1024, 1024);
+  lamp.shadow.mapSize.set(2048, 2048);
   lamp.shadow.camera.near = 0.2;
   lamp.shadow.camera.far = 3;
-  lamp.shadow.bias = -0.0015;
+  lamp.shadow.bias = -0.0008;
+  lamp.shadow.normalBias = 0.01;
+  lamp.shadow.radius = 4;
   group.add(lamp, lamp.target);
-  group.add(new THREE.HemisphereLight(0xbfd4ff, 0x2a1840, 0.45));
-  const key = new THREE.DirectionalLight(0xffffff, 0.55);
+  group.add(new THREE.HemisphereLight(0xbfd4ff, 0x2a1840, 0.5));
+  const key = new THREE.DirectionalLight(0xffffff, 0.6);
   key.position.set(1.5, 3, 4);
   group.add(key);
 
   function animate(time: number, moveX: number, moveZ: number, armed: boolean): void {
-    leds.forEach((led, index) => led.color.setHSL((time * 0.12 + index * 0.33) % 1, 1, 0.6));
+    leds.forEach((material, index) => material.color.setHSL((time * 0.12 + index * 0.21) % 1, 1, 0.6));
     joystick.rotation.set(moveZ * 0.4, 0, -moveX * 0.4);
     buttonGlow.emissiveIntensity = armed ? 0.9 + Math.sin(time * 9) * 0.6 : 0.15;
     button.position.y = armed ? -0.06 : -0.066;

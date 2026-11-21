@@ -55,7 +55,7 @@ export function Hud({ engine }: HudProps) {
           </button>
         </div>
       </footer>
-      <p className="keys">Arrows / WASD move - Space drop - C coin - V view</p>
+      <p className="keys">Arrows / WASD move - Space drop - C coin - V view - drag to look around - scroll to zoom</p>
     </div>
   );
 }

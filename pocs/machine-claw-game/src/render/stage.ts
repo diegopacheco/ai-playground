@@ -19,8 +19,8 @@ export function createStage(canvas: HTMLCanvasElement): Stage {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0b0714);
-  scene.fog = new THREE.Fog(0x0b0714, 7, 16);
+  scene.background = new THREE.Color(0x120a24);
+  scene.fog = new THREE.Fog(0x120a24, 10, 30);
   const pmrem = new THREE.PMREMGenerator(renderer);
   const environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
   scene.environment = environment;

@@ -24,6 +24,11 @@ body,
   width: 100%;
   height: 100%;
   display: block;
+  cursor: grab;
+}
+
+.stage:active {
+  cursor: grabbing;
 }
 
 .loading {
@@ -234,7 +239,7 @@ body,
 
   .banner {
     position: absolute;
-    bottom: calc(env(safe-area-inset-bottom) + 44px);
+    bottom: calc(env(safe-area-inset-bottom) + 58px);
     margin: 0;
   }
 
@@ -242,6 +247,14 @@ body,
     align-self: flex-start;
     max-width: 260px;
     justify-content: flex-start;
+  }
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .banner {
+    position: absolute;
+    bottom: calc(env(safe-area-inset-bottom) + 176px);
+    margin: 0;
   }
 }
 

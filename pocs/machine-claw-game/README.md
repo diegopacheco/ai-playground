@@ -4,6 +4,10 @@ A 3D arcade claw machine for the browser. Insert a coin, steer the claw over a p
 drop it and try to carry a stuffy to the prize chute. It runs on desktop and on phones, and every
 grab is decided by a real physics simulation: nothing is scripted and nothing is magnetic.
 
+Built with Fable 5.2.
+
+Play it: https://diegopacheco.github.io/ai-playground/games/machine-claw-game/
+
 ![Winning a stuffy](printscreens/04-won.png)
 
 ## How it works
@@ -34,9 +38,10 @@ grab is decided by a real physics simulation: nothing is scripted and nothing is
 * Slack sensor - the claw stops on top of a toy instead of pushing through it.
 * Eight plush kinds - bear, bunny, cat, panda, frog, chick, koala and pig, built in code.
 * Restock - every prize is replaced by a new toy falling from the top.
-* Two cameras - front view and a side view to check depth, like leaning around a real cabinet.
+* Free camera - drag to orbit around the machine, scroll or pinch to zoom, VIEW jumps between front and side.
+* Arcade hall - neon signs, rows of game cabinets, a prize wall, string lights and a patterned carpet.
 * Web and mobile - keyboard on desktop, touch joystick and big buttons on phones, portrait or landscape.
-* Arcade feel - animated LEDs, marquee, coin toss, confetti and synthesized sound effects.
+* Arcade feel - animated LEDs, marquee, coin toss, confetti and soft synthesized sounds, with a smooth motor whir while the claw moves.
 
 ## Stack
 
@@ -59,6 +64,8 @@ There is no backend and no REST API. The app is one web page.
 | Move claw | Arrows or `WASD` | Joystick |
 | Drop claw | `Space` | DROP button |
 | Switch camera | `V` | VIEW button |
+| Look around | Drag with the mouse | Drag with one finger |
+| Zoom | Scroll wheel | Pinch |
 
 ## Key data structures and design decisions
 
@@ -103,16 +110,17 @@ A coin was inserted, the timer is running and the claw was moved over the pile. 
 
 ### Lifting
 ![Lifting](printscreens/03-lifting.png)
-The fingers closed under a frog and the claw is carrying it up. Only contact and friction hold it.
+The fingers closed under a stuffy and the claw is carrying it up. Only contact and friction hold it.
 
 ### Prize
 ![Prize](printscreens/04-won.png)
-The frog fell through the chute: the prize counter is 1, the frog is on the prize shelf, confetti
-flies and a new bear is falling in to restock the pile.
+A stuffy fell through the chute: the prize counter is 1, the prize is on the shelf under the stats and
+confetti flies.
 
-### Side view
-![Side view](printscreens/05-side-view.png)
-The VIEW button swings the camera to the side so the player can judge depth.
+### Looking around
+![Orbit view](printscreens/05-orbit-view.png)
+Dragging orbits the camera around the machine and scrolling zooms, so the pile can be judged in 3D.
+The arcade hall surrounds the machine.
 
 ### Mobile
 ![Mobile](printscreens/06-mobile.png)
