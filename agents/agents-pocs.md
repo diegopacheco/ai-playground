@@ -215,7 +215,7 @@ https://github.com/diegopacheco/ai-playground/tree/main/pocs/top-4-agents
 
 ### POCs: AI Agents
 
-This pocs I built AI Agents that run in the background wither by a trigger or autonomus using APIs(OpenAI/Anthropic).
+These POCs are AI agents that run in the background, either by a trigger or autonomously using APIs (OpenAI/Anthropic).
 
 1 - Smith: Scala Security Agent <br/>
 https://github.com/diegopacheco/Smith <br/>
