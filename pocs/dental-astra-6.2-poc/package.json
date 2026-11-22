@@ -1,0 +1,8 @@
+{
+  "name": "dental-atlas",
+  "private": true,
+  "type": "module",
+  "scripts": { "start": "./scripts/start-all.sh", "test": "playwright test" },
+  "dependencies": { "three": "0.180.0" },
+  "devDependencies": { "@playwright/test": "1.65.1" }
+}

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dentition Atlas · Permanent dentition</title>
+    <link rel="icon" href="assets/logo.svg" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <img src="assets/logo.svg" alt="" />Dentition <em>Atlas</em>
+      </div>
+      <span class="headerline"></span
+      ><span class="library">Anatomy workspace</span>
+    </header>
+    <main>
+      <div class="intro">
+        <div>
+          <div class="eyebrow">Human anatomy <span>/</span> Dental atlas</div>
+          <h1>Permanent dentition</h1>
+          <p>Explore the adult dental arches and inspect each tooth in 3D.</p>
+        </div>
+        <div class="count"><b>32</b> permanent teeth</div>
+      </div>
+      <div class="layout">
+        <section class="viewer card">
+          <div class="viewerhead">
+            <h2>Arch explorer</h2>
+            <div class="tabs" aria-label="Visible arches">
+              <button data-arch="Both" aria-pressed="true">Both arches</button
+              ><button data-arch="Upper">Upper</button
+              ><button data-arch="Lower">Lower</button>
+            </div>
+          </div>
+          <div id="stage">
+            <div class="scene-tag"><i></i>3D MODEL</div>
+            <canvas aria-label="Interactive dental arches"></canvas>
+            <div id="labels"></div>
+            <div id="fallback" hidden>
+              3D view unavailable. Explore all 32 teeth in the tooth index.
+            </div>
+            <div class="tools">
+              <button id="plus" aria-label="Zoom in">+</button
+              ><button id="minus" aria-label="Zoom out">−</button
+              ><button id="reset" aria-label="Reset view">⟲</button>
+            </div>
+          </div>
+          <div class="hint">
+            Drag to rotate <span>·</span> Scroll to zoom <span>·</span> Click a
+            tooth to inspect
+          </div>
+        </section>
+        <aside>
+          <section class="card detail" aria-live="polite">
+            <div class="eyebrow">Selected tooth</div>
+            <div class="identity">
+              <span id="number"></span>
+              <div>
+                <h2 id="name"></h2>
+                <div id="location"></div>
+              </div>
+            </div>
+            <div class="family" id="family"></div>
+            <dl>
+              <dt>Function</dt>
+              <dd id="role"></dd>
+              <dt>Identifying feature</dt>
+              <dd id="feature"></dd>
+            </dl>
+          </section>
+          <section class="card index">
+            <h2>Tooth index</h2>
+            <p>Universal Numbering System</p>
+            <div id="numbers"></div>
+          </section>
+        </aside>
+      </div>
+      <footer>
+        <span>Dentition Atlas</span><span>Permanent dentition reference</span>
+      </footer>
+    </main>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>

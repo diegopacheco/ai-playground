@@ -1,0 +1,430 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #f7f8f4;
+  color: #193e37;
+  font:
+    15px 'Avenir Next',
+    Avenir,
+    system-ui,
+    sans-serif;
+}
+header {
+  height: 74px;
+  border-bottom: 1px solid #d8ded6;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 max(4vw, calc((100vw - 1450px) / 2));
+  background: #fff;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font:
+    bold 26px Georgia,
+    serif;
+  letter-spacing: -1px;
+}
+.brand img {
+  width: 38px;
+  margin-right: 2px;
+}
+.brand em {
+  font-weight: normal;
+  color: #43776a;
+}
+.headerline {
+  height: 23px;
+  border-left: 1px solid #d6ded8;
+}
+.library,
+.intro p,
+.index p,
+#location,
+.hint,
+footer {
+  color: #536b62;
+}
+.library {
+  font-size: 13px;
+}
+main {
+  width: 92%;
+  max-width: 1450px;
+  margin: auto;
+}
+.intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 31px 0 25px;
+}
+.eyebrow,
+.scene-tag,
+dt,
+.arch-title,
+.side {
+  font:
+    600 10px/1.5 ui-monospace,
+    Menlo,
+    monospace;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.eyebrow {
+  color: #427768;
+}
+.eyebrow span {
+  color: #9caea4;
+  margin: 0 6px;
+}
+h1,
+h2,
+p,
+dl,
+dd {
+  margin: 0;
+}
+h1,
+h2 {
+  font-family: Georgia, serif;
+  font-weight: normal;
+}
+h1 {
+  font-size: clamp(39px, 4.1vw, 66px);
+  line-height: 1.12;
+  letter-spacing: -2px;
+  margin: 6px 0;
+}
+.intro p {
+  font-size: 15px;
+}
+.count {
+  font-size: 12px;
+  border: 1px solid #d4dfd6;
+  border-radius: 22px;
+  padding: 8px 13px;
+}
+.count b {
+  color: #167365;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(290px, 29%);
+  gap: 19px;
+  align-items: stretch;
+}
+.card {
+  background: #fff;
+  border: 1px solid #d5ded6;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.viewer {
+  display: flex;
+  flex-direction: column;
+}
+.viewerhead {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.viewer h2,
+.index h2 {
+  font-size: 25px;
+  letter-spacing: -0.7px;
+}
+.tabs {
+  display: flex;
+  background: #f0f3ee;
+  border-radius: 9px;
+  padding: 3px;
+}
+.tabs button,
+button {
+  font: inherit;
+  cursor: pointer;
+}
+.tabs button {
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 12px;
+  color: #476258;
+}
+.tabs button[aria-pressed='true'],
+#numbers button[aria-pressed='true'] {
+  background: #176657;
+  color: white;
+}
+#stage {
+  flex: 1;
+  min-height: 460px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: #e5eee6;
+  background-image:
+    radial-gradient(#b6c9bd 0.75px, transparent 0.9px),
+    radial-gradient(ellipse at center, #f3f6e9, #dfeae1);
+  background-size:
+    13px 13px,
+    100% 100%;
+}
+canvas,
+#labels {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+}
+canvas {
+  touch-action: none;
+  cursor: grab;
+}
+canvas:active {
+  cursor: grabbing;
+}
+#labels {
+  pointer-events: none;
+}
+.scene-tag,
+.tools {
+  position: absolute;
+  z-index: 1;
+}
+.scene-tag {
+  top: 17px;
+  left: 18px;
+  color: #436658;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.scene-tag i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #39826b;
+}
+.tools {
+  right: 14px;
+  bottom: 14px;
+  display: flex;
+  border: 1px solid #c3d3c8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tools button {
+  width: 35px;
+  height: 32px;
+  background: #fff;
+  border: 0;
+  color: #235a4d;
+  font-size: 19px;
+}
+.tools button + button {
+  border-left: 1px solid #dde4dd;
+}
+.tag,
+.side {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+.tag {
+  background: #fafff8dd;
+  border: 1px solid #a8c0ae;
+  border-radius: 5px;
+  color: #345a4b;
+  font:
+    600 10px/16px ui-monospace,
+    monospace;
+  min-width: 21px;
+  text-align: center;
+}
+.tag.active {
+  background: #12675a;
+  color: white;
+  border-color: #0f6559;
+}
+.side {
+  color: #426d5b;
+  font-size: 9px;
+}
+.hint {
+  padding: 13px 12px;
+  text-align: center;
+  font-size: 12px;
+}
+.hint span {
+  margin: 0 6px;
+}
+.detail,
+.index {
+  padding: 20px 22px;
+}
+aside {
+  display: grid;
+  gap: 15px;
+}
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+.identity h2 {
+  font-size: 26px;
+  letter-spacing: -0.7px;
+}
+#number {
+  font: normal 26px Georgia;
+  background: #deede1;
+  color: #185c4a;
+  padding: 9px;
+  border-radius: 9px;
+}
+#location,
+.index p {
+  font-size: 12px;
+}
+.family {
+  display: inline-block;
+  background: #edf3ed;
+  color: #37604c;
+  border-radius: 20px;
+  font-size: 11px;
+  padding: 3px 9px;
+  margin-top: 10px;
+}
+dl {
+  border-top: 1px solid #e0e6de;
+  margin-top: 14px;
+}
+dt {
+  margin: 13px 0 4px;
+  color: #477062;
+}
+dd {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.arch-title {
+  font-size: 9px;
+  color: #47675b;
+  margin: 13px 0 5px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+}
+.grid button {
+  padding: 4px 0;
+  background: #f4f6f1;
+  color: #375748;
+  border: 1px solid #dee6dc;
+  border-radius: 5px;
+  font:
+    12px ui-monospace,
+    monospace;
+}
+.grid button:hover,
+.tools button:hover {
+  background: #d7e8dd;
+}
+button:focus-visible {
+  outline: 3px solid #c7852e;
+  outline-offset: 1px;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 2px;
+  font-size: 11px;
+}
+#fallback {
+  position: absolute;
+  inset: 43% 15% auto;
+  text-align: center;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+}
+@media (max-width: 880px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 270px;
+  }
+  .viewerhead {
+    flex-wrap: wrap;
+  }
+  .detail,
+  .index {
+    padding: 16px;
+  }
+  .count {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  header {
+    height: 58px;
+  }
+  .brand {
+    font-size: 22px;
+  }
+  .library {
+    font-size: 11px;
+  }
+  main {
+    width: 94%;
+  }
+  .intro {
+    padding: 22px 0 17px;
+  }
+  .intro p {
+    font-size: 13px;
+  }
+  .layout {
+    display: block;
+  }
+  aside {
+    margin-top: 12px;
+  }
+  .viewerhead {
+    padding: 12px;
+  }
+  .tabs button {
+    padding: 6px 8px;
+  }
+  #stage {
+    min-height: 390px;
+  }
+  .viewer h2 {
+    font-size: 21px;
+  }
+  .hint {
+    font-size: 10px;
+  }
+  .hint span {
+    margin: 0 2px;
+  }
+  .side {
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+  .grid button {
+    min-height: 32px;
+  }
+}
+[hidden] {
+  display: none !important;
+}
