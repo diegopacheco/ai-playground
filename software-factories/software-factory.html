@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Factory · software that builds software</title>
+<style>
+:root{
+  --bg:#05000a;--bg2:#11151a;--card:#141a20;--line:#232b34;--ink:#e8ecef;--mute:#8b97a3;
+  --amber:#ffb020;--orange:#ff6a1a;--teal:#26d7b4;--red:#ff4d5e;--violet:#9b8cff;--blue:#4fa3ff;
+  --f1:#05000a;--f2:#000c10;--f3:#0a0010;--f4:#00080d;--sheenA:rgba(0,255,255,.07);--sheenB:rgba(255,0,255,.07);--scan:rgba(255,255,255,.03);--glow:0 0 24px rgba(255,176,32,.35);
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+[data-theme=light]{
+  --bg:#fbf7f2;--bg2:#ece7db;--card:#fffdf8;--line:#ddd5c4;--ink:#1a1d21;--mute:#6b6458;
+  --amber:#d98a00;--orange:#e2550a;--teal:#0f9f84;--red:#d6273a;--violet:#6a55e0;--blue:#1f6fd1;
+  --f1:#f7f2ff;--f2:#eefaf8;--f3:#fcf1f8;--f4:#eff5fc;--sheenA:rgba(0,200,220,.10);--sheenB:rgba(230,0,180,.07);--scan:rgba(0,0,0,.018);--glow:0 0 0 transparent;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;transition:background .5s,color .5s;position:relative}
+.bgfx{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(120deg,var(--f1),var(--f2),var(--f3),var(--f4));background-size:400% 400%;animation:holo 16s ease infinite}
+.bgfx:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,var(--sheenA) 47%,var(--sheenB) 53%,transparent 65%);background-size:250% 100%;animation:sheen 9s linear infinite}
+.bgfx:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,var(--scan) 0 1px,transparent 1px 3px)}
+@keyframes holo{50%{background-position:100% 50%}}
+@keyframes sheen{from{background-position:200% 0}to{background-position:-50% 0}}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:22px;height:60px}
+.logo{font-family:var(--mono);font-weight:700;letter-spacing:.04em;display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo i{width:12px;height:12px;border-radius:3px;background:var(--orange);box-shadow:var(--glow);animation:blink 2.4s infinite}
+@keyframes blink{50%{opacity:.35}}
+nav ul{display:flex;gap:18px;list-style:none;margin-left:auto;font-size:13px}
+nav ul a{text-decoration:none;color:var(--mute)}
+nav ul a:hover{color:var(--ink)}
+.switch{width:40px;height:40px;border:1px solid var(--line);background:var(--card);color:var(--amber);border-radius:50%;cursor:pointer;display:grid;place-items:center;transition:transform .3s,border-color .3s}
+.switch:hover{transform:rotate(-15deg) scale(1.08);border-color:var(--amber)}
+.switch svg{width:20px;height:20px;overflow:visible}
+.switch .core{transition:r .4s}
+.switch .rays{transform-origin:center;transition:transform .5s,opacity .3s}
+.switch .bite{transition:cx .5s,cy .5s}
+[data-theme=dark] .switch .core{r:9px}
+[data-theme=dark] .switch .rays{transform:rotate(90deg) scale(.4);opacity:0}
+[data-theme=light] .switch .core{r:5px}
+[data-theme=light] .switch .bite{cx:30px;cy:-6px}
+section{padding:110px 0;border-bottom:1px solid var(--line);position:relative}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.kicker:before{content:"";width:28px;height:1px;background:var(--orange)}
+h1,h2{font-family:var(--serif);font-weight:500;letter-spacing:-.02em;line-height:1.05}
+h1{font-size:clamp(46px,7.4vw,96px)}
+h2{font-size:clamp(34px,4.6vw,58px);margin-bottom:22px}
+h1 em,h2 em{color:var(--amber);font-style:italic}
+h3{font-size:18px;margin-bottom:8px}
+.lead{font-size:19px;color:var(--mute);max-width:720px}
+.mono{font-family:var(--mono)}
+.hero{padding:70px 0 90px}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+.hero p.lead{margin:26px 0 34px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:13px;padding:12px 18px;border-radius:10px;text-decoration:none;border:1px solid var(--line);background:var(--card);cursor:pointer;color:var(--ink)}
+.btn.primary{background:var(--orange);color:#fff;border-color:var(--orange)}
+.ticker{margin-top:44px;display:flex;gap:28px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--mute)}
+.ticker b{display:block;font-size:26px;color:var(--ink);font-family:var(--serif);font-weight:500}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;position:relative;overflow:hidden}
+.hero-svg{width:100%;height:auto;display:block}
+.node-r{fill:var(--bg2);stroke:var(--line);stroke-width:1.5}
+.lbl{font-family:var(--mono);font-size:11px;fill:var(--ink);text-anchor:middle}
+.sub{font-family:var(--mono);font-size:9px;fill:var(--mute);text-anchor:middle}
+.track{fill:none;stroke:var(--line);stroke-width:2}
+.track.hot{stroke:var(--amber);stroke-dasharray:4 8;animation:flow 1.2s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-24}}
+.dot{fill:var(--amber);filter:drop-shadow(0 0 6px var(--amber))}
+.dot.t{fill:var(--teal);filter:drop-shadow(0 0 6px var(--teal))}
+.dot.v{fill:var(--violet);filter:drop-shadow(0 0 6px var(--violet))}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;transition:transform .25s,border-color .25s}
+.card:hover{transform:translateY(-3px);border-color:var(--amber)}
+.card p{color:var(--mute);font-size:15px}
+.ico{font-family:var(--mono);font-size:11px;color:var(--orange);border:1px solid var(--line);border-radius:6px;padding:3px 8px;display:inline-block;margin-bottom:14px}
+.stack{display:flex;flex-direction:column;gap:0;margin-top:40px}
+.layer{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:26px 0;border-top:1px dashed var(--line)}
+.layer .tag{font-family:var(--serif);font-size:34px;font-style:italic;color:var(--amber)}
+.layer p{color:var(--mute)}
+.nest{display:flex;justify-content:center;align-items:center;margin:20px 0}
+.ring{border:1.5px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative}
+.ring>span{position:absolute;top:10px;font-family:var(--mono);font-size:11px;color:var(--mute)}
+.r1{width:380px;height:380px;border-color:var(--orange)}
+.r2{width:260px;height:260px;border-color:var(--amber);border-style:dashed}
+.r3{width:130px;height:130px;border-color:var(--teal);animation:spin 6s linear infinite}
+.r3:after{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.quote{font-family:var(--serif);font-size:24px;font-style:italic;line-height:1.4;border-left:3px solid var(--orange);padding-left:22px;margin:34px 0;max-width:820px}
+.quote small{display:block;font-family:var(--mono);font-style:normal;font-size:12px;color:var(--mute);margin-top:10px}
+.benefit{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:40px}
+.benefit div{background:var(--card);padding:28px 22px}
+.benefit b{font-family:var(--serif);font-size:44px;font-weight:500;color:var(--teal);display:block;line-height:1}
+.benefit h3{margin-top:14px}
+.benefit p{color:var(--mute);font-size:14px}
+.concern .card{border-left:3px solid var(--red)}
+.concern .ico{color:var(--red)}
+.funnel{margin-top:40px;display:grid;grid-template-columns:1fr 1.2fr;gap:30px;align-items:center}
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.co{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px;position:relative}
+.co h3{display:flex;align-items:center;gap:10px;margin:0}
+.co h3 i{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-style:normal;font-family:var(--mono);font-size:13px;color:#fff}
+.co p{color:var(--mute);font-size:14px;flex:1}
+.co .meta{font-family:var(--mono);font-size:11px;color:var(--mute);display:flex;justify-content:space-between;gap:10px;border-top:1px dashed var(--line);padding-top:10px}
+.co .meta a{color:var(--orange);text-decoration:none}
+.pill{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--mute);position:absolute;top:18px;right:18px}
+.pill.dark{background:#000;color:var(--amber);border-color:#000}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+.filters button{font-family:var(--mono);font-size:12px;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--mute);cursor:pointer}
+.filters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.loops-svg{width:100%;height:auto}
+.legend{display:flex;flex-direction:column;gap:18px}
+.legend .card{padding:20px}
+.legend .card h3 span{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:6px;margin-left:8px;vertical-align:middle}
+.sim{margin-top:40px;display:grid;grid-template-columns:1fr 330px;gap:18px}
+.sim-svg{width:100%;height:auto;display:block}
+.sn rect{fill:var(--bg2);stroke:var(--line);stroke-width:1.5;transition:stroke .2s,fill .2s}
+.sn.on rect{stroke:var(--amber);fill:color-mix(in srgb,var(--amber) 14%,var(--bg2))}
+.sn.fail rect{stroke:var(--red);fill:color-mix(in srgb,var(--red) 16%,var(--bg2))}
+.sn.ok rect{stroke:var(--teal);fill:color-mix(in srgb,var(--teal) 16%,var(--bg2))}
+.sn.human rect{stroke-dasharray:5 4}
+.sn text{font-family:var(--mono);font-size:11px;fill:var(--ink);text-anchor:middle}
+.sn text.s{font-size:9px;fill:var(--mute)}
+.e{fill:none;stroke:var(--line);stroke-width:1.6}
+.e.back{stroke-dasharray:5 5}
+.e.f{stroke:color-mix(in srgb,var(--ink) 22%,transparent)}
+.e.r{stroke:color-mix(in srgb,var(--red) 55%,transparent)}
+.e.m{stroke:color-mix(in srgb,var(--violet) 70%,transparent)}
+.elbl{font-family:var(--mono);font-size:9px;fill:var(--mute)}
+.tok{filter:drop-shadow(0 0 5px currentColor)}
+.side{display:flex;flex-direction:column;gap:14px}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px}
+.ctrl .btn{padding:9px 12px;font-size:12px}
+.mode{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.mode button{flex:1;font-family:var(--mono);font-size:12px;padding:9px;border:0;background:var(--card);color:var(--mute);cursor:pointer}
+.mode button.on{background:var(--amber);color:#111}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.stats div{background:var(--card);padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em}
+.stats b{display:block;font-size:22px;color:var(--ink);font-family:var(--serif);letter-spacing:0;text-transform:none;font-weight:500}
+.harness{height:8px;background:var(--bg2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.harness i{display:block;height:100%;width:20%;background:linear-gradient(90deg,var(--violet),var(--teal));transition:width .6s}
+.log{font-family:var(--mono);font-size:11px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px;height:220px;overflow:auto;display:flex;flex-direction:column-reverse;gap:3px}
+.log div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--mute)}
+.log .g{color:var(--teal)}.log .r{color:var(--red)}.log .a{color:var(--amber)}.log .v{color:var(--violet)}
+label.rng{font-family:var(--mono);font-size:11px;color:var(--mute);display:flex;align-items:center;gap:10px}
+label.rng input{flex:1;accent-color:var(--orange)}
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px}
+.steps .card{position:relative;padding-top:46px}
+.steps .card:before{counter-increment:s;content:"0" counter(s);position:absolute;top:18px;left:24px;font-family:var(--mono);font-size:12px;color:var(--orange)}
+.closed-svg{width:100%;height:auto}
+.floor{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;padding:22px;border-radius:18px;border:1px solid var(--line);background:var(--card);transition:background .6s}
+.cell{aspect-ratio:1;border-radius:10px;background:var(--bg2);border:1px solid var(--line);display:grid;place-items:center;font-size:20px;position:relative;transition:all .6s}
+.cell:after{content:"";position:absolute;bottom:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--teal);animation:blink 1.6s infinite}
+.cell .h{transition:opacity .5s}
+.floor.off{background:#050607}
+.floor.off .cell{background:#0a0c0e;border-color:#15191d}
+.floor.off .cell .h{opacity:0}
+.floor.off .cell:after{background:var(--amber);box-shadow:0 0 10px var(--amber)}
+.lights{display:flex;align-items:center;gap:16px;margin:30px 0 20px}
+.big-switch{width:84px;height:44px;border-radius:999px;background:var(--amber);border:0;cursor:pointer;position:relative;transition:background .4s;box-shadow:var(--glow)}
+.big-switch:after{content:"";position:absolute;top:5px;left:45px;width:34px;height:34px;border-radius:50%;background:#fff;transition:left .4s}
+.big-switch.off{background:#22272d;box-shadow:none}
+.big-switch.off:after{left:5px;background:#555}
+.cmp{width:100%;border-collapse:collapse;margin-top:28px;font-size:14px}
+.cmp th,.cmp td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.cmp th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--mute)}
+.cmp td:first-child{font-family:var(--mono);font-size:12px;color:var(--mute);width:22%}
+.ladder{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:40px;align-items:end}
+.rung{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 14px;cursor:pointer;transition:all .3s}
+.rung b{font-family:var(--serif);font-size:30px;font-weight:500;color:var(--amber);display:block}
+.rung span{font-size:13px;font-weight:600}
+.rung.on{border-color:var(--amber);transform:translateY(-6px)}
+.rung:nth-child(1){height:120px}.rung:nth-child(2){height:140px}.rung:nth-child(3){height:160px}.rung:nth-child(4){height:180px}.rung:nth-child(5){height:200px}.rung:nth-child(6){height:220px;background:#07080a;color:#e8ecef;border-color:#000}
+.rung-detail{margin-top:18px;min-height:60px;color:var(--mute);font-size:16px;border-left:3px solid var(--amber);padding-left:16px}
+.earn{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+.earn ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.earn li{font-size:14px;color:var(--mute);padding-left:22px;position:relative}
+.earn .d li:before{content:"●";position:absolute;left:0;color:var(--amber);font-size:10px;top:4px}
+.earn .l li:before{content:"○";position:absolute;left:0;color:var(--teal);font-size:12px;top:2px}
+footer{padding:70px 0 90px}
+.src{columns:2;gap:40px;font-size:13px;margin-top:24px}
+.src a{display:block;color:var(--mute);text-decoration:none;padding:5px 0;break-inside:avoid;border-bottom:1px dashed var(--line)}
+.src a:hover{color:var(--orange)}
+.topbar{background:var(--orange);color:#fff;font-family:var(--mono);font-size:12px;text-align:center;padding:9px 16px}
+.topbar a{color:#fff;font-weight:700}
+.ff{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:start;margin-top:40px}
+.code{font-family:var(--mono);font-size:12.5px;line-height:1.65;background:#07090b;color:#d8dee4;border:1px solid var(--line);border-radius:16px;padding:22px;overflow:auto;white-space:pre}
+.code .k{color:#ff9d4d}.code .s{color:#7ee0c3}.code .c{color:#8b97a3}
+.ff ul{list-style:none;display:flex;flex-direction:column;gap:12px;margin:20px 0 26px}
+.ff li{color:var(--mute);font-size:15px;padding-left:24px;position:relative}
+.ff li:before{content:"▸";position:absolute;left:0;color:var(--orange)}
+.ff li b{color:var(--ink)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:none}
+@media (max-width:960px){
+  .hero-grid,.grid2,.funnel,.sim,.earn{grid-template-columns:1fr}
+  .grid3,.who,.steps{grid-template-columns:1fr 1fr}
+  .benefit{grid-template-columns:1fr 1fr}
+  .ladder{grid-template-columns:repeat(3,1fr)}
+  .rung{height:auto!important}
+  nav ul{display:none}
+  .layer{grid-template-columns:1fr}
+  .r1{width:300px;height:300px}.r2{width:200px;height:200px}.r3{width:100px;height:100px}
+}
+@media (max-width:620px){.grid3,.who,.steps,.benefit{grid-template-columns:1fr}.src{columns:1}.floor{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+
+<div class="bgfx"></div>
+<div class="topbar">🏭 New: <a href="https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/" target="_blank">Factoryfile</a>, a Terraform-like file format that describes a whole software factory as a graph · <a href="https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/" target="_blank">see the landing page →</a> · by <a href="https://diegopacheco.github.io/" target="_blank">Diego Pacheco</a></div>
+<nav><div class="wrap">
+  <a class="logo" href="#top"><i></i>SOFTWARE/FACTORY</a>
+  <ul>
+    <li><a href="#what">What</a></li>
+    <li><a href="#benefits">Benefits</a></li>
+    <li><a href="#concerns">Concerns</a></li>
+    <li><a href="#who">Who</a></li>
+    <li><a href="#loops">Loops</a></li>
+    <li><a href="#sim">Factory</a></li>
+    <li><a href="#factoryfile">Factoryfile</a></li>
+    <li><a href="#closed">Self-closed</a></li>
+    <li><a href="#lit-dark">Lit vs Dark</a></li>
+  </ul>
+  <button class="switch" id="themeBtn"><svg viewBox="0 0 24 24"><mask id="moonMask"><rect width="24" height="24" fill="#fff"/><circle class="bite" cx="17" cy="7" r="7" fill="#000"/></mask><circle class="core" cx="12" cy="12" r="9" fill="currentColor" mask="url(#moonMask)"/><g class="rays" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1.5v2.5M12 20v2.5M1.5 12h2.5M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></g></svg></button>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap hero-grid">
+  <div class="reveal">
+    <div class="kicker">2026 · agentic engineering</div>
+    <h1>Software that <em>builds</em> software.</h1>
+    <p class="lead">A software factory is not a bigger agent. It is many small agent loops, each with walls around it, fed by a queue of work and drained through gates into production, with people running the whole thing from above.</p>
+    <div class="cta">
+      <a class="btn primary" href="#sim">▶ Run a factory</a>
+      <a class="btn" href="#lit-dark">Lit vs dark →</a>
+      <a class="btn" href="https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/" target="_blank">Factoryfile ↗</a>
+    </div>
+    <div class="ticker">
+      <div><b>1968</b>Bob Bemer coins the idea</div>
+      <div><b>20–30%</b>of Warp's PRs run through factories</div>
+      <div><b>$1,000</b>tokens/engineer/day (StrongDM CTO)</div>
+    </div>
+  </div>
+  <div class="panel reveal">
+    <svg class="hero-svg" viewBox="0 0 520 440" id="heroSvg"></svg>
+  </div>
+</div></header>
+
+<section id="what"><div class="wrap">
+  <div class="kicker reveal">01 · what is it</div>
+  <h2 class="reveal">The loop is the atom.<br>The factory is the loop <em>at scale.</em></h2>
+  <p class="lead reveal">The dream of software built on a repeatable, measurable production line goes back to Bob Bemer's 1968 paper <i>"The economics of program production"</i>. For fifty years it mostly fell flat, because you can't stamp out ideas the way you stamp out car parts. Coding agents changed that, and the factory is built in three layers.</p>
+  <div class="grid2" style="margin-top:30px">
+    <div class="stack reveal">
+      <div class="layer"><div class="tag">Loop</div><p><b style="color:var(--ink)">One agent, one job, on repeat.</b> Gather context, act, check the result, go again until a condition is met. You stop prompting turn by turn and instead design the small system that prompts the agent for you.</p></div>
+      <div class="layer"><div class="tag">Harness</div><p><b style="color:var(--ink)">The walls around a loop.</b> The sandbox it runs in, the tools it can reach, the memory that survives between runs, and the gates that decide what "done" means. Give a raw model no harness and it will spin forever.</p></div>
+      <div class="layer"><div class="tag">Factory</div><p><b style="color:var(--ink)">Many harnessed loops at once.</b> A queue of signals goes in: bugs, feedback, requirements. Work is triaged, specced, built, tested, reviewed, secured, shipped and monitored. Monitoring produces new signals, so it never stops.</p></div>
+    </div>
+    <div class="reveal">
+      <div class="nest"><div class="ring r1"><span>FACTORY · org chart made of loops</span><div class="ring r2"><span>HARNESS</span><div class="ring r3"><span style="top:52px">LOOP</span></div></div></div></div>
+      <div class="quote">"This system must improve over time by observing itself. The incremental units of this system are AI agents."<small>Factory 2.0 · Matan Grinberg &amp; Eno Reyes · June 15, 2026</small></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="benefits"><div class="wrap">
+  <div class="kicker reveal">02 · benefits</div>
+  <h2 class="reveal">Why teams are <em>retooling</em></h2>
+  <p class="lead reveal">Making one engineer faster is no longer the goal. The factory turns the whole delivery lifecycle into a system you can instrument, measure and improve.</p>
+  <div class="benefit reveal">
+    <div><b>24/7</b><h3>Always-on throughput</h3><p>Agents work the queue while the team sleeps. Bugs, dependency bumps and migrations stop waiting for a free human.</p></div>
+    <div><b>∑</b><h3>Compounding learning</h3><p>Every session, review and incident flows back into the loop. A security finding shapes the next code review.</p></div>
+    <div><b>↻</b><h3>Workflows as code</h3><p>Factories are version controlled, so they can be rolled back, canary tested and improved like any other code.</p></div>
+    <div><b>⚖</b><h3>Model independence</h3><p>Route each step to the model with the right cost, speed and quality. When models get cheaper, the whole factory gets cheaper.</p></div>
+    <div><b>⌖</b><h3>Humans move upstream</h3><p>People spend their time on intent, architecture and specs. Reviewing a 200-line plan replaces a long code review.</p></div>
+    <div><b>▤</b><h3>Full traceability</h3><p>Every action leaves a record that traces back to a human-defined intent, which is useful for audits and post-mortems.</p></div>
+    <div><b>⛨</b><h3>Sovereignty</h3><p>Run it in the cloud, bring your own key, or run it air-gapped. What the factory learns stays inside your walls.</p></div>
+    <div><b>⇉</b><h3>Parallelism</h3><p>One spec can fan out to N agents at once. Throughput is limited by how fast you can verify, not by headcount.</p></div>
+  </div>
+</div></section>
+
+<section id="concerns" class="concern"><div class="wrap">
+  <div class="kicker reveal">03 · concerns</div>
+  <h2 class="reveal">Generation is a wide mouth.<br>Verification is the <em>narrow neck.</em></h2>
+  <div class="funnel">
+    <div class="reveal"><svg viewBox="0 0 360 300" class="loops-svg" id="funnelSvg"></svg></div>
+    <div class="quote reveal">"The fundamental constraint in a software factory isn't how much code we can churn out: it's how quickly we can verify it."<small>Addy Osmani · Software Factories, Light and Dark</small></div>
+  </div>
+  <div class="grid3" style="margin-top:30px">
+    <div class="card reveal"><span class="ico">BOTTLENECK</span><h3>The review queue backs up</h3><p>Generation keeps growing while human attention doesn't. The real problem isn't volume, it's a surplus of bad PRs passing gates nobody trusts.</p></div>
+    <div class="card reveal"><span class="ico">COMPREHENSION</span><h3>Nobody understands the code</h3><p>If people stop reading the code, they stop understanding the software. Debugging an incident at 3am in code no human has read is a new kind of debt.</p></div>
+    <div class="card reveal"><span class="ico">TRUST</span><h3>Built by agents, tested by agents</h3><p>Stanford CodeX asks who trusts code that agents wrote and agents validated, especially when a security company is the one dropping human review.</p></div>
+    <div class="card reveal"><span class="ico">DRIFT</span><h3>Long loops wander off</h3><p>Dex Horthy's rule of thumb: an agent holds up for 3 to 10 steps and starts losing the thread past 20. Long loops hide mistakes in the corners.</p></div>
+    <div class="card reveal"><span class="ico">COST</span><h3>The token bill</h3><p>"$1,000 in tokens per engineer per day" was meant as a provocation, but it shows that cost has moved from salaries to inference.</p></div>
+    <div class="card reveal"><span class="ico">HYPE</span><h3>Vendor-shaped narratives</h3><p>Much of the writing on this comes from vendors and consultancies. Productivity claims like "3–5x" are mostly unverified.</p></div>
+  </div>
+</div></section>
+
+<section id="who"><div class="wrap">
+  <div class="kicker reveal">04 · who is doing it</div>
+  <h2 class="reveal">The factory <em>floor</em>, 2026</h2>
+  <p class="lead reveal">Some sell control planes that run the whole loop. Others own one station on the line. A few big companies built their own.</p>
+  <div class="filters reveal" id="filters">
+    <button class="on" data-f="all">all</button>
+    <button data-f="platform">factory platforms</button>
+    <button data-f="station">stations</button>
+    <button data-f="inhouse">built in-house</button>
+    <button data-f="open">open source</button>
+  </div>
+  <div class="who" id="who-grid"></div>
+</div></section>
+
+<section id="loops"><div class="wrap">
+  <div class="kicker reveal">05 · inner loop + outer loop</div>
+  <h2 class="reveal">Two loops, <em>two clocks</em></h2>
+  <p class="lead reveal">The terms come from the cloud-native era. The inner loop is the edit-run-verify cycle on your machine. The outer loop is everything after you push. Agents are now taking over both, and humans own the loop around them.</p>
+  <div class="grid2" style="margin-top:40px">
+    <div class="panel reveal" style="padding:10px"><svg viewBox="0 0 520 520" class="loops-svg" id="loopsSvg"></svg></div>
+    <div class="legend reveal">
+      <div class="card"><h3>Inner loop <span style="background:color-mix(in srgb,var(--teal) 20%,transparent);color:var(--teal)">seconds → minutes</span></h3><p>One agent goes through investigate → implement → run → verify, then repeats. It lives in the IDE or CLI. The judge is fast and deterministic: compiler, tests, linter, types. Most AI use so far sits here.</p></div>
+      <div class="card"><h3>Outer loop <span style="background:color-mix(in srgb,var(--amber) 20%,transparent);color:var(--amber)">hours → days</span></h3><p>Issue → PR → CI → review → deploy → observe → new issue. The agents run on their own infrastructure, not your laptop, and are kicked off from Slack, Jira, Linear or GitHub, like Devin and GitHub's Copilot coding agent.</p></div>
+      <div class="card"><h3>Human loop <span style="background:color-mix(in srgb,var(--violet) 20%,transparent);color:var(--violet)">weeks → quarters</span></h3><p>Intent, architecture, policy and deciding which checks earn trust. Osmani's advice: "own the outer loop". Your job becomes designing the loops, not running each turn.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="sim"><div class="wrap">
+  <div class="kicker reveal">06 · a factory with a complex loop</div>
+  <h2 class="reveal">Watch the line <em>run itself</em></h2>
+  <p class="lead reveal">A real factory is a graph, not a straight pipeline. Forward edges move work ahead, and bounded back edges send it back when a gate says no. An observer agent watches every run and tunes the harness, so the factory gets better at building the more it builds.</p>
+  <div class="sim reveal">
+    <div class="panel"><svg class="sim-svg" viewBox="0 0 1000 600" id="simSvg"></svg></div>
+    <div class="side">
+      <div class="mode" id="modeBtns"><button class="on" data-m="lit">💡 lit factory</button><button data-m="dark">🌑 dark factory</button></div>
+      <div class="ctrl">
+        <button class="btn primary" id="runBtn">▶ start line</button>
+        <button class="btn" id="oneBtn">+1 signal</button>
+        <button class="btn" id="resetBtn">reset</button>
+      </div>
+      <label class="rng">speed <input type="range" id="speed" min="0.5" max="4" step="0.25" value="1.5"></label>
+      <div class="stats">
+        <div><b id="sShip">0</b>shipped</div>
+        <div><b id="sRetry">0</b>retries</div>
+        <div><b id="sInc">0</b>incidents</div>
+        <div><b id="sHuman">0m</b>human minutes</div>
+      </div>
+      <div class="mono" style="font-size:11px;color:var(--mute)">harness quality <span id="hq">20%</span></div>
+      <div class="harness"><i id="hqBar"></i></div>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="card reveal"><h3>Forward edges</h3><p>signal → triage → spec → plan → build ×3 → test → review → security → ship → monitor.</p></div>
+    <div class="card reveal"><h3>Bounded back edges</h3><p>Failed tests go back to build at most 3 times. When retries run out, work goes back to spec, so a retry loop always has a way out.</p></div>
+    <div class="card reveal"><h3>Outcome routes</h3><p>A review rejection goes back to spec, a security finding back to build, and a canary rollback back to triage as a new signal.</p></div>
+    <div class="card reveal"><h3>The loop that edits the loop</h3><p>The observer scores runs and opens PRs against prompts, skills and model choices, so the failure rate falls as harness quality rises.</p></div>
+  </div>
+</div></section>
+
+<section id="factoryfile"><div class="wrap">
+  <div class="kicker reveal">06½ · describe the factory as code</div>
+  <h2 class="reveal">Factoryfile: one file, <em>the whole factory</em></h2>
+  <p class="lead reveal">The simulator above is a graph. Factoryfile, an open project by <a href="https://diegopacheco.github.io/" target="_blank" style="color:var(--orange);font-weight:600">Diego Pacheco</a>, writes that graph down. It is a block format like <span class="mono">main.tf</span>, checked like a compiler, that declares factories, agents, stages, forward edges and bounded loops, so any tool can lint, render or run the same factory.</p>
+  <div class="quote reveal">"Stages are the nodes, <span class="mono">next</span> lists are the forward edges, and loops are named back edges that stop when <span class="mono">until</span> is met or after <span class="mono">max</span> passes."<small><a href="https://diegopacheco.github.io/" target="_blank" style="color:var(--orange)">Diego Pacheco</a> · <a href="https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/" target="_blank" style="color:var(--orange)">Factoryfile</a></small></div>
+  <div class="ff">
+    <div class="reveal">
+      <ul>
+        <li><b>One format, five parsers.</b> Python 3.15, a Rust reference, Java 25, Go 1.26 and TypeScript 7 on Bun, all with identical error messages.</li>
+        <li><b>Two tools.</b> <span class="mono">factoryfile-lint</span> (E001–E010, W001–W008) and <span class="mono">factory-cli --render · --render-ui</span>.</li>
+        <li><b>Bounded back edges.</b> <span class="mono">loop</span> blocks with <span class="mono">until</span> and <span class="mono">max</span>, plus <span class="mono">exhausted</span> fallbacks, so a retry loop always has a way out.</li>
+        <li><b>Gates and routes.</b> <span class="mono">verdict</span> maps and <span class="mono">on</span> routes for passed/failed and yes/no outcomes, plus <span class="mono">run</span> stages for test, ship and merge.</li>
+        <li><b>Eight factories included.</b> XP, RUP, Scrum, Kanban, waterfall, spiral, gated-release, and the repository's own Factoryfile.</li>
+      </ul>
+      <a class="btn primary" href="https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/" target="_blank">Open the Factoryfile landing page ↗</a>
+    </div>
+    <div class="code reveal"><span class="k">version</span> = <span class="s">"1"</span>
+
+<span class="k">factory</span> <span class="s">"xp"</span> {
+  description = <span class="s">"Extreme Programming with pairs of agents"</span>
+  entry       = <span class="s">"test-first"</span>
+
+  <span class="k">agent</span> <span class="s">"pair"</span> {
+    role    = <span class="s">"driver and navigator"</span>
+    tools   = [<span class="s">"Read"</span>, <span class="s">"Edit"</span>, <span class="s">"Bash"</span>]
+    content = &lt;&lt;PROMPT
+      You write the test first, then the code that makes it pass.
+      PROMPT
+  }
+
+  <span class="k">stage</span> <span class="s">"test-first"</span> {
+    agents = [<span class="s">"pair"</span>]
+    next   = [<span class="s">"acceptance"</span>]
+  }
+
+  <span class="k">stage</span> <span class="s">"acceptance"</span> {
+    agents  = [<span class="s">"pair"</span>]
+    content = <span class="s">"Run the acceptance tests of every story."</span>
+  }
+
+  <span class="k">loop</span> <span class="s">"tdd"</span> {
+    from  = <span class="s">"test-first"</span>
+    to    = <span class="s">"test-first"</span>
+    until = <span class="s">"every test is green and the code is clean"</span>
+    max   = <span class="s">"20"</span>
+  }
+}</div>
+  </div>
+</div></section>
+
+<section id="closed"><div class="wrap">
+  <div class="kicker reveal">07 · self-closed systems</div>
+  <h2 class="reveal">Close the loop, and the system <em>steers itself</em></h2>
+  <p class="lead reveal">An open system needs a human to carry each output back in as the next input. A self-closed system feeds itself: production telemetry becomes new work, results become evals, and evals change the harness. It is control theory applied to an engineering org.</p>
+  <div class="grid2" style="margin-top:40px">
+    <div class="panel reveal" style="padding:10px"><svg viewBox="0 0 520 460" class="closed-svg" id="closedSvg"></svg></div>
+    <div class="reveal">
+      <div class="card" style="margin-bottom:14px"><span class="ico">SETPOINT</span><h3>Intent &amp; specs</h3><p>What "correct" looks like, written precisely enough for a machine to check. This is the only part humans have to supply.</p></div>
+      <div class="card" style="margin-bottom:14px"><span class="ico">SENSORS</span><h3>Telemetry, tests, evals</h3><p>Deterministic, cheap, frequent and hard to fake. A sensor that drifts or can be gamed makes the loop unstable.</p></div>
+      <div class="card" style="margin-bottom:14px"><span class="ico">ACTUATORS</span><h3>Agents with scoped permissions</h3><p>They change code, config and the harness itself, but only inside the walls the harness allows.</p></div>
+      <div class="card"><span class="ico" style="color:var(--red)">THE CATCH</span><h3>A closed loop can lock onto the wrong target</h3><p>If the sensor is wrong, the loop optimizes the wrong thing faster. You need anchors outside the loop: humans setting the setpoint, red-team agents and independent scenarios that the builders never see.</p></div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="card reveal"><h3>Standardized inputs</h3><p>Reproducible environments, repo instructions and well-scoped tasks, never "login is broken sometimes".</p></div>
+    <div class="card reveal"><h3>Deterministic verification</h3><p>Builds, types, linters, tests and scans give the agent machine-readable evidence that the work is done.</p></div>
+    <div class="card reveal"><h3>Continuous instrumentation</h3><p>An execution record of every step, so failures can be replayed and turned into new evals.</p></div>
+    <div class="card reveal"><h3>Self-improvement</h3><p>Observer agents score a share of runs and open PRs that adjust prompts, skills and model choice.</p></div>
+  </div>
+</div></section>
+
+<section id="lit-dark"><div class="wrap">
+  <div class="kicker reveal">08 · lit vs dark factories</div>
+  <h2 class="reveal">Where do you <em>leave the lights on?</em></h2>
+  <p class="lead reveal">The name comes from lights-out manufacturing. At FANUC's plant near Mount Fuji, robots build about 50 robots per 24-hour shift and can run unattended for up to 30 days. In software, a <b>lit factory</b> keeps humans reading at the points where judgment matters. A <b>dark factory</b> lets agents scope, build and ship without anyone reading the details.</p>
+  <div class="lights reveal"><button class="big-switch" id="floorSwitch" aria-label="toggle factory lights"></button><span class="mono" id="floorLbl">LIT · humans at the gates</span></div>
+  <div class="floor reveal" id="floor"></div>
+  <table class="cmp reveal">
+    <tr><th></th><th>💡 Lit factory</th><th>🌑 Dark factory</th></tr>
+    <tr><td>Who reads code</td><td>A human reads what comes out before it ships</td><td>Nobody. Validation replaces code review</td></tr>
+    <tr><td>Where judgment lives</td><td>Upstream, in product, design, architecture and plan review</td><td>Specs, scenarios and the harness itself</td></tr>
+    <tr><td>Trade-off</td><td>Judgment and focus, paid for in speed</td><td>Speed, paid for in understanding and the risk of breakage</td></tr>
+    <tr><td>Fails as</td><td>"All lit": a giant review bottleneck</td><td>"All dark": tearing it all down four months later</td></tr>
+    <tr><td>Public face</td><td>Most enterprises, CodeRabbit-style risk-based review</td><td>StrongDM: "code must not be written by humans" and "code must not be reviewed by humans"</td></tr>
+  </table>
+  <div class="ladder reveal" id="ladder"></div>
+  <div class="rung-detail" id="rungDetail"></div>
+  <div class="earn">
+    <div class="card d reveal"><h3>🌑 A loop earns the dark when…</h3><ul>
+      <li>the check is cheap and runs often</li>
+      <li>the oracle can't be easily faked: green/red tests, type gates, property tests, a review agent with a real rubric</li>
+      <li>the oracle answers immediately and doesn't drift</li>
+      <li>the loop is short (3 to 10 steps)</li>
+      <li>a machine, not just you, can prove "done"</li>
+    </ul></div>
+    <div class="card l reveal"><h3>💡 Keep the lights on when…</h3><ul>
+      <li>a wrong answer is expensive and only a person can catch it</li>
+      <li>subtle production bugs slip past tests</li>
+      <li>the blast radius is large</li>
+      <li>the decision will shape a year or more of work</li>
+      <li>the main risk is a misunderstood requirement</li>
+    </ul></div>
+  </div>
+  <div class="quote reveal">"The hard, skilled job is deciding where to put each switch."<small>Addy Osmani</small></div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="kicker">sources</div>
+  <h2 style="font-size:36px">Read the <em>originals</em></h2>
+  <div class="src">
+    <a href="https://addyosmani.com/blog/software-factories/" target="_blank">Addy Osmani · Software Factories, Light and Dark</a>
+    <a href="https://factory.ai/news/software-factory" target="_blank">Factory · Factory 2.0: From coding agents to software factories (Jun 15, 2026)</a>
+    <a href="https://techcrunch.com/2026/08/18/warps-new-system-is-an-out-of-the-box-software-factory-for-ai-development/" target="_blank">TechCrunch · Warp's out-of-the-box software factory (Aug 18, 2026)</a>
+    <a href="https://www.warp.dev/articles/best-software-factory-platforms-2026" target="_blank">Warp · Best software factory platforms in 2026</a>
+    <a href="https://www.openhands.dev/blog/what-is-an-ai-dark-factory" target="_blank">OpenHands · What is an AI dark factory?</a>
+    <a href="https://tessl.io/patterns/agentic-development-workflow/dark-factory/" target="_blank">Tessl Patterns · Dark Factory</a>
+    <a href="https://www.danshapiro.com/blog/2026/01/the-five-levels-from-spicy-autocomplete-to-the-software-factory/" target="_blank">Dan Shapiro · The Five Levels: from Spicy Autocomplete to the Dark Factory</a>
+    <a href="https://www.strongdm.com/blog/the-strongdm-software-factory-building-software-with-ai" target="_blank">StrongDM · The StrongDM Software Factory</a>
+    <a href="https://law.stanford.edu/2026/02/08/built-by-agents-tested-by-agents-trusted-by-whom" target="_blank">Stanford CodeX · Built by agents, tested by agents, trusted by whom?</a>
+    <a href="https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents" target="_blank">Stripe · Minions: one-shot end-to-end coding agents</a>
+    <a href="https://builders.ramp.com/post/why-we-built-our-background-agent" target="_blank">Ramp · Why we built our background agent</a>
+    <a href="https://www.coderabbit.ai/" target="_blank">CodeRabbit · Plan &amp; Agentic Change Management</a>
+    <a href="https://mastra.ai/articles/best-software-factory" target="_blank">Mastra · Best software factory platforms and tools</a>
+    <a href="https://bcgplatinion.com/insights/the-dark-software-factory" target="_blank">BCG Platinion · The dark software factory</a>
+    <a href="https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-10-small-focused-agents.md" target="_blank">HumanLayer · 12-factor agents: small, focused agents</a>
+    <a href="https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/" target="_blank">Factoryfile · one format, five parsers, two tools</a>
+  </div>
+</div></footer>
+
+<script>
+const NS="http://www.w3.org/2000/svg";
+const $=s=>document.querySelector(s);
+const el=(tag,attrs,parent)=>{const n=document.createElementNS(NS,tag);for(const k in attrs)n.setAttribute(k,attrs[k]);if(parent)parent.appendChild(n);return n};
+const txt=(parent,x,y,s,cls)=>{const t=el("text",{x,y,class:cls},parent);t.textContent=s;return t};
+
+const theme={
+  init(){this.set(localStorage.getItem("sf-theme")||"dark");$("#themeBtn").onclick=()=>this.set(document.documentElement.dataset.theme==="dark"?"light":"dark")},
+  set(t){document.documentElement.dataset.theme=t;localStorage.setItem("sf-theme",t);const b=$("#themeBtn");b.title=t==="dark"?"Lights off · switch to light":"Lights on · switch to dark";b.setAttribute("aria-label",b.title)}
+};
+
+const ringPath=(cx,cy,r)=>"M "+(cx-r)+" "+cy+" a "+r+" "+r+" 0 1 1 "+(2*r)+" 0 a "+r+" "+r+" 0 1 1 "+(-2*r)+" 0";
+const orbit=(svg,d,cls,dur,count)=>{for(let i=0;i<count;i++){const c=el("circle",{r:5,class:"dot "+cls},svg);el("animateMotion",{dur:dur+"s",repeatCount:"indefinite",path:d,begin:(-dur*i/count)+"s"},c)}};
+const ringNodes=(svg,cx,cy,r,labels,w)=>labels.forEach((l,i)=>{const a=-Math.PI/2+i*2*Math.PI/labels.length;const x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);el("rect",{x:x-w/2,y:y-14,width:w,height:28,rx:8,class:"node-r"},svg);txt(svg,x,y+4,l,"lbl")});
+
+const hero=()=>{
+  const s=$("#heroSvg");
+  const d=ringPath(260,220,165);
+  el("path",{d,class:"track"},s);el("path",{d,class:"track hot"},s);
+  orbit(s,d,"",14,5);
+  ringNodes(s,260,220,165,["signal","triage","spec","build","test","review","ship","monitor"],78);
+  const di=ringPath(260,220,62);
+  el("path",{d:di,class:"track"},s);orbit(s,di,"t",3,2);
+  txt(s,260,214,"harnessed","sub");txt(s,260,232,"LOOPS × N","lbl");
+};
+
+const funnel=()=>{
+  const s=$("#funnelSvg");
+  el("path",{d:"M20 20 L340 20 L200 170 L200 280 L160 280 L160 170 Z",fill:"none",stroke:"var(--line)","stroke-width":2},s);
+  txt(s,180,14,"generation · cheap, unbounded","sub");
+  txt(s,180,296,"verification · human attention","sub");
+  for(let i=0;i<40;i++){const c=el("circle",{r:4,fill:i%5===0?"var(--red)":"var(--amber)",opacity:.85},s);const x=40+Math.random()*280;const dur=3+Math.random()*3;el("animateMotion",{dur:dur+"s",repeatCount:"indefinite",begin:(-Math.random()*dur)+"s",path:"M"+x+" 30 L180 165 L180 "+(175+Math.random()*10)},c)}
+  for(let i=0;i<3;i++){const c=el("circle",{r:4,fill:"var(--teal)"},s);el("animateMotion",{dur:"4s",repeatCount:"indefinite",begin:(-i*1.33)+"s",path:"M180 175 L180 280"},c)}
+};
+
+const loops=()=>{
+  const s=$("#loopsSvg");
+  const outer=ringPath(260,260,200),inner=ringPath(260,260,82),human=ringPath(260,260,245);
+  el("path",{d:human,class:"track","stroke-dasharray":"2 6",stroke:"var(--violet)"},s);
+  el("path",{d:outer,class:"track"},s);el("path",{d:inner,class:"track"},s);
+  orbit(s,human,"v",40,3);orbit(s,outer,"",16,4);orbit(s,inner,"t",3.5,2);
+  ringNodes(s,260,260,200,["issue","PR","CI","review","deploy","observe"],70);
+  ringNodes(s,260,260,82,["plan","edit","run","verify"],56);
+  txt(s,260,256,"AGENT","lbl");txt(s,260,272,"inner loop","sub");
+  txt(s,260,10,"human loop · intent · policy","sub");
+};
+
+const companies=[
+  {n:"Factory",c:"#ff6a1a",i:"F",t:["platform"],p:"Droids, autonomous agents across the SDLC. Its Factory 2.0 manifesto says a factory needs model independence, sovereign intelligence and continual self-improvement. Customers include MongoDB, EY, Bayer, Zapier and Clari.",m:"Jun 2026 · Factory 2.0",u:"https://factory.ai/news/software-factory"},
+  {n:"Warp Factories",c:"#4fa3ff",i:"W",t:["platform"],p:"A control plane where a foreman agent takes work from Slack, Linear, Jira and GitHub and splits it across triage, spec, build and review subagents. Factories are defined as code, and observer agents open PRs that tune the prompts. Warp says it automates 20–30% of its own PRs this way.",m:"Aug 18, 2026",u:"https://techcrunch.com/2026/08/18/warps-new-system-is-an-out-of-the-box-software-factory-for-ai-development/"},
+  {n:"CodeRabbit",c:"#ff5a36",i:"CR",t:["station"],p:"The review and verification station. CodeRabbit Plan moves review upstream into planning, and Agentic Change Management (Aug 2026) validates, triages, explains and secures changes from both humans and agents. It argues for review scaled to risk, not no review. Raised a $143M Series C at a $1.5B valuation.",m:"Plan · Change Mgmt",u:"https://www.coderabbit.ai/"},
+  {n:"StrongDM",c:"#111",i:"S",t:["inhouse"],dark:1,p:"The best-known dark factory. Its charter says code is neither written nor reviewed by humans. Agents prove each change against a Digital Twin Universe of simulated Okta, Slack and other services, using the Attractor coding agent.",m:"Feb 2026 · charter",u:"https://www.strongdm.com/blog/the-strongdm-software-factory-building-software-with-ai"},
+  {n:"Stripe Minions",c:"#635bff",i:"M",t:["inhouse"],p:"Stripe's in-house 'minions' are one-shot, end-to-end coding agents that automate work inside its own codebase. It is one of the most public examples of a homegrown factory.",m:"in-house",u:"https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents"},
+  {n:"Ramp",c:"#e4f222",i:"R",t:["inhouse"],p:"Built a background agent that keeps watching its own code after deploy. Monitoring feeds back into the build loop, which makes it a closed outer loop.",m:"in-house",u:"https://builders.ramp.com/post/why-we-built-our-background-agent"},
+  {n:"Devin · Cognition",c:"#2bb673",i:"D",t:["station"],p:"An autonomous cloud engineer in a full sandboxed VM, started from Slack, Jira or GitHub. It is a typical outer-loop worker that a factory dispatches.",m:"outer loop",u:"https://cognition.ai/"},
+  {n:"Codex · OpenAI",c:"#10a37f",i:"C",t:["station","open"],p:"Codex Cloud runs tasks in remote sandboxes and returns PRs. The Codex CLI is open source under Apache 2.0, and Warp Factories can plug it in as a subagent.",m:"cloud + CLI",u:"https://openai.com/codex/"},
+  {n:"Claude Code",c:"#d97757",i:"CC",t:["station"],p:"A terminal-native agent that is strong at multi-file changes. Teams use it as a harness inside factory stages, often with skills, hooks and headless runs.",m:"harness",u:"https://claude.com/claude-code"},
+  {n:"Cursor Cloud Agents",c:"#7c7c7c",i:"Cu",t:["station"],p:"Background agents were renamed Cloud Agents and headlined Cursor 3.5 (May 20, 2026). They run remotely and return a branch or PR.",m:"May 2026",u:"https://cursor.com/"},
+  {n:"GitHub Copilot agent",c:"#24292f",i:"GH",t:["station"],p:"You assign an issue and the cloud agent opens a PR. It is the outer-loop worker built into the forge where most code already lives.",m:"issue → PR",u:"https://github.com/features/copilot"},
+  {n:"OpenHands",c:"#e5b33e",i:"OH",t:["open","platform"],p:"An open-source agent platform for both the inner and outer loop. Its maturity model runs from assisted to broad lights-out development.",m:"open source",u:"https://www.openhands.dev/blog/what-is-an-ai-dark-factory"},
+  {n:"Gas Town",c:"#a33",i:"GT",t:["open"],p:"Steve Yegge's 'coding agent factory', which coordinates many agents under one foreman. Each team runs its own pipeline, and the pipelines combine into one factory.",m:"orchestrator",u:"https://www.youtube.com/watch?v=l7PB_ovm8A4"},
+  {n:"Mastra Factory",c:"#000",i:"Ma",t:["open","platform"],p:"An open-source factory framework from the TypeScript agent framework Mastra, listed among the 2026 software factory platforms.",m:"open source",u:"https://mastra.ai/articles/best-software-factory"},
+  {n:"Factoryfile",c:"#ff6a1a",i:"Ff",t:["open"],p:"Diego Pacheco's Terraform-like format for describing a software factory as a graph of agents, stages, forward edges and bounded loops. It has five parsers, a linter and a renderer.",m:"file format",u:"https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/"},
+  {n:"HumanLayer",c:"#5a5",i:"HL",t:["station"],p:"Dex Horthy's 12-factor agents and the talk 'Harness Engineering is not Enough: Why Software Factories Fail'. Small, focused agents and humans in the loop.",m:"12-factor",u:"https://github.com/humanlayer/12-factor-agents"}
+];
+const who=()=>{
+  const g=$("#who-grid");
+  const render=f=>{g.innerHTML=companies.filter(c=>f==="all"||c.t.includes(f)).map(c=>'<div class="co"><span class="pill'+(c.dark?" dark":"")+'">'+(c.dark?"dark factory":c.t[0])+'</span><h3><i style="background:'+c.c+'">'+c.i+'</i>'+c.n+'</h3><p>'+c.p+'</p><div class="meta"><span>'+c.m+'</span><a href="'+c.u+'" target="_blank">source ↗</a></div></div>').join("")};
+  render("all");
+  $("#filters").onclick=e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll("#filters button").forEach(x=>x.classList.toggle("on",x===b));render(b.dataset.f)};
+};
+
+const closed=()=>{
+  const s=$("#closedSvg");
+  const defs=el("defs",{},s);
+  const mk=(id,col)=>{const m=el("marker",{id,viewBox:"0 0 10 10",refX:8,refY:5,markerWidth:7,markerHeight:7,orient:"auto-start-reverse"},defs);el("path",{d:"M0 0 L10 5 L0 10 z",fill:col},m)};
+  mk("arA","var(--amber)");mk("arT","var(--teal)");mk("arV","var(--violet)");
+  const box=(cx,cy,l,sub,col)=>{el("rect",{x:cx-70,y:cy-26,width:140,height:52,rx:12,class:"node-r",style:"stroke:"+col}, s);txt(s,cx,cy-2,l,"lbl");txt(s,cx,cy+14,sub,"sub")};
+  const path=(d,col,arrow,cls,dur)=>{el("path",{d,fill:"none",stroke:col,"stroke-width":2,"stroke-dasharray":"4 6","marker-end":"url(#"+arrow+")",style:"animation:flow 1.2s linear infinite"},s);orbit(s,d,cls,dur,1)};
+  path("M180 80 L330 80","var(--amber)","arA","",2.2);
+  path("M410 108 L410 312","var(--amber)","arA","",2.6);
+  path("M330 340 L180 340","var(--teal)","arT","t",2.2);
+  path("M100 312 L100 108","var(--teal)","arT","t",2.6);
+  path("M165 318 L345 102","var(--violet)","arV","v",3);
+  box(100,80,"INTENT","setpoint · specs","var(--violet)");
+  box(410,80,"AGENTS","controller","var(--amber)");
+  box(410,340,"PRODUCTION","the plant","var(--orange)");
+  box(100,340,"EVALS","sensors","var(--teal)");
+  txt(s,255,70,"act","sub");txt(s,438,214,"ship","sub");txt(s,255,360,"measure","sub");txt(s,72,214,"compare","sub");
+  const tag=el("g",{},s);el("rect",{x:196,y:196,width:120,height:34,rx:8,fill:"var(--card)",stroke:"var(--violet)","stroke-width":1},tag);
+  txt(tag,256,210,"observer rewrites","sub");txt(tag,256,223,"the harness","sub");
+  txt(s,255,425,"output → signal → input · no human carries it back","sub");
+};
+
+const floor=()=>{
+  const f=$("#floor");
+  const icons=["⚙","🤖","⚙","🧪","🤖","🔍","⚙","🚀"];
+  const humans=new Set([2,5,10,13,18,21,26,29]);
+  f.innerHTML=Array.from({length:32},(_,i)=>'<div class="cell">'+(humans.has(i)?'<span class="h">🧑‍💻</span>':icons[i%8])+'</div>').join("");
+  const sw=$("#floorSwitch");
+  sw.onclick=()=>{const off=sw.classList.toggle("off");f.classList.toggle("off",off);$("#floorLbl").textContent=off?"DARK · agents only, lights out":"LIT · humans at the gates"};
+};
+
+const ladder=()=>{
+  const rungs=[
+    ["0","Manual","Shapiro's Level 0: not a character hits the disk without your approval. AI is a search engine on steroids or tab-complete. The code is unmistakably yours."],
+    ["1","Assisted","A human drives the work while the agent suggests or takes bounded actions. Autocomplete and chat-based coding."],
+    ["2","Supervised","The agent drives the task while a human watches and steps in. More is delegated, but throughput is still tied to human attention."],
+    ["3","Gated","The agent runs on its own until a defined gate, usually a PR. Humans judge the result instead of each action. This is the classic lit factory."],
+    ["4","Narrow dark","One bounded class of work runs end to end with no human approval, because its inputs, permissions, checks and failure handling are tightly constrained."],
+    ["5","Dark factory","Most of the SDLC runs without routine human gates. Humans set goals, architecture, policy and exception handling. Shapiro: \"a black box that turns specs into software.\""]
+  ];
+  const l=$("#ladder"),d=$("#rungDetail");
+  l.innerHTML=rungs.map((r,i)=>'<div class="rung" data-i="'+i+'"><b>L'+r[0]+'</b><span>'+r[1]+'</span></div>').join("");
+  const pick=i=>{l.querySelectorAll(".rung").forEach((x,j)=>x.classList.toggle("on",j===i));d.textContent=rungs[i][2]};
+  l.onclick=e=>{const r=e.target.closest(".rung");if(r)pick(+r.dataset.i)};
+  pick(3);
+};
+
+const sim=(()=>{
+  const N={
+    signal:[70,90,"signal","bugs · feedback"],triage:[220,90,"triage","foreman"],spec:[370,90,"spec","intent"],
+    plan:[520,90,"plan gate","review plan"],build:[700,90,"build ×3","parallel"],test:[880,90,"test","oracle"],
+    review:[880,300,"review","agent + rubric"],sec:[700,300,"security","scan"],ship:[520,300,"ship","canary"],
+    monitor:[370,300,"monitor","telemetry"],observer:[220,470,"observer","tunes harness"],harnessN:[520,500,"harness","prompts · skills"]
+  };
+  const W=120,H=46;
+  const E={};
+  const mid=k=>[N[k][0],N[k][1]];
+  const line=(a,b)=>{const[x1,y1]=mid(a),[x2,y2]=mid(b);const dx=x2-x1,dy=y2-y1;const ox=Math.abs(dx)>Math.abs(dy)?Math.sign(dx)*W/2:0,oy=Math.abs(dy)>=Math.abs(dx)?Math.sign(dy)*H/2:0;return "M"+(x1+ox)+" "+(y1+oy)+" L"+(x2-ox)+" "+(y2-oy)};
+  const arc=(a,b,h,side)=>{const[x1,y1]=mid(a),[x2,y2]=mid(b);const sy=side*H/2;return "M"+x1+" "+(y1+sy)+" C "+x1+" "+(y1+sy+side*h)+", "+x2+" "+(y2+sy+side*h)+", "+x2+" "+(y2+sy)};
+  const defs=[
+    ["signal","triage","f",line],["triage","spec","f",line],["spec","plan","f",line],["plan","build","f",line],["build","test","f",line],
+    ["test","review","f",line],["review","sec","f",line],["sec","ship","f",line],["ship","monitor","f",line],
+    ["monitor","signal","f",(a,b)=>"M"+(N.monitor[0]-W/2)+" "+N.monitor[1]+" L"+N.signal[0]+" "+N.monitor[1]+" L"+N.signal[0]+" "+(N.signal[1]+H/2)],
+    ["test","build","r",(a,b)=>arc(a,b,55,-1),"fail ≤3"],["plan","spec","r",(a,b)=>arc(a,b,45,-1),"rejected"],
+    ["build","spec","r",(a,b)=>arc(a,b,95,-1),"exhausted"],["review","spec","r",(a,b)=>"M"+(N.review[0]+W/2)+" "+N.review[1]+" C 990 300, 990 200, 600 200 S 370 160, 370 "+(N.spec[1]+H/2),"changes requested",.22],
+    ["sec","build","r",(a,b)=>"M"+(N.sec[0]-20)+" "+(N.sec[1]-H/2)+" L"+(N.build[0]-20)+" "+(N.build[1]+H/2),"finding",.75],
+    ["ship","triage","r",(a,b)=>"M"+(N.ship[0]-W/2)+" "+(N.ship[1]-10)+" C 420 230, 260 220, "+N.triage[0]+" "+(N.triage[1]+H/2),"rollback"],
+    ["monitor","observer","m",(a,b)=>"M"+N.monitor[0]+" "+(N.monitor[1]+H/2)+" C 370 400, 220 380, "+N.observer[0]+" "+(N.observer[1]-H/2)],
+    ["observer","harnessN","m",line],
+    ["harnessN","build","m",(a,b)=>"M"+(N.harnessN[0]+W/2)+" "+N.harnessN[1]+" C 760 500, 700 420, 700 "+(N.sec[1]+H/2+4)]
+  ];
+  let svg,running=false,mode="lit",speed=1.5,q=.2,stats={ship:0,retry:0,inc:0,human:0},seq=0,active=0,timer=null;
+  const draw=()=>{
+    svg=$("#simSvg");svg.innerHTML="";
+    const eg=el("g",{},svg),ng=el("g",{},svg);
+    defs.forEach(([a,b,k,fn,lbl,at])=>{const d=fn(a,b);E[a+">"+b]=el("path",{d,class:"e "+k+(k!=="f"?" back":"")},eg);if(lbl){const p=E[a+">"+b];const pt=p.getPointAtLength(p.getTotalLength()*(at||.5));txt(eg,pt.x+4,pt.y-4,lbl,"elbl")}});
+    Object.entries(N).forEach(([k,[x,y,l,s]])=>{const g=el("g",{class:"sn",id:"n-"+k},ng);el("rect",{x:x-W/2,y:y-H/2,width:W,height:H,rx:10},g);txt(g,x,y-2,l,"");txt(g,x,y+13,s,"s")});
+    txt(svg,20,580,"— forward    - - back edge    - - observer / self-improvement","elbl");
+    setHuman();
+  };
+  const setHuman=()=>["plan","review"].forEach(k=>{const n=$("#n-"+k);n.classList.toggle("human",mode==="lit");n.querySelector(".s").textContent=mode==="lit"?"👤 human":(k==="plan"?"agent plan check":"agent + rubric")});
+  const flash=(k,cls)=>{const n=$("#n-"+k);n.classList.remove("on","ok","fail");n.classList.add(cls);setTimeout(()=>n.classList.remove(cls),500/speed+200)};
+  const log=(m,c)=>{const l=$("#log");const d=document.createElement("div");d.className=c||"";d.textContent=new Date().toLocaleTimeString([], {hour12:false})+"  "+m;l.prepend(d);while(l.children.length>80)l.lastChild.remove()};
+  const upd=()=>{$("#sShip").textContent=stats.ship;$("#sRetry").textContent=stats.retry;$("#sInc").textContent=stats.inc;$("#sHuman").textContent=Math.round(stats.human)+"m";$("#hq").textContent=Math.round(q*100)+"%";$("#hqBar").style.width=(q*100)+"%"};
+  const wait=ms=>new Promise(r=>setTimeout(r,ms/speed));
+  const travel=(a,b,color)=>new Promise(res=>{
+    const p=E[a+">"+b];if(!p)return res();
+    const len=p.getTotalLength();const c=el("circle",{r:7,fill:color,class:"tok",style:"color:"+color},svg);
+    const dur=Math.max(350,len*2.2)/speed;const t0=performance.now();
+    const step=t=>{const k=Math.min(1,(t-t0)/dur);const pt=p.getPointAtLength(k*len);c.setAttribute("cx",pt.x);c.setAttribute("cy",pt.y);if(k<1)requestAnimationFrame(step);else{c.remove();res()}};
+    requestAnimationFrame(step);
+  });
+  const roll=p=>Math.random()<p;
+  const at=async(k,ms)=>{flash(k,"on");await wait(ms)};
+  const improve=async(id,color)=>{await travel("monitor","observer","var(--violet)");await at("observer",300);await travel("observer","harnessN","var(--violet)");await at("harnessN",200);const before=q;q=Math.min(.95,q+(1-q)*.06);log(id+" observer → harness PR: "+Math.round(before*100)+"% → "+Math.round(q*100)+"%","v");upd();travel("harnessN","build","var(--violet)")};
+  const item=async()=>{
+    const id="#"+(++seq);const color=["var(--amber)","var(--blue)","var(--orange)","var(--teal)"][seq%4];
+    active++;log(id+" new signal enters the line","a");
+    await at("signal",250);await travel("signal","triage",color);await at("triage",300);await travel("triage","spec",color);
+    let specRounds=0;
+    while(specRounds<4){
+      specRounds++;await at("spec",350);await travel("spec","plan",color);
+      if(mode==="lit"){await at("plan",900);stats.human+=4;upd()}else await at("plan",250);
+      if(roll(.18*(1-q))){flash("plan","fail");log(id+" plan rejected → back to spec","r");await travel("plan","spec",color);continue}
+      flash("plan","ok");await travel("plan","build",color);
+      let attempt=0,passed=false;
+      while(attempt<3){
+        attempt++;await at("build",500);await travel("build","test",color);await at("test",300);
+        if(roll(.55*(1-q)+.05)){flash("test","fail");stats.retry++;upd();if(attempt<3){log(id+" tests red (try "+attempt+"/3) → build","r");await travel("test","build",color)}}
+        else{flash("test","ok");passed=true;break}
+      }
+      if(!passed){log(id+" retries exhausted → spec","r");await travel("build","spec",color);continue}
+      await travel("test","review",color);
+      if(mode==="lit"){await at("review",1100);stats.human+=8;upd()}else await at("review",300);
+      if(roll((mode==="lit"?.14:.08)*(1-q)+.02)){flash("review","fail");log(id+" changes requested → spec","r");await travel("review","spec",color);continue}
+      flash("review","ok");await travel("review","sec",color);await at("sec",300);
+      if(roll(.12*(1-q))){flash("sec","fail");log(id+" security finding → build","r");await travel("sec","build",color);await at("build",400);await travel("build","test",color);await at("test",250);await travel("test","review",color);await at("review",250);await travel("review","sec",color);await at("sec",250)}
+      flash("sec","ok");await travel("sec","ship",color);await at("ship",350);
+      const incP=(mode==="lit"?.05:.16)*(1-q*.8);
+      if(roll(incP)){flash("ship","fail");stats.inc++;upd();log(id+" canary regressed → rollback, new signal","r");await travel("ship","triage",color);active--;item();return}
+      flash("ship","ok");stats.ship++;upd();log(id+" shipped ✓ ("+specRounds+" spec round"+(specRounds>1?"s":"")+")","g");
+      await travel("ship","monitor",color);await at("monitor",250);
+      improve(id,color);
+      await travel("monitor","signal",color);
+      break;
+    }
+    active--;
+  };
+  const tick=()=>{if(running&&active<3)item()};
+  const init=()=>{
+    draw();upd();
+    $("#runBtn").onclick=()=>{running=!running;$("#runBtn").textContent=running?"❚❚ pause line":"▶ start line";if(running){tick();timer=setInterval(tick,2200/speed)}else clearInterval(timer)};
+    $("#oneBtn").onclick=()=>item();
+    $("#resetBtn").onclick=()=>{stats={ship:0,retry:0,inc:0,human:0};q=.2;seq=0;$("#log").innerHTML="";upd();log("factory reset · harness back to 20%","a")};
+    $("#speed").oninput=e=>{speed=+e.target.value;if(running){clearInterval(timer);timer=setInterval(tick,2200/speed)}};
+    $("#modeBtns").onclick=e=>{const b=e.target.closest("button");if(!b)return;mode=b.dataset.m;document.querySelectorAll("#modeBtns button").forEach(x=>x.classList.toggle("on",x===b));setHuman();log("switched to "+mode+" factory","a")};
+    log("idle · press start line or +1 signal","a");
+  };
+  return {init};
+})();
+
+const reveal=()=>{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(n=>io.observe(n))};
+
+theme.init();hero();funnel();loops();who();closed();floor();ladder();sim.init();reveal();
+</script>
+</body>
+</html>
