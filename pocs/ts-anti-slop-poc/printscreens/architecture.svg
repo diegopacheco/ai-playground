@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1400" viewBox="0 0 1400 1400">
+<defs>
+<style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700');.t{font-family:Caveat,'Comic Sans MS',cursive;font-size:34px;font-weight:700;fill:#1d1d1f}.s{font-family:Caveat,'Comic Sans MS',cursive;font-size:24px;fill:#333}.h{font-family:Caveat,'Comic Sans MS',cursive;font-size:44px;font-weight:700;fill:#1d1d1f}</style>
+<filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#2b2b2b"/></marker>
+</defs>
+<rect width="1400" height="1400" fill="#fffdf7"/>
+<text x="700" y="470" text-anchor="middle" class="h">anti-slop POC: what got caught, what did not</text>
+<rect x="30" y="540" width="260" height="200" rx="14" fill="#fde2e4" stroke="#2b2b2b" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="160" y="580" text-anchor="middle" class="t">slop/*.ts</text>
+<text x="160" y="612" text-anchor="middle" class="s">28 sloppy samples</text>
+<text x="160" y="638" text-anchor="middle" class="s">19 aimed at a rule</text>
+<text x="160" y="664" text-anchor="middle" class="s">9 outside its reach</text>
+<rect x="360" y="540" width="280" height="200" rx="14" fill="#e2ecfd" stroke="#2b2b2b" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="500" y="580" text-anchor="middle" class="t">oxlint 1.78</text>
+<text x="500" y="612" text-anchor="middle" class="s">+ vendored anti-slop</text>
+<text x="500" y="638" text-anchor="middle" class="s">tools/oxlint/anti-slop</text>
+<text x="500" y="664" text-anchor="middle" class="s">-f json diagnostics</text>
+<rect x="710" y="540" width="280" height="200" rx="14" fill="#e3f4e9" stroke="#2b2b2b" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="850" y="580" text-anchor="middle" class="t">Bun API</text>
+<text x="850" y="612" text-anchor="middle" class="s">GET /api/report</text>
+<text x="850" y="638" text-anchor="middle" class="s">catalog.ts expectations</text>
+<text x="850" y="664" text-anchor="middle" class="s">buildReport() verdicts</text>
+<rect x="1070" y="540" width="310" height="200" rx="14" fill="#fff1c9" stroke="#2b2b2b" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="1225" y="580" text-anchor="middle" class="t">React UI</text>
+<text x="1225" y="612" text-anchor="middle" class="s">Overview, Caught, Missed</text>
+<text x="1225" y="638" text-anchor="middle" class="s">TanStack Router</text>
+<text x="1225" y="664" text-anchor="middle" class="s">Query and Table</text>
+<path d="M290 640 Q 325 610 360 640" fill="none" stroke="#2b2b2b" stroke-width="2.5" marker-end="url(#ah)" filter="url(#wobble)"/>
+<text x="325" y="600" text-anchor="middle" class="s">lint</text>
+<path d="M640 640 Q 675 610 710 640" fill="none" stroke="#2b2b2b" stroke-width="2.5" marker-end="url(#ah)" filter="url(#wobble)"/>
+<text x="675" y="600" text-anchor="middle" class="s">spawn</text>
+<path d="M990 640 Q 1030 610 1070 640" fill="none" stroke="#2b2b2b" stroke-width="2.5" marker-end="url(#ah)" filter="url(#wobble)"/>
+<text x="1030" y="600" text-anchor="middle" class="s">json</text>
+<rect x="710" y="820" width="280" height="150" rx="14" fill="#ece2fd" stroke="#2b2b2b" stroke-width="2.5" filter="url(#wobble)"/>
+<text x="850" y="860" text-anchor="middle" class="t">catalog.ts</text>
+<text x="850" y="892" text-anchor="middle" class="s">expected rule or gap</text>
+<text x="850" y="918" text-anchor="middle" class="s">per sample</text>
+<path d="M850 820 Q 880 780 850 740" fill="none" stroke="#2b2b2b" stroke-width="2.5" marker-end="url(#ah)" filter="url(#wobble)"/>
+</svg>
