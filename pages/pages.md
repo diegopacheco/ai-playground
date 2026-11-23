@@ -45,6 +45,7 @@ The `diegopacheco/agent-skills` repository is also a separate site. It has no wo
 | `diegopacheco/ai-playground` | `macos-chrome-apps/index.html` | `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` |
 | `diegopacheco/ai-playground` | `pocs/agentsfile/landing/index.html`, `pocs/agentsfile/logo.svg`, `pocs/agentsfile/spec/SPEC.md` and `pocs/agentsfile/printscreens/` | `https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/` |
 | `diegopacheco/ai-playground` | `pocs/factoryfile/landing/`, `pocs/factoryfile/logo.svg`, `pocs/factoryfile/spec/SPEC.md` and `pocs/factoryfile/printscreens/render-ui-xp.png` | `https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/` |
+| `diegopacheco/ai-playground` | `software-factories/software-factory.html` | `https://diegopacheco.github.io/ai-playground/software-factories/` |
 
 ## Artifact Mapping
 
@@ -78,6 +79,7 @@ The aggregate workflow currently creates these entry points:
 | `pocs/agentsfile/logo.svg`, `pocs/agentsfile/spec/SPEC.md` and the three printscreens it uses | `_site/pocs/agentsfile/` |
 | `pocs/factoryfile/landing/` | `_site/pocs/factoryfile/landing/` |
 | `pocs/factoryfile/logo.svg`, `pocs/factoryfile/spec/SPEC.md` and `printscreens/render-ui-xp.png` | `_site/pocs/factoryfile/` |
+| `software-factories/software-factory.html` | `_site/software-factories/index.html` |
 
 The `games/popup-book-*` routes are the committed `vite build` output of `pocs/popup-book-*`. They use hash routing (`#/page/N`) and relative asset paths so they work under any subpath. Rebuild and copy `dist/` into `games/<book>/` after changing a book.
 
@@ -149,6 +151,7 @@ Spotlight counts use the exact number with `+`. Page stats use the exact number.
 - `_site/macos-chrome-apps/index.html` exists.
 - `_site/pocs/agentsfile/landing/index.html` exists.
 - `_site/pocs/factoryfile/landing/index.html` exists.
+- `_site/software-factories/index.html` exists.
 - No existing route or asset is missing from the artifact.
 
 ## Required Checks After Push
@@ -179,6 +182,7 @@ Spotlight counts use the exact number with `+`. Page stats use the exact number.
 - `https://diegopacheco.github.io/ai-playground/macos-chrome-apps/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/pocs/agentsfile/landing/` returns HTTP 200.
 - `https://diegopacheco.github.io/ai-playground/pocs/factoryfile/landing/` returns HTTP 200.
+- `https://diegopacheco.github.io/ai-playground/software-factories/` returns HTTP 200.
 
 ## Recovery
 

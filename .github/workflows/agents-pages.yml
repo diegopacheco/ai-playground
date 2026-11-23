@@ -12,6 +12,7 @@ on:
       - pocs/agentsfile/**
       - pocs/factoryfile/**
       - sec/**
+      - software-factories/**
       - .github/workflows/agents-pages.yml
   workflow_dispatch:
 
@@ -104,6 +105,8 @@ jobs:
           cp pocs/factoryfile/logo.svg _site/pocs/factoryfile/logo.svg
           cp pocs/factoryfile/spec/SPEC.md _site/pocs/factoryfile/spec/SPEC.md
           cp pocs/factoryfile/printscreens/render-ui-xp.png _site/pocs/factoryfile/printscreens/
+          mkdir -p _site/software-factories
+          cp software-factories/software-factory.html _site/software-factories/index.html
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
