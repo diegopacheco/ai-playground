@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="160" viewBox="0 0 640 160">
+<rect x="8" y="8" width="624" height="144" rx="28" fill="#f8fafc" stroke="#334155" stroke-width="3"/>
+<g transform="translate(40,32)">
+<rect x="0" y="0" width="96" height="96" rx="20" fill="#dcfce7" stroke="#334155" stroke-width="3"/>
+<path d="M24 30 h48 M24 48 h48 M24 66 h30" stroke="#334155" stroke-width="6" stroke-linecap="round"/>
+<circle cx="78" cy="72" r="20" fill="#ede9fe" stroke="#334155" stroke-width="3"/>
+<path d="M78 60 v12 l8 6" stroke="#334155" stroke-width="4" fill="none" stroke-linecap="round"/>
+</g>
+<text x="160" y="76" font-family="Helvetica, Arial, sans-serif" font-size="38" font-weight="700" fill="#1e293b">MCP Skills + Tasks</text>
+<text x="160" y="114" font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#475569">skills over MCP and long running tasks, in TypeScript</text>
+</svg>

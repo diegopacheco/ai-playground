@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "market-research": {
+      "command": "bun",
+      "args": [
+        "src/main.ts"
+      ]
+    }
+  }
+}

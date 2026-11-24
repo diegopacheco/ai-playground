@@ -1,0 +1,21 @@
+{
+  "name": "mcp-skills-long-running-task-poc",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/client": "^2.4.0",
+    "@modelcontextprotocol/ext-tasks": "^0.2.3",
+    "@modelcontextprotocol/server": "^2.4.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.5",
+    "typescript": "^7.0.2"
+  },
+  "scripts": {
+    "start": "bun src/main.ts",
+    "client": "bun client/main.ts",
+    "test": "bun test",
+    "typecheck": "tsc -p ."
+  }
+}
