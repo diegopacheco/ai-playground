@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 180" width="680" height="180">
+  <defs>
+    <linearGradient id="paperGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f3e8d2"/>
+      <stop offset="100%" stop-color="#dfd0ad"/>
+    </linearGradient>
+    <linearGradient id="brassGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b38232"/>
+      <stop offset="50%" stop-color="#e8c373"/>
+      <stop offset="100%" stop-color="#9e6f26"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="668" height="168" rx="10" fill="#18100b" stroke="url(#brassGrad)" stroke-width="3"/>
+  <rect x="14" y="14" width="652" height="152" rx="6" fill="none" stroke="#c99c48" stroke-opacity="0.4" stroke-width="1"/>
+
+  <g transform="translate(36, 32)">
+    <path d="M8,16 L54,8 L54,104 L8,112 Z" fill="url(#paperGrad)" stroke="#231910" stroke-width="2.5"/>
+    <path d="M54,8 L104,16 L104,112 L54,104 Z" fill="#e5d4b1" stroke="#231910" stroke-width="2.5"/>
+    <line x1="16" y1="28" x2="46" y2="23" stroke="#8b261d" stroke-width="4"/>
+    <line x1="16" y1="42" x2="46" y2="37" stroke="#231910" stroke-width="2"/>
+    <line x1="16" y1="53" x2="46" y2="48" stroke="#231910" stroke-width="2"/>
+    <line x1="16" y1="64" x2="46" y2="59" stroke="#231910" stroke-width="2"/>
+    <line x1="16" y1="75" x2="46" y2="70" stroke="#231910" stroke-width="2"/>
+    <rect x="62" y="24" width="34" height="24" fill="none" stroke="#231910" stroke-width="2"/>
+    <line x1="62" y1="60" x2="96" y2="65" stroke="#231910" stroke-width="2"/>
+    <line x1="62" y1="71" x2="96" y2="76" stroke="#231910" stroke-width="2"/>
+    <line x1="62" y1="82" x2="96" y2="87" stroke="#231910" stroke-width="2"/>
+    <circle cx="96" cy="96" r="18" fill="#18100b" stroke="url(#brassGrad)" stroke-width="4"/>
+    <circle cx="96" cy="96" r="12" fill="#f3e8d2" fill-opacity="0.18"/>
+    <line x1="109" y1="109" x2="122" y2="122" stroke="url(#brassGrad)" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <text x="176" y="76" font-family="Georgia, 'Times New Roman', serif" font-size="38" font-weight="700" letter-spacing="2" fill="#f3e8d2">THE CHRONICLE GAZETTE</text>
+  <line x1="176" y1="90" x2="636" y2="90" stroke="url(#brassGrad)" stroke-width="2"/>
+  <line x1="176" y1="95" x2="636" y2="95" stroke="#c99c48" stroke-opacity="0.45" stroke-width="1"/>
+  <text x="176" y="122" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="16" letter-spacing="1.5" fill="#d4a652">3D INTERACTIVE BROADSHEET • THREE.JS • PROCEDURAL NEWSPRINT</text>
+  <text x="176" y="146" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2" fill="#bba98b">EST. 1894  |  8-PAGE CURVED FLIP  |  BRASS LOUPE  |  LIVE TYPESETTER PRESS</text>
+</svg>

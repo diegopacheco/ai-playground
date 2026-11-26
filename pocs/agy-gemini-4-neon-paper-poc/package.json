@@ -1,0 +1,13 @@
+{
+  "name": "agy-gemini-4-neon-paper-poc",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "three": "^0.174.0"
+  }
+}

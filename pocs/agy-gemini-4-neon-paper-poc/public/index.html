@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Chronicle Gazette — 3D Interactive Broadsheet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,900;1,500&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="stage"></div>
+
+  <header class="hud-top">
+    <div class="hud-brand">
+      <span class="brand-glyph">G</span>
+      <div class="brand-meta">
+        <strong id="hud-masthead">THE CHRONICLE GAZETTE</strong>
+        <span id="hud-spread-label">PAGE 1 • FRONT PAGE</span>
+      </div>
+    </div>
+
+    <nav class="edition-tabs" id="edition-tabs" aria-label="Newspaper Editions"></nav>
+
+    <div class="hud-actions">
+      <button id="btn-press" class="hud-btn accent" type="button" title="Edit headlines and re-ink press (P)">
+        Typesetter <kbd>P</kbd>
+      </button>
+      <button id="btn-lamp" class="hud-btn" type="button" title="Toggle Banker Lamp or Daylight (T)">
+        Banker Lamp <kbd>T</kbd>
+      </button>
+      <button id="btn-sound" class="hud-btn" type="button" title="Toggle Press Audio">
+        Sound On
+      </button>
+    </div>
+  </header>
+
+  <div id="hover-pill" class="hover-pill hidden"></div>
+
+  <div id="loupe-hud" class="loupe-hud hidden">
+    <canvas id="loupe-canvas" width="240" height="240"></canvas>
+    <span class="loupe-badge" id="loupe-badge">2.8x OPTICAL LOUPE</span>
+  </div>
+
+  <aside id="reader-drawer" class="drawer drawer-right hidden" aria-label="Article Reader">
+    <div class="drawer-head">
+      <span id="reader-kicker" class="drawer-kicker">DISPATCH</span>
+      <button id="reader-close" class="icon-btn" type="button" aria-label="Close reader">&times;</button>
+    </div>
+    <h2 id="reader-headline" class="reader-headline"></h2>
+    <div id="reader-byline" class="reader-byline"></div>
+    <div id="reader-body" class="reader-body"></div>
+    <div class="drawer-foot">
+      <button id="btn-clip" class="hud-btn accent" type="button">Clip Article</button>
+      <span id="clip-count" class="clip-count">0 clipped</span>
+    </div>
+  </aside>
+
+  <aside id="press-drawer" class="drawer drawer-left hidden" aria-label="Typesetter Press Room">
+    <div class="drawer-head">
+      <span class="drawer-kicker">COMPOSING ROOM • LIVE PRESS</span>
+      <button id="press-close" class="icon-btn" type="button" aria-label="Close press room">&times;</button>
+    </div>
+    <h2 class="press-title">Stop the Presses</h2>
+    <p class="press-note">Revise the front-page metal type and stamp a fresh rag-paper impression directly onto the 3D broadsheet.</p>
+    <form id="press-form" class="press-form">
+      <label>
+        <span>Masthead Title</span>
+        <input id="input-masthead" type="text" maxlength="40" required>
+      </label>
+      <label>
+        <span>Front-Page Banner Headline</span>
+        <input id="input-banner" type="text" maxlength="72" required>
+      </label>
+      <label>
+        <span>Subhead Deck</span>
+        <input id="input-deck" type="text" maxlength="160" required>
+      </label>
+      <label>
+        <span>Lead Dispatch Copy</span>
+        <textarea id="input-lead" rows="6" required></textarea>
+      </label>
+      <div class="press-buttons">
+        <button type="submit" class="hud-btn accent">Re-Ink &amp; Stamp Press</button>
+        <button id="btn-press-reset" type="button" class="hud-btn">Restore Edition</button>
+      </div>
+    </form>
+  </aside>
+
+  <footer class="hud-dock">
+    <button id="btn-prev" class="dock-btn" type="button" title="Previous Page (Left Arrow)">
+      &larr; Prev
+    </button>
+    <div id="spread-dots" class="spread-dots" aria-label="Page Spreads"></div>
+    <button id="btn-next" class="dock-btn" type="button" title="Next Page (Right Arrow)">
+      Next &rarr;
+    </button>
+    <span class="dock-sep"></span>
+    <button id="btn-fold" class="dock-btn" type="button" title="Fold or Unfold Broadsheet (F)">
+      Fold <kbd>F</kbd>
+    </button>
+    <button id="btn-loupe" class="dock-btn" type="button" title="Toggle Brass Magnifying Loupe (L)">
+      Loupe <kbd>L</kbd>
+    </button>
+    <button id="btn-reset" class="dock-btn" type="button" title="Reset Camera View (R)">
+      Reset <kbd>R</kbd>
+    </button>
+  </footer>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
