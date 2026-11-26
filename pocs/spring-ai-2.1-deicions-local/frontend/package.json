@@ -1,0 +1,28 @@
+{
+  "name": "decisions-ui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test src",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tanstack/react-form": "1.33.6",
+    "@tanstack/react-query": "5.108.4",
+    "@tanstack/react-router": "1.170.46",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@tanstack/router-plugin": "1.169.0",
+    "@types/bun": "1.4.5",
+    "@types/react": "19.3.3",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "typescript": "7.0.2",
+    "vite": "8.4.0"
+  }
+}

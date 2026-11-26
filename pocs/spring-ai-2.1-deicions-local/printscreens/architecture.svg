@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+<defs>
+<filter id="w"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+<marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1,1 L10,6 L1,11" fill="none" stroke="#333" stroke-width="2"/></marker>
+<style>text{font-family:Caveat,'Comic Sans MS','Marker Felt',cursive;fill:#222}.t{font-size:30px;font-weight:700}.s{font-size:22px}.x{font-size:19px;fill:#555}</style>
+</defs>
+<rect width="1200" height="1200" fill="#fffdf8"/>
+<g filter="url(#w)" stroke="#333" stroke-width="2.5">
+<rect x="60" y="300" width="300" height="250" rx="18" fill="#d8ecff"/>
+<rect x="450" y="160" width="330" height="560" rx="18" fill="#e5f6e3"/>
+<rect x="870" y="300" width="290" height="250" rx="18" fill="#ffe9d1"/>
+<rect x="475" y="250" width="280" height="110" rx="12" fill="#fff"/>
+<rect x="475" y="390" width="280" height="110" rx="12" fill="#fff"/>
+<rect x="475" y="530" width="280" height="160" rx="12" fill="#fff"/>
+<rect x="300" y="830" width="600" height="170" rx="18" fill="#f2e3ff"/>
+<path d="M360,400 Q405,380 470,300" fill="none" marker-end="url(#a)"/>
+<path d="M360,425 Q410,430 470,445" fill="none" marker-end="url(#a)"/>
+<path d="M360,450 Q405,500 470,600" fill="none" marker-end="url(#a)"/>
+<path d="M755,330 Q815,360 865,400" fill="none" marker-end="url(#a)"/>
+<path d="M755,445 Q815,440 865,430" fill="none" marker-end="url(#a)"/>
+<path d="M755,610 Q815,560 865,470" fill="none" marker-end="url(#a)"/>
+</g>
+<text x="90" y="345" class="t">React UI</text>
+<text x="90" y="385" class="s">Bun + Vite + TanStack</text>
+<text x="90" y="425" class="s">tabs: Triage,</text>
+<text x="90" y="455" class="s">Guardrail, Judge</text>
+<text x="90" y="500" class="x">/api via Vite proxy</text>
+<text x="480" y="205" class="t">Spring Boot 4.2</text>
+<text x="480" y="238" class="x">Java 25, controllers + services</text>
+<text x="495" y="295" class="s">POST /api/triage</text>
+<text x="495" y="330" class="x">TriageService + Route</text>
+<text x="495" y="435" class="s">POST /api/guardrail</text>
+<text x="495" y="470" class="x">input / output battery</text>
+<text x="495" y="575" class="s">POST /api/judge</text>
+<text x="495" y="610" class="x">DecisionJudge, 2 criteria</text>
+<text x="495" y="640" class="x">feedback on failure</text>
+<text x="895" y="345" class="t">DecisionModel</text>
+<text x="895" y="385" class="s">Spring AI 2.1 bean</text>
+<text x="895" y="425" class="x">YesNo / Choice / Score</text>
+<text x="895" y="455" class="x">typed answers +</text>
+<text x="895" y="485" class="x">probabilities</text>
+<text x="330" y="880" class="t">Ollama (local, no API key)</text>
+<text x="330" y="925" class="s">d1-omni:600m decision model</text>
+<text x="330" y="965" class="x">one call answers every question of a prompt</text>
+<path d="M1015,550 Q1010,700 900,880" fill="none" stroke="#333" stroke-width="2.5" filter="url(#w)" marker-end="url(#a)"/>
+<text x="1040" y="720" class="x">HTTP</text><text x="1040" y="745" class="x">:11434</text>
+<text x="60" y="90" class="t" style="font-size:42px">Decision Desk: yes, no, and how sure</text>
+</svg>
