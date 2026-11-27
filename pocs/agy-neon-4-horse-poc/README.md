@@ -65,24 +65,34 @@ A real-time 3D biomechanical horse simulation built with **Three.js**, set in a 
 ## Printscreens
 
 ### Front 3/4 Gallop — Alpine Morning (Chestnut Bay)
-![Front 3/4 Gallop in Alpine Morning](printscreens/01-front-hero-morning.png)
+
 The Chestnut Bay stallion gallops down the sunlit red-dirt trail at 32 mph in crisp morning light, showing white socks, hoof-kick dust, split-rail fencing, quaking aspens, spruce slopes, and meadow wildflowers beneath the telemetry HUD.
 
+![Front 3/4 Gallop in Alpine Morning](printscreens/01-front-hero-morning.png)
+
 ### Track Side Profile — High Noon (Chestnut Bay)
-![Track Side Gallop at High Noon](printscreens/02-track-side-gallop.png)
+
 Side tracking camera under bright Colorado high-altitude noon sun highlighting full limb articulation, backward-folding fore-knee, forward-flexing hind hock, streaming tail, and crisp ground shadow projection.
 
+![Track Side Gallop at High Noon](printscreens/02-track-side-gallop.png)
+
 ### Low Hero Angle — Golden Hour (Palomino Gold)
-![Low Hero Golden Hour Palomino](printscreens/03-golden-hour-palomino.png)
+
 Low tracking shot of the Palomino Gold coat bathed in warm late-afternoon Colorado sunlight with long valley shadows, aspen groves, and distant sunlit granite ridges.
 
+![Low Hero Golden Hour Palomino](printscreens/03-golden-hour-palomino.png)
+
 ### Valley Chase — Maroon Creek Peaks (Dapple Grey)
-![Valley Chase with Rocky Mountain Peaks](printscreens/04-valley-chase-peaks.png)
+
 Chase view behind the Dapple Grey horse cantering along the winding red-earth trail toward snow-streaked Rocky Mountain 14er peaks rising against a vibrant cobalt summer sky.
 
+![Valley Chase with Rocky Mountain Peaks](printscreens/04-valley-chase-peaks.png)
+
 ### Front 3/4 Trot — Golden Hour (Midnight Black)
-![Midnight Black Stallion Trotting](printscreens/05-orbit-black-trot.png)
+
 The Midnight Black coat at a 12 mph diagonal trot in Golden Hour lighting, showing satin coat sheen, white hind sock contrast, and compact controls for gait, camera, coat, sunlight, pace, pause, and sound.
+
+![Midnight Black Stallion Trotting](printscreens/05-orbit-black-trot.png)
 
 ## Scripts
 

@@ -36,6 +36,6 @@
       <path d="M16,44 C6,42 0,48 -6,56 C2,54 10,51 18,49 Z" fill="#170c06"/>
     </g>
     <text x="278" y="88" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="700" fill="#fffdf7" letter-spacing="0.5">Colorado Summer Mustang</text>
-    <text x="280" y="114" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#e9f4ff" letter-spacing="1.6">THREE.JS BIOMECHANICAL EQUINE SIMULATION &middot; MAROON CREEK VALLEY</text>
+    <text x="280" y="114" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#e9f4ff" letter-spacing="1.6">THREE.JS BIOMECHANICAL EQUINE SIMULATION &#183; MAROON CREEK VALLEY</text>
   </g>
 </svg>
