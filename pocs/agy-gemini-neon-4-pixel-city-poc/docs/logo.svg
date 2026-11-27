@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 170" width="680" height="170">
+  <rect x="4" y="4" width="672" height="162" rx="18" fill="#fcfaf4" stroke="#2b2320" stroke-width="3"/>
+  <rect x="10" y="10" width="660" height="150" rx="14" fill="none" stroke="#e5ddd0" stroke-width="1.5"/>
+
+  <g transform="translate(26, 18)">
+    <polygon points="68,18 128,52 68,86 8,52" fill="#77aa58" stroke="#2b2320" stroke-width="2.6" stroke-linejoin="round"/>
+    <polygon points="8,52 68,86 68,112 8,78" fill="#8e6140" stroke="#2b2320" stroke-width="2.6" stroke-linejoin="round"/>
+    <polygon points="128,52 68,86 68,112 128,78" fill="#6b462c" stroke="#2b2320" stroke-width="2.6" stroke-linejoin="round"/>
+    <polygon points="38,34 78,56 62,65 22,43" fill="#6d9eb8" stroke="#2b2320" stroke-width="2"/>
+    <rect x="38" y="20" width="7" height="34" fill="#c24632" stroke="#2b2320" stroke-width="2"/>
+    <rect x="64" y="14" width="7" height="36" fill="#c24632" stroke="#2b2320" stroke-width="2"/>
+    <path d="M24,49 Q41,24 67,18 Q84,24 94,42" fill="none" stroke="#c24632" stroke-width="2.8"/>
+    <polygon points="94,16 105,54 83,54" fill="#d5dce2" stroke="#2b2320" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="104" y="34" width="13" height="28" rx="3" fill="#5893af" stroke="#2b2320" stroke-width="2"/>
+  </g>
+
+  <text x="176" y="76" font-family="SF Mono, JetBrains Mono, Menlo, monospace" font-size="34" font-weight="800" fill="#2b2320" letter-spacing="2">SF PIXEL CITY</text>
+  <text x="178" y="106" font-family="SF Mono, JetBrains Mono, Menlo, monospace" font-size="14" font-weight="600" fill="#c24632" letter-spacing="1">INTERACTIVE 3D ISOMETRIC SAN FRANCISCO DIORAMA</text>
+
+  <rect x="178" y="122" width="104" height="24" rx="6" fill="#f1ece1" stroke="#2b2320" stroke-width="1.8"/>
+  <text x="230" y="138" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="11" font-weight="700" fill="#2b2320">THREE.JS</text>
+
+  <rect x="292" y="122" width="96" height="24" rx="6" fill="#f1ece1" stroke="#2b2320" stroke-width="1.8"/>
+  <text x="340" y="138" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="11" font-weight="700" fill="#2b2320">REACT 19</text>
+
+  <rect x="398" y="122" width="136" height="24" rx="6" fill="#f1ece1" stroke="#2b2320" stroke-width="1.8"/>
+  <text x="466" y="138" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="11" font-weight="700" fill="#2b2320">TYPESCRIPT 7</text>
+
+  <rect x="544" y="122" width="76" height="24" rx="6" fill="#c24632" stroke="#2b2320" stroke-width="1.8"/>
+  <text x="582" y="138" text-anchor="middle" font-family="SF Mono, Menlo, monospace" font-size="11" font-weight="700" fill="#fcfaf4">BUN</text>
+</svg>

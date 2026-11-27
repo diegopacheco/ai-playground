@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 540" width="980" height="540">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&amp;display=swap');
+      .hand { font-family: 'Caveat', 'Comic Sans MS', 'Marker Felt', cursive; fill: #2b2320; }
+      .title { font-size: 28px; font-weight: 700; }
+      .box-title { font-size: 21px; font-weight: 700; }
+      .box-sub { font-size: 16px; font-weight: 600; fill: #4a3f3a; }
+      .edge-label { font-size: 15px; font-weight: 600; fill: #3c322e; }
+    </style>
+    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 1 1 L 9 5 L 1 9 z" fill="#2b2320"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="980" height="540" rx="16" fill="#fcfaf4"/>
+
+  <text x="490" y="40" text-anchor="middle" class="hand title">SF Pixel City — Modular Rendering Architecture</text>
+
+  <g filter="url(#wobble)">
+    <rect x="34" y="80" width="200" height="86" rx="14" fill="#fde2b8" stroke="#2b2320" stroke-width="2.4"/>
+    <rect x="34" y="218" width="200" height="106" rx="14" fill="#d8ecfa" stroke="#2b2320" stroke-width="2.4"/>
+    <rect x="34" y="380" width="200" height="116" rx="14" fill="#e6daf7" stroke="#2b2320" stroke-width="2.4"/>
+
+    <rect x="320" y="76" width="268" height="110" rx="14" fill="#d8f0d2" stroke="#2b2320" stroke-width="2.4"/>
+    <rect x="320" y="230" width="268" height="112" rx="14" fill="#ffd9cf" stroke="#2b2320" stroke-width="2.4"/>
+    <rect x="320" y="392" width="268" height="104" rx="14" fill="#f7efc5" stroke="#2b2320" stroke-width="2.4"/>
+
+    <rect x="676" y="76" width="268" height="218" rx="14" fill="#e4f3e0" stroke="#2b2320" stroke-width="2.4"/>
+    <rect x="676" y="334" width="268" height="162" rx="14" fill="#dcebf7" stroke="#2b2320" stroke-width="2.4"/>
+
+    <path d="M 234 123 L 314 123" fill="none" stroke="#2b2320" stroke-width="2.4" marker-end="url(#arrow)"/>
+    <path d="M 134 166 L 134 212" fill="none" stroke="#2b2320" stroke-width="2.4" marker-end="url(#arrow)"/>
+    <path d="M 234 274 L 314 274" fill="none" stroke="#2b2320" stroke-width="2.4" marker-end="url(#arrow)"/>
+    <path d="M 454 186 L 454 224" fill="none" stroke="#2b2320" stroke-width="2.4" marker-end="url(#arrow)"/>
+    <path d="M 454 342 L 454 386" fill="none" stroke="#2b2320" stroke-width="2.4" marker-end="url(#arrow)"/>
+    <path d="M 588 268 L 670 185" fill="none" stroke="#2b2320" stroke-width="2.4" marker-end="url(#arrow)"/>
+    <path d="M 588 310 L 670 398" fill="none" stroke="#2b2320" stroke-width="2.4" marker-end="url(#arrow)"/>
+    <path d="M 234 438 L 314 438" fill="none" stroke="#2b2320" stroke-width="2.4" marker-end="url(#arrow)"/>
+  </g>
+
+  <text x="134" y="114" text-anchor="middle" class="hand box-title">App.tsx</text>
+  <text x="134" y="142" text-anchor="middle" class="hand box-sub">Lighting, presets, selection</text>
+
+  <text x="134" y="252" text-anchor="middle" class="hand box-title">CityHud.tsx</text>
+  <text x="134" y="278" text-anchor="middle" class="hand box-sub">Camera dock &amp; day/night</text>
+  <text x="134" y="302" text-anchor="middle" class="hand box-sub">Landmark guide &amp; inspector</text>
+
+  <text x="134" y="414" text-anchor="middle" class="hand box-title">lib/ Core</text>
+  <text x="134" y="442" text-anchor="middle" class="hand box-sub">config.ts (typed env)</text>
+  <text x="134" y="468" text-anchor="middle" class="hand box-sub">logger.ts (JSON events)</text>
+
+  <text x="454" y="110" text-anchor="middle" class="hand box-title">CityCanvas.tsx</text>
+  <text x="454" y="138" text-anchor="middle" class="hand box-sub">Mounts WebGL host container</text>
+  <text x="454" y="164" text-anchor="middle" class="hand box-sub">Syncs React props to scene API</text>
+
+  <text x="454" y="264" text-anchor="middle" class="hand box-title">scene.ts (Three.js)</text>
+  <text x="454" y="292" text-anchor="middle" class="hand box-sub">OrthographicCamera + OrbitControls</text>
+  <text x="454" y="318" text-anchor="middle" class="hand box-sub">Raycaster picking + animation loop</text>
+
+  <text x="454" y="426" text-anchor="middle" class="hand box-title">catalog.ts &amp; palette.ts</text>
+  <text x="454" y="454" text-anchor="middle" class="hand box-sub">8 SF landmarks &amp; camera presets</text>
+  <text x="454" y="478" text-anchor="middle" class="hand box-sub">Road polylines &amp; light presets</text>
+
+  <text x="810" y="110" text-anchor="middle" class="hand box-title">World Builders</text>
+  <text x="810" y="142" text-anchor="middle" class="hand box-sub">terrain.ts — Island, bay, roads, rails</text>
+  <text x="810" y="170" text-anchor="middle" class="hand box-sub">landmarks.ts — Bridge, Ferry, Coit, Towers</text>
+  <text x="810" y="198" text-anchor="middle" class="hand box-sub">buildings.ts — Painted Ladies &amp; shops</text>
+  <text x="810" y="226" text-anchor="middle" class="hand box-sub">foliage.ts — Parks, palms, lamps, pins</text>
+  <text x="810" y="254" text-anchor="middle" class="hand box-sub">vehicles.ts — Cars, cable car, boat</text>
+
+  <text x="810" y="368" text-anchor="middle" class="hand box-title">Pixel Rendering Primitives</text>
+  <text x="810" y="400" text-anchor="middle" class="hand box-sub">textures.ts — NearestFilter Canvas2D</text>
+  <text x="810" y="428" text-anchor="middle" class="hand box-sub">geometry.ts — Ink EdgesGeometry</text>
+  <text x="810" y="456" text-anchor="middle" class="hand box-sub">Matte Lambert + PCF shadows</text>
+
+  <text x="274" y="114" text-anchor="middle" class="hand edge-label">props</text>
+  <text x="274" y="264" text-anchor="middle" class="hand edge-label">select</text>
+  <text x="626" y="206" text-anchor="middle" class="hand edge-label">builds</text>
+  <text x="626" y="370" text-anchor="middle" class="hand edge-label">meshes</text>
+</svg>
