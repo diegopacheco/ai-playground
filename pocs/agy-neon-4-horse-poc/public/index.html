@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colorado Summer Mustang</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "/vendor/three/build/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="scene-canvas"></canvas>
+
+  <header class="top-bar">
+    <div class="brand-badge">
+      <div class="brand-title">Maroon Creek Valley</div>
+      <div class="brand-sub">Colorado Rockies &middot; July Summer</div>
+    </div>
+    <div class="telemetry-strip">
+      <div class="metric">
+        <span class="metric-label">Speed</span>
+        <span class="metric-value" id="hud-speed">32 mph</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Stride</span>
+        <span class="metric-value" id="hud-phase">Gallop</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Elevation</span>
+        <span class="metric-value" id="hud-elevation">9,420 ft</span>
+      </div>
+      <button type="button" class="pill-btn" id="btn-hud">Hide Controls</button>
+    </div>
+  </header>
+
+  <aside class="controls-panel" id="controls-panel">
+    <div class="control-group">
+      <div class="group-label">Gait</div>
+      <div class="btn-row">
+        <button type="button" class="chip active" data-gait="gallop">Gallop</button>
+        <button type="button" class="chip" data-gait="canter">Canter</button>
+        <button type="button" class="chip" data-gait="trot">Trot</button>
+        <button type="button" class="chip" data-gait="walk">Walk</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="group-label">Camera</div>
+      <div class="btn-row">
+        <button type="button" class="chip active" data-camera="hero">Front 3/4</button>
+        <button type="button" class="chip" data-camera="side">Track Side</button>
+        <button type="button" class="chip" data-camera="low">Low Hero</button>
+        <button type="button" class="chip" data-camera="chase">Valley Chase</button>
+        <button type="button" class="chip" data-camera="orbit">Free Orbit</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="group-label">Coat</div>
+      <div class="btn-row">
+        <button type="button" class="chip active" data-coat="bay">Chestnut Bay</button>
+        <button type="button" class="chip" data-coat="palomino">Palomino</button>
+        <button type="button" class="chip" data-coat="black">Black</button>
+        <button type="button" class="chip" data-coat="dapple">Dapple Grey</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="group-label">Summer Sun</div>
+      <div class="btn-row">
+        <button type="button" class="chip active" data-lighting="morning">Morning</button>
+        <button type="button" class="chip" data-lighting="noon">High Noon</button>
+        <button type="button" class="chip" data-lighting="golden">Golden Hour</button>
+      </div>
+    </div>
+
+    <div class="control-group slider-row">
+      <div class="group-label">Pace <span id="speed-mult">1.00x</span></div>
+      <input type="range" id="speed-range" min="0.4" max="1.6" step="0.05" value="1.0">
+      <div class="action-row">
+        <button type="button" class="chip" id="btn-pause">Pause</button>
+        <button type="button" class="chip" id="btn-sound">Sound: Off</button>
+      </div>
+    </div>
+  </aside>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

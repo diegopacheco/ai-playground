@@ -1,0 +1,15 @@
+{
+  "name": "agy-neon-4-horse-poc",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "test:unit": "node --test test/unit.test.mjs",
+    "test:integration": "node --test test/integration.test.mjs"
+  },
+  "dependencies": {
+    "three": "^0.174.0"
+  }
+}

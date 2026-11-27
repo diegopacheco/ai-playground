@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 180" width="680" height="180">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1963c2"/>
+      <stop offset="68%" stop-color="#6eb4f0"/>
+      <stop offset="100%" stop-color="#d7ecfe"/>
+    </linearGradient>
+    <linearGradient id="sunGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff8d1"/>
+      <stop offset="100%" stop-color="#f7b348"/>
+    </linearGradient>
+    <linearGradient id="meadowGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3f732d"/>
+      <stop offset="55%" stop-color="#69993c"/>
+      <stop offset="100%" stop-color="#4d7e31"/>
+    </linearGradient>
+    <clipPath id="badgeClip">
+      <rect x="8" y="8" width="664" height="164" rx="20"/>
+    </clipPath>
+  </defs>
+  <rect x="8" y="8" width="664" height="164" rx="20" fill="url(#skyGrad)" stroke="#1b3a5c" stroke-width="2.5"/>
+  <g clip-path="url(#badgeClip)">
+    <circle cx="114" cy="54" r="24" fill="url(#sunGrad)" opacity="0.95"/>
+    <polygon points="10,136 96,42 162,136" fill="#6f4e45"/>
+    <polygon points="96,42 114,68 98,64 88,74 78,62" fill="#f5f8fd"/>
+    <polygon points="118,136 202,30 286,136" fill="#7d594e"/>
+    <polygon points="202,30 226,64 208,58 196,72 184,56" fill="#f7faff"/>
+    <polygon points="222,136 312,56 392,136" fill="#6c6d75"/>
+    <polygon points="312,56 329,76 314,72 302,82 294,72" fill="#f3f7fc"/>
+    <path d="M8,130 Q180,114 360,128 T672,120 L672,174 L8,174 Z" fill="url(#meadowGrad)"/>
+    <path d="M18,166 Q160,134 270,148 T672,158 L672,174 L18,174 Z" fill="#a86d42" opacity="0.85"/>
+    <g transform="translate(82, 74) scale(0.92)">
+      <path d="M22,42 C34,36 52,33 74,34 C86,34 98,27 108,16 C112,11 119,8 126,11 L136,21 C138,24 134,28 130,27 L119,23 C114,31 106,40 97,46 L108,65 L118,61 L120,66 L104,74 L90,54 C76,56 59,56 46,53 L35,70 L20,76 L18,70 L30,64 L38,50 C28,48 18,49 8,55 C6,50 12,44 22,42 Z" fill="#3a1a0b"/>
+      <path d="M78,48 L88,69 L97,76 L92,80 L81,71 L71,52 Z" fill="#291107"/>
+      <path d="M52,51 L58,72 L47,81 L43,76 L51,69 L45,52 Z" fill="#291107"/>
+      <path d="M16,44 C6,42 0,48 -6,56 C2,54 10,51 18,49 Z" fill="#170c06"/>
+    </g>
+    <text x="278" y="88" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="700" fill="#fffdf7" letter-spacing="0.5">Colorado Summer Mustang</text>
+    <text x="280" y="114" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#e9f4ff" letter-spacing="1.6">THREE.JS BIOMECHANICAL EQUINE SIMULATION &middot; MAROON CREEK VALLEY</text>
+  </g>
+</svg>
