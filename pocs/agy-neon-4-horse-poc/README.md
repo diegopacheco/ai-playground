@@ -4,6 +4,8 @@
 
 A real-time 3D biomechanical horse simulation built with **Three.js**, set in a sun-drenched Colorado Rocky Mountain valley during July summer. Watch a sculpted, articulated horse gallop, canter, trot, or walk along an undulating Maroon Creek Valley red-dirt trail framed by snow-streaked 14er peaks, quaking aspens, Engelmann spruces, alpine wildflowers, and sunlit hoof-kick dust clouds.
 
+> Built with **Antigravity CLI** using **Gemini 4 Neon (High)**.
+
 ## How it Works?
 
 1. `server.mjs` serves the web application shell, exposes `/api/health` and `/api/presets`, and maps `/vendor/three/` directly to the local `three` package with zero bundler.
