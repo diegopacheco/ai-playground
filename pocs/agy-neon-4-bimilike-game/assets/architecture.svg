@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 560" width="980" height="560" role="img" aria-label="Architecture Flow Diagram">
+  <defs>
+    <filter id="wobble" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="turbulence" baseFrequency="0.018" numOctaves="2" seed="7" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.6" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 1 2 L 10 6 L 1 10 z" fill="#3c2f4d" />
+    </marker>
+    <style>
+      .hand-title { font-family: "Caveat", "Comic Sans MS", cursive; font-size: 30px; font-weight: 700; fill: #3c2f4d; }
+      .hand-head { font-family: "Caveat", "Comic Sans MS", cursive; font-size: 24px; font-weight: 700; fill: #3c2f4d; }
+      .hand-body { font-family: "Caveat", "Comic Sans MS", cursive; font-size: 19px; fill: #4f4163; }
+      .hand-label { font-family: "Caveat", "Comic Sans MS", cursive; font-size: 17px; font-weight: 700; fill: #5d4a75; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="980" height="560" rx="24" fill="#fffdf7" />
+  <text x="490" y="42" text-anchor="middle" class="hand-title">Momo's Toy House — Architecture &amp; Play Loop</text>
+
+  <g filter="url(#wobble)">
+    <rect x="36" y="76" width="230" height="128" rx="18" fill="#ffd6e8" stroke="#3c2f4d" stroke-width="2.5" />
+    <rect x="372" y="76" width="248" height="128" rx="18" fill="#dff5ff" stroke="#3c2f4d" stroke-width="2.5" />
+    <rect x="720" y="76" width="224" height="128" rx="18" fill="#fff1b8" stroke="#3c2f4d" stroke-width="2.5" />
+
+    <rect x="36" y="276" width="270" height="136" rx="18" fill="#d8f5d2" stroke="#3c2f4d" stroke-width="2.5" />
+    <rect x="366" y="276" width="260" height="136" rx="18" fill="#eadcff" stroke="#3c2f4d" stroke-width="2.5" />
+    <rect x="686" y="276" width="258" height="136" rx="18" fill="#ffe2cc" stroke="#3c2f4d" stroke-width="2.5" />
+
+    <rect x="210" y="458" width="560" height="72" rx="18" fill="#f3f0ff" stroke="#3c2f4d" stroke-width="2.5" />
+
+    <path d="M 266 140 L 368 140" fill="none" stroke="#3c2f4d" stroke-width="2.6" marker-end="url(#arrow)" />
+    <path d="M 620 140 L 716 140" fill="none" stroke="#3c2f4d" stroke-width="2.6" marker-end="url(#arrow)" />
+    <path d="M 496 204 L 496 272" fill="none" stroke="#3c2f4d" stroke-width="2.6" marker-end="url(#arrow)" />
+    <path d="M 366 344 L 310 344" fill="none" stroke="#3c2f4d" stroke-width="2.6" marker-end="url(#arrow)" />
+    <path d="M 626 344 L 682 344" fill="none" stroke="#3c2f4d" stroke-width="2.6" marker-end="url(#arrow)" />
+    <path d="M 496 412 L 496 454" fill="none" stroke="#3c2f4d" stroke-width="2.6" marker-end="url(#arrow)" />
+    <path d="M 170 276 L 170 208" fill="none" stroke="#3c2f4d" stroke-width="2.6" marker-end="url(#arrow)" />
+  </g>
+
+  <text x="151" y="108" text-anchor="middle" class="hand-head">Kid Touch &amp; Tap UI</text>
+  <text x="151" y="136" text-anchor="middle" class="hand-body">Rooms • 3D/2D Toggle</text>
+  <text x="151" y="160" text-anchor="middle" class="hand-body">Paint • Kitchen • Phone</text>
+  <text x="151" y="184" text-anchor="middle" class="hand-body">TanStack Router (/ &amp; /friends)</text>
+
+  <text x="496" y="108" text-anchor="middle" class="hand-head">TanStack Query State</text>
+  <text x="496" y="136" text-anchor="middle" class="hand-body">useHouseState + Mutations</text>
+  <text x="496" y="160" text-anchor="middle" class="hand-body">Single QueryClient Cache</text>
+  <text x="496" y="184" text-anchor="middle" class="hand-body">Typed HouseAction Dispatch</text>
+
+  <text x="832" y="108" text-anchor="middle" class="hand-head">Web Audio &amp; Voice</text>
+  <text x="832" y="136" text-anchor="middle" class="hand-body">Synthesized Toy Sounds</text>
+  <text x="832" y="160" text-anchor="middle" class="hand-body">Ringtone, Chirps &amp; Fanfare</text>
+  <text x="832" y="184" text-anchor="middle" class="hand-body">SpeechSynthesis + Mic Talk</text>
+
+  <text x="171" y="308" text-anchor="middle" class="hand-head">Three.js Dollhouse</text>
+  <text x="171" y="336" text-anchor="middle" class="hand-body">3D Perspective + 2D Ortho</text>
+  <text x="171" y="360" text-anchor="middle" class="hand-body">6 Plush Friends &amp; 9 Furniture</text>
+  <text x="171" y="384" text-anchor="middle" class="hand-body">Raycasting Drag &amp; Sparkles</text>
+
+  <text x="496" y="308" text-anchor="middle" class="hand-head">Pure Domain Engine</text>
+  <text x="496" y="336" text-anchor="middle" class="hand-body">House Reducer &amp; Clamping</text>
+  <text x="496" y="360" text-anchor="middle" class="hand-body">Kitchen Recipes &amp; Dialogue</text>
+  <text x="496" y="384" text-anchor="middle" class="hand-body">Character Unlock Evaluator</text>
+
+  <text x="815" y="308" text-anchor="middle" class="hand-head">Safe Storage Adapter</text>
+  <text x="815" y="336" text-anchor="middle" class="hand-body">localStorage Persistence</text>
+  <text x="815" y="360" text-anchor="middle" class="hand-body">Unknown Payload Type Guards</text>
+  <text x="815" y="384" text-anchor="middle" class="hand-body">Auto-Recovery on Reset</text>
+
+  <text x="490" y="489" text-anchor="middle" class="hand-head">Centralized Config &amp; Structured Logger</text>
+  <text x="490" y="514" text-anchor="middle" class="hand-body">Session Correlation ID • Route Tag • Typed Runtime Config</text>
+
+  <text x="318" y="128" text-anchor="middle" class="hand-label">actions</text>
+  <text x="668" y="128" text-anchor="middle" class="hand-label">sfx / voice</text>
+  <text x="538" y="246" text-anchor="middle" class="hand-label">reduce</text>
+  <text x="338" y="332" text-anchor="middle" class="hand-label">sync</text>
+  <text x="654" y="332" text-anchor="middle" class="hand-label">save</text>
+  <text x="128" y="246" text-anchor="middle" class="hand-label">tap / drag</text>
+</svg>
