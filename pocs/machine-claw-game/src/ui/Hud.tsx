@@ -1,6 +1,8 @@
-import { useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { totalWon } from "../game/collection";
 import type { Banner, Engine } from "../game/engine";
 import { PLUSH_LOOKS } from "../game/plush";
+import { CollectionView } from "./Collection";
 import { Joystick } from "./Joystick";
 
 type HudProps = { readonly engine: Engine };
@@ -16,6 +18,12 @@ const BANNERS: Readonly<Record<Banner, string>> = {
 export function Hud({ engine }: HudProps) {
   const hud = useSyncExternalStore(engine.subscribe, engine.snapshot);
   const aiming = hud.phase === "aiming";
+  const [showing, setShowing] = useState(false);
+  const close = useCallback(() => setShowing(false), []);
+
+  useEffect(() => {
+    engine.pause(showing);
+  }, [engine, showing]);
 
   return (
     <div className="hud">
@@ -32,6 +40,10 @@ export function Hud({ engine }: HudProps) {
           <span>PRIZES</span>
           <strong>{hud.prizes}</strong>
         </div>
+        <button type="button" className="stat stuffies" onClick={() => setShowing(true)} aria-label="Open my stuffies">
+          <span>STUFFIES</span>
+          <strong>{totalWon(hud.collection)}</strong>
+        </button>
         <button type="button" className="view" onClick={engine.toggleView} aria-label="Switch camera">
           VIEW
         </button>
@@ -56,6 +68,7 @@ export function Hud({ engine }: HudProps) {
         </div>
       </footer>
       <p className="keys">Arrows / WASD move - Space drop - C coin - V view - drag to look around - scroll to zoom</p>
+      {showing ? <CollectionView collection={hud.collection} onClose={close} /> : null}
     </div>
   );
 }

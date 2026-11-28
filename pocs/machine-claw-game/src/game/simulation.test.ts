@@ -2,7 +2,8 @@ import { beforeAll, describe, expect, test } from "bun:test";
 import { initPhysics } from "../physics/arena";
 import { CABINET, CLAW } from "./layout";
 import type { Input } from "./machine";
-import { type Simulation, createSimulation } from "./simulation";
+import { PLUSH_LOOKS } from "./plush";
+import { BASE_PILE_SIZE, PILE_SIZE, type Simulation, TOY_RADIUS, createSimulation, stackPile } from "./simulation";
 
 const DT = 1 / 60;
 const NOTHING: Input = { moveX: 0, moveZ: 0, drop: false, coin: false };
@@ -91,6 +92,44 @@ describe("claw physics", () => {
       expect(Math.hypot(speed.x, speed.y, speed.z)).toBeLessThan(1);
     }
     expect(sim.arena.toys().length + sim.state().prizes).toBe(before);
+  });
+
+  test("the machine holds two and a half times the original pile", () => {
+    expect(BASE_PILE_SIZE).toBe(16);
+    expect(PILE_SIZE).toBe(40);
+    const sim = createSimulation({ random: seeded(6), restock: false });
+    expect(sim.arena.toys().length).toBe(PILE_SIZE);
+  });
+
+  test("every plush kind is in the machine so each one can be won", () => {
+    const looks = new Set(stackPile(seeded(7), PILE_SIZE).map((spec) => spec.look));
+    expect(looks.size).toBe(PLUSH_LOOKS.length);
+  });
+
+  test("the bigger pile spawns without overlapping toys so it does not explode", () => {
+    const pile = stackPile(seeded(8), PILE_SIZE);
+    for (const [i, a] of pile.entries()) {
+      expect(a.radius).toBeGreaterThanOrEqual(TOY_RADIUS.min);
+      expect(a.radius).toBeLessThanOrEqual(TOY_RADIUS.max);
+      for (const b of pile.slice(i + 1)) {
+        expect(Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z)).toBeGreaterThanOrEqual(a.radius + b.radius - 0.001);
+      }
+    }
+  });
+
+  test("at 120 steps per second the bigger pile settles low, calm and clear of the chute", () => {
+    const sim = createSimulation({ random: seeded(9), restock: false });
+    for (let i = 0; i < 480; i += 1) sim.step(NOTHING, 1 / 120);
+    expect(sim.state().prizes).toBe(0);
+    for (const toy of sim.arena.toys()) {
+      const at = toy.body.translation();
+      const speed = toy.body.linvel();
+      expect(Math.abs(at.x)).toBeLessThan(CABINET.half);
+      expect(Math.abs(at.z)).toBeLessThan(CABINET.half);
+      expect(at.y).toBeGreaterThan(0);
+      expect(at.y).toBeLessThan(CLAW.topY - 0.4);
+      expect(Math.hypot(speed.x, speed.y, speed.z)).toBeLessThan(0.5);
+    }
   });
 
   test("the claw stops on top of a toy instead of pushing through it", () => {

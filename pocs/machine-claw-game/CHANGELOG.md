@@ -2,6 +2,26 @@
 
 Records what changed for the player and the operator of machine-claw-game.
 
+## 0.2.0 - 2026-11-27
+
+### Added
+- The machine holds 40 stuffies, 2.5x the old 16, stacked on a layered grid so they settle without exploding at 120 steps per second.
+- Six new plush kinds: penguin, octopus, dino, unicorn, fox and whale; every one of the fourteen kinds is always in the pile.
+- MY STUFFIES button with the total won; it opens a pastel 3D showcase of every kind won with its name and count, drag or swipe to spin, × or `Esc` to close.
+- Wins are saved in localStorage and survive reloads; broken or blocked storage is ignored.
+
+### Changed
+- Stuffies are cuter: bigger glossy eyes with two highlights and blush cheeks.
+- Toys are a little smaller (radius 7.8 to 10 cm) so the bigger pile fits under the claw.
+- Each plush kind is built once as merged geometry and reused, so 40 toys draw fast on phones.
+- The machine pauses while the showcase is open.
+
+### Verified
+- `bun test`: 27 passed, 0 failed, 0 skipped. `bun run build`: typecheck clean, build succeeded.
+- Headless aim at the top toy of the 40 toy pile won 11 of 16 tries (before: 17 of 24 on 16 toys).
+- Headless Chromium on the GPU held 60 fps on the machine and the showcase at 1280x800 and 390x844, also with 4x CPU throttling.
+- At 390x844 no HUD or showcase element overflows the screen, a touch swipe spins the showcase and tapping × closes it.
+
 ## 0.1.0 - 2026-11-20
 
 ### Added

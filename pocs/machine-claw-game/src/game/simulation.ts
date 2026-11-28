@@ -21,7 +21,10 @@ export type Simulation = {
   step(input: Input, dt: number): readonly SimEvent[];
 };
 
-const PILE_SIZE = 16;
+export const BASE_PILE_SIZE = 16;
+export const PILE_SIZE = Math.round(BASE_PILE_SIZE * 2.5);
+export const TOY_RADIUS = { min: 0.078, max: 0.1 } as const;
+const CELL = 0.21;
 const GRIP_SPEED = 1.7;
 const HOME_TOLERANCE = 0.01;
 
@@ -29,23 +32,51 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
+function toyRadius(random: () => number): number {
+  return TOY_RADIUS.min + random() * (TOY_RADIUS.max - TOY_RADIUS.min);
+}
+
 function randomToy(random: () => number, y: number, minX: number): ToySpec {
   const x = minX + random() * (0.42 - minX);
   const z = -0.42 + random() * 0.84;
   if (insideChute(x, z, 0.14)) return randomToy(random, y, minX);
-  return {
-    x,
-    y,
-    z,
-    radius: 0.085 + random() * 0.02,
-    look: Math.floor(random() * PLUSH_LOOKS.length),
-    spin: random() * Math.PI * 2,
-  };
+  return { x, y, z, radius: toyRadius(random), look: Math.floor(random() * PLUSH_LOOKS.length), spin: random() * Math.PI * 2 };
+}
+
+function pileSpots(): readonly { readonly x: number; readonly z: number }[] {
+  const steps = [-2, -1, 0, 1, 2].map((step) => step * CELL);
+  return steps.flatMap((x) => steps.map((z) => ({ x, z }))).filter((spot) => !insideChute(spot.x, spot.z, 0.14));
+}
+
+function shuffledLooks(random: () => number, count: number): number[] {
+  const looks = Array.from({ length: count }, (_, i) => i % PLUSH_LOOKS.length);
+  for (let i = looks.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(random() * (i + 1));
+    [looks[i], looks[j]] = [looks[j] ?? 0, looks[i] ?? 0];
+  }
+  return looks;
+}
+
+export function stackPile(random: () => number, count: number): readonly ToySpec[] {
+  const spots = pileSpots();
+  const looks = shuffledLooks(random, count);
+  return looks.map((look, i) => {
+    const spot = spots[i % spots.length] ?? { x: 0, z: 0 };
+    const layer = Math.floor(i / spots.length);
+    return {
+      x: spot.x + (random() - 0.5) * 0.01,
+      y: 0.12 + layer * CELL,
+      z: spot.z + (random() - 0.5) * 0.01,
+      radius: toyRadius(random),
+      look,
+      spin: random() * Math.PI * 2,
+    };
+  });
 }
 
 export function createSimulation(options: SimOptions): Simulation {
   const arena = createArena();
-  const pile = options.toys ?? Array.from({ length: PILE_SIZE }, (_, i) => randomToy(options.random, 0.3 + i * 0.14, -0.42));
+  const pile = options.toys ?? stackPile(options.random, PILE_SIZE);
   for (const spec of pile) arena.addToy(spec);
 
   let state = INITIAL_STATE;

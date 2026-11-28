@@ -9,6 +9,7 @@ const petButton = document.querySelector("#pet-button");
 const swimButton = document.querySelector("#swim-button");
 const shareButton = document.querySelector("#share-button");
 const soundToggle = document.querySelector("#sound-toggle");
+const xmasToggle = document.querySelector("#xmas-toggle");
 const sleepLabel = document.querySelector("#sleep-label");
 const swimLabel = document.querySelector("#swim-label");
 const shareLabel = document.querySelector("#share-label");
@@ -58,6 +59,8 @@ const state = {
   shareKickStarted: 0,
   coat: localStorage.getItem("seagotchi-coat") ?? "brown",
   hat: localStorage.getItem("seagotchi-hat") ?? "none",
+  xmas: localStorage.getItem("seagotchi-xmas") === "on",
+  hatBeforeXmas: localStorage.getItem("seagotchi-hat-before-xmas") ?? "none",
   nextAmbientAt: performance.now() / 1000 + 12 + Math.random() * 8
 };
 
@@ -115,9 +118,16 @@ const colors = {
 
 const createCoatMaterial = (color) => new THREE.MeshStandardMaterial({
   color,
-  roughness: 0.92,
-  flatShading: true
+  roughness: 0.68
 });
+
+const cuteMaterials = {
+  eyeWhite: new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.25 }),
+  pupil: new THREE.MeshStandardMaterial({ color: "#0b1018", roughness: 0.15 }),
+  glint: new THREE.MeshBasicMaterial({ color: "#ffffff" }),
+  blush: new THREE.MeshBasicMaterial({ color: "#ff8fa8", transparent: true, opacity: 0.75 }),
+  nose: new THREE.MeshStandardMaterial({ color: "#1d1416", roughness: 0.2 })
+};
 
 const coatMaterials = {
   brown: {
@@ -268,7 +278,7 @@ const sealMorph = new THREE.Group();
 sealRoot.add(sealMorph);
 
 const body = makeMesh(
-  new THREE.SphereGeometry(1, 10, 7),
+  new THREE.SphereGeometry(1, 32, 22),
   colors.fur,
   [-0.35, 0.35, 0],
   [1.65, 0.72, 0.72],
@@ -277,7 +287,7 @@ const body = makeMesh(
 sealMorph.add(body);
 
 const belly = makeMesh(
-  new THREE.SphereGeometry(1, 9, 6),
+  new THREE.SphereGeometry(1, 28, 18),
   colors.furLight,
   [0.05, 0.12, 0.54],
   [0.85, 0.45, 0.18],
@@ -286,7 +296,7 @@ const belly = makeMesh(
 sealMorph.add(belly);
 
 const neck = makeMesh(
-  new THREE.CylinderGeometry(0.54, 0.82, 1.12, 8),
+  new THREE.CylinderGeometry(0.54, 0.82, 1.12, 24),
   colors.fur,
   [0.85, 0.76, 0],
   [1, 1, 1],
@@ -299,7 +309,7 @@ headPivot.position.set(1.22, 1.02, 0);
 sealMorph.add(headPivot);
 
 const head = makeMesh(
-  new THREE.SphereGeometry(0.64, 9, 7),
+  new THREE.SphereGeometry(0.64, 32, 22),
   colors.fur,
   [0, 0, 0],
   [1.02, 0.9, 0.92],
@@ -308,7 +318,7 @@ const head = makeMesh(
 headPivot.add(head);
 
 const muzzle = makeMesh(
-  new THREE.SphereGeometry(0.34, 8, 6),
+  new THREE.SphereGeometry(0.34, 24, 16),
   colors.furLight,
   [0.47, -0.12, 0.28],
   [1, 0.72, 0.75],
@@ -317,8 +327,8 @@ const muzzle = makeMesh(
 headPivot.add(muzzle);
 
 const nose = makeMesh(
-  new THREE.SphereGeometry(0.13, 6, 4),
-  colors.dark,
+  new THREE.SphereGeometry(0.13, 18, 12),
+  cuteMaterials.nose,
   [0.76, -0.06, 0.35],
   [1.1, 0.8, 0.8],
   [0, 0, 0]
@@ -326,7 +336,7 @@ const nose = makeMesh(
 headPivot.add(nose);
 
 const mouthInterior = makeMesh(
-  new THREE.SphereGeometry(0.22, 7, 5),
+  new THREE.SphereGeometry(0.22, 18, 12),
   colors.dark,
   [0.57, -0.24, 0.31],
   [1.05, 0.28, 0.7],
@@ -339,7 +349,7 @@ jawPivot.position.set(0.4, -0.2, 0.28);
 headPivot.add(jawPivot);
 
 const lowerJaw = makeMesh(
-  new THREE.SphereGeometry(0.25, 7, 5),
+  new THREE.SphereGeometry(0.25, 18, 12),
   colors.furLight,
   [0.16, -0.08, 0.03],
   [1.05, 0.38, 0.72],
@@ -355,40 +365,50 @@ const createEye = (x) => {
   const eye = new THREE.Group();
   eye.position.set(x, 0.17, 0.59);
   const white = makeMesh(
-    new THREE.SphereGeometry(0.12, 7, 5),
-    colors.eye,
+    new THREE.SphereGeometry(0.155, 20, 14),
+    cuteMaterials.eyeWhite,
     [0, 0, 0],
-    [1, 1, 0.42],
+    [1, 1.08, 0.45],
     [0, 0, 0]
   );
   const pupil = makeMesh(
-    new THREE.SphereGeometry(0.07, 6, 4),
-    colors.dark,
-    [0, -0.012, 0.055],
-    [1, 1, 0.5],
+    new THREE.SphereGeometry(0.108, 20, 14),
+    cuteMaterials.pupil,
+    [0, -0.02, 0.05],
+    [1, 1.1, 0.5],
     [0, 0, 0]
   );
-  const glint = makeMesh(
-    new THREE.SphereGeometry(0.02, 4, 3),
-    colors.eye,
-    [0.022, 0.025, 0.095],
-    [1, 1, 0.5],
-    [0, 0, 0]
+  const glint = new THREE.Group();
+  glint.add(
+    makeMesh(new THREE.SphereGeometry(0.036, 10, 8), cuteMaterials.glint, [0.035, 0.04, 0.1], [1, 1, 0.5], [0, 0, 0]),
+    makeMesh(new THREE.SphereGeometry(0.017, 8, 6), cuteMaterials.glint, [-0.035, -0.045, 0.1], [1, 1, 0.5], [0, 0, 0])
   );
   eye.add(white, pupil, glint);
   faceGroup.add(eye);
   return { eye, glint };
 };
 
-const leftEyeParts = createEye(-0.145);
-const rightEyeParts = createEye(0.145);
+const leftEyeParts = createEye(-0.18);
+const rightEyeParts = createEye(0.18);
+
+[-0.36, 0.36].forEach((x) => {
+  const cheek = makeMesh(
+    new THREE.SphereGeometry(0.085, 16, 10),
+    cuteMaterials.blush,
+    [x, -0.04, 0.54],
+    [1.35, 0.72, 0.3],
+    [0, 0, 0]
+  );
+  cheek.castShadow = false;
+  faceGroup.add(cheek);
+});
 const leftEye = leftEyeParts.eye;
 const farEye = rightEyeParts.eye;
 const eyeGlint = leftEyeParts.glint;
 const farEyeGlint = rightEyeParts.glint;
 
 const ear = makeMesh(
-  new THREE.SphereGeometry(0.12, 5, 4),
+  new THREE.SphereGeometry(0.12, 14, 10),
   colors.flipper,
   [-0.42, 0.16, 0.36],
   [0.45, 0.9, 0.35],
@@ -422,7 +442,7 @@ faceGroup.add(makeWhisker(new THREE.Vector3(0.2, -0.18, 0.61), new THREE.Vector3
 faceGroup.add(makeWhisker(new THREE.Vector3(0.18, -0.23, 0.61), new THREE.Vector3(0.8, -0.38, 0.64)));
 
 const frontFlipper = makeMesh(
-  new THREE.CapsuleGeometry(0.2, 0.88, 3, 6),
+  new THREE.CapsuleGeometry(0.2, 0.88, 8, 16),
   colors.flipper,
   [0.32, -0.04, 0.6],
   [1, 1, 0.55],
@@ -431,7 +451,7 @@ const frontFlipper = makeMesh(
 sealMorph.add(frontFlipper);
 
 const farFlipper = makeMesh(
-  new THREE.CapsuleGeometry(0.18, 0.72, 3, 6),
+  new THREE.CapsuleGeometry(0.18, 0.72, 8, 16),
   colors.flipper,
   [0.18, 0, -0.55],
   [1, 1, 0.5],
@@ -501,12 +521,108 @@ blondeWig.position.set(0, 0.42, 0);
   blondeWig.add(makeMesh(new THREE.IcosahedronGeometry(1, 1), blondeMaterial, [x, y, z], [scale, scale * 1.15, scale], [0, 0, 0]));
 });
 
+const hatMat = (color, extra = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.6, ...extra });
+const whiteHatMaterial = hatMat("#fdfbf4");
+const blackHatMaterial = hatMat("#1b1c22");
+const redHatMaterial = hatMat("#d8243a");
+const duckMaterial = hatMat("#ffd93b");
+const beakMaterial = hatMat("#ff8a1f");
+
+const partyHat = new THREE.Group();
+partyHat.position.set(0.04, 0.5, 0);
+partyHat.rotation.z = -0.18;
+partyHat.add(makeMesh(new THREE.ConeGeometry(0.27, 0.74, 24), hatMat("#ff5fa2"), [0, 0.37, 0], [1, 1, 1], [0, 0, 0]));
+[0.16, 0.38, 0.58].forEach((y, index) => {
+  const radius = 0.27 * (1 - y / 0.74) + 0.012;
+  partyHat.add(makeMesh(new THREE.TorusGeometry(radius, 0.022, 8, 24), hatMat(index % 2 ? "#4fd6ff" : "#ffe14d"), [0, y, 0], [1, 1, 1], [Math.PI / 2, 0, 0]));
+});
+partyHat.add(makeMesh(new THREE.IcosahedronGeometry(0.1, 2), hatMat("#ffe14d"), [0, 0.78, 0], [1, 1, 1], [0, 0, 0]));
+
+const chefHat = new THREE.Group();
+chefHat.position.set(0, 0.5, 0);
+chefHat.add(makeMesh(new THREE.CylinderGeometry(0.33, 0.36, 0.34, 24), whiteHatMaterial, [0, 0.14, 0], [1, 1, 1], [0, 0, 0]));
+[[0, 0.48, 0, 0.3], [-0.2, 0.42, 0.12, 0.2], [0.2, 0.42, -0.12, 0.2], [0.18, 0.44, 0.16, 0.19], [-0.18, 0.44, -0.16, 0.19]].forEach(([x, y, z, r]) => {
+  chefHat.add(makeMesh(new THREE.SphereGeometry(r, 18, 12), whiteHatMaterial, [x, y, z], [1, 0.85, 1], [0, 0, 0]));
+});
+
+const propellerBlades = new THREE.Group();
+propellerBlades.position.set(0, 0.56, 0);
+propellerBlades.add(
+  makeMesh(new THREE.BoxGeometry(0.72, 0.025, 0.12), hatMat("#ff4d4d"), [0, 0, 0], [1, 1, 1], [0, 0, 0.12]),
+  makeMesh(new THREE.BoxGeometry(0.12, 0.025, 0.72), hatMat("#3d7bff"), [0, 0, 0], [1, 1, 1], [0.12, 0, 0])
+);
+const propellerHat = new THREE.Group();
+propellerHat.position.set(0, 0.48, 0);
+["#ff4d4d", "#ffd23d", "#3d7bff", "#41d17a"].forEach((color, index) => {
+  propellerHat.add(makeMesh(new THREE.SphereGeometry(0.42, 12, 8, index * Math.PI / 2, Math.PI / 2, 0, Math.PI / 2), hatMat(color), [0, 0, 0], [1, 0.8, 1], [0, 0, 0]));
+});
+propellerHat.add(
+  makeMesh(new THREE.CylinderGeometry(0.025, 0.025, 0.22, 8), hatMat("#d9dde3", { metalness: 0.5 }), [0, 0.44, 0], [1, 1, 1], [0, 0, 0]),
+  propellerBlades
+);
+
+const pirateHat = new THREE.Group();
+pirateHat.position.set(0, 0.5, 0);
+pirateHat.rotation.y = 0.68;
+pirateHat.add(
+  makeMesh(new THREE.CylinderGeometry(0.58, 0.58, 0.14, 32, 1, false, Math.PI / 2, Math.PI), blackHatMaterial, [0, 0, 0], [1, 1, 1], [Math.PI / 2, 0, 0]),
+  makeMesh(new THREE.TorusGeometry(0.58, 0.025, 8, 32, Math.PI), goldMaterial, [0, 0, 0.08], [1, 1, 1], [0, 0, 0]),
+  makeMesh(new THREE.SphereGeometry(0.1, 16, 12), whiteHatMaterial, [0, 0.27, 0.08], [1, 0.9, 0.5], [0, 0, 0]),
+  makeMesh(new THREE.BoxGeometry(0.3, 0.04, 0.03), whiteHatMaterial, [0, 0.13, 0.08], [1, 1, 1], [0, 0, 0.6]),
+  makeMesh(new THREE.BoxGeometry(0.3, 0.04, 0.03), whiteHatMaterial, [0, 0.13, 0.08], [1, 1, 1], [0, 0, -0.6])
+);
+
+const cowboyHat = new THREE.Group();
+cowboyHat.position.set(0, 0.48, 0);
+cowboyHat.rotation.z = 0.12;
+const cowboyMaterial = hatMat("#a8662f");
+cowboyHat.add(
+  makeMesh(new THREE.CylinderGeometry(0.72, 0.72, 0.05, 32), cowboyMaterial, [0, 0.02, 0], [1, 1, 0.82], [0, 0, 0]),
+  makeMesh(new THREE.CylinderGeometry(0.3, 0.37, 0.36, 24), cowboyMaterial, [0, 0.2, 0], [1, 1, 0.9], [0, 0, 0]),
+  makeMesh(new THREE.CylinderGeometry(0.375, 0.375, 0.07, 24), hatMat("#3a2416"), [0, 0.08, 0], [1, 1, 0.9], [0, 0, 0]),
+  makeMesh(new THREE.TorusGeometry(0.72, 0.04, 8, 32), cowboyMaterial, [0, 0.06, 0], [1, 0.82, 1], [Math.PI / 2, 0, 0])
+);
+
+const duckHat = new THREE.Group();
+duckHat.position.set(0, 0.5, 0);
+duckHat.rotation.y = 0.68;
+duckHat.add(
+  makeMesh(new THREE.SphereGeometry(0.3, 20, 14), duckMaterial, [0, 0.16, -0.04], [1, 0.75, 1.2], [0, 0, 0]),
+  makeMesh(new THREE.SphereGeometry(0.19, 20, 14), duckMaterial, [0, 0.45, 0.14], [1, 1, 1], [0, 0, 0]),
+  makeMesh(new THREE.SphereGeometry(0.09, 14, 10), beakMaterial, [0, 0.42, 0.33], [1.2, 0.45, 1], [0, 0, 0]),
+  makeMesh(new THREE.ConeGeometry(0.1, 0.18, 10), duckMaterial, [0, 0.26, -0.36], [1, 1, 1], [-1.1, 0, 0]),
+  makeMesh(new THREE.SphereGeometry(0.035, 10, 8), cuteMaterials.pupil, [-0.09, 0.5, 0.28], [1, 1, 1], [0, 0, 0]),
+  makeMesh(new THREE.SphereGeometry(0.035, 10, 8), cuteMaterials.pupil, [0.09, 0.5, 0.28], [1, 1, 1], [0, 0, 0])
+);
+
+const santaHat = new THREE.Group();
+santaHat.position.set(0, 0.5, 0);
+santaHat.add(
+  makeMesh(new THREE.TorusGeometry(0.4, 0.09, 12, 32), whiteHatMaterial, [0, 0.02, 0], [1, 1, 1], [Math.PI / 2, 0, 0]),
+  makeMesh(new THREE.ConeGeometry(0.38, 0.6, 28, 1, true), redHatMaterial, [0, 0.3, 0], [1, 1, 1], [0, 0, 0])
+);
+const santaTip = new THREE.Group();
+santaTip.position.set(0, 0.56, 0);
+santaTip.rotation.z = -0.95;
+santaTip.add(
+  makeMesh(new THREE.ConeGeometry(0.15, 0.42, 20), redHatMaterial, [0, 0.18, 0], [1, 1, 1], [0, 0, 0]),
+  makeMesh(new THREE.IcosahedronGeometry(0.11, 2), whiteHatMaterial, [0, 0.42, 0], [1, 1, 1], [0, 0, 0])
+);
+santaHat.add(santaTip);
+
 const hats = {
   none: null,
   crown: crownHat,
   blue: blueHat,
   viking: vikingHat,
-  wig: blondeWig
+  wig: blondeWig,
+  party: partyHat,
+  chef: chefHat,
+  propeller: propellerHat,
+  pirate: pirateHat,
+  cowboy: cowboyHat,
+  duck: duckHat,
+  santa: santaHat
 };
 
 Object.values(hats).forEach((hat) => {
@@ -822,6 +938,117 @@ for (let lineIndex = 0; lineIndex < 5; lineIndex += 1) {
   foamLines.push(line);
 }
 
+const xmasGroup = new THREE.Group();
+xmasGroup.visible = false;
+world.add(xmasGroup);
+
+const lightColors = ["#ff3b4e", "#ffd23d", "#3df07a", "#4fb4ff", "#ff7de9"];
+const xmasBulbs = [];
+const bulbGeometry = new THREE.SphereGeometry(0.06, 10, 8);
+
+const addBulb = (parent, position, index) => {
+  const bulb = new THREE.Mesh(bulbGeometry, new THREE.MeshBasicMaterial({ color: lightColors[index % lightColors.length] }));
+  bulb.position.copy(position);
+  bulb.userData.base = new THREE.Color(lightColors[index % lightColors.length]);
+  bulb.userData.phase = index * 0.7;
+  parent.add(bulb);
+  xmasBulbs.push(bulb);
+};
+
+const xmasTree = new THREE.Group();
+xmasGroup.add(xmasTree);
+const treeMaterial = new THREE.MeshStandardMaterial({ color: "#1f8a4c", roughness: 0.8 });
+const treeDarkMaterial = new THREE.MeshStandardMaterial({ color: "#16673a", roughness: 0.85 });
+xmasTree.add(makeMesh(new THREE.CylinderGeometry(0.14, 0.18, 0.4, 12), new THREE.MeshStandardMaterial({ color: "#6b3f22", roughness: 1 }), [0, 0.2, 0], [1, 1, 1], [0, 0, 0]));
+[[0.9, 0.85, 0.72], [0.72, 0.75, 1.22], [0.52, 0.65, 1.66]].forEach(([radius, height, y], tier) => {
+  xmasTree.add(makeMesh(new THREE.ConeGeometry(radius, height, 22), tier % 2 ? treeDarkMaterial : treeMaterial, [0, y, 0], [1, 1, 1], [0, 0, 0]));
+  const count = 9 - tier * 2;
+  for (let index = 0; index < count; index += 1) {
+    const angle = (index / count) * Math.PI * 2 + tier * 0.5;
+    const r = radius * 0.78;
+    addBulb(xmasTree, new THREE.Vector3(Math.cos(angle) * r, y - height * 0.32, Math.sin(angle) * r), index + tier * 3);
+  }
+});
+const treeStar = makeMesh(
+  new THREE.OctahedronGeometry(0.2, 0),
+  new THREE.MeshBasicMaterial({ color: "#ffe066" }),
+  [0, 2.12, 0],
+  [1, 1.2, 0.5],
+  [0, 0, 0]
+);
+xmasTree.add(treeStar);
+[[-0.45, 0.12, 0.55, "#e63950"], [0.5, 0.1, 0.45, "#3d8bff"], [0.05, 0.1, 0.75, "#ffd23d"]].forEach(([x, y, z, color]) => {
+  xmasTree.add(
+    makeMesh(new THREE.BoxGeometry(0.28, 0.24, 0.28), new THREE.MeshStandardMaterial({ color, roughness: 0.6 }), [x, y, z], [1, 1, 1], [0, x, 0]),
+    makeMesh(new THREE.BoxGeometry(0.3, 0.05, 0.07), new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.6 }), [x, y + 0.1, z], [1, 1, 1], [0, x, 0])
+  );
+});
+
+const snowCount = 700;
+const snowArea = { width: 26, height: 12, depth: 20, floor: -1.2 };
+const snowPositions = new Float32Array(snowCount * 3);
+for (let index = 0; index < snowCount; index += 1) {
+  snowPositions[index * 3] = (Math.random() - 0.5) * snowArea.width;
+  snowPositions[index * 3 + 1] = snowArea.floor + Math.random() * snowArea.height;
+  snowPositions[index * 3 + 2] = (Math.random() - 0.5) * snowArea.depth;
+}
+const snowGeometry = new THREE.BufferGeometry();
+snowGeometry.setAttribute("position", new THREE.BufferAttribute(snowPositions, 3));
+const flakeCanvas = document.createElement("canvas");
+flakeCanvas.width = 32;
+flakeCanvas.height = 32;
+const flakeContext = flakeCanvas.getContext("2d");
+const flakeGradient = flakeContext.createRadialGradient(16, 16, 0, 16, 16, 16);
+flakeGradient.addColorStop(0, "rgba(255,255,255,1)");
+flakeGradient.addColorStop(0.5, "rgba(255,255,255,0.8)");
+flakeGradient.addColorStop(1, "rgba(255,255,255,0)");
+flakeContext.fillStyle = flakeGradient;
+flakeContext.fillRect(0, 0, 32, 32);
+const snowMaterial = new THREE.PointsMaterial({
+  size: 6,
+  map: new THREE.CanvasTexture(flakeCanvas),
+  transparent: true,
+  depthWrite: false,
+  sizeAttenuation: false
+});
+const snow = new THREE.Points(snowGeometry, snowMaterial);
+snow.frustumCulled = false;
+xmasGroup.add(snow);
+
+const placeXmasDecor = () => {
+  world.updateMatrixWorld(true);
+  const treeSpot = new THREE.Vector3(-2.2, 0, -1.2);
+  groundOnRock(treeSpot, -0.05);
+  xmasTree.position.copy(treeSpot);
+  const rimCount = 22;
+  for (let index = 0; index < rimCount; index += 1) {
+    const angle = Math.PI * 0.05 + (index / (rimCount - 1)) * Math.PI * 0.9;
+    const spot = new THREE.Vector3(Math.cos(angle) * 3.6 - 0.25, 0, Math.sin(angle) * 1.75);
+    const height = rockSurfaceHeight(spot.x, spot.z);
+    if (height === null) continue;
+    spot.y = height + 0.05;
+    addBulb(xmasGroup, spot, index);
+  }
+};
+
+const updateXmas = (seconds, delta) => {
+  if (!state.xmas) return;
+  const positions = snowGeometry.attributes.position;
+  for (let index = 0; index < snowCount; index += 1) {
+    let y = positions.getY(index) - delta * (0.7 + (index % 7) * 0.12);
+    if (y < snowArea.floor) y += snowArea.height;
+    positions.setY(index, y);
+    positions.setX(index, positions.getX(index) + Math.sin(seconds * 0.8 + index) * delta * 0.25);
+  }
+  positions.needsUpdate = true;
+  xmasBulbs.forEach((bulb) => {
+    const glow = 0.35 + 0.65 * (Math.sin(seconds * 3 + bulb.userData.phase) > -0.2 ? 1 : 0);
+    bulb.material.color.copy(bulb.userData.base).multiplyScalar(glow);
+  });
+  treeStar.rotation.y = seconds * 1.2;
+  treeStar.scale.setScalar(1 + Math.sin(seconds * 4) * 0.08);
+};
+
 const clamp = (value) => Math.max(0, Math.min(100, value));
 
 const updateBars = () => {
@@ -951,9 +1178,45 @@ const applyHat = (hat, announce = false) => {
       crown: "KING OF THE ROCK!",
       blue: "BLUE TIDE STYLE!",
       viking: "VIKING OF THE COVE!",
-      wig: "GOLDEN LOCKS. FABULOUS!"
+      wig: "GOLDEN LOCKS. FABULOUS!",
+      party: "IT'S MY BIRTHDAY? BORK!",
+      chef: "CHEF BLUBBER. FISH TONIGHT!",
+      propeller: "PREPARE FOR TAKEOFF!",
+      pirate: "ARRR! THIS ROCK BE MINE!",
+      cowboy: "YEEHAW, PARTNER!",
+      duck: "QUACK? I MEAN... BORK!",
+      santa: "HO HO HO! BORK BORK BORK!"
     };
     setSpeech(names[selected]);
+  }
+};
+
+const skyColors = {
+  normal: new THREE.Color("#7bd1df"),
+  xmas: new THREE.Color("#a9c7e8")
+};
+
+const applyXmas = (enabled, announce = false) => {
+  state.xmas = enabled;
+  xmasGroup.visible = enabled;
+  const sky = enabled ? skyColors.xmas : skyColors.normal;
+  scene.background.copy(sky);
+  scene.fog.color.copy(sky);
+  xmasToggle.textContent = enabled ? "XMAS ON" : "XMAS OFF";
+  xmasToggle.setAttribute("aria-pressed", String(enabled));
+  localStorage.setItem("seagotchi-xmas", enabled ? "on" : "off");
+  if (!announce) return;
+  if (enabled) {
+    if (state.hat !== "santa") {
+      state.hatBeforeXmas = state.hat;
+      localStorage.setItem("seagotchi-hat-before-xmas", state.hat);
+    }
+    applyHat("santa");
+    setSpeech("HO HO BORK! MERRY XMAS!");
+    playSealSound("song");
+  } else {
+    if (state.hat === "santa") applyHat(state.hatBeforeXmas);
+    setSpeech("BYE SNOW. HELLO SUN!");
   }
 };
 
@@ -1305,6 +1568,7 @@ petButton.addEventListener("click", pet);
 swimButton.addEventListener("click", swim);
 shareButton.addEventListener("click", toggleShare);
 soundToggle.addEventListener("click", toggleSound);
+xmasToggle.addEventListener("click", () => applyXmas(!state.xmas, true));
 
 costumeButton.addEventListener("click", () => {
   setCostumePanel(costumePanel.hidden);
@@ -1367,7 +1631,9 @@ const resize = () => {
   camera.top = viewHeight / 2;
   camera.bottom = -viewHeight / 2;
   camera.updateProjectionMatrix();
-  renderer.setSize(Math.max(1, Math.floor(width * 0.62)), Math.max(1, Math.floor(height * 0.62)), false);
+  const renderScale = Math.min(window.devicePixelRatio || 1, 2) * 0.8;
+  renderer.setSize(Math.max(1, Math.floor(width * renderScale)), Math.max(1, Math.floor(height * renderScale)), false);
+  snowMaterial.size = Math.max(3, Math.round(5 * renderScale));
 };
 
 const syncViewport = () => {
@@ -1420,6 +1686,9 @@ const animate = (time) => {
   });
 
   updateGuests(seconds);
+  updateXmas(seconds, delta);
+  propellerBlades.rotation.y += delta * 14;
+  santaTip.rotation.x = Math.sin(seconds * 2.4) * 0.12;
 
   const breathing = Math.sin(seconds * 2.2) * 0.025;
   body.scale.y = 0.72 + breathing;
@@ -1642,6 +1911,8 @@ updateSoundToggle();
 updateShareButton();
 applyCoat(state.coat);
 applyHat(state.hat);
+placeXmasDecor();
+applyXmas(state.xmas);
 window.setInterval(updateClock, 30000);
 syncViewport();
 requestAnimationFrame(animate);

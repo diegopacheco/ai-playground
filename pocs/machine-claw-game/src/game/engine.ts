@@ -10,6 +10,7 @@ import { createCoinToss, createConfetti } from "../render/effects";
 import { attachOrbitInput } from "../render/orbitInput";
 import { createPlush } from "../render/plushMesh";
 import { createStage } from "../render/stage";
+import { type Collection, addWin, browserStore, loadCollection, saveCollection } from "./collection";
 import { CLAW } from "./layout";
 import type { Phase } from "./machine";
 import { type SimEvent, createSimulation } from "./simulation";
@@ -23,6 +24,7 @@ export type HudState = {
   readonly prizes: number;
   readonly banner: Banner;
   readonly shelf: readonly number[];
+  readonly collection: Collection;
 };
 
 export type Engine = {
@@ -32,6 +34,7 @@ export type Engine = {
   drop(): void;
   insertCoin(): void;
   toggleView(): void;
+  pause(paused: boolean): void;
   dispose(): void;
 };
 
@@ -66,8 +69,11 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
   let pendingCoin = false;
   let result: Banner | undefined;
   let resultLeft = 0;
+  const store = browserStore();
   let shelf: readonly number[] = [];
-  let hud: HudState = { phase: "idle", credits: 0, seconds: 0, prizes: 0, banner: "insert", shelf };
+  let collection = loadCollection(store);
+  let paused = false;
+  let hud: HudState = { phase: "idle", credits: 0, seconds: 0, prizes: 0, banner: "insert", shelf, collection };
   let last = performance.now();
   let owed = 0;
   let frameId = 0;
@@ -82,6 +88,8 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
           break;
         case "prize":
           shelf = [...shelf, event.look];
+          collection = addWin(collection, event.look);
+          saveCollection(store, collection);
           result = "won";
           resultLeft = RESULT_SECONDS;
           confetti.burst(burstAt);
@@ -134,6 +142,7 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
       prizes: state.prizes,
       banner: result ?? bannerFor(state.phase),
       shelf,
+      collection,
     };
     const changed =
       next.phase !== hud.phase ||
@@ -141,7 +150,8 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
       next.seconds !== hud.seconds ||
       next.prizes !== hud.prizes ||
       next.banner !== hud.banner ||
-      next.shelf !== hud.shelf;
+      next.shelf !== hud.shelf ||
+      next.collection !== hud.collection;
     if (!changed) return;
     hud = next;
     for (const listener of listeners) listener();
@@ -150,7 +160,7 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
   function frame(now: number): void {
     const dt = Math.min((now - last) / 1000, MAX_FRAME);
     last = now;
-    if (dt > 0) {
+    if (dt > 0 && !paused) {
       owed += dt;
       while (owed >= STEP) {
         react(sim.step({ moveX, moveZ, drop: pendingDrop, coin: pendingCoin }, STEP));
@@ -198,9 +208,10 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
       moveZ = z / length;
     },
     drop: () => {
-      pendingDrop = true;
+      if (!paused) pendingDrop = true;
     },
     insertCoin: () => {
+      if (paused) return;
       sfx.unlock();
       sfx.coin();
       coin.toss();
@@ -208,6 +219,12 @@ export async function createEngine(canvas: HTMLCanvasElement): Promise<Engine> {
       logger.info("coin inserted");
     },
     toggleView: () => cameraRig.toggle(),
+    pause: (next) => {
+      paused = next;
+      moveX = 0;
+      moveZ = 0;
+      if (paused) sfx.motor(false);
+    },
     dispose: () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener("resize", resize);

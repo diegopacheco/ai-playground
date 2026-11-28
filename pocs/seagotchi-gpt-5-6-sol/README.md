@@ -25,6 +25,9 @@ The five-second GIF records the running WebGL application. The ocean waves and n
 - Fat-fat, super-fat, uber-fat, and chonkers growth stages
 - Rival rock-climbing, pooping, and loud stinky burp events
 - Chonkers achievement for dedicated feeding
+- Cute smooth-shaded sea lion with big shiny eyes and rosy cheeks
+- Twelve head options: golden crown, blue hat, viking hat, blonde wig, party hat, chef hat, spinning propeller cap, pirate hat, cowboy hat, rubber duck and Santa hat
+- XMAS mode toggle with falling snow, a decorated Christmas tree with blinking lights, a ring of string lights on the rock and a Santa hat
 - Mouse and touch scene rotation
 - Responsive handheld-console interface
 

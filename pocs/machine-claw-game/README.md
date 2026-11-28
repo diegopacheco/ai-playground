@@ -36,7 +36,10 @@ Play it: https://diegopacheco.github.io/ai-playground/games/machine-claw-game/
 * Coin and credits - one coin is one try, extra coins are kept as credits, up to 9.
 * Real physics grab - kinematic fingers and dynamic toys, so skill and luck both matter.
 * Slack sensor - the claw stops on top of a toy instead of pushing through it.
-* Eight plush kinds - bear, bunny, cat, panda, frog, chick, koala and pig, built in code.
+* Forty stuffies in fourteen kinds - bear, bunny, cat, panda, frog, chick, koala, pig, penguin, octopus, dino,
+  unicorn, fox and whale, built in code with shiny eyes and blush cheeks. Every kind is always in the pile.
+* My Stuffies - every win is saved in localStorage. The STUFFIES tile in the stats row shows the total and opens a pastel
+  3D showcase with each kind on a pedestal, its name and how many were won; drag or swipe to spin them.
 * Restock - every prize is replaced by a new toy falling from the top.
 * Free camera - drag to orbit around the machine, scroll or pinch to zoom, VIEW jumps between front and side.
 * Arcade hall - neon signs, rows of game cabinets, a prize wall, string lights and a patterned carpet.
@@ -66,6 +69,8 @@ There is no backend and no REST API. The app is one web page.
 | Switch camera | `V` | VIEW button |
 | Look around | Drag with the mouse | Drag with one finger |
 | Zoom | Scroll wheel | Pinch |
+| Open / close My Stuffies | STUFFIES tile / `Esc` | Tap STUFFIES / tap × |
+| Spin stuffies | Drag in the showcase | Swipe in the showcase |
 
 ## Key data structures and design decisions
 
@@ -79,6 +84,11 @@ There is no backend and no REST API. The app is one web page.
 * Toys are round with one ball collider. A taller two-ball toy was measured first and the claw
   squeezed it out instead of cupping it.
 * Physics runs at a fixed 120 steps per second, so the grab behaves the same on every screen.
+* The pile is 2.5x the original 16 toys (`PILE_SIZE` in `src/game/simulation.ts`). It spawns on a layered grid
+  with no overlaps and slightly smaller toys, so 40 bodies settle calmly instead of exploding.
+* Each plush kind is merged into one geometry per material and cached, so 40 stuffies cost few draw calls.
+* `src/game/collection.ts` holds the won counts by kind name, pure and tested; the showcase in
+  `src/render/showcase.ts` uses one Three.js renderer on one canvas, and the machine pauses while it is open.
 * More detail in `design-doc.md`.
 
 ## How to run
@@ -96,7 +106,7 @@ There is no backend and no REST API. The app is one web page.
 ./scripts/test-all.sh
 ```
 
-It runs the typecheck, the 15 tests (round rules and headless physics rounds) and the production build.
+It runs the typecheck, the 27 tests (round rules, headless physics rounds, the bigger pile and the stuffies collection) and the production build.
 
 ## Printscreens
 
@@ -124,7 +134,15 @@ The arcade hall surrounds the machine.
 
 ### Mobile
 ![Mobile](printscreens/06-mobile.png)
-Portrait phone layout: touch joystick on the left, COIN and DROP on the right.
+Portrait phone layout: touch joystick on the left, COIN and DROP on the right, STUFFIES tile in the stats row.
+
+### My Stuffies
+![My Stuffies](printscreens/07-collection.png)
+Every stuffy won so far, one pedestal per kind with its name and count. Drag to spin them.
+
+### My Stuffies on a phone
+![My Stuffies mobile](printscreens/08-collection-mobile.png)
+The same showcase in portrait at 390x844, swipe to spin and tap × to go back to the machine.
 
 ## Scripts
 

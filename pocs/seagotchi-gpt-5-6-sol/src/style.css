@@ -212,11 +212,23 @@ h1 {
   right: 22px;
   z-index: 7;
   width: 278px;
+  max-height: calc(100% - 96px);
+  overflow-y: auto;
   padding: 12px;
   color: var(--cream);
   border: 3px solid var(--foam);
   background: rgba(5, 23, 48, 0.96);
   box-shadow: 7px 7px 0 var(--ink);
+}
+
+.xmas-toggle[aria-pressed="false"] {
+  color: var(--cream);
+  background: var(--deep);
+}
+
+.xmas-toggle[aria-pressed="true"] {
+  color: var(--cream);
+  background: #c8213a;
 }
 
 .costume-panel[hidden] {
@@ -1232,5 +1244,20 @@ h1 {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-height: 560px) and (max-width: 1024px) {
+  .costume-button {
+    top: 8px;
+    right: auto;
+    left: 8px;
+  }
+
+  .costume-panel {
+    top: 58px;
+    right: auto;
+    left: 8px;
+    max-height: calc(100% - 66px);
   }
 }
